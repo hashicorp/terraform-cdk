@@ -14,14 +14,15 @@
     "@aws-cdk/assert": "^1.19.0",
     "@types/jest": "^24.0.22",
     "@types/node": "10.17.5",
+    "aws-cdk": "^1.19.0",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
-    "aws-cdk": "^1.19.0",
     "ts-node": "^8.1.0",
     "typescript": "~3.7.2"
   },
   "dependencies": {
     "@aws-cdk/core": "^1.19.0",
+    "codemaker": "^0.20.11",
     "source-map-support": "^0.5.16"
   }
 }

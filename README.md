@@ -1,14 +1,43 @@
-# Welcome to your CDK TypeScript project!
+# Terraform CDK
 
-This is a blank project for TypeScript development with CDK.
+Terraform CDK (Cloud Development Kit) allows developers to use familiar
+programming languages to define cloud infrastructure and provision it through
+Terraform.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This is a prototype.
 
-## Useful commands
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+## Getting Started
+
+Prerequisites:
+
+- [Terraform](https://www.terraform.io/)
+- [Node.js](https://nodejs.org)
+
+Clone and build this repository (until this is released):
+
+```shell
+$ git clone https://github.com/eladb/tfcdk
+$ cd tfcdk
+$ yarn install
+$ yarn build
+```
+
+The `playground` directory is where you should create new projects. Bear in mind that the directory structure is fixed since generated code references files within this repository, so follow these instructions:
+
+```shell
+$ mkdir playground/my-awesome-project
+$ cd playground/my-awesome-project
+$ terraform init
+```
+
+TODO
+
+
+
+
+
+
+```
+mkdir sample
+```
