@@ -1,7 +1,7 @@
 
 export interface ProviderSchema {
   format_version: '1.0';
-  provider_schemas: { [type: string]: Provider };
+  provider_schemas?: { [type: string]: Provider };
 }
 
 export interface Provider {

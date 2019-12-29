@@ -1,28 +1,43 @@
 {
-  "name": "terraform",
+  "name": "tfcdk",
+  "description": "Terraform CDK",
   "version": "0.1.0",
-  "bin": {
-    "terraform": "bin/terraform.js"
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "jsii": {
+    "outdir": "dist"
   },
+  "bin": {
+    "tfgen": "bin/tfgen"
+  },
+  "author": {
+    "name": "Elad Ben-Israel",
+    "email": "benisrae@amazon.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eladb/tfcdk"
+  },
+  "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc",
+    "build": "jsii",
     "watch": "tsc -w",
-    "test": "jest",
-    "cdk": "cdk"
+    "test": "jest"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "^1.19.0",
     "@types/jest": "^24.0.22",
     "@types/node": "10.17.5",
-    "aws-cdk": "^1.19.0",
     "jest": "^24.9.0",
+    "jsii": "^0.20.11",
     "ts-jest": "^24.1.0",
-    "ts-node": "^8.1.0",
     "typescript": "~3.7.2"
   },
   "dependencies": {
     "@aws-cdk/core": "^1.19.0",
-    "codemaker": "^0.20.11",
-    "source-map-support": "^0.5.16"
-  }
+    "codemaker": "^0.20.11"
+  },
+  "peerDependencies": {
+    "@aws-cdk/core": "^1.19.0"
+  },
+  "bundledDependencies": [ "codemaker" ]
 }
