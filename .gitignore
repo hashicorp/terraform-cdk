@@ -1,4 +1,5 @@
-playground
+.jsii
+
 *.js
 !jest.config.js
 *.d.ts
