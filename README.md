@@ -182,3 +182,7 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 - [ ] Modules
 - [ ] A million other things
 
+## License
+
+Licensed under [Apache 2.0](./LICENSE)
+
