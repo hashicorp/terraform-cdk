@@ -3,8 +3,8 @@ import { spawn, SpawnOptions } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
-import { TerraformGenerator } from './generator';
-import { ProviderSchema } from './schema';
+import { TerraformGenerator } from './provider-generator';
+import { ProviderSchema } from './provider-schema';
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
@@ -22,7 +22,7 @@ async function main() {
 
   const schema = await readSchema(outdir, providers);
   const gen = new TerraformGenerator(schema);
-  await gen.save('.gen');
+  await gen.save('.gen/providers');
 }
 
 async function readSchema(outdir: string, providers: string[]): Promise<ProviderSchema> {

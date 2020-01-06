@@ -1,5 +1,5 @@
 import { CodeMaker, toCamelCase, toPascalCase, toSnakeCase } from 'codemaker';
-import { Attribute, AttributeType, Block, BlockType, Provider, ProviderSchema, Schema } from './schema';
+import { Attribute, AttributeType, Block, BlockType, Provider, ProviderSchema, Schema } from './provider-schema';
 
 export class TerraformGenerator {
   private readonly code = new CodeMaker();

@@ -8,7 +8,9 @@
     "outdir": "dist"
   },
   "bin": {
-    "tfgen": "bin/tfgen"
+    "tfcdk": "bin/tfcdk",
+    "tfcdk-install-provider": "bin/tfcdk-install-provider",
+    "tfcdk-install-module": "bin/tfcdk-install-module"
   },
   "author": {
     "name": "Elad Ben-Israel",
@@ -21,20 +23,20 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "jsii",
-    "watch": "tsc -w",
+    "watch": "jsii -w",
     "test": "jest"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.22",
+    "@types/jest": "^24.0.25",
     "@types/node": "10.17.5",
     "jest": "^24.9.0",
     "jsii": "^0.20.11",
-    "ts-jest": "^24.1.0",
-    "typescript": "~3.7.2"
+    "ts-jest": "^24.2.0",
+    "typescript": "~3.7.4"
   },
   "dependencies": {
     "@aws-cdk/core": "^1.19.0",
-    "codemaker": "^0.20.11"
+    "codemaker": "^0.21.1"
   },
   "peerDependencies": {
     "@aws-cdk/core": "^1.19.0"

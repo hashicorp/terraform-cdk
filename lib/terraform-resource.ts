@@ -1,4 +1,5 @@
 import { Construct, Token } from "@aws-cdk/core";
+import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 
 export interface TerraformResourceConfig {
@@ -9,7 +10,7 @@ export interface TerraformResourceConfig {
   readonly lifecycle?: TerraformResourceLifecycle;
 }
 
-export abstract class TerraformResource extends Construct {
+export abstract class TerraformResource extends TerraformElement {
   public readonly type: string;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
@@ -30,7 +31,20 @@ export abstract class TerraformResource extends Construct {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
-  public abstract synthesizeAttributes(): { [name: string]: any };
+  protected abstract synthesizeAttributes(): { [name: string]: any };
+
+  /**
+   * Adds this resource to the terraform JSON output.
+   */
+  public toTerraform() {
+    return {
+      resource: {
+        [this.type]: {
+          [this.node.uniqueId]: this.synthesizeAttributes()
+        }
+      }
+    };
+  }
 
   private interpolationForAttribute(terraformAttribute: string) {
     return `\${${this.type}.${this.node.uniqueId}.${terraformAttribute}}`;

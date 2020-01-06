@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+scriptdir=$(cd $(dirname $0) && pwd)
+subcommand="${1:-}"
+if [ -z "${subcommand}" ]; then
+  commands=$(cd $scriptdir && find . -name "tfcdk-*" | grep -v .js | grep -v .d.ts | grep -v .ts | sed -e 's/^\.\/tfcdk-//')
+  echo "usage:"
+  for command in $commands; do
+    echo "  tfcdk ${command}"
+  done
+  exit 1
+fi
+shift
+exec ${scriptdir}/tfcdk-${subcommand} $@

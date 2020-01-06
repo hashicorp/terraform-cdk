@@ -1,0 +1,16 @@
+{
+  "name": "hello-tfcdk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.1",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "@aws-cdk/core": "^1.19.0"
+  }
+}

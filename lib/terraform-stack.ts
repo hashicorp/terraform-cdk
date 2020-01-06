@@ -1,7 +1,8 @@
 import { Construct, IConstruct, ISynthesisSession } from '@aws-cdk/core';
 import * as fs from 'fs';
 import * as path from 'path';
-import { TerraformResource } from './terraform-resource';
+import { TerraformElement } from './terraform-element';
+import { deepMerge } from './util';
 
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
@@ -15,17 +16,11 @@ export class TerraformStack extends Construct {
   public synthesize(session: ISynthesisSession) {
     const output = path.join(session.assembly.outdir, this.artifactFile);
 
-    const resource: { [type: string]: { [name: string]: any } } = { };
+    let tf = { };
 
     const visit = (node: IConstruct) => {
-      if (node instanceof TerraformResource) {
-
-        let s = resource[node.type];
-        if (!s) {
-          s = resource[node.type] = { };
-        }
-        
-        s[node.node.uniqueId] = node.synthesizeAttributes();
+      if (node instanceof TerraformElement) {
+        deepMerge(tf, node.toTerraform());
       }
 
       for (const child of node.node.children) {
@@ -35,9 +30,6 @@ export class TerraformStack extends Construct {
 
     visit(this);
 
-    const tf = {
-      resource
-    };
 
     fs.writeFileSync(output, JSON.stringify(tf, undefined, 2));
   }
