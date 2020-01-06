@@ -9,6 +9,6 @@ test('generate some modules', async () => {
   const gen = new ModuleGenerator(spec);
   await gen.save(workdir);
 
-  const output = fs.readFileSync(path.join(workdir, 'terraform-aws-modules/eks/aws/index.ts'), 'utf-8');
+  const output = fs.readFileSync(path.join(workdir, 'terraform-aws-modules/eks/aws.ts'), 'utf-8');
   expect(output).toMatchSnapshot();
 });
