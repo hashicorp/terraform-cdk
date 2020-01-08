@@ -36,7 +36,7 @@ export abstract class TerraformResource extends TerraformElement {
   /**
    * Adds this resource to the terraform JSON output.
    */
-  public toTerraform() {
+  public toTerraform(): any {
     return {
       resource: {
         [this.type]: {

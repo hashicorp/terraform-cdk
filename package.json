@@ -28,18 +28,18 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",
-    "@types/node": "10.17.5",
+    "@types/node": "^10.17.5",
     "jest": "^24.9.0",
-    "jsii": "^0.20.11",
-    "ts-jest": "^24.2.0",
+    "jsii": "^0.21.1",
+    "ts-jest": "^24.3.0",
     "typescript": "~3.7.4"
   },
   "dependencies": {
-    "@aws-cdk/core": "^1.19.0",
+    "@aws-cdk/core": "^1.20.0",
     "codemaker": "^0.21.1"
   },
   "peerDependencies": {
-    "@aws-cdk/core": "^1.19.0"
+    "@aws-cdk/core": "^1.20.0"
   },
   "bundledDependencies": [ "codemaker" ]
 }

@@ -20,7 +20,7 @@ export abstract class TerraformModule extends TerraformElement {
 
   protected abstract synthesizeAttributes(): { [name: string]: any };
 
-  public toTerraform() {
+  public toTerraform(): any {
     return {
       module: {
         [this.node.uniqueId]: {
