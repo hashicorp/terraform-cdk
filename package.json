@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "jsii": {
-    "outdir": "dist"
+    "outdir": "dist",
+    "excludeTypescript": [ "example/**/*" ]
   },
   "bin": {
     "tfcdk": "bin/tfcdk",
