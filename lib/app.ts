@@ -5,13 +5,13 @@ export interface AppOptions {
     /**
      * The directory to output Kubernetes manifests.
      * 
-     * @default - CDK8S_OUTDIR if defined, otherwise "dist"
+     * @default - TFCDK_OUTDIR if defined, otherwise "dist"
      */
     readonly outdir?: string;
 }
 
 /**
- * Represents a cdk8s application.
+ * Represents a tfcdk application.
  */
 export class App extends Construct {
     /**
@@ -25,7 +25,7 @@ export class App extends Construct {
      */
     constructor(options: AppOptions = {}) {
         super(undefined as any, '');
-        this.outdir = options.outdir ?? process.env.CDK8S_OUTDIR ?? 'dist';
+        this.outdir = options.outdir ?? process.env.TFCDK_OUTDIR ?? 'dist';
     }
 
     /**
