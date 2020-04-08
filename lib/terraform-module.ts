@@ -1,4 +1,4 @@
-import { Construct } from "@aws-cdk/core";
+import { Construct, Node } from "constructs";
 import { TerraformElement } from "./terraform-element";
 
 export interface TerraformModuleOptions {
@@ -23,7 +23,7 @@ export abstract class TerraformModule extends TerraformElement {
   public toTerraform(): any {
     return {
       module: {
-        [this.node.uniqueId]: {
+        [Node.of(this).uniqueId]: {
           ...this.synthesizeAttributes(),
           source: this.source,
           version: this.version,

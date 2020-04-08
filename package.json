@@ -6,7 +6,9 @@
   "types": "lib/index.d.ts",
   "jsii": {
     "outdir": "dist",
-    "excludeTypescript": [ "example/**/*" ]
+    "excludeTypescript": [
+      "example/**/*"
+    ]
   },
   "bin": {
     "tfcdk": "bin/tfcdk",
@@ -33,14 +35,20 @@
     "jest": "^24.9.0",
     "jsii": "^0.21.1",
     "ts-jest": "^24.3.0",
-    "typescript": "~3.7.4"
+    "typescript": "~3.7.4",
+    "constructs": "2.0.1"
   },
   "dependencies": {
-    "@aws-cdk/core": "^1.20.0",
-    "codemaker": "^0.21.1"
+    "@aws-cdk/core": "^1.22.0",
+    "codemaker": "^0.21.1",
+    "constructs": "2.0.1"
   },
   "peerDependencies": {
-    "@aws-cdk/core": "^1.20.0"
+    "@aws-cdk/core": "^1.22.0",
+    "constructs": "2.0.1"
   },
-  "bundledDependencies": [ "codemaker" ]
+  "stability": "experimental",
+  "bundledDependencies": [
+    "codemaker"
+  ]
 }

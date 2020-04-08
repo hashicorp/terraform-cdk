@@ -1,5 +1,5 @@
-import { App, Construct } from '@aws-cdk/core';
-import { TerraformStack } from 'tfcdk';
+import { Construct } from 'constructs';
+import { App, TerraformStack } from 'tfcdk';
 import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
 import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
@@ -9,7 +9,7 @@ class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const table = new DynamodbTable(this, 'Hello', {
+    const table = new DynamodbTable(scope, 'Hello', {
       name: 'my-first-table',
       hashKey: 'id',
       attribute: [

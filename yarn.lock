@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@aws-cdk/core@^1.20.0":
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.20.0.tgz#41ce8189344d6463cfbb705b7d966b049640dea8"
-  integrity sha512-nzgNG4P583IkEdpaskx5/6L+xTDQ3qyxi++bb2QgGlH1VEjU80/pexRCduuSIyejcWq2pe8c5PHaXjHzvO7xpA==
+"@aws-cdk/core@^1.22.0":
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.22.0.tgz#45cc5e962e71c34988d243104711b5558dcb4bc1"
+  integrity sha512-SD0PIOEnZ97ghF4bIf097U9l9jPtPQ5u8Uv9Uh4VwwwIPR6H07O5Qpkoj6rUwSmXc6HUlBL9OKcVjW47kMorNQ==
   dependencies:
-    "@aws-cdk/cx-api" "1.20.0"
+    "@aws-cdk/cx-api" "1.22.0"
 
-"@aws-cdk/cx-api@1.20.0":
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cx-api/-/cx-api-1.20.0.tgz#a28414ad5f37c116318d6fd0289aefee99297bfc"
-  integrity sha512-Ih16M19CXBkA6e3LFuf3aquhAJnNRUWAfRuj+gk/wS4JeaTa7mqFU4e2fAb8nHFhFho9YcW7QLCd3GW3HiBvWA==
+"@aws-cdk/cx-api@1.22.0":
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cx-api/-/cx-api-1.22.0.tgz#d8da5332d65c1befb73c455b316b9e4e3ea789f1"
+  integrity sha512-Pf1s+7sjjTBZbTZIdwwB2V+HU2MteXIUETGQOr+MLLMHqXhLTIh+kTrkdiHT2A3MQ6naZf7uP+cOlLQsHe2IlQ==
   dependencies:
     semver "^7.1.1"
 
@@ -833,6 +833,11 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
+
+constructs@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-2.0.1.tgz#274d6b8ce6a698813495c444466b0c745349ddb5"
+  integrity sha512-edR85YFGI9TBT9byAo5vAfI0PRi+jFGzinwN3RAJwKfv6Yc9x9kALYfoEmgotp95qT7/k/iUQWHrH9BMJeqpdg==
 
 convert-source-map@^1.4.0, convert-source-map@^1.7.0:
   version "1.7.0"

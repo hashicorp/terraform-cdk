@@ -1,4 +1,4 @@
-import { Construct, IConstruct, ISynthesisSession } from '@aws-cdk/core';
+import { Construct, IConstruct, ISynthesisSession, Node } from 'constructs';
 import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
@@ -10,7 +10,7 @@ export class TerraformStack extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.artifactFile = `${this.node.uniqueId}.tf.json`;
+    this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
   }
 
   public synthesize(session: ISynthesisSession) {
@@ -23,7 +23,7 @@ export class TerraformStack extends Construct {
         deepMerge(tf, node.toTerraform());
       }
 
-      for (const child of node.node.children) {
+      for (const child of Node.of(node).children) {
         visit(child);
       }
     }

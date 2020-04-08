@@ -1,4 +1,4 @@
-import { Construct, Token } from "@aws-cdk/core";
+import { Construct, Node, Token } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 
@@ -40,14 +40,14 @@ export abstract class TerraformResource extends TerraformElement {
     return {
       resource: {
         [this.type]: {
-          [this.node.uniqueId]: this.synthesizeAttributes()
+          [Node.of(this).uniqueId]: this.synthesizeAttributes()
         }
       }
     };
   }
 
   private interpolationForAttribute(terraformAttribute: string) {
-    return `\${${this.type}.${this.node.uniqueId}.${terraformAttribute}}`;
+    return `\${${this.type}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
   }
 }
 

@@ -1,7 +1,6 @@
-import { App } from "@aws-cdk/core";
-import * as fs from 'fs';
-import * as path from 'path';
-import { TerraformResource, TerraformStack } from "../lib";
+import { Node } from "constructs";
+
+import { TerraformResource, TerraformStack, App, Testing } from "../lib";
 import { TerraformModule } from "../lib/terraform-module";
 
 test('stack synthesis merges all elements into a single output', () => {
@@ -22,7 +21,7 @@ test('stack synthesis merges all elements into a single output', () => {
     version: '7.0.1',
   });
 
-  expect(synth(stack)).toMatchSnapshot();
+  expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
 class MyModule extends TerraformModule {
@@ -36,18 +35,9 @@ class MyModule extends TerraformModule {
 class MyResource extends TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any; } {
     return {
-      foo: this.node.uniqueId,
+      foo: Node.of(this).uniqueId,
       prop1: 'bar1',
       prop2: 1234
     };
   }
-}
-
-function synth(stack: TerraformStack) {
-  const app = stack.node.root as App;
-  if (!(app instanceof App)) {
-    throw new Error(`root must be an App`);
-  }
-  const assembly = app.synth();
-  return JSON.parse(fs.readFileSync(path.join(assembly.directory, stack.artifactFile), 'utf-8'));
 }
