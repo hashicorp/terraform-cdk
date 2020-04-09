@@ -22,7 +22,7 @@ export class ModuleGenerator {
     this.code.line(`// ${this.spec.id}/${spec.path}`);
 
     this.code.line(`import { TerraformModule } from 'tfcdk';`);
-    this.code.line(`import { Construct } from '@aws-cdk/core';`);
+    this.code.line(`import { Construct } from 'constructs';`);
 
     const baseName = this.code.toPascalCase(spec.name.replace(/-/g, '_'));
     const optionsType = `${baseName}Options`;

@@ -6,7 +6,7 @@ import { App } from '../lib';
 import { TerraformStack } from './terraform-stack';
 
 /**
- * Testing utilities for cdk8s applications.
+ * Testing utilities for tfcdk applications.
  */
 export class Testing {
     /**
@@ -19,7 +19,7 @@ export class Testing {
     }
 
     /**
-     * Returns the Kubernetes manifest synthesized from this chart.
+     * Returns the Terraform synthesized JSON.
      */
     public static synth(stack: TerraformStack) {
         return stack.toString();

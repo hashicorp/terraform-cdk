@@ -13,8 +13,8 @@ export class TerraformStack extends Construct {
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
   }
 
-  public synthesize(session: ISynthesisSession) {
-    const output = path.join(session.assembly.outdir, this.artifactFile);
+  public onSynthesize(session: ISynthesisSession) {
+    const output = path.join(session.outdir, this.artifactFile);
 
     let tf = { };
 

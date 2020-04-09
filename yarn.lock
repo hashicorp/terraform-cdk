@@ -2,20 +2,6 @@
 # yarn lockfile v1
 
 
-"@aws-cdk/core@^1.22.0":
-  version "1.22.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.22.0.tgz#45cc5e962e71c34988d243104711b5558dcb4bc1"
-  integrity sha512-SD0PIOEnZ97ghF4bIf097U9l9jPtPQ5u8Uv9Uh4VwwwIPR6H07O5Qpkoj6rUwSmXc6HUlBL9OKcVjW47kMorNQ==
-  dependencies:
-    "@aws-cdk/cx-api" "1.22.0"
-
-"@aws-cdk/cx-api@1.22.0":
-  version "1.22.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cx-api/-/cx-api-1.22.0.tgz#d8da5332d65c1befb73c455b316b9e4e3ea789f1"
-  integrity sha512-Pf1s+7sjjTBZbTZIdwwB2V+HU2MteXIUETGQOr+MLLMHqXhLTIh+kTrkdiHT2A3MQ6naZf7uP+cOlLQsHe2IlQ==
-  dependencies:
-    semver "^7.1.1"
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"

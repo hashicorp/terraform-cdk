@@ -39,12 +39,10 @@
     "constructs": "2.0.1"
   },
   "dependencies": {
-    "@aws-cdk/core": "^1.22.0",
     "codemaker": "^0.21.1",
     "constructs": "2.0.1"
   },
   "peerDependencies": {
-    "@aws-cdk/core": "^1.22.0",
     "constructs": "2.0.1"
   },
   "stability": "experimental",

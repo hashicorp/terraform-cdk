@@ -5,11 +5,11 @@ import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
 
-class HelloTerra extends TerraformStack {
+export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const table = new DynamodbTable(scope, 'Hello', {
+    const table = new DynamodbTable(this, 'Hello', {
       name: 'my-first-table',
       hashKey: 'id',
       attribute: [
