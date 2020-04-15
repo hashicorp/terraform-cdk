@@ -1,0 +1,97 @@
+{
+  "name": "cdktf",
+  "version": "0.0.0",
+  "description": "Cloud Development Kit for Terraform",
+  "scripts": {
+    "build": "jsii",
+    "watch": "jsii -w",
+    "package": "jsii-pacmak",
+    "lint": "eslint . --ext .ts",
+    "test": "jest && yarn lint"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "short",
+    "targets": {
+      "java": {
+        "package": "com.hashicorp.cdktf",
+        "maven": {
+          "groupId": "com.hashicorp",
+          "artifactId": "cdktf"
+        }
+      },
+      "python": {
+        "distName": "cdktf",
+        "module": "cdktf"
+      },
+      "dotnet": {
+        "namespace": "HashiCorp.CdkTf",
+        "packageId": "HashiCorp.CdkTf"
+      }
+    }
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "homepage": "https://github.com/hashicorp/terraform-cdk-poc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hashicorp/terraform-cdk-poc.git",
+    "directory": "packages/cdktf"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-use-before-define": 0
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "dist",
+      "coverage"
+    ]
+  },
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/json-stable-stringify": "^1.0.32",
+    "@types/node": "13.7.1",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "constructs": "2.0.1",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "jsii": "1.1.0",
+    "jsii-pacmak": "1.1.0",
+    "json-schema-to-typescript": "^8.0.1",
+    "typescript": "^3.7.5"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "moduleFileExtensions": [
+      "js"
+    ]
+  },
+  "bundledDependencies": [
+    "json-stable-stringify"
+  ],
+  "dependencies": {
+    "json-stable-stringify": "^1.0.1"
+  },
+  "peerDependencies": {
+    "constructs": "^2.0.1"
+  },
+  "stability": "experimental"
+}
