@@ -1,7 +1,7 @@
 import { Node } from "constructs";
 
-import { TerraformResource, TerraformStack, App, Testing } from "../lib";
-import { TerraformModule } from "../lib/terraform-module";
+import { TerraformResource, TerraformStack, App, Testing } from "../packages/cdktf/lib";
+import { TerraformModule } from "../packages/cdktf/lib/terraform-module";
 
 test('stack synthesis merges all elements into a single output', () => {
   const app = new App();
