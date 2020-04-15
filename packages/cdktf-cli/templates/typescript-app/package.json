@@ -1,0 +1,18 @@
+{
+  "name": "{{ $base }}",
+  "version": "1.0.0",
+  "main": "main.js",
+  "types": "main.ts",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "import": "cdk8s import",
+    "synth": "cdk8s synth",
+    "compile": "tsc",
+    "watch": "tsc -w",
+    "test": "echo ok",
+    "build": "npm run compile && npm run test && npm run synth",
+    "upgrade": "npm i cdk8s@latest cdk8s-cli@latest",
+    "upgrade:next": "npm i cdk8s@next cdk8s-cli@next"
+  }
+}

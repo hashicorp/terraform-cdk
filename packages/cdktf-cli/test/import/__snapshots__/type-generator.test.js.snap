@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`documentation "*/" is is escaped 1`] = `""`;
+
+exports[`documentation does not render if not defined 1`] = `""`;
+
+exports[`documentation renders based on description 1`] = `""`;
+
+exports[`structs array of structs is considered optional 1`] = `
+"/**
+ * @schema fqn.of.TestType
+ */
+export interface TestType {
+    /**
+     * @schema fqn.of.TestType#shouldBeRequired
+     */
+    readonly shouldBeRequired?: ItemType;
+
+    /**
+     * @schema fqn.of.TestType#mapShouldBeOptional
+     */
+    readonly mapShouldBeOptional?: { [key: string]: ItemType };
+
+    /**
+     * @schema fqn.of.TestType#arrayShouldBeOptional
+     */
+    readonly arrayShouldBeOptional?: ItemType[];
+
+}
+
+/**
+ * @schema ItemType
+ */
+export interface ItemType {
+    /**
+     * @schema ItemType#requiredField
+     */
+    readonly requiredField: string;
+
+}
+
+"
+`;
+
+exports[`structs has a field that references another struct (with required fields) 1`] = `
+"/**
+ * @schema fqn.of.TestType
+ */
+export interface TestType {
+    /**
+     * @schema fqn.of.TestType#other
+     */
+    readonly other?: Other;
+
+}
+
+/**
+ * @schema Other
+ */
+export interface Other {
+    /**
+     * @schema Other#stringValue
+     */
+    readonly stringValue: string;
+
+}
+
+"
+`;
+
+exports[`structs has primitive types and collections of primitive types 1`] = `
+"/**
+ * @schema fqn.of.TestType
+ */
+export interface TestType {
+    /**
+     * @schema fqn.of.TestType#stringValue
+     */
+    readonly stringValue?: string;
+
+    /**
+     * @schema fqn.of.TestType#boolValue
+     */
+    readonly boolValue?: boolean;
+
+    /**
+     * @schema fqn.of.TestType#numberValue
+     */
+    readonly numberValue?: number;
+
+    /**
+     * @schema fqn.of.TestType#integerValue
+     */
+    readonly integerValue?: number;
+
+    /**
+     * @schema fqn.of.TestType#arrayOfString
+     */
+    readonly arrayOfString?: string[];
+
+}
+
+"
+`;
+
+exports[`structs includes required fields 1`] = `
+"/**
+ * @schema fqn.of.TestType
+ */
+export interface TestType {
+    /**
+     * Minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready)
+     *
+     * @default 0 (pod will be considered available as soon as it is ready)
+     * @schema fqn.of.TestType#minReadySeconds
+     */
+    readonly minReadySeconds: number;
+
+    /**
+     * Indicates that the deployment is paused.
+     *
+     * @schema fqn.of.TestType#paused
+     */
+    readonly paused?: boolean;
+
+    /**
+     * The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to 600s.
+     *
+     * @default 600s.
+     * @schema fqn.of.TestType#progressDeadlineSeconds
+     */
+    readonly progressDeadlineSeconds?: number;
+
+    /**
+     * Number of desired pods. This is a pointer to distinguish between explicit zero and not specified. Defaults to 1.
+     *
+     * @default 1.
+     * @schema fqn.of.TestType#replicas
+     */
+    readonly replicas?: number;
+
+    /**
+     * The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10.
+     *
+     * @default 10.
+     * @schema fqn.of.TestType#revisionHistoryLimit
+     */
+    readonly revisionHistoryLimit: number;
+
+}
+
+"
+`;
+
+exports[`structs references itself 1`] = `
+"/**
+ * @schema fqn.of.TestType
+ */
+export interface TestType {
+    /**
+     * @schema fqn.of.TestType#entrypoint
+     */
+    readonly entrypoint?: MyType;
+
+}
+
+/**
+ * @schema MyType
+ */
+export interface MyType {
+    /**
+     * @schema MyType#self
+     */
+    readonly self?: MyType;
+
+}
+
+"
+`;
+
+exports[`unions include primitives 1`] = `
+"/**
+ * @schema fqn.of.TestType
+ */
+export class TestType {
+    public static fromString(value: string): TestType {
+        return new TestType(value);
+    }
+    public static fromNumber(value: number): TestType {
+        return new TestType(value);
+    }
+    private constructor(value: any) {
+        Object.defineProperty(this, 'resolve', { value: () => value });
+    }
+}
+
+"
+`;

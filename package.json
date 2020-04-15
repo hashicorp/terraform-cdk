@@ -11,9 +11,7 @@
     ]
   },
   "bin": {
-    "tfcdk": "bin/tfcdk",
-    "tfcdk-install-provider": "bin/tfcdk-install-provider",
-    "tfcdk-install-module": "bin/tfcdk-install-module"
+    "tfcdk": "bin/tfcdk"
   },
   "author": {
     "name": "Elad Ben-Israel",
