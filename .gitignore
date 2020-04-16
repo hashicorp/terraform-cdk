@@ -12,3 +12,5 @@ cdk.out
 tsconfig.json
 
 **/.DS_Store
+**/.gen
+**/*.log
