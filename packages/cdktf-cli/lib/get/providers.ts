@@ -3,8 +3,8 @@ import { spawn, SpawnOptions } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
-import { TerraformGenerator } from './provider-generator';
-import { ProviderSchema } from './provider-schema';
+import { TerraformGenerator } from './generator/provider-generator';
+import { ProviderSchema } from './generator/provider-schema';
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
@@ -39,14 +39,14 @@ async function readSchema(outdir: string, providers: string[]): Promise<Provider
   return JSON.parse(schema);
 }
 
-async function exec(command: string, args: string[], options?: SpawnOptions): Promise<string> {
+async function exec(command: string, args: string[], options: SpawnOptions = {}): Promise<string> {
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
     const out = new Array<Buffer>();
-    child.stdout?.on('data', chunk => out.push(chunk));
-    child.stderr?.on('data', chunk => process.stderr.write(chunk));
-    child.once('error', err => ko(err));
-    child.once('close', code => {
+    child.stdout?.on('data', (chunk: Buffer) => out.push(chunk));
+    child.stderr?.on('data', (chunk: string | Uint8Array) => process.stderr.write(chunk));
+    child.once('error', (err: any) => ko(err));
+    child.once('close', (code: number) => {
       if (code !== 0) {
         return ko(new Error(`non-zero exit code ${code}`));
       }

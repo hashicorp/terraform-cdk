@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
-import { App, Chart } from 'cdk8s';
+import { App, TerraformStack } from 'cdktf';
 
-class MyChart extends Chart {
+class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
@@ -11,5 +11,5 @@ class MyChart extends Chart {
 }
 
 const app = new App();
-new MyChart(app, '{{ $base }}');
+new MyStack(app, '{{ $base }}');
 app.synth();

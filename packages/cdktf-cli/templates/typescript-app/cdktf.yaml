@@ -1,4 +1,3 @@
 language: typescript
 app: node main.js
-imports:
-  - k8s
+terraformProviders: ["aws@~> 2.0"]

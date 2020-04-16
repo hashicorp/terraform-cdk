@@ -4,14 +4,14 @@ const { readFileSync } = require('fs');
 const constructs_version = require('../../package.json').dependencies.constructs;
 
 exports.post = ctx => {
-  const npm_cdk8s = ctx.npm_cdk8s;
-  const npm_cdk8s_cli = ctx.npm_cdk8s_cli;
+  const npm_cdktf = ctx.npm_cdktf;
+  const npm_cdktf_cli = ctx.npm_cdktf_cli;
 
-  if (!npm_cdk8s) { throw new Error(`missing context "npm_cdk8s"`); }
-  if (!npm_cdk8s_cli) { throw new Error(`missing context "npm_cdk8s_cli"`); }
+  if (!npm_cdktf) { throw new Error(`missing context "npm_cdktf"`); }
+  if (!npm_cdktf_cli) { throw new Error(`missing context "npm_cdktf_cli"`); }
 
-  installDeps([ npm_cdk8s, `constructs@${constructs_version}` ]);
-  installDeps([ npm_cdk8s_cli, '@types/node', 'typescript' ], true);
+  installDeps([ npm_cdktf, `constructs@${constructs_version}` ]);
+  installDeps([ npm_cdktf_cli, '@types/node', 'typescript' ], true);
 
   // import k8s objects
   execSync('npm run import', { stdio: 'inherit' });

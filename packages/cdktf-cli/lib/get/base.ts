@@ -13,17 +13,17 @@ export enum Language {
 
 export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON ];
 
-export interface ImportOptions {
+export interface GetOptions {
   readonly moduleNamePrefix?: string;
   readonly targetLanguage: Language;
   readonly outdir: string;
 }
 
-export abstract class ImportBase {
+export abstract class GetBase {
   public abstract get moduleNames(): string[];
   protected abstract async generateTypeScript(code: CodeMaker, moduleName?: string): Promise<void>;
 
-  public async import(options: ImportOptions) {
+  public async get(options: GetOptions) {
     const code = new CodeMaker();
 
     const outdir = path.resolve(options.outdir);
@@ -60,7 +60,7 @@ export abstract class ImportBase {
     }
   }
 
-  private async harvestCode(options: ImportOptions, targetdir: string, moduleName: string) {
+  private async harvestCode(options: GetOptions, targetdir: string, moduleName: string) {
     const { moduleNamePrefix } = options
     switch (options.targetLanguage) {
       case Language.TYPESCRIPT:

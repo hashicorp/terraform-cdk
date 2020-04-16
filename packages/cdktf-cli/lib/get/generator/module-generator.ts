@@ -1,5 +1,5 @@
 import { CodeMaker, toCamelCase } from "codemaker";
-import { Module, Submodule } from "./registry-client";
+import { Module, Submodule } from "../registry-client";
 
 export class ModuleGenerator {
   private readonly code: CodeMaker = new CodeMaker();

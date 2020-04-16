@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Terraform for CDK CLI",
   "bin": {
-    "cdk8s": "bin/cdk8s"
+    "cdktf": "bin/cdktf"
   },
   "scripts": {
     "build": "tsc",

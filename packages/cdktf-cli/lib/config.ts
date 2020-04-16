@@ -1,12 +1,7 @@
 import * as fs from 'fs-extra';
-import { Language } from './import/base';
+import { Language } from './get/base';
 
 const CONFIG_FILE = 'cdktf.json';
-
-export interface ImportSpec {
-  readonly moduleNamePrefix?: string;
-  readonly source: string;
-}
 
 export interface Config {
   readonly app?: string;

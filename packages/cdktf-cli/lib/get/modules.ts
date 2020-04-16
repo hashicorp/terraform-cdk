@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { ModuleGenerator } from './module-generator';
+import { ModuleGenerator } from './generator/module-generator';
 import { getModule } from './registry-client';
 
 async function main() {
