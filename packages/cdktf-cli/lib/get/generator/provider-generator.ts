@@ -2,22 +2,21 @@ import { CodeMaker, toCamelCase, toPascalCase, toSnakeCase } from 'codemaker';
 import { Attribute, AttributeType, Block, BlockType, Provider, ProviderSchema, Schema } from './provider-schema';
 
 export class TerraformGenerator {
-  private readonly code = new CodeMaker();
   private anonymousStructs = new Array<Struct>();
 
-  constructor(schema: ProviderSchema) {
+  constructor(private readonly code: CodeMaker, schema: ProviderSchema) {
     this.code.indentation = 2;
 
     if (!schema.provider_schemas) {
       console.error('warning: no providers');
       return;
     }
-    
+
     for (const [name, provider] of Object.entries(schema.provider_schemas)) {
       this.emitProvider(name, provider);
     }
   }
-  
+
   public async save(outdir: string) {
     await this.code.save(outdir);
   }
@@ -31,7 +30,7 @@ export class TerraformGenerator {
   private emitResource(provider: string, type: string, schema: Schema) {
     const resource = this.parseResource(provider, type, schema);
 
-    const filePath = `${provider}/${resource.fileName}`;
+    const filePath = `providers/${provider}/${resource.fileName}`;
 
     this.code.openFile(filePath);
 
@@ -85,7 +84,7 @@ export class TerraformGenerator {
     this.code.line();
     this.code.openBlock(`public synthesizeAttributes()`);
     this.code.open(`return {`);
-    
+
     for (const att of resource.attributes) {
       if (att.computed) { continue; }
       this.code.line(`${att.terraformName}: this.${att.storageName},`);
@@ -99,7 +98,7 @@ export class TerraformGenerator {
     for (const att of resource.attributes) {
       this.code.line();
       this.code.line(`// ${att.terraformName}`);
-      
+
       if (!att.computed) {
         this.emitAttribute(att);
       } else {
@@ -126,7 +125,7 @@ export class TerraformGenerator {
 
     // otherwise, there is always a value - it will either be the value explicitly set
     // or the late-bound value through interpolation.
-    
+
     this.code.openBlock(`public get ${att.name}()`);
     this.code.line(`return this.${att.storageName} ?? ${att.getAttCall};`);
     this.code.closeBlock();
@@ -155,7 +154,7 @@ export class TerraformGenerator {
     const allOptionals = requiredAttributes.length > 0 ? '' : ` = {}`;
 
     this.code.openBlock(`public constructor(scope: Construct, id: string, config: ${resource.configName}${allOptionals})`);
-    
+
     // invoke super ctor with the terraform resource type
     this.code.open(`super(scope, id, {`);
     this.code.line(`type: '${resource.terraformType}',`);
@@ -184,7 +183,7 @@ export class TerraformGenerator {
       if (att.description) {
         this.code.line(`/** ${att.description} */`);
       }
-      
+
       this.code.line(`readonly ${this.renderAttributeProperty(att)};`);
     }
     this.code.closeBlock();
@@ -242,7 +241,7 @@ export class TerraformGenerator {
 
   private renderAttributesForBlock(parentType: string, block: Block) {
     const attributes = new Array<AttributeModel>();
-    
+
     for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
       const type = this.renderAttributeType([ parentType, terraformAttributeName ], att.type);
       const name = toCamelCase(terraformAttributeName);
@@ -292,7 +291,7 @@ export class TerraformGenerator {
             computed: false,
           };
 
-        case 'map': 
+        case 'map':
           return {
             name,
             terraformName,
@@ -334,8 +333,8 @@ export class TerraformGenerator {
     const resource: ResourceModel = {
       terraformType,
       baseName,
-      className, 
-      fileName, 
+      className,
+      fileName,
       configName,
       attributes: this.renderAttributesForBlock(baseName, schema.block)
     }
@@ -370,7 +369,7 @@ export class TerraformGenerator {
     this.anonymousStructs.push(s);
     return s;
   }
-  
+
 }
 
 

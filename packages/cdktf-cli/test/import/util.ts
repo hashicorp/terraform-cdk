@@ -1,4 +1,3 @@
-import { jsiiCompile } from "../../lib/get/jsii";
 import { promises as fs } from 'fs';
 import { withTempDir } from "../../lib/util";
 import { Language, GetBase } from "../../lib/get/base";
@@ -15,16 +14,9 @@ export function expectImportMatchSnapshot(name: string, fn: () => GetBase) {
       await importer.get({
         outdir: workdir,
         targetLanguage: Language.TYPESCRIPT,
+        moduleNames: ['aws']
       });
 
-      for (const moduleName of importer.moduleNames) {
-        await jsiiCompile(workdir, { 
-          stdout: true,
-          name: moduleName,
-          main: moduleName
-        });
-      }
-    
       const manifest = JSON.parse(await fs.readFile('.jsii', 'utf-8'));
       expect(manifest).toMatchSnapshot();
     });

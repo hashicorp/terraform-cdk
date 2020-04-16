@@ -31,8 +31,8 @@ export async function jsiiCompile(workdir: string, options: JsiiCompileOptions) 
 
   const main = options.main;
 
-  const modules = [ 
-    'constructs', 
+  const modules = [
+    'constructs',
     'cdktf',
     '@types/node',
   ];
@@ -53,7 +53,7 @@ export async function jsiiCompile(workdir: string, options: JsiiCompileOptions) 
           module: main
         }
       }
-    },    
+    },
     dependencies: {
       "constructs": "*",
       "cdktf": "*",
@@ -72,7 +72,7 @@ export async function jsiiCompile(workdir: string, options: JsiiCompileOptions) 
 
   await fs.writeFile(path.join(workdir, 'package.json'), JSON.stringify(pkg, undefined, 2));
 
-  await shell(compiler, args, { 
+  await shell(compiler, args, {
     cwd: workdir,
     stdio: [ 'inherit', stdout ? 'inherit' : 'ignore', 'inherit' ]
   });

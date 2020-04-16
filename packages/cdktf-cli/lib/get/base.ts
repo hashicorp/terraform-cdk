@@ -17,11 +17,11 @@ export interface GetOptions {
   readonly moduleNamePrefix?: string;
   readonly targetLanguage: Language;
   readonly outdir: string;
+  readonly moduleNames: string[];
 }
 
 export abstract class GetBase {
-  public abstract get moduleNames(): string[];
-  protected abstract async generateTypeScript(code: CodeMaker, moduleName?: string): Promise<void>;
+  protected abstract async generateTypeScript(code: CodeMaker, moduleName: string[]): Promise<void>;
 
   public async get(options: GetOptions) {
     const code = new CodeMaker();
@@ -29,24 +29,16 @@ export abstract class GetBase {
     const outdir = path.resolve(options.outdir);
     await fs.mkdirp(outdir);
     const isTypescript = options.targetLanguage === Language.TYPESCRIPT
+    await this.generateTypeScript(code, options.moduleNames);
 
-    for (const name of this.moduleNames) {
-      const fileName = options?.moduleNamePrefix ? `${options.moduleNamePrefix}-${name}.ts` : `${name}.ts`;
-      code.openFile(fileName);
-      code.indentation = 2;
-      await this.generateTypeScript(code, name);
-      code.closeFile(fileName);
-
-      if (isTypescript) {
-        await code.save(outdir);
-      }
+    if (isTypescript) {
+      await code.save(outdir);
+      return
     }
 
-    if (isTypescript) return;
-
-    for (const name of this.moduleNames) {
+    for (const name of options.moduleNames) {
       // this is not typescript, so we generate in a staging directory and harvest the code
-      await withTempDir('importer', async () => {
+      await withTempDir('get', async () => {
         await code.save('.');
         await jsiiCompile('.', {
           main: name,
@@ -65,7 +57,7 @@ export abstract class GetBase {
     switch (options.targetLanguage) {
       case Language.TYPESCRIPT:
         throw new Error('no op for typescript');
-  
+
       case Language.PYTHON:
         if (moduleNamePrefix != null) {
           // logging error instead of throwing, so it doesn't interrupt other imports
@@ -74,11 +66,10 @@ export abstract class GetBase {
         }
         await this.harvestPython(targetdir, moduleName);
         break;
-  
+
       default:
         throw new Error(`unsupported language ${options.targetLanguage} (yet)`);
     }
-  
   }
 
   private async harvestPython(targetdir: string, moduleName: string) {
