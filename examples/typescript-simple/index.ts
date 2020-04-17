@@ -28,7 +28,9 @@ export class HelloTerra extends TerraformStack {
       vpcId: 'vpc'
     });
 
-    new Vpc(this, 'MyVpc');
+    new Vpc(this, 'MyVpc', {
+      cidr: "10.0.0.0/16"
+    });
   }
 }
 
