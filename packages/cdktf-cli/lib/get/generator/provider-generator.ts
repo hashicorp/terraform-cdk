@@ -152,8 +152,11 @@ export class TerraformGenerator {
 
     const requiredAttributes = resource.attributes.filter(a => !a.optional && !a.computed);
     const allOptionals = requiredAttributes.length > 0 ? '' : ` = {}`;
+    // `computed` attributes are skipped in `emitStruct`. This causes empty interfaces (e.g. in aws provider `FmsAdminAccount`)
+    const computedAttributes = resource.attributes.filter(a => a.computed)
+    const emptyConfigInterface = (computedAttributes.length !== resource.attributes.length) ? '' : '_'
 
-    this.code.openBlock(`public constructor(scope: Construct, id: string, config: ${resource.configName}${allOptionals})`);
+    this.code.openBlock(`public constructor(scope: Construct, id: string, ${emptyConfigInterface}config: ${resource.configName}${allOptionals})`);
 
     // invoke super ctor with the terraform resource type
     this.code.open(`super(scope, id, {`);
