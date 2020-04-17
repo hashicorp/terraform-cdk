@@ -13,10 +13,8 @@ export class TerraformStack extends Construct {
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
   }
 
-  public onSynthesize(session: ISynthesisSession) {
-    const output = path.join(session.outdir, this.artifactFile);
-
-    let tf = { };
+  public toTerraform(): any {
+    const tf = { };
 
     const visit = (node: IConstruct) => {
       if (node instanceof TerraformElement) {
@@ -30,7 +28,11 @@ export class TerraformStack extends Construct {
 
     visit(this);
 
+    return tf
+  }
 
-    fs.writeFileSync(output, JSON.stringify(tf, undefined, 2));
+  public onSynthesize(session: ISynthesisSession) {
+    const output = path.join(session.outdir, this.artifactFile);
+    fs.writeFileSync(output, JSON.stringify(this.toTerraform(), undefined, 2));
   }
 }

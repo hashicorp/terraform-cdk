@@ -1,7 +1,7 @@
 import { Node } from "constructs";
 
-import { TerraformResource, TerraformStack, App, Testing } from "../packages/cdktf/lib";
-import { TerraformModule } from "../packages/cdktf/lib/terraform-module";
+import { TerraformResource, TerraformStack, App, Testing } from "cdktf/lib";
+import { TerraformModule } from "cdktf/lib/terraform-module";
 
 test('stack synthesis merges all elements into a single output', () => {
   const app = new App();
@@ -20,20 +20,21 @@ test('stack synthesis merges all elements into a single output', () => {
     source: 'terraform-aws-modules/eks/aws',
     version: '7.0.1',
   });
-
+  console.log({synth: Testing.synth(stack)})
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
 class MyModule extends TerraformModule {
   protected synthesizeAttributes() {
     return {
+      //eslint-disable-next-line @typescript-eslint/camelcase
       cluster_name: 'my_cluster_name'
     };
   }
 }
 
 class MyResource extends TerraformResource {
-  protected synthesizeAttributes(): { [name: string]: any; } {
+  protected synthesizeAttributes(): { [name: string]: any } {
     return {
       foo: Node.of(this).uniqueId,
       prop1: 'bar1',
