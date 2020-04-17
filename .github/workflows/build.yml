@@ -9,6 +9,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: installing terraform
+        run: |
+          cd /tmp
+          curl -s https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip > terraform_0.12.24_linux_amd64.zip
+          unzip terraform_0.12.24_linux_amd64.zip
+          mv ./terraform /usr/bin
       - name: installing dependencies
         run: |
           yarn install
