@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { ModuleGenerator } from '../lib/get/generator/module-generator';
+import { ModuleGenerator } from '../../../lib/get/generator/module-generator';
 import { CodeMaker } from 'codemaker';
 
 test('generate some modules', async () => {

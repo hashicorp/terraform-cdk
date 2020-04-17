@@ -20,7 +20,6 @@ test('stack synthesis merges all elements into a single output', () => {
     source: 'terraform-aws-modules/eks/aws',
     version: '7.0.1',
   });
-  console.log({synth: Testing.synth(stack)})
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 

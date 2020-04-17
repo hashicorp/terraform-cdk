@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aws@~> 2.0 1`] = `
+Object {
+  "author": Object {
+    "name": "dummy@dummy.com",
+    "roles": Array [
+      "author",
+    ],
+  },
+  "dependencies": Object {
+    "cdktf": "*",
+    "constructs": "*",
+  },
+  "dependencyClosure": Object {
+    "cdktf": Object {
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "HashiCorp.CdkTf",
+          "packageId": "HashiCorp.CdkTf",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdktf",
+            "groupId": "com.hashicorp",
+          },
+          "package": "com.hashicorp.cdktf",
+        },
+        "js": Object {
+          "npm": "cdktf",
+        },
+        "python": Object {
+          "distName": "cdktf",
+          "module": "cdktf",
+        },
+      },
+    },
+    "constructs": Object {
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Constructs",
+          "packageId": "Constructs",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "constructs",
+            "groupId": "software.constructs",
+          },
+          "package": "software.constructs",
+        },
+        "js": Object {
+          "npm": "constructs",
+        },
+        "python": Object {
+          "distName": "constructs",
+          "module": "constructs",
+        },
+      },
+    },
+  },
+  "description": "aws",
+  "fingerprint": "J1u02nySArNvB0um3dZdLla4YmvzPLPkufUgr+OBsK4=",
+  "homepage": "http://repo",
+  "jsiiVersion": "1.1.0 (build df55f5e)",
+  "license": "Apache-2.0",
+  "name": "aws",
+  "repository": Object {
+    "type": "git",
+    "url": "http://repo",
+  },
+  "schema": "jsii/0.10.0",
+  "targets": Object {
+    "js": Object {
+      "npm": "aws",
+    },
+    "python": Object {
+      "distName": "aws",
+      "module": "aws",
+    },
+  },
+  "types": Object {},
+  "version": "0.0.0",
+}
+`;
