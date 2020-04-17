@@ -6,7 +6,7 @@ import { App } from '../lib';
 import { TerraformStack } from './terraform-stack';
 
 /**
- * Testing utilities for tfcdk applications.
+ * Testing utilities for cdktf applications.
  */
 export class Testing {
     /**
@@ -14,7 +14,7 @@ export class Testing {
      * - Output directory is a temp dir.
      */
     public static app() {
-        const outdir = fs.mkdtempSync(path.join(os.tmpdir(), 'tfcdk.outdir.'));
+        const outdir = fs.mkdtempSync(path.join(os.tmpdir(), 'cdktf.outdir.'));
         return new App({ outdir });
     }
 

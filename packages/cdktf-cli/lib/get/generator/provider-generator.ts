@@ -40,7 +40,7 @@ export class TerraformGenerator {
     this.code.line(JSON.stringify(schema, undefined, 2));
     this.code.line('*/');
     this.code.line(`import { Construct } from 'constructs';`);
-    this.code.line(`import { TerraformResource } from 'tfcdk';`);
+    this.code.line(`import { TerraformResource } from 'cdktf';`);
 
     this.code.line();
     this.code.line(`// Configuration`)

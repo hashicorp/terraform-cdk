@@ -3,19 +3,19 @@ import fs = require('fs');
 
 export interface AppOptions {
     /**
-     * The directory to output Kubernetes manifests.
-     * 
-     * @default - TFCDK_OUTDIR if defined, otherwise "dist"
+     * The directory to output Terraform resources.
+     *
+     * @default - CDKTF_OUTDIR if defined, otherwise "dist"
      */
     readonly outdir?: string;
 }
 
 /**
- * Represents a tfcdk application.
+ * Represents a cdktf application.
  */
 export class App extends Construct {
     /**
-     * The output directory into which manifests will be synthesized.
+     * The output directory into which resources will be synthesized.
      */
     public readonly outdir: string;
 
@@ -25,11 +25,11 @@ export class App extends Construct {
      */
     constructor(options: AppOptions = {}) {
         super(undefined as any, '');
-        this.outdir = options.outdir ?? process.env.TFCDK_OUTDIR ?? 'dist';
+        this.outdir = options.outdir ?? process.env.CDKTF_OUTDIR ?? 'dist';
     }
 
     /**
-     * Synthesizes all manifests to the output directory
+     * Synthesizes all resources to the output directory
      */
     public synth(): void {
         if (!fs.existsSync(this.outdir)) {
