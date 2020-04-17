@@ -1,16 +1,22 @@
 {
-  "name": "hello-tfcdk",
+  "name": "hello-cdktf",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "get": "cdktf get",
+    "build": "yarn get && tsc",
+    "synth": "node ./index.js",
+    "plan": "cd ./cdk.out && terraform init && terraform plan",
+    "apply": "terraform apply ./cdk.out"
   },
   "devDependencies": {
     "@types/node": "^13.1.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "cdktf-cli": "0.0.0"
   },
   "dependencies": {
-    "constructs": "^2.0.1"
+    "constructs": "^2.0.1",
+    "cdktf": "0.0.0"
   }
 }
