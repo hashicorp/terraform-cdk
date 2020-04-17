@@ -1,12 +1,12 @@
 // generates constructs from terraform providers schema
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import { TerraformGenerator } from './generator/provider-generator';
 import { ProviderSchema, readSchema } from './generator/provider-schema';
 import { promisify } from 'util';
 import { CodeMaker } from 'codemaker';
 import { GetBase } from './base'
 
-const mkdir = promisify(fs.mkdir);
+const mkdirp = promisify(fs.mkdirp);
 
 export class GetProvider extends GetBase {
   protected async generateTypeScript(code: CodeMaker, providers: string[]): Promise<void> {
@@ -15,9 +15,8 @@ export class GetProvider extends GetBase {
   }
 
   private async fetchSchema(providers: string[]): Promise<ProviderSchema> {
-    console.log({providers})
     const outdir = 'cdk.out';
-    await mkdir(outdir, { recursive: true });
+    await mkdirp(outdir);
     return readSchema(outdir, providers);
   }
 }
