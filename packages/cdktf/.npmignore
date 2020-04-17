@@ -1,0 +1,11 @@
+*.ts
+
+!*.d.ts
+!*.js
+!.jsii
+
+test
+
+# Exclude jsii outdir
+dist
+coverage
