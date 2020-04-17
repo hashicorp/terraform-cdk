@@ -39,10 +39,12 @@ export abstract class GetBase {
     for (const name of options.moduleNames) {
       // this is not typescript, so we generate in a staging directory and harvest the code
       await withTempDir('get', async () => {
+        const [ source ] = name.split('@');
         await code.save('.');
         await jsiiCompile('.', {
-          main: name,
-          name,
+          main: source,
+          name: source,
+          stdout: true
         });
 
         const pacmak = require.resolve('jsii-pacmak/bin/jsii-pacmak');
