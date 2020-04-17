@@ -1,3 +1,0 @@
-language: typescript
-app: node main.js
-terraformProviders: ["aws@~> 2.0"]
