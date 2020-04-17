@@ -4,16 +4,9 @@ Setup:
 
 ```shell
 $ yarn install
-$ yarn link tfcdk
 ```
 
-Generate providers and modules:
-
-```shell
-$ ./install.sh
-```
-
-Build:
+Get Providers / Modules and Build:
 
 ```
 $ yarn build
