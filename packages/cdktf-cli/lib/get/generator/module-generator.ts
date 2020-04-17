@@ -85,7 +85,7 @@ function parseType(type: string) {
   if (type === 'any') { return 'any'; }
 
   const complexType = parseComplexType(type);
-  if (complexType) { return complexType; };
+  if (complexType) { return complexType; }
 
   throw new Error(`unknown type ${type}`);
 }

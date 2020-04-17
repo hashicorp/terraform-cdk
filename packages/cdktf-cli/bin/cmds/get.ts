@@ -10,10 +10,10 @@ const DEFAULT_OUTDIR = '.gen'
 const LANGUAGES = [ 'typescript' ];
 
 interface Arguments {
-  providers: string[]
+  providers: string[];
   modules: string[];
   output: string;
-  language: Language
+  language: Language;
 }
 
 class Command implements yargs.CommandModule {
@@ -43,7 +43,6 @@ class Command implements yargs.CommandModule {
       outdir: output,
       targetLanguage: language
     }
-    console.log({modules, providers})
 
     if (providers.length > 0) {
       await new GetProvider().get(Object.assign({}, options, {moduleNames: providers}))
