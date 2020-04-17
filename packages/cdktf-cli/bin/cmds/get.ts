@@ -45,11 +45,11 @@ class Command implements yargs.CommandModule {
     }
 
     if (providers.length > 0) {
-      await new GetProvider().get(Object.assign({}, options, {moduleNames: providers}))
+      await new GetProvider().get(Object.assign({}, options, {targetNames: providers}))
     }
 
     if (modules.length > 0) {
-      await new GetModule().get(Object.assign({}, options, {moduleNames: modules}))
+      await new GetModule().get(Object.assign({}, options, {targetNames: modules}))
     }
 
     if (!await fs.pathExists(output)) {

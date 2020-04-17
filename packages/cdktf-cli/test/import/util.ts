@@ -14,7 +14,7 @@ export function expectImportMatchSnapshot(name: string, fn: () => GetBase) {
       await importer.get({
         outdir: workdir,
         targetLanguage: Language.TYPESCRIPT,
-        moduleNames: ['aws']
+        targetNames: ['aws']
       });
 
       const manifest = JSON.parse(await fs.readFile('.jsii', 'utf-8'));

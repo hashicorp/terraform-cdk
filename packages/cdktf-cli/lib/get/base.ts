@@ -14,14 +14,13 @@ export enum Language {
 export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON ];
 
 export interface GetOptions {
-  readonly moduleNamePrefix?: string;
   readonly targetLanguage: Language;
   readonly outdir: string;
-  readonly moduleNames: string[];
+  readonly targetNames: string[];
 }
 
 export abstract class GetBase {
-  protected abstract async generateTypeScript(code: CodeMaker, moduleName: string[]): Promise<void>;
+  protected abstract async generateTypeScript(code: CodeMaker, targetNames: string[]): Promise<void>;
 
   public async get(options: GetOptions) {
     const code = new CodeMaker();
@@ -29,14 +28,14 @@ export abstract class GetBase {
     const outdir = path.resolve(options.outdir);
     await fs.mkdirp(outdir);
     const isTypescript = options.targetLanguage === Language.TYPESCRIPT
-    await this.generateTypeScript(code, options.moduleNames);
+    await this.generateTypeScript(code, options.targetNames);
 
     if (isTypescript) {
       await code.save(outdir);
       return
     }
 
-    for (const name of options.moduleNames) {
+    for (const name of options.targetNames) {
       // this is not typescript, so we generate in a staging directory and harvest the code
       await withTempDir('get', async () => {
         const [ source ] = name.split('@');
@@ -54,19 +53,13 @@ export abstract class GetBase {
     }
   }
 
-  private async harvestCode(options: GetOptions, targetdir: string, moduleName: string) {
-    const { moduleNamePrefix } = options
+  private async harvestCode(options: GetOptions, targetdir: string, targetName: string) {
     switch (options.targetLanguage) {
       case Language.TYPESCRIPT:
         throw new Error('no op for typescript');
 
       case Language.PYTHON:
-        if (moduleNamePrefix != null) {
-          // logging error instead of throwing, so it doesn't interrupt other imports
-          console.error(`Name overriding of imports is not yet supported in python. Named import: ${moduleNamePrefix}`);
-          break;
-        }
-        await this.harvestPython(targetdir, moduleName);
+        await this.harvestPython(targetdir, targetName);
         break;
 
       default:
@@ -74,8 +67,8 @@ export abstract class GetBase {
     }
   }
 
-  private async harvestPython(targetdir: string, moduleName: string) {
-    const target = path.join(targetdir, moduleName);
-    await fs.move(`dist/python/src/${moduleName}`, target, { overwrite: true });
+  private async harvestPython(targetdir: string, targetName: string) {
+    const target = path.join(targetdir, targetName);
+    await fs.move(`dist/python/src/${targetName}`, target, { overwrite: true });
   }
 }
