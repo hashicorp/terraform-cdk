@@ -24,7 +24,7 @@ class Command implements yargs.CommandModule {
     .option('providers', { default: config.terraformProviders, desc: 'Generate Constructs for given providers. Example: "aws@~> 2.5"', alias: 'p', type: 'array' })
     .option('modules', { default: config.terraformModules, desc: 'Generate Constructs for given modules. Example: "terraform-aws-modules/vpc/aws"', alias: 'm', type: 'array' })
     .option('output', { default: DEFAULT_OUTDIR, type: 'string', desc: 'Output directory', alias: 'o' })
-    .option('language', { default: config.language, demand: true, type: 'string', desc: 'Output programming language', alias: 'l', choices: LANGUAGES });
+    .option('language', { default: config.language, required: true, type: 'string', desc: 'Output programming language', alias: 'l', choices: LANGUAGES });
 
   public async handler(argv: any) {
     const args = argv as Arguments
