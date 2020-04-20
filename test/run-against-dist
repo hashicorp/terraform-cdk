@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euo pipefail
+scriptdir=$(cd $(dirname $0) && pwd)
+
+export CDKTF_DIST="${scriptdir}/../dist"
+
+cwd=$PWD
+
+cd ${CDKTF_DIST}
+
+# verify this is indeed a "dist" directory
+if [ ! -d "js" ]  ; then
+  echo "ERROR: unable to find the subdirectories 'js' which should be in the 'dist' directory"
+  echo "Did you run 'yarn run package' to create the 'dist' directory?"
+  exit 1
+fi
+
+# install the CLI from dist/js in a temporary area and add to path
+echo "Extracting CLI from 'dist'..."
+staging=$(mktemp -d)
+cd ${staging}
+npm init -y > /dev/null
+npm install ${CDKTF_DIST}/js/*.tgz
+export PATH=${staging}/node_modules/.bin:$PATH
+
+# restore working directory
+cd $cwd
+$@
