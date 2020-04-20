@@ -54,7 +54,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   }
 
   if (version === '0.0.0') {
-    throw new Error(`cannot use version 0.0.0, use --cdk8s-version, --dist or CDK8S_DIST to install from a "dist" directory`);
+    throw new Error(`cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory`);
   }
 
   // determine if we want a specific pinned version or a version range we take
