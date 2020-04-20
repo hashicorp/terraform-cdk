@@ -23,3 +23,7 @@ jobs:
       - name: test
         run: |
           yarn test
+      - name: create bundle
+        run: yarn package
+      - name: integration tests
+        run: yarn integration
