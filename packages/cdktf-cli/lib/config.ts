@@ -7,7 +7,7 @@ const CONFIG_FILE = 'cdktf.json'
 export interface Config {
   readonly app?: string;
   readonly language?: Language;
-  readonly output?: string;
+  readonly output: string;
   readonly terraformProviders?: string[];
   readonly terraformModules?: string[];
 }
