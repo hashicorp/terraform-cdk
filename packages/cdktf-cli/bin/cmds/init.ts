@@ -14,7 +14,7 @@ class Command implements yargs.CommandModule {
   public readonly describe = 'Create a new cdktf project from a template.';
   public readonly builder = (args: yargs.Argv) => args
     .showHelpOnFail(true)
-    .option('language', { type: 'string', required: true, desc: 'The langauge name to be used to create a new project.' })
+    .option('language', { type: 'string', required: true, desc: 'The language name to be used to create a new project.' })
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
     .choices('language', availableTemplates);
@@ -24,9 +24,9 @@ class Command implements yargs.CommandModule {
       console.error(`Cannot initialize a project in a non-empty directory`);
       process.exit(1);
     }
-  
-    console.error(`Initializing a project from the ${argv.type} template`);
-    const templatePath = path.join(templatesDir, argv.type);
+
+    console.error(`Initializing a project from the ${argv.language} template`);
+    const templatePath = path.join(templatesDir, argv.language);
 
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
 
