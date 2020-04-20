@@ -6,7 +6,7 @@ import { Language, GetBase } from "../../lib/get/base";
 export function expectImportMatchSnapshot(target: string, fn: () => GetBase) {
   jest.setTimeout(60_000);
 
-  test(target, async () => {
+  test.skip(target, async () => {
     await withTempDir('get-cdktf', async () => {
       const [ name ] = target.split('@');
       const workdir = '.';
