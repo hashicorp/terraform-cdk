@@ -13,7 +13,6 @@ class Command implements yargs.CommandModule {
   public readonly command = 'init [OPTIONS]';
   public readonly describe = 'Create a new cdktf project from a template.';
   public readonly builder = (args: yargs.Argv) => args
-//    .positional('TYPE', { demandOption: true, desc: 'Project type' })
     .showHelpOnFail(true)
     .option('language', { type: 'string', required: true, desc: 'The langauge name to be used to create a new project.' })
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
@@ -53,7 +52,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 
     return ret;
   }
-  
+
   if (version === '0.0.0') {
     throw new Error(`cannot use version 0.0.0, use --cdk8s-version, --dist or CDK8S_DIST to install from a "dist" directory`);
   }
