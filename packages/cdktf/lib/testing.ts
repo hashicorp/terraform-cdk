@@ -6,7 +6,7 @@ import { App } from '../lib';
 import { TerraformStack } from './terraform-stack';
 
 /**
- * Testing utilities for tfcdk applications.
+ * Testing utilities for cdktf applications.
  */
 export class Testing {
     /**
@@ -14,7 +14,7 @@ export class Testing {
      * - Output directory is a temp dir.
      */
     public static app() {
-        const outdir = fs.mkdtempSync(path.join(os.tmpdir(), 'tfcdk.outdir.'));
+        const outdir = fs.mkdtempSync(path.join(os.tmpdir(), 'cdktf.outdir.'));
         return new App({ outdir });
     }
 
@@ -22,7 +22,7 @@ export class Testing {
      * Returns the Terraform synthesized JSON.
      */
     public static synth(stack: TerraformStack) {
-        return stack.toString();
+        return stack.toTerraform();
     }
 
     /* istanbul ignore next */

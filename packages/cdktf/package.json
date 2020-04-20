@@ -7,7 +7,7 @@
     "watch": "jsii -w",
     "package": "jsii-pacmak",
     "lint": "eslint . --ext .ts",
-    "test": "jest && yarn lint"
+    "test": "jest --passWithNoTests && yarn lint"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

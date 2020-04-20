@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Terraform for CDK CLI",
   "bin": {
-    "cdk8s": "bin/cdk8s"
+    "cdktf": "bin/cdktf"
   },
   "scripts": {
     "build": "tsc",
@@ -30,6 +30,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/node": "13.7.0",
+    "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
     "constructs": "^2.0.1",
     "fs-extra": "^8.1.0",
@@ -67,6 +68,7 @@
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "ts-jest": "^25.4.0"
   }
 }

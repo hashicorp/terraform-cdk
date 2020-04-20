@@ -1,0 +1,25 @@
+name: Build
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: jsii/superchain
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing terraform
+        run: |
+          yum install -y jq
+          ./tools/install-terraform.sh
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: compile
+        run: |
+          tools/align-version.sh
+          yarn build
+      - name: test
+        run: |
+          yarn test

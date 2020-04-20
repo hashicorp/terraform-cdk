@@ -1,0 +1,6 @@
+{
+  "language": "typescript",
+  "app": "node main.js",
+  "terraformProviders": ["aws@~> 2.0", "google"],
+  "terraformModules": ["terraform-aws-modules/eks/aws", "terraform-aws-modules/vpc/aws"]
+}

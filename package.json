@@ -1,50 +1,22 @@
 {
-  "name": "tfcdk",
-  "description": "Terraform CDK",
-  "version": "0.1.0",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "jsii": {
-    "outdir": "dist",
-    "excludeTypescript": [
-      "example/**/*"
+  "name": "root",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "test": "lerna run test"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/*"
+    ],
+    "nohoist": [
+      "cdktf/json-stable-stringify",
+      "cdktf/json-stable-stringify/**"
     ]
   },
-  "bin": {
-    "tfcdk": "bin/tfcdk"
-  },
-  "author": {
-    "name": "Elad Ben-Israel",
-    "email": "benisrae@amazon.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eladb/tfcdk"
-  },
-  "license": "Apache-2.0",
-  "scripts": {
-    "build": "jsii",
-    "watch": "jsii -w",
-    "test": "jest"
-  },
   "devDependencies": {
-    "@types/jest": "^24.0.25",
-    "@types/node": "^10.17.5",
-    "jest": "^24.9.0",
-    "jsii": "^0.21.1",
-    "ts-jest": "^24.3.0",
-    "typescript": "~3.7.4",
-    "constructs": "2.0.1"
-  },
-  "dependencies": {
-    "codemaker": "^0.21.1",
-    "constructs": "2.0.1"
-  },
-  "peerDependencies": {
-    "constructs": "2.0.1"
-  },
-  "stability": "experimental",
-  "bundledDependencies": [
-    "codemaker"
-  ]
+    "lerna": "^3.20.2"
+  }
 }

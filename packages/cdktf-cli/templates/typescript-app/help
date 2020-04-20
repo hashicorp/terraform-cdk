@@ -1,6 +1,6 @@
 ========================================================================================================
 
- Your cdk8s typescript project is ready!
+ Your cdktf typescript project is ready!
 
    cat help         Print this message
  
@@ -10,14 +10,14 @@
    npm run build       Compile + synth
 
   Synthesize:
-   npm run synth       Synthesize k8s manifests from charts to dist/ (ready for 'kubectl apply -f')
+   npm run synth       Synthesize Terraform resources from stacks to dist/ (ready for 'terraform apply')
 
  Deploy:
-   kubectl apply -f dist/*.k8s.yaml
+   terraform apply ./dist
 
  Upgrades:
-   npm run import        Import/update k8s apis (you should check-in this directory)
-   npm run upgrade       Upgrade cdk8s modules to latest version
-   npm run upgrade:next  Upgrade cdk8s modules to latest "@next" version (last commit)
+   npm run import        Import/update Terraform providers and modules (you should check-in this directory)
+   npm run upgrade       Upgrade cdktf modules to latest version
+   npm run upgrade:next  Upgrade cdktf modules to latest "@next" version (last commit)
 
 ========================================================================================================
