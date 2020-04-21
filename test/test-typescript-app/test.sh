@@ -10,7 +10,7 @@ touch .foo
 mkdir .bar
 
 # initialize an empty project
-cdktf init --language typescript
+cdktf init --template typescript
 
 # put some code in it
 cp ${scriptdir}/main.ts .
