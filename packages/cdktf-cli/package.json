@@ -10,6 +10,7 @@
     "watch": "tsc -w",
     "lint": "eslint . --ext .ts",
     "test": "yarn lint && jest",
+    "jest-watch": "jest --watch",
     "package": "./package.sh"
   },
   "repository": {
