@@ -14,10 +14,10 @@ class Command implements yargs.CommandModule {
   public readonly describe = 'Create a new cdktf project from a template.';
   public readonly builder = (args: yargs.Argv) => args
     .showHelpOnFail(true)
-    .option('language', { type: 'string', required: true, desc: 'The language name to be used to create a new project.' })
+    .option('template', { type: 'string', required: true, desc: 'The template name to be used to create a new project.' })
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
-    .choices('language', availableTemplates);
+    .choices('template', availableTemplates);
 
   public async handler(argv: any) {
     if (fs.readdirSync('.').filter(f => !f.startsWith('.')).length > 0) {
@@ -25,8 +25,8 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    console.error(`Initializing a project from the ${argv.language} template`);
-    const templatePath = path.join(templatesDir, argv.language);
+    console.error(`Initializing a project from the ${argv.template} template`);
+    const templatePath = path.join(templatesDir, argv.template);
 
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
 
