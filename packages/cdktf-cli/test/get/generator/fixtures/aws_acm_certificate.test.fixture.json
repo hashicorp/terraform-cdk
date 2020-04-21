@@ -1,0 +1,102 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_acm_certificate": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "arn": {
+                "type": "string",
+                "computed": true
+              },
+              "certificate_authority_arn": {
+                "type": "string",
+                "optional": true
+              },
+              "certificate_body": {
+                "type": "string",
+                "optional": true
+              },
+              "certificate_chain": {
+                "type": "string",
+                "optional": true
+              },
+              "domain_name": {
+                "type": "string",
+                "optional": true,
+                "computed": true
+              },
+              "domain_validation_options": {
+                "type": [
+                  "list",
+                  [
+                    "object",
+                    {
+                      "domain_name": "string",
+                      "resource_record_name": "string",
+                      "resource_record_type": "string",
+                      "resource_record_value": "string"
+                    }
+                  ]
+                ],
+                "computed": true
+              },
+              "id": {
+                "type": "string",
+                "optional": true,
+                "computed": true
+              },
+              "private_key": {
+                "type": "string",
+                "optional": true,
+                "sensitive": true
+              },
+              "subject_alternative_names": {
+                "type": [
+                  "list",
+                  "string"
+                ],
+                "optional": true,
+                "computed": true
+              },
+              "tags": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "optional": true
+              },
+              "validation_emails": {
+                "type": [
+                  "list",
+                  "string"
+                ],
+                "computed": true
+              },
+              "validation_method": {
+                "type": "string",
+                "optional": true,
+                "computed": true
+              }
+            },
+            "block_types": {
+              "options": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "certificate_transparency_logging_preference": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  }
+                },
+                "max_items": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
