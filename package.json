@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "build": "lerna run build",
-    "test": "lerna run test"
+    "package": "lerna run package && tools/collect-dist.sh",
+    "test": "lerna run test",
+    "integration": "test/run-against-dist test/test-all.sh"
   },
   "workspaces": {
     "packages": [

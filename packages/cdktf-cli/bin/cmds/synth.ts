@@ -18,8 +18,6 @@ class Command implements yargs.CommandModule {
     const command = argv.app;
     const outdir = argv.output;
 
-    await fs.remove(outdir);
-
     await shell(command, [], {
       shell: true,
       env: {
@@ -35,7 +33,7 @@ class Command implements yargs.CommandModule {
 
     let found = false;
     for (const file of await fs.readdir(outdir)) {
-      if (file.endsWith('.cdktf.json')) {
+      if (file.endsWith('.tf.json')) {
         found = true;
       }
     }

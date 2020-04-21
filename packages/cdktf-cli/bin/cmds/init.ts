@@ -13,21 +13,20 @@ class Command implements yargs.CommandModule {
   public readonly command = 'init [OPTIONS]';
   public readonly describe = 'Create a new cdktf project from a template.';
   public readonly builder = (args: yargs.Argv) => args
-//    .positional('TYPE', { demandOption: true, desc: 'Project type' })
     .showHelpOnFail(true)
-    .option('language', { type: 'string', required: true, desc: 'The langauge name to be used to create a new project.' })
+    .option('template', { type: 'string', required: true, desc: 'The template name to be used to create a new project.' })
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
-    .choices('language', availableTemplates);
+    .choices('template', availableTemplates);
 
   public async handler(argv: any) {
     if (fs.readdirSync('.').filter(f => !f.startsWith('.')).length > 0) {
       console.error(`Cannot initialize a project in a non-empty directory`);
       process.exit(1);
     }
-  
-    console.error(`Initializing a project from the ${argv.type} template`);
-    const templatePath = path.join(templatesDir, argv.type);
+
+    console.error(`Initializing a project from the ${argv.template} template`);
+    const templatePath = path.join(templatesDir, argv.template);
 
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
 
@@ -41,8 +40,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   if (dist) {
     const ret = {
       'npm_cdktf': path.resolve(dist, 'js', `cdktf@${version}.jsii.tgz`),
-      'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
-      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`)
+      'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`)
     };
 
     for (const file of Object.values(ret)) {
@@ -53,9 +51,9 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 
     return ret;
   }
-  
+
   if (version === '0.0.0') {
-    throw new Error(`cannot use version 0.0.0, use --cdk8s-version, --dist or CDK8S_DIST to install from a "dist" directory`);
+    throw new Error(`cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory`);
   }
 
   // determine if we want a specific pinned version or a version range we take
@@ -66,15 +64,13 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 
   return {
     'npm_cdktf': `cdktf@${ver}`,
-    'npm_cdktf_cli': `cdktf-cli@${ver}`,
-    'pypi_cdktf': `cdktf~=${version}`, // no support for pre-release
+    'npm_cdktf_cli': `cdktf-cli@${ver}`
   };
 }
 
 interface Deps {
   npm_cdktf: string;
   npm_cdktf_cli: string;
-  pypi_cdktf: string;
 }
 
 module.exports = new Command();

@@ -13,7 +13,6 @@ exports.post = ctx => {
   installDeps([ npm_cdktf, `constructs@${constructs_version}` ]);
   installDeps([ npm_cdktf_cli, '@types/node', 'typescript' ], true);
 
-  execSync('npm run import', { stdio: 'inherit' });
   execSync('npm run build', { stdio: 'inherit' });
 
   console.log(readFileSync('./help', 'utf-8'));

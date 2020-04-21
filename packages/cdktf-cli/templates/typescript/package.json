@@ -6,12 +6,12 @@
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "import": "cdktf get",
+    "get": "cdktf get",
+    "build": "yarn get && tsc",
     "synth": "cdktf synth",
     "compile": "tsc",
     "watch": "tsc -w",
     "test": "echo ok",
-    "build": "npm run compile && npm run test && npm run synth",
     "upgrade": "npm i cdktf@latest cdktf-cli@latest",
     "upgrade:next": "npm i cdktf@next cdktf-cli@next"
   }

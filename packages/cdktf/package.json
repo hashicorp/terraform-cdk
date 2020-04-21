@@ -15,20 +15,9 @@
     "outdir": "dist",
     "versionFormat": "short",
     "targets": {
-      "java": {
-        "package": "com.hashicorp.cdktf",
-        "maven": {
-          "groupId": "com.hashicorp",
-          "artifactId": "cdktf"
-        }
-      },
       "python": {
         "distName": "cdktf",
         "module": "cdktf"
-      },
-      "dotnet": {
-        "namespace": "HashiCorp.CdkTf",
-        "packageId": "HashiCorp.CdkTf"
       }
     }
   },
