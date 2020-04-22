@@ -3,6 +3,7 @@ import { Attribute, AttributeType, Block, BlockType, Provider, ProviderSchema, S
 
 export class TerraformGenerator {
   private anonymousStructs = new Array<Struct>();
+  private complexTypes = new Array<Struct>();
   private classNames: string[] = [];
 
   constructor(private readonly code: CodeMaker, schema: ProviderSchema) {
@@ -64,6 +65,10 @@ export class TerraformGenerator {
 
     for (const struct of this.anonymousStructs) {
       this.emitStruct(struct);
+    }
+
+    for (const complexType of this.complexTypes) {
+      this.emitComplexType(complexType);
     }
 
     this.anonymousStructs = [];
@@ -209,6 +214,19 @@ export class TerraformGenerator {
     this.code.closeBlock();
   }
 
+  private emitComplexType(struct: Struct) {
+    this.code.openBlock(`export class ${struct.name}`);
+    for (const att of struct.attributes) {
+      if (att.description) {
+        this.code.line(`/** ${att.description} */`);
+      }
+
+      this.code.line(`readonly ${this.renderAttributeProperty(att)};`);
+    }
+    this.code.closeBlock();
+  }
+
+
   //
   // name conversions
 
@@ -217,12 +235,12 @@ export class TerraformGenerator {
     return `${attribute.name}${optional}: ${attribute.type}`;
   }
 
-  private renderAttributeType(scope: string[], attributeType: AttributeType): string {
+  private renderAttributeType(scope: string[], attributeType: AttributeType, isComputedAttribute?: boolean): AttributeTypeModel {
     if (typeof(attributeType) === 'string') {
       switch (attributeType) {
-        case 'bool': return 'boolean';
-        case 'string': return 'string';
-        case 'number': return 'number';
+        case 'bool': return new AttributeTypeModel('boolean');
+        case 'string': return new AttributeTypeModel('string');
+        case 'number': return new AttributeTypeModel('number');
         default: throw new Error(`invalid primitive type ${attributeType}`);
       }
     }
@@ -235,22 +253,41 @@ export class TerraformGenerator {
       const [ kind, type ] = attributeType;
 
       if (kind === 'set' || kind === 'list') {
-        return this.renderAttributeType(scope, type as AttributeType) + '[]';
+        const attrType = this.renderAttributeType(scope, type as AttributeType, isComputedAttribute);
+        attrType.isList = true;
+        return attrType;
       }
 
       if (kind === 'map') {
-        const valueType: string = this.renderAttributeType(scope, type as AttributeType);
-        return `{ [key: string]: ${valueType} }`;
+        const valueType = this.renderAttributeType(scope, type as AttributeType);
+        valueType.isMap = true;
       }
 
-      if (kind === 'object') {
+      if (kind === 'object' && !isComputedAttribute) {
         const objAttributes = type as { [name: string]: AttributeType };
         const attributes: { [name: string]: Attribute } = { };
         for (const [ name, type ] of Object.entries(objAttributes)) {
           attributes[name] = { type }
         }
         const struct = this.addAnonymousStruct(scope, attributes);
-        return struct.name;
+
+        const model = new AttributeTypeModel(struct.name)
+        model.isComplexType = true
+        model.isComputed = false
+        return model
+      }
+
+      if (kind === 'object' && isComputedAttribute) {
+        const objAttributes = type as { [name: string]: AttributeType };
+        const attributes: { [name: string]: Attribute } = { };
+        for (const [ name, type ] of Object.entries(objAttributes)) {
+          attributes[name] = { type }
+        }
+        const struct = this.addComplexType(scope, attributes);
+        const model = new AttributeTypeModel(struct.name)
+        model.isComplexType = true
+        model.isComputed = true
+        return model
       }
 
       throw new Error(`unexpected kind ${kind} with ${JSON.stringify(type)}`);
@@ -263,10 +300,10 @@ export class TerraformGenerator {
     const attributes = new Array<AttributeModel>();
 
     for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
-      const type = this.renderAttributeType([ parentType, terraformAttributeName ], att.type);
+      const type = this.renderAttributeType([ parentType, terraformAttributeName ], att.type, !!att.computed);
       const name = toCamelCase(terraformAttributeName);
       attributes.push({
-        getAttCall: determineGetAttCall(type, terraformAttributeName),
+        getAttCall: type.determineGetAttCall(terraformAttributeName),
         terraformFullName: `${parentType}.${terraformAttributeName}`,
         description: att.description,
         name,
@@ -287,13 +324,6 @@ export class TerraformGenerator {
     }
 
     return attributes;
-
-    function determineGetAttCall(type: string, terraformAttributeName: string) {
-      if (type === 'string') { return `this.getStringAttribute('${terraformAttributeName}')`; }
-      if (type === 'number') { return `this.getNumberAttribute('${terraformAttributeName}')`; }
-      if (type === 'string[]') { return `this.getListAttribute('${terraformAttributeName}')`; }
-      return undefined;
-    }
 
     function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct): AttributeModel {
       const name = toCamelCase(terraformName);
@@ -389,6 +419,26 @@ export class TerraformGenerator {
     return this.addStruct(scope, attributes);
   }
 
+  private addComplexType(scope: string[], attrs: { [name: string]: Attribute }) {
+    const attributes = new Array<AttributeModel>();
+    for (const [ terraformName, att ] of Object.entries(attrs)) {
+      const name = toCamelCase(terraformName);
+      attributes.push({
+        name,
+        storageName: `_${name}`,
+        computed: false,
+        description: att.description,
+        optional: true,
+        terraformName,
+        terraformFullName: [ ...scope, terraformName ].join('_'),
+        type: this.renderAttributeType([ ...scope, terraformName ], att.type),
+      });
+    }
+
+    return this._addComplexType(scope, attributes);
+  }
+
+
   private addStruct(scope: string[], attributes: AttributeModel[]) {
     const s = {
       name: this.uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x)).join('_'))),
@@ -397,6 +447,16 @@ export class TerraformGenerator {
     this.anonymousStructs.push(s);
     return s;
   }
+
+  private _addComplexType(scope: string[], attributes: AttributeModel[]) {
+    const s = {
+      name: this.uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x)).join('_'))),
+      attributes
+    }
+    this.complexTypes.push(s);
+    return s;
+  }
+
 
 }
 
@@ -409,7 +469,7 @@ interface Struct {
 interface AttributeModel {
   storageName: string; // private property
   name: string;
-  type: string;
+  type: AttributeTypeModel;
   optional: boolean;
   computed: boolean;
   terraformName: string;
@@ -425,4 +485,43 @@ interface ResourceModel {
   fileName: string;
   configName: string;
   attributes: AttributeModel[];
+}
+
+class AttributeTypeModelOptions {
+  public isComplex?: boolean;
+  public isList?: boolean;
+  public isComputed?: boolean;
+  public isMap?: boolean;
+}
+
+class AttributeTypeModel {
+  constructor(public type: string, private options: AttributeTypeModelOptions = {}) {}
+
+  public get typeName(): string {
+    return `${this.type}`
+  }
+
+  public get isList(): boolean {
+    return !!this.options.isList
+  }
+
+  public get isComputed(): boolean {
+    return !!this.options.isComputed
+  }
+
+  public get isMap(): boolean {
+    return !!this.options.isMap
+  }
+
+  public get isComplex(): boolean {
+    return !!this.options.isComplex
+  }
+
+  public determineGetAttCall(terraformAttributeName: string): string {
+    if (this.typeName === 'string') {
+      return this.isList ? `this.getListAttribute('${terraformAttributeName}')` : `this.getStringAttribute('${terraformAttributeName}')`
+    }
+    if (this.typeName === 'number') { return `this.getNumberAttribute('${terraformAttributeName}')`; }
+    return 'any'
+  }
 }
