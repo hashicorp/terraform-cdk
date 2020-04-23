@@ -1,6 +1,6 @@
 import { toCamelCase, toPascalCase, toSnakeCase } from 'codemaker';
 import { Attribute, AttributeType, Block, BlockType, Schema } from './provider-schema';
-import { ResourceModel, AttributeModel, AttributeTypeModel, Struct, Scope } from "./models"
+import { ResourceModel, AttributeTypeModel, Struct, Scope, AttributeModel } from "./models"
 
 const resources: ResourceModel[] = [];
 
