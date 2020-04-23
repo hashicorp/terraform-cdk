@@ -1,13 +1,195 @@
-import { CodeMaker, toCamelCase, toPascalCase, toSnakeCase } from 'codemaker';
-import { Attribute, AttributeType, Block, BlockType, Provider, ProviderSchema, Schema } from './provider-schema';
+import { CodeMaker } from 'codemaker';
+import { Provider, ProviderSchema } from './provider-schema';
+import { ResourceModel, AttributeModel, Struct } from "./models"
+import { ResourceParser } from './resource-parser'
+
+class ResourceEmitter {
+  attributesEmitter: AttributesEmitter
+
+  constructor(private readonly code: CodeMaker) {
+    this.attributesEmitter = new AttributesEmitter(this.code)
+  }
+
+  public emit(resource: ResourceModel) {
+    this.code.line();
+    this.code.line(`// Resource`)
+    this.code.line();
+    this.code.openBlock(`export class ${resource.className} extends TerraformResource`);
+
+    this.emitHeader('INITIALIZER');
+    this.emitInitializer(resource);
+
+    this.emitHeader('ATTRIBUTES');
+    this.emitResourceAttributes(resource);
+
+    // synthesis
+    this.emitHeader('SYNTHESIS');
+    this.emitResourceSynthesis(resource);
+
+    this.code.closeBlock(); // construct
+  }
+
+
+  private emitHeader(title: string) {
+    this.code.line();
+    this.code.line('// ' + '='.repeat(title.length));
+    this.code.line(`// ${title}`);
+    this.code.line('// ' + '='.repeat(title.length));
+  }
+
+  private emitResourceSynthesis(resource: ResourceModel) {
+    this.code.line();
+    this.code.openBlock(`public synthesizeAttributes()`);
+    this.code.open(`return {`);
+
+    for (const att of resource.assignableAttributes) {
+      this.code.line(`${att.terraformName}: this.${att.storageName},`);
+    }
+
+    this.code.close(`};`);
+    this.code.closeBlock();
+  }
+
+  private emitResourceAttributes(resource: ResourceModel) {
+    for (const att of resource.attributes) {
+      this.attributesEmitter.emit(att)
+    }
+  }
+
+  private emitInitializer(resource: ResourceModel) {
+    const configName = resource.configStruct.attributeName('config')
+    this.code.line();
+    this.code.openBlock(`public constructor(scope: Construct, id: string, ${configName}: ${resource.configStruct.attributeType})`);
+
+    // invoke super ctor with the terraform resource type
+    this.code.open(`super(scope, id, {`);
+    this.code.line(`type: '${resource.terraformType}',`);
+    this.code.close(`});`);
+
+    // initialize config properties
+    for (const att of resource.assignableAttributes) {
+      this.code.line(`this.${att.storageName} = ${configName}.${att.name};`);
+    }
+
+    this.code.closeBlock();
+  }
+}
+
+class AttributesEmitter {
+  constructor(private code: CodeMaker) {}
+
+  public emit(att: AttributeModel) {
+    this.code.line();
+    this.code.line(`// ${att.terraformName}`);
+    this.code.line(`private ${att.storageName}?: ${att.type.type};`);
+
+    if (att.computed) {
+      if (att.type.isComputedComplexList) {
+        this.emitComputedComplex(att)
+      } else {
+        this.emitComputedPrimitive(att)
+      }
+    } else {
+      // if we dont have a getAtt call, we will emit an optional attribute, since "undefined"
+      // indicates this value is not specified.
+      if (att.isOptional) {
+        this.emitOptional(att)
+      } else {
+        // otherwise, there is always a value - it will either be the value explicitly set
+        // or the late-bound value through interpolation.
+        this.emitRequired(att)
+      }
+    }
+  }
+
+  private emitOptional(att: AttributeModel) {
+    this.code.openBlock(`public get ${att.name}()`);
+    this.code.line(`return this.${att.storageName};`);
+    this.code.closeBlock();
+
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.type} | undefined)`);
+    this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+  }
+
+  private emitRequired(att: AttributeModel) {
+    this.code.openBlock(`public get ${att.name}()`);
+    this.code.line(`return this.${att.storageName} ?? ${att.getAttCall};`);
+    this.code.closeBlock();
+
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.type})`);
+    this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+  }
+
+  private emitComputedPrimitive(att: AttributeModel) {
+    this.code.openBlock(att.getterFunctionHeader());
+      this.code.line(att.getterFunctionBody());
+    this.code.closeBlock();
+  }
+
+  private emitComputedComplex(att: AttributeModel) {
+    const argument = {
+      name: 'index',
+      type: 'string'
+    }
+
+    this.code.openBlock(`public ${att.name}(${argument.name}: ${argument.type})`);
+      this.code.line(`return ${att.type.computedComplexList(argument)};`);
+    this.code.closeBlock();
+  }
+}
+
+class StructEmitter {
+  attributesEmitter: AttributesEmitter
+
+  constructor(private readonly code: CodeMaker) {
+    this.attributesEmitter = new AttributesEmitter(this.code)
+  }
+
+  public emit(struct: Struct) {
+    if (struct.isComputed) {
+      this.emitComplexType(struct)
+    } else {
+      this.emitInterface(struct)
+    }
+  }
+
+  private emitInterface(struct: Struct) {
+    this.code.openBlock(`export interface ${struct.attributeType}`);
+
+    for (const att of struct.assignableAttributes) {
+      if (att.description) {
+        this.code.line(`/** ${att.description} */`);
+      }
+
+      this.code.line(`readonly ${att.typeDefinition};`);
+    }
+    this.code.closeBlock();
+  }
+
+  private emitComplexType(struct: Struct) {
+    this.code.openBlock(`export class ${struct.name} extends ComplexComputedList`);
+    this.code.openBlock(`constructor(private index: string)`);
+    this.code.closeBlock();
+
+    for (const att of struct.attributes) {
+      this.attributesEmitter.emit(att)
+    }
+
+    this.code.closeBlock();
+  }
+}
 
 export class TerraformGenerator {
-  private anonymousStructs = new Array<Struct>();
-  private complexTypes = new Array<Struct>();
-  private classNames: string[] = [];
+  private resourceParser = new ResourceParser();
+  private resourceEmitter:  ResourceEmitter;
+  private structEmitter:  StructEmitter;
 
   constructor(private readonly code: CodeMaker, schema: ProviderSchema) {
     this.code.indentation = 2;
+    this.resourceEmitter = new ResourceEmitter(this.code)
+    this.structEmitter = new StructEmitter(this.code)
 
     if (!schema.provider_schemas) {
       console.error('warning: no providers');
@@ -26,7 +208,7 @@ export class TerraformGenerator {
   private emitProvider(name: string, provider: Provider) {
     const files: string[] = []
     for (const [type, resource] of Object.entries(provider.resource_schemas)) {
-      files.push(this.emitResource(name, type, resource));
+      files.push(this.emitResourceFile(this.resourceParser.parse(name, type, resource)));
     }
     this.emitIndexFile(name, files)
   }
@@ -43,524 +225,22 @@ export class TerraformGenerator {
     this.code.closeFile(filePath)
   }
 
-  private emitResource(provider: string, type: string, schema: Schema): string {
-    const resource = this.parseResource(provider, type, schema);
+  private emitResourceFile(resource: ResourceModel): string {
+    this.code.openFile(resource.filePath);
+      this.emitFileHeader(resource)
+      resource.structs.forEach(struct => this.structEmitter.emit(struct));
+      this.resourceEmitter.emit(resource)
+    this.code.closeFile(resource.filePath);
 
-    const filePath = `providers/${provider}/${resource.fileName}`;
+    return resource.filePath;
+  }
 
-    this.code.openFile(filePath);
-
+  private emitFileHeader(resource: ResourceModel) {
     this.code.line(`// generated from terraform resource schema`);
     this.code.line();
     this.code.line('/*');
-    this.code.line(JSON.stringify(schema, undefined, 2));
+    this.code.line(resource.schemaAsJson);
     this.code.line('*/');
-    this.code.line(`import { Construct } from 'constructs';`);
-    this.code.line(`import { TerraformResource } from 'cdktf';`);
-
-    this.code.line();
-    this.code.line(`// Configuration`)
-    this.code.line();
-    this.emitStruct({ name: resource.configName, attributes: resource.attributes });
-
-    for (const struct of this.anonymousStructs) {
-      this.emitStruct(struct);
-    }
-
-    for (const complexType of this.complexTypes) {
-      this.emitComplexType(complexType);
-    }
-
-    this.anonymousStructs = [];
-
-    this.code.line();
-    this.code.line(`// Resource`)
-    this.code.line();
-    this.code.openBlock(`export class ${resource.className} extends TerraformResource`);
-
-    this.emitHeader('INITIALIZER');
-    this.emitInitializer(resource);
-
-    this.emitHeader('ATTRIBUTES');
-    this.emitResourceAttributes(resource);
-
-    // synthesis
-    this.emitHeader('SYNTHESIS');
-    this.emitResourceSynthesis(resource);
-
-    this.code.closeBlock(); // construct
-
-    this.code.closeFile(filePath);
-
-    return filePath;
-  }
-
-  private emitHeader(title: string) {
-    this.code.line();
-    this.code.line('// ' + '='.repeat(title.length));
-    this.code.line(`// ${title}`);
-    this.code.line('// ' + '='.repeat(title.length));
-  }
-
-  private emitResourceSynthesis(resource: ResourceModel) {
-    this.code.line();
-    this.code.openBlock(`public synthesizeAttributes()`);
-    this.code.open(`return {`);
-
-    for (const att of resource.attributes) {
-      if (att.computed) { continue; }
-      this.code.line(`${att.terraformName}: this.${att.storageName},`);
-    }
-
-    this.code.close(`};`);
-    this.code.closeBlock();
-  }
-
-  private emitResourceAttributes(resource: ResourceModel) {
-    for (const att of resource.attributes) {
-      this.code.line();
-      this.code.line(`// ${att.terraformName}`);
-
-      if (!att.computed) {
-        this.emitAttribute(att);
-      } else {
-        this.emitComputedAttribute(att);
-      }
-    }
-  }
-
-  private emitAttribute(att: AttributeModel) {
-    this.code.line(`private ${att.storageName}?: ${att.type.type};`);
-
-    // if we dont have a getAtt call, we will emit an optional attribute, since "undefined"
-    // indicates this value is not specified.
-    if (!att.getAttCall) {
-      this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return this.${att.storageName};`);
-      this.code.closeBlock();
-
-      this.code.openBlock(`public set ${att.name}(value: ${att.type.type} | undefined)`);
-      this.code.line(`this.${att.storageName} = value;`);
-      this.code.closeBlock();
-      return;
-    }
-
-    // otherwise, there is always a value - it will either be the value explicitly set
-    // or the late-bound value through interpolation.
-
-    this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(`return this.${att.storageName} ?? ${att.getAttCall};`);
-    this.code.closeBlock();
-
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.type})`);
-    this.code.line(`this.${att.storageName} = value;`);
-    this.code.closeBlock();
-  }
-
-  private emitComputedAttribute(att: AttributeModel) {
-    if (att.type.isInterpolatable) {
-      this.code.openBlock(`public get ${att.name}()`);
-        this.code.line(`return ${att.type.determineGetAttCall(att.name)};`);
-      this.code.closeBlock();
-    } else if (att.type.isComputedComplexList) {
-      const argument = {
-        name: 'index',
-        type: 'string'
-      }
-      this.code.openBlock(`public ${att.name}(${argument.name}: ${argument.type})`);
-        this.code.line(`return ${att.type.computedComplexList(argument)};`);
-      this.code.closeBlock();
-    } else {
-      console.log("shouldn't happen")
-    }
-  }
-
-  private emitInitializer(resource: ResourceModel) {
-    this.code.line();
-
-    const requiredAttributes = resource.attributes.filter(a => !a.optional && !a.computed);
-    const allOptionals = requiredAttributes.length > 0 ? '' : ` = {}`;
-    // `computed` attributes are skipped in `emitStruct`. This causes empty interfaces (e.g. in aws provider `FmsAdminAccount`)
-    const computedAttributes = resource.attributes.filter(a => a.computed)
-    const emptyConfigInterface = (computedAttributes.length !== resource.attributes.length) ? '' : '_'
-
-    this.code.openBlock(`public constructor(scope: Construct, id: string, ${emptyConfigInterface}config: ${resource.configName}${allOptionals})`);
-
-    // invoke super ctor with the terraform resource type
-    this.code.open(`super(scope, id, {`);
-    this.code.line(`type: '${resource.terraformType}',`);
-    this.code.close(`});`);
-
-    // initialize config properties
-    for (const att of resource.attributes) {
-      if (att.computed) {
-        continue;
-      }
-
-      this.code.line(`this.${att.storageName} = config.${att.name};`);
-    }
-
-    this.code.closeBlock();
-  }
-
-  private emitStruct(struct: Struct) {
-    this.code.openBlock(`export interface ${struct.name}`);
-    for (const att of struct.attributes) {
-      // skip computed attributes
-      if (att.computed) {
-        continue;
-      }
-
-      if (att.description) {
-        this.code.line(`/** ${att.description} */`);
-      }
-
-      this.code.line(`readonly ${this.renderAttributeProperty(att)};`);
-    }
-    this.code.closeBlock();
-  }
-
-  private emitComplexType(struct: Struct) {
-    this.code.openBlock(`export class ${struct.name}`);
-    this.code.openBlock(`constructor(private index: string)`);
-    this.code.closeBlock();
-
-    for (const att of struct.attributes) {
-      console.log({att: att.type.isInterpolatable})
-      this.emitComputedAttribute(att)
-    }
-
-    this.code.closeBlock();
-  }
-
-  //
-  // name conversions
-
-  private renderAttributeProperty(attribute: AttributeModel) {
-    const optional = attribute.optional ? '?' : '';
-    return `${attribute.name}${optional}: ${attribute.type.type}`;
-  }
-
-  private renderAttributeType(scope: string[], attributeType: AttributeType, isComputedAttribute?: boolean): AttributeTypeModel {
-    if (typeof(attributeType) === 'string') {
-      switch (attributeType) {
-        case 'bool': return new AttributeTypeModel('boolean');
-        case 'string': return new AttributeTypeModel('string');
-        case 'number': return new AttributeTypeModel('number');
-        default: throw new Error(`invalid primitive type ${attributeType}`);
-      }
-    }
-
-    if (Array.isArray(attributeType)) {
-      if (attributeType.length !== 2) {
-        throw new Error(`unexpected array`);
-      }
-
-      const [ kind, type ] = attributeType;
-
-      if (kind === 'set' || kind === 'list') {
-        const attrType = this.renderAttributeType(scope, type as AttributeType, isComputedAttribute);
-        attrType.isList = true;
-        return attrType;
-      }
-
-      if (kind === 'map') {
-        const valueType = this.renderAttributeType(scope, type as AttributeType);
-        valueType.isMap = true;
-        return valueType
-      }
-
-      if (kind === 'object' && !isComputedAttribute) {
-        const objAttributes = type as { [name: string]: AttributeType };
-        const attributes: { [name: string]: Attribute } = { };
-        for (const [ name, type ] of Object.entries(objAttributes)) {
-          attributes[name] = { type }
-        }
-        const struct = this.addAnonymousStruct(scope, attributes);
-
-        const model = new AttributeTypeModel(struct.name)
-        model.isComplex = true
-        model.isComputed = false
-        return model
-      }
-
-      if (kind === 'object' && isComputedAttribute) {
-        const objAttributes = type as { [name: string]: AttributeType };
-        const attributes: { [name: string]: Attribute } = { };
-        for (const [ name, type ] of Object.entries(objAttributes)) {
-          attributes[name] = { type }
-        }
-        const struct = this.addComplexType(scope, attributes);
-        const model = new AttributeTypeModel(struct.name)
-        model.isComplex = true
-        model.isComputed = true
-        return model
-      }
-
-      throw new Error(`unexpected kind ${kind} with ${JSON.stringify(type)}`);
-    }
-
-    throw new Error(`unknown type ${attributeType}`);
-  }
-
-  private renderAttributesForBlock(parentType: string, block: Block) {
-    const attributes = new Array<AttributeModel>();
-
-    for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
-      const type = this.renderAttributeType([ parentType, terraformAttributeName ], att.type, !!att.computed);
-      const name = toCamelCase(terraformAttributeName);
-      attributes.push({
-        getAttCall: type.determineGetAttCall(terraformAttributeName),
-        terraformFullName: `${parentType}.${terraformAttributeName}`,
-        description: att.description,
-        name,
-        storageName: `_${name}`,
-        computed: !!att.computed,
-        optional: !att.computed && !!att.optional,
-        terraformName: terraformAttributeName,
-        type
-      })
-    }
-
-    for (const [ blockTypeName, blockType ] of Object.entries(block.block_types || { })) {
-      // create a struct for this block
-      const blockStruct = this.addStruct([ parentType, blockTypeName ], this.renderAttributesForBlock(`${parentType}_${blockTypeName}`, blockType.block))
-
-      // define the attribute
-      attributes.push(attributeForBlockType(blockTypeName, blockType, blockStruct));
-    }
-
-    return attributes;
-
-    function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct): AttributeModel {
-      const name = toCamelCase(terraformName);
-
-      switch (blockType.nesting_mode) {
-        case 'single':
-          return {
-            name,
-            terraformName,
-            terraformFullName: terraformName,
-            type: new AttributeTypeModel(struct.name),
-            description: `${terraformName} block`,
-            storageName: `_${name}`,
-            optional: !struct.attributes.some(x => !x.optional),
-            computed: false,
-          };
-
-        case 'map':
-          return {
-            name,
-            terraformName,
-            terraformFullName: terraformName,
-            type: new AttributeTypeModel(struct.name, { isMap: true }),
-            description: `${terraformName} block`,
-            storageName: `_${name}`,
-            optional: false,
-            computed: false,
-          };
-
-        case 'list':
-        case 'set':
-          return {
-            name,
-            terraformName: terraformName,
-            terraformFullName: terraformName,
-            type: new AttributeTypeModel(struct.name, { isList: true }),
-            description: `${terraformName} block`,
-            storageName: `_${name}`,
-            optional: blockType.min_items === undefined ? true : blockType.min_items < 1,
-            computed: false,
-          };
-      }
-    }
-  }
-
-  private parseResource(provider: string, terraformType: string, schema: Schema): ResourceModel {
-
-    let baseName = terraformType;
-    if (baseName.startsWith(`${provider}_`)) {
-      baseName = baseName.substr(provider.length + 1);
-    }
-
-    const className = this.uniqueClassName(toPascalCase(baseName));
-    const fileName = `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
-    const configName = `${className}Config`;
-
-    const resource: ResourceModel = {
-      terraformType,
-      baseName,
-      className,
-      fileName,
-      configName,
-      attributes: this.renderAttributesForBlock(baseName, schema.block)
-    }
-
-    return resource;
-  }
-
-  private uniqueClassName(className: string): string {
-    if (this.classNames.indexOf(className) >= 0) {
-      className = `${className}A`
-    }
-    this.classNames.push(className)
-    return className
-  }
-
-  private addAnonymousStruct(scope: string[], attrs: { [name: string]: Attribute }) {
-    const attributes = new Array<AttributeModel>();
-    for (const [ terraformName, att ] of Object.entries(attrs)) {
-      const name = toCamelCase(terraformName);
-      attributes.push({
-        name,
-        storageName: `_${name}`,
-        computed: false,
-        description: att.description,
-        optional: true,
-        terraformName,
-        terraformFullName: [ ...scope, terraformName ].join('_'),
-        type: this.renderAttributeType([ ...scope, terraformName ], att.type),
-      });
-    }
-
-    return this.addStruct(scope, attributes);
-  }
-
-  private addComplexType(scope: string[], attrs: { [name: string]: Attribute }) {
-    const attributes = new Array<AttributeModel>();
-    for (const [ terraformName, att ] of Object.entries(attrs)) {
-      const name = toCamelCase(terraformName);
-      attributes.push({
-        name,
-        storageName: `_${name}`,
-        computed: true,
-        description: att.description,
-        optional: true,
-        terraformName,
-        terraformFullName: [ ...scope, terraformName ].join('_'),
-        type: this.renderAttributeType([ ...scope, terraformName ], att.type),
-      });
-    }
-
-    return this._addComplexType(scope, attributes);
-  }
-
-
-  private addStruct(scope: string[], attributes: AttributeModel[]) {
-    const s = {
-      name: this.uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x)).join('_'))),
-      attributes
-    }
-    this.anonymousStructs.push(s);
-    return s;
-  }
-
-  private _addComplexType(scope: string[], attributes: AttributeModel[]) {
-    const s = {
-      name: this.uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x)).join('_'))),
-      attributes
-    }
-    this.complexTypes.push(s);
-    return s;
-  }
-
-
-}
-
-
-interface Struct {
-  readonly name: string;
-  readonly attributes: AttributeModel[];
-}
-
-interface AttributeModel {
-  storageName: string; // private property
-  name: string;
-  type: AttributeTypeModel;
-  optional: boolean;
-  computed: boolean;
-  terraformName: string;
-  terraformFullName: string;
-  description?: string;
-  getAttCall?: string;
-}
-
-interface ResourceModel {
-  terraformType: string;
-  className: string;
-  baseName: string;
-  fileName: string;
-  configName: string;
-  attributes: AttributeModel[];
-}
-
-class AttributeTypeModelOptions {
-  public isComplex?: boolean;
-  public isList?: boolean;
-  public isComputed?: boolean;
-  public isMap?: boolean;
-}
-
-enum TokenizableTypes {
-  STRING = 'string',
-  NUMBER = 'number'
-}
-
-interface ComputedComplexListOptions {
-  name: string;
-  type: string;
-}
-
-class AttributeTypeModel {
-  public isList: boolean;
-  public isComputed: boolean;
-  public isMap: boolean;
-  public isComplex: boolean;
-
-  constructor(private _type: string, options: AttributeTypeModelOptions = {}) {
-    this.isComplex = !!options.isComplex;
-    this.isList = !!options.isList;
-    this.isMap = !!options.isMap;
-    this.isComputed = !!options.isComputed;
-  }
-
-  public get type(): string {
-    if (this.isMap) return `{ [key: string]: ${this._type} }`;
-    if (this.isList && !this.isComputed) return `${this._type}[]`;
-    if (this.isList && this.isComputed && !this.isComplex) return `${this._type}[]`;
-    if (this.isList && this.isComputed && this.isComplex) return `${this._type}`;
-    return this._type
-  }
-
-  public determineGetAttCall(terraformAttributeName: string): string {
-    if (this.type === TokenizableTypes.STRING) {
-      return this.isList ? this.getListAttribute(terraformAttributeName) : this.getStringAttribute(terraformAttributeName)
-    }
-    if (this.type === TokenizableTypes.NUMBER) { return this.getNumberAttribute(terraformAttributeName) }
-    return 'any'
-  }
-
-  public computedComplexList(argument: ComputedComplexListOptions): string {
-    return `new ${this.type}(${argument.name})`
-  }
-
-  public get isComputedComplexList(): boolean {
-    return this.isList && this.isComputed && this.isComplex
-  }
-
-  public get isInterpolatable(): boolean {
-    return Object.values(TokenizableTypes).includes(this.type as TokenizableTypes)
-  }
-
-  private getListAttribute(name: string): string {
-    return `this.getListAttribute('${name}')`
-  }
-
-  private getStringAttribute(name: string): string {
-    return `this.getStringAttribute('${name}')`
-  }
-
-  private getNumberAttribute(name: string): string {
-    return `this.getNumberAttribute('${name}')`
+    resource.importStatements.forEach(statement => this.code.line(statement))
   }
 }
