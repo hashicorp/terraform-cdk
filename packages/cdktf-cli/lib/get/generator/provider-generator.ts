@@ -130,7 +130,7 @@ export class TerraformGenerator {
   }
 
   private emitAttribute(att: AttributeModel) {
-    this.code.line(`private ${att.storageName}?: ${att.type};`);
+    this.code.line(`private ${att.storageName}?: ${att.type.type};`);
 
     // if we dont have a getAtt call, we will emit an optional attribute, since "undefined"
     // indicates this value is not specified.
@@ -139,7 +139,7 @@ export class TerraformGenerator {
       this.code.line(`return this.${att.storageName};`);
       this.code.closeBlock();
 
-      this.code.openBlock(`public set ${att.name}(value: ${att.type} | undefined)`);
+      this.code.openBlock(`public set ${att.name}(value: ${att.type.type} | undefined)`);
       this.code.line(`this.${att.storageName} = value;`);
       this.code.closeBlock();
       return;
@@ -152,21 +152,27 @@ export class TerraformGenerator {
     this.code.line(`return this.${att.storageName} ?? ${att.getAttCall};`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type})`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.type})`);
     this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }
 
   private emitComputedAttribute(att: AttributeModel) {
-    this.code.openBlock(`public get ${att.name}()`);
-    if (att.getAttCall) {
-      this.code.line(`return ${att.getAttCall};`);
+    if (att.type.isInterpolatable) {
+      this.code.openBlock(`public get ${att.name}()`);
+        this.code.line(`return ${att.type.determineGetAttCall(att.name)};`);
+      this.code.closeBlock();
+    } else if (att.type.isComputedComplexList) {
+      const argument = {
+        name: 'index',
+        type: 'string'
+      }
+      this.code.openBlock(`public ${att.name}(${argument.name}: ${argument.type})`);
+        this.code.line(`return ${att.type.computedComplexList(argument)};`);
+      this.code.closeBlock();
     } else {
-      const message = `computed attribute "$${att.terraformFullName}" has unsupported type "${att.type}"`;
-      this.code.line(`throw new Error('${message}');`);
-      // console.error(`warning: ${message}`);
+      console.log("shouldn't happen")
     }
-    this.code.closeBlock();
   }
 
   private emitInitializer(resource: ResourceModel) {
@@ -216,23 +222,23 @@ export class TerraformGenerator {
 
   private emitComplexType(struct: Struct) {
     this.code.openBlock(`export class ${struct.name}`);
-    for (const att of struct.attributes) {
-      if (att.description) {
-        this.code.line(`/** ${att.description} */`);
-      }
+    this.code.openBlock(`constructor(private index: string)`);
+    this.code.closeBlock();
 
-      this.code.line(`readonly ${this.renderAttributeProperty(att)};`);
+    for (const att of struct.attributes) {
+      console.log({att: att.type.isInterpolatable})
+      this.emitComputedAttribute(att)
     }
+
     this.code.closeBlock();
   }
-
 
   //
   // name conversions
 
   private renderAttributeProperty(attribute: AttributeModel) {
     const optional = attribute.optional ? '?' : '';
-    return `${attribute.name}${optional}: ${attribute.type}`;
+    return `${attribute.name}${optional}: ${attribute.type.type}`;
   }
 
   private renderAttributeType(scope: string[], attributeType: AttributeType, isComputedAttribute?: boolean): AttributeTypeModel {
@@ -261,6 +267,7 @@ export class TerraformGenerator {
       if (kind === 'map') {
         const valueType = this.renderAttributeType(scope, type as AttributeType);
         valueType.isMap = true;
+        return valueType
       }
 
       if (kind === 'object' && !isComputedAttribute) {
@@ -272,7 +279,7 @@ export class TerraformGenerator {
         const struct = this.addAnonymousStruct(scope, attributes);
 
         const model = new AttributeTypeModel(struct.name)
-        model.isComplexType = true
+        model.isComplex = true
         model.isComputed = false
         return model
       }
@@ -285,7 +292,7 @@ export class TerraformGenerator {
         }
         const struct = this.addComplexType(scope, attributes);
         const model = new AttributeTypeModel(struct.name)
-        model.isComplexType = true
+        model.isComplex = true
         model.isComputed = true
         return model
       }
@@ -334,7 +341,7 @@ export class TerraformGenerator {
             name,
             terraformName,
             terraformFullName: terraformName,
-            type: struct.name,
+            type: new AttributeTypeModel(struct.name),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional: !struct.attributes.some(x => !x.optional),
@@ -346,7 +353,7 @@ export class TerraformGenerator {
             name,
             terraformName,
             terraformFullName: terraformName,
-            type: `{ [key: string]: ${struct.name} }`,
+            type: new AttributeTypeModel(struct.name, { isMap: true }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional: false,
@@ -359,7 +366,7 @@ export class TerraformGenerator {
             name,
             terraformName: terraformName,
             terraformFullName: terraformName,
-            type: `${struct.name}[]`,
+            type: new AttributeTypeModel(struct.name, { isList: true }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional: blockType.min_items === undefined ? true : blockType.min_items < 1,
@@ -426,7 +433,7 @@ export class TerraformGenerator {
       attributes.push({
         name,
         storageName: `_${name}`,
-        computed: false,
+        computed: true,
         description: att.description,
         optional: true,
         terraformName,
@@ -494,34 +501,66 @@ class AttributeTypeModelOptions {
   public isMap?: boolean;
 }
 
+enum TokenizableTypes {
+  STRING = 'string',
+  NUMBER = 'number'
+}
+
+interface ComputedComplexListOptions {
+  name: string;
+  type: string;
+}
+
 class AttributeTypeModel {
-  constructor(public type: string, private options: AttributeTypeModelOptions = {}) {}
+  public isList: boolean;
+  public isComputed: boolean;
+  public isMap: boolean;
+  public isComplex: boolean;
 
-  public get typeName(): string {
-    return `${this.type}`
+  constructor(private _type: string, options: AttributeTypeModelOptions = {}) {
+    this.isComplex = !!options.isComplex;
+    this.isList = !!options.isList;
+    this.isMap = !!options.isMap;
+    this.isComputed = !!options.isComputed;
   }
 
-  public get isList(): boolean {
-    return !!this.options.isList
-  }
-
-  public get isComputed(): boolean {
-    return !!this.options.isComputed
-  }
-
-  public get isMap(): boolean {
-    return !!this.options.isMap
-  }
-
-  public get isComplex(): boolean {
-    return !!this.options.isComplex
+  public get type(): string {
+    if (this.isMap) return `{ [key: string]: ${this._type} }`;
+    if (this.isList && !this.isComputed) return `${this._type}[]`;
+    if (this.isList && this.isComputed && !this.isComplex) return `${this._type}[]`;
+    if (this.isList && this.isComputed && this.isComplex) return `${this._type}`;
+    return this._type
   }
 
   public determineGetAttCall(terraformAttributeName: string): string {
-    if (this.typeName === 'string') {
-      return this.isList ? `this.getListAttribute('${terraformAttributeName}')` : `this.getStringAttribute('${terraformAttributeName}')`
+    if (this.type === TokenizableTypes.STRING) {
+      return this.isList ? this.getListAttribute(terraformAttributeName) : this.getStringAttribute(terraformAttributeName)
     }
-    if (this.typeName === 'number') { return `this.getNumberAttribute('${terraformAttributeName}')`; }
+    if (this.type === TokenizableTypes.NUMBER) { return this.getNumberAttribute(terraformAttributeName) }
     return 'any'
+  }
+
+  public computedComplexList(argument: ComputedComplexListOptions): string {
+    return `new ${this.type}(${argument.name})`
+  }
+
+  public get isComputedComplexList(): boolean {
+    return this.isList && this.isComputed && this.isComplex
+  }
+
+  public get isInterpolatable(): boolean {
+    return Object.values(TokenizableTypes).includes(this.type as TokenizableTypes)
+  }
+
+  private getListAttribute(name: string): string {
+    return `this.getListAttribute('${name}')`
+  }
+
+  private getStringAttribute(name: string): string {
+    return `this.getStringAttribute('${name}')`
+  }
+
+  private getNumberAttribute(name: string): string {
+    return `this.getNumberAttribute('${name}')`
   }
 }
