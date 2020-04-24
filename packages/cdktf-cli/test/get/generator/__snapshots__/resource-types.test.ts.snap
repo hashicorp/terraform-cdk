@@ -2207,3 +2207,300 @@ export class S3Bucket extends TerraformResource {
 }
 "
 `;
+
+exports[`generate a security group 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"arn\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"description\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"egress\\": {
+        \\"type\\": [
+          \\"set\\",
+          [
+            \\"object\\",
+            {
+              \\"cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"description\\": \\"string\\",
+              \\"from_port\\": \\"number\\",
+              \\"ipv6_cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"prefix_list_ids\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"protocol\\": \\"string\\",
+              \\"security_groups\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"self\\": \\"bool\\",
+              \\"to_port\\": \\"number\\"
+            }
+          ]
+        ],
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"ingress\\": {
+        \\"type\\": [
+          \\"set\\",
+          [
+            \\"object\\",
+            {
+              \\"cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"description\\": \\"string\\",
+              \\"from_port\\": \\"number\\",
+              \\"ipv6_cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"prefix_list_ids\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"protocol\\": \\"string\\",
+              \\"security_groups\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"self\\": \\"bool\\",
+              \\"to_port\\": \\"number\\"
+            }
+          ]
+        ],
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"name\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"name_prefix\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"owner_id\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"revoke_rules_on_delete\\": {
+        \\"type\\": \\"bool\\",
+        \\"optional\\": true
+      },
+      \\"tags\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true
+      },
+      \\"vpc_id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      }
+    },
+    \\"block_types\\": {
+      \\"timeouts\\": {
+        \\"nesting_mode\\": \\"single\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"create\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"delete\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface SecurityGroupConfig {
+  readonly description?: string;
+  readonly namePrefix?: string;
+  readonly revokeRulesOnDelete?: boolean;
+  readonly tags?: { [key: string]: string };
+  /** timeouts block */
+  readonly timeouts?: SecurityGroupTimeouts;
+}
+export interface SecurityGroupEgress {
+  readonly cidrBlocks?: string[];
+  readonly description?: string;
+  readonly fromPort?: number;
+  readonly ipv6CidrBlocks?: string[];
+  readonly prefixListIds?: string[];
+  readonly protocol?: string;
+  readonly securityGroups?: string[];
+  readonly self?: boolean;
+  readonly toPort?: number;
+}
+export interface SecurityGroupIngress {
+  readonly cidrBlocks?: string[];
+  readonly description?: string;
+  readonly fromPort?: number;
+  readonly ipv6CidrBlocks?: string[];
+  readonly prefixListIds?: string[];
+  readonly protocol?: string;
+  readonly securityGroups?: string[];
+  readonly self?: boolean;
+  readonly toPort?: number;
+}
+export interface SecurityGroupTimeouts {
+  readonly create?: string;
+  readonly delete?: string;
+}
+
+// Resource
+
+export class SecurityGroup extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: SecurityGroupConfig = {}) {
+    super(scope, id, {
+      type: 'aws_security_group',
+    });
+    this._description = config.description;
+    this._namePrefix = config.namePrefix;
+    this._revokeRulesOnDelete = config.revokeRulesOnDelete;
+    this._tags = config.tags;
+    this._timeouts = config.timeouts;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // arn
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // description
+  private _description?: string;
+  public get description() {
+    return this._description ?? this.getStringAttribute('description');
+  }
+  public set description(value: string) {
+    this._description = value;
+  }
+
+  // egress
+  public get egress() {
+    throw new Error('computed attribute \\"$security_group.egress\\" has unsupported type \\"SecurityGroupEgress[]\\"');
+  }
+
+  // id
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // ingress
+  public get ingress() {
+    throw new Error('computed attribute \\"$security_group.ingress\\" has unsupported type \\"SecurityGroupIngress[]\\"');
+  }
+
+  // name
+  public get name() {
+    return this.getStringAttribute('name');
+  }
+
+  // name_prefix
+  private _namePrefix?: string;
+  public get namePrefix() {
+    return this._namePrefix ?? this.getStringAttribute('name_prefix');
+  }
+  public set namePrefix(value: string) {
+    this._namePrefix = value;
+  }
+
+  // owner_id
+  public get ownerId() {
+    return this.getStringAttribute('owner_id');
+  }
+
+  // revoke_rules_on_delete
+  private _revokeRulesOnDelete?: boolean;
+  public get revokeRulesOnDelete() {
+    return this._revokeRulesOnDelete;
+  }
+  public set revokeRulesOnDelete(value: boolean | undefined) {
+    this._revokeRulesOnDelete = value;
+  }
+
+  // tags
+  private _tags?: { [key: string]: string };
+  public get tags() {
+    return this._tags;
+  }
+  public set tags(value: { [key: string]: string } | undefined) {
+    this._tags = value;
+  }
+
+  // vpc_id
+  public get vpcId() {
+    return this.getStringAttribute('vpc_id');
+  }
+
+  // timeouts
+  private _timeouts?: SecurityGroupTimeouts;
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public set timeouts(value: SecurityGroupTimeouts | undefined) {
+    this._timeouts = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      description: this._description,
+      name_prefix: this._namePrefix,
+      revoke_rules_on_delete: this._revokeRulesOnDelete,
+      tags: this._tags,
+      timeouts: this._timeouts,
+    };
+  }
+}
+"
+`;
