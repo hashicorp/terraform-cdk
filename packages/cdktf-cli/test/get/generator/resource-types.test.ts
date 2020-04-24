@@ -25,3 +25,14 @@ test('generate a s3 bucket resource', async () => {
   const output = fs.readFileSync(path.join(workdir, 'providers/aws/s3-bucket.ts'), 'utf-8');
   expect(output).toMatchSnapshot();
 });
+
+test('generate a fms admin account with an empty options interface', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'fms.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'aws_fms_admin_account.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/fms-admin-account.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});

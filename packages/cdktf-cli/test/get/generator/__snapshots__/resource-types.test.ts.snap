@@ -1241,6 +1241,76 @@ export class CloudfrontDistribution extends TerraformResource {
 "
 `;
 
+exports[`generate a fms admin account with an empty options interface 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 0,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"account_id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface FmsAdminAccountConfig {
+}
+
+// Resource
+
+export class FmsAdminAccount extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, _config: FmsAdminAccountConfig = {}) {
+    super(scope, id, {
+      type: 'aws_fms_admin_account',
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // account_id
+  public get accountId() {
+    return this.getStringAttribute('account_id');
+  }
+
+  // id
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+    };
+  }
+}
+"
+`;
+
 exports[`generate a s3 bucket resource 1`] = `
 "// generated from terraform resource schema
 
