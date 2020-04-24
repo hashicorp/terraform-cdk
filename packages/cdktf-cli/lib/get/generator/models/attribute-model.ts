@@ -42,7 +42,15 @@ export class AttributeModel {
     return !this.computed;
   }
 
-  public get isOptional() {
-    return this.type.isInterpolatable || this.optional
+  public get isOptional(): boolean {
+    return this.optional
+  }
+
+  public get isRequired(): boolean {
+    return !this.isOptional
+  }
+
+  public get isTokenizable(): boolean {
+    return this.type.isTokenizable
   }
 }

@@ -9,21 +9,17 @@ export class AttributesEmitter {
     this.code.line(`// ${att.terraformName}`);
 
     if (att.computed) {
-      if (att.type.isComputedComplexList) {
+      if (att.type.isComputedComplex) {
         this.emitComputedComplex(att)
       } else {
-        this.emitComputedPrimitive(att)
+        this.emitTokenizable(att)
       }
     } else {
       this.code.line(`private ${att.storageName}?: ${att.type.type};`);
-      // if we dont have a getAtt call, we will emit an optional attribute, since "undefined"
-      // indicates this value is not specified.
-      if (att.isOptional) {
-        this.emitOptional(att)
+      if (att.isOptional && att.isTokenizable) {
+        this.emitTokenizableOptional(att)
       } else {
-        // otherwise, there is always a value - it will either be the value explicitly set
-        // or the late-bound value through interpolation.
-        this.emitRequired(att)
+        this.emitOptional(att)
       }
     }
   }
@@ -38,7 +34,7 @@ export class AttributesEmitter {
     this.code.closeBlock();
   }
 
-  private emitRequired(att: AttributeModel) {
+  private emitTokenizableOptional(att: AttributeModel) {
     this.code.openBlock(`public get ${att.name}()`);
     this.code.line(`return this.${att.storageName} ?? ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
@@ -48,29 +44,36 @@ export class AttributesEmitter {
     this.code.closeBlock();
   }
 
-  private emitComputedPrimitive(att: AttributeModel) {
+  private emitTokenizable(att: AttributeModel) {
     this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return ${this.determineGetAttCall(att)}`);
+      this.code.line(`return ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
   }
 
   private emitComputedComplex(att: AttributeModel) {
-    const argument = {
-      name: 'index',
-      type: 'string'
-    }
+    if (att.type.isList) return this.emitComputedComplexList(att);
+    if (att.type.isMap) return this.emitComputedComplexMap(att);
+  }
 
-    this.code.openBlock(`public ${att.name}(${argument.name}: ${argument.type})`);
-      this.code.line(`return ${att.type.computedComplexList(argument)};`);
+  private emitComputedComplexList(att: AttributeModel) {
+    this.code.openBlock(`public ${att.name}(index: string)`);
+      this.code.line(`return new ${att.type.type}(this, '${att.terraformName}', index);`);
     this.code.closeBlock();
   }
 
+  private emitComputedComplexMap(att: AttributeModel) {
+    this.code.openBlock(`public ${att.name}(key: string)`);
+      this.code.line(`return new ${att.type.type}(this, '${att.terraformName}').lookup(key);`);
+    this.code.closeBlock();
+  }
+
+
   public determineGetAttCall(att: AttributeModel): string {
     const type = att.type
-    if (type.type === TokenizableTypes.STRING) { return `this.getStringAttribute('${att.terraformName}');` }
-    if (type.type === TokenizableTypes.STRING_LIST) { return `this.getListAttribute('${att.terraformName}');` }
-    if (type.type === TokenizableTypes.NUMBER) { return `this.getNumberAttribute('${att.terraformName}');` }
-    console.log({att, type})
+    if (type.type === TokenizableTypes.STRING) { return `this.getStringAttribute('${att.terraformName}')` }
+    if (type.type === TokenizableTypes.STRING_LIST) { return `this.getListAttribute('${att.terraformName}')` }
+    if (type.type === TokenizableTypes.NUMBER) { return `this.getNumberAttribute('${att.terraformName}')` }
+    console.log(`${att.name} is'n tokenizable`)
     return 'any'
   }
 }

@@ -62,12 +62,14 @@ class Parser {
       if (kind === 'set' || kind === 'list') {
         const attrType = this.renderAttributeType(scope, type as AttributeType);
         attrType.isList = true;
+        attrType.isComputed = !!scope.find(e => e.isComputed === true);
         return attrType;
       }
 
       if (kind === 'map') {
         const valueType = this.renderAttributeType(scope, type as AttributeType);
         valueType.isMap = true;
+        valueType.isComputed = !!scope.find(e => e.isComputed === true);
         return valueType
       }
 
@@ -116,7 +118,6 @@ class Parser {
 
     function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct): AttributeModel {
       const name = toCamelCase(terraformName);
-
       switch (blockType.nesting_mode) {
         case 'single':
           return new AttributeModel({

@@ -56,7 +56,8 @@ export class ResourceModel {
   }
 
   public get importStatements(): string[] {
-    return this.dependencies
+    const attributeDependencies = this.attributes.map(attr => attr.type.dependencies).filter(Boolean) as string[];
+    return [...this.dependencies, ...attributeDependencies];
   }
 
   public get schemaAsJson(): string {
