@@ -36,3 +36,14 @@ test('generate a fms admin account with an empty options interface', async () =>
   const output = fs.readFileSync(path.join(workdir, 'providers/aws/fms-admin-account.ts'), 'utf-8');
   expect(output).toMatchSnapshot();
 });
+
+test('generate a security group', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'sg.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'aws_security_group.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/security-group.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
