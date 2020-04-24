@@ -11,14 +11,25 @@ export class HelloTerra extends TerraformStack {
 
     const table = new DynamodbTable(this, 'Hello', {
       name: 'my-first-table',
-      hashKey: 'id',
+      hashKey: 'test',
       attribute: [
         { name: 'id', type: 'S' }
       ]
     });
 
     new SnsTopic(this, 'Topic', {
-      displayName: table.id
+      displayName: 'my-first-sns-topic',
+      escapeHatch: {
+        provisioner: [
+          {
+            "local-exec": {
+              "command": "echo 'Hello World' >example.txt"
+            }
+          }
+        ],
+        display_name: table.id,
+        "//": "This is a resource comment"
+      }
     });
 
     new Eks(this, 'EksModule', {

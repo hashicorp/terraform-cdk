@@ -14,6 +14,10 @@ test('stack synthesis merges all elements into a single output', () => {
 
   new MyResource(stack, 'Resource2', {
     type: 'aws_topic',
+    escapeHatch: {
+      "//": "this is a comment",
+      prop1: "overwritten"
+    }
   });
 
   new MyModule(stack, 'EksModule', {
@@ -37,7 +41,7 @@ class MyResource extends TerraformResource {
     return {
       foo: Node.of(this).uniqueId,
       prop1: 'bar1',
-      prop2: 1234
+      prop2: 1234,
     };
   }
 }

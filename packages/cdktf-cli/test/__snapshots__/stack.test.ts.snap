@@ -19,8 +19,9 @@ Object {
     },
     "aws_topic": Object {
       "MyStackResource2C790E556": Object {
+        "//": "this is a comment",
         "foo": "MyStackResource2C790E556",
-        "prop1": "bar1",
+        "prop1": "overwritten",
         "prop2": 1234,
       },
     },

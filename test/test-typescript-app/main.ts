@@ -7,7 +7,13 @@ export class HelloTerra extends TerraformStack {
     super(scope, id);
 
     new SnsTopic(this, 'Topic', {
-      displayName: 'topic'
+      displayName: 'topic',
+      escapeHatch: {
+        provider: "aws",
+        lifecycle: {
+          create_before_destroy: true
+        }
+      }
     });
   }
 }

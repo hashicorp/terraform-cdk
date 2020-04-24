@@ -8,15 +8,18 @@ export interface TerraformResourceConfig {
   readonly count?: number;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
+  readonly escapeHatch?: any;
 }
 
 export abstract class TerraformResource extends TerraformElement {
   public readonly type: string;
+  public readonly escapeHatch: any;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id);
 
     this.type = config.type;
+    this.escapeHatch = config.escapeHatch;
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -31,7 +34,17 @@ export abstract class TerraformResource extends TerraformElement {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
-  protected abstract synthesizeAttributes(): { [name: string]: any };
+  protected abstract synthesizeAttributes(): { [name: string]: any; escapeHatch?: any };
+
+  private mergeEscapeHatch() {
+    const attributes = this.synthesizeAttributes()
+    const escapeHatch = this.escapeHatch
+    if (escapeHatch) {
+      delete attributes.escapeHatch
+      return {...attributes, ...escapeHatch };
+    }
+    return attributes
+  }
 
   /**
    * Adds this resource to the terraform JSON output.
@@ -40,7 +53,7 @@ export abstract class TerraformResource extends TerraformElement {
     return {
       resource: {
         [this.type]: {
-          [Node.of(this).uniqueId]: this.synthesizeAttributes()
+          [Node.of(this).uniqueId]: this.mergeEscapeHatch()
         }
       }
     };
