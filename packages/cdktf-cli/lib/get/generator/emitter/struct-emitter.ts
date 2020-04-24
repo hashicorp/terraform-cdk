@@ -18,7 +18,7 @@ export class StructEmitter {
   }
 
   private emitInterface(struct: Struct) {
-    this.code.openBlock(`export interface ${struct.attributeType}`);
+    this.code.openBlock(`export interface ${struct.name}`);
 
     for (const att of struct.assignableAttributes) {
       if (att.description) {

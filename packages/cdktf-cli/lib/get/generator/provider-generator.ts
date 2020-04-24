@@ -65,5 +65,8 @@ export class TerraformGenerator {
     this.code.line(resource.schemaAsJson);
     this.code.line('*/');
     resource.importStatements.forEach(statement => this.code.line(statement))
+    this.code.line();
+    this.code.line('// Configuration');
+    this.code.line();
   }
 }

@@ -11,8 +11,12 @@ export class Struct {
     return this.attributes.filter(attribute => !attribute.computed)
   }
 
-  private get allAttributesOptional(): boolean {
-    return this.requiredAttributes.length > 0
+  public get optionalAttributes(): AttributeModel[] {
+    return this.attributes.filter(attribute => attribute.optional)
+  }
+
+  public get allOptional(): boolean {
+    return this.attributes.filter(attribute => !attribute.optional && !attribute.computed).length == 0
   }
 
   private get allAttributesComputed(): boolean {
@@ -20,11 +24,7 @@ export class Struct {
     return computedAttributes.length === this.attributes.length
   }
 
-  private get requiredAttributes(): AttributeModel[] {
-    return this.attributes.filter(a => !a.optional && !a.computed);
-  }
-
   public get attributeType() {
-    return `${this.name}${this.allAttributesOptional ? ' = {}' : ''}`
+    return `${this.name}${this.allOptional ? ' = {}' : ''}`
   }
 }

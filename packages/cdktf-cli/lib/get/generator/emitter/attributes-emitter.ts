@@ -1,5 +1,5 @@
 import { CodeMaker } from 'codemaker';
-import { AttributeModel } from "../models";
+import { AttributeModel, TokenizableTypes } from "../models";
 
 export class AttributesEmitter {
   constructor(private code: CodeMaker) {}
@@ -40,7 +40,7 @@ export class AttributesEmitter {
 
   private emitRequired(att: AttributeModel) {
     this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(`return this.${att.storageName} ?? ${att.getAttCall};`);
+    this.code.line(`return this.${att.storageName} ?? ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
 
     this.code.openBlock(`public set ${att.name}(value: ${att.type.type})`);
@@ -49,8 +49,8 @@ export class AttributesEmitter {
   }
 
   private emitComputedPrimitive(att: AttributeModel) {
-    this.code.openBlock(att.getterFunctionHeader());
-      this.code.line(att.getterFunctionBody());
+    this.code.openBlock(`public get ${att.name}()`);
+      this.code.line(`return ${this.determineGetAttCall(att)}`);
     this.code.closeBlock();
   }
 
@@ -63,5 +63,14 @@ export class AttributesEmitter {
     this.code.openBlock(`public ${att.name}(${argument.name}: ${argument.type})`);
       this.code.line(`return ${att.type.computedComplexList(argument)};`);
     this.code.closeBlock();
+  }
+
+  public determineGetAttCall(att: AttributeModel): string {
+    const type = att.type
+    if (type.type === TokenizableTypes.STRING) { return `this.getStringAttribute('${att.terraformName}');` }
+    if (type.type === TokenizableTypes.STRING_LIST) { return `this.getListAttribute('${att.terraformName}');` }
+    if (type.type === TokenizableTypes.NUMBER) { return `this.getNumberAttribute('${att.terraformName}');` }
+    console.log({att, type})
+    return 'any'
   }
 }

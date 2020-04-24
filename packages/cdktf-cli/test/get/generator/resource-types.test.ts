@@ -15,7 +15,7 @@ test('generate a cloudfront distribution resource', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test('generate a s3 bucket resource', async () => {
+test.only('generate a s3 bucket resource', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 's3.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'aws_s3_bucket.test.fixture.json'), 'utf-8'));
@@ -26,7 +26,7 @@ test('generate a s3 bucket resource', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test('generate a fms admin account with an empty options interface', async () => {
+test.only('generate a fms admin account with an empty options interface', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'fms.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'aws_fms_admin_account.test.fixture.json'), 'utf-8'));

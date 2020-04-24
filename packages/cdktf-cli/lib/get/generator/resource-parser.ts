@@ -93,7 +93,6 @@ class Parser {
       const type = this.renderAttributeType([ parentType, new Scope(terraformAttributeName, !!att.computed)], att.type);
       const name = toCamelCase(terraformAttributeName);
       attributes.push(new AttributeModel({
-        getAttCall: type.determineGetAttCall(terraformAttributeName),
         terraformFullName: `${parentType.name}.${terraformAttributeName}`,
         description: att.description,
         name,

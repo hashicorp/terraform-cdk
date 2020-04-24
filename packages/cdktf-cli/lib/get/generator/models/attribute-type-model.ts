@@ -9,6 +9,7 @@ export class AttributeTypeModelOptions {
 
 export enum TokenizableTypes {
   STRING = 'string',
+  STRING_LIST = 'string[]',
   NUMBER = 'number'
 }
 
@@ -38,14 +39,6 @@ export class AttributeTypeModel {
     return this._type
   }
 
-  public determineGetAttCall(terraformAttributeName: string): string {
-    if (this.type === TokenizableTypes.STRING) {
-      return this.isList ? this.getListAttribute(terraformAttributeName) : this.getStringAttribute(terraformAttributeName)
-    }
-    if (this.type === TokenizableTypes.NUMBER) { return this.getNumberAttribute(terraformAttributeName) }
-    return 'any'
-  }
-
   public computedComplexList(argument: ComputedComplexListOptions): string {
     return `new ${this.type}(${argument.name})`
   }
@@ -64,17 +57,5 @@ export class AttributeTypeModel {
 
   public get isInterpolatable(): boolean {
     return Object.values(TokenizableTypes).includes(this.type as TokenizableTypes)
-  }
-
-  private getListAttribute(name: string): string {
-    return `this.getListAttribute('${name}')`
-  }
-
-  private getStringAttribute(name: string): string {
-    return `this.getStringAttribute('${name}')`
-  }
-
-  private getNumberAttribute(name: string): string {
-    return `this.getNumberAttribute('${name}')`
   }
 }
