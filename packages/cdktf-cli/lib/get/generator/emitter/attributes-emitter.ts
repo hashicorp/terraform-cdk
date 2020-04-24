@@ -7,7 +7,6 @@ export class AttributesEmitter {
   public emit(att: AttributeModel) {
     this.code.line();
     this.code.line(`// ${att.terraformName}`);
-    this.code.line(`private ${att.storageName}?: ${att.type.type};`);
 
     if (att.computed) {
       if (att.type.isComputedComplexList) {
@@ -16,6 +15,7 @@ export class AttributesEmitter {
         this.emitComputedPrimitive(att)
       }
     } else {
+      this.code.line(`private ${att.storageName}?: ${att.type.type};`);
       // if we dont have a getAtt call, we will emit an optional attribute, since "undefined"
       // indicates this value is not specified.
       if (att.isOptional) {
