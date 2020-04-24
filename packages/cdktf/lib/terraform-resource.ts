@@ -31,6 +31,10 @@ export abstract class TerraformResource extends TerraformElement {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
+  public getBooleanAttribute(terraformAttribute: string) {
+    return Token.asString(this.interpolationForAttribute(terraformAttribute)) as any as boolean
+  }
+
   protected abstract synthesizeAttributes(): { [name: string]: any };
 
   /**

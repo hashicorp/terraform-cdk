@@ -62,7 +62,7 @@ export class AttributesEmitter {
   }
 
   private emitComputedComplexMap(att: AttributeModel) {
-    this.code.openBlock(`public ${att.name}(key: string)`);
+    this.code.openBlock(`public ${att.name}(key: string): string`);
       this.code.line(`return new ${att.type.type}(this, '${att.terraformName}').lookup(key);`);
     this.code.closeBlock();
   }
@@ -73,7 +73,8 @@ export class AttributesEmitter {
     if (type.type === TokenizableTypes.STRING) { return `this.getStringAttribute('${att.terraformName}')` }
     if (type.type === TokenizableTypes.STRING_LIST) { return `this.getListAttribute('${att.terraformName}')` }
     if (type.type === TokenizableTypes.NUMBER) { return `this.getNumberAttribute('${att.terraformName}')` }
-    console.log(`${att.name} is'n tokenizable`)
+    if (type.type === TokenizableTypes.BOOLEAN) { return `this.getBooleanAttribute('${att.terraformName}')` }
+    console.log(`${JSON.stringify(att, null, 2)} is'n tokenizable`)
     return 'any'
   }
 }

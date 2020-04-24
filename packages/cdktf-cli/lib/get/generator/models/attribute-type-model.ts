@@ -10,7 +10,8 @@ export class AttributeTypeModelOptions {
 export enum TokenizableTypes {
   STRING = 'string',
   STRING_LIST = 'string[]',
-  NUMBER = 'number'
+  NUMBER = 'number',
+  BOOLEAN = 'boolean'
 }
 
 export interface ComputedComplexOptions {
@@ -42,8 +43,8 @@ export class AttributeTypeModel {
 
   public get dependencies(): string | undefined {
     if (this.isComputedComplex) {
-      if (this.isMap) return `import { StringMap } from cdktf;`
-      if (this.isList) return `import { ComplexComputedList } from cdktf;`
+      if (this.isMap) return `import { StringMap } from "cdktf";`
+      if (this.isList) return `import { ComplexComputedList } from "cdktf";`
     }
     return undefined
   }

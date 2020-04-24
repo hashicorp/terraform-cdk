@@ -4,6 +4,7 @@ import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
 import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
+import { SecurityGroup } from './.gen/providers/aws/security-group'
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -17,8 +18,9 @@ export class HelloTerra extends TerraformStack {
       ]
     });
 
+
     new SnsTopic(this, 'Topic', {
-      displayName: table.id
+      displayName: `${table.id}-${table.streamEnabled}`
     });
 
     new Eks(this, 'EksModule', {

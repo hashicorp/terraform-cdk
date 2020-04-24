@@ -32,13 +32,9 @@ export class StructEmitter {
 
   private emitComplexType(struct: Struct) {
     this.code.openBlock(`export class ${struct.name} extends ComplexComputedList`);
-    this.code.openBlock(`constructor(private index: string)`);
-    this.code.closeBlock();
-
     for (const att of struct.attributes) {
       this.attributesEmitter.emit(att)
     }
-
     this.code.closeBlock();
   }
 }

@@ -42,12 +42,13 @@ class Parser {
   }
 
   private renderAttributeType(scope: Scope[], attributeType: AttributeType): AttributeTypeModel {
-    const parentScope = scope[scope.length - 1]
+    const isComputed = !!scope.find(e => e.isComputed === true);
+
     if (typeof(attributeType) === 'string') {
       switch (attributeType) {
-        case 'bool': return new AttributeTypeModel('boolean');
-        case 'string': return new AttributeTypeModel('string');
-        case 'number': return new AttributeTypeModel('number');
+        case 'bool': return new AttributeTypeModel('boolean', { isComputed: isComputed });
+        case 'string': return new AttributeTypeModel('string', { isComputed: isComputed });
+        case 'number': return new AttributeTypeModel('number', { isComputed: isComputed });
         default: throw new Error(`invalid primitive type ${attributeType}`);
       }
     }
@@ -62,14 +63,14 @@ class Parser {
       if (kind === 'set' || kind === 'list') {
         const attrType = this.renderAttributeType(scope, type as AttributeType);
         attrType.isList = true;
-        attrType.isComputed = !!scope.find(e => e.isComputed === true);
+        attrType.isComputed = isComputed
         return attrType;
       }
 
       if (kind === 'map') {
         const valueType = this.renderAttributeType(scope, type as AttributeType);
         valueType.isMap = true;
-        valueType.isComputed = !!scope.find(e => e.isComputed === true);
+        valueType.isComputed = isComputed
         return valueType
       }
 
@@ -80,7 +81,7 @@ class Parser {
           attributes[name] = { type }
         }
         const struct = this.addAnonymousStruct(scope, attributes);
-        const model = new AttributeTypeModel(struct.name, {struct, isComputed: parentScope.isComputed})
+        const model = new AttributeTypeModel(struct.name, {struct, isComputed: isComputed})
         return model
       }
     }
