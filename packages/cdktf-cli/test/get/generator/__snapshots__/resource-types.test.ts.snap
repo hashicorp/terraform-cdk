@@ -1,0 +1,2139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate a cloudfront distribution resource 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"active_trusted_signers\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"string\\"
+        ],
+        \\"computed\\": true
+      },
+      \\"aliases\\": {
+        \\"type\\": [
+          \\"set\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true
+      },
+      \\"arn\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"caller_reference\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"comment\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"default_root_object\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"domain_name\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"enabled\\": {
+        \\"type\\": \\"bool\\",
+        \\"required\\": true
+      },
+      \\"etag\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"hosted_zone_id\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"http_version\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"in_progress_validation_batches\\": {
+        \\"type\\": \\"number\\",
+        \\"computed\\": true
+      },
+      \\"is_ipv6_enabled\\": {
+        \\"type\\": \\"bool\\",
+        \\"optional\\": true
+      },
+      \\"last_modified_time\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"price_class\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"retain_on_delete\\": {
+        \\"type\\": \\"bool\\",
+        \\"optional\\": true
+      },
+      \\"status\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"tags\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true
+      },
+      \\"wait_for_deployment\\": {
+        \\"type\\": \\"bool\\",
+        \\"optional\\": true
+      },
+      \\"web_acl_id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      }
+    },
+    \\"block_types\\": {
+      \\"cache_behavior\\": {
+        \\"nesting_mode\\": \\"set\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"allowed_methods\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"cached_methods\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"compress\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"default_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"field_level_encryption_id\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"max_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"min_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"path_pattern\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"smooth_streaming\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"target_origin_id\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"trusted_signers\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"optional\\": true
+            },
+            \\"viewer_protocol_policy\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"forwarded_values\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"headers\\": {
+                    \\"type\\": [
+                      \\"set\\",
+                      \\"string\\"
+                    ],
+                    \\"optional\\": true
+                  },
+                  \\"query_string\\": {
+                    \\"type\\": \\"bool\\",
+                    \\"required\\": true
+                  },
+                  \\"query_string_cache_keys\\": {
+                    \\"type\\": [
+                      \\"list\\",
+                      \\"string\\"
+                    ],
+                    \\"optional\\": true
+                  }
+                },
+                \\"block_types\\": {
+                  \\"cookies\\": {
+                    \\"nesting_mode\\": \\"set\\",
+                    \\"block\\": {
+                      \\"attributes\\": {
+                        \\"forward\\": {
+                          \\"type\\": \\"string\\",
+                          \\"required\\": true
+                        },
+                        \\"whitelisted_names\\": {
+                          \\"type\\": [
+                            \\"set\\",
+                            \\"string\\"
+                          ],
+                          \\"optional\\": true
+                        }
+                      }
+                    },
+                    \\"min_items\\": 1,
+                    \\"max_items\\": 1
+                  }
+                }
+              },
+              \\"min_items\\": 1,
+              \\"max_items\\": 1
+            },
+            \\"lambda_function_association\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"event_type\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  },
+                  \\"include_body\\": {
+                    \\"type\\": \\"bool\\",
+                    \\"optional\\": true
+                  },
+                  \\"lambda_arn\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 4
+            }
+          }
+        }
+      },
+      \\"custom_error_response\\": {
+        \\"nesting_mode\\": \\"set\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"error_caching_min_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"error_code\\": {
+              \\"type\\": \\"number\\",
+              \\"required\\": true
+            },
+            \\"response_code\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"response_page_path\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      },
+      \\"default_cache_behavior\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"allowed_methods\\": {
+              \\"type\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"cached_methods\\": {
+              \\"type\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"compress\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"default_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"field_level_encryption_id\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"max_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"min_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"smooth_streaming\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"target_origin_id\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"trusted_signers\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"optional\\": true
+            },
+            \\"viewer_protocol_policy\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"forwarded_values\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"headers\\": {
+                    \\"type\\": [
+                      \\"set\\",
+                      \\"string\\"
+                    ],
+                    \\"optional\\": true
+                  },
+                  \\"query_string\\": {
+                    \\"type\\": \\"bool\\",
+                    \\"required\\": true
+                  },
+                  \\"query_string_cache_keys\\": {
+                    \\"type\\": [
+                      \\"list\\",
+                      \\"string\\"
+                    ],
+                    \\"optional\\": true
+                  }
+                },
+                \\"block_types\\": {
+                  \\"cookies\\": {
+                    \\"nesting_mode\\": \\"list\\",
+                    \\"block\\": {
+                      \\"attributes\\": {
+                        \\"forward\\": {
+                          \\"type\\": \\"string\\",
+                          \\"required\\": true
+                        },
+                        \\"whitelisted_names\\": {
+                          \\"type\\": [
+                            \\"set\\",
+                            \\"string\\"
+                          ],
+                          \\"optional\\": true
+                        }
+                      }
+                    },
+                    \\"min_items\\": 1,
+                    \\"max_items\\": 1
+                  }
+                }
+              },
+              \\"min_items\\": 1,
+              \\"max_items\\": 1
+            },
+            \\"lambda_function_association\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"event_type\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  },
+                  \\"include_body\\": {
+                    \\"type\\": \\"bool\\",
+                    \\"optional\\": true
+                  },
+                  \\"lambda_arn\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 4
+            }
+          }
+        },
+        \\"min_items\\": 1,
+        \\"max_items\\": 1
+      },
+      \\"logging_config\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"bucket\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"include_cookies\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"prefix\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        },
+        \\"max_items\\": 1
+      },
+      \\"ordered_cache_behavior\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"allowed_methods\\": {
+              \\"type\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"cached_methods\\": {
+              \\"type\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"compress\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"default_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"field_level_encryption_id\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"max_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"min_ttl\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"path_pattern\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"smooth_streaming\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"target_origin_id\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"trusted_signers\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"optional\\": true
+            },
+            \\"viewer_protocol_policy\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"forwarded_values\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"headers\\": {
+                    \\"type\\": [
+                      \\"set\\",
+                      \\"string\\"
+                    ],
+                    \\"optional\\": true
+                  },
+                  \\"query_string\\": {
+                    \\"type\\": \\"bool\\",
+                    \\"required\\": true
+                  },
+                  \\"query_string_cache_keys\\": {
+                    \\"type\\": [
+                      \\"list\\",
+                      \\"string\\"
+                    ],
+                    \\"optional\\": true
+                  }
+                },
+                \\"block_types\\": {
+                  \\"cookies\\": {
+                    \\"nesting_mode\\": \\"list\\",
+                    \\"block\\": {
+                      \\"attributes\\": {
+                        \\"forward\\": {
+                          \\"type\\": \\"string\\",
+                          \\"required\\": true
+                        },
+                        \\"whitelisted_names\\": {
+                          \\"type\\": [
+                            \\"set\\",
+                            \\"string\\"
+                          ],
+                          \\"optional\\": true
+                        }
+                      }
+                    },
+                    \\"min_items\\": 1,
+                    \\"max_items\\": 1
+                  }
+                }
+              },
+              \\"min_items\\": 1,
+              \\"max_items\\": 1
+            },
+            \\"lambda_function_association\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"event_type\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  },
+                  \\"include_body\\": {
+                    \\"type\\": \\"bool\\",
+                    \\"optional\\": true
+                  },
+                  \\"lambda_arn\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 4
+            }
+          }
+        }
+      },
+      \\"origin\\": {
+        \\"nesting_mode\\": \\"set\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"domain_name\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"origin_id\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"origin_path\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"custom_header\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"name\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  },
+                  \\"value\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              }
+            },
+            \\"custom_origin_config\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"http_port\\": {
+                    \\"type\\": \\"number\\",
+                    \\"required\\": true
+                  },
+                  \\"https_port\\": {
+                    \\"type\\": \\"number\\",
+                    \\"required\\": true
+                  },
+                  \\"origin_keepalive_timeout\\": {
+                    \\"type\\": \\"number\\",
+                    \\"optional\\": true
+                  },
+                  \\"origin_protocol_policy\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  },
+                  \\"origin_read_timeout\\": {
+                    \\"type\\": \\"number\\",
+                    \\"optional\\": true
+                  },
+                  \\"origin_ssl_protocols\\": {
+                    \\"type\\": [
+                      \\"set\\",
+                      \\"string\\"
+                    ],
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 1
+            },
+            \\"s3_origin_config\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"origin_access_identity\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 1
+            }
+          }
+        },
+        \\"min_items\\": 1
+      },
+      \\"origin_group\\": {
+        \\"nesting_mode\\": \\"set\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"origin_id\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"failover_criteria\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"status_codes\\": {
+                    \\"type\\": [
+                      \\"set\\",
+                      \\"number\\"
+                    ],
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"min_items\\": 1,
+              \\"max_items\\": 1
+            },
+            \\"member\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"origin_id\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"min_items\\": 2,
+              \\"max_items\\": 2
+            }
+          }
+        }
+      },
+      \\"restrictions\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"block_types\\": {
+            \\"geo_restriction\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"locations\\": {
+                    \\"type\\": [
+                      \\"set\\",
+                      \\"string\\"
+                    ],
+                    \\"optional\\": true
+                  },
+                  \\"restriction_type\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              },
+              \\"min_items\\": 1,
+              \\"max_items\\": 1
+            }
+          }
+        },
+        \\"min_items\\": 1,
+        \\"max_items\\": 1
+      },
+      \\"viewer_certificate\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"acm_certificate_arn\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"cloudfront_default_certificate\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"iam_certificate_id\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"minimum_protocol_version\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"ssl_support_method\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        },
+        \\"min_items\\": 1,
+        \\"max_items\\": 1
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface CloudfrontDistributionConfig {
+  readonly aliases?: string[];
+  readonly comment?: string;
+  readonly defaultRootObject?: string;
+  readonly enabled: boolean;
+  readonly httpVersion?: string;
+  readonly isIpv6Enabled?: boolean;
+  readonly priceClass?: string;
+  readonly retainOnDelete?: boolean;
+  readonly tags?: { [key: string]: string };
+  readonly waitForDeployment?: boolean;
+  readonly webAclId?: string;
+  /** cache_behavior block */
+  readonly cacheBehavior?: CloudfrontDistributionCacheBehavior[];
+  /** custom_error_response block */
+  readonly customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
+  /** default_cache_behavior block */
+  readonly defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
+  /** logging_config block */
+  readonly loggingConfig?: CloudfrontDistributionLoggingConfig[];
+  /** ordered_cache_behavior block */
+  readonly orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
+  /** origin block */
+  readonly origin: CloudfrontDistributionOrigin[];
+  /** origin_group block */
+  readonly originGroup?: CloudfrontDistributionOriginGroup[];
+  /** restrictions block */
+  readonly restrictions: CloudfrontDistributionRestrictions[];
+  /** viewer_certificate block */
+  readonly viewerCertificate: CloudfrontDistributionViewerCertificate[];
+}
+export interface CloudfrontDistributionCacheBehaviorForwardedValuesCookies {
+  readonly forward: string;
+  readonly whitelistedNames?: string[];
+}
+export interface CloudfrontDistributionCacheBehaviorForwardedValues {
+  readonly headers?: string[];
+  readonly queryString: boolean;
+  readonly queryStringCacheKeys?: string[];
+  /** cookies block */
+  readonly cookies: CloudfrontDistributionCacheBehaviorForwardedValuesCookies[];
+}
+export interface CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation {
+  readonly eventType: string;
+  readonly includeBody?: boolean;
+  readonly lambdaArn: string;
+}
+export interface CloudfrontDistributionCacheBehavior {
+  readonly allowedMethods: string[];
+  readonly cachedMethods: string[];
+  readonly compress?: boolean;
+  readonly defaultTtl?: number;
+  readonly fieldLevelEncryptionId?: string;
+  readonly maxTtl?: number;
+  readonly minTtl?: number;
+  readonly pathPattern: string;
+  readonly smoothStreaming?: boolean;
+  readonly targetOriginId: string;
+  readonly trustedSigners?: string[];
+  readonly viewerProtocolPolicy: string;
+  /** forwarded_values block */
+  readonly forwardedValues: CloudfrontDistributionCacheBehaviorForwardedValues[];
+  /** lambda_function_association block */
+  readonly lambdaFunctionAssociation?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation[];
+}
+export interface CloudfrontDistributionCustomErrorResponse {
+  readonly errorCachingMinTtl?: number;
+  readonly errorCode: number;
+  readonly responseCode?: number;
+  readonly responsePagePath?: string;
+}
+export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies {
+  readonly forward: string;
+  readonly whitelistedNames?: string[];
+}
+export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValues {
+  readonly headers?: string[];
+  readonly queryString: boolean;
+  readonly queryStringCacheKeys?: string[];
+  /** cookies block */
+  readonly cookies: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies[];
+}
+export interface CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation {
+  readonly eventType: string;
+  readonly includeBody?: boolean;
+  readonly lambdaArn: string;
+}
+export interface CloudfrontDistributionDefaultCacheBehavior {
+  readonly allowedMethods: string[];
+  readonly cachedMethods: string[];
+  readonly compress?: boolean;
+  readonly defaultTtl?: number;
+  readonly fieldLevelEncryptionId?: string;
+  readonly maxTtl?: number;
+  readonly minTtl?: number;
+  readonly smoothStreaming?: boolean;
+  readonly targetOriginId: string;
+  readonly trustedSigners?: string[];
+  readonly viewerProtocolPolicy: string;
+  /** forwarded_values block */
+  readonly forwardedValues: CloudfrontDistributionDefaultCacheBehaviorForwardedValues[];
+  /** lambda_function_association block */
+  readonly lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[];
+}
+export interface CloudfrontDistributionLoggingConfig {
+  readonly bucket: string;
+  readonly includeCookies?: boolean;
+  readonly prefix?: string;
+}
+export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies {
+  readonly forward: string;
+  readonly whitelistedNames?: string[];
+}
+export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValues {
+  readonly headers?: string[];
+  readonly queryString: boolean;
+  readonly queryStringCacheKeys?: string[];
+  /** cookies block */
+  readonly cookies: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies[];
+}
+export interface CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation {
+  readonly eventType: string;
+  readonly includeBody?: boolean;
+  readonly lambdaArn: string;
+}
+export interface CloudfrontDistributionOrderedCacheBehavior {
+  readonly allowedMethods: string[];
+  readonly cachedMethods: string[];
+  readonly compress?: boolean;
+  readonly defaultTtl?: number;
+  readonly fieldLevelEncryptionId?: string;
+  readonly maxTtl?: number;
+  readonly minTtl?: number;
+  readonly pathPattern: string;
+  readonly smoothStreaming?: boolean;
+  readonly targetOriginId: string;
+  readonly trustedSigners?: string[];
+  readonly viewerProtocolPolicy: string;
+  /** forwarded_values block */
+  readonly forwardedValues: CloudfrontDistributionOrderedCacheBehaviorForwardedValues[];
+  /** lambda_function_association block */
+  readonly lambdaFunctionAssociation?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation[];
+}
+export interface CloudfrontDistributionOriginCustomHeader {
+  readonly name: string;
+  readonly value: string;
+}
+export interface CloudfrontDistributionOriginCustomOriginConfig {
+  readonly httpPort: number;
+  readonly httpsPort: number;
+  readonly originKeepaliveTimeout?: number;
+  readonly originProtocolPolicy: string;
+  readonly originReadTimeout?: number;
+  readonly originSslProtocols: string[];
+}
+export interface CloudfrontDistributionOriginS3OriginConfig {
+  readonly originAccessIdentity: string;
+}
+export interface CloudfrontDistributionOrigin {
+  readonly domainName: string;
+  readonly originId: string;
+  readonly originPath?: string;
+  /** custom_header block */
+  readonly customHeader?: CloudfrontDistributionOriginCustomHeader[];
+  /** custom_origin_config block */
+  readonly customOriginConfig?: CloudfrontDistributionOriginCustomOriginConfig[];
+  /** s3_origin_config block */
+  readonly s3OriginConfig?: CloudfrontDistributionOriginS3OriginConfig[];
+}
+export interface CloudfrontDistributionOriginGroupFailoverCriteria {
+  readonly statusCodes: number[];
+}
+export interface CloudfrontDistributionOriginGroupMember {
+  readonly originId: string;
+}
+export interface CloudfrontDistributionOriginGroup {
+  readonly originId: string;
+  /** failover_criteria block */
+  readonly failoverCriteria: CloudfrontDistributionOriginGroupFailoverCriteria[];
+  /** member block */
+  readonly member: CloudfrontDistributionOriginGroupMember[];
+}
+export interface CloudfrontDistributionRestrictionsGeoRestriction {
+  readonly locations?: string[];
+  readonly restrictionType: string;
+}
+export interface CloudfrontDistributionRestrictions {
+  /** geo_restriction block */
+  readonly geoRestriction: CloudfrontDistributionRestrictionsGeoRestriction[];
+}
+export interface CloudfrontDistributionViewerCertificate {
+  readonly acmCertificateArn?: string;
+  readonly cloudfrontDefaultCertificate?: boolean;
+  readonly iamCertificateId?: string;
+  readonly minimumProtocolVersion?: string;
+  readonly sslSupportMethod?: string;
+}
+
+// Resource
+
+export class CloudfrontDistribution extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: CloudfrontDistributionConfig) {
+    super(scope, id, {
+      type: 'aws_cloudfront_distribution',
+    });
+    this._aliases = config.aliases;
+    this._comment = config.comment;
+    this._defaultRootObject = config.defaultRootObject;
+    this._enabled = config.enabled;
+    this._httpVersion = config.httpVersion;
+    this._isIpv6Enabled = config.isIpv6Enabled;
+    this._priceClass = config.priceClass;
+    this._retainOnDelete = config.retainOnDelete;
+    this._tags = config.tags;
+    this._waitForDeployment = config.waitForDeployment;
+    this._webAclId = config.webAclId;
+    this._cacheBehavior = config.cacheBehavior;
+    this._customErrorResponse = config.customErrorResponse;
+    this._defaultCacheBehavior = config.defaultCacheBehavior;
+    this._loggingConfig = config.loggingConfig;
+    this._orderedCacheBehavior = config.orderedCacheBehavior;
+    this._origin = config.origin;
+    this._originGroup = config.originGroup;
+    this._restrictions = config.restrictions;
+    this._viewerCertificate = config.viewerCertificate;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // active_trusted_signers
+  public get activeTrustedSigners() {
+    throw new Error('computed attribute \\"$cloudfront_distribution.active_trusted_signers\\" has unsupported type \\"{ [key: string]: string }\\"');
+  }
+
+  // aliases
+  private _aliases?: string[];
+  public get aliases() {
+    return this._aliases ?? this.getListAttribute('aliases');
+  }
+  public set aliases(value: string[]) {
+    this._aliases = value;
+  }
+
+  // arn
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // caller_reference
+  public get callerReference() {
+    return this.getStringAttribute('caller_reference');
+  }
+
+  // comment
+  private _comment?: string;
+  public get comment() {
+    return this._comment ?? this.getStringAttribute('comment');
+  }
+  public set comment(value: string) {
+    this._comment = value;
+  }
+
+  // default_root_object
+  private _defaultRootObject?: string;
+  public get defaultRootObject() {
+    return this._defaultRootObject ?? this.getStringAttribute('default_root_object');
+  }
+  public set defaultRootObject(value: string) {
+    this._defaultRootObject = value;
+  }
+
+  // domain_name
+  public get domainName() {
+    return this.getStringAttribute('domain_name');
+  }
+
+  // enabled
+  private _enabled?: boolean;
+  public get enabled() {
+    return this._enabled;
+  }
+  public set enabled(value: boolean | undefined) {
+    this._enabled = value;
+  }
+
+  // etag
+  public get etag() {
+    return this.getStringAttribute('etag');
+  }
+
+  // hosted_zone_id
+  public get hostedZoneId() {
+    return this.getStringAttribute('hosted_zone_id');
+  }
+
+  // http_version
+  private _httpVersion?: string;
+  public get httpVersion() {
+    return this._httpVersion ?? this.getStringAttribute('http_version');
+  }
+  public set httpVersion(value: string) {
+    this._httpVersion = value;
+  }
+
+  // id
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // in_progress_validation_batches
+  public get inProgressValidationBatches() {
+    return this.getNumberAttribute('in_progress_validation_batches');
+  }
+
+  // is_ipv6_enabled
+  private _isIpv6Enabled?: boolean;
+  public get isIpv6Enabled() {
+    return this._isIpv6Enabled;
+  }
+  public set isIpv6Enabled(value: boolean | undefined) {
+    this._isIpv6Enabled = value;
+  }
+
+  // last_modified_time
+  public get lastModifiedTime() {
+    return this.getStringAttribute('last_modified_time');
+  }
+
+  // price_class
+  private _priceClass?: string;
+  public get priceClass() {
+    return this._priceClass ?? this.getStringAttribute('price_class');
+  }
+  public set priceClass(value: string) {
+    this._priceClass = value;
+  }
+
+  // retain_on_delete
+  private _retainOnDelete?: boolean;
+  public get retainOnDelete() {
+    return this._retainOnDelete;
+  }
+  public set retainOnDelete(value: boolean | undefined) {
+    this._retainOnDelete = value;
+  }
+
+  // status
+  public get status() {
+    return this.getStringAttribute('status');
+  }
+
+  // tags
+  private _tags?: { [key: string]: string };
+  public get tags() {
+    return this._tags;
+  }
+  public set tags(value: { [key: string]: string } | undefined) {
+    this._tags = value;
+  }
+
+  // wait_for_deployment
+  private _waitForDeployment?: boolean;
+  public get waitForDeployment() {
+    return this._waitForDeployment;
+  }
+  public set waitForDeployment(value: boolean | undefined) {
+    this._waitForDeployment = value;
+  }
+
+  // web_acl_id
+  private _webAclId?: string;
+  public get webAclId() {
+    return this._webAclId ?? this.getStringAttribute('web_acl_id');
+  }
+  public set webAclId(value: string) {
+    this._webAclId = value;
+  }
+
+  // cache_behavior
+  private _cacheBehavior?: CloudfrontDistributionCacheBehavior[];
+  public get cacheBehavior() {
+    return this._cacheBehavior;
+  }
+  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] | undefined) {
+    this._cacheBehavior = value;
+  }
+
+  // custom_error_response
+  private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
+  public get customErrorResponse() {
+    return this._customErrorResponse;
+  }
+  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | undefined) {
+    this._customErrorResponse = value;
+  }
+
+  // default_cache_behavior
+  private _defaultCacheBehavior?: CloudfrontDistributionDefaultCacheBehavior[];
+  public get defaultCacheBehavior() {
+    return this._defaultCacheBehavior;
+  }
+  public set defaultCacheBehavior(value: CloudfrontDistributionDefaultCacheBehavior[] | undefined) {
+    this._defaultCacheBehavior = value;
+  }
+
+  // logging_config
+  private _loggingConfig?: CloudfrontDistributionLoggingConfig[];
+  public get loggingConfig() {
+    return this._loggingConfig;
+  }
+  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] | undefined) {
+    this._loggingConfig = value;
+  }
+
+  // ordered_cache_behavior
+  private _orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
+  public get orderedCacheBehavior() {
+    return this._orderedCacheBehavior;
+  }
+  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] | undefined) {
+    this._orderedCacheBehavior = value;
+  }
+
+  // origin
+  private _origin?: CloudfrontDistributionOrigin[];
+  public get origin() {
+    return this._origin;
+  }
+  public set origin(value: CloudfrontDistributionOrigin[] | undefined) {
+    this._origin = value;
+  }
+
+  // origin_group
+  private _originGroup?: CloudfrontDistributionOriginGroup[];
+  public get originGroup() {
+    return this._originGroup;
+  }
+  public set originGroup(value: CloudfrontDistributionOriginGroup[] | undefined) {
+    this._originGroup = value;
+  }
+
+  // restrictions
+  private _restrictions?: CloudfrontDistributionRestrictions[];
+  public get restrictions() {
+    return this._restrictions;
+  }
+  public set restrictions(value: CloudfrontDistributionRestrictions[] | undefined) {
+    this._restrictions = value;
+  }
+
+  // viewer_certificate
+  private _viewerCertificate?: CloudfrontDistributionViewerCertificate[];
+  public get viewerCertificate() {
+    return this._viewerCertificate;
+  }
+  public set viewerCertificate(value: CloudfrontDistributionViewerCertificate[] | undefined) {
+    this._viewerCertificate = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      aliases: this._aliases,
+      comment: this._comment,
+      default_root_object: this._defaultRootObject,
+      enabled: this._enabled,
+      http_version: this._httpVersion,
+      is_ipv6_enabled: this._isIpv6Enabled,
+      price_class: this._priceClass,
+      retain_on_delete: this._retainOnDelete,
+      tags: this._tags,
+      wait_for_deployment: this._waitForDeployment,
+      web_acl_id: this._webAclId,
+      cache_behavior: this._cacheBehavior,
+      custom_error_response: this._customErrorResponse,
+      default_cache_behavior: this._defaultCacheBehavior,
+      logging_config: this._loggingConfig,
+      ordered_cache_behavior: this._orderedCacheBehavior,
+      origin: this._origin,
+      origin_group: this._originGroup,
+      restrictions: this._restrictions,
+      viewer_certificate: this._viewerCertificate,
+    };
+  }
+}
+"
+`;
+
+exports[`generate a s3 bucket resource 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 0,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"acceleration_status\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"acl\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"arn\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"bucket\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"bucket_domain_name\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"bucket_prefix\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"bucket_regional_domain_name\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"force_destroy\\": {
+        \\"type\\": \\"bool\\",
+        \\"optional\\": true
+      },
+      \\"hosted_zone_id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"id\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"policy\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"region\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"request_payer\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"tags\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true
+      },
+      \\"website_domain\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"website_endpoint\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true,
+        \\"computed\\": true
+      }
+    },
+    \\"block_types\\": {
+      \\"cors_rule\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"allowed_headers\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"optional\\": true
+            },
+            \\"allowed_methods\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"allowed_origins\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"expose_headers\\": {
+              \\"type\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"optional\\": true
+            },
+            \\"max_age_seconds\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      },
+      \\"grant\\": {
+        \\"nesting_mode\\": \\"set\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"id\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"permissions\\": {
+              \\"type\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"required\\": true
+            },
+            \\"type\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"uri\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      },
+      \\"lifecycle_rule\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"abort_incomplete_multipart_upload_days\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            },
+            \\"enabled\\": {
+              \\"type\\": \\"bool\\",
+              \\"required\\": true
+            },
+            \\"id\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true,
+              \\"computed\\": true
+            },
+            \\"prefix\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"tags\\": {
+              \\"type\\": [
+                \\"map\\",
+                \\"string\\"
+              ],
+              \\"optional\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"expiration\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"date\\": {
+                    \\"type\\": \\"string\\",
+                    \\"optional\\": true
+                  },
+                  \\"days\\": {
+                    \\"type\\": \\"number\\",
+                    \\"optional\\": true
+                  },
+                  \\"expired_object_delete_marker\\": {
+                    \\"type\\": \\"bool\\",
+                    \\"optional\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 1
+            },
+            \\"noncurrent_version_expiration\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"days\\": {
+                    \\"type\\": \\"number\\",
+                    \\"optional\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 1
+            },
+            \\"noncurrent_version_transition\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"days\\": {
+                    \\"type\\": \\"number\\",
+                    \\"optional\\": true
+                  },
+                  \\"storage_class\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              }
+            },
+            \\"transition\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"date\\": {
+                    \\"type\\": \\"string\\",
+                    \\"optional\\": true
+                  },
+                  \\"days\\": {
+                    \\"type\\": \\"number\\",
+                    \\"optional\\": true
+                  },
+                  \\"storage_class\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      \\"logging\\": {
+        \\"nesting_mode\\": \\"set\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"target_bucket\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"target_prefix\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      },
+      \\"object_lock_configuration\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"object_lock_enabled\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"rule\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"block_types\\": {
+                  \\"default_retention\\": {
+                    \\"nesting_mode\\": \\"list\\",
+                    \\"block\\": {
+                      \\"attributes\\": {
+                        \\"days\\": {
+                          \\"type\\": \\"number\\",
+                          \\"optional\\": true
+                        },
+                        \\"mode\\": {
+                          \\"type\\": \\"string\\",
+                          \\"required\\": true
+                        },
+                        \\"years\\": {
+                          \\"type\\": \\"number\\",
+                          \\"optional\\": true
+                        }
+                      }
+                    },
+                    \\"min_items\\": 1,
+                    \\"max_items\\": 1
+                  }
+                }
+              },
+              \\"max_items\\": 1
+            }
+          }
+        },
+        \\"max_items\\": 1
+      },
+      \\"replication_configuration\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"role\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"rules\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"id\\": {
+                    \\"type\\": \\"string\\",
+                    \\"optional\\": true
+                  },
+                  \\"prefix\\": {
+                    \\"type\\": \\"string\\",
+                    \\"optional\\": true
+                  },
+                  \\"priority\\": {
+                    \\"type\\": \\"number\\",
+                    \\"optional\\": true
+                  },
+                  \\"status\\": {
+                    \\"type\\": \\"string\\",
+                    \\"required\\": true
+                  }
+                },
+                \\"block_types\\": {
+                  \\"destination\\": {
+                    \\"nesting_mode\\": \\"set\\",
+                    \\"block\\": {
+                      \\"attributes\\": {
+                        \\"account_id\\": {
+                          \\"type\\": \\"string\\",
+                          \\"optional\\": true
+                        },
+                        \\"bucket\\": {
+                          \\"type\\": \\"string\\",
+                          \\"required\\": true
+                        },
+                        \\"replica_kms_key_id\\": {
+                          \\"type\\": \\"string\\",
+                          \\"optional\\": true
+                        },
+                        \\"storage_class\\": {
+                          \\"type\\": \\"string\\",
+                          \\"optional\\": true
+                        }
+                      },
+                      \\"block_types\\": {
+                        \\"access_control_translation\\": {
+                          \\"nesting_mode\\": \\"list\\",
+                          \\"block\\": {
+                            \\"attributes\\": {
+                              \\"owner\\": {
+                                \\"type\\": \\"string\\",
+                                \\"required\\": true
+                              }
+                            }
+                          },
+                          \\"max_items\\": 1
+                        }
+                      }
+                    },
+                    \\"min_items\\": 1,
+                    \\"max_items\\": 1
+                  },
+                  \\"filter\\": {
+                    \\"nesting_mode\\": \\"list\\",
+                    \\"block\\": {
+                      \\"attributes\\": {
+                        \\"prefix\\": {
+                          \\"type\\": \\"string\\",
+                          \\"optional\\": true
+                        },
+                        \\"tags\\": {
+                          \\"type\\": [
+                            \\"map\\",
+                            \\"string\\"
+                          ],
+                          \\"optional\\": true
+                        }
+                      }
+                    },
+                    \\"max_items\\": 1
+                  },
+                  \\"source_selection_criteria\\": {
+                    \\"nesting_mode\\": \\"set\\",
+                    \\"block\\": {
+                      \\"block_types\\": {
+                        \\"sse_kms_encrypted_objects\\": {
+                          \\"nesting_mode\\": \\"set\\",
+                          \\"block\\": {
+                            \\"attributes\\": {
+                              \\"enabled\\": {
+                                \\"type\\": \\"bool\\",
+                                \\"required\\": true
+                              }
+                            }
+                          },
+                          \\"max_items\\": 1
+                        }
+                      }
+                    },
+                    \\"max_items\\": 1
+                  }
+                }
+              },
+              \\"min_items\\": 1
+            }
+          }
+        },
+        \\"max_items\\": 1
+      },
+      \\"server_side_encryption_configuration\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"block_types\\": {
+            \\"rule\\": {
+              \\"nesting_mode\\": \\"list\\",
+              \\"block\\": {
+                \\"block_types\\": {
+                  \\"apply_server_side_encryption_by_default\\": {
+                    \\"nesting_mode\\": \\"list\\",
+                    \\"block\\": {
+                      \\"attributes\\": {
+                        \\"kms_master_key_id\\": {
+                          \\"type\\": \\"string\\",
+                          \\"optional\\": true
+                        },
+                        \\"sse_algorithm\\": {
+                          \\"type\\": \\"string\\",
+                          \\"required\\": true
+                        }
+                      }
+                    },
+                    \\"min_items\\": 1,
+                    \\"max_items\\": 1
+                  }
+                }
+              },
+              \\"min_items\\": 1,
+              \\"max_items\\": 1
+            }
+          }
+        },
+        \\"max_items\\": 1
+      },
+      \\"versioning\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"enabled\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            },
+            \\"mfa_delete\\": {
+              \\"type\\": \\"bool\\",
+              \\"optional\\": true
+            }
+          }
+        },
+        \\"max_items\\": 1
+      },
+      \\"website\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"error_document\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"index_document\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"redirect_all_requests_to\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            },
+            \\"routing_rules\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        },
+        \\"max_items\\": 1
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface S3BucketConfig {
+  readonly acl?: string;
+  readonly bucketPrefix?: string;
+  readonly forceDestroy?: boolean;
+  readonly policy?: string;
+  readonly tags?: { [key: string]: string };
+  /** cors_rule block */
+  readonly corsRule?: S3BucketCorsRule[];
+  /** grant block */
+  readonly grant?: S3BucketGrant[];
+  /** lifecycle_rule block */
+  readonly lifecycleRule?: S3BucketLifecycleRule[];
+  /** logging block */
+  readonly logging?: S3BucketLogging[];
+  /** object_lock_configuration block */
+  readonly objectLockConfiguration?: S3BucketObjectLockConfiguration[];
+  /** replication_configuration block */
+  readonly replicationConfiguration?: S3BucketReplicationConfiguration[];
+  /** server_side_encryption_configuration block */
+  readonly serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
+  /** versioning block */
+  readonly versioning?: S3BucketVersioning[];
+  /** website block */
+  readonly website?: S3BucketWebsite[];
+}
+export interface S3BucketCorsRule {
+  readonly allowedHeaders?: string[];
+  readonly allowedMethods: string[];
+  readonly allowedOrigins: string[];
+  readonly exposeHeaders?: string[];
+  readonly maxAgeSeconds?: number;
+}
+export interface S3BucketGrant {
+  readonly id?: string;
+  readonly permissions: string[];
+  readonly type: string;
+  readonly uri?: string;
+}
+export interface S3BucketLifecycleRuleExpiration {
+  readonly date?: string;
+  readonly days?: number;
+  readonly expiredObjectDeleteMarker?: boolean;
+}
+export interface S3BucketLifecycleRuleNoncurrentVersionExpiration {
+  readonly days?: number;
+}
+export interface S3BucketLifecycleRuleNoncurrentVersionTransition {
+  readonly days?: number;
+  readonly storageClass: string;
+}
+export interface S3BucketLifecycleRuleTransition {
+  readonly date?: string;
+  readonly days?: number;
+  readonly storageClass: string;
+}
+export interface S3BucketLifecycleRule {
+  readonly abortIncompleteMultipartUploadDays?: number;
+  readonly enabled: boolean;
+  readonly prefix?: string;
+  readonly tags?: { [key: string]: string };
+  /** expiration block */
+  readonly expiration?: S3BucketLifecycleRuleExpiration[];
+  /** noncurrent_version_expiration block */
+  readonly noncurrentVersionExpiration?: S3BucketLifecycleRuleNoncurrentVersionExpiration[];
+  /** noncurrent_version_transition block */
+  readonly noncurrentVersionTransition?: S3BucketLifecycleRuleNoncurrentVersionTransition[];
+  /** transition block */
+  readonly transition?: S3BucketLifecycleRuleTransition[];
+}
+export interface S3BucketLogging {
+  readonly targetBucket: string;
+  readonly targetPrefix?: string;
+}
+export interface S3BucketObjectLockConfigurationRuleDefaultRetention {
+  readonly days?: number;
+  readonly mode: string;
+  readonly years?: number;
+}
+export interface S3BucketObjectLockConfigurationRule {
+  /** default_retention block */
+  readonly defaultRetention: S3BucketObjectLockConfigurationRuleDefaultRetention[];
+}
+export interface S3BucketObjectLockConfiguration {
+  readonly objectLockEnabled: string;
+  /** rule block */
+  readonly rule?: S3BucketObjectLockConfigurationRule[];
+}
+export interface S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation {
+  readonly owner: string;
+}
+export interface S3BucketReplicationConfigurationRulesDestination {
+  readonly accountId?: string;
+  readonly bucket: string;
+  readonly replicaKmsKeyId?: string;
+  readonly storageClass?: string;
+  /** access_control_translation block */
+  readonly accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation[];
+}
+export interface S3BucketReplicationConfigurationRulesFilter {
+  readonly prefix?: string;
+  readonly tags?: { [key: string]: string };
+}
+export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects {
+  readonly enabled: boolean;
+}
+export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteria {
+  /** sse_kms_encrypted_objects block */
+  readonly sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects[];
+}
+export interface S3BucketReplicationConfigurationRules {
+  readonly id?: string;
+  readonly prefix?: string;
+  readonly priority?: number;
+  readonly status: string;
+  /** destination block */
+  readonly destination: S3BucketReplicationConfigurationRulesDestination[];
+  /** filter block */
+  readonly filter?: S3BucketReplicationConfigurationRulesFilter[];
+  /** source_selection_criteria block */
+  readonly sourceSelectionCriteria?: S3BucketReplicationConfigurationRulesSourceSelectionCriteria[];
+}
+export interface S3BucketReplicationConfiguration {
+  readonly role: string;
+  /** rules block */
+  readonly rules: S3BucketReplicationConfigurationRules[];
+}
+export interface S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault {
+  readonly kmsMasterKeyId?: string;
+  readonly sseAlgorithm: string;
+}
+export interface S3BucketServerSideEncryptionConfigurationRule {
+  /** apply_server_side_encryption_by_default block */
+  readonly applyServerSideEncryptionByDefault: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault[];
+}
+export interface S3BucketServerSideEncryptionConfiguration {
+  /** rule block */
+  readonly rule: S3BucketServerSideEncryptionConfigurationRule[];
+}
+export interface S3BucketVersioning {
+  readonly enabled?: boolean;
+  readonly mfaDelete?: boolean;
+}
+export interface S3BucketWebsite {
+  readonly errorDocument?: string;
+  readonly indexDocument?: string;
+  readonly redirectAllRequestsTo?: string;
+  readonly routingRules?: string;
+}
+
+// Resource
+
+export class S3Bucket extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: S3BucketConfig = {}) {
+    super(scope, id, {
+      type: 'aws_s3_bucket',
+    });
+    this._acl = config.acl;
+    this._bucketPrefix = config.bucketPrefix;
+    this._forceDestroy = config.forceDestroy;
+    this._policy = config.policy;
+    this._tags = config.tags;
+    this._corsRule = config.corsRule;
+    this._grant = config.grant;
+    this._lifecycleRule = config.lifecycleRule;
+    this._logging = config.logging;
+    this._objectLockConfiguration = config.objectLockConfiguration;
+    this._replicationConfiguration = config.replicationConfiguration;
+    this._serverSideEncryptionConfiguration = config.serverSideEncryptionConfiguration;
+    this._versioning = config.versioning;
+    this._website = config.website;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // acceleration_status
+  public get accelerationStatus() {
+    return this.getStringAttribute('acceleration_status');
+  }
+
+  // acl
+  private _acl?: string;
+  public get acl() {
+    return this._acl ?? this.getStringAttribute('acl');
+  }
+  public set acl(value: string) {
+    this._acl = value;
+  }
+
+  // arn
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // bucket
+  public get bucket() {
+    return this.getStringAttribute('bucket');
+  }
+
+  // bucket_domain_name
+  public get bucketDomainName() {
+    return this.getStringAttribute('bucket_domain_name');
+  }
+
+  // bucket_prefix
+  private _bucketPrefix?: string;
+  public get bucketPrefix() {
+    return this._bucketPrefix ?? this.getStringAttribute('bucket_prefix');
+  }
+  public set bucketPrefix(value: string) {
+    this._bucketPrefix = value;
+  }
+
+  // bucket_regional_domain_name
+  public get bucketRegionalDomainName() {
+    return this.getStringAttribute('bucket_regional_domain_name');
+  }
+
+  // force_destroy
+  private _forceDestroy?: boolean;
+  public get forceDestroy() {
+    return this._forceDestroy;
+  }
+  public set forceDestroy(value: boolean | undefined) {
+    this._forceDestroy = value;
+  }
+
+  // hosted_zone_id
+  public get hostedZoneId() {
+    return this.getStringAttribute('hosted_zone_id');
+  }
+
+  // id
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // policy
+  private _policy?: string;
+  public get policy() {
+    return this._policy ?? this.getStringAttribute('policy');
+  }
+  public set policy(value: string) {
+    this._policy = value;
+  }
+
+  // region
+  public get region() {
+    return this.getStringAttribute('region');
+  }
+
+  // request_payer
+  public get requestPayer() {
+    return this.getStringAttribute('request_payer');
+  }
+
+  // tags
+  private _tags?: { [key: string]: string };
+  public get tags() {
+    return this._tags;
+  }
+  public set tags(value: { [key: string]: string } | undefined) {
+    this._tags = value;
+  }
+
+  // website_domain
+  public get websiteDomain() {
+    return this.getStringAttribute('website_domain');
+  }
+
+  // website_endpoint
+  public get websiteEndpoint() {
+    return this.getStringAttribute('website_endpoint');
+  }
+
+  // cors_rule
+  private _corsRule?: S3BucketCorsRule[];
+  public get corsRule() {
+    return this._corsRule;
+  }
+  public set corsRule(value: S3BucketCorsRule[] | undefined) {
+    this._corsRule = value;
+  }
+
+  // grant
+  private _grant?: S3BucketGrant[];
+  public get grant() {
+    return this._grant;
+  }
+  public set grant(value: S3BucketGrant[] | undefined) {
+    this._grant = value;
+  }
+
+  // lifecycle_rule
+  private _lifecycleRule?: S3BucketLifecycleRule[];
+  public get lifecycleRule() {
+    return this._lifecycleRule;
+  }
+  public set lifecycleRule(value: S3BucketLifecycleRule[] | undefined) {
+    this._lifecycleRule = value;
+  }
+
+  // logging
+  private _logging?: S3BucketLogging[];
+  public get logging() {
+    return this._logging;
+  }
+  public set logging(value: S3BucketLogging[] | undefined) {
+    this._logging = value;
+  }
+
+  // object_lock_configuration
+  private _objectLockConfiguration?: S3BucketObjectLockConfiguration[];
+  public get objectLockConfiguration() {
+    return this._objectLockConfiguration;
+  }
+  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] | undefined) {
+    this._objectLockConfiguration = value;
+  }
+
+  // replication_configuration
+  private _replicationConfiguration?: S3BucketReplicationConfiguration[];
+  public get replicationConfiguration() {
+    return this._replicationConfiguration;
+  }
+  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] | undefined) {
+    this._replicationConfiguration = value;
+  }
+
+  // server_side_encryption_configuration
+  private _serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
+  public get serverSideEncryptionConfiguration() {
+    return this._serverSideEncryptionConfiguration;
+  }
+  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] | undefined) {
+    this._serverSideEncryptionConfiguration = value;
+  }
+
+  // versioning
+  private _versioning?: S3BucketVersioning[];
+  public get versioning() {
+    return this._versioning;
+  }
+  public set versioning(value: S3BucketVersioning[] | undefined) {
+    this._versioning = value;
+  }
+
+  // website
+  private _website?: S3BucketWebsite[];
+  public get website() {
+    return this._website;
+  }
+  public set website(value: S3BucketWebsite[] | undefined) {
+    this._website = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      acl: this._acl,
+      bucket_prefix: this._bucketPrefix,
+      force_destroy: this._forceDestroy,
+      policy: this._policy,
+      tags: this._tags,
+      cors_rule: this._corsRule,
+      grant: this._grant,
+      lifecycle_rule: this._lifecycleRule,
+      logging: this._logging,
+      object_lock_configuration: this._objectLockConfiguration,
+      replication_configuration: this._replicationConfiguration,
+      server_side_encryption_configuration: this._serverSideEncryptionConfiguration,
+      versioning: this._versioning,
+      website: this._website,
+    };
+  }
+}
+"
+`;
