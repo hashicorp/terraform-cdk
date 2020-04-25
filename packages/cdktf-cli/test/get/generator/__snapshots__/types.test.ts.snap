@@ -47,58 +47,21 @@ exports[`computed complex attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
-import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 
 export interface ComputedComplexConfig {
 }
-export class ComputedComplexEgress extends ComplexComputedList {
-
-  // cidr_blocks
-  public get cidrBlocks() {
-    return this.getStringAttribute('cidr_blocks');
-  }
-
-  // description
-  public get description() {
-    return this.getStringAttribute('description');
-  }
-
-  // from_port
-  public get fromPort() {
-    return this.getNumberAttribute('from_port');
-  }
-
-  // ipv6_cidr_blocks
-  public get ipv6CidrBlocks() {
-    return this.getStringAttribute('ipv6_cidr_blocks');
-  }
-
-  // prefix_list_ids
-  public get prefixListIds() {
-    return this.getStringAttribute('prefix_list_ids');
-  }
-
-  // protocol
-  public get protocol() {
-    return this.getStringAttribute('protocol');
-  }
-
-  // security_groups
-  public get securityGroups() {
-    return this.getStringAttribute('security_groups');
-  }
-
-  // self
-  public get self() {
-    return this.getBooleanAttribute('self');
-  }
-
-  // to_port
-  public get toPort() {
-    return this.getNumberAttribute('to_port');
-  }
+export interface ComputedComplexEgress {
+  readonly cidrBlocks?: string[];
+  readonly description?: string;
+  readonly fromPort?: number;
+  readonly ipv6CidrBlocks?: string[];
+  readonly prefixListIds?: string[];
+  readonly protocol?: string;
+  readonly securityGroups?: string[];
+  readonly self?: boolean;
+  readonly toPort?: number;
 }
 
 // Resource
@@ -120,8 +83,8 @@ export class ComputedComplex extends TerraformResource {
   // ==========
 
   // egress
-  public egress(index: string) {
-    return new ComputedComplexEgress(this, 'egress', index);
+  public get egress() {
+    throw new Error('computed attribute \\"$computed_complex.egress\\" has unsupported type \\"ComputedComplexEgress[]\\"');
   }
 
   // =========
@@ -184,58 +147,21 @@ exports[`computed optional complex attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
-import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 
 export interface ComputedOptionalComplexConfig {
 }
-export class ComputedOptionalComplexEgress extends ComplexComputedList {
-
-  // cidr_blocks
-  public get cidrBlocks() {
-    return this.getStringAttribute('cidr_blocks');
-  }
-
-  // description
-  public get description() {
-    return this.getStringAttribute('description');
-  }
-
-  // from_port
-  public get fromPort() {
-    return this.getNumberAttribute('from_port');
-  }
-
-  // ipv6_cidr_blocks
-  public get ipv6CidrBlocks() {
-    return this.getStringAttribute('ipv6_cidr_blocks');
-  }
-
-  // prefix_list_ids
-  public get prefixListIds() {
-    return this.getStringAttribute('prefix_list_ids');
-  }
-
-  // protocol
-  public get protocol() {
-    return this.getStringAttribute('protocol');
-  }
-
-  // security_groups
-  public get securityGroups() {
-    return this.getStringAttribute('security_groups');
-  }
-
-  // self
-  public get self() {
-    return this.getBooleanAttribute('self');
-  }
-
-  // to_port
-  public get toPort() {
-    return this.getNumberAttribute('to_port');
-  }
+export interface ComputedOptionalComplexEgress {
+  readonly cidrBlocks?: string[];
+  readonly description?: string;
+  readonly fromPort?: number;
+  readonly ipv6CidrBlocks?: string[];
+  readonly prefixListIds?: string[];
+  readonly protocol?: string;
+  readonly securityGroups?: string[];
+  readonly self?: boolean;
+  readonly toPort?: number;
 }
 
 // Resource
@@ -257,8 +183,8 @@ export class ComputedOptionalComplex extends TerraformResource {
   // ==========
 
   // egress
-  public egress(index: string) {
-    return new ComputedOptionalComplexEgress(this, 'egress', index);
+  public get egress() {
+    throw new Error('computed attribute \\"$computed_optional_complex.egress\\" has unsupported type \\"ComputedOptionalComplexEgress[]\\"');
   }
 
   // =========
@@ -432,20 +358,20 @@ export class PrimitiveBoolean extends TerraformResource {
 
   // foo_computed
   public get fooComputed() {
-    return this.getBooleanAttribute('foo_computed');
+    throw new Error('computed attribute \\"$primitive_boolean.foo_computed\\" has unsupported type \\"boolean\\"');
   }
 
   // foo_computed_optional
   public get fooComputedOptional() {
-    return this.getBooleanAttribute('foo_computed_optional');
+    throw new Error('computed attribute \\"$primitive_boolean.foo_computed_optional\\" has unsupported type \\"boolean\\"');
   }
 
   // foo_optional
   private _fooOptional?: boolean;
   public get fooOptional() {
-    return this._fooOptional ?? this.getBooleanAttribute('foo_optional');
+    return this._fooOptional;
   }
-  public set fooOptional(value: boolean) {
+  public set fooOptional(value: boolean | undefined) {
     this._fooOptional = value;
   }
 
@@ -554,9 +480,9 @@ export class PrimitiveNumber extends TerraformResource {
   // foo_required
   private _fooRequired?: number;
   public get fooRequired() {
-    return this._fooRequired;
+    return this._fooRequired ?? this.getNumberAttribute('foo_required');
   }
-  public set fooRequired(value: number | undefined) {
+  public set fooRequired(value: number) {
     this._fooRequired = value;
   }
 
@@ -656,9 +582,9 @@ export class PrimitiveString extends TerraformResource {
   // foo_required
   private _fooRequired?: string;
   public get fooRequired() {
-    return this._fooRequired;
+    return this._fooRequired ?? this.getStringAttribute('foo_required');
   }
-  public set fooRequired(value: string | undefined) {
+  public set fooRequired(value: string) {
     this._fooRequired = value;
   }
 
@@ -933,27 +859,27 @@ export class StringList extends TerraformResource {
 
   // subject_alternative_names_optional_computed
   public get subjectAlternativeNamesOptionalComputed() {
-    return this.getStringAttribute('subject_alternative_names_optional_computed');
+    return this.getListAttribute('subject_alternative_names_optional_computed');
   }
 
   // subject_alternative_names_computed
   public get subjectAlternativeNamesComputed() {
-    return this.getStringAttribute('subject_alternative_names_computed');
+    return this.getListAttribute('subject_alternative_names_computed');
   }
 
   // subject_alternative_names_required
   private _subjectAlternativeNamesRequired?: string[];
   public get subjectAlternativeNamesRequired() {
-    return this._subjectAlternativeNamesRequired;
+    return this._subjectAlternativeNamesRequired ?? this.getListAttribute('subject_alternative_names_required');
   }
-  public set subjectAlternativeNamesRequired(value: string[] | undefined) {
+  public set subjectAlternativeNamesRequired(value: string[]) {
     this._subjectAlternativeNamesRequired = value;
   }
 
   // subject_alternative_names_optional
   private _subjectAlternativeNamesOptional?: string[];
   public get subjectAlternativeNamesOptional() {
-    return this._subjectAlternativeNamesOptional ?? this.getStringAttribute('subject_alternative_names_optional');
+    return this._subjectAlternativeNamesOptional ?? this.getListAttribute('subject_alternative_names_optional');
   }
   public set subjectAlternativeNamesOptional(value: string[]) {
     this._subjectAlternativeNamesOptional = value;
@@ -1002,7 +928,6 @@ exports[`string map attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
-import { StringMap } from \\"cdktf\\";
 
 // Configuration
 
@@ -1030,8 +955,8 @@ export class StringMap extends TerraformResource {
   // ==========
 
   // subject_alternative_names_computed
-  public subjectAlternativeNamesComputed(key: string): string {
-    return new StringMap(this, 'subject_alternative_names_computed').lookup(key);
+  public get subjectAlternativeNamesComputed() {
+    throw new Error('computed attribute \\"$string_map.subject_alternative_names_computed\\" has unsupported type \\"{ [key: string]: string }\\"');
   }
 
   // subject_alternative_names_optional
