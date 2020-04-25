@@ -1,7 +1,7 @@
 import { AttributeModel } from './attribute-model';
 
 export class Struct {
-  constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isComputed = false) {}
+  constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isClass = false) {}
 
   public attributeName(attributeName: string): string {
     return `${this.allAttributesComputed ? '_' : ''}${attributeName}`;

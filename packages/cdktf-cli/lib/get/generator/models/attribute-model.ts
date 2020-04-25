@@ -35,7 +35,7 @@ export class AttributeModel {
 
   public get typeDefinition() {
     const optional = this.optional ? '?' : '';
-    return `${this.name}${optional}: ${this.type.type}`;
+    return `${this.name}${optional}: ${this.type.name}`;
   }
 
   public get isAssignable() {

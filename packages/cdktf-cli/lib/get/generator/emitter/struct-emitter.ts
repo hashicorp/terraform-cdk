@@ -10,8 +10,8 @@ export class StructEmitter {
   }
 
   public emit(struct: Struct) {
-    if (struct.isComputed) {
-      this.emitComplexType(struct)
+    if (struct.isClass) {
+      this.emitClass(struct)
     } else {
       this.emitInterface(struct)
     }
@@ -30,7 +30,7 @@ export class StructEmitter {
     this.code.closeBlock();
   }
 
-  private emitComplexType(struct: Struct) {
+  private emitClass(struct: Struct) {
     this.code.openBlock(`export class ${struct.name} extends ComplexComputedList`);
     for (const att of struct.attributes) {
       this.attributesEmitter.emit(att)

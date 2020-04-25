@@ -1,5 +1,5 @@
 import { CodeMaker } from 'codemaker';
-import { AttributeModel, TokenizableTypes } from "../models";
+import { AttributeModel } from "../models";
 
 export class AttributesEmitter {
   constructor(private code: CodeMaker) {}
@@ -15,7 +15,7 @@ export class AttributesEmitter {
         this.emitTokenizable(att)
       }
     } else {
-      this.code.line(`private ${att.storageName}?: ${att.type.type};`);
+      this.code.line(`private ${att.storageName}?: ${att.type.name};`);
       if (att.isOptional && att.isTokenizable) {
         this.emitTokenizableOptional(att)
       } else {
@@ -29,7 +29,7 @@ export class AttributesEmitter {
     this.code.line(`return this.${att.storageName};`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.type} | undefined)`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
     this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }
@@ -39,7 +39,7 @@ export class AttributesEmitter {
     this.code.line(`return this.${att.storageName} ?? ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.type})`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
     this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }
@@ -57,24 +57,23 @@ export class AttributesEmitter {
 
   private emitComputedComplexList(att: AttributeModel) {
     this.code.openBlock(`public ${att.name}(index: string)`);
-      this.code.line(`return new ${att.type.type}(this, '${att.terraformName}', index);`);
+      this.code.line(`return new ${att.type.name}(this, '${att.terraformName}', index);`);
     this.code.closeBlock();
   }
 
   private emitComputedComplexMap(att: AttributeModel) {
     this.code.openBlock(`public ${att.name}(key: string): string`);
-      this.code.line(`return new ${att.type.type}(this, '${att.terraformName}').lookup(key);`);
+      this.code.line(`return new ${att.type.name}(this, '${att.terraformName}').lookup(key);`);
     this.code.closeBlock();
   }
 
-
   public determineGetAttCall(att: AttributeModel): string {
     const type = att.type
-    if (type.type === TokenizableTypes.STRING) { return `this.getStringAttribute('${att.terraformName}')` }
-    if (type.type === TokenizableTypes.STRING_LIST) { return `this.getListAttribute('${att.terraformName}')` }
-    if (type.type === TokenizableTypes.NUMBER) { return `this.getNumberAttribute('${att.terraformName}')` }
-    if (type.type === TokenizableTypes.BOOLEAN) { return `this.getBooleanAttribute('${att.terraformName}')` }
-    console.log(`${JSON.stringify(att, null, 2)} is'n tokenizable`)
+    if (type.isString) { return `this.getStringAttribute('${att.terraformName}')` }
+    if (type.isStringList) { return `this.getListAttribute('${att.terraformName}')` }
+    if (type.isNumber) { return `this.getNumberAttribute('${att.terraformName}')` }
+    if (type.isBoolean) { return `this.getBooleanAttribute('${att.terraformName}')` }
+    console.log({att})
     return 'any'
   }
 }

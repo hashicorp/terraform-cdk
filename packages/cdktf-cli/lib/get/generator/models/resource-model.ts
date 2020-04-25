@@ -24,7 +24,7 @@ export class ResourceModel {
   public attributes: AttributeModel[];
   public schema: Schema;
   private _structs: Struct[];
-  private dependencies: string[]
+  private dependencies: string[];
 
   constructor(options: ResourceModelOptions) {
     this.terraformType = options.terraformType
@@ -36,7 +36,6 @@ export class ResourceModel {
     this.fileName = options.fileName;
     this.filePath = options.filePath;
     this._structs = options.structs
-
     this.dependencies = [
       `import { Construct } from 'constructs';`,
       `import { TerraformResource } from 'cdktf';`
@@ -57,7 +56,11 @@ export class ResourceModel {
 
   public get importStatements(): string[] {
     const attributeDependencies = this.attributes.map(attr => attr.type.dependencies).filter(Boolean) as string[];
-    return [...this.dependencies, ...attributeDependencies];
+    return [...this.dependencies, ...attributeDependencies].filter(onlyUnique);
+
+    function onlyUnique(value: string, index: number, self: string[]) {
+      return self.indexOf(value) === index;
+    }
   }
 
   public get schemaAsJson(): string {

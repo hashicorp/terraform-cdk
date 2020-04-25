@@ -117,6 +117,24 @@ class Parser {
 
     return attributes;
 
+    // Resource
+    //   - AttributeModel[]
+    //     - name
+    //     - terraform name
+    //     - description
+    //     - optional
+    //     - computed
+    //     - TypeModel[]
+    //       - name
+    //       - map / list / complex / primitive
+    //       - struct?
+    //   - Struct[]
+    //     - name
+    //     - Class / Interface
+    //     - attributes
+    //     - dependencies
+    //     - map / list / complex / primitive
+
     function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct): AttributeModel {
       const name = toCamelCase(terraformName);
       switch (blockType.nesting_mode) {
@@ -183,7 +201,7 @@ class Parser {
     const s = new Struct(
       uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x.name)).join('_'))),
       attributes,
-      !!scope.find(e => e.isComputed === true)
+      !!scope.find(e => !!e.isComputed)
     )
     this.structs.push(s);
     return s;

@@ -32,8 +32,8 @@ export class AttributeTypeModel {
     this.struct = options.struct;
   }
 
-  public get type(): string {
-    if (this.isMap && this.isComputed) return `StringMap`;
+  public get name(): string {
+    if (this.isMap && this.isString && this.isComputed) return `StringMap`;
     if (this.isMap) return `{ [key: string]: ${this._type} }`;
     if (this.isList && !this.isComputed) return `${this._type}[]`;
     if (this.isList && this.isComputed && this.isPrimitive) return `${this._type}[]`;
@@ -57,6 +57,22 @@ export class AttributeTypeModel {
     return !this.isComplex
   }
 
+  public get isString(): boolean {
+    return this._type === TokenizableTypes.STRING
+  }
+
+  public get isNumber(): boolean {
+    return this._type === TokenizableTypes.NUMBER
+  }
+
+  public get isStringList(): boolean {
+    return this._type === TokenizableTypes.STRING_LIST
+  }
+
+  public get isBoolean(): boolean {
+    return this._type === TokenizableTypes.BOOLEAN
+  }
+
   public get isComputedComplex(): boolean {
     return this.isComputed && this.isComplex
   }
@@ -66,6 +82,6 @@ export class AttributeTypeModel {
   }
 
   public get isTokenizable(): boolean {
-    return Object.values(TokenizableTypes).includes(this.type as TokenizableTypes)
+    return Object.values(TokenizableTypes).includes(this.name as TokenizableTypes)
   }
 }
