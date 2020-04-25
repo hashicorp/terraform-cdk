@@ -93,15 +93,16 @@ class Parser {
     const attributes = new Array<AttributeModel>();
 
     for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
-      const type = this.renderAttributeType([ parentType, new Scope(terraformAttributeName, !!att.computed)], att.type);
+      const type = this.renderAttributeType([ parentType, new Scope(terraformAttributeName, !!att.computed, !!att.optional)], att.type);
       const name = toCamelCase(terraformAttributeName);
+
       attributes.push(new AttributeModel({
         terraformFullName: `${parentType.name}.${terraformAttributeName}`,
         description: att.description,
         name,
         storageName: `_${name}`,
         computed: !!att.computed,
-        optional: !att.computed && !!att.optional,
+        optional: !!att.optional,
         terraformName: terraformAttributeName,
         type
       }))
@@ -179,18 +180,20 @@ class Parser {
   }
   private addAnonymousStruct(scope: Scope[], attrs: { [name: string]: Attribute }) {
     const attributes = new Array<AttributeModel>();
-    const computed = !!scope.find(e => e.isComputed === true);
+    const parent = scope[scope.length - 1]
+    const computed = !!parent.isComputed
+    const optional = !!parent.isOptional
     for (const [ terraformName, att ] of Object.entries(attrs)) {
       const name = toCamelCase(terraformName);
       attributes.push(new AttributeModel({
         name,
         storageName: `_${name}`,
-        computed,
+        computed: computed,
         description: att.description,
-        optional: true,
+        optional: optional,
         terraformName,
         terraformFullName: [ ...scope, terraformName ].join('_'),
-        type: this.renderAttributeType([ ...scope, new Scope(terraformName, computed) ], att.type),
+        type: this.renderAttributeType([ ...scope, new Scope(terraformName, computed, optional) ], att.type),
       }));
     }
 
@@ -198,10 +201,15 @@ class Parser {
   }
 
   private addStruct(scope: Scope[], attributes: AttributeModel[]) {
+    const name = uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x.name)).join('_')))
+    const parent = scope[scope.length - 1]
+    const isClass = parent.isComputed && !parent.isOptional
+    const isAnonymous = true
     const s = new Struct(
-      uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x.name)).join('_'))),
+      name,
       attributes,
-      !!scope.find(e => !!e.isComputed)
+      isClass,
+      isAnonymous
     )
     this.structs.push(s);
     return s;

@@ -1,14 +1,14 @@
 import { AttributeModel } from './attribute-model';
 
 export class Struct {
-  constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isClass = false) {}
+  constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isClass = false, public readonly isAnonymous = false) {}
 
   public attributeName(attributeName: string): string {
     return `${this.allAttributesComputed ? '_' : ''}${attributeName}`;
   }
 
   public get assignableAttributes(): AttributeModel[] {
-    return this.attributes.filter(attribute => !attribute.computed)
+    return this.isAnonymous ? this.attributes : this.attributes.filter(attribute => !attribute.computed)
   }
 
   public get optionalAttributes(): AttributeModel[] {

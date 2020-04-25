@@ -33,7 +33,7 @@ export class AttributeTypeModel {
   }
 
   public get name(): string {
-    if (this.isMap && this.isString && this.isComputed) return `StringMap`;
+    if (this.isMap && (this._type === TokenizableTypes.STRING) && this.isComputed) return `StringMap`;
     if (this.isMap) return `{ [key: string]: ${this._type} }`;
     if (this.isList && !this.isComputed) return `${this._type}[]`;
     if (this.isList && this.isComputed && this.isPrimitive) return `${this._type}[]`;
@@ -58,19 +58,19 @@ export class AttributeTypeModel {
   }
 
   public get isString(): boolean {
-    return this._type === TokenizableTypes.STRING
+    return this.name === TokenizableTypes.STRING
   }
 
   public get isNumber(): boolean {
-    return this._type === TokenizableTypes.NUMBER
+    return this.name === TokenizableTypes.NUMBER
   }
 
   public get isStringList(): boolean {
-    return this._type === TokenizableTypes.STRING_LIST
+    return this.name === TokenizableTypes.STRING_LIST
   }
 
   public get isBoolean(): boolean {
-    return this._type === TokenizableTypes.BOOLEAN
+    return this.name === TokenizableTypes.BOOLEAN
   }
 
   public get isComputedComplex(): boolean {

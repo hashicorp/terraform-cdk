@@ -8,56 +8,70 @@ export class AttributesEmitter {
     this.code.line();
     this.code.line(`// ${att.terraformName}`);
 
-    if (att.computed) {
-      if (att.type.isComputedComplex) {
-        this.emitComputedComplex(att)
-      } else {
-        this.emitTokenizable(att)
-      }
-    } else {
-      this.code.line(`private ${att.storageName}?: ${att.type.name};`);
-      if (att.isOptional && att.isTokenizable) {
-        this.emitTokenizableOptional(att)
-      } else {
-        this.emitOptional(att)
-      }
+    switch (true) {
+      case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexList(att);
+      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptionalList(att);
+      case (att.computed && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
+      case (att.computed && att.optional): return this.emitOptionalComputed(att);
+      case (att.computed): return this.emitComputed(att);
+      case (att.optional): return this.emitOptional(att);
+      case (att.isRequired): return this.emitRequired(att);
     }
   }
 
   private emitOptional(att: AttributeModel) {
+    this.code.line(`private ${att.storageName}?: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(`return this.${att.storageName};`);
+      this.code.line(`return this.${att.storageName};`);
     this.code.closeBlock();
 
     this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
-    this.code.line(`this.${att.storageName} = value;`);
+      this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }
 
-  private emitTokenizableOptional(att: AttributeModel) {
+  private emitOptionalComputed(att: AttributeModel) {
+    this.code.line(`private ${att.storageName}?: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(`return this.${att.storageName} ?? ${this.determineGetAttCall(att)};`);
+      this.code.line(`return this.${att.storageName} ?? ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
 
     this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
-    this.code.line(`this.${att.storageName} = value;`);
+      this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }
 
-  private emitTokenizable(att: AttributeModel) {
+  private emitComputed(att: AttributeModel) {
     this.code.openBlock(`public get ${att.name}()`);
       this.code.line(`return ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
   }
 
-  private emitComputedComplex(att: AttributeModel) {
-    if (att.type.isList) return this.emitComputedComplexList(att);
-    if (att.type.isMap) return this.emitComputedComplexMap(att);
+  private emitRequired(att: AttributeModel) {
+    this.code.line(`private ${att.storageName}: ${att.type.name};`);
+    this.code.openBlock(`public get ${att.name}()`);
+      this.code.line(`return this.${att.storageName};`);
+    this.code.closeBlock();
+
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
+      this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
   }
 
   private emitComputedComplexList(att: AttributeModel) {
     this.code.openBlock(`public ${att.name}(index: string)`);
       this.code.line(`return new ${att.type.name}(this, '${att.terraformName}', index);`);
+    this.code.closeBlock();
+  }
+
+  private emitComputedComplexOptionalList(att: AttributeModel) {
+    this.code.line(`private ${att.storageName}?: ${att.type.name};`);
+    this.code.openBlock(`public get ${att.name}()`);
+      this.code.line(`return this.${att.storageName}; // Getting the computed value is not yet implemented`);
+    this.code.closeBlock();
+
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
+      this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }
 
