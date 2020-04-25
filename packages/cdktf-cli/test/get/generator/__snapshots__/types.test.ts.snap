@@ -1,0 +1,1057 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`computed complex attribute 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"egress\\": {
+        \\"type\\": [
+          \\"set\\",
+          [
+            \\"object\\",
+            {
+              \\"cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"description\\": \\"string\\",
+              \\"from_port\\": \\"number\\",
+              \\"ipv6_cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"prefix_list_ids\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"protocol\\": \\"string\\",
+              \\"security_groups\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"self\\": \\"bool\\",
+              \\"to_port\\": \\"number\\"
+            }
+          ]
+        ],
+        \\"computed\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { ComplexComputedList } from \\"cdktf\\";
+
+// Configuration
+
+export interface ComputedComplexConfig {
+}
+export class ComputedComplexEgress extends ComplexComputedList {
+
+  // cidr_blocks
+  public get cidrBlocks() {
+    return this.getStringAttribute('cidr_blocks');
+  }
+
+  // description
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+
+  // from_port
+  public get fromPort() {
+    return this.getNumberAttribute('from_port');
+  }
+
+  // ipv6_cidr_blocks
+  public get ipv6CidrBlocks() {
+    return this.getStringAttribute('ipv6_cidr_blocks');
+  }
+
+  // prefix_list_ids
+  public get prefixListIds() {
+    return this.getStringAttribute('prefix_list_ids');
+  }
+
+  // protocol
+  public get protocol() {
+    return this.getStringAttribute('protocol');
+  }
+
+  // security_groups
+  public get securityGroups() {
+    return this.getStringAttribute('security_groups');
+  }
+
+  // self
+  public get self() {
+    return this.getBooleanAttribute('self');
+  }
+
+  // to_port
+  public get toPort() {
+    return this.getNumberAttribute('to_port');
+  }
+}
+
+// Resource
+
+export class ComputedComplex extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, _config: ComputedComplexConfig = {}) {
+    super(scope, id, {
+      type: 'aws_computed_complex',
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // egress
+  public egress(index: string) {
+    return new ComputedComplexEgress(this, 'egress', index);
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+    };
+  }
+}
+"
+`;
+
+exports[`computed optional complex attribute 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"egress\\": {
+        \\"type\\": [
+          \\"set\\",
+          [
+            \\"object\\",
+            {
+              \\"cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"description\\": \\"string\\",
+              \\"from_port\\": \\"number\\",
+              \\"ipv6_cidr_blocks\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"prefix_list_ids\\": [
+                \\"list\\",
+                \\"string\\"
+              ],
+              \\"protocol\\": \\"string\\",
+              \\"security_groups\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"self\\": \\"bool\\",
+              \\"to_port\\": \\"number\\"
+            }
+          ]
+        ],
+        \\"optional\\": true,
+        \\"computed\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { ComplexComputedList } from \\"cdktf\\";
+
+// Configuration
+
+export interface ComputedOptionalComplexConfig {
+}
+export class ComputedOptionalComplexEgress extends ComplexComputedList {
+
+  // cidr_blocks
+  public get cidrBlocks() {
+    return this.getStringAttribute('cidr_blocks');
+  }
+
+  // description
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+
+  // from_port
+  public get fromPort() {
+    return this.getNumberAttribute('from_port');
+  }
+
+  // ipv6_cidr_blocks
+  public get ipv6CidrBlocks() {
+    return this.getStringAttribute('ipv6_cidr_blocks');
+  }
+
+  // prefix_list_ids
+  public get prefixListIds() {
+    return this.getStringAttribute('prefix_list_ids');
+  }
+
+  // protocol
+  public get protocol() {
+    return this.getStringAttribute('protocol');
+  }
+
+  // security_groups
+  public get securityGroups() {
+    return this.getStringAttribute('security_groups');
+  }
+
+  // self
+  public get self() {
+    return this.getBooleanAttribute('self');
+  }
+
+  // to_port
+  public get toPort() {
+    return this.getNumberAttribute('to_port');
+  }
+}
+
+// Resource
+
+export class ComputedOptionalComplex extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, _config: ComputedOptionalComplexConfig = {}) {
+    super(scope, id, {
+      type: 'aws_computed_optional_complex',
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // egress
+  public egress(index: string) {
+    return new ComputedOptionalComplexEgress(this, 'egress', index);
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+    };
+  }
+}
+"
+`;
+
+exports[`deeply nested block types 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {},
+    \\"block_types\\": {
+      \\"lifecycle_rule\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"abort_incomplete_multipart_upload_days\\": {
+              \\"type\\": \\"number\\",
+              \\"optional\\": true
+            }
+          },
+          \\"block_types\\": {
+            \\"expiration\\": {
+              \\"nesting_mode\\": \\"set\\",
+              \\"block\\": {
+                \\"attributes\\": {
+                  \\"date\\": {
+                    \\"type\\": \\"string\\",
+                    \\"optional\\": true
+                  }
+                }
+              },
+              \\"max_items\\": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface DeeplyNestedBlockTypesConfig {
+  /** lifecycle_rule block */
+  readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
+}
+export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
+  readonly date?: string;
+}
+export interface DeeplyNestedBlockTypesLifecycleRule {
+  readonly abortIncompleteMultipartUploadDays?: number;
+  /** expiration block */
+  readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration[];
+}
+
+// Resource
+
+export class DeeplyNestedBlockTypes extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: DeeplyNestedBlockTypesConfig = {}) {
+    super(scope, id, {
+      type: 'aws_deeply_nested_block_types',
+    });
+    this._lifecycleRule = config.lifecycleRule;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // lifecycle_rule
+  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
+  public get lifecycleRule() {
+    return this._lifecycleRule;
+  }
+  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] | undefined) {
+    this._lifecycleRule = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      lifecycle_rule: this._lifecycleRule,
+    };
+  }
+}
+"
+`;
+
+exports[`primitive boolean 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"foo_computed\\": {
+        \\"type\\": \\"bool\\",
+        \\"computed\\": true
+      },
+      \\"foo_computed_optional\\": {
+        \\"type\\": \\"bool\\",
+        \\"computed\\": true,
+        \\"optional\\": true
+      },
+      \\"foo_optional\\": {
+        \\"type\\": \\"bool\\",
+        \\"optional\\": true
+      },
+      \\"foo_required\\": {
+        \\"type\\": \\"bool\\",
+        \\"required\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface PrimitiveBooleanConfig {
+  readonly fooOptional?: boolean;
+  readonly fooRequired: boolean;
+}
+
+// Resource
+
+export class PrimitiveBoolean extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: PrimitiveBooleanConfig) {
+    super(scope, id, {
+      type: 'aws_primitive_boolean',
+    });
+    this._fooOptional = config.fooOptional;
+    this._fooRequired = config.fooRequired;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // foo_computed
+  public get fooComputed() {
+    return this.getBooleanAttribute('foo_computed');
+  }
+
+  // foo_computed_optional
+  public get fooComputedOptional() {
+    return this.getBooleanAttribute('foo_computed_optional');
+  }
+
+  // foo_optional
+  private _fooOptional?: boolean;
+  public get fooOptional() {
+    return this._fooOptional ?? this.getBooleanAttribute('foo_optional');
+  }
+  public set fooOptional(value: boolean) {
+    this._fooOptional = value;
+  }
+
+  // foo_required
+  private _fooRequired?: boolean;
+  public get fooRequired() {
+    return this._fooRequired;
+  }
+  public set fooRequired(value: boolean | undefined) {
+    this._fooRequired = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      foo_optional: this._fooOptional,
+      foo_required: this._fooRequired,
+    };
+  }
+}
+"
+`;
+
+exports[`primitive number 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"foo_computed\\": {
+        \\"type\\": \\"number\\",
+        \\"computed\\": true
+      },
+      \\"foo_computed_optional\\": {
+        \\"type\\": \\"number\\",
+        \\"computed\\": true,
+        \\"optional\\": true
+      },
+      \\"foo_optional\\": {
+        \\"type\\": \\"number\\",
+        \\"optional\\": true
+      },
+      \\"foo_required\\": {
+        \\"type\\": \\"number\\",
+        \\"required\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface PrimitiveNumberConfig {
+  readonly fooOptional?: number;
+  readonly fooRequired: number;
+}
+
+// Resource
+
+export class PrimitiveNumber extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: PrimitiveNumberConfig) {
+    super(scope, id, {
+      type: 'aws_primitive_number',
+    });
+    this._fooOptional = config.fooOptional;
+    this._fooRequired = config.fooRequired;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // foo_computed
+  public get fooComputed() {
+    return this.getNumberAttribute('foo_computed');
+  }
+
+  // foo_computed_optional
+  public get fooComputedOptional() {
+    return this.getNumberAttribute('foo_computed_optional');
+  }
+
+  // foo_optional
+  private _fooOptional?: number;
+  public get fooOptional() {
+    return this._fooOptional ?? this.getNumberAttribute('foo_optional');
+  }
+  public set fooOptional(value: number) {
+    this._fooOptional = value;
+  }
+
+  // foo_required
+  private _fooRequired?: number;
+  public get fooRequired() {
+    return this._fooRequired;
+  }
+  public set fooRequired(value: number | undefined) {
+    this._fooRequired = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      foo_optional: this._fooOptional,
+      foo_required: this._fooRequired,
+    };
+  }
+}
+"
+`;
+
+exports[`primitive string 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"foo_computed\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      },
+      \\"foo_computed_optional\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true,
+        \\"optional\\": true
+      },
+      \\"foo_optional\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"foo_required\\": {
+        \\"type\\": \\"string\\",
+        \\"required\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface PrimitiveStringConfig {
+  readonly fooOptional?: string;
+  readonly fooRequired: string;
+}
+
+// Resource
+
+export class PrimitiveString extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: PrimitiveStringConfig) {
+    super(scope, id, {
+      type: 'aws_primitive_string',
+    });
+    this._fooOptional = config.fooOptional;
+    this._fooRequired = config.fooRequired;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // foo_computed
+  public get fooComputed() {
+    return this.getStringAttribute('foo_computed');
+  }
+
+  // foo_computed_optional
+  public get fooComputedOptional() {
+    return this.getStringAttribute('foo_computed_optional');
+  }
+
+  // foo_optional
+  private _fooOptional?: string;
+  public get fooOptional() {
+    return this._fooOptional ?? this.getStringAttribute('foo_optional');
+  }
+  public set fooOptional(value: string) {
+    this._fooOptional = value;
+  }
+
+  // foo_required
+  private _fooRequired?: string;
+  public get fooRequired() {
+    return this._fooRequired;
+  }
+  public set fooRequired(value: string | undefined) {
+    this._fooRequired = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      foo_optional: this._fooOptional,
+      foo_required: this._fooRequired,
+    };
+  }
+}
+"
+`;
+
+exports[`set / list block type 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {},
+    \\"block_types\\": {
+      \\"timeouts_set\\": {
+        \\"nesting_mode\\": \\"set\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"create\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      },
+      \\"timeouts_list\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"create\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface BlockTypeSetListConfig {
+  /** timeouts_set block */
+  readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
+  /** timeouts_list block */
+  readonly timeoutsList?: BlockTypeSetListTimeoutsList[];
+}
+export interface BlockTypeSetListTimeoutsSet {
+  readonly create?: string;
+}
+export interface BlockTypeSetListTimeoutsList {
+  readonly create?: string;
+}
+
+// Resource
+
+export class BlockTypeSetList extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: BlockTypeSetListConfig = {}) {
+    super(scope, id, {
+      type: 'aws_block_type_set_list',
+    });
+    this._timeoutsSet = config.timeoutsSet;
+    this._timeoutsList = config.timeoutsList;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // timeouts_set
+  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[];
+  public get timeoutsSet() {
+    return this._timeoutsSet;
+  }
+  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | undefined) {
+    this._timeoutsSet = value;
+  }
+
+  // timeouts_list
+  private _timeoutsList?: BlockTypeSetListTimeoutsList[];
+  public get timeoutsList() {
+    return this._timeoutsList;
+  }
+  public set timeoutsList(value: BlockTypeSetListTimeoutsList[] | undefined) {
+    this._timeoutsList = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      timeouts_set: this._timeoutsSet,
+      timeouts_list: this._timeoutsList,
+    };
+  }
+}
+"
+`;
+
+exports[`single block type 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {},
+    \\"block_types\\": {
+      \\"timeouts\\": {
+        \\"nesting_mode\\": \\"single\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"create\\": {
+              \\"type\\": \\"string\\",
+              \\"optional\\": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface SingleBlockTypeConfig {
+  /** timeouts block */
+  readonly timeouts?: SingleBlockTypeTimeouts;
+}
+export interface SingleBlockTypeTimeouts {
+  readonly create?: string;
+}
+
+// Resource
+
+export class SingleBlockType extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: SingleBlockTypeConfig = {}) {
+    super(scope, id, {
+      type: 'aws_single_block_type',
+    });
+    this._timeouts = config.timeouts;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // timeouts
+  private _timeouts?: SingleBlockTypeTimeouts;
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public set timeouts(value: SingleBlockTypeTimeouts | undefined) {
+    this._timeouts = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      timeouts: this._timeouts,
+    };
+  }
+}
+"
+`;
+
+exports[`string list attribute 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"subject_alternative_names_optional_computed\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
+      \\"subject_alternative_names_computed\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"string\\"
+        ],
+        \\"computed\\": true
+      },
+      \\"subject_alternative_names_required\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"string\\"
+        ],
+        \\"required\\": true
+      },
+      \\"subject_alternative_names_optional\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface StringListConfig {
+  readonly subjectAlternativeNamesRequired: string[];
+  readonly subjectAlternativeNamesOptional?: string[];
+}
+
+// Resource
+
+export class StringList extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: StringListConfig) {
+    super(scope, id, {
+      type: 'aws_string_list',
+    });
+    this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
+    this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // subject_alternative_names_optional_computed
+  public get subjectAlternativeNamesOptionalComputed() {
+    return this.getStringAttribute('subject_alternative_names_optional_computed');
+  }
+
+  // subject_alternative_names_computed
+  public get subjectAlternativeNamesComputed() {
+    return this.getStringAttribute('subject_alternative_names_computed');
+  }
+
+  // subject_alternative_names_required
+  private _subjectAlternativeNamesRequired?: string[];
+  public get subjectAlternativeNamesRequired() {
+    return this._subjectAlternativeNamesRequired;
+  }
+  public set subjectAlternativeNamesRequired(value: string[] | undefined) {
+    this._subjectAlternativeNamesRequired = value;
+  }
+
+  // subject_alternative_names_optional
+  private _subjectAlternativeNamesOptional?: string[];
+  public get subjectAlternativeNamesOptional() {
+    return this._subjectAlternativeNamesOptional ?? this.getStringAttribute('subject_alternative_names_optional');
+  }
+  public set subjectAlternativeNamesOptional(value: string[]) {
+    this._subjectAlternativeNamesOptional = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      subject_alternative_names_required: this._subjectAlternativeNamesRequired,
+      subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
+    };
+  }
+}
+"
+`;
+
+exports[`string map attribute 1`] = `
+"// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"subject_alternative_names_computed\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"string\\"
+        ],
+        \\"computed\\": true
+      },
+      \\"subject_alternative_names_optional\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { StringMap } from \\"cdktf\\";
+
+// Configuration
+
+export interface StringMapConfig {
+  readonly subjectAlternativeNamesOptional?: { [key: string]: string };
+}
+
+// Resource
+
+export class StringMap extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: StringMapConfig = {}) {
+    super(scope, id, {
+      type: 'aws_string_map',
+    });
+    this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // subject_alternative_names_computed
+  public subjectAlternativeNamesComputed(key: string): string {
+    return new StringMap(this, 'subject_alternative_names_computed').lookup(key);
+  }
+
+  // subject_alternative_names_optional
+  private _subjectAlternativeNamesOptional?: { [key: string]: string };
+  public get subjectAlternativeNamesOptional() {
+    return this._subjectAlternativeNamesOptional;
+  }
+  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | undefined) {
+    this._subjectAlternativeNamesOptional = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
+    };
+  }
+}
+"
+`;

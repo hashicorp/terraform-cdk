@@ -1,0 +1,115 @@
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import { TerraformGenerator } from '../../../lib/get/generator/provider-generator';
+import { CodeMaker } from 'codemaker';
+
+test.only('computed optional complex attribute', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'computed-complex-option.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'computed-optional-complex.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/computed-optional-complex.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('computed complex attribute', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'computed-complex.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'computed-complex.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/computed-complex.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('string list attribute', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'string-list.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'string-list.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/string-list.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('string map attribute', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'string-map.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'string-map.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/string-map.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('deeply nested block types', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'block-types.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'deeply-nested-block-types.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/deeply-nested-block-types.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('single block type', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'single-block-type.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'single-block-type.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/single-block-type.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('set / list block type', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'set-list-block.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'block-type-set-list.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/block-type-set-list.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('primitive string', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-string.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'primitive-string.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/primitive-string.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('primitive number', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-number.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'primitive-number.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/primitive-number.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
+test.only('primitive boolean', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-boolean.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'primitive-boolean.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/primitive-boolean.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});

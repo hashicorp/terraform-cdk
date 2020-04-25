@@ -1,0 +1,38 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_block_type_set_list": {
+          "version": 1,
+          "block": {
+            "attributes": {},
+            "block_types": {
+              "timeouts_set": {
+                "nesting_mode": "set",
+                "block": {
+                  "attributes": {
+                    "create": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  }
+                }
+              },
+              "timeouts_list": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "create": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

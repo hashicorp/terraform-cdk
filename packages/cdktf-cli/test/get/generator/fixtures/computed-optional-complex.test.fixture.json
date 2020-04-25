@@ -1,0 +1,50 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_computed_optional_complex": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "egress": {
+                "type": [
+                  "set",
+                  [
+                    "object",
+                    {
+                      "cidr_blocks": [
+                        "list",
+                        "string"
+                      ],
+                      "description": "string",
+                      "from_port": "number",
+                      "ipv6_cidr_blocks": [
+                        "list",
+                        "string"
+                      ],
+                      "prefix_list_ids": [
+                        "list",
+                        "string"
+                      ],
+                      "protocol": "string",
+                      "security_groups": [
+                        "set",
+                        "string"
+                      ],
+                      "self": "bool",
+                      "to_port": "number"
+                    }
+                  ]
+                ],
+                "optional": true,
+                "computed": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+
