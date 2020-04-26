@@ -980,12 +980,12 @@ export class CloudfrontDistribution extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // active_trusted_signers
+  // active_trusted_signers - computed: true, optional: false, required: true
   public activeTrustedSigners(key: string): string {
     return new StringMap(this, 'active_trusted_signers').lookup(key);
   }
 
-  // aliases
+  // aliases - computed: false, optional: true, required: false
   private _aliases?: string[];
   public get aliases() {
     return this._aliases;
@@ -994,17 +994,17 @@ export class CloudfrontDistribution extends TerraformResource {
     this._aliases = value;
   }
 
-  // arn
+  // arn - computed: true, optional: false, required: true
   public get arn() {
     return this.getStringAttribute('arn');
   }
 
-  // caller_reference
+  // caller_reference - computed: true, optional: false, required: true
   public get callerReference() {
     return this.getStringAttribute('caller_reference');
   }
 
-  // comment
+  // comment - computed: false, optional: true, required: false
   private _comment?: string;
   public get comment() {
     return this._comment;
@@ -1013,7 +1013,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._comment = value;
   }
 
-  // default_root_object
+  // default_root_object - computed: false, optional: true, required: false
   private _defaultRootObject?: string;
   public get defaultRootObject() {
     return this._defaultRootObject;
@@ -1022,12 +1022,12 @@ export class CloudfrontDistribution extends TerraformResource {
     this._defaultRootObject = value;
   }
 
-  // domain_name
+  // domain_name - computed: true, optional: false, required: true
   public get domainName() {
     return this.getStringAttribute('domain_name');
   }
 
-  // enabled
+  // enabled - computed: false, optional: false, required: true
   private _enabled: boolean;
   public get enabled() {
     return this._enabled;
@@ -1036,17 +1036,17 @@ export class CloudfrontDistribution extends TerraformResource {
     this._enabled = value;
   }
 
-  // etag
+  // etag - computed: true, optional: false, required: true
   public get etag() {
     return this.getStringAttribute('etag');
   }
 
-  // hosted_zone_id
+  // hosted_zone_id - computed: true, optional: false, required: true
   public get hostedZoneId() {
     return this.getStringAttribute('hosted_zone_id');
   }
 
-  // http_version
+  // http_version - computed: false, optional: true, required: false
   private _httpVersion?: string;
   public get httpVersion() {
     return this._httpVersion;
@@ -1055,7 +1055,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._httpVersion = value;
   }
 
-  // id
+  // id - computed: true, optional: true, required: false
   private _id?: string;
   public get id() {
     return this._id ?? this.getStringAttribute('id');
@@ -1064,12 +1064,12 @@ export class CloudfrontDistribution extends TerraformResource {
     this._id = value;
   }
 
-  // in_progress_validation_batches
+  // in_progress_validation_batches - computed: true, optional: false, required: true
   public get inProgressValidationBatches() {
     return this.getNumberAttribute('in_progress_validation_batches');
   }
 
-  // is_ipv6_enabled
+  // is_ipv6_enabled - computed: false, optional: true, required: false
   private _isIpv6Enabled?: boolean;
   public get isIpv6Enabled() {
     return this._isIpv6Enabled;
@@ -1078,12 +1078,12 @@ export class CloudfrontDistribution extends TerraformResource {
     this._isIpv6Enabled = value;
   }
 
-  // last_modified_time
+  // last_modified_time - computed: true, optional: false, required: true
   public get lastModifiedTime() {
     return this.getStringAttribute('last_modified_time');
   }
 
-  // price_class
+  // price_class - computed: false, optional: true, required: false
   private _priceClass?: string;
   public get priceClass() {
     return this._priceClass;
@@ -1092,7 +1092,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._priceClass = value;
   }
 
-  // retain_on_delete
+  // retain_on_delete - computed: false, optional: true, required: false
   private _retainOnDelete?: boolean;
   public get retainOnDelete() {
     return this._retainOnDelete;
@@ -1101,12 +1101,12 @@ export class CloudfrontDistribution extends TerraformResource {
     this._retainOnDelete = value;
   }
 
-  // status
+  // status - computed: true, optional: false, required: true
   public get status() {
     return this.getStringAttribute('status');
   }
 
-  // tags
+  // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
     return this._tags;
@@ -1115,7 +1115,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._tags = value;
   }
 
-  // wait_for_deployment
+  // wait_for_deployment - computed: false, optional: true, required: false
   private _waitForDeployment?: boolean;
   public get waitForDeployment() {
     return this._waitForDeployment;
@@ -1124,7 +1124,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._waitForDeployment = value;
   }
 
-  // web_acl_id
+  // web_acl_id - computed: false, optional: true, required: false
   private _webAclId?: string;
   public get webAclId() {
     return this._webAclId;
@@ -1133,7 +1133,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._webAclId = value;
   }
 
-  // cache_behavior
+  // cache_behavior - computed: false, optional: true, required: false
   private _cacheBehavior?: CloudfrontDistributionCacheBehavior[];
   public get cacheBehavior() {
     return this._cacheBehavior;
@@ -1142,7 +1142,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._cacheBehavior = value;
   }
 
-  // custom_error_response
+  // custom_error_response - computed: false, optional: true, required: false
   private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
   public get customErrorResponse() {
     return this._customErrorResponse;
@@ -1151,7 +1151,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._customErrorResponse = value;
   }
 
-  // default_cache_behavior
+  // default_cache_behavior - computed: false, optional: false, required: true
   private _defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
   public get defaultCacheBehavior() {
     return this._defaultCacheBehavior;
@@ -1160,7 +1160,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._defaultCacheBehavior = value;
   }
 
-  // logging_config
+  // logging_config - computed: false, optional: true, required: false
   private _loggingConfig?: CloudfrontDistributionLoggingConfig[];
   public get loggingConfig() {
     return this._loggingConfig;
@@ -1169,7 +1169,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._loggingConfig = value;
   }
 
-  // ordered_cache_behavior
+  // ordered_cache_behavior - computed: false, optional: true, required: false
   private _orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
   public get orderedCacheBehavior() {
     return this._orderedCacheBehavior;
@@ -1178,7 +1178,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._orderedCacheBehavior = value;
   }
 
-  // origin
+  // origin - computed: false, optional: false, required: true
   private _origin: CloudfrontDistributionOrigin[];
   public get origin() {
     return this._origin;
@@ -1187,7 +1187,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._origin = value;
   }
 
-  // origin_group
+  // origin_group - computed: false, optional: true, required: false
   private _originGroup?: CloudfrontDistributionOriginGroup[];
   public get originGroup() {
     return this._originGroup;
@@ -1196,7 +1196,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._originGroup = value;
   }
 
-  // restrictions
+  // restrictions - computed: false, optional: false, required: true
   private _restrictions: CloudfrontDistributionRestrictions[];
   public get restrictions() {
     return this._restrictions;
@@ -1205,7 +1205,7 @@ export class CloudfrontDistribution extends TerraformResource {
     this._restrictions = value;
   }
 
-  // viewer_certificate
+  // viewer_certificate - computed: false, optional: false, required: true
   private _viewerCertificate: CloudfrontDistributionViewerCertificate[];
   public get viewerCertificate() {
     return this._viewerCertificate;
@@ -1294,7 +1294,7 @@ export class FmsAdminAccount extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // account_id
+  // account_id - computed: true, optional: true, required: false
   private _accountId?: string;
   public get accountId() {
     return this._accountId ?? this.getStringAttribute('account_id');
@@ -1303,7 +1303,7 @@ export class FmsAdminAccount extends TerraformResource {
     this._accountId = value;
   }
 
-  // id
+  // id - computed: true, optional: true, required: false
   private _id?: string;
   public get id() {
     return this._id ?? this.getStringAttribute('id');
@@ -2015,7 +2015,7 @@ export class S3Bucket extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // acceleration_status
+  // acceleration_status - computed: true, optional: true, required: false
   private _accelerationStatus?: string;
   public get accelerationStatus() {
     return this._accelerationStatus ?? this.getStringAttribute('acceleration_status');
@@ -2024,7 +2024,7 @@ export class S3Bucket extends TerraformResource {
     this._accelerationStatus = value;
   }
 
-  // acl
+  // acl - computed: false, optional: true, required: false
   private _acl?: string;
   public get acl() {
     return this._acl;
@@ -2033,7 +2033,7 @@ export class S3Bucket extends TerraformResource {
     this._acl = value;
   }
 
-  // arn
+  // arn - computed: true, optional: true, required: false
   private _arn?: string;
   public get arn() {
     return this._arn ?? this.getStringAttribute('arn');
@@ -2042,7 +2042,7 @@ export class S3Bucket extends TerraformResource {
     this._arn = value;
   }
 
-  // bucket
+  // bucket - computed: true, optional: true, required: false
   private _bucket?: string;
   public get bucket() {
     return this._bucket ?? this.getStringAttribute('bucket');
@@ -2051,12 +2051,12 @@ export class S3Bucket extends TerraformResource {
     this._bucket = value;
   }
 
-  // bucket_domain_name
+  // bucket_domain_name - computed: true, optional: false, required: true
   public get bucketDomainName() {
     return this.getStringAttribute('bucket_domain_name');
   }
 
-  // bucket_prefix
+  // bucket_prefix - computed: false, optional: true, required: false
   private _bucketPrefix?: string;
   public get bucketPrefix() {
     return this._bucketPrefix;
@@ -2065,12 +2065,12 @@ export class S3Bucket extends TerraformResource {
     this._bucketPrefix = value;
   }
 
-  // bucket_regional_domain_name
+  // bucket_regional_domain_name - computed: true, optional: false, required: true
   public get bucketRegionalDomainName() {
     return this.getStringAttribute('bucket_regional_domain_name');
   }
 
-  // force_destroy
+  // force_destroy - computed: false, optional: true, required: false
   private _forceDestroy?: boolean;
   public get forceDestroy() {
     return this._forceDestroy;
@@ -2079,7 +2079,7 @@ export class S3Bucket extends TerraformResource {
     this._forceDestroy = value;
   }
 
-  // hosted_zone_id
+  // hosted_zone_id - computed: true, optional: true, required: false
   private _hostedZoneId?: string;
   public get hostedZoneId() {
     return this._hostedZoneId ?? this.getStringAttribute('hosted_zone_id');
@@ -2088,7 +2088,7 @@ export class S3Bucket extends TerraformResource {
     this._hostedZoneId = value;
   }
 
-  // id
+  // id - computed: true, optional: true, required: false
   private _id?: string;
   public get id() {
     return this._id ?? this.getStringAttribute('id');
@@ -2097,7 +2097,7 @@ export class S3Bucket extends TerraformResource {
     this._id = value;
   }
 
-  // policy
+  // policy - computed: false, optional: true, required: false
   private _policy?: string;
   public get policy() {
     return this._policy;
@@ -2106,7 +2106,7 @@ export class S3Bucket extends TerraformResource {
     this._policy = value;
   }
 
-  // region
+  // region - computed: true, optional: true, required: false
   private _region?: string;
   public get region() {
     return this._region ?? this.getStringAttribute('region');
@@ -2115,7 +2115,7 @@ export class S3Bucket extends TerraformResource {
     this._region = value;
   }
 
-  // request_payer
+  // request_payer - computed: true, optional: true, required: false
   private _requestPayer?: string;
   public get requestPayer() {
     return this._requestPayer ?? this.getStringAttribute('request_payer');
@@ -2124,7 +2124,7 @@ export class S3Bucket extends TerraformResource {
     this._requestPayer = value;
   }
 
-  // tags
+  // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
     return this._tags;
@@ -2133,7 +2133,7 @@ export class S3Bucket extends TerraformResource {
     this._tags = value;
   }
 
-  // website_domain
+  // website_domain - computed: true, optional: true, required: false
   private _websiteDomain?: string;
   public get websiteDomain() {
     return this._websiteDomain ?? this.getStringAttribute('website_domain');
@@ -2142,7 +2142,7 @@ export class S3Bucket extends TerraformResource {
     this._websiteDomain = value;
   }
 
-  // website_endpoint
+  // website_endpoint - computed: true, optional: true, required: false
   private _websiteEndpoint?: string;
   public get websiteEndpoint() {
     return this._websiteEndpoint ?? this.getStringAttribute('website_endpoint');
@@ -2151,7 +2151,7 @@ export class S3Bucket extends TerraformResource {
     this._websiteEndpoint = value;
   }
 
-  // cors_rule
+  // cors_rule - computed: false, optional: true, required: false
   private _corsRule?: S3BucketCorsRule[];
   public get corsRule() {
     return this._corsRule;
@@ -2160,7 +2160,7 @@ export class S3Bucket extends TerraformResource {
     this._corsRule = value;
   }
 
-  // grant
+  // grant - computed: false, optional: true, required: false
   private _grant?: S3BucketGrant[];
   public get grant() {
     return this._grant;
@@ -2169,7 +2169,7 @@ export class S3Bucket extends TerraformResource {
     this._grant = value;
   }
 
-  // lifecycle_rule
+  // lifecycle_rule - computed: false, optional: true, required: false
   private _lifecycleRule?: S3BucketLifecycleRule[];
   public get lifecycleRule() {
     return this._lifecycleRule;
@@ -2178,7 +2178,7 @@ export class S3Bucket extends TerraformResource {
     this._lifecycleRule = value;
   }
 
-  // logging
+  // logging - computed: false, optional: true, required: false
   private _logging?: S3BucketLogging[];
   public get logging() {
     return this._logging;
@@ -2187,7 +2187,7 @@ export class S3Bucket extends TerraformResource {
     this._logging = value;
   }
 
-  // object_lock_configuration
+  // object_lock_configuration - computed: false, optional: true, required: false
   private _objectLockConfiguration?: S3BucketObjectLockConfiguration[];
   public get objectLockConfiguration() {
     return this._objectLockConfiguration;
@@ -2196,7 +2196,7 @@ export class S3Bucket extends TerraformResource {
     this._objectLockConfiguration = value;
   }
 
-  // replication_configuration
+  // replication_configuration - computed: false, optional: true, required: false
   private _replicationConfiguration?: S3BucketReplicationConfiguration[];
   public get replicationConfiguration() {
     return this._replicationConfiguration;
@@ -2205,7 +2205,7 @@ export class S3Bucket extends TerraformResource {
     this._replicationConfiguration = value;
   }
 
-  // server_side_encryption_configuration
+  // server_side_encryption_configuration - computed: false, optional: true, required: false
   private _serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
   public get serverSideEncryptionConfiguration() {
     return this._serverSideEncryptionConfiguration;
@@ -2214,7 +2214,7 @@ export class S3Bucket extends TerraformResource {
     this._serverSideEncryptionConfiguration = value;
   }
 
-  // versioning
+  // versioning - computed: false, optional: true, required: false
   private _versioning?: S3BucketVersioning[];
   public get versioning() {
     return this._versioning;
@@ -2223,7 +2223,7 @@ export class S3Bucket extends TerraformResource {
     this._versioning = value;
   }
 
-  // website
+  // website - computed: false, optional: true, required: false
   private _website?: S3BucketWebsite[];
   public get website() {
     return this._website;
@@ -2459,12 +2459,12 @@ export class SecurityGroup extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // arn
+  // arn - computed: true, optional: false, required: true
   public get arn() {
     return this.getStringAttribute('arn');
   }
 
-  // description
+  // description - computed: false, optional: true, required: false
   private _description?: string;
   public get description() {
     return this._description;
@@ -2473,7 +2473,7 @@ export class SecurityGroup extends TerraformResource {
     this._description = value;
   }
 
-  // egress
+  // egress - computed: true, optional: true, required: false
   private _egress?: SecurityGroupEgress[];
   public get egress() {
     return this._egress; // Getting the computed value is not yet implemented
@@ -2482,7 +2482,7 @@ export class SecurityGroup extends TerraformResource {
     this._egress = value;
   }
 
-  // id
+  // id - computed: true, optional: true, required: false
   private _id?: string;
   public get id() {
     return this._id ?? this.getStringAttribute('id');
@@ -2491,7 +2491,7 @@ export class SecurityGroup extends TerraformResource {
     this._id = value;
   }
 
-  // ingress
+  // ingress - computed: true, optional: true, required: false
   private _ingress?: SecurityGroupIngress[];
   public get ingress() {
     return this._ingress; // Getting the computed value is not yet implemented
@@ -2500,7 +2500,7 @@ export class SecurityGroup extends TerraformResource {
     this._ingress = value;
   }
 
-  // name
+  // name - computed: true, optional: true, required: false
   private _name?: string;
   public get name() {
     return this._name ?? this.getStringAttribute('name');
@@ -2509,7 +2509,7 @@ export class SecurityGroup extends TerraformResource {
     this._name = value;
   }
 
-  // name_prefix
+  // name_prefix - computed: false, optional: true, required: false
   private _namePrefix?: string;
   public get namePrefix() {
     return this._namePrefix;
@@ -2518,12 +2518,12 @@ export class SecurityGroup extends TerraformResource {
     this._namePrefix = value;
   }
 
-  // owner_id
+  // owner_id - computed: true, optional: false, required: true
   public get ownerId() {
     return this.getStringAttribute('owner_id');
   }
 
-  // revoke_rules_on_delete
+  // revoke_rules_on_delete - computed: false, optional: true, required: false
   private _revokeRulesOnDelete?: boolean;
   public get revokeRulesOnDelete() {
     return this._revokeRulesOnDelete;
@@ -2532,7 +2532,7 @@ export class SecurityGroup extends TerraformResource {
     this._revokeRulesOnDelete = value;
   }
 
-  // tags
+  // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
     return this._tags;
@@ -2541,7 +2541,7 @@ export class SecurityGroup extends TerraformResource {
     this._tags = value;
   }
 
-  // vpc_id
+  // vpc_id - computed: true, optional: true, required: false
   private _vpcId?: string;
   public get vpcId() {
     return this._vpcId ?? this.getStringAttribute('vpc_id');
@@ -2550,7 +2550,7 @@ export class SecurityGroup extends TerraformResource {
     this._vpcId = value;
   }
 
-  // timeouts
+  // timeouts - computed: false, optional: true, required: false
   private _timeouts?: SecurityGroupTimeouts;
   public get timeouts() {
     return this._timeouts;

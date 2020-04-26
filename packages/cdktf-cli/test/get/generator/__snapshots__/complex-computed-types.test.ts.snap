@@ -116,22 +116,22 @@ export interface AcmCertificateConfig {
 }
 export class AcmCertificateDomainValidationOptions extends ComplexComputedList {
 
-  // domain_name
+  // domain_name - computed: true, optional: false, required: true
   public get domainName() {
     return this.getStringAttribute('domain_name');
   }
 
-  // resource_record_name
+  // resource_record_name - computed: true, optional: false, required: true
   public get resourceRecordName() {
     return this.getStringAttribute('resource_record_name');
   }
 
-  // resource_record_type
+  // resource_record_type - computed: true, optional: false, required: true
   public get resourceRecordType() {
     return this.getStringAttribute('resource_record_type');
   }
 
-  // resource_record_value
+  // resource_record_value - computed: true, optional: false, required: true
   public get resourceRecordValue() {
     return this.getStringAttribute('resource_record_value');
   }
@@ -164,12 +164,12 @@ export class AcmCertificate extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // arn
+  // arn - computed: true, optional: false, required: true
   public get arn() {
     return this.getStringAttribute('arn');
   }
 
-  // certificate_authority_arn
+  // certificate_authority_arn - computed: false, optional: true, required: false
   private _certificateAuthorityArn?: string;
   public get certificateAuthorityArn() {
     return this._certificateAuthorityArn;
@@ -178,7 +178,7 @@ export class AcmCertificate extends TerraformResource {
     this._certificateAuthorityArn = value;
   }
 
-  // certificate_body
+  // certificate_body - computed: false, optional: true, required: false
   private _certificateBody?: string;
   public get certificateBody() {
     return this._certificateBody;
@@ -187,7 +187,7 @@ export class AcmCertificate extends TerraformResource {
     this._certificateBody = value;
   }
 
-  // certificate_chain
+  // certificate_chain - computed: false, optional: true, required: false
   private _certificateChain?: string;
   public get certificateChain() {
     return this._certificateChain;
@@ -196,7 +196,7 @@ export class AcmCertificate extends TerraformResource {
     this._certificateChain = value;
   }
 
-  // domain_name
+  // domain_name - computed: true, optional: true, required: false
   private _domainName?: string;
   public get domainName() {
     return this._domainName ?? this.getStringAttribute('domain_name');
@@ -205,12 +205,12 @@ export class AcmCertificate extends TerraformResource {
     this._domainName = value;
   }
 
-  // domain_validation_options
+  // domain_validation_options - computed: true, optional: false, required: true
   public domainValidationOptions(index: string) {
     return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index);
   }
 
-  // id
+  // id - computed: true, optional: true, required: false
   private _id?: string;
   public get id() {
     return this._id ?? this.getStringAttribute('id');
@@ -219,7 +219,7 @@ export class AcmCertificate extends TerraformResource {
     this._id = value;
   }
 
-  // private_key
+  // private_key - computed: false, optional: true, required: false
   private _privateKey?: string;
   public get privateKey() {
     return this._privateKey;
@@ -228,7 +228,7 @@ export class AcmCertificate extends TerraformResource {
     this._privateKey = value;
   }
 
-  // subject_alternative_names
+  // subject_alternative_names - computed: true, optional: true, required: false
   private _subjectAlternativeNames?: string[];
   public get subjectAlternativeNames() {
     return this._subjectAlternativeNames ?? this.getListAttribute('subject_alternative_names');
@@ -237,7 +237,7 @@ export class AcmCertificate extends TerraformResource {
     this._subjectAlternativeNames = value;
   }
 
-  // tags
+  // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
     return this._tags;
@@ -246,12 +246,12 @@ export class AcmCertificate extends TerraformResource {
     this._tags = value;
   }
 
-  // validation_emails
+  // validation_emails - computed: true, optional: false, required: true
   public get validationEmails() {
     return this.getListAttribute('validation_emails');
   }
 
-  // validation_method
+  // validation_method - computed: true, optional: true, required: false
   private _validationMethod?: string;
   public get validationMethod() {
     return this._validationMethod ?? this.getStringAttribute('validation_method');
@@ -260,7 +260,7 @@ export class AcmCertificate extends TerraformResource {
     this._validationMethod = value;
   }
 
-  // options
+  // options - computed: false, optional: true, required: false
   private _options?: AcmCertificateOptions[];
   public get options() {
     return this._options;

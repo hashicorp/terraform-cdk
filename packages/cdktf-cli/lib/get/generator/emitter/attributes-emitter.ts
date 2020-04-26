@@ -6,7 +6,7 @@ export class AttributesEmitter {
 
   public emit(att: AttributeModel) {
     this.code.line();
-    this.code.line(`// ${att.terraformName}`);
+    this.code.line(`// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`);
 
     switch (true) {
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexList(att);
