@@ -47,21 +47,58 @@ exports[`computed complex attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 
 export interface ComputedComplexConfig {
 }
-export interface ComputedComplexEgress {
-  readonly cidrBlocks?: string[];
-  readonly description?: string;
-  readonly fromPort?: number;
-  readonly ipv6CidrBlocks?: string[];
-  readonly prefixListIds?: string[];
-  readonly protocol?: string;
-  readonly securityGroups?: string[];
-  readonly self?: boolean;
-  readonly toPort?: number;
+export class ComputedComplexEgress extends ComplexComputedList {
+
+  // cidr_blocks
+  public get cidrBlocks() {
+    return this.getListAttribute('cidr_blocks');
+  }
+
+  // description
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+
+  // from_port
+  public get fromPort() {
+    return this.getNumberAttribute('from_port');
+  }
+
+  // ipv6_cidr_blocks
+  public get ipv6CidrBlocks() {
+    return this.getListAttribute('ipv6_cidr_blocks');
+  }
+
+  // prefix_list_ids
+  public get prefixListIds() {
+    return this.getListAttribute('prefix_list_ids');
+  }
+
+  // protocol
+  public get protocol() {
+    return this.getStringAttribute('protocol');
+  }
+
+  // security_groups
+  public get securityGroups() {
+    return this.getListAttribute('security_groups');
+  }
+
+  // self
+  public get self() {
+    return this.getBooleanAttribute('self');
+  }
+
+  // to_port
+  public get toPort() {
+    return this.getNumberAttribute('to_port');
+  }
 }
 
 // Resource
@@ -83,8 +120,8 @@ export class ComputedComplex extends TerraformResource {
   // ==========
 
   // egress
-  public get egress() {
-    throw new Error('computed attribute \\"$computed_complex.egress\\" has unsupported type \\"ComputedComplexEgress[]\\"');
+  public egress(index: string) {
+    return new ComputedComplexEgress(this, 'egress', index);
   }
 
   // =========
@@ -147,6 +184,7 @@ exports[`computed optional complex attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 
@@ -183,8 +221,12 @@ export class ComputedOptionalComplex extends TerraformResource {
   // ==========
 
   // egress
+  private _egress?: ComputedOptionalComplexEgress[];
   public get egress() {
-    throw new Error('computed attribute \\"$computed_optional_complex.egress\\" has unsupported type \\"ComputedOptionalComplexEgress[]\\"');
+    return this._egress; // Getting the computed value is not yet implemented
+  }
+  public set egress(value: ComputedOptionalComplexEgress[]) {
+    this._egress = value;
   }
 
   // =========
@@ -358,12 +400,16 @@ export class PrimitiveBoolean extends TerraformResource {
 
   // foo_computed
   public get fooComputed() {
-    throw new Error('computed attribute \\"$primitive_boolean.foo_computed\\" has unsupported type \\"boolean\\"');
+    return this.getBooleanAttribute('foo_computed');
   }
 
   // foo_computed_optional
+  private _fooComputedOptional?: boolean;
   public get fooComputedOptional() {
-    throw new Error('computed attribute \\"$primitive_boolean.foo_computed_optional\\" has unsupported type \\"boolean\\"');
+    return this._fooComputedOptional ?? this.getBooleanAttribute('foo_computed_optional');
+  }
+  public set fooComputedOptional(value: boolean | undefined) {
+    this._fooComputedOptional = value;
   }
 
   // foo_optional
@@ -376,11 +422,11 @@ export class PrimitiveBoolean extends TerraformResource {
   }
 
   // foo_required
-  private _fooRequired?: boolean;
+  private _fooRequired: boolean;
   public get fooRequired() {
     return this._fooRequired;
   }
-  public set fooRequired(value: boolean | undefined) {
+  public set fooRequired(value: boolean) {
     this._fooRequired = value;
   }
 
@@ -464,23 +510,27 @@ export class PrimitiveNumber extends TerraformResource {
   }
 
   // foo_computed_optional
+  private _fooComputedOptional?: number;
   public get fooComputedOptional() {
-    return this.getNumberAttribute('foo_computed_optional');
+    return this._fooComputedOptional ?? this.getNumberAttribute('foo_computed_optional');
+  }
+  public set fooComputedOptional(value: number | undefined) {
+    this._fooComputedOptional = value;
   }
 
   // foo_optional
   private _fooOptional?: number;
   public get fooOptional() {
-    return this._fooOptional ?? this.getNumberAttribute('foo_optional');
+    return this._fooOptional;
   }
-  public set fooOptional(value: number) {
+  public set fooOptional(value: number | undefined) {
     this._fooOptional = value;
   }
 
   // foo_required
-  private _fooRequired?: number;
+  private _fooRequired: number;
   public get fooRequired() {
-    return this._fooRequired ?? this.getNumberAttribute('foo_required');
+    return this._fooRequired;
   }
   public set fooRequired(value: number) {
     this._fooRequired = value;
@@ -566,23 +616,27 @@ export class PrimitiveString extends TerraformResource {
   }
 
   // foo_computed_optional
+  private _fooComputedOptional?: string;
   public get fooComputedOptional() {
-    return this.getStringAttribute('foo_computed_optional');
+    return this._fooComputedOptional ?? this.getStringAttribute('foo_computed_optional');
+  }
+  public set fooComputedOptional(value: string | undefined) {
+    this._fooComputedOptional = value;
   }
 
   // foo_optional
   private _fooOptional?: string;
   public get fooOptional() {
-    return this._fooOptional ?? this.getStringAttribute('foo_optional');
+    return this._fooOptional;
   }
-  public set fooOptional(value: string) {
+  public set fooOptional(value: string | undefined) {
     this._fooOptional = value;
   }
 
   // foo_required
-  private _fooRequired?: string;
+  private _fooRequired: string;
   public get fooRequired() {
-    return this._fooRequired ?? this.getStringAttribute('foo_required');
+    return this._fooRequired;
   }
   public set fooRequired(value: string) {
     this._fooRequired = value;
@@ -858,8 +912,12 @@ export class StringList extends TerraformResource {
   // ==========
 
   // subject_alternative_names_optional_computed
+  private _subjectAlternativeNamesOptionalComputed?: string[];
   public get subjectAlternativeNamesOptionalComputed() {
-    return this.getListAttribute('subject_alternative_names_optional_computed');
+    return this._subjectAlternativeNamesOptionalComputed ?? this.getListAttribute('subject_alternative_names_optional_computed');
+  }
+  public set subjectAlternativeNamesOptionalComputed(value: string[] | undefined) {
+    this._subjectAlternativeNamesOptionalComputed = value;
   }
 
   // subject_alternative_names_computed
@@ -868,9 +926,9 @@ export class StringList extends TerraformResource {
   }
 
   // subject_alternative_names_required
-  private _subjectAlternativeNamesRequired?: string[];
+  private _subjectAlternativeNamesRequired: string[];
   public get subjectAlternativeNamesRequired() {
-    return this._subjectAlternativeNamesRequired ?? this.getListAttribute('subject_alternative_names_required');
+    return this._subjectAlternativeNamesRequired;
   }
   public set subjectAlternativeNamesRequired(value: string[]) {
     this._subjectAlternativeNamesRequired = value;
@@ -879,9 +937,9 @@ export class StringList extends TerraformResource {
   // subject_alternative_names_optional
   private _subjectAlternativeNamesOptional?: string[];
   public get subjectAlternativeNamesOptional() {
-    return this._subjectAlternativeNamesOptional ?? this.getListAttribute('subject_alternative_names_optional');
+    return this._subjectAlternativeNamesOptional;
   }
-  public set subjectAlternativeNamesOptional(value: string[]) {
+  public set subjectAlternativeNamesOptional(value: string[] | undefined) {
     this._subjectAlternativeNamesOptional = value;
   }
 
@@ -928,6 +986,7 @@ exports[`string map attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { StringMap } from \\"cdktf\\";
 
 // Configuration
 
@@ -955,8 +1014,8 @@ export class StringMap extends TerraformResource {
   // ==========
 
   // subject_alternative_names_computed
-  public get subjectAlternativeNamesComputed() {
-    throw new Error('computed attribute \\"$string_map.subject_alternative_names_computed\\" has unsupported type \\"{ [key: string]: string }\\"');
+  public subjectAlternativeNamesComputed(key: string): string {
+    return new StringMap(this, 'subject_alternative_names_computed').lookup(key);
   }
 
   // subject_alternative_names_optional

@@ -36,7 +36,7 @@ export class AttributesEmitter {
       this.code.line(`return this.${att.storageName} ?? ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
       this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }

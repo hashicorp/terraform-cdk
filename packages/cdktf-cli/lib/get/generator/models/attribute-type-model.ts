@@ -36,7 +36,7 @@ export class AttributeTypeModel {
     if (this.isMap && (this._type === TokenizableTypes.STRING) && this.isComputed) return `StringMap`;
     if (this.isMap) return `{ [key: string]: ${this._type} }`;
     if (this.isList && !this.isComputed) return `${this._type}[]`;
-    if (this.isList && this.isComputed && this.isPrimitive) return `${this._type}[]`;
+    if (this.isList && this.isComputed && (this.isPrimitive || !this.struct?.isClass)) return `${this._type}[]`;
     if (this.isList && this.isComputed && this.isComplex) return `${this._type}`;
     return this._type
   }
