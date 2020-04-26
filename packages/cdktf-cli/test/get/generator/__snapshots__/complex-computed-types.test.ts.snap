@@ -109,8 +109,11 @@ export interface AcmCertificateConfig {
   readonly certificateAuthorityArn?: string;
   readonly certificateBody?: string;
   readonly certificateChain?: string;
+  readonly domainName?: string;
   readonly privateKey?: string;
+  readonly subjectAlternativeNames?: string[];
   readonly tags?: { [key: string]: string };
+  readonly validationMethod?: string;
   /** options block */
   readonly options?: AcmCertificateOptions[];
 }
@@ -155,8 +158,11 @@ export class AcmCertificate extends TerraformResource {
     this._certificateAuthorityArn = config.certificateAuthorityArn;
     this._certificateBody = config.certificateBody;
     this._certificateChain = config.certificateChain;
+    this._domainName = config.domainName;
     this._privateKey = config.privateKey;
+    this._subjectAlternativeNames = config.subjectAlternativeNames;
     this._tags = config.tags;
+    this._validationMethod = config.validationMethod;
     this._options = config.options;
   }
 
@@ -278,8 +284,11 @@ export class AcmCertificate extends TerraformResource {
       certificate_authority_arn: this._certificateAuthorityArn,
       certificate_body: this._certificateBody,
       certificate_chain: this._certificateChain,
+      domain_name: this._domainName,
       private_key: this._privateKey,
+      subject_alternative_names: this._subjectAlternativeNames,
       tags: this._tags,
+      validation_method: this._validationMethod,
       options: this._options,
     };
   }

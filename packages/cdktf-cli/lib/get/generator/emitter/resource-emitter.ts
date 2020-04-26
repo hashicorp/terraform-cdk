@@ -41,7 +41,7 @@ export class ResourceEmitter {
     this.code.openBlock(`public synthesizeAttributes()`);
     this.code.open(`return {`);
 
-    for (const att of resource.assignableAttributes) {
+    for (const att of resource.synthesizableAttributes) {
       this.code.line(`${att.terraformName}: this.${att.storageName},`);
     }
 
@@ -66,7 +66,7 @@ export class ResourceEmitter {
     this.code.close(`});`);
 
     // initialize config properties
-    for (const att of resource.assignableAttributes) {
+    for (const att of resource.configStruct.assignableAttributes) {
       this.code.line(`this.${att.storageName} = ${configName}.${att.name};`);
     }
 

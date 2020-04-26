@@ -1,6 +1,6 @@
 import { Schema } from '../provider-schema';
 import { AttributeModel } from './attribute-model';
-import { Struct } from './struct';
+import { Struct, ConfigStruct } from './struct';
 
 interface ResourceModelOptions {
   terraformType: string;
@@ -47,11 +47,11 @@ export class ResourceModel {
   }
 
   public get configStruct() {
-    return new Struct(`${this.className}Config`, this.attributes)
+    return new ConfigStruct(`${this.className}Config`, this.attributes)
   }
 
-  public get assignableAttributes(): AttributeModel[] {
-    return this.attributes.filter(attribute => !attribute.computed)
+  public get synthesizableAttributes(): AttributeModel[] {
+    return this.configStruct.assignableAttributes
   }
 
   public get importStatements(): string[] {

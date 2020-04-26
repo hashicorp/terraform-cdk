@@ -1274,6 +1274,7 @@ import { TerraformResource } from 'cdktf';
 // Configuration
 
 export interface FmsAdminAccountConfig {
+  readonly accountId?: string;
 }
 
 // Resource
@@ -1288,6 +1289,7 @@ export class FmsAdminAccount extends TerraformResource {
     super(scope, id, {
       type: 'aws_fms_admin_account',
     });
+    this._accountId = _config.accountId;
   }
 
   // ==========
@@ -1318,6 +1320,7 @@ export class FmsAdminAccount extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      account_id: this._accountId,
     };
   }
 }
@@ -1834,11 +1837,18 @@ import { TerraformResource } from 'cdktf';
 // Configuration
 
 export interface S3BucketConfig {
+  readonly accelerationStatus?: string;
   readonly acl?: string;
+  readonly bucket?: string;
   readonly bucketPrefix?: string;
   readonly forceDestroy?: boolean;
+  readonly hostedZoneId?: string;
   readonly policy?: string;
+  readonly region?: string;
+  readonly requestPayer?: string;
   readonly tags?: { [key: string]: string };
+  readonly websiteDomain?: string;
+  readonly websiteEndpoint?: string;
   /** cors_rule block */
   readonly corsRule?: S3BucketCorsRule[];
   /** grant block */
@@ -1995,11 +2005,18 @@ export class S3Bucket extends TerraformResource {
     super(scope, id, {
       type: 'aws_s3_bucket',
     });
+    this._accelerationStatus = config.accelerationStatus;
     this._acl = config.acl;
+    this._bucket = config.bucket;
     this._bucketPrefix = config.bucketPrefix;
     this._forceDestroy = config.forceDestroy;
+    this._hostedZoneId = config.hostedZoneId;
     this._policy = config.policy;
+    this._region = config.region;
+    this._requestPayer = config.requestPayer;
     this._tags = config.tags;
+    this._websiteDomain = config.websiteDomain;
+    this._websiteEndpoint = config.websiteEndpoint;
     this._corsRule = config.corsRule;
     this._grant = config.grant;
     this._lifecycleRule = config.lifecycleRule;
@@ -2238,11 +2255,18 @@ export class S3Bucket extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      acceleration_status: this._accelerationStatus,
       acl: this._acl,
+      bucket: this._bucket,
       bucket_prefix: this._bucketPrefix,
       force_destroy: this._forceDestroy,
+      hosted_zone_id: this._hostedZoneId,
       policy: this._policy,
+      region: this._region,
+      request_payer: this._requestPayer,
       tags: this._tags,
+      website_domain: this._websiteDomain,
+      website_endpoint: this._websiteEndpoint,
       cors_rule: this._corsRule,
       grant: this._grant,
       lifecycle_rule: this._lifecycleRule,
@@ -2403,9 +2427,13 @@ import { ComplexComputedList } from \\"cdktf\\";
 
 export interface SecurityGroupConfig {
   readonly description?: string;
+  readonly egress?: SecurityGroupEgress[];
+  readonly ingress?: SecurityGroupIngress[];
+  readonly name?: string;
   readonly namePrefix?: string;
   readonly revokeRulesOnDelete?: boolean;
   readonly tags?: { [key: string]: string };
+  readonly vpcId?: string;
   /** timeouts block */
   readonly timeouts?: SecurityGroupTimeouts;
 }
@@ -2449,9 +2477,13 @@ export class SecurityGroup extends TerraformResource {
       type: 'aws_security_group',
     });
     this._description = config.description;
+    this._egress = config.egress;
+    this._ingress = config.ingress;
+    this._name = config.name;
     this._namePrefix = config.namePrefix;
     this._revokeRulesOnDelete = config.revokeRulesOnDelete;
     this._tags = config.tags;
+    this._vpcId = config.vpcId;
     this._timeouts = config.timeouts;
   }
 
@@ -2566,9 +2598,13 @@ export class SecurityGroup extends TerraformResource {
   public synthesizeAttributes() {
     return {
       description: this._description,
+      egress: this._egress,
+      ingress: this._ingress,
+      name: this._name,
       name_prefix: this._namePrefix,
       revoke_rules_on_delete: this._revokeRulesOnDelete,
       tags: this._tags,
+      vpc_id: this._vpcId,
       timeouts: this._timeouts,
     };
   }

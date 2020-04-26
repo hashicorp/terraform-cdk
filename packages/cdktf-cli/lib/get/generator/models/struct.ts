@@ -8,7 +8,8 @@ export class Struct {
   }
 
   public get assignableAttributes(): AttributeModel[] {
-    return this.isAnonymous ? this.attributes : this.attributes.filter(attribute => !attribute.computed)
+    const attributes = this.isAnonymous ? this.attributes : this.attributes.filter(attribute => (!attribute.computed || (attribute.computed && attribute.optional)))
+    return this.filterIgnoredAttributes(attributes)
   }
 
   public get optionalAttributes(): AttributeModel[] {
@@ -26,5 +27,16 @@ export class Struct {
 
   public get attributeType() {
     return `${this.name}${this.allOptional ? ' = {}' : ''}`
+  }
+
+  protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
+    return attributes
+  }
+}
+
+export class ConfigStruct extends Struct {
+  protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
+    const ignoreList = ['arn', 'id']
+    return attributes.filter(attribute => !ignoreList.includes(attribute.name))
   }
 }

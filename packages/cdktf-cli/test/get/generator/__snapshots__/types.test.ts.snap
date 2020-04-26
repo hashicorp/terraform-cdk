@@ -189,6 +189,7 @@ import { ComplexComputedList } from \\"cdktf\\";
 // Configuration
 
 export interface ComputedOptionalComplexConfig {
+  readonly egress?: ComputedOptionalComplexEgress[];
 }
 export interface ComputedOptionalComplexEgress {
   readonly cidrBlocks?: string[];
@@ -214,6 +215,7 @@ export class ComputedOptionalComplex extends TerraformResource {
     super(scope, id, {
       type: 'aws_computed_optional_complex',
     });
+    this._egress = _config.egress;
   }
 
   // ==========
@@ -235,6 +237,7 @@ export class ComputedOptionalComplex extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      egress: this._egress,
     };
   }
 }
@@ -374,6 +377,7 @@ import { TerraformResource } from 'cdktf';
 // Configuration
 
 export interface PrimitiveBooleanConfig {
+  readonly fooComputedOptional?: boolean;
   readonly fooOptional?: boolean;
   readonly fooRequired: boolean;
 }
@@ -390,6 +394,7 @@ export class PrimitiveBoolean extends TerraformResource {
     super(scope, id, {
       type: 'aws_primitive_boolean',
     });
+    this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
     this._fooRequired = config.fooRequired;
   }
@@ -436,6 +441,7 @@ export class PrimitiveBoolean extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
       foo_required: this._fooRequired,
     };
@@ -480,6 +486,7 @@ import { TerraformResource } from 'cdktf';
 // Configuration
 
 export interface PrimitiveNumberConfig {
+  readonly fooComputedOptional?: number;
   readonly fooOptional?: number;
   readonly fooRequired: number;
 }
@@ -496,6 +503,7 @@ export class PrimitiveNumber extends TerraformResource {
     super(scope, id, {
       type: 'aws_primitive_number',
     });
+    this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
     this._fooRequired = config.fooRequired;
   }
@@ -542,6 +550,7 @@ export class PrimitiveNumber extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
       foo_required: this._fooRequired,
     };
@@ -586,6 +595,7 @@ import { TerraformResource } from 'cdktf';
 // Configuration
 
 export interface PrimitiveStringConfig {
+  readonly fooComputedOptional?: string;
   readonly fooOptional?: string;
   readonly fooRequired: string;
 }
@@ -602,6 +612,7 @@ export class PrimitiveString extends TerraformResource {
     super(scope, id, {
       type: 'aws_primitive_string',
     });
+    this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
     this._fooRequired = config.fooRequired;
   }
@@ -648,6 +659,7 @@ export class PrimitiveString extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
       foo_required: this._fooRequired,
     };
@@ -887,6 +899,7 @@ import { TerraformResource } from 'cdktf';
 // Configuration
 
 export interface StringListConfig {
+  readonly subjectAlternativeNamesOptionalComputed?: string[];
   readonly subjectAlternativeNamesRequired: string[];
   readonly subjectAlternativeNamesOptional?: string[];
 }
@@ -903,6 +916,7 @@ export class StringList extends TerraformResource {
     super(scope, id, {
       type: 'aws_string_list',
     });
+    this._subjectAlternativeNamesOptionalComputed = config.subjectAlternativeNamesOptionalComputed;
     this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
     this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
   }
@@ -949,6 +963,7 @@ export class StringList extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      subject_alternative_names_optional_computed: this._subjectAlternativeNamesOptionalComputed,
       subject_alternative_names_required: this._subjectAlternativeNamesRequired,
       subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
     };
