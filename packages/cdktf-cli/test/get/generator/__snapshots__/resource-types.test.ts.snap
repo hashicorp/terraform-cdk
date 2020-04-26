@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generate a cloudfront distribution resource 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html
+// generated from terraform resource schema
 
 /*
 {
@@ -1247,7 +1248,8 @@ export class CloudfrontDistribution extends TerraformResource {
 `;
 
 exports[`generate a fms admin account with an empty options interface 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html
+// generated from terraform resource schema
 
 /*
 {
@@ -1328,7 +1330,8 @@ export class FmsAdminAccount extends TerraformResource {
 `;
 
 exports[`generate a s3 bucket resource 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
+// generated from terraform resource schema
 
 /*
 {
@@ -2283,7 +2286,8 @@ export class S3Bucket extends TerraformResource {
 `;
 
 exports[`generate a security group 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/security_group.html
+// generated from terraform resource schema
 
 /*
 {

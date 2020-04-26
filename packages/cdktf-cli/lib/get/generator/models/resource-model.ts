@@ -1,3 +1,4 @@
+import { toSnakeCase } from 'codemaker';
 import { Schema } from '../provider-schema';
 import { AttributeModel } from './attribute-model';
 import { Struct, ConfigStruct } from './struct';
@@ -65,5 +66,9 @@ export class ResourceModel {
 
   public get schemaAsJson(): string {
     return JSON.stringify(this.schema, undefined, 2)
+  }
+
+  public get linkToDocs(): string {
+    return `https://www.terraform.io/docs/providers/${this.provider}/r/${toSnakeCase(this.className)}.html`
   }
 }

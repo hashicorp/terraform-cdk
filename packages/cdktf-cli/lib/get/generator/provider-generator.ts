@@ -59,6 +59,7 @@ export class TerraformGenerator {
   }
 
   private emitFileHeader(resource: ResourceModel) {
+    this.code.line(`// ${resource.linkToDocs}`);
     this.code.line(`// generated from terraform resource schema`);
     this.code.line();
     this.code.line('/*');

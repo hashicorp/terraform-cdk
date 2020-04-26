@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generate an acm certifacte resource with complex computed types 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/acm_certificate.html
+// generated from terraform resource schema
 
 /*
 {

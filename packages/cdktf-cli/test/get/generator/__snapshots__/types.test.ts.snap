@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`computed complex attribute 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/computed_complex.html
+// generated from terraform resource schema
 
 /*
 {
@@ -137,7 +138,8 @@ export class ComputedComplex extends TerraformResource {
 `;
 
 exports[`computed optional complex attribute 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html
+// generated from terraform resource schema
 
 /*
 {
@@ -245,7 +247,8 @@ export class ComputedOptionalComplex extends TerraformResource {
 `;
 
 exports[`deeply nested block types 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html
+// generated from terraform resource schema
 
 /*
 {
@@ -342,7 +345,8 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
 `;
 
 exports[`primitive boolean 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html
+// generated from terraform resource schema
 
 /*
 {
@@ -451,7 +455,8 @@ export class PrimitiveBoolean extends TerraformResource {
 `;
 
 exports[`primitive number 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/primitive_number.html
+// generated from terraform resource schema
 
 /*
 {
@@ -560,7 +565,8 @@ export class PrimitiveNumber extends TerraformResource {
 `;
 
 exports[`primitive string 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/primitive_string.html
+// generated from terraform resource schema
 
 /*
 {
@@ -669,7 +675,8 @@ export class PrimitiveString extends TerraformResource {
 `;
 
 exports[`set / list block type 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html
+// generated from terraform resource schema
 
 /*
 {
@@ -774,7 +781,8 @@ export class BlockTypeSetList extends TerraformResource {
 `;
 
 exports[`single block type 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/single_block_type.html
+// generated from terraform resource schema
 
 /*
 {
@@ -852,7 +860,8 @@ export class SingleBlockType extends TerraformResource {
 `;
 
 exports[`string list attribute 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/string_list.html
+// generated from terraform resource schema
 
 /*
 {
@@ -973,7 +982,8 @@ export class StringList extends TerraformResource {
 `;
 
 exports[`string map attribute 1`] = `
-"// generated from terraform resource schema
+"// https://www.terraform.io/docs/providers/aws/r/string_map.html
+// generated from terraform resource schema
 
 /*
 {
