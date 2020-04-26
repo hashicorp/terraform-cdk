@@ -2474,11 +2474,11 @@ export class SecurityGroup extends TerraformResource {
   }
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: SecurityGroupEgress[];
-  public get egress() {
+  private _egress?: SecurityGroupEgress[]
+  public get egress(): SecurityGroupEgress[] | undefined {
     return this._egress; // Getting the computed value is not yet implemented
   }
-  public set egress(value: SecurityGroupEgress[]) {
+  public set egress(value: SecurityGroupEgress[] | undefined) {
     this._egress = value;
   }
 
@@ -2492,11 +2492,11 @@ export class SecurityGroup extends TerraformResource {
   }
 
   // ingress - computed: true, optional: true, required: false
-  private _ingress?: SecurityGroupIngress[];
-  public get ingress() {
+  private _ingress?: SecurityGroupIngress[]
+  public get ingress(): SecurityGroupIngress[] | undefined {
     return this._ingress; // Getting the computed value is not yet implemented
   }
-  public set ingress(value: SecurityGroupIngress[]) {
+  public set ingress(value: SecurityGroupIngress[] | undefined) {
     this._ingress = value;
   }
 

@@ -65,12 +65,12 @@ export class AttributesEmitter {
   }
 
   private emitComputedComplexOptionalList(att: AttributeModel) {
-    this.code.line(`private ${att.storageName}?: ${att.type.name};`);
-    this.code.openBlock(`public get ${att.name}()`);
+    this.code.line(`private ${att.storageName}?: ${att.type.name}`);
+    this.code.openBlock(`public get ${att.name}(): ${att.type.name} | undefined`);
       this.code.line(`return this.${att.storageName}; // Getting the computed value is not yet implemented`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
       this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
   }
