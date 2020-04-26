@@ -4,7 +4,7 @@ import * as path from 'path';
 import { TerraformGenerator } from '../../../lib/get/generator/provider-generator';
 import { CodeMaker } from 'codemaker';
 
-test.only('computed optional complex attribute', async () => {
+test('computed optional complex attribute', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'computed-complex-option.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'computed-optional-complex.test.fixture.json'), 'utf-8'));
@@ -15,7 +15,7 @@ test.only('computed optional complex attribute', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('computed complex attribute', async () => {
+test('computed complex attribute', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'computed-complex.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'computed-complex.test.fixture.json'), 'utf-8'));
@@ -26,7 +26,7 @@ test.only('computed complex attribute', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('string list attribute', async () => {
+test('string list attribute', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'string-list.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'string-list.test.fixture.json'), 'utf-8'));
@@ -37,7 +37,7 @@ test.only('string list attribute', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('string map attribute', async () => {
+test('string map attribute', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'string-map.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'string-map.test.fixture.json'), 'utf-8'));
@@ -48,7 +48,7 @@ test.only('string map attribute', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('deeply nested block types', async () => {
+test('deeply nested block types', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'block-types.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'deeply-nested-block-types.test.fixture.json'), 'utf-8'));
@@ -59,7 +59,7 @@ test.only('deeply nested block types', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('single block type', async () => {
+test('single block type', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'single-block-type.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'single-block-type.test.fixture.json'), 'utf-8'));
@@ -70,7 +70,7 @@ test.only('single block type', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('set / list block type', async () => {
+test('set / list block type', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'set-list-block.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'block-type-set-list.test.fixture.json'), 'utf-8'));
@@ -81,7 +81,7 @@ test.only('set / list block type', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('primitive string', async () => {
+test('primitive string', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-string.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'primitive-string.test.fixture.json'), 'utf-8'));
@@ -92,7 +92,7 @@ test.only('primitive string', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('primitive number', async () => {
+test('primitive number', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-number.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'primitive-number.test.fixture.json'), 'utf-8'));
@@ -103,7 +103,7 @@ test.only('primitive number', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('primitive boolean', async () => {
+test('primitive boolean', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-boolean.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'primitive-boolean.test.fixture.json'), 'utf-8'));

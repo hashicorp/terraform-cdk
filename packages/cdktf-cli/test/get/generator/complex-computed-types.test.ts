@@ -4,7 +4,7 @@ import * as path from 'path';
 import { TerraformGenerator } from '../../../lib/get/generator/provider-generator';
 import { CodeMaker } from 'codemaker';
 
-test.only('generate an acm certifacte resource with complex computed types', async () => {
+test('generate an acm certifacte resource with complex computed types', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'complex-computed-types.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'aws_acm_certificate.test.fixture.json'), 'utf-8'));
