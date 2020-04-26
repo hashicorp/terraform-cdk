@@ -23,7 +23,7 @@ export class ModuleGenerator {
 
     this.code.openBlock(`export interface ${optionsType}`);
     for (const input of spec.inputs) {
-      const optional = input.required ? '' : '?';
+      const optional = (input.required && (input.default === undefined)) ? '' : '?';
       this.code.line(`/**`);
       this.code.line(` * ${input.description}`);
       if (input.default) {
@@ -55,7 +55,7 @@ export class ModuleGenerator {
 
     for (const input of spec.inputs) {
       const inputName = toCamelCase(input.name);
-      const inputType = parseType(input.type) + (input.required ? '' : ' | undefined');
+      const inputType = parseType(input.type) + ((input.required && (input.default === undefined)) ? '' : ' | undefined');
       this.code.openBlock(`public get ${inputName}(): ${inputType}`);
       this.code.line(`return this.inputs['${input.name}'] as ${inputType};`);
       this.code.closeBlock();
