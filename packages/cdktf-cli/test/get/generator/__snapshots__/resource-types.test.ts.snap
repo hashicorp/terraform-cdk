@@ -952,7 +952,7 @@ export class CloudfrontDistribution extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: CloudfrontDistributionConfig) {
     super(scope, id, {
-      type: 'aws_cloudfront_distribution',
+      terraformResourceType: 'aws_cloudfront_distribution',
     });
     this._aliases = config.aliases;
     this._comment = config.comment;
@@ -1287,7 +1287,7 @@ export class FmsAdminAccount extends TerraformResource {
 
   public constructor(scope: Construct, id: string, _config: FmsAdminAccountConfig = {}) {
     super(scope, id, {
-      type: 'aws_fms_admin_account',
+      terraformResourceType: 'aws_fms_admin_account',
     });
     this._accountId = _config.accountId;
   }
@@ -2003,7 +2003,7 @@ export class S3Bucket extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: S3BucketConfig = {}) {
     super(scope, id, {
-      type: 'aws_s3_bucket',
+      terraformResourceType: 'aws_s3_bucket',
     });
     this._accelerationStatus = config.accelerationStatus;
     this._acl = config.acl;
@@ -2474,7 +2474,7 @@ export class SecurityGroup extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: SecurityGroupConfig = {}) {
     super(scope, id, {
-      type: 'aws_security_group',
+      terraformResourceType: 'aws_security_group',
     });
     this._description = config.description;
     this._egress = config.egress;

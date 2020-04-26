@@ -23,7 +23,7 @@ export class StringMap {
   constructor(protected resource: TerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): string {
-    return Token.asString(`\${lookup(${this.resource.type}.${Node.of(this.resource).uniqueId}.${this.terraformAttribute}, ${key})}`)
+    return Token.asString(`\${lookup(${this.resource.terraformResourceType}.${Node.of(this.resource).uniqueId}.${this.terraformAttribute}, ${key})}`)
   }
 }
 
@@ -33,6 +33,6 @@ export class ComplexComputedList extends ComplexComputedAttribute {
   }
 
   protected interpolationForAttribute(terraformAttribute: string) {
-    return `\${${this.resource.type}.${Node.of(this.resource).uniqueId}.${this.index}.${terraformAttribute}}`;
+    return `\${${this.resource.terraformResourceType}.${Node.of(this.resource).uniqueId}.${this.index}.${terraformAttribute}}`;
   }
 }

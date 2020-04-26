@@ -153,7 +153,7 @@ export class AcmCertificate extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: AcmCertificateConfig = {}) {
     super(scope, id, {
-      type: 'aws_acm_certificate',
+      terraformResourceType: 'aws_acm_certificate',
     });
     this._certificateAuthorityArn = config.certificateAuthorityArn;
     this._certificateBody = config.certificateBody;

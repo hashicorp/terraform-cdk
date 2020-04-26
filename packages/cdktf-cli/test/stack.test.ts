@@ -8,12 +8,12 @@ test('stack synthesis merges all elements into a single output', () => {
   const stack = new TerraformStack(app, 'MyStack');
 
   new MyResource(stack, 'Resource1', {
-    type: 'aws_bucket',
+    terraformResourceType: 'aws_bucket',
     provider: 'my_provider'
   });
 
   new MyResource(stack, 'Resource2', {
-    type: 'aws_topic',
+    terraformResourceType: 'aws_topic',
   });
 
   new MyModule(stack, 'EksModule', {

@@ -62,7 +62,7 @@ export class ResourceEmitter {
 
     // invoke super ctor with the terraform resource type
     this.code.open(`super(scope, id, {`);
-    this.code.line(`type: '${resource.terraformType}',`);
+    this.code.line(`terraformResourceType: '${resource.terraformType}',`);
     this.code.close(`});`);
 
     // initialize config properties

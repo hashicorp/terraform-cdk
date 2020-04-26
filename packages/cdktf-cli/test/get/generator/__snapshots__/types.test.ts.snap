@@ -111,7 +111,7 @@ export class ComputedComplex extends TerraformResource {
 
   public constructor(scope: Construct, id: string, _config: ComputedComplexConfig = {}) {
     super(scope, id, {
-      type: 'aws_computed_complex',
+      terraformResourceType: 'aws_computed_complex',
     });
   }
 
@@ -213,7 +213,7 @@ export class ComputedOptionalComplex extends TerraformResource {
 
   public constructor(scope: Construct, id: string, _config: ComputedOptionalComplexConfig = {}) {
     super(scope, id, {
-      type: 'aws_computed_optional_complex',
+      terraformResourceType: 'aws_computed_optional_complex',
     });
     this._egress = _config.egress;
   }
@@ -310,7 +310,7 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: DeeplyNestedBlockTypesConfig = {}) {
     super(scope, id, {
-      type: 'aws_deeply_nested_block_types',
+      terraformResourceType: 'aws_deeply_nested_block_types',
     });
     this._lifecycleRule = config.lifecycleRule;
   }
@@ -392,7 +392,7 @@ export class PrimitiveBoolean extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: PrimitiveBooleanConfig) {
     super(scope, id, {
-      type: 'aws_primitive_boolean',
+      terraformResourceType: 'aws_primitive_boolean',
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -501,7 +501,7 @@ export class PrimitiveNumber extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: PrimitiveNumberConfig) {
     super(scope, id, {
-      type: 'aws_primitive_number',
+      terraformResourceType: 'aws_primitive_number',
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -610,7 +610,7 @@ export class PrimitiveString extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: PrimitiveStringConfig) {
     super(scope, id, {
-      type: 'aws_primitive_string',
+      terraformResourceType: 'aws_primitive_string',
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -731,7 +731,7 @@ export class BlockTypeSetList extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: BlockTypeSetListConfig = {}) {
     super(scope, id, {
-      type: 'aws_block_type_set_list',
+      terraformResourceType: 'aws_block_type_set_list',
     });
     this._timeoutsSet = config.timeoutsSet;
     this._timeoutsList = config.timeoutsList;
@@ -820,7 +820,7 @@ export class SingleBlockType extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: SingleBlockTypeConfig = {}) {
     super(scope, id, {
-      type: 'aws_single_block_type',
+      terraformResourceType: 'aws_single_block_type',
     });
     this._timeouts = config.timeouts;
   }
@@ -914,7 +914,7 @@ export class StringList extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: StringListConfig) {
     super(scope, id, {
-      type: 'aws_string_list',
+      terraformResourceType: 'aws_string_list',
     });
     this._subjectAlternativeNamesOptionalComputed = config.subjectAlternativeNamesOptionalComputed;
     this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
@@ -1019,7 +1019,7 @@ export class StringMap extends TerraformResource {
 
   public constructor(scope: Construct, id: string, config: StringMapConfig = {}) {
     super(scope, id, {
-      type: 'aws_string_map',
+      terraformResourceType: 'aws_string_map',
     });
     this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
   }

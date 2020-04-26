@@ -3,7 +3,7 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 
 export interface TerraformResourceConfig {
-  readonly type: string;
+  readonly terraformResourceType: string;
   readonly dependsOn?: TerraformResource[];
   readonly count?: number;
   readonly provider?: TerraformProvider;
@@ -11,12 +11,12 @@ export interface TerraformResourceConfig {
 }
 
 export abstract class TerraformResource extends TerraformElement {
-  public readonly type: string;
+  public readonly terraformResourceType: string;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id);
 
-    this.type = config.type;
+    this.terraformResourceType = config.terraformResourceType;
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -43,7 +43,7 @@ export abstract class TerraformResource extends TerraformElement {
   public toTerraform(): any {
     return {
       resource: {
-        [this.type]: {
+        [this.terraformResourceType]: {
           [Node.of(this).uniqueId]: this.synthesizeAttributes()
         }
       }
@@ -51,7 +51,7 @@ export abstract class TerraformResource extends TerraformElement {
   }
 
   private interpolationForAttribute(terraformAttribute: string) {
-    return `\${${this.type}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
+    return `\${${this.terraformResourceType}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
   }
 }
 
