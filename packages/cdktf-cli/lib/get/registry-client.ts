@@ -3,11 +3,14 @@ import { format } from 'url';
 
 const BASE_URL = `https://registry.terraform.io/v1/modules`;
 
+// see https://stackoverflow.com/questions/40201533/sort-version-dotted-number-strings-in-javascript
+const semverSort = ((a: string , b: string) => a.localeCompare(b, undefined, { numeric: true }) )
+
 export async function getLatestVersion(source: string) {
   const versions = await get(`${BASE_URL}/${source}/versions`) as Versions;
 
   for (const m of versions.modules) {
-    return m.versions.map(x => x.version).sort().pop();
+    return m.versions.map(x => x.version).sort(semverSort).pop();
   }
 
   return undefined;
@@ -51,7 +54,7 @@ interface ModuleVersions {
 }
 
 interface ModuleVersion {
-  readonly version: string;  
+  readonly version: string;
 }
 
 export interface Module {
