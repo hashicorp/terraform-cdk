@@ -136,6 +136,17 @@ test('set / list block type', async () => {
   expect(output).toMatchSnapshot();
 });
 
+test('computed nested complex list block type', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'nested-computed-list-block.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'block-type-nested-computed-list.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/block-type-nested-computed-list.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
 test('primitive string', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-string.test'));

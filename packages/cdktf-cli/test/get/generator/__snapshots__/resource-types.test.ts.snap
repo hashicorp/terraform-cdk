@@ -1904,7 +1904,6 @@ export interface S3BucketLifecycleRuleTransition {
 export interface S3BucketLifecycleRule {
   readonly abortIncompleteMultipartUploadDays?: number;
   readonly enabled: boolean;
-  readonly id?: string;
   readonly prefix?: string;
   readonly tags?: { [key: string]: string };
   /** expiration block */

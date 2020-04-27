@@ -101,6 +101,7 @@ class Parser {
     const attributes = new Array<AttributeModel>();
 
     for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
+      if (parentType.inBlockType && att.computed) continue ;
       const type = this.renderAttributeType([ parentType, new Scope(terraformAttributeName, !!att.computed, !!att.optional)], att.type);
       const name = toCamelCase(terraformAttributeName);
 
@@ -118,7 +119,8 @@ class Parser {
 
     for (const [ blockTypeName, blockType ] of Object.entries(block.block_types || { })) {
       // create a struct for this block
-      const blockStruct = this.addStruct([ parentType, new Scope(blockTypeName) ], this.renderAttributesForBlock(new Scope(`${parentType.name}_${blockTypeName}`), blockType.block))
+      const blockAttributes = this.renderAttributesForBlock(new Scope(`${parentType.name}_${blockTypeName}`, false, true, true), blockType.block)
+      const blockStruct = this.addStruct([ parentType, new Scope(blockTypeName) ], blockAttributes)
 
       // define the attribute
       attributes.push(attributeForBlockType(blockTypeName, blockType, blockStruct));

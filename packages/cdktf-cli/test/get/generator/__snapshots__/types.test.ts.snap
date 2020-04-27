@@ -429,6 +429,116 @@ export class ComputedComplexNested extends TerraformResource {
 "
 `;
 
+exports[`computed nested complex list block type 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html
+// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {},
+    \\"block_types\\": {
+      \\"inputs\\": {
+        \\"nesting_mode\\": \\"list\\",
+        \\"block\\": {
+          \\"attributes\\": {
+            \\"id\\": {
+              \\"type\\": \\"string\\",
+              \\"computed\\": true
+            },
+            \\"name_prefix\\": {
+              \\"type\\": \\"string\\",
+              \\"required\\": true
+            },
+            \\"starting_position_configuration\\": {
+              \\"type\\": [
+                \\"list\\",
+                [
+                  \\"object\\",
+                  {
+                    \\"starting_position\\": \\"string\\"
+                  }
+                ]
+              ],
+              \\"computed\\": true
+            },
+            \\"stream_names\\": {
+              \\"type\\": [
+                \\"set\\",
+                \\"string\\"
+              ],
+              \\"computed\\": true
+            }
+          },
+          \\"block_types\\": {}
+        }
+      }
+    }
+  }
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface BlockTypeNestedComputedListConfig {
+  /** inputs block */
+  readonly inputs?: BlockTypeNestedComputedListInputs[];
+}
+export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends ComplexComputedList {
+
+  // starting_position - computed: true, optional: false, required: true
+  public get startingPosition() {
+    return this.getStringAttribute('starting_position');
+  }
+}
+export interface BlockTypeNestedComputedListInputs {
+  readonly namePrefix: string;
+}
+
+// Resource
+
+export class BlockTypeNestedComputedList extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: BlockTypeNestedComputedListConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_block_type_nested_computed_list',
+    });
+    this._inputs = config.inputs;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // inputs - computed: false, optional: true, required: false
+  private _inputs?: BlockTypeNestedComputedListInputs[];
+  public get inputs() {
+    return this._inputs;
+  }
+  public set inputs(value: BlockTypeNestedComputedListInputs[] | undefined) {
+    this._inputs = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      inputs: this._inputs,
+    };
+  }
+}
+"
+`;
+
 exports[`computed optional complex attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html
 // generated from terraform resource schema

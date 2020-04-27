@@ -1,0 +1,51 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_block_type_nested_computed_list": {
+          "version": 1,
+          "block": {
+            "attributes": {},
+            "block_types": {
+              "inputs": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "id": {
+                      "type": "string",
+                      "computed": true
+                    },
+                    "name_prefix": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "starting_position_configuration": {
+                      "type": [
+                        "list",
+                        [
+                          "object",
+                          {
+                            "starting_position": "string"
+                          }
+                        ]
+                      ],
+                      "computed": true
+                    },
+                    "stream_names": {
+                      "type": [
+                        "set",
+                        "string"
+                      ],
+                      "computed": true
+                    }
+                  },
+                  "block_types": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
