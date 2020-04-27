@@ -2,12 +2,13 @@ import { toCamelCase, toPascalCase, toSnakeCase } from 'codemaker';
 import { Attribute, AttributeType, Block, BlockType, Schema } from './provider-schema';
 import { ResourceModel, AttributeTypeModel, Struct, Scope, AttributeModel } from "./models"
 
-const resources: ResourceModel[] = [];
+const classNames: string[] = [];
 
 const uniqueClassName = (className: string): string => {
-  if (resources.find((resource) => (resource.className == className)) !== undefined) {
+  if (classNames.includes(className)) {
     className = `${className}A`
   }
+  classNames.push(className)
   return className
 }
 
@@ -212,7 +213,6 @@ export class ResourceParser {
   public parse(provider: string, type: string, schema: Schema): ResourceModel {
     const parser = new Parser()
     const resource = parser.resourceFrom(provider, type, schema)
-    resources.push(resource)
     return resource;
   }
 }
