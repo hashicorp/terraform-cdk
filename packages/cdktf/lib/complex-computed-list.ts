@@ -48,7 +48,7 @@ export class ComplexComputedList extends ComplexComputedAttribute {
     super(terraformResource, terraformAttribute)
   }
 
-  protected interpolationForAttribute(terraformAttribute: string) {
-    return `\${${this.terraformResource.terraformResourceType}.${Node.of(this.terraformResource).uniqueId}.${this.index}.${terraformAttribute}}`;
+  protected interpolationForAttribute(property: string) {
+    return `\${${this.terraformResource.terraformResourceType}.${Node.of(this.terraformResource).uniqueId}.${this.terraformAttribute}.${this.index}.${property}}`;
   }
 }
