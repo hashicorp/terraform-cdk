@@ -11,7 +11,7 @@ export class HelloTerra extends TerraformStack {
 
     const table = new DynamodbTable(this, 'Hello', {
       name: 'my-first-table',
-      hashKey: 'test',
+      hashKey: 'id',
       attribute: [
         { name: 'id', type: 'S' }
       ]

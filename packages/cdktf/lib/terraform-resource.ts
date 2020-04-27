@@ -36,7 +36,7 @@ export abstract class TerraformResource extends TerraformElement {
 
   protected abstract synthesizeAttributes(): { [name: string]: any; escapeHatch?: any };
 
-  private mergeEscapeHatch() {
+  private mergeAttributes() {
     const attributes = this.synthesizeAttributes()
     const escapeHatch = this.escapeHatch
     if (escapeHatch) {
@@ -53,7 +53,7 @@ export abstract class TerraformResource extends TerraformElement {
     return {
       resource: {
         [this.type]: {
-          [Node.of(this).uniqueId]: this.mergeEscapeHatch()
+          [Node.of(this).uniqueId]: this.mergeAttributes()
         }
       }
     };
