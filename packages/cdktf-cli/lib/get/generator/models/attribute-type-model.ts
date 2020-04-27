@@ -35,6 +35,7 @@ export class AttributeTypeModel {
   public get name(): string {
     if (this.isStringMap) return `StringMap`;
     if (this.isNumberMap) return `NumberMap`;
+    if (this.isBooleanMap) return `BooleanMap`;
     if (this.isMap) return `{ [key: string]: ${this._type} }`;
     if (this.isList && !this.isComputed) return `${this._type}[]`;
     if (this.isList && this.isComputed && (this.isPrimitive || !this.struct?.isClass)) return `${this._type}[]`;
@@ -46,6 +47,7 @@ export class AttributeTypeModel {
     if (this.isComputedComplex) {
       if (this.isStringMap) return `import { StringMap } from "cdktf";`
       if (this.isNumberMap) return `import { NumberMap } from "cdktf";`
+      if (this.isBooleanMap) return `import { BooleanMap } from "cdktf";`
       if (this.isList) return `import { ComplexComputedList } from "cdktf";`
     }
     return undefined
@@ -76,11 +78,15 @@ export class AttributeTypeModel {
   }
 
   public get isStringMap(): boolean {
-    return this.isMap && (this._type === TokenizableTypes.STRING) && this.isComputed
+    return this.isMap && this._type === TokenizableTypes.STRING && this.isComputed
   }
 
   public get isNumberMap(): boolean {
-    return this.isMap && (this._type === TokenizableTypes.NUMBER) && this.isComputed
+    return this.isMap && this._type === TokenizableTypes.NUMBER && this.isComputed
+  }
+
+  public get isBooleanMap(): boolean {
+    return this.isMap && this._type === TokenizableTypes.BOOLEAN && this.isComputed
   }
 
   public get isComputedComplex(): boolean {

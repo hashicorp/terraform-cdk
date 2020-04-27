@@ -35,6 +35,14 @@ export class NumberMap {
   }
 }
 
+export class BooleanMap {
+  constructor(protected resource: TerraformResource, protected terraformAttribute: string) {}
+
+  public lookup(key: string): boolean {
+    return Token.asString(`\${lookup(${this.resource.terraformResourceType}.${Node.of(this.resource).uniqueId}.${this.terraformAttribute}, ${key})}`) as any as boolean
+  }
+}
+
 export class ComplexComputedList extends ComplexComputedAttribute {
   constructor(protected resource: TerraformResource, protected terraformAttribute: string, protected index: string) {
     super(resource, terraformAttribute)

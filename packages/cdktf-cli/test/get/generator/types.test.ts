@@ -81,6 +81,17 @@ test('number map attribute', async () => {
   expect(output).toMatchSnapshot();
 });
 
+test('boolean map attribute', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'boolean-map.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'boolean-map.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/boolean-map.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
 test('deeply nested block types', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'block-types.test'));
