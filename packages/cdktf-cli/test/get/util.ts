@@ -21,7 +21,8 @@ export function expectImportMatchSnapshot(target: string, fn: () => GetBase) {
       await jsiiCompile(workdir, {
         stdout: true,
         name: name,
-        main: name
+        main: name,
+        providerPath: './providers/aws/index'
       });
 
       const manifest = JSON.parse(await fs.readFile('.jsii', 'utf-8'));

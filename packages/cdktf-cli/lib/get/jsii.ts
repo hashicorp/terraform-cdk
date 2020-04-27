@@ -13,6 +13,12 @@ export interface JsiiCompileOptions {
    */
   readonly main: string;
 
+
+  /**
+   * Path to the module file file.
+   */
+  readonly providerPath: string;
+
   /**
    * Whether to print stdout.
    * @default false
@@ -41,8 +47,8 @@ export async function jsiiCompile(workdir: string, options: JsiiCompileOptions) 
     name,
     version: '0.0.0',
     author: "dummy@dummy.com",
-    main: `${main}.js`,
-    types: `${main}.d.ts`,
+    main: `${path.join(options.providerPath)}.js`,
+    types: `${path.join(options.providerPath)}.d.ts`,
     license: 'Apache-2.0',
     repository: { url: 'http://repo', type: 'git' },
     jsii: {
