@@ -487,13 +487,6 @@ export interface BlockTypeNestedComputedListConfig {
   /** inputs block */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
-export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends ComplexComputedList {
-
-  // starting_position - computed: true, optional: false, required: true
-  public get startingPosition() {
-    return this.getStringAttribute('starting_position');
-  }
-}
 export interface BlockTypeNestedComputedListInputs {
   readonly namePrefix: string;
 }
@@ -739,6 +732,81 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
   public synthesizeAttributes() {
     return {
       lifecycle_rule: this._lifecycleRule,
+    };
+  }
+}
+"
+`;
+
+exports[`ignored attributes 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html
+// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"id\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true,
+        \\"optional\\": true
+      },
+      \\"arn\\": {
+        \\"type\\": \\"string\\",
+        \\"computed\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface IgnoredAttributesConfig {
+}
+
+// Resource
+
+export class IgnoredAttributes extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, _config: IgnoredAttributesConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_ignored_attributes',
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // id - computed: true, optional: true, required: false
+  private _id?: string;
+  public get id() {
+    return this._id ?? this.getStringAttribute('id');
+  }
+  public set id(value: string | undefined) {
+    this._id = value;
+  }
+
+  // arn - computed: true, optional: false, required: true
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
     };
   }
 }

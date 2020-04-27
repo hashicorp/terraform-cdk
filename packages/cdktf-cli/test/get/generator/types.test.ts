@@ -179,3 +179,14 @@ test('primitive boolean', async () => {
   const output = fs.readFileSync(path.join(workdir, 'providers/aws/primitive-boolean.ts'), 'utf-8');
   expect(output).toMatchSnapshot();
 });
+
+test('ignored attributes', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'ignored-attributes.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'ignored-attributes.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/ignored-attributes.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});

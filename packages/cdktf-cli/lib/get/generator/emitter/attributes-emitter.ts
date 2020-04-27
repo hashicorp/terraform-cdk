@@ -11,11 +11,11 @@ export class AttributesEmitter {
     switch (true) {
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexList(att);
       case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptional(att);
-      case (att.computed && !att.optional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
-      case (att.computed && att.optional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexOptional(att);
-      case (att.computed && att.optional): return this.emitOptionalComputed(att);
+      case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
+      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexOptional(att);
+      case (att.computed && att.isOptional): return this.emitOptionalComputed(att);
       case (att.computed): return this.emitComputed(att);
-      case (att.optional): return this.emitOptional(att);
+      case (att.isOptional): return this.emitOptional(att);
       case (att.isRequired): return this.emitRequired(att);
     }
   }

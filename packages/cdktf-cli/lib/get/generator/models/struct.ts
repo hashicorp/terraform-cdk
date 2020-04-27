@@ -37,6 +37,6 @@ export class Struct {
 export class ConfigStruct extends Struct {
   protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
     const ignoreList = ['arn', 'id']
-    return attributes.filter(attribute => !ignoreList.includes(attribute.name))
+    return attributes.filter(attribute => !(ignoreList.includes(attribute.name) && !attribute.isRequired))
   }
 }
