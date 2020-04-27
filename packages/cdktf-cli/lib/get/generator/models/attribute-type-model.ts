@@ -1,11 +1,12 @@
 import { Struct } from './struct'
 
-export class AttributeTypeModelOptions {
-  public struct?: Struct;
-  public isList?: boolean;
-  public isComputed?: boolean;
-  public isOptional?: boolean;
-  public isMap?: boolean;
+export interface AttributeTypeModelOptions {
+  struct?: Struct;
+  isList?: boolean;
+  isComputed?: boolean;
+  isOptional?: boolean;
+  isMap?: boolean;
+  level?: number;
 }
 
 export enum TokenizableTypes {
@@ -26,12 +27,14 @@ export class AttributeTypeModel {
   public isOptional: boolean;
   public isMap: boolean;
   public struct?: Struct;
+  public level?: number;
 
-  constructor(private _type: string, options: AttributeTypeModelOptions = {}) {
+  constructor(private _type: string, options: AttributeTypeModelOptions) {
     this.isList = !!options.isList;
     this.isMap = !!options.isMap;
     this.isComputed = !!options.isComputed;
     this.isOptional = !!options.isOptional;
+    this.level = options.level
     this.struct = options.struct;
   }
 
@@ -93,7 +96,11 @@ export class AttributeTypeModel {
   }
 
   public get isComputedComplex(): boolean {
-    return this.isComputed && this.isComplex
+    return this.isRootType && this.isComputed && this.isComplex
+  }
+
+  public get isRootType(): boolean {
+    return this.level === 2
   }
 
   public get isComputedPrimitive(): boolean {

@@ -331,6 +331,104 @@ export class ComputedComplex extends TerraformResource {
 "
 `;
 
+exports[`computed complex nested attribute 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html
+// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"resources\\": {
+        \\"type\\": [
+          \\"list\\",
+          [
+            \\"object\\",
+            {
+              \\"autoscaling_groups\\": [
+                \\"list\\",
+                [
+                  \\"object\\",
+                  {
+                    \\"name\\": \\"string\\"
+                  }
+                ]
+              ],
+              \\"remote_access_security_group_id\\": \\"string\\"
+            }
+          ]
+        ],
+        \\"computed\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { ComplexComputedList } from \\"cdktf\\";
+
+// Configuration
+
+export interface ComputedComplexNestedConfig {
+}
+export class ComputedComplexNestedResourcesAutoscalingGroups extends ComplexComputedList {
+
+  // name - computed: true, optional: false, required: true
+  public get name() {
+    return this.getStringAttribute('name');
+  }
+}
+export class ComputedComplexNestedResources extends ComplexComputedList {
+
+  // autoscaling_groups - computed: true, optional: false, required: true
+  public get autoscalingGroups() {
+    return 'not implemented' as any;
+  }
+
+  // remote_access_security_group_id - computed: true, optional: false, required: true
+  public get remoteAccessSecurityGroupId() {
+    return this.getStringAttribute('remote_access_security_group_id');
+  }
+}
+
+// Resource
+
+export class ComputedComplexNested extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, _config: ComputedComplexNestedConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_computed_complex_nested',
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // resources - computed: true, optional: false, required: true
+  public resources(index: string) {
+    return new ComputedComplexNestedResources(this, 'resources', index);
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+    };
+  }
+}
+"
+`;
+
 exports[`computed optional complex attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html
 // generated from terraform resource schema
