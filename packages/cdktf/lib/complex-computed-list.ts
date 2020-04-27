@@ -27,6 +27,14 @@ export class StringMap {
   }
 }
 
+export class NumberMap {
+  constructor(protected resource: TerraformResource, protected terraformAttribute: string) {}
+
+  public lookup(key: string): number {
+    return Token.asNumber(`\${lookup(${this.resource.terraformResourceType}.${Node.of(this.resource).uniqueId}.${this.terraformAttribute}, ${key})}`)
+  }
+}
+
 export class ComplexComputedList extends ComplexComputedAttribute {
   constructor(protected resource: TerraformResource, protected terraformAttribute: string, protected index: string) {
     super(resource, terraformAttribute)
