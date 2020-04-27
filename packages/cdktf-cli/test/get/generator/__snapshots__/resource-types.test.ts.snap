@@ -2425,7 +2425,6 @@ exports[`generate a security group 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
-import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 

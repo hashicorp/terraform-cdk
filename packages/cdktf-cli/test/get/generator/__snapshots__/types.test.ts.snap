@@ -380,7 +380,6 @@ exports[`computed optional complex attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
-import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 

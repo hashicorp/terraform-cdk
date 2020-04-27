@@ -47,7 +47,7 @@ export class AttributeTypeModel {
   }
 
   public get dependencies(): string | undefined {
-    if (this.isComputedComplex) {
+    if (this.isComputedComplex && !this.isOptional) {
       if (this.isStringMap) return `import { StringMap } from "cdktf";`
       if (this.isNumberMap) return `import { NumberMap } from "cdktf";`
       if (this.isBooleanMap) return `import { BooleanMap } from "cdktf";`
