@@ -344,6 +344,96 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
 "
 `;
 
+exports[`number list attribute 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/number_list.html
+// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"foo_required\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"number\\"
+        ],
+        \\"required\\": true
+      },
+      \\"foo_optional\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"number\\"
+        ],
+        \\"optional\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface NumberListConfig {
+  readonly fooRequired: number[];
+  readonly fooOptional?: number[];
+}
+
+// Resource
+
+export class NumberList extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: NumberListConfig) {
+    super(scope, id, {
+      terraformResourceType: 'aws_number_list',
+    });
+    this._fooRequired = config.fooRequired;
+    this._fooOptional = config.fooOptional;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // foo_required - computed: false, optional: false, required: true
+  private _fooRequired: number[];
+  public get fooRequired() {
+    return this._fooRequired;
+  }
+  public set fooRequired(value: number[]) {
+    this._fooRequired = value;
+  }
+
+  // foo_optional - computed: false, optional: true, required: false
+  private _fooOptional?: number[];
+  public get fooOptional() {
+    return this._fooOptional;
+  }
+  public set fooOptional(value: number[] | undefined) {
+    this._fooOptional = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      foo_required: this._fooRequired,
+      foo_optional: this._fooOptional,
+    };
+  }
+}
+"
+`;
+
 exports[`primitive boolean 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html
 // generated from terraform resource schema

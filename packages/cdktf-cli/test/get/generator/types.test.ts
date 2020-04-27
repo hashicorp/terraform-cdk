@@ -37,6 +37,17 @@ test('string list attribute', async () => {
   expect(output).toMatchSnapshot();
 });
 
+test('number list attribute', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'number-list.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'number-list.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/number-list.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
 test('string map attribute', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'string-map.test'));
