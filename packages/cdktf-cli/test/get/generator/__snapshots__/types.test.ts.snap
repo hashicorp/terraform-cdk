@@ -1,5 +1,95 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`boolean list attribute 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/boolean_list.html
+// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"foo_required\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"bool\\"
+        ],
+        \\"required\\": true
+      },
+      \\"foo_optional\\": {
+        \\"type\\": [
+          \\"list\\",
+          \\"bool\\"
+        ],
+        \\"optional\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface BooleanListConfig {
+  readonly fooRequired: boolean[];
+  readonly fooOptional?: boolean[];
+}
+
+// Resource
+
+export class BooleanList extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: BooleanListConfig) {
+    super(scope, id, {
+      terraformResourceType: 'aws_boolean_list',
+    });
+    this._fooRequired = config.fooRequired;
+    this._fooOptional = config.fooOptional;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // foo_required - computed: false, optional: false, required: true
+  private _fooRequired: boolean[];
+  public get fooRequired() {
+    return this._fooRequired;
+  }
+  public set fooRequired(value: boolean[]) {
+    this._fooRequired = value;
+  }
+
+  // foo_optional - computed: false, optional: true, required: false
+  private _fooOptional?: boolean[];
+  public get fooOptional() {
+    return this._fooOptional;
+  }
+  public set fooOptional(value: boolean[] | undefined) {
+    this._fooOptional = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes() {
+    return {
+      foo_required: this._fooRequired,
+      foo_optional: this._fooOptional,
+    };
+  }
+}
+"
+`;
+
 exports[`computed complex attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/computed_complex.html
 // generated from terraform resource schema

@@ -48,6 +48,17 @@ test('number list attribute', async () => {
   expect(output).toMatchSnapshot();
 });
 
+test('boolean list attribute', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'boolean-list.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'boolean-list.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/boolean-list.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
 test('string map attribute', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'string-map.test'));
