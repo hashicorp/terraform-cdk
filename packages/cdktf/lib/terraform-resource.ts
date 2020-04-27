@@ -1,6 +1,7 @@
 import { Construct, Node, Token } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
+import { keysToSnakeCase } from "./util";
 
 export interface TerraformResourceConfig {
   readonly terraformResourceType: string;
@@ -44,7 +45,7 @@ export abstract class TerraformResource extends TerraformElement {
     return {
       resource: {
         [this.terraformResourceType]: {
-          [Node.of(this).uniqueId]: this.synthesizeAttributes()
+          [Node.of(this).uniqueId]: keysToSnakeCase(this.synthesizeAttributes())
         }
       }
     };
