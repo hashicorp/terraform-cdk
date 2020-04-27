@@ -88,7 +88,7 @@ export class AttributesEmitter {
     if (type.isStringList) { return `this.getListAttribute('${att.terraformName}')` }
     if (type.isNumber) { return `this.getNumberAttribute('${att.terraformName}')` }
     if (type.isBoolean) { return `this.getBooleanAttribute('${att.terraformName}')` }
-    console.error(`The attribute {att} isn't implemented yet`)
+    console.error(`The attribute ${JSON.stringify(att)} isn't implemented yet`)
     return `'not implemented' as any`
   }
 }
