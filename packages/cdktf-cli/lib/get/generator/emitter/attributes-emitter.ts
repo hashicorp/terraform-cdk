@@ -10,8 +10,9 @@ export class AttributesEmitter {
 
     switch (true) {
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexList(att);
-      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptionalList(att);
-      case (att.computed && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
+      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptional(att);
+      case (att.computed && !att.optional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
+      case (att.computed && att.optional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexOptional(att);
       case (att.computed && att.optional): return this.emitOptionalComputed(att);
       case (att.computed): return this.emitComputed(att);
       case (att.optional): return this.emitOptional(att);
@@ -64,7 +65,7 @@ export class AttributesEmitter {
     this.code.closeBlock();
   }
 
-  private emitComputedComplexOptionalList(att: AttributeModel) {
+  private emitComputedComplexOptional(att: AttributeModel) {
     this.code.line(`private ${att.storageName}?: ${att.type.name}`);
     this.code.openBlock(`public get ${att.name}(): ${att.type.name} | undefined`);
       this.code.line(`return this.${att.storageName}; // Getting the computed value is not yet implemented`);

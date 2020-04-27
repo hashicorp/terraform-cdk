@@ -42,13 +42,16 @@ class Parser {
   }
 
   private renderAttributeType(scope: Scope[], attributeType: AttributeType): AttributeTypeModel {
+    const parent = scope[scope.length - 1]
     const isComputed = !!scope.find(e => e.isComputed === true);
+    const isOptional = parent.isOptional
+
 
     if (typeof(attributeType) === 'string') {
       switch (attributeType) {
-        case 'bool': return new AttributeTypeModel('boolean', { isComputed: isComputed });
-        case 'string': return new AttributeTypeModel('string', { isComputed: isComputed });
-        case 'number': return new AttributeTypeModel('number', { isComputed: isComputed });
+        case 'bool': return new AttributeTypeModel('boolean', { isComputed, isOptional });
+        case 'string': return new AttributeTypeModel('string', { isComputed, isOptional });
+        case 'number': return new AttributeTypeModel('number', { isComputed, isOptional });
         default: throw new Error(`invalid primitive type ${attributeType}`);
       }
     }
@@ -64,6 +67,7 @@ class Parser {
         const attrType = this.renderAttributeType(scope, type as AttributeType);
         attrType.isList = true;
         attrType.isComputed = isComputed
+        attrType.isOptional = isOptional
         return attrType;
       }
 
@@ -71,6 +75,7 @@ class Parser {
         const valueType = this.renderAttributeType(scope, type as AttributeType);
         valueType.isMap = true;
         valueType.isComputed = isComputed
+        valueType.isOptional = isOptional
         return valueType
       }
 
@@ -81,7 +86,7 @@ class Parser {
           attributes[name] = { type }
         }
         const struct = this.addAnonymousStruct(scope, attributes);
-        const model = new AttributeTypeModel(struct.name, {struct, isComputed: isComputed})
+        const model = new AttributeTypeModel(struct.name, {struct, isComputed, isOptional})
         return model
       }
     }
@@ -117,24 +122,6 @@ class Parser {
     }
 
     return attributes;
-
-    // Resource
-    //   - AttributeModel[]
-    //     - name
-    //     - terraform name
-    //     - description
-    //     - optional
-    //     - computed
-    //     - TypeModel[]
-    //       - name
-    //       - map / list / complex / primitive
-    //       - struct?
-    //   - Struct[]
-    //     - name
-    //     - Class / Interface
-    //     - attributes
-    //     - dependencies
-    //     - map / list / complex / primitive
 
     function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct): AttributeModel {
       const name = toCamelCase(terraformName);

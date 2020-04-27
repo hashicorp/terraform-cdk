@@ -106,6 +106,14 @@ exports[`boolean map attribute 1`] = `
         ],
         \\"computed\\": true
       },
+      \\"foo_computed_optional\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"bool\\"
+        ],
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
       \\"foo_optional\\": {
         \\"type\\": [
           \\"map\\",
@@ -125,6 +133,7 @@ import { BooleanMap } from \\"cdktf\\";
 // Configuration
 
 export interface BooleanMapConfig {
+  readonly fooComputedOptional?: { [key: string]: boolean };
   readonly fooOptional?: { [key: string]: boolean };
 }
 
@@ -140,6 +149,7 @@ export class BooleanMap extends TerraformResource {
     super(scope, id, {
       terraformResourceType: 'aws_boolean_map',
     });
+    this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
   }
 
@@ -150,6 +160,15 @@ export class BooleanMap extends TerraformResource {
   // foo_computed - computed: true, optional: false, required: true
   public fooComputed(key: string): string {
     return new BooleanMap(this, 'foo_computed').lookup(key);
+  }
+
+  // foo_computed_optional - computed: true, optional: true, required: false
+  private _fooComputedOptional?: { [key: string]: boolean }
+  public get fooComputedOptional(): { [key: string]: boolean } | undefined {
+    return this._fooComputedOptional; // Getting the computed value is not yet implemented
+  }
+  public set fooComputedOptional(value: { [key: string]: boolean } | undefined) {
+    this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -167,6 +186,7 @@ export class BooleanMap extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
     };
   }
@@ -624,6 +644,14 @@ exports[`number map attribute 1`] = `
         ],
         \\"computed\\": true
       },
+      \\"foo_computed_optional\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"number\\"
+        ],
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
       \\"foo_optional\\": {
         \\"type\\": [
           \\"map\\",
@@ -643,6 +671,7 @@ import { NumberMap } from \\"cdktf\\";
 // Configuration
 
 export interface NumberMapConfig {
+  readonly fooComputedOptional?: { [key: string]: number };
   readonly fooOptional?: { [key: string]: number };
 }
 
@@ -658,6 +687,7 @@ export class NumberMap extends TerraformResource {
     super(scope, id, {
       terraformResourceType: 'aws_number_map',
     });
+    this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
   }
 
@@ -668,6 +698,15 @@ export class NumberMap extends TerraformResource {
   // foo_computed - computed: true, optional: false, required: true
   public fooComputed(key: string): string {
     return new NumberMap(this, 'foo_computed').lookup(key);
+  }
+
+  // foo_computed_optional - computed: true, optional: true, required: false
+  private _fooComputedOptional?: { [key: string]: number }
+  public get fooComputedOptional(): { [key: string]: number } | undefined {
+    return this._fooComputedOptional; // Getting the computed value is not yet implemented
+  }
+  public set fooComputedOptional(value: { [key: string]: number } | undefined) {
+    this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -685,6 +724,7 @@ export class NumberMap extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
     };
   }
@@ -1345,6 +1385,14 @@ exports[`string map attribute 1`] = `
         ],
         \\"computed\\": true
       },
+      \\"subject_alternative_names_computed_optional\\": {
+        \\"type\\": [
+          \\"map\\",
+          \\"string\\"
+        ],
+        \\"optional\\": true,
+        \\"computed\\": true
+      },
       \\"subject_alternative_names_optional\\": {
         \\"type\\": [
           \\"map\\",
@@ -1364,6 +1412,7 @@ import { StringMap } from \\"cdktf\\";
 // Configuration
 
 export interface StringMapConfig {
+  readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string };
   readonly subjectAlternativeNamesOptional?: { [key: string]: string };
 }
 
@@ -1379,6 +1428,7 @@ export class StringMap extends TerraformResource {
     super(scope, id, {
       terraformResourceType: 'aws_string_map',
     });
+    this._subjectAlternativeNamesComputedOptional = config.subjectAlternativeNamesComputedOptional;
     this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
   }
 
@@ -1389,6 +1439,15 @@ export class StringMap extends TerraformResource {
   // subject_alternative_names_computed - computed: true, optional: false, required: true
   public subjectAlternativeNamesComputed(key: string): string {
     return new StringMap(this, 'subject_alternative_names_computed').lookup(key);
+  }
+
+  // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
+  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string }
+  public get subjectAlternativeNamesComputedOptional(): { [key: string]: string } | undefined {
+    return this._subjectAlternativeNamesComputedOptional; // Getting the computed value is not yet implemented
+  }
+  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | undefined) {
+    this._subjectAlternativeNamesComputedOptional = value;
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
@@ -1406,6 +1465,7 @@ export class StringMap extends TerraformResource {
 
   public synthesizeAttributes() {
     return {
+      subject_alternative_names_computed_optional: this._subjectAlternativeNamesComputedOptional,
       subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
     };
   }

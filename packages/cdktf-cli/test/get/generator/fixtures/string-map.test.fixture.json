@@ -13,6 +13,14 @@
                 ],
                 "computed": true
               },
+              "subject_alternative_names_computed_optional": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "optional": true,
+                "computed": true
+              },
               "subject_alternative_names_optional": {
                 "type": [
                   "map",

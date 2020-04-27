@@ -4,6 +4,7 @@ export class AttributeTypeModelOptions {
   public struct?: Struct;
   public isList?: boolean;
   public isComputed?: boolean;
+  public isOptional?: boolean;
   public isMap?: boolean;
 }
 
@@ -22,6 +23,7 @@ export interface ComputedComplexOptions {
 export class AttributeTypeModel {
   public isList: boolean;
   public isComputed: boolean;
+  public isOptional: boolean;
   public isMap: boolean;
   public struct?: Struct;
 
@@ -29,6 +31,7 @@ export class AttributeTypeModel {
     this.isList = !!options.isList;
     this.isMap = !!options.isMap;
     this.isComputed = !!options.isComputed;
+    this.isOptional = !!options.isOptional;
     this.struct = options.struct;
   }
 
@@ -78,15 +81,15 @@ export class AttributeTypeModel {
   }
 
   public get isStringMap(): boolean {
-    return this.isMap && this._type === TokenizableTypes.STRING && this.isComputed
+    return !this.isOptional && this.isMap && this._type === TokenizableTypes.STRING && this.isComputed
   }
 
   public get isNumberMap(): boolean {
-    return this.isMap && this._type === TokenizableTypes.NUMBER && this.isComputed
+    return !this.isOptional && this.isMap && this._type === TokenizableTypes.NUMBER && this.isComputed
   }
 
   public get isBooleanMap(): boolean {
-    return this.isMap && this._type === TokenizableTypes.BOOLEAN && this.isComputed
+    return !this.isOptional && this.isMap && this._type === TokenizableTypes.BOOLEAN && this.isComputed
   }
 
   public get isComputedComplex(): boolean {

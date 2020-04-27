@@ -13,6 +13,14 @@
                 ],
                 "computed": true
               },
+              "foo_computed_optional": {
+                "type": [
+                  "map",
+                  "bool"
+                ],
+                "optional": true,
+                "computed": true
+              },
               "foo_optional": {
                 "type": [
                   "map",
