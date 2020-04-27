@@ -15,17 +15,6 @@ Object {
   "dependencyClosure": Object {
     "cdktf": Object {
       "targets": Object {
-        "dotnet": Object {
-          "namespace": "HashiCorp.CdkTf",
-          "packageId": "HashiCorp.CdkTf",
-        },
-        "java": Object {
-          "maven": Object {
-            "artifactId": "cdktf",
-            "groupId": "com.hashicorp",
-          },
-          "package": "com.hashicorp.cdktf",
-        },
         "js": Object {
           "npm": "cdktf",
         },
@@ -59,7 +48,7 @@ Object {
     },
   },
   "description": "aws",
-  "fingerprint": "J1u02nySArNvB0um3dZdLla4YmvzPLPkufUgr+OBsK4=",
+  "fingerprint": "6bybz+7763VYk6lXrooUiCUtSVRaBP7h2YSlNTOdGzA=",
   "homepage": "http://repo",
   "jsiiVersion": "1.1.0 (build df55f5e)",
   "license": "Apache-2.0",
