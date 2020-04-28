@@ -6,15 +6,12 @@ export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new SnsTopic(this, 'Topic', {
-      displayName: 'topic',
-      escapeHatch: {
-        provider: "aws",
-        lifecycle: {
-          create_before_destroy: true
-        }
-      }
+    const topic = new SnsTopic(this, 'Topic', {
+      displayName: 'overwritten',
     });
+    topic.addOverride('display_name', 'topic')
+    topic.addOverride('provider', 'aws')
+    topic.addOverride('lifecycle', {create_before_destroy: true})
   }
 }
 

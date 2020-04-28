@@ -12,13 +12,17 @@ test('stack synthesis merges all elements into a single output', () => {
     provider: 'my_provider'
   });
 
-  new MyResource(stack, 'Resource2', {
+  const overrideResource = new MyResource(stack, 'Resource2', {
     type: 'aws_topic',
-    escapeHatch: {
-      "//": "this is a comment",
-      prop1: "overwritten"
+  })
+  overrideResource.addOverride('//', 'this is a comment');
+  overrideResource.addOverride('prop2', undefined);
+  overrideResource.addOverride('prop3.name', 'test');
+  overrideResource.addOverride('provisioner', [{
+    'local-exec': {
+      command: "echo 'Hello World' >example.txt"
     }
-  });
+  }]);
 
   new MyModule(stack, 'EksModule', {
     source: 'terraform-aws-modules/eks/aws',
@@ -42,6 +46,10 @@ class MyResource extends TerraformResource {
       foo: Node.of(this).uniqueId,
       prop1: 'bar1',
       prop2: 1234,
+      prop3: {
+        name: 'should be overwritten in resource 2',
+        value: 5678
+      }
     };
   }
 }

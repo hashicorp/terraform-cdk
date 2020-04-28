@@ -178,7 +178,6 @@ export class TerraformGenerator {
     // invoke super ctor with the terraform resource type
     this.code.open(`super(scope, id, {`);
     this.code.line(`type: '${resource.terraformType}',`);
-    this.code.line(`escapeHatch: config.escapeHatch,`);
     this.code.close(`});`);
 
     // initialize config properties
@@ -208,8 +207,6 @@ export class TerraformGenerator {
 
       this.code.line(`readonly ${this.renderAttributeProperty(att)};`);
     }
-
-    this.code.line(`readonly escapeHatch?: any;`);
 
     this.code.closeBlock();
   }
