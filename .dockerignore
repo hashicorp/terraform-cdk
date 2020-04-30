@@ -1,0 +1,12 @@
+**/.jsii
+**/*.js
+**/*.d.ts
+**/node_modules
+
+**/coverage
+!**/tsconfig.json
+!**/jest.config.js
+
+**/cdk.out
+**/.gen
+**/dist
