@@ -286,7 +286,7 @@ export class ComputedComplexEgress extends ComplexComputedList {
   }
 
   // self - computed: true, optional: false, required: true
-  public get selfProperty() {
+  public get selfAttribute() {
     return this.getBooleanAttribute('self');
   }
 
@@ -595,7 +595,7 @@ export interface ComputedOptionalComplexEgress {
   readonly prefixListIds?: string[];
   readonly protocol?: string;
   readonly securityGroups?: string[];
-  readonly selfProperty?: boolean;
+  readonly selfAttribute?: boolean;
   readonly toPort?: number;
 }
 
@@ -842,7 +842,7 @@ import { TerraformResource } from 'cdktf';
 
 export interface IncompatibleAttributeNamesConfig {
   readonly fetchPasswordData?: string;
-  readonly selfProperty: string;
+  readonly selfAttribute: string;
 }
 
 // Resource
@@ -858,7 +858,7 @@ export class IncompatibleAttributeNames extends TerraformResource {
       terraformResourceType: 'aws_incompatible_attribute_names',
     });
     this._getPasswordData = config.fetchPasswordData;
-    this._self = config.selfProperty;
+    this._self = config.selfAttribute;
   }
 
   // ==========
@@ -876,10 +876,10 @@ export class IncompatibleAttributeNames extends TerraformResource {
 
   // self - computed: false, optional: false, required: true
   private _self: string;
-  public get selfProperty() {
+  public get selfAttribute() {
     return this._self;
   }
-  public set selfProperty(value: string) {
+  public set selfAttribute(value: string) {
     this._self = value;
   }
 

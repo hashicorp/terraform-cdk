@@ -2447,7 +2447,7 @@ export interface SecurityGroupEgress {
   readonly prefixListIds?: string[];
   readonly protocol?: string;
   readonly securityGroups?: string[];
-  readonly selfProperty?: boolean;
+  readonly selfAttribute?: boolean;
   readonly toPort?: number;
 }
 export interface SecurityGroupIngress {
@@ -2458,7 +2458,7 @@ export interface SecurityGroupIngress {
   readonly prefixListIds?: string[];
   readonly protocol?: string;
   readonly securityGroups?: string[];
-  readonly selfProperty?: boolean;
+  readonly selfAttribute?: boolean;
   readonly toPort?: number;
 }
 export interface SecurityGroupTimeouts {
