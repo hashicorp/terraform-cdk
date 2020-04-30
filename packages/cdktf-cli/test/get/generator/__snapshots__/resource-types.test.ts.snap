@@ -1219,7 +1219,7 @@ export class CloudfrontDistribution extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       aliases: this._aliases,
       comment: this._comment,
@@ -1320,7 +1320,7 @@ export class FmsAdminAccount extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       account_id: this._accountId,
     };
@@ -2255,7 +2255,7 @@ export class S3Bucket extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       acceleration_status: this._accelerationStatus,
       acl: this._acl,
@@ -2447,7 +2447,7 @@ export interface SecurityGroupEgress {
   readonly prefixListIds?: string[];
   readonly protocol?: string;
   readonly securityGroups?: string[];
-  readonly self?: boolean;
+  readonly selfProperty?: boolean;
   readonly toPort?: number;
 }
 export interface SecurityGroupIngress {
@@ -2458,7 +2458,7 @@ export interface SecurityGroupIngress {
   readonly prefixListIds?: string[];
   readonly protocol?: string;
   readonly securityGroups?: string[];
-  readonly self?: boolean;
+  readonly selfProperty?: boolean;
   readonly toPort?: number;
 }
 export interface SecurityGroupTimeouts {
@@ -2597,7 +2597,7 @@ export class SecurityGroup extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       description: this._description,
       egress: this._egress,

@@ -280,7 +280,7 @@ export class AcmCertificate extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       certificate_authority_arn: this._certificateAuthorityArn,
       certificate_body: this._certificateBody,
