@@ -1,0 +1,42 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_deeply_nested_block_types": {
+          "version": 1,
+          "block": {
+            "attributes": {},
+            "block_types": {
+              "lifecycle_rule": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "abort_incomplete_multipart_upload_days": {
+                      "type": "number",
+                      "optional": true
+                    }
+                  },
+                  "block_types": {
+                    "expiration": {
+                      "nesting_mode": "set",
+                      "block": {
+                        "attributes": {
+                          "date": {
+                            "type": "string",
+                            "optional": true
+                          }
+                        }
+                      },
+                      "max_items": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

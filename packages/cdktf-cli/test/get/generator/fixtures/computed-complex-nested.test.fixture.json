@@ -1,0 +1,38 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_computed_complex_nested": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "resources": {
+                "type": [
+                  "list",
+                  [
+                    "object",
+                    {
+                      "autoscaling_groups": [
+                        "list",
+                        [
+                          "object",
+                          {
+                            "name": "string"
+                          }
+                        ]
+                      ],
+                      "remote_access_security_group_id": "string"
+                    }
+                  ]
+                ],
+                "computed": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+

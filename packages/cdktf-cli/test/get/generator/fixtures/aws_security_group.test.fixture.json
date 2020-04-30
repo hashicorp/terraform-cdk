@@ -1,0 +1,140 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_security_group": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "arn": {
+                "type": "string",
+                "computed": true
+              },
+              "description": {
+                "type": "string",
+                "optional": true
+              },
+              "egress": {
+                "type": [
+                  "set",
+                  [
+                    "object",
+                    {
+                      "cidr_blocks": [
+                        "list",
+                        "string"
+                      ],
+                      "description": "string",
+                      "from_port": "number",
+                      "ipv6_cidr_blocks": [
+                        "list",
+                        "string"
+                      ],
+                      "prefix_list_ids": [
+                        "list",
+                        "string"
+                      ],
+                      "protocol": "string",
+                      "security_groups": [
+                        "set",
+                        "string"
+                      ],
+                      "self": "bool",
+                      "to_port": "number"
+                    }
+                  ]
+                ],
+                "optional": true,
+                "computed": true
+              },
+              "id": {
+                "type": "string",
+                "optional": true,
+                "computed": true
+              },
+              "ingress": {
+                "type": [
+                  "set",
+                  [
+                    "object",
+                    {
+                      "cidr_blocks": [
+                        "list",
+                        "string"
+                      ],
+                      "description": "string",
+                      "from_port": "number",
+                      "ipv6_cidr_blocks": [
+                        "list",
+                        "string"
+                      ],
+                      "prefix_list_ids": [
+                        "list",
+                        "string"
+                      ],
+                      "protocol": "string",
+                      "security_groups": [
+                        "set",
+                        "string"
+                      ],
+                      "self": "bool",
+                      "to_port": "number"
+                    }
+                  ]
+                ],
+                "optional": true,
+                "computed": true
+              },
+              "name": {
+                "type": "string",
+                "optional": true,
+                "computed": true
+              },
+              "name_prefix": {
+                "type": "string",
+                "optional": true
+              },
+              "owner_id": {
+                "type": "string",
+                "computed": true
+              },
+              "revoke_rules_on_delete": {
+                "type": "bool",
+                "optional": true
+              },
+              "tags": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "optional": true
+              },
+              "vpc_id": {
+                "type": "string",
+                "optional": true,
+                "computed": true
+              }
+            },
+            "block_types": {
+              "timeouts": {
+                "nesting_mode": "single",
+                "block": {
+                  "attributes": {
+                    "create": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "delete": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

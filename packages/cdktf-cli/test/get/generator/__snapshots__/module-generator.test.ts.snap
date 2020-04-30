@@ -144,7 +144,7 @@ export interface EksOptions {
   /**
    * If provided, all IAM roles will be created with this permissions boundary attached.
    */
-  readonly permissionsBoundary: string;
+  readonly permissionsBoundary?: string;
   /**
    * Whether to let the module manage the cluster autoscaling iam policy.
    * @default true
@@ -168,11 +168,11 @@ export interface EksOptions {
   /**
    * VPC where the cluster and workers will be deployed.
    */
-  readonly vpcId: string;
+  readonly vpcId?: string;
   /**
    * A list of subnets to place the EKS cluster and workers within.
    */
-  readonly subnets: string[];
+  readonly subnets?: string[];
   /**
    * Whether to write a Kubectl config file containing the cluster configuration. Saved to \`config_output_path\`.
    * @default true
@@ -229,7 +229,7 @@ export interface EksOptions {
   /**
    * Name of the EKS cluster. Also used as a prefix in names of related resources.
    */
-  readonly clusterName: string;
+  readonly clusterName?: string;
   /**
    * Whether to apply the aws-auth configmap file.
    * @default true
@@ -470,10 +470,10 @@ export class Eks extends TerraformModule {
   public set workerGroupsLaunchTemplate(value: any | undefined) {
     this.inputs['worker_groups_launch_template'] = value;
   }
-  public get permissionsBoundary(): string {
-    return this.inputs['permissions_boundary'] as string;
+  public get permissionsBoundary(): string | undefined {
+    return this.inputs['permissions_boundary'] as string | undefined;
   }
-  public set permissionsBoundary(value: string) {
+  public set permissionsBoundary(value: string | undefined) {
     this.inputs['permissions_boundary'] = value;
   }
   public get manageWorkerAutoscalingPolicy(): boolean | undefined {
@@ -500,16 +500,16 @@ export class Eks extends TerraformModule {
   public set clusterCreateSecurityGroup(value: boolean | undefined) {
     this.inputs['cluster_create_security_group'] = value;
   }
-  public get vpcId(): string {
-    return this.inputs['vpc_id'] as string;
+  public get vpcId(): string | undefined {
+    return this.inputs['vpc_id'] as string | undefined;
   }
-  public set vpcId(value: string) {
+  public set vpcId(value: string | undefined) {
     this.inputs['vpc_id'] = value;
   }
-  public get subnets(): string[] {
-    return this.inputs['subnets'] as string[];
+  public get subnets(): string[] | undefined {
+    return this.inputs['subnets'] as string[] | undefined;
   }
-  public set subnets(value: string[]) {
+  public set subnets(value: string[] | undefined) {
     this.inputs['subnets'] = value;
   }
   public get writeKubeconfig(): boolean | undefined {
@@ -572,10 +572,10 @@ export class Eks extends TerraformModule {
   public set mapAccounts(value: string[] | undefined) {
     this.inputs['map_accounts'] = value;
   }
-  public get clusterName(): string {
-    return this.inputs['cluster_name'] as string;
+  public get clusterName(): string | undefined {
+    return this.inputs['cluster_name'] as string | undefined;
   }
-  public set clusterName(value: string) {
+  public set clusterName(value: string | undefined) {
     this.inputs['cluster_name'] = value;
   }
   public get manageAwsAuth(): string | undefined {

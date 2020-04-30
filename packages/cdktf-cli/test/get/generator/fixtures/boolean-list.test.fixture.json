@@ -1,0 +1,32 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_boolean_list": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "foo_required": {
+                "type": [
+                  "list",
+                  "bool"
+                ],
+                "required": true
+              },
+              "foo_optional": {
+                "type": [
+                  "list",
+                  "bool"
+                ],
+                "optional": true
+              }
+
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+

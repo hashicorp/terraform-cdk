@@ -1,0 +1,741 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_cloudfront_distribution": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "active_trusted_signers": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "computed": true
+              },
+              "aliases": {
+                "type": [
+                  "set",
+                  "string"
+                ],
+                "optional": true
+              },
+              "arn": {
+                "type": "string",
+                "computed": true
+              },
+              "caller_reference": {
+                "type": "string",
+                "computed": true
+              },
+              "comment": {
+                "type": "string",
+                "optional": true
+              },
+              "default_root_object": {
+                "type": "string",
+                "optional": true
+              },
+              "domain_name": {
+                "type": "string",
+                "computed": true
+              },
+              "enabled": {
+                "type": "bool",
+                "required": true
+              },
+              "etag": {
+                "type": "string",
+                "computed": true
+              },
+              "hosted_zone_id": {
+                "type": "string",
+                "computed": true
+              },
+              "http_version": {
+                "type": "string",
+                "optional": true
+              },
+              "id": {
+                "type": "string",
+                "optional": true,
+                "computed": true
+              },
+              "in_progress_validation_batches": {
+                "type": "number",
+                "computed": true
+              },
+              "is_ipv6_enabled": {
+                "type": "bool",
+                "optional": true
+              },
+              "last_modified_time": {
+                "type": "string",
+                "computed": true
+              },
+              "price_class": {
+                "type": "string",
+                "optional": true
+              },
+              "retain_on_delete": {
+                "type": "bool",
+                "optional": true
+              },
+              "status": {
+                "type": "string",
+                "computed": true
+              },
+              "tags": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "optional": true
+              },
+              "wait_for_deployment": {
+                "type": "bool",
+                "optional": true
+              },
+              "web_acl_id": {
+                "type": "string",
+                "optional": true
+              }
+            },
+            "block_types": {
+              "cache_behavior": {
+                "nesting_mode": "set",
+                "block": {
+                  "attributes": {
+                    "allowed_methods": {
+                      "type": [
+                        "list",
+                        "string"
+                      ],
+                      "required": true
+                    },
+                    "cached_methods": {
+                      "type": [
+                        "list",
+                        "string"
+                      ],
+                      "required": true
+                    },
+                    "compress": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "default_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "field_level_encryption_id": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "max_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "min_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "path_pattern": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "smooth_streaming": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "target_origin_id": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "trusted_signers": {
+                      "type": [
+                        "list",
+                        "string"
+                      ],
+                      "optional": true
+                    },
+                    "viewer_protocol_policy": {
+                      "type": "string",
+                      "required": true
+                    }
+                  },
+                  "block_types": {
+                    "forwarded_values": {
+                      "nesting_mode": "set",
+                      "block": {
+                        "attributes": {
+                          "headers": {
+                            "type": [
+                              "set",
+                              "string"
+                            ],
+                            "optional": true
+                          },
+                          "query_string": {
+                            "type": "bool",
+                            "required": true
+                          },
+                          "query_string_cache_keys": {
+                            "type": [
+                              "list",
+                              "string"
+                            ],
+                            "optional": true
+                          }
+                        },
+                        "block_types": {
+                          "cookies": {
+                            "nesting_mode": "set",
+                            "block": {
+                              "attributes": {
+                                "forward": {
+                                  "type": "string",
+                                  "required": true
+                                },
+                                "whitelisted_names": {
+                                  "type": [
+                                    "set",
+                                    "string"
+                                  ],
+                                  "optional": true
+                                }
+                              }
+                            },
+                            "min_items": 1,
+                            "max_items": 1
+                          }
+                        }
+                      },
+                      "min_items": 1,
+                      "max_items": 1
+                    },
+                    "lambda_function_association": {
+                      "nesting_mode": "set",
+                      "block": {
+                        "attributes": {
+                          "event_type": {
+                            "type": "string",
+                            "required": true
+                          },
+                          "include_body": {
+                            "type": "bool",
+                            "optional": true
+                          },
+                          "lambda_arn": {
+                            "type": "string",
+                            "required": true
+                          }
+                        }
+                      },
+                      "max_items": 4
+                    }
+                  }
+                }
+              },
+              "custom_error_response": {
+                "nesting_mode": "set",
+                "block": {
+                  "attributes": {
+                    "error_caching_min_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "error_code": {
+                      "type": "number",
+                      "required": true
+                    },
+                    "response_code": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "response_page_path": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  }
+                }
+              },
+              "default_cache_behavior": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "allowed_methods": {
+                      "type": [
+                        "set",
+                        "string"
+                      ],
+                      "required": true
+                    },
+                    "cached_methods": {
+                      "type": [
+                        "set",
+                        "string"
+                      ],
+                      "required": true
+                    },
+                    "compress": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "default_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "field_level_encryption_id": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "max_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "min_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "smooth_streaming": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "target_origin_id": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "trusted_signers": {
+                      "type": [
+                        "list",
+                        "string"
+                      ],
+                      "optional": true
+                    },
+                    "viewer_protocol_policy": {
+                      "type": "string",
+                      "required": true
+                    }
+                  },
+                  "block_types": {
+                    "forwarded_values": {
+                      "nesting_mode": "list",
+                      "block": {
+                        "attributes": {
+                          "headers": {
+                            "type": [
+                              "set",
+                              "string"
+                            ],
+                            "optional": true
+                          },
+                          "query_string": {
+                            "type": "bool",
+                            "required": true
+                          },
+                          "query_string_cache_keys": {
+                            "type": [
+                              "list",
+                              "string"
+                            ],
+                            "optional": true
+                          }
+                        },
+                        "block_types": {
+                          "cookies": {
+                            "nesting_mode": "list",
+                            "block": {
+                              "attributes": {
+                                "forward": {
+                                  "type": "string",
+                                  "required": true
+                                },
+                                "whitelisted_names": {
+                                  "type": [
+                                    "set",
+                                    "string"
+                                  ],
+                                  "optional": true
+                                }
+                              }
+                            },
+                            "min_items": 1,
+                            "max_items": 1
+                          }
+                        }
+                      },
+                      "min_items": 1,
+                      "max_items": 1
+                    },
+                    "lambda_function_association": {
+                      "nesting_mode": "set",
+                      "block": {
+                        "attributes": {
+                          "event_type": {
+                            "type": "string",
+                            "required": true
+                          },
+                          "include_body": {
+                            "type": "bool",
+                            "optional": true
+                          },
+                          "lambda_arn": {
+                            "type": "string",
+                            "required": true
+                          }
+                        }
+                      },
+                      "max_items": 4
+                    }
+                  }
+                },
+                "min_items": 1,
+                "max_items": 1
+              },
+              "logging_config": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "bucket": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "include_cookies": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "prefix": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  }
+                },
+                "max_items": 1
+              },
+              "ordered_cache_behavior": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "allowed_methods": {
+                      "type": [
+                        "set",
+                        "string"
+                      ],
+                      "required": true
+                    },
+                    "cached_methods": {
+                      "type": [
+                        "set",
+                        "string"
+                      ],
+                      "required": true
+                    },
+                    "compress": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "default_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "field_level_encryption_id": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "max_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "min_ttl": {
+                      "type": "number",
+                      "optional": true
+                    },
+                    "path_pattern": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "smooth_streaming": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "target_origin_id": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "trusted_signers": {
+                      "type": [
+                        "list",
+                        "string"
+                      ],
+                      "optional": true
+                    },
+                    "viewer_protocol_policy": {
+                      "type": "string",
+                      "required": true
+                    }
+                  },
+                  "block_types": {
+                    "forwarded_values": {
+                      "nesting_mode": "list",
+                      "block": {
+                        "attributes": {
+                          "headers": {
+                            "type": [
+                              "set",
+                              "string"
+                            ],
+                            "optional": true
+                          },
+                          "query_string": {
+                            "type": "bool",
+                            "required": true
+                          },
+                          "query_string_cache_keys": {
+                            "type": [
+                              "list",
+                              "string"
+                            ],
+                            "optional": true
+                          }
+                        },
+                        "block_types": {
+                          "cookies": {
+                            "nesting_mode": "list",
+                            "block": {
+                              "attributes": {
+                                "forward": {
+                                  "type": "string",
+                                  "required": true
+                                },
+                                "whitelisted_names": {
+                                  "type": [
+                                    "set",
+                                    "string"
+                                  ],
+                                  "optional": true
+                                }
+                              }
+                            },
+                            "min_items": 1,
+                            "max_items": 1
+                          }
+                        }
+                      },
+                      "min_items": 1,
+                      "max_items": 1
+                    },
+                    "lambda_function_association": {
+                      "nesting_mode": "set",
+                      "block": {
+                        "attributes": {
+                          "event_type": {
+                            "type": "string",
+                            "required": true
+                          },
+                          "include_body": {
+                            "type": "bool",
+                            "optional": true
+                          },
+                          "lambda_arn": {
+                            "type": "string",
+                            "required": true
+                          }
+                        }
+                      },
+                      "max_items": 4
+                    }
+                  }
+                }
+              },
+              "origin": {
+                "nesting_mode": "set",
+                "block": {
+                  "attributes": {
+                    "domain_name": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "origin_id": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "origin_path": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  },
+                  "block_types": {
+                    "custom_header": {
+                      "nesting_mode": "set",
+                      "block": {
+                        "attributes": {
+                          "name": {
+                            "type": "string",
+                            "required": true
+                          },
+                          "value": {
+                            "type": "string",
+                            "required": true
+                          }
+                        }
+                      }
+                    },
+                    "custom_origin_config": {
+                      "nesting_mode": "list",
+                      "block": {
+                        "attributes": {
+                          "http_port": {
+                            "type": "number",
+                            "required": true
+                          },
+                          "https_port": {
+                            "type": "number",
+                            "required": true
+                          },
+                          "origin_keepalive_timeout": {
+                            "type": "number",
+                            "optional": true
+                          },
+                          "origin_protocol_policy": {
+                            "type": "string",
+                            "required": true
+                          },
+                          "origin_read_timeout": {
+                            "type": "number",
+                            "optional": true
+                          },
+                          "origin_ssl_protocols": {
+                            "type": [
+                              "set",
+                              "string"
+                            ],
+                            "required": true
+                          }
+                        }
+                      },
+                      "max_items": 1
+                    },
+                    "s3_origin_config": {
+                      "nesting_mode": "list",
+                      "block": {
+                        "attributes": {
+                          "origin_access_identity": {
+                            "type": "string",
+                            "required": true
+                          }
+                        }
+                      },
+                      "max_items": 1
+                    }
+                  }
+                },
+                "min_items": 1
+              },
+              "origin_group": {
+                "nesting_mode": "set",
+                "block": {
+                  "attributes": {
+                    "origin_id": {
+                      "type": "string",
+                      "required": true
+                    }
+                  },
+                  "block_types": {
+                    "failover_criteria": {
+                      "nesting_mode": "list",
+                      "block": {
+                        "attributes": {
+                          "status_codes": {
+                            "type": [
+                              "set",
+                              "number"
+                            ],
+                            "required": true
+                          }
+                        }
+                      },
+                      "min_items": 1,
+                      "max_items": 1
+                    },
+                    "member": {
+                      "nesting_mode": "list",
+                      "block": {
+                        "attributes": {
+                          "origin_id": {
+                            "type": "string",
+                            "required": true
+                          }
+                        }
+                      },
+                      "min_items": 2,
+                      "max_items": 2
+                    }
+                  }
+                }
+              },
+              "restrictions": {
+                "nesting_mode": "list",
+                "block": {
+                  "block_types": {
+                    "geo_restriction": {
+                      "nesting_mode": "list",
+                      "block": {
+                        "attributes": {
+                          "locations": {
+                            "type": [
+                              "set",
+                              "string"
+                            ],
+                            "optional": true
+                          },
+                          "restriction_type": {
+                            "type": "string",
+                            "required": true
+                          }
+                        }
+                      },
+                      "min_items": 1,
+                      "max_items": 1
+                    }
+                  }
+                },
+                "min_items": 1,
+                "max_items": 1
+              },
+              "viewer_certificate": {
+                "nesting_mode": "list",
+                "block": {
+                  "attributes": {
+                    "acm_certificate_arn": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "cloudfront_default_certificate": {
+                      "type": "bool",
+                      "optional": true
+                    },
+                    "iam_certificate_id": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "minimum_protocol_version": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "ssl_support_method": {
+                      "type": "string",
+                      "optional": true
+                    }
+                  }
+                },
+                "min_items": 1,
+                "max_items": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

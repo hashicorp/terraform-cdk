@@ -1,0 +1,34 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_primitive_boolean": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "foo_computed": {
+                "type": "bool",
+                "computed": true
+              },
+              "foo_computed_optional": {
+                "type": "bool",
+                "computed": true,
+                "optional": true
+              },
+              "foo_optional": {
+                "type": "bool",
+                "optional": true
+              },
+              "foo_required": {
+                "type": "bool",
+                "required": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+

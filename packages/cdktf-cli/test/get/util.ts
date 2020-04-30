@@ -6,7 +6,7 @@ import { Language, GetBase } from "../../lib/get/base";
 export function expectImportMatchSnapshot(target: string, fn: () => GetBase) {
   jest.setTimeout(60_000);
 
-  test.skip(target, async () => {
+  test(target, async () => {
     await withTempDir('get-cdktf', async () => {
       const [ name ] = target.split('@');
       const workdir = '.';
@@ -21,7 +21,8 @@ export function expectImportMatchSnapshot(target: string, fn: () => GetBase) {
       await jsiiCompile(workdir, {
         stdout: true,
         name: name,
-        main: name
+        main: name,
+        providerPath: './providers/aws/index'
       });
 
       const manifest = JSON.parse(await fs.readFile('.jsii', 'utf-8'));

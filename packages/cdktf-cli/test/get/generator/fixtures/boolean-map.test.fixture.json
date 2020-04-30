@@ -1,0 +1,39 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_boolean_map": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "foo_computed": {
+                "type": [
+                  "map",
+                  "bool"
+                ],
+                "computed": true
+              },
+              "foo_computed_optional": {
+                "type": [
+                  "map",
+                  "bool"
+                ],
+                "optional": true,
+                "computed": true
+              },
+              "foo_optional": {
+                "type": [
+                  "map",
+                  "bool"
+                ],
+                "optional": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+
