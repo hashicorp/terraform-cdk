@@ -8,8 +8,7 @@ test('stack synthesis merges all elements into a single output', () => {
   const stack = new TerraformStack(app, 'MyStack');
 
   new MyResource(stack, 'Resource1', {
-    terraformResourceType: 'aws_bucket',
-    provider: 'my_provider'
+    terraformResourceType: 'aws_bucket'
   });
 
   const overrideResource = new MyResource(stack, 'Resource2', {

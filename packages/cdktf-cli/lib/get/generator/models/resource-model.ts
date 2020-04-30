@@ -39,7 +39,7 @@ export class ResourceModel {
     this._structs = options.structs
     this.dependencies = [
       `import { Construct } from 'constructs';`,
-      `import { TerraformResource } from 'cdktf';`
+      `import { ${this.parentClassName} } from 'cdktf';`
     ]
   }
 
@@ -70,5 +70,17 @@ export class ResourceModel {
 
   public get linkToDocs(): string {
     return `https://www.terraform.io/docs/providers/${this.provider}/r/${toSnakeCase(this.className)}.html`
+  }
+
+  public get isProvider(): boolean {
+    return this.fileName === `${this.provider}-provider.ts`
+  }
+
+  public get parentClassName(): string {
+    return this.isProvider ? 'TerraformProvider' : 'TerraformResource'
+  }
+
+  public get terraformResourceType(): string {
+    return this.isProvider ? this.provider : this.terraformType
   }
 }

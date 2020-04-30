@@ -13,7 +13,7 @@ export class ResourceEmitter {
     this.code.line();
     this.code.line(`// Resource`)
     this.code.line();
-    this.code.openBlock(`export class ${resource.className} extends TerraformResource`);
+    this.code.openBlock(`export class ${resource.className} extends ${resource.parentClassName}`);
 
     this.emitHeader('INITIALIZER');
     this.emitInitializer(resource);
@@ -27,7 +27,6 @@ export class ResourceEmitter {
 
     this.code.closeBlock(); // construct
   }
-
 
   private emitHeader(title: string) {
     this.code.line();
@@ -62,7 +61,7 @@ export class ResourceEmitter {
 
     // invoke super ctor with the terraform resource type
     this.code.open(`super(scope, id, {`);
-    this.code.line(`terraformResourceType: '${resource.terraformType}',`);
+    this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
     this.code.close(`});`);
 
     // initialize config properties

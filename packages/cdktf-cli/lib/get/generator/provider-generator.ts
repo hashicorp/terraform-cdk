@@ -33,6 +33,12 @@ export class TerraformGenerator {
     for (const [type, resource] of Object.entries(provider.resource_schemas)) {
       files.push(this.emitResourceFile(this.resourceParser.parse(name, type, resource)));
     }
+
+    if (provider.provider) {
+      const providerResource = this.resourceParser.parse(name, `${name}_${name}_provider`, provider.provider)
+      files.push(this.emitResourceFile(providerResource));
+    }
+
     this.emitIndexFile(name, files)
   }
 
