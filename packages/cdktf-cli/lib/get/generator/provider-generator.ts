@@ -194,6 +194,7 @@ export class TerraformGenerator {
 
   private emitStruct(struct: Struct) {
     this.code.openBlock(`export interface ${struct.name}`);
+
     for (const att of struct.attributes) {
       // skip computed attributes
       if (att.computed) {
@@ -206,6 +207,7 @@ export class TerraformGenerator {
 
       this.code.line(`readonly ${this.renderAttributeProperty(att)};`);
     }
+
     this.code.closeBlock();
   }
 

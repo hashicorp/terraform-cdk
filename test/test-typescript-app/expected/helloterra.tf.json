@@ -2,7 +2,11 @@
   "resource": {
     "aws_sns_topic": {
       "helloterraTopic6609C1D4": {
-        "display_name": "topic"
+        "display_name": "topic",
+        "provider": "aws",
+        "lifecycle": {
+          "create_before_destroy": true
+        }
       }
     }
   }
