@@ -1,9 +1,10 @@
 import { Construct, Node, Token } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
+import { keysToSnakeCase } from "./util";
 
 export interface TerraformResourceConfig {
-  readonly type: string;
+  readonly terraformResourceType: string;
   readonly dependsOn?: TerraformResource[];
   readonly count?: number;
   readonly provider?: TerraformProvider;
@@ -11,13 +12,13 @@ export interface TerraformResourceConfig {
 }
 
 export abstract class TerraformResource extends TerraformElement {
-  public readonly type: string;
+  public readonly terraformResourceType: string;
   private readonly rawOverrides: any = {}
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id);
 
-    this.type = config.type;
+    this.terraformResourceType = config.terraformResourceType;
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -30,6 +31,10 @@ export abstract class TerraformResource extends TerraformElement {
 
   public getListAttribute(terraformAttribute: string) {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
+  }
+
+  public getBooleanAttribute(terraformAttribute: string) {
+    return Token.asString(this.interpolationForAttribute(terraformAttribute)) as any as boolean
   }
 
   public addOverride(path: string, value: any) {
@@ -63,15 +68,15 @@ export abstract class TerraformResource extends TerraformElement {
   public toTerraform(): any {
     return {
       resource: {
-        [this.type]: {
-          [Node.of(this).uniqueId]: deepMerge(this.synthesizeAttributes(), this.rawOverrides)
+        [this.terraformResourceType]: {
+          [Node.of(this).uniqueId]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
         }
       }
     };
   }
 
   private interpolationForAttribute(terraformAttribute: string) {
-    return `\${${this.type}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
+    return `\${${this.terraformResourceType}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
   }
 }
 

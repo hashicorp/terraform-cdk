@@ -1,0 +1,39 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_string_map": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "subject_alternative_names_computed": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "computed": true
+              },
+              "subject_alternative_names_computed_optional": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "optional": true,
+                "computed": true
+              },
+              "subject_alternative_names_optional": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "optional": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+

@@ -43,7 +43,8 @@ export abstract class GetBase {
         await jsiiCompile('.', {
           main: source,
           name: source,
-          stdout: true
+          stdout: true,
+          providerPath: `providers/${source}/index`
         });
 
         const pacmak = require.resolve('jsii-pacmak/bin/jsii-pacmak');

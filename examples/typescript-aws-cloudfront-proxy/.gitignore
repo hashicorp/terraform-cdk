@@ -1,0 +1,5 @@
+*.d.ts
+*.js
+node_modules
+dist/
+!tsconfig.json

@@ -1,0 +1,23 @@
+========================================================================================================
+
+ Your cdktf typescript project is ready!
+
+   cat help         Print this message
+
+  Compile:
+   npm run compile     Compile typescript code to javascript (or "yarn watch")
+   npm run watch       Watch for changes and compile typescript in the background
+   npm run build       Get + compile
+
+  Synthesize:
+   npm run synth       Synthesize Terraform resources from stacks to dist/ (ready for 'terraform apply')
+
+ Deploy:
+   terraform apply ./dist
+
+ Upgrades:
+   npm run get           Import/update Terraform providers and modules (you should check-in this directory)
+   npm run upgrade       Upgrade cdktf modules to latest version
+   npm run upgrade:next  Upgrade cdktf modules to latest "@next" version (last commit)
+
+========================================================================================================

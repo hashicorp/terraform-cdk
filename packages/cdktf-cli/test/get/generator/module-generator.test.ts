@@ -7,7 +7,7 @@ import { CodeMaker } from 'codemaker';
 test('generate some modules', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'module-generator.test'));
-  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'module-generator.test.fixture.json'), 'utf-8'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'module-generator.test.fixture.json'), 'utf-8'));
   new ModuleGenerator(code, spec);
   await code.save(workdir);
 

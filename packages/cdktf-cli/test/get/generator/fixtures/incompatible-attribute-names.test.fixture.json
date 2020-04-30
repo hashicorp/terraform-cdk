@@ -1,0 +1,25 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_incompatible_attribute_names": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "get_password_data": {
+                "type": "string",
+                "optional": true
+              },
+              "self": {
+                "type": "string",
+                "required": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+
