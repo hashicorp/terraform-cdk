@@ -190,3 +190,14 @@ test('ignored attributes', async () => {
   const output = fs.readFileSync(path.join(workdir, 'providers/aws/ignored-attributes.ts'), 'utf-8');
   expect(output).toMatchSnapshot();
 });
+
+test('incompatible attribute names', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'incompatible-attribute-names.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'incompatible-attribute-names.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/incompatible-attribute-names.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});

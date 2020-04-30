@@ -14,7 +14,7 @@ export interface AttributeModelOptions {
 
 export class AttributeModel {
   public storageName: string; // private property
-  public name: string;
+  private _name: string;
   public type: AttributeTypeModel;
   public optional: boolean;
   public computed: boolean;
@@ -24,7 +24,7 @@ export class AttributeModel {
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
-    this.name = options.name;
+    this._name = options.name;
     this.type = options.type;
     this.optional = options.optional;
     this.computed = options.computed;
@@ -52,5 +52,13 @@ export class AttributeModel {
 
   public get isTokenizable(): boolean {
     return this.type.isTokenizable
+  }
+
+  public get name(): string {
+    // `self` doesn't work in as property name in Python
+    if (this._name === 'self') return `${this._name}Attribute`;
+    // jsii can't handle `getFoo` properties, since it's incompatible with Java
+    if (this._name.match(/^get[A-Z]+/)) return this._name.replace('get', 'fetch');
+    return this._name
   }
 }

@@ -80,7 +80,7 @@ export class BooleanList extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       foo_required: this._fooRequired,
       foo_optional: this._fooOptional,
@@ -184,7 +184,7 @@ export class BooleanMap extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
@@ -286,7 +286,7 @@ export class ComputedComplexEgress extends ComplexComputedList {
   }
 
   // self - computed: true, optional: false, required: true
-  public get self() {
+  public get selfProperty() {
     return this.getBooleanAttribute('self');
   }
 
@@ -323,7 +323,7 @@ export class ComputedComplex extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
     };
   }
@@ -421,7 +421,7 @@ export class ComputedComplexNested extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
     };
   }
@@ -523,7 +523,7 @@ export class BlockTypeNestedComputedList extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       inputs: this._inputs,
     };
@@ -595,7 +595,7 @@ export interface ComputedOptionalComplexEgress {
   readonly prefixListIds?: string[];
   readonly protocol?: string;
   readonly securityGroups?: string[];
-  readonly self?: boolean;
+  readonly selfProperty?: boolean;
   readonly toPort?: number;
 }
 
@@ -631,7 +631,7 @@ export class ComputedOptionalComplex extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       egress: this._egress,
     };
@@ -729,7 +729,7 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       lifecycle_rule: this._lifecycleRule,
     };
@@ -805,8 +805,92 @@ export class IgnoredAttributes extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
+    };
+  }
+}
+"
+`;
+
+exports[`incompatible attribute names 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html
+// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"get_password_data\\": {
+        \\"type\\": \\"string\\",
+        \\"optional\\": true
+      },
+      \\"self\\": {
+        \\"type\\": \\"string\\",
+        \\"required\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+
+// Configuration
+
+export interface IncompatibleAttributeNamesConfig {
+  readonly fetchPasswordData?: string;
+  readonly selfProperty: string;
+}
+
+// Resource
+
+export class IncompatibleAttributeNames extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: IncompatibleAttributeNamesConfig) {
+    super(scope, id, {
+      terraformResourceType: 'aws_incompatible_attribute_names',
+    });
+    this._getPasswordData = config.fetchPasswordData;
+    this._self = config.selfProperty;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // get_password_data - computed: false, optional: true, required: false
+  private _getPasswordData?: string;
+  public get fetchPasswordData() {
+    return this._getPasswordData;
+  }
+  public set fetchPasswordData(value: string | undefined) {
+    this._getPasswordData = value;
+  }
+
+  // self - computed: false, optional: false, required: true
+  private _self: string;
+  public get selfProperty() {
+    return this._self;
+  }
+  public set selfProperty(value: string) {
+    this._self = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes(): { [name: string]: any } {
+    return {
+      get_password_data: this._getPasswordData,
+      self: this._self,
     };
   }
 }
@@ -893,7 +977,7 @@ export class NumberList extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       foo_required: this._fooRequired,
       foo_optional: this._fooOptional,
@@ -997,7 +1081,7 @@ export class NumberMap extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
@@ -1106,7 +1190,7 @@ export class PrimitiveBoolean extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
@@ -1216,7 +1300,7 @@ export class PrimitiveNumber extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
@@ -1326,7 +1410,7 @@ export class PrimitiveString extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       foo_computed_optional: this._fooComputedOptional,
       foo_optional: this._fooOptional,
@@ -1433,7 +1517,7 @@ export class BlockTypeSetList extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       timeouts_set: this._timeoutsSet,
       timeouts_list: this._timeoutsList,
@@ -1513,7 +1597,7 @@ export class SingleBlockType extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       timeouts: this._timeouts,
     };
@@ -1633,7 +1717,7 @@ export class StringList extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       subject_alternative_names_optional_computed: this._subjectAlternativeNamesOptionalComputed,
       subject_alternative_names_required: this._subjectAlternativeNamesRequired,
@@ -1738,7 +1822,7 @@ export class StringMap extends TerraformResource {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes() {
+  public synthesizeAttributes(): { [name: string]: any } {
     return {
       subject_alternative_names_computed_optional: this._subjectAlternativeNamesComputedOptional,
       subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
