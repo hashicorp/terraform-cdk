@@ -7,10 +7,12 @@ class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
     super(scope, ns);
 
-    const originId = 'myS3Origin'
+    const originId = 'myS3Origin';
+    const domainName = 'www.example.com';
+    const proxyTarget = 'example.com'
 
     const cert = new AcmCertificate(this, 'cert', {
-      domainName: "www.example.com",
+      domainName,
       validationMethod: "DNS"
     })
 
@@ -21,7 +23,7 @@ class MyStack extends TerraformStack {
     //   privateZone: false
     // })
 
-    const record = new Route53Record(this, 'foo', {
+    const record = new Route53Record(this, 'CertValidationRecord', {
       name: cert.domainValidationOptions('0').domainName,
       type: cert.domainValidationOptions('0').resourceRecordType,
       records: [
@@ -57,7 +59,7 @@ class MyStack extends TerraformStack {
 
       origin: [{
         originId,
-        domainName: "www.target.com",
+        domainName: proxyTarget,
         customOriginConfig: [{
           httpPort: 80,
           httpsPort: 443,
@@ -67,7 +69,7 @@ class MyStack extends TerraformStack {
       }],
 
       aliases: [
-        "www.example.com"
+        domainName
       ],
 
       defaultCacheBehavior: [{
@@ -89,7 +91,7 @@ class MyStack extends TerraformStack {
     })
 
     new Route53Record(this, 'distribution_domain', {
-      name: 'www.example.com',
+      name: domainName,
       type: 'A',
       // zoneId: zone.zoneId,
       zoneId: '123',
