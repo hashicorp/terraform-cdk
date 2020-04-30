@@ -19,7 +19,7 @@ export class HelloTerra extends TerraformStack {
 
 
     new SnsTopic(this, 'Topic', {
-      displayName: `${table.id}-${table.streamEnabled}`
+      displayName: `${table.id}`
     });
 
     new Eks(this, 'EksModule', {
