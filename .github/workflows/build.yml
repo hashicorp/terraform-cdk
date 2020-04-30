@@ -5,14 +5,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: jsii/superchain
+      image: hashicorp/jsii-terraform
 
     steps:
       - uses: actions/checkout@v2
-      - name: installing terraform
-        run: |
-          yum install -y jq
-          ./tools/install-terraform.sh
       - name: installing dependencies
         run: |
           yarn install
