@@ -12,6 +12,7 @@ export interface TerraformResourceConfig {
 
 export abstract class TerraformResource extends TerraformElement {
   public readonly type: string;
+  private readonly rawOverrides: any = {}
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id);
@@ -31,6 +32,29 @@ export abstract class TerraformResource extends TerraformElement {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
+  public addOverride(path: string, value: any) {
+    const parts = path.split('.');
+    let curr: any = this.rawOverrides;
+
+    while (parts.length > 1) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const key = parts.shift()!;
+
+      // if we can't recurse further or the previous value is not an
+      // object overwrite it with an object.
+      const isObject = curr[key] != null && typeof(curr[key]) === 'object' && !Array.isArray(curr[key]);
+      if (!isObject) {
+        curr[key] = {};
+      }
+
+      curr = curr[key];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const lastKey = parts.shift()!;
+    curr[lastKey] = value;
+  }
+
   protected abstract synthesizeAttributes(): { [name: string]: any };
 
   /**
@@ -40,7 +64,7 @@ export abstract class TerraformResource extends TerraformElement {
     return {
       resource: {
         [this.type]: {
-          [Node.of(this).uniqueId]: this.synthesizeAttributes()
+          [Node.of(this).uniqueId]: deepMerge(this.synthesizeAttributes(), this.rawOverrides)
         }
       }
     };
@@ -49,6 +73,45 @@ export abstract class TerraformResource extends TerraformElement {
   private interpolationForAttribute(terraformAttribute: string) {
     return `\${${this.type}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
   }
+}
+
+/**
+ * Merges `source` into `target`, overriding any existing values.
+ * `null`s will cause a value to be deleted.
+ */
+function deepMerge(target: any, ...sources: any[]) {
+  for (const source of sources) {
+    if (typeof(source) !== 'object' || typeof(target) !== 'object') {
+      throw new Error(`Invalid usage. Both source (${JSON.stringify(source)}) and target (${JSON.stringify(target)}) must be objects`);
+    }
+
+    for (const key of Object.keys(source)) {
+      const value = source[key];
+      if (typeof(value) === 'object' && value != null && !Array.isArray(value)) {
+        // if the value at the target is not an object, override it with an
+        // object so we can continue the recursion
+        if (typeof(target[key]) !== 'object') {
+          target[key] = {};
+        }
+
+        deepMerge(target[key], value);
+
+        // if the result of the merge is an empty object, it's because the
+        // eventual value we assigned is `undefined`, and there are no
+        // sibling concrete values alongside, so we can delete this tree.
+        const output = target[key];
+        if (typeof(output) === 'object' && Object.keys(output).length === 0) {
+          delete target[key];
+        }
+      } else if (value === undefined) {
+        delete target[key];
+      } else {
+        target[key] = value;
+      }
+    }
+  }
+
+  return target;
 }
 
 export interface TerraformResourceLifecycle {
