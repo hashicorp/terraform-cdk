@@ -16,7 +16,7 @@ export class ModuleGenerator {
     this.code.line(`// ${this.spec.id}/${spec.path}`);
 
     this.code.line(`import { TerraformModule } from 'cdktf';`);
-    this.code.line(`import { Construct } from 'constructs';`);
+    this.code.line(`import { Construct, Node } from 'constructs';`);
 
     const baseName = this.code.toPascalCase(spec.name.replace(/-/g, '_'));
     const optionsType = `${baseName}Options`;
@@ -30,7 +30,7 @@ export class ModuleGenerator {
         this.code.line(` * @default ${input.default}`);
       }
       this.code.line(` */`);
-      this.code.line(`readonly ${toCamelCase(input.name)}${optional}: ${parseType(input.type)};`);
+      this.code.line(`readonly ${toCamelCase(input.name)}${optional}: ${addModuleOutputType(parseType(input.type))};`);
     }
     this.code.closeBlock();
 
@@ -55,13 +55,20 @@ export class ModuleGenerator {
 
     for (const input of spec.inputs) {
       const inputName = toCamelCase(input.name);
-      const inputType = parseType(input.type) + ((input.required && (input.default === undefined)) ? '' : ' | undefined');
+      const inputType = addModuleOutputType(parseType(input.type)) + ((input.required && (input.default === undefined)) ? '' : ' | undefined');
       this.code.openBlock(`public get ${inputName}(): ${inputType}`);
       this.code.line(`return this.inputs['${input.name}'] as ${inputType};`);
       this.code.closeBlock();
 
       this.code.openBlock(`public set ${inputName}(value: ${inputType})`);
       this.code.line(`this.inputs['${input.name}'] = value;`);
+      this.code.closeBlock();
+    }
+
+    for (const output of spec.outputs) {
+      const outputName = toCamelCase(output.name);
+      this.code.openBlock(`public get ${outputName}Output(): string`);
+      this.code.line(`return '\${module.' + Node.of(this).uniqueId + '.${output.name}}';`);
       this.code.closeBlock();
     }
 
@@ -74,6 +81,11 @@ export class ModuleGenerator {
     this.code.closeFile(fileName);
   }
 
+}
+
+function addModuleOutputType(type: string) {
+  if (type === 'string') { return type; }
+  else { return type + ' | string'}
 }
 
 function parseType(type: string) {

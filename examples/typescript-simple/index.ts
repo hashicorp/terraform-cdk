@@ -24,15 +24,19 @@ export class HelloTerra extends TerraformStack {
       displayName: 'my-first-sns-topic'
     });
 
+    const vpcName = 'MyVpc';
+    const vpc = new Vpc(this, vpcName, {
+      name: vpcName,
+      cidr: "10.0.0.0/16",
+      azs: ["us-east-1a", "us-east-1b"],
+      publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"]
+    });
+
     new Eks(this, 'EksModule', {
       clusterName: 'myClusterName',
       permissionsBoundary: 'boom',
-      subnets: ['a', 'b'],
-      vpcId: 'vpc'
-    });
-
-    new Vpc(this, 'MyVpc', {
-      cidr: "10.0.0.0/16"
+      vpcId: vpc.vpcIdOutput,
+      subnets: vpc.publicSubnetsOutput
     });
   }
 }
