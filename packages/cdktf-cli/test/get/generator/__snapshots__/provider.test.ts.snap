@@ -91,6 +91,12 @@ exports[`generate provider 1`] = `
         \\"type\\": \\"string\\",
         \\"description\\": \\"session token. A session token is only required if you are\\\\nusing temporary security credentials.\\",
         \\"optional\\": true
+      },
+      \\"alias\\": {
+        \\"type\\": \\"string\\",
+        \\"description\\": \\"Alias name\\",
+        \\"optional\\": true,
+        \\"computed\\": false
       }
     },
     \\"block_types\\": {
@@ -878,6 +884,8 @@ this defaults to ~/.aws/credentials. */
   /** session token. A session token is only required if you are
 using temporary security credentials. */
   readonly token?: string;
+  /** Alias name */
+  readonly alias?: string;
   /** assume_role block */
   readonly assumeRole?: AwsProviderAssumeRole[];
   /** endpoints block */
@@ -1202,6 +1210,7 @@ export class AwsProvider extends TerraformProvider {
     this._skipRegionValidation = config.skipRegionValidation;
     this._skipRequestingAccountId = config.skipRequestingAccountId;
     this._token = config.token;
+    this._alias = config.alias;
     this._assumeRole = config.assumeRole;
     this._endpoints = config.endpoints;
     this._ignoreTags = config.ignoreTags;
@@ -1355,6 +1364,15 @@ export class AwsProvider extends TerraformProvider {
     this._token = value;
   }
 
+  // alias - computed: false, optional: true, required: false
+  private _alias?: string;
+  public get alias() {
+    return this._alias;
+  }
+  public set alias(value: string | undefined) {
+    this._alias = value;
+  }
+
   // assume_role - computed: false, optional: true, required: false
   private _assumeRole?: AwsProviderAssumeRole[];
   public get assumeRole() {
@@ -1404,6 +1422,7 @@ export class AwsProvider extends TerraformProvider {
       skip_region_validation: this._skipRegionValidation,
       skip_requesting_account_id: this._skipRequestingAccountId,
       token: this._token,
+      alias: this._alias,
       assume_role: this._assumeRole,
       endpoints: this._endpoints,
       ignore_tags: this._ignoreTags,
