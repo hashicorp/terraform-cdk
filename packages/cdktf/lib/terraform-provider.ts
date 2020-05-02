@@ -1,19 +1,28 @@
-import { Construct } from "constructs";
+import { Construct, Token } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
+  readonly terraformProviderVersion: string;
 }
 
 export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
+  public readonly terraformProviderVersion: string;
+  public alias?: string;
+
   private readonly rawOverrides: any = {}
 
   constructor(scope: Construct, id: string, config: TerraformProviderConfig) {
     super(scope, id);
 
     this.terraformResourceType = config.terraformResourceType;
+    this.terraformProviderVersion = config.terraformProviderVersion;
+  }
+
+  public get fqn(): string {
+    return (this.alias !== undefined) ? Token.asString(`${this.terraformResourceType}.${this.alias}`) : Token.asString(`${this.terraformResourceType}`);
   }
 
   public addOverride(path: string, value: any) {
@@ -39,6 +48,10 @@ export abstract class TerraformProvider extends TerraformElement {
     curr[lastKey] = value;
   }
 
+  public get metaAttributes(): { [name: string]: any } {
+    return (this.alias !== undefined) ? { alias: this.alias } : {} ;
+  }
+
   protected abstract synthesizeAttributes(): { [name: string]: any };
 
   /**
@@ -47,7 +60,7 @@ export abstract class TerraformProvider extends TerraformElement {
   public toTerraform(): any {
     return {
       provider: {
-        [this.terraformResourceType]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
+        [this.terraformResourceType]: [deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides, this.metaAttributes)]
       }
     };
   }

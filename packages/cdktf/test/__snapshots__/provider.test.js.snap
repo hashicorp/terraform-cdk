@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minimal configuration 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"foo\\"
+      }
+    ]
+  }
+}"
+`;
+
+exports[`with alias 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"foo\\"
+      },
+      {
+        \\"access_key\\": \\"bar\\",
+        \\"alias\\": \\"route53\\"
+      }
+    ]
+  }
+}"
+`;

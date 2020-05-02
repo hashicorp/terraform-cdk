@@ -3,23 +3,51 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { keysToSnakeCase, deepMerge } from "./util";
 
-export interface TerraformResourceConfig {
-  readonly terraformResourceType: string;
+export interface TerraformResourceLifecycle {
+  readonly createBeforeDestroy?: boolean;
+  readonly preventDestroy?: boolean;
+  readonly ignoreChanges?: string[];
+}
+
+export interface TerraformMetaArguments {
   readonly dependsOn?: TerraformResource[];
   readonly count?: number;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
 }
 
+export interface TerraformGeneratorMetadata {
+  readonly providerVersion: string;
+  readonly providerName: string;
+}
+
+export interface TerraformResourceConfig extends TerraformMetaArguments {
+  readonly terraformResourceType: string;
+  readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+}
+
 export abstract class TerraformResource extends TerraformElement {
   public readonly terraformResourceType: string;
+  public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   private readonly rawOverrides: any = {}
+
+  // TerraformMetaArguments
+
+  public dependsOn?: TerraformResource[];
+  public count?: number;
+  public provider?: TerraformProvider;
+  public lifecycle?: TerraformResourceLifecycle;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id);
 
     this.terraformResourceType = config.terraformResourceType;
-  }
+    this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
+    this.dependsOn = config.dependsOn;
+    this.count = config.count;
+    this.provider = config.provider;
+    this.lifecycle = config.lifecycle;
+    }
 
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
@@ -60,6 +88,15 @@ export abstract class TerraformResource extends TerraformElement {
     curr[lastKey] = value;
   }
 
+  public get terraformMetaArguments(): { [name: string]: any } {
+    return {
+      dependsOn: this.dependsOn,
+      count: this.count,
+      provider: this.provider?.fqn,
+      lifecycle: this.lifecycle
+    }
+  }
+
   protected abstract synthesizeAttributes(): { [name: string]: any };
 
   /**
@@ -69,7 +106,11 @@ export abstract class TerraformResource extends TerraformElement {
     return {
       resource: {
         [this.terraformResourceType]: {
-          [Node.of(this).uniqueId]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
+          [Node.of(this).uniqueId]: deepMerge(
+            keysToSnakeCase(this.synthesizeAttributes()),
+            keysToSnakeCase(this.terraformMetaArguments),
+            this.rawOverrides
+          )
         }
       }
     };
@@ -78,10 +119,4 @@ export abstract class TerraformResource extends TerraformElement {
   private interpolationForAttribute(terraformAttribute: string) {
     return `\${${this.terraformResourceType}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
   }
-}
-
-export interface TerraformResourceLifecycle {
-  readonly createBeforeDestroy?: boolean;
-  readonly preventDestroy?: boolean;
-  readonly ignoreChanges?: string[];
 }
