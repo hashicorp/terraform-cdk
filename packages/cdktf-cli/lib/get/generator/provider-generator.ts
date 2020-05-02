@@ -35,7 +35,7 @@ export class TerraformGenerator {
     }
 
     if (provider.provider) {
-      const providerResource = this.resourceParser.parse(name, `${name}_${name}_provider`, provider.provider)
+      const providerResource = this.resourceParser.parse(name, `provider`, provider.provider)
       files.push(this.emitResourceFile(providerResource));
     }
 
@@ -57,7 +57,7 @@ export class TerraformGenerator {
   private emitResourceFile(resource: ResourceModel): string {
     this.code.openFile(resource.filePath);
       this.emitFileHeader(resource)
-      resource.structs.forEach(struct => this.structEmitter.emit(struct));
+      this.structEmitter.emit(resource);
       this.resourceEmitter.emit(resource)
     this.code.closeFile(resource.filePath);
 

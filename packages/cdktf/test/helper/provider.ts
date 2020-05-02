@@ -7,8 +7,7 @@ export interface TestProviderConfig {
 }
 
 export enum TestProviderMetadata {
-  TYPE = 'test',
-  VERSION = '1.0.0'
+  TYPE = 'test'
 }
 
 export class TestProvider extends TerraformProvider {
@@ -17,8 +16,7 @@ export class TestProvider extends TerraformProvider {
 
   constructor(scope: Construct, id: string, config: TestProviderConfig) {
     super(scope, id, {
-      terraformResourceType: TestProviderMetadata.TYPE,
-      terraformProviderVersion: TestProviderMetadata.VERSION
+      terraformResourceType: TestProviderMetadata.TYPE
     });
 
     this.alias = config.alias

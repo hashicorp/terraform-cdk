@@ -102,11 +102,12 @@ exports[`generate an acm certifacte resource with complex computed types 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 
-export interface AcmCertificateConfig {
+export interface AcmCertificateConfig extends TerraformMetaArguments {
   readonly certificateAuthorityArn?: string;
   readonly certificateBody?: string;
   readonly certificateChain?: string;
@@ -155,6 +156,9 @@ export class AcmCertificate extends TerraformResource {
   public constructor(scope: Construct, id: string, config: AcmCertificateConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_acm_certificate',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      }
     });
     this._certificateAuthorityArn = config.certificateAuthorityArn;
     this._certificateBody = config.certificateBody;

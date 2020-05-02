@@ -32,11 +32,19 @@ export class Struct {
   protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
     return attributes
   }
+
+  public get extends(): string {
+    return '';
+  }
 }
 
 export class ConfigStruct extends Struct {
   protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
     const ignoreList = ['arn', 'id']
     return attributes.filter(attribute => !(ignoreList.includes(attribute.name) && !attribute.isRequired))
+  }
+
+  public get extends(): string {
+    return ` extends TerraformMetaArguments`
   }
 }

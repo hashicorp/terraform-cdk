@@ -59,10 +59,7 @@ export class ResourceEmitter {
     this.code.line();
     this.code.openBlock(`public constructor(scope: Construct, id: string, ${configName}: ${resource.configStruct.attributeType})`);
 
-    // invoke super ctor with the terraform resource type
-    this.code.open(`super(scope, id, {`);
-    this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
-    this.code.close(`});`);
+    resource.isProvider ? this.emitProviderSuper(resource) : this.emitResourceSuper(resource)
 
     // initialize config properties
     for (const att of resource.configStruct.assignableAttributes) {
@@ -70,5 +67,22 @@ export class ResourceEmitter {
     }
 
     this.code.closeBlock();
+  }
+
+  private emitResourceSuper(resource: ResourceModel) {
+    // invoke super ctor with the terraform resource type
+    this.code.open(`super(scope, id, {`);
+      this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
+      this.code.open(`terraformGeneratorMetadata: {`);
+        this.code.line(`providerName: '${resource.provider}'`);
+      this.code.close(`}`);
+    this.code.close(`});`);
+  }
+
+  private emitProviderSuper(resource: ResourceModel) {
+    // invoke super ctor with the terraform resource type
+    this.code.open(`super(scope, id, {`);
+      this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
+    this.code.close(`});`);
   }
 }

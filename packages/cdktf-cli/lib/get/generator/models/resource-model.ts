@@ -41,6 +41,10 @@ export class ResourceModel {
       `import { Construct } from 'constructs';`,
       `import { ${this.parentClassName} } from 'cdktf';`
     ]
+
+    if (!this.isProvider) {
+      this.dependencies.push(`import { TerraformMetaArguments } from 'cdktf';`)
+    }
   }
 
   public get structs(): Struct[] {
@@ -73,7 +77,7 @@ export class ResourceModel {
   }
 
   public get isProvider(): boolean {
-    return this.fileName === `${this.provider}-provider.ts`
+    return this.terraformType === 'provider'
   }
 
   public get parentClassName(): string {

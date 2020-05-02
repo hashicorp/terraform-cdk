@@ -741,11 +741,12 @@ exports[`generate a cloudfront distribution resource 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 import { StringMap } from \\"cdktf\\";
 
 // Configuration
 
-export interface CloudfrontDistributionConfig {
+export interface CloudfrontDistributionConfig extends TerraformMetaArguments {
   readonly aliases?: string[];
   readonly comment?: string;
   readonly defaultRootObject?: string;
@@ -954,6 +955,9 @@ export class CloudfrontDistribution extends TerraformResource {
   public constructor(scope: Construct, id: string, config: CloudfrontDistributionConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_cloudfront_distribution',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      }
     });
     this._aliases = config.aliases;
     this._comment = config.comment;
@@ -1272,10 +1276,11 @@ exports[`generate a fms admin account with an empty options interface 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface FmsAdminAccountConfig {
+export interface FmsAdminAccountConfig extends TerraformMetaArguments {
   readonly accountId?: string;
 }
 
@@ -1290,6 +1295,9 @@ export class FmsAdminAccount extends TerraformResource {
   public constructor(scope: Construct, id: string, _config: FmsAdminAccountConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_fms_admin_account',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      }
     });
     this._accountId = _config.accountId;
   }
@@ -1836,10 +1844,11 @@ exports[`generate a s3 bucket resource 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface S3BucketConfig {
+export interface S3BucketConfig extends TerraformMetaArguments {
   readonly accelerationStatus?: string;
   readonly acl?: string;
   readonly bucket?: string;
@@ -2006,6 +2015,9 @@ export class S3Bucket extends TerraformResource {
   public constructor(scope: Construct, id: string, config: S3BucketConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_s3_bucket',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      }
     });
     this._accelerationStatus = config.accelerationStatus;
     this._acl = config.acl;
@@ -2424,10 +2436,11 @@ exports[`generate a security group 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface SecurityGroupConfig {
+export interface SecurityGroupConfig extends TerraformMetaArguments {
   readonly description?: string;
   readonly egress?: SecurityGroupEgress[];
   readonly ingress?: SecurityGroupIngress[];
@@ -2477,6 +2490,9 @@ export class SecurityGroup extends TerraformResource {
   public constructor(scope: Construct, id: string, config: SecurityGroupConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_security_group',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      }
     });
     this._description = config.description;
     this._egress = config.egress;

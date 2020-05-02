@@ -4,12 +4,10 @@ import { keysToSnakeCase, deepMerge } from "./util";
 
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
-  readonly terraformProviderVersion: string;
 }
 
 export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
-  public readonly terraformProviderVersion: string;
   public alias?: string;
 
   private readonly rawOverrides: any = {}
@@ -18,7 +16,6 @@ export abstract class TerraformProvider extends TerraformElement {
     super(scope, id);
 
     this.terraformResourceType = config.terraformResourceType;
-    this.terraformProviderVersion = config.terraformProviderVersion;
   }
 
   public get fqn(): string {

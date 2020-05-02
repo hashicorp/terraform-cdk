@@ -14,8 +14,7 @@ export class TestResource extends TerraformResource {
     super(scope, id, {
       terraformResourceType: 'test_resource',
       terraformGeneratorMetadata: {
-        providerName: TestProviderMetadata.TYPE,
-        providerVersion: TestProviderMetadata.VERSION
+        providerName: TestProviderMetadata.TYPE
       },
       provider: config.provider
     });

@@ -21,6 +21,10 @@ class Parser {
       baseName = baseName.substr(provider.length + 1);
     }
 
+    if (baseName === 'provider') {
+      baseName = `${provider}_${baseName}`;
+    }
+
     const className = uniqueClassName(toPascalCase(baseName));
     const fileName = `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
