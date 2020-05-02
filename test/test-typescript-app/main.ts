@@ -1,10 +1,14 @@
 import { Construct } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
-import { SnsTopic } from './.gen/providers/aws/sns-topic';
+import { AwsProvider, SnsTopic } from './.gen/providers/aws';
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    new AwsProvider(this, 'aws', {
+      region: 'eu-central-1'
+    })
 
     const topic = new SnsTopic(this, 'Topic', {
       displayName: 'overwritten',

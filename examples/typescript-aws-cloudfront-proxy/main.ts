@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
-import {  CloudfrontDistribution, AcmCertificate, Route53Record, AcmCertificateValidation  } from './.gen/providers/aws';
+import {  CloudfrontDistribution, AcmCertificate, Route53Record, AcmCertificateValidation, AwsProvider  } from './.gen/providers/aws';
 
 
 class MyStack extends TerraformStack {
@@ -11,12 +11,20 @@ class MyStack extends TerraformStack {
     const domainName = 'www.example.com';
     const proxyTarget = 'example.com'
 
-    const cert = new AcmCertificate(this, 'cert', {
-      domainName,
-      validationMethod: "DNS"
+    new AwsProvider(this, 'aws', {
+      region: 'eu-central-1'
     })
 
-    // cert.addOverride('provider', 'aws.route53')
+    const provider = new AwsProvider(this, 'aws.route53', {
+      region: 'us-east-1',
+      alias: 'route53'
+    })
+
+    const cert = new AcmCertificate(this, 'cert', {
+      domainName,
+      validationMethod: "DNS",
+      provider
+    })
 
     // const zone = new DataAwsRoute53Zone(this, 'zone', {
     //   name: 'example.com.',
@@ -37,10 +45,9 @@ class MyStack extends TerraformStack {
 
     new AcmCertificateValidation(this, 'certvalidation', {
       certificateArn: cert.arn,
-      validationRecordFqdns: [record.fqdn]
+      validationRecordFqdns: [record.fqdn],
+      provider
     })
-
-    // certvalidation.addOverride('provider', 'aws.route53')
 
     const distribution = new CloudfrontDistribution(this, 'cloudfront', {
       enabled: true,
