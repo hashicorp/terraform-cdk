@@ -6,11 +6,13 @@ import { deepMerge } from './util';
 
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
+  public readonly providerFile: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
+    this.providerFile = `providers.tf.json`;
   }
 
   public toTerraform(): any {
@@ -32,7 +34,17 @@ export class TerraformStack extends Construct {
   }
 
   public onSynthesize(session: ISynthesisSession) {
-    const output = path.join(session.outdir, this.artifactFile);
-    fs.writeFileSync(output, JSON.stringify(this.toTerraform(), undefined, 2));
+    const resourceOutput = path.join(session.outdir, this.artifactFile);
+    const providerOutput = path.join(session.outdir, this.providerFile);
+
+    const tf = this.toTerraform()
+    fs.writeFileSync(resourceOutput, JSON.stringify({resource: tf.resource}, undefined, 2));
+
+    if (fs.existsSync(providerOutput)) {
+      const existingProvider = JSON.parse(fs.readFileSync(providerOutput).toString())
+      fs.writeFileSync(providerOutput, JSON.stringify(deepMerge(existingProvider, {provider: tf.provider}), undefined, 2));
+    } else {
+      fs.writeFileSync(providerOutput, JSON.stringify({provider: tf.provider}, undefined, 2));
+    }
   }
 }
