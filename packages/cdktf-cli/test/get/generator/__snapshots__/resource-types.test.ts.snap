@@ -957,7 +957,8 @@ export class CloudfrontDistribution extends TerraformResource {
       terraformResourceType: 'aws_cloudfront_distribution',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._aliases = config.aliases;
     this._comment = config.comment;
@@ -1292,14 +1293,15 @@ export class FmsAdminAccount extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: FmsAdminAccountConfig = {}) {
+  public constructor(scope: Construct, id: string, config: FmsAdminAccountConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_fms_admin_account',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
-    this._accountId = _config.accountId;
+    this._accountId = config.accountId;
   }
 
   // ==========
@@ -2017,7 +2019,8 @@ export class S3Bucket extends TerraformResource {
       terraformResourceType: 'aws_s3_bucket',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._accelerationStatus = config.accelerationStatus;
     this._acl = config.acl;
@@ -2492,7 +2495,8 @@ export class SecurityGroup extends TerraformResource {
       terraformResourceType: 'aws_security_group',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._description = config.description;
     this._egress = config.egress;

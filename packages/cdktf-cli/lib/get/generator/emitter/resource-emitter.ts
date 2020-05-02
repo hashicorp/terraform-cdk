@@ -55,15 +55,14 @@ export class ResourceEmitter {
   }
 
   private emitInitializer(resource: ResourceModel) {
-    const configName = resource.configStruct.attributeName('config')
     this.code.line();
-    this.code.openBlock(`public constructor(scope: Construct, id: string, ${configName}: ${resource.configStruct.attributeType})`);
+    this.code.openBlock(`public constructor(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`);
 
     resource.isProvider ? this.emitProviderSuper(resource) : this.emitResourceSuper(resource)
 
     // initialize config properties
     for (const att of resource.configStruct.assignableAttributes) {
-      this.code.line(`this.${att.storageName} = ${configName}.${att.name};`);
+      this.code.line(`this.${att.storageName} = config.${att.name};`);
     }
 
     this.code.closeBlock();
@@ -75,7 +74,8 @@ export class ResourceEmitter {
       this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
       this.code.open(`terraformGeneratorMetadata: {`);
         this.code.line(`providerName: '${resource.provider}'`);
-      this.code.close(`}`);
+      this.code.close(`},`);
+      this.code.line(`provider: config.provider`);
     this.code.close(`});`);
   }
 

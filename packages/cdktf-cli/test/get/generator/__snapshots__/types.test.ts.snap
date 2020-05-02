@@ -52,7 +52,8 @@ export class BooleanList extends TerraformResource {
       terraformResourceType: 'aws_boolean_list',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._fooRequired = config.fooRequired;
     this._fooOptional = config.fooOptional;
@@ -155,7 +156,8 @@ export class BooleanMap extends TerraformResource {
       terraformResourceType: 'aws_boolean_map',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -313,12 +315,13 @@ export class ComputedComplex extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: ComputedComplexConfig = {}) {
+  public constructor(scope: Construct, id: string, config: ComputedComplexConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_complex',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
   }
 
@@ -415,12 +418,13 @@ export class ComputedComplexNested extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: ComputedComplexNestedConfig = {}) {
+  public constructor(scope: Construct, id: string, config: ComputedComplexNestedConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_complex_nested',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
   }
 
@@ -521,7 +525,8 @@ export class BlockTypeNestedComputedList extends TerraformResource {
       terraformResourceType: 'aws_block_type_nested_computed_list',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._inputs = config.inputs;
   }
@@ -628,14 +633,15 @@ export class ComputedOptionalComplex extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: ComputedOptionalComplexConfig = {}) {
+  public constructor(scope: Construct, id: string, config: ComputedOptionalComplexConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_optional_complex',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
-    this._egress = _config.egress;
+    this._egress = config.egress;
   }
 
   // ==========
@@ -735,7 +741,8 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
       terraformResourceType: 'aws_deeply_nested_block_types',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._lifecycleRule = config.lifecycleRule;
   }
@@ -806,12 +813,13 @@ export class IgnoredAttributes extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: IgnoredAttributesConfig = {}) {
+  public constructor(scope: Construct, id: string, config: IgnoredAttributesConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_ignored_attributes',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
   }
 
@@ -891,7 +899,8 @@ export class IncompatibleAttributeNames extends TerraformResource {
       terraformResourceType: 'aws_incompatible_attribute_names',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._getPasswordData = config.fetchPasswordData;
     this._self = config.selfAttribute;
@@ -985,7 +994,8 @@ export class NumberList extends TerraformResource {
       terraformResourceType: 'aws_number_list',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._fooRequired = config.fooRequired;
     this._fooOptional = config.fooOptional;
@@ -1088,7 +1098,8 @@ export class NumberMap extends TerraformResource {
       terraformResourceType: 'aws_number_map',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1191,7 +1202,8 @@ export class PrimitiveBoolean extends TerraformResource {
       terraformResourceType: 'aws_primitive_boolean',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1305,7 +1317,8 @@ export class PrimitiveNumber extends TerraformResource {
       terraformResourceType: 'aws_primitive_number',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1419,7 +1432,8 @@ export class PrimitiveString extends TerraformResource {
       terraformResourceType: 'aws_primitive_string',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1545,7 +1559,8 @@ export class BlockTypeSetList extends TerraformResource {
       terraformResourceType: 'aws_block_type_set_list',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._timeoutsSet = config.timeoutsSet;
     this._timeoutsList = config.timeoutsList;
@@ -1639,7 +1654,8 @@ export class SingleBlockType extends TerraformResource {
       terraformResourceType: 'aws_single_block_type',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._timeouts = config.timeouts;
   }
@@ -1738,7 +1754,8 @@ export class StringList extends TerraformResource {
       terraformResourceType: 'aws_string_list',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._subjectAlternativeNamesOptionalComputed = config.subjectAlternativeNamesOptionalComputed;
     this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
@@ -1857,7 +1874,8 @@ export class StringMap extends TerraformResource {
       terraformResourceType: 'aws_string_map',
       terraformGeneratorMetadata: {
         providerName: 'aws'
-      }
+      },
+      provider: config.provider
     });
     this._subjectAlternativeNamesComputedOptional = config.subjectAlternativeNamesComputedOptional;
     this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
