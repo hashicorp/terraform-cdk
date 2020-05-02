@@ -26,6 +26,13 @@ export function deepMerge(target: any, ...sources: any[]) {
         if (typeof(output) === 'object' && Object.keys(output).length === 0) {
           delete target[key];
         }
+      }
+      else if (typeof(value) === 'object' && value != null && Array.isArray(value)) {
+        if (Array.isArray(target[key])) {
+          target[key] = [...target[key], ...value];
+        } else {
+          target[key] = value;
+        }
       } else if (value === undefined) {
         delete target[key];
       } else {
