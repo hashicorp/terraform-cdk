@@ -55,8 +55,8 @@ export async function jsiiCompile(workdir: string, options: JsiiCompileOptions) 
       outdir: "dist",
       targets: {
         python: {
-          distName: main,
-          module: main
+          distName: main.replace(/\//gi, '.'),
+          module: main.replace(/\//gi, '.').replace(/-/gi, '_')
         }
       }
     },

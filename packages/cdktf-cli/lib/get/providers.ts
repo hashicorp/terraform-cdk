@@ -21,4 +21,8 @@ export class GetProvider extends GetBase {
     await mkdirp(outdir);
     return readSchema(outdir, providers);
   }
+
+  protected typesPath(name: string): string {
+    return `providers/${name}/index`;
+  }
 }

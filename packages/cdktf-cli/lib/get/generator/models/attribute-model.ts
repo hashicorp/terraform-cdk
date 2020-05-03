@@ -55,8 +55,8 @@ export class AttributeModel {
   }
 
   public get name(): string {
-    // `self` doesn't work in as property name in Python
-    if (this._name === 'self') return `${this._name}Attribute`;
+    // `self` and `build` doesn't work in as property name in Python
+    if (this._name === 'self' || this._name === 'build') return `${this._name}Attribute`;
     // jsii can't handle `getFoo` properties, since it's incompatible with Java
     if (this._name.match(/^get[A-Z]+/)) return this._name.replace('get', 'fetch');
     return this._name

@@ -7,7 +7,7 @@ import { Language } from '../../lib/get/base';
 
 const config = readConfigSync();
 const DEFAULT_OUTDIR = '.gen'
-const LANGUAGES = [ 'typescript' ];
+const LANGUAGES = [ 'typescript', 'python' ];
 
 interface Arguments {
   providers: string[];
