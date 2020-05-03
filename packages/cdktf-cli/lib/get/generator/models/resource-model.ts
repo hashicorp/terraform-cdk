@@ -69,7 +69,7 @@ export class ResourceModel {
   }
 
   public get schemaAsJson(): string {
-    return JSON.stringify(this.schema, undefined, 2)
+    return this.escapeSchema(JSON.stringify(this.schema, undefined, 2))
   }
 
   public get linkToDocs(): string {
@@ -86,5 +86,9 @@ export class ResourceModel {
 
   public get terraformResourceType(): string {
     return this.isProvider ? this.provider : this.terraformType
+  }
+
+  private escapeSchema(schema: string): string {
+    return schema.replace(/(\*\/)/gi, `*\\/`)
   }
 }
