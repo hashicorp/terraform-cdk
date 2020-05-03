@@ -23,14 +23,7 @@ exports[`dependent output 1`] = `
     \\"testtestoutputC2E8674F\\": {
       \\"value\\": 1,
       \\"depends_on\\": [
-        {
-          \\"raw_overrides\\": {},
-          \\"terraform_resource_type\\": \\"test_resource\\",
-          \\"terraform_generator_metadata\\": {
-            \\"provider_name\\": \\"test\\"
-          },
-          \\"name\\": \\"foo\\"
-        }
+        \\"\${test_resource.testweirdlongrunningresource90E96B6A}\\"
       ]
     }
   }
