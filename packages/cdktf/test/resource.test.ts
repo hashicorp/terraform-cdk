@@ -49,3 +49,15 @@ test('provider setter', () => {
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test('resource fqn', () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'test');
+
+  const resource = new TestResource(stack, 'test', {
+    name: 'bar'
+  });
+
+  expect(resource.fqn).toEqual('test_resource.testDBA94737')
+});
+

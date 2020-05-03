@@ -38,13 +38,16 @@ export class TerraformStack extends Construct {
     const providerOutput = path.join(session.outdir, this.providerFile);
 
     const tf = this.toTerraform()
-    fs.writeFileSync(resourceOutput, JSON.stringify({resource: tf.resource}, undefined, 2));
+    const provider = tf.provider;
+    delete tf.provider;
+
+    fs.writeFileSync(resourceOutput, JSON.stringify(tf, undefined, 2));
 
     if (fs.existsSync(providerOutput)) {
       const existingProvider = JSON.parse(fs.readFileSync(providerOutput).toString())
-      fs.writeFileSync(providerOutput, JSON.stringify(deepMerge(existingProvider, {provider: tf.provider}), undefined, 2));
+      fs.writeFileSync(providerOutput, JSON.stringify(deepMerge(existingProvider, {provider}), undefined, 2));
     } else {
-      fs.writeFileSync(providerOutput, JSON.stringify({provider: tf.provider}, undefined, 2));
+      fs.writeFileSync(providerOutput, JSON.stringify({provider}, undefined, 2));
     }
   }
 }
