@@ -1,0 +1,22 @@
+
+{
+  "provider_schemas": {
+    "google": {
+      "resource_schemas": {
+        "description_escaping": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "broken_comments": {
+                "type": "bool",
+                "required": true,
+                "description": "The resource name of the Cloud KMS CryptoKey to be used to protect access \n to messages published on this topic. Your project's PubSub service account \n ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com') must have \n 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature. \n The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'"
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
