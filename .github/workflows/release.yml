@@ -1,0 +1,52 @@
+name: Release
+on: [pull_request]
+
+jobs:
+  build_artifact:
+    if: github.repository == 'hashicorp/terraform-cdk-poc'
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: compile
+        run: |
+          tools/align-version.sh
+          yarn build
+      - name: test
+        run: |
+          yarn test
+      - name: create bundle
+        run: yarn package
+      - name: integration tests
+        run: yarn integration
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: dist
+      - name: Release to github
+        run: yarn release-github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+  release_npm:
+    name: Release to Github Packages NPM regitry
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Release
+        run: npx -p jsii-release jsii-release-npm
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_REGISTRY: "npm.pkg.github.com"
