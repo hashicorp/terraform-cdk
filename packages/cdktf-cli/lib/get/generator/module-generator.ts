@@ -16,7 +16,7 @@ export class ModuleGenerator {
     this.code.line(`// ${this.spec.id}/${spec.path}`);
 
     this.code.line(`import { TerraformModule } from 'cdktf';`);
-    this.code.line(`import { Construct, Node } from 'constructs';`);
+    this.code.line(`import { Construct } from 'constructs';`);
 
     const baseName = this.code.toPascalCase(spec.name.replace(/-/g, '_'));
     const optionsType = `${baseName}Options`;
@@ -68,7 +68,7 @@ export class ModuleGenerator {
     for (const output of spec.outputs) {
       const outputName = toCamelCase(output.name);
       this.code.openBlock(`public get ${outputName}Output(): string`);
-      this.code.line(`return '\${module.' + Node.of(this).uniqueId + '.${output.name}}';`);
+      this.code.line(`return this.interpolationForOutput('${output.name}')`);
       this.code.closeBlock();
     }
 
