@@ -34,19 +34,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    release_npm:
+  release_npm:
     name: Release to Github Packages NPM regitry
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+        image: hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: dist
+      uses: actions/download-artifact@v1
+      with:
+        name: dist
       - name: Release
-        run: npx -p jsii-release jsii-release-npm
-        env:
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_REGISTRY: "npm.pkg.github.com"
+      run: npx -p jsii-release jsii-release-npm
+      env:
+        NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_REGISTRY: "npm.pkg.github.com"
