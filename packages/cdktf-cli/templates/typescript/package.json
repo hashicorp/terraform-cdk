@@ -14,5 +14,8 @@
     "test": "echo ok",
     "upgrade": "npm i cdktf@latest cdktf-cli@latest",
     "upgrade:next": "npm i cdktf@next cdktf-cli@next"
+  },
+  "engines": {
+    "node": ">=10.12"
   }
 }

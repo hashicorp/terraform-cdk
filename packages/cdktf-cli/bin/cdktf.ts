@@ -1,4 +1,7 @@
 import * as yargs from 'yargs';
+import * as semver from 'semver';
+
+if (semver.lt(process.version, '10.12.0')) { console.error("Need at least Node v10.12 to run") ; process.exit(1) }
 
 const args = yargs
   .commandDir('cmds')
