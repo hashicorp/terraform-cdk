@@ -20,6 +20,7 @@
     ]
   },
   "devDependencies": {
+    "changelog-parser": "^2.8.0",
     "lerna": "^3.20.2"
   }
 }
