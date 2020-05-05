@@ -19,8 +19,8 @@
     "directory": "packages/cdktf-cli"
   },
   "author": {
-    "name": "Amazon Web Services",
-    "url": "https://aws.amazon.com"
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
   },
   "jest": {
     "collectCoverage": true,
@@ -71,5 +71,8 @@
     "jest": "^25.1.0",
     "typescript": "^3.8.3",
     "ts-jest": "^25.4.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }

@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+const parseChangelog = require('changelog-parser');
+
+async function extractChangelog(file, version) {
+  const changelog = await parseChangelog(file);
+  for (const entry of changelog.versions) {
+    if (entry.version === version) {
+      return entry.body;
+    }
+  }
+
+  return undefined;
+}
+
+async function main() {
+  const latestVersion = require('../package.json').version;
+  const body = await extractChangelog('./CHANGELOG.md', latestVersion);
+  if (!body) {
+    throw new Error(`unable to find changelog entry for ${latestVersion}`);
+  }
+
+  console.log(body);
+}
+
+main().catch(e => {
+  console.error(e);
+  process.exit(1);
+});
