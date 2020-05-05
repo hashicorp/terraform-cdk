@@ -1,8 +1,10 @@
 name: Release
-on:
-  push:
-    branches:
-      - github-registry
+on: [pull_request]
+
+#on:
+#  push:
+#    branches:
+#      - master
 
 jobs:
   build_artifact:
