@@ -10,7 +10,7 @@ export interface EksOptions {
    * Whether to attach the Amazon managed \`AmazonEKS_CNI_Policy\` IAM policy to the default worker IAM role. WARNING: If set \`false\` the permissions must be assigned to the \`aws-node\` DaemonSet pods via another method or nodes will not be able to join the cluster.
    * @default true
    */
-  readonly attachWorkerCniPolicy?: boolean | string;
+  readonly attachWorkerCniPolicy?: boolean;
   /**
    * User defined workers role name.
    * @default \\"\\"
@@ -20,7 +20,7 @@ export interface EksOptions {
    * Additional policies to be added to workers
    * @default []
    */
-  readonly workersAdditionalPolicies?: string[] | string;
+  readonly workersAdditionalPolicies?: string[];
   /**
    * If provided, all workers will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the EKS cluster.
    * @default \\"\\"
@@ -30,42 +30,42 @@ export interface EksOptions {
    * Additional IAM users to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
    * @default []
    */
-  readonly mapUsers?: any[] | string;
+  readonly mapUsers?: any[];
   /**
    * Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
    * @default []
    */
-  readonly mapRoles?: any[] | string;
+  readonly mapRoles?: any[];
   /**
    * Whether to write the aws-auth configmap file.
    * @default true
    */
-  readonly writeAwsAuthConfig?: boolean | string;
+  readonly writeAwsAuthConfig?: boolean;
   /**
    * Whether to let the module manage worker IAM resources. If set to false, iam_instance_profile_name must be specified for workers.
    * @default true
    */
-  readonly manageWorkerIamResources?: boolean | string;
+  readonly manageWorkerIamResources?: boolean;
   /**
    * Indicates whether or not the Amazon EKS public API server endpoint is enabled.
    * @default true
    */
-  readonly clusterEndpointPublicAccess?: boolean | string;
+  readonly clusterEndpointPublicAccess?: boolean;
   /**
    * Whether to create a security group for the workers or attach the workers to \`worker_security_group_id\`.
    * @default true
    */
-  readonly workerCreateSecurityGroup?: boolean | string;
+  readonly workerCreateSecurityGroup?: boolean;
   /**
    * Default arguments passed to the authenticator command. Defaults to [token -i $cluster_name].
    * @default []
    */
-  readonly kubeconfigAwsAuthenticatorCommandArgs?: string[] | string;
+  readonly kubeconfigAwsAuthenticatorCommandArgs?: string[];
   /**
    * Minimum port number from which pods will accept communication. Must be changed to a lower value if some pods in your cluster will expose a port lower than 1025 (e.g. 22, 80, or 443).
    * @default 1025
    */
-  readonly workerSgIngressFromPort?: number | string;
+  readonly workerSgIngressFromPort?: number;
   /**
    * The ID of the owner for the AMI to use for the AWS EKS Windows workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').
    * @default \\"801119661308\\"
@@ -85,7 +85,7 @@ export interface EksOptions {
    * Whether to attach the module managed cluster autoscaling iam policy to the default worker IAM role. This requires \`manage_worker_autoscaling_policy = true\`
    * @default true
    */
-  readonly attachWorkerAutoscalingPolicy?: boolean | string;
+  readonly attachWorkerAutoscalingPolicy?: boolean;
   /**
    * Command to use to fetch AWS EKS credentials.
    * @default \\"aws-iam-authenticator\\"
@@ -100,27 +100,27 @@ export interface EksOptions {
    * Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys.
    * @default {}
    */
-  readonly workersGroupDefaults?: any | string;
+  readonly workersGroupDefaults?: any;
   /**
    * A list of maps defining worker group configurations to be defined using AWS Launch Configurations. See workers_group_defaults for valid keys.
    * @default []
    */
-  readonly workerGroups?: any | string;
+  readonly workerGroups?: any;
   /**
    * A map of tags to add to all resources.
    * @default {}
    */
-  readonly tags?: { [key: string]: string } | string;
+  readonly tags?: { [key: string]: string };
   /**
    * Whether to let the module manage cluster IAM resources. If set to false, cluster_iam_role_name must be specified.
    * @default true
    */
-  readonly manageClusterIamResources?: boolean | string;
+  readonly manageClusterIamResources?: boolean;
   /**
    * Whether to create initial lifecycle hooks provided in worker groups.
    * @default false
    */
-  readonly workerCreateInitialLifecycleHooks?: boolean | string;
+  readonly workerCreateInitialLifecycleHooks?: boolean;
   /**
    * Timeout value when deleting the EKS cluster.
    * @default \\"15m\\"
@@ -130,7 +130,7 @@ export interface EksOptions {
    * Any additional arguments to pass to the authenticator such as the role to assume. e.g. [\\"-r\\", \\"MyEksRole\\"].
    * @default []
    */
-  readonly kubeconfigAwsAuthenticatorAdditionalArgs?: string[] | string;
+  readonly kubeconfigAwsAuthenticatorAdditionalArgs?: string[];
   /**
    * The ID of the owner for the AMI to use for the AWS EKS workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').
    * @default \\"602401143452\\"
@@ -140,7 +140,7 @@ export interface EksOptions {
    * A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults for valid keys.
    * @default []
    */
-  readonly workerGroupsLaunchTemplate?: any | string;
+  readonly workerGroupsLaunchTemplate?: any;
   /**
    * If provided, all IAM roles will be created with this permissions boundary attached.
    */
@@ -149,7 +149,7 @@ export interface EksOptions {
    * Whether to let the module manage the cluster autoscaling iam policy.
    * @default true
    */
-  readonly manageWorkerAutoscalingPolicy?: boolean | string;
+  readonly manageWorkerAutoscalingPolicy?: boolean;
   /**
    * IAM role name for the cluster. Only applicable if manage_cluster_iam_resources is set to false.
    * @default \\"\\"
@@ -159,12 +159,12 @@ export interface EksOptions {
    * Indicates whether or not the Amazon EKS private API server endpoint is enabled.
    * @default false
    */
-  readonly clusterEndpointPrivateAccess?: boolean | string;
+  readonly clusterEndpointPrivateAccess?: boolean;
   /**
    * Whether to create a security group for the cluster or attach the cluster to \`cluster_security_group_id\`.
    * @default true
    */
-  readonly clusterCreateSecurityGroup?: boolean | string;
+  readonly clusterCreateSecurityGroup?: boolean;
   /**
    * VPC where the cluster and workers will be deployed.
    */
@@ -172,12 +172,12 @@ export interface EksOptions {
   /**
    * A list of subnets to place the EKS cluster and workers within.
    */
-  readonly subnets?: string[] | string;
+  readonly subnets?: string[];
   /**
    * Whether to write a Kubectl config file containing the cluster configuration. Saved to \`config_output_path\`.
    * @default true
    */
-  readonly writeKubeconfig?: boolean | string;
+  readonly writeKubeconfig?: boolean;
   /**
    * Kubernetes version to use for the EKS cluster.
    * @default \\"1.14\\"
@@ -187,7 +187,7 @@ export interface EksOptions {
    * A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
    * @default []
    */
-  readonly clusterEnabledLogTypes?: string[] | string;
+  readonly clusterEnabledLogTypes?: string[];
   /**
    * Timeout value when creating the EKS cluster.
    * @default \\"15m\\"
@@ -202,7 +202,7 @@ export interface EksOptions {
    * Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = \\"eks\\"}.
    * @default {}
    */
-  readonly kubeconfigAwsAuthenticatorEnvVariables?: { [key: string]: string } | string;
+  readonly kubeconfigAwsAuthenticatorEnvVariables?: { [key: string]: string };
   /**
    * If provided, all IAM roles will be created on this path.
    * @default \\"/\\"
@@ -215,17 +215,17 @@ export interface EksOptions {
   \\"-c\\"
 ]
    */
-  readonly localExecInterpreter?: string[] | string;
+  readonly localExecInterpreter?: string[];
   /**
    * A list of additional security group ids to attach to worker instances
    * @default []
    */
-  readonly workerAdditionalSecurityGroupIds?: string[] | string;
+  readonly workerAdditionalSecurityGroupIds?: string[];
   /**
    * Additional AWS account numbers to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
    * @default []
    */
-  readonly mapAccounts?: string[] | string;
+  readonly mapAccounts?: string[];
   /**
    * Name of the EKS cluster. Also used as a prefix in names of related resources.
    */
@@ -244,7 +244,7 @@ export interface EksOptions {
    * Number of days to retain log events. Default retention - 90 days.
    * @default 90
    */
-  readonly clusterLogRetentionInDays?: number | string;
+  readonly clusterLogRetentionInDays?: number;
   /**
    * If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)
    * @default \\"\\"
@@ -308,10 +308,10 @@ export class Eks extends TerraformModule {
     this.clusterLogRetentionInDays = options.clusterLogRetentionInDays;
     this.clusterLogKmsKeyId = options.clusterLogKmsKeyId;
   }
-  public get attachWorkerCniPolicy(): boolean | string | undefined {
-    return this.inputs['attach_worker_cni_policy'] as boolean | string | undefined;
+  public get attachWorkerCniPolicy(): boolean | undefined {
+    return this.inputs['attach_worker_cni_policy'] as boolean | undefined;
   }
-  public set attachWorkerCniPolicy(value: boolean | string | undefined) {
+  public set attachWorkerCniPolicy(value: boolean | undefined) {
     this.inputs['attach_worker_cni_policy'] = value;
   }
   public get workersRoleName(): string | undefined {
@@ -320,10 +320,10 @@ export class Eks extends TerraformModule {
   public set workersRoleName(value: string | undefined) {
     this.inputs['workers_role_name'] = value;
   }
-  public get workersAdditionalPolicies(): string[] | string | undefined {
-    return this.inputs['workers_additional_policies'] as string[] | string | undefined;
+  public get workersAdditionalPolicies(): string[] | undefined {
+    return this.inputs['workers_additional_policies'] as string[] | undefined;
   }
-  public set workersAdditionalPolicies(value: string[] | string | undefined) {
+  public set workersAdditionalPolicies(value: string[] | undefined) {
     this.inputs['workers_additional_policies'] = value;
   }
   public get workerSecurityGroupId(): string | undefined {
@@ -332,52 +332,52 @@ export class Eks extends TerraformModule {
   public set workerSecurityGroupId(value: string | undefined) {
     this.inputs['worker_security_group_id'] = value;
   }
-  public get mapUsers(): any[] | string | undefined {
-    return this.inputs['map_users'] as any[] | string | undefined;
+  public get mapUsers(): any[] | undefined {
+    return this.inputs['map_users'] as any[] | undefined;
   }
-  public set mapUsers(value: any[] | string | undefined) {
+  public set mapUsers(value: any[] | undefined) {
     this.inputs['map_users'] = value;
   }
-  public get mapRoles(): any[] | string | undefined {
-    return this.inputs['map_roles'] as any[] | string | undefined;
+  public get mapRoles(): any[] | undefined {
+    return this.inputs['map_roles'] as any[] | undefined;
   }
-  public set mapRoles(value: any[] | string | undefined) {
+  public set mapRoles(value: any[] | undefined) {
     this.inputs['map_roles'] = value;
   }
-  public get writeAwsAuthConfig(): boolean | string | undefined {
-    return this.inputs['write_aws_auth_config'] as boolean | string | undefined;
+  public get writeAwsAuthConfig(): boolean | undefined {
+    return this.inputs['write_aws_auth_config'] as boolean | undefined;
   }
-  public set writeAwsAuthConfig(value: boolean | string | undefined) {
+  public set writeAwsAuthConfig(value: boolean | undefined) {
     this.inputs['write_aws_auth_config'] = value;
   }
-  public get manageWorkerIamResources(): boolean | string | undefined {
-    return this.inputs['manage_worker_iam_resources'] as boolean | string | undefined;
+  public get manageWorkerIamResources(): boolean | undefined {
+    return this.inputs['manage_worker_iam_resources'] as boolean | undefined;
   }
-  public set manageWorkerIamResources(value: boolean | string | undefined) {
+  public set manageWorkerIamResources(value: boolean | undefined) {
     this.inputs['manage_worker_iam_resources'] = value;
   }
-  public get clusterEndpointPublicAccess(): boolean | string | undefined {
-    return this.inputs['cluster_endpoint_public_access'] as boolean | string | undefined;
+  public get clusterEndpointPublicAccess(): boolean | undefined {
+    return this.inputs['cluster_endpoint_public_access'] as boolean | undefined;
   }
-  public set clusterEndpointPublicAccess(value: boolean | string | undefined) {
+  public set clusterEndpointPublicAccess(value: boolean | undefined) {
     this.inputs['cluster_endpoint_public_access'] = value;
   }
-  public get workerCreateSecurityGroup(): boolean | string | undefined {
-    return this.inputs['worker_create_security_group'] as boolean | string | undefined;
+  public get workerCreateSecurityGroup(): boolean | undefined {
+    return this.inputs['worker_create_security_group'] as boolean | undefined;
   }
-  public set workerCreateSecurityGroup(value: boolean | string | undefined) {
+  public set workerCreateSecurityGroup(value: boolean | undefined) {
     this.inputs['worker_create_security_group'] = value;
   }
-  public get kubeconfigAwsAuthenticatorCommandArgs(): string[] | string | undefined {
-    return this.inputs['kubeconfig_aws_authenticator_command_args'] as string[] | string | undefined;
+  public get kubeconfigAwsAuthenticatorCommandArgs(): string[] | undefined {
+    return this.inputs['kubeconfig_aws_authenticator_command_args'] as string[] | undefined;
   }
-  public set kubeconfigAwsAuthenticatorCommandArgs(value: string[] | string | undefined) {
+  public set kubeconfigAwsAuthenticatorCommandArgs(value: string[] | undefined) {
     this.inputs['kubeconfig_aws_authenticator_command_args'] = value;
   }
-  public get workerSgIngressFromPort(): number | string | undefined {
-    return this.inputs['worker_sg_ingress_from_port'] as number | string | undefined;
+  public get workerSgIngressFromPort(): number | undefined {
+    return this.inputs['worker_sg_ingress_from_port'] as number | undefined;
   }
-  public set workerSgIngressFromPort(value: number | string | undefined) {
+  public set workerSgIngressFromPort(value: number | undefined) {
     this.inputs['worker_sg_ingress_from_port'] = value;
   }
   public get workerAmiOwnerIdWindows(): string | undefined {
@@ -398,10 +398,10 @@ export class Eks extends TerraformModule {
   public set clusterSecurityGroupId(value: string | undefined) {
     this.inputs['cluster_security_group_id'] = value;
   }
-  public get attachWorkerAutoscalingPolicy(): boolean | string | undefined {
-    return this.inputs['attach_worker_autoscaling_policy'] as boolean | string | undefined;
+  public get attachWorkerAutoscalingPolicy(): boolean | undefined {
+    return this.inputs['attach_worker_autoscaling_policy'] as boolean | undefined;
   }
-  public set attachWorkerAutoscalingPolicy(value: boolean | string | undefined) {
+  public set attachWorkerAutoscalingPolicy(value: boolean | undefined) {
     this.inputs['attach_worker_autoscaling_policy'] = value;
   }
   public get kubeconfigAwsAuthenticatorCommand(): string | undefined {
@@ -416,34 +416,34 @@ export class Eks extends TerraformModule {
   public set workerAmiNameFilterWindows(value: string | undefined) {
     this.inputs['worker_ami_name_filter_windows'] = value;
   }
-  public get workersGroupDefaults(): any | string | undefined {
-    return this.inputs['workers_group_defaults'] as any | string | undefined;
+  public get workersGroupDefaults(): any | undefined {
+    return this.inputs['workers_group_defaults'] as any | undefined;
   }
-  public set workersGroupDefaults(value: any | string | undefined) {
+  public set workersGroupDefaults(value: any | undefined) {
     this.inputs['workers_group_defaults'] = value;
   }
-  public get workerGroups(): any | string | undefined {
-    return this.inputs['worker_groups'] as any | string | undefined;
+  public get workerGroups(): any | undefined {
+    return this.inputs['worker_groups'] as any | undefined;
   }
-  public set workerGroups(value: any | string | undefined) {
+  public set workerGroups(value: any | undefined) {
     this.inputs['worker_groups'] = value;
   }
-  public get tags(): { [key: string]: string } | string | undefined {
-    return this.inputs['tags'] as { [key: string]: string } | string | undefined;
+  public get tags(): { [key: string]: string } | undefined {
+    return this.inputs['tags'] as { [key: string]: string } | undefined;
   }
-  public set tags(value: { [key: string]: string } | string | undefined) {
+  public set tags(value: { [key: string]: string } | undefined) {
     this.inputs['tags'] = value;
   }
-  public get manageClusterIamResources(): boolean | string | undefined {
-    return this.inputs['manage_cluster_iam_resources'] as boolean | string | undefined;
+  public get manageClusterIamResources(): boolean | undefined {
+    return this.inputs['manage_cluster_iam_resources'] as boolean | undefined;
   }
-  public set manageClusterIamResources(value: boolean | string | undefined) {
+  public set manageClusterIamResources(value: boolean | undefined) {
     this.inputs['manage_cluster_iam_resources'] = value;
   }
-  public get workerCreateInitialLifecycleHooks(): boolean | string | undefined {
-    return this.inputs['worker_create_initial_lifecycle_hooks'] as boolean | string | undefined;
+  public get workerCreateInitialLifecycleHooks(): boolean | undefined {
+    return this.inputs['worker_create_initial_lifecycle_hooks'] as boolean | undefined;
   }
-  public set workerCreateInitialLifecycleHooks(value: boolean | string | undefined) {
+  public set workerCreateInitialLifecycleHooks(value: boolean | undefined) {
     this.inputs['worker_create_initial_lifecycle_hooks'] = value;
   }
   public get clusterDeleteTimeout(): string | undefined {
@@ -452,10 +452,10 @@ export class Eks extends TerraformModule {
   public set clusterDeleteTimeout(value: string | undefined) {
     this.inputs['cluster_delete_timeout'] = value;
   }
-  public get kubeconfigAwsAuthenticatorAdditionalArgs(): string[] | string | undefined {
-    return this.inputs['kubeconfig_aws_authenticator_additional_args'] as string[] | string | undefined;
+  public get kubeconfigAwsAuthenticatorAdditionalArgs(): string[] | undefined {
+    return this.inputs['kubeconfig_aws_authenticator_additional_args'] as string[] | undefined;
   }
-  public set kubeconfigAwsAuthenticatorAdditionalArgs(value: string[] | string | undefined) {
+  public set kubeconfigAwsAuthenticatorAdditionalArgs(value: string[] | undefined) {
     this.inputs['kubeconfig_aws_authenticator_additional_args'] = value;
   }
   public get workerAmiOwnerId(): string | undefined {
@@ -464,10 +464,10 @@ export class Eks extends TerraformModule {
   public set workerAmiOwnerId(value: string | undefined) {
     this.inputs['worker_ami_owner_id'] = value;
   }
-  public get workerGroupsLaunchTemplate(): any | string | undefined {
-    return this.inputs['worker_groups_launch_template'] as any | string | undefined;
+  public get workerGroupsLaunchTemplate(): any | undefined {
+    return this.inputs['worker_groups_launch_template'] as any | undefined;
   }
-  public set workerGroupsLaunchTemplate(value: any | string | undefined) {
+  public set workerGroupsLaunchTemplate(value: any | undefined) {
     this.inputs['worker_groups_launch_template'] = value;
   }
   public get permissionsBoundary(): string | undefined {
@@ -476,10 +476,10 @@ export class Eks extends TerraformModule {
   public set permissionsBoundary(value: string | undefined) {
     this.inputs['permissions_boundary'] = value;
   }
-  public get manageWorkerAutoscalingPolicy(): boolean | string | undefined {
-    return this.inputs['manage_worker_autoscaling_policy'] as boolean | string | undefined;
+  public get manageWorkerAutoscalingPolicy(): boolean | undefined {
+    return this.inputs['manage_worker_autoscaling_policy'] as boolean | undefined;
   }
-  public set manageWorkerAutoscalingPolicy(value: boolean | string | undefined) {
+  public set manageWorkerAutoscalingPolicy(value: boolean | undefined) {
     this.inputs['manage_worker_autoscaling_policy'] = value;
   }
   public get clusterIamRoleName(): string | undefined {
@@ -488,16 +488,16 @@ export class Eks extends TerraformModule {
   public set clusterIamRoleName(value: string | undefined) {
     this.inputs['cluster_iam_role_name'] = value;
   }
-  public get clusterEndpointPrivateAccess(): boolean | string | undefined {
-    return this.inputs['cluster_endpoint_private_access'] as boolean | string | undefined;
+  public get clusterEndpointPrivateAccess(): boolean | undefined {
+    return this.inputs['cluster_endpoint_private_access'] as boolean | undefined;
   }
-  public set clusterEndpointPrivateAccess(value: boolean | string | undefined) {
+  public set clusterEndpointPrivateAccess(value: boolean | undefined) {
     this.inputs['cluster_endpoint_private_access'] = value;
   }
-  public get clusterCreateSecurityGroup(): boolean | string | undefined {
-    return this.inputs['cluster_create_security_group'] as boolean | string | undefined;
+  public get clusterCreateSecurityGroup(): boolean | undefined {
+    return this.inputs['cluster_create_security_group'] as boolean | undefined;
   }
-  public set clusterCreateSecurityGroup(value: boolean | string | undefined) {
+  public set clusterCreateSecurityGroup(value: boolean | undefined) {
     this.inputs['cluster_create_security_group'] = value;
   }
   public get vpcId(): string | undefined {
@@ -506,16 +506,16 @@ export class Eks extends TerraformModule {
   public set vpcId(value: string | undefined) {
     this.inputs['vpc_id'] = value;
   }
-  public get subnets(): string[] | string | undefined {
-    return this.inputs['subnets'] as string[] | string | undefined;
+  public get subnets(): string[] | undefined {
+    return this.inputs['subnets'] as string[] | undefined;
   }
-  public set subnets(value: string[] | string | undefined) {
+  public set subnets(value: string[] | undefined) {
     this.inputs['subnets'] = value;
   }
-  public get writeKubeconfig(): boolean | string | undefined {
-    return this.inputs['write_kubeconfig'] as boolean | string | undefined;
+  public get writeKubeconfig(): boolean | undefined {
+    return this.inputs['write_kubeconfig'] as boolean | undefined;
   }
-  public set writeKubeconfig(value: boolean | string | undefined) {
+  public set writeKubeconfig(value: boolean | undefined) {
     this.inputs['write_kubeconfig'] = value;
   }
   public get clusterVersion(): string | undefined {
@@ -524,10 +524,10 @@ export class Eks extends TerraformModule {
   public set clusterVersion(value: string | undefined) {
     this.inputs['cluster_version'] = value;
   }
-  public get clusterEnabledLogTypes(): string[] | string | undefined {
-    return this.inputs['cluster_enabled_log_types'] as string[] | string | undefined;
+  public get clusterEnabledLogTypes(): string[] | undefined {
+    return this.inputs['cluster_enabled_log_types'] as string[] | undefined;
   }
-  public set clusterEnabledLogTypes(value: string[] | string | undefined) {
+  public set clusterEnabledLogTypes(value: string[] | undefined) {
     this.inputs['cluster_enabled_log_types'] = value;
   }
   public get clusterCreateTimeout(): string | undefined {
@@ -542,10 +542,10 @@ export class Eks extends TerraformModule {
   public set kubeconfigName(value: string | undefined) {
     this.inputs['kubeconfig_name'] = value;
   }
-  public get kubeconfigAwsAuthenticatorEnvVariables(): { [key: string]: string } | string | undefined {
-    return this.inputs['kubeconfig_aws_authenticator_env_variables'] as { [key: string]: string } | string | undefined;
+  public get kubeconfigAwsAuthenticatorEnvVariables(): { [key: string]: string } | undefined {
+    return this.inputs['kubeconfig_aws_authenticator_env_variables'] as { [key: string]: string } | undefined;
   }
-  public set kubeconfigAwsAuthenticatorEnvVariables(value: { [key: string]: string } | string | undefined) {
+  public set kubeconfigAwsAuthenticatorEnvVariables(value: { [key: string]: string } | undefined) {
     this.inputs['kubeconfig_aws_authenticator_env_variables'] = value;
   }
   public get iamPath(): string | undefined {
@@ -554,22 +554,22 @@ export class Eks extends TerraformModule {
   public set iamPath(value: string | undefined) {
     this.inputs['iam_path'] = value;
   }
-  public get localExecInterpreter(): string[] | string | undefined {
-    return this.inputs['local_exec_interpreter'] as string[] | string | undefined;
+  public get localExecInterpreter(): string[] | undefined {
+    return this.inputs['local_exec_interpreter'] as string[] | undefined;
   }
-  public set localExecInterpreter(value: string[] | string | undefined) {
+  public set localExecInterpreter(value: string[] | undefined) {
     this.inputs['local_exec_interpreter'] = value;
   }
-  public get workerAdditionalSecurityGroupIds(): string[] | string | undefined {
-    return this.inputs['worker_additional_security_group_ids'] as string[] | string | undefined;
+  public get workerAdditionalSecurityGroupIds(): string[] | undefined {
+    return this.inputs['worker_additional_security_group_ids'] as string[] | undefined;
   }
-  public set workerAdditionalSecurityGroupIds(value: string[] | string | undefined) {
+  public set workerAdditionalSecurityGroupIds(value: string[] | undefined) {
     this.inputs['worker_additional_security_group_ids'] = value;
   }
-  public get mapAccounts(): string[] | string | undefined {
-    return this.inputs['map_accounts'] as string[] | string | undefined;
+  public get mapAccounts(): string[] | undefined {
+    return this.inputs['map_accounts'] as string[] | undefined;
   }
-  public set mapAccounts(value: string[] | string | undefined) {
+  public set mapAccounts(value: string[] | undefined) {
     this.inputs['map_accounts'] = value;
   }
   public get clusterName(): string | undefined {
@@ -590,10 +590,10 @@ export class Eks extends TerraformModule {
   public set configOutputPath(value: string | undefined) {
     this.inputs['config_output_path'] = value;
   }
-  public get clusterLogRetentionInDays(): number | string | undefined {
-    return this.inputs['cluster_log_retention_in_days'] as number | string | undefined;
+  public get clusterLogRetentionInDays(): number | undefined {
+    return this.inputs['cluster_log_retention_in_days'] as number | undefined;
   }
-  public set clusterLogRetentionInDays(value: number | string | undefined) {
+  public set clusterLogRetentionInDays(value: number | undefined) {
     this.inputs['cluster_log_retention_in_days'] = value;
   }
   public get clusterLogKmsKeyId(): string | undefined {

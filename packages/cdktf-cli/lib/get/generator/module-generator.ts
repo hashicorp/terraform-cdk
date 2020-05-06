@@ -30,7 +30,7 @@ export class ModuleGenerator {
         this.code.line(` * @default ${input.default}`);
       }
       this.code.line(` */`);
-      this.code.line(`readonly ${toCamelCase(input.name)}${optional}: ${addModuleOutputType(parseType(input.type))};`);
+      this.code.line(`readonly ${toCamelCase(input.name)}${optional}: ${parseType(input.type)};`);
     }
     this.code.closeBlock();
 
@@ -55,7 +55,7 @@ export class ModuleGenerator {
 
     for (const input of spec.inputs) {
       const inputName = toCamelCase(input.name);
-      const inputType = addModuleOutputType(parseType(input.type)) + ((input.required && (input.default === undefined)) ? '' : ' | undefined');
+      const inputType = parseType(input.type) + ((input.required && (input.default === undefined)) ? '' : ' | undefined');
       this.code.openBlock(`public get ${inputName}(): ${inputType}`);
       this.code.line(`return this.inputs['${input.name}'] as ${inputType};`);
       this.code.closeBlock();
@@ -81,11 +81,6 @@ export class ModuleGenerator {
     this.code.closeFile(fileName);
   }
 
-}
-
-function addModuleOutputType(type: string) {
-  if (type === 'string') { return type; }
-  else { return type + ' | string'}
 }
 
 function parseType(type: string) {

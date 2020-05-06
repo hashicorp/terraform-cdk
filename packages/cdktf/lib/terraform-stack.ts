@@ -42,7 +42,7 @@ export class TerraformStack extends Construct {
     const providerOutput = path.join(session.outdir, this.providerFile);
     const tf = this.toTerraform()
 
-    fs.writeFileSync(resourceOutput, JSON.stringify({resource: tf.resource}, undefined, 2));
+    fs.writeFileSync(resourceOutput, JSON.stringify({resource: tf.resource, module: tf.module}, undefined, 2));
 
     if (fs.existsSync(providerOutput)) {
       const existingProvider = JSON.parse(fs.readFileSync(providerOutput).toString())

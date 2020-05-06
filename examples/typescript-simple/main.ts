@@ -1,4 +1,4 @@
-import { Construct } from 'constructs';
+import { Construct, Token } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
 import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
 import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
@@ -36,7 +36,7 @@ export class HelloTerra extends TerraformStack {
       clusterName: 'myClusterName',
       permissionsBoundary: 'boom',
       vpcId: vpc.vpcIdOutput,
-      subnets: vpc.publicSubnetsOutput
+      subnets: Token.asList(vpc.publicSubnetsOutput)
     });
   }
 }
