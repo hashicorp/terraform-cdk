@@ -87,6 +87,10 @@ export abstract class TerraformResource extends TerraformElement {
     curr[lastKey] = value;
   }
 
+  public get fqn(): string {
+    return Token.asString(`${this.terraformResourceType}.${Node.of(this).uniqueId}`);
+  }
+
   public get terraformMetaArguments(): { [name: string]: any } {
     return {
       dependsOn: this.dependsOn,

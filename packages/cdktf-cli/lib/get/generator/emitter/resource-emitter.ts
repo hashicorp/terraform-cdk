@@ -69,7 +69,6 @@ export class ResourceEmitter {
   }
 
   private emitResourceSuper(resource: ResourceModel) {
-    // invoke super ctor with the terraform resource type
     this.code.open(`super(scope, id, {`);
       this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
       this.code.open(`terraformGeneratorMetadata: {`);
@@ -80,7 +79,6 @@ export class ResourceEmitter {
   }
 
   private emitProviderSuper(resource: ResourceModel) {
-    // invoke super ctor with the terraform resource type
     this.code.open(`super(scope, id, {`);
       this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
     this.code.close(`});`);

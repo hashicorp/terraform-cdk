@@ -30,13 +30,13 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/node": "13.7.0",
     "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
     "constructs": "^2.0.1",
     "fs-extra": "^8.1.0",
     "jsii": "1.1.0",
     "jsii-pacmak": "1.1.0",
+    "semver": "^7.3.2",
     "sscaff": "^1.2.0",
     "yargs": "^15.1.0"
   },
@@ -62,6 +62,8 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "13.7.0",
+    "@types/semver": "^7.1.0",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^25.1.2",
     "@types/json-schema": "^7.0.4",
@@ -69,7 +71,7 @@
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
-    "typescript": "^3.8.3",
-    "ts-jest": "^25.4.0"
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
   }
 }

@@ -32,6 +32,19 @@ exports[`provider setter 1`] = `
 }"
 `;
 
+exports[`serialize list interpolation 1`] = `
+"{
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"teststestA231270F\\": {
+        \\"name\\": \\"bar\\",
+        \\"names\\": \\"\${other_test_resource.testsothertestE4B4389F.names}\\"
+      }
+    }
+  }
+}"
+`;
+
 exports[`with provider alias 1`] = `
 "{
   \\"provider\\": {

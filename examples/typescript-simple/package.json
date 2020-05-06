@@ -7,7 +7,7 @@
     "get": "cdktf get",
     "build": "yarn get && tsc",
     "compile": "tsc",
-    "synth": "node ./index.js",
+    "synth": "cdktf synth",
     "plan": "cd ./cdk.out && terraform init && terraform plan",
     "apply": "terraform apply ./cdk.out"
   },
