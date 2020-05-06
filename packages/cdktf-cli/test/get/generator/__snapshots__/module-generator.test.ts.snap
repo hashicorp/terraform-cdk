@@ -602,6 +602,87 @@ export class Eks extends TerraformModule {
   public set clusterLogKmsKeyId(value: string | undefined) {
     this.inputs['cluster_log_kms_key_id'] = value;
   }
+  public get clusterCertificateAuthorityDataOutput(): string {
+    return this.interpolationForOutput('cluster_certificate_authority_data')
+  }
+  public get workersAsgNamesOutput(): string {
+    return this.interpolationForOutput('workers_asg_names')
+  }
+  public get workersAsgArnsOutput(): string {
+    return this.interpolationForOutput('workers_asg_arns')
+  }
+  public get clusterArnOutput(): string {
+    return this.interpolationForOutput('cluster_arn')
+  }
+  public get workerIamInstanceProfileNamesOutput(): string {
+    return this.interpolationForOutput('worker_iam_instance_profile_names')
+  }
+  public get workersLaunchTemplateLatestVersionsOutput(): string {
+    return this.interpolationForOutput('workers_launch_template_latest_versions')
+  }
+  public get workerAutoscalingPolicyNameOutput(): string {
+    return this.interpolationForOutput('worker_autoscaling_policy_name')
+  }
+  public get clusterSecurityGroupIdOutput(): string {
+    return this.interpolationForOutput('cluster_security_group_id')
+  }
+  public get clusterVersionOutput(): string {
+    return this.interpolationForOutput('cluster_version')
+  }
+  public get clusterEndpointOutput(): string {
+    return this.interpolationForOutput('cluster_endpoint')
+  }
+  public get clusterIdOutput(): string {
+    return this.interpolationForOutput('cluster_id')
+  }
+  public get workerIamInstanceProfileArnsOutput(): string {
+    return this.interpolationForOutput('worker_iam_instance_profile_arns')
+  }
+  public get workersLaunchTemplateArnsOutput(): string {
+    return this.interpolationForOutput('workers_launch_template_arns')
+  }
+  public get workerIamRoleNameOutput(): string {
+    return this.interpolationForOutput('worker_iam_role_name')
+  }
+  public get workersUserDataOutput(): string {
+    return this.interpolationForOutput('workers_user_data')
+  }
+  public get cloudwatchLogGroupNameOutput(): string {
+    return this.interpolationForOutput('cloudwatch_log_group_name')
+  }
+  public get configMapAwsAuthOutput(): string {
+    return this.interpolationForOutput('config_map_aws_auth')
+  }
+  public get workerAutoscalingPolicyArnOutput(): string {
+    return this.interpolationForOutput('worker_autoscaling_policy_arn')
+  }
+  public get workerIamRoleArnOutput(): string {
+    return this.interpolationForOutput('worker_iam_role_arn')
+  }
+  public get workersLaunchTemplateIdsOutput(): string {
+    return this.interpolationForOutput('workers_launch_template_ids')
+  }
+  public get workersDefaultAmiIdOutput(): string {
+    return this.interpolationForOutput('workers_default_ami_id')
+  }
+  public get kubeconfigOutput(): string {
+    return this.interpolationForOutput('kubeconfig')
+  }
+  public get clusterOidcIssuerUrlOutput(): string {
+    return this.interpolationForOutput('cluster_oidc_issuer_url')
+  }
+  public get clusterIamRoleArnOutput(): string {
+    return this.interpolationForOutput('cluster_iam_role_arn')
+  }
+  public get workerSecurityGroupIdOutput(): string {
+    return this.interpolationForOutput('worker_security_group_id')
+  }
+  public get clusterIamRoleNameOutput(): string {
+    return this.interpolationForOutput('cluster_iam_role_name')
+  }
+  public get kubeconfigFilenameOutput(): string {
+    return this.interpolationForOutput('kubeconfig_filename')
+  }
   protected synthesizeAttributes() {
     return this.inputs;
   }

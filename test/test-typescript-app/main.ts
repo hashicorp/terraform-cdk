@@ -7,7 +7,12 @@ export class HelloTerra extends TerraformStack {
     super(scope, id);
 
     new AwsProvider(this, 'aws', {
-      region: 'eu-central-1'
+      region: 'eu-central-1',
+      ignoreTags: [
+        {
+          keys: ["foo"],
+        }
+      ]
     })
 
     const topic = new SnsTopic(this, 'Topic', {
