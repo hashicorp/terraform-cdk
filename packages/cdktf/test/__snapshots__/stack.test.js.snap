@@ -39,6 +39,11 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
       \\"source\\": \\"terraform-aws-modules/eks/aws\\",
       \\"version\\": \\"7.0.1\\"
     }
+  },
+  \\"output\\": {
+    \\"MyStackeksversionFB719174\\": {
+      \\"value\\": \\"7.0.1\\"
+    }
   }
 }"
 `;

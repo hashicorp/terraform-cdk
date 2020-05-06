@@ -1,6 +1,6 @@
 import { Node } from "constructs";
 
-import { TerraformResource, TerraformStack, App, Testing } from "cdktf/lib";
+import { TerraformResource, TerraformStack, App, Testing, TerraformOutput } from "cdktf/lib";
 import { TerraformModule } from "cdktf/lib/terraform-module";
 
 test('stack synthesis merges all elements into a single output', () => {
@@ -23,10 +23,15 @@ test('stack synthesis merges all elements into a single output', () => {
     }
   }]);
 
-  new MyModule(stack, 'EksModule', {
+  const eks = new MyModule(stack, 'EksModule', {
     source: 'terraform-aws-modules/eks/aws',
     version: '7.0.1',
   });
+
+  new TerraformOutput(stack, "eks_version", {
+    value: eks.version
+  })
+
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
