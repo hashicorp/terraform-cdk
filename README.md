@@ -6,6 +6,7 @@ Terraform.
 
 This is a prototype.
 
+## NOTE: THE README IS OUT OF DATE. WE WILL BE UPDATING THIS SOON.
 
 ## Getting Started
 
