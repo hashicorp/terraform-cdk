@@ -2,10 +2,15 @@ import { Node } from "constructs";
 
 import { TerraformResource, TerraformStack, App, Testing, TerraformOutput } from "cdktf/lib";
 import { TerraformModule } from "cdktf/lib/terraform-module";
+import { TestProvider } from './helper'
 
 test('stack synthesis merges all elements into a single output', () => {
   const app = new App();
   const stack = new TerraformStack(app, 'MyStack');
+
+  new TestProvider(stack, 'test-provider', {
+    accessKey: 'foo'
+  })
 
   new MyResource(stack, 'Resource1', {
     terraformResourceType: 'aws_bucket'

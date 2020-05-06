@@ -2,6 +2,13 @@
 
 exports[`stack synthesis merges all elements into a single output 1`] = `
 "{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"foo\\"
+      }
+    ]
+  },
   \\"resource\\": {
     \\"aws_bucket\\": {
       \\"MyStackResource11D44B20C\\": {
