@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minimal configuration 1`] = `
+"{
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"testDBA94737\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`provider setter 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"testDBA94737\\": {
+        \\"name\\": \\"bar\\",
+        \\"provider\\": \\"test\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`with provider alias 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"1\\"
+      },
+      {
+        \\"access_key\\": \\"123\\",
+        \\"alias\\": \\"foo\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"testDBA94737\\": {
+        \\"name\\": \\"bar\\",
+        \\"provider\\": \\"test.foo\\"
+      }
+    }
+  }
+}"
+`;

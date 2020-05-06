@@ -1,25 +1,52 @@
 import { Construct, Node, Token } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
-import { keysToSnakeCase } from "./util";
+import { keysToSnakeCase, deepMerge } from "./util";
 
-export interface TerraformResourceConfig {
-  readonly terraformResourceType: string;
+export interface TerraformResourceLifecycle {
+  readonly createBeforeDestroy?: boolean;
+  readonly preventDestroy?: boolean;
+  readonly ignoreChanges?: string[];
+}
+
+export interface TerraformMetaArguments {
   readonly dependsOn?: TerraformResource[];
   readonly count?: number;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
 }
 
+export interface TerraformGeneratorMetadata {
+  readonly providerName: string;
+}
+
+export interface TerraformResourceConfig extends TerraformMetaArguments {
+  readonly terraformResourceType: string;
+  readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+}
+
 export abstract class TerraformResource extends TerraformElement {
   public readonly terraformResourceType: string;
+  public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   private readonly rawOverrides: any = {}
+
+  // TerraformMetaArguments
+
+  public dependsOn?: TerraformResource[];
+  public count?: number;
+  public provider?: TerraformProvider;
+  public lifecycle?: TerraformResourceLifecycle;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id);
 
     this.terraformResourceType = config.terraformResourceType;
-  }
+    this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
+    this.dependsOn = config.dependsOn;
+    this.count = config.count;
+    this.provider = config.provider;
+    this.lifecycle = config.lifecycle;
+    }
 
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
@@ -60,6 +87,15 @@ export abstract class TerraformResource extends TerraformElement {
     curr[lastKey] = value;
   }
 
+  public get terraformMetaArguments(): { [name: string]: any } {
+    return {
+      dependsOn: this.dependsOn,
+      count: this.count,
+      provider: this.provider?.fqn,
+      lifecycle: this.lifecycle
+    }
+  }
+
   protected abstract synthesizeAttributes(): { [name: string]: any };
 
   /**
@@ -69,7 +105,11 @@ export abstract class TerraformResource extends TerraformElement {
     return {
       resource: {
         [this.terraformResourceType]: {
-          [Node.of(this).uniqueId]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
+          [Node.of(this).uniqueId]: deepMerge(
+            keysToSnakeCase(this.synthesizeAttributes()),
+            keysToSnakeCase(this.terraformMetaArguments),
+            this.rawOverrides
+          )
         }
       }
     };
@@ -78,49 +118,4 @@ export abstract class TerraformResource extends TerraformElement {
   private interpolationForAttribute(terraformAttribute: string) {
     return `\${${this.terraformResourceType}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
   }
-}
-
-/**
- * Merges `source` into `target`, overriding any existing values.
- * `null`s will cause a value to be deleted.
- */
-function deepMerge(target: any, ...sources: any[]) {
-  for (const source of sources) {
-    if (typeof(source) !== 'object' || typeof(target) !== 'object') {
-      throw new Error(`Invalid usage. Both source (${JSON.stringify(source)}) and target (${JSON.stringify(target)}) must be objects`);
-    }
-
-    for (const key of Object.keys(source)) {
-      const value = source[key];
-      if (typeof(value) === 'object' && value != null && !Array.isArray(value)) {
-        // if the value at the target is not an object, override it with an
-        // object so we can continue the recursion
-        if (typeof(target[key]) !== 'object') {
-          target[key] = {};
-        }
-
-        deepMerge(target[key], value);
-
-        // if the result of the merge is an empty object, it's because the
-        // eventual value we assigned is `undefined`, and there are no
-        // sibling concrete values alongside, so we can delete this tree.
-        const output = target[key];
-        if (typeof(output) === 'object' && Object.keys(output).length === 0) {
-          delete target[key];
-        }
-      } else if (value === undefined) {
-        delete target[key];
-      } else {
-        target[key] = value;
-      }
-    }
-  }
-
-  return target;
-}
-
-export interface TerraformResourceLifecycle {
-  readonly createBeforeDestroy?: boolean;
-  readonly preventDestroy?: boolean;
-  readonly ignoreChanges?: string[];
 }

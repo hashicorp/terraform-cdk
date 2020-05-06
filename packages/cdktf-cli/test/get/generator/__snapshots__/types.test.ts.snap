@@ -30,10 +30,11 @@ exports[`boolean list attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface BooleanListConfig {
+export interface BooleanListConfig extends TerraformMetaArguments {
   readonly fooRequired: boolean[];
   readonly fooOptional?: boolean[];
 }
@@ -49,6 +50,10 @@ export class BooleanList extends TerraformResource {
   public constructor(scope: Construct, id: string, config: BooleanListConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_boolean_list',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._fooRequired = config.fooRequired;
     this._fooOptional = config.fooOptional;
@@ -128,11 +133,12 @@ exports[`boolean map attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 import { BooleanMap } from \\"cdktf\\";
 
 // Configuration
 
-export interface BooleanMapConfig {
+export interface BooleanMapConfig extends TerraformMetaArguments {
   readonly fooComputedOptional?: { [key: string]: boolean };
   readonly fooOptional?: { [key: string]: boolean };
 }
@@ -148,6 +154,10 @@ export class BooleanMap extends TerraformResource {
   public constructor(scope: Construct, id: string, config: BooleanMapConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_boolean_map',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -242,11 +252,12 @@ exports[`computed complex attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 
-export interface ComputedComplexConfig {
+export interface ComputedComplexConfig extends TerraformMetaArguments {
 }
 export class ComputedComplexEgress extends ComplexComputedList {
 
@@ -304,9 +315,13 @@ export class ComputedComplex extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: ComputedComplexConfig = {}) {
+  public constructor(scope: Construct, id: string, config: ComputedComplexConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_complex',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
   }
 
@@ -368,11 +383,12 @@ exports[`computed complex nested attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 import { ComplexComputedList } from \\"cdktf\\";
 
 // Configuration
 
-export interface ComputedComplexNestedConfig {
+export interface ComputedComplexNestedConfig extends TerraformMetaArguments {
 }
 export class ComputedComplexNestedResourcesAutoscalingGroups extends ComplexComputedList {
 
@@ -402,9 +418,13 @@ export class ComputedComplexNested extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: ComputedComplexNestedConfig = {}) {
+  public constructor(scope: Construct, id: string, config: ComputedComplexNestedConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_complex_nested',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
   }
 
@@ -480,10 +500,11 @@ exports[`computed nested complex list block type 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface BlockTypeNestedComputedListConfig {
+export interface BlockTypeNestedComputedListConfig extends TerraformMetaArguments {
   /** inputs block */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
@@ -502,6 +523,10 @@ export class BlockTypeNestedComputedList extends TerraformResource {
   public constructor(scope: Construct, id: string, config: BlockTypeNestedComputedListConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_block_type_nested_computed_list',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._inputs = config.inputs;
   }
@@ -581,10 +606,11 @@ exports[`computed optional complex attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface ComputedOptionalComplexConfig {
+export interface ComputedOptionalComplexConfig extends TerraformMetaArguments {
   readonly egress?: ComputedOptionalComplexEgress[];
 }
 export interface ComputedOptionalComplexEgress {
@@ -607,11 +633,15 @@ export class ComputedOptionalComplex extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: ComputedOptionalComplexConfig = {}) {
+  public constructor(scope: Construct, id: string, config: ComputedOptionalComplexConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_optional_complex',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
-    this._egress = _config.egress;
+    this._egress = config.egress;
   }
 
   // ==========
@@ -681,10 +711,11 @@ exports[`deeply nested block types 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface DeeplyNestedBlockTypesConfig {
+export interface DeeplyNestedBlockTypesConfig extends TerraformMetaArguments {
   /** lifecycle_rule block */
   readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
 }
@@ -708,6 +739,10 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
   public constructor(scope: Construct, id: string, config: DeeplyNestedBlockTypesConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_deeply_nested_block_types',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._lifecycleRule = config.lifecycleRule;
   }
@@ -763,10 +798,11 @@ exports[`ignored attributes 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface IgnoredAttributesConfig {
+export interface IgnoredAttributesConfig extends TerraformMetaArguments {
 }
 
 // Resource
@@ -777,9 +813,13 @@ export class IgnoredAttributes extends TerraformResource {
   // INITIALIZER
   // ===========
 
-  public constructor(scope: Construct, id: string, _config: IgnoredAttributesConfig = {}) {
+  public constructor(scope: Construct, id: string, config: IgnoredAttributesConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_ignored_attributes',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
   }
 
@@ -837,10 +877,11 @@ exports[`incompatible attribute names 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface IncompatibleAttributeNamesConfig {
+export interface IncompatibleAttributeNamesConfig extends TerraformMetaArguments {
   readonly fetchPasswordData?: string;
   readonly selfAttribute: string;
 }
@@ -856,6 +897,10 @@ export class IncompatibleAttributeNames extends TerraformResource {
   public constructor(scope: Construct, id: string, config: IncompatibleAttributeNamesConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_incompatible_attribute_names',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._getPasswordData = config.fetchPasswordData;
     this._self = config.selfAttribute;
@@ -927,10 +972,11 @@ exports[`number list attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface NumberListConfig {
+export interface NumberListConfig extends TerraformMetaArguments {
   readonly fooRequired: number[];
   readonly fooOptional?: number[];
 }
@@ -946,6 +992,10 @@ export class NumberList extends TerraformResource {
   public constructor(scope: Construct, id: string, config: NumberListConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_number_list',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._fooRequired = config.fooRequired;
     this._fooOptional = config.fooOptional;
@@ -1025,11 +1075,12 @@ exports[`number map attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 import { NumberMap } from \\"cdktf\\";
 
 // Configuration
 
-export interface NumberMapConfig {
+export interface NumberMapConfig extends TerraformMetaArguments {
   readonly fooComputedOptional?: { [key: string]: number };
   readonly fooOptional?: { [key: string]: number };
 }
@@ -1045,6 +1096,10 @@ export class NumberMap extends TerraformResource {
   public constructor(scope: Construct, id: string, config: NumberMapConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_number_map',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1124,10 +1179,11 @@ exports[`primitive boolean 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface PrimitiveBooleanConfig {
+export interface PrimitiveBooleanConfig extends TerraformMetaArguments {
   readonly fooComputedOptional?: boolean;
   readonly fooOptional?: boolean;
   readonly fooRequired: boolean;
@@ -1144,6 +1200,10 @@ export class PrimitiveBoolean extends TerraformResource {
   public constructor(scope: Construct, id: string, config: PrimitiveBooleanConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_primitive_boolean',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1234,10 +1294,11 @@ exports[`primitive number 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface PrimitiveNumberConfig {
+export interface PrimitiveNumberConfig extends TerraformMetaArguments {
   readonly fooComputedOptional?: number;
   readonly fooOptional?: number;
   readonly fooRequired: number;
@@ -1254,6 +1315,10 @@ export class PrimitiveNumber extends TerraformResource {
   public constructor(scope: Construct, id: string, config: PrimitiveNumberConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_primitive_number',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1344,10 +1409,11 @@ exports[`primitive string 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface PrimitiveStringConfig {
+export interface PrimitiveStringConfig extends TerraformMetaArguments {
   readonly fooComputedOptional?: string;
   readonly fooOptional?: string;
   readonly fooRequired: string;
@@ -1364,6 +1430,10 @@ export class PrimitiveString extends TerraformResource {
   public constructor(scope: Construct, id: string, config: PrimitiveStringConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_primitive_string',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -1459,10 +1529,11 @@ exports[`set / list block type 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface BlockTypeSetListConfig {
+export interface BlockTypeSetListConfig extends TerraformMetaArguments {
   /** timeouts_set block */
   readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
   /** timeouts_list block */
@@ -1486,6 +1557,10 @@ export class BlockTypeSetList extends TerraformResource {
   public constructor(scope: Construct, id: string, config: BlockTypeSetListConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_block_type_set_list',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._timeoutsSet = config.timeoutsSet;
     this._timeoutsList = config.timeoutsList;
@@ -1554,10 +1629,11 @@ exports[`single block type 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface SingleBlockTypeConfig {
+export interface SingleBlockTypeConfig extends TerraformMetaArguments {
   /** timeouts block */
   readonly timeouts?: SingleBlockTypeTimeouts;
 }
@@ -1576,6 +1652,10 @@ export class SingleBlockType extends TerraformResource {
   public constructor(scope: Construct, id: string, config: SingleBlockTypeConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_single_block_type',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._timeouts = config.timeouts;
   }
@@ -1651,10 +1731,11 @@ exports[`string list attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 
 // Configuration
 
-export interface StringListConfig {
+export interface StringListConfig extends TerraformMetaArguments {
   readonly subjectAlternativeNamesOptionalComputed?: string[];
   readonly subjectAlternativeNamesRequired: string[];
   readonly subjectAlternativeNamesOptional?: string[];
@@ -1671,6 +1752,10 @@ export class StringList extends TerraformResource {
   public constructor(scope: Construct, id: string, config: StringListConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_string_list',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._subjectAlternativeNamesOptionalComputed = config.subjectAlternativeNamesOptionalComputed;
     this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
@@ -1766,11 +1851,12 @@ exports[`string map attribute 1`] = `
 */
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
 import { StringMap } from \\"cdktf\\";
 
 // Configuration
 
-export interface StringMapConfig {
+export interface StringMapConfig extends TerraformMetaArguments {
   readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string };
   readonly subjectAlternativeNamesOptional?: { [key: string]: string };
 }
@@ -1786,6 +1872,10 @@ export class StringMap extends TerraformResource {
   public constructor(scope: Construct, id: string, config: StringMapConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_string_map',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider
     });
     this._subjectAlternativeNamesComputedOptional = config.subjectAlternativeNamesComputedOptional;
     this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;

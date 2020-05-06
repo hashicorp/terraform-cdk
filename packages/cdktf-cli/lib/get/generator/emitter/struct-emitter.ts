@@ -1,5 +1,5 @@
 import { CodeMaker } from 'codemaker';
-import {  Struct } from "../models"
+import { ResourceModel, Struct } from "../models"
 import { AttributesEmitter } from './attributes-emitter'
 
 export class StructEmitter {
@@ -9,16 +9,22 @@ export class StructEmitter {
     this.attributesEmitter = new AttributesEmitter(this.code)
   }
 
-  public emit(struct: Struct) {
-    if (struct.isClass) {
-      this.emitClass(struct)
-    } else {
-      this.emitInterface(struct)
-    }
+  public emit(resource: ResourceModel) {
+    resource.structs.forEach(struct => {
+      if (struct.isClass) {
+        this.emitClass(struct)
+      } else {
+        this.emitInterface(resource, struct)
+      }
+    })
   }
 
-  private emitInterface(struct: Struct) {
-    this.code.openBlock(`export interface ${struct.name}`);
+  private emitInterface(resource: ResourceModel, struct: Struct) {
+    if (resource.isProvider) {
+      this.code.openBlock(`export interface ${struct.name}`);
+    } else {
+      this.code.openBlock(`export interface ${struct.name}${struct.extends}`);
+    }
 
     for (const att of struct.assignableAttributes) {
       if (att.description) {
