@@ -1,4 +1,4 @@
-import { Construct, IConstruct, ISynthesisSession, Node } from 'constructs';
+import { Construct, IConstruct, ISynthesisSession, Node, DefaultTokenResolver, StringConcat, Tokenization } from 'constructs';
 import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
@@ -30,14 +30,18 @@ export class TerraformStack extends Construct {
 
     visit(this);
 
-    return tf
+    return Tokenization.resolve(tf, {
+      scope: this,
+      preparing: false,
+      resolver: new DefaultTokenResolver(new StringConcat())
+    });
   }
 
   public onSynthesize(session: ISynthesisSession) {
     const resourceOutput = path.join(session.outdir, this.artifactFile);
     const providerOutput = path.join(session.outdir, this.providerFile);
-
     const tf = this.toTerraform()
+
     fs.writeFileSync(resourceOutput, JSON.stringify({resource: tf.resource}, undefined, 2));
 
     if (fs.existsSync(providerOutput)) {

@@ -1,6 +1,6 @@
 
 import { Testing, TerraformStack } from '../lib';
-import { TestProvider, TestResource } from './helper'
+import { TestProvider, TestResource, OtherTestResource } from './helper'
 
 test('minimal configuration', () => {
   const app = Testing.app();
@@ -49,3 +49,18 @@ test('provider setter', () => {
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test('serialize list interpolation', () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'tests');
+
+  const resource = new TestResource(stack, 'test', {
+    name: 'bar'
+  });
+
+  const otherResource = new OtherTestResource(stack, 'othertest', {});
+  resource.names = otherResource.names
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
