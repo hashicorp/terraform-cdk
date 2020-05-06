@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`boolean output 1`] = `
+"{
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": true
+    }
+  }
+}"
+`;
+
+exports[`dependent output 1`] = `
+"{
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"testweirdlongrunningresource90E96B6A\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": 1,
+      \\"depends_on\\": [
+        \\"\${test_resource.testweirdlongrunningresource90E96B6A}\\"
+      ]
+    }
+  }
+}"
+`;
+
+exports[`description output 1`] = `
+"{
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": 1,
+      \\"description\\": \\"test-description\\"
+    }
+  }
+}"
+`;
+
+exports[`list output 1`] = `
+"{
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": [
+        \\"foo\\",
+        \\"bar\\"
+      ]
+    }
+  }
+}"
+`;
+
+exports[`map output 1`] = `
+"{
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": {
+        \\"foo\\": \\"bar\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`number output 1`] = `
+"{
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": 1
+    }
+  }
+}"
+`;
+
+exports[`sensitive output 1`] = `
+"{
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": 1,
+      \\"sensitive\\": true
+    }
+  }
+}"
+`;
+
+exports[`string output 1`] = `
+"{
+  \\"output\\": {
+    \\"testtestoutputC2E8674F\\": {
+      \\"value\\": \\"1\\"
+    }
+  }
+}"
+`;

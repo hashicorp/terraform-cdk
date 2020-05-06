@@ -9,5 +9,10 @@
         }
       }
     }
+  },
+  "output": {
+    "helloterrasnstopicarn5A23CA34": {
+      "value": "${aws_sns_topic.helloterraTopic6609C1D4.arn}"
+    }
   }
 }

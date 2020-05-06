@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
+import { App, TerraformStack, TerraformOutput } from 'cdktf';
 import {  CloudfrontDistribution, AcmCertificate, Route53Record, AcmCertificateValidation, AwsProvider  } from './.gen/providers/aws';
 
 
@@ -107,6 +107,10 @@ class MyStack extends TerraformStack {
         zoneId: distribution.hostedZoneId,
         evaluateTargetHealth: true
       }]
+    })
+
+    new TerraformOutput(this, 'distribution_domain_name', {
+      value: distribution.domainName
     })
   }
 }

@@ -1,11 +1,16 @@
 import { Node } from "constructs";
 
-import { TerraformResource, TerraformStack, App, Testing } from "cdktf/lib";
+import { TerraformResource, TerraformStack, App, Testing, TerraformOutput } from "cdktf/lib";
 import { TerraformModule } from "cdktf/lib/terraform-module";
+import { TestProvider } from './helper'
 
 test('stack synthesis merges all elements into a single output', () => {
   const app = new App();
   const stack = new TerraformStack(app, 'MyStack');
+
+  new TestProvider(stack, 'test-provider', {
+    accessKey: 'foo'
+  })
 
   new MyResource(stack, 'Resource1', {
     terraformResourceType: 'aws_bucket'
@@ -23,10 +28,15 @@ test('stack synthesis merges all elements into a single output', () => {
     }
   }]);
 
-  new MyModule(stack, 'EksModule', {
+  const eks = new MyModule(stack, 'EksModule', {
     source: 'terraform-aws-modules/eks/aws',
     version: '7.0.1',
   });
+
+  new TerraformOutput(stack, "eks_version", {
+    value: eks.version
+  })
+
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
