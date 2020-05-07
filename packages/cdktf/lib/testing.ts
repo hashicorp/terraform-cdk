@@ -22,7 +22,7 @@ export class Testing {
      * Returns the Terraform synthesized JSON.
      */
     public static synth(stack: TerraformStack) {
-        return stack.toTerraform();
+        return JSON.stringify(stack.toTerraform(), null, 2)
     }
 
     /* istanbul ignore next */

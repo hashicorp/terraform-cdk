@@ -64,7 +64,27 @@ export async function readSchema(outdir: string, providers: string[]): Promise<P
   await writeFile(filePath, JSON.stringify({ provider }));
   await exec('terraform', [ 'init' ], { cwd: outdir, stdio: [ 'inherit', 'inherit', 'inherit' ] });
   const schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir });
+  fs.unlinkSync(filePath)
+  writeLockFile(outdir, providers)
   return JSON.parse(schema);
+
+}
+
+async function writeLockFile(outdir: string, providers: string[]) {
+  const provider: { [name: string]: string } = { };
+  for (const p of providers) {
+    const [ name, version ] = p.split('@');
+    provider[name] = version;
+  }
+
+  const versionConstraints = {
+    terraform: {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      required_providers: provider
+    }
+  }
+  const filePath = path.join(outdir, 'providers.tf.json');
+  await writeFile(filePath, JSON.stringify(versionConstraints));
 }
 
 async function exec(command: string, args: string[], options: SpawnOptions = {}): Promise<string> {

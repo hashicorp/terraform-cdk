@@ -13,7 +13,7 @@ export class ResourceEmitter {
     this.code.line();
     this.code.line(`// Resource`)
     this.code.line();
-    this.code.openBlock(`export class ${resource.className} extends TerraformResource`);
+    this.code.openBlock(`export class ${resource.className} extends ${resource.parentClassName}`);
 
     this.emitHeader('INITIALIZER');
     this.emitInitializer(resource);
@@ -27,7 +27,6 @@ export class ResourceEmitter {
 
     this.code.closeBlock(); // construct
   }
-
 
   private emitHeader(title: string) {
     this.code.line();
@@ -56,20 +55,32 @@ export class ResourceEmitter {
   }
 
   private emitInitializer(resource: ResourceModel) {
-    const configName = resource.configStruct.attributeName('config')
     this.code.line();
-    this.code.openBlock(`public constructor(scope: Construct, id: string, ${configName}: ${resource.configStruct.attributeType})`);
+    this.code.openBlock(`public constructor(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`);
 
-    // invoke super ctor with the terraform resource type
-    this.code.open(`super(scope, id, {`);
-    this.code.line(`terraformResourceType: '${resource.terraformType}',`);
-    this.code.close(`});`);
+    resource.isProvider ? this.emitProviderSuper(resource) : this.emitResourceSuper(resource)
 
     // initialize config properties
     for (const att of resource.configStruct.assignableAttributes) {
-      this.code.line(`this.${att.storageName} = ${configName}.${att.name};`);
+      this.code.line(`this.${att.storageName} = config.${att.name};`);
     }
 
     this.code.closeBlock();
+  }
+
+  private emitResourceSuper(resource: ResourceModel) {
+    this.code.open(`super(scope, id, {`);
+      this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
+      this.code.open(`terraformGeneratorMetadata: {`);
+        this.code.line(`providerName: '${resource.provider}'`);
+      this.code.close(`},`);
+      this.code.line(`provider: config.provider`);
+    this.code.close(`});`);
+  }
+
+  private emitProviderSuper(resource: ResourceModel) {
+    this.code.open(`super(scope, id, {`);
+      this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
+    this.code.close(`});`);
   }
 }

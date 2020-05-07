@@ -4,4 +4,4 @@ import { GetProvider } from "../../lib/get/providers";
 const getProvider = (provider: string) =>
   expectImportMatchSnapshot(provider, () => new GetProvider());
 
-getProvider('aws@~> 2.0');
+getProvider('aws@= 2.60.0');
