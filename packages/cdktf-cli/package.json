@@ -62,17 +62,17 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "13.7.0",
-    "@types/semver": "^7.1.0",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^25.1.2",
     "@types/json-schema": "^7.0.4",
+    "@types/node": "13.7.0",
+    "@types/semver": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
-    "typescript": "^3.8.3",
-    "ts-jest": "^25.4.0"
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
