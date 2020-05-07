@@ -46,7 +46,9 @@ jobs:
         with:
           name: dist
       - name: Release
-        run: npx -p jsii-release jsii-release-npm
+        uses: actions/setup-node@v1
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+      - run: npm publish
         env:
-          NPM_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_REGISTRY: "npm.pkg.github.com"
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
