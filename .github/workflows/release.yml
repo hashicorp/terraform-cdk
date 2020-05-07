@@ -45,16 +45,7 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: dist
-      #- name: Release
-      #  uses: actions/setup-node@v1
-      #  with:
-      #    node-version: '12.x'
-      #    registry-url: 'https://npm.pkg.github.com'
-      #- run: npm publish
-      #  env:
-      #    NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Release
         run: npx -p jsii-release jsii-release-npm
         env:
-          NPM_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_REGISTRY: "npm.pkg.github.com"
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

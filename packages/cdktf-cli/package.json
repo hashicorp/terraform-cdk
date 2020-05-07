@@ -73,8 +73,5 @@
     "jest": "^25.1.0",
     "ts-jest": "^25.4.0",
     "typescript": "^3.8.3"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   }
 }
