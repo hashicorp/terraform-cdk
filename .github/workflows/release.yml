@@ -49,4 +49,4 @@ jobs:
         run: npx -p jsii-release jsii-release-npm
         env:
           NPM_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_REGISTRY: "npm.pkg.github.com/hashicorp"
+          NPM_REGISTRY: "npm.pkg.github.com"
