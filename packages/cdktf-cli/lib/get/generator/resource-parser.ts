@@ -21,6 +21,12 @@ class Parser {
       baseName = baseName.substr(provider.length + 1);
     }
 
+    if (baseName === 'provider') {
+      baseName = `${provider}_${baseName}`;
+      // somehow missing from provider schema
+      schema.block.attributes['alias'] = {"type":"string","description":"Alias name","optional":true,"computed":false}
+    }
+
     const className = uniqueClassName(toPascalCase(baseName));
     const fileName = `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;

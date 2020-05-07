@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stack synthesis merges all elements into a single output 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"foo\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_bucket\\": {
+      \\"MyStackResource11D44B20C\\": {
+        \\"foo\\": \\"MyStackResource11D44B20C\\",
+        \\"prop1\\": \\"bar1\\",
+        \\"prop2\\": 1234,
+        \\"prop3\\": {
+          \\"name\\": \\"should be overwritten in resource 2\\",
+          \\"value\\": 5678
+        }
+      }
+    },
+    \\"aws_topic\\": {
+      \\"MyStackResource2C790E556\\": {
+        \\"foo\\": \\"MyStackResource2C790E556\\",
+        \\"prop1\\": \\"bar1\\",
+        \\"prop3\\": {
+          \\"name\\": \\"test\\",
+          \\"value\\": 5678
+        },
+        \\"//\\": \\"this is a comment\\",
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo 'Hello World' >example.txt\\"
+            }
+          }
+        ]
+      }
+    }
+  },
+  \\"module\\": {
+    \\"MyStackEksModule1F7A8254\\": {
+      \\"cluster_name\\": \\"my_cluster_name\\",
+      \\"source\\": \\"terraform-aws-modules/eks/aws\\",
+      \\"version\\": \\"7.0.1\\"
+    }
+  },
+  \\"output\\": {
+    \\"MyStackeksversionFB719174\\": {
+      \\"value\\": \\"7.0.1\\"
+    }
+  }
+}"
+`;
