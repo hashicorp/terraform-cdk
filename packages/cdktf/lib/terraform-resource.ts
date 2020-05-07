@@ -25,7 +25,7 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
 }
 
-export abstract class TerraformResource extends TerraformElement {
+export class TerraformResource extends TerraformElement {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   private readonly rawOverrides: any = {}
@@ -100,7 +100,10 @@ export abstract class TerraformResource extends TerraformElement {
     }
   }
 
-  protected abstract synthesizeAttributes(): { [name: string]: any };
+  // jsii can't handle abstract classes?
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {}
+  }
 
   /**
    * Adds this resource to the terraform JSON output.
