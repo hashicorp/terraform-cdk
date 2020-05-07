@@ -76,10 +76,11 @@
     "json-stable-stringify"
   ],
   "dependencies": {
-    "json-stable-stringify": "^1.0.1"
-  },
-  "peerDependencies": {
+    "json-stable-stringify": "^1.0.1",
     "constructs": "^2.0.1"
   },
-  "stability": "experimental"
+  "stability": "experimental",
+  "peerDependencies": {
+    "constructs": "^2.0.1"
+  }
 }
