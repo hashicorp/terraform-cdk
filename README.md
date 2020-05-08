@@ -7,11 +7,7 @@ CDK (Cloud Development Kit) for Terraform allows developers to use familiar
 programming languages to define cloud infrastructure and provision it through
 HashiCorp Terraform.
 
-<<<<<<< HEAD
 ## Overview
-=======
-## NOTE: THE README IS OUT OF DATE. WE WILL BE UPDATING THIS SOON.
->>>>>>> master
 
 The CDK for Terraform project helps users define infrastructure resources using their programming language of choice and generates a Terraform configuration in JSON that can be applied with `terraform apply`.
 
@@ -26,18 +22,9 @@ The CDK for Terraform project includes two packages:
 - [Node.js](https://nodejs.org) >= v12
 - [Yarn](https://yarnpkg.com/en/docs/install) >= 1.21
 
+## Build
+
 ## Usage
-
-**Authenticate to GitHub packages**
-
-The CDK for Terraform packages are hosted using GitHub packages. You will need your Github personal access token to download them.
-Follow the guide [here](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) to get a token. Make sure you give the token "read:packages" scope.
-
-```bash
-npm login --registry=https://npm.pkg.github.com
-> Username: GITHUB_USERNAME
-> Password: GITHUB_TOKEN
-```
 
 **Install CDK for Terraform CLI**
 
@@ -79,7 +66,60 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new MyStack(app, '{{ $base }}');
+new MyStack(app, 'example');
+app.synth();
+```
+
+If you want to use already built examples. Please go to the [examples/](./examples/) directory.
+
+Let's take a simple Typescript application that uses the CDK for Terraform package.
+
+```typescript
+import { Construct, Token } from 'constructs';
+import { App, TerraformStack } from 'cdktf';
+import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
+import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
+import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
+import { SnsTopic } from './.gen/providers/aws/sns-topic';
+
+export class HelloTerra extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    const table = new DynamodbTable(this, 'Hello', {
+      name: 'my-first-table',
+      hashKey: 'temp',
+      attribute: [
+        { name: 'id', type: 'S' }
+      ]
+    });
+
+    table.addOverride('hash_key', 'id')
+    table.addOverride('lifecycle', { create_before_destroy: true })
+
+    new SnsTopic(this, 'Topic', {
+      displayName: 'my-first-sns-topic'
+    });
+
+    const vpcName = 'MyVpc';
+    const vpc = new Vpc(this, vpcName, {
+      name: vpcName,
+      cidr: "10.0.0.0/16",
+      azs: ["us-east-1a", "us-east-1b"],
+      publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"]
+    });
+
+    new Eks(this, 'EksModule', {
+      clusterName: 'myClusterName',
+      permissionsBoundary: 'boom',
+      vpcId: vpc.vpcIdOutput,
+      subnets: Token.asList(vpc.publicSubnetsOutput)
+    });
+  }
+}
+
+const app = new App({ outdir: 'cdk.out' });
+new HelloTerra(app, 'hello-terra');
 app.synth();
 ```
 
