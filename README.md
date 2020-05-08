@@ -18,9 +18,9 @@ The CDK for Terraform project includes two packages:
 
 ## Prerequisites
 
-- [Terraform](https://www.terraform.io/downloads.html) >= v.0.12
-- [Node.js](https://nodejs.org) >= v12
-- [Yarn](https://yarnpkg.com/en/docs/install) >= 1.21
+- [Terraform](https://www.terraform.io/downloads.html) >= v0.12
+- [Node.js](https://nodejs.org) >= v12.16
+- [Yarn](https://yarnpkg.com/en/docs/install) >= v1.21
 
 ## Build
 
@@ -77,8 +77,6 @@ Let's take a simple Typescript application that uses the CDK for Terraform packa
 ```typescript
 import { Construct, Token } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
-import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
-import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
 
@@ -94,26 +92,8 @@ export class HelloTerra extends TerraformStack {
       ]
     });
 
-    table.addOverride('hash_key', 'id')
-    table.addOverride('lifecycle', { create_before_destroy: true })
-
     new SnsTopic(this, 'Topic', {
       displayName: 'my-first-sns-topic'
-    });
-
-    const vpcName = 'MyVpc';
-    const vpc = new Vpc(this, vpcName, {
-      name: vpcName,
-      cidr: "10.0.0.0/16",
-      azs: ["us-east-1a", "us-east-1b"],
-      publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"]
-    });
-
-    new Eks(this, 'EksModule', {
-      clusterName: 'myClusterName',
-      permissionsBoundary: 'boom',
-      vpcId: vpc.vpcIdOutput,
-      subnets: Token.asList(vpc.publicSubnetsOutput)
     });
   }
 }
