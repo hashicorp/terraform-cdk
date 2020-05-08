@@ -25,10 +25,10 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "homepage": "https://github.com/hashicorp/terraform-cdk-poc",
+  "homepage": "https://github.com/hashicorp/terraform-cdk",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hashicorp/terraform-cdk-poc.git",
+    "url": "https://github.com/hashicorp/terraform-cdk.git",
     "directory": "packages/cdktf"
   },
   "eslintConfig": {

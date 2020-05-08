@@ -6,7 +6,8 @@
     "build": "lerna run build",
     "package": "lerna run package && tools/collect-dist.sh",
     "test": "lerna run test",
-    "integration": "test/run-against-dist test/test-all.sh"
+    "integration": "test/run-against-dist test/test-all.sh",
+    "release-github": "tools/release-github.sh"
   },
   "workspaces": {
     "packages": [
@@ -19,6 +20,7 @@
     ]
   },
   "devDependencies": {
+    "changelog-parser": "^2.8.0",
     "lerna": "^3.20.2"
   }
 }
