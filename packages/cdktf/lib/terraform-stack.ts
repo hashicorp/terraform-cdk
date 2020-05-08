@@ -1,4 +1,5 @@
-import { Construct, IConstruct, ISynthesisSession, Node, DefaultTokenResolver, StringConcat, Tokenization } from 'constructs';
+import { Construct, IConstruct, ISynthesisSession, Node } from 'constructs';
+import { resolve } from './_tokens'
 import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
@@ -30,11 +31,7 @@ export class TerraformStack extends Construct {
 
     visit(this);
 
-    return Tokenization.resolve(tf, {
-      scope: this,
-      preparing: false,
-      resolver: new DefaultTokenResolver(new StringConcat())
-    });
+    return resolve(this, tf)
   }
 
   public onSynthesize(session: ISynthesisSession) {

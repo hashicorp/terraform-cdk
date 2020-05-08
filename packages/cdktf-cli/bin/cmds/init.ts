@@ -40,7 +40,8 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   if (dist) {
     const ret = {
       'npm_cdktf': path.resolve(dist, 'js', `cdktf@${version}.jsii.tgz`),
-      'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`)
+      'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
+      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`)
     };
 
     for (const file of Object.values(ret)) {
@@ -64,13 +65,15 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 
   return {
     'npm_cdktf': `cdktf@${ver}`,
-    'npm_cdktf_cli': `cdktf-cli@${ver}`
+    'npm_cdktf_cli': `cdktf-cli@${ver}`,
+    'pypi_cdktf': `cdk8s~=${version}` // no support for pre-release
   };
 }
 
 interface Deps {
   npm_cdktf: string;
   npm_cdktf_cli: string;
+  pypi_cdktf: string;
 }
 
 module.exports = new Command();

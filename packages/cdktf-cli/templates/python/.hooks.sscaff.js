@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const { chmodSync } = require('fs');
 const { readFileSync } = require('fs');
 
-const cli = require.resolve('../../bin/cdktf-cli');
+const cli = require.resolve('../../bin/cdktf');
 
 exports.pre = () => {
   try {

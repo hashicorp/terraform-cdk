@@ -30,6 +30,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@types/node": "13.7.0",
     "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
     "constructs": "^2.0.1",
@@ -62,7 +63,6 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "13.7.0",
     "@types/semver": "^7.1.0",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^25.1.2",
