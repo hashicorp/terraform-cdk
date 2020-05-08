@@ -28,7 +28,7 @@
       "js"
     ]
   },
-  "license": "Apache-2.0",
+  "license": "MPL-2.0",
   "dependencies": {
     "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
