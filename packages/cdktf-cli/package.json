@@ -1,7 +1,7 @@
 {
   "name": "cdktf-cli",
   "version": "0.0.0",
-  "description": "Terraform for CDK CLI",
+  "description": "CDK for Terraform CLI",
   "bin": {
     "cdktf": "bin/cdktf"
   },
