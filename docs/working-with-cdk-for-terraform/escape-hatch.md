@@ -9,8 +9,8 @@ Terraform supports meta-arguments for changing behavior of resources, including:
 In addition to Terraform [resource meta-arguments](https://www.terraform.io/docs/configuration/resources.html#meta-arguments),
 you may want to override resource attributes that cannot be fully expressed by the CDK for Terraform.
 
-To facilitate the addition of meta-arguments and attributes, you can use an **escape hatch** that will add
-or override to the Terraform JSON configuration. Use the escape hatch to add meta-arguments or attributes released
+To facilitate the addition of meta-arguments and attributes, you can use an **escape hatch** that will add to
+or override the Terraform JSON configuration. Use the escape hatch to add meta-arguments or attributes released
 in new versions of Terraform and its providers.
 
 For TypeScript, define a provisioner for a resource using the `addOverride` method.
@@ -61,7 +61,9 @@ This will synthesize a Terraform configuration with the [provisioner added to th
 }
 ```
 
-To override an attribute, include the resource attribute key in `addOverride`.
+To override an attribute, include the resource attribute key in `addOverride`. Note the attribute in the 
+escape hatch is in snake case. This is because the Terraform JSON configuration uses snake case instead of
+camel case.
 
 ```typescript
 const topic = new SnsTopic(this, 'Topic', {
