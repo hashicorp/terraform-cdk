@@ -22,8 +22,6 @@ The CDK for Terraform project includes two packages:
 - [Node.js](https://nodejs.org) >= v12.16
 - [Yarn](https://yarnpkg.com/en/docs/install) >= v1.21
 
-## Build
-
 ## Usage
 
 **Install CDK for Terraform CLI**
@@ -43,8 +41,6 @@ cdktf init --template="typescript"
 This will initialize a brand new CDK for Terraform project in Typescript. Also, install the `cdktf` library so that it can be used in the project.
 
 **CDK for Terraform Application**
-
-TODO: UPDATE THIS EXAMPLE TO HAVE VPC OR A SERVER.
 
 You can now open up the `main.ts` file to view your application code.
 
