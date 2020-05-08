@@ -1,3 +1,3 @@
 ## 0.0.1
 
-hello
+Initial release of `cdktf-cli` and `cdktf` to Github and NPM registry.
