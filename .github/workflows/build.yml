@@ -1,25 +1,25 @@
-#name: Build
-#on: [pull_request]
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    container:
-#      image: hashicorp/jsii-terraform
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: installing dependencies
-#        run: |
-#          yarn install
-#      - name: compile
-#        run: |
-#          tools/align-version.sh
-#          yarn build
-#      - name: test
-#        run: |
-#          yarn test
-#      - name: create bundle
-#        run: yarn package
-#      - name: integration tests
-#        run: yarn integration
+name: Build
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: compile
+        run: |
+          tools/align-version.sh
+          yarn build
+      - name: test
+        run: |
+          yarn test
+      - name: create bundle
+        run: yarn package
+      - name: integration tests
+        run: yarn integration

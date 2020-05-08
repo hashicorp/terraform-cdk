@@ -1,5 +1,8 @@
 name: Release
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build_artifact:
@@ -17,9 +20,9 @@ jobs:
         run: |
           tools/align-version.sh
           yarn build
-      #- name: test
-      #  run: |
-      #    yarn test
+      - name: test
+        run: |
+          yarn test
       - name: create bundle
         run: yarn package
       - name: integration tests
