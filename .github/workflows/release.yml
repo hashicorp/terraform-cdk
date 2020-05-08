@@ -6,7 +6,7 @@ on:
 
 jobs:
   build_artifact:
-    if: github.repository == 'hashicorp/terraform-cdk-poc'
+    if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     container:
       image: hashicorp/jsii-terraform

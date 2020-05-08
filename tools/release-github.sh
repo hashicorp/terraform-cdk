@@ -7,7 +7,7 @@ set -euo pipefail
 root=$(cd $(dirname $0)/.. && pwd)
 cd ${root}
 
-repo="hashicorp/terraform-cdk-poc"
+repo="hashicorp/terraform-cdk"
 version="$(node -p "require('./package.json').version")"
 
 # skip if we already have a github release for this version
