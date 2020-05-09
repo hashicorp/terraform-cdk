@@ -68,18 +68,24 @@ new HelloTerra(app, 'hello-terra');
 app.synth();
 ```
 
+Compile the Typescript application
+
+```bash
+tsc
+```
+
 Generate Terraform configuration
 
 ```bash
 cdktf synth
 ```
 
-The above command will create a folder called `cdk.out` that contains all Terraform JSON configuration that was generated.
+The above command will create a folder called `dist` that contains all Terraform JSON configuration that was generated.
 
 Run Terraform commands
 
 ```bash
-cd cdk.out
+cd dist
 terraform init
 terraform plan
 terraform apply

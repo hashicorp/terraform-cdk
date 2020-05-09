@@ -126,3 +126,24 @@ terraform plan
 terraform apply
 ```
 
+## Building
+
+Clone the project repository
+
+```bash
+git clone https://github.com/hashicorp/terraform-cdk.git
+```
+
+Download dependencies
+
+```bash
+cd terraform-cdk/
+yarn install
+```
+
+Build the project and packages
+
+```bash
+yarn build
+```
+
