@@ -1,7 +1,7 @@
 {
   "name": "cdktf-cli",
   "version": "0.0.0",
-  "description": "Terraform for CDK CLI",
+  "description": "CDK for Terraform CLI",
   "bin": {
     "cdktf": "bin/cdktf"
   },
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hashicorp/terraform-cdk-poc.git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
     "directory": "packages/cdktf-cli"
   },
   "author": {
-    "name": "Amazon Web Services",
-    "url": "https://aws.amazon.com"
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
   },
   "jest": {
     "collectCoverage": true,
@@ -28,7 +28,7 @@
       "js"
     ]
   },
-  "license": "Apache-2.0",
+  "license": "MPL-2.0",
   "dependencies": {
     "@types/node": "13.7.0",
     "cdktf": "0.0.0",
@@ -63,10 +63,11 @@
     ]
   },
   "devDependencies": {
-    "@types/semver": "^7.1.0",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^25.1.2",
     "@types/json-schema": "^7.0.4",
+    "@types/node": "13.7.0",
+    "@types/semver": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",

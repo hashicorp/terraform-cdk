@@ -7,12 +7,13 @@
   Compile:
    npm run compile     Compile typescript code to javascript (or "yarn watch")
    npm run watch       Watch for changes and compile typescript in the background
-   npm run build       Get + compile
+   npm run build       cdktf get and compile typescript
 
   Synthesize:
-   npm run synth       Synthesize Terraform resources from stacks to dist/ (ready for 'terraform apply')
+   cdktf synth         Synthesize Terraform resources from stacks to dist/ (ready for 'terraform apply')
 
  Deploy:
+   terraform init ./dist
    terraform apply ./dist
 
  Upgrades:

@@ -26,6 +26,8 @@ class Command implements yargs.CommandModule {
       }
     });
 
+    console.log(`Generating Terraform code in the output directory: "${outdir}/"`)
+
     if (!await fs.pathExists(outdir)) {
       console.error(`ERROR: synthesis failed, app expected to create "${outdir}"`);
       process.exit(1);

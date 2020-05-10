@@ -41,6 +41,6 @@ export class HelloTerra extends TerraformStack {
   }
 }
 
-const app = new App({ outdir: 'cdk.out' });
+const app = new App();
 new HelloTerra(app, 'hello-terra');
 app.synth();
