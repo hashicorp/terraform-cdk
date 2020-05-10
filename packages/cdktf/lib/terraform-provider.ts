@@ -1,4 +1,5 @@
-import { Construct, Token } from "constructs";
+import { Construct } from "constructs";
+import { Token } from "./tokens"
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 

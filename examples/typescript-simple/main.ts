@@ -1,5 +1,5 @@
-import { Construct, Token } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
+import { Construct } from 'constructs';
+import { App, TerraformStack, Token } from 'cdktf';
 import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
 import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';

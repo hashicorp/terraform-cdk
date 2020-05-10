@@ -1,4 +1,5 @@
-import { Node, Token } from "constructs";
+import { Node } from "constructs";
+import { Token } from "./tokens"
 import { TerraformResource } from "./terraform-resource";
 
 abstract class ComplexComputedAttribute {
