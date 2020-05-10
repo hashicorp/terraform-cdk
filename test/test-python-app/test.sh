@@ -17,6 +17,9 @@ cp ${scriptdir}/main.py .
 # build
 pipenv run python ./main.py
 
+# get rid of downloaded Terraform providers, no point in diffing them
+rm -rf dist/.terraform
+
 # show output
 diff dist ${scriptdir}/expected
 
