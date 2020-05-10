@@ -18,7 +18,10 @@ export abstract class TerraformModule extends TerraformElement {
     this.version = options.version;
   }
 
-  protected abstract synthesizeAttributes(): { [name: string]: any };
+  // jsii can't handle abstract classes?
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {}
+  }
 
   public interpolationForOutput(moduleOutput: string) {
     return `\${module.${Node.of(this).uniqueId}.${moduleOutput}}` as any;

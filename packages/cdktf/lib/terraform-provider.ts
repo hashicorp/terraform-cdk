@@ -49,7 +49,10 @@ export abstract class TerraformProvider extends TerraformElement {
     return (this.alias !== undefined) ? { alias: this.alias } : {} ;
   }
 
-  protected abstract synthesizeAttributes(): { [name: string]: any };
+  // jsii can't handle abstract classes?
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {}
+  }
 
   /**
    * Adds this resource to the terraform JSON output.

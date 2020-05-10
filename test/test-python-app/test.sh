@@ -13,6 +13,10 @@ cdktf init --template python
 
 # put some code in it
 cp ${scriptdir}/main.py .
+cp ${scriptdir}/cdktf.json .
+
+# regenerate with module
+cdktf get
 
 # build
 pipenv run python ./main.py

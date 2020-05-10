@@ -5,5 +5,12 @@
         "display_name": "my-first-sns-topic"
       }
     }
+  },
+  "module": {
+    "pythonsimpleCustomVpcD3E4490A": {
+      "name": "custom-vpc",
+      "source": "terraform-aws-modules/vpc/aws",
+      "version": "2.33.0"
+    }
   }
 }
