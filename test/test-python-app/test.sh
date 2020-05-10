@@ -8,18 +8,12 @@ mkdir test && cd test
 touch .foo
 mkdir .bar
 
-node --version
-
-echo 'init'
 # initialize an empty project
 cdktf init --template python
 
-echo 'copy'
 # put some code in it
 cp ${scriptdir}/main.py .
 
-
-echo 'pipenv run'
 # build
 pipenv run python ./main.py
 

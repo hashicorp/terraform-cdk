@@ -1,0 +1,9 @@
+{
+  "resource": {
+    "aws_sns_topic": {
+      "pythonsimpleTopic451716E7": {
+        "display_name": "my-first-sns-topic"
+      }
+    }
+  }
+}
