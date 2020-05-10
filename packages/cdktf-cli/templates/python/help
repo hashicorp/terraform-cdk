@@ -3,7 +3,7 @@
  Your cdktf Python project is ready!
 
    cat help      Prints this message
-   cdktf synth   Synthesize k8s manifests to dist/
+   cdktf synth   Synthesize Terraform resources to dist/
    cdktf get     Imports Terraform Provider Resources
 
   Deploy:
