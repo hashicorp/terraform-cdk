@@ -1,4 +1,5 @@
-import { Tokenization, DefaultTokenResolver, StringConcat, Construct } from "constructs";
+import { Tokenization, DefaultTokenResolver, StringConcat } from "./tokens";
+import { Construct } from 'constructs'
 
 const TOKEN_RESOLVER = new DefaultTokenResolver(new StringConcat());
 
