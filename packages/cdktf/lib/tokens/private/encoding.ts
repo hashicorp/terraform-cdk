@@ -88,6 +88,7 @@ export function regexQuote(s: string) {
  * result isn't.
  */
 export class NullConcat implements IFragmentConcatenator {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public join(_left: any | undefined, _right: any | undefined): any {
     return undefined;
   }

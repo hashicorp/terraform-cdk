@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import { IConstruct } from "constructs";
 
 /**
@@ -27,6 +29,7 @@ export class ConcreteDependable implements IDependable {
   private readonly _dependencyRoots = new Array<IConstruct>();
 
   constructor() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     DependableTrait.implement(this, {
       get dependencyRoots() { return self._dependencyRoots; },
