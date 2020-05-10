@@ -16,22 +16,23 @@ export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON ];
 export interface GetOptions {
   readonly targetLanguage: Language;
   readonly outdir: string;
+  readonly codeMakerOutput: string;
   readonly targetNames: string[];
 }
 
 export abstract class GetBase {
-  protected abstract async generateTypeScript(code: CodeMaker, targetNames: string[]): Promise<void>;
+  protected abstract async generateTypeScript(code: CodeMaker, targetNames: string[], output: string): Promise<void>;
 
   public async get(options: GetOptions) {
     const code = new CodeMaker();
 
-    const outdir = path.resolve(options.outdir);
-    await fs.mkdirp(outdir);
+    const codeMakerOutdir = path.resolve(options.codeMakerOutput);
+    await fs.mkdirp(codeMakerOutdir);
     const isTypescript = options.targetLanguage === Language.TYPESCRIPT
-    await this.generateTypeScript(code, options.targetNames);
+    await this.generateTypeScript(code, options.targetNames, options.outdir);
 
     if (isTypescript) {
-      await code.save(outdir);
+      await code.save(codeMakerOutdir);
       return
     }
 
@@ -49,7 +50,7 @@ export abstract class GetBase {
 
         const pacmak = require.resolve('jsii-pacmak/bin/jsii-pacmak');
         await shell(pacmak, [ '--target', options.targetLanguage, '--code-only' ]);
-        await this.harvestCode(options, outdir, source.replace(/-/gi, '_'));
+        await this.harvestCode(options, codeMakerOutdir, source.replace(/-/gi, '_'));
       });
     }
   }

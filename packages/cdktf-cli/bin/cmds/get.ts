@@ -5,7 +5,7 @@ import { GetProvider } from '../../lib/get/providers';
 import { GetModule } from '../../lib/get/modules';
 import { Language } from '../../lib/get/base';
 
-const config = readConfigSync({output: '.gen'});
+const config = readConfigSync();
 const LANGUAGES = [ 'typescript', 'python' ];
 
 interface Arguments {
@@ -23,7 +23,7 @@ class Command implements yargs.CommandModule {
     .showHelpOnFail(true)
     .option('providers', { default: config.terraformProviders, desc: 'Generate Constructs for given providers. Example: "aws@~> 2.5"', alias: 'p', type: 'array' })
     .option('modules', { default: config.terraformModules, desc: 'Generate Constructs for given modules. Example: "terraform-aws-modules/vpc/aws"', alias: 'm', type: 'array' })
-    .option('output', { default: config.output, type: 'string', desc: 'Output directory', alias: 'o' })
+    .option('output', { default: config.codeMakerOutput, type: 'string', desc: 'Output directory for generated Constructs', alias: 'o' })
     .option('language', { default: config.language, required: true, type: 'string', desc: 'Output programming language', alias: 'l', choices: LANGUAGES });
 
   public async handler(argv: any) {
@@ -40,7 +40,8 @@ class Command implements yargs.CommandModule {
     }
 
     const options = {
-      outdir: output,
+      codeMakerOutput: output,
+      outdir: config.output,
       targetLanguage: language
     }
 
