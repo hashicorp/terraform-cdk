@@ -1,3 +1,7 @@
+## 0.0.2-alpha.2
+
+Minor output changes and updated README.md example.
+
 ## 0.0.2-alpha.1
 
 Alpha release for Github and NPM

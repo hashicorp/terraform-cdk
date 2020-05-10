@@ -73,33 +73,35 @@ If you want to use already built examples. Please go to the [examples/](./exampl
 Let's take a simple Typescript application that uses the CDK for Terraform package.
 
 ```typescript
-import { Construct, Token } from 'constructs';
+import { Construct } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
-import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
-import { SnsTopic } from './.gen/providers/aws/sns-topic';
+import { Instance } from './.gen/providers/aws/instance';
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const table = new DynamodbTable(this, 'Hello', {
-      name: 'my-first-table',
-      hashKey: 'temp',
-      attribute: [
-        { name: 'id', type: 'S' }
-      ]
-    });
-
-    new SnsTopic(this, 'Topic', {
-      displayName: 'my-first-sns-topic'
-    });
+    new Instance(this, 'Hello', {
+      ami: "ami-2757f631",
+      instanceType: "t2.micro"
+    })
   }
 }
 
-const app = new App({ outdir: 'cdk.out' });
+const app = new App();
 new HelloTerra(app, 'hello-terra');
 app.synth();
 ```
+
+**Compile Application**
+
+You can now compile the application by running `npm run compile` or `yarn compile`.
+
+```bash
+yarn compile
+```
+
+This will compile Typescript to Javascript.
 
 **Synthesize Application**
 
@@ -109,11 +111,11 @@ When you are ready you can run the `synthesize` command to generate Terraform JS
 cdktf synth
 ```
 
-This command will generate a directory called `cdk.out`. This directory contains the Terraform JSON configuration for
+This command will generate a directory called `dist`. This directory contains the Terraform JSON configuration for
 your application.
 
 ```bash
-cd cdk.out
+cd dist
 ```
 
 **Apply Configuration**
