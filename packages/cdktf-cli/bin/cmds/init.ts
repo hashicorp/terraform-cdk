@@ -66,7 +66,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   return {
     'npm_cdktf': `cdktf@${ver}`,
     'npm_cdktf_cli': `cdktf-cli@${ver}`,
-    'pypi_cdktf': `cdk8s~=${version}` // no support for pre-release
+    'pypi_cdktf': `cdktf~=${version}` // no support for pre-release
   };
 }
 
