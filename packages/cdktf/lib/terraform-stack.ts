@@ -43,7 +43,7 @@ export class TerraformStack extends Construct {
 
     if (fs.existsSync(providerOutput)) {
       const existingProvider = JSON.parse(fs.readFileSync(providerOutput).toString())
-      fs.writeFileSync(providerOutput, JSON.stringify(deepMerge(existingProvider, {provider}), undefined, 2));
+      fs.writeFileSync(providerOutput, JSON.stringify(Object.assign({}, {terraform: existingProvider.terraform}, {provider}), undefined, 2));
     } else {
       fs.writeFileSync(providerOutput, JSON.stringify({provider}, undefined, 2));
     }
