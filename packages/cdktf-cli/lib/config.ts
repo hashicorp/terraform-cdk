@@ -12,13 +12,9 @@ export interface Config {
   readonly terraformModules?: string[];
 }
 
-const DEFAULTS: Config = {
-  output: 'dist'
-};
-
-export function readConfigSync(): Config {
+export function readConfigSync(defaults: Config): Config {
   const configFile = path.join(process.cwd(), CONFIG_FILE)
-  let config: Config = DEFAULTS;
+  let config: Config = defaults;
   if (fs.existsSync(configFile)) {
     config = {
       ...config,

@@ -7,7 +7,7 @@ import { CodeMaker } from 'codemaker';
 import { GetBase } from './base'
 import { readConfigSync } from '../../lib/config';
 
-const config = readConfigSync();
+const config = readConfigSync({output: 'dist'});
 const mkdirp = promisify(fs.mkdirp);
 
 export class GetProvider extends GetBase {

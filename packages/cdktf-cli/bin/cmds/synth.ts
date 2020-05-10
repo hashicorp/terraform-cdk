@@ -3,7 +3,7 @@ import { shell } from '../../lib/util';
 import * as fs from 'fs-extra';
 import { readConfigSync } from '../../lib/config';
 
-const config = readConfigSync();
+const config = readConfigSync({output: 'dist'});
 
 class Command implements yargs.CommandModule {
   public readonly command = 'synth';
