@@ -4,7 +4,7 @@ import { Language } from './get/base';
 
 const CONFIG_FILE = 'cdktf.json'
 const DEFAULTS = {
-  output: 'dist',
+  output: 'cdktf.out',
   codeMakerOutput: '.gen'
 }
 

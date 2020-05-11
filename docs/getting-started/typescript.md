@@ -94,20 +94,20 @@ cdktf synth
 ```
 
 ```bash
-Generating Terraform code in the output directory: "dist/"
+Generating Terraform code in the output directory: "cdktf.out/"
 ```
 
-This command will generate a directory called `dist`. This directory contains the Terraform JSON configuration for
+This command will generate a directory called `cdktf.out`. This directory contains the Terraform JSON configuration for
 your application.
 
 ```bash
-cd dist
+cd cdktf.out
 ```
 
 AWS Instance expressed as Terraform JSON configuration.
 
 ```json
-cat hello-terraform.tf.json
+cat cdktf.out/example.tf.json
 {
   "resource": {
     "aws_instance": {
@@ -123,7 +123,7 @@ cat hello-terraform.tf.json
 Terraform AWS provider expressed as Terraform JSON configuration.
 
 ```json
-cat providers.tf.json
+cat cdktf.out/providers.tf.json
 {
   "terraform": {
     "required_providers": {

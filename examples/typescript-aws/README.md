@@ -63,7 +63,7 @@ export class HelloTerra extends TerraformStack {
   }
 }
 
-const app = new App({ outdir: 'cdk.out' });
+const app = new App({ outdir: 'cdktf.out' });
 new HelloTerra(app, 'hello-terra');
 app.synth();
 ```
@@ -80,12 +80,12 @@ Generate Terraform configuration
 cdktf synth
 ```
 
-The above command will create a folder called `dist` that contains all Terraform JSON configuration that was generated.
+The above command will create a folder called `cdktf.out` that contains all Terraform JSON configuration that was generated.
 
 Run Terraform commands
 
 ```bash
-cd dist
+cd cdktf.out
 terraform init
 terraform plan
 terraform apply

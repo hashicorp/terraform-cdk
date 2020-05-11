@@ -5,7 +5,7 @@ export interface AppOptions {
     /**
      * The directory to output Terraform resources.
      *
-     * @default - CDKTF_OUTDIR if defined, otherwise "dist"
+     * @default - CDKTF_OUTDIR if defined, otherwise "cdktf.out"
      */
     readonly outdir?: string;
 }
@@ -25,7 +25,7 @@ export class App extends Construct {
      */
     constructor(options: AppOptions = {}) {
         super(undefined as any, '');
-        this.outdir = options.outdir ?? process.env.CDKTF_OUTDIR ?? 'dist';
+        this.outdir = options.outdir ?? process.env.CDKTF_OUTDIR ?? 'cdktf.out';
     }
 
     /**

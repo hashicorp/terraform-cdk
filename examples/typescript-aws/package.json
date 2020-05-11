@@ -8,8 +8,8 @@
     "build": "yarn get && tsc",
     "compile": "tsc",
     "synth": "cdktf synth",
-    "plan": "cd ./cdk.out && terraform init && terraform plan",
-    "apply": "terraform apply ./cdk.out"
+    "plan": "cd ./cdktf.out && terraform init && terraform plan",
+    "apply": "terraform apply ./cdktf.out"
   },
   "devDependencies": {
     "@types/node": "^13.1.1",

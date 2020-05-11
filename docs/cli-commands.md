@@ -142,7 +142,7 @@ Options:
   --version     Show version number  [boolean]
   --help        Show help  [boolean]
   --app, -a     Command to use in order to execute cdktf app  [required]
-  --output, -o  Output directory  [required] [default: "dist"]
+  --output, -o  Output directory  [required] [default: "cdktf.out"]
 ```
 
 Examples:

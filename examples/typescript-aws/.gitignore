@@ -1,3 +1,3 @@
 .gen
-.cdk.out
+.cdktf.out
 !tsconfig.json

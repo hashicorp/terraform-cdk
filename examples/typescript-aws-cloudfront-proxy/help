@@ -10,10 +10,10 @@
    npm run build       Get + compile
 
   Synthesize:
-   npm run synth       Synthesize Terraform resources from stacks to dist/ (ready for 'terraform apply')
+   npm run synth       Synthesize Terraform resources from stacks to cdktf.out/ (ready for 'terraform apply')
 
  Deploy:
-   terraform apply ./dist
+   terraform apply ./cdktf.out
 
  Upgrades:
    npm run get           Import/update Terraform providers and modules (you should check-in this directory)

@@ -7,6 +7,6 @@
 !**/tsconfig.json
 !**/jest.config.js
 
-**/cdk.out
+**/cdktf.out
 **/.gen
 **/dist
