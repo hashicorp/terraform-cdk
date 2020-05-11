@@ -1,3 +1,7 @@
+## 0.0.3
+
+Enable synthesis to Python
+
 ## 0.0.2-alpha.2
 
 Minor output changes and updated README.md example.
