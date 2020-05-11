@@ -30,9 +30,10 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
+    "@types/node": "13.7.0",
     "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
-    "constructs": "^2.0.1",
+    "constructs": "^3.0.0",
     "fs-extra": "^8.1.0",
     "jsii": "1.1.0",
     "jsii-pacmak": "1.1.0",

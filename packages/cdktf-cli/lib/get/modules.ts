@@ -12,4 +12,8 @@ export class GetModule extends GetBase {
       new ModuleGenerator(code, spec);
     }
   }
+
+  protected typesPath(name: string): string {
+    return `modules/${name}`;
+  }
 }

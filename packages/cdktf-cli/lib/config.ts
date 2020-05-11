@@ -3,18 +3,20 @@ import * as path from 'path';
 import { Language } from './get/base';
 
 const CONFIG_FILE = 'cdktf.json'
+const DEFAULTS = {
+  output: 'dist',
+  codeMakerOutput: '.gen'
+}
+
 
 export interface Config {
   readonly app?: string;
   readonly language?: Language;
   readonly output: string;
+  readonly codeMakerOutput: string;
   readonly terraformProviders?: string[];
   readonly terraformModules?: string[];
 }
-
-const DEFAULTS: Config = {
-  output: 'dist'
-};
 
 export function readConfigSync(): Config {
   const configFile = path.join(process.cwd(), CONFIG_FILE)

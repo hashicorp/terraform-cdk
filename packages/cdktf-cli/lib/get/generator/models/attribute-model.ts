@@ -20,7 +20,7 @@ export class AttributeModel {
   public computed: boolean;
   public terraformName: string;
   public terraformFullName: string;
-  public description?: string;
+  private _description?: string;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -30,7 +30,7 @@ export class AttributeModel {
     this.computed = options.computed;
     this.terraformName = options.terraformName;
     this.terraformFullName = options.terraformFullName;
-    this.description = options.description;
+    this._description = options.description;
   }
 
   public get typeDefinition() {
@@ -55,10 +55,14 @@ export class AttributeModel {
   }
 
   public get name(): string {
-    // `self` doesn't work in as property name in Python
-    if (this._name === 'self') return `${this._name}Attribute`;
+    // `self` and `build` doesn't work in as property name in Python
+    if (this._name === 'self' || this._name === 'build') return `${this._name}Attribute`;
     // jsii can't handle `getFoo` properties, since it's incompatible with Java
     if (this._name.match(/^get[A-Z]+/)) return this._name.replace('get', 'fetch');
     return this._name
+  }
+
+  public get description(): string | undefined {
+    return this._description?.replace(/(\*\/)/gi, `*\\/`)
   }
 }

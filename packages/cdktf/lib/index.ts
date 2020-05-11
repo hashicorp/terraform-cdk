@@ -7,3 +7,4 @@ export * from './terraform-stack';
 export * from './complex-computed-list';
 export * from './testing';
 export * from './app';
+export { Token } from './tokens/token'

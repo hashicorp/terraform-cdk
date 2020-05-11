@@ -44,7 +44,9 @@
     "rules": {
       "@typescript-eslint/no-explicit-any": 0,
       "@typescript-eslint/explicit-function-return-type": 0,
-      "@typescript-eslint/no-use-before-define": 0
+      "@typescript-eslint/no-use-before-define": 0,
+      "@typescript-eslint/interface-name-prefix": 0,
+      "@typescript-eslint/no-empty-interface": 0
     },
     "ignorePatterns": [
       "node_modules",
@@ -59,11 +61,11 @@
     "@types/node": "13.7.1",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
-    "constructs": "2.0.1",
+    "constructs": "^3.0.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
-    "jsii": "1.1.0",
-    "jsii-pacmak": "1.1.0",
+    "jsii": "^1.5.0",
+    "jsii-pacmak": "^1.5.0",
     "json-schema-to-typescript": "^8.0.1",
     "typescript": "^3.7.5"
   },
@@ -79,8 +81,8 @@
   "dependencies": {
     "json-stable-stringify": "^1.0.1"
   },
+  "stability": "experimental",
   "peerDependencies": {
-    "constructs": "^2.0.1"
-  },
-  "stability": "experimental"
+    "constructs": "^3.0.0"
+  }
 }
