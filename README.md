@@ -77,19 +77,19 @@ import { Construct } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
 import { Instance } from './.gen/providers/aws/instance';
 
-export class HelloTerra extends TerraformStack {
+class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     new Instance(this, 'Hello', {
       ami: "ami-2757f631",
       instanceType: "t2.micro"
-    })
+    });
   }
 }
 
 const app = new App();
-new HelloTerra(app, 'hello-terra');
+new MyStack(app, 'example');
 app.synth();
 ```
 
@@ -111,11 +111,44 @@ When you are ready you can run the `synthesize` command to generate Terraform JS
 cdktf synth
 ```
 
+```bash
+Generating Terraform code in the output directory: "dist/"
+```
+
 This command will generate a directory called `dist`. This directory contains the Terraform JSON configuration for
 your application.
 
 ```bash
 cd dist
+```
+
+AWS Instance expressed as Terraform JSON configuration.
+
+```json
+cat dist/example.tf.json
+{
+  "resource": {
+    "aws_instance": {
+      "examplesimpleHelloF6D4983C": {
+        "ami": "ami-2757f631",
+        "instance_type": "t2.micro"
+      }
+    }
+  }
+}
+```
+
+Terraform AWS provider expressed as Terraform JSON configuration.
+
+```json
+cat dist/providers.tf.json
+{
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
+    }
+  }
+}
 ```
 
 **Apply Configuration**
