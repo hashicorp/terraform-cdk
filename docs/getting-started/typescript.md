@@ -1,4 +1,4 @@
-## Getting started with TypeScript
+# Getting started with TypeScript
 
 ## Prerequisites
 
