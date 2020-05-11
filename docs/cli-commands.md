@@ -34,8 +34,8 @@ Options can be specified via environment variables with the "CDKTF_" prefix (e.g
 ## Available commands
 
 * [get](#cdktf-get)
-* [init](#init)
-* [synth](#synth)
+* [init](#cdktf-init)
+* [synth](#cdktf-synth)
 
 ### cdktf get
 
