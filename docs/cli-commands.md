@@ -5,7 +5,7 @@ CDK for Terraform CLI
 ## Install
 
 ```bash
-$ npm install -g cdktf
+$ npm install -g cdktf-cli
 ```
 
 ## Usage
@@ -60,7 +60,7 @@ Options:
   --providers, -p  Generate Constructs for given providers. Example: "aws@~> 2.5"  [array]
   --modules, -m    Generate Constructs for given modules. Example: "terraform-aws-modules/vpc/aws"  [array]
   --output, -o     Output directory  [string] [default: ".gen"]
-  --language, -l   Output programming language  [string] [required] [choices: "typescript"]
+  --language, -l   Output programming language  [string] [required]
 ```
 
 Examples:
@@ -72,6 +72,15 @@ $ cdktf get --providers="aws@~> 2.5" --modules="terraform-aws-modules/vpc/aws"
 ```
 
 Download providers and modules defined in the `cdktf.json` configuration file.
+
+```bash
+$ cat cdktf.json
+{
+  "language": "typescript",
+  "app": "node main.js",
+  "terraformProviders": ["aws@~> 2.0"]
+}
+```
 
 ```bash
 $ cdktf get
