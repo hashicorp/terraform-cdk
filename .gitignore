@@ -16,3 +16,4 @@ tsconfig.json
 **/*.log
 **/coverage
 **/dist
+**/.terraform
