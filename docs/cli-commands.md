@@ -117,10 +117,10 @@ Create a new Typescript project.
 $ cdktf init --template="typescript"
 ```
 
-Create a new Python project and use a specific version of `cdktf` package.
+Create a new Python project and use a specific version of the `cdktf` package.
 
 ```bash
-$ cdktf init --tempalte="python" --cdktf-version="0.0.1"
+$ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
 ### cdktf synth
@@ -153,7 +153,7 @@ Synthesize code for a given application.
 $ cdktf synth
 ```
 
-Synthesize code when providing custom command to execute and an output directory.
+Synthesize code when providing a custom command to execute and an output directory.
 
 ```bash
 $ cdktf synth --app="npm compile && node main.js" --output="dirname"
