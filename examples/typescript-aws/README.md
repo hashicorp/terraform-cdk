@@ -1,4 +1,4 @@
-# TypeScript Simple
+# typescript-aws
 
 A simple CDK for Terraform application in TypeScript.
 

@@ -1,4 +1,4 @@
-# Python Simple
+# python-aws
 
 A simple CDK for Terraform application in Python.
 

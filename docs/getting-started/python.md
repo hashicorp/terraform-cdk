@@ -3,12 +3,8 @@
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
-- [Pipenv](https://pipenv.pypa.io/en/latest/)
-  Install Pipenv using Homebrew by running:
-  
-  ```bash
-  $ brew install pipenv
-  ```
+- [Python](https://www.python.org/downloads/) >= v3.7
+- [Pipenv](https://pipenv.pypa.io/en/latest/install/#installing-pipenv/)
 
 ### Install CDK for Terraform CLI
 
@@ -26,7 +22,7 @@ cd hello-terraform
 cdktf init --template="python"
 ```
 
-This will initialize a brand new CDK for Terraform project in Python. Also, install the `cdktf` library so that it can be used in the project.
+This will initialize a brand new CDK for Terraform project in Python and install the `cdktf` library so that it can be used in the project.
 
 ## CDK for Terraform Application
 
@@ -55,7 +51,7 @@ MyStack(app, "hello-terraform")
 app.synth()
 ```
 
-If you want to use already built examples. Please go to the [examples/](./examples/) directory.
+Refer to the [examples/](./examples/) directory for additional examples.
 
 Let's take a simple Python application that uses the CDK for Terraform package.
 
@@ -65,14 +61,16 @@ from constructs import Construct
 from cdktf import App, TerraformStack
 from imports.aws import Instance
 
-class MyStack(TerraformStack):
-    def __init__(self, scope: Construct, ns: str):
-        super().__init__(scope, ns)
 
-        Instance(self, "hello", ami="ami-2757f631", instance_type="t2.micro")
+class MyStack(TerraformStack):
+  def __init__(self, scope: Construct, ns: str):
+  super().__init__(scope, ns)
+
+
+Instance(self, "hello", ami="ami-2757f631", instance_type="t2.micro")
 
 app = App()
-MyStack(app, "hello-terraform")
+MyStack(app, "example-python")
 
 app.synth()
 ```
