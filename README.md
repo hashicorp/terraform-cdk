@@ -22,12 +22,13 @@ The CDK for Terraform project includes two packages:
 
 Choose a language:
 * [TypeScript](./docs/getting-started/typescript.md)
-* [Python]()
+* [Python](./docs/getting-started/python.md)
 
 ## Examples
 
 * [TypeScript Simple](./examples/typescript-simple)
 * [TypeScript AWS Cloudfront Proxy](./examples/typescript-aws-cloudfront-proxy)
+* [Python Simple](./examples/python-simple)
 
 ## CLI
 

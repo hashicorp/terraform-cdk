@@ -22,7 +22,7 @@ cd hello-terraform
 cdktf init --template="typescript"
 ```
 
-This will initialize a brand new CDK for Terraform project in Typescript. Also, install the `cdktf` library so that it can be used in the project.
+This will initialize a brand new CDK for Terraform project in TypeScript. Also, install the `cdktf` library so that it can be used in the project.
 
 **CDK for Terraform Application**
 
@@ -46,13 +46,13 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new MyStack(app, 'example');
+new MyStack(app, 'hello-terraform');
 app.synth();
 ```
 
 If you want to use already built examples. Please go to the [examples/](./examples/) directory.
 
-Let's take a simple Typescript application that uses the CDK for Terraform package.
+Let's take a simple TypeScript application that uses the CDK for Terraform package.
 
 ```typescript
 import { Construct } from 'constructs';
@@ -71,7 +71,7 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new MyStack(app, 'example');
+new MyStack(app, 'hello-terraform');
 app.synth();
 ```
 
@@ -83,7 +83,7 @@ You can now compile the application by running `npm run compile` or `yarn compil
 yarn compile
 ```
 
-This will compile Typescript to Javascript.
+This will compile TypeScript to Javascript.
 
 **Synthesize Application**
 
@@ -107,7 +107,7 @@ cd dist
 AWS Instance expressed as Terraform JSON configuration.
 
 ```json
-cat dist/example.tf.json
+cat hello-terraform.tf.json
 {
   "resource": {
     "aws_instance": {
@@ -123,7 +123,7 @@ cat dist/example.tf.json
 Terraform AWS provider expressed as Terraform JSON configuration.
 
 ```json
-cat dist/providers.tf.json
+cat providers.tf.json
 {
   "terraform": {
     "required_providers": {
