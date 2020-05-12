@@ -1,6 +1,6 @@
 # python-aws
 
-A simple CDK for Terraform application in Python.
+A CDK for Terraform application in Python.
 
 ## Usage
 
@@ -48,7 +48,7 @@ class MyStack(TerraformStack):
         SnsTopic(self, 'Topic', display_name='my-first-sns-topic')
 
 app = App()
-MyStack(app, "python-simple")
+MyStack(app, "python-aws")
 
 app.synth()
 ```

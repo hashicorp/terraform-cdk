@@ -21,6 +21,6 @@ class MyStack(TerraformStack):
 
 
 app = App()
-MyStack(app, "python-simple")
+MyStack(app, "python-aws")
 
 app.synth()
