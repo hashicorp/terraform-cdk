@@ -26,9 +26,9 @@ Choose a language:
 
 ## Examples
 
-* [TypeScript Simple](./examples/typescript-simple)
-* [TypeScript AWS Cloudfront Proxy](./examples/typescript-aws-cloudfront-proxy)
-* [Python Simple](./examples/python-simple)
+* [typescript-aws](./examples/typescript-aws)
+* [typescript-aws-cloudfront-proxy](./examples/typescript-aws-cloudfront-proxy)
+* [python-aws](./examples/python-aws)
 
 ## CLI
 
