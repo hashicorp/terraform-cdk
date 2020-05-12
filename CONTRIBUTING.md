@@ -11,34 +11,21 @@ $ git clone https://github.com/hashicorp/terraform-cdk.git
 To compile the `terraform-cdk` binary for your local machine:
 
 ```shell
-$ make dev
-```
-
-This will compile the `terraform-cdk` binary into `bin/terraform-cdk`
-and run the test suite.
-
-Or run the following to generate all binaries:
-
-```shell
-$ make dist
+$ yarn install
+$ yarn build
 ```
 
 If you just want to run the tests:
 
 ```shell
-$ make test
+$ yarn test
 ```
 
-Or to run a specific test in the suite:
+To run integration tests, package and run integration tests.
 
 ```shell
-go test ./... -run SomeTestFunction_name
-```
-
-To create a docker image with your local changes:
-
-```shell
-$ make dev-docker
+$ yarn package
+$ yarn integration
 ```
 
 ### Rebasing contributions against master
