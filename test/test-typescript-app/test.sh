@@ -20,9 +20,9 @@ yarn compile
 yarn synth
 
 # get rid of downloaded Terraform providers, no point in diffing them
-rm -rf dist/.terraform
+rm -rf cdktf.out/.terraform
 
 # show output
-diff dist ${scriptdir}/expected
+diff cdktf.out ${scriptdir}/expected
 
 echo "PASS"

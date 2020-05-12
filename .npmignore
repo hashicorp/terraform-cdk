@@ -4,7 +4,7 @@
 !*.d.ts
 test
 
-cdk.out
+cdktf.out
 
 # Exclude jsii outdir
 dist
