@@ -12,7 +12,7 @@
 npm install -g cdktf-cli
 ```
 
-Learn more how to use the cdktf command-line interface [here](./docs/cli-commands.md).
+Learn more how to use the cdktf command-line interface [here](../cli-commands.md).
 
 ## Initialize a new CDK for Terraform project
 
