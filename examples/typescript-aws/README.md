@@ -1,6 +1,6 @@
-# Typescript Simple
+# typescript-aws
 
-A simple CDK for Terraform application in Typescript.
+A CDK for Terraform application in TypeScript.
 
 ## Usage
 
@@ -18,7 +18,7 @@ cdktf get
 
 You can now edit the `main.ts` file if you want to modify any code.
 
-```bash
+```typescript
 vim main.ts
 import { Construct, Token } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
@@ -68,7 +68,7 @@ new HelloTerra(app, 'hello-terra');
 app.synth();
 ```
 
-Compile the Typescript application
+Compile the TypeScript application
 
 ```bash
 tsc
