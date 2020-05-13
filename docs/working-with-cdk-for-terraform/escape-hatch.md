@@ -1,4 +1,53 @@
-# Escape Hatch for Terraform Resources
+# Escape Hatch
+
+Escape hatches refer to objects that can add to or override existing resources.
+Use escape hatches for overrides and additions such as:
+
+- Passing meta-arguments to resources not natively supported or implemented
+- Passing remote backend information
+
+Escape hatches **must not** have empty arguments or objects, as they will be
+removed from the synthesized JSON configuration. 
+
+## Stack Escape Hatch
+
+For anything on the top-level `terraform` block that is not natively
+implemented, use the **stack escape hatch** to define a configuration. For example,
+define remote backend using the `addOverride` method in TypeScript.
+
+```typescript
+stack.addOverride('terraform.backend', {
+  remote: {
+    organization: 'test',
+    workspaces: {
+      name: 'test'
+    }
+  }
+});
+```
+
+This will synthesize a Terraform configuration with the remote backend included in
+the `terraform` block.
+
+```json
+{
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
+    },
+    "backend": {
+      "remote": {
+        "organization": "test",
+        "workspaces": {
+          "name": "test"
+        }
+      }
+    }
+  }
+}
+```
+
+## Resource Escape Hatch
 
 Terraform supports meta-arguments for changing behavior of resources, including:
 
