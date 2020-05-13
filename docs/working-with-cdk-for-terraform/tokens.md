@@ -1,4 +1,10 @@
-# Module Outputs
+# Tokens
+
+Use tokens to enable the CDK for Terraform to resolve programming language types to Terraform language syntax, including:
+
+- Module outputs
+- Resource attributes (such as `id`)
+- Terraform outputs based on resource attributes
 
 A [Terraform module](https://www.terraform.io/docs/modules/index.html) defines multiple resources intended to be used together.
 Module output values return results to the calling module, which it can then use to populate arguments elsewhere. The CDK
