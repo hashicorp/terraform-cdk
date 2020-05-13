@@ -43,6 +43,15 @@ export class HelloTerra extends TerraformStack {
       vpcId: vpc.vpcIdOutput,
       subnets: Token.asList(vpc.publicSubnetsOutput)
     });
+
+    this.addOverride('terraform.backend', {
+      remote: {
+        organization: 'test',
+        workspaces: {
+          name: 'test'
+        }
+      }
+    });
   }
 }
 

@@ -1,3 +1,9 @@
+## 0.0.5
+
+- Document Terraform outputs and remote backend (#64)
+- Fix providers file workflow (#66)
+- Stack escape hatch (#81)
+
 ## 0.0.4
 
 - Getting started guide for Python (#73)

@@ -51,6 +51,16 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
     \\"MyStackeksversionFB719174\\": {
       \\"value\\": \\"7.0.1\\"
     }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"remote\\": {
+        \\"organization\\": \\"test\\",
+        \\"workspaces\\": {
+          \\"name\\": \\"test\\"
+        }
+      }
+    }
   }
 }"
 `;

@@ -37,6 +37,15 @@ test('stack synthesis merges all elements into a single output', () => {
     value: eks.version
   })
 
+  stack.addOverride('terraform.backend', {
+    remote: {
+      organization: 'test',
+      workspaces: {
+        name: 'test'
+      }
+    }
+  });
+
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 

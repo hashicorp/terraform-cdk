@@ -2,6 +2,14 @@
   "terraform": {
     "required_providers": {
       "aws": "~> 2.0"
+    },
+    "backend": {
+      "remote": {
+        "organization": "test",
+        "workspaces": {
+          "name": "test"
+        }
+      }
     }
   },
   "provider": {
