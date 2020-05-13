@@ -70,7 +70,7 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
     const filePath = path.join(outdir, 'providers.tf.json');
     await writeFile(filePath, JSON.stringify({ provider }));
 
-    const env = process.env['TF_PLUGIN_CACHE_DIR'] ? process.env : Object.assign({}, process.env, { 'TF_PLUGIN_CACHE_DIR': cacheDir(workDir) })
+    const env = process.env['TF_PLUGIN_CACHE_DIR'] ? process.env : Object.assign({}, process.env, { 'TF_PLUGIN_CACHE_DIR': await cacheDir(workDir) })
 
     await exec('terraform', [ 'init' ], { cwd: outdir, stdio: [ 'inherit', 'inherit', 'inherit' ], env });
     schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir, env });
@@ -81,7 +81,7 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
 }
 
 async function cacheDir(workDir: string) {
-  const cacheDir = path.join(workDir, '.terraform');
+  const cacheDir = path.join(workDir, '.terraform/plugins');
   await mkdirp(cacheDir);
   return cacheDir
 }
