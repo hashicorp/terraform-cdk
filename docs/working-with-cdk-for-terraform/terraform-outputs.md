@@ -25,19 +25,3 @@ The `TerraformOutput` synthesizes to the following:
     }
 }
 ```
-
-CDK for Terraform maps the language types to Terraform 0.12's rich types, such as lists and maps.
-As a result, some attributes specified using the CDK for Terraform may not map to the string value.
-To correct this, use [Tokens](./tokens.md) to cast it to the correct attribute type. Here is an example
-that uses tokens to cast a list attribute.
-
-```typescript
-const instance = new Instance(this, 'hello', {
-  ami: 'ami-abcde123',
-  instanceType: 't2.micro'
-});
-
-new TerraformOutput(this, 'instance_tags', {
-    value: Token.asList(instance.tags)
-});
-```
