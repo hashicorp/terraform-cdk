@@ -27,3 +27,18 @@ exports[`with alias 1`] = `
   }
 }"
 `;
+
+exports[`with generator metadata 1`] = `
+"{
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": \\"~> 2.0\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  }
+}"
+`;

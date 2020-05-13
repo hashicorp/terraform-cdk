@@ -1,5 +1,6 @@
 
-import { Testing, TerraformStack } from '../lib';
+import { Testing, TerraformStack, TerraformProvider } from '../lib';
+import { Construct } from 'constructs'
 import { TestProvider } from './helper/provider'
 
 test('minimal configuration', () => {
@@ -24,6 +25,28 @@ test('with alias', () => {
     accessKey: 'bar',
     alias: 'route53'
   });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test('with generator metadata', () => {
+  class MetadataTestProvider extends TerraformProvider {
+    constructor(scope: Construct, id: string) {
+      super(scope, id, {
+        terraformResourceType: 'test',
+        terraformGeneratorMetadata: {
+          providerName: 'test',
+          providerVersionConstraint: '~> 2.0'
+        }
+      });
+    }
+  }
+
+
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'test');
+
+  new MetadataTestProvider(stack, 'test')
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

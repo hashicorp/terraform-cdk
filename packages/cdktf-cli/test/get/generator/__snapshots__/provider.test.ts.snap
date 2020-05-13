@@ -1193,6 +1193,10 @@ export class AwsProvider extends TerraformProvider {
   public constructor(scope: Construct, id: string, config: AwsProviderConfig) {
     super(scope, id, {
       terraformResourceType: 'aws',
+      terraformGeneratorMetadata: {
+        providerName: 'aws',
+        providerVersionConstraint: 'undefined'
+      }
     });
     this._accessKey = config.accessKey;
     this._allowedAccountIds = config.allowedAccountIds;

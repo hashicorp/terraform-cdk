@@ -1,4 +1,23 @@
 {
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
+    }
+  },
+  "provider": {
+    "aws": [
+      {
+        "region": "eu-central-1",
+        "ignore_tags": [
+          {
+            "keys": [
+              "foo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "resource": {
     "aws_sns_topic": {
       "helloterraTopic6609C1D4": {

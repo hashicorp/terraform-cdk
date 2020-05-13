@@ -1,9 +1,11 @@
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 import { spawn, SpawnOptions } from 'child_process';
 import { promisify } from 'util';
+import { withTempDir } from '../../util';
 
 const writeFile = promisify(fs.writeFile);
+const mkdirp = promisify(fs.mkdirp);
 
 export interface ProviderSchema {
   format_version: '1.0';
@@ -54,37 +56,34 @@ export interface Block {
   block_types: { [name: string]: BlockType };
 }
 
-export async function readSchema(outdir: string, providers: string[]): Promise<ProviderSchema> {
+export async function readSchema(providers: string[]): Promise<ProviderSchema> {
   const provider: { [name: string]: { version?: string } } = { };
   for (const p of providers) {
     const [ name, version ] = p.split('@');
     provider[name] = { version };
   }
-  const filePath = path.join(outdir, 'providers.tf.json');
-  await writeFile(filePath, JSON.stringify({ provider }));
-  await exec('terraform', [ 'init' ], { cwd: outdir, stdio: [ 'inherit', 'inherit', 'inherit' ] });
-  const schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir });
-  fs.unlinkSync(filePath)
-  writeLockFile(outdir, providers)
-  return JSON.parse(schema);
+  let schema = '';
+  const workDir = process.cwd()
 
+  await withTempDir('fetchSchema', async () => {
+    const outdir = process.cwd();
+    const filePath = path.join(outdir, 'providers.tf.json');
+    await writeFile(filePath, JSON.stringify({ provider }));
+
+    const env = process.env['TF_PLUGIN_CACHE_DIR'] ? process.env : Object.assign({}, process.env, { 'TF_PLUGIN_CACHE_DIR': await cacheDir(workDir) })
+
+    await exec('terraform', [ 'init' ], { cwd: outdir, stdio: [ 'inherit', 'inherit', 'inherit' ], env });
+    schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir, env });
+    fs.unlinkSync(filePath)
+  })
+
+  return JSON.parse(schema);
 }
 
-async function writeLockFile(outdir: string, providers: string[]) {
-  const provider: { [name: string]: string } = { };
-  for (const p of providers) {
-    const [ name, version ] = p.split('@');
-    provider[name] = version;
-  }
-
-  const versionConstraints = {
-    terraform: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      required_providers: provider
-    }
-  }
-  const filePath = path.join(outdir, 'providers.tf.json');
-  await writeFile(filePath, JSON.stringify(versionConstraints));
+async function cacheDir(workDir: string) {
+  const cacheDir = path.join(workDir, '.terraform/plugins');
+  await mkdirp(cacheDir);
+  return cacheDir
 }
 
 async function exec(command: string, args: string[], options: SpawnOptions = {}): Promise<string> {

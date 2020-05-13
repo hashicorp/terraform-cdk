@@ -4,10 +4,15 @@ import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
 import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
+import { AwsProvider } from './.gen/providers/aws'
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    new AwsProvider(this, 'aws', {
+      region: 'eu-central-1'
+    })
 
     const table = new DynamodbTable(this, 'Hello', {
       name: 'my-first-table',

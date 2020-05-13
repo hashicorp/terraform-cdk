@@ -18,16 +18,9 @@ class Command implements yargs.CommandModule {
     const command = argv.app;
     const outdir = argv.output;
 
-    if (!await fs.pathExists(config.output)) {
-      console.error(`ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.output}`);
+    if (!await fs.pathExists(config.codeMakerOutput)) {
+      console.error(`ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`);
       process.exit(1);
-    }
-
-    if (config.output != outdir) {
-      if (!fs.copy(config.output, outdir)) {
-        console.error(`ERROR: synthesis failed, could not copy providers from ${config.output}`);
-        process.exit(1);
-      }
     }
 
     await shell(command, [], {

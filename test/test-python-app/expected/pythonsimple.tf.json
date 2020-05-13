@@ -1,16 +1,28 @@
 {
-  "resource": {
-    "aws_sns_topic": {
-      "pythonsimpleTopic451716E7": {
-        "display_name": "my-first-sns-topic"
-      }
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
     }
+  },
+  "provider": {
+    "aws": [
+      {
+        "region": "eu-central-1"
+      }
+    ]
   },
   "module": {
     "pythonsimpleCustomVpcD3E4490A": {
       "name": "custom-vpc",
       "source": "terraform-aws-modules/vpc/aws",
       "version": "2.33.0"
+    }
+  },
+  "resource": {
+    "aws_sns_topic": {
+      "pythonsimpleTopic451716E7": {
+        "display_name": "my-first-sns-topic"
+      }
     }
   }
 }

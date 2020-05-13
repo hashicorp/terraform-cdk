@@ -1,14 +1,17 @@
 import { Construct } from "constructs";
 import { Token } from "./tokens"
 import { TerraformElement } from "./terraform-element";
+import { TerraformGeneratorMetadata } from './terraform-resource'
 import { keysToSnakeCase, deepMerge } from "./util";
 
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
+  readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
 }
 
 export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
+  public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   public alias?: string;
 
   private readonly rawOverrides: any = {}
@@ -17,6 +20,7 @@ export abstract class TerraformProvider extends TerraformElement {
     super(scope, id);
 
     this.terraformResourceType = config.terraformResourceType;
+    this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
   }
 
   public get fqn(): string {
@@ -60,6 +64,12 @@ export abstract class TerraformProvider extends TerraformElement {
    */
   public toTerraform(): any {
     return {
+      terraform: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        required_providers: {
+          [this.terraformResourceType]: this.terraformGeneratorMetadata?.providerVersionConstraint
+        }
+      },
       provider: {
         [this.terraformResourceType]: [deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides, this.metaAttributes)]
       }

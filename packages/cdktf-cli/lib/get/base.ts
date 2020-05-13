@@ -29,7 +29,7 @@ export abstract class GetBase {
     const codeMakerOutdir = path.resolve(options.codeMakerOutput);
     await fs.mkdirp(codeMakerOutdir);
     const isTypescript = options.targetLanguage === Language.TYPESCRIPT
-    await this.generateTypeScript(code, options.targetNames, options.outdir);
+    await this.generateTypeScript(code, options.targetNames, codeMakerOutdir);
 
     if (isTypescript) {
       await code.save(codeMakerOutdir);

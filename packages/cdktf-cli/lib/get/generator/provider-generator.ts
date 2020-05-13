@@ -9,7 +9,7 @@ export class TerraformGenerator {
   private resourceEmitter:  ResourceEmitter;
   private structEmitter:  StructEmitter;
 
-  constructor(private readonly code: CodeMaker, schema: ProviderSchema) {
+  constructor(private readonly code: CodeMaker, schema: ProviderSchema, private providerConstraints?: { [name: string]: string }) {
     this.code.indentation = 2;
     this.resourceEmitter = new ResourceEmitter(this.code)
     this.structEmitter = new StructEmitter(this.code)
@@ -36,6 +36,9 @@ export class TerraformGenerator {
 
     if (provider.provider) {
       const providerResource = this.resourceParser.parse(name, `provider`, provider.provider)
+      if (this.providerConstraints) {
+        providerResource.providerVersionConstraint = this.providerConstraints[name]
+      }
       files.push(this.emitResourceFile(providerResource));
     }
 

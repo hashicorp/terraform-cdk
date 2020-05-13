@@ -1,25 +1,30 @@
 // generates constructs from terraform providers schema
-import * as fs from 'fs-extra';
 import { TerraformGenerator } from './generator/provider-generator';
 import { ProviderSchema, readSchema } from './generator/provider-schema';
-import { promisify } from 'util';
 import { CodeMaker } from 'codemaker';
 import { GetBase } from './base'
 
-const mkdirp = promisify(fs.mkdirp);
-
 export class GetProvider extends GetBase {
-  protected async generateTypeScript(code: CodeMaker, providers: string[], outdir: string): Promise<void> {
-    const schema = await this.fetchSchema(providers, outdir)
-    new TerraformGenerator(code, schema);
+  protected async generateTypeScript(code: CodeMaker, providers: string[]): Promise<void> {
+    const schema = await this.fetchSchema(providers)
+    const provider = await this.parseProviders(providers)
+    new TerraformGenerator(code, schema, provider);
   }
 
-  private async fetchSchema(providers: string[], outdir: string): Promise<ProviderSchema> {
-    await mkdirp(outdir);
-    return readSchema(outdir, providers);
+  private async fetchSchema(providers: string[]): Promise<ProviderSchema> {
+    return readSchema(providers);
   }
 
   protected typesPath(name: string): string {
     return `providers/${name}/index`;
+  }
+
+  private async parseProviders(providers: string[]): Promise<{ [name: string]: string }> {
+    const provider: { [name: string]: string } = { };
+    for (const p of providers) {
+      const [ name, version ] = p.split('@');
+      provider[name] = version;
+    }
+    return provider;
   }
 }
