@@ -25,7 +25,7 @@ export class App extends Construct {
      */
     constructor(options: AppOptions = {}) {
         super(undefined as any, '');
-        this.outdir = options.outdir ?? process.env.CDKTF_OUTDIR ?? 'cdktf.out';
+        this.outdir = process.env.CDKTF_OUTDIR ?? options.outdir ?? 'cdktf.out';
     }
 
     /**

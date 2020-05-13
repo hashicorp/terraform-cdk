@@ -1,3 +1,9 @@
+## 0.0.4
+
+- Getting started guide for Python (#73)
+- Change output directory to `cdktf.out` for Terraform configuration (#70)
+- Fix output directory argument for `cdktf synth` (#62)
+
 ## 0.0.3
 
 Enable synthesis to Python
