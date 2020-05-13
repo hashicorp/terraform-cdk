@@ -32,6 +32,8 @@ The `<output name>Output` synthesizes to `${module.<module id>.<output name>}`.
 }
 ```
 
+## Tokens
+
 CDK for Terraform maps the language types to Terraform 0.12's rich types, such as lists and maps.
 As a result, some attributes specified using the CDK for Terraform may not map to the string value of
 `<output name>Output`. To correct this, use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
