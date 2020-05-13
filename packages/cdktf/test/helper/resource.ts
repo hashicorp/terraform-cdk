@@ -15,7 +15,8 @@ export class TestResource extends TerraformResource {
     super(scope, id, {
       terraformResourceType: 'test_resource',
       terraformGeneratorMetadata: {
-        providerName: TestProviderMetadata.TYPE
+        providerName: TestProviderMetadata.TYPE,
+        providerVersionConstraint: '~> 2.0'
       },
       provider: config.provider
     });
@@ -36,7 +37,8 @@ export class OtherTestResource extends TerraformResource {
     super(scope, id, {
       terraformResourceType: 'other_test_resource',
       terraformGeneratorMetadata: {
-        providerName: TestProviderMetadata.TYPE
+        providerName: TestProviderMetadata.TYPE,
+        providerVersionConstraint: '~> 2.0'
       },
       provider: config.provider
     });

@@ -19,6 +19,7 @@ export interface TerraformMetaArguments {
 
 export interface TerraformGeneratorMetadata {
   readonly providerName: string;
+  readonly providerVersionConstraint?: string;
 }
 
 export interface TerraformResourceConfig extends TerraformMetaArguments {

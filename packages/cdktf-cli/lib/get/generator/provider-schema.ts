@@ -6,6 +6,7 @@ import { withTempDir } from '../../util';
 
 const writeFile = promisify(fs.writeFile);
 const mkdirp = promisify(fs.mkdirp);
+
 export interface ProviderSchema {
   format_version: '1.0';
   provider_schemas?: { [type: string]: Provider };

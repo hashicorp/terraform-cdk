@@ -81,6 +81,10 @@ export class ResourceEmitter {
   private emitProviderSuper(resource: ResourceModel) {
     this.code.open(`super(scope, id, {`);
       this.code.line(`terraformResourceType: '${resource.terraformResourceType}',`);
+      this.code.open(`terraformGeneratorMetadata: {`);
+        this.code.line(`providerName: '${resource.provider}',`);
+        this.code.line(`providerVersionConstraint: '${resource.providerVersionConstraint}'`);
+      this.code.close(`}`);
     this.code.close(`});`);
   }
 }

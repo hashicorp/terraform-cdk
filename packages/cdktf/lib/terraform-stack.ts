@@ -7,13 +7,11 @@ import { deepMerge } from './util';
 
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
-  public readonly providerFile: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
-    this.providerFile = `providers.tf.json`;
   }
 
   public toTerraform(): any {
@@ -36,16 +34,14 @@ export class TerraformStack extends Construct {
 
   public onSynthesize(session: ISynthesisSession) {
     const resourceOutput = path.join(session.outdir, this.artifactFile);
-    const providerOutput = path.join(session.outdir, this.providerFile);
-    const { resource, module, output, provider } = this.toTerraform()
+    fs.writeFileSync(resourceOutput, JSON.stringify(this.toTerraform(), undefined, 2));
+    this.linkDotTerraform(session.outdir)
+  }
 
-    fs.writeFileSync(resourceOutput, JSON.stringify({resource, module, output}, undefined, 2));
-
-    if (fs.existsSync(providerOutput)) {
-      const existingProvider = JSON.parse(fs.readFileSync(providerOutput).toString())
-      fs.writeFileSync(providerOutput, JSON.stringify(Object.assign({}, {terraform: existingProvider.terraform}, {provider}), undefined, 2));
-    } else {
-      fs.writeFileSync(providerOutput, JSON.stringify({provider}, undefined, 2));
-    }
+  private linkDotTerraform(outdir: string): void {
+    const dirName = '.terraform';
+    const link = path.join(path.resolve(outdir), dirName);
+    const target = path.join(process.cwd(), dirName);
+    if (!fs.existsSync(link)) fs.symlinkSync(target, link);
   }
 }
