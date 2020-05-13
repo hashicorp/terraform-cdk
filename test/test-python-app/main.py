@@ -10,7 +10,17 @@ class MyStack(TerraformStack):
 
         AwsProvider(self, 'Aws', region='eu-central-1')
         Vpc(self, 'CustomVpc', name='custom-vpc')
-        SnsTopic(self, 'Topic', display_name='my-first-sns-topic')
+        topic = SnsTopic(self, 'Topic', display_name='overwritten')
+        topic.add_override('display_name', 'my-first-sns-topic')
+
+        self.add_override('terraform.backend', {
+            'remote': {
+                'organization': 'test',
+                'workspaces': {
+                    'name': 'test'
+                }
+            }
+        })
 
 app = App()
 MyStack(app, "python-simple")

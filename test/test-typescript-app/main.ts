@@ -25,6 +25,15 @@ export class HelloTerra extends TerraformStack {
     new TerraformOutput(this, 'sns-topic-arn', {
       value: topic.arn
     })
+
+    this.addOverride('terraform.backend', {
+      remote: {
+        organization: 'test',
+        workspaces: {
+          name: 'test'
+        }
+      }
+    });
   }
 }
 

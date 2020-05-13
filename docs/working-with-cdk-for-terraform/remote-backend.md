@@ -39,7 +39,7 @@ can be defined in two ways:
    });
    ```
 
-1. Create a JSON file such as `remote.tf.json` in `cdktf.out` directory.
+2. Create a JSON file such as `remote.tf.json` in `cdktf.out` directory.
    ```json
    {
        "terraform": {
