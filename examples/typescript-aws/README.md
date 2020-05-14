@@ -20,16 +20,21 @@ You can now edit the `main.ts` file if you want to modify any code.
 
 ```typescript
 vim main.ts
-import { Construct, Token } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
+import { Construct } from 'constructs';
+import { App, TerraformStack, Token } from 'cdktf';
 import { Eks } from './.gen/modules/terraform-aws-modules/eks/aws';
 import { Vpc } from './.gen/modules/terraform-aws-modules/vpc/aws';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
+import { AwsProvider } from './.gen/providers/aws'
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    new AwsProvider(this, 'aws', {
+      region: 'eu-central-1'
+    })
 
     const table = new DynamodbTable(this, 'Hello', {
       name: 'my-first-table',
@@ -60,10 +65,19 @@ export class HelloTerra extends TerraformStack {
       vpcId: vpc.vpcIdOutput,
       subnets: Token.asList(vpc.publicSubnetsOutput)
     });
+
+    this.addOverride('terraform.backend', {
+      remote: {
+        organization: 'test',
+        workspaces: {
+          name: 'test'
+        }
+      }
+    });
   }
 }
 
-const app = new App({ outdir: 'cdktf.out' });
+const app = new App();
 new HelloTerra(app, 'hello-terra');
 app.synth();
 ```
