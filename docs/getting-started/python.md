@@ -59,18 +59,18 @@ Let's take a simple Python application that uses the CDK for Terraform package.
 #!/usr/bin/env python
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import Instance
+from imports.aws import Instance, AwsProvider
 
 
 class MyStack(TerraformStack):
   def __init__(self, scope: Construct, ns: str):
-  super().__init__(scope, ns)
+    super().__init__(scope, ns)
 
-
-Instance(self, "hello", ami="ami-2757f631", instance_type="t2.micro")
+    AwsProvider(self, 'Aws', region='us-east-1')
+    Instance(self, "hello", ami="ami-2757f631", instance_type="t2.micro")
 
 app = App()
-MyStack(app, "example-python")
+MyStack(app, "hello-terraform")
 
 app.synth()
 ```
@@ -94,30 +94,29 @@ the application.
 cd cdktf.out
 ```
 
-AWS instance expressed as Terraform JSON configuration.
+Terraform AWS provider and instance expressed as Terraform JSON configuration.
 
 ```json
 cat helloterraform.json
 {
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
+    }
+  },
+  "provider": {
+    "aws": [
+      {
+        "region": "us-east-1"
+      }
+    ]
+  },
   "resource": {
     "aws_instance": {
       "examplepythonhello3532B955": {
         "ami": "ami-2757f631",
         "instance_type": "t2.micro"
       }
-    }
-  }
-}
-```
-
-Terraform AWS provider expressed as Terraform JSON configuration.
-
-```json
-cat providers.tf.json
-{
-  "terraform": {
-    "required_providers": {
-      "aws": "~> 2.0"
     }
   }
 }

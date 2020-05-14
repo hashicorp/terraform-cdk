@@ -2,3 +2,5 @@
 *.js
 node_modules
 dist/
+.gen
+.terraform

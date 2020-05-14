@@ -57,11 +57,15 @@ Let's take a simple TypeScript application that uses the CDK for Terraform packa
 ```typescript
 import { Construct } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
-import { Instance } from './.gen/providers/aws/instance';
+import { AwsProvider, Instance } from './.gen/providers/aws';
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    new AwsProvider(this, 'aws', {
+      region: 'us-east-1'
+    });
 
     new Instance(this, 'Hello', {
       ami: "ami-2757f631",
@@ -104,30 +108,29 @@ your application.
 cd cdktf.out
 ```
 
-AWS Instance expressed as Terraform JSON configuration.
+Terraform AWS provider and Instance expressed as Terraform JSON configuration.
 
 ```json
 cat cdktf.out/example.tf.json
 {
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
+    }
+  },
+  "provider": {
+    "aws": [
+      {
+        "region": "us-east-1"
+      }
+    ]
+  },
   "resource": {
     "aws_instance": {
       "examplesimpleHelloF6D4983C": {
         "ami": "ami-2757f631",
         "instance_type": "t2.micro"
       }
-    }
-  }
-}
-```
-
-Terraform AWS provider expressed as Terraform JSON configuration.
-
-```json
-cat cdktf.out/providers.tf.json
-{
-  "terraform": {
-    "required_providers": {
-      "aws": "~> 2.0"
     }
   }
 }
