@@ -57,19 +57,11 @@ Generate CDK Constructs for Terraform providers and modules.
 Options:
   --version        Show version number  [boolean]
   --help           Show help  [boolean]
-  --providers, -p  Generate Constructs for given providers. Example: "aws@~> 2.5"  [array]
-  --modules, -m    Generate Constructs for given modules. Example: "terraform-aws-modules/vpc/aws"  [array]
   --output, -o     Output directory  [string] [default: ".gen"]
   --language, -l   Output programming language  [string] [required]
 ```
 
 Examples:
-
-Download providers and modules by specifying them via the CLI.
-
-```bash
-$ cdktf get --providers="aws@~> 2.5" --modules="terraform-aws-modules/vpc/aws"
-```
 
 Download providers and modules defined in the `cdktf.json` configuration file.
 

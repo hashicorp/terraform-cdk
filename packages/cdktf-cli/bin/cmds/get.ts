@@ -21,21 +21,19 @@ class Command implements yargs.CommandModule {
 
   public readonly builder = (args: yargs.Argv) => args
     .showHelpOnFail(true)
-    .option('providers', { default: config.terraformProviders, desc: 'Generate Constructs for given providers. Example: "aws@~> 2.5"', alias: 'p', type: 'array' })
-    .option('modules', { default: config.terraformModules, desc: 'Generate Constructs for given modules. Example: "terraform-aws-modules/vpc/aws"', alias: 'm', type: 'array' })
     .option('output', { default: config.codeMakerOutput, type: 'string', desc: 'Output directory for generated Constructs', alias: 'o' })
     .option('language', { default: config.language, required: true, type: 'string', desc: 'Output programming language', alias: 'l', choices: LANGUAGES });
 
   public async handler(argv: any) {
     const args = argv as Arguments
-    const providers = args.providers.filter(Boolean);
-    const modules = args.modules.filter(Boolean);
+    const providers = config.terraformProviders ?? [];
+    const modules = config.terraformModules ?? [];
     const { output, language } = args
 
     await fs.remove(output);
 
     if (providers.length === 0 && modules.length === 0) {
-      console.error(`ERROR: Please provider at least one of the arguments for "providers" or "modules" or create a "cdktf.json" config file`);
+      console.error(`ERROR: Please specify providers in "cdktf.json" config file`);
       process.exit(1);
     }
 
