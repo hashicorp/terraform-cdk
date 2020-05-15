@@ -1,3 +1,8 @@
+## 0.0.6
+
+- Typescript examples and template defaults for synthesize commands to compile application (#63)
+- Terraform Output doesn't handle Optional Types (#83)
+
 ## 0.0.5
 
 - Document Terraform outputs and remote backend (#64)
