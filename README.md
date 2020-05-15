@@ -33,9 +33,15 @@ Choose a language:
 * [typescript-aws-cloudfront-proxy](./examples/typescript-aws-cloudfront-proxy)
 * [python-aws](./examples/python-aws)
 
-## CLI
 
-Learn more how to use the cdktf command-line interface [here](./docs/cli-commands.md).
+## Documentation
+
+* [cdktf command-line interface](./docs/cli-commands.md).
+* Defining Terraform [outputs](./docs/working-with-cdk-for-terraform/terraform-outputs.md).
+* Using Terraform [remote backend](./docs/working-with-cdk-for-terraform/remote-backend.md).
+* Using the CDK for Terraform [escape hatch](./docs/working-with-cdk-for-terraform/escape-hatch.md).
+* Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
+
 
 ## Building
 
