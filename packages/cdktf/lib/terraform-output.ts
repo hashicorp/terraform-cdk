@@ -4,14 +4,14 @@ import { TerraformResource } from "./terraform-resource"
 import { keysToSnakeCase } from "./util"
 
 export interface TerraformOutputConfig {
-  readonly value: string | number | boolean | any[] | {[key: string]: any};
+  readonly value: string | number | boolean | any[] | { [key: string]: any } | undefined;
   readonly description?: string;
   readonly sensitive?: boolean;
   readonly dependsOn?: TerraformResource[];
 }
 
 export class TerraformOutput extends TerraformElement {
-  public value: string | number | boolean | any[] | {[key: string]: any};
+  public value: string | number | boolean | any[] | { [key: string]: any } | undefined;
   public description?: string;
   public sensitive?: boolean;
   public dependsOn?: TerraformResource[];

@@ -79,19 +79,11 @@ new MyStack(app, 'hello-terraform');
 app.synth();
 ```
 
-**Compile Application**
-
-You can now compile the application by running `npm run compile` or `yarn compile`.
-
-```bash
-yarn compile
-```
-
-This will compile TypeScript to Javascript.
-
 **Synthesize Application**
 
 When you are ready you can run the `synthesize` command to generate Terraform JSON configuration for the application.
+Running the command will compile the application `npm run compile` or `yarn compile` in the background for
+you which will compile TypeScript to Javascript.
 
 ```bash
 cdktf synth
