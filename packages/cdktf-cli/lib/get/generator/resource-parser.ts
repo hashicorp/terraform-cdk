@@ -15,7 +15,7 @@ const uniqueClassName = (className: string): string => {
 class Parser {
   private structs = new Array<Struct>();
 
-  public resourceFrom(provider: string, type: string, schema: Schema): ResourceModel {
+  public resourceFrom(provider: string, type: string, schema: Schema, terraformSchemaType: string): ResourceModel {
     let baseName = type;
     if (baseName.startsWith(`${provider}_`)) {
       baseName = baseName.substr(provider.length + 1);
@@ -44,6 +44,7 @@ class Parser {
       schema,
       provider,
       attributes,
+      terraformSchemaType,
       structs: this.structs
     })
 
@@ -219,9 +220,9 @@ class Parser {
 }
 
 export class ResourceParser {
-  public parse(provider: string, type: string, schema: Schema): ResourceModel {
+  public parse(provider: string, type: string, schema: Schema, terraformType: string): ResourceModel {
     const parser = new Parser()
-    const resource = parser.resourceFrom(provider, type, schema)
+    const resource = parser.resourceFrom(provider, type, schema, terraformType)
     return resource;
   }
 }
