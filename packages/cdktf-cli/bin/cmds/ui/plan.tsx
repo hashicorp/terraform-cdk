@@ -24,7 +24,7 @@ export const Plan = (): React.ReactElement => {
   return(
     <Box>
       { isPlanning ? (
-        <StatusSpinner statusText={'planning...'}/>) : (
+        <StatusSpinner statusText={'generating diff...'}/>) : (
           <Fragment>
             <Box flexDirection="column">
               <Text bold>Planned Stack</Text>
