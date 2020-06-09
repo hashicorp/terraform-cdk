@@ -4,8 +4,8 @@ import React from 'react';
 import  { Plan } from './ui/plan'
 
 class Command implements yargs.CommandModule {
-  public readonly command = 'plan [OPTIONS]';
-  public readonly describe = 'Plan stuff';
+  public readonly command = 'diff [OPTIONS]';
+  public readonly describe = 'Perform a diff (terraform plan) for the given stack';
 
   public readonly builder = (args: yargs.Argv) => args
     .showHelpOnFail(true)

@@ -4,7 +4,7 @@ import * as path from 'path'
 import { Terraform, PlannedResource } from "./models/terraform"
 import { PlanElement, StatusSpinner } from './components'
 
-export const Plan = (): React.ReactElement => {
+export const Diff = (): React.ReactElement => {
   const [resources, setResources] = React.useState<PlannedResource[]>([]);
   const [isPlanning, setIsPlanning] = React.useState(false);
 
@@ -27,7 +27,7 @@ export const Plan = (): React.ReactElement => {
         <StatusSpinner statusText={'generating diff...'}/>) : (
           <Fragment>
             <Box flexDirection="column">
-              <Text bold>Planned Stack</Text>
+              <Text bold>Diff for Stack</Text>
               { resources.map(resource => (<PlanElement key={resource.id} resource={resource}/>)) }
             </Box>
           </Fragment>
