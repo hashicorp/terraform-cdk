@@ -5,6 +5,7 @@ export * from './terraform-resource';
 export * from './terraform-output';
 export * from './terraform-stack';
 export * from './complex-computed-list';
+export * from './resource'
 export * from './testing';
 export * from './app';
 export * from './tokens'
