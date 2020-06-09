@@ -46,10 +46,14 @@ export class Terraform  {
   constructor(public readonly workdir: string) {
   }
 
+  public async init(): Promise<void> {
+    await this.exec('terraform', ['init'], { cwd: this.workdir, env: process.env })
+  }
+
   public async plan(): Promise<TerraformPlan> {
-    await this.exec('terraform', ['plan', '-out', '/tmp/plan'], { cwd: this.workdir, env: process.env })
-    const jsonPlan = await this.exec('terraform', ['show', '-json', '/tmp/plan'], { cwd: this.workdir, env: process.env })
-    return new TerraformPlan(JSON.parse(jsonPlan))
+    await this.exec('terraform', ['plan', '-out', '/tmp/plan'], { cwd: this.workdir, env: process.env });
+    const jsonPlan = await this.exec('terraform', ['show', '-json', '/tmp/plan'], { cwd: this.workdir, env: process.env });
+    return new TerraformPlan(JSON.parse(jsonPlan));
   }
 
   private async exec(command: string, args: string[], options: SpawnOptions): Promise<string> {

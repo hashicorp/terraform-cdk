@@ -4,27 +4,38 @@ import * as path from 'path'
 import { Terraform, PlannedResource } from "./models/terraform"
 import { PlanElement, StatusSpinner } from './components'
 
+enum Status {
+  STARTING = 'starting',
+  INITING = 'initing',
+  PLANNING = 'diffing',
+  DONE = 'done'
+}
+
 export const Diff = (): React.ReactElement => {
   const [resources, setResources] = React.useState<PlannedResource[]>([]);
-  const [isPlanning, setIsPlanning] = React.useState(false);
+  const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITING);
 
   React.useEffect(() => {
     const plan = async () => {
-      setIsPlanning(true)
       const cwd = process.cwd();
       const outdir = path.join(cwd, 'cdktf.out');
       const terraform = new Terraform(outdir)
+      setCurrentStatus(Status.INITING)
+      await terraform.init()
+      setCurrentStatus(Status.PLANNING)
       const plan = await terraform.plan()
       setResources(plan.resources)
-      setIsPlanning(false)
+      setCurrentStatus(Status.DONE)
     }
     plan()
   }, []); // only once
 
+  const isPlanning: boolean = currentStatus != Status.DONE
+
   return(
     <Box>
       { isPlanning ? (
-        <StatusSpinner statusText={'generating diff...'}/>) : (
+        <StatusSpinner statusText={`${currentStatus}...`}/>) : (
           <Fragment>
             <Box flexDirection="column">
               <Text bold>Diff for Stack</Text>
