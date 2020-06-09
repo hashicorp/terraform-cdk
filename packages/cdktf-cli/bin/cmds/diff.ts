@@ -1,7 +1,7 @@
 import * as yargs from 'yargs';
 import { render } from 'ink';
 import React from 'react';
-import  { Plan } from './ui/plan'
+import  { Diff } from './ui/diff'
 
 class Command implements yargs.CommandModule {
   public readonly command = 'diff [OPTIONS]';
@@ -11,7 +11,7 @@ class Command implements yargs.CommandModule {
     .showHelpOnFail(true)
 
   public async handler() {
-    render(React.createElement(Plan));
+    render(React.createElement(Diff));
   }
 }
 
