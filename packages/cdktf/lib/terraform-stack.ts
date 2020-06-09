@@ -4,6 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
+import { TerraformProvider } from './terraform-provider';
+
+const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
@@ -13,6 +16,30 @@ export class TerraformStack extends Construct {
     super(scope, id);
 
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
+
+    Object.defineProperty(this, STACK_SYMBOL, { value: true });
+  }
+
+  public static isStack(x: any): x is TerraformStack {
+    return x !== null && typeof(x) === 'object' && STACK_SYMBOL in x;
+  }
+
+  public static of(construct: IConstruct): TerraformStack {
+    return _lookup(construct);
+
+    function _lookup(c: IConstruct): TerraformStack  {
+      if (TerraformStack.isStack(c)) {
+        return c;
+      }
+
+      const node = Node.of(c)
+
+      if (!node.scope) {
+        throw new Error(`No stack could be identified for the construct at path ${Node.of(construct).path}`);
+      }
+
+      return _lookup(node.scope);
+    }
   }
 
   public addOverride(path: string, value: any) {
