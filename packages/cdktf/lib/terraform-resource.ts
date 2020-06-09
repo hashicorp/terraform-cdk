@@ -1,9 +1,8 @@
-import { Construct, Node, IConstruct } from "constructs";
+import { Construct, Node } from "constructs";
 import { Token } from "./tokens"
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { keysToSnakeCase, deepMerge } from "./util";
-import { TerraformStack } from './terraform-stack'
 
 export interface TerraformResourceLifecycle {
   readonly createBeforeDestroy?: boolean;
