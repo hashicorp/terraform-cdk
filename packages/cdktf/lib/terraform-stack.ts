@@ -65,6 +65,24 @@ export class TerraformStack extends Construct {
     curr[lastKey] = value;
   }
 
+  public allProviders(): TerraformProvider[] {
+    const providers: TerraformProvider[] = [];
+
+    const visit = async (node: IConstruct) => {
+      if (node instanceof TerraformProvider) {
+        providers.push(node)
+      }
+
+      for (const child of Node.of(node).children) {
+        visit(child);
+      }
+    }
+
+    visit(this)
+
+    return resolve(this, providers);
+  }
+
   public toTerraform(): any {
     const tf = {};
 
