@@ -3,29 +3,38 @@ import { Text, Box } from 'ink'
 import * as path from 'path'
 import { Terraform, PlannedResource } from "./models/terraform"
 import { PlanElement, StatusSpinner } from './components'
+import { SynthStack } from '../helper/synth-stack'
 
 enum Status {
   STARTING = 'starting',
+  SYNTHING = 'synthing',
   INITING = 'initing',
   PLANNING = 'diffing',
   DONE = 'done'
 }
 
-export const Diff = (): React.ReactElement => {
+interface DiffConfig {
+  targetDir: string;
+  synthCommand: string;
+}
+
+export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
   const [resources, setResources] = React.useState<PlannedResource[]>([]);
   const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITING);
 
   React.useEffect(() => {
     const plan = async () => {
       const cwd = process.cwd();
-      const outdir = path.join(cwd, 'cdktf.out');
-      const terraform = new Terraform(outdir)
-      setCurrentStatus(Status.INITING)
-      await terraform.init()
-      setCurrentStatus(Status.PLANNING)
-      const plan = await terraform.plan()
-      setResources(plan.resources)
-      setCurrentStatus(Status.DONE)
+      const outdir = path.join(cwd, targetDir);
+      setCurrentStatus(Status.SYNTHING);
+      await SynthStack.synth(synthCommand, targetDir);
+      const terraform = new Terraform(outdir);
+      setCurrentStatus(Status.INITING);
+      await terraform.init();
+      setCurrentStatus(Status.PLANNING);
+      const plan = await terraform.plan();
+      setResources(plan.resources);
+      setCurrentStatus(Status.DONE);
     }
     plan()
   }, []); // only once
