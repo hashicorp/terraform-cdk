@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Text, Box } from 'ink'
+import { Text, Box, useApp } from 'ink'
 import * as path from 'path'
 import { Terraform, PlannedResource } from "./models/terraform"
 import { PlanElement, StatusSpinner } from './components'
@@ -21,20 +21,26 @@ interface DiffConfig {
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
   const [resources, setResources] = React.useState<PlannedResource[]>([]);
   const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITING);
+  const { exit } = useApp();
 
   React.useEffect(() => {
     const plan = async () => {
-      const cwd = process.cwd();
-      const outdir = path.join(cwd, targetDir);
-      setCurrentStatus(Status.SYNTHING);
-      await SynthStack.synth(synthCommand, targetDir);
-      const terraform = new Terraform(outdir);
-      setCurrentStatus(Status.INITING);
-      await terraform.init();
-      setCurrentStatus(Status.PLANNING);
-      const plan = await terraform.plan();
-      setResources(plan.resources);
-      setCurrentStatus(Status.DONE);
+      try {
+        const cwd = process.cwd();
+        const outdir = path.join(cwd, targetDir);
+        setCurrentStatus(Status.SYNTHING);
+        await SynthStack.synth(synthCommand, targetDir);
+        const terraform = new Terraform(outdir);
+        setCurrentStatus(Status.INITING);
+        await terraform.init();
+        setCurrentStatus(Status.PLANNING);
+        const plan = await terraform.plan();
+        setResources(plan.resources);
+        setCurrentStatus(Status.DONE);
+      } catch(e) {
+        console.error(e)
+        exit(e)
+      }
     }
     plan()
   }, []); // only once
