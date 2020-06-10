@@ -35,7 +35,7 @@ export class TerraformStack extends Construct {
       const node = Node.of(c)
 
       if (!node.scope) {
-        throw new Error(`No stack could be identified for the construct at path ${Node.of(construct).path}`);
+        throw new Error(`No stack could be identified for the construct at path '${Node.of(construct).path}'`);
       }
 
       return _lookup(node.scope);
