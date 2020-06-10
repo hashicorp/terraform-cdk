@@ -1,4 +1,5 @@
 import { spawn, SpawnOptions } from 'child_process';
+import * as path from 'path';
 
 export enum PlannedResourceAction {
   CREATE = 'create',
@@ -51,8 +52,9 @@ export class Terraform  {
   }
 
   public async plan(): Promise<TerraformPlan> {
-    await this.exec('terraform', ['plan', '-out', '/tmp/plan'], { cwd: this.workdir, env: process.env });
-    const jsonPlan = await this.exec('terraform', ['show', '-json', '/tmp/plan'], { cwd: this.workdir, env: process.env });
+    const planFile = path.join(this.workdir, 'plan')
+    await this.exec('terraform', ['plan', '-out', planFile], { cwd: this.workdir, env: process.env });
+    const jsonPlan = await this.exec('terraform', ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
     return new TerraformPlan(JSON.parse(jsonPlan));
   }
 
