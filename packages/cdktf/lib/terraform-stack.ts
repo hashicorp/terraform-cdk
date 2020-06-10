@@ -4,6 +4,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
+import { version } from '../package.json';
+
+export interface TerraformStackMetadata {
+  readonly stackName: string;
+  readonly version: string;
+}
 
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
@@ -39,7 +45,14 @@ export class TerraformStack extends Construct {
   }
 
   public toTerraform(): any {
-    const tf = {};
+    const tf = {
+      "//": {
+        metadata: {
+          version,
+          stackName: this.artifactFile,
+        } as TerraformStackMetadata
+      }
+    };
 
     const visit = (node: IConstruct) => {
       if (node instanceof TerraformElement) {

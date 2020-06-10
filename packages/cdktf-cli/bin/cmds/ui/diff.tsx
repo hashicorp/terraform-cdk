@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
-import { Text, Box, useApp } from 'ink'
+import { Text, Box, Color, useApp } from 'ink'
 import * as path from 'path'
+import Spinner from 'ink-spinner';
 import { Terraform, PlannedResource } from "./models/terraform"
-import { PlanElement, StatusSpinner } from './components'
+import { PlanElement } from './components'
 import { SynthStack } from '../helper/synth-stack'
 
 enum Status {
@@ -21,6 +22,7 @@ interface DiffConfig {
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
   const [resources, setResources] = React.useState<PlannedResource[]>([]);
   const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITING);
+  const [stackName, setStackName] = React.useState('');
   const { exit } = useApp();
 
   React.useEffect(() => {
@@ -29,7 +31,8 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
         const cwd = process.cwd();
         const outdir = path.join(cwd, targetDir);
         setCurrentStatus(Status.SYNTHING);
-        await SynthStack.synth(synthCommand, targetDir);
+        const stacks = await SynthStack.synth(synthCommand, targetDir);
+        setStackName(stacks[0].name)
         const terraform = new Terraform(outdir);
         setCurrentStatus(Status.INITING);
         await terraform.init();
@@ -46,14 +49,21 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
   }, []); // only once
 
   const isPlanning: boolean = currentStatus != Status.DONE
+  const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>&nbsp;...</Text>
 
   return(
     <Box>
       { isPlanning ? (
-        <StatusSpinner statusText={`${currentStatus}...`}/>) : (
+        <Fragment>
+          <Color green><Spinner type="dots"/></Color><Box paddingLeft={1}><Text>{ statusText }</Text></Box>
+        </Fragment>
+        ) : (
           <Fragment>
             <Box flexDirection="column">
-              <Text bold>Diff for Stack</Text>
+              <Box>
+                <Text bold>Stack: {stackName}</Text>
+              </Box>
+              <Text bold>Resources</Text>
               { resources.map(resource => (<PlanElement key={resource.id} resource={resource}/>)) }
             </Box>
           </Fragment>

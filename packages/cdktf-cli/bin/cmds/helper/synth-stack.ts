@@ -1,9 +1,20 @@
 import { shell } from '../../../lib/util';
 import * as fs from 'fs-extra';
 import * as path from 'path'
+import { TerraformStackMetadata } from 'cdktf'
+
+interface SynthesizedStackMetadata {
+  "//"?: {[key: string]: TerraformStackMetadata };
+}
+
+interface SynthesizedStack {
+  file: string;
+  name: string;
+  content: string;
+}
 
 export class SynthStack {
-  public static async synth(command: string, outdir: string): Promise<string[]> {
+  public static async synth(command: string, outdir: string): Promise<SynthesizedStack[]> {
     await shell(command, [], {
       shell: true,
       stdio: [null, null, null],
@@ -18,18 +29,31 @@ export class SynthStack {
       process.exit(1);
     }
 
-    const files: string[] = [];
+    const stacks: SynthesizedStack[] = [];
 
     for (const file of await fs.readdir(outdir)) {
       if (file.endsWith('.tf.json')) {
-        files.push(path.join(outdir, file))
+        const filePath = path.join(outdir, file);
+        const jsonContent: SynthesizedStackMetadata = JSON.parse(fs.readFileSync(filePath).toString());
+        const name = jsonContent['//']?.metadata.stackName;
+        if (name !== undefined) {
+          stacks.push({
+            file: path.join(outdir, file),
+            name: name.replace('.tf.json', ''),
+            content: JSON.stringify(jsonContent, null, 2)
+          })
+        }
       }
     }
 
-    if (files.length === 0) {
+    if (stacks.length === 0) {
       console.error('No Terraform code synthesized.');
     }
 
-    return files
+    if (stacks.length > 1) {
+      console.error('Found more than one stack. Multiple stacks are not supported at the moment and might lead to unpredictable behaviour.');
+    }
+
+    return stacks
   }
 }

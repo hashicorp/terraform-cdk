@@ -23,10 +23,11 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    const files = await SynthStack.synth(command, outdir)
+    const stacks = await SynthStack.synth(command, outdir)
 
-    for (const file of files) {
-      console.log(JSON.stringify(JSON.parse(fs.readFileSync(file).toString()), null, 2))
+    for (const stack of stacks) {
+      console.error(`Stack: ${stack.name}`)
+      console.log(stack.content)
     }
   }
 }
