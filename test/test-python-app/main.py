@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from constructs import Construct
-from cdktf import App, TerraformStack
+from cdktf import App, TerraformStack, Testing
 from imports.aws import SnsTopic, AwsProvider
 from imports.terraform_aws_modules.vpc.aws import Vpc
 
@@ -22,7 +22,7 @@ class MyStack(TerraformStack):
             }
         })
 
-app = App(stack_traces=False)
+app = Testing.stub_version(App(stack_traces=False))
 MyStack(app, "python-simple")
 
 app.synth()

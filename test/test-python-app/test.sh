@@ -15,6 +15,8 @@ cdktf init --template python
 cp ${scriptdir}/main.py .
 cp ${scriptdir}/cdktf.json .
 
+rm -rf cdktf.out
+
 # regenerate with module
 cdktf get
 

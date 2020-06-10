@@ -4,7 +4,7 @@ exports[`minimal configuration 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"0.0.0\\",
+      \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test.tf.json\\"
     }
   },
@@ -22,7 +22,7 @@ exports[`with alias 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"0.0.0\\",
+      \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test.tf.json\\"
     }
   },
@@ -44,7 +44,7 @@ exports[`with generator metadata 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"0.0.0\\",
+      \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test.tf.json\\"
     }
   },

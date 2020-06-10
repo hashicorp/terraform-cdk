@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack, TerraformOutput } from 'cdktf';
+import { App, TerraformStack, TerraformOutput, Testing } from 'cdktf';
 import { AwsProvider, SnsTopic } from './.gen/providers/aws';
 
 export class HelloTerra extends TerraformStack {
@@ -37,6 +37,6 @@ export class HelloTerra extends TerraformStack {
   }
 }
 
-const app = new App({stackTraces: false});
+const app = Testing.stubVersion(new App({stackTraces: false}));
 new HelloTerra(app, 'hello-terra');
 app.synth();

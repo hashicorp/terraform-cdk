@@ -4,7 +4,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
-import { version } from '../package.json';
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -14,11 +13,13 @@ export interface TerraformStackMetadata {
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
   private readonly rawOverrides: any = {}
+  private readonly cdktfVersion: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
+    this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
   }
 
   public addOverride(path: string, value: any) {
@@ -48,7 +49,7 @@ export class TerraformStack extends Construct {
     const tf = {
       "//": {
         metadata: {
-          version,
+          version: this.cdktfVersion,
           stackName: this.artifactFile,
         } as TerraformStackMetadata
       }
