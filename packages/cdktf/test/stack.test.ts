@@ -3,7 +3,7 @@ import { TerraformModule } from "cdktf/lib/terraform-module";
 import { TestProvider } from './helper'
 
 test('stack synthesis merges all elements into a single output', () => {
-  const app = new App();
+  const app = new App({stackTraces: false});
   const stack = new TerraformStack(app, 'MyStack');
 
   new TestProvider(stack, 'test-provider', {

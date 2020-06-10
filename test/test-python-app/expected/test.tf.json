@@ -1,1 +1,8 @@
-{}
+{
+  "//": {
+    "metadata": {
+      "version": "0.0.0",
+      "stackName": "test.tf.json"
+    }
+  }
+}

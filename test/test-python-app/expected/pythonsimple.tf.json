@@ -1,4 +1,10 @@
 {
+  "//": {
+    "metadata": {
+      "version": "0.0.0",
+      "stackName": "pythonsimple.tf.json"
+    }
+  },
   "terraform": {
     "required_providers": {
       "aws": "~> 2.0"
@@ -20,16 +26,28 @@
     ]
   },
   "module": {
-    "pythonsimpleCustomVpcD3E4490A": {
+    "pythonsimple_CustomVpc_D3E4490A": {
       "name": "custom-vpc",
       "source": "terraform-aws-modules/vpc/aws",
-      "version": "2.39.0"
+      "version": "2.39.0",
+      "//": {
+        "metadata": {
+          "path": "python-simple/CustomVpc",
+          "uniqueId": "pythonsimple_CustomVpc_D3E4490A"
+        }
+      }
     }
   },
   "resource": {
     "aws_sns_topic": {
-      "pythonsimpleTopic451716E7": {
-        "display_name": "my-first-sns-topic"
+      "pythonsimple_Topic_451716E7": {
+        "display_name": "my-first-sns-topic",
+        "//": {
+          "metadata": {
+            "path": "python-simple/Topic",
+            "uniqueId": "pythonsimple_Topic_451716E7"
+          }
+        }
       }
     }
   }

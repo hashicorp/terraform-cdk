@@ -37,6 +37,6 @@ export class HelloTerra extends TerraformStack {
   }
 }
 
-const app = new App({});
+const app = new App({stackTraces: false});
 new HelloTerra(app, 'hello-terra');
 app.synth();

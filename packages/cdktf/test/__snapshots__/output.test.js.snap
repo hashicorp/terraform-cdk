@@ -2,8 +2,14 @@
 
 exports[`boolean output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": true
     }
   }
@@ -12,18 +18,30 @@ exports[`boolean output 1`] = `
 
 exports[`dependent output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"testweirdlongrunningresource90E96B6A\\": {
-        \\"name\\": \\"foo\\"
+      \\"test_weirdlongrunningresource_90E96B6A\\": {
+        \\"name\\": \\"foo\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/weird-long-running-resource\\",
+            \\"uniqueId\\": \\"test_weirdlongrunningresource_90E96B6A\\"
+          }
+        }
       }
     }
   },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": 1,
       \\"depends_on\\": [
-        \\"\${test_resource.testweirdlongrunningresource90E96B6A}\\"
+        \\"\${test_resource.test_weirdlongrunningresource_90E96B6A}\\"
       ]
     }
   }
@@ -32,8 +50,14 @@ exports[`dependent output 1`] = `
 
 exports[`description output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": 1,
       \\"description\\": \\"test-description\\"
     }
@@ -43,8 +67,14 @@ exports[`description output 1`] = `
 
 exports[`list output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": [
         \\"foo\\",
         \\"bar\\"
@@ -56,8 +86,14 @@ exports[`list output 1`] = `
 
 exports[`map output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": {
         \\"foo\\": \\"bar\\"
       }
@@ -68,8 +104,14 @@ exports[`map output 1`] = `
 
 exports[`number output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": 1
     }
   }
@@ -78,8 +120,14 @@ exports[`number output 1`] = `
 
 exports[`sensitive output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": 1,
       \\"sensitive\\": true
     }
@@ -89,8 +137,14 @@ exports[`sensitive output 1`] = `
 
 exports[`string output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"output\\": {
-    \\"testtestoutputC2E8674F\\": {
+    \\"test_testoutput_C2E8674F\\": {
       \\"value\\": \\"1\\"
     }
   }

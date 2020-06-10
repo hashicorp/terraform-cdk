@@ -15,7 +15,7 @@ export class Testing {
      */
     public static app() {
         const outdir = fs.mkdtempSync(path.join(os.tmpdir(), 'cdktf.outdir.'));
-        return new App({ outdir });
+        return new App({ outdir, stackTraces: false });
     }
 
     /**

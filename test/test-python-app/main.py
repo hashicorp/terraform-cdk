@@ -22,7 +22,7 @@ class MyStack(TerraformStack):
             }
         })
 
-app = App()
+app = App(stack_traces=False)
 MyStack(app, "python-simple")
 
 app.synth()

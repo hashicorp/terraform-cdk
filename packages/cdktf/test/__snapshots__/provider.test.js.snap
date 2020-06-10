@@ -2,6 +2,12 @@
 
 exports[`minimal configuration 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"provider\\": {
     \\"test\\": [
       {
@@ -14,6 +20,12 @@ exports[`minimal configuration 1`] = `
 
 exports[`with alias 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"provider\\": {
     \\"test\\": [
       {
@@ -30,6 +42,12 @@ exports[`with alias 1`] = `
 
 exports[`with generator metadata 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"terraform\\": {
     \\"required_providers\\": {
       \\"test\\": \\"~> 2.0\\"

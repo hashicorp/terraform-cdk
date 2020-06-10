@@ -2,10 +2,22 @@
 
 exports[`minimal configuration 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"testDBA94737\\": {
-        \\"name\\": \\"foo\\"
+      \\"test_DBA94737\\": {
+        \\"name\\": \\"foo\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/test\\",
+            \\"uniqueId\\": \\"test_DBA94737\\"
+          }
+        }
       }
     }
   }
@@ -14,6 +26,12 @@ exports[`minimal configuration 1`] = `
 
 exports[`provider setter 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"provider\\": {
     \\"test\\": [
       {
@@ -23,9 +41,15 @@ exports[`provider setter 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"testDBA94737\\": {
+      \\"test_DBA94737\\": {
         \\"name\\": \\"bar\\",
-        \\"provider\\": \\"test\\"
+        \\"provider\\": \\"test\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/test\\",
+            \\"uniqueId\\": \\"test_DBA94737\\"
+          }
+        }
       }
     }
   }
@@ -34,11 +58,33 @@ exports[`provider setter 1`] = `
 
 exports[`serialize list interpolation 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"tests.tf.json\\"
+    }
+  },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"teststestA231270F\\": {
+      \\"tests_test_A231270F\\": {
         \\"name\\": \\"bar\\",
-        \\"names\\": \\"\${other_test_resource.testsothertestE4B4389F.names}\\"
+        \\"names\\": \\"\${other_test_resource.tests_othertest_E4B4389F.names}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"tests/test\\",
+            \\"uniqueId\\": \\"tests_test_A231270F\\"
+          }
+        }
+      }
+    },
+    \\"other_test_resource\\": {
+      \\"tests_othertest_E4B4389F\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"tests/othertest\\",
+            \\"uniqueId\\": \\"tests_othertest_E4B4389F\\"
+          }
+        }
       }
     }
   }
@@ -47,6 +93,12 @@ exports[`serialize list interpolation 1`] = `
 
 exports[`with provider alias 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"test.tf.json\\"
+    }
+  },
   \\"provider\\": {
     \\"test\\": [
       {
@@ -60,9 +112,15 @@ exports[`with provider alias 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"testDBA94737\\": {
+      \\"test_DBA94737\\": {
         \\"name\\": \\"bar\\",
-        \\"provider\\": \\"test.foo\\"
+        \\"provider\\": \\"test.foo\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/test\\",
+            \\"uniqueId\\": \\"test_DBA94737\\"
+          }
+        }
       }
     }
   }
