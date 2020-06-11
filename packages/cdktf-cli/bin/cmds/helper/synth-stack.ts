@@ -39,7 +39,7 @@ export class SynthStack {
         if (name !== undefined) {
           stacks.push({
             file: path.join(outdir, file),
-            name: name.replace('.tf.json', ''),
+            name,
             content: JSON.stringify(jsonContent, null, 2)
           })
         }

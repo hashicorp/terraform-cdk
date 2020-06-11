@@ -5,7 +5,7 @@ exports[`minimal configuration 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test.tf.json\\"
+      \\"stackName\\": \\"test\\"
     }
   },
   \\"resource\\": {
@@ -29,7 +29,7 @@ exports[`provider setter 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test.tf.json\\"
+      \\"stackName\\": \\"test\\"
     }
   },
   \\"provider\\": {
@@ -61,7 +61,7 @@ exports[`serialize list interpolation 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests.tf.json\\"
+      \\"stackName\\": \\"tests\\"
     }
   },
   \\"resource\\": {
@@ -96,7 +96,7 @@ exports[`with provider alias 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test.tf.json\\"
+      \\"stackName\\": \\"test\\"
     }
   },
   \\"provider\\": {
