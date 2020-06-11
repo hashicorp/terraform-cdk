@@ -8,9 +8,9 @@ import { SynthStack } from '../helper/synth-stack'
 
 enum Status {
   STARTING = 'starting',
-  SYNTHING = 'synthing',
-  INITING = 'initing',
-  PLANNING = 'diffing',
+  SYNTHESIZING = 'synthesizing',
+  INITIALIZING = 'initializing',
+  PLANNING = 'generating diff',
   DONE = 'done'
 }
 
@@ -21,7 +21,7 @@ interface DiffConfig {
 
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
   const [resources, setResources] = React.useState<PlannedResource[]>([]);
-  const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITING);
+  const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITIALIZING);
   const [stackName, setStackName] = React.useState('');
   const { exit } = useApp();
 
@@ -30,11 +30,11 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
       try {
         const cwd = process.cwd();
         const outdir = path.join(cwd, targetDir);
-        setCurrentStatus(Status.SYNTHING);
+        setCurrentStatus(Status.SYNTHESIZING);
         const stacks = await SynthStack.synth(synthCommand, targetDir);
         setStackName(stacks[0].name)
         const terraform = new Terraform(outdir);
-        setCurrentStatus(Status.INITING);
+        setCurrentStatus(Status.INITIALIZING);
         await terraform.init();
         setCurrentStatus(Status.PLANNING);
         const plan = await terraform.plan();
@@ -49,7 +49,7 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
   }, []); // only once
 
   const isPlanning: boolean = currentStatus != Status.DONE
-  const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>&nbsp;...</Text>
+  const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
   return(
     <Box>
@@ -61,7 +61,7 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
           <Fragment>
             <Box flexDirection="column">
               <Box>
-                <Text bold>Stack: {stackName}</Text>
+                <Text>Stack: </Text><Text bold>{stackName}</Text>
               </Box>
               <Text bold>Resources</Text>
               { resources.map(resource => (<PlanElement key={resource.id} resource={resource}/>)) }
