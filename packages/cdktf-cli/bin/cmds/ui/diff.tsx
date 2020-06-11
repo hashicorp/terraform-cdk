@@ -19,6 +19,38 @@ interface DiffConfig {
   synthCommand: string;
 }
 
+interface PlanSummaryConfig {
+  resources: PlannedResource[];
+}
+
+interface PlanSummary {
+  [key: string]: any;
+}
+
+const PlanSummary = ({resources}: PlanSummaryConfig): React.ReactElement  => {
+  const summary = resources.reduce((accumulator, resource) => {
+    if (accumulator[resource.action] !== undefined) {
+      accumulator[resource.action] += 1
+    }
+
+    return accumulator
+  }, {
+    create: 0,
+    change: 0,
+    destroy: 0
+  } as any)
+
+  return(<>
+    { Object.keys(summary).map((key, i) => (
+        <Box key={key}>
+          {i > 0 && ", "}
+          <Text>{summary[key]} to {key}</Text>
+        </Box>
+      ))
+    }
+  </>)
+}
+
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
   const [resources, setResources] = React.useState<PlannedResource[]>([]);
   const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITIALIZING);
@@ -64,7 +96,10 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
                 <Text>Stack: </Text><Text bold>{stackName}</Text>
               </Box>
               <Text bold>Resources</Text>
-              { resources.map(resource => (<PlanElement key={resource.id} resource={resource}/>)) }
+              { resources.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource}/></Box>)) }
+              <Box marginTop={1} marginLeft={2}>
+                <PlanSummary resources={resources}/>
+              </Box>
             </Box>
           </Fragment>
         )}

@@ -27,6 +27,10 @@ export const PlanElementStatus = ({action}: PlanElementStatusProps) => {
       actionSymbol = '~';
       color = 'cyan'
       break;
+    case PlannedResourceAction.NO_OP:
+      actionSymbol = '~';
+      color = 'cyan'
+      break;
   }
 
   return(<Color keyword={color}><Text>{ actionSymbol }&nbsp;</Text></Color>)
