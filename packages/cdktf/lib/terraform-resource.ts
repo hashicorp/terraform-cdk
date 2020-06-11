@@ -34,7 +34,7 @@ export class TerraformResource extends TerraformElement {
 
   // TerraformMetaArguments
 
-  public dependsOn?: TerraformResource[];
+  public dependsOn?: string[];
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
@@ -44,7 +44,9 @@ export class TerraformResource extends TerraformElement {
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
-    this.dependsOn = config.dependsOn;
+    if (Array.isArray(config.dependsOn)) {
+      this.dependsOn = config.dependsOn.map(dependency => dependency.fqn);
+    }
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;

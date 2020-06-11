@@ -4,6 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
+import { TerraformProvider } from './terraform-provider';
+
+const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -20,6 +23,30 @@ export class TerraformStack extends Construct {
 
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
     this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
+
+    Object.defineProperty(this, STACK_SYMBOL, { value: true });
+  }
+
+  public static isStack(x: any): x is TerraformStack {
+    return x !== null && typeof(x) === 'object' && STACK_SYMBOL in x;
+  }
+
+  public static of(construct: IConstruct): TerraformStack {
+    return _lookup(construct);
+
+    function _lookup(c: IConstruct): TerraformStack  {
+      if (TerraformStack.isStack(c)) {
+        return c;
+      }
+
+      const node = Node.of(c)
+
+      if (!node.scope) {
+        throw new Error(`No stack could be identified for the construct at path '${Node.of(construct).path}'`);
+      }
+
+      return _lookup(node.scope);
+    }
   }
 
   public addOverride(path: string, value: any) {
@@ -43,6 +70,24 @@ export class TerraformStack extends Construct {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const lastKey = parts.shift()!;
     curr[lastKey] = value;
+  }
+
+  public allProviders(): TerraformProvider[] {
+    const providers: TerraformProvider[] = [];
+
+    const visit = async (node: IConstruct) => {
+      if (node instanceof TerraformProvider) {
+        providers.push(node)
+      }
+
+      for (const child of Node.of(node).children) {
+        visit(child);
+      }
+    }
+
+    visit(this)
+
+    return resolve(this, providers);
   }
 
   public toTerraform(): any {
