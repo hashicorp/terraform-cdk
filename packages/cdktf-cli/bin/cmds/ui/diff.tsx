@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Text, Box, Color, useApp } from 'ink'
 import * as path from 'path'
 import Spinner from 'ink-spinner';
-import { Terraform, PlannedResource } from "./models/terraform"
+import { Terraform, PlannedResource, PlannedResourceAction } from "./models/terraform"
 import { PlanElement } from './components'
 import { SynthStack } from '../helper/synth-stack'
 
@@ -82,6 +82,8 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
 
   const isPlanning: boolean = currentStatus != Status.DONE
   const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const statesToDisplay = [PlannedResourceAction.CHANGE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY]
+  const resourcesToDisplay = resources.filter((resource) => statesToDisplay.includes(resource.action))
 
   return(
     <Box>
@@ -96,9 +98,9 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
                 <Text>Stack: </Text><Text bold>{stackName}</Text>
               </Box>
               <Text bold>Resources</Text>
-              { resources.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource}/></Box>)) }
+              { resourcesToDisplay.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource}/></Box>)) }
               <Box marginTop={1} marginLeft={2}>
-                <PlanSummary resources={resources}/>
+                <PlanSummary resources={resourcesToDisplay}/>
               </Box>
             </Box>
           </Fragment>
