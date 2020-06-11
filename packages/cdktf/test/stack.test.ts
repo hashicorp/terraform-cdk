@@ -1,11 +1,9 @@
-import { Node } from "constructs";
-
 import { TerraformResource, TerraformStack, App, Testing, TerraformOutput } from "cdktf/lib";
 import { TerraformModule } from "cdktf/lib/terraform-module";
 import { TestProvider } from './helper'
 
 test('stack synthesis merges all elements into a single output', () => {
-  const app = new App();
+  const app = Testing.stubVersion(new App({stackTraces: false}));
   const stack = new TerraformStack(app, 'MyStack');
 
   new TestProvider(stack, 'test-provider', {
@@ -61,7 +59,7 @@ class MyModule extends TerraformModule {
 class MyResource extends TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo: Node.of(this).uniqueId,
+      foo: this.friendlyUniqueId,
       prop1: 'bar1',
       prop2: 1234,
       prop3: {

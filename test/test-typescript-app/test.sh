@@ -17,7 +17,7 @@ cp ${scriptdir}/main.ts .
 
 # build
 yarn compile
-yarn synth
+yarn synth > /dev/null
 
 # get rid of downloaded Terraform providers, no point in diffing them
 rm -rf cdktf.out/.terraform

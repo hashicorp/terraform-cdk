@@ -1,7 +1,7 @@
 import * as yargs from 'yargs';
-import { shell } from '../../lib/util';
-import * as fs from 'fs-extra';
 import { readConfigSync } from '../../lib/config';
+import { SynthStack } from './helper/synth-stack'
+import * as fs from 'fs-extra';
 
 const config = readConfigSync();
 
@@ -23,30 +23,11 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    await shell(command, [], {
-      shell: true,
-      env: {
-        ...process.env,
-        CDKTF_OUTDIR: outdir
-      }
-    });
+    const stacks = await SynthStack.synth(command, outdir)
 
-    console.log(`Generating Terraform code in the output directory: "${outdir}/"`)
-
-    if (!await fs.pathExists(outdir)) {
-      console.error(`ERROR: synthesis failed, app expected to create "${outdir}"`);
-      process.exit(1);
-    }
-
-    let found = false;
-    for (const file of await fs.readdir(outdir)) {
-      if (file.endsWith('.tf.json')) {
-        found = true;
-      }
-    }
-
-    if (!found) {
-      console.error('No Terraform code synthesized.');
+    for (const stack of stacks) {
+      console.error(`Stack: ${stack.name}`)
+      console.log(stack.content)
     }
   }
 }

@@ -8,14 +8,21 @@ import { TerraformProvider } from './terraform-provider';
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
+export interface TerraformStackMetadata {
+  readonly stackName: string;
+  readonly version: string;
+}
+
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
   private readonly rawOverrides: any = {}
+  private readonly cdktfVersion: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
+    this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
 
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
   }
@@ -84,7 +91,14 @@ export class TerraformStack extends Construct {
   }
 
   public toTerraform(): any {
-    const tf = {};
+    const tf = {
+      "//": {
+        metadata: {
+          version: this.cdktfVersion,
+          stackName: this.artifactFile.replace('.tf.json', ''),
+        } as TerraformStackMetadata
+      }
+    };
 
     const visit = (node: IConstruct) => {
       if (node instanceof TerraformElement) {

@@ -1,4 +1,4 @@
-import { Construct, Node } from "constructs";
+import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformResource } from "./terraform-resource"
 import { keysToSnakeCase } from "./util"
@@ -37,7 +37,7 @@ export class TerraformOutput extends TerraformElement {
   public toTerraform(): any {
     return {
       output: {
-        [Node.of(this).uniqueId]: keysToSnakeCase(this.synthesizeAttributes())
+        [this.friendlyUniqueId]: keysToSnakeCase(this.synthesizeAttributes())
       }
     };
   }

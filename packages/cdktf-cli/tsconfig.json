@@ -17,18 +17,21 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "jsx": "react",
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "ES2018"
+    "target": "ES2018",
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "templates/**/*.ts"
+    "templates/**/*.ts",
+    "**/*.d.ts"
   ],
 }

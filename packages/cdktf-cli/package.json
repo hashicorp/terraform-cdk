@@ -34,9 +34,13 @@
     "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
     "constructs": "^3.0.0",
+    "eslint-plugin-react": "^7.20.0",
     "fs-extra": "^8.1.0",
+    "ink": "^2.7.1",
+    "ink-spinner": "^3.0.1",
     "jsii": "1.1.0",
     "jsii-pacmak": "1.1.0",
+    "react": "^16.13.1",
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
     "yargs": "^15.1.0"
@@ -49,7 +53,8 @@
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended"
     ],
     "rules": {
       "@typescript-eslint/no-explicit-any": 0,
@@ -63,6 +68,9 @@
     ]
   },
   "devDependencies": {
+    "@types/ink": "^2.0.3",
+    "@types/ink-spinner": "^3.0.0",
+    "@types/react": "^16.9.35",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^25.1.2",
     "@types/json-schema": "^7.0.4",
