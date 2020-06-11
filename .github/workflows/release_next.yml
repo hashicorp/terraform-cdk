@@ -1,0 +1,27 @@
+name: Release @next
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  release:
+    if: github.repository == 'hashicorp/terraform-cdk'
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - run: tools/align-version.sh "-pre.${{ github.sha }}"
+      - run: yarn build
+      - run: yarn test
+      - run: yarn package
+      - run: yarn integration
+      - run: npx -p jsii-release jsii-release-npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_DIST_TAG: next
