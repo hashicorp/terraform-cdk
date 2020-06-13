@@ -8,7 +8,7 @@ import * as fs from 'fs-extra';
 const config = readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = 'synth';
+  public readonly command = 'synth [OPTIONS]';
   public readonly describe = 'Synthesizes Terraform code for the given app in a directory.';
   public readonly aliases = [ 'synthesize' ];
 

@@ -72,7 +72,9 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
 
     const env = process.env['TF_PLUGIN_CACHE_DIR'] ? process.env : Object.assign({}, process.env, { 'TF_PLUGIN_CACHE_DIR': await cacheDir(workDir) })
 
-    await exec('terraform', [ 'init' ], { cwd: outdir, stdio: [ 'inherit', 'inherit', 'inherit' ], env });
+    // todo: when implementing logging, we need to make sure we can show the terraform init
+    // output if the log level is set to debug
+    await exec('terraform', [ 'init' ], { cwd: outdir, env });
     schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir, env });
     fs.unlinkSync(filePath)
   })
@@ -86,6 +88,8 @@ async function cacheDir(workDir: string) {
   return cacheDir
 }
 
+// todo: move this exec function into terraform class and it should be shared by all
+// terraform comamnds.
 async function exec(command: string, args: string[], options: SpawnOptions = {}): Promise<string> {
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);

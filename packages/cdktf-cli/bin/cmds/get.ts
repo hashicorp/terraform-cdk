@@ -1,9 +1,9 @@
 import * as yargs from 'yargs';
-import * as fs from 'fs-extra';
+import { render } from 'ink';
+import React from 'react';
 import { readConfigSync } from '../../lib/config';
-import { GetProvider } from '../../lib/get/providers';
-import { GetModule } from '../../lib/get/modules';
 import { Language } from '../../lib/get/base';
+import { Get } from './ui/get'
 
 const config = readConfigSync();
 const LANGUAGES = [ 'typescript', 'python' ];
@@ -30,31 +30,12 @@ class Command implements yargs.CommandModule {
     const modules = config.terraformModules ?? [];
     const { output, language } = args
 
-    await fs.remove(output);
-
     if (providers.length === 0 && modules.length === 0) {
       console.error(`ERROR: Please specify providers in "cdktf.json" config file`);
       process.exit(1);
     }
 
-    const options = {
-      codeMakerOutput: output,
-      outdir: config.output,
-      targetLanguage: language
-    }
-
-    if (providers.length > 0) {
-      await new GetProvider().get(Object.assign({}, options, {targetNames: providers}))
-    }
-
-    if (modules.length > 0) {
-      await new GetModule().get(Object.assign({}, options, {targetNames: modules}))
-    }
-
-    if (!await fs.pathExists(output)) {
-      console.error(`ERROR: synthesis failed, app expected to create "${output}"`);
-      process.exit(1);
-    }
+    render(React.createElement(Get, { codeMakerOutput: output, language: language, modules: modules, providers: providers }));
   }
 }
 

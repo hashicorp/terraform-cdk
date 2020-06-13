@@ -99,8 +99,9 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
               </Box>
               <Text bold>Resources</Text>
               { resourcesToDisplay.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource}/></Box>)) }
-              <Box marginTop={1} marginLeft={2}>
-                <PlanSummary resources={resourcesToDisplay}/>
+              <Box marginTop={1}>
+                <Text bold>Diff: </Text>
+                <PlanSummary resources={resourcesToDisplay} /><Text>.</Text>
               </Box>
             </Box>
           </Fragment>

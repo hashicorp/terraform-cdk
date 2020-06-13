@@ -15,7 +15,6 @@ export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON ];
 
 export interface GetOptions {
   readonly targetLanguage: Language;
-  readonly outdir: string;
   readonly codeMakerOutput: string;
   readonly targetNames: string[];
 }

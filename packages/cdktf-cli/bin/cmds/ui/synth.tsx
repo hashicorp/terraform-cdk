@@ -42,7 +42,7 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
 
     const isSynthesizing: boolean = currentStatus != Status.DONE
     const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>...</Text>
-    const jsonTerraformOutput = (jsonOutput == false) ? `Generated Terraform code in the output directory: "${targetDir}"` : <Box><Text>{terraformJSONConfig}</Text></Box>
+    const jsonTerraformOutput = (jsonOutput == false) ? <Text>Generated Terraform code in the output directory: <Text bold>{targetDir}</Text></Text> : <Box><Text>{terraformJSONConfig}</Text></Box>
 
     return (
       <Box>
@@ -57,7 +57,9 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
           </Fragment>
         ) : (
           <Fragment>
+            <Box>
               {jsonTerraformOutput}
+            </Box>
           </Fragment>
         )}
       </Box>
