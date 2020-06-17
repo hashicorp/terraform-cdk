@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import { Text, Box, Color, useApp } from "ink";
 import Spinner from "ink-spinner";
 import { Language } from '../../../lib/get/base';
-import { GetModuleProvider } from '../helper/get-module-provider'
+import { ConstructsMaker, ConstructsOptions } from '../helper/constructs-maker'
 
 enum Status {
     STARTING = "starting",
@@ -23,15 +23,20 @@ export const Get = ({ codeMakerOutput, language, modules, providers }: GetConfig
     const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.STARTING);
     const { exit } = useApp();
 
+    let constructsOptions: ConstructsOptions = {
+        codeMakerOutput: codeMakerOutput,
+        language: language,
+    }
+
     React.useEffect(() => {
         const get = async () => {
             try {
-                await fs.remove(codeMakerOutput); 
-                const getModulesProvider = new GetModuleProvider(codeMakerOutput, language, modules, providers)
+                await fs.remove(constructsOptions.codeMakerOutput); 
+                const constructsMaker = new ConstructsMaker();
                 setCurrentStatus(Status.DOWNLOADING_PROVIDERS);
-                await getModulesProvider.getProviders();
+                await constructsMaker.getProviders(constructsOptions, providers);
                 setCurrentStatus(Status.DOWNLOADING_MODULES);
-                await getModulesProvider.getModules();
+                await constructsMaker.getModules(constructsOptions, modules);
                 setCurrentStatus(Status.DONE);
                 if (!await fs.pathExists(codeMakerOutput)) {
                     console.error(`ERROR: synthesis failed, app expected to create "${codeMakerOutput}"`);
