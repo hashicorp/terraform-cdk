@@ -5,7 +5,7 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"MyStack.tf.json\\"
+      \\"stackName\\": \\"MyStack\\"
     }
   },
   \\"provider\\": {

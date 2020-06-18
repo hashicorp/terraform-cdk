@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Text, Box, Color, useApp } from 'ink'
 import * as path from 'path'
 import Spinner from 'ink-spinner';
-import { Terraform, PlannedResource } from "./models/terraform"
+import { Terraform, PlannedResource, PlannedResourceAction } from "./models/terraform"
 import { PlanElement } from './components'
 import { SynthStack } from '../helper/synth-stack'
 
@@ -17,6 +17,38 @@ enum Status {
 interface DiffConfig {
   targetDir: string;
   synthCommand: string;
+}
+
+interface PlanSummaryConfig {
+  resources: PlannedResource[];
+}
+
+interface PlanSummary {
+  [key: string]: any;
+}
+
+const PlanSummary = ({resources}: PlanSummaryConfig): React.ReactElement  => {
+  const summary = resources.reduce((accumulator, resource) => {
+    if (accumulator[resource.action] !== undefined) {
+      accumulator[resource.action] += 1
+    }
+
+    return accumulator
+  }, {
+    create: 0,
+    change: 0,
+    destroy: 0
+  } as any)
+
+  return(<>
+    { Object.keys(summary).map((key, i) => (
+        <Box key={key}>
+          {i > 0 && ", "}
+          <Text>{summary[key]} to {key}</Text>
+        </Box>
+      ))
+    }
+  </>)
 }
 
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
@@ -50,6 +82,8 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
 
   const isPlanning: boolean = currentStatus != Status.DONE
   const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const statesToDisplay = [PlannedResourceAction.CHANGE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY]
+  const resourcesToDisplay = resources.filter((resource) => statesToDisplay.includes(resource.action))
 
   return(
     <Box>
@@ -64,7 +98,11 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
                 <Text>Stack: </Text><Text bold>{stackName}</Text>
               </Box>
               <Text bold>Resources</Text>
-              { resources.map(resource => (<PlanElement key={resource.id} resource={resource}/>)) }
+              { resourcesToDisplay.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource}/></Box>)) }
+              <Box marginTop={1}>
+                <Text bold>Diff: </Text>
+                <PlanSummary resources={resourcesToDisplay} /><Text>.</Text>
+              </Box>
             </Box>
           </Fragment>
         )}

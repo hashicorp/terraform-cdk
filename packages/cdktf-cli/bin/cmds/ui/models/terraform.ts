@@ -5,7 +5,8 @@ export enum PlannedResourceAction {
   CREATE = 'create',
   CHANGE = 'change',
   DESTROY = 'destroy',
-  READ = 'read'
+  READ = 'read',
+  NO_OP = 'no-op'
 }
 
 export interface PlannedResource {

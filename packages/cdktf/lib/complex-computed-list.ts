@@ -17,6 +17,10 @@ abstract class ComplexComputedAttribute {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
+  public getBooleanAttribute(terraformAttribute: string) {
+    return Token.asString(this.interpolationForAttribute(terraformAttribute)) as any as boolean
+  }
+
   protected abstract interpolationForAttribute(terraformAttribute: string): string
 }
 

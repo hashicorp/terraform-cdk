@@ -39,7 +39,7 @@ export class SynthStack {
         if (name !== undefined) {
           stacks.push({
             file: path.join(outdir, file),
-            name: name.replace('.tf.json', ''),
+            name,
             content: JSON.stringify(jsonContent, null, 2)
           })
         }
@@ -47,11 +47,11 @@ export class SynthStack {
     }
 
     if (stacks.length === 0) {
-      console.error('No Terraform code synthesized.');
+      console.error('ERROR: No Terraform code synthesized.');
     }
 
     if (stacks.length > 1) {
-      console.error('Found more than one stack. Multiple stacks are not supported at the moment and might lead to unpredictable behaviour.');
+      console.error('ERROR: Found more than one stack. Multiple stacks are not supported at the moment and might lead to unpredictable behaviour.');
     }
 
     return stacks
