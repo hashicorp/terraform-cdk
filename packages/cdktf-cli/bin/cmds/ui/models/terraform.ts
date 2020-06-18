@@ -9,9 +9,22 @@ export enum PlannedResourceAction {
   NO_OP = 'no-op'
 }
 
+export enum DeployingResourceApplyState {
+  WAITING = 'waiting',
+  UPDATING = 'updating',
+  CREATING = 'creating',
+  DESTROYING = 'destroying',
+  SUCCESS = 'success',
+  ERROR = 'error'
+}
+
 export interface PlannedResource {
   id: string;
   action: PlannedResourceAction;
+}
+
+export interface DeployingResource extends PlannedResource {
+  applyState: DeployingResourceApplyState;
 }
 
 export interface ResourceChangesChange {
@@ -32,7 +45,7 @@ export interface ResourceChanges {
 }
 
 export class TerraformPlan {
-  constructor(public readonly plan: {[key: string]: any}) {}
+  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {}
 
   public get resources(): PlannedResource[]  {
     return this.plan.resource_changes.map((resource: ResourceChanges) => {
@@ -56,21 +69,28 @@ export class Terraform  {
     const planFile = path.join(this.workdir, 'plan')
     await this.exec('terraform', ['plan', '-out', planFile], { cwd: this.workdir, env: process.env });
     const jsonPlan = await this.exec('terraform', ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
-    return new TerraformPlan(JSON.parse(jsonPlan));
+    return new TerraformPlan(planFile, JSON.parse(jsonPlan));
   }
 
-  private async exec(command: string, args: string[], options: SpawnOptions): Promise<string> {
+  public async deploy(plan: TerraformPlan, stdout: (chunk: Buffer) => any): Promise<void> {
+    await this.exec('terraform', ['apply', '-auto-approve', plan.planFile], { cwd: this.workdir, env: process.env }, stdout);
+  }
+
+  private async exec(command: string, args: string[], options: SpawnOptions, stdout?: (chunk: Buffer) => any): Promise<string> {
     return new Promise((ok, ko) => {
       const child = spawn(command, args, options);
       const out = new Array<Buffer>();
-      child.stdout?.on('data', (chunk: Buffer) => out.push(chunk));
+      if (stdout !== undefined) {
+        child.stdout?.on('data', stdout);
+      } else {
+        child.stdout?.on('data', (chunk: Buffer) => out.push(chunk));
+      }
       child.stderr?.on('data', (chunk: string | Uint8Array) => process.stderr.write(chunk));
       child.once('error', (err: any) => ko(err));
       child.once('close', (code: number) => {
         if (code !== 0) {
           return ko(new Error(`non-zero exit code ${code}`));
         }
-
         return ok(Buffer.concat(out).toString('utf-8'));
       });
     });
