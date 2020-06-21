@@ -5,8 +5,8 @@ const homedir = require('os').homedir();
 const terraformCredentialsFilePath = `${homedir}/.terraform.d/credentials.tfrc.json`
 const commandDescribe = `cdktf will request an API token for app.terraform.io using your browser.
 
-If login is successful, Terraform will store the token in plain text in
-the following file for use by subsequent commands:
+If login is successful, cdktf will store the token in plain text in
+the following file for use by subsequent Terraform commands:
     ${terraformCredentialsFilePath}
 `
 const terraformLoginURL = `https://app.terraform.io/app/settings/tokens?source=terraform-login`
@@ -49,7 +49,7 @@ export class TerraformLogin {
     }
 
     public async askForToken()  {
-        return readlineSync.question(`Token for app.terraform.io: `, { hideEchoBack: true, mask: '' })
+        return readlineSync.question(`Token for app.terraform.io: 🔑 `, { hideEchoBack: true, mask: '' })
     }
 
     public async saveTerraformCredentials(token: string) {
@@ -58,6 +58,7 @@ export class TerraformLogin {
             const credentialsFile = JSON.parse(fs.readFileSync(terraformCredentialsFilePath).toString());
             terraformCredentials = credentialsFile
             terraformCredentials.credentials["app.terraform.io"].token = token
+            fs.writeFileSync(terraformCredentialsFilePath, JSON.stringify(terraformCredentials, undefined, 2));
         } else {
             const credentialsFileJSON = JSON.stringify({ "credentials": { "app.terraform.io": { "token": token } } }, undefined, 2)
             fs.writeFileSync(terraformCredentialsFilePath, credentialsFileJSON);
