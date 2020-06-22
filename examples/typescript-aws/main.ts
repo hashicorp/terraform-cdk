@@ -17,7 +17,8 @@ export class HelloTerra extends TerraformStack {
       hashKey: 'temp',
       attribute: [
         { name: 'id', type: 'S' }
-      ]
+      ],
+      billingMode: "PAY_PER_REQUEST"
     });
 
     table.addOverride('hash_key', 'id')

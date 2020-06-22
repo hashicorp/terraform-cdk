@@ -38,12 +38,13 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
       break;
   }
 
-  const inProgress = (action in [DeployingResourceApplyState.CREATING, DeployingResourceApplyState.UPDATING, DeployingResourceApplyState.DESTROYING])
+  const inProgress = [DeployingResourceApplyState.CREATING, DeployingResourceApplyState.UPDATING, DeployingResourceApplyState.DESTROYING].includes(action)
+  console.log({inProgress})
 
   return(
     <>
-      { inProgress && (<Color keyword={color}><Spinner type="toggle"/></Color>) }
-      <Color keyword={color}><Text>{ actionSymbol }&nbsp;</Text></Color>
+      { inProgress ? (<Color keyword={color}><Spinner type="toggle"/></Color>) : (
+      <Color keyword={color}><Text>{ actionSymbol }&nbsp;</Text></Color>)}
     </>
   )
 }
@@ -51,6 +52,7 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
 interface DeployingElementProps {
   resource: DeployingResource;
 }
+
 
 export const DeployingElement = ({resource}: DeployingElementProps) => (
   <Box>
