@@ -72,8 +72,8 @@ export class Terraform  {
     return new TerraformPlan(planFile, JSON.parse(jsonPlan));
   }
 
-  public async deploy(plan: TerraformPlan, stdout: (chunk: Buffer) => any): Promise<void> {
-    await this.exec('terraform', ['apply', '-auto-approve', plan.planFile], { cwd: this.workdir, env: process.env }, stdout);
+  public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
+    await this.exec('terraform', ['apply', '-auto-approve', planFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   private async exec(command: string, args: string[], options: SpawnOptions, stdout?: (chunk: Buffer) => any): Promise<string> {

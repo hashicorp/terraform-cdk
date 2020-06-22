@@ -31,7 +31,6 @@
   "license": "MPL-2.0",
   "dependencies": {
     "@types/node": "13.7.0",
-    "@types/react": "^16.9.38",
     "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
     "constructs": "^3.0.0",

@@ -3,29 +3,19 @@ import React, { Fragment } from 'react';
 import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
 import { DeployingElement } from './components'
-import { useTerraform } from './terraform-context'
-
-enum Status {
-  STARTING = 'starting',
-  SYNTHESIZING = 'synthesizing',
-  INITIALIZING = 'initializing',
-  PLANNING = 'planning',
-  DEPLOYING = 'deploying',
-  DONE = 'done'
-}
+import { useTerraform, Status } from './terraform-context'
 
 interface DeployConfig {
   targetDir: string;
   synthCommand: string;
 }
 
-
 export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactElement => {
-  const { init } = useTerraform({targetDir, synthCommand})
-  const { resources, status } = init()
+  const { deploy } = useTerraform({targetDir, synthCommand})
+  const { resources, status, stackName } = deploy()
 
-  const isPlanning: boolean = currentStatus != Status.DONE
-  const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const isPlanning: boolean = status != Status.DONE
+  const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
   return(
     <Box>

@@ -1,19 +1,17 @@
 /* eslint-disable no-control-regex */
 import React from 'react'
-import { useApp } from 'ink'
 import * as path from 'path'
-import { DeployingResource, DeployingResourceApplyState, PlannedResourceAction } from "./models/terraform"
+import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource } from "./models/terraform"
 import { SynthStack } from '../helper/synth-stack'
 
+type DefaultValue = undefined;
+type ContextValue = DefaultValue | DeployState;
 
-// interface Props {
-//   children: React.ReactNode | React.ReactNode[];
-// }
-const TerraformContextState = React.createContext({})
+const TerraformContextState = React.createContext<ContextValue>(undefined)
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const TerraformContextDispatch = React.createContext((() => {}) as React.Dispatch<Action>);
 
-enum Status {
+export enum Status {
   STARTING = 'starting',
   SYNTHESIZING = 'synthesizing',
   INITIALIZING = 'initializing',
@@ -48,15 +46,22 @@ const parseOutput = (str: string): DeployingResource | undefined => {
 type DeployState = {
   status: Status;
   resources: DeployingResource[];
+  plannedResources?: PlannedResource[];
   stackName?: string;
+  errors?: string[];
+  planFile?: string;
  }
 
  type Action =
  | { type: 'UPDATE'; resource: DeployingResource }
  | { type: 'SYNTH' }
- | { type: 'INIT'; stackName: string }
+ | { type: 'NEW_STACK'; stackName: string }
+ | { type: 'INIT' }
  | { type: 'PLAN' }
- | { type: 'DEPLOY' };
+ | { type: 'PLANNED'; resources: PlannedResource[]; planFile: string}
+ | { type: 'DEPLOY' }
+ | { type: 'UPDATE_RESOURCE'; resource: DeployingResource }
+ | { type: 'ERROR'; error: string };
 
 
 function deployReducer(state: DeployState, action: Action): DeployState {
@@ -70,34 +75,34 @@ function deployReducer(state: DeployState, action: Action): DeployState {
     case 'SYNTH': {
       return {...state, status: Status.SYNTHESIZING }
     }
+    case 'NEW_STACK': {
+      return {...state, stackName: action.stackName }
+    }
     case 'INIT': {
-      return {...state, status: Status.INITIALIZING, stackName: action.stackName }
+      return {...state, status: Status.INITIALIZING }
     }
     case 'PLAN': {
       return {...state, status: Status.PLANNING }
     }
+    case 'PLANNED': {
+      return {...state, plannedResources: action.resources, planFile: action.planFile}
+    }
     case 'DEPLOY': {
       return {...state, status: Status.DEPLOYING }
+    }
+    case 'ERROR': {
+      return {...state, errors: [...(Array.isArray(state.errors) ? state.errors : []), action.error] }
     }
     default: {
       throw new Error(`Unhandled action type: ${action}`)
     }
   }
 }
-
-// const initialState = {
-//   resources: [],
-//   inProgress: false,
-//   stage: 'synthing | diffing | deploying | done',
-//   success: null,
-//   error: null
-// };
-
 interface TerraformProviderConfig {
   children: React.Component[];
 }
 
-const TerraformProvider = ({children}: TerraformProviderConfig): React.ReactElement => {
+export const TerraformProvider = ({children}: TerraformProviderConfig): React.ReactElement => {
   const [state, dispatch] = React.useReducer(deployReducer, {status: Status.STARTING, resources: []})
 
   return(
@@ -108,93 +113,122 @@ const TerraformProvider = ({children}: TerraformProviderConfig): React.ReactElem
     </TerraformContextState.Provider>
   )
 }
-
-// enum TerraformAction {
-//   PLAN = 'plan',
-//   APPLY = 'apply',
-//   DESTROY = 'destroy',
-// }
-
 interface UseTerraformInput {
   targetDir: string;
   synthCommand: string;
 }
 
-const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
+export const useTerraformState = () => {
+  const state = React.useContext(TerraformContextState)
+
+  if (state === undefined) {
+    throw new Error('useTerraformState must be used within a TerraformContextState.Provider')
+  }
+
+  return state
+}
+
+export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
   const dispatch = React.useContext(TerraformContextDispatch)
-  const { exit } = useApp()
+  const state = useTerraformState()
 
   if (dispatch === undefined) {
-    throw new Error('useCountState must be used within a TerraformProvider')
+    throw new Error('useTerraform must be used within a TerraformContextDispatch.Provider')
   }
 
   const cwd = process.cwd();
   const outdir = path.join(cwd, targetDir);
+  const terraform = new Terraform(outdir);
+
+  const execTerraformSynth = async () => {
+    try {
+      dispatch({type: 'SYNTH'})
+      const stacks = await SynthStack.synth(synthCommand, targetDir);
+      dispatch({type: 'NEW_STACK', stackName: stacks[0].name})
+    } catch(e) {
+      dispatch({type: 'ERROR', error: e})
+    }
+  }
 
   const execTerraformInit = async () => {
     try {
-      console.log({outdir, synthCommand})
-      dispatch({type: 'SYNTH'})
-      await SynthStack.synth(synthCommand, targetDir);
+      dispatch({type: 'INIT'})
+      await terraform.init();
     } catch(e) {
-      console.log(`error ${e}`)
-      exit()
+      dispatch({type: 'ERROR', error: e})
+    }
+  }
+
+  const execTerraformPlan = async () => {
+    try {
+      dispatch({type: 'PLAN'})
+      const plan = await terraform.plan();
+      const resources = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, {applyState: DeployingResourceApplyState.WAITING})))
+      dispatch({type: 'PLANNED', resources, planFile: plan.planFile})
+    } catch(e) {
+      dispatch({type: 'ERROR', error: e})
+    }
+  }
+
+  const execTerraformApply = async () => {
+    try {
+      const planFile = state.planFile
+      if (!planFile) { throw new Error("expecting Planfile to be present but none found") }
+      dispatch({type: 'DEPLOY'})
+      await terraform.deploy(planFile, (output: Buffer) => {
+        const resource = parseOutput(output.toString());
+        if (resource) {
+          dispatch({type: 'UPDATE_RESOURCE', resource})
+        }
+      });
+    } catch(e) {
+      dispatch({type: 'ERROR', error: e})
     }
   }
 
   const init = () => {
-    const state = React.useContext(TerraformContextState)
-
-    if (state === undefined) {
-      throw new Error('useCountState must be used within a TerraformProvider')
-    }
-
     React.useEffect(() => {
-      dispatch({type: "INIT", stackName: "foo"})
-      execTerraformInit()
+      const invoke = async () => {
+        await execTerraformSynth()
+        await execTerraformInit()
+      }
+
+      invoke()
+    }, []) // once
+
+    return state
+  }
+
+  const plan = () => {
+    React.useEffect(() => {
+      const invoke = async () => {
+        await execTerraformSynth()
+        await execTerraformInit()
+        await execTerraformPlan()
+      }
+      invoke()
+    }, []) // once
+
+    return state
+  }
+
+  const deploy = () => {
+    React.useEffect(() => {
+      const invoke = async () => {
+        await execTerraformSynth()
+        await execTerraformInit()
+        await execTerraformPlan()
+        await execTerraformApply()
+      }
+      invoke()
     }, []) // once
 
     return state
   }
 
   return {
-    init
+    init,
+    plan,
+    deploy
   }
-
-  // const plan = () => {
-  //   React.useEffect(() => {
-  //     const execTerraform = async () => {
-  //       try {
-  //         const cwd = process.cwd();
-  //         const outdir = path.join(cwd, targetDir);
-  //         context.dispatcher({type: 'SYNTH'})
-  //         const stacks = await SynthStack.synth(synthCommand, targetDir);
-  //         dispatcher({type: 'INIT', stackName: stacks[0].name})
-  //         const terraform = new Terraform(outdir);
-  //         await terraform.init();
-  //         dispatcher({type: 'PLAN'})
-  //         const plan = await terraform.plan();
-  //         const res = plan.resources.map(r => (Object.assign({}, r, {applyState: DeployingResourceApplyState.WAITING})))
-  //         setCurrentStatus(Status.DONE);
-  //         await terraform.deploy(plan, (output: Buffer) => {
-  //           const resource = parseOutput(output.toString());
-  //           if (resource) {
-  //             dispatcher({type: 'UPDATE', resource})
-  //           }
-  //         });
-  //       } catch(e) {
-  //         console.error(`${e}`)
-  //         exit(e)
-  //       }
-  //     }
-  //     execTerraform()
-  //   }, []); // only once
-  // }
-
-  // const plan = () => {
-
-  // }
-
 }
-
-export { TerraformProvider, useTerraform }
