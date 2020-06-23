@@ -3,14 +3,14 @@ import { Text, Box, Color } from "ink";
 import Spinner from "ink-spinner";
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 
-interface SynthBaseConfig {
+interface CommonSynthConfig {
   targetDir: string;
   jsonOutput: boolean;
 }
 
-type SynthOutputConfig = SynthBaseConfig
+type SynthOutputConfig = CommonSynthConfig
 
-interface SynthConfig extends SynthBaseConfig {
+interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
 }
 
