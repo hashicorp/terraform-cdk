@@ -17,7 +17,6 @@ export enum DeployingResourceApplyState {
   SUCCESS = 'success',
   ERROR = 'error'
 }
-
 export interface PlannedResource {
   id: string;
   action: PlannedResourceAction;
@@ -54,6 +53,11 @@ export class TerraformPlan {
         action: resource.change.actions[0]
       } as PlannedResource
     })
+  }
+
+  public get needsApply(): boolean {
+    const applyActions = [PlannedResourceAction.CHANGE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ];
+    return !!this.resources.find(resource => (applyActions.includes(resource.action)));
   }
 }
 

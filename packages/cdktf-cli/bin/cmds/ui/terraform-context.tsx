@@ -175,15 +175,17 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
 
   const execTerraformApply = async (plan: TerraformPlan) => {
     try {
-      const resources: DeployingResource[] = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, {applyState: DeployingResourceApplyState.WAITING})))
-      dispatch({type: 'DEPLOY', resources})
+      if (plan.needsApply) {
+        const resources: DeployingResource[] = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, {applyState: DeployingResourceApplyState.WAITING})))
+        dispatch({type: 'DEPLOY', resources})
 
-      await terraform.deploy(plan.planFile, (output: Buffer) => {
-        const resource = parseOutput(output.toString());
-        if (resource) {
-          dispatch({type: 'UPDATE_RESOURCE', resource})
-        }
-      });
+        await terraform.deploy(plan.planFile, (output: Buffer) => {
+          const resource = parseOutput(output.toString());
+          if (resource) {
+            dispatch({type: 'UPDATE_RESOURCE', resource})
+          }
+        });
+      }
       dispatch({type: 'DONE'})
     } catch(e) {
       dispatch({type: 'ERROR', error: e})

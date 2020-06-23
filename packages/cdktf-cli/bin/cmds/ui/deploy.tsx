@@ -17,7 +17,7 @@ export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactEl
   const isPlanning: boolean = status != Status.DONE
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
-  if (errors) return(<Box>{ errors } </Box>);
+  if (errors) return(<Box>{ errors }</Box>);
 
   return(
     <Box>
