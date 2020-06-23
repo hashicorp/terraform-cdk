@@ -3,15 +3,15 @@ import { Text, Box, Color } from "ink";
 import Spinner from "ink-spinner";
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 
-interface SynthConfig {
+interface SynthBaseConfig {
   targetDir: string;
-  synthCommand: string;
   jsonOutput: boolean;
 }
 
-interface SynthOutputConfig {
-  targetDir: string;
-  jsonOutput: boolean;
+type SynthOutputConfig = SynthBaseConfig
+
+interface SynthConfig extends SynthBaseConfig {
+  synthCommand: string;
 }
 
 const SynthOutput = ({ targetDir, jsonOutput }: SynthOutputConfig): React.ReactElement => {
