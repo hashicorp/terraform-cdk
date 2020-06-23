@@ -1,18 +1,9 @@
 import React, { Fragment } from 'react';
-import { Text, Box, Color, useApp } from 'ink'
-import * as path from 'path'
+import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
-import { Terraform, PlannedResource, PlannedResourceAction } from "./models/terraform"
+import { PlannedResource, PlannedResourceAction } from "./models/terraform"
 import { PlanElement } from './components'
-import { SynthStack } from '../helper/synth-stack'
-
-enum Status {
-  STARTING = 'starting',
-  SYNTHESIZING = 'synthesizing',
-  INITIALIZING = 'initializing',
-  PLANNING = 'generating diff',
-  DONE = 'done'
-}
+import { useTerraform, Status } from './terraform-context'
 
 interface DiffConfig {
   targetDir: string;
@@ -52,38 +43,15 @@ const PlanSummary = ({resources}: PlanSummaryConfig): React.ReactElement  => {
 }
 
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
-  const [resources, setResources] = React.useState<PlannedResource[]>([]);
-  const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.INITIALIZING);
-  const [stackName, setStackName] = React.useState('');
-  const { exit } = useApp();
+  const { plan } = useTerraform({targetDir, synthCommand})
+  const { plannedResources, status, stackName, errors } = plan()
 
-  React.useEffect(() => {
-    const plan = async () => {
-      try {
-        const cwd = process.cwd();
-        const outdir = path.join(cwd, targetDir);
-        setCurrentStatus(Status.SYNTHESIZING);
-        const stacks = await SynthStack.synth(synthCommand, targetDir);
-        setStackName(stacks[0].name)
-        const terraform = new Terraform(outdir);
-        setCurrentStatus(Status.INITIALIZING);
-        await terraform.init();
-        setCurrentStatus(Status.PLANNING);
-        const plan = await terraform.plan();
-        setResources(plan.resources);
-        setCurrentStatus(Status.DONE);
-      } catch(e) {
-        console.error(e)
-        exit(e)
-      }
-    }
-    plan()
-  }, []); // only once
-
-  const isPlanning: boolean = currentStatus != Status.DONE
-  const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const isPlanning: boolean = status != Status.PLANNED
+  const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
   const statesToDisplay = [PlannedResourceAction.CHANGE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY]
-  const resourcesToDisplay = resources.filter((resource) => statesToDisplay.includes(resource.action))
+  const resourcesToDisplay = (plannedResources || []).filter((resource) => statesToDisplay.includes(resource.action))
+
+  if (errors) return(<Box>{ errors }</Box>);
 
   return(
     <Box>

@@ -16,6 +16,7 @@ export enum Status {
   SYNTHESIZING = 'synthesizing',
   INITIALIZING = 'initializing',
   PLANNING = 'planning',
+  PLANNED = 'planned',
   DEPLOYING = 'deploying',
   DONE = 'done'
 }
@@ -84,7 +85,12 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return {...state, status: Status.PLANNING }
     }
     case 'PLANNED': {
-      return {...state, plannedResources: action.resources, planFile: action.planFile}
+      return {
+        ...state,
+        status: Status.PLANNED,
+        plannedResources: action.resources,
+        planFile: action.planFile
+      }
     }
     case 'DEPLOY': {
       return {...state, status: Status.DEPLOYING, resources: action.resources }

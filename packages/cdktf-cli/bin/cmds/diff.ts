@@ -2,6 +2,7 @@ import * as yargs from 'yargs';
 import { render } from 'ink';
 import React from 'react';
 import  { Diff } from './ui/diff'
+import { TerraformProvider } from './ui/terraform-context'
 import { readConfigSync } from '../../lib/config';
 const config = readConfigSync();
 
@@ -18,7 +19,7 @@ class Command implements yargs.CommandModule {
     const command = argv.app;
     const outdir = argv.output;
 
-    render(React.createElement(Diff, { targetDir: outdir, synthCommand: command }));
+    render(React.createElement(TerraformProvider, {}, React.createElement(Diff, { targetDir: outdir, synthCommand: command })))
   }
 }
 
