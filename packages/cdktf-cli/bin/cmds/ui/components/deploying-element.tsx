@@ -39,7 +39,6 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
   }
 
   const inProgress = [DeployingResourceApplyState.CREATING, DeployingResourceApplyState.UPDATING, DeployingResourceApplyState.DESTROYING].includes(action)
-  console.log({inProgress})
 
   return(
     <>
@@ -55,7 +54,7 @@ interface DeployingElementProps {
 
 
 export const DeployingElement = ({resource}: DeployingElementProps) => (
-  <Box>
+  <Box key={resource.id}>
     <DeployingElementStatus action={resource.applyState}/>
     <Text>{ resource.id }</Text>
   </Box>

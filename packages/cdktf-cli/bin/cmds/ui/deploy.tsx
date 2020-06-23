@@ -14,14 +14,15 @@ export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactEl
   const { deploy } = useTerraform({targetDir, synthCommand})
   const { resources, status, stackName, errors } = deploy()
 
-  const isPlanning: boolean = status != Status.DONE
+  const deployStages = [Status.DEPLOYING, Status.DONE]
+  const isPreparing = !deployStages.includes(status)
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
   if (errors) return(<Box>{ errors }</Box>);
 
   return(
     <Box>
-      { isPlanning ? (
+      { isPreparing ? (
         <Fragment>
           <Color green><Spinner type="dots"/></Color><Box paddingLeft={1}><Text>{ statusText }</Text></Box>
         </Fragment>
@@ -33,9 +34,9 @@ export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactEl
               </Box>
               <Text bold>Resources</Text>
               { resources.map(resource => (
-                <>
-                  <DeployingElement key={resource.id} resource={resource}/>
-                </>
+                <Fragment key={resource.id}>
+                  <DeployingElement resource={resource}/>
+                </Fragment>
               )) }
             </Box>
           </Fragment>

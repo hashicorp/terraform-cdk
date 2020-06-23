@@ -52,7 +52,6 @@ type DeployState = {
  }
 
  type Action =
- | { type: 'UPDATE'; resource: DeployingResource }
  | { type: 'SYNTH' }
  | { type: 'NEW_STACK'; stackName: string }
  | { type: 'INIT' }
@@ -66,7 +65,7 @@ type DeployState = {
 
 function deployReducer(state: DeployState, action: Action): DeployState {
   switch (action.type) {
-    case 'UPDATE': {
+    case 'UPDATE_RESOURCE': {
       return {
         ...state,
         resources: state.resources.map((r: DeployingResource) => (r.id === action.resource.id ? action.resource : r))
@@ -88,7 +87,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return {...state, plannedResources: action.resources, planFile: action.planFile}
     }
     case 'DEPLOY': {
-      return {...state, status: Status.DEPLOYING }
+      return {...state, status: Status.DEPLOYING, resources: action.resources }
     }
     case 'DONE': {
       return {...state, status: Status.DONE }
@@ -97,7 +96,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return {...state, errors: [...(Array.isArray(state.errors) ? state.errors : []), action.error] }
     }
     default: {
-      throw new Error(`Unhandled action type: ${action}`)
+      throw new Error(`Unhandled action type: ${JSON.stringify(action, null, 2)}`)
     }
   }
 }
