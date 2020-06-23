@@ -1,14 +1,7 @@
 import React, { Fragment } from "react";
-import { Text, Box, Color, useApp } from "ink";
-import * as path from "path";
+import { Text, Box, Color } from "ink";
 import Spinner from "ink-spinner";
-import { SynthStack } from "../helper/synth-stack";
-
-enum Status {
-  STARTING = "starting",
-  SYNTHESIZING = "synthesizing",
-  DONE = "done",
-}
+import { useTerraform, Status, useTerraformState } from './terraform-context'
 
 interface SynthConfig {
   targetDir: string;
@@ -16,33 +9,28 @@ interface SynthConfig {
   jsonOutput: boolean;
 }
 
+interface SynthOutputConfig {
+  targetDir: string;
+  jsonOutput: boolean;
+}
+
+const SynthOutput = ({ targetDir, jsonOutput }: SynthOutputConfig): React.ReactElement => {
+  const { stackJSON } = useTerraformState()
+  return(
+    <>
+      { jsonOutput ? (<Box><Text>{stackJSON}</Text></Box>) : (<Text>Generated Terraform code in the output directory: <Text bold>{targetDir}</Text></Text>) }
+    </>
+  )
+}
+
 export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
-    const [terraformJSONConfig, setTerraformJSONConfig] = React.useState("");
-    const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.STARTING);
-    const [stackName, setStackName] = React.useState("");
-    const { exit } = useApp();
+    const { synth } = useTerraform({targetDir, synthCommand})
+    const { status, stackName, errors } = synth()
 
-    React.useEffect(() => {
-    const synth = async () => {
-        try {
-        const cwd = process.cwd();
-        const outdir = path.join(cwd, targetDir);
-        setCurrentStatus(Status.SYNTHESIZING);
-        const stacks = await SynthStack.synth(synthCommand, outdir);
-        setStackName(stacks[0].name);
-        setTerraformJSONConfig(stacks[0].content)
-        setCurrentStatus(Status.DONE);
-        } catch (e) {
-        console.error(e);
-        exit(e);
-        }
-    };
-    synth();
-    }, []); // only once
+    const isSynthesizing: boolean = status != Status.SYNTHESIZED
+    const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
-    const isSynthesizing: boolean = currentStatus != Status.DONE
-    const statusText = (stackName === '') ? `${currentStatus}...` : <Text>{currentStatus}<Text bold>&nbsp;{stackName}</Text>...</Text>
-    const jsonTerraformOutput = (jsonOutput == false) ? <Text>Generated Terraform code in the output directory: <Text bold>{targetDir}</Text></Text> : <Box><Text>{terraformJSONConfig}</Text></Box>
+    if (errors) return(<Box>{ errors }</Box>);
 
     return (
       <Box>
@@ -58,7 +46,7 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
         ) : (
           <Fragment>
             <Box>
-              {jsonTerraformOutput}
+              <SynthOutput targetDir={targetDir} jsonOutput={jsonOutput}/>
             </Box>
           </Fragment>
         )}

@@ -14,6 +14,7 @@ const TerraformContextDispatch = React.createContext((() => {}) as React.Dispatc
 export enum Status {
   STARTING = 'starting',
   SYNTHESIZING = 'synthesizing',
+  SYNTHESIZED = 'synthesized',
   INITIALIZING = 'initializing',
   PLANNING = 'planning',
   PLANNED = 'planned',
@@ -48,13 +49,14 @@ type DeployState = {
   resources: DeployingResource[];
   plannedResources?: PlannedResource[];
   stackName?: string;
+  stackJSON?: string;
   errors?: string[];
   planFile?: string;
  }
 
  type Action =
  | { type: 'SYNTH' }
- | { type: 'NEW_STACK'; stackName: string }
+ | { type: 'NEW_STACK'; stackName: string; stackJSON: string }
  | { type: 'INIT' }
  | { type: 'PLAN' }
  | { type: 'PLANNED'; resources: PlannedResource[]; planFile: string}
@@ -76,7 +78,12 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return {...state, status: Status.SYNTHESIZING }
     }
     case 'NEW_STACK': {
-      return {...state, stackName: action.stackName }
+      return {
+        ...state,
+        status: Status.SYNTHESIZED,
+        stackName: action.stackName,
+        stackJSON: action.stackJSON
+      }
     }
     case 'INIT': {
       return {...state, status: Status.INITIALIZING }
@@ -150,7 +157,7 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
     try {
       dispatch({type: 'SYNTH'})
       const stacks = await SynthStack.synth(synthCommand, targetDir);
-      dispatch({type: 'NEW_STACK', stackName: stacks[0].name})
+      dispatch({type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content})
     } catch(e) {
       dispatch({type: 'ERROR', error: e})
     }
@@ -195,6 +202,18 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
     } catch(e) {
       dispatch({type: 'ERROR', error: e})
     }
+  }
+
+  const synth = () => {
+    React.useEffect(() => {
+      const invoke = async () => {
+        await execTerraformSynth()
+      }
+
+      invoke()
+    }, []) // once
+
+    return state
   }
 
   const init = () => {
@@ -242,6 +261,7 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
   }
 
   return {
+    synth,
     init,
     plan,
     deploy
