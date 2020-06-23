@@ -12,10 +12,12 @@ interface DeployConfig {
 
 export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactElement => {
   const { deploy } = useTerraform({targetDir, synthCommand})
-  const { resources, status, stackName } = deploy()
+  const { resources, status, stackName, errors } = deploy()
 
   const isPlanning: boolean = status != Status.DONE
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
+
+  if (errors) return(<Box>{ errors } </Box>);
 
   return(
     <Box>

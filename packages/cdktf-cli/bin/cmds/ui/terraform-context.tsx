@@ -1,7 +1,7 @@
 /* eslint-disable no-control-regex */
 import React from 'react'
 import * as path from 'path'
-import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource } from "./models/terraform"
+import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan } from "./models/terraform"
 import { SynthStack } from '../helper/synth-stack'
 
 type DefaultValue = undefined;
@@ -26,7 +26,6 @@ const stripAnsi = (str: string): string => {
 
 const parseOutput = (str: string): DeployingResource | undefined => {
   const line = stripAnsi(str.toString())
-  console.log({line})
   const resourceMatch = line.match(/^([a-zA-Z\d_.]*):/)
   // const stateMatch = line.match(/creating.../)
 
@@ -59,8 +58,9 @@ type DeployState = {
  | { type: 'INIT' }
  | { type: 'PLAN' }
  | { type: 'PLANNED'; resources: PlannedResource[]; planFile: string}
- | { type: 'DEPLOY' }
+ | { type: 'DEPLOY'; resources: DeployingResource[] }
  | { type: 'UPDATE_RESOURCE'; resource: DeployingResource }
+ | { type: 'DONE' }
  | { type: 'ERROR'; error: string };
 
 
@@ -90,6 +90,9 @@ function deployReducer(state: DeployState, action: Action): DeployState {
     case 'DEPLOY': {
       return {...state, status: Status.DEPLOYING }
     }
+    case 'DONE': {
+      return {...state, status: Status.DONE }
+    }
     case 'ERROR': {
       return {...state, errors: [...(Array.isArray(state.errors) ? state.errors : []), action.error] }
     }
@@ -98,11 +101,9 @@ function deployReducer(state: DeployState, action: Action): DeployState {
     }
   }
 }
-interface TerraformProviderConfig {
-  children: React.Component[];
-}
 
-export const TerraformProvider = ({children}: TerraformProviderConfig): React.ReactElement => {
+// eslint-disable-next-line react/prop-types
+export const TerraformProvider: React.FunctionComponent<{}> = ({children}): React.ReactElement => {
   const [state, dispatch] = React.useReducer(deployReducer, {status: Status.STARTING, resources: []})
 
   return(
@@ -159,28 +160,31 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
     }
   }
 
-  const execTerraformPlan = async () => {
+  const execTerraformPlan = async (): Promise<TerraformPlan | undefined> => {
+    let plan: TerraformPlan
     try {
       dispatch({type: 'PLAN'})
-      const plan = await terraform.plan();
-      const resources = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, {applyState: DeployingResourceApplyState.WAITING})))
-      dispatch({type: 'PLANNED', resources, planFile: plan.planFile})
+      plan = await terraform.plan();
+      dispatch({type: 'PLANNED', resources: plan.resources, planFile: plan.planFile})
+      return plan
     } catch(e) {
       dispatch({type: 'ERROR', error: e})
     }
+    return
   }
 
-  const execTerraformApply = async () => {
+  const execTerraformApply = async (plan: TerraformPlan) => {
     try {
-      const planFile = state.planFile
-      if (!planFile) { throw new Error("expecting Planfile to be present but none found") }
-      dispatch({type: 'DEPLOY'})
-      await terraform.deploy(planFile, (output: Buffer) => {
+      const resources: DeployingResource[] = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, {applyState: DeployingResourceApplyState.WAITING})))
+      dispatch({type: 'DEPLOY', resources})
+
+      await terraform.deploy(plan.planFile, (output: Buffer) => {
         const resource = parseOutput(output.toString());
         if (resource) {
           dispatch({type: 'UPDATE_RESOURCE', resource})
         }
       });
+      dispatch({type: 'DONE'})
     } catch(e) {
       dispatch({type: 'ERROR', error: e})
     }
@@ -217,8 +221,12 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
       const invoke = async () => {
         await execTerraformSynth()
         await execTerraformInit()
-        await execTerraformPlan()
-        await execTerraformApply()
+        const plan = await execTerraformPlan()
+        if (plan) {
+          await execTerraformApply(plan)
+        } else {
+          throw new Error("expected plan to be present but was undefined")
+        }
       }
       invoke()
     }, []) // once
