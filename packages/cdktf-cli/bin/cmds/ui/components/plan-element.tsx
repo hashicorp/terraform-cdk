@@ -15,7 +15,7 @@ export const PlanElementStatus = ({action}: PlanElementStatusProps) => {
       actionSymbol = '+';
       color = 'green'
       break;
-    case PlannedResourceAction.CHANGE:
+    case PlannedResourceAction.UPDATE:
       actionSymbol = '~';
       color = 'yellow'
       break;

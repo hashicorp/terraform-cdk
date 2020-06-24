@@ -27,7 +27,7 @@ const PlanSummary = ({resources}: PlanSummaryConfig): React.ReactElement  => {
     return accumulator
   }, {
     create: 0,
-    change: 0,
+    update: 0,
     destroy: 0
   } as any)
 
@@ -48,7 +48,7 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
 
   const isPlanning: boolean = status != Status.PLANNED
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
-  const statesToDisplay = [PlannedResourceAction.CHANGE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY]
+  const statesToDisplay = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY]
   const resourcesToDisplay = (plannedResources || []).filter((resource) => statesToDisplay.includes(resource.action))
 
   if (errors) return(<Box>{ errors }</Box>);

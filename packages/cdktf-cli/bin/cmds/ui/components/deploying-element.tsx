@@ -16,12 +16,24 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
       actionSymbol = '+';
       color = 'green'
       break;
+    case DeployingResourceApplyState.CREATED:
+      actionSymbol = 'c';
+      color = 'green'
+      break;
     case DeployingResourceApplyState.UPDATING:
       actionSymbol = '~';
       color = 'yellow'
       break;
+    case DeployingResourceApplyState.UPDATED:
+      actionSymbol = 'u';
+      color = 'yellow'
+      break;
     case DeployingResourceApplyState.DESTROYING:
       actionSymbol = '-';
+      color = 'red'
+      break;
+    case DeployingResourceApplyState.DESTROYED:
+      actionSymbol = 'd';
       color = 'red'
       break;
     case DeployingResourceApplyState.WAITING:

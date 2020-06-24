@@ -29,7 +29,33 @@ const stripAnsi = (str: string): string => {
 const parseOutput = (str: string): DeployingResource | undefined => {
   const line = stripAnsi(str.toString())
   const resourceMatch = line.match(/^([a-zA-Z\d_.]*):/)
-  // const stateMatch = line.match(/creating.../)
+  let applyState: DeployingResourceApplyState;
+
+  switch (true) {
+    case /Creating.../.test(line):
+      applyState = DeployingResourceApplyState.CREATING
+      break;
+    case /Creation complete/.test(line):
+      applyState = DeployingResourceApplyState.CREATED
+      break;
+    case /Modifying.../.test(line):
+      applyState = DeployingResourceApplyState.UPDATING
+      break;
+    case /Modifications complete/.test(line):
+      applyState = DeployingResourceApplyState.UPDATED
+      break;
+    case /Destroying.../.test(line):
+      applyState = DeployingResourceApplyState.DESTROYING
+      break;
+    case /Destruction complete/.test(line):
+      applyState = DeployingResourceApplyState.DESTROYED
+      break;
+    default:
+      applyState = DeployingResourceApplyState.SUCCESS
+    // case /Destruction complete/.test(line):
+    //   applyState = DeployingResourceApplyState.DESTROYED
+    //   break;
+  }
 
   // if (stateMatch?.length === 0) return;
 
@@ -37,7 +63,7 @@ const parseOutput = (str: string): DeployingResource | undefined => {
     return {
       id: resourceMatch[1],
       action: PlannedResourceAction.CREATE,
-      applyState: DeployingResourceApplyState.CREATING
+      applyState
     }
   } else {
     return

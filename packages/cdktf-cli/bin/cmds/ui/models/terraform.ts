@@ -3,7 +3,7 @@ import * as path from 'path';
 
 export enum PlannedResourceAction {
   CREATE = 'create',
-  CHANGE = 'change',
+  UPDATE = 'update',
   DESTROY = 'destroy',
   READ = 'read',
   NO_OP = 'no-op'
@@ -12,8 +12,11 @@ export enum PlannedResourceAction {
 export enum DeployingResourceApplyState {
   WAITING = 'waiting',
   UPDATING = 'updating',
+  UPDATED = 'updated',
   CREATING = 'creating',
+  CREATED = 'created',
   DESTROYING = 'destroying',
+  DESTROYED = 'destroyed',
   SUCCESS = 'success',
   ERROR = 'error'
 }
@@ -56,7 +59,7 @@ export class TerraformPlan {
   }
 
   public get needsApply(): boolean {
-    const applyActions = [PlannedResourceAction.CHANGE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ];
+    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ, PlannedResourceAction.NO_OP];
     return !!this.resources.find(resource => (applyActions.includes(resource.action)));
   }
 }
