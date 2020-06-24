@@ -16,20 +16,21 @@ class Command implements yargs.CommandModule {
         }
 
         const terraformLogin = new TerraformLogin
-        const shouldContinue = terraformLogin.askToContinue();
-        if (shouldContinue) {
-            const token = await terraformLogin.askForToken();
-            if (token == "") {
-                console.error(`\nERROR: failed to gather token.\n`);
-                process.exit(1);
-            }
-            terraformLogin.saveTerraformCredentials(token);
-            const userAccount = await terraformCloudClient.getAccountDetails(token)
-            if (userAccount) {
-                const username = userAccount.data.attributes.username;
-                console.log("\ncdktf has successfully configured Terraform Cloud credentials!");
-                console.log("\nHello %s", username);
-            }
+        const token = await terraformLogin.askToLogin();
+        if (token == "") {
+            console.error(`ERROR: couldn't configure Terraform Cloud credentials.\n`);
+            process.exit(1);
+        }
+
+        // Get user details if token is set
+        const userAccount = await terraformCloudClient.getAccountDetails(token)
+        if (userAccount) {
+            const username = userAccount.data.attributes.username;
+            console.log("\ncdktf has successfully configured Terraform Cloud credentials!");
+            console.log("\nHello %s", username);
+        } else {
+            console.error(`ERROR: couldn't configure Terraform Cloud credentials.\n`);
+            process.exit(1);
         }
     };
 }
