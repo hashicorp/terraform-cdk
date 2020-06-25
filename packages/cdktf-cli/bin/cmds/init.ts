@@ -85,7 +85,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   }
 
   if (version === '0.0.0') {
-    throw new Error(`cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory`);
+    throw new Error(chalkColour`{redBright cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory}`);
   }
 
   // determine if we want a specific pinned version or a version range we take
@@ -102,18 +102,20 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 }
 
 async function gatherInfo(token: string, templateName: string, projectName: string, projectDescription: string): Promise<Project> {
-  
-  console.log(chalkColour`\nWe will now setup the project. Please enter the details for your project.
+
+  if (!projectName && !projectDescription) {
+    console.log(chalkColour`\nWe will now setup the project. Please enter the details for your project.
 If you want to exit, press {magenta ^C}.
 `)
+  }
 
-  if (projectName == "") {
+  if (!projectName) {
     // Current working directory
     const currentDirectory = path.basename(process.cwd());
     projectName = readlineSync.question(chalkColour`{greenBright Project Name:} (default: '${currentDirectory}')`, { defaultInput: currentDirectory })
   }
 
-  if (projectDescription == "") {
+  if (!projectDescription) {
     const projectDescriptionDefault = 'A simple getting started project for cdktf.'
     projectDescription = readlineSync.question(chalkColour`{greenBright Project Description:} (default: '${projectDescriptionDefault}') `, { defaultInput: projectDescriptionDefault })
   }
@@ -135,7 +137,6 @@ If you want to exit, press {magenta ^C}.
     project.OrganizationName = organizationName
     project.WorkspaceName = workspaceName
   }
-
   
   return project;
 }

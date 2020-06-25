@@ -39,15 +39,15 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.py', 'utf-8');
 
   const result = template.replace(`MyStack(app, "{{ ${baseName} }}")`, `stack = MyStack(app, "{{ ${baseName} }}"));
-stack.add_override('terraform.backend', '''{
-  remote: {
-    hostname: 'app.terraform.io',
-    organization: '${organizationName}',
-    workspaces: {
-      name: '${workspaceName}'
+stack.add_override('terraform.backend', {
+  'remote': {
+    'hostname': 'app.terraform.io',
+    'organization': '${organizationName}',
+    'workspaces': {
+      'name': '${workspaceName}'
     }
   }
-}''')`);
+})`);
 
   writeFileSync('./main.py', result, 'utf-8');
 }
