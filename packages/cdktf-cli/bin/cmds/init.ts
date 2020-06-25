@@ -23,6 +23,7 @@ class Command implements yargs.CommandModule {
     .option('project-name', { type: 'string', desc: 'The name of the project.'})
     .option('project-description', { type: 'string', desc: 'The description of the project.'})
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
+    .option('local', { type: 'boolean', desc: 'Use local remote state storage for generated Terraform.', default: false})
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
     .choices('template', availableTemplates);
 
@@ -32,11 +33,14 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    // We ask the user to login to Terraform Cloud and set a token
-    // If the user chooses not to use Terraform Cloud, we continue
-    // without a token and setup the project.
-    const terraformLogin = new TerraformLogin
-    const token = await terraformLogin.askToLogin();
+    let token: string = ""
+    if (!argv.local) {
+      // We ask the user to login to Terraform Cloud and set a token
+      // If the user chooses not to use Terraform Cloud, we continue
+      // without a token and setup the project.
+      const terraformLogin = new TerraformLogin
+      token = await terraformLogin.askToLogin();
+    }
 
     // Check if template was specified by the user
     let template = ""
