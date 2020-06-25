@@ -26,10 +26,13 @@ class Command implements yargs.CommandModule {
 
   public async handler(argv: any) {
     if (fs.readdirSync('.').filter(f => !f.startsWith('.')).length > 0) {
-      console.error(chalkColour`{redBright Cannot initialize a project in a non-empty directory}`);
+      console.error(chalkColour`{redBright ERROR: Cannot initialize a project in a non-empty directory}`);
       process.exit(1);
     }
 
+    // We ask the user to login to Terraform Cloud and set a token
+    // If the user chooses not to use Terraform Cloud, we continue
+    // without a token and setup the project.
     const terraformLogin = new TerraformLogin
     const token = await terraformLogin.askToLogin();
 
@@ -42,7 +45,7 @@ class Command implements yargs.CommandModule {
     // Gather information about the template and the project
     const templateInfo = await getTemplatePath(template);
 
-    const projectInfo = await gatherInfo(token, templateInfo.Name);
+    const projectInfo: any = await gatherInfo(token, templateInfo.Name);
 
     // Check if token is set so we can setup Terraform Cloud workspace
     if (token != "") {
@@ -53,7 +56,7 @@ class Command implements yargs.CommandModule {
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
 
     await sscaff(templateInfo.Path, '.', {
-      ...deps
+      ...deps, ...projectInfo
     });
   }
 }
@@ -94,13 +97,16 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 
 async function gatherInfo(token: string, templateName: string): Promise<Project> {
   
-  console.log(chalkColour`\nWe will now setup the project.
+  console.log(chalkColour`\nWe will now setup the project. Please enter the details for your project.
 If you want to exit, press {magenta ^C}.
 `)
 
-  const projectName = readlineSync.question(chalkColour`{greenBright Project Name:} `, { defaultInput: templateName })
-  const exampleDescription = 'A minimal CDK for Terraform project.'
-  const projectDescription = readlineSync.question(chalkColour`{greenBright Project Description:} (default: ${exampleDescription}) `, { defaultInput: exampleDescription })
+  // Current working directory
+  const currentDirectory = path.basename(process.cwd());
+
+  const projectName = readlineSync.question(chalkColour`{greenBright Project Name:} (default: '${currentDirectory}')`, { defaultInput: currentDirectory })
+  const projectDescriptionDefault = 'A simple getting started project for cdktf.'
+  const projectDescription = readlineSync.question(chalkColour`{greenBright Project Description:} (default: '${projectDescriptionDefault}') `, { defaultInput: projectDescriptionDefault })
 
   let project: Project = {
     'Name': projectName,
@@ -110,8 +116,10 @@ If you want to exit, press {magenta ^C}.
   }
 
   if (token != '') {
+    console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`)
     console.log(chalkColour`\nWe will now setup {blueBright Terraform Cloud} for your project.\n`)
 
+    // todo: add validation for the organization name and workspace. add error handling
     const organizationName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Organization Name:} `)
     const workspaceName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Workspace Name:} `, { defaultInput: templateName } )
     project.OrganizationName = organizationName
@@ -126,8 +134,11 @@ async function getTemplatePath(templateName: string): Promise<Template> {
   if (templateName == '') {
     // Prompt for template
     const selection = readlineSync.keyInSelect(availableTemplates, chalkColour`{whiteBright What template you want to use?}`)
+    if (selection == -1) {
+      process.exit(0);
+    }
     templateName = availableTemplates[selection];
-    console.log(chalkColour`\n{whiteBright Initializing a project from the {greenBright ${templateName}} template.}`);
+    console.log(chalkColour`\n{whiteBright Initializing a project using the {greenBright ${templateName}} template.}`);
   }
 
   const templatePath = path.join(templatesDir, templateName);

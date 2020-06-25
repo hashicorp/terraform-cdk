@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 const { chmodSync } = require('fs');
-const { readFileSync } = require('fs');
+const { readFileSync, writeFileSync } = require('fs');
 
 const cli = require.resolve('../../bin/cdktf');
 
@@ -14,6 +14,12 @@ exports.pre = () => {
 };
 
 exports.post = options => {
+  // Terraform Cloud configuration settings if the organization name and workspace is set.
+  if (options.OrganizationName != '') {
+    console.log(`\nGenerating Terraform Cloud configuration for '${options.OrganizationName}' organization and '${options.WorkspaceName}' workspace.....`)
+    terraformCloudConfig(options.$base, ctx.OrganizationName, ctx.WorkspaceName)
+  }
+  
   const pypi_cdktf = options.pypi_cdktf;
   if (!pypi_cdktf) {
     throw new Error(`missing context "pypi_cdktf"`);
@@ -28,3 +34,20 @@ exports.post = options => {
 
   console.log(readFileSync('./help', 'utf-8'));
 };
+
+function terraformCloudConfig(baseName, organizationName, workspaceName) {
+  template = readFileSync('./main.ts', 'utf-8');
+
+  const result = template.replace(`new MyStack(app, '${baseName}');`, `const stack = new MyStack(app, '${baseName}');
+stack.addOverride('terraform.backend', {
+  remote: {
+    hostname: 'app.terraform.io',
+    organization: '${organizationName}',
+    workspaces: {
+      name: '${workspaceName}'
+    }
+  }
+});`);
+
+  writeFileSync('./main.ts', result, 'utf-8');
+}

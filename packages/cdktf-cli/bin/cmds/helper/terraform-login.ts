@@ -24,7 +24,7 @@ export class TerraformLogin {
 
     public askToContinue(): boolean {
         // Describe the command
-        console.log(chalkColour`{green Welcome to CDK for Terraform!}
+        console.log(chalkColour`{greenBright Welcome to CDK for Terraform!}
 
 cdktf allows you to manage the state of your stacks using Terraform Cloud.
 cdktf will request an API token for app.terraform.io using your browser.

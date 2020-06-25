@@ -1,6 +1,8 @@
 import * as yargs from 'yargs';
 import { TerraformLogin } from './helper/terraform-login'
 import * as terraformCloudClient from './helper/terraform-cloud-client'
+import * as chalk from 'chalk';
+const chalkColour = new chalk.Instance();
 
 class Command implements yargs.CommandModule {
     public readonly command = 'login';
@@ -10,7 +12,7 @@ class Command implements yargs.CommandModule {
     public async handler(argv: any) {
         const args = argv as yargs.Arguments
         if (args["_"].length > 1) {
-            console.error(`ERROR: 'cdktf login' command cannot have more than one argument.\n`);
+            console.error(chalkColour`{redBright ERROR: 'cdktf login' command cannot have more than one argument.}\n`);
             yargs.showHelp();
             process.exit(1);
         }
@@ -18,7 +20,7 @@ class Command implements yargs.CommandModule {
         const terraformLogin = new TerraformLogin
         const token = await terraformLogin.askToLogin();
         if (token == "") {
-            console.error(`ERROR: couldn't configure Terraform Cloud credentials.\n`);
+            console.error(chalkColour`{redBright ERROR: couldn't configure Terraform Cloud credentials.}\n`);
             process.exit(1);
         }
 
@@ -26,10 +28,10 @@ class Command implements yargs.CommandModule {
         const userAccount = await terraformCloudClient.getAccountDetails(token)
         if (userAccount) {
             const username = userAccount.data.attributes.username;
-            console.log("\ncdktf has successfully configured Terraform Cloud credentials!");
-            console.log("\nHello %s", username);
+            console.log(chalkColour`\n{greenBright cdktf has successfully configured Terraform Cloud credentials!}`);
+            console.log(chalkColour`\nWelcome {bold ${username}}!`);
         } else {
-            console.error(`ERROR: couldn't configure Terraform Cloud credentials.\n`);
+            console.error(chalkColour`{redBright ERROR: couldn't configure Terraform Cloud credentials.}\n`);
             process.exit(1);
         }
     };
