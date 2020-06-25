@@ -33,7 +33,7 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    let token: string = ""
+    let token = ""
     if (!argv.local) {
       // We ask the user to login to Terraform Cloud and set a token
       // If the user chooses not to use Terraform Cloud, we continue
