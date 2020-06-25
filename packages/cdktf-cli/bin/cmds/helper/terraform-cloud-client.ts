@@ -5,19 +5,19 @@ const BASE_URL = `https://app.terraform.io/api/v2/`;
 
 const VALID_ERROR_CODES = [200, 201];
 
-export interface attributes {
+export interface Attributes {
     username: string;
     'avatar-url': string;
 }
 
-export interface data {
+export interface Data {
     id: string;
     type: string;
-    attributes: attributes;
+    attributes: Attributes;
 }
 
-export interface account {
-    data: data;
+export interface Account {
+    data: Data;
 }
 
 async function get(url: string, token: string) {
@@ -71,7 +71,7 @@ async function post(url: string, token: string, data: string) {
 }
 
 export async function getAccountDetails(token: string) {
-    return await get(`${BASE_URL}/account/details`, token) as account;
+    return await get(`${BASE_URL}/account/details`, token) as Account;
 }
 
 export async function createWorkspace(organizationName: string, workspaceName: string, token: string) {

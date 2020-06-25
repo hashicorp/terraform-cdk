@@ -108,7 +108,7 @@ If you want to exit, press {magenta ^C}.
   const projectDescriptionDefault = 'A simple getting started project for cdktf.'
   const projectDescription = readlineSync.question(chalkColour`{greenBright Project Description:} (default: '${projectDescriptionDefault}') `, { defaultInput: projectDescriptionDefault })
 
-  let project: Project = {
+  const project: Project = {
     'Name': projectName,
     'Description': projectDescription,
     'OrganizationName': '',

@@ -17,7 +17,7 @@ exports.post = options => {
   // Terraform Cloud configuration settings if the organization name and workspace is set.
   if (options.OrganizationName != '') {
     console.log(`\nGenerating Terraform Cloud configuration for '${options.OrganizationName}' organization and '${options.WorkspaceName}' workspace.....`)
-    terraformCloudConfig(options.$base, ctx.OrganizationName, ctx.WorkspaceName)
+    terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
   }
   
   const pypi_cdktf = options.pypi_cdktf;
@@ -36,10 +36,10 @@ exports.post = options => {
 };
 
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
-  template = readFileSync('./main.ts', 'utf-8');
+  template = readFileSync('./main.py', 'utf-8');
 
-  const result = template.replace(`new MyStack(app, '${baseName}');`, `const stack = new MyStack(app, '${baseName}');
-stack.addOverride('terraform.backend', {
+  const result = template.replace(`MyStack(app, "{{ ${baseName} }}")`, `stack = MyStack(app, "{{ ${baseName} }}"));
+stack.add_override('terraform.backend', '''{
   remote: {
     hostname: 'app.terraform.io',
     organization: '${organizationName}',
@@ -47,7 +47,7 @@ stack.addOverride('terraform.backend', {
       name: '${workspaceName}'
     }
   }
-});`);
+}''')`);
 
-  writeFileSync('./main.ts', result, 'utf-8');
+  writeFileSync('./main.py', result, 'utf-8');
 }

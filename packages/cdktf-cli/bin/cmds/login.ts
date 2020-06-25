@@ -34,7 +34,7 @@ class Command implements yargs.CommandModule {
             console.error(chalkColour`{redBright ERROR: couldn't configure Terraform Cloud credentials.}\n`);
             process.exit(1);
         }
-    };
+    }
 }
 
 

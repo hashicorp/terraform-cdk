@@ -7,16 +7,16 @@ const homedir = require('os').homedir();
 const terraformCredentialsFilePath = `${homedir}/.terraform.d/credentials.tfrc.json`
 const terraformLoginURL = `https://app.terraform.io/app/settings/tokens?source=terraform-login`
 
-export interface hostname {
+export interface Hostname {
     token: string;
 }
 
-export interface credentials {
-    'app.terraform.io': hostname;
+export interface Credentials {
+    'app.terraform.io': Hostname;
 }
 
 export interface TerraformCredentialsFile {
-    credentials: credentials;
+    credentials: Credentials;
 }
 
 
@@ -84,9 +84,9 @@ Other login options are availiable using 'cdktf login' command.
     }
 
     public async getTerraformCredentialsFile(): Promise<TerraformCredentialsFile> {
-        let terraformCredentials: TerraformCredentialsFile
+        
         const credentialsFile = JSON.parse(fs.readFileSync(terraformCredentialsFilePath).toString());
-        terraformCredentials = credentialsFile
+        const terraformCredentials: TerraformCredentialsFile = credentialsFile
 
         return terraformCredentials
     }
