@@ -20,6 +20,8 @@ class Command implements yargs.CommandModule {
   public readonly builder = (args: yargs.Argv) => args
     .showHelpOnFail(true)
     .option('template', { type: 'string', desc: 'The template name to be used to create a new project.' })
+    .option('project-name', { type: 'string', desc: 'The name of the project.'})
+    .option('project-description', { type: 'string', desc: 'The description of the project.'})
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
     .choices('template', availableTemplates);
@@ -45,7 +47,7 @@ class Command implements yargs.CommandModule {
     // Gather information about the template and the project
     const templateInfo = await getTemplatePath(template);
 
-    const projectInfo: any = await gatherInfo(token, templateInfo.Name);
+    const projectInfo: any = await gatherInfo(token, templateInfo.Name, argv.projectName, argv.projectDescription);
 
     // Check if token is set so we can setup Terraform Cloud workspace
     if (token != "") {
@@ -95,18 +97,22 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   };
 }
 
-async function gatherInfo(token: string, templateName: string): Promise<Project> {
+async function gatherInfo(token: string, templateName: string, projectName: string, projectDescription: string): Promise<Project> {
   
   console.log(chalkColour`\nWe will now setup the project. Please enter the details for your project.
 If you want to exit, press {magenta ^C}.
 `)
 
-  // Current working directory
-  const currentDirectory = path.basename(process.cwd());
+  if (projectName == "") {
+    // Current working directory
+    const currentDirectory = path.basename(process.cwd());
+    projectName = readlineSync.question(chalkColour`{greenBright Project Name:} (default: '${currentDirectory}')`, { defaultInput: currentDirectory })
+  }
 
-  const projectName = readlineSync.question(chalkColour`{greenBright Project Name:} (default: '${currentDirectory}')`, { defaultInput: currentDirectory })
-  const projectDescriptionDefault = 'A simple getting started project for cdktf.'
-  const projectDescription = readlineSync.question(chalkColour`{greenBright Project Description:} (default: '${projectDescriptionDefault}') `, { defaultInput: projectDescriptionDefault })
+  if (projectDescription == "") {
+    const projectDescriptionDefault = 'A simple getting started project for cdktf.'
+    projectDescription = readlineSync.question(chalkColour`{greenBright Project Description:} (default: '${projectDescriptionDefault}') `, { defaultInput: projectDescriptionDefault })
+  }
 
   const project: Project = {
     'Name': projectName,
