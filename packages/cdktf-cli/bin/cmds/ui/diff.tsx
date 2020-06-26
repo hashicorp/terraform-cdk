@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
-import { PlannedResource, PlannedResourceAction } from "./models/terraform"
+import { PlannedResource } from "./models/terraform"
 import { PlanElement } from './components'
 import { useTerraform, Status } from './terraform-context'
 
@@ -12,10 +12,6 @@ interface DiffConfig {
 
 interface PlanSummaryConfig {
   resources: PlannedResource[];
-}
-
-interface PlanSummary {
-  [key: string]: any;
 }
 
 const PlanSummary = ({resources}: PlanSummaryConfig): React.ReactElement  => {
@@ -43,13 +39,12 @@ const PlanSummary = ({resources}: PlanSummaryConfig): React.ReactElement  => {
 }
 
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
-  const { plan } = useTerraform({targetDir, synthCommand})
-  const { plannedResources, status, stackName, errors } = plan()
+  const { plan: execPlan } = useTerraform({targetDir, synthCommand})
+
+  const { status, stackName, errors, plan } = execPlan()
 
   const isPlanning: boolean = status != Status.PLANNED
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
-  const statesToDisplay = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY]
-  const resourcesToDisplay = (plannedResources || []).filter((resource) => statesToDisplay.includes(resource.action))
 
   if (errors) return(<Box>{ errors }</Box>);
 
@@ -65,11 +60,11 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
               <Box>
                 <Text>Stack: </Text><Text bold>{stackName}</Text>
               </Box>
-              <Text bold>Resources</Text>
-              { resourcesToDisplay.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource}/></Box>)) }
+              { plan?.needsApply ? (<Text bold>Resources</Text>) : (<></>) }
+              { plan?.applyableResources.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource}/></Box>)) }
               <Box marginTop={1}>
                 <Text bold>Diff: </Text>
-                <PlanSummary resources={resourcesToDisplay} /><Text>.</Text>
+                <PlanSummary resources={plan?.applyableResources || []} /><Text>.</Text>
               </Box>
             </Box>
           </Fragment>

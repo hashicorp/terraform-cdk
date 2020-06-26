@@ -58,9 +58,13 @@ export class TerraformPlan {
     })
   }
 
+  public get applyableResources(): PlannedResource[] {
+    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ];
+    return this.resources.filter(resource => (applyActions.includes(resource.action)));
+  }
+
   public get needsApply(): boolean {
-    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ, PlannedResourceAction.NO_OP];
-    return !!this.resources.find(resource => (applyActions.includes(resource.action)));
+    return this.applyableResources.length > 0
   }
 }
 

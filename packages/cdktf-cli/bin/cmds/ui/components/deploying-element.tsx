@@ -4,20 +4,20 @@ import Spinner from 'ink-spinner';
 import { DeployingResourceApplyState, DeployingResource } from "../models/terraform"
 
 interface DeployingElementStatusProps {
-  action: DeployingResourceApplyState;
+  resource: DeployingResource;
 }
 
-export const DeployingElementStatus = ({action}: DeployingElementStatusProps) => {
+export const DeployingElementStatus = ({resource}: DeployingElementStatusProps) => {
   let actionSymbol: string;
   let color: string;
 
-  switch(action) {
+  switch(resource.applyState) {
     case DeployingResourceApplyState.CREATING:
       actionSymbol = '+';
       color = 'green'
       break;
     case DeployingResourceApplyState.CREATED:
-      actionSymbol = 'c';
+      actionSymbol = '\u2713';
       color = 'green'
       break;
     case DeployingResourceApplyState.UPDATING:
@@ -25,7 +25,7 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
       color = 'yellow'
       break;
     case DeployingResourceApplyState.UPDATED:
-      actionSymbol = 'u';
+      actionSymbol = '\u2713';
       color = 'yellow'
       break;
     case DeployingResourceApplyState.DESTROYING:
@@ -33,7 +33,7 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
       color = 'red'
       break;
     case DeployingResourceApplyState.DESTROYED:
-      actionSymbol = 'd';
+      actionSymbol = '\u2713';
       color = 'red'
       break;
     case DeployingResourceApplyState.WAITING:
@@ -41,7 +41,7 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
       color = 'cyan'
       break;
     case DeployingResourceApplyState.SUCCESS:
-      actionSymbol = 's';
+      actionSymbol = '\u2713';
       color = 'green'
       break;
     case DeployingResourceApplyState.ERROR:
@@ -50,11 +50,11 @@ export const DeployingElementStatus = ({action}: DeployingElementStatusProps) =>
       break;
   }
 
-  const inProgress = [DeployingResourceApplyState.CREATING, DeployingResourceApplyState.UPDATING, DeployingResourceApplyState.DESTROYING].includes(action)
+  const inProgress = [DeployingResourceApplyState.CREATING, DeployingResourceApplyState.UPDATING, DeployingResourceApplyState.DESTROYING].includes(resource.applyState)
 
   return(
     <>
-      { inProgress ? (<Color keyword={color}><Spinner type="toggle"/></Color>) : (
+      { inProgress ? (<Color keyword={color}><Spinner/>&nbsp;</Color>) : (
       <Color keyword={color}><Text>{ actionSymbol }&nbsp;</Text></Color>)}
     </>
   )
@@ -67,7 +67,7 @@ interface DeployingElementProps {
 
 export const DeployingElement = ({resource}: DeployingElementProps) => (
   <Box key={resource.id}>
-    <DeployingElementStatus action={resource.applyState}/>
+    <DeployingElementStatus resource={resource} />
     <Text>{ resource.id }</Text>
   </Box>
 )

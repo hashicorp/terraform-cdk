@@ -73,11 +73,10 @@ const parseOutput = (str: string): DeployingResource | undefined => {
 type DeployState = {
   status: Status;
   resources: DeployingResource[];
-  plannedResources?: PlannedResource[];
+  plan?: TerraformPlan;
   stackName?: string;
   stackJSON?: string;
   errors?: string[];
-  planFile?: string;
  }
 
  type Action =
@@ -85,7 +84,7 @@ type DeployState = {
  | { type: 'NEW_STACK'; stackName: string; stackJSON: string }
  | { type: 'INIT' }
  | { type: 'PLAN' }
- | { type: 'PLANNED'; resources: PlannedResource[]; planFile: string}
+ | { type: 'PLANNED'; plan: TerraformPlan}
  | { type: 'DEPLOY'; resources: DeployingResource[] }
  | { type: 'UPDATE_RESOURCE'; resource: DeployingResource }
  | { type: 'DONE' }
@@ -121,8 +120,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return {
         ...state,
         status: Status.PLANNED,
-        plannedResources: action.resources,
-        planFile: action.planFile
+        plan: action.plan
       }
     }
     case 'DEPLOY': {
@@ -203,7 +201,7 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
     try {
       dispatch({type: 'PLAN'})
       plan = await terraform.plan();
-      dispatch({type: 'PLANNED', resources: plan.resources, planFile: plan.planFile})
+      dispatch({type: 'PLANNED', plan})
       return plan
     } catch(e) {
       dispatch({type: 'ERROR', error: e})
