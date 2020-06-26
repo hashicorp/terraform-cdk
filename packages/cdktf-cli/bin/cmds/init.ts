@@ -55,6 +55,7 @@ class Command implements yargs.CommandModule {
     const projectInfo: any = await gatherInfo(token, templateInfo.Name, argv.projectName, argv.projectDescription);
 
     // Check if token is set so we can setup Terraform Cloud workspace
+    // only set with the '--local' option is specified the user.
     if (token != "") {
       console.log(chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`);
       await terraformCloudClient.createWorkspace(projectInfo.OrganizationName, projectInfo.WorkspaceName, token);
