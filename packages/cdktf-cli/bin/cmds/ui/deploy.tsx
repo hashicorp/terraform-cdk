@@ -91,7 +91,7 @@ export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactEl
                 <Text bold>Summary: </Text>
                 <DeploySummary resources={resources} /><Text>.</Text>
               </Box>
-              { output &&
+              { output && Object.keys(output).length > 0 &&
                 <Box marginTop={1}>
                   <Text bold>Output: </Text>
                   <Output output={output} />
