@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
 import { DeployingElement } from './components'
-import { DeployingResource } from './models/terraform'
+import { DeployingResource, TerraformOutput } from './models/terraform'
 import { useTerraform, Status } from './terraform-context'
 
 interface DeploySummaryConfig {
@@ -34,6 +34,23 @@ const DeploySummary = ({resources}: DeploySummaryConfig): React.ReactElement  =>
   </>)
 }
 
+interface OutputConfig {
+  output: {[key: string]: TerraformOutput};
+}
+
+const Output = ({output}: OutputConfig): React.ReactElement  => {
+  return(
+    <Box flexDirection="column">
+      { Object.keys(output).map((key) => (
+        <Box key={key}>
+          <Text>{ key } = { output[key].value }</Text>
+        </Box>
+      )) }
+   </Box>
+  )
+}
+
+
 interface DeployConfig {
   targetDir: string;
   synthCommand: string;
@@ -41,7 +58,7 @@ interface DeployConfig {
 
 export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactElement => {
   const { deploy } = useTerraform({targetDir, synthCommand})
-  const { resources, status, stackName, errors, plan } = deploy()
+  const { resources, status, stackName, errors, plan, output } = deploy()
 
   const deployStages = [Status.DEPLOYING, Status.DONE]
   const isPreparing = !deployStages.includes(status)
@@ -74,6 +91,12 @@ export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactEl
                 <Text bold>Summary: </Text>
                 <DeploySummary resources={resources} /><Text>.</Text>
               </Box>
+              { output &&
+                <Box marginTop={1}>
+                  <Text bold>Output: </Text>
+                  <Output output={output} />
+                </Box>
+              }
             </Box>
           </Fragment>
         )}

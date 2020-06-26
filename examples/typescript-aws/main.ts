@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
+import { App, TerraformStack, TerraformOutput } from 'cdktf';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
 import { AwsProvider } from './.gen/providers/aws'
@@ -25,9 +25,17 @@ export class HelloTerra extends TerraformStack {
     // table.addOverride('hash_key', 'foo')
     table.addOverride('lifecycle', { create_before_destroy: true })
 
-    new SnsTopic(this, 'Topic', {
+    const sns = new SnsTopic(this, 'Topic', {
       displayName: 'my-first-sns-topic'
     });
+
+    new TerraformOutput(this, 'table_name', {
+      value: table.name
+    })
+
+    new TerraformOutput(this, 'sns_topic', {
+      value: sns.name
+    })
   }
 }
 

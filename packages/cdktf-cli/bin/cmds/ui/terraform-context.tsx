@@ -1,7 +1,7 @@
 /* eslint-disable no-control-regex */
 import React from 'react'
 import * as path from 'path'
-import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan } from "./models/terraform"
+import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from "./models/terraform"
 import { SynthStack } from '../helper/synth-stack'
 
 type DefaultValue = undefined;
@@ -77,6 +77,7 @@ type DeployState = {
   stackName?: string;
   stackJSON?: string;
   errors?: string[];
+  output?: {[key: string]: TerraformOutput};
  }
 
  type Action =
@@ -87,6 +88,7 @@ type DeployState = {
  | { type: 'PLANNED'; plan: TerraformPlan}
  | { type: 'DEPLOY'; resources: DeployingResource[] }
  | { type: 'UPDATE_RESOURCE'; resource: DeployingResource }
+ | { type: 'OUTPUT'; output: {[key: string]: TerraformOutput} }
  | { type: 'DONE' }
  | { type: 'ERROR'; error: string };
 
@@ -125,6 +127,9 @@ function deployReducer(state: DeployState, action: Action): DeployState {
     }
     case 'DEPLOY': {
       return {...state, status: Status.DEPLOYING, resources: action.resources }
+    }
+    case 'OUTPUT': {
+      return {...state, output: action.output }
     }
     case 'DONE': {
       return {...state, status: Status.DONE }
@@ -191,6 +196,15 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
     try {
       dispatch({type: 'INIT'})
       await terraform.init();
+    } catch(e) {
+      dispatch({type: 'ERROR', error: e})
+    }
+  }
+
+  const execTerraformOutput = async () => {
+    try {
+      const output = await terraform.output();
+      dispatch({type: 'OUTPUT', output})
     } catch(e) {
       dispatch({type: 'ERROR', error: e})
     }
@@ -277,6 +291,8 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
         } else {
           throw new Error("expected plan to be present but was undefined")
         }
+
+        await execTerraformOutput()
       }
       invoke()
     }, []) // once
