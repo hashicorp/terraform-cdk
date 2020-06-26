@@ -11,6 +11,8 @@ const args = yargs
   .env('CDKTF')
   .epilogue(`Options can be specified via environment variables with the "CDKTF_" prefix (e.g. "CDKTF_OUTPUT")`)
   .help()
+  .strict()
+  .alias('h', 'help')
   .argv;
 
 if (args._.length === 0) {

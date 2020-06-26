@@ -8,6 +8,7 @@ class Command implements yargs.CommandModule {
     public readonly command = 'login';
     public readonly describe = 'Retrieves an API token to connect to Terraform Cloud.';
     public readonly builder = (args: yargs.Argv) => args
+        .showHelpOnFail(true)
 
     public async handler(argv: any) {
         const args = argv as yargs.Arguments

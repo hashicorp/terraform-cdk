@@ -26,19 +26,21 @@ export class TerraformLogin {
         // Describe the command
         console.log(chalkColour`{greenBright Welcome to CDK for Terraform!}
 
-cdktf allows you to manage the state of your stacks using Terraform Cloud.
+By default, cdktf allows you to manage the state of your stacks using Terraform Cloud for free.
 cdktf will request an API token for app.terraform.io using your browser.
 
 If login is successful, cdktf will store the token in plain text in
 the following file for use by subsequent Terraform commands:
     {whiteBright ${terraformCredentialsFilePath}}
 
-Other login options are availiable using 'cdktf login' command.
+{yellow Note: Other login options are availiable using 'cdktf login' command which include
+using local storage for the state of your stack. The local storage mode isn't
+recommended.}
 `);
 
         let isLogin = false
 
-        const c = readlineSync.question(chalkColour`{whiteBright Do you want to continue (yes/no)?} `, { defaultInput: 'yes' });
+        const c = readlineSync.question(chalkColour`{whiteBright Do you want to continue with Terraform Cloud remote state management (yes/no)?} `, { defaultInput: 'yes' });
         if (c == "yes" || c == "y" || c == "\n") {
             isLogin = true
             this.openBrowser();
