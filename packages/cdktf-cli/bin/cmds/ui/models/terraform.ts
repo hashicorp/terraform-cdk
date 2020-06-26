@@ -1,5 +1,10 @@
 import { spawn, SpawnOptions } from 'child_process';
 import * as path from 'path';
+import { logger } from '../logging';
+
+const processLogger = (chunk: Buffer | string | Uint8Array) => {
+  logger.debug(chunk.toString())
+}
 
 export enum PlannedResourceAction {
   CREATE = 'create',
@@ -103,11 +108,11 @@ export class Terraform  {
       const child = spawn(command, args, options);
       const out = new Array<Buffer>();
       if (stdout !== undefined) {
-        child.stdout?.on('data', stdout);
+        child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk) ; stdout(chunk) });
       } else {
-        child.stdout?.on('data', (chunk: Buffer) => out.push(chunk));
+        child.stdout?.on('data', (chunk: Buffer) =>  { processLogger(chunk) ; out.push(chunk) } );
       }
-      child.stderr?.on('data', (chunk: string | Uint8Array) => process.stderr.write(chunk));
+      child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk) ; process.stderr.write(chunk) });
       child.once('error', (err: any) => ko(err));
       child.once('close', (code: number) => {
         if (code !== 0) {

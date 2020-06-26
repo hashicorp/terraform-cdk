@@ -40,6 +40,7 @@
     "ink-spinner": "^3.0.1",
     "jsii": "1.1.0",
     "jsii-pacmak": "1.1.0",
+    "log4js": "^6.3.0",
     "react": "^16.13.1",
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
