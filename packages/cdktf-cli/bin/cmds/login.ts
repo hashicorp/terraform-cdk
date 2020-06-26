@@ -1,4 +1,4 @@
-import * as yargs from 'yargs';
+import yargs from 'yargs'
 import { TerraformLogin } from './helper/terraform-login'
 import * as terraformCloudClient from './helper/terraform-cloud-client'
 import * as chalk from 'chalk';

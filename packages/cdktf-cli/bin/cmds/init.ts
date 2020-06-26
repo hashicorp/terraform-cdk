@@ -1,4 +1,4 @@
-import * as yargs from 'yargs';
+import yargs from 'yargs'
 import * as readlineSync from 'readline-sync';
 import { TerraformLogin } from './helper/terraform-login'
 import * as fs from 'fs-extra';
@@ -137,7 +137,7 @@ If you want to exit, press {magenta ^C}.
     project.OrganizationName = organizationName
     project.WorkspaceName = workspaceName
   }
-  
+
   return project;
 }
 
@@ -153,7 +153,7 @@ async function getTemplatePath(templateName: string): Promise<Template> {
   }
 
   const templatePath = path.join(templatesDir, templateName);
-  
+
   return {
     'Name': templateName,
     'Path': templatePath
