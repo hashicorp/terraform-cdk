@@ -19,13 +19,8 @@ cp ${scriptdir}/main.ts .
 cp ${scriptdir}/cdktf.json .
 cdktf get
 
-ls -al .terraform
-
 # diff
 cdktf deploy > output
-
-ls -al .terraform
-cat output
 diff output ${scriptdir}/expected/output
 
 echo "PASS"
