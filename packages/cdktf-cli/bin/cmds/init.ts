@@ -25,6 +25,7 @@ class Command implements yargs.CommandModule {
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
     .option('local', { type: 'boolean', desc: 'Use local remote state storage for generated Terraform.', default: false})
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
+    .strict()
     .choices('template', availableTemplates);
 
   public async handler(argv: any) {
