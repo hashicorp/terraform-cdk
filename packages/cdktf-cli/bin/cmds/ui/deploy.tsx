@@ -34,8 +34,6 @@ const DeploySummary = ({resources}: DeploySummaryConfig): React.ReactElement  =>
   </>)
 }
 
-
-
 interface DeployConfig {
   targetDir: string;
   synthCommand: string;
