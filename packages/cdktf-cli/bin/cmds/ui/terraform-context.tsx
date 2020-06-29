@@ -70,7 +70,7 @@ const parseOutput = (str: string): DeployingResource | undefined => {
   }
 }
 
-type DeployState = {
+export type DeployState = {
   status: Status;
   resources: DeployingResource[];
   plan?: TerraformPlan;
@@ -143,9 +143,13 @@ function deployReducer(state: DeployState, action: Action): DeployState {
   }
 }
 
+interface TerraformProviderConfig {
+  initialState?: DeployState
+}
+
 // eslint-disable-next-line react/prop-types
-export const TerraformProvider: React.FunctionComponent<{}> = ({ children }): React.ReactElement => {
-  const [state, dispatch] = React.useReducer(deployReducer, { status: Status.STARTING, resources: [] })
+export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig> = ({ children, initialState }): React.ReactElement => {
+  const [state, dispatch] = React.useReducer(deployReducer, initialState || { status: Status.STARTING, resources: [] })
 
   return (
     <TerraformContextState.Provider value={state}>

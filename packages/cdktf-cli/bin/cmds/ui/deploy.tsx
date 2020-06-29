@@ -12,7 +12,7 @@ interface DeploySummaryConfig {
   resources: DeployingResource[];
 }
 
-const DeploySummary = ({ resources }: DeploySummaryConfig): React.ReactElement => {
+export const DeploySummary = ({ resources }: DeploySummaryConfig): React.ReactElement => {
   const summary = resources.reduce((accumulator, resource) => {
     if (accumulator[resource.applyState] !== undefined) {
       accumulator[resource.applyState] += 1
@@ -40,7 +40,7 @@ interface OutputConfig {
   output: { [key: string]: TerraformOutput };
 }
 
-const Output = ({ output }: OutputConfig): React.ReactElement => {
+export const Output = ({ output }: OutputConfig): React.ReactElement => {
   return (
     <Box flexDirection="column">
       {Object.keys(output).map((key) => (
@@ -86,7 +86,7 @@ interface ApplyConfig {
   deploy: (plan: TerraformPlan | undefined) => any;
 }
 
-const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
+export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
   const { resources, status, stackName, output, plan } = useTerraformState()
   deploy(plan)
   return (

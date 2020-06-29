@@ -31,10 +31,12 @@
   ],
   "include": [
     "**/*.ts",
+    "test/ui/deploy.test.tsx",
   ],
   "exclude": [
     "node_modules",
     "templates/**/*.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "**/*.test.tsx"
   ],
 }
