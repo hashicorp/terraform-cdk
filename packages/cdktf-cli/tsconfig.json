@@ -26,8 +26,11 @@
     "target": "ES2018",
     "esModuleInterop": true
   },
+  "files": [
+    "lib/ambient.d.ts"
+  ],
   "include": [
-    "**/*.ts"
+    "**/*.ts",
   ],
   "exclude": [
     "node_modules",

@@ -4125,12 +4125,29 @@ init-package-json@^1.10.3:
     validate-npm-package-license "^3.0.1"
     validate-npm-package-name "^3.0.0"
 
+ink-confirm-input@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ink-confirm-input/-/ink-confirm-input-2.0.0.tgz#ee65758f6315396bbcd0613ef626f1d594703cde"
+  integrity sha512-YCd7a9XW0DIIbOhF3XiLo3WF86mOart9qI1qN56wT5IDJxU+j8BanEZh5/QXoazyIPSv1iXlHPIlRB5cbZIMIA==
+  dependencies:
+    ink-text-input "^3.2.1"
+    prop-types "^15.5.10"
+    yn "^3.1.1"
+
 ink-spinner@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/ink-spinner/-/ink-spinner-3.0.1.tgz#7b4b206d2b18538701fd92593f9acabbfe308dce"
   integrity sha512-AVR4Z/NXDQ7dT5ltWcCzFS9Dd4T8eaO//E2UO8VYNiJcZpPCSJ11o5A0UVPcMlZxGbGD6ikUFDR3ZgPUQk5haQ==
   dependencies:
     cli-spinners "^1.0.0"
+    prop-types "^15.5.10"
+
+ink-text-input@^3.2.1:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/ink-text-input/-/ink-text-input-3.3.0.tgz#ab1f5e668321b3df7e26be64c327e49ff476f3ce"
+  integrity sha512-gO4wrOf2ie3YuEARTIwGlw37lMjFn3Gk6CKIDrMlHb46WFMagZU7DplohjM24zynlqfnXA5UDEIfC2NBcvD8kg==
+  dependencies:
+    chalk "^3.0.0"
     prop-types "^15.5.10"
 
 ink@*, ink@^2.7.1:
@@ -8473,6 +8490,11 @@ yargs@^15.1.0, yargs@^15.3.0, yargs@^15.3.1:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^18.1.1"
+
+yn@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
+  integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
 yoga-layout-prebuilt@^1.9.3:
   version "1.9.6"

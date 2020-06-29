@@ -9,7 +9,7 @@ type ContextValue = DefaultValue | DeployState;
 
 const TerraformContextState = React.createContext<ContextValue>(undefined)
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const TerraformContextDispatch = React.createContext((() => {}) as React.Dispatch<Action>);
+const TerraformContextDispatch = React.createContext((() => { }) as React.Dispatch<Action>);
 
 export enum Status {
   STARTING = 'starting',
@@ -77,20 +77,20 @@ type DeployState = {
   stackName?: string;
   stackJSON?: string;
   errors?: string[];
-  output?: {[key: string]: TerraformOutput};
- }
+  output?: { [key: string]: TerraformOutput };
+}
 
- type Action =
- | { type: 'SYNTH' }
- | { type: 'NEW_STACK'; stackName: string; stackJSON: string }
- | { type: 'INIT' }
- | { type: 'PLAN' }
- | { type: 'PLANNED'; plan: TerraformPlan}
- | { type: 'DEPLOY'; resources: DeployingResource[] }
- | { type: 'UPDATE_RESOURCE'; resource: DeployingResource }
- | { type: 'OUTPUT'; output: {[key: string]: TerraformOutput} }
- | { type: 'DONE' }
- | { type: 'ERROR'; error: string };
+type Action =
+  | { type: 'SYNTH' }
+  | { type: 'NEW_STACK'; stackName: string; stackJSON: string }
+  | { type: 'INIT' }
+  | { type: 'PLAN' }
+  | { type: 'PLANNED'; plan: TerraformPlan }
+  | { type: 'DEPLOY'; resources: DeployingResource[] }
+  | { type: 'UPDATE_RESOURCE'; resource: DeployingResource }
+  | { type: 'OUTPUT'; output: { [key: string]: TerraformOutput } }
+  | { type: 'DONE' }
+  | { type: 'ERROR'; error: string };
 
 
 function deployReducer(state: DeployState, action: Action): DeployState {
@@ -102,7 +102,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       }
     }
     case 'SYNTH': {
-      return {...state, status: Status.SYNTHESIZING }
+      return { ...state, status: Status.SYNTHESIZING }
     }
     case 'NEW_STACK': {
       return {
@@ -113,10 +113,10 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       }
     }
     case 'INIT': {
-      return {...state, status: Status.INITIALIZING }
+      return { ...state, status: Status.INITIALIZING }
     }
     case 'PLAN': {
-      return {...state, status: Status.PLANNING }
+      return { ...state, status: Status.PLANNING }
     }
     case 'PLANNED': {
       return {
@@ -126,16 +126,16 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       }
     }
     case 'DEPLOY': {
-      return {...state, status: Status.DEPLOYING, resources: action.resources }
+      return { ...state, status: Status.DEPLOYING, resources: action.resources }
     }
     case 'OUTPUT': {
-      return {...state, output: action.output }
+      return { ...state, output: action.output }
     }
     case 'DONE': {
-      return {...state, status: Status.DONE }
+      return { ...state, status: Status.DONE }
     }
     case 'ERROR': {
-      return {...state, errors: [...(Array.isArray(state.errors) ? state.errors : []), action.error] }
+      return { ...state, errors: [...(Array.isArray(state.errors) ? state.errors : []), action.error] }
     }
     default: {
       throw new Error(`Unhandled action type: ${JSON.stringify(action, null, 2)}`)
@@ -144,13 +144,13 @@ function deployReducer(state: DeployState, action: Action): DeployState {
 }
 
 // eslint-disable-next-line react/prop-types
-export const TerraformProvider: React.FunctionComponent<{}> = ({children}): React.ReactElement => {
-  const [state, dispatch] = React.useReducer(deployReducer, {status: Status.STARTING, resources: []})
+export const TerraformProvider: React.FunctionComponent<{}> = ({ children }): React.ReactElement => {
+  const [state, dispatch] = React.useReducer(deployReducer, { status: Status.STARTING, resources: [] })
 
-  return(
+  return (
     <TerraformContextState.Provider value={state}>
       <TerraformContextDispatch.Provider value={dispatch}>
-        { children }
+        {children}
       </TerraformContextDispatch.Provider>
     </TerraformContextState.Provider>
   )
@@ -170,7 +170,7 @@ export const useTerraformState = () => {
   return state
 }
 
-export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
+export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => {
   const dispatch = React.useContext(TerraformContextDispatch)
   const state = useTerraformState()
 
@@ -184,41 +184,41 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
 
   const execTerraformSynth = async () => {
     try {
-      dispatch({type: 'SYNTH'})
+      dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
-      dispatch({type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content})
-    } catch(e) {
-      dispatch({type: 'ERROR', error: e})
+      dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
+    } catch (e) {
+      dispatch({ type: 'ERROR', error: e })
     }
   }
 
   const execTerraformInit = async () => {
     try {
-      dispatch({type: 'INIT'})
+      dispatch({ type: 'INIT' })
       await terraform.init();
-    } catch(e) {
-      dispatch({type: 'ERROR', error: e})
+    } catch (e) {
+      dispatch({ type: 'ERROR', error: e })
     }
   }
 
   const execTerraformOutput = async () => {
     try {
       const output = await terraform.output();
-      dispatch({type: 'OUTPUT', output})
-    } catch(e) {
-      dispatch({type: 'ERROR', error: e})
+      dispatch({ type: 'OUTPUT', output })
+    } catch (e) {
+      dispatch({ type: 'ERROR', error: e })
     }
   }
 
   const execTerraformPlan = async (): Promise<TerraformPlan | undefined> => {
     let plan: TerraformPlan
     try {
-      dispatch({type: 'PLAN'})
+      dispatch({ type: 'PLAN' })
       plan = await terraform.plan();
-      dispatch({type: 'PLANNED', plan})
+      dispatch({ type: 'PLANNED', plan })
       return plan
-    } catch(e) {
-      dispatch({type: 'ERROR', error: e})
+    } catch (e) {
+      dispatch({ type: 'ERROR', error: e })
     }
     return
   }
@@ -226,19 +226,19 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
   const execTerraformApply = async (plan: TerraformPlan) => {
     try {
       if (plan.needsApply) {
-        const resources: DeployingResource[] = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, {applyState: DeployingResourceApplyState.WAITING})))
-        dispatch({type: 'DEPLOY', resources})
+        const resources: DeployingResource[] = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
+        dispatch({ type: 'DEPLOY', resources })
 
         await terraform.deploy(plan.planFile, (output: Buffer) => {
           const resource = parseOutput(output.toString());
           if (resource) {
-            dispatch({type: 'UPDATE_RESOURCE', resource})
+            dispatch({ type: 'UPDATE_RESOURCE', resource })
           }
         });
       }
-      dispatch({type: 'DONE'})
-    } catch(e) {
-      dispatch({type: 'ERROR', error: e})
+      dispatch({ type: 'DONE' })
+    } catch (e) {
+      dispatch({ type: 'ERROR', error: e })
     }
   }
 
@@ -280,12 +280,9 @@ export const useTerraform = ({targetDir, synthCommand}: UseTerraformInput) => {
     return state
   }
 
-  const deploy = () => {
+  const deploy = (plan?: TerraformPlan) => {
     React.useEffect(() => {
       const invoke = async () => {
-        await execTerraformSynth()
-        await execTerraformInit()
-        const plan = await execTerraformPlan()
         if (plan) {
           await execTerraformApply(plan)
         } else {
