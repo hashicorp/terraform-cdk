@@ -123,9 +123,10 @@ export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
 interface DeployConfig {
   targetDir: string;
   synthCommand: string;
+  autoApprove: boolean;
 }
 
-export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactElement => {
+export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): React.ReactElement => {
   const { plan: execPlan, deploy } = useTerraform({ targetDir, synthCommand })
   const { status, stackName, errors, plan } = execPlan()
 
@@ -133,7 +134,7 @@ export const Deploy = ({ targetDir, synthCommand }: DeployConfig): React.ReactEl
   const isPlanning = planStages.includes(status)
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
-  const [shouldContinue, confirmDeployment] = useState<boolean>();
+  const [shouldContinue, confirmDeployment] = useState<boolean>(autoApprove);
 
 
   if (errors) return (<Box>{errors}</Box>);

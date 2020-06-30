@@ -13,14 +13,16 @@ class Command implements yargs.CommandModule {
   public readonly builder = (args: yargs.Argv) => args
     .option('app', { default: config.app, required: true, desc: 'Command to use in order to execute cdktf app', alias: 'a' })
     .option('output', { default: config.output, required: true, desc: 'Output directory', alias: 'o' })
+    .option('auto-approve', { type: 'boolean', default: false, required: false, desc: 'Auto approve' })
     .showHelpOnFail(true)
 
   public async handler(argv: any) {
     const command = argv.app;
     const outdir = argv.output;
+    const autoApprove = argv.autoApprove;
 
     render(
-      React.createElement(TerraformProvider, {}, React.createElement(Deploy, { targetDir: outdir, synthCommand: command }))
+      React.createElement(TerraformProvider, {}, React.createElement(Deploy, { targetDir: outdir, synthCommand: command, autoApprove }))
     );
   }
 }
