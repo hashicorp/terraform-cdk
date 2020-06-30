@@ -1,15 +1,15 @@
 /* eslint-disable no-control-regex */
 import React from 'react'
 import * as path from 'path'
-import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from "./models/terraform"
-import { SynthStack } from '../helper/synth-stack'
+import { Terraform, ITerraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from "./models/terraform"
+import { synthesizeStack, SynthesizedStack } from '../helper/synth-stack'
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
 
-const TerraformContextState = React.createContext<ContextValue>(undefined)
+export const TerraformContextState = React.createContext<ContextValue>(undefined)
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const TerraformContextDispatch = React.createContext((() => { }) as React.Dispatch<Action>);
+export const TerraformContextDispatch = React.createContext((() => { }) as React.Dispatch<Action>);
 
 export enum Status {
   STARTING = 'starting',
@@ -160,8 +160,10 @@ export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig>
   )
 }
 interface UseTerraformInput {
-  targetDir: string;
-  synthCommand: string;
+  targetDir?: string;
+  synthCommand?: string;
+  terraformWrapper?: ITerraform;
+  synthStack?: () => Promise<SynthesizedStack[]>
 }
 
 export const useTerraformState = () => {
@@ -174,22 +176,38 @@ export const useTerraformState = () => {
   return state
 }
 
-export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => {
+export const useTerraformDispatch = () => {
   const dispatch = React.useContext(TerraformContextDispatch)
-  const state = useTerraformState()
 
   if (dispatch === undefined) {
-    throw new Error('useTerraform must be used within a TerraformContextDispatch.Provider')
+    throw new Error('useTerraformState must be used within a TerraformContextState.Provider')
   }
 
-  const cwd = process.cwd();
-  const outdir = path.join(cwd, targetDir);
-  const terraform = new Terraform(outdir);
+  return dispatch
+}
+
+export const useTerraform = ({ targetDir, synthCommand, synthStack, terraformWrapper }: UseTerraformInput) => {
+  const dispatch = useTerraformDispatch()
+  const state = useTerraformState()
+  let terraform: ITerraform;
+
+  if (targetDir && !terraformWrapper) {
+    const cwd = process.cwd();
+    const outdir = path.join(cwd, targetDir);
+    terraform = new Terraform(outdir);
+  }
+
 
   const execTerraformSynth = async () => {
     try {
       dispatch({ type: 'SYNTH' })
-      const stacks = await SynthStack.synth(synthCommand, targetDir);
+      let stacks: SynthesizedStack[];
+
+      if (targetDir && synthCommand && !synthStack) {
+        stacks = await synthesizeStack(synthCommand, targetDir);
+      } else {
+        stacks = await synthStack!();
+      }
       dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
     } catch (e) {
       dispatch({ type: 'ERROR', error: e })

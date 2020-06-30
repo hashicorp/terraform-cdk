@@ -31,8 +31,8 @@ export interface DeployingResource extends PlannedResource {
 
 export interface ResourceChangesChange {
   actions: string[];
-  before: {[key: string]: any };
-  after: {[key: string]: any };
+  before: { [key: string]: any };
+  after: { [key: string]: any };
 }
 
 export interface ResourceChanges {
@@ -53,9 +53,9 @@ export interface TerraformOutput {
 }
 
 export class TerraformPlan {
-  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {}
+  constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }) { }
 
-  public get resources(): PlannedResource[]  {
+  public get resources(): PlannedResource[] {
     return this.plan.resource_changes.map((resource: ResourceChanges) => {
       return {
         id: resource.address,
@@ -74,7 +74,14 @@ export class TerraformPlan {
   }
 }
 
-export class Terraform  {
+export interface ITerraform {
+  init: () => Promise<void>;
+  plan: () => Promise<TerraformPlan>;
+  deploy: (planFile: string, stdout: (chunk: Buffer) => any) => Promise<void>;
+  output: () => Promise<{ [key: string]: TerraformOutput }>;
+}
+
+export class Terraform implements ITerraform {
   constructor(public readonly workdir: string) {
   }
 
@@ -93,7 +100,7 @@ export class Terraform  {
     await this.exec('terraform', ['apply', '-auto-approve', planFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
-  public async output(): Promise<{[key: string]: TerraformOutput}> {
+  public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const output = await this.exec('terraform', ['output', '-json'], { cwd: this.workdir, env: process.env });
     return JSON.parse(output)
   }
