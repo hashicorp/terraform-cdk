@@ -4,10 +4,12 @@ const logger = getLogger();
 
 logger.level = process.env.CDKTF_LOG_LEVEL || 'INFO';
 
-configure({
-  appenders: { cdktf: { type: "file", filename: "./cdktf.log" } },
-  categories: { default: { appenders: ["cdktf"], level: "debug" } }
-});
+if (process.env.CDKTF_DISABLE_LOGGING === undefined) {
+  configure({
+    appenders: { cdktf: { type: "file", filename: "./cdktf.log" } },
+    categories: { default: { appenders: ["cdktf"], level: "debug" } }
+  });
+}
 
 const processLogger = (chunk: Buffer | string | Uint8Array) => {
   logger.debug(chunk.toString())
