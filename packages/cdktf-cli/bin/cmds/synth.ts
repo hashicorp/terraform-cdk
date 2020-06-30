@@ -1,4 +1,4 @@
-import * as yargs from 'yargs';
+import yargs from 'yargs'
 import { render } from 'ink';
 import React from 'react';
 import { Synth } from './ui/synth'
