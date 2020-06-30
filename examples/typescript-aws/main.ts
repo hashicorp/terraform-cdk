@@ -25,16 +25,22 @@ export class HelloTerra extends TerraformStack {
     // table.addOverride('hash_key', 'foo')
     table.addOverride('lifecycle', { create_before_destroy: true })
 
-    const sns = new SnsTopic(this, 'Topic', {
-      displayName: 'my-first-sns-topic'
-    });
+    const foo = [...Array(50).keys()]
+    const topics = foo.map((i) => {
+      return new SnsTopic(this, `Topic${i}`, {
+        displayName: `my-first-sns-topic${i}`
+      });
+  
+    })
 
     new TerraformOutput(this, 'table_name', {
       value: table.name
     })
 
-    new TerraformOutput(this, 'sns_topic', {
-      value: sns.name
+    topics.forEach((topic, i) => {
+      new TerraformOutput(this, `sns_topic${i}`, {
+        value: topic.name
+      })  
     })
   }
 }

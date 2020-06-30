@@ -26,48 +26,59 @@ const stripAnsi = (str: string): string => {
   return str.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
 }
 
-const parseOutput = (str: string): DeployingResource | undefined => {
-  const line = stripAnsi(str.toString())
-  const resourceMatch = line.match(/^([a-zA-Z\d_.]*):/)
-  let applyState: DeployingResourceApplyState;
+const parseOutput = (str: string): DeployingResource[] => {
+  const lines = stripAnsi(str.toString()).split('\n')
 
-  switch (true) {
-    case /Creating.../.test(line):
-      applyState = DeployingResourceApplyState.CREATING
-      break;
-    case /Creation complete/.test(line):
-      applyState = DeployingResourceApplyState.CREATED
-      break;
-    case /Modifying.../.test(line):
-      applyState = DeployingResourceApplyState.UPDATING
-      break;
-    case /Modifications complete/.test(line):
-      applyState = DeployingResourceApplyState.UPDATED
-      break;
-    case /Destroying.../.test(line):
-      applyState = DeployingResourceApplyState.DESTROYING
-      break;
-    case /Destruction complete/.test(line):
-      applyState = DeployingResourceApplyState.DESTROYED
-      break;
-    default:
-      applyState = DeployingResourceApplyState.SUCCESS
-    // case /Destruction complete/.test(line):
-    //   applyState = DeployingResourceApplyState.DESTROYED
-    //   break;
-  }
+  const resources = lines.map(line => {
 
-  // if (stateMatch?.length === 0) return;
+    if (/^Outputs:/.test(line)) { return }
 
-  if (resourceMatch && resourceMatch.length >= 0) {
-    return {
-      id: resourceMatch[1],
-      action: PlannedResourceAction.CREATE,
-      applyState
+    const resourceMatch = line.match(/^([a-zA-Z\d_.]*):/)
+    let applyState: DeployingResourceApplyState;
+
+    switch (true) {
+      case /Creating.../.test(line):
+        applyState = DeployingResourceApplyState.CREATING
+        break;
+      case /Creation complete/.test(line):
+        applyState = DeployingResourceApplyState.CREATED
+        break;
+      case /Modifying.../.test(line):
+        applyState = DeployingResourceApplyState.UPDATING
+        break;
+      case /Modifications complete/.test(line):
+        applyState = DeployingResourceApplyState.UPDATED
+        break;
+      case /Destroying.../.test(line):
+        applyState = DeployingResourceApplyState.DESTROYING
+        break;
+      case /Destruction complete/.test(line):
+        applyState = DeployingResourceApplyState.DESTROYED
+        break;
+      default:
+        applyState = DeployingResourceApplyState.SUCCESS
+      // case /Destruction complete/.test(line):
+      //   applyState = DeployingResourceApplyState.DESTROYED
+      //   break;
     }
-  } else {
-    return
-  }
+
+    if (resourceMatch && resourceMatch.length >= 0) {
+      return {
+        id: resourceMatch[1],
+        action: PlannedResourceAction.CREATE,
+        applyState
+      }
+    } else {
+      return
+    }
+  })
+
+  return resources.reduce((acc, resource) => {
+    if (resource) {
+      acc.push(resource) 
+    }
+    return acc
+  }, new Array)
 }
 
 export type DeployState = {
@@ -87,7 +98,7 @@ type Action =
   | { type: 'PLAN' }
   | { type: 'PLANNED'; plan: TerraformPlan }
   | { type: 'DEPLOY'; resources: DeployingResource[] }
-  | { type: 'UPDATE_RESOURCE'; resource: DeployingResource }
+  | { type: 'UPDATE_RESOURCES'; resources: DeployingResource[] }
   | { type: 'OUTPUT'; output: { [key: string]: TerraformOutput } }
   | { type: 'DONE' }
   | { type: 'ERROR'; error: string };
@@ -95,10 +106,14 @@ type Action =
 
 function deployReducer(state: DeployState, action: Action): DeployState {
   switch (action.type) {
-    case 'UPDATE_RESOURCE': {
+    case 'UPDATE_RESOURCES': {
+      const map = new Map<string, DeployingResource>(
+        state.resources.map(r => [r.id, r])
+      )
+      action.resources.forEach(r => map.set(r.id, r))
       return {
         ...state,
-        resources: state.resources.map((r: DeployingResource) => (r.id === action.resource.id ? action.resource : r))
+        resources: [...map.values()]
       }
     }
     case 'SYNTH': {
@@ -230,14 +245,12 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
   const execTerraformApply = async (plan: TerraformPlan) => {
     try {
       if (plan.needsApply) {
-        const resources: DeployingResource[] = plan.resources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
+        const resources: DeployingResource[] = plan.applyableResources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
         dispatch({ type: 'DEPLOY', resources })
 
         await terraform.deploy(plan.planFile, (output: Buffer) => {
-          const resource = parseOutput(output.toString());
-          if (resource) {
-            dispatch({ type: 'UPDATE_RESOURCE', resource })
-          }
+          const resources = parseOutput(output.toString());
+          dispatch({ type: 'UPDATE_RESOURCES', resources })
         });
       }
       dispatch({ type: 'DONE' })
