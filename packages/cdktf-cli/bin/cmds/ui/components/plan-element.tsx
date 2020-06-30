@@ -41,7 +41,7 @@ interface PlanElementProps {
 }
 
 export const PlanElement = ({resource}: PlanElementProps) => (
-  <Box>
+  <Box key={resource.id}>
     <PlanElementStatus action={resource.action}/>
     <Text>{ resource.id }</Text>
   </Box>

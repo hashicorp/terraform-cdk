@@ -70,7 +70,7 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
 
   return (
     <Box>
-      Do you want to continue? (Y/n)
+      Do you want to continue (Y/n)?&nbsp;
       <ConfirmInput
         isChecked
         value={value}
@@ -99,9 +99,9 @@ export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
         </Box>
         <Text bold>Resources</Text>
         {resources.map((resource: any) => (
-          <Fragment key={resource.id}>
+          <Box key={resource.id} marginLeft={1}>
             <DeployingElement resource={resource} />
-          </Fragment>
+          </Box>
         ))}
         <Box marginTop={1}>
           <Text bold>Summary: </Text>
