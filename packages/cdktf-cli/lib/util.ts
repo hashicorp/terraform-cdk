@@ -4,6 +4,7 @@ import { spawn, SpawnOptions } from 'child_process';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
+import { processLogger } from './logging';
 
 export async function shell(program: string, args: string[] = [], options: SpawnOptions = { }) {
   return new Promise((ok, ko) => {
@@ -53,4 +54,24 @@ export async function httpGet(url: string): Promise<string> {
 
 export async function httpsGet(url: string): Promise<string> {
   return get(url)
+}
+
+export const exec = async (command: string, args: string[], options: SpawnOptions, stdout?: (chunk: Buffer) => any): Promise<string> => {
+  return new Promise((ok, ko) => {
+    const child = spawn(command, args, options);
+    const out = new Array<Buffer>();
+    if (stdout !== undefined) {
+      child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk) ; stdout(chunk) });
+    } else {
+      child.stdout?.on('data', (chunk: Buffer) =>  { processLogger(chunk) ; out.push(chunk) } );
+    }
+    child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk) ; process.stderr.write(chunk) });
+    child.once('error', (err: any) => ko(err));
+    child.once('close', (code: number) => {
+      if (code !== 0) {
+        return ko(new Error(`non-zero exit code ${code}`));
+      }
+      return ok(Buffer.concat(out).toString('utf-8'));
+    });
+  });
 }

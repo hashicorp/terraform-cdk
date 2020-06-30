@@ -1,8 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { spawn, SpawnOptions } from 'child_process';
 import { promisify } from 'util';
-import { withTempDir } from '../../util';
+import { exec, withTempDir } from '../../util';
 
 const writeFile = promisify(fs.writeFile);
 const mkdirp = promisify(fs.mkdirp);
@@ -86,23 +85,4 @@ async function cacheDir(workDir: string) {
   const cacheDir = path.join(workDir, '.terraform/plugins');
   await mkdirp(cacheDir);
   return cacheDir
-}
-
-// todo: move this exec function into terraform class and it should be shared by all
-// terraform comamnds.
-async function exec(command: string, args: string[], options: SpawnOptions = {}): Promise<string> {
-  return new Promise((ok, ko) => {
-    const child = spawn(command, args, options);
-    const out = new Array<Buffer>();
-    child.stdout?.on('data', (chunk: Buffer) => out.push(chunk));
-    child.stderr?.on('data', (chunk: string | Uint8Array) => process.stderr.write(chunk));
-    child.once('error', (err: any) => ko(err));
-    child.once('close', (code: number) => {
-      if (code !== 0) {
-        return ko(new Error(`non-zero exit code ${code}`));
-      }
-
-      return ok(Buffer.concat(out).toString('utf-8'));
-    });
-  });
 }
