@@ -10,7 +10,7 @@ cd $(mktemp -d)
 mkdir test && cd test
 
 # initialize an empty project
-cdktf init --template typescript
+cdktf init --template typescript --project-name="typescript-test" --project-description="typescript test app" --local
 
 # put some code in it
 cp ${scriptdir}/main.ts .
@@ -20,7 +20,7 @@ cp ${scriptdir}/cdktf.json .
 cdktf get
 
 # diff
-cdktf deploy > output
+cdktf deploy --auto-approve > output
 diff output ${scriptdir}/expected/output
 
 echo "PASS"
