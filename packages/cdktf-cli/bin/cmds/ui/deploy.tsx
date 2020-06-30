@@ -4,7 +4,7 @@ import { Text, Box, Color, useApp } from 'ink'
 import Spinner from 'ink-spinner';
 import ConfirmInput from 'ink-confirm-input';
 import { DeployingElement } from './components'
-import { DeployingResource, TerraformOutput, TerraformPlan } from './models/terraform'
+import { DeployingResource, TerraformOutput, TerraformPlan, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 import { Plan } from './diff'
 
@@ -87,7 +87,9 @@ interface ApplyConfig {
 }
 
 export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
-  const { resources, status, stackName, output, plan } = useTerraformState()
+  const { resources, status, stackName, output, plan } = useTerraformState()  
+  const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ];
+  const applyableResources = resources.filter(resource => (applyActions.includes(resource.action)));
   deploy(plan)
   return (
     <Fragment>
@@ -98,14 +100,14 @@ export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
           )}
         </Box>
         <Text bold>Resources</Text>
-        {resources.map((resource: any) => (
+        {applyableResources.map((resource: any) => (
           <Box key={resource.id} marginLeft={1}>
             <DeployingElement resource={resource} />
           </Box>
         ))}
         <Box marginTop={1}>
           <Text bold>Summary: </Text>
-          <DeploySummary resources={resources} /><Text>.</Text>
+          <DeploySummary resources={applyableResources} /><Text>.</Text>
         </Box>
         {output && Object.keys(output).length > 0 &&
           <Box marginTop={1}>
