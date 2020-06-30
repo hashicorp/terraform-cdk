@@ -55,7 +55,7 @@ test("Apply", async () => {
     stackName: "testing"
   };
 
-  const stub = () => { };
+  const stub = () => {};
 
   const { lastFrame } = render(
     <TerraformProvider initialState={initialState}>
@@ -65,7 +65,7 @@ test("Apply", async () => {
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
     "Deploying Stack: testing
     Resources
-    ⠋ foo.bar_352350
+     ⠋ foo.bar_352350
 
     Summary: 0 created, 0 updated, 0 destroyed."
   `);

@@ -38,9 +38,7 @@ const PlanSummary = ({ resources }: PlanSummaryConfig): React.ReactElement => {
   </>)
 }
 
-interface PlanConfig { }
-
-export const Plan = ({ }: PlanConfig): React.ReactElement => {
+export const Plan = (): React.ReactElement => {
   const { plan, stackName } = useTerraformState()
 
   return (
