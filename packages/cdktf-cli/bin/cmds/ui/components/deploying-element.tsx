@@ -17,7 +17,7 @@ export const DeployingElementStatus = ({resource}: DeployingElementStatusProps) 
       color = 'green'
       break;
     case DeployingResourceApplyState.CREATED:
-      actionSymbol = '\u2713';
+      actionSymbol = '\u2714';
       color = 'green'
       break;
     case DeployingResourceApplyState.UPDATING:
@@ -25,7 +25,7 @@ export const DeployingElementStatus = ({resource}: DeployingElementStatusProps) 
       color = 'yellow'
       break;
     case DeployingResourceApplyState.UPDATED:
-      actionSymbol = '\u2713';
+      actionSymbol = '\u2714';
       color = 'yellow'
       break;
     case DeployingResourceApplyState.DESTROYING:
@@ -33,7 +33,7 @@ export const DeployingElementStatus = ({resource}: DeployingElementStatusProps) 
       color = 'red'
       break;
     case DeployingResourceApplyState.DESTROYED:
-      actionSymbol = '\u2713';
+      actionSymbol = '\u2714';
       color = 'red'
       break;
     case DeployingResourceApplyState.WAITING:
@@ -41,7 +41,7 @@ export const DeployingElementStatus = ({resource}: DeployingElementStatusProps) 
       color = 'cyan'
       break;
     case DeployingResourceApplyState.SUCCESS:
-      actionSymbol = '\u2713';
+      actionSymbol = '\u2714';
       color = 'green'
       break;
     case DeployingResourceApplyState.ERROR:
