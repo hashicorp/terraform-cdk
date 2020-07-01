@@ -57,7 +57,7 @@ const parseOutput = (str: string): DeployingResource[] => {
         applyState = DeployingResourceApplyState.DESTROYED
         break;
       default:
-        applyState = DeployingResourceApplyState.SUCCESS  
+        applyState = DeployingResourceApplyState.WAITING
     }
 
     if (resourceMatch && resourceMatch.length >= 0) {
@@ -73,7 +73,7 @@ const parseOutput = (str: string): DeployingResource[] => {
 
   return resources.reduce((acc, resource) => {
     if (resource) {
-      acc.push(resource) 
+      acc.push(resource)
     }
     return acc
   }, new Array)
@@ -315,7 +315,7 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
 
     return state
   }
-  
+
   const planDestroy = () => {
     React.useEffect(() => {
       const invoke = async () => {
