@@ -20,8 +20,6 @@ export const DeploySummary = ({ resources }: DeploySummaryConfig): React.ReactEl
 
     return accumulator
   }, {
-    created: 0,
-    updated: 0,
     destroyed: 0
   } as any)
 
