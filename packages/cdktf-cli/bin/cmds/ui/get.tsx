@@ -23,7 +23,7 @@ export const Get = ({ codeMakerOutput, language, modules, providers }: GetConfig
     const [currentStatus, setCurrentStatus] = React.useState<Status>(Status.STARTING);
     const { exit } = useApp();
 
-    let constructsOptions: ConstructsOptions = {
+    const constructsOptions: ConstructsOptions = {
         codeMakerOutput: codeMakerOutput,
         language: language,
     }
@@ -31,7 +31,7 @@ export const Get = ({ codeMakerOutput, language, modules, providers }: GetConfig
     React.useEffect(() => {
         const get = async () => {
             try {
-                await fs.remove(constructsOptions.codeMakerOutput); 
+                await fs.remove(constructsOptions.codeMakerOutput);
                 const constructsMaker = new ConstructsMaker();
                 setCurrentStatus(Status.DOWNLOADING_PROVIDERS);
                 await constructsMaker.getProviders(constructsOptions, providers);

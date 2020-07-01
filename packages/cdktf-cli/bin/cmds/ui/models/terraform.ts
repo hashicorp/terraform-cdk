@@ -1,17 +1,32 @@
-import { spawn, SpawnOptions } from 'child_process';
 import * as path from 'path';
+import { exec } from '../../../../lib/util'
 
 export enum PlannedResourceAction {
   CREATE = 'create',
-  CHANGE = 'change',
+  UPDATE = 'update',
   DESTROY = 'destroy',
   READ = 'read',
   NO_OP = 'no-op'
 }
 
+export enum DeployingResourceApplyState {
+  WAITING = 'waiting',
+  UPDATING = 'updating',
+  UPDATED = 'updated',
+  CREATING = 'creating',
+  CREATED = 'created',
+  DESTROYING = 'destroying',
+  DESTROYED = 'destroyed',
+  SUCCESS = 'success',
+  ERROR = 'error'
+}
 export interface PlannedResource {
   id: string;
   action: PlannedResourceAction;
+}
+
+export interface DeployingResource extends PlannedResource {
+  applyState: DeployingResourceApplyState;
 }
 
 export interface ResourceChangesChange {
@@ -31,8 +46,14 @@ export interface ResourceChanges {
   change: ResourceChangesChange;
 }
 
+export interface TerraformOutput {
+  sensitive: boolean;
+  type: string;
+  value: string;
+}
+
 export class TerraformPlan {
-  constructor(public readonly plan: {[key: string]: any}) {}
+  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {}
 
   public get resources(): PlannedResource[]  {
     return this.plan.resource_changes.map((resource: ResourceChanges) => {
@@ -42,6 +63,15 @@ export class TerraformPlan {
       } as PlannedResource
     })
   }
+
+  public get applyableResources(): PlannedResource[] {
+    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ];
+    return this.resources.filter(resource => (applyActions.includes(resource.action)));
+  }
+
+  public get needsApply(): boolean {
+    return this.applyableResources.length > 0
+  }
 }
 
 export class Terraform  {
@@ -49,30 +79,22 @@ export class Terraform  {
   }
 
   public async init(): Promise<void> {
-    await this.exec('terraform', ['init'], { cwd: this.workdir, env: process.env })
+    await exec('terraform', ['init'], { cwd: this.workdir, env: process.env })
   }
 
   public async plan(): Promise<TerraformPlan> {
     const planFile = path.join(this.workdir, 'plan')
-    await this.exec('terraform', ['plan', '-out', planFile], { cwd: this.workdir, env: process.env });
-    const jsonPlan = await this.exec('terraform', ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
-    return new TerraformPlan(JSON.parse(jsonPlan));
+    await exec('terraform', ['plan', '-out', planFile], { cwd: this.workdir, env: process.env });
+    const jsonPlan = await exec('terraform', ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
+    return new TerraformPlan(planFile, JSON.parse(jsonPlan));
   }
 
-  private async exec(command: string, args: string[], options: SpawnOptions): Promise<string> {
-    return new Promise((ok, ko) => {
-      const child = spawn(command, args, options);
-      const out = new Array<Buffer>();
-      child.stdout?.on('data', (chunk: Buffer) => out.push(chunk));
-      child.stderr?.on('data', (chunk: string | Uint8Array) => process.stderr.write(chunk));
-      child.once('error', (err: any) => ko(err));
-      child.once('close', (code: number) => {
-        if (code !== 0) {
-          return ko(new Error(`non-zero exit code ${code}`));
-        }
+  public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
+    await exec('terraform', ['apply', '-auto-approve', planFile], { cwd: this.workdir, env: process.env }, stdout);
+  }
 
-        return ok(Buffer.concat(out).toString('utf-8'));
-      });
-    });
+  public async output(): Promise<{[key: string]: TerraformOutput}> {
+    const output = await exec('terraform', ['output', '-json'], { cwd: this.workdir, env: process.env });
+    return JSON.parse(output)
   }
 }

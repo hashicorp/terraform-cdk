@@ -15,7 +15,7 @@ export const PlanElementStatus = ({action}: PlanElementStatusProps) => {
       actionSymbol = '+';
       color = 'green'
       break;
-    case PlannedResourceAction.CHANGE:
+    case PlannedResourceAction.UPDATE:
       actionSymbol = '~';
       color = 'yellow'
       break;
@@ -41,7 +41,7 @@ interface PlanElementProps {
 }
 
 export const PlanElement = ({resource}: PlanElementProps) => (
-  <Box>
+  <Box key={resource.id}>
     <PlanElementStatus action={resource.action}/>
     <Text>{ resource.id }</Text>
   </Box>

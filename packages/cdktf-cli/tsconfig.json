@@ -26,12 +26,17 @@
     "target": "ES2018",
     "esModuleInterop": true
   },
+  "files": [
+    "lib/ambient.d.ts"
+  ],
   "include": [
-    "**/*.ts"
+    "**/*.ts",
+    "test/ui/deploy.test.tsx",
   ],
   "exclude": [
     "node_modules",
     "templates/**/*.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "**/*.test.tsx"
   ],
 }

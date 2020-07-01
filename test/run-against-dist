@@ -3,7 +3,7 @@ set -euo pipefail
 scriptdir=$(cd $(dirname $0) && pwd)
 
 export CDKTF_DIST="${scriptdir}/../dist"
-
+export CDKTF_DISABLE_LOGGING=1
 cwd=$PWD
 
 cd ${CDKTF_DIST}
