@@ -24,7 +24,7 @@ const PlanSummary = ({ resources }: PlanSummaryConfig): React.ReactElement => {
   }, {
     create: 0,
     update: 0,
-    destroy: 0
+    delete: 0
   } as any)
 
   return (<>

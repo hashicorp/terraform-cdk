@@ -19,7 +19,7 @@ export const PlanElementStatus = ({action}: PlanElementStatusProps) => {
       actionSymbol = '~';
       color = 'yellow'
       break;
-    case PlannedResourceAction.DESTROY:
+    case PlannedResourceAction.DELETE:
       actionSymbol = '-';
       color = 'red'
       break;

@@ -2,4 +2,4 @@ Stack: hellodiff
 Resources
  + null_resource.hellodiff_test_85E428D7
 
-Diff: 1 to create, 0 to update, 0 to destroy.
+Diff: 1 to create, 0 to update, 0 to delete.
