@@ -82,7 +82,7 @@ export class Terraform  {
     await exec('terraform', ['init'], { cwd: this.workdir, env: process.env })
   }
 
-  public async plan(destroy: boolean = false): Promise<TerraformPlan> {
+  public async plan(destroy = false): Promise<TerraformPlan> {
     const planFile = path.join(this.workdir, 'plan')
     const options = ['plan', '-out', planFile]
     if (destroy) {
