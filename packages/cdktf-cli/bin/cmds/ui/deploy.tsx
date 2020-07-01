@@ -87,7 +87,7 @@ interface ApplyConfig {
 }
 
 export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
-  const { resources, status, stackName, output, plan } = useTerraformState()  
+  const { resources, status, stackName, output, plan } = useTerraformState()
   const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
   const applyableResources = resources.filter(resource => (applyActions.includes(resource.action)));
   deploy(plan)
