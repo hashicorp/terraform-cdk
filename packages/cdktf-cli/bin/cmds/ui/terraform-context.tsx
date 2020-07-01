@@ -19,6 +19,7 @@ export enum Status {
   PLANNING = 'planning',
   PLANNED = 'planned',
   DEPLOYING = 'deploying',
+  DESTROYING = 'destroying',
   DONE = 'done'
 }
 
@@ -56,10 +57,7 @@ const parseOutput = (str: string): DeployingResource[] => {
         applyState = DeployingResourceApplyState.DESTROYED
         break;
       default:
-        applyState = DeployingResourceApplyState.SUCCESS
-      // case /Destruction complete/.test(line):
-      //   applyState = DeployingResourceApplyState.DESTROYED
-      //   break;
+        applyState = DeployingResourceApplyState.SUCCESS  
     }
 
     if (resourceMatch && resourceMatch.length >= 0) {
@@ -98,6 +96,7 @@ type Action =
   | { type: 'PLAN' }
   | { type: 'PLANNED'; plan: TerraformPlan }
   | { type: 'DEPLOY'; resources: DeployingResource[] }
+  | { type: 'DESTROY'; resources: DeployingResource[] }
   | { type: 'UPDATE_RESOURCES'; resources: DeployingResource[] }
   | { type: 'OUTPUT'; output: { [key: string]: TerraformOutput } }
   | { type: 'DONE' }
@@ -142,6 +141,9 @@ function deployReducer(state: DeployState, action: Action): DeployState {
     }
     case 'DEPLOY': {
       return { ...state, status: Status.DEPLOYING, resources: action.resources }
+    }
+    case 'DESTROY': {
+      return { ...state, status: Status.DESTROYING, resources: action.resources }
     }
     case 'OUTPUT': {
       return { ...state, output: action.output }
@@ -229,11 +231,11 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     }
   }
 
-  const execTerraformPlan = async (): Promise<TerraformPlan | undefined> => {
+  const execTerraformPlan = async (destroy: boolean = false): Promise<TerraformPlan | undefined> => {
     let plan: TerraformPlan
     try {
       dispatch({ type: 'PLAN' })
-      plan = await terraform.plan();
+      plan = await terraform.plan(destroy);
       dispatch({ type: 'PLANNED', plan })
       return plan
     } catch (e) {
@@ -249,6 +251,23 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
         dispatch({ type: 'DEPLOY', resources })
 
         await terraform.deploy(plan.planFile, (output: Buffer) => {
+          const resources = parseOutput(output.toString());
+          dispatch({ type: 'UPDATE_RESOURCES', resources })
+        });
+      }
+      dispatch({ type: 'DONE' })
+    } catch (e) {
+      dispatch({ type: 'ERROR', error: e })
+    }
+  }
+
+  const execTerraformDestroy = async (plan: TerraformPlan) => {
+    try {
+      if (plan.needsApply) {
+        const resources: DeployingResource[] = plan.applyableResources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
+        dispatch({ type: 'DESTROY', resources })
+
+        await terraform.destroy((output: Buffer) => {
           const resources = parseOutput(output.toString());
           dispatch({ type: 'UPDATE_RESOURCES', resources })
         });
@@ -296,6 +315,19 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
 
     return state
   }
+  
+  const planDestroy = () => {
+    React.useEffect(() => {
+      const invoke = async () => {
+        await execTerraformSynth()
+        await execTerraformInit()
+        await execTerraformPlan(true)
+      }
+      invoke()
+    }, []) // once
+
+    return state
+  }
 
   const deploy = (plan?: TerraformPlan) => {
     React.useEffect(() => {
@@ -314,10 +346,27 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     return state
   }
 
+  const destroy = (plan?: TerraformPlan) => {
+    React.useEffect(() => {
+      const invoke = async () => {
+        if (plan) {
+          await execTerraformDestroy(plan)
+        } else {
+          throw new Error("expected plan to be present but was undefined")
+        }
+      }
+      invoke()
+    }, []) // once
+
+    return state
+  }
+
   return {
     synth,
     init,
     plan,
-    deploy
+    planDestroy,
+    deploy,
+    destroy
   }
 }

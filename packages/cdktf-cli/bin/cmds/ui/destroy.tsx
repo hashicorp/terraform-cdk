@@ -4,7 +4,7 @@ import { Text, Box, Color, useApp } from 'ink'
 import Spinner from 'ink-spinner';
 import ConfirmInput from 'ink-confirm-input';
 import { DeployingElement } from './components'
-import { DeployingResource, TerraformOutput, TerraformPlan, PlannedResourceAction } from './models/terraform'
+import { DeployingResource, TerraformPlan, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 import { Plan } from './diff'
 
@@ -34,22 +34,6 @@ export const DeploySummary = ({ resources }: DeploySummaryConfig): React.ReactEl
     ))
     }
   </>)
-}
-
-interface OutputConfig {
-  output: { [key: string]: TerraformOutput };
-}
-
-export const Output = ({ output }: OutputConfig): React.ReactElement => {
-  return (
-    <Box flexDirection="column">
-      {Object.keys(output).map((key) => (
-        <Box key={key}>
-          <Text>{key} = {output[key].value}</Text>
-        </Box>
-      ))}
-    </Box>
-  )
 }
 
 interface ConfirmConfig {
@@ -82,21 +66,21 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
   )
 }
 
-interface ApplyConfig {
-  deploy: (plan: TerraformPlan | undefined) => any;
+interface DestroyComponentConfig {
+  destroy: (plan: TerraformPlan | undefined) => any;
 }
 
-export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
-  const { resources, status, stackName, output, plan } = useTerraformState()  
+export const DestroyComponent = ({ destroy }: DestroyComponentConfig): React.ReactElement => {
+  const { resources, status, stackName, plan } = useTerraformState()  
   const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
   const applyableResources = resources.filter(resource => (applyActions.includes(resource.action)));
-  deploy(plan)
+  destroy(plan)
   return (
     <Fragment>
       <Box flexDirection="column">
         <Box>
-          {Status.DEPLOYING == status ? (<><Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
-            <><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></>
+          {Status.DESTROYING == status ? (<><Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>Destroying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
+            <><Text>Destroying Stack: </Text><Text bold>{stackName}</Text></>
           )}
         </Box>
         <Text bold>Resources</Text>
@@ -109,26 +93,20 @@ export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
           <Text bold>Summary: </Text>
           <DeploySummary resources={applyableResources} /><Text>.</Text>
         </Box>
-        {output && Object.keys(output).length > 0 &&
-          <Box marginTop={1}>
-            <Text bold>Output: </Text>
-            <Output output={output} />
-          </Box>
-        }
       </Box>
     </Fragment>
   )
 }
 
-interface DeployConfig {
+interface DestroyConfig {
   targetDir: string;
   synthCommand: string;
   autoApprove: boolean;
 }
 
-export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): React.ReactElement => {
-  const { plan: execPlan, deploy } = useTerraform({ targetDir, synthCommand })
-  const { status, stackName, errors, plan } = execPlan()
+export const Destroy = ({ targetDir, synthCommand, autoApprove }: DestroyConfig): React.ReactElement => {
+  const { planDestroy, destroy } = useTerraform({ targetDir, synthCommand })
+  const { status, stackName, errors, plan } = planDestroy()
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
@@ -149,7 +127,7 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
       ) : (
           <>
             {!shouldContinue && <Box flexDirection="column"><Plan /><Confirm callback={confirmDeployment} /></Box>}
-            {shouldContinue && <Apply deploy={deploy} />}
+            {shouldContinue && <DestroyComponent destroy={destroy} />}
           </>
         )
 

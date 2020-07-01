@@ -4,7 +4,7 @@ import { exec } from '../../../../lib/util'
 export enum PlannedResourceAction {
   CREATE = 'create',
   UPDATE = 'update',
-  DESTROY = 'destroy',
+  DELETE = 'delete',
   READ = 'read',
   NO_OP = 'no-op'
 }
@@ -65,7 +65,7 @@ export class TerraformPlan {
   }
 
   public get applyableResources(): PlannedResource[] {
-    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DESTROY, PlannedResourceAction.READ];
+    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
     return this.resources.filter(resource => (applyActions.includes(resource.action)));
   }
 
@@ -82,15 +82,23 @@ export class Terraform  {
     await exec('terraform', ['init'], { cwd: this.workdir, env: process.env })
   }
 
-  public async plan(): Promise<TerraformPlan> {
+  public async plan(destroy: boolean = false): Promise<TerraformPlan> {
     const planFile = path.join(this.workdir, 'plan')
-    await exec('terraform', ['plan', '-out', planFile], { cwd: this.workdir, env: process.env });
+    const options = ['plan', '-out', planFile]
+    if (destroy) {
+      options.push('-destroy')
+    }
+    await exec('terraform', options, { cwd: this.workdir, env: process.env });
     const jsonPlan = await exec('terraform', ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
     return new TerraformPlan(planFile, JSON.parse(jsonPlan));
   }
 
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     await exec('terraform', ['apply', '-auto-approve', planFile], { cwd: this.workdir, env: process.env }, stdout);
+  }
+
+  public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
+    await exec('terraform', ['destroy', '-auto-approve'], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async output(): Promise<{[key: string]: TerraformOutput}> {
