@@ -18,10 +18,8 @@ export const TerraformErrors: React.FunctionComponent<{}> = ({ children }): Reac
   return <>{children}</>
 }
 
-export interface AppConfig {}
-
 // eslint-disable-next-line react/prop-types
-export const App: React.FunctionComponent<AppConfig> = ({ children }): React.ReactElement => {
+export const App: React.FunctionComponent<{}> = ({ children }): React.ReactElement => {
   return (
     <ErrorBoundary>
       <TerraformProvider>
