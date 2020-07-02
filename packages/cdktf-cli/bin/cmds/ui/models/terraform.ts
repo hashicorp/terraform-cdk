@@ -101,6 +101,14 @@ export class Terraform  {
     await exec('terraform', ['destroy', '-auto-approve'], { cwd: this.workdir, env: process.env }, stdout);
   }
 
+  public async version(): Promise<string> {
+    try {
+      return await exec('terraform', ['-v'], { cwd: this.workdir, env: process.env });
+    } catch {
+      throw new Error("Terraform CLI not present - Please install a current version https://learn.hashicorp.com/terraform/getting-started/install.html")
+    }
+  }
+
   public async output(): Promise<{[key: string]: TerraformOutput}> {
     const output = await exec('terraform', ['output', '-json'], { cwd: this.workdir, env: process.env });
     return JSON.parse(output)

@@ -2,6 +2,7 @@ import yargs from 'yargs'
 import { TerraformLogin } from './helper/terraform-login'
 import * as terraformCloudClient from './helper/terraform-cloud-client'
 import * as chalk from 'chalk';
+import { terraformCheck } from './terraform-check'
 const chalkColour = new chalk.Instance();
 
 class Command implements yargs.CommandModule {
@@ -11,6 +12,8 @@ class Command implements yargs.CommandModule {
         .showHelpOnFail(true)
 
     public async handler(argv: any) {
+        await terraformCheck()
+
         const args = argv as yargs.Arguments
         if (args["_"].length > 1) {
             console.error(chalkColour`{redBright ERROR: 'cdktf login' command cannot have more than one argument.}\n`);
