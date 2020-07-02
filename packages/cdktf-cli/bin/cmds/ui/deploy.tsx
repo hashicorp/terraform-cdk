@@ -137,7 +137,7 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
   const [shouldContinue, confirmDeployment] = useState<boolean>(autoApprove);
 
 
-  if (errors) return (<Box>{errors}</Box>);
+  if (errors) return (<Box>{errors.map((e: any) => e.message)}</Box>);
   if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{stackName}</Text></Text></>);
 
   return (

@@ -71,8 +71,6 @@ const parseOutput = (str: string): DeployingResource[] => {
     }
   })
 
-  throw new Error('foo bar')
-
   return resources.reduce((acc, resource) => {
     if (resource) {
       acc.push(resource)

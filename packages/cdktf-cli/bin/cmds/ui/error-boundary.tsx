@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, Text, Color } from 'ink'
 import { logger } from '../../../lib/logging'
 
-
 export interface ErrorBoundaryState {
   hasError: boolean;
 }
