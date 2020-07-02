@@ -31,11 +31,15 @@ export class TerraformGenerator {
   private emitProvider(name: string, provider: Provider) {
     const files: string[] = []
     for (const [type, resource] of Object.entries(provider.resource_schemas)) {
-      files.push(this.emitResourceFile(this.resourceParser.parse(name, type, resource)));
+      files.push(this.emitResourceFile(this.resourceParser.parse(name, type, resource, 'resource')));
+    }
+
+    for (const [type, resource] of Object.entries(provider.data_source_schemas || [])) {
+      files.push(this.emitResourceFile(this.resourceParser.parse(name, `data_${type}`, resource, 'data_source')));
     }
 
     if (provider.provider) {
-      const providerResource = this.resourceParser.parse(name, `provider`, provider.provider)
+      const providerResource = this.resourceParser.parse(name, `provider`, provider.provider, 'provider')
       if (this.providerConstraints) {
         providerResource.providerVersionConstraint = this.providerConstraints[name]
       }

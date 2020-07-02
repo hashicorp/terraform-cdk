@@ -9,11 +9,13 @@ touch .foo
 mkdir .bar
 
 # initialize an empty project
-cdktf init --template python
+cdktf init --template python --project-name="python-test" --project-description="python test app" --local
 
 # put some code in it
 cp ${scriptdir}/main.py .
 cp ${scriptdir}/cdktf.json .
+
+rm -rf cdktf.out
 
 # regenerate with module
 cdktf get

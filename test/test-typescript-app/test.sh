@@ -10,14 +10,14 @@ touch .foo
 mkdir .bar
 
 # initialize an empty project
-cdktf init --template typescript
+cdktf init --template typescript --project-name="typescript-test" --project-description="typescript test app" --local
 
 # put some code in it
 cp ${scriptdir}/main.ts .
 
 # build
 yarn compile
-yarn synth
+yarn synth > /dev/null
 
 # get rid of downloaded Terraform providers, no point in diffing them
 rm -rf cdktf.out/.terraform

@@ -58,7 +58,7 @@ test('resource fqn', () => {
     name: 'bar'
   });
 
-  expect(resource.fqn).toEqual('test_resource.testDBA94737')
+  expect(resource.fqn).toEqual('test_resource.test_DBA94737')
 })
 
 test('serialize list interpolation', () => {

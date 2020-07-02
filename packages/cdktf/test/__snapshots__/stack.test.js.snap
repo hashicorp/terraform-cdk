@@ -2,6 +2,12 @@
 
 exports[`stack synthesis merges all elements into a single output 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"MyStack\\"
+    }
+  },
   \\"provider\\": {
     \\"test\\": [
       {
@@ -11,25 +17,36 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
   },
   \\"resource\\": {
     \\"aws_bucket\\": {
-      \\"MyStackResource11D44B20C\\": {
-        \\"foo\\": \\"MyStackResource11D44B20C\\",
+      \\"MyStack_Resource1_1D44B20C\\": {
+        \\"foo\\": \\"MyStack_Resource1_1D44B20C\\",
         \\"prop1\\": \\"bar1\\",
         \\"prop2\\": 1234,
         \\"prop3\\": {
           \\"name\\": \\"should be overwritten in resource 2\\",
           \\"value\\": 5678
+        },
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"MyStack/Resource1\\",
+            \\"uniqueId\\": \\"MyStack_Resource1_1D44B20C\\"
+          }
         }
       }
     },
     \\"aws_topic\\": {
-      \\"MyStackResource2C790E556\\": {
-        \\"foo\\": \\"MyStackResource2C790E556\\",
+      \\"MyStack_Resource2_C790E556\\": {
+        \\"foo\\": \\"MyStack_Resource2_C790E556\\",
         \\"prop1\\": \\"bar1\\",
         \\"prop3\\": {
           \\"name\\": \\"test\\",
           \\"value\\": 5678
         },
-        \\"//\\": \\"this is a comment\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"MyStack/Resource2\\",
+            \\"uniqueId\\": \\"MyStack_Resource2_C790E556\\"
+          }
+        },
         \\"provisioner\\": [
           {
             \\"local-exec\\": {
@@ -41,14 +58,20 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
     }
   },
   \\"module\\": {
-    \\"MyStackEksModule1F7A8254\\": {
+    \\"MyStack_EksModule_1F7A8254\\": {
       \\"cluster_name\\": \\"my_cluster_name\\",
       \\"source\\": \\"terraform-aws-modules/eks/aws\\",
-      \\"version\\": \\"7.0.1\\"
+      \\"version\\": \\"7.0.1\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"MyStack/EksModule\\",
+          \\"uniqueId\\": \\"MyStack_EksModule_1F7A8254\\"
+        }
+      }
     }
   },
   \\"output\\": {
-    \\"MyStackeksversionFB719174\\": {
+    \\"MyStack_eksversion_FB719174\\": {
       \\"value\\": \\"7.0.1\\"
     }
   },

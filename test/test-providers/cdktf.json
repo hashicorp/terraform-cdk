@@ -1,0 +1,14 @@
+{
+  "language": "typescript",
+  "app": "yarn compile && node main.js",
+  "terraformProviders": [
+    "null",
+    "aws",
+    "google",
+    "azurerm",
+    "kubernetes",
+    "consul",
+    "vault",
+    "nomad"
+  ]
+}

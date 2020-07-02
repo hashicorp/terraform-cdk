@@ -1,8 +1,19 @@
-import { Construct, Node } from "constructs";
+import { Construct } from "constructs";
 import { Token } from "./tokens"
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { keysToSnakeCase, deepMerge } from "./util";
+
+export interface ITerraformResource {
+  readonly terraformResourceType: string;
+  readonly fqn: string;
+  readonly friendlyUniqueId: string;
+
+  dependsOn?: string[];
+  count?: number;
+  provider?: TerraformProvider;
+  lifecycle?: TerraformResourceLifecycle;
+}
 
 export interface TerraformResourceLifecycle {
   readonly createBeforeDestroy?: boolean;
@@ -27,14 +38,14 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
 }
 
-export class TerraformResource extends TerraformElement {
+export class TerraformResource extends TerraformElement implements ITerraformResource {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   private readonly rawOverrides: any = {}
 
   // TerraformMetaArguments
 
-  public dependsOn?: TerraformResource[];
+  public dependsOn?: string[];
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
@@ -44,11 +55,13 @@ export class TerraformResource extends TerraformElement {
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
-    this.dependsOn = config.dependsOn;
+    if (Array.isArray(config.dependsOn)) {
+      this.dependsOn = config.dependsOn.map(dependency => dependency.fqn);
+    }
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
-    }
+  }
 
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
@@ -90,7 +103,7 @@ export class TerraformResource extends TerraformElement {
   }
 
   public get fqn(): string {
-    return Token.asString(`${this.terraformResourceType}.${Node.of(this).uniqueId}`);
+    return Token.asString(`${this.terraformResourceType}.${this.friendlyUniqueId}`);
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
@@ -111,20 +124,24 @@ export class TerraformResource extends TerraformElement {
    * Adds this resource to the terraform JSON output.
    */
   public toTerraform(): any {
+    const attributes = deepMerge(
+      keysToSnakeCase(this.synthesizeAttributes()),
+      keysToSnakeCase(this.terraformMetaArguments),
+      this.rawOverrides
+    )
+
+    attributes['//'] = this.nodeMetadata
+
     return {
       resource: {
         [this.terraformResourceType]: {
-          [Node.of(this).uniqueId]: deepMerge(
-            keysToSnakeCase(this.synthesizeAttributes()),
-            keysToSnakeCase(this.terraformMetaArguments),
-            this.rawOverrides
-          )
+          [this.friendlyUniqueId]: attributes
         }
       }
     };
   }
 
   private interpolationForAttribute(terraformAttribute: string) {
-    return `\${${this.terraformResourceType}.${Node.of(this).uniqueId}.${terraformAttribute}}`;
+    return `\${${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
   }
 }

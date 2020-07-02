@@ -15,7 +15,6 @@ export function expectImportMatchSnapshot(target: string, fn: () => GetBase) {
       await importer.get({
         codeMakerOutput: workdir,
         targetLanguage: Language.TYPESCRIPT,
-        outdir: workdir,
         targetNames: [target]
       });
 

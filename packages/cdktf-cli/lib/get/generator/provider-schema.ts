@@ -1,8 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { spawn, SpawnOptions } from 'child_process';
 import { promisify } from 'util';
-import { withTempDir } from '../../util';
+import { exec, withTempDir } from '../../util';
 
 const writeFile = promisify(fs.writeFile);
 const mkdirp = promisify(fs.mkdirp);
@@ -72,7 +71,9 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
 
     const env = process.env['TF_PLUGIN_CACHE_DIR'] ? process.env : Object.assign({}, process.env, { 'TF_PLUGIN_CACHE_DIR': await cacheDir(workDir) })
 
-    await exec('terraform', [ 'init' ], { cwd: outdir, stdio: [ 'inherit', 'inherit', 'inherit' ], env });
+    // todo: when implementing logging, we need to make sure we can show the terraform init
+    // output if the log level is set to debug
+    await exec('terraform', [ 'init' ], { cwd: outdir, env });
     schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir, env });
     fs.unlinkSync(filePath)
   })
@@ -84,21 +85,4 @@ async function cacheDir(workDir: string) {
   const cacheDir = path.join(workDir, '.terraform/plugins');
   await mkdirp(cacheDir);
   return cacheDir
-}
-
-async function exec(command: string, args: string[], options: SpawnOptions = {}): Promise<string> {
-  return new Promise((ok, ko) => {
-    const child = spawn(command, args, options);
-    const out = new Array<Buffer>();
-    child.stdout?.on('data', (chunk: Buffer) => out.push(chunk));
-    child.stderr?.on('data', (chunk: string | Uint8Array) => process.stderr.write(chunk));
-    child.once('error', (err: any) => ko(err));
-    child.once('close', (code: number) => {
-      if (code !== 0) {
-        return ko(new Error(`non-zero exit code ${code}`));
-      }
-
-      return ok(Buffer.concat(out).toString('utf-8'));
-    });
-  });
 }

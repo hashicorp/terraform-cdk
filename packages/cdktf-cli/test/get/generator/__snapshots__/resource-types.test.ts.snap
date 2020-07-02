@@ -958,7 +958,10 @@ export class CloudfrontDistribution extends TerraformResource {
       terraformGeneratorMetadata: {
         providerName: 'aws'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this._aliases = config.aliases;
     this._comment = config.comment;
@@ -1299,7 +1302,10 @@ export class FmsAdminAccount extends TerraformResource {
       terraformGeneratorMetadata: {
         providerName: 'aws'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this._accountId = config.accountId;
   }
@@ -2020,7 +2026,10 @@ export class S3Bucket extends TerraformResource {
       terraformGeneratorMetadata: {
         providerName: 'aws'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this._accelerationStatus = config.accelerationStatus;
     this._acl = config.acl;
@@ -2496,7 +2505,10 @@ export class SecurityGroup extends TerraformResource {
       terraformGeneratorMetadata: {
         providerName: 'aws'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this._description = config.description;
     this._egress = config.egress;

@@ -1,4 +1,4 @@
-import { Construct, Node } from "constructs";
+import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 
 export interface TerraformModuleOptions {
@@ -24,17 +24,20 @@ export abstract class TerraformModule extends TerraformElement {
   }
 
   public interpolationForOutput(moduleOutput: string) {
-    return `\${module.${Node.of(this).uniqueId}.${moduleOutput}}` as any;
+    return `\${module.${this.friendlyUniqueId}.${moduleOutput}}` as any;
   }
 
   public toTerraform(): any {
+    const attributes = {
+      ...this.synthesizeAttributes(),
+      source: this.source,
+      version: this.version,
+      "//": this.nodeMetadata
+    }
+
     return {
       module: {
-        [Node.of(this).uniqueId]: {
-          ...this.synthesizeAttributes(),
-          source: this.source,
-          version: this.version,
-        }
+        [this.friendlyUniqueId]: attributes
       }
     }
   }

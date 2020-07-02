@@ -1,4 +1,10 @@
 {
+  "//": {
+    "metadata": {
+      "version": "stubbed",
+      "stackName": "helloterra"
+    }
+  },
   "terraform": {
     "required_providers": {
       "aws": "~> 2.0"
@@ -28,18 +34,24 @@
   },
   "resource": {
     "aws_sns_topic": {
-      "helloterraTopic6609C1D4": {
+      "helloterra_Topic_6609C1D4": {
         "display_name": "topic",
         "provider": "aws",
         "lifecycle": {
           "create_before_destroy": true
+        },
+        "//": {
+          "metadata": {
+            "path": "hello-terra/Topic",
+            "uniqueId": "helloterra_Topic_6609C1D4"
+          }
         }
       }
     }
   },
   "output": {
-    "helloterrasnstopicarn5A23CA34": {
-      "value": "${aws_sns_topic.helloterraTopic6609C1D4.arn}"
+    "helloterra_snstopicarn_5A23CA34": {
+      "value": "${aws_sns_topic.helloterra_Topic_6609C1D4.arn}"
     }
   }
 }
