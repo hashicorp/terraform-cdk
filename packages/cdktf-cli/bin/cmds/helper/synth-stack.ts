@@ -17,7 +17,6 @@ export class SynthStack {
   public static async synth(command: string, outdir: string): Promise<SynthesizedStack[]> {
     await shell(command, [], {
       shell: true,
-      stdio: [null, null, null],
       env: {
         ...process.env,
         CDKTF_OUTDIR: outdir
