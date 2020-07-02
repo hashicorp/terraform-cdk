@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
 import { DeployingResourceApplyState, DeployingResource } from "../models/terraform"
+import { ResourceName } from './resource-name'
 
 interface DeployingElementStatusProps {
   resource: DeployingResource;
@@ -68,6 +69,6 @@ interface DeployingElementProps {
 export const DeployingElement = ({resource}: DeployingElementProps) => (
   <Box key={resource.id}>
     <DeployingElementStatus resource={resource} />
-    <Text>{ resource.id }</Text>
+    <ResourceName name={ resource.id }/>
   </Box>
 )
