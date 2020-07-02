@@ -56,6 +56,8 @@ export class TerraformPlan {
   constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {}
 
   public get resources(): PlannedResource[]  {
+    if (!this.plan.resource_changes) return [];
+
     return this.plan.resource_changes.map((resource: ResourceChanges) => {
       return {
         id: resource.address,
