@@ -1,9 +1,9 @@
 import * as yargs from 'yargs';
-import { render } from 'ink';
 import React from 'react';
 import  { Deploy } from './ui/deploy'
 import { readConfigSync } from '../../lib/config';
-import { TerraformProvider } from './ui/terraform-context'
+import { renderInk } from './render-ink'
+
 const config = readConfigSync();
 
 class Command implements yargs.CommandModule {
@@ -21,9 +21,7 @@ class Command implements yargs.CommandModule {
     const outdir = argv.output;
     const autoApprove = argv.autoApprove;
 
-    render(
-      React.createElement(TerraformProvider, {}, React.createElement(Deploy, { targetDir: outdir, synthCommand: command, autoApprove }))
-    );
+    await renderInk(React.createElement(Deploy, { targetDir: outdir, synthCommand: command, autoApprove }))
   }
 }
 

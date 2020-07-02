@@ -1,9 +1,8 @@
 import yargs from 'yargs'
-import { render } from 'ink';
 import React from 'react';
 import { Synth } from './ui/synth'
-import { TerraformProvider } from './ui/terraform-context'
 import { readConfigSync } from '../../lib/config';
+import { renderInk } from './render-ink'
 import * as fs from 'fs-extra';
 
 const config = readConfigSync();
@@ -30,7 +29,7 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    render(React.createElement(TerraformProvider, {}, React.createElement(Synth, { targetDir: outdir, synthCommand: command, jsonOutput: jsonOutput })))
+    await renderInk(React.createElement(Synth, { targetDir: outdir, synthCommand: command, jsonOutput: jsonOutput }))
   }
 }
 

@@ -1,9 +1,9 @@
 import yargs from 'yargs'
-import { render } from 'ink';
 import React from 'react';
 import { readConfigSync } from '../../lib/config';
 import { Language } from '../../lib/get/base';
 import { Get } from './ui/get'
+import { renderInk } from './render-ink'
 
 const config = readConfigSync();
 const LANGUAGES = [ 'typescript', 'python' ];
@@ -35,7 +35,7 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    render(React.createElement(Get, { codeMakerOutput: output, language: language, modules: modules, providers: providers }));
+    await renderInk(React.createElement(Get, { codeMakerOutput: output, language: language, modules: modules, providers: providers }));
   }
 }
 
