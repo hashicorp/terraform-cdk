@@ -3,7 +3,7 @@ import React from 'react';
 import { TerraformProvider } from './terraform-context'
 import { ErrorBoundary } from './error-boundary'
 import { useTerraformState } from './terraform-context'
-import { Box, useApp } from 'ink'
+import { useApp } from 'ink'
 
 export const TerraformErrors: React.FunctionComponent<{}> = ({ children }): React.ReactElement => {
   const { errors } = useTerraformState()
