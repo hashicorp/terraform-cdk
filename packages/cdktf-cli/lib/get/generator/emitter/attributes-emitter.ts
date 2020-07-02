@@ -77,7 +77,7 @@ export class AttributesEmitter {
   }
 
   private emitComputedComplexMap(att: AttributeModel) {
-    this.code.openBlock(`public ${att.name}(key: string): string`);
+    this.code.openBlock(`public ${att.name}(key: string): ${this.determineMapType(att)}`);
       this.code.line(`return new ${att.type.name}(this, '${att.terraformName}').lookup(key);`);
     this.code.closeBlock();
   }
@@ -92,5 +92,16 @@ export class AttributesEmitter {
       console.error(`The attribute ${JSON.stringify(att)} isn't implemented yet`)
     }
     return `'not implemented' as any`
+  }
+
+  public determineMapType(att: AttributeModel): string {
+    const type = att.type
+    if (type.isStringMap) { return `string` }
+    if (type.isNumberMap) { return `number` }
+    if (type.isBooleanMap) { return `boolean` }
+    if (process.env.DEBUG) {
+      console.error(`The attribute ${JSON.stringify(att)} isn't implemented yet`)
+    }
+    return `any`
   }
 }

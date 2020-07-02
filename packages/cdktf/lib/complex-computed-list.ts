@@ -1,8 +1,8 @@
 import { Token } from "./tokens"
-import { TerraformResource } from "./terraform-resource";
+import { ITerraformResource } from "./terraform-resource";
 
 abstract class ComplexComputedAttribute {
-  constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string) {}
+  constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string) {}
 
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
@@ -24,7 +24,7 @@ abstract class ComplexComputedAttribute {
 }
 
 export class StringMap {
-  constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string) {}
+  constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): string {
     return Token.asString(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]}`)
@@ -32,7 +32,7 @@ export class StringMap {
 }
 
 export class NumberMap {
-  constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string) {}
+  constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): number {
     return Token.asNumber(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]`)
@@ -40,7 +40,7 @@ export class NumberMap {
 }
 
 export class BooleanMap {
-  constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string) {}
+  constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): boolean {
     return Token.asString(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]`) as any as boolean
@@ -48,7 +48,7 @@ export class BooleanMap {
 }
 
 export class ComplexComputedList extends ComplexComputedAttribute {
-  constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string, protected index: string) {
+  constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string, protected index: string) {
     super(terraformResource, terraformAttribute)
   }
 

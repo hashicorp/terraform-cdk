@@ -2,43 +2,10 @@ import { Construct } from "constructs";
 import { Token } from "./tokens"
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
+import {  TerraformGeneratorMetadata, TerraformResourceConfig, TerraformResourceLifecycle, ITerraformResource } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
 
-export interface ITerraformResource {
-  readonly terraformResourceType: string;
-  readonly fqn: string;
-  readonly friendlyUniqueId: string;
-
-  dependsOn?: string[];
-  count?: number;
-  provider?: TerraformProvider;
-  lifecycle?: TerraformResourceLifecycle;
-}
-
-export interface TerraformResourceLifecycle {
-  readonly createBeforeDestroy?: boolean;
-  readonly preventDestroy?: boolean;
-  readonly ignoreChanges?: string[];
-}
-
-export interface TerraformMetaArguments {
-  readonly dependsOn?: TerraformResource[];
-  readonly count?: number;
-  readonly provider?: TerraformProvider;
-  readonly lifecycle?: TerraformResourceLifecycle;
-}
-
-export interface TerraformGeneratorMetadata {
-  readonly providerName: string;
-  readonly providerVersionConstraint?: string;
-}
-
-export interface TerraformResourceConfig extends TerraformMetaArguments {
-  readonly terraformResourceType: string;
-  readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
-}
-
-export class TerraformResource extends TerraformElement implements ITerraformResource {
+export class TerraformDataSource extends TerraformElement implements ITerraformResource {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   private readonly rawOverrides: any = {}
@@ -103,7 +70,7 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
   }
 
   public get fqn(): string {
-    return Token.asString(`${this.terraformResourceType}.${this.friendlyUniqueId}`);
+    return Token.asString(`data.${this.terraformResourceType}.${this.friendlyUniqueId}`);
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
@@ -133,7 +100,7 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
     attributes['//'] = this.nodeMetadata
 
     return {
-      resource: {
+      data: {
         [this.terraformResourceType]: {
           [this.friendlyUniqueId]: attributes
         }
@@ -142,6 +109,6 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
   }
 
   private interpolationForAttribute(terraformAttribute: string) {
-    return `\${${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
+    return `\${data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
   }
 }

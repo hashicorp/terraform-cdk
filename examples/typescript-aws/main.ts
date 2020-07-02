@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import { App, TerraformStack, TerraformOutput } from 'cdktf';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
-import { AwsProvider } from './.gen/providers/aws'
+import { DataAwsRegion, AwsProvider } from './.gen/providers/aws'
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -12,8 +12,10 @@ export class HelloTerra extends TerraformStack {
       region: 'eu-central-1'
     })
 
+    const region = new DataAwsRegion(this, 'region')
+
     const table = new DynamodbTable(this, 'Hello', {
-      name: 'my-first-table',
+      name: `my-first-table-${region.name}`,
       hashKey: 'temp',
       attribute: [
         { name: 'id', type: 'S' },
@@ -30,7 +32,6 @@ export class HelloTerra extends TerraformStack {
       return new SnsTopic(this, `Topic${i}`, {
         displayName: `my-first-sns-topic${i}`
       });
-
     })
 
     new TerraformOutput(this, 'table_name', {

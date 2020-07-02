@@ -174,7 +174,7 @@ export class BooleanMap extends TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: true
-  public fooComputed(key: string): string {
+  public fooComputed(key: string): boolean {
     return new BooleanMap(this, 'foo_computed').lookup(key);
   }
 
@@ -1143,7 +1143,7 @@ export class NumberMap extends TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: true
-  public fooComputed(key: string): string {
+  public fooComputed(key: string): number {
     return new NumberMap(this, 'foo_computed').lookup(key);
   }
 
