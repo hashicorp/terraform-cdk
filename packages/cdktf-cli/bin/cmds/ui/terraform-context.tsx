@@ -33,6 +33,7 @@ const parseOutput = (str: string): DeployingResource[] => {
   const resources = lines.map(line => {
 
     if (/^Outputs:/.test(line)) { return }
+    if (/^data\..*/.test(line)) { return }
 
     const resourceMatch = line.match(/^([a-zA-Z\d_.]*):/)
     let applyState: DeployingResourceApplyState;
