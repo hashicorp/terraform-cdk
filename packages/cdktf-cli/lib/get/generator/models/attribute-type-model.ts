@@ -80,7 +80,7 @@ export class AttributeTypeModel {
   }
 
   public get isBoolean(): boolean {
-    return this.name === TokenizableTypes.BOOLEAN
+    return this.name === TokenizableTypes.BOOLEAN || this.isBooleanMap
   }
 
   public get isStringMap(): boolean {

@@ -13,6 +13,7 @@ interface ResourceModelOptions {
   structs: Struct[];
   provider: string;
   schema: Schema;
+  terraformSchemaType: string;
 }
 
 export class ResourceModel {
@@ -27,6 +28,7 @@ export class ResourceModel {
   public schema: Schema;
   private _structs: Struct[];
   private dependencies: string[];
+  private terraformSchemaType: string;
 
   constructor(options: ResourceModelOptions) {
     this.terraformType = options.terraformType
@@ -37,7 +39,8 @@ export class ResourceModel {
     this.provider = options.provider
     this.fileName = options.fileName;
     this.filePath = options.filePath;
-    this._structs = options.structs
+    this._structs = options.structs;
+    this.terraformSchemaType = options.terraformSchemaType
     this.dependencies = [
       `import { Construct } from 'constructs';`,
       `import { ${this.parentClassName} } from 'cdktf';`
@@ -78,15 +81,19 @@ export class ResourceModel {
   }
 
   public get isProvider(): boolean {
-    return this.terraformType === 'provider'
+    return this.terraformSchemaType === 'provider'
+  }
+
+  public get isDataSource(): boolean {
+    return this.terraformSchemaType === 'data_source'
   }
 
   public get parentClassName(): string {
-    return this.isProvider ? 'TerraformProvider' : 'TerraformResource'
+    return this.isProvider ? 'TerraformProvider' : this.isDataSource ? 'TerraformDataSource' : 'TerraformResource'
   }
 
   public get terraformResourceType(): string {
-    return this.isProvider ? this.provider : this.terraformType
+    return this.isProvider ? this.provider : this.isDataSource ? this.terraformType.replace(/^data_/, '') : this.terraformType
   }
 
   private escapeSchema(schema: string): string {
