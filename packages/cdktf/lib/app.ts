@@ -1,5 +1,6 @@
-import { Construct, Node } from 'constructs';
+import { Construct, Node, ConstructMetadata } from 'constructs';
 import fs = require('fs');
+import { version } from '../package.json';
 
 export interface AppOptions {
     /**
@@ -8,6 +9,7 @@ export interface AppOptions {
      * @default - CDKTF_OUTDIR if defined, otherwise "cdktf.out"
      */
     readonly outdir?: string;
+    readonly stackTraces?: boolean;
 }
 
 /**
@@ -26,6 +28,13 @@ export class App extends Construct {
     constructor(options: AppOptions = {}) {
         super(undefined as any, '');
         this.outdir = process.env.CDKTF_OUTDIR ?? options.outdir ?? 'cdktf.out';
+
+        const node = Node.of(this)
+        if (options.stackTraces === false) {
+            node.setContext(ConstructMetadata.DISABLE_STACK_TRACE_IN_METADATA, true);
+        }
+
+        node.setContext('cdktfVersion', version)
     }
 
     /**

@@ -1,4 +1,3 @@
-import { Node } from "constructs";
 import { Token } from "./tokens"
 import { TerraformResource } from "./terraform-resource";
 
@@ -17,6 +16,10 @@ abstract class ComplexComputedAttribute {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
+  public getBooleanAttribute(terraformAttribute: string) {
+    return Token.asString(this.interpolationForAttribute(terraformAttribute)) as any as boolean
+  }
+
   protected abstract interpolationForAttribute(terraformAttribute: string): string
 }
 
@@ -24,7 +27,7 @@ export class StringMap {
   constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): string {
-    return Token.asString(`\${${this.terraformResource.terraformResourceType}.${Node.of(this.terraformResource).uniqueId}.${this.terraformAttribute}["${key}"]}`)
+    return Token.asString(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]}`)
   }
 }
 
@@ -32,7 +35,7 @@ export class NumberMap {
   constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): number {
-    return Token.asNumber(`\${${this.terraformResource.terraformResourceType}.${Node.of(this.terraformResource).uniqueId}.${this.terraformAttribute}["${key}"]`)
+    return Token.asNumber(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]`)
   }
 }
 
@@ -40,7 +43,7 @@ export class BooleanMap {
   constructor(protected terraformResource: TerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): boolean {
-    return Token.asString(`\${${this.terraformResource.terraformResourceType}.${Node.of(this.terraformResource).uniqueId}.${this.terraformAttribute}["${key}"]`) as any as boolean
+    return Token.asString(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]`) as any as boolean
   }
 }
 
@@ -50,6 +53,6 @@ export class ComplexComputedList extends ComplexComputedAttribute {
   }
 
   protected interpolationForAttribute(property: string) {
-    return `\${${this.terraformResource.terraformResourceType}.${Node.of(this.terraformResource).uniqueId}.${this.terraformAttribute}.${this.index}.${property}}`;
+    return `\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}.${this.index}.${property}}`;
   }
 }

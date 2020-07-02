@@ -22,21 +22,25 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "jest": {
-    "collectCoverage": true,
-    "moduleFileExtensions": [
-      "js"
-    ]
-  },
   "license": "MPL-2.0",
   "dependencies": {
     "@types/node": "13.7.0",
+    "@types/readline-sync": "^1.4.3",
     "cdktf": "0.0.0",
+    "chalk": "^4.1.0",
     "codemaker": "^0.22.0",
     "constructs": "^3.0.0",
+    "eslint-plugin-react": "^7.20.0",
     "fs-extra": "^8.1.0",
+    "ink": "^2.7.1",
+    "ink-confirm-input": "^2.0.0",
+    "ink-spinner": "^3.0.1",
     "jsii": "1.1.0",
     "jsii-pacmak": "1.1.0",
+    "log4js": "^6.3.0",
+    "open": "^7.0.4",
+    "react": "^16.13.1",
+    "readline-sync": "^1.4.10",
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
     "yargs": "^15.1.0"
@@ -49,7 +53,8 @@
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended"
     ],
     "rules": {
       "@typescript-eslint/no-explicit-any": 0,
@@ -64,13 +69,17 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
+    "@types/ink": "^2.0.3",
+    "@types/ink-spinner": "^3.0.0",
     "@types/jest": "^25.1.2",
     "@types/json-schema": "^7.0.4",
     "@types/node": "13.7.0",
+    "@types/react": "^16.9.35",
     "@types/semver": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
+    "ink-testing-library": "^2.0.0",
     "jest": "^25.1.0",
     "ts-jest": "^25.4.0",
     "typescript": "^3.8.3"

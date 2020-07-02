@@ -48,7 +48,10 @@ export class DescriptionEscaping extends TerraformResource {
       terraformGeneratorMetadata: {
         providerName: 'google'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this._brokenComments = config.brokenComments;
   }

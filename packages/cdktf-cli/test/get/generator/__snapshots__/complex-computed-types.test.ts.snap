@@ -159,7 +159,10 @@ export class AcmCertificate extends TerraformResource {
       terraformGeneratorMetadata: {
         providerName: 'aws'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this._certificateAuthorityArn = config.certificateAuthorityArn;
     this._certificateBody = config.certificateBody;

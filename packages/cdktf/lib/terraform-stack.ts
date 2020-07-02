@@ -4,15 +4,49 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
+import { TerraformProvider } from './terraform-provider';
+
+const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
+
+export interface TerraformStackMetadata {
+  readonly stackName: string;
+  readonly version: string;
+}
 
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
   private readonly rawOverrides: any = {}
+  private readonly cdktfVersion: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
+    this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
+
+    Object.defineProperty(this, STACK_SYMBOL, { value: true });
+  }
+
+  public static isStack(x: any): x is TerraformStack {
+    return x !== null && typeof(x) === 'object' && STACK_SYMBOL in x;
+  }
+
+  public static of(construct: IConstruct): TerraformStack {
+    return _lookup(construct);
+
+    function _lookup(c: IConstruct): TerraformStack  {
+      if (TerraformStack.isStack(c)) {
+        return c;
+      }
+
+      const node = Node.of(c)
+
+      if (!node.scope) {
+        throw new Error(`No stack could be identified for the construct at path '${Node.of(construct).path}'`);
+      }
+
+      return _lookup(node.scope);
+    }
   }
 
   public addOverride(path: string, value: any) {
@@ -38,8 +72,33 @@ export class TerraformStack extends Construct {
     curr[lastKey] = value;
   }
 
+  public allProviders(): TerraformProvider[] {
+    const providers: TerraformProvider[] = [];
+
+    const visit = async (node: IConstruct) => {
+      if (node instanceof TerraformProvider) {
+        providers.push(node)
+      }
+
+      for (const child of Node.of(node).children) {
+        visit(child);
+      }
+    }
+
+    visit(this)
+
+    return resolve(this, providers);
+  }
+
   public toTerraform(): any {
-    const tf = {};
+    const tf = {
+      "//": {
+        metadata: {
+          version: this.cdktfVersion,
+          stackName: this.artifactFile.replace('.tf.json', ''),
+        } as TerraformStackMetadata
+      }
+    };
 
     const visit = (node: IConstruct) => {
       if (node instanceof TerraformElement) {
