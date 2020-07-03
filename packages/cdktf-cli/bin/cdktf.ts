@@ -12,7 +12,7 @@ const args = yargs
   .epilogue(`Options can be specified via environment variables with the "CDKTF_" prefix (e.g. "CDKTF_OUTPUT")`)
   .help()
   .alias('h', 'help')
-  .option('disable-logging', { type: 'boolean', default: false, required: false, desc: 'Dont write log files'})
+  .option('disable-logging', { type: 'boolean', default: true, required: false, desc: 'Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.'})
   .option('log-level', { type: 'string', required: false, desc: 'Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL'})
   .argv;
 

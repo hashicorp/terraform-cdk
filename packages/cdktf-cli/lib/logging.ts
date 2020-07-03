@@ -4,7 +4,7 @@ const logger = getLogger();
 
 logger.level = process.env.CDKTF_LOG_LEVEL || 'INFO';
 
-if (process.env.CDKTF_DISABLE_LOGGING === undefined) {
+if (process.env.CDKTF_DISABLE_LOGGING === 'false') {
   configure({
     appenders: { cdktf: { type: "file", filename: "./cdktf.log" } },
     categories: { default: { appenders: ["cdktf"], level: "debug" } }
