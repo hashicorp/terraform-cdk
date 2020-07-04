@@ -19,10 +19,23 @@ Learn more how to use the cdktf command-line interface [here](../cli-commands.md
 ```bash
 mkdir hello-terraform
 cd hello-terraform
-cdktf init --template="typescript"
+cdktf init --template="typescript" --local
 ```
 
-This will initialize a brand new CDK for Terraform project in TypeScript. Also, install the `cdktf` library so that it can be used in the project.
+This will initialize a brand new CDK for Terraform project in TypeScript using an interactive command.
+
+```bash
+Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
+This means that your Terraform state file will be stored locally on disk.
+
+We will now setup the project. Please enter the details for your project.
+If you want to exit, press ^C.
+
+Project Name: (default: 'hello-terraform')
+Project Description: (default: 'A simple getting started project for cdktf.')
+```
+
+Also, this command installs the `cdktf` library so that it can be used in the project.
 
 **CDK for Terraform Application**
 
@@ -128,12 +141,64 @@ cat cdktf.out/example.tf.json
 }
 ```
 
-**Apply Configuration**
+**Deploy Application**
 
-You can now run Terraform commands to apply the given configuration.
+> Note: You can use Terraform commands like `terraform init`, `terraform plan`, and `terraform apply` with the generated
+Terraform JSON configuration (Learn more [here]()) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
+
+You can now deploy your CDK for Terraform application using the `cdktf deploy` command.
 
 ```bash
-terraform init
-terraform plan
-terraform apply
+cdktf deploy
+```
+
+This command will ask for confirmation on a generated diff and then deploy the application.
+
+```bash
+Stack: helloterraform
+Resources
+ + AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+
+Diff: 1 to create, 0 to update, 0 to delete.
+Do you want to continue (Y/n)? y
+```
+
+Deployed application
+
+```bash
+Deploying Stack: helloterraform
+Resources
+ ✔ AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+
+Summary: 1 created, 0 updated, 0 destroyed.
+```
+
+**Destroy Application**
+
+You can destroy the application by running `cdktf destroy`.
+
+```bash
+cdktf destroy
+```
+
+This command will ask for confirmation on a generated diff and then destroy the application if
+the user confirms that they want to continue with the destroy operation.
+
+```bash
+Stack: helloterraform
+Resources
+ - AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+
+Diff: 0 to create, 0 to update, 1 to delete.
+Do you want to continue (Y/n)?
+```
+
+Destroyed application
+
+```bash
+Destroying Stack: helloterraform
+Resources
+ ✔ AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+
+Summary: 1 destroyed.
 ```

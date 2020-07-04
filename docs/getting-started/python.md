@@ -3,6 +3,7 @@
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
+- [Node.js](https://nodejs.org) >= v12.16
 - [Python](https://www.python.org/downloads/) >= v3.7
 - [Pipenv](https://pipenv.pypa.io/en/latest/install/#installing-pipenv/)
 
@@ -19,10 +20,15 @@ Learn more how to use the cdktf command-line interface [here](../cli-commands.md
 ```bash
 mkdir hello-terraform
 cd hello-terraform
-cdktf init --template="python"
+cdktf init --template="python" --local
+```
+This will initialize a brand new CDK for Terraform project in Python using an interactive command.
+
+```bash
+
 ```
 
-This will initialize a brand new CDK for Terraform project in Python and install the `cdktf` library so that it can be used in the project.
+Also, this command installs the `cdktf` library so that it can be used in the project.
 
 ## CDK for Terraform Application
 

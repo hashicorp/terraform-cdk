@@ -33,9 +33,7 @@ If login is successful, cdktf will store the token in plain text in
 the following file for use by subsequent Terraform commands:
     {whiteBright ${terraformCredentialsFilePath}}
 
-{yellow Note: Other login options are availiable using 'cdktf login' command which include
-using local storage for the state of your stack. The local storage mode isn't
-recommended.}
+{yellow Note: The local storage mode isn't recommended for storing the state of your stacks.}
 `);
 
         let isLogin = false

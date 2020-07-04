@@ -45,6 +45,9 @@ class Command implements yargs.CommandModule {
       // without a token and setup the project.
       const terraformLogin = new TerraformLogin
       token = await terraformLogin.askToLogin();
+    } else {
+      console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
+This means that your Terraform state file will be stored locally on disk.}`)
     }
 
     // Check if template was specified by the user
@@ -118,7 +121,7 @@ If you want to exit, press {magenta ^C}.
   if (!projectName) {
     // Current working directory
     const currentDirectory = path.basename(process.cwd());
-    projectName = readlineSync.question(chalkColour`{greenBright Project Name:} (default: '${currentDirectory}')`, { defaultInput: currentDirectory })
+    projectName = readlineSync.question(chalkColour`{greenBright Project Name:} (default: '${currentDirectory}') `, { defaultInput: currentDirectory })
   }
 
   if (!projectDescription) {

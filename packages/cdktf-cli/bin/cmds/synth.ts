@@ -13,7 +13,6 @@ class Command implements yargs.CommandModule {
   public readonly aliases = [ 'synthesize' ];
 
   public readonly builder = (args: yargs.Argv) => args
-    .usage('Usage: $0 <command> [options]')
     .option('app', { default: config.app, desc: 'Command to use in order to execute cdktf app', alias: 'a' })
     .option('output', { default: config.output, desc: 'Output directory', alias: 'o' })
     .option('json', { type: 'boolean', desc: 'Provide JSON output for the generated Terraform configuration.', default: false })

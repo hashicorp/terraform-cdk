@@ -1,3 +1,15 @@
+## 0.0.7
+
+- Support for `cdktf diff` (#90)
+- Support for `cdktf deploy` (#92)
+- Support for `cdktf destroy` (#111)
+- Support for Terraform Cloud via `cdktf login` (#96)
+- Support for logging across the project (#100)
+- New UI for `cdktf synth` and `cdktf get` (#103)
+- Basic error handling support (#110)
+
+There are other minor bug fixes included in the release. (#109, #122, #128).
+
 ## 0.0.6
 
 - Typescript examples and template defaults for synthesize commands to compile application (#63)
