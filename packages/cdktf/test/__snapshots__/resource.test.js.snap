@@ -1,5 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`do change capitalization of arbritary nested types 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"tests\\"
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"tests_test_A231270F\\": {
+        \\"name\\": \\"bar\\",
+        \\"nested_type\\": {
+          \\"tag\\": \\"isDowncased\\"
+        },
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"tests/test\\",
+            \\"uniqueId\\": \\"tests_test_A231270F\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`do not change capitalization of tags 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"tests\\"
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"tests_test_A231270F\\": {
+        \\"name\\": \\"bar\\",
+        \\"tags\\": {
+          \\"Tag\\": \\"isWorking\\"
+        },
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"tests/test\\",
+            \\"uniqueId\\": \\"tests_test_A231270F\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`minimal configuration 1`] = `
 "{
   \\"//\\": {
