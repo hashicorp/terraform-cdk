@@ -4,14 +4,18 @@ import { TerraformLogin } from './helper/terraform-login'
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { sscaff } from 'sscaff';
-import * as terraformCloudClient from './helper/terraform-cloud-client'
+import * as terraformCloudClient from './helper/terraform-cloud-client';
 import * as chalk from 'chalk';
-import { terraformCheck } from './terraform-check'
+import { terraformCheck } from './terraform-check';
 
 const chalkColour = new chalk.Instance();
 
 const templatesDir = path.join(__dirname, '..', '..', 'templates');
 const availableTemplates = fs.readdirSync(templatesDir).filter(x => !x.startsWith('.'));
+let templates: string[] = [];
+for (let template of availableTemplates) {
+  templates.push(chalkColour`{whiteBright ${template}}`)
+}
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require('../../package.json');
@@ -28,7 +32,7 @@ class Command implements yargs.CommandModule {
     .option('local', { type: 'boolean', desc: 'Use local remote state storage for generated Terraform.', default: false})
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
     .strict()
-    .choices('template', availableTemplates);
+    .choices('template', templates);
 
   public async handler(argv: any) {
     await terraformCheck()
@@ -139,11 +143,20 @@ If you want to exit, press {magenta ^C}.
   if (token != '') {
     console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`)
     console.log(chalkColour`\nWe will now setup {blueBright Terraform Cloud} for your project.\n`)
+    const organizationNames = await terraformCloudClient.getOrganizationNames(token);
+    const organizationData = organizationNames.data;
+    let organizationOptions = [];
+    for (let organization of organizationData) {
+      organizationOptions.push(chalkColour`{whiteBright ${organization.id}}`)
+    }
 
     // todo: add validation for the organization name and workspace. add error handling
-    const organizationName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Organization Name:} `)
-    const workspaceName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Workspace Name:} `, { defaultInput: templateName } )
-    project.OrganizationName = organizationName
+    const organizationSelect = readlineSync.keyInSelect(organizationOptions, chalkColour`{blueBright Terraform Cloud Organization Name:} `)
+    if (organizationSelect == -1) {
+      process.exit(0);
+    }
+    const workspaceName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Workspace Name:} (default: '${templateName}') `, { defaultInput: templateName } )
+    project.OrganizationName = organizationOptions[organizationSelect]
     project.WorkspaceName = workspaceName
   }
 
@@ -153,11 +166,11 @@ If you want to exit, press {magenta ^C}.
 async function getTemplatePath(templateName: string): Promise<Template> {
   if (templateName == '') {
     // Prompt for template
-    const selection = readlineSync.keyInSelect(availableTemplates, chalkColour`{whiteBright What template you want to use?}`)
+    const selection = readlineSync.keyInSelect(templates, chalkColour`{whiteBright What template you want to use?}`)
     if (selection == -1) {
       process.exit(0);
     }
-    templateName = availableTemplates[selection];
+    templateName = templates[selection];
     console.log(chalkColour`\n{whiteBright Initializing a project using the {greenBright ${templateName}} template.}`);
   }
 

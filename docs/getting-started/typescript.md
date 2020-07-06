@@ -103,7 +103,7 @@ cdktf synth
 ```
 
 ```bash
-Generating Terraform code in the output directory: "cdktf.out/"
+Generated Terraform code in the output directory: cdktf.out
 ```
 
 This command will generate a directory called `cdktf.out`. This directory contains the Terraform JSON configuration for

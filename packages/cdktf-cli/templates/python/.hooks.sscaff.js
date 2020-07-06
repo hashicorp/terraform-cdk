@@ -29,7 +29,7 @@ exports.post = options => {
   execSync(`pipenv install ${pypi_cdktf}`, { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
-  execSync(`${cli} get`);
+  execSync(`${cli} get`, { stdio: 'inherit' });
   execSync(`pipenv run ./main.py`);
 
   console.log(readFileSync('./help', 'utf-8'));
@@ -38,7 +38,7 @@ exports.post = options => {
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.py', 'utf-8');
 
-  const result = template.replace(`MyStack(app, "{{ ${baseName} }}")`, `stack = MyStack(app, "{{ ${baseName} }}"));
+  const result = template.replace(`MyStack(app, "${baseName}")`, `stack = MyStack(app, "${baseName}")
 stack.add_override('terraform.backend', {
   'remote': {
     'hostname': 'app.terraform.io',

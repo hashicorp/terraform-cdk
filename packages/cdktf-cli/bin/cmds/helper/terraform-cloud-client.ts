@@ -20,6 +20,16 @@ export interface Account {
     data: Data;
 }
 
+export interface OrganizationData {
+    id: string;
+    type: string;
+    attributes: {};
+}
+
+export interface Organization {
+    data: OrganizationData[];
+}
+
 async function get(url: string, token: string) {
     return new Promise<any>((ok, ko) => {
         const req = https.request(format(url), { headers: { 'Authorization': `Bearer ${token}`}},  res => {
@@ -84,6 +94,10 @@ export async function createWorkspace(organizationName: string, workspaceName: s
             'type': 'workspaces'
         }
     }));
+}
+
+export async function getOrganizationNames(token: string) {
+    return await get(`${BASE_URL}/organizations`, token) as Organization;
 }
 
 
