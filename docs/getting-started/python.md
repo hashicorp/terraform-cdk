@@ -138,7 +138,7 @@ cat helloterraform.json
 ## Deploy Application
 
 > Note: You can use Terraform commands like `terraform init`, `terraform plan`, and `terraform apply` with the generated
-Terraform JSON configuration (Learn more [here]()) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
+Terraform JSON configuration (learn more [here]()) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
 
 You can now deploy your CDK for Terraform application using the `cdktf deploy` command.
 
