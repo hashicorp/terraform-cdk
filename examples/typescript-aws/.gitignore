@@ -1,3 +1,4 @@
 .gen
-.cdktf.out
+cdktf.out
+cdktf.state*
 !tsconfig.json
