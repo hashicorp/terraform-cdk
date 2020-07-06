@@ -1,3 +1,7 @@
+## 0.0.8
+
+Minor bug fixes and documentation for getting started guides.
+
 ## 0.0.7
 
 - Support for `cdktf diff` (#90)
