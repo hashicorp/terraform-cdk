@@ -12,8 +12,8 @@ const chalkColour = new chalk.Instance();
 
 const templatesDir = path.join(__dirname, '..', '..', 'templates');
 const availableTemplates = fs.readdirSync(templatesDir).filter(x => !x.startsWith('.'));
-let templates: string[] = [];
-for (let template of availableTemplates) {
+const templates: string[] = [];
+for (const template of availableTemplates) {
   templates.push(chalkColour`{whiteBright ${template}}`)
 }
 
@@ -145,8 +145,8 @@ If you want to exit, press {magenta ^C}.
     console.log(chalkColour`\nWe will now setup {blueBright Terraform Cloud} for your project.\n`)
     const organizationNames = await terraformCloudClient.getOrganizationNames(token);
     const organizationData = organizationNames.data;
-    let organizationOptions = [];
-    for (let organization of organizationData) {
+    const organizationOptions = [];
+    for (const organization of organizationData) {
       organizationOptions.push(chalkColour`{whiteBright ${organization.id}}`)
     }
 
