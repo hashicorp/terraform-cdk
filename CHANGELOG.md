@@ -1,3 +1,7 @@
+## 0.0.9
+
+- Fix `cdktf init` issue (#139)
+
 ## 0.0.8
 
 Minor bug fixes and documentation for getting started guides.
