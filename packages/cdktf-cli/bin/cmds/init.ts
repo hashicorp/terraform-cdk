@@ -147,7 +147,7 @@ If you want to exit, press {magenta ^C}.
     const organizationData = organizationNames.data;
     const organizationOptions = [];
     for (const organization of organizationData) {
-      organizationOptions.push(chalkColour`{whiteBright ${organization.id}}`)
+      organizationOptions.push(organization.id)
     }
 
     // todo: add validation for the organization name and workspace. add error handling

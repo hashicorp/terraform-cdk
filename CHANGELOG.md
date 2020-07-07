@@ -1,3 +1,7 @@
+## 0.0.10
+
+- Bug when creating Terraform Cloud workspace via `cdktf init` (#144)
+
 ## 0.0.9
 
 - Fix `cdktf init` issue (#139)
