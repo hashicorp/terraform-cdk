@@ -14,7 +14,7 @@ const templatesDir = path.join(__dirname, '..', '..', 'templates');
 const availableTemplates = fs.readdirSync(templatesDir).filter(x => !x.startsWith('.'));
 const templates: string[] = [];
 for (const template of availableTemplates) {
-  templates.push(chalkColour`{whiteBright ${template}}`)
+  templates.push(template)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
