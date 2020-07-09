@@ -1,5 +1,6 @@
 *.d.ts
 *.js
 node_modules
-dist/
+cdktf.out
+cdktf.state*
 !tsconfig.json

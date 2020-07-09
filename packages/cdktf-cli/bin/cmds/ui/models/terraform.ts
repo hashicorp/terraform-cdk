@@ -86,7 +86,7 @@ export class Terraform  {
 
   public async plan(destroy = false): Promise<TerraformPlan> {
     const planFile = path.join(this.workdir, 'plan')
-    const options = ['plan', '-out', planFile]
+    const options = ['plan', '-out', planFile, ...this.stateFileOption]
     if (destroy) {
       options.push('-destroy')
     }
@@ -96,11 +96,11 @@ export class Terraform  {
   }
 
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
-    await exec('terraform', ['apply', '-auto-approve', planFile], { cwd: this.workdir, env: process.env }, stdout);
+    await exec('terraform', ['apply', '-auto-approve', ...this.stateFileOption, planFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
-    await exec('terraform', ['destroy', '-auto-approve'], { cwd: this.workdir, env: process.env }, stdout);
+    await exec('terraform', ['destroy', '-auto-approve', ...this.stateFileOption], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async version(): Promise<string> {
@@ -112,7 +112,10 @@ export class Terraform  {
   }
 
   public async output(): Promise<{[key: string]: TerraformOutput}> {
-    const output = await exec('terraform', ['output', '-json'], { cwd: this.workdir, env: process.env });
-    return JSON.parse(output)
+    const output = await exec('terraform', ['output', '-json', ...this.stateFileOption], { cwd: this.workdir, env: process.env });    return JSON.parse(output)
+  }
+
+  private get stateFileOption() {
+    return ['-state', path.join(process.cwd(), 'cdktf.state')]
   }
 }
