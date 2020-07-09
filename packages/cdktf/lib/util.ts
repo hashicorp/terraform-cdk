@@ -62,6 +62,11 @@ export function keysToSnakeCase(object: any): any {
   }
   const keys = Object.keys(object);
   return keys.reduce((newObject: any, key: string) => {
+    if (key === 'tags') {
+      newObject[key] = object[key]
+      return newObject
+    }
+
     let value = object[key];
     if (typeof(value) === 'object') {
       value = keysToSnakeCase(value)

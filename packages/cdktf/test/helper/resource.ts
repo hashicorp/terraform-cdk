@@ -5,11 +5,15 @@ import { TestProviderMetadata } from './provider'
 
 export interface TestResourceConfig extends TerraformMetaArguments {
   name: string;
+  tags?: { [key: string]: string };
+  nestedType?: { [key: string]: string };
 }
 
 export class TestResource extends TerraformResource {
   public name: string;
   public names?: string[];
+  public tags?: { [key: string]: string };
+  public nestedType?: { [key: string]: string };
 
   constructor(scope: Construct, id: string, config: TestResourceConfig) {
     super(scope, id, {
@@ -22,12 +26,16 @@ export class TestResource extends TerraformResource {
     });
 
     this.name = config.name
+    this.tags = config.tags
+    this.nestedType = config.nestedType
   }
 
   public synthesizeAttributes(): { [name: string]: any } {
     return {
       name: this.name,
-      names: this.names
+      names: this.names,
+      tags: this.tags,
+      nested_type: this.nestedType // eslint-disable-line @typescript-eslint/camelcase
     }
   }
 }

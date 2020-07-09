@@ -75,3 +75,30 @@ test('serialize list interpolation', () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
+test('do not change capitalization of tags', () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'tests');
+
+  new TestResource(stack, 'test', {
+    name: 'bar',
+    tags: {
+      "Tag": "isWorking"
+    }
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test('do change capitalization of arbritary nested types', () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'tests');
+
+  new TestResource(stack, 'test', {
+    name: 'bar',
+    nestedType: {
+      "Tag": "isDowncased"
+    }
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
