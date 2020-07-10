@@ -1,3 +1,5 @@
+process.env.NODE_ENV = process.env.NODE_ENV || 'production'
+
 import * as yargs from 'yargs';
 import * as semver from 'semver';
 
