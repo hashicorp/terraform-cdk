@@ -95,7 +95,7 @@ export class TerraformStack extends Construct {
       "//": {
         metadata: {
           version: this.cdktfVersion,
-          stackName: this.artifactFile.replace('.tf.json', ''),
+          stackName: Node.of(this).id,
         } as TerraformStackMetadata
       }
     };
