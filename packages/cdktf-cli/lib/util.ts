@@ -7,7 +7,9 @@ import * as path from 'path';
 import { processLogger } from './logging';
 
 export async function shell(program: string, args: string[] = [], options: SpawnOptions = { }) {
-  return exec(program, args, options)
+  return exec(program, args, options, (chunk: Buffer) => {
+    console.log(chunk.toString())
+  })
 }
 
 export async function withTempDir(dirname: string, closure: () => Promise<void>) {
