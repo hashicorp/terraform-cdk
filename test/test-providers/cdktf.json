@@ -1,6 +1,6 @@
 {
   "language": "typescript",
-  "app": "yarn compile && node main.js",
+  "app": "npm run --silent compile && node main.js",
   "terraformProviders": [
     "null",
     "aws",
