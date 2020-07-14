@@ -54,7 +54,6 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
     <Box>
       Do you want to continue (Y/n)?&nbsp;
       <ConfirmInput
-        isChecked
         value={value}
         onChange={setValue}
         onSubmit={handleSubmit}
