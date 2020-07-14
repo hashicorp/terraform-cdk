@@ -9,7 +9,7 @@
     "get": "cdktf get",
     "build": "yarn get && tsc",
     "synth": "cdktf synth",
-    "compile": "tsc",
+    "compile": "tsc --pretty",
     "watch": "tsc -w",
     "test": "echo ok",
     "upgrade": "npm i cdktf@latest cdktf-cli@latest",
