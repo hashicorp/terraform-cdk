@@ -1,5 +1,5 @@
 Stack: hello-diff
 Resources
- + NULL_RESOURCE        hellodiff_test      null_resource.hellodiff_test_85E428D7
+ + NULL_RESOURCE        test                null_resource.hellodiff_test_85E428D7
 
 Diff: 1 to create, 0 to update, 0 to delete.

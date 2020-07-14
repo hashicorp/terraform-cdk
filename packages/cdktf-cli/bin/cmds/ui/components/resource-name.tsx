@@ -12,6 +12,8 @@ export const ResourceName = ({name}: ResourceNameConfig) => {
     return <Text>{name}</Text>;
   } else {
     const [resource, resourceName] = prettyName.split('.')
+    const [, ...path] = resourceName.split('_')
+
     return(
       <Box flexDirection="column" width={80}>
         <Box>
@@ -19,7 +21,7 @@ export const ResourceName = ({name}: ResourceNameConfig) => {
             <Text>{resource.toUpperCase()}</Text>
           </Box>
           <Box paddingLeft={1} width={"25%"}>
-            <Text>{resourceName}</Text>
+            <Text>{path.join('_')}</Text>
           </Box>
           <Box paddingLeft={1} width={"50%"}>
             <Color gray>{name}</Color>
