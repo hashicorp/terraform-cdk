@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "get": "cdktf get",
-    "build": "yarn get && tsc",
+    "build": "cdktf get && tsc",
     "synth": "cdktf synth",
     "compile": "tsc",
     "watch": "tsc -w",
