@@ -1,4 +1,4 @@
-Destroying Stack: hellodeploy
+Destroying Stack: hello-deploy
 Resources
  ✔ NULL_RESOURCE        hellodeploy_test    null_resource.hellodeploy_test_31FBB65F
 
