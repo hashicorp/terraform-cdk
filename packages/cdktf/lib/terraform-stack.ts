@@ -21,7 +21,7 @@ export class TerraformStack extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
+    this.artifactFile = `cdk.tf.json`;
     this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
 
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
