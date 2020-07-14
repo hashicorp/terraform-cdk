@@ -21,7 +21,7 @@ export class TerraformStack extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.artifactFile = `${Node.of(this).uniqueId}.tf.json`;
+    this.artifactFile = `cdk.tf.json`;
     this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
 
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
@@ -95,7 +95,7 @@ export class TerraformStack extends Construct {
       "//": {
         metadata: {
           version: this.cdktfVersion,
-          stackName: this.artifactFile.replace('.tf.json', ''),
+          stackName: Node.of(this).id,
         } as TerraformStackMetadata
       }
     };

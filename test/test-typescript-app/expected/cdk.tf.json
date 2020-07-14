@@ -2,7 +2,7 @@
   "//": {
     "metadata": {
       "version": "stubbed",
-      "stackName": "helloterra"
+      "stackName": "hello-terra"
     }
   },
   "terraform": {
