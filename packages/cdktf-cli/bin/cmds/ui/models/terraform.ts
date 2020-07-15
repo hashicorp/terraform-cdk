@@ -116,6 +116,6 @@ export class Terraform  {
   }
 
   private get stateFileOption() {
-    return ['-state', path.join(process.cwd(), 'cdktf.state')]
+    return ['-state', path.join(process.cwd(), 'terraform.tfstate')]
   }
 }

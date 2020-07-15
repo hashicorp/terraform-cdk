@@ -51,7 +51,7 @@ class Command implements yargs.CommandModule {
       token = await terraformLogin.askToLogin();
     } else {
       console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
-This means that your Terraform state file will be stored locally on disk.}`)
+This means that your Terraform state file will be stored locally on disk in a file 'terraform.tfstate' in the root of your project.}`)
     }
 
     // Check if template was specified by the user

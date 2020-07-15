@@ -26,7 +26,7 @@ This will initialize a brand new CDK for Terraform project in TypeScript using a
 
 ```bash
 Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
-This means that your Terraform state file will be stored locally on disk.
+This means that your Terraform state file will be stored locally on disk in a file 'terraform.tfstate' in the root of your project.
 
 We will now setup the project. Please enter the details for your project.
 If you want to exit, press ^C.
@@ -95,7 +95,7 @@ app.synth();
 **Synthesize Application**
 
 When you are ready you can run the `synthesize` command to generate Terraform JSON configuration for the application.
-Running the command will compile the application `npm run compile` or `yarn compile` in the background for
+Running the command will compile the application `npm run compile` in the background for
 you which will compile TypeScript to Javascript.
 
 ```bash
@@ -116,7 +116,7 @@ cd cdktf.out
 Terraform AWS provider and Instance expressed as Terraform JSON configuration.
 
 ```json
-cat cdktf.out/example.tf.json
+cat cdktf.out/cdk.tf.json
 {
   "terraform": {
     "required_providers": {
@@ -141,6 +141,8 @@ cat cdktf.out/example.tf.json
 }
 ```
 
+> Note: You can generate the Terraform JSON configuration while synthesizing the code by running `cdktf synth --json`.
+
 **Deploy Application**
 
 > Note: You can use Terraform commands like `terraform init`, `terraform plan`, and `terraform apply` with the generated
@@ -157,7 +159,7 @@ This command will ask for confirmation on a generated diff and then deploy the a
 ```bash
 Stack: helloterraform
 Resources
- + AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+ + AWS_INSTANCE         Hello aws_instance.helloterraform_Hello_19940A68
 
 Diff: 1 to create, 0 to update, 0 to delete.
 Do you want to continue (Y/n)? y
@@ -168,7 +170,7 @@ Deployed application
 ```bash
 Deploying Stack: helloterraform
 Resources
- ✔ AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+ ✔ AWS_INSTANCE         Hello aws_instance.helloterraform_Hello_19940A68
 
 Summary: 1 created, 0 updated, 0 destroyed.
 ```
@@ -187,7 +189,7 @@ the user confirms that they want to continue with the destroy operation.
 ```bash
 Stack: helloterraform
 Resources
- - AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+ - AWS_INSTANCE         hello aws_instance.helloterraform_Hello_19940A68
 
 Diff: 0 to create, 0 to update, 1 to delete.
 Do you want to continue (Y/n)?
@@ -198,7 +200,7 @@ Destroyed application
 ```bash
 Destroying Stack: helloterraform
 Resources
- ✔ AWS_INSTANCE         helloterraform_Hell aws_instance.helloterraform_Hello_19940A68
+ ✔ AWS_INSTANCE         hello aws_instance.helloterraform_Hello_19940A68
 
 Summary: 1 destroyed.
 ```

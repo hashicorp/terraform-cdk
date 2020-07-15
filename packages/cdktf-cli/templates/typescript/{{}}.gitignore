@@ -2,6 +2,6 @@
 *.js
 node_modules
 cdktf.out
-cdktf.state*
+terraform.tfstate*
 .gen
 .terraform

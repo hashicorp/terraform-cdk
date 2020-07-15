@@ -26,7 +26,7 @@ This will initialize a brand new CDK for Terraform project in Python using an in
 
 ```bash
 Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
-This means that your Terraform state file will be stored locally on disk.
+This means that your Terraform state file will be stored locally on disk in a file 'terraform.tfstate' in the root of your project.
 
 We will now setup the project. Please enter the details for your project.
 If you want to exit, press ^C.
@@ -110,7 +110,7 @@ cd cdktf.out
 Terraform AWS provider and instance expressed as Terraform JSON configuration.
 
 ```json
-cat helloterraform.json
+cat cdk.json
 {
   "terraform": {
     "required_providers": {
@@ -135,6 +135,8 @@ cat helloterraform.json
 }
 ```
 
+> Note: You can generate the Terraform JSON configuration while synthesizing the code by running `cdktf synth --json`.
+
 ## Deploy Application
 
 > Note: You can use Terraform commands like `terraform init`, `terraform plan`, and `terraform apply` with the generated
@@ -151,7 +153,7 @@ This command will ask for confirmation on a generated diff and then deploy the a
 ```bash
 Stack: helloterraform
 Resources
- + AWS_INSTANCE         helloterraform_hell aws_instance.helloterraform_hello_A790281A
+ + AWS_INSTANCE         hello aws_instance.helloterraform_hello_A790281A
 
 Diff: 1 to create, 0 to update, 0 to delete.
 Do you want to continue (Y/n)? y
@@ -162,7 +164,7 @@ Deployed application
 ```bash
 Deploying Stack: helloterraform
 Resources
- ✔ AWS_INSTANCE         helloterraform_hell aws_instance.helloterraform_hello_A790281A
+ ✔ AWS_INSTANCE         hello aws_instance.helloterraform_hello_A790281A
 
 Summary: 1 created, 0 updated, 0 destroyed.
 ```
@@ -181,7 +183,7 @@ the user confirms that they want to continue with the destroy operation.
 ```bash
 Stack: helloterraform
 Resources
- - AWS_INSTANCE         helloterraform_hell aws_instance.helloterraform_hello_A790281A
+ - AWS_INSTANCE         hello aws_instance.helloterraform_hello_A790281A
 
 Diff: 0 to create, 0 to update, 1 to delete.
 Do you want to continue (Y/n)?
@@ -192,7 +194,7 @@ Destroyed application
 ```bash
 Destroying Stack: helloterraform
 Resources
- ✔ AWS_INSTANCE         helloterraform_hell aws_instance.helloterraform_hello_A790281A
+ ✔ AWS_INSTANCE         hello aws_instance.helloterraform_hello_A790281A
 
 Summary: 1 destroyed.
 ```
