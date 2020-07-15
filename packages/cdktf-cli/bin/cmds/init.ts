@@ -29,7 +29,7 @@ class Command implements yargs.CommandModule {
     .option('project-name', { type: 'string', desc: 'The name of the project.'})
     .option('project-description', { type: 'string', desc: 'The description of the project.'})
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
-    .option('local', { type: 'boolean', desc: 'Use local remote state storage for generated Terraform.', default: false})
+    .option('local', { type: 'boolean', desc: 'Use local state storage for generated Terraform.', default: false})
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
     .strict()
     .choices('template', templates);
