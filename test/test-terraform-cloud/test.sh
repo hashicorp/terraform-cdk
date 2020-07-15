@@ -23,13 +23,11 @@ cp ${scriptdir}/main.ts .
 cp ${scriptdir}/cdktf.json .
 cdktf get
 
-cdktf synth
+# destroy
+cdktf destroy --auto-approve
 
 # diff
 cdktf deploy --auto-approve > output
-diff output ${scriptdir}/expected/output
-
-# destroy
-cdktf destroy --auto-approve 
+diff output ${scriptdir}/expected/output 
 
 echo "PASS"

@@ -3,8 +3,6 @@ import { App, TerraformStack, Testing  } from 'cdktf';
 import * as NullProvider from './.gen/providers/null';
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
 
-console.log('token', token);
-
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);

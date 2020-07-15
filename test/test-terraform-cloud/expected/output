@@ -1,4 +1,4 @@
-Deploying Stack: hello-deploy
+Deploying Stack: hello-terra
 Resources
  ✔ NULL_RESOURCE        test                null_resource.helloterra_test_DFD2141A
 
