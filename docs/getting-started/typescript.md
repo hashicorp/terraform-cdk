@@ -63,7 +63,7 @@ new MyStack(app, 'hello-terraform');
 app.synth();
 ```
 
-Refer to the [examples/](./examples/) directory for additional examples.
+Refer to the [examples](../../examples/) directory for additional examples.
 
 Let's take a simple TypeScript application that uses the CDK for Terraform package.
 
