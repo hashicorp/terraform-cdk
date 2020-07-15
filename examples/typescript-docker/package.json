@@ -1,30 +1,23 @@
 {
   "name": "demo-cdktf-ts-docker",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "main": "main.js",
-  "types": "main.ts",
   "license": "MPL-2.0",
-  "private": true,
   "scripts": {
     "get": "cdktf get",
     "build": "yarn get && tsc",
-    "synth": "cdktf synth",
     "compile": "tsc --pretty",
-    "watch": "tsc -w",
-    "test": "echo ok",
-    "upgrade": "npm i cdktf@latest cdktf-cli@latest",
-    "upgrade:next": "npm i cdktf@next cdktf-cli@next"
-  },
-  "engines": {
-    "node": ">=10.12"
+    "synth": "cdktf synth",
+    "plan": "cd ./cdktf.out && terraform init && terraform plan",
+    "apply": "terraform apply ./cdktf.out"
   },
   "dependencies": {
-    "cdktf": "0.0.10-pre.f806945288876adfcd362aec3ff242b6919062ee",
-    "constructs": "^3.0.4"
+    "cdktf": "0.0.0",
+    "constructs": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "^14.0.23",
-    "cdktf-cli": "0.0.10-pre.f806945288876adfcd362aec3ff242b6919062ee",
-    "typescript": "^3.9.6"
+    "@types/node": "^13.1.1",
+    "typescript": "^3.7.4",
+    "cdktf-cli": "0.0.0"
   }
 }
