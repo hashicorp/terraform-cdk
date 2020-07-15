@@ -23,6 +23,8 @@ cp ${scriptdir}/main.ts .
 cp ${scriptdir}/cdktf.json .
 cdktf get
 
+cdktf synth
+
 # diff
 cdktf deploy --auto-approve > output
 diff output ${scriptdir}/expected/output
