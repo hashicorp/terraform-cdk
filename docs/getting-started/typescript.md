@@ -146,7 +146,7 @@ cat cdktf.out/cdk.tf.json
 **Deploy Application**
 
 > Note: You can use Terraform commands like `terraform init`, `terraform plan`, and `terraform apply` with the generated
-Terraform JSON configuration (learn more [here]()) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
+Terraform JSON configuration (learn more [here](../working-with-cdk-for-terraform/synthesizing-config.md)) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
 
 You can now deploy your CDK for Terraform application using the `cdktf deploy` command.
 
@@ -174,6 +174,8 @@ Resources
 
 Summary: 1 created, 0 updated, 0 destroyed.
 ```
+
+The `cdktf deploy` command runs a `terraform apply` in the background. If you are using local storage mode then it creates a `terraform.tfstate` file in the root of the project.
 
 **Destroy Application**
 

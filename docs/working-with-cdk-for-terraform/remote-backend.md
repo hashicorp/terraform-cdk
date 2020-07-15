@@ -4,6 +4,8 @@ Terraform [remote](https://www.terraform.io/docs/backends/types/remote.html) bac
 store Terraform [state](https://www.terraform.io/docs/state/index.html) and run Terraform commands
 remotely using [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html).
 
+> Note: CDK for Terraform only supports Terraform Cloud workspaces that have "[Execution Mode](https://www.terraform.io/docs/cloud/workspaces/settings.html#execution-mode)" set to "local". The project doesn't support remote operations yet. To change the execution mode for a Terraform Cloud workspace, visit the "General" setting tab in the workspace and find "Execution Mode" section, select "local" and save the settings.
+
 A Terraform [JSON configuration for a remote backend](https://www.terraform.io/docs/configuration/syntax-json.html#terraform-blocks)
 can be defined in two ways:
 
