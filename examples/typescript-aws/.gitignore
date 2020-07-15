@@ -1,4 +1,4 @@
 .gen
 cdktf.out
-cdktf.state*
+terraform.tfstate*
 !tsconfig.json
