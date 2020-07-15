@@ -3,6 +3,7 @@ import { TerraformLogin } from './helper/terraform-login'
 import * as terraformCloudClient from './helper/terraform-cloud-client'
 import * as chalk from 'chalk';
 import { terraformCheck } from './terraform-check'
+import { displayVersionMessage } from './version-check'
 const chalkColour = new chalk.Instance();
 
 class Command implements yargs.CommandModule {
@@ -13,6 +14,7 @@ class Command implements yargs.CommandModule {
 
     public async handler(argv: any) {
         await terraformCheck()
+        await displayVersionMessage()
 
         const args = argv as yargs.Arguments
         if (args["_"].length > 1) {

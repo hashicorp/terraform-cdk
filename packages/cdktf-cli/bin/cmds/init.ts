@@ -7,6 +7,7 @@ import { sscaff } from 'sscaff';
 import * as terraformCloudClient from './helper/terraform-cloud-client';
 import * as chalk from 'chalk';
 import { terraformCheck } from './terraform-check';
+import { displayVersionMessage } from './version-check'
 
 const chalkColour = new chalk.Instance();
 
@@ -36,6 +37,7 @@ class Command implements yargs.CommandModule {
 
   public async handler(argv: any) {
     await terraformCheck()
+    await displayVersionMessage()
 
     if (fs.readdirSync('.').filter(f => !f.startsWith('.')).length > 0) {
       console.error(chalkColour`{redBright ERROR: Cannot initialize a project in a non-empty directory}`);
