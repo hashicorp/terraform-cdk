@@ -4,6 +4,7 @@ import { Synth } from './ui/synth'
 import { readConfigSync } from '../../lib/config';
 import { renderInk } from './render-ink'
 import * as fs from 'fs-extra';
+import { displayVersionMessage } from './version-check'
 
 const config = readConfigSync();
 
@@ -19,6 +20,7 @@ class Command implements yargs.CommandModule {
     .showHelpOnFail(true);
 
   public async handler(argv: any) {
+    await displayVersionMessage()
     const command = argv.app;
     const outdir = argv.output;
     const jsonOutput = argv.json;

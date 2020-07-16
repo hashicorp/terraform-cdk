@@ -3,6 +3,8 @@ import React from 'react';
 import  { Diff } from './ui/diff'
 import { readConfigSync } from '../../lib/config';
 import { renderInk } from './render-ink'
+import { displayVersionMessage } from './version-check'
+
 const config = readConfigSync();
 
 class Command implements yargs.CommandModule {
@@ -15,6 +17,7 @@ class Command implements yargs.CommandModule {
     .showHelpOnFail(true)
 
   public async handler(argv: any) {
+    await displayVersionMessage()
     const command = argv.app;
     const outdir = argv.output;
 

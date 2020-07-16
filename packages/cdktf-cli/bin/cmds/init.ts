@@ -7,6 +7,7 @@ import { sscaff } from 'sscaff';
 import * as terraformCloudClient from './helper/terraform-cloud-client';
 import * as chalk from 'chalk';
 import { terraformCheck } from './terraform-check';
+import { displayVersionMessage } from './version-check'
 
 const chalkColour = new chalk.Instance();
 
@@ -29,13 +30,14 @@ class Command implements yargs.CommandModule {
     .option('project-name', { type: 'string', desc: 'The name of the project.'})
     .option('project-description', { type: 'string', desc: 'The description of the project.'})
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
-    .option('local', { type: 'boolean', desc: 'Use local remote state storage for generated Terraform.', default: false})
+    .option('local', { type: 'boolean', desc: 'Use local state storage for generated Terraform.', default: false})
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
     .strict()
     .choices('template', templates);
 
   public async handler(argv: any) {
     await terraformCheck()
+    await displayVersionMessage()
 
     if (fs.readdirSync('.').filter(f => !f.startsWith('.')).length > 0) {
       console.error(chalkColour`{redBright ERROR: Cannot initialize a project in a non-empty directory}`);
@@ -51,7 +53,7 @@ class Command implements yargs.CommandModule {
       token = await terraformLogin.askToLogin();
     } else {
       console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
-This means that your Terraform state file will be stored locally on disk.}`)
+This means that your Terraform state file will be stored locally on disk in a file 'terraform.tfstate' in the root of your project.}`)
     }
 
     // Check if template was specified by the user

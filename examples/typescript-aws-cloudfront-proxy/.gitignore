@@ -2,5 +2,5 @@
 *.js
 node_modules
 cdktf.out
-cdktf.state*
+terraform.tfstate*
 !tsconfig.json

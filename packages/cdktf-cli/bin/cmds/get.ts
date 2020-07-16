@@ -4,6 +4,7 @@ import { readConfigSync } from '../../lib/config';
 import { Language } from '../../lib/get/base';
 import { Get } from './ui/get'
 import { renderInk } from './render-ink'
+import { displayVersionMessage } from './version-check'
 
 const config = readConfigSync();
 const LANGUAGES = [ 'typescript', 'python' ];
@@ -25,6 +26,7 @@ class Command implements yargs.CommandModule {
     .option('language', { default: config.language, required: true, type: 'string', desc: 'Output programming language', alias: 'l', choices: LANGUAGES });
 
   public async handler(argv: any) {
+    await displayVersionMessage()
     const args = argv as Arguments
     const providers = config.terraformProviders ?? [];
     const modules = config.terraformModules ?? [];

@@ -2,4 +2,4 @@ dist/
 imports/
 .terraform
 cdktf.out
-cdktf.state*
+terraform.tfstate*

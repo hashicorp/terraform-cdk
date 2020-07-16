@@ -27,6 +27,8 @@ jobs:
         run: yarn package
       - name: integration tests
         run: yarn integration
+        env:
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
