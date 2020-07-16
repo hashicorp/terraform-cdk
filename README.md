@@ -40,6 +40,7 @@ Choose a language:
 
 ## Documentation
 
+* Install and run a quick start tutorial at [HashiCorp Learn](https://learn.hashicorp.com/terraform/cdktf/cdktf-install)
 * Explore the CDK for Terraform [CLI](./docs/cli-commands.md).
 * Defining Terraform [outputs](./docs/working-with-cdk-for-terraform/terraform-outputs.md).
 * Using Terraform [remote backend](./docs/working-with-cdk-for-terraform/remote-backend.md).
