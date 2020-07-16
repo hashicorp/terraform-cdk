@@ -8,9 +8,9 @@ class KubeStack extends TerraformStack {
 
     new KubernetesProvider(this, 'kind', {});
 
-    const exampleNamespace = new Namespace(this, 'tf-cdk-exmaple', {
+    const exampleNamespace = new Namespace(this, 'tf-cdk-example', {
       metadata: [{
-        name: 'tf-cdk-exmaple'
+        name: 'tf-cdk-example'
       }]
     })
 
