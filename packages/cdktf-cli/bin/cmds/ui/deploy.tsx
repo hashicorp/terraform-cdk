@@ -70,7 +70,7 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
 
   return (
     <Box>
-      Do you want to continue (Y/n)?&nbsp;
+      Do you want to continue (y/N)?&nbsp;
       <ConfirmInput
         value={value}
         onChange={setValue}
