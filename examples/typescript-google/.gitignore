@@ -6,3 +6,4 @@ terraform.tfstate*
 .gen
 .terraform
 google.json
+!tsconfig.json
