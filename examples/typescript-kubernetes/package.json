@@ -1,0 +1,30 @@
+{
+  "name": "typescript-kubernetes",
+  "version": "1.0.0",
+  "main": "main.js",
+  "types": "main.ts",
+  "license": "MPL-2.0",
+  "private": true,
+  "scripts": {
+    "get": "cdktf get",
+    "build": "yarn get && tsc",
+    "synth": "cdktf synth",
+    "compile": "tsc --pretty",
+    "watch": "tsc -w",
+    "test": "echo ok",
+    "upgrade": "npm i cdktf@latest cdktf-cli@latest",
+    "upgrade:next": "npm i cdktf@next cdktf-cli@next"
+  },
+  "engines": {
+    "node": ">=10.12"
+  },
+  "dependencies": {
+    "cdktf": "0.0.11-pre.8757404fa25b6e405f1a51eac11b96943ccb372e",
+    "constructs": "^3.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.23",
+    "cdktf-cli": "0.0.11-pre.8757404fa25b6e405f1a51eac11b96943ccb372e",
+    "typescript": "^3.9.6"
+  }
+}
