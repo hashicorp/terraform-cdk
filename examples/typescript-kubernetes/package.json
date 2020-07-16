@@ -19,12 +19,12 @@
     "node": ">=10.12"
   },
   "dependencies": {
-    "cdktf": "0.0.11-pre.8757404fa25b6e405f1a51eac11b96943ccb372e",
+    "cdktf": "0.0.0",
     "constructs": "^3.0.4"
   },
   "devDependencies": {
     "@types/node": "^14.0.23",
-    "cdktf-cli": "0.0.11-pre.8757404fa25b6e405f1a51eac11b96943ccb372e",
+    "cdktf-cli": "0.0.0",
     "typescript": "^3.9.6"
   }
 }
