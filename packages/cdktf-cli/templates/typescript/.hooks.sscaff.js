@@ -27,7 +27,10 @@ exports.post = ctx => {
 function installDeps(deps, isDev) {
   const devDep = isDev ? '-D' : '';
   // make sure we're installing dev dependencies as well
-  execSync(`NODE_ENV=development npm install ${devDep} ${deps.join(' ')}`, { stdio: 'inherit' });
+  const env = Object.assign({}, process.env)
+  env['NODE_ENV'] = 'development'
+
+  execSync(`npm install ${devDep} ${deps.join(' ')}`, { stdio: 'inherit', env });
 }
 
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
