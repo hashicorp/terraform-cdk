@@ -14,7 +14,7 @@ class MyStack extends TerraformStack {
       location: 'uksouth',
       addressSpace: ['10.0.0.0/24'],
       name: 'TerraformVNet',
-      resourceGroupName: 'dev-rg'
+      resourceGroupName: '<YOUR_RESOURCE_GROUP_NAME>'
     })
   }
 }
