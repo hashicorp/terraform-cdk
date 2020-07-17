@@ -36,17 +36,19 @@ Choose a language:
 * [typescript-aws](./examples/typescript-aws)
 * [typescript-aws-cloudfront-proxy](./examples/typescript-aws-cloudfront-proxy)
 * [python-aws](./examples/python-aws)
-
+* [typescript-docker](./examples/typescript-docker)
+* [typescript-google](./examples/typescript-google)
 
 ## Documentation
 
 * Install and run a quick start tutorial at [HashiCorp Learn](https://learn.hashicorp.com/terraform/cdktf/cdktf-install)
+* Using CDK for Terraform CLI for importing Terraform [modules and providers](./docs/working-with-cdk-for-terraform/importing-providers-and-modules.md).
 * Explore the CDK for Terraform [CLI](./docs/cli-commands.md).
 * Defining Terraform [outputs](./docs/working-with-cdk-for-terraform/terraform-outputs.md).
 * Using Terraform [remote backend](./docs/working-with-cdk-for-terraform/remote-backend.md).
 * Using the CDK for Terraform [escape hatch](./docs/working-with-cdk-for-terraform/escape-hatch.md).
 * Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
-* Using Teraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
+* Using Terraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
 * Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
 
 ## Contributing and Feedback
