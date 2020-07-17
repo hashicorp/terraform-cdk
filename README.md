@@ -38,6 +38,7 @@ Choose a language:
 * [python-aws](./examples/python-aws)
 * [typescript-docker](./examples/typescript-docker)
 * [typescript-google](./examples/typescript-google)
+* [typescript-azure](./examples/typescript-azure)
 
 ## Documentation
 
