@@ -1,6 +1,6 @@
-# Example for Google Cloud based on Typescript
+# Example for Azure Cloud based on Typescript
 
-This resembles the example for the Google Cloud at [Hashicorp Learn](https://learn.hashicorp.com/terraform/gcp/build)
+This is based on the provided examples for AWS and Google but adapted to Azure
 
 ## Usage
 
@@ -18,7 +18,7 @@ cdktf get
 
 You can now edit the `main.ts` file if you want to modify any code.
 
-Make sure to create your credential file `google.json` to make this example usable.
+Make sure to run az login on the shell where this will run. Alternatively, put client id and secret in configuration for automation scenarios
 
 Generate Terraform configuration
 
