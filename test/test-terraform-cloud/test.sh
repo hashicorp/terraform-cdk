@@ -4,6 +4,10 @@ set -e
 # Disable spinner even when we have a TTY
 export CI='1'
 
+# Don't run on external Pull Requests - Will be addressed properly with
+# https://github.com/hashicorp/terraform-cdk/issues/200
+[ -z "$TERRAFORM_CLOUD_TOKEN" ] && echo "Need to set TERRAFORM_CLOUD_TOKEN - skipping" && exit 0;
+
 scriptdir=$(cd $(dirname $0) && pwd)
 
 cd $(mktemp -d)
