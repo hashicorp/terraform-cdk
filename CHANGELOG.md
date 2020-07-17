@@ -1,3 +1,9 @@
+## 0.0.12
+
+**Fixed bugs:**
+
+- `cdktf init` was broken on Windows [\#198](https://github.com/hashicorp/terraform-cdk/issues/198)
+
 ## 0.0.11
 
 **Implemented enhancements:**
