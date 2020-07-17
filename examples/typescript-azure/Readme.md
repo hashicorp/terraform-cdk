@@ -18,7 +18,9 @@ cdktf get
 
 You can now edit the `main.ts` file if you want to modify any code.
 
-Make sure to run az login on the shell where this will run. Alternatively, put client id and secret in configuration for automation scenarios
+Make sure to run az login on the shell where this will run. Alternatively, put client id and secret in configuration for automation scenarios.
+
+You must also set `resourceGroupName` to your personal resource group name in `main.ts`.
 
 Generate Terraform configuration
 
