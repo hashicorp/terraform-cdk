@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minimal configuration 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"test_DBA94737\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/test\\",
+            \\"uniqueId\\": \\"test_DBA94737\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`with complex computed list 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test-data-source\\"
+    }
+  },
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"testdatasource_test_18A2C18D\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test-data-source/test\\",
+            \\"uniqueId\\": \\"testdatasource_test_18A2C18D\\"
+          }
+        }
+      }
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"testdatasource_testresource_11F97659\\": {
+        \\"name\\": \\"\${data.test_data_source.testdatasource_test_18A2C18D.complex_computed_list.0.id}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test-data-source/test-resource\\",
+            \\"uniqueId\\": \\"testdatasource_testresource_11F97659\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;

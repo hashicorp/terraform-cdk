@@ -145,6 +145,40 @@ exports[`serialize list interpolation 1`] = `
 }"
 `;
 
+exports[`with complex computed list 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"tests\\"
+    }
+  },
+  \\"resource\\": {
+    \\"other_test_resource\\": {
+      \\"tests_othertest_E4B4389F\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"tests/othertest\\",
+            \\"uniqueId\\": \\"tests_othertest_E4B4389F\\"
+          }
+        }
+      }
+    },
+    \\"test_resource\\": {
+      \\"tests_test_A231270F\\": {
+        \\"name\\": \\"\${other_test_resource.tests_othertest_E4B4389F.complex_computed_list.0.id}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"tests/test\\",
+            \\"uniqueId\\": \\"tests_test_A231270F\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`with provider alias 1`] = `
 "{
   \\"//\\": {
