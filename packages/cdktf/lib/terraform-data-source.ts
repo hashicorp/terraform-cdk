@@ -108,7 +108,7 @@ export class TerraformDataSource extends TerraformElement implements ITerraformR
     };
   }
 
-  private interpolationForAttribute(terraformAttribute: string) {
+  public interpolationForAttribute(terraformAttribute: string) {
     return `\${data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
   }
 }

@@ -13,6 +13,8 @@ export interface ITerraformResource {
   count?: number;
   provider?: TerraformProvider;
   lifecycle?: TerraformResourceLifecycle;
+
+  interpolationForAttribute(terraformAttribute: string): string;
 }
 
 export interface TerraformResourceLifecycle {
@@ -141,7 +143,7 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
     };
   }
 
-  private interpolationForAttribute(terraformAttribute: string) {
+  public interpolationForAttribute(terraformAttribute: string) {
     return `\${${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
   }
 }
