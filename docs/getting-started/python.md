@@ -22,13 +22,14 @@ mkdir hello-terraform
 cd hello-terraform
 cdktf init --template="python" --local
 ```
+
 This will initialize a brand new CDK for Terraform project in Python using an interactive command.
 
 ```bash
 Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
 This means that your Terraform state file will be stored locally on disk in a file 'terraform.tfstate' in the root of your project.
 
-We will now setup the project. Please enter the details for your project.
+We will now set up the project. Please enter the details for your project.
 If you want to exit, press ^C.
 
 Project Name: (default: 'hello-terraform')
@@ -140,7 +141,7 @@ cat cdk.json
 ## Deploy Application
 
 > Note: You can use Terraform commands like `terraform init`, `terraform plan`, and `terraform apply` with the generated
-Terraform JSON configuration (learn more [here](../working-with-cdk-for-terraform/synthesizing-config.md)) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
+> Terraform JSON configuration (learn more [here](../working-with-cdk-for-terraform/synthesizing-config.md)) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
 
 You can now deploy your CDK for Terraform application using the `cdktf deploy` command.
 
