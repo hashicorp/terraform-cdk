@@ -1,6 +1,6 @@
 /**
  * Merges `source` into `target`, overriding any existing values.
- * `null`s will cause a value to be deleted.
+ * `undefined` will cause a value to be deleted.
  */
 export function deepMerge(target: any, ...sources: any[]) {
   for (const source of sources) {
