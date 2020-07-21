@@ -1,12 +1,18 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack, TerraformOutput } from 'cdktf';
+import { App, TerraformStack, TerraformOutput, S3Backend } from 'cdktf';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
 import { DataAwsRegion, AwsProvider } from './.gen/providers/aws'
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
-    super(scope, id);
+    super(scope, id, {
+      requiredVersion: '>= 0.12.0',
+      backend: new S3Backend({
+        bucket: 'mybucket',
+        key: 'path/to/mystate'
+      })
+    });
 
     new AwsProvider(this, 'aws', {
       region: 'eu-central-1'
