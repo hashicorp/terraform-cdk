@@ -28,7 +28,7 @@ This will initialize a brand new CDK for Terraform project in TypeScript using a
 Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
 This means that your Terraform state file will be stored locally on disk in a file 'terraform.tfstate' in the root of your project.
 
-We will now setup the project. Please enter the details for your project.
+We will now set up the project. Please enter the details for your project.
 If you want to exit, press ^C.
 
 Project Name: (default: 'hello-terraform')
@@ -46,20 +46,19 @@ vim main.ts
 ```
 
 ```typescript
-import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
     // define resources here
-
   }
 }
 
 const app = new App();
-new MyStack(app, 'hello-terraform');
+new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
@@ -68,27 +67,27 @@ Refer to the [examples](../../examples/) directory for additional examples.
 Let's take a simple TypeScript application that uses the CDK for Terraform package.
 
 ```typescript
-import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
-import { AwsProvider, Instance } from './.gen/providers/aws';
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, Instance } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new AwsProvider(this, 'aws', {
-      region: 'us-east-1'
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
     });
 
-    new Instance(this, 'Hello', {
+    new Instance(this, "Hello", {
       ami: "ami-2757f631",
-      instanceType: "t2.micro"
+      instanceType: "t2.micro",
     });
   }
 }
 
 const app = new App();
-new MyStack(app, 'hello-terraform');
+new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
@@ -146,7 +145,7 @@ cat cdktf.out/cdk.tf.json
 **Deploy Application**
 
 > Note: You can use Terraform commands like `terraform init`, `terraform plan`, and `terraform apply` with the generated
-Terraform JSON configuration (learn more [here](../working-with-cdk-for-terraform/synthesizing-config.md)) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
+> Terraform JSON configuration (learn more [here](../working-with-cdk-for-terraform/synthesizing-config.md)) or optionally continue to use the CDK for Terraform CLI for a first-class experience.
 
 You can now deploy your CDK for Terraform application using the `cdktf deploy` command.
 
