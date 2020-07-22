@@ -14,11 +14,11 @@ export class TerraformElement extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id)
 
-    this.constructsNode.addMetadata('stacktrace', 'trace')
+    this.constructNode.addMetadata('stacktrace', 'trace')
     this.stack = TerraformStack.of(this);
   }
 
-  public get constructsNode(): Node {
+  public get constructNode(): Node {
     return Node.of(this)
   }
 
@@ -27,7 +27,7 @@ export class TerraformElement extends Construct {
   }
 
   public get friendlyUniqueId() {
-    const node = this.constructsNode
+    const node = this.constructNode
     const components = node.scopes.slice(1).map(c => Node.of(c).id);
     return components.length > 0 ? makeUniqueId(components) : '';
   }
@@ -35,9 +35,9 @@ export class TerraformElement extends Construct {
   protected get nodeMetadata(): {[key: string]: any} {
     return {
       metadata: {
-        path: this.constructsNode.path,
+        path: this.constructNode.path,
         uniqueId: this.friendlyUniqueId,
-        stackTrace: this.constructsNode.metadata.find((e) => e.type === 'stacktrace')?.trace
+        stackTrace: this.constructNode.metadata.find((e) => e.type === 'stacktrace')?.trace
       } as TerraformElementMetadata
     }
   }
