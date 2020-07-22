@@ -16,7 +16,7 @@ export interface TerraformStackMetadata {
 
 export interface TerraformConfig {
   readonly requiredVersion?: string;
-  readonly requiredProviders?: { [key:string]:string; };
+  readonly requiredProviders?: { [key: string]: string };
   readonly experiments?: string[];
   readonly backend?: ITerraformBackend;
 }
