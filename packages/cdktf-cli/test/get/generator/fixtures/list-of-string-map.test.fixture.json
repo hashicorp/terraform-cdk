@@ -1,0 +1,27 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_list_of_string_map": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "keys": {
+                "type": [
+                  "list",
+                  [
+                    "map",
+                    "string"
+                  ]
+                ],
+                "description": "List of key versions in the keyring.",
+                "computed": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}

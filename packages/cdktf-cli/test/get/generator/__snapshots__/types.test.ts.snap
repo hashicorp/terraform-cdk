@@ -969,6 +969,83 @@ export class IncompatibleAttributeNames extends TerraformResource {
 "
 `;
 
+exports[`list of string map attribute 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/list_of_string_map.html
+// generated from terraform resource schema
+
+/*
+{
+  \\"version\\": 1,
+  \\"block\\": {
+    \\"attributes\\": {
+      \\"keys\\": {
+        \\"type\\": [
+          \\"list\\",
+          [
+            \\"map\\",
+            \\"string\\"
+          ]
+        ],
+        \\"description\\": \\"List of key versions in the keyring.\\",
+        \\"computed\\": true
+      }
+    }
+  },
+  \\"block_types\\": {}
+}
+*/
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
+import { StringMap } from \\"cdktf\\";
+
+// Configuration
+
+export interface ListOfStringMapConfig extends TerraformMetaArguments {
+}
+
+// Resource
+
+export class ListOfStringMap extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: ListOfStringMapConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_list_of_string_map',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // keys - computed: true, optional: false, required: true
+  public keys(index: string) {
+    return new StringMap(this, 'keys', index);
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  public synthesizeAttributes(): { [name: string]: any } {
+    return {
+    };
+  }
+}
+"
+`;
+
 exports[`number list attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/number_list.html
 // generated from terraform resource schema
