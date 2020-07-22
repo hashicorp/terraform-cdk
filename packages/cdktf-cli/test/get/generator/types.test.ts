@@ -202,7 +202,7 @@ test('incompatible attribute names', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only('list of string map attribute', async () => {
+test('list of string map attribute', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'list-of-string-map.test'));
   const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'list-of-string-map.test.fixture.json'), 'utf-8'));

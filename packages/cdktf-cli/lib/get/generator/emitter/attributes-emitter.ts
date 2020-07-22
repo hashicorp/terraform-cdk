@@ -9,6 +9,7 @@ export class AttributesEmitter {
     this.code.line(`// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`);
 
     switch (true) {
+      case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList && att.type.isMap): return this.emitComputedComplexListMap(att);
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexList(att);
       case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptional(att);
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
@@ -62,6 +63,12 @@ export class AttributesEmitter {
   private emitComputedComplexList(att: AttributeModel) {
     this.code.openBlock(`public ${att.name}(index: string)`);
       this.code.line(`return new ${att.type.name}(this, '${att.terraformName}', index);`);
+    this.code.closeBlock();
+  }
+
+  private emitComputedComplexListMap(att: AttributeModel) {
+    this.code.openBlock(`public ${att.name}(index: string, key: string): ${this.determineMapType(att)}`);
+      this.code.line(`return new ${att.type.name}(this, \`${att.terraformName}.\${index}\`).lookup(key);`);
     this.code.closeBlock();
   }
 

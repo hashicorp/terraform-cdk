@@ -1030,8 +1030,8 @@ export class ListOfStringMap extends TerraformResource {
   // ==========
 
   // keys - computed: true, optional: false, required: true
-  public keys(index: string) {
-    return new StringMap(this, 'keys', index);
+  public keys(index: string, key: string): string {
+    return new StringMap(this, \`keys.\${index}\`).lookup(key);
   }
 
   // =========
