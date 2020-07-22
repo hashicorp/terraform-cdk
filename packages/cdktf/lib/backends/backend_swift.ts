@@ -1,61 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class SwiftBackend implements ITerraformBackend {
-    readonly name: string = "swift";
-    authUrl?: string;
-    cloud?: string;
-    container: string;
-    stateName?: string;
-    userName?: string;
-    userId?: string;
-    password?: string;
-    applicationCredentialId?: string;
-    applicationCredentialName?: string;
-    applicationCredentialSecret?: string;
-    token?: string;
-    regionName?: string;
-    tenantId?: string;
-    tenantName?: string;
-    domainId?: string;
-    domainName?: string;
-    userDomainName?: string;
-    userDomainId?: string;
-    projectDomainName?: string;
-    defaultDomain?: string;
-    insecure?: boolean;
-    cacertFile?: string;
-    cert?: string;
-    key?: string;
-    archiveContainer?: string;
-    expireAfter?: string;
+export class SwiftBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: SwiftBackendProps) {
+        super(scope, "backend", "swift");
+    }
 
-    public constructor(options: SwiftBackendProps) {
-        this.authUrl = options.authUrl;
-        this.cloud = options.cloud;
-        this.container = options.container;
-        this.stateName = options.stateName;
-        this.userName = options.userName;
-        this.userId = options.userId;
-        this.password = options.password;
-        this.applicationCredentialId = options.applicationCredentialId;
-        this.applicationCredentialName = options.applicationCredentialName;
-        this.applicationCredentialSecret = options.applicationCredentialSecret;
-        this.token = options.token;
-        this.regionName = options.regionName;
-        this.tenantId = options.tenantId;
-        this.tenantName = options.tenantName;
-        this.domainId = options.domainId;
-        this.domainName = options.domainName;
-        this.userDomainName = options.userDomainName;
-        this.userDomainId = options.userDomainId;
-        this.projectDomainName = options.projectDomainName;
-        this.defaultDomain = options.defaultDomain;
-        this.insecure = options.insecure;
-        this.cacertFile = options.cacertFile;
-        this.cert = options.cert;
-        this.key = options.key;
-        this.archiveContainer = options.archiveContainer;
-        this.expireAfter = options.expireAfter;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

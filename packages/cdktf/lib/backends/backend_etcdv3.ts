@@ -1,25 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class EtcdV3Backend implements ITerraformBackend {
-    readonly name: string = "etcdv3";
-    endpoints: string[];
-    username?: string;
-    password?: string;
-    prefix?: string;
-    lock?: boolean;
-    cacertPath?: string;
-    cerPath?: string;
-    keyPath?: string;
+export class EtcdV3Backend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: EtcdV3BackendProps) {
+        super(scope, "backend", "etcdv3");
+    }
 
-    public constructor(options: EtcdV3BackendProps) {
-        this.endpoints = options.endpoints;
-        this.username = options.username;
-        this.password = options.password;
-        this.prefix = options.prefix;
-        this.lock = options.lock;
-        this.cacertPath = options.cacertPath;
-        this.cerPath = options.cerPath;
-        this.keyPath = options.keyPath;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

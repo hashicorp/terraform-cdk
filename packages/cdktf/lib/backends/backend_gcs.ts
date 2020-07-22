@@ -1,19 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class GcsBackend implements ITerraformBackend {
-    readonly name: string = "gcs";
-    bucket: string;
-    credentials?: string;
-    accessToken?: string;
-    prefix?: string;
-    encryptionKey?: string;
+export class GcsBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: GcsBackendProps) {
+        super(scope, "backend", "gcs");
+    }
 
-    public constructor(options: GcsBackendProps) {
-        this.bucket = options.bucket;
-        this.credentials = options.credentials;
-        this.accessToken = options.accessToken;
-        this.prefix = options.prefix;
-        this.encryptionKey = options.encryptionKey;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

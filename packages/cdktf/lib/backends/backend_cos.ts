@@ -1,25 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class CosBackend implements ITerraformBackend {
-    readonly name: string = "cos";
-    secretId?: string;
-    secretKey?: string;
-    region?: string;
-    bucket: string;
-    prefix?: string;
-    key?: string;
-    encrypt?: boolean;
-    acl?: string;
+export class CosBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: CosBackendProps) {
+        super(scope, "backend", "cos");
+    }
 
-    public constructor(options: CosBackendProps) {
-        this.secretId = options.secretId;
-        this.secretKey = options.secretKey;
-        this.region = options.region;
-        this.bucket = options.bucket;
-        this.prefix = options.prefix;
-        this.key = options.key;
-        this.encrypt = options.encrypt;
-        this.acl = options.acl;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

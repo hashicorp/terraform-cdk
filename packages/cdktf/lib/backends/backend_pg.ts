@@ -1,15 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class PgBackend implements ITerraformBackend {
-    readonly name: string = "pg";
-    connStr: string;
-    schemaName?: string;
-    skipSchemaCreation?: boolean;
+export class PgBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: PgBackendProps) {
+        super(scope, "backend", "pg");
+    }
 
-    public constructor(options: PgBackendProps) {
-        this.connStr = options.connStr;
-        this.schemaName = options.schemaName;
-        this.skipSchemaCreation = options.skipSchemaCreation;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

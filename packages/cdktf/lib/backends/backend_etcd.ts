@@ -1,17 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class EtcdBackend implements ITerraformBackend {
-    readonly name: string = "etcd";
-    path: string;
-    endpoints: string;
-    username?: string;
-    password?: string;
+export class EtcdBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: EtcdBackendProps) {
+        super(scope, "backend", "etcd");
+    }
 
-    public constructor(options: EtcdBackendProps) {
-        this.path = options.path;
-        this.endpoints = options.endpoints;
-        this.username = options.username;
-        this.password = options.password;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

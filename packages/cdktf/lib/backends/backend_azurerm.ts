@@ -1,37 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class AzurermBackend implements ITerraformBackend {
-    readonly name: string = "azurerm";
-    storageAccountName: string;
-    containerName: string;
-    key: string;
-    environment?: string;
-    endpoint?: string;
-    subscriptionId?: string;
-    tenantId?: string;
-    msiEndpoint?: string;
-    useMsi?: boolean;
-    sasToken?: string;
-    accessKey?: string;
-    resourceGroupName?: string;
-    clientId?: string;
-    clientSecret?: string;
+export class AzurermBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: AzurermBackendProps) {
+        super(scope, "backend", "azurerm");
+    }
 
-    public constructor(options: AzurermBackendProps) {
-        this.storageAccountName = options.storageAccountName;
-        this.containerName = options.containerName;
-        this.key = options.key;
-        this.environment = options.environment;
-        this.endpoint = options.endpoint;
-        this.subscriptionId = options.subscriptionId;
-        this.tenantId = options.tenantId;
-        this.msiEndpoint = options.msiEndpoint;
-        this.useMsi = options.useMsi;
-        this.sasToken = options.sasToken;
-        this.accessKey = options.accessKey;
-        this.resourceGroupName = options.resourceGroupName;
-        this.clientId = options.clientId;
-        this.clientSecret = options.clientSecret;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

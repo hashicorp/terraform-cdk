@@ -1,33 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class HttpBackend implements ITerraformBackend {
-    readonly name: string = "http";
-    address: string;
-    updateMethod?: string;
-    lockAddress?: string;
-    lockMethod?: string;
-    unlockAddress?: string;
-    unlockMethod?: string;
-    username?: string;
-    password?: string;
-    skipCertVerification?: boolean;
-    retryMax?: number;
-    retryWaitMin?: number;
-    retryWaitMax?: number;
+export class HttpBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: HttpBackendProps) {
+        super(scope, "backend", "http");
+    }
 
-    public constructor(options: HttpBackendProps) {
-        this.address = options.address;
-        this.updateMethod = options.updateMethod;
-        this.lockAddress = options.lockAddress;
-        this.lockMethod = options.lockMethod;
-        this.unlockAddress = options.unlockAddress;
-        this.unlockMethod = options.unlockMethod;
-        this.username = options.username;
-        this.password = options.password;
-        this.skipCertVerification = options.skipCertVerification;
-        this.retryMax = options.retryMax;
-        this.retryWaitMin = options.retryWaitMin;
-        this.retryWaitMax = options.retryWaitMax;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

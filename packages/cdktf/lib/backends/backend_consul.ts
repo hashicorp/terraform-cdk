@@ -1,31 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class ConsulBackend implements ITerraformBackend {
-    readonly name: string = "consul";
-    path: string;
-    accessToken: string;
-    address?: string;
-    scheme?: string;
-    datacenter?: string;
-    httpAuth?: string;
-    gzip?: boolean;
-    lock?: boolean;
-    caFile?: string;
-    certFile?: string;
-    keyFile?: string;
+export class ConsulBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: ConsulBackendProps) {
+        super(scope, "backend", "consul");
+    }
 
-    public constructor(options: ConsulBackendProps) {
-        this.path = options.path;
-        this.accessToken = options.accessToken;
-        this.address = options.address;
-        this.scheme = options.scheme;
-        this.datacenter = options.datacenter;
-        this.httpAuth = options.httpAuth;
-        this.gzip = options.gzip;
-        this.lock = options.lock;
-        this.caFile = options.caFile;
-        this.certFile = options.certFile;
-        this.keyFile = options.keyFile;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

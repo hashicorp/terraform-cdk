@@ -1,61 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class S3Backend implements ITerraformBackend {
-    readonly name: string = "s3";
-    bucket: string;
-    key: string;
-    region?: string;
-    endpoint?: string;
-    encrypt?: boolean;
-    acl?: string;
-    accessKey?: string;
-    secretKey?: string;
-    kmsKeyId?: string;
-    dynamodbTable?: string;
-    profile?: string;
-    sharedCredentialsFile?: string;
-    token?: string;
-    roleArn?: string;
-    assumeRolePolicy?: string;
-    externalId?: string;
-    sessionName?: string;
-    workspaceKeyPrefix?: string;
-    dynamodbEndpoint?: string;
-    iamEndpoint?: string;
-    stsEndpoint?: string;
-    forcePathStyle?: boolean;
-    skipCredentialsValidation?: boolean;
-    skipMetadataApiCheck?: boolean;
-    sseCustomerKey?: string;
-    maxRetries?: number;
+export class S3Backend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: S3BackendProps) {
+        super(scope, "backend", "s3");
+    }
 
-    public constructor(options: S3BackendProps) {
-        this.bucket = options.bucket;
-        this.key = options.key;
-        this.region = options.region;
-        this.endpoint = options.endpoint;
-        this.encrypt = options.encrypt;
-        this.acl = options.acl;
-        this.accessKey = options.accessKey;
-        this.secretKey = options.secretKey;
-        this.kmsKeyId = options.kmsKeyId;
-        this.dynamodbTable = options.dynamodbTable;
-        this.profile = options.profile;
-        this.sharedCredentialsFile = options.sharedCredentialsFile;
-        this.token = options.token;
-        this.roleArn = options.roleArn;
-        this.assumeRolePolicy = options.assumeRolePolicy;
-        this.externalId = options.externalId;
-        this.sessionName = options.sessionName;
-        this.workspaceKeyPrefix = options.workspaceKeyPrefix;
-        this.dynamodbEndpoint = options.dynamodbEndpoint;
-        this.iamEndpoint = options.iamEndpoint;
-        this.stsEndpoint = options.stsEndpoint;
-        this.forcePathStyle = options.forcePathStyle;
-        this.skipCredentialsValidation = options.skipCredentialsValidation;
-        this.skipMetadataApiCheck = options.skipMetadataApiCheck;
-        this.sseCustomerKey = options.sseCustomerKey;
-        this.maxRetries = options.maxRetries;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

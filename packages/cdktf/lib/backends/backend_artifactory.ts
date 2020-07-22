@@ -1,19 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class ArtifactoryBackend implements ITerraformBackend {
-    readonly name: string = "artifactory";
-    username: string;
-    password: string;
-    url: string;
-    repo: string;
-    subpath: string;
+export class ArtifactoryBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: ArtifactoryBackendProps) {
+        super(scope, "backend", "artifactory");
+    }
 
-    public constructor(options: ArtifactoryBackendProps) {
-        this.username = options.username;
-        this.password = options.password;
-        this.url = options.url;
-        this.repo = options.repo;
-        this.subpath = options.subpath;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

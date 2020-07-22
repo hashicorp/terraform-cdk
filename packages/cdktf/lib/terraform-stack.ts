@@ -3,9 +3,8 @@ import { resolve } from './_tokens'
 import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
-import { deepMerge, keysToSnakeCase } from './util';
+import { deepMerge } from './util';
 import { TerraformProvider } from './terraform-provider';
-import { ITerraformBackend } from './terraform-backend';
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
@@ -14,19 +13,12 @@ export interface TerraformStackMetadata {
   readonly version: string;
 }
 
-export interface TerraformConfig {
-  readonly requiredVersion?: string;
-  readonly requiredProviders?: { [key: string]: string };
-  readonly experiments?: string[];
-  readonly backend?: ITerraformBackend;
-}
-
 export class TerraformStack extends Construct {
   public readonly artifactFile: string;
   private readonly rawOverrides: any = {}
   private readonly cdktfVersion: string;
 
-  constructor(scope: Construct, id: string, private readonly config?: TerraformConfig) {
+  constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.artifactFile = `cdk.tf.json`;
@@ -120,26 +112,9 @@ export class TerraformStack extends Construct {
 
     visit(this);
 
-    this.visitConfig(tf);
-
     deepMerge(tf, this.rawOverrides);
 
     return resolve(this, tf);
-  }
-
-  private visitConfig(target: any): void {
-    if (this.config) {
-      const obj: {[k: string]: any} = { terraform: keysToSnakeCase({ ...this.config }) };
-      if (obj.backend) {
-          const name = obj.backend.name;
-          const backendObj = keysToSnakeCase({ ...obj.backend });
-          delete backendObj.name;
-          obj.backend = {};
-          obj.backend[name] = backendObj;
-      }
-
-      deepMerge(target, obj);
-    }
   }
 
   public onSynthesize(session: ISynthesisSession) {

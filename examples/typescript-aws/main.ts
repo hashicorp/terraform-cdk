@@ -6,12 +6,11 @@ import { DataAwsRegion, AwsProvider } from './.gen/providers/aws'
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
-    super(scope, id, {
-      requiredVersion: '>= 0.12.0',
-      backend: new S3Backend({
-        bucket: 'mybucket',
-        key: 'path/to/mystate'
-      })
+    super(scope, id);
+
+    new S3Backend(this, {
+      bucket: 'mybucket',
+      key: 'path/to/mystate'
     });
 
     new AwsProvider(this, 'aws', {

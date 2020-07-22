@@ -1,17 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class RemoteBackend implements ITerraformBackend {
-    readonly name: string = "remote";
-    hostname?: string;
-    organization: string;
-    token?: string;
-    workspaces: IRemoteWorkspace;
+export class RemoteBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: RemoteBackendProps) {
+        super(scope, "backend", "remote");
+    }
 
-    public constructor(options: RemoteBackendProps) {
-        this.hostname = options.hostname;
-        this.organization = options.organization;
-        this.token = options.token;
-        this.workspaces = options.workspaces;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 

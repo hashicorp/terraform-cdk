@@ -1,13 +1,14 @@
-import { ITerraformBackend } from '../terraform-backend';
+import { Construct } from "constructs";
+import { TerraformBackend } from '../terraform-backend';
+import { keysToSnakeCase } from "../util";
 
-export class LocalBackend implements ITerraformBackend{
-    readonly name: string = "local";
-    path?: string;
-    workspaceDir?: string;
+export class LocalBackend extends TerraformBackend {
+    constructor(scope: Construct, private readonly props: LocalBackendProps) {
+        super(scope, "backend", "local");
+    }
 
-    public constructor(options: LocalBackendProps) {
-        this.path = options.path;
-        this.workspaceDir = options.workspaceDir;
+    protected synthesizeAttributes(): { [name: string]: any } {
+        return keysToSnakeCase({ ...this.props });
     }
 }
 
