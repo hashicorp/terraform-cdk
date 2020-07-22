@@ -7,8 +7,8 @@ class MyStack extends TerraformStack {
     super(scope, name);
 
     new VaultProvider(this, 'vault', {
-      address: 'http://0.0.0.0:8200',
-      token: "YOUR_VAULT_TOKEN"
+      address: process.env.VAULT_ADDR || 'http://0.0.0.0:8200',
+      token: process.env.VAULT_TOKEN
     })
 
     const mount = new Mount(this, 'mount', {
