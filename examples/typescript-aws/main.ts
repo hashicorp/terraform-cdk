@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack, TerraformOutput, S3Backend } from 'cdktf';
+import { App, TerraformStack, TerraformOutput } from 'cdktf';
 import { DynamodbTable } from './.gen/providers/aws/dynamodb-table';
 import { SnsTopic } from './.gen/providers/aws/sns-topic';
 import { DataAwsRegion, AwsProvider } from './.gen/providers/aws'
@@ -7,11 +7,6 @@ import { DataAwsRegion, AwsProvider } from './.gen/providers/aws'
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-
-    new S3Backend(this, {
-      bucket: 'mybucket',
-      key: 'path/to/mystate'
-    });
 
     new AwsProvider(this, 'aws', {
       region: 'eu-central-1'
