@@ -56,13 +56,17 @@ cdktf synth
 
 *** The above command will create a folder called cdktf.out that contains all Terraform JSON configuration that was generated.
 
-- Run Terraform commands
 
+Run Terraform commands
+
+#+BEGIN_SRC
 cd cdktf.out
 terraform init
 terraform plan
 terraform apply
+#+END_SRC
 
+OR
 
 *** Finally Deploy
 
