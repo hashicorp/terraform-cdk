@@ -33,6 +33,18 @@ Invalid values:
 }
 #+END_SRC
 
+*** Update code
+
+#+BEGIN_SRC python3
+docker_image = Image(self, 'nginx-latest', name='nginx:latest', keep_locally=False)
+
+        Container(self, 'nginx-cdktf', name='nginx-python-cdktf',
+                  image=docker_image.name, ports=[
+                      {
+                          'internal': 80,
+                          'external': 8000
+                      }], privileged=False)
+#+END_SRC
 
 *** Generate CDK for Terraform constructs for Terraform provides and modules used in the project.
 
