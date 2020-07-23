@@ -35,5 +35,5 @@ export interface OssAssumeRole {
     readonly roleArn: string;
     readonly policy?: string;
     readonly sessionName?: string;
-    readonly sessionExpiration?: string;
+    readonly sessionExpiration?: number;
 }

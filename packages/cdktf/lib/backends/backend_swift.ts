@@ -32,6 +32,7 @@ export interface SwiftBackendProps {
     readonly userDomainName?: string;
     readonly userDomainId?: string;
     readonly projectDomainName?: string;
+    readonly projectDomainId?: string;
     readonly defaultDomain?: string;
     readonly insecure?: boolean;
     readonly cacertFile?: string;

@@ -19,6 +19,6 @@ export interface EtcdV3BackendProps {
     readonly prefix?: string;
     readonly lock?: boolean;
     readonly cacertPath?: string;
-    readonly cerPath?: string;
+    readonly certPath?: string;
     readonly keyPath?: string;
 }
