@@ -1,0 +1,71 @@
+#+title: Python-Docker
+
+Install [[https://pipenv.pypa.io/en/latest/][pipenv]]
+
+*** Create a directory for the project
+
+
+#+BEGIN_SRC
+mkdir python-docker && cd $_
+#+END_SRC
+
+*** Initialize the project with the init command. For this quick start, use the --local flag so that all state will be stored locally.
+
+#+BEGIN_SRC
+cdktf init --template=python --local
+#+END_SRC
+
+*** Make sure you pass `python` and not `python3` else you will get below error
+
+#+BEGIN_SRC
+Invalid values:
+  Argument: template, Given: "python3", Choices: "python", "typescript"
+#+END_SRC
+
+*** Change the provider in cdktf.json from aws to docker
+
+#+BEGIN_SRC
+{
+  "language": "python",
+  "app": "pipenv run ./main.py",
+  "terraformProviders": ["docker"],
+  "codeMakerOutput": "imports"
+}
+#+END_SRC
+
+
+*** Generate CDK for Terraform constructs for Terraform provides and modules used in the project.
+
+#+BEGIN_SRC
+cdktf get
+#+END_SRC
+
+*** Add the dependencies in `Pipenv` file in our case
+
+#+BEGIN_SRC
+[packages]
+constructs
+cdktf
+#+END_SRC
+
+*** Compile and generate Terraform configuration
+
+#+BEGIN_SRC
+cdktf synth
+#+END_SRC
+
+*** The above command will create a folder called cdktf.out that contains all Terraform JSON configuration that was generated.
+
+- Run Terraform commands
+
+cd cdktf.out
+terraform init
+terraform plan
+terraform apply
+
+
+*** Finally Deploy
+
+#+BEGIN_SRC
+cdktf deploy
+#+END_SRC

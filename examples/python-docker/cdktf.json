@@ -1,0 +1,6 @@
+{
+  "language": "python3",
+  "app": "pipenv run python3 ./main.py",
+  "terraformProviders": ["docker"],
+  "codeMakerOutput": "imports"
+}
