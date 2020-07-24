@@ -1,0 +1,6 @@
+{
+  "language": "python",
+  "app": "pipenv run ./main.py",
+  "terraformProviders": ["kubernetes@~> 1.11.3"],
+  "codeMakerOutput": "imports"
+}
