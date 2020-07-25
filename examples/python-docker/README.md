@@ -69,3 +69,8 @@ terraform plan
 terraform apply
 ```
 
+OR
+
+```bash
+cdktf deploy
+```
