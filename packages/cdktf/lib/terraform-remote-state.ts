@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { Token } from "./tokens";
+import { deepMerge } from "./util";
 
 export interface TerraformRemoteStateConfig {
     readonly workspace?: string;
@@ -49,12 +50,13 @@ export abstract class TerraformRemoteState extends TerraformElement {
             data: {
                 // eslint-disable-next-line @typescript-eslint/camelcase
                 terraform_remote_state: {
-                    [this.friendlyUniqueId]: {
+                    [this.friendlyUniqueId]: deepMerge({
                         backend: this.backend,
                         workspace: this.config?.workspace,
                         defaults: this.config?.defaults,
                         config: { ...this.synthesizeAttributes() }
-                    }
+                    },
+                        this.rawOverrides)
                 }
             }
         };
