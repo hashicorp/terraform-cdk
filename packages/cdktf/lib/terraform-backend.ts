@@ -1,5 +1,6 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
+import { deepMerge } from "./util";
 
 export abstract class TerraformBackend extends TerraformElement {
     constructor(scope: Construct, id: string, protected readonly name: string) {
@@ -18,7 +19,7 @@ export abstract class TerraformBackend extends TerraformElement {
         return {
             terraform: {
                 backend: {
-                    [this.name]: { ...this.synthesizeAttributes() }
+                    [this.name]: deepMerge(this.synthesizeAttributes(), this.rawOverrides)
                 }
             }
         };

@@ -10,6 +10,7 @@ export interface TerraformElementMetadata {
 
 export class TerraformElement extends Construct {
   public readonly stack: TerraformStack;
+  protected readonly rawOverrides: any = {}
 
   constructor(scope: Construct, id: string) {
     super(scope, id)
@@ -30,6 +31,29 @@ export class TerraformElement extends Construct {
     const node = this.node
     const components = node.scopes.slice(1).map(c => Node.of(c).id);
     return components.length > 0 ? makeUniqueId(components) : '';
+  }
+
+  public addOverride(path: string, value: any) {
+    const parts = path.split('.');
+    let curr: any = this.rawOverrides;
+
+    while (parts.length > 1) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const key = parts.shift()!;
+
+      // if we can't recurse further or the previous value is not an
+      // object overwrite it with an object.
+      const isObject = curr[key] != null && typeof(curr[key]) === 'object' && !Array.isArray(curr[key]);
+      if (!isObject) {
+        curr[key] = {};
+      }
+
+      curr = curr[key];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const lastKey = parts.shift()!;
+    curr[lastKey] = value;
   }
 
   protected get nodeMetadata(): {[key: string]: any} {

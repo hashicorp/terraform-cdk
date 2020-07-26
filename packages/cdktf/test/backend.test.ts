@@ -5,10 +5,11 @@ test('local backend', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.LocalBackend(stack, {
+    const localBackend = new b.LocalBackend(stack, {
         path: "relative/path/to/terraform.tfstate",
-        workspaceDir: "local_workspace"
+        workspaceDir: "unused"
     });
+    localBackend.addOverride("workspace_dir", "local_workspace");
 
     expect(Testing.synth(stack)).toMatchSnapshot();
 })

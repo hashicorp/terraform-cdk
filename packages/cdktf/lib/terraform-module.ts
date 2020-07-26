@@ -1,5 +1,6 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
+import { deepMerge } from "./util";
 
 export interface TerraformModuleOptions {
   readonly source: string;
@@ -28,12 +29,15 @@ export abstract class TerraformModule extends TerraformElement {
   }
 
   public toTerraform(): any {
-    const attributes = {
+    const attributes = deepMerge({
       ...this.synthesizeAttributes(),
       source: this.source,
-      version: this.version,
-      "//": this.nodeMetadata
-    }
+      version: this.version
+    },
+      this.rawOverrides
+    )
+
+    attributes['//'] = this.nodeMetadata
 
     return {
       module: {
