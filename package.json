@@ -12,7 +12,9 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "examples/*"
+      "examples/*",
+      "examples/typescript/*",
+      "examples/typescript/backends/*"
     ],
     "nohoist": [
       "cdktf/json-stable-stringify",
