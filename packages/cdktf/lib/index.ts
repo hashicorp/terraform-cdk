@@ -10,3 +10,5 @@ export * from './complex-computed-list';
 export * from './resource'
 export * from './testing';
 export * from './app';
+export * from './terraform-backend';
+export * from './backends';

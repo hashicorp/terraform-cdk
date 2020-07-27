@@ -14,8 +14,6 @@ export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   public alias?: string;
 
-  private readonly rawOverrides: any = {}
-
   constructor(scope: Construct, id: string, config: TerraformProviderConfig) {
     super(scope, id);
 
@@ -25,29 +23,6 @@ export abstract class TerraformProvider extends TerraformElement {
 
   public get fqn(): string {
     return (this.alias !== undefined) ? Token.asString(`${this.terraformResourceType}.${this.alias}`) : Token.asString(`${this.terraformResourceType}`);
-  }
-
-  public addOverride(path: string, value: any) {
-    const parts = path.split('.');
-    let curr: any = this.rawOverrides;
-
-    while (parts.length > 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const key = parts.shift()!;
-
-      // if we can't recurse further or the previous value is not an
-      // object overwrite it with an object.
-      const isObject = curr[key] != null && typeof(curr[key]) === 'object' && !Array.isArray(curr[key]);
-      if (!isObject) {
-        curr[key] = {};
-      }
-
-      curr = curr[key];
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const lastKey = parts.shift()!;
-    curr[lastKey] = value;
   }
 
   public get metaAttributes(): { [name: string]: any } {

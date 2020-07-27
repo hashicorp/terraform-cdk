@@ -43,7 +43,6 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
 export class TerraformResource extends TerraformElement implements ITerraformResource {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
-  private readonly rawOverrides: any = {}
 
   // TerraformMetaArguments
 
@@ -79,29 +78,6 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
 
   public getBooleanAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute)) as any as boolean
-  }
-
-  public addOverride(path: string, value: any) {
-    const parts = path.split('.');
-    let curr: any = this.rawOverrides;
-
-    while (parts.length > 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const key = parts.shift()!;
-
-      // if we can't recurse further or the previous value is not an
-      // object overwrite it with an object.
-      const isObject = curr[key] != null && typeof(curr[key]) === 'object' && !Array.isArray(curr[key]);
-      if (!isObject) {
-        curr[key] = {};
-      }
-
-      curr = curr[key];
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const lastKey = parts.shift()!;
-    curr[lastKey] = value;
   }
 
   public get fqn(): string {

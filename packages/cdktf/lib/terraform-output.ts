@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformResource } from "./terraform-resource"
-import { keysToSnakeCase } from "./util"
+import { keysToSnakeCase, deepMerge } from "./util"
 
 export interface TerraformOutputConfig {
   readonly value: string | number | boolean | any[] | { [key: string]: any } | undefined;
@@ -37,7 +37,7 @@ export class TerraformOutput extends TerraformElement {
   public toTerraform(): any {
     return {
       output: {
-        [this.friendlyUniqueId]: keysToSnakeCase(this.synthesizeAttributes())
+        [this.friendlyUniqueId]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
       }
     };
   }
