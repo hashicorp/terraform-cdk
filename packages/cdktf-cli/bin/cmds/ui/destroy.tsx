@@ -53,7 +53,7 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
   return (
     <Box flexDirection="column" marginTop={1}>
       <Text bold>Do you want to perform these actions?</Text>
-      <Text>  Terraform will perform the actions described above.</Text>
+      <Text> CDK for Terraform will perform the actions described above.</Text>
       <Text>  Only 'yes' will be accepted to approve.</Text>
 
       <Box flexDirection="row" marginTop={1}>
