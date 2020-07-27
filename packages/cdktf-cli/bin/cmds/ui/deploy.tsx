@@ -69,13 +69,19 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
   }, [exit, callback]);
 
   return (
-    <Box>
-      Do you want to continue (Y/n)?&nbsp;
-      <ConfirmInput
-        value={value}
-        onChange={setValue}
-        onSubmit={handleSubmit}
-      />
+    <Box flexDirection="column" marginTop={1}>
+      <Text bold>Do you want to perform these actions?</Text>
+      <Text>  CDK for Terraform will perform the actions described above.</Text>
+      <Text>  Only 'yes' will be accepted to approve.</Text>
+
+      <Box flexDirection="row" marginTop={1}>
+        <Text bold>  Enter a value:</Text>&nbsp;
+        <ConfirmInput
+          value={value}
+          onChange={setValue}
+          onSubmit={handleSubmit}
+        />
+      </Box>
     </Box>
 
   )

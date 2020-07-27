@@ -48,7 +48,7 @@ class Command implements yargs.CommandModule {
     if (!argv.local) {
       // We ask the user to login to Terraform Cloud and set a token
       // If the user chooses not to use Terraform Cloud, we continue
-      // without a token and setup the project.
+      // without a token and set up the project.
       const terraformLogin = new TerraformLogin
       token = await terraformLogin.askToLogin();
     } else {
@@ -67,7 +67,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const projectInfo: any = await gatherInfo(token, templateInfo.Name, argv.projectName, argv.projectDescription);
 
-    // Check if token is set so we can setup Terraform Cloud workspace
+    // Check if token is set so we can set up Terraform Cloud workspace
     // only set with the '--local' option is specified the user.
     if (token != "") {
       console.log(chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`);
@@ -119,7 +119,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 async function gatherInfo(token: string, templateName: string, projectName: string, projectDescription: string): Promise<Project> {
 
   if (!projectName && !projectDescription) {
-    console.log(chalkColour`\nWe will now setup the project. Please enter the details for your project.
+    console.log(chalkColour`\nWe will now set up the project. Please enter the details for your project.
 If you want to exit, press {magenta ^C}.
 `)
   }
@@ -144,7 +144,7 @@ If you want to exit, press {magenta ^C}.
 
   if (token != '') {
     console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`)
-    console.log(chalkColour`\nWe will now setup {blueBright Terraform Cloud} for your project.\n`)
+    console.log(chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`)
     const organizationNames = await terraformCloudClient.getOrganizationNames(token);
     const organizationData = organizationNames.data;
     const organizationOptions = [];

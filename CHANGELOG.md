@@ -1,3 +1,15 @@
+## 0.0.13 (not published yet)
+
+- Fix interpolation bug in complex computed list of data sources [\#215](https://github.com/hashicorp/terraform-cdk/issues/215)
+- Add support for List of Maps in schema generator [\#229](https://github.com/hashicorp/terraform-cdk/issues/229)
+
+
+## 0.0.12
+
+**Fixed bugs:**
+
+- `cdktf init` was broken on Windows [\#198](https://github.com/hashicorp/terraform-cdk/issues/198)
+
 ## 0.0.11
 
 **Implemented enhancements:**

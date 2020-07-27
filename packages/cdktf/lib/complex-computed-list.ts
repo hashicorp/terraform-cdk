@@ -53,6 +53,6 @@ export class ComplexComputedList extends ComplexComputedAttribute {
   }
 
   protected interpolationForAttribute(property: string) {
-    return `\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}.${this.index}.${property}}`;
+    return this.terraformResource.interpolationForAttribute(`${this.terraformAttribute}.${this.index}.${property}`);
   }
 }

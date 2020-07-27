@@ -75,6 +75,19 @@ test('serialize list interpolation', () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
+test('with complex computed list', () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'tests');
+
+  const otherResource = new OtherTestResource(stack, 'othertest', {});
+
+  new TestResource(stack, 'test', {
+    name: otherResource.complexComputedList('0').id
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
 test('do not change capitalization of tags', () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, 'tests');

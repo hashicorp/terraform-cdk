@@ -21,7 +21,7 @@ The project uses [AWS CDK](https://aws.amazon.com/cdk/) [constructs](https://git
 The CDK for Terraform project includes two packages:
 
 * [cdktf-cli](./packages/cdktf-cli) - A CLI that allows users to run commands to initialize, import, and synthesize CDK for Terraform applications.
-* [cdktf](./packages/cdktf-cli) - A library for defining Terraform resources using programming constructs.
+* [cdktf](./packages/cdktf) - A library for defining Terraform resources using programming constructs.
 
 The project currently supports TypeScript and Python.
 
@@ -36,16 +36,21 @@ Choose a language:
 * [typescript-aws](./examples/typescript-aws)
 * [typescript-aws-cloudfront-proxy](./examples/typescript-aws-cloudfront-proxy)
 * [python-aws](./examples/python-aws)
-
+* [python-kubernetes](./examples/python-kubernetes)
+* [typescript-docker](./examples/typescript-docker)
+* [typescript-google](./examples/typescript-google)
+* [typescript-azure](./examples/typescript-azure)
 
 ## Documentation
 
+* Install and run a quick start tutorial at [HashiCorp Learn](https://learn.hashicorp.com/terraform/cdktf/cdktf-install)
+* Using CDK for Terraform CLI for importing Terraform [modules and providers](./docs/working-with-cdk-for-terraform/importing-providers-and-modules.md).
 * Explore the CDK for Terraform [CLI](./docs/cli-commands.md).
 * Defining Terraform [outputs](./docs/working-with-cdk-for-terraform/terraform-outputs.md).
 * Using Terraform [remote backend](./docs/working-with-cdk-for-terraform/remote-backend.md).
 * Using the CDK for Terraform [escape hatch](./docs/working-with-cdk-for-terraform/escape-hatch.md).
 * Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
-* Using Teraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
+* Using Terraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
 * Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
 
 ## Contributing and Feedback
@@ -56,7 +61,7 @@ CDK for Terraform is an early experimental project and the development team woul
 * Ask a question on the HashiCorp [Discuss](https://discuss.hashicorp.com/) using the [terraform-cdk](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/) category.
 * Report a [bug](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title=) or request a new [feature](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=).
 * Browse all [open issues](https://github.com/hashicorp/terraform-cdk/issues).
-
+* Public [roadmap](https://github.com/hashicorp/terraform-cdk/projects/1).
 
 ## Building
 

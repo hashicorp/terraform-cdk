@@ -1,5 +1,5 @@
 
-import { TerraformResource, TerraformMetaArguments } from '../../lib';
+import { TerraformResource, TerraformMetaArguments, ComplexComputedList } from '../../lib';
 import { Construct } from 'constructs';
 import { TestProviderMetadata } from './provider'
 
@@ -56,8 +56,17 @@ export class OtherTestResource extends TerraformResource {
     return this.getListAttribute("names")
   }
 
+  public complexComputedList(index: string) {
+    return new TestComplexComputedList(this, 'complex_computed_list', index);
+  }
+
   public synthesizeAttributes(): { [name: string]: any } {
     return {}
   }
 }
 
+class TestComplexComputedList extends ComplexComputedList {
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+}
