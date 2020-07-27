@@ -36,6 +36,7 @@ Choose a language:
 * [typescript-aws](./examples/typescript-aws)
 * [typescript-aws-cloudfront-proxy](./examples/typescript-aws-cloudfront-proxy)
 * [python-aws](./examples/python-aws)
+* [python-kubernetes](./examples/python-kubernetes)
 * [typescript-docker](./examples/typescript-docker)
 * [typescript-google](./examples/typescript-google)
 * [typescript-azure](./examples/typescript-azure)
