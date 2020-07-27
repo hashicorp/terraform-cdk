@@ -58,7 +58,7 @@
   "devDependencies": {
     "@types/jest": "^25.1.2",
     "@types/json-stable-stringify": "^1.0.32",
-    "@types/node": "13.7.1",
+    "@types/node": "^14.0.26",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "constructs": "^3.0.0",
@@ -67,7 +67,7 @@
     "jsii": "^1.5.0",
     "jsii-pacmak": "^1.5.0",
     "json-schema-to-typescript": "^8.0.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.9.7"
   },
   "jest": {
     "collectCoverage": true,
