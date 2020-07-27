@@ -1,5 +1,5 @@
 {
-  "name": "hello-cdktf",
+  "name": "aws",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MPL-2.0",
