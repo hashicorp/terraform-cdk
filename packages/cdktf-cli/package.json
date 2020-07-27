@@ -82,6 +82,6 @@
     "ink-testing-library": "^2.0.0",
     "jest": "^25.1.0",
     "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   }
 }
