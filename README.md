@@ -33,13 +33,28 @@ Choose a language:
 
 ## Examples
 
-* [typescript-aws](./examples/typescript-aws)
-* [typescript-aws-cloudfront-proxy](./examples/typescript-aws-cloudfront-proxy)
-* [python-aws](./examples/python-aws)
-* [python-kubernetes](./examples/python-kubernetes)
-* [typescript-docker](./examples/typescript-docker)
-* [typescript-google](./examples/typescript-google)
-* [typescript-azure](./examples/typescript-azure)
+### Typescript
+
+* [aws](./examples/typescript/aws)
+* [aws-cloudfront-proxy](./examples/typescript/aws-cloudfront-proxy)
+* [azure](./examples/typescript/azure)
+* [docker](./examples/typescript/docker)
+* [google](./examples/typescript/google)
+* [kubernetes](./examples/typescript/kubernetes)
+* [vault](./examples/typescript/vault)
+
+#### Backends
+
+* [azurerm](./examples/typescript/backends/azurerm)
+* [gcs](./examples/typescript/backends/gcs)
+* [remote](./examples/typescript/backends/remote)
+* [s3](./examples/typescript/backends/s3)
+
+### Python
+
+* [aws](./examples/python/aws)
+* [docker](./examples/python/docker)
+* [kubernetes](./examples/python/kubernetes)
 
 ## Documentation
 

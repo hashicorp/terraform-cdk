@@ -1,7 +1,9 @@
 {
   "packages": [
     "packages/*",
-    "examples/*"
+    "examples/*",
+    "examples/typescript/*",
+    "examples/typescript/backends/*"
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,
