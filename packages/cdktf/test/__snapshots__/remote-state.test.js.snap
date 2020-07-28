@@ -442,8 +442,7 @@ exports[`s3 reference 1`] = `
             \\"resolve (node_modules/jest-jasmine2/build/queueRunner.js:45:12)\\",
             \\"new Promise (<anonymous>)\\",
             \\"mapper (node_modules/jest-jasmine2/build/queueRunner.js:28:19)\\",
-            \\"promise.then (node_modules/jest-jasmine2/build/queueRunner.js:75:41)\\",
-            \\"process._tickCallback (internal/process/next_tick.js:68:7)\\"
+            \\"promise.then (node_modules/jest-jasmine2/build/queueRunner.js:75:41)\\"
           ],
           \\"value\\": \\"\${data.terraform_remote_state.test_remote_1D925BC8.outputs.name}\\"
         },
