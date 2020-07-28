@@ -410,54 +410,6 @@ exports[`s3 1`] = `
 }"
 `;
 
-exports[`s3 reference 1`] = `
-"{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
-    }
-  },
-  \\"data\\": {
-    \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
-        \\"backend\\": \\"s3\\",
-        \\"config\\": {
-          \\"bucket\\": \\"mybucket\\",
-          \\"key\\": \\"path/to/my/key\\"
-        }
-      }
-    }
-  },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test_testresource_7FDA4FF7\\": {
-        \\"name\\": {
-          \\"creation_stack\\": [
-            \\"new Intrinsic (packages/cdktf/lib/tokens/private/intrinsic.ts:29:26)\\",
-            \\"Function.asAny (packages/cdktf/lib/tokens/token.ts:76:55)\\",
-            \\"S3RemoteState.get (packages/cdktf/lib/terraform-remote-state.ts:33:22)\\",
-            \\"Object.<anonymous>.test (packages/cdktf/test/remote-state.test.ts:299:27)\\",
-            \\"Object.asyncJestTest (node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)\\",
-            \\"resolve (node_modules/jest-jasmine2/build/queueRunner.js:45:12)\\",
-            \\"new Promise (<anonymous>)\\",
-            \\"mapper (node_modules/jest-jasmine2/build/queueRunner.js:28:19)\\",
-            \\"promise.then (node_modules/jest-jasmine2/build/queueRunner.js:75:41)\\"
-          ],
-          \\"value\\": \\"\${data.terraform_remote_state.test_remote_1D925BC8.outputs.name}\\"
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/test_resource\\",
-            \\"uniqueId\\": \\"test_testresource_7FDA4FF7\\"
-          }
-        }
-      }
-    }
-  }
-}"
-`;
-
 exports[`s3 with options 1`] = `
 "{
   \\"//\\": {

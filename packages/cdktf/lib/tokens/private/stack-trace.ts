@@ -13,5 +13,5 @@ export function captureStackTrace(below?: Function): string[] {
   if (!object.stack) {
     return [];
   }
-  return object.stack.split('\n').slice(1).map(s => s.replace(/^\s*at\s+/, '').replace(/\(.*packages/, '(packages').replace(/\(.*node_modules/, '(node_modules'));
+  return object.stack.split('\n').slice(1).map(s => s.replace(/^\s*at\s+/, ''));
 }
