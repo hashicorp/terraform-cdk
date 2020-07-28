@@ -434,15 +434,15 @@ exports[`s3 reference 1`] = `
       \\"test_testresource_7FDA4FF7\\": {
         \\"name\\": {
           \\"creation_stack\\": [
-            \\"new Intrinsic (/home/jonsteinich/terraform-cdk/packages/cdktf/lib/tokens/private/intrinsic.ts:29:26)\\",
-            \\"Function.asAny (/home/jonsteinich/terraform-cdk/packages/cdktf/lib/tokens/token.ts:76:55)\\",
-            \\"S3RemoteState.get (/home/jonsteinich/terraform-cdk/packages/cdktf/lib/terraform-remote-state.ts:33:22)\\",
-            \\"Object.<anonymous>.test (/home/jonsteinich/terraform-cdk/packages/cdktf/test/remote-state.test.ts:299:27)\\",
-            \\"Object.asyncJestTest (/home/jonsteinich/terraform-cdk/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)\\",
-            \\"resolve (/home/jonsteinich/terraform-cdk/node_modules/jest-jasmine2/build/queueRunner.js:45:12)\\",
+            \\"new Intrinsic (packages/cdktf/lib/tokens/private/intrinsic.ts:29:26)\\",
+            \\"Function.asAny (packages/cdktf/lib/tokens/token.ts:76:55)\\",
+            \\"S3RemoteState.get (packages/cdktf/lib/terraform-remote-state.ts:33:22)\\",
+            \\"Object.<anonymous>.test (packages/cdktf/test/remote-state.test.ts:299:27)\\",
+            \\"Object.asyncJestTest (node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)\\",
+            \\"resolve (node_modules/jest-jasmine2/build/queueRunner.js:45:12)\\",
             \\"new Promise (<anonymous>)\\",
-            \\"mapper (/home/jonsteinich/terraform-cdk/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\\",
-            \\"promise.then (/home/jonsteinich/terraform-cdk/node_modules/jest-jasmine2/build/queueRunner.js:75:41)\\",
+            \\"mapper (node_modules/jest-jasmine2/build/queueRunner.js:28:19)\\",
+            \\"promise.then (node_modules/jest-jasmine2/build/queueRunner.js:75:41)\\",
             \\"process._tickCallback (internal/process/next_tick.js:68:7)\\"
           ],
           \\"value\\": \\"\${data.terraform_remote_state.test_remote_1D925BC8.outputs.name}\\"
