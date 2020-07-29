@@ -71,6 +71,8 @@ export abstract class GetBase {
   private async harvestPython(targetdir: string, targetName: string) {
     const target = path.join(targetdir, targetName);
     await fs.move(`dist/python/src/${targetName}`, target, { overwrite: true });
+    // Make the codeMakerOutput dir a Python package for IDEs and linting
+    fs.writeFileSync(path.join(targetdir, '__init__.py'), '', 'utf-8');
   }
 
   protected abstract typesPath(name: string): string;
