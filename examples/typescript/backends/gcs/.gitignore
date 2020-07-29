@@ -5,3 +5,4 @@ cdktf.out
 terraform.tfstate*
 .gen
 .terraform
+!tsconfig.json
