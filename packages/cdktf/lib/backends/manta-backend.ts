@@ -13,7 +13,7 @@ export class MantaBackend extends TerraformBackend {
     }
 }
 
-export class MantaRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateManta extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: MantaBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "manta", config);
     }

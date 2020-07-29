@@ -13,7 +13,7 @@ export class AzurermBackend extends TerraformBackend {
     }
 }
 
-export class AzurermRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateAzurerm extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: AzurermBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "azurerm", config);
     }

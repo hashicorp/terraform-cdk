@@ -13,7 +13,7 @@ export class HttpBackend extends TerraformBackend {
     }
 }
 
-export class HttpRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateHttp extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: HttpBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "http", config);
     }

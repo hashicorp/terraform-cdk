@@ -13,7 +13,7 @@ export class GcsBackend extends TerraformBackend {
     }
 }
 
-export class GcsRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateGcs extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: GcsBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "gcs", config);
     }

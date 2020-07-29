@@ -13,7 +13,7 @@ export class CosBackend extends TerraformBackend {
     }
 }
 
-export class CosRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateCos extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: CosBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "cos", config);
     }

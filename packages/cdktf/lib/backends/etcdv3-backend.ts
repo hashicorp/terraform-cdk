@@ -13,7 +13,7 @@ export class EtcdV3Backend extends TerraformBackend {
     }
 }
 
-export class EtcdV3RemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateEtcdV3 extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: EtcdV3BackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "etcdv3", config);
     }

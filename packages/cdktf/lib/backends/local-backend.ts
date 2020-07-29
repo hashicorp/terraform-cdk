@@ -13,7 +13,7 @@ export class LocalBackend extends TerraformBackend {
     }
 }
 
-export class LocalRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateLocal extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: LocalBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "local", config);
     }

@@ -13,7 +13,7 @@ export class OssBackend extends TerraformBackend {
     }
 }
 
-export class OssRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateOss extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: OssBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "oss", config);
     }

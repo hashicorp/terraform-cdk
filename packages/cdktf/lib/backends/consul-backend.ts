@@ -13,7 +13,7 @@ export class ConsulBackend extends TerraformBackend {
     }
 }
 
-export class ConsulRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateConsul extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: ConsulBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "consul", config);
     }

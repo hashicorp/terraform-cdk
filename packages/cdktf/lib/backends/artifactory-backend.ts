@@ -13,7 +13,7 @@ export class ArtifactoryBackend extends TerraformBackend {
     }
 }
 
-export class ArtifactoryRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateArtifactory extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: ArtifactoryBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "artifactory", config);
     }

@@ -13,7 +13,7 @@ export class PgBackend extends TerraformBackend {
     }
 }
 
-export class PgRemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStatePg extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: PgBackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "pg", config);
     }

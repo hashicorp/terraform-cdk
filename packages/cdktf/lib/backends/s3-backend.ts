@@ -13,7 +13,7 @@ export class S3Backend extends TerraformBackend {
     }
 }
 
-export class S3RemoteState extends TerraformRemoteState {
+export class DataTerraformRemoteStateS3 extends TerraformRemoteState {
     constructor(scope: Construct, id: string, private readonly props: S3BackendProps, config?: TerraformRemoteStateConfig) {
         super(scope, id, "s3", config);
     }

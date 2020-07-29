@@ -6,7 +6,7 @@ test('local', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.LocalRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateLocal(stack, 'remote', {
         path: "relative/path/to/terraform.tfstate",
         workspaceDir: "local_workspace"
     });
@@ -18,7 +18,7 @@ test('remote', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.TerraformCloudRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteState(stack, 'remote', {
         hostname: "app.terraform.io",
         organization: "company",
         
@@ -34,7 +34,7 @@ test('artifactory', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.ArtifactoryRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateArtifactory(stack, 'remote', {
         username: "SheldonCooper",
         password: "AmyFarrahFowler",
         url: "https://custom.artifactoryonline.com/artifactory",
@@ -49,7 +49,7 @@ test('azurerm', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.AzurermRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateAzurerm(stack, 'remote', {
         resourceGroupName: "StorageAccount-ResourceGroup",
         storageAccountName: "abcd1234",
         containerName: "tfstate",
@@ -67,7 +67,7 @@ test('consul', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.ConsulRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateConsul(stack, 'remote', {
         address: "demo.consul.io",
         scheme: "https",
         path: "full/path",
@@ -88,7 +88,7 @@ test('cos', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.CosRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateCos(stack, 'remote', {
         region: "ap-guangzhou",
         bucket: "bucket-for-terraform-state-1258798060",
         prefix: "terraform/state",
@@ -106,7 +106,7 @@ test('etcd', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.EtcdRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateEtcd(stack, 'remote', {
         path: "path/to/terraform.tfstate",
         endpoints: "http://one:4001 http://two:4001",
         username: "the user",
@@ -120,7 +120,7 @@ test('etcdv3', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.EtcdV3RemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateEtcdV3(stack, 'remote', {
         endpoints: ["etcd-1:2379", "etcd-2:2379", "etcd-3:2379"],
         lock: true,
         prefix: "terraform-state/",
@@ -138,7 +138,7 @@ test('gcs', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.GcsRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateGcs(stack, 'remote', {
         bucket: "tf-state-prod",
         prefix: "terraform/state",
         accessToken: "Authorization: Bearer",
@@ -153,7 +153,7 @@ test('http', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.HttpRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateHttp(stack, 'remote', {
         address: "http://myrest.api.com/foo",
         lockAddress: "http://myrest.api.com/foo",
         unlockAddress: "http://myrest.api.com/foo",
@@ -175,7 +175,7 @@ test('manta', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.MantaRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateManta(stack, 'remote', {
         path: "random/path",
         objectName: "terraform.tfstate",
         account: "SDC_ACCOUNT",
@@ -193,7 +193,7 @@ test('oss', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.OssRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateOss(stack, 'remote', {
         bucket: "bucket-for-terraform-state",
         prefix: "path/mystate",
         key: "version-1.tfstate",
@@ -224,7 +224,7 @@ test('pg', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.PgRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStatePg(stack, 'remote', {
         connStr: "postgres://user:pass@db.example.com/terraform_backend",
         schemaName: "terraform_remote_state",
         skipSchemaCreation: true
@@ -237,7 +237,7 @@ test('s3', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.S3RemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateS3(stack, 'remote', {
         bucket: "mybucket",
         key: "path/to/my/key",
         region: "us-east-1",
@@ -273,7 +273,7 @@ test('s3 with options', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.S3RemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateS3(stack, 'remote', {
         bucket: "mybucket",
         key: "path/to/my/key"
     }, {
@@ -307,7 +307,7 @@ test('swift', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
 
-    new b.SwiftRemoteState(stack, 'remote', {
+    new b.DataTerraformRemoteStateSwift(stack, 'remote', {
         container: "terraform-state",
         archiveContainer: "terraform-state-archive",
         authUrl: "OS_AUTH_URL",
