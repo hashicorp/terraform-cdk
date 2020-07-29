@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack, S3Backend, S3RemoteState } from 'cdktf';
+import { App, TerraformStack, S3Backend, DataTerraformRemoteStateS3 } from 'cdktf';
 import { DataAwsS3BucketObject } from './.gen/providers/aws';
 
 class MyStack extends TerraformStack {
@@ -16,7 +16,7 @@ class MyStack extends TerraformStack {
     });
 
     // S3 Remote State
-    const otherState = new S3RemoteState(this, "other", {
+    const otherState = new DataTerraformRemoteStateS3(this, "other", {
       bucket: "myotherbucket",
       key: "path/to/my/key"
     });
