@@ -97,7 +97,7 @@ $ cd ~/my-local-cdktf-example
 $ cdktf init --template typescript --local
 ```
 
-Please not, that this will reference the built packages in `$CDKTF_DIST`. This means, it will reflect code changes only after repeating `yarn build && yarn package` and running an explicit `yarn install` again.
+Please note, that this will reference the built packages in `$CDKTF_DIST`. This means, it will reflect code changes only after repeating `yarn build && yarn package` and running an explicit `yarn install` again.
 
 To reference the `cdktf` package directly, let's create another link:
 
