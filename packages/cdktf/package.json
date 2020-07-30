@@ -5,6 +5,7 @@
   "scripts": {
     "build": "jsii",
     "watch": "jsii -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "package": "jsii-pacmak",
     "lint": "eslint . --ext .ts",
     "test": "jest --passWithNoTests && yarn lint"
