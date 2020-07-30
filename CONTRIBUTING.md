@@ -56,7 +56,7 @@ All Typescript [examples](./examples/typescript) leverage yarn workspaces to dir
 
 #### Python
 
-Since Python packges are referenced from `./dist`, there's no symlinking possible for live code updates. You'll have to explictly run `yarn package` to create new packages to be referenced in the Pipefile.
+For Python [examples](./examples/python), packages are referenced from `./dist`, there's no symlinking possible for live code updates. You'll have to explictly run `yarn package` to create new packages to be referenced in the Pipefile.
 
 ### Outside of this Monorepo
 
