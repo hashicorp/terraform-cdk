@@ -275,8 +275,7 @@ test('s3 with options', () => {
 
     new b.DataTerraformRemoteStateS3(stack, 'remote', {
         bucket: "mybucket",
-        key: "path/to/my/key"
-    }, {
+        key: "path/to/my/key",
         workspace: "my_workspace",
         defaults: {
             someProp: 'some_value'

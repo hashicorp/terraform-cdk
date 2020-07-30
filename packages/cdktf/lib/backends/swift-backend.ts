@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
-import { TerraformRemoteState, TerraformRemoteStateConfig } from "../terraform-remote-state";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class SwiftBackend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: SwiftBackendProps) {
@@ -14,12 +14,8 @@ export class SwiftBackend extends TerraformBackend {
 }
 
 export class DataTerraformRemoteStateSwift extends TerraformRemoteState {
-    constructor(scope: Construct, id: string, private readonly props: SwiftBackendProps, config?: TerraformRemoteStateConfig) {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateSwiftConfig) {
         super(scope, id, "swift", config);
-    }
-
-    protected synthesizeAttributes(): { [name: string]: any } {
-        return keysToSnakeCase({ ...this.props });
     }
 }
 
@@ -52,3 +48,5 @@ export interface SwiftBackendProps {
     readonly archiveContainer?: string;
     readonly expireAfter?: string;
 }
+
+export interface DataTerraformRemoteStateSwiftConfig extends DataTerraformRemoteStateConfig, SwiftBackendProps {}

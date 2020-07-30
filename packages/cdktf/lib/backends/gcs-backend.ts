@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
-import { TerraformRemoteState, TerraformRemoteStateConfig } from "../terraform-remote-state";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class GcsBackend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: GcsBackendProps) {
@@ -14,12 +14,8 @@ export class GcsBackend extends TerraformBackend {
 }
 
 export class DataTerraformRemoteStateGcs extends TerraformRemoteState {
-    constructor(scope: Construct, id: string, private readonly props: GcsBackendProps, config?: TerraformRemoteStateConfig) {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateGcsConfig) {
         super(scope, id, "gcs", config);
-    }
-
-    protected synthesizeAttributes(): { [name: string]: any } {
-        return keysToSnakeCase({ ...this.props });
     }
 }
 
@@ -30,3 +26,5 @@ export interface GcsBackendProps {
     readonly prefix?: string;
     readonly encryptionKey?: string;
 }
+
+export interface DataTerraformRemoteStateGcsConfig extends DataTerraformRemoteStateConfig, GcsBackendProps {}

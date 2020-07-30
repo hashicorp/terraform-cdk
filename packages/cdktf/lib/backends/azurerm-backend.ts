@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
-import { TerraformRemoteState, TerraformRemoteStateConfig } from "../terraform-remote-state";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class AzurermBackend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: AzurermBackendProps) {
@@ -14,12 +14,8 @@ export class AzurermBackend extends TerraformBackend {
 }
 
 export class DataTerraformRemoteStateAzurerm extends TerraformRemoteState {
-    constructor(scope: Construct, id: string, private readonly props: AzurermBackendProps, config?: TerraformRemoteStateConfig) {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateAzurermConfig) {
         super(scope, id, "azurerm", config);
-    }
-
-    protected synthesizeAttributes(): { [name: string]: any } {
-        return keysToSnakeCase({ ...this.props });
     }
 }
 
@@ -39,3 +35,5 @@ export interface AzurermBackendProps {
     readonly clientId?: string;
     readonly clientSecret?: string;
 }
+
+export interface DataTerraformRemoteStateAzurermConfig extends DataTerraformRemoteStateConfig, AzurermBackendProps {}

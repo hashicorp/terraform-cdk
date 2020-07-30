@@ -1,15 +1,15 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { Token } from "./tokens";
-import { deepMerge } from "./util";
+import { deepMerge, keysToSnakeCase } from "./util";
 
-export interface TerraformRemoteStateConfig {
+export interface DataTerraformRemoteStateConfig {
     readonly workspace?: string;
     readonly defaults?: { [key: string]: any };
 }
 
 export abstract class TerraformRemoteState extends TerraformElement {
-    constructor(scope: Construct, id: string, protected readonly backend: string, private readonly config?: TerraformRemoteStateConfig) {
+    constructor(scope: Construct, id: string, private readonly backend: string, private readonly config: DataTerraformRemoteStateConfig) {
         super(scope, id);
     }
 
@@ -37,9 +37,11 @@ export abstract class TerraformRemoteState extends TerraformElement {
         return `\${data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}}`
     }
 
-    // jsii can't handle abstract classes?
-    protected synthesizeAttributes(): { [name: string]: any } {
-        return {}
+    private extractConfig(): { [name: string]: any } {
+        const configObj = keysToSnakeCase({ ...this.config });
+        delete configObj.workspace;
+        delete configObj.defaults;
+        return configObj;
     }
 
     /**
@@ -52,9 +54,9 @@ export abstract class TerraformRemoteState extends TerraformElement {
                 terraform_remote_state: {
                     [this.friendlyUniqueId]: deepMerge({
                         backend: this.backend,
-                        workspace: this.config?.workspace,
-                        defaults: this.config?.defaults,
-                        config: { ...this.synthesizeAttributes() }
+                        workspace: this.config.workspace,
+                        defaults: this.config.defaults,
+                        config: this.extractConfig()
                     },
                         this.rawOverrides)
                 }
