@@ -410,6 +410,41 @@ exports[`s3 1`] = `
 }"
 `;
 
+exports[`s3 reference 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"data\\": {
+    \\"terraform_remote_state\\": {
+      \\"test_remote_1D925BC8\\": {
+        \\"backend\\": \\"s3\\",
+        \\"config\\": {
+          \\"bucket\\": \\"mybucket\\",
+          \\"key\\": \\"path/to/my/key\\"
+        }
+      }
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"test_testresource_7FDA4FF7\\": {
+        \\"name\\": \\"\${data.terraform_remote_state.test_remote_1D925BC8.outputs.name}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/test_resource\\",
+            \\"uniqueId\\": \\"test_testresource_7FDA4FF7\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`s3 with options 1`] = `
 "{
   \\"//\\": {
