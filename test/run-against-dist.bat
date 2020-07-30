@@ -1,5 +1,6 @@
 @echo off
 setlocal EnableExtensions
+setlocal EnableDelayedExpansion
 
 set scriptdir=%~dp0
 
@@ -17,14 +18,18 @@ if not exist "js" if not exist "python" (
 
 rem install the CLI from dist/js in a temporary area and add to path
 echo "Extracting CLI from 'dist'..."
-set staging=%tmp%\%random%%time%
+for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /format:list') do set datetime=%%I
+set datetime=%datetime:~0,18%
+set staging=%tmp%\%datetime%
+mkdir %staging%
 cd /D %staging%
-npm init -y >nul 2>&1
+call npm init -y >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 exit /B 1
-npm install "%CDKTF_DIST%\js\*.tgz"
+for /f %%f in ('dir /b /s "%CDKTF_DIST%\js\*.tgz" ^| sort /r') do call npm install %%f
 IF %ERRORLEVEL% NEQ 0 exit /B 1
 set PATH=%staging%\node_modules\.bin;%PATH%
 
 rem restore working directory
 cd /D %cwd%
-%1 %2
+echo %~1
+call %~1
