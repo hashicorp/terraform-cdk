@@ -35,7 +35,7 @@ exports.post = options => {
   execSync(`pipenv install ${pypi_cdktf}`, { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
-  execSync(`${cli} get`, { stdio: 'inherit' });
+  execSync(`node ${cli} get`, { stdio: 'inherit' });
   execSync(`pipenv run ./main.py`);
 
   console.log(readFileSync('./help', 'utf-8'));
