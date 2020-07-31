@@ -1,8 +1,18 @@
-## 0.0.13 (not published yet)
+## 0.0.13
+
+**Fixed bugs:**
 
 - Fix interpolation bug in complex computed list of data sources [\#215](https://github.com/hashicorp/terraform-cdk/issues/215)
-- Add support for List of Maps in schema generator [\#229](https://github.com/hashicorp/terraform-cdk/issues/229)
+- Avoid conflicts with resource attributes called "node" [\#230](https://github.com/hashicorp/terraform-cdk/pull/230)
+- Python: setup imports dir as a package [\#262](https://github.com/hashicorp/terraform-cdk/pull/262)
 
+**Implemented enhancements:**
+
+- Add support for List of Maps in schema generator [\#229](https://github.com/hashicorp/terraform-cdk/issues/229)
+- Add Lists of Maps [\#229](https://github.com/hashicorp/terraform-cdk/pull/229)
+- Bump and align Typescript / @node/types Dependencies - Upgrade lodash [\#252](https://github.com/hashicorp/terraform-cdk/pull/252)
+- Terraform backend config [\#224](https://github.com/hashicorp/terraform-cdk/pull/224)
+- Terraform data remote state [\#241](https://github.com/hashicorp/terraform-cdk/pull/241)
 
 ## 0.0.12
 
