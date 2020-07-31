@@ -1,12 +1,18 @@
 const { execSync } = require('child_process');
 const { chmodSync } = require('fs');
 const { readFileSync, writeFileSync } = require('fs');
+const os = require('os');
 
 const cli = require.resolve('../../bin/cdktf');
 
 exports.pre = () => {
   try {
-    execSync('which pipenv')
+    if (os.platform() === 'win32') {
+      execSync('where pipenv')
+    }
+    else {
+      execSync('which pipenv')
+    }
   } catch {
     console.error(`Unable to find "pipenv". Install from https://pipenv.kennethreitz.org`)
     process.exit(1);
