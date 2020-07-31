@@ -74,13 +74,15 @@ If you'd want this permanently, you can add this line to your profile settings (
 
 ### Create link
 
+Let's link `cdktf` and `cdktf-cli`, run the following the repository root folder:
+
 ```shell
-$ cd packages/cdktf-cli
-$ yarn link
-$ cd -
+$ yarn link-packages
 $ cdktf --version
 0.0.0
 ```
+
+When the version equals `0.0.0` everything worked as expected. If you see another version, try uninstalling `cdktf-cli` with `npm` or `yarn`.
 
 ### Build & Package 
 
@@ -99,14 +101,7 @@ $ cdktf init --template typescript --local
 
 Please note, that this will reference the built packages in `$CDKTF_DIST`. This means, it will reflect code changes only after repeating `yarn build && yarn package` and running an explicit `yarn install` again.
 
-To reference the `cdktf` package directly, let's create another link:
-
-```shell
-$ cd packages/cdktf
-$ yarn link
-```
-
-And reference this link in our newly created project:
+Reference the previously [linked](#create-link) `cdktf` package in our newly created project:
 
 ```shell
 $ cd ~/my-local-cdktf-example

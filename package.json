@@ -7,6 +7,7 @@
     "package": "lerna run package && tools/collect-dist.sh",
     "test": "lerna run test",
     "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
+    "link-packages": "lerna exec --scope cdktf* yarn link",
     "integration": "test/run-against-dist test/test-all.sh",
     "release-github": "tools/release-github.sh"
   },
