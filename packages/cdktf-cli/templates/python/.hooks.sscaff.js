@@ -36,7 +36,7 @@ exports.post = options => {
   chmodSync('main.py', '700');
 
   execSync(`node ${cli} get`, { stdio: 'inherit' });
-  execSync(`pipenv run ./main.py`);
+  execSync(`pipenv run main.py`);
 
   console.log(readFileSync('./help', 'utf-8'));
 };
