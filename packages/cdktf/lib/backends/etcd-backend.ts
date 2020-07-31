@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class EtcdBackend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: EtcdBackendProps) {
@@ -12,9 +13,17 @@ export class EtcdBackend extends TerraformBackend {
     }
 }
 
+export class DataTerraformRemoteStateEtcd extends TerraformRemoteState {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateEtcdConfig) {
+        super(scope, id, "etcd", config);
+    }
+}
+
 export interface EtcdBackendProps {
     readonly path: string;
     readonly endpoints: string;
     readonly username?: string;
     readonly password?: string;
 }
+
+export interface DataTerraformRemoteStateEtcdConfig extends DataTerraformRemoteStateConfig, EtcdBackendProps {}
