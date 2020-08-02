@@ -70,6 +70,7 @@ Choose a language:
 * Using the CDK for Terraform [escape hatch](./docs/working-with-cdk-for-terraform/escape-hatch.md).
 * Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
 * Using Terraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
+* Using Terraform [variables](./docs/working-with-cdk-for-terraform/terraform-variables.md).
 * Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
 * Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 * Defining Terraform [locals](./docs/working-with-cdk-for-terraform/terraform-locals.md).
