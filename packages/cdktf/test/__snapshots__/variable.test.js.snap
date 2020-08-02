@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`any type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"any\\"
+    }
+  }
+}"
+`;
+
+exports[`bool type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"bool\\"
+    }
+  }
+}"
+`;
+
+exports[`collection type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"list(string)\\"
+    }
+  }
+}"
+`;
+
+exports[`default value 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"default\\": \\"my-val\\"
+    }
+  }
+}"
+`;
+
+exports[`description 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"description\\": \\"A Test Variable\\"
+    }
+  }
+}"
+`;
+
+exports[`number type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"number\\"
+    }
+  }
+}"
+`;
+
+exports[`object type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"default\\": {
+        \\"internal\\": 8300,
+        \\"protocol\\": \\"tcp\\"
+      },
+      \\"type\\": \\"object({internal=number, protocol=string})\\"
+    }
+  }
+}"
+`;
+
+exports[`reference 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"string\\"
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"test_testresource_F1C68B60\\": {
+        \\"name\\": \\"\${var.test_testvariable_9CDF30A7}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/test-resource\\",
+            \\"uniqueId\\": \\"test_testresource_F1C68B60\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`string type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`tuple type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"tuple(bool, list(number))\\"
+    }
+  }
+}"
+`;
