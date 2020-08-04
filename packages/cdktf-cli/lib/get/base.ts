@@ -62,7 +62,8 @@ export abstract class GetBase {
 
           const opts: srcmak.Options = {
             entrypoint: fileName,
-            deps: deps.map(dep => path.dirname(require.resolve(`${dep}/package.json`)))
+            deps: deps.map(dep => path.dirname(require.resolve(`${dep}/package.json`))),
+            moduleKey: source.replace(/\//gi, '_')
           };
 
           // used for testing.

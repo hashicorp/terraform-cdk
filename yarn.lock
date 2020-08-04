@@ -5084,10 +5084,10 @@ jsii-rosetta@^1.7.0:
     xmldom "^0.3.0"
     yargs "^15.3.1"
 
-jsii-srcmak@^0.1.4:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/jsii-srcmak/-/jsii-srcmak-0.1.9.tgz#f5ac959507a4eccc8c723af26b53ad23b087143f"
-  integrity sha512-J1X4d2NgX5wBJWYTpTaB6PNRg+XGmr+rA6wA/mPCZef56gF9D00tHN36emmX46lgy38C5QUsbUSRK8qgHrp+BA==
+jsii-srcmak@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/jsii-srcmak/-/jsii-srcmak-0.1.10.tgz#af2c879edfe640aec511d3eb247f1f768d0ff25d"
+  integrity sha512-kgjnHbEzi4HvI5tNMD9aemAf846e9/ujjrXYLHByUm2DJcqkPV8tgcAhTJ6cmWyYGaUnvIgUAoL4z4IUJJT5vw==
   dependencies:
     fs-extra "^9.0.0"
     jsii "^1.5.0"
