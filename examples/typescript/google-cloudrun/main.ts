@@ -9,7 +9,7 @@ class MyStack extends TerraformStack {
     super(scope, name);
 
     // define resources here
-    const imagename = 'nginx:latest'
+    const imagename = 'gcr.io/cloudrun/hello'
 
 
     const local = 'asia-east1' //region
