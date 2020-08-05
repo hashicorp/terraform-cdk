@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class HttpBackend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: HttpBackendProps) {
@@ -9,6 +10,12 @@ export class HttpBackend extends TerraformBackend {
 
     protected synthesizeAttributes(): { [name: string]: any } {
         return keysToSnakeCase({ ...this.props });
+    }
+}
+
+export class DataTerraformRemoteStateHttp extends TerraformRemoteState {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateHttpConfig) {
+        super(scope, id, "http", config);
     }
 }
 
@@ -26,3 +33,5 @@ export interface HttpBackendProps {
     readonly retryWaitMin?: number;
     readonly retryWaitMax?: number;
 }
+
+export interface DataTerraformRemoteStateHttpConfig extends DataTerraformRemoteStateConfig, HttpBackendProps {}

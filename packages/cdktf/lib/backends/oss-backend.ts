@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class OssBackend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: OssBackendProps) {
@@ -9,6 +10,12 @@ export class OssBackend extends TerraformBackend {
 
     protected synthesizeAttributes(): { [name: string]: any } {
         return keysToSnakeCase({ ...this.props });
+    }
+}
+
+export class DataTerraformRemoteStateOss extends TerraformRemoteState {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateOssConfig) {
+        super(scope, id, "oss", config);
     }
 }
 
@@ -37,3 +44,5 @@ export interface OssAssumeRole {
     readonly sessionName?: string;
     readonly sessionExpiration?: number;
 }
+
+export interface DataTerraformRemoteStateOssConfig extends DataTerraformRemoteStateConfig, OssBackendProps {}

@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class ConsulBackend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: ConsulBackendProps) {
@@ -9,6 +10,12 @@ export class ConsulBackend extends TerraformBackend {
 
     protected synthesizeAttributes(): { [name: string]: any } {
         return keysToSnakeCase({ ...this.props });
+    }
+}
+
+export class DataTerraformRemoteStateConsul extends TerraformRemoteState {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateConsulConfig) {
+        super(scope, id, "consul", config);
     }
 }
 
@@ -25,3 +32,5 @@ export interface ConsulBackendProps {
     readonly certFile?: string;
     readonly keyFile?: string;
 }
+
+export interface DataTerraformRemoteStateConsulConfig extends DataTerraformRemoteStateConfig, ConsulBackendProps {}

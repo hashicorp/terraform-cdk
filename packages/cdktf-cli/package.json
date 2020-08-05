@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --ext .ts",
     "test": "yarn lint && jest",
     "jest-watch": "jest --watch",

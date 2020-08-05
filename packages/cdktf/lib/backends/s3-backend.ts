@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformBackend } from '../terraform-backend';
 import { keysToSnakeCase } from "../util";
+import { TerraformRemoteState, DataTerraformRemoteStateConfig } from "../terraform-remote-state";
 
 export class S3Backend extends TerraformBackend {
     constructor(scope: Construct, private readonly props: S3BackendProps) {
@@ -9,6 +10,12 @@ export class S3Backend extends TerraformBackend {
 
     protected synthesizeAttributes(): { [name: string]: any } {
         return keysToSnakeCase({ ...this.props });
+    }
+}
+
+export class DataTerraformRemoteStateS3 extends TerraformRemoteState {
+    constructor(scope: Construct, id: string, config: DataTerraformRemoteStateS3Config) {
+        super(scope, id, "s3", config);
     }
 }
 
@@ -40,3 +47,5 @@ export interface S3BackendProps {
     readonly sseCustomerKey?: string;
     readonly maxRetries?: number;
 }
+
+export interface DataTerraformRemoteStateS3Config extends DataTerraformRemoteStateConfig, S3BackendProps {}
