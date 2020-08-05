@@ -4,11 +4,17 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        terraform: [latest:^0.12.29, 0.13.0-rc1]
     container:
-      image: hashicorp/jsii-terraform
+      image: foo
 
     steps:
       - uses: actions/checkout@v2
+      - name: set terraform
+        run: |
+          tfenv use ${{ matrix.terraform }}
       - name: installing dependencies
         run: |
           yarn install

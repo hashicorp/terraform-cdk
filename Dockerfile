@@ -1,7 +1,5 @@
 FROM jsii/superchain
 
-COPY tools/install-terraform.sh /tmp/
-
 RUN yum install -y jq && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
 
 # Setup Terraform via tfenv
