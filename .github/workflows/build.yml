@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: [latest:^0.12.29, 0.13.0-rc1]
+        terraform: ["latest:^0.12.29", 0.13.0-rc1]
     container:
-      image: foo
+      image: skorfmann/jsii-terraform
 
     steps:
       - uses: actions/checkout@v2
