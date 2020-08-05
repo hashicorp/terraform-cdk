@@ -57,7 +57,7 @@ export interface Block {
 
 export async function readSchema(providers: string[]): Promise<ProviderSchema> {
   const provider: { [name: string]: {} } = {};
-  const requiredProviders: { [name: string]: { source?: string,  version?: string } } = { };
+  const requiredProviders: { [name: string]: { source?: string;  version?: string } } = { };
 
   for (const p of providers) {
     const [ fqname, version ] = p.split('@');
@@ -73,6 +73,7 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
   await withTempDir('fetchSchema', async () => {
     const outdir = process.cwd();
     const filePath = path.join(outdir, 'providers.tf.json');
+    // eslint-disable-next-line @typescript-eslint/camelcase
     await writeFile(filePath, JSON.stringify({ provider, terraform: { required_providers: requiredProviders }}));
 
     const env = process.env['TF_PLUGIN_CACHE_DIR'] ? process.env : Object.assign({}, process.env, { 'TF_PLUGIN_CACHE_DIR': await cacheDir(workDir) })

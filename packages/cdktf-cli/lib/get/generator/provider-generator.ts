@@ -14,7 +14,7 @@ export class TerraformProviderConstraint {
     const [ fqn, version ] = cdktfConstraint.split('@');
     const nameParts = fqn.split('/');
     const name = nameParts.pop();
-    if (!name) { throw new Error(`Provider name should be properly set in ${cdktfConstraint}`) };
+    if (!name) { throw new Error(`Provider name should be properly set in ${cdktfConstraint}`) }
 
     this.name = name;
     this.source = nameParts.join('/');
@@ -23,7 +23,6 @@ export class TerraformProviderConstraint {
   }
 
   public isMatching(terraformSchemaName: string): boolean {
-    console.log({terraformSchemaName})
     const elements = terraformSchemaName.split('/')
 
     if (elements.length === 1) {
@@ -46,7 +45,7 @@ interface ProviderData {
 }
 
 export interface ProviderConstraints {
-  [fqn: string]: ProviderData
+  [fqn: string]: ProviderData;
 }
 
 export class TerraformGenerator {
