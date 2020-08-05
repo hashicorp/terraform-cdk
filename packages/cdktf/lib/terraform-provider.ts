@@ -7,11 +7,13 @@ import { keysToSnakeCase, deepMerge } from "./util";
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
   readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+  readonly terraformProviderSource?: string;
 }
 
 export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+  public readonly terraformProviderSource?: string;
   public alias?: string;
 
   constructor(scope: Construct, id: string, config: TerraformProviderConfig) {
@@ -19,6 +21,7 @@ export abstract class TerraformProvider extends TerraformElement {
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
+    this.terraformProviderSource = config.terraformProviderSource;
   }
 
   public get fqn(): string {
@@ -42,7 +45,10 @@ export abstract class TerraformProvider extends TerraformElement {
       terraform: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         required_providers: {
-          [this.terraformResourceType]: this.terraformGeneratorMetadata?.providerVersionConstraint
+          [this.terraformResourceType]: {
+            version: this.terraformGeneratorMetadata?.providerVersionConstraint,
+            source: this.terraformProviderSource
+          }
         }
       },
       provider: {

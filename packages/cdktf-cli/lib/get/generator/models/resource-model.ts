@@ -22,6 +22,7 @@ export class ResourceModel {
   public baseName: string;
   public provider: string;
   public providerVersionConstraint?: string;
+  public terraformProviderSource?: string;
   public fileName: string;
   public filePath: string;
   public attributes: AttributeModel[];

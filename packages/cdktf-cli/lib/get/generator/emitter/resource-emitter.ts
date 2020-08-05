@@ -87,7 +87,8 @@ export class ResourceEmitter {
       this.code.open(`terraformGeneratorMetadata: {`);
         this.code.line(`providerName: '${resource.provider}',`);
         this.code.line(`providerVersionConstraint: '${resource.providerVersionConstraint}'`);
-      this.code.close(`}`);
+        this.code.close(`},`);
+      this.code.line(`terraformProviderSource: '${resource.terraformProviderSource}'`);
     this.code.close(`});`);
   }
 }
