@@ -17,3 +17,4 @@ tsconfig.json
 **/coverage
 **/dist
 **/.terraform
+.vscode
