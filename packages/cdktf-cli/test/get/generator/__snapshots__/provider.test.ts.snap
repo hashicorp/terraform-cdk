@@ -1196,7 +1196,8 @@ export class AwsProvider extends TerraformProvider {
       terraformGeneratorMetadata: {
         providerName: 'aws',
         providerVersionConstraint: 'undefined'
-      }
+      },
+      terraformProviderSource: 'undefined'
     });
     this._accessKey = config.accessKey;
     this._allowedAccountIds = config.allowedAccountIds;
