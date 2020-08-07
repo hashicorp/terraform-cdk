@@ -10,6 +10,6 @@
     "consul",
     "vault",
     "nomad",
-    "openstack"
+    "terraform-providers/openstack"
   ]
 }
