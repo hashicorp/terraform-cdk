@@ -1,6 +1,8 @@
 import * as path from 'path';
 import { exec } from '../../../../lib/util'
 
+const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || 'terraform'
+
 export enum PlannedResourceAction {
   CREATE = 'create',
   UPDATE = 'update',
@@ -81,7 +83,7 @@ export class Terraform  {
   }
 
   public async init(): Promise<void> {
-    await exec('terraform', ['init'], { cwd: this.workdir, env: process.env })
+    await exec(terraformBinaryName, ['init'], { cwd: this.workdir, env: process.env })
   }
 
   public async plan(destroy = false): Promise<TerraformPlan> {
@@ -90,29 +92,29 @@ export class Terraform  {
     if (destroy) {
       options.push('-destroy')
     }
-    await exec('terraform', options, { cwd: this.workdir, env: process.env });
-    const jsonPlan = await exec('terraform', ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
+    await exec(terraformBinaryName, options, { cwd: this.workdir, env: process.env });
+    const jsonPlan = await exec(terraformBinaryName, ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
     return new TerraformPlan(planFile, JSON.parse(jsonPlan));
   }
 
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
-    await exec('terraform', ['apply', '-auto-approve', ...this.stateFileOption, planFile], { cwd: this.workdir, env: process.env }, stdout);
+    await exec(terraformBinaryName, ['apply', '-auto-approve', ...this.stateFileOption, planFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
-    await exec('terraform', ['destroy', '-auto-approve', ...this.stateFileOption], { cwd: this.workdir, env: process.env }, stdout);
+    await exec(terraformBinaryName, ['destroy', '-auto-approve', ...this.stateFileOption], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async version(): Promise<string> {
     try {
-      return await exec('terraform', ['-v'], { cwd: this.workdir, env: process.env });
+      return await exec(terraformBinaryName, ['-v'], { cwd: this.workdir, env: process.env });
     } catch {
       throw new Error("Terraform CLI not present - Please install a current version https://learn.hashicorp.com/terraform/getting-started/install.html")
     }
   }
 
   public async output(): Promise<{[key: string]: TerraformOutput}> {
-    const output = await exec('terraform', ['output', '-json', ...this.stateFileOption], { cwd: this.workdir, env: process.env });    return JSON.parse(output)
+    const output = await exec(terraformBinaryName, ['output', '-json', ...this.stateFileOption], { cwd: this.workdir, env: process.env });    return JSON.parse(output)
   }
 
   private get stateFileOption() {

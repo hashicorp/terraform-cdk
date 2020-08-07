@@ -6,15 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ["latest:^0.12.29", 0.13.0-rc1]
+        terraform: ["0.12.29", 0.13.0-rc1]
     container:
-      image: skorfmann/jsii-terraform
+      image: hashicorp/jsii-terraform
 
     steps:
       - uses: actions/checkout@v2
-      - name: set terraform
-        run: |
-          tfenv use ${{ matrix.terraform }}
       - name: installing dependencies
         run: |
           yarn install
@@ -22,12 +19,17 @@ jobs:
         run: |
           tools/align-version.sh
           yarn build
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: test
         run: |
           yarn test
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: create bundle
         run: yarn package
       - name: integration tests
         run: yarn integration
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
