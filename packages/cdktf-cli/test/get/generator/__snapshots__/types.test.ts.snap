@@ -4,30 +4,6 @@ exports[`boolean list attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/boolean_list.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"foo_required\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"bool\\"
-        ],
-        \\"required\\": true
-      },
-      \\"foo_optional\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"bool\\"
-        ],
-        \\"optional\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -102,38 +78,6 @@ exports[`boolean map attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/boolean_map.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"foo_computed\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"bool\\"
-        ],
-        \\"computed\\": true
-      },
-      \\"foo_computed_optional\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"bool\\"
-        ],
-        \\"optional\\": true,
-        \\"computed\\": true
-      },
-      \\"foo_optional\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"bool\\"
-        ],
-        \\"optional\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -214,48 +158,6 @@ exports[`computed complex attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/computed_complex.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"egress\\": {
-        \\"type\\": [
-          \\"set\\",
-          [
-            \\"object\\",
-            {
-              \\"cidr_blocks\\": [
-                \\"list\\",
-                \\"string\\"
-              ],
-              \\"description\\": \\"string\\",
-              \\"from_port\\": \\"number\\",
-              \\"ipv6_cidr_blocks\\": [
-                \\"list\\",
-                \\"string\\"
-              ],
-              \\"prefix_list_ids\\": [
-                \\"list\\",
-                \\"string\\"
-              ],
-              \\"protocol\\": \\"string\\",
-              \\"security_groups\\": [
-                \\"set\\",
-                \\"string\\"
-              ],
-              \\"self\\": \\"bool\\",
-              \\"to_port\\": \\"number\\"
-            }
-          ]
-        ],
-        \\"computed\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -359,37 +261,6 @@ exports[`computed complex nested attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"resources\\": {
-        \\"type\\": [
-          \\"list\\",
-          [
-            \\"object\\",
-            {
-              \\"autoscaling_groups\\": [
-                \\"list\\",
-                [
-                  \\"object\\",
-                  {
-                    \\"name\\": \\"string\\"
-                  }
-                ]
-              ],
-              \\"remote_access_security_group_id\\": \\"string\\"
-            }
-          ]
-        ],
-        \\"computed\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -465,51 +336,6 @@ exports[`computed nested complex list block type 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {},
-    \\"block_types\\": {
-      \\"inputs\\": {
-        \\"nesting_mode\\": \\"list\\",
-        \\"block\\": {
-          \\"attributes\\": {
-            \\"id\\": {
-              \\"type\\": \\"string\\",
-              \\"computed\\": true
-            },
-            \\"name_prefix\\": {
-              \\"type\\": \\"string\\",
-              \\"required\\": true
-            },
-            \\"starting_position_configuration\\": {
-              \\"type\\": [
-                \\"list\\",
-                [
-                  \\"object\\",
-                  {
-                    \\"starting_position\\": \\"string\\"
-                  }
-                ]
-              ],
-              \\"computed\\": true
-            },
-            \\"stream_names\\": {
-              \\"type\\": [
-                \\"set\\",
-                \\"string\\"
-              ],
-              \\"computed\\": true
-            }
-          },
-          \\"block_types\\": {}
-        }
-      }
-    }
-  }
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -576,49 +402,6 @@ exports[`computed optional complex attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"egress\\": {
-        \\"type\\": [
-          \\"set\\",
-          [
-            \\"object\\",
-            {
-              \\"cidr_blocks\\": [
-                \\"list\\",
-                \\"string\\"
-              ],
-              \\"description\\": \\"string\\",
-              \\"from_port\\": \\"number\\",
-              \\"ipv6_cidr_blocks\\": [
-                \\"list\\",
-                \\"string\\"
-              ],
-              \\"prefix_list_ids\\": [
-                \\"list\\",
-                \\"string\\"
-              ],
-              \\"protocol\\": \\"string\\",
-              \\"security_groups\\": [
-                \\"set\\",
-                \\"string\\"
-              ],
-              \\"self\\": \\"bool\\",
-              \\"to_port\\": \\"number\\"
-            }
-          ]
-        ],
-        \\"optional\\": true,
-        \\"computed\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -692,41 +475,6 @@ exports[`deeply nested block types 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {},
-    \\"block_types\\": {
-      \\"lifecycle_rule\\": {
-        \\"nesting_mode\\": \\"list\\",
-        \\"block\\": {
-          \\"attributes\\": {
-            \\"abort_incomplete_multipart_upload_days\\": {
-              \\"type\\": \\"number\\",
-              \\"optional\\": true
-            }
-          },
-          \\"block_types\\": {
-            \\"expiration\\": {
-              \\"nesting_mode\\": \\"set\\",
-              \\"block\\": {
-                \\"attributes\\": {
-                  \\"date\\": {
-                    \\"type\\": \\"string\\",
-                    \\"optional\\": true
-                  }
-                }
-              },
-              \\"max_items\\": 1
-            }
-          }
-        }
-      }
-    }
-  }
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -798,25 +546,6 @@ exports[`ignored attributes 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"id\\": {
-        \\"type\\": \\"string\\",
-        \\"computed\\": true,
-        \\"optional\\": true
-      },
-      \\"arn\\": {
-        \\"type\\": \\"string\\",
-        \\"computed\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -881,24 +610,6 @@ exports[`incompatible attribute names 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"get_password_data\\": {
-        \\"type\\": \\"string\\",
-        \\"optional\\": true
-      },
-      \\"self\\": {
-        \\"type\\": \\"string\\",
-        \\"required\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -973,27 +684,6 @@ exports[`list of string map attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/list_of_string_map.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"keys\\": {
-        \\"type\\": [
-          \\"list\\",
-          [
-            \\"map\\",
-            \\"string\\"
-          ]
-        ],
-        \\"description\\": \\"List of key versions in the keyring.\\",
-        \\"computed\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1050,30 +740,6 @@ exports[`number list attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/number_list.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"foo_required\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"number\\"
-        ],
-        \\"required\\": true
-      },
-      \\"foo_optional\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"number\\"
-        ],
-        \\"optional\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1148,38 +814,6 @@ exports[`number map attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/number_map.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"foo_computed\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"number\\"
-        ],
-        \\"computed\\": true
-      },
-      \\"foo_computed_optional\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"number\\"
-        ],
-        \\"optional\\": true,
-        \\"computed\\": true
-      },
-      \\"foo_optional\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"number\\"
-        ],
-        \\"optional\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1260,33 +894,6 @@ exports[`primitive boolean 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"foo_computed\\": {
-        \\"type\\": \\"bool\\",
-        \\"computed\\": true
-      },
-      \\"foo_computed_optional\\": {
-        \\"type\\": \\"bool\\",
-        \\"computed\\": true,
-        \\"optional\\": true
-      },
-      \\"foo_optional\\": {
-        \\"type\\": \\"bool\\",
-        \\"optional\\": true
-      },
-      \\"foo_required\\": {
-        \\"type\\": \\"bool\\",
-        \\"required\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1378,33 +985,6 @@ exports[`primitive number 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/primitive_number.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"foo_computed\\": {
-        \\"type\\": \\"number\\",
-        \\"computed\\": true
-      },
-      \\"foo_computed_optional\\": {
-        \\"type\\": \\"number\\",
-        \\"computed\\": true,
-        \\"optional\\": true
-      },
-      \\"foo_optional\\": {
-        \\"type\\": \\"number\\",
-        \\"optional\\": true
-      },
-      \\"foo_required\\": {
-        \\"type\\": \\"number\\",
-        \\"required\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1496,33 +1076,6 @@ exports[`primitive string 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/primitive_string.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"foo_computed\\": {
-        \\"type\\": \\"string\\",
-        \\"computed\\": true
-      },
-      \\"foo_computed_optional\\": {
-        \\"type\\": \\"string\\",
-        \\"computed\\": true,
-        \\"optional\\": true
-      },
-      \\"foo_optional\\": {
-        \\"type\\": \\"string\\",
-        \\"optional\\": true
-      },
-      \\"foo_required\\": {
-        \\"type\\": \\"string\\",
-        \\"required\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1614,38 +1167,6 @@ exports[`set / list block type 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {},
-    \\"block_types\\": {
-      \\"timeouts_set\\": {
-        \\"nesting_mode\\": \\"set\\",
-        \\"block\\": {
-          \\"attributes\\": {
-            \\"create\\": {
-              \\"type\\": \\"string\\",
-              \\"optional\\": true
-            }
-          }
-        }
-      },
-      \\"timeouts_list\\": {
-        \\"nesting_mode\\": \\"list\\",
-        \\"block\\": {
-          \\"attributes\\": {
-            \\"create\\": {
-              \\"type\\": \\"string\\",
-              \\"optional\\": true
-            }
-          }
-        }
-      }
-    }
-  }
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1728,27 +1249,6 @@ exports[`single block type 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/single_block_type.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {},
-    \\"block_types\\": {
-      \\"timeouts\\": {
-        \\"nesting_mode\\": \\"single\\",
-        \\"block\\": {
-          \\"attributes\\": {
-            \\"create\\": {
-              \\"type\\": \\"string\\",
-              \\"optional\\": true
-            }
-          }
-        }
-      }
-    }
-  }
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1815,45 +1315,6 @@ exports[`string list attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/string_list.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"subject_alternative_names_optional_computed\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"string\\"
-        ],
-        \\"optional\\": true,
-        \\"computed\\": true
-      },
-      \\"subject_alternative_names_computed\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"string\\"
-        ],
-        \\"computed\\": true
-      },
-      \\"subject_alternative_names_required\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"string\\"
-        ],
-        \\"required\\": true
-      },
-      \\"subject_alternative_names_optional\\": {
-        \\"type\\": [
-          \\"list\\",
-          \\"string\\"
-        ],
-        \\"optional\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
@@ -1945,38 +1406,6 @@ exports[`string map attribute 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/string_map.html
 // generated from terraform resource schema
 
-/*
-{
-  \\"version\\": 1,
-  \\"block\\": {
-    \\"attributes\\": {
-      \\"subject_alternative_names_computed\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"string\\"
-        ],
-        \\"computed\\": true
-      },
-      \\"subject_alternative_names_computed_optional\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"string\\"
-        ],
-        \\"optional\\": true,
-        \\"computed\\": true
-      },
-      \\"subject_alternative_names_optional\\": {
-        \\"type\\": [
-          \\"map\\",
-          \\"string\\"
-        ],
-        \\"optional\\": true
-      }
-    }
-  },
-  \\"block_types\\": {}
-}
-*/
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';

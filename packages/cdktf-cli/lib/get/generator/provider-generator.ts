@@ -128,9 +128,6 @@ export class TerraformGenerator {
     this.code.line(`// ${resource.linkToDocs}`);
     this.code.line(`// generated from terraform resource schema`);
     this.code.line();
-    this.code.line('/*');
-    this.code.line(resource.schemaAsJson);
-    this.code.line('*/');
     resource.importStatements.forEach(statement => this.code.line(statement))
     this.code.line();
     this.code.line('// Configuration');
