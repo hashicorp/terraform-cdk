@@ -1,5 +1,5 @@
 // generates constructs from terraform providers schema
-import { TerraformGenerator } from './generator/provider-generator';
+import { TerraformGenerator, TerraformProviderConstraint } from './generator/provider-generator';
 import { ProviderSchema, readSchema } from './generator/provider-schema';
 import { CodeMaker } from 'codemaker';
 import { GetBase } from './base'
@@ -19,11 +19,10 @@ export class GetProvider extends GetBase {
     return `providers/${name}/index`;
   }
 
-  private async parseProviders(providers: string[]): Promise<{ [name: string]: string }> {
-    const provider: { [name: string]: string } = { };
+  private async parseProviders(providers: string[]): Promise<TerraformProviderConstraint[]> {
+    const provider: TerraformProviderConstraint[] = [];
     for (const p of providers) {
-      const [ name, version ] = p.split('@');
-      provider[name] = version;
+      provider.push(new TerraformProviderConstraint(p))
     }
     return provider;
   }

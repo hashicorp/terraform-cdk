@@ -4,12 +4,56 @@ import { ResourceModel } from "./models"
 import { ResourceParser } from './resource-parser'
 import { ResourceEmitter, StructEmitter } from './emitter'
 
+export class TerraformProviderConstraint {
+  public version: string;
+  public source?: string;
+  public name: string
+  public fqn:  string;
+
+  constructor(public cdktfConstraint: string) {
+    const [ fqn, version ] = cdktfConstraint.split('@');
+    const nameParts = fqn.split('/');
+    const name = nameParts.pop();
+    if (!name) { throw new Error(`Provider name should be properly set in ${cdktfConstraint}`) }
+
+    this.name = name;
+    this.source = nameParts.join('/');
+    this.version = version;
+    this.fqn = fqn
+  }
+
+  public isMatching(terraformSchemaName: string): boolean {
+    const elements = terraformSchemaName.split('/')
+
+    if (elements.length === 1) {
+      return this.name === terraformSchemaName
+    } else {
+      const [hostname, scope, provider] = elements
+
+      if (!hostname || !scope || !provider) {
+        throw new Error(`can't handle ${terraformSchemaName}`)
+      }
+
+      return this.name === provider;
+    }
+  }
+}
+interface ProviderData {
+  name: string;
+  source: string;
+  version: string;
+}
+
+export interface ProviderConstraints {
+  [fqn: string]: ProviderData;
+}
+
 export class TerraformGenerator {
   private resourceParser = new ResourceParser();
   private resourceEmitter:  ResourceEmitter;
   private structEmitter:  StructEmitter;
+  constructor(private readonly code: CodeMaker, schema: ProviderSchema, private providerConstraints?: TerraformProviderConstraint[]) {
 
-  constructor(private readonly code: CodeMaker, schema: ProviderSchema, private providerConstraints?: { [name: string]: string }) {
     this.code.indentation = 2;
     this.resourceEmitter = new ResourceEmitter(this.code)
     this.structEmitter = new StructEmitter(this.code)
@@ -19,8 +63,8 @@ export class TerraformGenerator {
       return;
     }
 
-    for (const [name, provider] of Object.entries(schema.provider_schemas)) {
-      this.emitProvider(name, provider);
+    for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
+      this.emitProvider(fqpn, provider);
     }
   }
 
@@ -28,7 +72,10 @@ export class TerraformGenerator {
     await this.code.save(outdir);
   }
 
-  private emitProvider(name: string, provider: Provider) {
+  private emitProvider(fqpn: string, provider: Provider) {
+    const name = fqpn.split('/').pop()
+    if (!name) { throw new Error(`can't handle ${fqpn}`) }
+
     const files: string[] = []
     for (const [type, resource] of Object.entries(provider.resource_schemas)) {
       files.push(this.emitResourceFile(this.resourceParser.parse(name, type, resource, 'resource')));
@@ -41,7 +88,13 @@ export class TerraformGenerator {
     if (provider.provider) {
       const providerResource = this.resourceParser.parse(name, `provider`, provider.provider, 'provider')
       if (this.providerConstraints) {
-        providerResource.providerVersionConstraint = this.providerConstraints[name]
+        const constraint = this.providerConstraints.find((p) => (p.isMatching(fqpn)))
+        if (!constraint) {
+          console.log({foo: this.providerConstraints, fqpn})
+          throw new Error(`can't handle ${fqpn}`)
+        }
+        providerResource.providerVersionConstraint = constraint.version;
+        providerResource.terraformProviderSource = constraint.fqn;
       }
       files.push(this.emitResourceFile(providerResource));
     }
@@ -75,9 +128,6 @@ export class TerraformGenerator {
     this.code.line(`// ${resource.linkToDocs}`);
     this.code.line(`// generated from terraform resource schema`);
     this.code.line();
-    this.code.line('/*');
-    this.code.line(resource.schemaAsJson);
-    this.code.line('*/');
     resource.importStatements.forEach(statement => this.code.line(statement))
     this.code.line();
     this.code.line('// Configuration');

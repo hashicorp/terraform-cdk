@@ -3,9 +3,5 @@
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": [
     "aws@~> 2.0"
-  ],
-  "terraformModules": [
-    "terraform-aws-modules/eks/aws",
-    "terraform-aws-modules/vpc/aws"
   ]
 }

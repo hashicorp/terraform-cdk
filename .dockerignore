@@ -10,3 +10,4 @@
 **/cdktf.out
 **/.gen
 **/dist
+**/.terraform

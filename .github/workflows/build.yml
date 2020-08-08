@@ -4,6 +4,9 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        terraform: ["0.12.29", 0.13.0-rc1]
     container:
       image: hashicorp/jsii-terraform
 
@@ -16,12 +19,17 @@ jobs:
         run: |
           tools/align-version.sh
           yarn build
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: test
         run: |
           yarn test
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: create bundle
         run: yarn package
       - name: integration tests
         run: yarn integration
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"

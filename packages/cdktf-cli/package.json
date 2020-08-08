@@ -10,6 +10,7 @@
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
     "test": "yarn lint && jest",
     "jest-watch": "jest --watch",
     "package": "./package.sh"
