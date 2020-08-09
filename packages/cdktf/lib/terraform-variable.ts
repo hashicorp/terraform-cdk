@@ -6,82 +6,42 @@ import { Token } from "./tokens";
 export interface TerraformVariableConfig {
     readonly default?: any;
     readonly description?: string;
-    readonly type?: ITerraformVariableType;
+    readonly type?: VariableType;
 }
 
-export interface ITerraformVariableType {
-    /**
-     * @internal
-     */
-    _render(): string;
+export type VariableType = PrimitiveVariableType | ComplexVariableType;
+export type ComplexVariableType = CollectionVariableType | TupleVariableType | ObjectVariableType;
+
+export enum PrimitiveVariableType {
+    STRING = 'string',
+    NUMBER = 'number',
+    BOOL = 'bool',
+    ANY = 'any'
 }
 
-export class TerraformPrimitiveVariableType implements ITerraformVariableType {
-    public static readonly STRING = new TerraformPrimitiveVariableType('string');
-    public static readonly NUMBER = new TerraformPrimitiveVariableType('number');
-    public static readonly BOOL = new TerraformPrimitiveVariableType('bool');
-    public static readonly ANY = new TerraformPrimitiveVariableType('any');
-
-    constructor(private readonly type: string) {
-
-    }
-
-    /**
-     * @internal
-     */
-    _render(): string {
-        return this.type;
-    }
-}
-
-export enum TerraformCollectionType {
+export enum CollectionType {
     LIST = 'list',
     MAP = 'map',
     SET = 'set'
 }
 
-export class TerraformCollectionVariableType implements ITerraformVariableType {
-    constructor(public readonly collectionType: TerraformCollectionType, public readonly elementType: ITerraformVariableType) {
-    }
-
-    /**
-     * @internal
-     */
-    _render(): string {
-        return `list(${this.elementType._render()})`;
-    }
+export interface CollectionVariableType {
+    readonly collectionType: CollectionType;
+    readonly elementType?: VariableType;
 }
 
-export class TerraformTupleVariableType implements ITerraformVariableType {
-    constructor(public readonly elements: ITerraformVariableType[]) {
-
-    }
-
-    /**
-     * @internal
-     */
-    _render(): string {
-        return `tuple(${this.elements.map(e => e._render()).join(", ")})`;
-    }
+export interface TupleVariableType {
+    readonly elements: VariableType[];
 }
 
-export class TerraformObjectVariableType implements ITerraformVariableType {
-    constructor(public readonly attributes: { [k: string]: ITerraformVariableType }) {
-
-    }
-
-    /**
-     * @internal
-     */
-    _render(): string {
-        return `object({${Object.keys(this.attributes).map(k => k + "=" + this.attributes[k]._render()).join(", ")}})`;
-    }
+export interface ObjectVariableType {
+    readonly attributes: {[key: string]: VariableType};
 }
 
 export class TerraformVariable extends TerraformElement {
     public readonly default?: any;
     public readonly description?: string;
-    public readonly type?: ITerraformVariableType;
+    public readonly type?: VariableType;
 
     constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
         super(scope, id);
@@ -115,19 +75,49 @@ export class TerraformVariable extends TerraformElement {
         return `\${var.${this.friendlyUniqueId}}`
     }
 
-    public synthesizeAttributes(): { [key: string]: any } {
-        return {
-            default: this.default,
-            description: this.description,
-            type: this.type?._render()
-        }
-    }
-
     public toTerraform(): any {
         return {
             variable: {
                 [this.friendlyUniqueId]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
             }
         };
+    }
+
+    public synthesizeAttributes(): { [key: string]: any } {
+        return {
+            default: this.default,
+            description: this.description,
+            type: this.renderType(this.type)
+        }
+    }
+
+    private renderType(type?: VariableType): string | undefined {
+        if (type === null) {
+            return undefined;
+        }
+        else if(this.isCollectionType(type)) {
+            return `${type.collectionType}(${this.renderType(type.elementType)})`;
+        }
+        else if(this.isTupleType(type)) {
+            return `tuple(${type.elements.map(e => this.renderType(e)).join(", ")})`;
+        }
+        else if(this.isObjectType(type)) {
+            return `object({${Object.keys(type.attributes).map(k => k + "=" + this.renderType(type.attributes[k])).join(", ")}})`;
+        }
+        else {
+            return type?.toString();
+        }
+    }
+
+    private isCollectionType(type?: VariableType): type is CollectionVariableType {
+        return (type as CollectionVariableType)?.collectionType !== undefined;
+    }
+
+    private isTupleType(type?: VariableType): type is TupleVariableType {
+        return (type as TupleVariableType)?.elements !== undefined;
+    }
+
+    private isObjectType(type?: VariableType): type is ObjectVariableType {
+        return (type as ObjectVariableType)?.attributes !== undefined;
     }
 }
