@@ -1,3 +1,13 @@
+## 0.0.14
+
+**Implemented enhancements:**
+
+- Terraform 0.13 Compatibility [\#285](https://github.com/hashicorp/terraform-cdk/issues/285)
+
+**Security Updates:**
+
+- Fix dot-prop security dependency bot alert [\#296](https://github.com/hashicorp/terraform-cdk/issues/296)
+
 ## 0.0.13
 
 **Fixed bugs:**
