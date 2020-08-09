@@ -66,7 +66,7 @@ test('collection type', () => {
     const stack = new TerraformStack(app, 'test');
 
     new TerraformVariable(stack, 'test-variable', {
-        type: { collectionType: CollectionType.LIST, elementType: PrimitiveVariableType.STRING }
+        type: [CollectionType.LIST, PrimitiveVariableType.STRING]
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -76,7 +76,7 @@ test('tuple type', () => {
     const stack = new TerraformStack(app, 'test');
 
     new TerraformVariable(stack, 'test-variable', {
-        type: { elements: [PrimitiveVariableType.BOOL, { collectionType: CollectionType.LIST, elementType: PrimitiveVariableType.NUMBER }] }
+        type: [PrimitiveVariableType.BOOL, [CollectionType.LIST, PrimitiveVariableType.NUMBER]]
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -86,7 +86,7 @@ test('object type', () => {
     const stack = new TerraformStack(app, 'test');
 
     new TerraformVariable(stack, 'test-variable', {
-        type: { attributes: { internal: PrimitiveVariableType.NUMBER, protocol: PrimitiveVariableType.STRING } },
+        type: { internal: PrimitiveVariableType.NUMBER, protocol: PrimitiveVariableType.STRING },
         default: { internal: 8300, protocol: 'tcp' }
     });
     expect(Testing.synth(stack)).toMatchSnapshot();

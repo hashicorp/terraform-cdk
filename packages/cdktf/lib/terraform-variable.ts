@@ -9,8 +9,7 @@ export interface TerraformVariableConfig {
     readonly type?: VariableType;
 }
 
-export type VariableType = PrimitiveVariableType | ComplexVariableType;
-export type ComplexVariableType = CollectionVariableType | TupleVariableType | ObjectVariableType;
+export type VariableType = PrimitiveVariableType | CollectionVariableType | TupleVariableType | ObjectVariableType;
 
 export enum PrimitiveVariableType {
     STRING = 'string',
@@ -18,24 +17,21 @@ export enum PrimitiveVariableType {
     BOOL = 'bool',
     ANY = 'any'
 }
+const PrimitiveTypeVals = ['string', 'number', 'bool', 'any'] as const;
 
 export enum CollectionType {
     LIST = 'list',
     MAP = 'map',
     SET = 'set'
 }
+const CollectionTypeVals = ['list', 'map', 'set'] as const;
 
-export interface CollectionVariableType {
-    readonly collectionType: CollectionType;
-    readonly elementType?: VariableType;
-}
+export type CollectionVariableType = [CollectionType, VariableType];
 
-export interface TupleVariableType {
-    readonly elements: VariableType[];
-}
+export type TupleVariableType = VariableType[];
 
 export interface ObjectVariableType {
-    readonly attributes: {[key: string]: VariableType};
+    [key: string]: VariableType;
 }
 
 export class TerraformVariable extends TerraformElement {
@@ -92,32 +88,32 @@ export class TerraformVariable extends TerraformElement {
     }
 
     private renderType(type?: VariableType): string | undefined {
-        if (type === null) {
+        if (type === null || type === undefined) {
             return undefined;
         }
+        else if(this.isPrimitiveType(type)) {
+            return type.toString();
+        }
         else if(this.isCollectionType(type)) {
-            return `${type.collectionType}(${this.renderType(type.elementType)})`;
+            return `${type[0]}(${this.renderType(type[1])})`;
         }
         else if(this.isTupleType(type)) {
-            return `tuple(${type.elements.map(e => this.renderType(e)).join(", ")})`;
-        }
-        else if(this.isObjectType(type)) {
-            return `object({${Object.keys(type.attributes).map(k => k + "=" + this.renderType(type.attributes[k])).join(", ")}})`;
+            return `tuple(${type.map(e => this.renderType(e)).join(", ")})`;
         }
         else {
-            return type?.toString();
+            return `object({${Object.keys(type).map(k => k + "=" + this.renderType(type[k])).join(", ")}})`;
         }
     }
 
-    private isCollectionType(type?: VariableType): type is CollectionVariableType {
-        return (type as CollectionVariableType)?.collectionType !== undefined;
+    private isPrimitiveType(type: VariableType): type is PrimitiveVariableType {
+        return PrimitiveTypeVals.find(val => val === type) !== undefined;
     }
 
-    private isTupleType(type?: VariableType): type is TupleVariableType {
-        return (type as TupleVariableType)?.elements !== undefined;
+    private isCollectionType(type: VariableType): type is CollectionVariableType {
+        return CollectionTypeVals.find(val => val === type[0]) !== undefined;
     }
 
-    private isObjectType(type?: VariableType): type is ObjectVariableType {
-        return (type as ObjectVariableType)?.attributes !== undefined;
+    private isTupleType(type: VariableType): type is TupleVariableType {
+        return Array.isArray(type);
     }
 }
