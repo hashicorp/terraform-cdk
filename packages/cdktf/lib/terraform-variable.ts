@@ -1,13 +1,7 @@
-import { Construct } from "constructs";
+import { Construct, Node } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util"
 import { Token } from "./tokens";
-
-export interface TerraformVariableConfig {
-    readonly default?: any;
-    readonly description?: string;
-    readonly type?: IVariableType;
-}
 
 export interface IVariableType {
     /**
@@ -99,10 +93,18 @@ export class ObjectVariableType implements IVariableType {
     }
 }
 
+export interface TerraformVariableConfig {
+    readonly default?: any;
+    readonly description?: string;
+    readonly type?: IVariableType;
+    readonly staticName?: boolean;
+}
+
 export class TerraformVariable extends TerraformElement {
     public readonly default?: any;
     public readonly description?: string;
     public readonly type?: IVariableType;
+    private readonly staticName: boolean;
 
     constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
         super(scope, id);
@@ -110,6 +112,7 @@ export class TerraformVariable extends TerraformElement {
         this.default = config.default;
         this.description = config.description;
         this.type = config.type;
+        this.staticName = config.staticName ?? true;
     }
 
     public get stringValue(): string {
@@ -132,8 +135,12 @@ export class TerraformVariable extends TerraformElement {
         return Token.asAny(this.interpolation());
     }
 
+    private get name(): string {
+        return this.staticName ? Node.of(this).id : this.friendlyUniqueId;
+    }
+
     private interpolation(): any {
-        return `\${var.${this.friendlyUniqueId}}`
+        return `\${var.${this.name}}`
     }
 
     public synthesizeAttributes(): { [key: string]: any } {
@@ -147,7 +154,7 @@ export class TerraformVariable extends TerraformElement {
     public toTerraform(): any {
         return {
             variable: {
-                [this.friendlyUniqueId]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
+                [this.name]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
             }
         };
     }

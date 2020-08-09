@@ -9,7 +9,7 @@ exports[`any type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"any\\"
     }
   }
@@ -25,7 +25,7 @@ exports[`bool type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"bool\\"
     }
   }
@@ -41,7 +41,7 @@ exports[`collection type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"list(string)\\"
     }
   }
@@ -57,7 +57,7 @@ exports[`default value 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"default\\": \\"my-val\\"
     }
   }
@@ -73,8 +73,24 @@ exports[`description 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"description\\": \\"A Test Variable\\"
+    }
+  }
+}"
+`;
+
+exports[`dynamic name 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"string\\"
     }
   }
 }"
@@ -89,7 +105,7 @@ exports[`map collection type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"map(bool)\\"
     }
   }
@@ -105,7 +121,7 @@ exports[`number type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"number\\"
     }
   }
@@ -121,7 +137,7 @@ exports[`object type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"default\\": {
         \\"internal\\": 8300,
         \\"protocol\\": \\"tcp\\"
@@ -141,14 +157,14 @@ exports[`reference 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"string\\"
     }
   },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test_testresource_F1C68B60\\": {
-        \\"name\\": \\"\${var.test_testvariable_9CDF30A7}\\",
+        \\"name\\": \\"\${var.test-variable}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test-resource\\",
@@ -170,7 +186,7 @@ exports[`set collection type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"set(number)\\"
     }
   }
@@ -186,7 +202,7 @@ exports[`string type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"string\\"
     }
   }
@@ -202,7 +218,7 @@ exports[`tuple type 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test_testvariable_9CDF30A7\\": {
+    \\"test-variable\\": {
       \\"type\\": \\"tuple(bool, list(number))\\"
     }
   }
