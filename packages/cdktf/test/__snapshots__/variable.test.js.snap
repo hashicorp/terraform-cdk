@@ -80,6 +80,22 @@ exports[`description 1`] = `
 }"
 `;
 
+exports[`map collection type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"map(bool)\\"
+    }
+  }
+}"
+`;
+
 exports[`number type 1`] = `
 "{
   \\"//\\": {
@@ -140,6 +156,22 @@ exports[`reference 1`] = `
           }
         }
       }
+    }
+  }
+}"
+`;
+
+exports[`set collection type 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test_testvariable_9CDF30A7\\": {
+      \\"type\\": \\"set(number)\\"
     }
   }
 }"

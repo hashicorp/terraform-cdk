@@ -1,4 +1,4 @@
-import { Testing, TerraformStack, TerraformVariable, PrimitiveVariableType, CollectionType } from '../lib';
+import { Testing, TerraformStack, TerraformVariable, PrimitiveVariableType, CollectionVariableType, CollectionType, TupleVariableType, ObjectVariableType } from '../lib';
 import { TestResource } from './helper'
 
 test('string type', () => {
@@ -66,7 +66,27 @@ test('collection type', () => {
     const stack = new TerraformStack(app, 'test');
 
     new TerraformVariable(stack, 'test-variable', {
-        type: [CollectionType.LIST, PrimitiveVariableType.STRING]
+        type: CollectionVariableType.LIST_STRING
+    });
+    expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test('set collection type', () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, 'test');
+
+    new TerraformVariable(stack, 'test-variable', {
+        type: CollectionVariableType.SET.of(PrimitiveVariableType.NUMBER)
+    });
+    expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test('map collection type', () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, 'test');
+
+    new TerraformVariable(stack, 'test-variable', {
+        type: new CollectionVariableType(CollectionType.MAP, PrimitiveVariableType.BOOL)
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -76,7 +96,7 @@ test('tuple type', () => {
     const stack = new TerraformStack(app, 'test');
 
     new TerraformVariable(stack, 'test-variable', {
-        type: [PrimitiveVariableType.BOOL, [CollectionType.LIST, PrimitiveVariableType.NUMBER]]
+        type: new TupleVariableType([PrimitiveVariableType.BOOL, new CollectionVariableType(CollectionType.LIST, PrimitiveVariableType.NUMBER)])
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -86,7 +106,7 @@ test('object type', () => {
     const stack = new TerraformStack(app, 'test');
 
     new TerraformVariable(stack, 'test-variable', {
-        type: { internal: PrimitiveVariableType.NUMBER, protocol: PrimitiveVariableType.STRING },
+        type: new ObjectVariableType({ internal: PrimitiveVariableType.NUMBER, protocol: PrimitiveVariableType.STRING }),
         default: { internal: 8300, protocol: 'tcp' }
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
