@@ -37,7 +37,7 @@ jobs:
           path: dist
 
   linux_integration:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         terraform: ["0.12.29", 0.13.0-rc1]
@@ -58,7 +58,7 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
 
   windows_integration:
-    runs_on: windows-latest
+    runs-on: windows-latest
     needs: build
 
     steps:
