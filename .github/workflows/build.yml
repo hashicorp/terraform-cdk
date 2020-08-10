@@ -69,6 +69,7 @@ jobs:
           terraform_wrapper: false
       - name: Download dist
         uses: actions/download-artifact@v2
+        with:
           name: dist
       - name: integration tests
         run: yarn integration-windows
