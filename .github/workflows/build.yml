@@ -49,6 +49,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
       - name: integration tests
         run: yarn integration
         env:
@@ -69,6 +70,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
       - name: integration tests
         run: yarn integration-windows
         env:
