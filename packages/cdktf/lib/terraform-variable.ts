@@ -93,10 +93,12 @@ export class ObjectVariableType implements IVariableType {
     }
 }
 
+export type VariableType = IVariableType | IVariableType[]
+
 export interface TerraformVariableConfig {
     readonly default?: any;
     readonly description?: string;
-    readonly type?: IVariableType;
+    readonly type?: VariableType;
     readonly staticName?: boolean;
 }
 
@@ -111,7 +113,14 @@ export class TerraformVariable extends TerraformElement {
 
         this.default = config.default;
         this.description = config.description;
-        this.type = config.type;
+        if (config.type) {
+            if (Array.isArray(config.type)) {
+                this.type = new TupleVariableType(config.type);
+            }
+            else {
+                this.type = config.type;
+            }
+        }
         this.staticName = config.staticName ?? true;
     }
 

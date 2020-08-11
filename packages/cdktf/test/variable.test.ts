@@ -1,4 +1,4 @@
-import { Testing, TerraformStack, TerraformVariable, PrimitiveVariableType, CollectionVariableType, CollectionType, TupleVariableType, ObjectVariableType } from '../lib';
+import { Testing, TerraformStack, TerraformVariable, PrimitiveVariableType, CollectionVariableType, CollectionType, ObjectVariableType } from '../lib';
 import { TestResource } from './helper'
 
 test('string type', () => {
@@ -96,7 +96,7 @@ test('tuple type', () => {
     const stack = new TerraformStack(app, 'test');
 
     new TerraformVariable(stack, 'test-variable', {
-        type: new TupleVariableType([PrimitiveVariableType.BOOL, new CollectionVariableType(CollectionType.LIST, PrimitiveVariableType.NUMBER)])
+        type: [PrimitiveVariableType.BOOL, new CollectionVariableType(CollectionType.LIST, PrimitiveVariableType.NUMBER)]
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
