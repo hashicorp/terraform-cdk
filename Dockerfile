@@ -2,7 +2,7 @@ FROM jsii/superchain
 
 RUN yum install -y unzip && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
 
-ENV DEFAULT_TERRAFORM_VERSION=0.13.0-rc1
+ENV DEFAULT_TERRAFORM_VERSION=0.13.0
 
 # Install Terraform
 RUN AVAILABLE_TERRAFORM_VERSIONS="0.12.29 ${DEFAULT_TERRAFORM_VERSION}" && \
