@@ -1,0 +1,54 @@
+{
+  "//": {
+    "metadata": {
+      "version": "stubbed",
+      "stackName": "python-third-party-provider"
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "docker": {
+        "version": "~> 2.0",
+        "source": "terraform-providers/docker"
+      }
+    }
+  },
+  "provider": {
+    "docker": [
+      {}
+    ]
+  },
+  "resource": {
+    "docker_image": {
+      "pythonthirdpartyprovider_nginxlatest_F677E4EF": {
+        "keep_locally": false,
+        "name": "nginx:latest",
+        "//": {
+          "metadata": {
+            "path": "python-third-party-provider/nginx-latest",
+            "uniqueId": "pythonthirdpartyprovider_nginxlatest_F677E4EF"
+          }
+        }
+      }
+    },
+    "docker_container": {
+      "pythonthirdpartyprovider_nginxcdktf_C2D51A82": {
+        "image": "nginx:latest",
+        "name": "nginx-python-cdktf",
+        "privileged": false,
+        "ports": [
+          {
+            "internal": 80,
+            "external": 8000
+          }
+        ],
+        "//": {
+          "metadata": {
+            "path": "python-third-party-provider/nginx-cdktf",
+            "uniqueId": "pythonthirdpartyprovider_nginxcdktf_C2D51A82"
+          }
+        }
+      }
+    }
+  }
+}

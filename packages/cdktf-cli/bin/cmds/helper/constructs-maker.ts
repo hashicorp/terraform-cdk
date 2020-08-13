@@ -11,14 +11,14 @@ export class ConstructsMaker {
 
     public async getModules(constructsOptions: ConstructsOptions, modules: string[]): Promise<void> {
         if (modules.length > 0) {
-            await new GetModule().get(Object.assign({}, { codeMakerOutput: constructsOptions.codeMakerOutput, 
-                targetLanguage: constructsOptions.language }, { targetNames: modules }));
+            await new GetModule().get(Object.assign({}, { codeMakerOutput: constructsOptions.codeMakerOutput,
+                targetLanguage: constructsOptions.language, isModule: true }, { targetNames: modules }));
         }
     }
-    
+
     public async getProviders(constructsOptions: ConstructsOptions, providers: string[]): Promise<void> {
         if (providers.length > 0) {
-            await new GetProvider().get(Object.assign({}, { codeMakerOutput: constructsOptions.codeMakerOutput, 
+            await new GetProvider().get(Object.assign({}, { codeMakerOutput: constructsOptions.codeMakerOutput,
                 targetLanguage: constructsOptions.language }, { targetNames: providers }));
         }
     }
