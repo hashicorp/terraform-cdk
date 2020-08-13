@@ -10,6 +10,7 @@ export interface AttributeModelOptions {
   terraformFullName: string;
   description?: string;
   getAttCall?: string;
+  provider: boolean;
 }
 
 export class AttributeModel {
@@ -21,6 +22,7 @@ export class AttributeModel {
   public terraformName: string;
   public terraformFullName: string;
   private _description?: string;
+  public provider: boolean;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -31,6 +33,7 @@ export class AttributeModel {
     this.terraformName = options.terraformName;
     this.terraformFullName = options.terraformFullName;
     this._description = options.description;
+    this.provider = options.provider;
   }
 
   public get typeDefinition() {
@@ -54,6 +57,10 @@ export class AttributeModel {
     return this.type.isTokenizable
   }
 
+  public get isProvider(): boolean {
+    return this.provider;
+  }
+
   public get name(): string {
     // `self` and `build` doesn't work in as property name in Python
     if (this._name === 'self' || this._name === 'build') return `${this._name}Attribute`;
@@ -64,5 +71,13 @@ export class AttributeModel {
 
   public get description(): string | undefined {
     return this._description?.replace(/(\*\/)/gi, `*\\/`)
+  }
+
+  public get isConfigIgnored(): boolean {
+    if (this.isRequired || !this.computed) {
+      return false;
+    }
+    const ignoreList = ['arn', 'id'];
+    return ignoreList.includes(this.name);
   }
 }

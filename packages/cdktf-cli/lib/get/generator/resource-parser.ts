@@ -35,7 +35,7 @@ class Parser {
     uniqueClassName(toPascalCase(`${baseName}Config`));
     const fileName = `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
-    const attributes = this.renderAttributesForBlock(new Scope(baseName), schema.block)
+    const attributes = this.renderAttributesForBlock(new Scope(baseName, terraformSchemaType === 'provider'), schema.block)
 
     const resourceModel = new ResourceModel({
       terraformType: type,
@@ -126,22 +126,23 @@ class Parser {
         computed: !!att.computed,
         optional: !!att.optional,
         terraformName: terraformAttributeName,
-        type
+        type,
+        provider: parentType.isProvider
       }))
     }
 
     for (const [ blockTypeName, blockType ] of Object.entries(block.block_types || { })) {
       // create a struct for this block
       const blockAttributes = this.renderAttributesForBlock(new Scope(`${parentType.name}_${blockTypeName}`, false, true, true), blockType.block)
-      const blockStruct = this.addStruct([ parentType, new Scope(blockTypeName) ], blockAttributes)
+      const blockStruct = this.addStruct([ parentType, new Scope(blockTypeName, parentType.isProvider) ], blockAttributes)
 
       // define the attribute
-      attributes.push(attributeForBlockType(blockTypeName, blockType, blockStruct));
+      attributes.push(attributeForBlockType(blockTypeName, blockType, blockStruct, parentType.isProvider));
     }
 
     return attributes;
 
-    function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct): AttributeModel {
+    function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct, isProvider: boolean): AttributeModel {
       const name = toCamelCase(terraformName);
       switch (blockType.nesting_mode) {
         case 'single':
@@ -154,6 +155,7 @@ class Parser {
             storageName: `_${name}`,
             optional: !struct.attributes.some(x => !x.optional),
             computed: false,
+            provider: isProvider
           });
 
         case 'map':
@@ -166,6 +168,7 @@ class Parser {
             storageName: `_${name}`,
             optional: false,
             computed: false,
+            provider: isProvider
           });
 
         case 'list':
@@ -179,6 +182,7 @@ class Parser {
             storageName: `_${name}`,
             optional: blockType.min_items === undefined ? true : blockType.min_items < 1,
             computed: false,
+            provider: isProvider
           });
       }
     }
@@ -199,6 +203,7 @@ class Parser {
         terraformName,
         terraformFullName: [ ...scope, terraformName ].join('_'),
         type: this.renderAttributeType([ ...scope, new Scope(terraformName, computed, optional) ], att.type),
+        provider: parent.isProvider
       }));
     }
 
