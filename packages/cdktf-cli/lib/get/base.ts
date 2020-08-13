@@ -18,6 +18,7 @@ export interface GetOptions {
   readonly targetLanguage: Language;
   readonly codeMakerOutput: string;
   readonly targetNames: string[];
+  readonly isModule?: boolean;
 }
 
 export abstract class GetBase {
@@ -26,6 +27,7 @@ export abstract class GetBase {
   public async get(options: GetOptions) {
     const code = new CodeMaker();
 
+    const { isModule = false } = options;
     const codeMakerOutdir = path.resolve(options.codeMakerOutput);
     await fs.mkdirp(codeMakerOutdir);
     const isTypescript = options.targetLanguage === Language.TYPESCRIPT
@@ -40,7 +42,7 @@ export abstract class GetBase {
       // this is not typescript, so we generate in a staging directory and harvest the code
       await withTempDir('get', async () => {
         const terraformProvider = new TerraformProviderConstraint(name)
-        const source = terraformProvider.name
+        const source = isModule ? terraformProvider.fqn : terraformProvider.name;
         const compatibleName = source.replace(/\//gi, '_')
         await code.save('.');
         await jsiiCompile('.', {
