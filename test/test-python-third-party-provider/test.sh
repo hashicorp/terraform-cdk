@@ -25,9 +25,6 @@ pipenv run python ./main.py
 
 # get rid of downloaded Terraform providers, no point in diffing them
 rm -rf cdktf.out/.terraform
-echo '--'
-cat cdktf.out/cdk.tf.json
-echo '--'
 
 # show output
 diff cdktf.out ${scriptdir}/expected
