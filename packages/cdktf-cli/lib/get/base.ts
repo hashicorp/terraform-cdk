@@ -3,6 +3,7 @@ import * as path from 'path';
 import { CodeMaker } from 'codemaker';
 import { withTempDir, shell } from '../util';
 import { jsiiCompile } from './jsii';
+import { TerraformProviderConstraint } from './generator/provider-generator';
 
 export enum Language {
   TYPESCRIPT = 'typescript',
@@ -38,7 +39,8 @@ export abstract class GetBase {
     for (const name of options.targetNames) {
       // this is not typescript, so we generate in a staging directory and harvest the code
       await withTempDir('get', async () => {
-        const [ source ] = name.split('@');
+        const terraformProvider = new TerraformProviderConstraint(name)
+        const source = terraformProvider.name
         const compatibleName = source.replace(/\//gi, '_')
         await code.save('.');
         await jsiiCompile('.', {
