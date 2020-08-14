@@ -9,6 +9,7 @@ import * as Openstack from "./.gen/providers/openstack";
 import * as Nomad from "./.gen/providers/nomad";
 import * as Vault from "./.gen/providers/vault";
 import * as Consul from "./.gen/providers/consul";
+import * as External from "./.gen/providers/external";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -24,7 +25,7 @@ export class HelloTerra extends TerraformStack {
       },
     ]);
 
-    [Aws, Azure, Google, Kubernetes, Nomad, Vault, Openstack, Consul];
+    [Aws, Azure, Google, Kubernetes, Nomad, Vault, Openstack, Consul, External];
   }
 }
 

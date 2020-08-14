@@ -77,7 +77,7 @@ export class TerraformGenerator {
     if (!name) { throw new Error(`can't handle ${fqpn}`) }
 
     const files: string[] = []
-    for (const [type, resource] of Object.entries(provider.resource_schemas)) {
+    for (const [type, resource] of Object.entries(provider.resource_schemas || [])) {
       files.push(this.emitResourceFile(this.resourceParser.parse(name, type, resource, 'resource')));
     }
 
