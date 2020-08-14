@@ -3,6 +3,7 @@
 **Fixed bugs:**
 
 - Terraform 0.13 Compatibility for 3rd Party Providers (e.g. Docker) in Python [\#309](https://github.com/hashicorp/terraform-cdk/issues/309)
+- Fix Naming Collision with Config interfaces [\#300](https://github.com/hashicorp/terraform-cdk/issues/300)
 
 ## 0.0.14
 
