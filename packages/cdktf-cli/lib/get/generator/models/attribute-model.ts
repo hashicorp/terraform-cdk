@@ -11,6 +11,7 @@ export interface AttributeModelOptions {
   description?: string;
   getAttCall?: string;
   provider: boolean;
+  required: boolean;
 }
 
 export class AttributeModel {
@@ -23,6 +24,7 @@ export class AttributeModel {
   public terraformFullName: string;
   private _description?: string;
   public provider: boolean;
+  public required: boolean;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -34,6 +36,7 @@ export class AttributeModel {
     this.terraformFullName = options.terraformFullName;
     this._description = options.description;
     this.provider = options.provider;
+    this.required = options.required;
   }
 
   public get typeDefinition() {
@@ -42,7 +45,7 @@ export class AttributeModel {
   }
 
   public get isAssignable() {
-    return !this.computed;
+    return this.required || this.optional;
   }
 
   public get isOptional(): boolean {
@@ -50,7 +53,7 @@ export class AttributeModel {
   }
 
   public get isRequired(): boolean {
-    return !this.isOptional
+    return this.required
   }
 
   public get isTokenizable(): boolean {
@@ -74,7 +77,7 @@ export class AttributeModel {
   }
 
   public get isConfigIgnored(): boolean {
-    if (this.isRequired || !this.computed) {
+    if (this.isAssignable && !this.computed) {
       return false;
     }
     const ignoreList = ['arn', 'id'];
