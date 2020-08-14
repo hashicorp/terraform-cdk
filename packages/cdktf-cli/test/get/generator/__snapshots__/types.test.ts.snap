@@ -45,7 +45,7 @@ export class BooleanList extends TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: boolean[];
   public get fooRequired() {
-    return this._fooRequired;
+    return this.interpolationForAttribute('foo_required') as any;
   }
   public set fooRequired(value: boolean[]) {
     this._fooRequired = value;
@@ -54,7 +54,7 @@ export class BooleanList extends TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: boolean[];
   public get fooOptional() {
-    return this._fooOptional;
+    return this.interpolationForAttribute('foo_optional') as any;
   }
   public set fooOptional(value: boolean[] | undefined) {
     this._fooOptional = value;
@@ -117,7 +117,7 @@ export class BooleanMap extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // foo_computed - computed: true, optional: false, required: true
+  // foo_computed - computed: true, optional: false, required: false
   public fooComputed(key: string): boolean {
     return new BooleanMap(this, 'foo_computed').lookup(key);
   }
@@ -134,7 +134,7 @@ export class BooleanMap extends TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: boolean };
   public get fooOptional() {
-    return this._fooOptional;
+    return this.interpolationForAttribute('foo_optional') as any;
   }
   public set fooOptional(value: { [key: string]: boolean } | undefined) {
     this._fooOptional = value;
@@ -169,47 +169,47 @@ export interface ComputedComplexConfig extends TerraformMetaArguments {
 }
 export class ComputedComplexEgress extends ComplexComputedList {
 
-  // cidr_blocks - computed: true, optional: false, required: true
+  // cidr_blocks - computed: true, optional: false, required: false
   public get cidrBlocks() {
     return this.getListAttribute('cidr_blocks');
   }
 
-  // description - computed: true, optional: false, required: true
+  // description - computed: true, optional: false, required: false
   public get description() {
     return this.getStringAttribute('description');
   }
 
-  // from_port - computed: true, optional: false, required: true
+  // from_port - computed: true, optional: false, required: false
   public get fromPort() {
     return this.getNumberAttribute('from_port');
   }
 
-  // ipv6_cidr_blocks - computed: true, optional: false, required: true
+  // ipv6_cidr_blocks - computed: true, optional: false, required: false
   public get ipv6CidrBlocks() {
     return this.getListAttribute('ipv6_cidr_blocks');
   }
 
-  // prefix_list_ids - computed: true, optional: false, required: true
+  // prefix_list_ids - computed: true, optional: false, required: false
   public get prefixListIds() {
     return this.getListAttribute('prefix_list_ids');
   }
 
-  // protocol - computed: true, optional: false, required: true
+  // protocol - computed: true, optional: false, required: false
   public get protocol() {
     return this.getStringAttribute('protocol');
   }
 
-  // security_groups - computed: true, optional: false, required: true
+  // security_groups - computed: true, optional: false, required: false
   public get securityGroups() {
     return this.getListAttribute('security_groups');
   }
 
-  // self - computed: true, optional: false, required: true
+  // self - computed: true, optional: false, required: false
   public get selfAttribute() {
     return this.getBooleanAttribute('self');
   }
 
-  // to_port - computed: true, optional: false, required: true
+  // to_port - computed: true, optional: false, required: false
   public get toPort() {
     return this.getNumberAttribute('to_port');
   }
@@ -240,7 +240,7 @@ export class ComputedComplex extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // egress - computed: true, optional: false, required: true
+  // egress - computed: true, optional: false, required: false
   public egress(index: string) {
     return new ComputedComplexEgress(this, 'egress', index);
   }
@@ -272,19 +272,19 @@ export interface ComputedComplexNestedConfig extends TerraformMetaArguments {
 }
 export class ComputedComplexNestedResourcesAutoscalingGroups extends ComplexComputedList {
 
-  // name - computed: true, optional: false, required: true
+  // name - computed: true, optional: false, required: false
   public get name() {
     return this.getStringAttribute('name');
   }
 }
 export class ComputedComplexNestedResources extends ComplexComputedList {
 
-  // autoscaling_groups - computed: true, optional: false, required: true
+  // autoscaling_groups - computed: true, optional: false, required: false
   public get autoscalingGroups() {
-    return 'not implemented' as any;
+    return this.interpolationForAttribute('autoscaling_groups') as any;
   }
 
-  // remote_access_security_group_id - computed: true, optional: false, required: true
+  // remote_access_security_group_id - computed: true, optional: false, required: false
   public get remoteAccessSecurityGroupId() {
     return this.getStringAttribute('remote_access_security_group_id');
   }
@@ -315,7 +315,7 @@ export class ComputedComplexNested extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // resources - computed: true, optional: false, required: true
+  // resources - computed: true, optional: false, required: false
   public resources(index: string) {
     return new ComputedComplexNestedResources(this, 'resources', index);
   }
@@ -379,7 +379,7 @@ export class BlockTypeNestedComputedList extends TerraformResource {
   // inputs - computed: false, optional: true, required: false
   private _inputs?: BlockTypeNestedComputedListInputs[];
   public get inputs() {
-    return this._inputs;
+    return this.interpolationForAttribute('inputs') as any;
   }
   public set inputs(value: BlockTypeNestedComputedListInputs[] | undefined) {
     this._inputs = value;
@@ -523,7 +523,7 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
   // lifecycle_rule - computed: false, optional: true, required: false
   private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
   public get lifecycleRule() {
-    return this._lifecycleRule;
+    return this.interpolationForAttribute('lifecycle_rule') as any;
   }
   public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] | undefined) {
     this._lifecycleRule = value;
@@ -581,15 +581,11 @@ export class IgnoredAttributes extends TerraformResource {
   // ==========
 
   // id - computed: true, optional: true, required: false
-  private _id?: string;
   public get id() {
-    return this._id ?? this.getStringAttribute('id');
-  }
-  public set id(value: string | undefined) {
-    this._id = value;
+    return this.getStringAttribute('id');
   }
 
-  // arn - computed: true, optional: false, required: true
+  // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
   }
@@ -651,7 +647,7 @@ export class IncompatibleAttributeNames extends TerraformResource {
   // get_password_data - computed: false, optional: true, required: false
   private _getPasswordData?: string;
   public get fetchPasswordData() {
-    return this._getPasswordData;
+    return this.getStringAttribute('get_password_data');
   }
   public set fetchPasswordData(value: string | undefined) {
     this._getPasswordData = value;
@@ -660,7 +656,7 @@ export class IncompatibleAttributeNames extends TerraformResource {
   // self - computed: false, optional: false, required: true
   private _self: string;
   public get selfAttribute() {
-    return this._self;
+    return this.getStringAttribute('self');
   }
   public set selfAttribute(value: string) {
     this._self = value;
@@ -719,7 +715,7 @@ export class ListOfStringMap extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // keys - computed: true, optional: false, required: true
+  // keys - computed: true, optional: false, required: false
   public keys(index: string, key: string): string {
     return new StringMap(this, \`keys.\${index}\`).lookup(key);
   }
@@ -781,7 +777,7 @@ export class NumberList extends TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: number[];
   public get fooRequired() {
-    return this._fooRequired;
+    return this.interpolationForAttribute('foo_required') as any;
   }
   public set fooRequired(value: number[]) {
     this._fooRequired = value;
@@ -790,7 +786,7 @@ export class NumberList extends TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: number[];
   public get fooOptional() {
-    return this._fooOptional;
+    return this.interpolationForAttribute('foo_optional') as any;
   }
   public set fooOptional(value: number[] | undefined) {
     this._fooOptional = value;
@@ -853,7 +849,7 @@ export class NumberMap extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // foo_computed - computed: true, optional: false, required: true
+  // foo_computed - computed: true, optional: false, required: false
   public fooComputed(key: string): number {
     return new NumberMap(this, 'foo_computed').lookup(key);
   }
@@ -870,7 +866,7 @@ export class NumberMap extends TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: number };
   public get fooOptional() {
-    return this._fooOptional;
+    return this.interpolationForAttribute('foo_optional') as any;
   }
   public set fooOptional(value: { [key: string]: number } | undefined) {
     this._fooOptional = value;
@@ -934,7 +930,7 @@ export class PrimitiveBoolean extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // foo_computed - computed: true, optional: false, required: true
+  // foo_computed - computed: true, optional: false, required: false
   public get fooComputed() {
     return this.getBooleanAttribute('foo_computed');
   }
@@ -942,7 +938,7 @@ export class PrimitiveBoolean extends TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: boolean;
   public get fooComputedOptional() {
-    return this._fooComputedOptional ?? this.getBooleanAttribute('foo_computed_optional');
+    return this.getBooleanAttribute('foo_computed_optional');
   }
   public set fooComputedOptional(value: boolean | undefined) {
     this._fooComputedOptional = value;
@@ -951,7 +947,7 @@ export class PrimitiveBoolean extends TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: boolean;
   public get fooOptional() {
-    return this._fooOptional;
+    return this.getBooleanAttribute('foo_optional');
   }
   public set fooOptional(value: boolean | undefined) {
     this._fooOptional = value;
@@ -960,7 +956,7 @@ export class PrimitiveBoolean extends TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: boolean;
   public get fooRequired() {
-    return this._fooRequired;
+    return this.getBooleanAttribute('foo_required');
   }
   public set fooRequired(value: boolean) {
     this._fooRequired = value;
@@ -1025,7 +1021,7 @@ export class PrimitiveNumber extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // foo_computed - computed: true, optional: false, required: true
+  // foo_computed - computed: true, optional: false, required: false
   public get fooComputed() {
     return this.getNumberAttribute('foo_computed');
   }
@@ -1033,7 +1029,7 @@ export class PrimitiveNumber extends TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: number;
   public get fooComputedOptional() {
-    return this._fooComputedOptional ?? this.getNumberAttribute('foo_computed_optional');
+    return this.getNumberAttribute('foo_computed_optional');
   }
   public set fooComputedOptional(value: number | undefined) {
     this._fooComputedOptional = value;
@@ -1042,7 +1038,7 @@ export class PrimitiveNumber extends TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: number;
   public get fooOptional() {
-    return this._fooOptional;
+    return this.getNumberAttribute('foo_optional');
   }
   public set fooOptional(value: number | undefined) {
     this._fooOptional = value;
@@ -1051,7 +1047,7 @@ export class PrimitiveNumber extends TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: number;
   public get fooRequired() {
-    return this._fooRequired;
+    return this.getNumberAttribute('foo_required');
   }
   public set fooRequired(value: number) {
     this._fooRequired = value;
@@ -1116,7 +1112,7 @@ export class PrimitiveString extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // foo_computed - computed: true, optional: false, required: true
+  // foo_computed - computed: true, optional: false, required: false
   public get fooComputed() {
     return this.getStringAttribute('foo_computed');
   }
@@ -1124,7 +1120,7 @@ export class PrimitiveString extends TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: string;
   public get fooComputedOptional() {
-    return this._fooComputedOptional ?? this.getStringAttribute('foo_computed_optional');
+    return this.getStringAttribute('foo_computed_optional');
   }
   public set fooComputedOptional(value: string | undefined) {
     this._fooComputedOptional = value;
@@ -1133,7 +1129,7 @@ export class PrimitiveString extends TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: string;
   public get fooOptional() {
-    return this._fooOptional;
+    return this.getStringAttribute('foo_optional');
   }
   public set fooOptional(value: string | undefined) {
     this._fooOptional = value;
@@ -1142,7 +1138,7 @@ export class PrimitiveString extends TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: string;
   public get fooRequired() {
-    return this._fooRequired;
+    return this.getStringAttribute('foo_required');
   }
   public set fooRequired(value: string) {
     this._fooRequired = value;
@@ -1216,7 +1212,7 @@ export class BlockTypeSetList extends TerraformResource {
   // timeouts_set - computed: false, optional: true, required: false
   private _timeoutsSet?: BlockTypeSetListTimeoutsSet[];
   public get timeoutsSet() {
-    return this._timeoutsSet;
+    return this.interpolationForAttribute('timeouts_set') as any;
   }
   public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | undefined) {
     this._timeoutsSet = value;
@@ -1225,7 +1221,7 @@ export class BlockTypeSetList extends TerraformResource {
   // timeouts_list - computed: false, optional: true, required: false
   private _timeoutsList?: BlockTypeSetListTimeoutsList[];
   public get timeoutsList() {
-    return this._timeoutsList;
+    return this.interpolationForAttribute('timeouts_list') as any;
   }
   public set timeoutsList(value: BlockTypeSetListTimeoutsList[] | undefined) {
     this._timeoutsList = value;
@@ -1292,7 +1288,7 @@ export class SingleBlockType extends TerraformResource {
   // timeouts - computed: false, optional: true, required: false
   private _timeouts?: SingleBlockTypeTimeouts;
   public get timeouts() {
-    return this._timeouts;
+    return this.interpolationForAttribute('timeouts') as any;
   }
   public set timeouts(value: SingleBlockTypeTimeouts | undefined) {
     this._timeouts = value;
@@ -1358,13 +1354,13 @@ export class StringList extends TerraformResource {
   // subject_alternative_names_optional_computed - computed: true, optional: true, required: false
   private _subjectAlternativeNamesOptionalComputed?: string[];
   public get subjectAlternativeNamesOptionalComputed() {
-    return this._subjectAlternativeNamesOptionalComputed ?? this.getListAttribute('subject_alternative_names_optional_computed');
+    return this.getListAttribute('subject_alternative_names_optional_computed');
   }
   public set subjectAlternativeNamesOptionalComputed(value: string[] | undefined) {
     this._subjectAlternativeNamesOptionalComputed = value;
   }
 
-  // subject_alternative_names_computed - computed: true, optional: false, required: true
+  // subject_alternative_names_computed - computed: true, optional: false, required: false
   public get subjectAlternativeNamesComputed() {
     return this.getListAttribute('subject_alternative_names_computed');
   }
@@ -1372,7 +1368,7 @@ export class StringList extends TerraformResource {
   // subject_alternative_names_required - computed: false, optional: false, required: true
   private _subjectAlternativeNamesRequired: string[];
   public get subjectAlternativeNamesRequired() {
-    return this._subjectAlternativeNamesRequired;
+    return this.getListAttribute('subject_alternative_names_required');
   }
   public set subjectAlternativeNamesRequired(value: string[]) {
     this._subjectAlternativeNamesRequired = value;
@@ -1381,7 +1377,7 @@ export class StringList extends TerraformResource {
   // subject_alternative_names_optional - computed: false, optional: true, required: false
   private _subjectAlternativeNamesOptional?: string[];
   public get subjectAlternativeNamesOptional() {
-    return this._subjectAlternativeNamesOptional;
+    return this.getListAttribute('subject_alternative_names_optional');
   }
   public set subjectAlternativeNamesOptional(value: string[] | undefined) {
     this._subjectAlternativeNamesOptional = value;
@@ -1445,7 +1441,7 @@ export class StringMap extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // subject_alternative_names_computed - computed: true, optional: false, required: true
+  // subject_alternative_names_computed - computed: true, optional: false, required: false
   public subjectAlternativeNamesComputed(key: string): string {
     return new StringMap(this, 'subject_alternative_names_computed').lookup(key);
   }
@@ -1462,7 +1458,7 @@ export class StringMap extends TerraformResource {
   // subject_alternative_names_optional - computed: false, optional: true, required: false
   private _subjectAlternativeNamesOptional?: { [key: string]: string };
   public get subjectAlternativeNamesOptional() {
-    return this._subjectAlternativeNamesOptional;
+    return this.interpolationForAttribute('subject_alternative_names_optional') as any;
   }
   public set subjectAlternativeNamesOptional(value: { [key: string]: string } | undefined) {
     this._subjectAlternativeNamesOptional = value;

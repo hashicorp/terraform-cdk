@@ -25,22 +25,22 @@ export interface AcmCertificateConfig extends TerraformMetaArguments {
 }
 export class AcmCertificateDomainValidationOptions extends ComplexComputedList {
 
-  // domain_name - computed: true, optional: false, required: true
+  // domain_name - computed: true, optional: false, required: false
   public get domainName() {
     return this.getStringAttribute('domain_name');
   }
 
-  // resource_record_name - computed: true, optional: false, required: true
+  // resource_record_name - computed: true, optional: false, required: false
   public get resourceRecordName() {
     return this.getStringAttribute('resource_record_name');
   }
 
-  // resource_record_type - computed: true, optional: false, required: true
+  // resource_record_type - computed: true, optional: false, required: false
   public get resourceRecordType() {
     return this.getStringAttribute('resource_record_type');
   }
 
-  // resource_record_value - computed: true, optional: false, required: true
+  // resource_record_value - computed: true, optional: false, required: false
   public get resourceRecordValue() {
     return this.getStringAttribute('resource_record_value');
   }
@@ -83,7 +83,7 @@ export class AcmCertificate extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // arn - computed: true, optional: false, required: true
+  // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
   }
@@ -91,7 +91,7 @@ export class AcmCertificate extends TerraformResource {
   // certificate_authority_arn - computed: false, optional: true, required: false
   private _certificateAuthorityArn?: string;
   public get certificateAuthorityArn() {
-    return this._certificateAuthorityArn;
+    return this.getStringAttribute('certificate_authority_arn');
   }
   public set certificateAuthorityArn(value: string | undefined) {
     this._certificateAuthorityArn = value;
@@ -100,7 +100,7 @@ export class AcmCertificate extends TerraformResource {
   // certificate_body - computed: false, optional: true, required: false
   private _certificateBody?: string;
   public get certificateBody() {
-    return this._certificateBody;
+    return this.getStringAttribute('certificate_body');
   }
   public set certificateBody(value: string | undefined) {
     this._certificateBody = value;
@@ -109,7 +109,7 @@ export class AcmCertificate extends TerraformResource {
   // certificate_chain - computed: false, optional: true, required: false
   private _certificateChain?: string;
   public get certificateChain() {
-    return this._certificateChain;
+    return this.getStringAttribute('certificate_chain');
   }
   public set certificateChain(value: string | undefined) {
     this._certificateChain = value;
@@ -118,30 +118,26 @@ export class AcmCertificate extends TerraformResource {
   // domain_name - computed: true, optional: true, required: false
   private _domainName?: string;
   public get domainName() {
-    return this._domainName ?? this.getStringAttribute('domain_name');
+    return this.getStringAttribute('domain_name');
   }
   public set domainName(value: string | undefined) {
     this._domainName = value;
   }
 
-  // domain_validation_options - computed: true, optional: false, required: true
+  // domain_validation_options - computed: true, optional: false, required: false
   public domainValidationOptions(index: string) {
     return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index);
   }
 
   // id - computed: true, optional: true, required: false
-  private _id?: string;
   public get id() {
-    return this._id ?? this.getStringAttribute('id');
-  }
-  public set id(value: string | undefined) {
-    this._id = value;
+    return this.getStringAttribute('id');
   }
 
   // private_key - computed: false, optional: true, required: false
   private _privateKey?: string;
   public get privateKey() {
-    return this._privateKey;
+    return this.getStringAttribute('private_key');
   }
   public set privateKey(value: string | undefined) {
     this._privateKey = value;
@@ -150,7 +146,7 @@ export class AcmCertificate extends TerraformResource {
   // subject_alternative_names - computed: true, optional: true, required: false
   private _subjectAlternativeNames?: string[];
   public get subjectAlternativeNames() {
-    return this._subjectAlternativeNames ?? this.getListAttribute('subject_alternative_names');
+    return this.getListAttribute('subject_alternative_names');
   }
   public set subjectAlternativeNames(value: string[] | undefined) {
     this._subjectAlternativeNames = value;
@@ -159,13 +155,13 @@ export class AcmCertificate extends TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this._tags;
+    return this.interpolationForAttribute('tags') as any;
   }
   public set tags(value: { [key: string]: string } | undefined) {
     this._tags = value;
   }
 
-  // validation_emails - computed: true, optional: false, required: true
+  // validation_emails - computed: true, optional: false, required: false
   public get validationEmails() {
     return this.getListAttribute('validation_emails');
   }
@@ -173,7 +169,7 @@ export class AcmCertificate extends TerraformResource {
   // validation_method - computed: true, optional: true, required: false
   private _validationMethod?: string;
   public get validationMethod() {
-    return this._validationMethod ?? this.getStringAttribute('validation_method');
+    return this.getStringAttribute('validation_method');
   }
   public set validationMethod(value: string | undefined) {
     this._validationMethod = value;
@@ -182,7 +178,7 @@ export class AcmCertificate extends TerraformResource {
   // options - computed: false, optional: true, required: false
   private _options?: AcmCertificateOptions[];
   public get options() {
-    return this._options;
+    return this.interpolationForAttribute('options') as any;
   }
   public set options(value: AcmCertificateOptions[] | undefined) {
     this._options = value;
