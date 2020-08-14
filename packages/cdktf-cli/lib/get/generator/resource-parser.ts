@@ -35,7 +35,7 @@ class Parser {
     uniqueClassName(toPascalCase(`${baseName}Config`));
     const fileName = `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
-    const attributes = this.renderAttributesForBlock(new Scope(baseName, terraformSchemaType === 'provider'), schema.block)
+    const attributes = this.renderAttributesForBlock(new Scope({name: baseName, isProvider: terraformSchemaType === 'provider'}), schema.block)
 
     const resourceModel = new ResourceModel({
       terraformType: type,
@@ -117,7 +117,7 @@ class Parser {
 
     for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
       if (parentType.inBlockType && att.computed && !!att.optional === false) continue ;
-      const type = this.renderAttributeType([ parentType, new Scope(terraformAttributeName, parentType.isProvider, !!att.computed, !!att.optional, !!att.required)], att.type);
+      const type = this.renderAttributeType([ parentType, new Scope({name: terraformAttributeName, isProvider: parentType.isProvider, isComputed: !!att.computed, isOptional: !!att.optional, isRequired: !!att.required})], att.type);
       const name = toCamelCase(terraformAttributeName);
 
       attributes.push(new AttributeModel({
@@ -136,8 +136,8 @@ class Parser {
 
     for (const [ blockTypeName, blockType ] of Object.entries(block.block_types || { })) {
       // create a struct for this block
-      const blockAttributes = this.renderAttributesForBlock(new Scope(`${parentType.name}_${blockTypeName}`, parentType.isProvider, false, true, false, true), blockType.block)
-      const blockStruct = this.addStruct([ parentType, new Scope(blockTypeName, parentType.isProvider) ], blockAttributes)
+      const blockAttributes = this.renderAttributesForBlock(new Scope({name: `${parentType.name}_${blockTypeName}`, isProvider: parentType.isProvider, inBlockType: true}), blockType.block)
+      const blockStruct = this.addStruct([ parentType, new Scope({name: blockTypeName, isProvider: parentType.isProvider}) ], blockAttributes)
 
       // define the attribute
       attributes.push(attributeForBlockType(blockTypeName, blockType, blockStruct, parentType.isProvider));
@@ -209,7 +209,7 @@ class Parser {
         optional: optional,
         terraformName,
         terraformFullName: [ ...scope, terraformName ].join('_'),
-        type: this.renderAttributeType([ ...scope, new Scope(terraformName, parent.isProvider, computed, optional, required) ], att.type),
+        type: this.renderAttributeType([ ...scope, new Scope({name: terraformName, isProvider: parent.isProvider, isComputed: computed, isOptional: optional, isRequired: required}) ], att.type),
         provider: parent.isProvider,
         required: required
       }));
