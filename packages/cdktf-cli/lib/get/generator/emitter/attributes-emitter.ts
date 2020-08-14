@@ -105,7 +105,7 @@ export class AttributesEmitter {
     if (process.env.DEBUG) {
       console.error(`The attribute ${JSON.stringify(att)} isn't implemented yet`)
     }
-    return `'not implemented' as any`
+    return `this.interpolationForAttribute('${att.terraformName}') as any`
   }
 
   public determineMapType(att: AttributeModel): string {
