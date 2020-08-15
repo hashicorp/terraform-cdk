@@ -36,14 +36,13 @@ function installDeps(deps, isDev) {
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.ts', 'utf-8');
 
-  const result = template.replace(`new MyStack(app, '${baseName}');`, `const stack = new MyStack(app, '${baseName}');
-stack.addOverride('terraform.backend', {
-  remote: {
-    hostname: 'app.terraform.io',
-    organization: '${organizationName}',
-    workspaces: {
-      name: '${workspaceName}'
-    }
+  result = template.replace(`import { App, TerraformStack } from 'cdktf';`, `import { App, TerraformStack, RemoteBackend } from 'cdktf';`);
+  result = result.replace(`new MyStack(app, '${baseName}');`, `const stack = new MyStack(app, '${baseName}');
+new RemoteBackend(stack, {
+  hostname: 'app.terraform.io',
+  organization: '${organizationName}',
+  workspaces: {
+    name: '${workspaceName}'
   }
 });`);
 
