@@ -3,6 +3,7 @@
     "packages/*",
     "examples/*",
     "examples/typescript/*",
+    "examples/python/*",
     "examples/typescript/backends/*"
   ],
   "npmClient": "yarn",

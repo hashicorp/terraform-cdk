@@ -5,6 +5,10 @@
   "scripts": {
     "build": "lerna run build",
     "package": "lerna run package && tools/collect-dist.sh",
+    "examples:reinstall": "lerna run --parallel --scope @examples/* reinstall",
+    "examples:build": "lerna run --parallel --scope @examples/* build",
+    "examples:synth": "lerna run --parallel --scope @examples/* synth",
+    "examples:integration": "yarn examples:reinstall && yarn examples:build && yarn examples:synth",
     "test": "lerna run test",
     "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
     "link-packages": "lerna exec --scope cdktf* yarn link",
@@ -17,6 +21,7 @@
     "packages": [
       "packages/*",
       "examples/*",
+      "examples/python/*",
       "examples/typescript/*",
       "examples/typescript/backends/*"
     ],
