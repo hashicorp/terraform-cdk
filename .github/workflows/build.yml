@@ -69,7 +69,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
-          teraform_version: ${{ matrix.terraform }}
+          terraform_version: ${{ matrix.terraform }}
       - name: Download dist
         uses: actions/download-artifact@v2
         with:
