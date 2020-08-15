@@ -2,11 +2,7 @@
   "language": "python",
   "app": "pipenv run ./main.py",
   "terraformProviders": [
-    "aws@~> 2.55",
-    "local@~> 1.4",
-    "null@~> 2.1",
-    "random@~> 2.1",
-    "template@~> 2.1"
+    "aws@~> 2.55"
   ],
   "terraformModules": [
     "terraform-aws-modules/vpc/aws",
