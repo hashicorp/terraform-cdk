@@ -399,6 +399,10 @@ export class AwsProvider extends TerraformProvider {
   public set accessKey(value: string | undefined) {
     this._accessKey = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get accessKeyInput() {
+    return this._accessKey
+  }
 
   // allowed_account_ids - computed: false, optional: true, required: false
   private _allowedAccountIds?: string[];
@@ -407,6 +411,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set allowedAccountIds(value: string[] | undefined) {
     this._allowedAccountIds = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allowedAccountIdsInput() {
+    return this._allowedAccountIds
   }
 
   // forbidden_account_ids - computed: false, optional: true, required: false
@@ -417,6 +425,10 @@ export class AwsProvider extends TerraformProvider {
   public set forbiddenAccountIds(value: string[] | undefined) {
     this._forbiddenAccountIds = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get forbiddenAccountIdsInput() {
+    return this._forbiddenAccountIds
+  }
 
   // insecure - computed: false, optional: true, required: false
   private _insecure?: boolean;
@@ -425,6 +437,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set insecure(value: boolean | undefined) {
     this._insecure = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get insecureInput() {
+    return this._insecure
   }
 
   // max_retries - computed: false, optional: true, required: false
@@ -435,6 +451,10 @@ export class AwsProvider extends TerraformProvider {
   public set maxRetries(value: number | undefined) {
     this._maxRetries = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get maxRetriesInput() {
+    return this._maxRetries
+  }
 
   // profile - computed: false, optional: true, required: false
   private _profile?: string;
@@ -443,6 +463,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set profile(value: string | undefined) {
     this._profile = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get profileInput() {
+    return this._profile
   }
 
   // region - computed: false, optional: false, required: true
@@ -453,6 +477,10 @@ export class AwsProvider extends TerraformProvider {
   public set region(value: string) {
     this._region = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region
+  }
 
   // s3_force_path_style - computed: false, optional: true, required: false
   private _s3ForcePathStyle?: boolean;
@@ -461,6 +489,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set s3ForcePathStyle(value: boolean | undefined) {
     this._s3ForcePathStyle = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get s3ForcePathStyleInput() {
+    return this._s3ForcePathStyle
   }
 
   // secret_key - computed: false, optional: true, required: false
@@ -471,6 +503,10 @@ export class AwsProvider extends TerraformProvider {
   public set secretKey(value: string | undefined) {
     this._secretKey = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get secretKeyInput() {
+    return this._secretKey
+  }
 
   // shared_credentials_file - computed: false, optional: true, required: false
   private _sharedCredentialsFile?: string;
@@ -479,6 +515,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set sharedCredentialsFile(value: string | undefined) {
     this._sharedCredentialsFile = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sharedCredentialsFileInput() {
+    return this._sharedCredentialsFile
   }
 
   // skip_credentials_validation - computed: false, optional: true, required: false
@@ -489,6 +529,10 @@ export class AwsProvider extends TerraformProvider {
   public set skipCredentialsValidation(value: boolean | undefined) {
     this._skipCredentialsValidation = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get skipCredentialsValidationInput() {
+    return this._skipCredentialsValidation
+  }
 
   // skip_get_ec2_platforms - computed: false, optional: true, required: false
   private _skipGetEc2Platforms?: boolean;
@@ -497,6 +541,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set skipGetEc2Platforms(value: boolean | undefined) {
     this._skipGetEc2Platforms = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get skipGetEc2PlatformsInput() {
+    return this._skipGetEc2Platforms
   }
 
   // skip_metadata_api_check - computed: false, optional: true, required: false
@@ -507,6 +555,10 @@ export class AwsProvider extends TerraformProvider {
   public set skipMetadataApiCheck(value: boolean | undefined) {
     this._skipMetadataApiCheck = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get skipMetadataApiCheckInput() {
+    return this._skipMetadataApiCheck
+  }
 
   // skip_region_validation - computed: false, optional: true, required: false
   private _skipRegionValidation?: boolean;
@@ -515,6 +567,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set skipRegionValidation(value: boolean | undefined) {
     this._skipRegionValidation = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get skipRegionValidationInput() {
+    return this._skipRegionValidation
   }
 
   // skip_requesting_account_id - computed: false, optional: true, required: false
@@ -525,6 +581,10 @@ export class AwsProvider extends TerraformProvider {
   public set skipRequestingAccountId(value: boolean | undefined) {
     this._skipRequestingAccountId = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get skipRequestingAccountIdInput() {
+    return this._skipRequestingAccountId
+  }
 
   // token - computed: false, optional: true, required: false
   private _token?: string;
@@ -533,6 +593,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set token(value: string | undefined) {
     this._token = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tokenInput() {
+    return this._token
   }
 
   // alias - computed: false, optional: true, required: false
@@ -543,6 +607,10 @@ export class AwsProvider extends TerraformProvider {
   public set alias(value: string | undefined) {
     this._alias = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get aliasInput() {
+    return this._alias
+  }
 
   // assume_role - computed: false, optional: true, required: false
   private _assumeRole?: AwsProviderAssumeRole[];
@@ -551,6 +619,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set assumeRole(value: AwsProviderAssumeRole[] | undefined) {
     this._assumeRole = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get assumeRoleInput() {
+    return this._assumeRole
   }
 
   // endpoints - computed: false, optional: true, required: false
@@ -561,6 +633,10 @@ export class AwsProvider extends TerraformProvider {
   public set endpoints(value: AwsProviderEndpoints[] | undefined) {
     this._endpoints = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get endpointsInput() {
+    return this._endpoints
+  }
 
   // ignore_tags - computed: false, optional: true, required: false
   private _ignoreTags?: AwsProviderIgnoreTags[];
@@ -569,6 +645,10 @@ export class AwsProvider extends TerraformProvider {
   }
   public set ignoreTags(value: AwsProviderIgnoreTags[] | undefined) {
     this._ignoreTags = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ignoreTagsInput() {
+    return this._ignoreTags
   }
 
   // =========

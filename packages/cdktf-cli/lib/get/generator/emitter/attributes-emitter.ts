@@ -31,6 +31,11 @@ export class AttributesEmitter {
     this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
       this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
+    this.code.closeBlock();
   }
 
   private emitOptionalComputed(att: AttributeModel) {
@@ -41,6 +46,11 @@ export class AttributesEmitter {
 
     this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
       this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
 
@@ -65,6 +75,11 @@ export class AttributesEmitter {
     this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
       this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
+    this.code.closeBlock();
   }
 
   private emitComputedComplexList(att: AttributeModel) {
@@ -87,6 +102,11 @@ export class AttributesEmitter {
 
     this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
       this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
 
