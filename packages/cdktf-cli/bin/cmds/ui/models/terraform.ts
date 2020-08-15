@@ -98,7 +98,8 @@ export class Terraform  {
   }
 
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
-    await exec(terraformBinaryName, ['apply', '-auto-approve', ...this.stateFileOption, planFile], { cwd: this.workdir, env: process.env }, stdout);
+    const relativePlanFile = path.relative(this.workdir, planFile);
+    await exec(terraformBinaryName, ['apply', '-auto-approve', ...this.stateFileOption, relativePlanFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
