@@ -33,7 +33,7 @@
     },
     "docker_container": {
       "pythonthirdpartyprovider_nginxcdktf_C2D51A82": {
-        "image": "nginx:latest",
+        "image": "${docker_image.pythonthirdpartyprovider_nginxlatest_F677E4EF.name}",
         "name": "nginx-python-cdktf",
         "privileged": false,
         "ports": [
