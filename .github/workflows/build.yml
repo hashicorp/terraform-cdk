@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ["0.12.29", 0.13.0-rc1]
+        terraform: ["0.12.29", "0.13.0"]
     container:
       image: hashicorp/jsii-terraform
     needs: build
@@ -58,6 +58,9 @@ jobs:
 
   windows_integration:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        terraform: ["0.12.29", "0.13.0"]
     needs: build
 
     steps:
@@ -75,3 +78,4 @@ jobs:
         run: yarn integration-windows
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
