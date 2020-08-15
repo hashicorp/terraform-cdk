@@ -13,6 +13,7 @@
     "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
     "link-packages": "lerna exec --scope cdktf* yarn link",
     "integration": "test/run-against-dist test/test-all.sh",
+    "integration-windows": "test\\run-against-dist.bat \"node test\\test-typescript-deploy\\test.js\"",
     "release-github": "tools/release-github.sh",
     "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
     "push-docker-jsii": "docker push hashicorp/jsii-terraform"
