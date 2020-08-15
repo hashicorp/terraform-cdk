@@ -1,5 +1,5 @@
 {
-  "name": "typescript-backends-s3",
+  "name": "@examples/typescript-backends-s3",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",

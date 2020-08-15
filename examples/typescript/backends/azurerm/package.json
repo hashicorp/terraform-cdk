@@ -1,5 +1,5 @@
 {
-  "name": "typescript-backends-azurerm",
+  "name": "@examples/typescript-backends-azurerm",
   "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",
