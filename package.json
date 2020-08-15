@@ -3,7 +3,7 @@
   "version": "0.0.14",
   "private": true,
   "scripts": {
-    "build": "lerna run build",
+    "build": "lerna run --scope cdktf* build",
     "package": "lerna run package && tools/collect-dist.sh",
     "examples:reinstall": "lerna run --parallel --scope @examples/* reinstall",
     "examples:build": "lerna run --parallel --scope @examples/* build",
