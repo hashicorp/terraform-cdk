@@ -1,5 +1,5 @@
 {
-  "name": "gcp-cloud-run",
+  "name": "@examples/typescript-gcp-cloud-run",
   "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",

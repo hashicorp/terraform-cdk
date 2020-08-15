@@ -1,5 +1,5 @@
 {
-  "name": "typescript-kubernetes",
+  "name": "@examples/typescript-kubernetes",
   "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",

@@ -1,5 +1,5 @@
 {
-  "name": "demo-cdktf-ts-docker",
+  "name": "@examples/typescript-docker",
   "version": "0.0.0",
   "main": "main.js",
   "license": "MPL-2.0",
