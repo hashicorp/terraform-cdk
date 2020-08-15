@@ -69,6 +69,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
+          teraform_version: ${{ matrix.terraform }}
       - name: Download dist
         uses: actions/download-artifact@v2
         with:
@@ -78,4 +79,3 @@ jobs:
         run: yarn integration-windows
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
