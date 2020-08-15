@@ -11,6 +11,8 @@ class MyStack extends TerraformStack {
     // define resources here
     const imagename = 'gcr.io/cloudrun/hello'
 
+    const credentialsPath = path.join(process.cwd(), 'google.json')
+    const credentials = fs.existsSync(credentialsPath) ? fs.readFileSync(credentialsPath).toString() : '{}'
 
     const local = 'asia-east1' //region
     const projectId = '${google-project-id}'
@@ -18,7 +20,7 @@ class MyStack extends TerraformStack {
       region: local,
       zone: local+'-c',
       project: projectId,
-      credentials: fs.readFileSync(path.join(process.cwd(), 'google.json')).toString()
+      credentials
     });
 
     const cloudrunsvcapp = new CloudRunService(this, 'GcpCDKCloudrunsvc',{
