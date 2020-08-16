@@ -6,10 +6,6 @@ from cdktf import App, TerraformStack, TerraformOutput, Token
 
 # for terraform provider
 from imports.aws import AwsProvider, DataAwsCallerIdentity
-from imports.local import LocalProvider
-from imports.null import NullProvider
-from imports.random import RandomProvider
-from imports.template import TemplateProvider
 
 # for terraform module
 from imports.terraform_aws_modules.vpc.aws import Vpc
@@ -20,10 +16,6 @@ class MyStack(TerraformStack):
         super().__init__(scope, ns)
 
         AwsProvider(self, 'Aws', region='us-west-2')
-        LocalProvider(self, 'Local')
-        NullProvider(self, 'Null')
-        RandomProvider(self, 'Random')
-        TemplateProvider(self, 'Template')
 
         my_vpc = Vpc(self, 'MyVpc',
             name='my-vpc',
