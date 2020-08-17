@@ -1,0 +1,7 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": null
+    }
+  }
+}

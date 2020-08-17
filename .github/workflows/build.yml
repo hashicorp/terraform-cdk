@@ -28,8 +28,54 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: create bundle
         run: yarn package
+      - name: Upload dist
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+  linux_integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        terraform: ["0.12.29", "0.13.0"]
+    container:
+      image: hashicorp/jsii-terraform
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
       - name: integration tests
         run: yarn integration
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+
+  windows_integration:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        terraform: ["0.12.29", "0.13.0"]
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+          terraform_version: ${{ matrix.terraform }}
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: integration tests
+        run: yarn integration-windows
+        env:
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
