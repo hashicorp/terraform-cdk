@@ -17,6 +17,7 @@ export class TerraformStack extends Construct {
   public readonly artifactFile: string;
   private readonly rawOverrides: any = {}
   private readonly cdktfVersion: string;
+  private staticNames = false;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -70,6 +71,14 @@ export class TerraformStack extends Construct {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const lastKey = parts.shift()!;
     curr[lastKey] = value;
+  }
+
+  public useConstructIdsAsNames() {
+    this.staticNames = true;
+  }
+
+  public get useStaticNames(): boolean {
+    return this.staticNames;
   }
 
   public allProviders(): TerraformProvider[] {
