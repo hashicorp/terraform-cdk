@@ -70,3 +70,14 @@ export const exec = async (command: string, args: string[], options: SpawnOption
     });
   });
 }
+
+export async function readCDKTFVersion(outputDir: string): Promise<string> {
+  const outputFile = path.join(outputDir, "cdk.tf.json");
+  if (fs.existsSync(outputFile)) {
+    const outputJSON = fs.readFileSync(outputFile, "utf8");
+    const data = JSON.parse(outputJSON);
+    return data["//"].metadata.version
+  }
+
+  return ""
+}
