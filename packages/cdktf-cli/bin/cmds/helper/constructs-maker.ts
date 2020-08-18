@@ -38,7 +38,7 @@ async function providerTelemetry(language: string, providers: string[]): Promise
 
         const payload = { language: language, name: name, fullName: fqname, version: version, type: 'provider' };
 
-        const reportParams: ReportParams = { product: product, version: versionNumber(), payload: payload };
+        const reportParams: ReportParams = { product: product, version: versionNumber(), dateTime: new Date(), payload: payload };
 
         await ReportRequest(reportParams);
     }
@@ -50,7 +50,7 @@ async function moduleTelemetry(language: string, modules: string[]): Promise<voi
 
         const payload = { language: language, source: source, version: version, type: 'module' };
 
-        const reportParams: ReportParams = { product: product, version: versionNumber(), payload: payload };
+        const reportParams: ReportParams = { product: product, version: versionNumber(), dateTime: new Date(), payload: payload };
 
         await ReportRequest(reportParams);
     }

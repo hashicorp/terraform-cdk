@@ -8,17 +8,12 @@ const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 const VALID_ERROR_CODES = [200, 201];
 
 export interface ReportParams {
-    signature?: string;
-    signatureFile?: string;
-
-    startTime?: string;
-    endTime?: string;
+    dateTime?: Date;
     arch?: string;
     os?: string;
     payload: {};
     product: string;
     runID?: string;
-    schemaVersion?: string;
     version?: string;
 }
 
@@ -61,6 +56,10 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
 
     if (!reportParams.runID) {
         reportParams.runID = uuidv4();
+    }
+
+    if (!reportParams.dateTime) {
+        reportParams.dateTime = new Date();
     }
 
     if (!reportParams.arch) {
