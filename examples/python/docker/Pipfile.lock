@@ -33,7 +33,7 @@
         },
         "cdktf": {
             "hashes": [
-                "sha256:fa9e6c48d396793ba8b19aafd4f8443a435de0b061f1ed6a008cdec9355d17b9"
+                "sha256:18497694d88ccc2eb2bb4cdab7fdadffe8f98c71fe6cdf70ab1d7d302d26af8e"
             ],
             "path": "./../../../dist/python/cdktf-0.0.0-py3-none-any.whl",
             "version": "==0.0.0"
@@ -48,11 +48,11 @@
         },
         "jsii": {
             "hashes": [
-                "sha256:0527adb16252f0ec283d0ddc5b9bd33be92f1e5f3671788fd7b4ac2bf0ff6cc7",
-                "sha256:cc6b2d818c24c32d6da9139df7f520d36a3002febb36b4cd41db6d5bea0ea710"
+                "sha256:c7618ad78d7047fdc03d1813d261af335385cf955cc8bc5e366ad567bc03c349",
+                "sha256:de2c9931ae941de38a9bff6ae76c799865bf9995a9651e5d55fc43a0e6e6c063"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==1.10.0"
+            "version": "==1.11.0"
         },
         "publication": {
             "hashes": [
