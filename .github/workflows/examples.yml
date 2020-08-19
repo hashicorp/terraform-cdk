@@ -1,4 +1,4 @@
-name: Examples
+name: Examples Integration
 on: [pull_request]
 
 jobs:
