@@ -23,7 +23,7 @@ export class TestProvider extends TerraformProvider {
     this.accessKey = config.accessKey
   }
 
-  public synthesizeAttributes(): { [name: string]: any } {
+  protected synthesizeAttributes(): { [name: string]: any } {
     return {
       // eslint-disable-next-line @typescript-eslint/camelcase
       access_key: this.accessKey

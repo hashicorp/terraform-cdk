@@ -30,7 +30,7 @@ export class TestResource extends TerraformResource {
     this.nestedType = config.nestedType
   }
 
-  public synthesizeAttributes(): { [name: string]: any } {
+  protected synthesizeAttributes(): { [name: string]: any } {
     return {
       name: this.name,
       names: this.names,
@@ -60,7 +60,7 @@ export class OtherTestResource extends TerraformResource {
     return new TestComplexComputedList(this, 'complex_computed_list', index);
   }
 
-  public synthesizeAttributes(): { [name: string]: any } {
+  protected synthesizeAttributes(): { [name: string]: any } {
     return {}
   }
 }
