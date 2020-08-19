@@ -1,0 +1,12 @@
+{
+  "language": "python",
+  "app": "pipenv run ./main.py",
+  "terraformProviders": [
+    "aws@~> 2.55"
+  ],
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws",
+    "terraform-aws-modules/eks/aws"
+  ],
+  "codeMakerOutput": "imports"
+}
