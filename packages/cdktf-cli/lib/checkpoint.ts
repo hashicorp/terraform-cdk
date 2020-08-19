@@ -2,10 +2,11 @@ import https = require('https');
 import { format } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 import * as os from 'os';
+import { processLogger } from './logging';
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
-const VALID_ERROR_CODES = [200, 201];
+const VALID_STATUS_CODES = [200, 201];
 
 export interface ReportParams {
     dateTime?: Date;
@@ -15,6 +16,8 @@ export interface ReportParams {
     product: string;
     runID?: string;
     version?: string;
+    command?: string;
+    language?: string;
 }
 
 async function post(url: string, data: string) {
@@ -29,7 +32,7 @@ async function post(url: string, data: string) {
         }, res => {
             if (res.statusCode) {
                 const statusCode = res.statusCode;
-                if (!VALID_ERROR_CODES.includes(statusCode)) {
+                if (!VALID_STATUS_CODES.includes(statusCode)) {
                     return ko(new Error(res.statusMessage));
                 }
             }
@@ -50,7 +53,7 @@ async function post(url: string, data: string) {
 
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
     // we won't report when checkpoint is disabled.
-    if (process.env.CDKTF_CHECKPOINT_DISABLE == "1") {
+    if (process.env.CDKTF_CHECKPOINT_DISABLE) {
         return
     }
 
@@ -72,7 +75,12 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
 
     const postData = JSON.stringify(reportParams);
 
-    await post(`${BASE_URL}telemetry/${reportParams.product}`, postData)
+    try {
+        await post(`${BASE_URL}telemetry/${reportParams.product}`, postData)
+    } catch (e) {
+        // Log errors writing to checkpoint
+        processLogger(e.message)
+    }
 
 } 
 

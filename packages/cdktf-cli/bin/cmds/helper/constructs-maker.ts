@@ -1,15 +1,12 @@
 import { GetProvider } from '../../../lib/get/providers';
 import { GetModule } from '../../../lib/get/modules';
 import { Language } from '../../../lib/get/base';
-import { ReportParams, ReportRequest } from '../../../lib/checkpoint'
-import { versionNumber } from '../version-check';
+import { Report } from './telemetry';
 
 export interface ConstructsOptions {
     codeMakerOutput: string;
     language: Language;
 }
-
-const product = "cdktf"
 
 export class ConstructsMaker {
 
@@ -36,11 +33,9 @@ async function providerTelemetry(language: string, providers: string[]): Promise
         const name = fqname.split('/').pop()
         if (!name) { throw new Error(`Provider name should be properly set in ${p}`) }
 
-        const payload = { language: language, name: name, fullName: fqname, version: version, type: 'provider' };
+        const payload = { name: name, fullName: fqname, version: version, type: 'provider' };
 
-        const reportParams: ReportParams = { product: product, version: versionNumber(), dateTime: new Date(), payload: payload };
-
-        await ReportRequest(reportParams);
+        await Report('get', language, new Date(), payload);
     }
 }
 
@@ -48,10 +43,8 @@ async function moduleTelemetry(language: string, modules: string[]): Promise<voi
     for (const module of modules) {
         const [source, version] = module.split('@');
 
-        const payload = { language: language, source: source, version: version, type: 'module' };
+        const payload = { source: source, version: version, type: 'module' };
 
-        const reportParams: ReportParams = { product: product, version: versionNumber(), dateTime: new Date(), payload: payload };
-
-        await ReportRequest(reportParams);
+        await Report('get', language, new Date(), payload)
     }
 }

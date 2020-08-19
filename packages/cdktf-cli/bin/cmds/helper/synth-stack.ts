@@ -2,6 +2,8 @@ import { shell } from '../../../lib/util';
 import * as fs from 'fs-extra';
 import * as path from 'path'
 import { TerraformStackMetadata } from 'cdktf'
+import { Report } from './telemetry';
+import { performance } from 'perf_hooks';
 
 interface SynthesizedStackMetadata {
   "//"?: {[key: string]: TerraformStackMetadata };
@@ -15,6 +17,9 @@ interface SynthesizedStack {
 
 export class SynthStack {
   public static async synth(command: string, outdir: string): Promise<SynthesizedStack[]> {
+    // start performance timer
+    const startTime = performance.now();
+
     await shell(command, [], {
       shell: true,
       env: {
@@ -27,6 +32,10 @@ export class SynthStack {
       console.error(`ERROR: synthesis failed, app expected to create "${outdir}"`);
       process.exit(1);
     }
+
+    // end performance timer
+    const endTime = performance.now();
+    await this.synthTelemetry(command, (endTime - startTime));
 
     const stacks: SynthesizedStack[] = [];
 
@@ -54,5 +63,11 @@ export class SynthStack {
     }
 
     return stacks
+  }
+
+  public static async synthTelemetry(command: string, totalTime: number): Promise<void> {
+    const payload = { command: command, totalTime: totalTime };
+
+    await Report('synth', '', new Date(), payload);
   }
 }
