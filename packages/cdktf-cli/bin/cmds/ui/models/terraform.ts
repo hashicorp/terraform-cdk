@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { exec } from '../../../../lib/util'
+import { exec, readCDKTFVersion } from '../../../../lib/util'
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || 'terraform'
 
@@ -83,6 +83,12 @@ export class Terraform  {
   }
 
   public async init(): Promise<void> {
+    // Read the cdktf version from the 'cdk.tf.json' file
+    // and set the user agent.
+    const version = await readCDKTFVersion(this.workdir)
+    if (version != "") {
+      process.env.TF_APPEND_USER_AGENT = "cdktf " + version + " (+https://github.com/hashicorp/terraform-cdk)";
+    }
     await exec(terraformBinaryName, ['init'], { cwd: this.workdir, env: process.env })
   }
 
