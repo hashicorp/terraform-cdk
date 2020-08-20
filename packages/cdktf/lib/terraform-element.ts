@@ -29,7 +29,8 @@ export class TerraformElement extends Construct {
 
   public get friendlyUniqueId() {
     const node = this.constructNode
-    const components = node.scopes.slice(1).map(c => Node.of(c).id);
+    const stackIndex = node.scopes.indexOf(this.stack);
+    const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
     return components.length > 0 ? makeUniqueId(components) : '';
   }
 
