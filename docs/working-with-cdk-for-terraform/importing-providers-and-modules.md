@@ -31,7 +31,7 @@ new MyStack(app, 'hello-terraform');
 app.synth();
 ```
 
-The project also has the `cdktf.json` file that defines what providers and modules are being used by the project.
+The project also has the [cdktf.json](./cdktf-json.md) file that defines what providers and modules are being used by the project.
 
 ```bash
 vim cdktf.json
