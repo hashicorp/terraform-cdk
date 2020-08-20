@@ -10,7 +10,7 @@ exports[`artifactory 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"artifactory\\",
         \\"config\\": {
           \\"username\\": \\"SheldonCooper\\",
@@ -35,7 +35,7 @@ exports[`azurerm 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"azurerm\\",
         \\"config\\": {
           \\"resource_group_name\\": \\"StorageAccount-ResourceGroup\\",
@@ -63,7 +63,7 @@ exports[`consul 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"consul\\",
         \\"config\\": {
           \\"address\\": \\"demo.consul.io\\",
@@ -94,7 +94,7 @@ exports[`cos 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"cos\\",
         \\"config\\": {
           \\"region\\": \\"ap-guangzhou\\",
@@ -122,7 +122,7 @@ exports[`etcd 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"etcd\\",
         \\"config\\": {
           \\"path\\": \\"path/to/terraform.tfstate\\",
@@ -146,7 +146,7 @@ exports[`etcdv3 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"etcdv3\\",
         \\"config\\": {
           \\"endpoints\\": [
@@ -178,7 +178,7 @@ exports[`gcs 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"gcs\\",
         \\"config\\": {
           \\"bucket\\": \\"tf-state-prod\\",
@@ -203,7 +203,7 @@ exports[`http 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"http\\",
         \\"config\\": {
           \\"address\\": \\"http://myrest.api.com/foo\\",
@@ -235,7 +235,7 @@ exports[`local 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"local\\",
         \\"config\\": {
           \\"path\\": \\"relative/path/to/terraform.tfstate\\",
@@ -257,7 +257,7 @@ exports[`manta 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"manta\\",
         \\"config\\": {
           \\"path\\": \\"random/path\\",
@@ -285,7 +285,7 @@ exports[`oss 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"oss\\",
         \\"config\\": {
           \\"bucket\\": \\"bucket-for-terraform-state\\",
@@ -326,7 +326,7 @@ exports[`pg 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"pg\\",
         \\"config\\": {
           \\"conn_str\\": \\"postgres://user:pass@db.example.com/terraform_backend\\",
@@ -349,7 +349,7 @@ exports[`remote 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"remote\\",
         \\"config\\": {
           \\"hostname\\": \\"app.terraform.io\\",
@@ -374,7 +374,7 @@ exports[`s3 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"s3\\",
         \\"config\\": {
           \\"bucket\\": \\"mybucket\\",
@@ -420,7 +420,7 @@ exports[`s3 reference 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"s3\\",
         \\"config\\": {
           \\"bucket\\": \\"mybucket\\",
@@ -431,12 +431,12 @@ exports[`s3 reference 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"test_testresource_7FDA4FF7\\": {
-        \\"name\\": \\"\${data.terraform_remote_state.test_remote_1D925BC8.outputs.name}\\",
+      \\"testresource\\": {
+        \\"name\\": \\"\${data.terraform_remote_state.remote.outputs.name}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test_resource\\",
-            \\"uniqueId\\": \\"test_testresource_7FDA4FF7\\"
+            \\"uniqueId\\": \\"testresource\\"
           }
         }
       }
@@ -455,7 +455,7 @@ exports[`s3 with options 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"s3\\",
         \\"workspace\\": \\"my_workspace\\",
         \\"defaults\\": {
@@ -481,7 +481,7 @@ exports[`swift 1`] = `
   },
   \\"data\\": {
     \\"terraform_remote_state\\": {
-      \\"test_remote_1D925BC8\\": {
+      \\"remote\\": {
         \\"backend\\": \\"swift\\",
         \\"config\\": {
           \\"container\\": \\"terraform-state\\",

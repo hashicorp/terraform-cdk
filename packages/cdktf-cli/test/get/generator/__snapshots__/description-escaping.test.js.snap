@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`broken attribute description comments 1`] = `
+"// https://www.terraform.io/docs/providers/google/r/description_escaping.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
+
+// Configuration
+
+export interface DescriptionEscapingConfig extends TerraformMetaArguments {
+  /** The resource name of the Cloud KMS CryptoKey to be used to protect access 
+ to messages published on this topic. Your project's PubSub service account 
+ ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com') must have 
+ 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature. 
+ The expected format is 'projects/*\\\\/locations/*\\\\/keyRings/*\\\\/cryptoKeys/*' */
+  readonly brokenComments: boolean;
+}
+
+// Resource
+
+export class DescriptionEscaping extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: DescriptionEscapingConfig) {
+    super(scope, id, {
+      terraformResourceType: 'description_escaping',
+      terraformGeneratorMetadata: {
+        providerName: 'google'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._brokenComments = config.brokenComments;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // broken_comments - computed: false, optional: false, required: true
+  private _brokenComments: boolean;
+  public get brokenComments() {
+    return this._brokenComments;
+  }
+  public set brokenComments(value: boolean) {
+    this._brokenComments = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      broken_comments: this._brokenComments,
+    };
+  }
+}
+"
+`;

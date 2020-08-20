@@ -1,0 +1,1259 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate a cloudfront distribution resource 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
+import { StringMap } from \\"cdktf\\";
+
+// Configuration
+
+export interface CloudfrontDistributionConfig extends TerraformMetaArguments {
+  readonly aliases?: string[];
+  readonly comment?: string;
+  readonly defaultRootObject?: string;
+  readonly enabled: boolean;
+  readonly httpVersion?: string;
+  readonly isIpv6Enabled?: boolean;
+  readonly priceClass?: string;
+  readonly retainOnDelete?: boolean;
+  readonly tags?: { [key: string]: string };
+  readonly waitForDeployment?: boolean;
+  readonly webAclId?: string;
+  /** cache_behavior block */
+  readonly cacheBehavior?: CloudfrontDistributionCacheBehavior[];
+  /** custom_error_response block */
+  readonly customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
+  /** default_cache_behavior block */
+  readonly defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
+  /** logging_config block */
+  readonly loggingConfig?: CloudfrontDistributionLoggingConfig[];
+  /** ordered_cache_behavior block */
+  readonly orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
+  /** origin block */
+  readonly origin: CloudfrontDistributionOrigin[];
+  /** origin_group block */
+  readonly originGroup?: CloudfrontDistributionOriginGroup[];
+  /** restrictions block */
+  readonly restrictions: CloudfrontDistributionRestrictions[];
+  /** viewer_certificate block */
+  readonly viewerCertificate: CloudfrontDistributionViewerCertificate[];
+}
+export interface CloudfrontDistributionCacheBehaviorForwardedValuesCookies {
+  readonly forward: string;
+  readonly whitelistedNames?: string[];
+}
+export interface CloudfrontDistributionCacheBehaviorForwardedValues {
+  readonly headers?: string[];
+  readonly queryString: boolean;
+  readonly queryStringCacheKeys?: string[];
+  /** cookies block */
+  readonly cookies: CloudfrontDistributionCacheBehaviorForwardedValuesCookies[];
+}
+export interface CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation {
+  readonly eventType: string;
+  readonly includeBody?: boolean;
+  readonly lambdaArn: string;
+}
+export interface CloudfrontDistributionCacheBehavior {
+  readonly allowedMethods: string[];
+  readonly cachedMethods: string[];
+  readonly compress?: boolean;
+  readonly defaultTtl?: number;
+  readonly fieldLevelEncryptionId?: string;
+  readonly maxTtl?: number;
+  readonly minTtl?: number;
+  readonly pathPattern: string;
+  readonly smoothStreaming?: boolean;
+  readonly targetOriginId: string;
+  readonly trustedSigners?: string[];
+  readonly viewerProtocolPolicy: string;
+  /** forwarded_values block */
+  readonly forwardedValues: CloudfrontDistributionCacheBehaviorForwardedValues[];
+  /** lambda_function_association block */
+  readonly lambdaFunctionAssociation?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation[];
+}
+export interface CloudfrontDistributionCustomErrorResponse {
+  readonly errorCachingMinTtl?: number;
+  readonly errorCode: number;
+  readonly responseCode?: number;
+  readonly responsePagePath?: string;
+}
+export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies {
+  readonly forward: string;
+  readonly whitelistedNames?: string[];
+}
+export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValues {
+  readonly headers?: string[];
+  readonly queryString: boolean;
+  readonly queryStringCacheKeys?: string[];
+  /** cookies block */
+  readonly cookies: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies[];
+}
+export interface CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation {
+  readonly eventType: string;
+  readonly includeBody?: boolean;
+  readonly lambdaArn: string;
+}
+export interface CloudfrontDistributionDefaultCacheBehavior {
+  readonly allowedMethods: string[];
+  readonly cachedMethods: string[];
+  readonly compress?: boolean;
+  readonly defaultTtl?: number;
+  readonly fieldLevelEncryptionId?: string;
+  readonly maxTtl?: number;
+  readonly minTtl?: number;
+  readonly smoothStreaming?: boolean;
+  readonly targetOriginId: string;
+  readonly trustedSigners?: string[];
+  readonly viewerProtocolPolicy: string;
+  /** forwarded_values block */
+  readonly forwardedValues: CloudfrontDistributionDefaultCacheBehaviorForwardedValues[];
+  /** lambda_function_association block */
+  readonly lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[];
+}
+export interface CloudfrontDistributionLoggingConfig {
+  readonly bucket: string;
+  readonly includeCookies?: boolean;
+  readonly prefix?: string;
+}
+export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies {
+  readonly forward: string;
+  readonly whitelistedNames?: string[];
+}
+export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValues {
+  readonly headers?: string[];
+  readonly queryString: boolean;
+  readonly queryStringCacheKeys?: string[];
+  /** cookies block */
+  readonly cookies: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies[];
+}
+export interface CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation {
+  readonly eventType: string;
+  readonly includeBody?: boolean;
+  readonly lambdaArn: string;
+}
+export interface CloudfrontDistributionOrderedCacheBehavior {
+  readonly allowedMethods: string[];
+  readonly cachedMethods: string[];
+  readonly compress?: boolean;
+  readonly defaultTtl?: number;
+  readonly fieldLevelEncryptionId?: string;
+  readonly maxTtl?: number;
+  readonly minTtl?: number;
+  readonly pathPattern: string;
+  readonly smoothStreaming?: boolean;
+  readonly targetOriginId: string;
+  readonly trustedSigners?: string[];
+  readonly viewerProtocolPolicy: string;
+  /** forwarded_values block */
+  readonly forwardedValues: CloudfrontDistributionOrderedCacheBehaviorForwardedValues[];
+  /** lambda_function_association block */
+  readonly lambdaFunctionAssociation?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation[];
+}
+export interface CloudfrontDistributionOriginCustomHeader {
+  readonly name: string;
+  readonly value: string;
+}
+export interface CloudfrontDistributionOriginCustomOriginConfig {
+  readonly httpPort: number;
+  readonly httpsPort: number;
+  readonly originKeepaliveTimeout?: number;
+  readonly originProtocolPolicy: string;
+  readonly originReadTimeout?: number;
+  readonly originSslProtocols: string[];
+}
+export interface CloudfrontDistributionOriginS3OriginConfig {
+  readonly originAccessIdentity: string;
+}
+export interface CloudfrontDistributionOrigin {
+  readonly domainName: string;
+  readonly originId: string;
+  readonly originPath?: string;
+  /** custom_header block */
+  readonly customHeader?: CloudfrontDistributionOriginCustomHeader[];
+  /** custom_origin_config block */
+  readonly customOriginConfig?: CloudfrontDistributionOriginCustomOriginConfig[];
+  /** s3_origin_config block */
+  readonly s3OriginConfig?: CloudfrontDistributionOriginS3OriginConfig[];
+}
+export interface CloudfrontDistributionOriginGroupFailoverCriteria {
+  readonly statusCodes: number[];
+}
+export interface CloudfrontDistributionOriginGroupMember {
+  readonly originId: string;
+}
+export interface CloudfrontDistributionOriginGroup {
+  readonly originId: string;
+  /** failover_criteria block */
+  readonly failoverCriteria: CloudfrontDistributionOriginGroupFailoverCriteria[];
+  /** member block */
+  readonly member: CloudfrontDistributionOriginGroupMember[];
+}
+export interface CloudfrontDistributionRestrictionsGeoRestriction {
+  readonly locations?: string[];
+  readonly restrictionType: string;
+}
+export interface CloudfrontDistributionRestrictions {
+  /** geo_restriction block */
+  readonly geoRestriction: CloudfrontDistributionRestrictionsGeoRestriction[];
+}
+export interface CloudfrontDistributionViewerCertificate {
+  readonly acmCertificateArn?: string;
+  readonly cloudfrontDefaultCertificate?: boolean;
+  readonly iamCertificateId?: string;
+  readonly minimumProtocolVersion?: string;
+  readonly sslSupportMethod?: string;
+}
+
+// Resource
+
+export class CloudfrontDistribution extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: CloudfrontDistributionConfig) {
+    super(scope, id, {
+      terraformResourceType: 'aws_cloudfront_distribution',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._aliases = config.aliases;
+    this._comment = config.comment;
+    this._defaultRootObject = config.defaultRootObject;
+    this._enabled = config.enabled;
+    this._httpVersion = config.httpVersion;
+    this._isIpv6Enabled = config.isIpv6Enabled;
+    this._priceClass = config.priceClass;
+    this._retainOnDelete = config.retainOnDelete;
+    this._tags = config.tags;
+    this._waitForDeployment = config.waitForDeployment;
+    this._webAclId = config.webAclId;
+    this._cacheBehavior = config.cacheBehavior;
+    this._customErrorResponse = config.customErrorResponse;
+    this._defaultCacheBehavior = config.defaultCacheBehavior;
+    this._loggingConfig = config.loggingConfig;
+    this._orderedCacheBehavior = config.orderedCacheBehavior;
+    this._origin = config.origin;
+    this._originGroup = config.originGroup;
+    this._restrictions = config.restrictions;
+    this._viewerCertificate = config.viewerCertificate;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // active_trusted_signers - computed: true, optional: false, required: true
+  public activeTrustedSigners(key: string): string {
+    return new StringMap(this, 'active_trusted_signers').lookup(key);
+  }
+
+  // aliases - computed: false, optional: true, required: false
+  private _aliases?: string[];
+  public get aliases() {
+    return this._aliases;
+  }
+  public set aliases(value: string[] | undefined) {
+    this._aliases = value;
+  }
+
+  // arn - computed: true, optional: false, required: true
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // caller_reference - computed: true, optional: false, required: true
+  public get callerReference() {
+    return this.getStringAttribute('caller_reference');
+  }
+
+  // comment - computed: false, optional: true, required: false
+  private _comment?: string;
+  public get comment() {
+    return this._comment;
+  }
+  public set comment(value: string | undefined) {
+    this._comment = value;
+  }
+
+  // default_root_object - computed: false, optional: true, required: false
+  private _defaultRootObject?: string;
+  public get defaultRootObject() {
+    return this._defaultRootObject;
+  }
+  public set defaultRootObject(value: string | undefined) {
+    this._defaultRootObject = value;
+  }
+
+  // domain_name - computed: true, optional: false, required: true
+  public get domainName() {
+    return this.getStringAttribute('domain_name');
+  }
+
+  // enabled - computed: false, optional: false, required: true
+  private _enabled: boolean;
+  public get enabled() {
+    return this._enabled;
+  }
+  public set enabled(value: boolean) {
+    this._enabled = value;
+  }
+
+  // etag - computed: true, optional: false, required: true
+  public get etag() {
+    return this.getStringAttribute('etag');
+  }
+
+  // hosted_zone_id - computed: true, optional: false, required: true
+  public get hostedZoneId() {
+    return this.getStringAttribute('hosted_zone_id');
+  }
+
+  // http_version - computed: false, optional: true, required: false
+  private _httpVersion?: string;
+  public get httpVersion() {
+    return this._httpVersion;
+  }
+  public set httpVersion(value: string | undefined) {
+    this._httpVersion = value;
+  }
+
+  // id - computed: true, optional: true, required: false
+  private _id?: string;
+  public get id() {
+    return this._id ?? this.getStringAttribute('id');
+  }
+  public set id(value: string | undefined) {
+    this._id = value;
+  }
+
+  // in_progress_validation_batches - computed: true, optional: false, required: true
+  public get inProgressValidationBatches() {
+    return this.getNumberAttribute('in_progress_validation_batches');
+  }
+
+  // is_ipv6_enabled - computed: false, optional: true, required: false
+  private _isIpv6Enabled?: boolean;
+  public get isIpv6Enabled() {
+    return this._isIpv6Enabled;
+  }
+  public set isIpv6Enabled(value: boolean | undefined) {
+    this._isIpv6Enabled = value;
+  }
+
+  // last_modified_time - computed: true, optional: false, required: true
+  public get lastModifiedTime() {
+    return this.getStringAttribute('last_modified_time');
+  }
+
+  // price_class - computed: false, optional: true, required: false
+  private _priceClass?: string;
+  public get priceClass() {
+    return this._priceClass;
+  }
+  public set priceClass(value: string | undefined) {
+    this._priceClass = value;
+  }
+
+  // retain_on_delete - computed: false, optional: true, required: false
+  private _retainOnDelete?: boolean;
+  public get retainOnDelete() {
+    return this._retainOnDelete;
+  }
+  public set retainOnDelete(value: boolean | undefined) {
+    this._retainOnDelete = value;
+  }
+
+  // status - computed: true, optional: false, required: true
+  public get status() {
+    return this.getStringAttribute('status');
+  }
+
+  // tags - computed: false, optional: true, required: false
+  private _tags?: { [key: string]: string };
+  public get tags() {
+    return this._tags;
+  }
+  public set tags(value: { [key: string]: string } | undefined) {
+    this._tags = value;
+  }
+
+  // wait_for_deployment - computed: false, optional: true, required: false
+  private _waitForDeployment?: boolean;
+  public get waitForDeployment() {
+    return this._waitForDeployment;
+  }
+  public set waitForDeployment(value: boolean | undefined) {
+    this._waitForDeployment = value;
+  }
+
+  // web_acl_id - computed: false, optional: true, required: false
+  private _webAclId?: string;
+  public get webAclId() {
+    return this._webAclId;
+  }
+  public set webAclId(value: string | undefined) {
+    this._webAclId = value;
+  }
+
+  // cache_behavior - computed: false, optional: true, required: false
+  private _cacheBehavior?: CloudfrontDistributionCacheBehavior[];
+  public get cacheBehavior() {
+    return this._cacheBehavior;
+  }
+  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] | undefined) {
+    this._cacheBehavior = value;
+  }
+
+  // custom_error_response - computed: false, optional: true, required: false
+  private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
+  public get customErrorResponse() {
+    return this._customErrorResponse;
+  }
+  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | undefined) {
+    this._customErrorResponse = value;
+  }
+
+  // default_cache_behavior - computed: false, optional: false, required: true
+  private _defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
+  public get defaultCacheBehavior() {
+    return this._defaultCacheBehavior;
+  }
+  public set defaultCacheBehavior(value: CloudfrontDistributionDefaultCacheBehavior[]) {
+    this._defaultCacheBehavior = value;
+  }
+
+  // logging_config - computed: false, optional: true, required: false
+  private _loggingConfig?: CloudfrontDistributionLoggingConfig[];
+  public get loggingConfig() {
+    return this._loggingConfig;
+  }
+  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] | undefined) {
+    this._loggingConfig = value;
+  }
+
+  // ordered_cache_behavior - computed: false, optional: true, required: false
+  private _orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
+  public get orderedCacheBehavior() {
+    return this._orderedCacheBehavior;
+  }
+  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] | undefined) {
+    this._orderedCacheBehavior = value;
+  }
+
+  // origin - computed: false, optional: false, required: true
+  private _origin: CloudfrontDistributionOrigin[];
+  public get origin() {
+    return this._origin;
+  }
+  public set origin(value: CloudfrontDistributionOrigin[]) {
+    this._origin = value;
+  }
+
+  // origin_group - computed: false, optional: true, required: false
+  private _originGroup?: CloudfrontDistributionOriginGroup[];
+  public get originGroup() {
+    return this._originGroup;
+  }
+  public set originGroup(value: CloudfrontDistributionOriginGroup[] | undefined) {
+    this._originGroup = value;
+  }
+
+  // restrictions - computed: false, optional: false, required: true
+  private _restrictions: CloudfrontDistributionRestrictions[];
+  public get restrictions() {
+    return this._restrictions;
+  }
+  public set restrictions(value: CloudfrontDistributionRestrictions[]) {
+    this._restrictions = value;
+  }
+
+  // viewer_certificate - computed: false, optional: false, required: true
+  private _viewerCertificate: CloudfrontDistributionViewerCertificate[];
+  public get viewerCertificate() {
+    return this._viewerCertificate;
+  }
+  public set viewerCertificate(value: CloudfrontDistributionViewerCertificate[]) {
+    this._viewerCertificate = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      aliases: this._aliases,
+      comment: this._comment,
+      default_root_object: this._defaultRootObject,
+      enabled: this._enabled,
+      http_version: this._httpVersion,
+      is_ipv6_enabled: this._isIpv6Enabled,
+      price_class: this._priceClass,
+      retain_on_delete: this._retainOnDelete,
+      tags: this._tags,
+      wait_for_deployment: this._waitForDeployment,
+      web_acl_id: this._webAclId,
+      cache_behavior: this._cacheBehavior,
+      custom_error_response: this._customErrorResponse,
+      default_cache_behavior: this._defaultCacheBehavior,
+      logging_config: this._loggingConfig,
+      ordered_cache_behavior: this._orderedCacheBehavior,
+      origin: this._origin,
+      origin_group: this._originGroup,
+      restrictions: this._restrictions,
+      viewer_certificate: this._viewerCertificate,
+    };
+  }
+}
+"
+`;
+
+exports[`generate a fms admin account with an empty options interface 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
+
+// Configuration
+
+export interface FmsAdminAccountConfig extends TerraformMetaArguments {
+  readonly accountId?: string;
+}
+
+// Resource
+
+export class FmsAdminAccount extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: FmsAdminAccountConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_fms_admin_account',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._accountId = config.accountId;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // account_id - computed: true, optional: true, required: false
+  private _accountId?: string;
+  public get accountId() {
+    return this._accountId ?? this.getStringAttribute('account_id');
+  }
+  public set accountId(value: string | undefined) {
+    this._accountId = value;
+  }
+
+  // id - computed: true, optional: true, required: false
+  private _id?: string;
+  public get id() {
+    return this._id ?? this.getStringAttribute('id');
+  }
+  public set id(value: string | undefined) {
+    this._id = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      account_id: this._accountId,
+    };
+  }
+}
+"
+`;
+
+exports[`generate a s3 bucket resource 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
+
+// Configuration
+
+export interface S3BucketConfig extends TerraformMetaArguments {
+  readonly accelerationStatus?: string;
+  readonly acl?: string;
+  readonly bucket?: string;
+  readonly bucketPrefix?: string;
+  readonly forceDestroy?: boolean;
+  readonly hostedZoneId?: string;
+  readonly policy?: string;
+  readonly region?: string;
+  readonly requestPayer?: string;
+  readonly tags?: { [key: string]: string };
+  readonly websiteDomain?: string;
+  readonly websiteEndpoint?: string;
+  /** cors_rule block */
+  readonly corsRule?: S3BucketCorsRule[];
+  /** grant block */
+  readonly grant?: S3BucketGrant[];
+  /** lifecycle_rule block */
+  readonly lifecycleRule?: S3BucketLifecycleRule[];
+  /** logging block */
+  readonly logging?: S3BucketLogging[];
+  /** object_lock_configuration block */
+  readonly objectLockConfiguration?: S3BucketObjectLockConfiguration[];
+  /** replication_configuration block */
+  readonly replicationConfiguration?: S3BucketReplicationConfiguration[];
+  /** server_side_encryption_configuration block */
+  readonly serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
+  /** versioning block */
+  readonly versioning?: S3BucketVersioning[];
+  /** website block */
+  readonly website?: S3BucketWebsite[];
+}
+export interface S3BucketCorsRule {
+  readonly allowedHeaders?: string[];
+  readonly allowedMethods: string[];
+  readonly allowedOrigins: string[];
+  readonly exposeHeaders?: string[];
+  readonly maxAgeSeconds?: number;
+}
+export interface S3BucketGrant {
+  readonly id?: string;
+  readonly permissions: string[];
+  readonly type: string;
+  readonly uri?: string;
+}
+export interface S3BucketLifecycleRuleExpiration {
+  readonly date?: string;
+  readonly days?: number;
+  readonly expiredObjectDeleteMarker?: boolean;
+}
+export interface S3BucketLifecycleRuleNoncurrentVersionExpiration {
+  readonly days?: number;
+}
+export interface S3BucketLifecycleRuleNoncurrentVersionTransition {
+  readonly days?: number;
+  readonly storageClass: string;
+}
+export interface S3BucketLifecycleRuleTransition {
+  readonly date?: string;
+  readonly days?: number;
+  readonly storageClass: string;
+}
+export interface S3BucketLifecycleRule {
+  readonly abortIncompleteMultipartUploadDays?: number;
+  readonly enabled: boolean;
+  readonly id?: string;
+  readonly prefix?: string;
+  readonly tags?: { [key: string]: string };
+  /** expiration block */
+  readonly expiration?: S3BucketLifecycleRuleExpiration[];
+  /** noncurrent_version_expiration block */
+  readonly noncurrentVersionExpiration?: S3BucketLifecycleRuleNoncurrentVersionExpiration[];
+  /** noncurrent_version_transition block */
+  readonly noncurrentVersionTransition?: S3BucketLifecycleRuleNoncurrentVersionTransition[];
+  /** transition block */
+  readonly transition?: S3BucketLifecycleRuleTransition[];
+}
+export interface S3BucketLogging {
+  readonly targetBucket: string;
+  readonly targetPrefix?: string;
+}
+export interface S3BucketObjectLockConfigurationRuleDefaultRetention {
+  readonly days?: number;
+  readonly mode: string;
+  readonly years?: number;
+}
+export interface S3BucketObjectLockConfigurationRule {
+  /** default_retention block */
+  readonly defaultRetention: S3BucketObjectLockConfigurationRuleDefaultRetention[];
+}
+export interface S3BucketObjectLockConfiguration {
+  readonly objectLockEnabled: string;
+  /** rule block */
+  readonly rule?: S3BucketObjectLockConfigurationRule[];
+}
+export interface S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation {
+  readonly owner: string;
+}
+export interface S3BucketReplicationConfigurationRulesDestination {
+  readonly accountId?: string;
+  readonly bucket: string;
+  readonly replicaKmsKeyId?: string;
+  readonly storageClass?: string;
+  /** access_control_translation block */
+  readonly accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation[];
+}
+export interface S3BucketReplicationConfigurationRulesFilter {
+  readonly prefix?: string;
+  readonly tags?: { [key: string]: string };
+}
+export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects {
+  readonly enabled: boolean;
+}
+export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteria {
+  /** sse_kms_encrypted_objects block */
+  readonly sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects[];
+}
+export interface S3BucketReplicationConfigurationRules {
+  readonly id?: string;
+  readonly prefix?: string;
+  readonly priority?: number;
+  readonly status: string;
+  /** destination block */
+  readonly destination: S3BucketReplicationConfigurationRulesDestination[];
+  /** filter block */
+  readonly filter?: S3BucketReplicationConfigurationRulesFilter[];
+  /** source_selection_criteria block */
+  readonly sourceSelectionCriteria?: S3BucketReplicationConfigurationRulesSourceSelectionCriteria[];
+}
+export interface S3BucketReplicationConfiguration {
+  readonly role: string;
+  /** rules block */
+  readonly rules: S3BucketReplicationConfigurationRules[];
+}
+export interface S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault {
+  readonly kmsMasterKeyId?: string;
+  readonly sseAlgorithm: string;
+}
+export interface S3BucketServerSideEncryptionConfigurationRule {
+  /** apply_server_side_encryption_by_default block */
+  readonly applyServerSideEncryptionByDefault: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault[];
+}
+export interface S3BucketServerSideEncryptionConfiguration {
+  /** rule block */
+  readonly rule: S3BucketServerSideEncryptionConfigurationRule[];
+}
+export interface S3BucketVersioning {
+  readonly enabled?: boolean;
+  readonly mfaDelete?: boolean;
+}
+export interface S3BucketWebsite {
+  readonly errorDocument?: string;
+  readonly indexDocument?: string;
+  readonly redirectAllRequestsTo?: string;
+  readonly routingRules?: string;
+}
+
+// Resource
+
+export class S3Bucket extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: S3BucketConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_s3_bucket',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._accelerationStatus = config.accelerationStatus;
+    this._acl = config.acl;
+    this._bucket = config.bucket;
+    this._bucketPrefix = config.bucketPrefix;
+    this._forceDestroy = config.forceDestroy;
+    this._hostedZoneId = config.hostedZoneId;
+    this._policy = config.policy;
+    this._region = config.region;
+    this._requestPayer = config.requestPayer;
+    this._tags = config.tags;
+    this._websiteDomain = config.websiteDomain;
+    this._websiteEndpoint = config.websiteEndpoint;
+    this._corsRule = config.corsRule;
+    this._grant = config.grant;
+    this._lifecycleRule = config.lifecycleRule;
+    this._logging = config.logging;
+    this._objectLockConfiguration = config.objectLockConfiguration;
+    this._replicationConfiguration = config.replicationConfiguration;
+    this._serverSideEncryptionConfiguration = config.serverSideEncryptionConfiguration;
+    this._versioning = config.versioning;
+    this._website = config.website;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // acceleration_status - computed: true, optional: true, required: false
+  private _accelerationStatus?: string;
+  public get accelerationStatus() {
+    return this._accelerationStatus ?? this.getStringAttribute('acceleration_status');
+  }
+  public set accelerationStatus(value: string | undefined) {
+    this._accelerationStatus = value;
+  }
+
+  // acl - computed: false, optional: true, required: false
+  private _acl?: string;
+  public get acl() {
+    return this._acl;
+  }
+  public set acl(value: string | undefined) {
+    this._acl = value;
+  }
+
+  // arn - computed: true, optional: true, required: false
+  private _arn?: string;
+  public get arn() {
+    return this._arn ?? this.getStringAttribute('arn');
+  }
+  public set arn(value: string | undefined) {
+    this._arn = value;
+  }
+
+  // bucket - computed: true, optional: true, required: false
+  private _bucket?: string;
+  public get bucket() {
+    return this._bucket ?? this.getStringAttribute('bucket');
+  }
+  public set bucket(value: string | undefined) {
+    this._bucket = value;
+  }
+
+  // bucket_domain_name - computed: true, optional: false, required: true
+  public get bucketDomainName() {
+    return this.getStringAttribute('bucket_domain_name');
+  }
+
+  // bucket_prefix - computed: false, optional: true, required: false
+  private _bucketPrefix?: string;
+  public get bucketPrefix() {
+    return this._bucketPrefix;
+  }
+  public set bucketPrefix(value: string | undefined) {
+    this._bucketPrefix = value;
+  }
+
+  // bucket_regional_domain_name - computed: true, optional: false, required: true
+  public get bucketRegionalDomainName() {
+    return this.getStringAttribute('bucket_regional_domain_name');
+  }
+
+  // force_destroy - computed: false, optional: true, required: false
+  private _forceDestroy?: boolean;
+  public get forceDestroy() {
+    return this._forceDestroy;
+  }
+  public set forceDestroy(value: boolean | undefined) {
+    this._forceDestroy = value;
+  }
+
+  // hosted_zone_id - computed: true, optional: true, required: false
+  private _hostedZoneId?: string;
+  public get hostedZoneId() {
+    return this._hostedZoneId ?? this.getStringAttribute('hosted_zone_id');
+  }
+  public set hostedZoneId(value: string | undefined) {
+    this._hostedZoneId = value;
+  }
+
+  // id - computed: true, optional: true, required: false
+  private _id?: string;
+  public get id() {
+    return this._id ?? this.getStringAttribute('id');
+  }
+  public set id(value: string | undefined) {
+    this._id = value;
+  }
+
+  // policy - computed: false, optional: true, required: false
+  private _policy?: string;
+  public get policy() {
+    return this._policy;
+  }
+  public set policy(value: string | undefined) {
+    this._policy = value;
+  }
+
+  // region - computed: true, optional: true, required: false
+  private _region?: string;
+  public get region() {
+    return this._region ?? this.getStringAttribute('region');
+  }
+  public set region(value: string | undefined) {
+    this._region = value;
+  }
+
+  // request_payer - computed: true, optional: true, required: false
+  private _requestPayer?: string;
+  public get requestPayer() {
+    return this._requestPayer ?? this.getStringAttribute('request_payer');
+  }
+  public set requestPayer(value: string | undefined) {
+    this._requestPayer = value;
+  }
+
+  // tags - computed: false, optional: true, required: false
+  private _tags?: { [key: string]: string };
+  public get tags() {
+    return this._tags;
+  }
+  public set tags(value: { [key: string]: string } | undefined) {
+    this._tags = value;
+  }
+
+  // website_domain - computed: true, optional: true, required: false
+  private _websiteDomain?: string;
+  public get websiteDomain() {
+    return this._websiteDomain ?? this.getStringAttribute('website_domain');
+  }
+  public set websiteDomain(value: string | undefined) {
+    this._websiteDomain = value;
+  }
+
+  // website_endpoint - computed: true, optional: true, required: false
+  private _websiteEndpoint?: string;
+  public get websiteEndpoint() {
+    return this._websiteEndpoint ?? this.getStringAttribute('website_endpoint');
+  }
+  public set websiteEndpoint(value: string | undefined) {
+    this._websiteEndpoint = value;
+  }
+
+  // cors_rule - computed: false, optional: true, required: false
+  private _corsRule?: S3BucketCorsRule[];
+  public get corsRule() {
+    return this._corsRule;
+  }
+  public set corsRule(value: S3BucketCorsRule[] | undefined) {
+    this._corsRule = value;
+  }
+
+  // grant - computed: false, optional: true, required: false
+  private _grant?: S3BucketGrant[];
+  public get grant() {
+    return this._grant;
+  }
+  public set grant(value: S3BucketGrant[] | undefined) {
+    this._grant = value;
+  }
+
+  // lifecycle_rule - computed: false, optional: true, required: false
+  private _lifecycleRule?: S3BucketLifecycleRule[];
+  public get lifecycleRule() {
+    return this._lifecycleRule;
+  }
+  public set lifecycleRule(value: S3BucketLifecycleRule[] | undefined) {
+    this._lifecycleRule = value;
+  }
+
+  // logging - computed: false, optional: true, required: false
+  private _logging?: S3BucketLogging[];
+  public get logging() {
+    return this._logging;
+  }
+  public set logging(value: S3BucketLogging[] | undefined) {
+    this._logging = value;
+  }
+
+  // object_lock_configuration - computed: false, optional: true, required: false
+  private _objectLockConfiguration?: S3BucketObjectLockConfiguration[];
+  public get objectLockConfiguration() {
+    return this._objectLockConfiguration;
+  }
+  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] | undefined) {
+    this._objectLockConfiguration = value;
+  }
+
+  // replication_configuration - computed: false, optional: true, required: false
+  private _replicationConfiguration?: S3BucketReplicationConfiguration[];
+  public get replicationConfiguration() {
+    return this._replicationConfiguration;
+  }
+  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] | undefined) {
+    this._replicationConfiguration = value;
+  }
+
+  // server_side_encryption_configuration - computed: false, optional: true, required: false
+  private _serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
+  public get serverSideEncryptionConfiguration() {
+    return this._serverSideEncryptionConfiguration;
+  }
+  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] | undefined) {
+    this._serverSideEncryptionConfiguration = value;
+  }
+
+  // versioning - computed: false, optional: true, required: false
+  private _versioning?: S3BucketVersioning[];
+  public get versioning() {
+    return this._versioning;
+  }
+  public set versioning(value: S3BucketVersioning[] | undefined) {
+    this._versioning = value;
+  }
+
+  // website - computed: false, optional: true, required: false
+  private _website?: S3BucketWebsite[];
+  public get website() {
+    return this._website;
+  }
+  public set website(value: S3BucketWebsite[] | undefined) {
+    this._website = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      acceleration_status: this._accelerationStatus,
+      acl: this._acl,
+      bucket: this._bucket,
+      bucket_prefix: this._bucketPrefix,
+      force_destroy: this._forceDestroy,
+      hosted_zone_id: this._hostedZoneId,
+      policy: this._policy,
+      region: this._region,
+      request_payer: this._requestPayer,
+      tags: this._tags,
+      website_domain: this._websiteDomain,
+      website_endpoint: this._websiteEndpoint,
+      cors_rule: this._corsRule,
+      grant: this._grant,
+      lifecycle_rule: this._lifecycleRule,
+      logging: this._logging,
+      object_lock_configuration: this._objectLockConfiguration,
+      replication_configuration: this._replicationConfiguration,
+      server_side_encryption_configuration: this._serverSideEncryptionConfiguration,
+      versioning: this._versioning,
+      website: this._website,
+    };
+  }
+}
+"
+`;
+
+exports[`generate a security group 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/security_group.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import { TerraformResource } from 'cdktf';
+import { TerraformMetaArguments } from 'cdktf';
+
+// Configuration
+
+export interface SecurityGroupConfig extends TerraformMetaArguments {
+  readonly description?: string;
+  readonly egress?: SecurityGroupEgress[];
+  readonly ingress?: SecurityGroupIngress[];
+  readonly name?: string;
+  readonly namePrefix?: string;
+  readonly revokeRulesOnDelete?: boolean;
+  readonly tags?: { [key: string]: string };
+  readonly vpcId?: string;
+  /** timeouts block */
+  readonly timeouts?: SecurityGroupTimeouts;
+}
+export interface SecurityGroupEgress {
+  readonly cidrBlocks?: string[];
+  readonly description?: string;
+  readonly fromPort?: number;
+  readonly ipv6CidrBlocks?: string[];
+  readonly prefixListIds?: string[];
+  readonly protocol?: string;
+  readonly securityGroups?: string[];
+  readonly selfAttribute?: boolean;
+  readonly toPort?: number;
+}
+export interface SecurityGroupIngress {
+  readonly cidrBlocks?: string[];
+  readonly description?: string;
+  readonly fromPort?: number;
+  readonly ipv6CidrBlocks?: string[];
+  readonly prefixListIds?: string[];
+  readonly protocol?: string;
+  readonly securityGroups?: string[];
+  readonly selfAttribute?: boolean;
+  readonly toPort?: number;
+}
+export interface SecurityGroupTimeouts {
+  readonly create?: string;
+  readonly delete?: string;
+}
+
+// Resource
+
+export class SecurityGroup extends TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: SecurityGroupConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_security_group',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._description = config.description;
+    this._egress = config.egress;
+    this._ingress = config.ingress;
+    this._name = config.name;
+    this._namePrefix = config.namePrefix;
+    this._revokeRulesOnDelete = config.revokeRulesOnDelete;
+    this._tags = config.tags;
+    this._vpcId = config.vpcId;
+    this._timeouts = config.timeouts;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // arn - computed: true, optional: false, required: true
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // description - computed: false, optional: true, required: false
+  private _description?: string;
+  public get description() {
+    return this._description;
+  }
+  public set description(value: string | undefined) {
+    this._description = value;
+  }
+
+  // egress - computed: true, optional: true, required: false
+  private _egress?: SecurityGroupEgress[]
+  public get egress(): SecurityGroupEgress[] | undefined {
+    return this._egress; // Getting the computed value is not yet implemented
+  }
+  public set egress(value: SecurityGroupEgress[] | undefined) {
+    this._egress = value;
+  }
+
+  // id - computed: true, optional: true, required: false
+  private _id?: string;
+  public get id() {
+    return this._id ?? this.getStringAttribute('id');
+  }
+  public set id(value: string | undefined) {
+    this._id = value;
+  }
+
+  // ingress - computed: true, optional: true, required: false
+  private _ingress?: SecurityGroupIngress[]
+  public get ingress(): SecurityGroupIngress[] | undefined {
+    return this._ingress; // Getting the computed value is not yet implemented
+  }
+  public set ingress(value: SecurityGroupIngress[] | undefined) {
+    this._ingress = value;
+  }
+
+  // name - computed: true, optional: true, required: false
+  private _name?: string;
+  public get name() {
+    return this._name ?? this.getStringAttribute('name');
+  }
+  public set name(value: string | undefined) {
+    this._name = value;
+  }
+
+  // name_prefix - computed: false, optional: true, required: false
+  private _namePrefix?: string;
+  public get namePrefix() {
+    return this._namePrefix;
+  }
+  public set namePrefix(value: string | undefined) {
+    this._namePrefix = value;
+  }
+
+  // owner_id - computed: true, optional: false, required: true
+  public get ownerId() {
+    return this.getStringAttribute('owner_id');
+  }
+
+  // revoke_rules_on_delete - computed: false, optional: true, required: false
+  private _revokeRulesOnDelete?: boolean;
+  public get revokeRulesOnDelete() {
+    return this._revokeRulesOnDelete;
+  }
+  public set revokeRulesOnDelete(value: boolean | undefined) {
+    this._revokeRulesOnDelete = value;
+  }
+
+  // tags - computed: false, optional: true, required: false
+  private _tags?: { [key: string]: string };
+  public get tags() {
+    return this._tags;
+  }
+  public set tags(value: { [key: string]: string } | undefined) {
+    this._tags = value;
+  }
+
+  // vpc_id - computed: true, optional: true, required: false
+  private _vpcId?: string;
+  public get vpcId() {
+    return this._vpcId ?? this.getStringAttribute('vpc_id');
+  }
+  public set vpcId(value: string | undefined) {
+    this._vpcId = value;
+  }
+
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts?: SecurityGroupTimeouts;
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public set timeouts(value: SecurityGroupTimeouts | undefined) {
+    this._timeouts = value;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      description: this._description,
+      egress: this._egress,
+      ingress: this._ingress,
+      name: this._name,
+      name_prefix: this._namePrefix,
+      revoke_rules_on_delete: this._revokeRulesOnDelete,
+      tags: this._tags,
+      vpc_id: this._vpcId,
+      timeouts: this._timeouts,
+    };
+  }
+}
+"
+`;
