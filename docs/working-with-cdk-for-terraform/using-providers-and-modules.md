@@ -1,4 +1,26 @@
-# Importing Providers and Modules
+# Using Providers and Modules
+
+## Prebuilt Providers
+
+To improve the general user experience around provider imports and to allow building further abstractions on top of the Terraform provider bindings, a few popular providers are offered as prebuilt packages. At the moment the following providers are built and published to NPM / PyPi on a regular basis automatically.
+
+- [AWS Provider](https://cdk.tf/provider/aws)
+- [Google Provider](https://cdk.tf/provider/google)
+- [Azure Provider](https://cdk.tf/provider/azurerm)
+- [Kubernetes Provider](https://cdk.tf/provider/kubernetes)
+- [Docker Provider](https://cdk.tf/provider/docker)
+- [Github Provider](https://cdk.tf/provider/github)
+- [Null Provider](https://cdk.tf/provider/null)
+
+Please check the [Terraform CDK Proivders](https://cdk.tf/provider) organisation as well for an up to date list. As these are are normal npm / pypi packages, they can be used as any other dependency.
+
+e.g. in Typescript / Node:
+
+```
+npm install -a @cdktf/provider-aws
+```
+
+## Build Providers and Modules
 
 CDK for Terraform allows you to import Terraform [providers](https://www.terraform.io/docs/providers/index.html) and [modules](https://www.terraform.io/docs/modules/index.html) to your project
 using this workflow.
