@@ -1,0 +1,21 @@
+{
+  "name": "@examples/typescript-aws-prebuilt",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MPL-2.0",
+  "scripts": {
+    "build": "tsc",
+    "compile": "tsc --pretty",
+    "synth": "cdktf synth"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.26",
+    "cdktf-cli": "0.0.0",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@cdktf/provider-aws": "^0.0.19",
+    "cdktf": "0.0.0",
+    "constructs": "^3.0.0"
+  }
+}
