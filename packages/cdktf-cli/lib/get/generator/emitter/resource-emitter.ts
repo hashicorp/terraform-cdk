@@ -37,7 +37,7 @@ export class ResourceEmitter {
 
   private emitResourceSynthesis(resource: ResourceModel) {
     this.code.line();
-    this.code.openBlock(`public synthesizeAttributes(): { [name: string]: any }`);
+    this.code.openBlock(`protected synthesizeAttributes(): { [name: string]: any }`);
     this.code.open(`return {`);
 
     for (const att of resource.synthesizableAttributes) {

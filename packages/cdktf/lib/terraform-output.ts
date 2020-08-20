@@ -25,7 +25,7 @@ export class TerraformOutput extends TerraformElement {
     this.dependsOn = config.dependsOn;
   }
 
-  public synthesizeAttributes(): {[key: string]: any} {
+  protected synthesizeAttributes(): {[key: string]: any} {
     return {
       value: this.value,
       description: this.description,

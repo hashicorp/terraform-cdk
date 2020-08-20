@@ -575,7 +575,7 @@ export class AwsProvider extends TerraformProvider {
   // SYNTHESIS
   // =========
 
-  public synthesizeAttributes(): { [name: string]: any } {
+  protected synthesizeAttributes(): { [name: string]: any } {
     return {
       access_key: this._accessKey,
       allowed_account_ids: this._allowedAccountIds,
