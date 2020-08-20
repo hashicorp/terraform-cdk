@@ -40,9 +40,9 @@ Choose a language:
 * [azure](./examples/typescript/azure)
 * [docker](./examples/typescript/docker)
 * [google](./examples/typescript/google)
+* [google-cloudrun](./examples/typescript/google-cloudrun)
 * [kubernetes](./examples/typescript/kubernetes)
 * [vault](./examples/typescript/vault)
-* [gcp-cloudrun](./examples/typescript/google-cloudrun)
 
 #### Backends
 
@@ -54,6 +54,7 @@ Choose a language:
 ### Python
 
 * [aws](./examples/python/aws)
+* [aws-eks](./examples/python/aws-eks)
 * [docker](./examples/python/docker)
 * [kubernetes](./examples/python/kubernetes)
 
