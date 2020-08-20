@@ -22,9 +22,11 @@ export interface Config {
 }
 ```
 
-### Terraform Providers
+### Terraform Providers and Modules
 
-With Terraform 0.13 the following specifications are possible:
+The [following specifications](https://www.terraform.io/docs/configuration/provider-requirements.html#requiring-providers) schema should be followed for providers and modules
+
+[source](https://www.terraform.io/docs/configuration/provider-requirements.html#source-addresses)@[version](https://www.terraform.io/docs/configuration/provider-requirements.html#version-constraints)
 
 #### For HashiCorp maintained providers
 
@@ -33,6 +35,10 @@ Official HashiCorp [maintained providers](https://registry.terraform.io/browse/p
 #### 3rd Party Providers
 
 Community providers have to provide a fully qualified name, e.g. to define the Docker provider: `terraform-providers/docker@~> 2.0`
+
+#### Modules
+
+Similar to 3rd Party providers, the full registry namespace should be provided. Please note that only modules from the registry are supported at this point.
 
 ## Examples
 
@@ -59,7 +65,7 @@ This will synthesize JSON into `my-workdir` and all Terraform operations - such 
 
 ### Building Providers
 
-This will synthesize JSON into `my-workdir` and all Terraform operations - such as `deploy` or `destroy` - will be performed in this directory. See more details about this [here](./importing-providers-and-modules.md)
+This will synthesize JSON into `my-workdir` and all Terraform operations - such as `deploy` or `destroy` - will be performed in this directory. See more details about this [here](./using-providers-and-modules.md)
 
 ```json
 {
