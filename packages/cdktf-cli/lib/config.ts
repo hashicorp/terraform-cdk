@@ -16,6 +16,7 @@ export interface Config {
   readonly codeMakerOutput: string;
   readonly terraformProviders?: string[];
   readonly terraformModules?: string[];
+  checkCodeMakerOutput?: boolean;
 }
 
 export function readConfigSync(): Config {
@@ -27,6 +28,8 @@ export function readConfigSync(): Config {
       ...JSON.parse(fs.readFileSync(configFile).toString())
     };
   }
+
+  config.checkCodeMakerOutput = Array.isArray(config.terraformModules) || Array.isArray(config.terraformProviders)
 
   return config;
 }
