@@ -117,7 +117,7 @@ export class TerraformStack extends Construct {
     return resolve(this, tf);
   }
 
-  public onSynthesize(session: ISynthesisSession) {
+  protected onSynthesize(session: ISynthesisSession) {
     const resourceOutput = path.join(session.outdir, this.artifactFile);
     fs.writeFileSync(resourceOutput, JSON.stringify(this.toTerraform(), undefined, 2));
     this.linkDotTerraform(session.outdir)
