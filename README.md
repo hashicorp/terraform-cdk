@@ -42,6 +42,7 @@ Choose a language:
 * [google](./examples/typescript/google)
 * [kubernetes](./examples/typescript/kubernetes)
 * [vault](./examples/typescript/vault)
+* [gcp-cloudrun](./examples/typescript/google-cloudrun)
 
 #### Backends
 
