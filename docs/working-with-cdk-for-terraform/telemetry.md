@@ -8,4 +8,4 @@ All HashiCorp projects including Terraform that is used by CDK for Terraform use
 Read more about project metrics [here](https://github.com/hashicorp/terraform-cdk/issues/325).
 
 The information that is sent to Checkpoint is anonymous and cannot be used to identify the user or host. The use of Checkpoint is completely optional
-and it can be disabled at any time by setting the `CDKTF_CHECKPOINT_DISABLE` environment variable to a non-empty value.
+and it can be disabled at any time by setting the `CHECKPOINT_DISABLE` environment variable to a non-empty value.

@@ -10,7 +10,7 @@ jobs:
     container:
       image: hashicorp/jsii-terraform
     env:
-      CDKTF_CHECKPOINT_DISABLE: "1"
+      CHECKPOINT_DISABLE: "1"
 
     steps:
       - uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
       image: hashicorp/jsii-terraform
     needs: build
     env:
-      CDKTF_CHECKPOINT_DISABLE: "1"
+      CHECKPOINT_DISABLE: "1"
 
     steps:
       - uses: actions/checkout@v2
@@ -67,7 +67,7 @@ jobs:
         terraform: ["0.12.29", "0.13.0"]
     needs: build
     env:
-      CDKTF_CHECKPOINT_DISABLE: "1"
+      CHECKPOINT_DISABLE: "1"
 
     steps:
       - uses: actions/checkout@v2

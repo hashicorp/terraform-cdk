@@ -53,7 +53,7 @@ async function post(url: string, data: string) {
 
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
     // we won't report when checkpoint is disabled.
-    if (process.env.CDKTF_CHECKPOINT_DISABLE) {
+    if (process.env.CHECKPOINT_DISABLE) {
         return
     }
 
