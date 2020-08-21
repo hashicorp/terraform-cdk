@@ -1,5 +1,5 @@
 {
-  "name": "typescript-backends-remote",
+  "name": "@examples/typescript-backends-remote",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",

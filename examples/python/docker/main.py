@@ -1,4 +1,5 @@
-#!/usr/bin/python3 -tt
+#!/usr/bin/env python
+
 from constructs import Construct
 from cdktf import App, TerraformStack
 from imports.docker import Image, Container, DockerProvider

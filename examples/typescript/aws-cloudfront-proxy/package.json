@@ -1,5 +1,5 @@
 {
-  "name": "typescript-aws-cloudfront-proxy",
+  "name": "@examples/typescript-aws-cloudfront-proxy",
   "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",

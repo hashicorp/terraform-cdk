@@ -1,0 +1,28 @@
+name: Examples Integration
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        terraform: ["0.12.29", "0.13.0"]
+    container:
+      image: hashicorp/jsii-terraform
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: compile
+        run: |
+          yarn build
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+      - name: create bundle
+        run: yarn package
+      - name: examples integration tests
+        run: yarn examples:integration
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
