@@ -1,5 +1,5 @@
 {
-  "name": "typescript-backends-gcs",
+  "name": "@examples/typescript-backends-gcs",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",

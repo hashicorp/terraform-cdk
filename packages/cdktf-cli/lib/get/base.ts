@@ -1,8 +1,8 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { CodeMaker } from 'codemaker';
-import { withTempDir, shell } from '../util';
-import { jsiiCompile } from './jsii';
+import { mkdtemp } from '../util';
+import * as srcmak from 'jsii-srcmak';
 import { TerraformProviderConstraint } from './generator/provider-generator';
 
 export enum Language {
@@ -19,6 +19,12 @@ export interface GetOptions {
   readonly codeMakerOutput: string;
   readonly targetNames: string[];
   readonly isModule?: boolean;
+
+  /**
+   * Path to copy the output .jsii file.
+   * @default - jsii file is not emitted
+   */
+  readonly outputJsii?: string;
 }
 
 export abstract class GetBase {
@@ -35,48 +41,48 @@ export abstract class GetBase {
 
     if (isTypescript) {
       await code.save(codeMakerOutdir);
-      return
     }
 
-    for (const name of options.targetNames) {
-      // this is not typescript, so we generate in a staging directory and harvest the code
-      await withTempDir('get', async () => {
+    if (!isTypescript || options.outputJsii) {
+      for (const name of options.targetNames) {
         const terraformProvider = new TerraformProviderConstraint(name)
         const source = isModule ? terraformProvider.fqn : terraformProvider.name;
-        const compatibleName = source.replace(/\//gi, '_')
-        await code.save('.');
-        await jsiiCompile('.', {
-          main: source,
-          name: compatibleName,
-          providerPath: this.typesPath(source)
+        const providerPath = this.typesPath(source);
+        const fileName = `${path.join(providerPath)}.ts`
+
+        await mkdtemp(async staging => {
+
+          // this is not typescript, so we generate in a staging directory and
+          // use jsii-srcmak to compile and extract the language-specific source
+          // into our project.
+          await code.save(staging);
+
+          // these are the module dependencies we compile against
+          const deps = ['@types/node', 'constructs', 'cdktf'];
+
+          const opts: srcmak.Options = {
+            entrypoint: fileName,
+            deps: deps.map(dep => path.dirname(require.resolve(`${dep}/package.json`))),
+            moduleKey: source.replace(/\//gi, '_')
+          };
+
+          // used for testing.
+          if (options.outputJsii) {
+            opts.jsii = { path: options.outputJsii };
+          }
+
+          // python!
+          if (options.targetLanguage === Language.PYTHON) {
+            opts.python = {
+              outdir: codeMakerOutdir,
+              moduleName: source.replace(/\//gi, '.').replace(/-/gi, '_')
+            };
+          }
+
+          await srcmak.srcmak(staging, opts);
         });
-
-        const pacmak = require.resolve('jsii-pacmak/bin/jsii-pacmak');
-        await shell(pacmak, [ '--target', options.targetLanguage, '--code-only' ]);
-        await this.harvestCode(options, codeMakerOutdir, source.replace(/-/gi, '_'));
-      });
+      }
     }
-  }
-
-  private async harvestCode(options: GetOptions, targetdir: string, targetName: string) {
-    switch (options.targetLanguage) {
-      case Language.TYPESCRIPT:
-        throw new Error('no op for typescript');
-
-      case Language.PYTHON:
-        await this.harvestPython(targetdir, targetName);
-        break;
-
-      default:
-        throw new Error(`unsupported language ${options.targetLanguage} (yet)`);
-    }
-  }
-
-  private async harvestPython(targetdir: string, targetName: string) {
-    const target = path.join(targetdir, targetName);
-    await fs.move(`dist/python/src/${targetName}`, target, { overwrite: true });
-    // Make the codeMakerOutput dir a Python package for IDEs and linting
-    fs.writeFileSync(path.join(targetdir, '__init__.py'), '', 'utf-8');
   }
 
   protected abstract typesPath(name: string): string;

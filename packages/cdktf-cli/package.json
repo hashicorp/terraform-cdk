@@ -28,6 +28,7 @@
   "dependencies": {
     "@types/node": "^14.0.26",
     "@types/readline-sync": "^1.4.3",
+    "@types/uuid": "^8.3.0",
     "cdktf": "0.0.0",
     "chalk": "^4.1.0",
     "codemaker": "^0.22.0",
@@ -37,14 +38,14 @@
     "ink": "^2.7.1",
     "ink-confirm-input": "^2.0.0",
     "ink-spinner": "^3.0.1",
-    "jsii": "1.1.0",
-    "jsii-pacmak": "1.1.0",
+    "jsii-srcmak": "^0.1.22",
     "log4js": "^6.3.0",
     "open": "^7.0.4",
     "react": "^16.13.1",
     "readline-sync": "^1.4.10",
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
+    "uuid": "^8.3.0",
     "yargs": "^15.1.0"
   },
   "eslintConfig": {

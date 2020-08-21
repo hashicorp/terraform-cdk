@@ -1,31 +1,29 @@
 import { promises as fs } from 'fs';
-import { withTempDir } from "../../lib/util";
-import { jsiiCompile } from "../../lib/get/jsii"
+import { mkdtemp } from "../../lib/util";
 import { Language, GetBase } from "../../lib/get/base";
+import * as path from 'path';
 
 export function expectImportMatchSnapshot(target: string, fn: () => GetBase) {
   jest.setTimeout(60_000);
 
   test(target, async () => {
-    await withTempDir('get-cdktf', async () => {
-      const [ name ] = target.split('@');
-      const workdir = '.';
+    await mkdtemp(async workdir => {
       const importer = fn();
+      const jsiiPath = path.join(workdir, '.jsii');
 
       await importer.get({
         codeMakerOutput: workdir,
+        outputJsii: jsiiPath,
         targetLanguage: Language.TYPESCRIPT,
         targetNames: [target]
       });
 
-      await jsiiCompile(workdir, {
-        stdout: true,
-        name: name,
-        main: name,
-        providerPath: './providers/aws/index'
-      });
+      const manifest = JSON.parse(await fs.readFile(jsiiPath, 'utf-8'));
 
-      const manifest = JSON.parse(await fs.readFile('.jsii', 'utf-8'));
+      // patch cdktf version in manifest because it's not stable
+      manifest.dependencies.cdktf = '999.999.999';
+      manifest.fingerprint = '<fingerprint>';
+
       expect(manifest).toMatchSnapshot();
     });
   });

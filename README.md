@@ -69,6 +69,7 @@ Choose a language:
 * Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
 * Using Terraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
 * Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
+* Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 
 ## Contributing and Feedback
 

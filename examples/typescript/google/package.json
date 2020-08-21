@@ -1,6 +1,6 @@
 {
-  "name": "typescript-google",
-  "version": "1.0.0",
+  "name": "@examples/typescript-google",
+  "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",

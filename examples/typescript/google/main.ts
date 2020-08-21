@@ -8,11 +8,14 @@ class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
+    const credentialsPath = path.join(process.cwd(), 'google.json')
+    const credentials = fs.existsSync(credentialsPath) ? fs.readFileSync(credentialsPath).toString() : '{}'
+
     new GoogleProvider(this, 'Google', {
       region: "us-central1",
       zone: "us-central1-c",
       project: "terraform-cdk",
-      credentials: fs.readFileSync(path.join(process.cwd(), 'google.json')).toString()
+      credentials
     })
 
     const network = new ComputeNetwork(this, 'Network', {
