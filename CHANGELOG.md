@@ -1,3 +1,15 @@
+## 0.0.16
+
+**Fixed bugs:**
+
+- Fix TerraformProvider alias definition [\#332](https://github.com/hashicorp/terraform-cdk/issues/332)
+
+**Implemented enhancements:**
+
+- Checkpoint telemetry integration [\#326](https://github.com/hashicorp/terraform-cdk/issues/326)
+- Adding cdktf version to the terraform user agent [\#321](https://github.com/hashicorp/terraform-cdk/issues/321)
+- Migrate to jsii-srcmak [\#276](https://github.com/hashicorp/terraform-cdk/issues/276)
+
 ## 0.0.15
 
 **Fixed bugs:**
