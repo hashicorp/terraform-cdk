@@ -9,6 +9,8 @@ jobs:
         terraform: ["0.12.29", "0.13.0"]
     container:
       image: hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
 
     steps:
       - uses: actions/checkout@v2
@@ -42,6 +44,8 @@ jobs:
     container:
       image: hashicorp/jsii-terraform
     needs: build
+    env:
+      CHECKPOINT_DISABLE: "1"
 
     steps:
       - uses: actions/checkout@v2
@@ -62,6 +66,8 @@ jobs:
       matrix:
         terraform: ["0.12.29", "0.13.0"]
     needs: build
+    env:
+      CHECKPOINT_DISABLE: "1"
 
     steps:
       - uses: actions/checkout@v2

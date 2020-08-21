@@ -83,12 +83,7 @@ export class Terraform  {
   }
 
   public async init(): Promise<void> {
-    // Read the cdktf version from the 'cdk.tf.json' file
-    // and set the user agent.
-    const version = await readCDKTFVersion(this.workdir)
-    if (version != "") {
-      process.env.TF_APPEND_USER_AGENT = "cdktf " + version + " (+https://github.com/hashicorp/terraform-cdk)";
-    }
+    await this.setUserAgent()
     await exec(terraformBinaryName, ['init'], { cwd: this.workdir, env: process.env })
   }
 
@@ -98,6 +93,7 @@ export class Terraform  {
     if (destroy) {
       options.push('-destroy')
     }
+    await this.setUserAgent()
     await exec(terraformBinaryName, options, { cwd: this.workdir, env: process.env });
     const jsonPlan = await exec(terraformBinaryName, ['show', '-json', planFile], { cwd: this.workdir, env: process.env });
     return new TerraformPlan(planFile, JSON.parse(jsonPlan));
@@ -105,10 +101,12 @@ export class Terraform  {
 
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     const relativePlanFile = path.relative(this.workdir, planFile);
+    await this.setUserAgent()
     await exec(terraformBinaryName, ['apply', '-auto-approve', ...this.stateFileOption, relativePlanFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
+    await this.setUserAgent()
     await exec(terraformBinaryName, ['destroy', '-auto-approve', ...this.stateFileOption], { cwd: this.workdir, env: process.env }, stdout);
   }
 
@@ -126,5 +124,14 @@ export class Terraform  {
 
   private get stateFileOption() {
     return ['-state', path.join(process.cwd(), 'terraform.tfstate')]
+  }
+
+  public async setUserAgent(): Promise<void> {
+    // Read the cdktf version from the 'cdk.tf.json' file
+    // and set the user agent.
+    const version = await readCDKTFVersion(this.workdir)
+    if (version != "") {
+      process.env.TF_APPEND_USER_AGENT = "cdktf/" + version + " (+https://github.com/hashicorp/terraform-cdk)";
+    }
   }
 }
