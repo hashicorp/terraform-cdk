@@ -20,7 +20,7 @@ e.g. in Typescript / Node:
 npm install -a @cdktf/provider-aws
 ```
 
-## Build Providers and Modules
+## Importing Providers and Modules
 
 CDK for Terraform allows you to import Terraform [providers](https://www.terraform.io/docs/providers/index.html) and [modules](https://www.terraform.io/docs/modules/index.html) to your project
 using this workflow.
