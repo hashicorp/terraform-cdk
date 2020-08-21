@@ -37,6 +37,6 @@
   npm install -a @cdktf/provider-github
   npm install -a @cdktf/provider-null
 
-  Check for an up to date list here https://cdk.tf/provider
+  Check for an up to date list here https://github.com/terraform-cdk-providers
 
 ========================================================================================================

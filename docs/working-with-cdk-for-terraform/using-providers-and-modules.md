@@ -4,15 +4,15 @@
 
 To improve the general user experience around provider imports and to allow building further abstractions on top of the Terraform provider bindings, a few popular providers are offered as prebuilt packages. At the moment the following providers are built and published to NPM / PyPi on a regular basis automatically.
 
-- [AWS Provider](https://cdk.tf/provider/aws)
-- [Google Provider](https://cdk.tf/provider/google)
-- [Azure Provider](https://cdk.tf/provider/azurerm)
-- [Kubernetes Provider](https://cdk.tf/provider/kubernetes)
-- [Docker Provider](https://cdk.tf/provider/docker)
-- [Github Provider](https://cdk.tf/provider/github)
-- [Null Provider](https://cdk.tf/provider/null)
+- [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
+- [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
+- [Azure Provider](https://github.com/terraform-cdk-providers/cdktf-provider-azurerm)
+- [Kubernetes Provider](https://github.com/terraform-cdk-providers/cdktf-provider-kubernetes)
+- [Docker Provider](https://github.com/terraform-cdk-providers/cdktf-provider-docker)
+- [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
+- [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
 
-Please check the [Terraform CDK Proivders](https://cdk.tf/provider) organisation as well for an up to date list. As these are are normal npm / pypi packages, they can be used as any other dependency.
+Please check the [Terraform CDK Proivders](https://github.com/terraform-cdk-providers) organisation as well for an up to date list. As these are are normal npm / pypi packages, they can be used as any other dependency.
 
 e.g. in Typescript / Node:
 

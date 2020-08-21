@@ -44,7 +44,7 @@ Similar to 3rd Party providers, the full registry namespace should be provided. 
 
 ### Minimal Configuration
 
-A minimal configuration would define `app` only. This is useful, when planning to use [prebuilt providers]() and therefore no provider or modules bindings should be generated.
+A minimal configuration would define `app` only. This is useful, when planning to use [prebuilt providers](https://github.com/terraform-cdk-providers) and therefore no provider or modules bindings should be generated.
 
 ```json
 {
@@ -65,7 +65,7 @@ This will synthesize JSON into `my-workdir` and all Terraform operations - such 
 
 ### Building Providers
 
-This will synthesize JSON into `my-workdir` and all Terraform operations - such as `deploy` or `destroy` - will be performed in this directory. See more details about this [here](./using-providers-and-modules.md)
+With this `terraformProviders` configuration, a `cdktf get` will build the latest AWS provider within the 2.X version range. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput`, see other examples below.
 
 ```json
 {
@@ -77,18 +77,69 @@ This will synthesize JSON into `my-workdir` and all Terraform operations - such 
 }
 ```
 
-### Building Providers in Custom Directory
+### Building Modules
 
-This will generate the `aws` provider bindings in the folder `./imports`.
+With this `terraformModules` configuration, a `cdktf get` will build the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput` - see other examples below.
+
+```json
+{
+  "language": "typescript",
+  "app": "npm run --silent compile && node main.js",
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws"
+  ]
+}
+```
+
+### Building Providers & Modules
+
+This combines examples above, a `cdktf get` will build both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
+
+```json
+{
+  "language": "typescript",
+  "app": "npm run --silent compile && node main.js",
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws"
+  ],
+  "terraformProviders": [
+    "aws@~> 2.0"
+  ]
+}
+```
+
+### Building Multiple Providers
+
+It's possible to build multiple providers or modules as well.
 
 ```json
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": [
+    "null",
+    "aws",
+    "google",
+    "azurerm",
+    "kubernetes",
+    "consul",
+    "vault",
+    "nomad",
+  ]
+}
+```
+
+### Building Providers in Custom Directory
+
+This will generate the `aws` provider bindings in the folder `./imports`. This is used in the Python template, to make it easier to reference the generated classes.
+
+```json
+{
+  "language": "python",
+  "app": "pipenv run ./main.py",
+  "terraformProviders": [
     "aws@~> 2.0"
   ],
   "codeMakerOutput": "imports"
 }
 ```
-

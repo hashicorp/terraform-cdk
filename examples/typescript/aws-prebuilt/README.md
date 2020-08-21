@@ -1,6 +1,6 @@
 # Typescript AWS with Prebuilt Provider
 
-A CDK for Terraform application in TypeScript using the prebuilt [AWS provider](https://cdk.tf/provider/aws).
+A CDK for Terraform application in TypeScript using the prebuilt [AWS provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws).
 
 ## Usage
 
