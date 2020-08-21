@@ -37,7 +37,7 @@
   },
   "resource": {
     "aws_sns_topic": {
-      "helloterra_Topic_6609C1D4": {
+      "Topic": {
         "display_name": "topic",
         "provider": "aws",
         "lifecycle": {
@@ -46,15 +46,15 @@
         "//": {
           "metadata": {
             "path": "hello-terra/Topic",
-            "uniqueId": "helloterra_Topic_6609C1D4"
+            "uniqueId": "Topic"
           }
         }
       }
     }
   },
   "output": {
-    "helloterra_snstopicarn_5A23CA34": {
-      "value": "${aws_sns_topic.helloterra_Topic_6609C1D4.arn}"
+    "snstopicarn": {
+      "value": "${aws_sns_topic.Topic.arn}"
     }
   }
 }
