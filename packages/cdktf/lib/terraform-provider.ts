@@ -14,7 +14,6 @@ export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
   public readonly terraformProviderSource?: string;
-  public alias?: string;
 
   constructor(scope: Construct, id: string, config: TerraformProviderConfig) {
     super(scope, id);
@@ -22,6 +21,15 @@ export abstract class TerraformProvider extends TerraformElement {
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     this.terraformProviderSource = config.terraformProviderSource;
+  }
+
+  public get alias(): string | undefined {
+    // This is always* being overriden currently
+    return undefined;
+  }
+
+  public set alias(_value: string | undefined) {
+    // This is always* being overriden currently
   }
 
   public get fqn(): string {
