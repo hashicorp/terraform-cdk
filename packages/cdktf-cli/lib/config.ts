@@ -8,6 +8,9 @@ const DEFAULTS = {
   codeMakerOutput: '.gen'
 }
 
+function isPresent(input: string[] | undefined): boolean {
+  return Array.isArray(input) && input.length > 0
+}
 
 export interface Config {
   readonly app?: string;
@@ -29,7 +32,7 @@ export function readConfigSync(): Config {
     };
   }
 
-  config.checkCodeMakerOutput = Array.isArray(config.terraformModules) || Array.isArray(config.terraformProviders)
+  config.checkCodeMakerOutput = isPresent(config.terraformModules) || isPresent(config.terraformProviders)
 
   return config;
 }
