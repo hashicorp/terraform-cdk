@@ -12,7 +12,7 @@ To improve the general user experience around provider imports and to allow buil
 - [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
 - [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
 
-Please check the [Terraform CDK Proivders](https://github.com/terraform-cdk-providers) organisation as well for an up to date list. As these are are normal npm / pypi packages, they can be used as any other dependency.
+Please check the [Terraform CDK Providers](https://github.com/terraform-cdk-providers) organization as well for an up to date list. As these are normal NPM / PyPI packages, they can be used as any other dependency.
 
 e.g. in Typescript / Node:
 
