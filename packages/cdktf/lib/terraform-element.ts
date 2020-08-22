@@ -1,6 +1,7 @@
 import { Construct, Node } from "constructs";
 import { makeUniqueId } from './private/unique'
 import { TerraformStack } from './terraform-stack'
+import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS } from "./features";
 
 export interface TerraformElementMetadata {
   readonly path: string;
@@ -29,7 +30,15 @@ export class TerraformElement extends Construct {
 
   public get friendlyUniqueId() {
     const node = this.constructNode
-    const stackIndex = node.scopes.indexOf(this.stack);
+
+    let stackIndex;
+    if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
+      stackIndex = node.scopes.indexOf(this.stack);
+    }
+    else {
+      stackIndex = 0;
+    }
+    
     const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
     return components.length > 0 ? makeUniqueId(components) : '';
   }
