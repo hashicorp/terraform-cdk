@@ -11,6 +11,7 @@ for /d %%d in ("test-*") do (
             echo %%d
             echo --------------------------------------------------------------------
             call node "%%d\test.js"
+            IF !ERRORLEVEL! NEQ 0 exit /B 1
         )
     )
 )
