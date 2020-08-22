@@ -3,12 +3,17 @@ import { Text, Box, Color } from 'ink'
 
 export interface ResourceNameConfig {
   name: string;
+  stackName?: string;
 }
 
-export const ResourceName = ({name}: ResourceNameConfig) => {
+export const ResourceName = ({name, stackName}: ResourceNameConfig) => {
   const prettyName = name.replace(/(_[A-F\d]{8})$/, '')
 
-  const [resource, resourceName] = prettyName.split('.')
+  let [resource, resourceName] = prettyName.split('.')
+  if (stackName != null && resourceName.startsWith(stackName)) {
+    const [, ...path] = resourceName.split('_')
+    resourceName = path.join('_')
+  }
 
   return(
     <Box flexDirection="column" width={80}>

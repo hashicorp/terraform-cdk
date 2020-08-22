@@ -63,12 +63,13 @@ export const DeployingElementStatus = ({resource}: DeployingElementStatusProps) 
 
 interface DeployingElementProps {
   resource: DeployingResource;
+  stackName?: string;
 }
 
 
-export const DeployingElement = ({resource}: DeployingElementProps) => (
+export const DeployingElement = ({resource, stackName}: DeployingElementProps) => (
   <Box key={resource.id}>
     <DeployingElementStatus resource={resource} />
-    <ResourceName name={ resource.id }/>
+    <ResourceName name={resource.id} stackName={stackName}/>
   </Box>
 )
