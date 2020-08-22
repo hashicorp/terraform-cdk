@@ -77,8 +77,10 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
 
+    const futureFlags = Object.entries(FUTURE_FLAGS).map(([key, value]) => `"${key}": "${value}"`).join(`,\n`);
+
     await sscaff(templateInfo.Path, '.', {
-      ...deps, ...projectInfo, futureFlags: FUTURE_FLAGS
+      ...deps, ...projectInfo, futureFlags
     });
   }
 }

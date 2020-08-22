@@ -20,6 +20,7 @@ export interface Config {
   readonly terraformProviders?: string[];
   readonly terraformModules?: string[];
   checkCodeMakerOutput?: boolean;
+  readonly context?: {[key: string]: any};
 }
 
 export function readConfigSync(): Config {
