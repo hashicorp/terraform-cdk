@@ -1,0 +1,6 @@
+{
+  "language": "python",
+  "app": "python3 ./main.py",
+  "terraformProviders": ["aws@~> 2.0"],
+  "codeMakerOutput": "imports"
+}
