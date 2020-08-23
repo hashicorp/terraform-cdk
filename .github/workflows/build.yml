@@ -77,6 +77,8 @@ jobs:
         with:
           terraform_wrapper: false
           terraform_version: ${{ matrix.terraform }}
+      - name: Install pipenv
+        run: pip install pipenv
       - name: Download dist
         uses: actions/download-artifact@v2
         with:
