@@ -4,7 +4,6 @@ import { promisify } from 'util';
 import { exec, withTempDir } from '../../util';
 
 const writeFile = promisify(fs.writeFile);
-const mkdirp = promisify(fs.mkdirp);
 
 export interface ProviderSchema {
   format_version: '1.0';
@@ -68,7 +67,6 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
     requiredProviders[name] = { version, source: fqname };
   }
   let schema = '';
-  const workDir = process.cwd()
 
   await withTempDir('fetchSchema', async () => {
     const outdir = process.cwd();
@@ -76,20 +74,12 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
     // eslint-disable-next-line @typescript-eslint/camelcase
     await writeFile(filePath, JSON.stringify({ provider, terraform: { required_providers: requiredProviders }}));
 
-    const env = process.env['TF_PLUGIN_CACHE_DIR'] ? process.env : Object.assign({}, process.env, { 'TF_PLUGIN_CACHE_DIR': await cacheDir(workDir) })
-
     // todo: when implementing logging, we need to make sure we can show the terraform init
     // output if the log level is set to debug
-    await exec('terraform', [ 'init' ], { cwd: outdir, env });
-    schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir, env });
+    await exec('terraform', [ 'init' ], { cwd: outdir });
+    schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir });
     fs.unlinkSync(filePath)
   })
 
   return JSON.parse(schema);
-}
-
-async function cacheDir(workDir: string) {
-  const cacheDir = path.join(workDir, '.terraform/plugins');
-  await mkdirp(cacheDir);
-  return cacheDir
 }

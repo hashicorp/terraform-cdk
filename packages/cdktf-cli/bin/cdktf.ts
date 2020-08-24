@@ -2,7 +2,19 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 
 import * as yargs from 'yargs';
 import * as semver from 'semver';
+import * as path from 'path';
+import * as os from 'os';
+import * as fs from 'fs-extra';
 
+const ensurePluginCache = (): string => {
+  const pluginCachePath = process.env.TF_PLUGIN_CACHE_DIR || path.join(os.homedir(), '.terraform.d', 'plugin-cache')
+  if (!fs.existsSync(pluginCachePath)) {
+    fs.mkdirpSync(pluginCachePath)
+  }
+  return pluginCachePath;
+}
+
+process.env.TF_PLUGIN_CACHE_DIR = ensurePluginCache()
 if (semver.lt(process.version, '10.12.0')) { console.error("Need at least Node v10.12 to run") ; process.exit(1) }
 
 const args = yargs
