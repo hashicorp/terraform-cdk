@@ -73,7 +73,7 @@ export class TerraformDataSource extends TerraformElement implements ITerraformR
       this.rawOverrides
     )
 
-    attributes['//'] = this.nodeMetadata
+    attributes['//'] = this.constructNodeMetadata
 
     return {
       data: {

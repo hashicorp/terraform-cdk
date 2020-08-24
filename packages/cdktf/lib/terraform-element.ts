@@ -56,7 +56,7 @@ export class TerraformElement extends Construct {
     curr[lastKey] = value;
   }
 
-  protected get nodeMetadata(): {[key: string]: any} {
+  protected get constructNodeMetadata(): {[key: string]: any} {
     return {
       metadata: {
         path: this.constructNode.path,
