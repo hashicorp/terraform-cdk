@@ -84,12 +84,12 @@ export class Terraform  {
 
   public async init(): Promise<void> {
     await this.setUserAgent()
-    await exec(terraformBinaryName, ['init'], { cwd: this.workdir, env: process.env })
+    await exec(terraformBinaryName, ['init', '-input=false'], { cwd: this.workdir, env: process.env })
   }
 
   public async plan(destroy = false): Promise<TerraformPlan> {
     const planFile = path.join(this.workdir, 'plan')
-    const options = ['plan', '-out', planFile, ...this.stateFileOption]
+    const options = ['plan', '-input=false', '-out', planFile, ...this.stateFileOption]
     if (destroy) {
       options.push('-destroy')
     }
@@ -102,12 +102,12 @@ export class Terraform  {
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     const relativePlanFile = path.relative(this.workdir, planFile);
     await this.setUserAgent()
-    await exec(terraformBinaryName, ['apply', '-auto-approve', ...this.stateFileOption, relativePlanFile], { cwd: this.workdir, env: process.env }, stdout);
+    await exec(terraformBinaryName, ['apply', '-auto-approve', '-input=false', ...this.stateFileOption, relativePlanFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
     await this.setUserAgent()
-    await exec(terraformBinaryName, ['destroy', '-auto-approve', ...this.stateFileOption], { cwd: this.workdir, env: process.env }, stdout);
+    await exec(terraformBinaryName, ['destroy', '-auto-approve', '-input=false', ...this.stateFileOption], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async version(): Promise<string> {
