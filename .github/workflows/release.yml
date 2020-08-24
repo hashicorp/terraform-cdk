@@ -77,7 +77,7 @@ jobs:
   release_homebrew:
     name: Release to Homebrew
     # The branch or tag ref that triggered the workflow run.
-    if: startsWith(github.event.head_commit.message, 'Prepare release ')
+    if: startsWith(github.event.head_commit.message, 'Bump version')
     needs: release_npm
     runs-on: ubuntu-latest
     steps:
