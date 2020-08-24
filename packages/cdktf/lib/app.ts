@@ -2,6 +2,8 @@ import { Construct, Node, ConstructMetadata } from 'constructs';
 import fs = require('fs');
 import { version } from '../package.json';
 
+export const CONTEXT_ENV = 'CDKTF_CONTEXT_JSON';
+
 export interface AppOptions {
     /**
      * The directory to output Terraform resources.
@@ -10,6 +12,17 @@ export interface AppOptions {
      */
     readonly outdir?: string;
     readonly stackTraces?: boolean;
+
+    /**
+     * Additional context values for the application.
+     *
+     * Context set by the CLI or the `context` key in `cdktf.json` has precedence.
+     *
+     * Context can be read from any construct using `node.getContext(key)`.
+     *
+     * @default - no additional context
+     */
+    readonly context?: { [key: string]: any };
 }
 
 /**
@@ -28,6 +41,8 @@ export class App extends Construct {
     constructor(options: AppOptions = {}) {
         super(undefined as any, '');
         this.outdir = process.env.CDKTF_OUTDIR ?? options.outdir ?? 'cdktf.out';
+
+        this.loadContext(options.context);
 
         const node = Node.of(this)
         if (options.stackTraces === false) {
@@ -49,4 +64,25 @@ export class App extends Construct {
             outdir: this.outdir
         });
     }
+
+    private loadContext(defaults: { [key: string]: string } = { }) {
+        const node = Node.of(this)
+
+        // prime with defaults passed through constructor
+        for (const [k, v] of Object.entries(defaults)) {
+          node.setContext(k, v);
+        }
+
+        //test.app.ts
+    
+        // read from environment
+        const contextJson = process.env[CONTEXT_ENV];
+        const contextFromEnvironment = contextJson
+          ? JSON.parse(contextJson)
+          : { };
+    
+        for (const [k, v] of Object.entries(contextFromEnvironment)) {
+          node.setContext(k, v);
+        }
+      }
 }

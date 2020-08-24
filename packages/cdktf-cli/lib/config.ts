@@ -1,6 +1,8 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { Language } from './get/base';
+import { env } from 'process';
+import { CONTEXT_ENV } from 'cdktf';
 
 const CONFIG_FILE = 'cdktf.json'
 const DEFAULTS = {
@@ -34,6 +36,8 @@ export function readConfigSync(): Config {
   }
 
   config.checkCodeMakerOutput = isPresent(config.terraformModules) || isPresent(config.terraformProviders)
+
+  env[CONTEXT_ENV] = JSON.stringify(config.context);
 
   return config;
 }
