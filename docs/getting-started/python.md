@@ -9,6 +9,13 @@
 
 ### Install CDK for Terraform CLI
 
+Install with [Homebrew](https://brew.sh):
+
+```shell
+$ brew install cdktf
+```
+Or install with npm (requires [Node.js](https://nodejs.org)):
+
 ```bash
 npm install -g cdktf-cli
 ```
