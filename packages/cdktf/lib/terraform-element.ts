@@ -1,7 +1,5 @@
 import { Construct, Node } from "constructs";
-import { makeUniqueId } from './private/unique'
 import { TerraformStack } from './terraform-stack'
-import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS } from "./features";
 
 export interface TerraformElementMetadata {
   readonly path: string;
@@ -12,6 +10,11 @@ export interface TerraformElementMetadata {
 export class TerraformElement extends Construct {
   public readonly stack: TerraformStack;
   protected readonly rawOverrides: any = {}
+
+  /**
+   * An explicit logical ID provided by `overrideLogicalId`.
+   */
+  private _logicalIdOverride?: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id)
@@ -29,18 +32,20 @@ export class TerraformElement extends Construct {
   }
 
   public get friendlyUniqueId() {
-    const node = this.constructNode
-
-    let stackIndex;
-    if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
-      stackIndex = node.scopes.indexOf(this.stack);
+    if (this._logicalIdOverride) {
+      return this._logicalIdOverride;
     }
     else {
-      stackIndex = 0;
+      return this.stack.getLogicalId(this);
     }
-    
-    const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
-    return components.length > 0 ? makeUniqueId(components) : '';
+  }
+
+  /**
+   * Overrides the auto-generated logical ID with a specific ID.
+   * @param newLogicalId The new logical ID to use for this stack element.
+   */
+  public overrideLogicalId(newLogicalId: string) {
+    this._logicalIdOverride = newLogicalId;
   }
 
   public addOverride(path: string, value: any) {
