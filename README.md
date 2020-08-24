@@ -72,6 +72,7 @@ Choose a language:
 * Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
 * Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 * Defining Terraform [locals](./docs/working-with-cdk-for-terraform/terraform-locals.md).
+* Handling breaking changes with [feature flags](./docs/working-with-cdk-for-terraform/feature-flags.md).
 
 ## Contributing and Feedback
 
