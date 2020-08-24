@@ -6,7 +6,7 @@ on: [pull_request]
   #     - master
 
 jobs:
-  release:
+  build_artifact:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     container:
