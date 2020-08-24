@@ -1,8 +1,9 @@
 name: Release @next
-on:
-  push:
-    branches:
-      - master
+on: [pull_request]
+# on:
+  # push:
+  #   branches:
+  #     - master
 
 jobs:
   release:
@@ -25,7 +26,41 @@ jobs:
       - run: yarn integration
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-      - run: npx -p jsii-release jsii-release-npm
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: dist
+
+  # release_npm:
+  #   name: Release to Github Packages NPM regitry
+  #   needs: build_artifact
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: hashicorp/jsii-terraform
+  #   steps:
+  #     - name: Download build artifacts
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: dist
+  #     - name: Release
+  #       run: npx -p jsii-release jsii-release-npm
+  #       env:
+  #         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  release_pypi:
+    name: Release to PyPi
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: jsii/superchain
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Release
+        run: npx -p jsii-release jsii-release-pypi
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_DIST_TAG: next
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
