@@ -431,12 +431,12 @@ exports[`s3 reference 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"testresource\\": {
+      \\"test_resource\\": {
         \\"name\\": \\"\${data.terraform_remote_state.remote.outputs.name}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test_resource\\",
-            \\"uniqueId\\": \\"testresource\\"
+            \\"uniqueId\\": \\"test_resource\\"
           }
         }
       }

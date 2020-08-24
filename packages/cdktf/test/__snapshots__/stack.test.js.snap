@@ -71,7 +71,7 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
     }
   },
   \\"output\\": {
-    \\"eksversion\\": {
+    \\"eks_version\\": {
       \\"value\\": \\"7.0.1\\"
     }
   },

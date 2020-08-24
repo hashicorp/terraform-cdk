@@ -5,7 +5,7 @@ import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
 import { TerraformProvider } from './terraform-provider';
-import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS } from './features';
+import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS, ALLOW_SEP_CHARS_IN_LOGICAL_IDS } from './features';
 import { makeUniqueId } from './private/unique';
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
@@ -98,7 +98,7 @@ export class TerraformStack extends Construct {
     }
     
     const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
-    return components.length > 0 ? makeUniqueId(components) : '';
+    return components.length > 0 ? makeUniqueId(components, node.tryGetContext(ALLOW_SEP_CHARS_IN_LOGICAL_IDS)) : '';
   }
 
   public allProviders(): TerraformProvider[] {
