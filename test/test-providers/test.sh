@@ -10,7 +10,7 @@ cd $(mktemp -d)
 mkdir test && cd test
 
 # initialize an empty project
-cdktf init --template typescript --project-name="typescript-test" --project-description="typescript test app" --local
+cdktf init --template typescript-minimal --project-name="typescript-test" --project-description="typescript test app" --local
 
 # put some code in it
 cp ${scriptdir}/main.ts .

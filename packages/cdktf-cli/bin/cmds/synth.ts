@@ -25,7 +25,7 @@ class Command implements yargs.CommandModule {
     const outdir = argv.output;
     const jsonOutput = argv.json;
 
-    if (!await fs.pathExists(config.codeMakerOutput)) {
+    if (config.checkCodeMakerOutput && !await fs.pathExists(config.codeMakerOutput)) {
       console.error(`ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`);
       process.exit(1);
     }

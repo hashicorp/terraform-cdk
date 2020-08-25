@@ -1,0 +1,3 @@
+{
+  "app": "npm run --silent compile && node main.js"
+}

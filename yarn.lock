@@ -272,6 +272,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@cdktf/provider-aws@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@cdktf/provider-aws/-/provider-aws-0.0.19.tgz#e6965a0465e7f04de338b1f4fc53cd7edfe1b1d1"
+  integrity sha512-ZKxKZhV2A46xScSvaqmb2+pdS2J+ndadmOtClOQo4QQldswYmvvvG5sRm2RKtvKcHHmZNpcsANLrFtXKI97gFA==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
