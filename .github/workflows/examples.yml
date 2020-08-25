@@ -9,7 +9,8 @@ jobs:
         terraform: ["0.12.29", "0.13.0"]
     container:
       image: hashicorp/jsii-terraform
-
+    env:
+      TF_PLUGIN_CACHE_DIR: "/root/.terraform.d/plugin-cache"
     steps:
       - uses: actions/checkout@v2
       - name: installing dependencies
@@ -22,6 +23,8 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: create bundle
         run: yarn package
+      - name: bootstrap plugin cache
+        run: yarn bootstrap-plugin-cache
       - name: examples integration tests
         run: yarn examples:integration
         env:

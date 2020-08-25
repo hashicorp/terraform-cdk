@@ -19,3 +19,4 @@ tsconfig.json
 **/dist
 **/.terraform
 .vscode
+bootstrap.json
