@@ -24,7 +24,7 @@ jobs:
       - name: create bundle
         run: yarn package
       - name: bootstrap plugin cache
-        run: yarn bootstrap-plugin-cache
+        run: yum install -y jq && yarn bootstrap-plugin-cache
       - name: examples integration tests
         run: yarn examples:integration
         env:
