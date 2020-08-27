@@ -14,7 +14,7 @@ const ensurePluginCache = (): string => {
   return pluginCachePath;
 }
 
-if (!process.env.DISABLE_PLUGIN_CACHE_ENV) {
+if (!process.env.CDKTF_DISABLE_PLUGIN_CACHE_ENV) {
   process.env.TF_PLUGIN_CACHE_DIR = ensurePluginCache()
 }
 
