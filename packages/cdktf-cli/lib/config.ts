@@ -37,7 +37,9 @@ export function readConfigSync(): Config {
 
   config.checkCodeMakerOutput = isPresent(config.terraformModules) || isPresent(config.terraformProviders)
 
-  env[CONTEXT_ENV] = JSON.stringify(config.context);
+  if(config.context) {
+    env[CONTEXT_ENV] = JSON.stringify(config.context);
+  }
 
   return config;
 }
