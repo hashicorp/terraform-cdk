@@ -5,7 +5,6 @@
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
 - [Node.js](https://nodejs.org) >= v12.16
 - [Python](https://www.python.org/downloads/) >= v3.7
-- [Pipenv](https://pipenv.pypa.io/en/latest/install/#installing-pipenv/)
 
 ### Install CDK for Terraform CLI
 
@@ -27,7 +26,25 @@ Learn more how to use the cdktf command-line interface [here](../cli-commands.md
 ```bash
 mkdir hello-terraform
 cd hello-terraform
+```
+
+There are two Python templates available that you can choose from.
+The `python` template uses `Pipenv` for package management wheras the
+`python-pip` template just uses `pip` with a simple `requirements.txt` file.
+
+Here's how to choose between the two
+
+### pipenv
+
+Note: Make sure [Pipenv](https://pipenv.pypa.io/en/latest/install/#installing-pipenv/) is installed.
+
+```bash
 cdktf init --template="python" --local
+```
+
+### pip
+```bash
+cdktf init --template="python-pip" --local
 ```
 
 This will initialize a brand new CDK for Terraform project in Python using an interactive command.
