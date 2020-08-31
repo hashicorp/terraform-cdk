@@ -2,7 +2,7 @@
 
 **Fixed bugs:**
 
-- Fix Orcacle Provider [\#341](https://github.com/hashicorp/terraform-cdk/issues/341)
+- Fix Orcale Provider [\#341](https://github.com/hashicorp/terraform-cdk/issues/341)
 - Run Terraform commands with `input=false` flag [\#343](https://github.com/hashicorp/terraform-cdk/issues/343)
 - Use default provider caching of Terraform, rather than creating error prone symlinks [\#344](https://github.com/hashicorp/terraform-cdk/issues/344)
 
