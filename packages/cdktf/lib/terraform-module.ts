@@ -37,7 +37,7 @@ export abstract class TerraformModule extends TerraformElement {
       this.rawOverrides
     )
 
-    attributes['//'] = this.nodeMetadata
+    attributes['//'] = this.constructNodeMetadata
 
     return {
       module: {

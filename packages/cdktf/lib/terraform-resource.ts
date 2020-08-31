@@ -108,7 +108,7 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
       this.rawOverrides
     )
 
-    attributes['//'] = this.nodeMetadata
+    attributes['//'] = this.constructNodeMetadata
 
     return {
       resource: {

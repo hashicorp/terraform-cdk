@@ -10,6 +10,7 @@ HashiCorp Terraform.
 ![](https://github.com/hashicorp/terraform-cdk/workflows/Release/badge.svg)
 [![npm version](https://badge.fury.io/js/cdktf.svg)](https://badge.fury.io/js/cdktf)
 [![PyPI version](https://badge.fury.io/py/cdktf.svg)](https://badge.fury.io/py/cdktf)
+[![homebrew](https://img.shields.io/homebrew/v/cdktf?color=brightgreen)](https://formulae.brew.sh/formula/cdktf#default)
 
 
 ## Overview

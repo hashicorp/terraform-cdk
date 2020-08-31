@@ -11,6 +11,7 @@ jobs:
       image: hashicorp/jsii-terraform
     env:
       TF_PLUGIN_CACHE_DIR: "/root/.terraform.d/plugin-cache"
+      CHECKPOINT_DISABLE: "1"
     steps:
       - uses: actions/checkout@v2
       - name: installing dependencies

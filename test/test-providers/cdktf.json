@@ -11,6 +11,7 @@
     "vault",
     "nomad",
     "external",
-    "terraform-providers/openstack"
+    "terraform-providers/openstack",
+    "oci"
   ]
 }
