@@ -1,3 +1,17 @@
+## 0.0.17
+
+**Fixed bugs:**
+
+- Fix Orcacle Provider [\#341](https://github.com/hashicorp/terraform-cdk/issues/341)
+- Run Terraform commands with `input=false` flag [\#343](https://github.com/hashicorp/terraform-cdk/issues/343)
+- Use default provider caching of Terraform, rather than creating error prone symlinks [\#344](https://github.com/hashicorp/terraform-cdk/issues/344)
+
+**Implemented enhancements:**
+
+- Streamline CLI workflows for prebuilt providers [\#331](https://github.com/hashicorp/terraform-cdk/issues/331)
+- CLI installable via Homebrew [\#342](https://github.com/hashicorp/terraform-cdk/issues/342)
+- Support Terraform provider caching by default [#189](https://github.com/hashicorp/terraform-cdk/issues/189), [\#222](https://github.com/hashicorp/terraform-cdk/issues/222), [\#349](https://github.com/hashicorp/terraform-cdk/issues/349)
+
 ## 0.0.16
 
 **Fixed bugs:**
