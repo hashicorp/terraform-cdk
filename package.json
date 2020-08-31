@@ -6,6 +6,7 @@
     "build": "lerna run --scope cdktf* build",
     "package": "lerna run package && tools/collect-dist.sh",
     "package-windows": "lerna run package && tools\\collect-dist.bat",
+    "bootstrap-plugin-cache": "./test/run-against-dist ./tools/bootstrap-plugin-cache.sh",
     "examples:reinstall": "lerna run --parallel --scope @examples/* reinstall",
     "examples:build": "lerna run --parallel --scope @examples/* build",
     "examples:synth": "lerna run --parallel --scope @examples/* synth",
