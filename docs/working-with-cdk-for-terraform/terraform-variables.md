@@ -4,7 +4,7 @@ A [Terraform variable](https://www.terraform.io/docs/configuration/variables.htm
 
 ```typescript
 const imageId = new TerraformVariable(this, 'imageId', {
-    type: PrimitiveVariableType.STRING,
+    type: 'string',
     default: 'ami-abcde123',
     description: 'What AMI to use to create an instance'
 });
