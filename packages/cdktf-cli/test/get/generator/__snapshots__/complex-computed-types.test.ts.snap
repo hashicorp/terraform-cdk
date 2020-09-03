@@ -93,8 +93,11 @@ export class AcmCertificate extends TerraformResource {
   public get certificateAuthorityArn() {
     return this.getStringAttribute('certificate_authority_arn');
   }
-  public set certificateAuthorityArn(value: string | undefined) {
+  public set certificateAuthorityArn(value: string ) {
     this._certificateAuthorityArn = value;
+  }
+  public resetCertificateAuthorityArn() {
+    this._certificateAuthorityArn = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get certificateAuthorityArnInput() {
@@ -106,8 +109,11 @@ export class AcmCertificate extends TerraformResource {
   public get certificateBody() {
     return this.getStringAttribute('certificate_body');
   }
-  public set certificateBody(value: string | undefined) {
+  public set certificateBody(value: string ) {
     this._certificateBody = value;
+  }
+  public resetCertificateBody() {
+    this._certificateBody = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get certificateBodyInput() {
@@ -119,8 +125,11 @@ export class AcmCertificate extends TerraformResource {
   public get certificateChain() {
     return this.getStringAttribute('certificate_chain');
   }
-  public set certificateChain(value: string | undefined) {
+  public set certificateChain(value: string ) {
     this._certificateChain = value;
+  }
+  public resetCertificateChain() {
+    this._certificateChain = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get certificateChainInput() {
@@ -132,8 +141,11 @@ export class AcmCertificate extends TerraformResource {
   public get domainName() {
     return this.getStringAttribute('domain_name');
   }
-  public set domainName(value: string | undefined) {
+  public set domainName(value: string) {
     this._domainName = value;
+  }
+  public resetDomainName() {
+    this._domainName = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get domainNameInput() {
@@ -155,8 +167,11 @@ export class AcmCertificate extends TerraformResource {
   public get privateKey() {
     return this.getStringAttribute('private_key');
   }
-  public set privateKey(value: string | undefined) {
+  public set privateKey(value: string ) {
     this._privateKey = value;
+  }
+  public resetPrivateKey() {
+    this._privateKey = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get privateKeyInput() {
@@ -168,8 +183,11 @@ export class AcmCertificate extends TerraformResource {
   public get subjectAlternativeNames() {
     return this.getListAttribute('subject_alternative_names');
   }
-  public set subjectAlternativeNames(value: string[] | undefined) {
+  public set subjectAlternativeNames(value: string[]) {
     this._subjectAlternativeNames = value;
+  }
+  public resetSubjectAlternativeNames() {
+    this._subjectAlternativeNames = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesInput() {
@@ -181,8 +199,11 @@ export class AcmCertificate extends TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | undefined) {
+  public set tags(value: { [key: string]: string } ) {
     this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
@@ -199,8 +220,11 @@ export class AcmCertificate extends TerraformResource {
   public get validationMethod() {
     return this.getStringAttribute('validation_method');
   }
-  public set validationMethod(value: string | undefined) {
+  public set validationMethod(value: string) {
     this._validationMethod = value;
+  }
+  public resetValidationMethod() {
+    this._validationMethod = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get validationMethodInput() {
@@ -212,8 +236,11 @@ export class AcmCertificate extends TerraformResource {
   public get options() {
     return this.interpolationForAttribute('options') as any;
   }
-  public set options(value: AcmCertificateOptions[] | undefined) {
+  public set options(value: AcmCertificateOptions[] ) {
     this._options = value;
+  }
+  public resetOptions() {
+    this._options = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get optionsInput() {

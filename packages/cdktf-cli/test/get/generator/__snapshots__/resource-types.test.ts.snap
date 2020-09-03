@@ -264,8 +264,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get aliases() {
     return this.getListAttribute('aliases');
   }
-  public set aliases(value: string[] | undefined) {
+  public set aliases(value: string[] ) {
     this._aliases = value;
+  }
+  public resetAliases() {
+    this._aliases = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get aliasesInput() {
@@ -287,8 +290,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get comment() {
     return this.getStringAttribute('comment');
   }
-  public set comment(value: string | undefined) {
+  public set comment(value: string ) {
     this._comment = value;
+  }
+  public resetComment() {
+    this._comment = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get commentInput() {
@@ -300,8 +306,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get defaultRootObject() {
     return this.getStringAttribute('default_root_object');
   }
-  public set defaultRootObject(value: string | undefined) {
+  public set defaultRootObject(value: string ) {
     this._defaultRootObject = value;
+  }
+  public resetDefaultRootObject() {
+    this._defaultRootObject = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get defaultRootObjectInput() {
@@ -341,8 +350,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get httpVersion() {
     return this.getStringAttribute('http_version');
   }
-  public set httpVersion(value: string | undefined) {
+  public set httpVersion(value: string ) {
     this._httpVersion = value;
+  }
+  public resetHttpVersion() {
+    this._httpVersion = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get httpVersionInput() {
@@ -364,8 +376,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get isIpv6Enabled() {
     return this.getBooleanAttribute('is_ipv6_enabled');
   }
-  public set isIpv6Enabled(value: boolean | undefined) {
+  public set isIpv6Enabled(value: boolean ) {
     this._isIpv6Enabled = value;
+  }
+  public resetIsIpv6Enabled() {
+    this._isIpv6Enabled = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get isIpv6EnabledInput() {
@@ -382,8 +397,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get priceClass() {
     return this.getStringAttribute('price_class');
   }
-  public set priceClass(value: string | undefined) {
+  public set priceClass(value: string ) {
     this._priceClass = value;
+  }
+  public resetPriceClass() {
+    this._priceClass = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get priceClassInput() {
@@ -395,8 +413,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get retainOnDelete() {
     return this.getBooleanAttribute('retain_on_delete');
   }
-  public set retainOnDelete(value: boolean | undefined) {
+  public set retainOnDelete(value: boolean ) {
     this._retainOnDelete = value;
+  }
+  public resetRetainOnDelete() {
+    this._retainOnDelete = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get retainOnDeleteInput() {
@@ -413,8 +434,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | undefined) {
+  public set tags(value: { [key: string]: string } ) {
     this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
@@ -426,8 +450,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get waitForDeployment() {
     return this.getBooleanAttribute('wait_for_deployment');
   }
-  public set waitForDeployment(value: boolean | undefined) {
+  public set waitForDeployment(value: boolean ) {
     this._waitForDeployment = value;
+  }
+  public resetWaitForDeployment() {
+    this._waitForDeployment = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get waitForDeploymentInput() {
@@ -439,8 +466,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get webAclId() {
     return this.getStringAttribute('web_acl_id');
   }
-  public set webAclId(value: string | undefined) {
+  public set webAclId(value: string ) {
     this._webAclId = value;
+  }
+  public resetWebAclId() {
+    this._webAclId = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get webAclIdInput() {
@@ -452,8 +482,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get cacheBehavior() {
     return this.interpolationForAttribute('cache_behavior') as any;
   }
-  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] | undefined) {
+  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] ) {
     this._cacheBehavior = value;
+  }
+  public resetCacheBehavior() {
+    this._cacheBehavior = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get cacheBehaviorInput() {
@@ -465,8 +498,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get customErrorResponse() {
     return this.interpolationForAttribute('custom_error_response') as any;
   }
-  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | undefined) {
+  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] ) {
     this._customErrorResponse = value;
+  }
+  public resetCustomErrorResponse() {
+    this._customErrorResponse = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get customErrorResponseInput() {
@@ -491,8 +527,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get loggingConfig() {
     return this.interpolationForAttribute('logging_config') as any;
   }
-  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] | undefined) {
+  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] ) {
     this._loggingConfig = value;
+  }
+  public resetLoggingConfig() {
+    this._loggingConfig = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get loggingConfigInput() {
@@ -504,8 +543,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get orderedCacheBehavior() {
     return this.interpolationForAttribute('ordered_cache_behavior') as any;
   }
-  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] | undefined) {
+  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] ) {
     this._orderedCacheBehavior = value;
+  }
+  public resetOrderedCacheBehavior() {
+    this._orderedCacheBehavior = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get orderedCacheBehaviorInput() {
@@ -530,8 +572,11 @@ export class CloudfrontDistribution extends TerraformResource {
   public get originGroup() {
     return this.interpolationForAttribute('origin_group') as any;
   }
-  public set originGroup(value: CloudfrontDistributionOriginGroup[] | undefined) {
+  public set originGroup(value: CloudfrontDistributionOriginGroup[] ) {
     this._originGroup = value;
+  }
+  public resetOriginGroup() {
+    this._originGroup = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get originGroupInput() {
@@ -641,8 +686,11 @@ export class FmsAdminAccount extends TerraformResource {
   public get accountId() {
     return this.getStringAttribute('account_id');
   }
-  public set accountId(value: string | undefined) {
+  public set accountId(value: string) {
     this._accountId = value;
+  }
+  public resetAccountId() {
+    this._accountId = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get accountIdInput() {
@@ -885,8 +933,11 @@ export class S3Bucket extends TerraformResource {
   public get accelerationStatus() {
     return this.getStringAttribute('acceleration_status');
   }
-  public set accelerationStatus(value: string | undefined) {
+  public set accelerationStatus(value: string) {
     this._accelerationStatus = value;
+  }
+  public resetAccelerationStatus() {
+    this._accelerationStatus = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get accelerationStatusInput() {
@@ -898,8 +949,11 @@ export class S3Bucket extends TerraformResource {
   public get acl() {
     return this.getStringAttribute('acl');
   }
-  public set acl(value: string | undefined) {
+  public set acl(value: string ) {
     this._acl = value;
+  }
+  public resetAcl() {
+    this._acl = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get aclInput() {
@@ -916,8 +970,11 @@ export class S3Bucket extends TerraformResource {
   public get bucket() {
     return this.getStringAttribute('bucket');
   }
-  public set bucket(value: string | undefined) {
+  public set bucket(value: string) {
     this._bucket = value;
+  }
+  public resetBucket() {
+    this._bucket = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get bucketInput() {
@@ -934,8 +991,11 @@ export class S3Bucket extends TerraformResource {
   public get bucketPrefix() {
     return this.getStringAttribute('bucket_prefix');
   }
-  public set bucketPrefix(value: string | undefined) {
+  public set bucketPrefix(value: string ) {
     this._bucketPrefix = value;
+  }
+  public resetBucketPrefix() {
+    this._bucketPrefix = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get bucketPrefixInput() {
@@ -952,8 +1012,11 @@ export class S3Bucket extends TerraformResource {
   public get forceDestroy() {
     return this.getBooleanAttribute('force_destroy');
   }
-  public set forceDestroy(value: boolean | undefined) {
+  public set forceDestroy(value: boolean ) {
     this._forceDestroy = value;
+  }
+  public resetForceDestroy() {
+    this._forceDestroy = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get forceDestroyInput() {
@@ -965,8 +1028,11 @@ export class S3Bucket extends TerraformResource {
   public get hostedZoneId() {
     return this.getStringAttribute('hosted_zone_id');
   }
-  public set hostedZoneId(value: string | undefined) {
+  public set hostedZoneId(value: string) {
     this._hostedZoneId = value;
+  }
+  public resetHostedZoneId() {
+    this._hostedZoneId = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get hostedZoneIdInput() {
@@ -983,8 +1049,11 @@ export class S3Bucket extends TerraformResource {
   public get policy() {
     return this.getStringAttribute('policy');
   }
-  public set policy(value: string | undefined) {
+  public set policy(value: string ) {
     this._policy = value;
+  }
+  public resetPolicy() {
+    this._policy = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get policyInput() {
@@ -996,8 +1065,11 @@ export class S3Bucket extends TerraformResource {
   public get region() {
     return this.getStringAttribute('region');
   }
-  public set region(value: string | undefined) {
+  public set region(value: string) {
     this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get regionInput() {
@@ -1009,8 +1081,11 @@ export class S3Bucket extends TerraformResource {
   public get requestPayer() {
     return this.getStringAttribute('request_payer');
   }
-  public set requestPayer(value: string | undefined) {
+  public set requestPayer(value: string) {
     this._requestPayer = value;
+  }
+  public resetRequestPayer() {
+    this._requestPayer = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get requestPayerInput() {
@@ -1022,8 +1097,11 @@ export class S3Bucket extends TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | undefined) {
+  public set tags(value: { [key: string]: string } ) {
     this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
@@ -1035,8 +1113,11 @@ export class S3Bucket extends TerraformResource {
   public get websiteDomain() {
     return this.getStringAttribute('website_domain');
   }
-  public set websiteDomain(value: string | undefined) {
+  public set websiteDomain(value: string) {
     this._websiteDomain = value;
+  }
+  public resetWebsiteDomain() {
+    this._websiteDomain = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get websiteDomainInput() {
@@ -1048,8 +1129,11 @@ export class S3Bucket extends TerraformResource {
   public get websiteEndpoint() {
     return this.getStringAttribute('website_endpoint');
   }
-  public set websiteEndpoint(value: string | undefined) {
+  public set websiteEndpoint(value: string) {
     this._websiteEndpoint = value;
+  }
+  public resetWebsiteEndpoint() {
+    this._websiteEndpoint = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get websiteEndpointInput() {
@@ -1061,8 +1145,11 @@ export class S3Bucket extends TerraformResource {
   public get corsRule() {
     return this.interpolationForAttribute('cors_rule') as any;
   }
-  public set corsRule(value: S3BucketCorsRule[] | undefined) {
+  public set corsRule(value: S3BucketCorsRule[] ) {
     this._corsRule = value;
+  }
+  public resetCorsRule() {
+    this._corsRule = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get corsRuleInput() {
@@ -1074,8 +1161,11 @@ export class S3Bucket extends TerraformResource {
   public get grant() {
     return this.interpolationForAttribute('grant') as any;
   }
-  public set grant(value: S3BucketGrant[] | undefined) {
+  public set grant(value: S3BucketGrant[] ) {
     this._grant = value;
+  }
+  public resetGrant() {
+    this._grant = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get grantInput() {
@@ -1087,8 +1177,11 @@ export class S3Bucket extends TerraformResource {
   public get lifecycleRule() {
     return this.interpolationForAttribute('lifecycle_rule') as any;
   }
-  public set lifecycleRule(value: S3BucketLifecycleRule[] | undefined) {
+  public set lifecycleRule(value: S3BucketLifecycleRule[] ) {
     this._lifecycleRule = value;
+  }
+  public resetLifecycleRule() {
+    this._lifecycleRule = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get lifecycleRuleInput() {
@@ -1100,8 +1193,11 @@ export class S3Bucket extends TerraformResource {
   public get logging() {
     return this.interpolationForAttribute('logging') as any;
   }
-  public set logging(value: S3BucketLogging[] | undefined) {
+  public set logging(value: S3BucketLogging[] ) {
     this._logging = value;
+  }
+  public resetLogging() {
+    this._logging = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get loggingInput() {
@@ -1113,8 +1209,11 @@ export class S3Bucket extends TerraformResource {
   public get objectLockConfiguration() {
     return this.interpolationForAttribute('object_lock_configuration') as any;
   }
-  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] | undefined) {
+  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] ) {
     this._objectLockConfiguration = value;
+  }
+  public resetObjectLockConfiguration() {
+    this._objectLockConfiguration = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get objectLockConfigurationInput() {
@@ -1126,8 +1225,11 @@ export class S3Bucket extends TerraformResource {
   public get replicationConfiguration() {
     return this.interpolationForAttribute('replication_configuration') as any;
   }
-  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] | undefined) {
+  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] ) {
     this._replicationConfiguration = value;
+  }
+  public resetReplicationConfiguration() {
+    this._replicationConfiguration = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get replicationConfigurationInput() {
@@ -1139,8 +1241,11 @@ export class S3Bucket extends TerraformResource {
   public get serverSideEncryptionConfiguration() {
     return this.interpolationForAttribute('server_side_encryption_configuration') as any;
   }
-  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] | undefined) {
+  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] ) {
     this._serverSideEncryptionConfiguration = value;
+  }
+  public resetServerSideEncryptionConfiguration() {
+    this._serverSideEncryptionConfiguration = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get serverSideEncryptionConfigurationInput() {
@@ -1152,8 +1257,11 @@ export class S3Bucket extends TerraformResource {
   public get versioning() {
     return this.interpolationForAttribute('versioning') as any;
   }
-  public set versioning(value: S3BucketVersioning[] | undefined) {
+  public set versioning(value: S3BucketVersioning[] ) {
     this._versioning = value;
+  }
+  public resetVersioning() {
+    this._versioning = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get versioningInput() {
@@ -1165,8 +1273,11 @@ export class S3Bucket extends TerraformResource {
   public get website() {
     return this.interpolationForAttribute('website') as any;
   }
-  public set website(value: S3BucketWebsite[] | undefined) {
+  public set website(value: S3BucketWebsite[] ) {
     this._website = value;
+  }
+  public resetWebsite() {
+    this._website = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get websiteInput() {
@@ -1299,8 +1410,11 @@ export class SecurityGroup extends TerraformResource {
   public get description() {
     return this.getStringAttribute('description');
   }
-  public set description(value: string | undefined) {
+  public set description(value: string ) {
     this._description = value;
+  }
+  public resetDescription() {
+    this._description = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get descriptionInput() {
@@ -1309,11 +1423,14 @@ export class SecurityGroup extends TerraformResource {
 
   // egress - computed: true, optional: true, required: false
   private _egress?: SecurityGroupEgress[]
-  public get egress(): SecurityGroupEgress[] | undefined {
-    return this._egress; // Getting the computed value is not yet implemented
+  public get egress(): SecurityGroupEgress[] {
+    return this.interpolationForAttribute('egress') as any; // Getting the computed value is not yet implemented
   }
-  public set egress(value: SecurityGroupEgress[] | undefined) {
+  public set egress(value: SecurityGroupEgress[]) {
     this._egress = value;
+  }
+  public resetEgress() {
+    this._egress = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get egressInput() {
@@ -1327,11 +1444,14 @@ export class SecurityGroup extends TerraformResource {
 
   // ingress - computed: true, optional: true, required: false
   private _ingress?: SecurityGroupIngress[]
-  public get ingress(): SecurityGroupIngress[] | undefined {
-    return this._ingress; // Getting the computed value is not yet implemented
+  public get ingress(): SecurityGroupIngress[] {
+    return this.interpolationForAttribute('ingress') as any; // Getting the computed value is not yet implemented
   }
-  public set ingress(value: SecurityGroupIngress[] | undefined) {
+  public set ingress(value: SecurityGroupIngress[]) {
     this._ingress = value;
+  }
+  public resetIngress() {
+    this._ingress = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get ingressInput() {
@@ -1343,8 +1463,11 @@ export class SecurityGroup extends TerraformResource {
   public get name() {
     return this.getStringAttribute('name');
   }
-  public set name(value: string | undefined) {
+  public set name(value: string) {
     this._name = value;
+  }
+  public resetName() {
+    this._name = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get nameInput() {
@@ -1356,8 +1479,11 @@ export class SecurityGroup extends TerraformResource {
   public get namePrefix() {
     return this.getStringAttribute('name_prefix');
   }
-  public set namePrefix(value: string | undefined) {
+  public set namePrefix(value: string ) {
     this._namePrefix = value;
+  }
+  public resetNamePrefix() {
+    this._namePrefix = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get namePrefixInput() {
@@ -1374,8 +1500,11 @@ export class SecurityGroup extends TerraformResource {
   public get revokeRulesOnDelete() {
     return this.getBooleanAttribute('revoke_rules_on_delete');
   }
-  public set revokeRulesOnDelete(value: boolean | undefined) {
+  public set revokeRulesOnDelete(value: boolean ) {
     this._revokeRulesOnDelete = value;
+  }
+  public resetRevokeRulesOnDelete() {
+    this._revokeRulesOnDelete = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get revokeRulesOnDeleteInput() {
@@ -1387,8 +1516,11 @@ export class SecurityGroup extends TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | undefined) {
+  public set tags(value: { [key: string]: string } ) {
     this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
@@ -1400,8 +1532,11 @@ export class SecurityGroup extends TerraformResource {
   public get vpcId() {
     return this.getStringAttribute('vpc_id');
   }
-  public set vpcId(value: string | undefined) {
+  public set vpcId(value: string) {
     this._vpcId = value;
+  }
+  public resetVpcId() {
+    this._vpcId = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get vpcIdInput() {
@@ -1413,8 +1548,11 @@ export class SecurityGroup extends TerraformResource {
   public get timeouts() {
     return this.interpolationForAttribute('timeouts') as any;
   }
-  public set timeouts(value: SecurityGroupTimeouts | undefined) {
+  public set timeouts(value: SecurityGroupTimeouts ) {
     this._timeouts = value;
+  }
+  public resetTimeouts() {
+    this._timeouts = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsInput() {

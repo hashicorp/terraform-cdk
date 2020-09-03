@@ -60,8 +60,11 @@ export class BooleanList extends TerraformResource {
   public get fooOptional() {
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: boolean[] | undefined) {
+  public set fooOptional(value: boolean[] ) {
     this._fooOptional = value;
+  }
+  public resetFooOptional() {
+    this._fooOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
@@ -132,11 +135,14 @@ export class BooleanMap extends TerraformResource {
 
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: boolean }
-  public get fooComputedOptional(): { [key: string]: boolean } | undefined {
-    return this._fooComputedOptional; // Getting the computed value is not yet implemented
+  public get fooComputedOptional(): { [key: string]: boolean } {
+    return this.interpolationForAttribute('foo_computed_optional') as any; // Getting the computed value is not yet implemented
   }
-  public set fooComputedOptional(value: { [key: string]: boolean } | undefined) {
+  public set fooComputedOptional(value: { [key: string]: boolean }) {
     this._fooComputedOptional = value;
+  }
+  public resetFooComputedOptional() {
+    this._fooComputedOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
@@ -148,8 +154,11 @@ export class BooleanMap extends TerraformResource {
   public get fooOptional() {
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: boolean } | undefined) {
+  public set fooOptional(value: { [key: string]: boolean } ) {
     this._fooOptional = value;
+  }
+  public resetFooOptional() {
+    this._fooOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
@@ -397,8 +406,11 @@ export class BlockTypeNestedComputedList extends TerraformResource {
   public get inputs() {
     return this.interpolationForAttribute('inputs') as any;
   }
-  public set inputs(value: BlockTypeNestedComputedListInputs[] | undefined) {
+  public set inputs(value: BlockTypeNestedComputedListInputs[] ) {
     this._inputs = value;
+  }
+  public resetInputs() {
+    this._inputs = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get inputsInput() {
@@ -471,11 +483,14 @@ export class ComputedOptionalComplex extends TerraformResource {
 
   // egress - computed: true, optional: true, required: false
   private _egress?: ComputedOptionalComplexEgress[]
-  public get egress(): ComputedOptionalComplexEgress[] | undefined {
-    return this._egress; // Getting the computed value is not yet implemented
+  public get egress(): ComputedOptionalComplexEgress[] {
+    return this.interpolationForAttribute('egress') as any; // Getting the computed value is not yet implemented
   }
-  public set egress(value: ComputedOptionalComplexEgress[] | undefined) {
+  public set egress(value: ComputedOptionalComplexEgress[]) {
     this._egress = value;
+  }
+  public resetEgress() {
+    this._egress = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get egressInput() {
@@ -549,8 +564,11 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
   public get lifecycleRule() {
     return this.interpolationForAttribute('lifecycle_rule') as any;
   }
-  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] | undefined) {
+  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] ) {
     this._lifecycleRule = value;
+  }
+  public resetLifecycleRule() {
+    this._lifecycleRule = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get lifecycleRuleInput() {
@@ -677,8 +695,11 @@ export class IncompatibleAttributeNames extends TerraformResource {
   public get fetchPasswordData() {
     return this.getStringAttribute('get_password_data');
   }
-  public set fetchPasswordData(value: string | undefined) {
+  public set fetchPasswordData(value: string ) {
     this._getPasswordData = value;
+  }
+  public resetFetchPasswordData() {
+    this._getPasswordData = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fetchPasswordDataInput() {
@@ -828,8 +849,11 @@ export class NumberList extends TerraformResource {
   public get fooOptional() {
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: number[] | undefined) {
+  public set fooOptional(value: number[] ) {
     this._fooOptional = value;
+  }
+  public resetFooOptional() {
+    this._fooOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
@@ -900,11 +924,14 @@ export class NumberMap extends TerraformResource {
 
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: number }
-  public get fooComputedOptional(): { [key: string]: number } | undefined {
-    return this._fooComputedOptional; // Getting the computed value is not yet implemented
+  public get fooComputedOptional(): { [key: string]: number } {
+    return this.interpolationForAttribute('foo_computed_optional') as any; // Getting the computed value is not yet implemented
   }
-  public set fooComputedOptional(value: { [key: string]: number } | undefined) {
+  public set fooComputedOptional(value: { [key: string]: number }) {
     this._fooComputedOptional = value;
+  }
+  public resetFooComputedOptional() {
+    this._fooComputedOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
@@ -916,8 +943,11 @@ export class NumberMap extends TerraformResource {
   public get fooOptional() {
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: number } | undefined) {
+  public set fooOptional(value: { [key: string]: number } ) {
     this._fooOptional = value;
+  }
+  public resetFooOptional() {
+    this._fooOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
@@ -992,8 +1022,11 @@ export class PrimitiveBoolean extends TerraformResource {
   public get fooComputedOptional() {
     return this.getBooleanAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: boolean | undefined) {
+  public set fooComputedOptional(value: boolean) {
     this._fooComputedOptional = value;
+  }
+  public resetFooComputedOptional() {
+    this._fooComputedOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
@@ -1005,8 +1038,11 @@ export class PrimitiveBoolean extends TerraformResource {
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional');
   }
-  public set fooOptional(value: boolean | undefined) {
+  public set fooOptional(value: boolean ) {
     this._fooOptional = value;
+  }
+  public resetFooOptional() {
+    this._fooOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
@@ -1095,8 +1131,11 @@ export class PrimitiveNumber extends TerraformResource {
   public get fooComputedOptional() {
     return this.getNumberAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: number | undefined) {
+  public set fooComputedOptional(value: number) {
     this._fooComputedOptional = value;
+  }
+  public resetFooComputedOptional() {
+    this._fooComputedOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
@@ -1108,8 +1147,11 @@ export class PrimitiveNumber extends TerraformResource {
   public get fooOptional() {
     return this.getNumberAttribute('foo_optional');
   }
-  public set fooOptional(value: number | undefined) {
+  public set fooOptional(value: number ) {
     this._fooOptional = value;
+  }
+  public resetFooOptional() {
+    this._fooOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
@@ -1198,8 +1240,11 @@ export class PrimitiveString extends TerraformResource {
   public get fooComputedOptional() {
     return this.getStringAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: string | undefined) {
+  public set fooComputedOptional(value: string) {
     this._fooComputedOptional = value;
+  }
+  public resetFooComputedOptional() {
+    this._fooComputedOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
@@ -1211,8 +1256,11 @@ export class PrimitiveString extends TerraformResource {
   public get fooOptional() {
     return this.getStringAttribute('foo_optional');
   }
-  public set fooOptional(value: string | undefined) {
+  public set fooOptional(value: string ) {
     this._fooOptional = value;
+  }
+  public resetFooOptional() {
+    this._fooOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
@@ -1302,8 +1350,11 @@ export class BlockTypeSetList extends TerraformResource {
   public get timeoutsSet() {
     return this.interpolationForAttribute('timeouts_set') as any;
   }
-  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | undefined) {
+  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] ) {
     this._timeoutsSet = value;
+  }
+  public resetTimeoutsSet() {
+    this._timeoutsSet = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsSetInput() {
@@ -1315,8 +1366,11 @@ export class BlockTypeSetList extends TerraformResource {
   public get timeoutsList() {
     return this.interpolationForAttribute('timeouts_list') as any;
   }
-  public set timeoutsList(value: BlockTypeSetListTimeoutsList[] | undefined) {
+  public set timeoutsList(value: BlockTypeSetListTimeoutsList[] ) {
     this._timeoutsList = value;
+  }
+  public resetTimeoutsList() {
+    this._timeoutsList = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsListInput() {
@@ -1386,8 +1440,11 @@ export class SingleBlockType extends TerraformResource {
   public get timeouts() {
     return this.interpolationForAttribute('timeouts') as any;
   }
-  public set timeouts(value: SingleBlockTypeTimeouts | undefined) {
+  public set timeouts(value: SingleBlockTypeTimeouts ) {
     this._timeouts = value;
+  }
+  public resetTimeouts() {
+    this._timeouts = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsInput() {
@@ -1456,8 +1513,11 @@ export class StringList extends TerraformResource {
   public get subjectAlternativeNamesOptionalComputed() {
     return this.getListAttribute('subject_alternative_names_optional_computed');
   }
-  public set subjectAlternativeNamesOptionalComputed(value: string[] | undefined) {
+  public set subjectAlternativeNamesOptionalComputed(value: string[]) {
     this._subjectAlternativeNamesOptionalComputed = value;
+  }
+  public resetSubjectAlternativeNamesOptionalComputed() {
+    this._subjectAlternativeNamesOptionalComputed = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalComputedInput() {
@@ -1487,8 +1547,11 @@ export class StringList extends TerraformResource {
   public get subjectAlternativeNamesOptional() {
     return this.getListAttribute('subject_alternative_names_optional');
   }
-  public set subjectAlternativeNamesOptional(value: string[] | undefined) {
+  public set subjectAlternativeNamesOptional(value: string[] ) {
     this._subjectAlternativeNamesOptional = value;
+  }
+  public resetSubjectAlternativeNamesOptional() {
+    this._subjectAlternativeNamesOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalInput() {
@@ -1560,11 +1623,14 @@ export class StringMap extends TerraformResource {
 
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
   private _subjectAlternativeNamesComputedOptional?: { [key: string]: string }
-  public get subjectAlternativeNamesComputedOptional(): { [key: string]: string } | undefined {
-    return this._subjectAlternativeNamesComputedOptional; // Getting the computed value is not yet implemented
+  public get subjectAlternativeNamesComputedOptional(): { [key: string]: string } {
+    return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any; // Getting the computed value is not yet implemented
   }
-  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | undefined) {
+  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string }) {
     this._subjectAlternativeNamesComputedOptional = value;
+  }
+  public resetSubjectAlternativeNamesComputedOptional() {
+    this._subjectAlternativeNamesComputedOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesComputedOptionalInput() {
@@ -1576,8 +1642,11 @@ export class StringMap extends TerraformResource {
   public get subjectAlternativeNamesOptional() {
     return this.interpolationForAttribute('subject_alternative_names_optional') as any;
   }
-  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | undefined) {
+  public set subjectAlternativeNamesOptional(value: { [key: string]: string } ) {
     this._subjectAlternativeNamesOptional = value;
+  }
+  public resetSubjectAlternativeNamesOptional() {
+    this._subjectAlternativeNamesOptional = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalInput() {
