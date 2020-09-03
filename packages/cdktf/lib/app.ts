@@ -73,8 +73,6 @@ export class App extends Construct {
           node.setContext(k, v);
         }
 
-        //test.app.ts
-    
         // read from environment
         const contextJson = process.env[CONTEXT_ENV];
         const contextFromEnvironment = contextJson
