@@ -3,109 +3,85 @@ import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util"
 import { Token } from "./tokens";
 
-export interface IVariableType {
-    /**
-     * @internal
-     */
-    _render(): string;
-}
+export abstract class VariableType {
+    public static readonly STRING = 'string';
+    public static readonly NUMBER = 'number';
+    public static readonly BOOL = 'bool';
+    public static readonly ANY = 'any';
 
-export class PrimitiveVariableType implements IVariableType {
-    public static readonly STRING = new PrimitiveVariableType('string');
-    public static readonly NUMBER = new PrimitiveVariableType('number');
-    public static readonly BOOL = new PrimitiveVariableType('bool');
-    public static readonly ANY = new PrimitiveVariableType('any');
+    public static readonly LIST = 'list';
+    public static readonly MAP = 'map';
+    public static readonly SET = 'set';
 
-    constructor(private readonly type: string) {
+    public static readonly LIST_STRING = 'list(string)';
+    public static readonly LIST_NUMBER = 'list(number)';
+    public static readonly LIST_BOOL = 'list(bool)';
 
+    public static readonly MAP_STRING = 'map(string)';
+    public static readonly MAP_NUMBER = 'map(number)';
+    public static readonly MAP_BOOL = 'map(bool)';
+
+    public static readonly SET_STRING = 'set(string)';
+    public static readonly SET_NUMBER = 'set(number)';
+    public static readonly SET_BOOL = 'set(bool)';
+
+    public static list(type: string) {
+        return `list(${type})`;
     }
 
-    /**
-     * @internal
-     */
-    _render(): string {
-        return this.type;
-    }
-}
-
-export enum CollectionType {
-    LIST = 'list',
-    MAP = 'map',
-    SET = 'set'
-}
-
-export class CollectionVariableType implements IVariableType {
-
-    public static readonly LIST = new CollectionVariableType(CollectionType.LIST);
-    public static readonly MAP = new CollectionVariableType(CollectionType.MAP);
-    public static readonly SET = new CollectionVariableType(CollectionType.SET);
-
-    public static readonly LIST_STRING = new CollectionVariableType(CollectionType.LIST, PrimitiveVariableType.STRING);
-    public static readonly LIST_NUMBER = new CollectionVariableType(CollectionType.LIST, PrimitiveVariableType.NUMBER);
-    public static readonly LIST_BOOL = new CollectionVariableType(CollectionType.LIST, PrimitiveVariableType.BOOL);
-
-    public static readonly MAP_STRING = new CollectionVariableType(CollectionType.MAP, PrimitiveVariableType.STRING);
-    public static readonly MAP_NUMBER = new CollectionVariableType(CollectionType.MAP, PrimitiveVariableType.NUMBER);
-    public static readonly MAP_BOOL = new CollectionVariableType(CollectionType.MAP, PrimitiveVariableType.BOOL);
-
-    public static readonly SET_STRING = new CollectionVariableType(CollectionType.SET, PrimitiveVariableType.STRING);
-    public static readonly SET_NUMBER = new CollectionVariableType(CollectionType.SET, PrimitiveVariableType.NUMBER);
-    public static readonly SET_BOOL = new CollectionVariableType(CollectionType.SET, PrimitiveVariableType.BOOL);
-
-    constructor(public readonly collectionType: CollectionType, public readonly elementType?: IVariableType) {
+    public static map(type: string) {
+        return `map(${type})`;
     }
 
-    public of(elementType: IVariableType): CollectionVariableType {
-        return new CollectionVariableType(this.collectionType, elementType);
+    public static set(type: string) {
+        return `set(${type})`;
     }
 
-    /**
-     * @internal
-     */
-    _render(): string {
-        return `${this.collectionType}(${(this.elementType ?? PrimitiveVariableType.ANY)._render()})`;
+    public static tuple(...elements: string[]) {
+        return `tuple(${elements.join(", ")})`;
+    }
+
+    public static object(attributes: { [key: string]: string}) {
+        return `object({${Object.keys(attributes).map(k => k + "=" + attributes[k]).join(", ")}})`;
     }
 }
-
-export class TupleVariableType implements IVariableType {
-    constructor(public readonly elements: IVariableType[]) {
-
-    }
-
-    /**
-     * @internal
-     */
-    _render(): string {
-        return `tuple(${this.elements.map(e => e._render()).join(", ")})`;
-    }
-}
-
-export class ObjectVariableType implements IVariableType {
-    constructor(public readonly attributes: { [k: string]: IVariableType }) {
-
-    }
-
-    /**
-     * @internal
-     */
-    _render(): string {
-        return `object({${Object.keys(this.attributes).map(k => k + "=" + this.attributes[k]._render()).join(", ")}})`;
-    }
-}
-
-export type VariableType = IVariableType | IVariableType[]
 
 export interface TerraformVariableConfig {
     readonly default?: any;
     readonly description?: string;
-    readonly type?: VariableType;
+
+    /**
+     * The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. If no type constraint is set then a value of any type is accepted.
+     * 
+     * While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.
+     * 
+     * Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:
+     * 
+     * - string
+     * - number
+     * - bool
+     * 
+     * The type constructors allow you to specify complex types such as collections:
+     * 
+     * - list(\<TYPE\>)
+     * - set(\<TYPE\>)
+     * - map(\<TYPE\>)
+     * - object({\<ATTR NAME\> = \<TYPE\>, ... })
+     * - tuple([\<TYPE\>, ...])
+     * 
+     * The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
+     * 
+     * If both the type and default arguments are specified, the given default value must be convertible to the specified type.
+     */
+    readonly type?: string;
+
     readonly staticName?: boolean;
 }
 
 export class TerraformVariable extends TerraformElement {
     public readonly default?: any;
     public readonly description?: string;
-    public readonly type?: IVariableType;
+    public readonly type?: string;
     private readonly staticName: boolean;
 
     constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
@@ -113,14 +89,7 @@ export class TerraformVariable extends TerraformElement {
 
         this.default = config.default;
         this.description = config.description;
-        if (config.type) {
-            if (Array.isArray(config.type)) {
-                this.type = new TupleVariableType(config.type);
-            }
-            else {
-                this.type = config.type;
-            }
-        }
+        this.type = config.type;
         this.staticName = config.staticName ?? true;
     }
 
@@ -156,7 +125,7 @@ export class TerraformVariable extends TerraformElement {
         return {
             default: this.default,
             description: this.description,
-            type: this.type?._render()
+            type: this.type
         }
     }
 
