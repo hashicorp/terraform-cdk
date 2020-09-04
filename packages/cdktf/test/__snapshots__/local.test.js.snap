@@ -41,6 +41,21 @@ exports[`local reference 1`] = `
 }"
 `;
 
+exports[`multiple locals 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"locals\\": {
+    \\"test_local1_73AEAF61\\": \\"1\\",
+    \\"test_local2_7C9E2F43\\": \\"2\\"
+  }
+}"
+`;
+
 exports[`object local 1`] = `
 "{
   \\"//\\": {

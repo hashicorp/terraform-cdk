@@ -43,3 +43,14 @@ test('local reference', () => {
 
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test('multiple locals', () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, 'test');
+
+    new TerraformLocal(stack, 'local1', '1')
+
+    new TerraformLocal(stack, 'local2', '2')
+
+    expect(Testing.synth(stack)).toMatchSnapshot();
+});
