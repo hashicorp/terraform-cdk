@@ -88,9 +88,11 @@ This means that your Terraform state file will be stored locally on disk in a fi
 async function determineDeps(version: string, dist?: string): Promise<Deps> {
   if (dist) {
     const ret = {
+      'cdktf_version': version,
       'npm_cdktf': path.resolve(dist, 'js', `cdktf@${version}.jsii.tgz`),
       'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
-      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`)
+      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`),
+      'mvn_cdktf': path.resolve(dist, 'java', `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`)
     };
 
     for (const file of Object.values(ret)) {
@@ -113,9 +115,11 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   const ver = version.includes('-') ? version : `^${version}`;
 
   return {
+    'cdktf_version': version,
     'npm_cdktf': `cdktf@${ver}`,
     'npm_cdktf_cli': `cdktf-cli@${ver}`,
-    'pypi_cdktf': `cdktf~=${version}` // no support for pre-release
+    'pypi_cdktf': `cdktf~=${version}`, // no support for pre-release
+    'mvn_cdktf': version
   };
 }
 
@@ -191,6 +195,8 @@ interface Deps {
   npm_cdktf: string;
   npm_cdktf_cli: string;
   pypi_cdktf: string;
+  mvn_cdktf: string;
+  cdktf_version: string;
 }
 
 interface Project {
