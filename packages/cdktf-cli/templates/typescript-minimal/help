@@ -5,7 +5,7 @@
   cat help              Print this message
 
   Compile:
-    npm run compile     Compile typescript code to javascript (or "yarn watch")
+    npm run compile     Compile typescript code to javascript (or "npm run watch")
     npm run watch       Watch for changes and compile typescript in the background
     npm run build       Compile typescript
 
