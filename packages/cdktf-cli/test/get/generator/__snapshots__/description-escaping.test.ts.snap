@@ -48,10 +48,14 @@ export class DescriptionEscaping extends TerraformResource {
   // broken_comments - computed: false, optional: false, required: true
   private _brokenComments: boolean;
   public get brokenComments() {
-    return this._brokenComments;
+    return this.getBooleanAttribute('broken_comments');
   }
   public set brokenComments(value: boolean) {
     this._brokenComments = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get brokenCommentsInput() {
+    return this._brokenComments
   }
 
   // =========

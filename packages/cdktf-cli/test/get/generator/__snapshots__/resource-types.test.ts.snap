@@ -254,7 +254,7 @@ export class CloudfrontDistribution extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // active_trusted_signers - computed: true, optional: false, required: true
+  // active_trusted_signers - computed: true, optional: false, required: false
   public activeTrustedSigners(key: string): string {
     return new StringMap(this, 'active_trusted_signers').lookup(key);
   }
@@ -262,18 +262,25 @@ export class CloudfrontDistribution extends TerraformResource {
   // aliases - computed: false, optional: true, required: false
   private _aliases?: string[];
   public get aliases() {
-    return this._aliases;
+    return this.getListAttribute('aliases');
   }
-  public set aliases(value: string[] | undefined) {
+  public set aliases(value: string[] ) {
     this._aliases = value;
   }
+  public resetAliases() {
+    this._aliases = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get aliasesInput() {
+    return this._aliases
+  }
 
-  // arn - computed: true, optional: false, required: true
+  // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
   }
 
-  // caller_reference - computed: true, optional: false, required: true
+  // caller_reference - computed: true, optional: false, required: false
   public get callerReference() {
     return this.getStringAttribute('caller_reference');
   }
@@ -281,22 +288,36 @@ export class CloudfrontDistribution extends TerraformResource {
   // comment - computed: false, optional: true, required: false
   private _comment?: string;
   public get comment() {
-    return this._comment;
+    return this.getStringAttribute('comment');
   }
-  public set comment(value: string | undefined) {
+  public set comment(value: string ) {
     this._comment = value;
+  }
+  public resetComment() {
+    this._comment = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get commentInput() {
+    return this._comment
   }
 
   // default_root_object - computed: false, optional: true, required: false
   private _defaultRootObject?: string;
   public get defaultRootObject() {
-    return this._defaultRootObject;
+    return this.getStringAttribute('default_root_object');
   }
-  public set defaultRootObject(value: string | undefined) {
+  public set defaultRootObject(value: string ) {
     this._defaultRootObject = value;
   }
+  public resetDefaultRootObject() {
+    this._defaultRootObject = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get defaultRootObjectInput() {
+    return this._defaultRootObject
+  }
 
-  // domain_name - computed: true, optional: false, required: true
+  // domain_name - computed: true, optional: false, required: false
   public get domainName() {
     return this.getStringAttribute('domain_name');
   }
@@ -304,18 +325,22 @@ export class CloudfrontDistribution extends TerraformResource {
   // enabled - computed: false, optional: false, required: true
   private _enabled: boolean;
   public get enabled() {
-    return this._enabled;
+    return this.getBooleanAttribute('enabled');
   }
   public set enabled(value: boolean) {
     this._enabled = value;
   }
+  // Temporarily expose input value. Use with caution.
+  public get enabledInput() {
+    return this._enabled
+  }
 
-  // etag - computed: true, optional: false, required: true
+  // etag - computed: true, optional: false, required: false
   public get etag() {
     return this.getStringAttribute('etag');
   }
 
-  // hosted_zone_id - computed: true, optional: false, required: true
+  // hosted_zone_id - computed: true, optional: false, required: false
   public get hostedZoneId() {
     return this.getStringAttribute('hosted_zone_id');
   }
@@ -323,22 +348,25 @@ export class CloudfrontDistribution extends TerraformResource {
   // http_version - computed: false, optional: true, required: false
   private _httpVersion?: string;
   public get httpVersion() {
-    return this._httpVersion;
+    return this.getStringAttribute('http_version');
   }
-  public set httpVersion(value: string | undefined) {
+  public set httpVersion(value: string ) {
     this._httpVersion = value;
+  }
+  public resetHttpVersion() {
+    this._httpVersion = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get httpVersionInput() {
+    return this._httpVersion
   }
 
   // id - computed: true, optional: true, required: false
-  private _id?: string;
   public get id() {
-    return this._id ?? this.getStringAttribute('id');
-  }
-  public set id(value: string | undefined) {
-    this._id = value;
+    return this.getStringAttribute('id');
   }
 
-  // in_progress_validation_batches - computed: true, optional: false, required: true
+  // in_progress_validation_batches - computed: true, optional: false, required: false
   public get inProgressValidationBatches() {
     return this.getNumberAttribute('in_progress_validation_batches');
   }
@@ -346,13 +374,20 @@ export class CloudfrontDistribution extends TerraformResource {
   // is_ipv6_enabled - computed: false, optional: true, required: false
   private _isIpv6Enabled?: boolean;
   public get isIpv6Enabled() {
-    return this._isIpv6Enabled;
+    return this.getBooleanAttribute('is_ipv6_enabled');
   }
-  public set isIpv6Enabled(value: boolean | undefined) {
+  public set isIpv6Enabled(value: boolean ) {
     this._isIpv6Enabled = value;
   }
+  public resetIsIpv6Enabled() {
+    this._isIpv6Enabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get isIpv6EnabledInput() {
+    return this._isIpv6Enabled
+  }
 
-  // last_modified_time - computed: true, optional: false, required: true
+  // last_modified_time - computed: true, optional: false, required: false
   public get lastModifiedTime() {
     return this.getStringAttribute('last_modified_time');
   }
@@ -360,22 +395,36 @@ export class CloudfrontDistribution extends TerraformResource {
   // price_class - computed: false, optional: true, required: false
   private _priceClass?: string;
   public get priceClass() {
-    return this._priceClass;
+    return this.getStringAttribute('price_class');
   }
-  public set priceClass(value: string | undefined) {
+  public set priceClass(value: string ) {
     this._priceClass = value;
+  }
+  public resetPriceClass() {
+    this._priceClass = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get priceClassInput() {
+    return this._priceClass
   }
 
   // retain_on_delete - computed: false, optional: true, required: false
   private _retainOnDelete?: boolean;
   public get retainOnDelete() {
-    return this._retainOnDelete;
+    return this.getBooleanAttribute('retain_on_delete');
   }
-  public set retainOnDelete(value: boolean | undefined) {
+  public set retainOnDelete(value: boolean ) {
     this._retainOnDelete = value;
   }
+  public resetRetainOnDelete() {
+    this._retainOnDelete = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get retainOnDeleteInput() {
+    return this._retainOnDelete
+  }
 
-  // status - computed: true, optional: false, required: true
+  // status - computed: true, optional: false, required: false
   public get status() {
     return this.getStringAttribute('status');
   }
@@ -383,109 +432,181 @@ export class CloudfrontDistribution extends TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this._tags;
+    return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | undefined) {
+  public set tags(value: { [key: string]: string } ) {
     this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsInput() {
+    return this._tags
   }
 
   // wait_for_deployment - computed: false, optional: true, required: false
   private _waitForDeployment?: boolean;
   public get waitForDeployment() {
-    return this._waitForDeployment;
+    return this.getBooleanAttribute('wait_for_deployment');
   }
-  public set waitForDeployment(value: boolean | undefined) {
+  public set waitForDeployment(value: boolean ) {
     this._waitForDeployment = value;
+  }
+  public resetWaitForDeployment() {
+    this._waitForDeployment = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get waitForDeploymentInput() {
+    return this._waitForDeployment
   }
 
   // web_acl_id - computed: false, optional: true, required: false
   private _webAclId?: string;
   public get webAclId() {
-    return this._webAclId;
+    return this.getStringAttribute('web_acl_id');
   }
-  public set webAclId(value: string | undefined) {
+  public set webAclId(value: string ) {
     this._webAclId = value;
+  }
+  public resetWebAclId() {
+    this._webAclId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get webAclIdInput() {
+    return this._webAclId
   }
 
   // cache_behavior - computed: false, optional: true, required: false
   private _cacheBehavior?: CloudfrontDistributionCacheBehavior[];
   public get cacheBehavior() {
-    return this._cacheBehavior;
+    return this.interpolationForAttribute('cache_behavior') as any;
   }
-  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] | undefined) {
+  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] ) {
     this._cacheBehavior = value;
+  }
+  public resetCacheBehavior() {
+    this._cacheBehavior = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get cacheBehaviorInput() {
+    return this._cacheBehavior
   }
 
   // custom_error_response - computed: false, optional: true, required: false
   private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
   public get customErrorResponse() {
-    return this._customErrorResponse;
+    return this.interpolationForAttribute('custom_error_response') as any;
   }
-  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | undefined) {
+  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] ) {
     this._customErrorResponse = value;
+  }
+  public resetCustomErrorResponse() {
+    this._customErrorResponse = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get customErrorResponseInput() {
+    return this._customErrorResponse
   }
 
   // default_cache_behavior - computed: false, optional: false, required: true
   private _defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
   public get defaultCacheBehavior() {
-    return this._defaultCacheBehavior;
+    return this.interpolationForAttribute('default_cache_behavior') as any;
   }
   public set defaultCacheBehavior(value: CloudfrontDistributionDefaultCacheBehavior[]) {
     this._defaultCacheBehavior = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get defaultCacheBehaviorInput() {
+    return this._defaultCacheBehavior
   }
 
   // logging_config - computed: false, optional: true, required: false
   private _loggingConfig?: CloudfrontDistributionLoggingConfig[];
   public get loggingConfig() {
-    return this._loggingConfig;
+    return this.interpolationForAttribute('logging_config') as any;
   }
-  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] | undefined) {
+  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] ) {
     this._loggingConfig = value;
+  }
+  public resetLoggingConfig() {
+    this._loggingConfig = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get loggingConfigInput() {
+    return this._loggingConfig
   }
 
   // ordered_cache_behavior - computed: false, optional: true, required: false
   private _orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
   public get orderedCacheBehavior() {
-    return this._orderedCacheBehavior;
+    return this.interpolationForAttribute('ordered_cache_behavior') as any;
   }
-  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] | undefined) {
+  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] ) {
     this._orderedCacheBehavior = value;
+  }
+  public resetOrderedCacheBehavior() {
+    this._orderedCacheBehavior = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get orderedCacheBehaviorInput() {
+    return this._orderedCacheBehavior
   }
 
   // origin - computed: false, optional: false, required: true
   private _origin: CloudfrontDistributionOrigin[];
   public get origin() {
-    return this._origin;
+    return this.interpolationForAttribute('origin') as any;
   }
   public set origin(value: CloudfrontDistributionOrigin[]) {
     this._origin = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get originInput() {
+    return this._origin
   }
 
   // origin_group - computed: false, optional: true, required: false
   private _originGroup?: CloudfrontDistributionOriginGroup[];
   public get originGroup() {
-    return this._originGroup;
+    return this.interpolationForAttribute('origin_group') as any;
   }
-  public set originGroup(value: CloudfrontDistributionOriginGroup[] | undefined) {
+  public set originGroup(value: CloudfrontDistributionOriginGroup[] ) {
     this._originGroup = value;
+  }
+  public resetOriginGroup() {
+    this._originGroup = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get originGroupInput() {
+    return this._originGroup
   }
 
   // restrictions - computed: false, optional: false, required: true
   private _restrictions: CloudfrontDistributionRestrictions[];
   public get restrictions() {
-    return this._restrictions;
+    return this.interpolationForAttribute('restrictions') as any;
   }
   public set restrictions(value: CloudfrontDistributionRestrictions[]) {
     this._restrictions = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get restrictionsInput() {
+    return this._restrictions
   }
 
   // viewer_certificate - computed: false, optional: false, required: true
   private _viewerCertificate: CloudfrontDistributionViewerCertificate[];
   public get viewerCertificate() {
-    return this._viewerCertificate;
+    return this.interpolationForAttribute('viewer_certificate') as any;
   }
   public set viewerCertificate(value: CloudfrontDistributionViewerCertificate[]) {
     this._viewerCertificate = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get viewerCertificateInput() {
+    return this._viewerCertificate
   }
 
   // =========
@@ -563,19 +684,22 @@ export class FmsAdminAccount extends TerraformResource {
   // account_id - computed: true, optional: true, required: false
   private _accountId?: string;
   public get accountId() {
-    return this._accountId ?? this.getStringAttribute('account_id');
+    return this.getStringAttribute('account_id');
   }
-  public set accountId(value: string | undefined) {
+  public set accountId(value: string) {
     this._accountId = value;
+  }
+  public resetAccountId() {
+    this._accountId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get accountIdInput() {
+    return this._accountId
   }
 
   // id - computed: true, optional: true, required: false
-  private _id?: string;
   public get id() {
-    return this._id ?? this.getStringAttribute('id');
-  }
-  public set id(value: string | undefined) {
-    this._id = value;
+    return this.getStringAttribute('id');
   }
 
   // =========
@@ -807,40 +931,57 @@ export class S3Bucket extends TerraformResource {
   // acceleration_status - computed: true, optional: true, required: false
   private _accelerationStatus?: string;
   public get accelerationStatus() {
-    return this._accelerationStatus ?? this.getStringAttribute('acceleration_status');
+    return this.getStringAttribute('acceleration_status');
   }
-  public set accelerationStatus(value: string | undefined) {
+  public set accelerationStatus(value: string) {
     this._accelerationStatus = value;
+  }
+  public resetAccelerationStatus() {
+    this._accelerationStatus = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get accelerationStatusInput() {
+    return this._accelerationStatus
   }
 
   // acl - computed: false, optional: true, required: false
   private _acl?: string;
   public get acl() {
-    return this._acl;
+    return this.getStringAttribute('acl');
   }
-  public set acl(value: string | undefined) {
+  public set acl(value: string ) {
     this._acl = value;
+  }
+  public resetAcl() {
+    this._acl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get aclInput() {
+    return this._acl
   }
 
   // arn - computed: true, optional: true, required: false
-  private _arn?: string;
   public get arn() {
-    return this._arn ?? this.getStringAttribute('arn');
-  }
-  public set arn(value: string | undefined) {
-    this._arn = value;
+    return this.getStringAttribute('arn');
   }
 
   // bucket - computed: true, optional: true, required: false
   private _bucket?: string;
   public get bucket() {
-    return this._bucket ?? this.getStringAttribute('bucket');
+    return this.getStringAttribute('bucket');
   }
-  public set bucket(value: string | undefined) {
+  public set bucket(value: string) {
     this._bucket = value;
   }
+  public resetBucket() {
+    this._bucket = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get bucketInput() {
+    return this._bucket
+  }
 
-  // bucket_domain_name - computed: true, optional: false, required: true
+  // bucket_domain_name - computed: true, optional: false, required: false
   public get bucketDomainName() {
     return this.getStringAttribute('bucket_domain_name');
   }
@@ -848,13 +989,20 @@ export class S3Bucket extends TerraformResource {
   // bucket_prefix - computed: false, optional: true, required: false
   private _bucketPrefix?: string;
   public get bucketPrefix() {
-    return this._bucketPrefix;
+    return this.getStringAttribute('bucket_prefix');
   }
-  public set bucketPrefix(value: string | undefined) {
+  public set bucketPrefix(value: string ) {
     this._bucketPrefix = value;
   }
+  public resetBucketPrefix() {
+    this._bucketPrefix = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get bucketPrefixInput() {
+    return this._bucketPrefix
+  }
 
-  // bucket_regional_domain_name - computed: true, optional: false, required: true
+  // bucket_regional_domain_name - computed: true, optional: false, required: false
   public get bucketRegionalDomainName() {
     return this.getStringAttribute('bucket_regional_domain_name');
   }
@@ -862,163 +1010,278 @@ export class S3Bucket extends TerraformResource {
   // force_destroy - computed: false, optional: true, required: false
   private _forceDestroy?: boolean;
   public get forceDestroy() {
-    return this._forceDestroy;
+    return this.getBooleanAttribute('force_destroy');
   }
-  public set forceDestroy(value: boolean | undefined) {
+  public set forceDestroy(value: boolean ) {
     this._forceDestroy = value;
+  }
+  public resetForceDestroy() {
+    this._forceDestroy = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get forceDestroyInput() {
+    return this._forceDestroy
   }
 
   // hosted_zone_id - computed: true, optional: true, required: false
   private _hostedZoneId?: string;
   public get hostedZoneId() {
-    return this._hostedZoneId ?? this.getStringAttribute('hosted_zone_id');
+    return this.getStringAttribute('hosted_zone_id');
   }
-  public set hostedZoneId(value: string | undefined) {
+  public set hostedZoneId(value: string) {
     this._hostedZoneId = value;
+  }
+  public resetHostedZoneId() {
+    this._hostedZoneId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get hostedZoneIdInput() {
+    return this._hostedZoneId
   }
 
   // id - computed: true, optional: true, required: false
-  private _id?: string;
   public get id() {
-    return this._id ?? this.getStringAttribute('id');
-  }
-  public set id(value: string | undefined) {
-    this._id = value;
+    return this.getStringAttribute('id');
   }
 
   // policy - computed: false, optional: true, required: false
   private _policy?: string;
   public get policy() {
-    return this._policy;
+    return this.getStringAttribute('policy');
   }
-  public set policy(value: string | undefined) {
+  public set policy(value: string ) {
     this._policy = value;
+  }
+  public resetPolicy() {
+    this._policy = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get policyInput() {
+    return this._policy
   }
 
   // region - computed: true, optional: true, required: false
   private _region?: string;
   public get region() {
-    return this._region ?? this.getStringAttribute('region');
+    return this.getStringAttribute('region');
   }
-  public set region(value: string | undefined) {
+  public set region(value: string) {
     this._region = value;
+  }
+  public resetRegion() {
+    this._region = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionInput() {
+    return this._region
   }
 
   // request_payer - computed: true, optional: true, required: false
   private _requestPayer?: string;
   public get requestPayer() {
-    return this._requestPayer ?? this.getStringAttribute('request_payer');
+    return this.getStringAttribute('request_payer');
   }
-  public set requestPayer(value: string | undefined) {
+  public set requestPayer(value: string) {
     this._requestPayer = value;
+  }
+  public resetRequestPayer() {
+    this._requestPayer = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get requestPayerInput() {
+    return this._requestPayer
   }
 
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this._tags;
+    return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | undefined) {
+  public set tags(value: { [key: string]: string } ) {
     this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsInput() {
+    return this._tags
   }
 
   // website_domain - computed: true, optional: true, required: false
   private _websiteDomain?: string;
   public get websiteDomain() {
-    return this._websiteDomain ?? this.getStringAttribute('website_domain');
+    return this.getStringAttribute('website_domain');
   }
-  public set websiteDomain(value: string | undefined) {
+  public set websiteDomain(value: string) {
     this._websiteDomain = value;
+  }
+  public resetWebsiteDomain() {
+    this._websiteDomain = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get websiteDomainInput() {
+    return this._websiteDomain
   }
 
   // website_endpoint - computed: true, optional: true, required: false
   private _websiteEndpoint?: string;
   public get websiteEndpoint() {
-    return this._websiteEndpoint ?? this.getStringAttribute('website_endpoint');
+    return this.getStringAttribute('website_endpoint');
   }
-  public set websiteEndpoint(value: string | undefined) {
+  public set websiteEndpoint(value: string) {
     this._websiteEndpoint = value;
+  }
+  public resetWebsiteEndpoint() {
+    this._websiteEndpoint = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get websiteEndpointInput() {
+    return this._websiteEndpoint
   }
 
   // cors_rule - computed: false, optional: true, required: false
   private _corsRule?: S3BucketCorsRule[];
   public get corsRule() {
-    return this._corsRule;
+    return this.interpolationForAttribute('cors_rule') as any;
   }
-  public set corsRule(value: S3BucketCorsRule[] | undefined) {
+  public set corsRule(value: S3BucketCorsRule[] ) {
     this._corsRule = value;
+  }
+  public resetCorsRule() {
+    this._corsRule = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get corsRuleInput() {
+    return this._corsRule
   }
 
   // grant - computed: false, optional: true, required: false
   private _grant?: S3BucketGrant[];
   public get grant() {
-    return this._grant;
+    return this.interpolationForAttribute('grant') as any;
   }
-  public set grant(value: S3BucketGrant[] | undefined) {
+  public set grant(value: S3BucketGrant[] ) {
     this._grant = value;
+  }
+  public resetGrant() {
+    this._grant = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get grantInput() {
+    return this._grant
   }
 
   // lifecycle_rule - computed: false, optional: true, required: false
   private _lifecycleRule?: S3BucketLifecycleRule[];
   public get lifecycleRule() {
-    return this._lifecycleRule;
+    return this.interpolationForAttribute('lifecycle_rule') as any;
   }
-  public set lifecycleRule(value: S3BucketLifecycleRule[] | undefined) {
+  public set lifecycleRule(value: S3BucketLifecycleRule[] ) {
     this._lifecycleRule = value;
+  }
+  public resetLifecycleRule() {
+    this._lifecycleRule = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get lifecycleRuleInput() {
+    return this._lifecycleRule
   }
 
   // logging - computed: false, optional: true, required: false
   private _logging?: S3BucketLogging[];
   public get logging() {
-    return this._logging;
+    return this.interpolationForAttribute('logging') as any;
   }
-  public set logging(value: S3BucketLogging[] | undefined) {
+  public set logging(value: S3BucketLogging[] ) {
     this._logging = value;
+  }
+  public resetLogging() {
+    this._logging = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get loggingInput() {
+    return this._logging
   }
 
   // object_lock_configuration - computed: false, optional: true, required: false
   private _objectLockConfiguration?: S3BucketObjectLockConfiguration[];
   public get objectLockConfiguration() {
-    return this._objectLockConfiguration;
+    return this.interpolationForAttribute('object_lock_configuration') as any;
   }
-  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] | undefined) {
+  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] ) {
     this._objectLockConfiguration = value;
+  }
+  public resetObjectLockConfiguration() {
+    this._objectLockConfiguration = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get objectLockConfigurationInput() {
+    return this._objectLockConfiguration
   }
 
   // replication_configuration - computed: false, optional: true, required: false
   private _replicationConfiguration?: S3BucketReplicationConfiguration[];
   public get replicationConfiguration() {
-    return this._replicationConfiguration;
+    return this.interpolationForAttribute('replication_configuration') as any;
   }
-  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] | undefined) {
+  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] ) {
     this._replicationConfiguration = value;
+  }
+  public resetReplicationConfiguration() {
+    this._replicationConfiguration = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get replicationConfigurationInput() {
+    return this._replicationConfiguration
   }
 
   // server_side_encryption_configuration - computed: false, optional: true, required: false
   private _serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
   public get serverSideEncryptionConfiguration() {
-    return this._serverSideEncryptionConfiguration;
+    return this.interpolationForAttribute('server_side_encryption_configuration') as any;
   }
-  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] | undefined) {
+  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] ) {
     this._serverSideEncryptionConfiguration = value;
+  }
+  public resetServerSideEncryptionConfiguration() {
+    this._serverSideEncryptionConfiguration = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get serverSideEncryptionConfigurationInput() {
+    return this._serverSideEncryptionConfiguration
   }
 
   // versioning - computed: false, optional: true, required: false
   private _versioning?: S3BucketVersioning[];
   public get versioning() {
-    return this._versioning;
+    return this.interpolationForAttribute('versioning') as any;
   }
-  public set versioning(value: S3BucketVersioning[] | undefined) {
+  public set versioning(value: S3BucketVersioning[] ) {
     this._versioning = value;
+  }
+  public resetVersioning() {
+    this._versioning = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get versioningInput() {
+    return this._versioning
   }
 
   // website - computed: false, optional: true, required: false
   private _website?: S3BucketWebsite[];
   public get website() {
-    return this._website;
+    return this.interpolationForAttribute('website') as any;
   }
-  public set website(value: S3BucketWebsite[] | undefined) {
+  public set website(value: S3BucketWebsite[] ) {
     this._website = value;
+  }
+  public resetWebsite() {
+    this._website = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get websiteInput() {
+    return this._website
   }
 
   // =========
@@ -1137,7 +1400,7 @@ export class SecurityGroup extends TerraformResource {
   // ATTRIBUTES
   // ==========
 
-  // arn - computed: true, optional: false, required: true
+  // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
   }
@@ -1145,58 +1408,89 @@ export class SecurityGroup extends TerraformResource {
   // description - computed: false, optional: true, required: false
   private _description?: string;
   public get description() {
-    return this._description;
+    return this.getStringAttribute('description');
   }
-  public set description(value: string | undefined) {
+  public set description(value: string ) {
     this._description = value;
+  }
+  public resetDescription() {
+    this._description = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get descriptionInput() {
+    return this._description
   }
 
   // egress - computed: true, optional: true, required: false
   private _egress?: SecurityGroupEgress[]
-  public get egress(): SecurityGroupEgress[] | undefined {
-    return this._egress; // Getting the computed value is not yet implemented
+  public get egress(): SecurityGroupEgress[] {
+    return this.interpolationForAttribute('egress') as any; // Getting the computed value is not yet implemented
   }
-  public set egress(value: SecurityGroupEgress[] | undefined) {
+  public set egress(value: SecurityGroupEgress[]) {
     this._egress = value;
+  }
+  public resetEgress() {
+    this._egress = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get egressInput() {
+    return this._egress
   }
 
   // id - computed: true, optional: true, required: false
-  private _id?: string;
   public get id() {
-    return this._id ?? this.getStringAttribute('id');
-  }
-  public set id(value: string | undefined) {
-    this._id = value;
+    return this.getStringAttribute('id');
   }
 
   // ingress - computed: true, optional: true, required: false
   private _ingress?: SecurityGroupIngress[]
-  public get ingress(): SecurityGroupIngress[] | undefined {
-    return this._ingress; // Getting the computed value is not yet implemented
+  public get ingress(): SecurityGroupIngress[] {
+    return this.interpolationForAttribute('ingress') as any; // Getting the computed value is not yet implemented
   }
-  public set ingress(value: SecurityGroupIngress[] | undefined) {
+  public set ingress(value: SecurityGroupIngress[]) {
     this._ingress = value;
+  }
+  public resetIngress() {
+    this._ingress = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ingressInput() {
+    return this._ingress
   }
 
   // name - computed: true, optional: true, required: false
   private _name?: string;
   public get name() {
-    return this._name ?? this.getStringAttribute('name');
+    return this.getStringAttribute('name');
   }
-  public set name(value: string | undefined) {
+  public set name(value: string) {
     this._name = value;
+  }
+  public resetName() {
+    this._name = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nameInput() {
+    return this._name
   }
 
   // name_prefix - computed: false, optional: true, required: false
   private _namePrefix?: string;
   public get namePrefix() {
-    return this._namePrefix;
+    return this.getStringAttribute('name_prefix');
   }
-  public set namePrefix(value: string | undefined) {
+  public set namePrefix(value: string ) {
     this._namePrefix = value;
   }
+  public resetNamePrefix() {
+    this._namePrefix = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get namePrefixInput() {
+    return this._namePrefix
+  }
 
-  // owner_id - computed: true, optional: false, required: true
+  // owner_id - computed: true, optional: false, required: false
   public get ownerId() {
     return this.getStringAttribute('owner_id');
   }
@@ -1204,37 +1498,65 @@ export class SecurityGroup extends TerraformResource {
   // revoke_rules_on_delete - computed: false, optional: true, required: false
   private _revokeRulesOnDelete?: boolean;
   public get revokeRulesOnDelete() {
-    return this._revokeRulesOnDelete;
+    return this.getBooleanAttribute('revoke_rules_on_delete');
   }
-  public set revokeRulesOnDelete(value: boolean | undefined) {
+  public set revokeRulesOnDelete(value: boolean ) {
     this._revokeRulesOnDelete = value;
+  }
+  public resetRevokeRulesOnDelete() {
+    this._revokeRulesOnDelete = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get revokeRulesOnDeleteInput() {
+    return this._revokeRulesOnDelete
   }
 
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this._tags;
+    return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | undefined) {
+  public set tags(value: { [key: string]: string } ) {
     this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsInput() {
+    return this._tags
   }
 
   // vpc_id - computed: true, optional: true, required: false
   private _vpcId?: string;
   public get vpcId() {
-    return this._vpcId ?? this.getStringAttribute('vpc_id');
+    return this.getStringAttribute('vpc_id');
   }
-  public set vpcId(value: string | undefined) {
+  public set vpcId(value: string) {
     this._vpcId = value;
+  }
+  public resetVpcId() {
+    this._vpcId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get vpcIdInput() {
+    return this._vpcId
   }
 
   // timeouts - computed: false, optional: true, required: false
   private _timeouts?: SecurityGroupTimeouts;
   public get timeouts() {
-    return this._timeouts;
+    return this.interpolationForAttribute('timeouts') as any;
   }
-  public set timeouts(value: SecurityGroupTimeouts | undefined) {
+  public set timeouts(value: SecurityGroupTimeouts ) {
     this._timeouts = value;
+  }
+  public resetTimeouts() {
+    this._timeouts = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts
   }
 
   // =========

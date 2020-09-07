@@ -5,6 +5,7 @@ export interface AttributeTypeModelOptions {
   isList?: boolean;
   isComputed?: boolean;
   isOptional?: boolean;
+  isRequired?: boolean;
   isMap?: boolean;
   level?: number;
 }
@@ -25,6 +26,7 @@ export class AttributeTypeModel {
   public isList: boolean;
   public isComputed: boolean;
   public isOptional: boolean;
+  public isRequired?: boolean;
   public isMap: boolean;
   public struct?: Struct;
   public level?: number;
@@ -34,6 +36,7 @@ export class AttributeTypeModel {
     this.isMap = !!options.isMap;
     this.isComputed = !!options.isComputed;
     this.isOptional = !!options.isOptional;
+    this.isRequired = !!options.isRequired;
     this.level = options.level
     this.struct = options.struct;
   }

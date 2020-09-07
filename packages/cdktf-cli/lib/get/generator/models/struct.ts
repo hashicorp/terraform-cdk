@@ -4,7 +4,7 @@ export class Struct {
   constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isClass = false, public readonly isAnonymous = false) {}
 
   public get assignableAttributes(): AttributeModel[] {
-    const attributes = this.isAnonymous ? this.attributes : this.attributes.filter(attribute => (!attribute.computed || (attribute.computed && attribute.optional)))
+    const attributes = this.isAnonymous ? this.attributes : this.attributes.filter(attribute => attribute.isAssignable)
     return this.filterIgnoredAttributes(attributes)
   }
 
@@ -31,8 +31,7 @@ export class Struct {
 
 export class ConfigStruct extends Struct {
   protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
-    const ignoreList = ['arn', 'id']
-    return attributes.filter(attribute => !(ignoreList.includes(attribute.name) && !attribute.isRequired))
+    return attributes.filter(attribute => !attribute.isConfigIgnored)
   }
 
   public get extends(): string {

@@ -17,7 +17,7 @@ class MyStack(TerraformStack):
         Deployment(self, 'nginx-deployment',
                    metadata=[{
                        'name': app_name,
-                       'namespace': example_namespace.metadata[0].name,
+                       'namespace': example_namespace.metadata_input[0].name,
                        'labels': {
                            'app': app_name
                        }
