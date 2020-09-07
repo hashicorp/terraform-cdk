@@ -21,6 +21,7 @@ for (const template of availableTemplates) {
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require('../../package.json');
+const constructsVersion = pkg.dependencies.constructs;
 
 class Command implements yargs.CommandModule {
   public readonly command = 'init [OPTIONS]';
@@ -88,7 +89,6 @@ This means that your Terraform state file will be stored locally on disk in a fi
 async function determineDeps(version: string, dist?: string): Promise<Deps> {
   if (dist) {
     const ret = {
-      'cdktf_version': version,
       'npm_cdktf': path.resolve(dist, 'js', `cdktf@${version}.jsii.tgz`),
       'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
       'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`),
@@ -101,7 +101,15 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
       }
     }
 
-    return ret;
+    const versions = {
+      'cdktf_version': version,
+      'constructs_version': constructsVersion,
+    }
+
+    return {
+      ...ret,
+      ...versions
+    };
   }
 
   if (version === '0.0.0') {
@@ -116,6 +124,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 
   return {
     'cdktf_version': version,
+    'constructs_version': constructsVersion,
     'npm_cdktf': `cdktf@${ver}`,
     'npm_cdktf_cli': `cdktf-cli@${ver}`,
     'pypi_cdktf': `cdktf~=${version}`, // no support for pre-release
@@ -197,6 +206,7 @@ interface Deps {
   pypi_cdktf: string;
   mvn_cdktf: string;
   cdktf_version: string;
+  constructs_version: string;
 }
 
 interface Project {

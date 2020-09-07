@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mycompany.app</groupId>
-  <artifactId>{{ base }}</artifactId>
-  <name>{{ base }}</name>
+  <artifactId>{{ $base }}</artifactId>
+  <name>{{ $base }}</name>
   <version>0.1</version>
 
   <properties>
@@ -13,20 +13,23 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-  </build>
-
   <dependencies>
     <dependency>
       <groupId>com.hashicorp</groupId>
       <artifactId>cdktf</artifactId>
       <version>{{ cdktf_version }}</version>
     </dependency>
+    <dependency>
+      <groupId>software.constructs</groupId>
+      <artifactId>constructs</artifactId>
+      <version>{{ constructs_version }}</version>
+    </dependency>
   </dependencies>
 
   <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

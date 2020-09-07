@@ -1,5 +1,6 @@
 const { execSync } = require('child_process');
 const { readFileSync, writeFileSync } = require('fs');
+const os = require('os');
 
 const cli = require.resolve('../../bin/cdktf');
 
@@ -9,12 +10,13 @@ exports.pre = (variables) => {
       execSync('where mvn')
     }
     else {
-      execSync('which mnv')
+      execSync('which mvn')
     }
   } catch {
     console.error(`Unable to find "mvn". Install from https://maven.apache.org/install.html`);
     process.exit(1);
   }
+  variables.constructs_version = variables.constructs_version.replace('^', '').replace('~', '');
 };
 
 exports.post = options => {
@@ -32,11 +34,12 @@ exports.post = options => {
   // This is used for installing artifacts that are local (not from Maven)
   // https://maven.apache.org/plugins/maven-install-plugin/usage.html
   if (mvn_cdktf.endsWith('.jar')) {
-    execSync(`mvn install:install-file -Dfile=${mvn_cdktf} -DgroupId=com.hashicorp -DartifactId=cdktf -Dversion=${cdktf_version} -Dpackaging=jar`)
+    execSync(`mvn install:install-file -Dfile=${mvn_cdktf} -DgroupId=com.hashicorp -DartifactId=cdktf -Dversion=${cdktf_version} -Dpackaging=jar`, { stdio: 'inherit' })
   }
 
   execSync(`mvn install`, { stdio: 'inherit' });
-  execSync(`${cli} synth`, { stdio: 'inherit' });
+  execSync(`\"${process.execPath}\" ${cli} get`, { stdio: 'inherit' });
+  execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
 
   console.log(readFileSync('./help', 'utf-8'));
 };

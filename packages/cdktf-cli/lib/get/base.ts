@@ -82,8 +82,8 @@ export abstract class GetBase {
           // java
           if (options.targetLanguage === Language.JAVA) {
             opts.java = {
-              outdir: codeMakerOutdir,
-              package: source.replace(/\//gi, '.').replace(/-/gi, '')
+              outdir: '.', // generated java files aren't packaged, so just include directly in app
+              package: `imports.${source.replace(/\//gi, '.').replace(/-/gi, '_')}`
             }
           }
 
