@@ -2570,9 +2570,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.0.3.tgz#76687d6e3783b0b6864d72aaae5b0bacd824d52e"
-  integrity sha512-JrYLpTlz92Un1jxkwoGiOiGoDjzIWtxo64sLC5FD4mQN1H9mAqZNvgxWYWaJIiWUXNkl5L5sO3GFf6peTj7UMQ==
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.0.4.tgz#eb1ed5b80f6600b8d50de83971357ae0fe8e29a2"
+  integrity sha512-CDvg7gMjphE3DFX4pzkF6j73NREbR8npPFW8Mx/CLRnMR035+Y1o1HrXIsNSss/dq3ZUnNTU9jKyd3fL9EOlfw==
 
 conventional-changelog-angular@^5.0.3:
   version "5.0.10"
