@@ -9,12 +9,12 @@ export enum Language {
   TYPESCRIPT = 'typescript',
   PYTHON = 'python',
   DOTNET = 'dotnet', // not yet supported
-  JAVA = 'java', // not yet supported
+  JAVA = 'java',
 }
 
 export interface Config {
   readonly app?: string; // The command to run in order to synthesize the code to Terraform compatible JSON
-  readonly language?: Language; // Target language for building provider or module bindings. Currently supported: `typescript` or `python`
+  readonly language?: Language; // Target language for building provider or module bindings. Currently supported: `typescript`, `python`, and `java`
   readonly output: string; // Default: 'cdktf.out'. Where the synthesized JSON should go. Also will be the working directory for Terraform operations
   readonly codeMakerOutput: string; // Default: '.gen'. Path where generated provider bindings will be rendered to.
   readonly terraformProviders?: string[]; // Terraform Providers to build

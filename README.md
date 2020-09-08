@@ -24,13 +24,14 @@ The CDK for Terraform project includes two packages:
 * [cdktf-cli](./packages/cdktf-cli) - A CLI that allows users to run commands to initialize, import, and synthesize CDK for Terraform applications.
 * [cdktf](./packages/cdktf) - A library for defining Terraform resources using programming constructs.
 
-The project currently supports TypeScript and Python.
+The project currently supports TypeScript, Python, and Java.
 
 ## Getting Started
 
 Choose a language:
 * [TypeScript](./docs/getting-started/typescript.md)
 * [Python](./docs/getting-started/python.md)
+* [Java](.docs/getting-started/java.md)
 
 ## Examples
 
@@ -59,6 +60,10 @@ Choose a language:
 * [aws-eks](./examples/python/aws-eks)
 * [docker](./examples/python/docker)
 * [kubernetes](./examples/python/kubernetes)
+
+### Java
+
+#TODO
 
 ## Documentation
 
