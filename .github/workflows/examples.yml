@@ -26,6 +26,8 @@ jobs:
         run: yarn package
       - name: bootstrap plugin cache
         run: yum install -y jq && yarn bootstrap-plugin-cache
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: examples integration tests
         run: yarn examples:integration
         env:
