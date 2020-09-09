@@ -38,6 +38,7 @@ Choose a language:
 * [aws](./examples/typescript/aws)
 * [aws-cloudfront-proxy](./examples/typescript/aws-cloudfront-proxy)
 * [azure](./examples/typescript/azure)
+* [azure](./examples/typescript/azure-app-service)
 * [docker](./examples/typescript/docker)
 * [google](./examples/typescript/google)
 * [google-cloudrun](./examples/typescript/google-cloudrun)
