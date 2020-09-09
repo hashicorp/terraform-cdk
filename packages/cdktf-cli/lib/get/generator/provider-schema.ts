@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import { exec, withTempDir } from '../../util';
 
 const writeFile = promisify(fs.writeFile);
+const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || 'terraform'
 
 export interface ProviderSchema {
   format_version: '1.0';
@@ -76,8 +77,8 @@ export async function readSchema(providers: string[]): Promise<ProviderSchema> {
 
     // todo: when implementing logging, we need to make sure we can show the terraform init
     // output if the log level is set to debug
-    await exec('terraform', [ 'init' ], { cwd: outdir });
-    schema = await exec('terraform', ['providers', 'schema', '-json'], { cwd: outdir });
+    await exec(terraformBinaryName, [ 'init' ], { cwd: outdir });
+    schema = await exec(terraformBinaryName, ['providers', 'schema', '-json'], { cwd: outdir });
     fs.unlinkSync(filePath)
   })
 
