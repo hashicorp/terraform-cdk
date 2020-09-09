@@ -4,7 +4,7 @@
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
 - [Node.js](https://nodejs.org) >= v12.16
-- [Yarn](https://yarnpkg.com/en/docs/install) >= v1.21 (optional - NPM will work as well)
+- [Yarn](https://yarnpkg.com/en/docs/install) >= v1.21 (optional - NPM will work as an alternative)
 
 **Install CDK for Terraform CLI**
 
