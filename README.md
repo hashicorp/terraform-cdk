@@ -63,7 +63,9 @@ Choose a language:
 
 ### Java
 
-#TODO
+* [aws](./examples/java/aws)
+* [azure](./examples/java/azure)
+* [google](./examples/java/google)
 
 ## Documentation
 
