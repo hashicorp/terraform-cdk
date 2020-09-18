@@ -4,13 +4,13 @@ import { deepMerge } from "./util";
 
 export interface TerraformModuleOptions {
   readonly source: string;
-  readonly version: string;
+  readonly version?: string;
 }
 
 export abstract class TerraformModule extends TerraformElement {
 
   public readonly source: string;
-  public readonly version: string;
+  public readonly version?: string;
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id);
