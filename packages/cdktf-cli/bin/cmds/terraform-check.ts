@@ -6,8 +6,8 @@ export const terraformCheck = async (): Promise<void> => {
     const terraformVersion = await terraform.version()
 
     if (terraformVersion < SUPPORTED) {
-      const errorMessage = `Exiting due to unsupported Terraform version (${terraformVersion}. 
-        Only Terraform versions ${SUPPORTED} and up are supported,
+      const errorMessage = `Exiting due to unsupported Terraform version [${terraformVersion}]. 
+        Only Terraform versions [${SUPPORTED}] and up are supported,
         please upgrade Terraform version)`;
         console.error(errorMessage)
         process.exit(1)
