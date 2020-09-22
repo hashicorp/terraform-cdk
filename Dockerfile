@@ -2,8 +2,9 @@ FROM jsii/superchain
 
 RUN yum install -y unzip jq && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
 
-ENV DEFAULT_TERRAFORM_VERSION=0.13.0
-ENV TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"
+ENV DEFAULT_TERRAFORM_VERSION=0.13.0                                \
+    TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
+    MAVEN_OPTS="-Xms256m -Xmx3G"
 
 # Install Terraform
 RUN AVAILABLE_TERRAFORM_VERSIONS="0.12.29 0.13.0-rc1 ${DEFAULT_TERRAFORM_VERSION}" && \
