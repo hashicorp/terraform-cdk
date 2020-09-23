@@ -1,6 +1,6 @@
 FROM jsii/superchain
 
-RUN yum install -y unzip jq && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
+RUN yum install -y unzip jq && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
 
 ENV DEFAULT_TERRAFORM_VERSION=0.13.0                                \
     TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
