@@ -4,6 +4,7 @@ RUN yum install -y unzip jq && curl https://raw.githubusercontent.com/pypa/pipen
 
 ENV DEFAULT_TERRAFORM_VERSION=0.13.0                                \
     TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
+# MAVEN_OPTS is set in jsii/superchain with -Xmx512m. This isn't enough memory for provider generation.
     MAVEN_OPTS="-Xms256m -Xmx3G"
 
 # Install Terraform
