@@ -10,7 +10,7 @@ exports[`do change capitalization of arbritary nested types 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"tests_test_A231270F\\": {
+      \\"test\\": {
         \\"name\\": \\"bar\\",
         \\"nested_type\\": {
           \\"tag\\": \\"isDowncased\\"
@@ -18,7 +18,7 @@ exports[`do change capitalization of arbritary nested types 1`] = `
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"tests_test_A231270F\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
@@ -37,7 +37,7 @@ exports[`do not change capitalization of tags 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"tests_test_A231270F\\": {
+      \\"test\\": {
         \\"name\\": \\"bar\\",
         \\"tags\\": {
           \\"Tag\\": \\"isWorking\\"
@@ -45,7 +45,7 @@ exports[`do not change capitalization of tags 1`] = `
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"tests_test_A231270F\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
@@ -64,12 +64,12 @@ exports[`minimal configuration 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"test_DBA94737\\": {
+      \\"test\\": {
         \\"name\\": \\"foo\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test_DBA94737\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
@@ -95,13 +95,13 @@ exports[`provider setter 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"test_DBA94737\\": {
+      \\"test\\": {
         \\"name\\": \\"bar\\",
         \\"provider\\": \\"test\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test_DBA94737\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
@@ -120,23 +120,23 @@ exports[`serialize list interpolation 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"tests_test_A231270F\\": {
+      \\"test\\": {
         \\"name\\": \\"bar\\",
-        \\"names\\": \\"\${other_test_resource.tests_othertest_E4B4389F.names}\\",
+        \\"names\\": \\"\${other_test_resource.othertest.names}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"tests_test_A231270F\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
     },
     \\"other_test_resource\\": {
-      \\"tests_othertest_E4B4389F\\": {
+      \\"othertest\\": {
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"tests/othertest\\",
-            \\"uniqueId\\": \\"tests_othertest_E4B4389F\\"
+            \\"uniqueId\\": \\"othertest\\"
           }
         }
       }
@@ -155,22 +155,22 @@ exports[`with complex computed list 1`] = `
   },
   \\"resource\\": {
     \\"other_test_resource\\": {
-      \\"tests_othertest_E4B4389F\\": {
+      \\"othertest\\": {
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"tests/othertest\\",
-            \\"uniqueId\\": \\"tests_othertest_E4B4389F\\"
+            \\"uniqueId\\": \\"othertest\\"
           }
         }
       }
     },
     \\"test_resource\\": {
-      \\"tests_test_A231270F\\": {
-        \\"name\\": \\"\${other_test_resource.tests_othertest_E4B4389F.complex_computed_list.0.id}\\",
+      \\"test\\": {
+        \\"name\\": \\"\${other_test_resource.othertest.complex_computed_list.0.id}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"tests_test_A231270F\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
@@ -200,13 +200,13 @@ exports[`with provider alias 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"test_DBA94737\\": {
+      \\"test\\": {
         \\"name\\": \\"bar\\",
         \\"provider\\": \\"test.foo\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test_DBA94737\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }

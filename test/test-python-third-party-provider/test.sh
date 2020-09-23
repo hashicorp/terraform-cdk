@@ -21,7 +21,7 @@ rm -rf cdktf.out
 cdktf get
 
 # build
-pipenv run python ./main.py
+cdktf synth
 
 # get rid of downloaded Terraform providers, no point in diffing them
 rm -rf cdktf.out/.terraform

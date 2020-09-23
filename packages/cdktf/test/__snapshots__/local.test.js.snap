@@ -9,7 +9,7 @@ exports[`function local 1`] = `
     }
   },
   \\"locals\\": {
-    \\"test_instanceids_8C0C9E3F\\": \\"\${concat(aws_instance.blue.*.id, aws_instance.green.*.id)}\\"
+    \\"instance_ids\\": \\"\${concat(aws_instance.blue.*.id, aws_instance.green.*.id)}\\"
   }
 }"
 `;
@@ -23,16 +23,16 @@ exports[`local reference 1`] = `
     }
   },
   \\"locals\\": {
-    \\"test_resourcename_651EB899\\": \\"my_resource\\"
+    \\"resource_name\\": \\"my_resource\\"
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"test_testresource_F1C68B60\\": {
-        \\"name\\": \\"\${local.test_resourcename_651EB899}\\",
+      \\"test-resource\\": {
+        \\"name\\": \\"\${local.resource_name}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test-resource\\",
-            \\"uniqueId\\": \\"test_testresource_F1C68B60\\"
+            \\"uniqueId\\": \\"test-resource\\"
           }
         }
       }
@@ -50,8 +50,8 @@ exports[`multiple locals 1`] = `
     }
   },
   \\"locals\\": {
-    \\"test_local1_73AEAF61\\": \\"1\\",
-    \\"test_local2_7C9E2F43\\": \\"2\\"
+    \\"local1\\": \\"1\\",
+    \\"local2\\": \\"2\\"
   }
 }"
 `;
@@ -65,7 +65,7 @@ exports[`object local 1`] = `
     }
   },
   \\"locals\\": {
-    \\"test_commontags_88A9E9A0\\": {
+    \\"common_tags\\": {
       \\"Service\\": \\"service_name\\",
       \\"Owner\\": \\"owner\\"
     }
@@ -82,7 +82,7 @@ exports[`string local 1`] = `
     }
   },
   \\"locals\\": {
-    \\"test_greeting_553D8EE0\\": \\"Hello, \${var.name}\\"
+    \\"greeting\\": \\"Hello, \${var.name}\\"
   }
 }"
 `;

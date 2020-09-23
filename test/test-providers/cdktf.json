@@ -13,5 +13,8 @@
     "external",
     "terraform-providers/openstack",
     "oci"
-  ]
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
 }

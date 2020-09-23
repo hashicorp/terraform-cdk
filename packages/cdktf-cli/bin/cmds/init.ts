@@ -8,6 +8,7 @@ import * as terraformCloudClient from './helper/terraform-cloud-client';
 import * as chalk from 'chalk';
 import { terraformCheck } from './terraform-check';
 import { displayVersionMessage } from './version-check'
+import { FUTURE_FLAGS } from 'cdktf/lib/features';
 
 const chalkColour = new chalk.Instance();
 
@@ -76,8 +77,10 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
 
+    const futureFlags = Object.entries(FUTURE_FLAGS).map(([key, value]) => `"${key}": "${value}"`).join(`,\n`);
+
     await sscaff(templateInfo.Path, '.', {
-      ...deps, ...projectInfo
+      ...deps, ...projectInfo, futureFlags
     });
   }
 }

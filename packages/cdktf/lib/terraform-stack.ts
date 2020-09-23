@@ -5,6 +5,8 @@ import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
 import { TerraformProvider } from './terraform-provider';
+import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS, ALLOW_SEP_CHARS_IN_LOGICAL_IDS } from './features';
+import { makeUniqueId } from './private/unique';
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
@@ -70,6 +72,33 @@ export class TerraformStack extends Construct {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const lastKey = parts.shift()!;
     curr[lastKey] = value;
+  }
+
+  public getLogicalId(tfElement: TerraformElement): string {
+    // wrap the allocation for future renaming support
+    return this.allocateLogicalId(tfElement);
+  }
+
+  /**
+   * Returns the naming scheme used to allocate logical IDs. By default, uses
+   * the `HashedAddressingScheme` but this method can be overridden to customize
+   * this behavior.
+   * 
+   * @param tfElement The element for which the logical ID is allocated.
+   */
+  protected allocateLogicalId(tfElement: TerraformElement): string {
+    const node = tfElement.constructNode
+
+    let stackIndex;
+    if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
+      stackIndex = node.scopes.indexOf(tfElement.stack);
+    }
+    else {
+      stackIndex = 0;
+    }
+    
+    const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
+    return components.length > 0 ? makeUniqueId(components, node.tryGetContext(ALLOW_SEP_CHARS_IN_LOGICAL_IDS)) : '';
   }
 
   public allProviders(): TerraformProvider[] {
