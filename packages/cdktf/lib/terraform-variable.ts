@@ -1,4 +1,4 @@
-import { Construct, Node } from "constructs";
+import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util"
 import { Token } from "./tokens";
@@ -74,15 +74,12 @@ export interface TerraformVariableConfig {
      * If both the type and default arguments are specified, the given default value must be convertible to the specified type.
      */
     readonly type?: string;
-
-    readonly staticName?: boolean;
 }
 
 export class TerraformVariable extends TerraformElement {
     public readonly default?: any;
     public readonly description?: string;
     public readonly type?: string;
-    private readonly staticName: boolean;
 
     constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
         super(scope, id);
@@ -90,7 +87,6 @@ export class TerraformVariable extends TerraformElement {
         this.default = config.default;
         this.description = config.description;
         this.type = config.type;
-        this.staticName = config.staticName ?? true;
     }
 
     public get stringValue(): string {
@@ -113,12 +109,8 @@ export class TerraformVariable extends TerraformElement {
         return Token.asAny(this.interpolation());
     }
 
-    private get name(): string {
-        return this.staticName ? Node.of(this).id : this.friendlyUniqueId;
-    }
-
     private interpolation(): any {
-        return `\${var.${this.name}}`
+        return `\${var.${this.friendlyUniqueId}}`
     }
 
     public synthesizeAttributes(): { [key: string]: any } {
@@ -132,7 +124,7 @@ export class TerraformVariable extends TerraformElement {
     public toTerraform(): any {
         return {
             variable: {
-                [this.name]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
+                [this.friendlyUniqueId]: deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides)
             }
         };
     }

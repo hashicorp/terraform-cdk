@@ -125,14 +125,3 @@ test('reference', () => {
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
-
-test('dynamic name', () => {
-    const app = Testing.app();
-    const stack = new TerraformStack(app, 'test');
-
-    new TerraformVariable(stack, 'test-variable', {
-        type: 'string',
-        staticName: false
-    });
-    expect(Testing.synth(stack)).toMatchSnapshot();
-});
