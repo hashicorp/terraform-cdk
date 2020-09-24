@@ -9,7 +9,7 @@ exports[`add provider 1`] = `
     }
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
@@ -19,7 +19,7 @@ exports[`add provider 1`] = `
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
@@ -56,7 +56,7 @@ exports[`complex providers 1`] = `
     ]
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"providers\\": [
         {
           \\"test.src\\": \\"test.provider1\\"
@@ -75,7 +75,7 @@ exports[`complex providers 1`] = `
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
@@ -92,12 +92,12 @@ exports[`minimal configuration 1`] = `
     }
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"source\\": \\"./foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
@@ -126,7 +126,7 @@ exports[`multiple providers 1`] = `
     ]
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
@@ -139,7 +139,7 @@ exports[`multiple providers 1`] = `
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
@@ -156,7 +156,7 @@ exports[`pass variables 1`] = `
     }
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"param1\\": \\"name\\",
       \\"param2\\": 1,
       \\"param3\\": [
@@ -167,7 +167,7 @@ exports[`pass variables 1`] = `
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
@@ -184,24 +184,24 @@ exports[`reference module 1`] = `
     }
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"source\\": \\"./foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"test_resource_368FC2EC\\": {
-        \\"name\\": \\"\${module.test_DBA94737.name}\\",
+      \\"resource\\": {
+        \\"name\\": \\"\${module.test.name}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/resource\\",
-            \\"uniqueId\\": \\"test_resource_368FC2EC\\"
+            \\"uniqueId\\": \\"resource\\"
           }
         }
       }
@@ -219,13 +219,13 @@ exports[`set variable 1`] = `
     }
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"param1\\": \\"value1\\",
       \\"source\\": \\"./foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
@@ -250,7 +250,7 @@ exports[`simple provider 1`] = `
     ]
   },
   \\"module\\": {
-    \\"test_DBA94737\\": {
+    \\"test\\": {
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
@@ -260,7 +260,7 @@ exports[`simple provider 1`] = `
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
-          \\"uniqueId\\": \\"test_DBA94737\\"
+          \\"uniqueId\\": \\"test\\"
         }
       }
     }
