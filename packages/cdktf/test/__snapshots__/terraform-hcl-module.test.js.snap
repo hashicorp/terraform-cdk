@@ -10,12 +10,12 @@ exports[`add provider 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
+      \\"source\\": \\"./foo\\",
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
         }
       ],
-      \\"source\\": \\"./foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -57,6 +57,13 @@ exports[`complex providers 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
+      \\"param1\\": \\"name\\",
+      \\"param2\\": 1,
+      \\"param3\\": [
+        \\"id1\\",
+        \\"id2\\"
+      ],
+      \\"source\\": \\"./foo\\",
       \\"providers\\": [
         {
           \\"test.src\\": \\"test.provider1\\"
@@ -65,13 +72,6 @@ exports[`complex providers 1`] = `
           \\"test.dst\\": \\"test.provider2\\"
         }
       ],
-      \\"param1\\": \\"name\\",
-      \\"param2\\": 1,
-      \\"param3\\": [
-        \\"id1\\",
-        \\"id2\\"
-      ],
-      \\"source\\": \\"./foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -127,6 +127,7 @@ exports[`multiple providers 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
+      \\"source\\": \\"./foo\\",
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
@@ -135,7 +136,6 @@ exports[`multiple providers 1`] = `
           \\"test\\": \\"test.provider2\\"
         }
       ],
-      \\"source\\": \\"./foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -251,12 +251,12 @@ exports[`simple provider 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
+      \\"source\\": \\"./foo\\",
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
         }
       ],
-      \\"source\\": \\"./foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
