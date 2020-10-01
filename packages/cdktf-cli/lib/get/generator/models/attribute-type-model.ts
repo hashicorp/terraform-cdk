@@ -52,12 +52,28 @@ export class AttributeTypeModel {
     return this._type
   }
 
-  public get dependencies(): string | undefined {
+  public get dependencies(): string[] | undefined {
     if (this.isComputedComplex && !this.isOptional) {
-      if (this.isStringMap) return `import { StringMap } from "cdktf";`
-      if (this.isNumberMap) return `import { NumberMap } from "cdktf";`
-      if (this.isBooleanMap) return `import { BooleanMap } from "cdktf";`
-      if (this.isList) return `import { ComplexComputedList } from "cdktf";`
+      if (!!this.isRequired || this.isOptional) {
+        if (this.isStringMap) return [`import { StringMap } from "cdktf";`, `import { hashMapper } from "cdktf";`];
+        if (this.isNumberMap) return [`import { NumberMap } from "cdktf";`, `import { hashMapper } from "cdktf";`];
+        if (this.isBooleanMap) return [`import { BooleanMap } from "cdktf";`, `import { hashMapper } from "cdktf";`];
+        if (this.isStringList) return [`import { listMapper } from "cdktf";`, `import { stringToTerraform } from "cdktf";`];
+      }
+      else {
+        if (this.isStringMap) return [`import { StringMap } from "cdktf";`];
+        if (this.isNumberMap) return [`import { NumberMap } from "cdktf";`];
+        if (this.isBooleanMap) return [`import { BooleanMap } from "cdktf";`];
+      }
+      if (this.isList) return [`import { ComplexComputedList } from "cdktf";`];
+    }
+    if (!!this.isRequired || this.isOptional) {
+      if (this.isString) return [`import { stringToTerraform } from "cdktf";`];
+      if (this.isNumber) return [`import { numberToTerraform } from "cdktf";`];
+      if (this.isBoolean) return [`import { booleanToTerraform } from "cdktf";`];
+      if (this.isMap) return [`import { hashMapper } from "cdktf";`, `import { anyToTerraform } from "cdktf";`];
+      if (this.isStringList) return [`import { listMapper } from "cdktf";`, `import { stringToTerraform } from "cdktf";`];
+      if (this.isList) return [`import { listMapper } from "cdktf";`];
     }
     return undefined
   }
@@ -112,5 +128,9 @@ export class AttributeTypeModel {
 
   public get isTokenizable(): boolean {
     return Object.values(TokenizableTypes).includes(this.name as TokenizableTypes)
+  }
+
+  public get innerType() {
+    return this._type;
   }
 }

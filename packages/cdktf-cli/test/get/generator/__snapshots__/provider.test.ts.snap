@@ -6,6 +6,11 @@ exports[`generate provider 1`] = `
 
 import { Construct } from 'constructs';
 import { TerraformProvider } from 'cdktf';
+import { canInspect } from 'cdktf';
+import { stringToTerraform } from \\"cdktf\\";
+import { listMapper } from \\"cdktf\\";
+import { booleanToTerraform } from \\"cdktf\\";
+import { numberToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -69,6 +74,17 @@ export interface AwsProviderAssumeRole {
   /** The session name to use when assuming the role. If omitted, no session name is passed to the AssumeRole call. */
   readonly sessionName?: string;
 }
+
+function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    external_id: stringToTerraform(struct!.externalId),
+    policy: stringToTerraform(struct!.policy),
+    role_arn: stringToTerraform(struct!.roleArn),
+    session_name: stringToTerraform(struct!.sessionName),
+  }
+}
+
 export interface AwsProviderEndpoints {
   /** Use this to override the default service endpoint URL */
   readonly accessanalyzer?: string;
@@ -341,12 +357,163 @@ export interface AwsProviderEndpoints {
   /** Use this to override the default service endpoint URL */
   readonly xray?: string;
 }
+
+function awsProviderEndpointsToTerraform(struct?: AwsProviderEndpoints): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    accessanalyzer: stringToTerraform(struct!.accessanalyzer),
+    acm: stringToTerraform(struct!.acm),
+    acmpca: stringToTerraform(struct!.acmpca),
+    amplify: stringToTerraform(struct!.amplify),
+    apigateway: stringToTerraform(struct!.apigateway),
+    applicationautoscaling: stringToTerraform(struct!.applicationautoscaling),
+    applicationinsights: stringToTerraform(struct!.applicationinsights),
+    appmesh: stringToTerraform(struct!.appmesh),
+    appstream: stringToTerraform(struct!.appstream),
+    appsync: stringToTerraform(struct!.appsync),
+    athena: stringToTerraform(struct!.athena),
+    autoscaling: stringToTerraform(struct!.autoscaling),
+    autoscalingplans: stringToTerraform(struct!.autoscalingplans),
+    backup: stringToTerraform(struct!.backup),
+    batch: stringToTerraform(struct!.batch),
+    budgets: stringToTerraform(struct!.budgets),
+    cloud9: stringToTerraform(struct!.cloud9),
+    cloudformation: stringToTerraform(struct!.cloudformation),
+    cloudfront: stringToTerraform(struct!.cloudfront),
+    cloudhsm: stringToTerraform(struct!.cloudhsm),
+    cloudsearch: stringToTerraform(struct!.cloudsearch),
+    cloudtrail: stringToTerraform(struct!.cloudtrail),
+    cloudwatch: stringToTerraform(struct!.cloudwatch),
+    cloudwatchevents: stringToTerraform(struct!.cloudwatchevents),
+    cloudwatchlogs: stringToTerraform(struct!.cloudwatchlogs),
+    codebuild: stringToTerraform(struct!.codebuild),
+    codecommit: stringToTerraform(struct!.codecommit),
+    codedeploy: stringToTerraform(struct!.codedeploy),
+    codepipeline: stringToTerraform(struct!.codepipeline),
+    cognitoidentity: stringToTerraform(struct!.cognitoidentity),
+    cognitoidp: stringToTerraform(struct!.cognitoidp),
+    configservice: stringToTerraform(struct!.configservice),
+    cur: stringToTerraform(struct!.cur),
+    dataexchange: stringToTerraform(struct!.dataexchange),
+    datapipeline: stringToTerraform(struct!.datapipeline),
+    datasync: stringToTerraform(struct!.datasync),
+    dax: stringToTerraform(struct!.dax),
+    devicefarm: stringToTerraform(struct!.devicefarm),
+    directconnect: stringToTerraform(struct!.directconnect),
+    dlm: stringToTerraform(struct!.dlm),
+    dms: stringToTerraform(struct!.dms),
+    docdb: stringToTerraform(struct!.docdb),
+    ds: stringToTerraform(struct!.ds),
+    dynamodb: stringToTerraform(struct!.dynamodb),
+    ec2: stringToTerraform(struct!.ec2),
+    ecr: stringToTerraform(struct!.ecr),
+    ecs: stringToTerraform(struct!.ecs),
+    efs: stringToTerraform(struct!.efs),
+    eks: stringToTerraform(struct!.eks),
+    elasticache: stringToTerraform(struct!.elasticache),
+    elasticbeanstalk: stringToTerraform(struct!.elasticbeanstalk),
+    elastictranscoder: stringToTerraform(struct!.elastictranscoder),
+    elb: stringToTerraform(struct!.elb),
+    emr: stringToTerraform(struct!.emr),
+    es: stringToTerraform(struct!.es),
+    firehose: stringToTerraform(struct!.firehose),
+    fms: stringToTerraform(struct!.fms),
+    forecast: stringToTerraform(struct!.forecast),
+    fsx: stringToTerraform(struct!.fsx),
+    gamelift: stringToTerraform(struct!.gamelift),
+    glacier: stringToTerraform(struct!.glacier),
+    globalaccelerator: stringToTerraform(struct!.globalaccelerator),
+    glue: stringToTerraform(struct!.glue),
+    greengrass: stringToTerraform(struct!.greengrass),
+    guardduty: stringToTerraform(struct!.guardduty),
+    iam: stringToTerraform(struct!.iam),
+    imagebuilder: stringToTerraform(struct!.imagebuilder),
+    inspector: stringToTerraform(struct!.inspector),
+    iot: stringToTerraform(struct!.iot),
+    iotanalytics: stringToTerraform(struct!.iotanalytics),
+    iotevents: stringToTerraform(struct!.iotevents),
+    kafka: stringToTerraform(struct!.kafka),
+    kinesis: stringToTerraform(struct!.kinesis),
+    kinesis_analytics: stringToTerraform(struct!.kinesisAnalytics),
+    kinesisanalytics: stringToTerraform(struct!.kinesisanalytics),
+    kinesisvideo: stringToTerraform(struct!.kinesisvideo),
+    kms: stringToTerraform(struct!.kms),
+    lakeformation: stringToTerraform(struct!.lakeformation),
+    lambda: stringToTerraform(struct!.lambda),
+    lexmodels: stringToTerraform(struct!.lexmodels),
+    licensemanager: stringToTerraform(struct!.licensemanager),
+    lightsail: stringToTerraform(struct!.lightsail),
+    macie: stringToTerraform(struct!.macie),
+    managedblockchain: stringToTerraform(struct!.managedblockchain),
+    marketplacecatalog: stringToTerraform(struct!.marketplacecatalog),
+    mediaconnect: stringToTerraform(struct!.mediaconnect),
+    mediaconvert: stringToTerraform(struct!.mediaconvert),
+    medialive: stringToTerraform(struct!.medialive),
+    mediapackage: stringToTerraform(struct!.mediapackage),
+    mediastore: stringToTerraform(struct!.mediastore),
+    mediastoredata: stringToTerraform(struct!.mediastoredata),
+    mq: stringToTerraform(struct!.mq),
+    neptune: stringToTerraform(struct!.neptune),
+    opsworks: stringToTerraform(struct!.opsworks),
+    organizations: stringToTerraform(struct!.organizations),
+    personalize: stringToTerraform(struct!.personalize),
+    pinpoint: stringToTerraform(struct!.pinpoint),
+    pricing: stringToTerraform(struct!.pricing),
+    qldb: stringToTerraform(struct!.qldb),
+    quicksight: stringToTerraform(struct!.quicksight),
+    r53: stringToTerraform(struct!.r53),
+    ram: stringToTerraform(struct!.ram),
+    rds: stringToTerraform(struct!.rds),
+    redshift: stringToTerraform(struct!.redshift),
+    resourcegroups: stringToTerraform(struct!.resourcegroups),
+    route53: stringToTerraform(struct!.route53),
+    route53domains: stringToTerraform(struct!.route53Domains),
+    route53resolver: stringToTerraform(struct!.route53Resolver),
+    s3: stringToTerraform(struct!.s3),
+    s3control: stringToTerraform(struct!.s3Control),
+    sagemaker: stringToTerraform(struct!.sagemaker),
+    sdb: stringToTerraform(struct!.sdb),
+    secretsmanager: stringToTerraform(struct!.secretsmanager),
+    securityhub: stringToTerraform(struct!.securityhub),
+    serverlessrepo: stringToTerraform(struct!.serverlessrepo),
+    servicecatalog: stringToTerraform(struct!.servicecatalog),
+    servicediscovery: stringToTerraform(struct!.servicediscovery),
+    servicequotas: stringToTerraform(struct!.servicequotas),
+    ses: stringToTerraform(struct!.ses),
+    shield: stringToTerraform(struct!.shield),
+    sns: stringToTerraform(struct!.sns),
+    sqs: stringToTerraform(struct!.sqs),
+    ssm: stringToTerraform(struct!.ssm),
+    stepfunctions: stringToTerraform(struct!.stepfunctions),
+    storagegateway: stringToTerraform(struct!.storagegateway),
+    sts: stringToTerraform(struct!.sts),
+    swf: stringToTerraform(struct!.swf),
+    transfer: stringToTerraform(struct!.transfer),
+    waf: stringToTerraform(struct!.waf),
+    wafregional: stringToTerraform(struct!.wafregional),
+    wafv2: stringToTerraform(struct!.wafv2),
+    worklink: stringToTerraform(struct!.worklink),
+    workmail: stringToTerraform(struct!.workmail),
+    workspaces: stringToTerraform(struct!.workspaces),
+    xray: stringToTerraform(struct!.xray),
+  }
+}
+
 export interface AwsProviderIgnoreTags {
   /** Resource tag key prefixes to ignore across all resources. */
   readonly keyPrefixes?: string[];
   /** Resource tag keys to ignore across all resources. */
   readonly keys?: string[];
 }
+
+function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    key_prefixes: listMapper(stringToTerraform)(struct!.keyPrefixes),
+    keys: listMapper(stringToTerraform)(struct!.keys),
+  }
+}
+
 
 // Resource
 
@@ -714,26 +881,26 @@ export class AwsProvider extends TerraformProvider {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      access_key: this._accessKey,
-      allowed_account_ids: this._allowedAccountIds,
-      forbidden_account_ids: this._forbiddenAccountIds,
-      insecure: this._insecure,
-      max_retries: this._maxRetries,
-      profile: this._profile,
-      region: this._region,
-      s3_force_path_style: this._s3ForcePathStyle,
-      secret_key: this._secretKey,
-      shared_credentials_file: this._sharedCredentialsFile,
-      skip_credentials_validation: this._skipCredentialsValidation,
-      skip_get_ec2_platforms: this._skipGetEc2Platforms,
-      skip_metadata_api_check: this._skipMetadataApiCheck,
-      skip_region_validation: this._skipRegionValidation,
-      skip_requesting_account_id: this._skipRequestingAccountId,
-      token: this._token,
-      alias: this._alias,
-      assume_role: this._assumeRole,
-      endpoints: this._endpoints,
-      ignore_tags: this._ignoreTags,
+      access_key: stringToTerraform(this._accessKey),
+      allowed_account_ids: listMapper(stringToTerraform)(this._allowedAccountIds),
+      forbidden_account_ids: listMapper(stringToTerraform)(this._forbiddenAccountIds),
+      insecure: booleanToTerraform(this._insecure),
+      max_retries: numberToTerraform(this._maxRetries),
+      profile: stringToTerraform(this._profile),
+      region: stringToTerraform(this._region),
+      s3_force_path_style: booleanToTerraform(this._s3ForcePathStyle),
+      secret_key: stringToTerraform(this._secretKey),
+      shared_credentials_file: stringToTerraform(this._sharedCredentialsFile),
+      skip_credentials_validation: booleanToTerraform(this._skipCredentialsValidation),
+      skip_get_ec2_platforms: booleanToTerraform(this._skipGetEc2Platforms),
+      skip_metadata_api_check: booleanToTerraform(this._skipMetadataApiCheck),
+      skip_region_validation: booleanToTerraform(this._skipRegionValidation),
+      skip_requesting_account_id: booleanToTerraform(this._skipRequestingAccountId),
+      token: stringToTerraform(this._token),
+      alias: stringToTerraform(this._alias),
+      assume_role: listMapper(awsProviderAssumeRoleToTerraform)(this._assumeRole),
+      endpoints: listMapper(awsProviderEndpointsToTerraform)(this._endpoints),
+      ignore_tags: listMapper(awsProviderIgnoreTagsToTerraform)(this._ignoreTags),
     };
   }
 }

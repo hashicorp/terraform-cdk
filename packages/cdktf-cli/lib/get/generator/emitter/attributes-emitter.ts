@@ -1,5 +1,6 @@
 import { CodeMaker } from 'codemaker';
 import { AttributeModel } from "../models";
+import { downcaseFirst } from '../../../util';
 
 export class AttributesEmitter {
   constructor(private code: CodeMaker) {}
@@ -154,5 +155,34 @@ export class AttributesEmitter {
   public getResetName(name: string) {
     if (!name) return name;
     return `reset${name[0].toUpperCase() + name.slice(1)}`;
+  }
+
+  public emitToTerraform(att: AttributeModel, isStruct: boolean) {
+    const type = att.type;
+    const context = isStruct ? 'struct!' : 'this';
+    const name = isStruct ? att.name : att.storageName;
+    switch (true) {
+      case (type.isList && type.isMap):
+        this.code.line(`${att.terraformName}: listMapper(hashMapper(${this.determineMapType(att)}ToTerraform))(${context}.${name}),`);
+        break;
+      case (type.isList):
+        this.code.line(`${att.terraformName}: listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
+        break;
+      case (type.isMap):
+        this.code.line(`${att.terraformName}: hashMapper(${this.determineMapType(att)}ToTerraform)(${context}.${name}),`);
+        break;
+      case (type.isString):
+        this.code.line(`${att.terraformName}: stringToTerraform(${context}.${name}),`);
+        break;
+      case (type.isNumber):
+        this.code.line(`${att.terraformName}: numberToTerraform(${context}.${name}),`);
+        break;
+      case (type.isBoolean):
+        this.code.line(`${att.terraformName}: booleanToTerraform(${context}.${name}),`);
+        break;
+      default:
+        this.code.line(`${att.terraformName}: ${downcaseFirst(type.name)}ToTerraform(${context}.${name}),`);
+        break;
+    }
   }
 }

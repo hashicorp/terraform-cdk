@@ -7,7 +7,12 @@ exports[`generate an acm certifacte resource with complex computed types 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { canInspect } from 'cdktf';
+import { stringToTerraform } from \\"cdktf\\";
 import { ComplexComputedList } from \\"cdktf\\";
+import { listMapper } from \\"cdktf\\";
+import { hashMapper } from \\"cdktf\\";
+import { anyToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -48,6 +53,14 @@ export class AcmCertificateDomainValidationOptions extends ComplexComputedList {
 export interface AcmCertificateOptions {
   readonly certificateTransparencyLoggingPreference?: string;
 }
+
+function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptions): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    certificate_transparency_logging_preference: stringToTerraform(struct!.certificateTransparencyLoggingPreference),
+  }
+}
+
 
 // Resource
 
@@ -253,15 +266,15 @@ export class AcmCertificate extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      certificate_authority_arn: this._certificateAuthorityArn,
-      certificate_body: this._certificateBody,
-      certificate_chain: this._certificateChain,
-      domain_name: this._domainName,
-      private_key: this._privateKey,
-      subject_alternative_names: this._subjectAlternativeNames,
-      tags: this._tags,
-      validation_method: this._validationMethod,
-      options: this._options,
+      certificate_authority_arn: stringToTerraform(this._certificateAuthorityArn),
+      certificate_body: stringToTerraform(this._certificateBody),
+      certificate_chain: stringToTerraform(this._certificateChain),
+      domain_name: stringToTerraform(this._domainName),
+      private_key: stringToTerraform(this._privateKey),
+      subject_alternative_names: listMapper(stringToTerraform)(this._subjectAlternativeNames),
+      tags: hashMapper(anyToTerraform)(this._tags),
+      validation_method: stringToTerraform(this._validationMethod),
+      options: listMapper(acmCertificateOptionsToTerraform)(this._options),
     };
   }
 }

@@ -50,6 +50,9 @@ export class ResourceModel {
     if (!this.isProvider) {
       this.dependencies.push(`import { TerraformMetaArguments } from 'cdktf';`)
     }
+    if (this._structs.find(s => !s.isClass)) {
+      this.dependencies.push(`import { canInspect } from 'cdktf';`);
+    }
   }
 
   public get structs(): Struct[] {
@@ -65,8 +68,11 @@ export class ResourceModel {
   }
 
   public get importStatements(): string[] {
-    const attributeDependencies = this.attributes.map(attr => attr.type.dependencies).filter(Boolean) as string[];
-    return [...this.dependencies, ...attributeDependencies].filter(onlyUnique);
+    const attributeDependencies = this.attributes.filter(a => !a.isConfigIgnored).map(attr => attr.type.dependencies).filter(Boolean) as string[][];
+    const attributeDepsCollapsed = attributeDependencies.reduce((prev, cur) => prev.concat(cur), []);
+    const structDependencies = this.structs.filter(s => !s.isClass).map(struct => struct.attributes.filter(a => !a.isConfigIgnored).map(attr => attr.type.dependencies).filter(Boolean)) as string[][][];
+    const structDepsCollapsed = structDependencies.reduce((prev, cur) => prev.concat(cur), []).reduce((prev, cur) => prev.concat(cur), []);
+    return [...this.dependencies, ...attributeDepsCollapsed, ...structDepsCollapsed].filter(onlyUnique);
 
     function onlyUnique(value: string, index: number, self: string[]) {
       return self.indexOf(value) === index;

@@ -1,6 +1,7 @@
 import { CodeMaker } from 'codemaker';
-import { ResourceModel, Struct } from "../models"
+import { ResourceModel, Struct, ConfigStruct } from "../models"
 import { AttributesEmitter } from './attributes-emitter'
+import { downcaseFirst } from '../../../util';
 
 export class StructEmitter {
   attributesEmitter: AttributesEmitter
@@ -34,6 +35,10 @@ export class StructEmitter {
       this.code.line(`readonly ${att.typeDefinition};`);
     }
     this.code.closeBlock();
+
+    if (!(struct instanceof ConfigStruct)) {
+      this.emitToTerraformFuction(struct);
+    }
   }
 
   private emitClass(struct: Struct) {
@@ -42,5 +47,18 @@ export class StructEmitter {
       this.attributesEmitter.emit(att)
     }
     this.code.closeBlock();
+  }
+
+  private emitToTerraformFuction(struct: Struct) {
+    this.code.line();
+    this.code.openBlock(`function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${struct.name}): any`);
+    this.code.line(`if (!canInspect(struct)) { return struct; }`);
+    this.code.openBlock('return');
+    for (const att of struct.isClass ? struct.attributes : struct.assignableAttributes) {
+      this.attributesEmitter.emitToTerraform(att, true);
+    }
+    this.code.closeBlock(';');
+    this.code.closeBlock();
+    this.code.line();
   }
 }

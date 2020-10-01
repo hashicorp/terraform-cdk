@@ -41,7 +41,7 @@ export class ResourceEmitter {
     this.code.open(`return {`);
 
     for (const att of resource.synthesizableAttributes) {
-      this.code.line(`${att.terraformName}: this.${att.storageName},`);
+      this.attributesEmitter.emitToTerraform(att, false);
     }
 
     this.code.close(`};`);

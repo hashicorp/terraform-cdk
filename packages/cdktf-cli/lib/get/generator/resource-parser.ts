@@ -147,19 +147,23 @@ class Parser {
 
     function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct, isProvider: boolean): AttributeModel {
       const name = toCamelCase(terraformName);
+      let optional: boolean;
+      let required: boolean;
       switch (blockType.nesting_mode) {
         case 'single':
+          optional = !struct.attributes.some(x => !x.optional);
+          required = !struct.attributes.some(x => !x.required);
           return new AttributeModel({
             name,
             terraformName,
             terraformFullName: terraformName,
-            type: new AttributeTypeModel(struct.name, { struct }),
+            type: new AttributeTypeModel(struct.name, { struct, isOptional: optional, isRequired: required }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
-            optional: !struct.attributes.some(x => !x.optional),
+            optional,
             computed: false,
             provider: isProvider,
-            required: !struct.attributes.some(x => !x.required)
+            required
           });
 
         case 'map':
@@ -178,17 +182,19 @@ class Parser {
 
         case 'list':
         case 'set':
+          optional = blockType.min_items === undefined ? true : blockType.min_items < 1;
+          required = blockType.min_items === undefined ? false : blockType.min_items > 0;
           return new AttributeModel({
             name,
             terraformName: terraformName,
             terraformFullName: terraformName,
-            type: new AttributeTypeModel(struct.name, { struct, isList: true }),
+            type: new AttributeTypeModel(struct.name, { struct, isList: true, isOptional: optional, isRequired: required }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
-            optional: blockType.min_items === undefined ? true : blockType.min_items < 1,
+            optional,
             computed: false,
             provider: isProvider,
-            required: blockType.min_items === undefined ? false : blockType.min_items > 0
+            required
           });
       }
     }

@@ -7,6 +7,7 @@ exports[`boolean list attribute 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { listMapper } from \\"cdktf\\";
 
 // Configuration
 
@@ -77,8 +78,8 @@ export class BooleanList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: this._fooRequired,
-      foo_optional: this._fooOptional,
+      foo_required: listMapper(booleanToTerraform)(this._fooRequired),
+      foo_optional: listMapper(booleanToTerraform)(this._fooOptional),
     };
   }
 }
@@ -93,6 +94,8 @@ import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
 import { BooleanMap } from \\"cdktf\\";
+import { hashMapper } from \\"cdktf\\";
+import { anyToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -171,8 +174,8 @@ export class BooleanMap extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
+      foo_computed_optional: hashMapper(anyToTerraform)(this._fooComputedOptional),
+      foo_optional: hashMapper(anyToTerraform)(this._fooOptional),
     };
   }
 }
@@ -364,6 +367,9 @@ exports[`computed nested complex list block type 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { canInspect } from 'cdktf';
+import { listMapper } from \\"cdktf\\";
+import { stringToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -374,6 +380,14 @@ export interface BlockTypeNestedComputedListConfig extends TerraformMetaArgument
 export interface BlockTypeNestedComputedListInputs {
   readonly namePrefix: string;
 }
+
+function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    name_prefix: stringToTerraform(struct!.namePrefix),
+  }
+}
+
 
 // Resource
 
@@ -423,7 +437,7 @@ export class BlockTypeNestedComputedList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      inputs: this._inputs,
+      inputs: listMapper(blockTypeNestedComputedListInputsToTerraform)(this._inputs),
     };
   }
 }
@@ -437,6 +451,11 @@ exports[`computed optional complex attribute 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { canInspect } from 'cdktf';
+import { listMapper } from \\"cdktf\\";
+import { stringToTerraform } from \\"cdktf\\";
+import { numberToTerraform } from \\"cdktf\\";
+import { booleanToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -454,6 +473,22 @@ export interface ComputedOptionalComplexEgress {
   readonly selfAttribute?: boolean;
   readonly toPort?: number;
 }
+
+function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    cidr_blocks: listMapper(stringToTerraform)(struct!.cidrBlocks),
+    description: stringToTerraform(struct!.description),
+    from_port: numberToTerraform(struct!.fromPort),
+    ipv6_cidr_blocks: listMapper(stringToTerraform)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: listMapper(stringToTerraform)(struct!.prefixListIds),
+    protocol: stringToTerraform(struct!.protocol),
+    security_groups: listMapper(stringToTerraform)(struct!.securityGroups),
+    self: booleanToTerraform(struct!.selfAttribute),
+    to_port: numberToTerraform(struct!.toPort),
+  }
+}
+
 
 // Resource
 
@@ -503,7 +538,7 @@ export class ComputedOptionalComplex extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      egress: this._egress,
+      egress: listMapper(computedOptionalComplexEgressToTerraform)(this._egress),
     };
   }
 }
@@ -517,6 +552,10 @@ exports[`deeply nested block types 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { canInspect } from 'cdktf';
+import { listMapper } from \\"cdktf\\";
+import { stringToTerraform } from \\"cdktf\\";
+import { numberToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -527,11 +566,28 @@ export interface DeeplyNestedBlockTypesConfig extends TerraformMetaArguments {
 export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   readonly date?: string;
 }
+
+function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    date: stringToTerraform(struct!.date),
+  }
+}
+
 export interface DeeplyNestedBlockTypesLifecycleRule {
   readonly abortIncompleteMultipartUploadDays?: number;
   /** expiration block */
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration[];
 }
+
+function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    abort_incomplete_multipart_upload_days: numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
+    expiration: listMapper(deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform)(struct!.expiration),
+  }
+}
+
 
 // Resource
 
@@ -581,7 +637,7 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      lifecycle_rule: this._lifecycleRule,
+      lifecycle_rule: listMapper(deeplyNestedBlockTypesLifecycleRuleToTerraform)(this._lifecycleRule),
     };
   }
 }
@@ -655,6 +711,7 @@ exports[`incompatible attribute names 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { stringToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -725,8 +782,8 @@ export class IncompatibleAttributeNames extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      get_password_data: this._getPasswordData,
-      self: this._self,
+      get_password_data: stringToTerraform(this._getPasswordData),
+      self: stringToTerraform(this._self),
     };
   }
 }
@@ -796,6 +853,7 @@ exports[`number list attribute 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { listMapper } from \\"cdktf\\";
 
 // Configuration
 
@@ -866,8 +924,8 @@ export class NumberList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: this._fooRequired,
-      foo_optional: this._fooOptional,
+      foo_required: listMapper(numberToTerraform)(this._fooRequired),
+      foo_optional: listMapper(numberToTerraform)(this._fooOptional),
     };
   }
 }
@@ -882,6 +940,8 @@ import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
 import { NumberMap } from \\"cdktf\\";
+import { hashMapper } from \\"cdktf\\";
+import { anyToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -960,8 +1020,8 @@ export class NumberMap extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
+      foo_computed_optional: hashMapper(anyToTerraform)(this._fooComputedOptional),
+      foo_optional: hashMapper(anyToTerraform)(this._fooOptional),
     };
   }
 }
@@ -975,6 +1035,7 @@ exports[`primitive boolean 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { booleanToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -1068,9 +1129,9 @@ export class PrimitiveBoolean extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
-      foo_required: this._fooRequired,
+      foo_computed_optional: booleanToTerraform(this._fooComputedOptional),
+      foo_optional: booleanToTerraform(this._fooOptional),
+      foo_required: booleanToTerraform(this._fooRequired),
     };
   }
 }
@@ -1084,6 +1145,7 @@ exports[`primitive number 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { numberToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -1177,9 +1239,9 @@ export class PrimitiveNumber extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
-      foo_required: this._fooRequired,
+      foo_computed_optional: numberToTerraform(this._fooComputedOptional),
+      foo_optional: numberToTerraform(this._fooOptional),
+      foo_required: numberToTerraform(this._fooRequired),
     };
   }
 }
@@ -1193,6 +1255,7 @@ exports[`primitive string 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { stringToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -1286,9 +1349,9 @@ export class PrimitiveString extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
-      foo_required: this._fooRequired,
+      foo_computed_optional: stringToTerraform(this._fooComputedOptional),
+      foo_optional: stringToTerraform(this._fooOptional),
+      foo_required: stringToTerraform(this._fooRequired),
     };
   }
 }
@@ -1302,6 +1365,9 @@ exports[`set / list block type 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { canInspect } from 'cdktf';
+import { listMapper } from \\"cdktf\\";
+import { stringToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -1314,9 +1380,25 @@ export interface BlockTypeSetListConfig extends TerraformMetaArguments {
 export interface BlockTypeSetListTimeoutsSet {
   readonly create?: string;
 }
+
+function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    create: stringToTerraform(struct!.create),
+  }
+}
+
 export interface BlockTypeSetListTimeoutsList {
   readonly create?: string;
 }
+
+function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    create: stringToTerraform(struct!.create),
+  }
+}
+
 
 // Resource
 
@@ -1383,8 +1465,8 @@ export class BlockTypeSetList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts_set: this._timeoutsSet,
-      timeouts_list: this._timeoutsList,
+      timeouts_set: listMapper(blockTypeSetListTimeoutsSetToTerraform)(this._timeoutsSet),
+      timeouts_list: listMapper(blockTypeSetListTimeoutsListToTerraform)(this._timeoutsList),
     };
   }
 }
@@ -1398,6 +1480,8 @@ exports[`single block type 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { canInspect } from 'cdktf';
+import { stringToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -1408,6 +1492,14 @@ export interface SingleBlockTypeConfig extends TerraformMetaArguments {
 export interface SingleBlockTypeTimeouts {
   readonly create?: string;
 }
+
+function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts): any {
+  if (!canInspect(struct)) { return struct; }
+  return {
+    create: stringToTerraform(struct!.create),
+  }
+}
+
 
 // Resource
 
@@ -1457,7 +1549,7 @@ export class SingleBlockType extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts: this._timeouts,
+      timeouts: singleBlockTypeTimeoutsToTerraform(this._timeouts),
     };
   }
 }
@@ -1471,6 +1563,8 @@ exports[`string list attribute 1`] = `
 import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
+import { listMapper } from \\"cdktf\\";
+import { stringToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -1564,9 +1658,9 @@ export class StringList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_optional_computed: this._subjectAlternativeNamesOptionalComputed,
-      subject_alternative_names_required: this._subjectAlternativeNamesRequired,
-      subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
+      subject_alternative_names_optional_computed: listMapper(stringToTerraform)(this._subjectAlternativeNamesOptionalComputed),
+      subject_alternative_names_required: listMapper(stringToTerraform)(this._subjectAlternativeNamesRequired),
+      subject_alternative_names_optional: listMapper(stringToTerraform)(this._subjectAlternativeNamesOptional),
     };
   }
 }
@@ -1581,6 +1675,8 @@ import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
 import { StringMap } from \\"cdktf\\";
+import { hashMapper } from \\"cdktf\\";
+import { anyToTerraform } from \\"cdktf\\";
 
 // Configuration
 
@@ -1659,8 +1755,8 @@ export class StringMap extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_computed_optional: this._subjectAlternativeNamesComputedOptional,
-      subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
+      subject_alternative_names_computed_optional: hashMapper(anyToTerraform)(this._subjectAlternativeNamesComputedOptional),
+      subject_alternative_names_optional: hashMapper(anyToTerraform)(this._subjectAlternativeNamesOptional),
     };
   }
 }
