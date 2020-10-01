@@ -68,7 +68,7 @@ export class TerraformDataSource extends TerraformElement implements ITerraformR
    */
   public toTerraform(): any {
     const attributes = deepMerge(
-      keysToSnakeCase(this.synthesizeAttributes()),
+      this.synthesizeAttributes(),
       keysToSnakeCase(this.terraformMetaArguments),
       this.rawOverrides
     )
