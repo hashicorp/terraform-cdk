@@ -854,6 +854,7 @@ import { Construct } from 'constructs';
 import { TerraformResource } from 'cdktf';
 import { TerraformMetaArguments } from 'cdktf';
 import { listMapper } from \\"cdktf\\";
+import { numberToTerraform } from \\"cdktf\\";
 
 // Configuration
 

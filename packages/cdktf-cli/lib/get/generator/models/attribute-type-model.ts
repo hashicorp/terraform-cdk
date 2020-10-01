@@ -59,6 +59,7 @@ export class AttributeTypeModel {
         if (this.isNumberMap) return [`import { NumberMap } from "cdktf";`, `import { hashMapper } from "cdktf";`];
         if (this.isBooleanMap) return [`import { BooleanMap } from "cdktf";`, `import { hashMapper } from "cdktf";`];
         if (this.isStringList) return [`import { listMapper } from "cdktf";`, `import { stringToTerraform } from "cdktf";`];
+        if (this.isNumberList) return [`import { listMapper } from "cdktf";`, `import { numberToTerraform } from "cdktf";`];
       }
       else {
         if (this.isStringMap) return [`import { StringMap } from "cdktf";`];
@@ -71,8 +72,10 @@ export class AttributeTypeModel {
       if (this.isString) return [`import { stringToTerraform } from "cdktf";`];
       if (this.isNumber) return [`import { numberToTerraform } from "cdktf";`];
       if (this.isBoolean) return [`import { booleanToTerraform } from "cdktf";`];
+      if (this.isList && this.isMap) return [`import { listMapper } from "cdktf";`, `import { hashMapper } from "cdktf";`, `import { anyToTerraform } from "cdktf";`];
       if (this.isMap) return [`import { hashMapper } from "cdktf";`, `import { anyToTerraform } from "cdktf";`];
       if (this.isStringList) return [`import { listMapper } from "cdktf";`, `import { stringToTerraform } from "cdktf";`];
+      if (this.isNumberList) return [`import { listMapper } from "cdktf";`, `import { numberToTerraform } from "cdktf";`];
       if (this.isList) return [`import { listMapper } from "cdktf";`];
     }
     return undefined
@@ -96,6 +99,10 @@ export class AttributeTypeModel {
 
   public get isStringList(): boolean {
     return this.name === TokenizableTypes.STRING_LIST
+  }
+
+  public get isNumberList(): boolean {
+    return this.isList && this._type === TokenizableTypes.NUMBER;
   }
 
   public get isBoolean(): boolean {
