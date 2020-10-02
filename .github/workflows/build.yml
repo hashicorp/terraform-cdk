@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ["0.12.29", "0.13.0"]
+        terraform: ["0.12.29", "0.13.4"]
     container:
       image: hashicorp/jsii-terraform
     env:
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ["0.12.29", "0.13.0"]
+        terraform: ["0.12.29", "0.13.4"]
     container:
       image: hashicorp/jsii-terraform
     needs: build
@@ -65,7 +65,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        terraform: ["0.12.29", "0.13.0"]
+        terraform: ["0.12.29", "0.13.4"]
     needs: build
     env:
       CHECKPOINT_DISABLE: "1"
