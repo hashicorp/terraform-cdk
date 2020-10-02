@@ -14,4 +14,5 @@ export * from './terraform-backend';
 export * from './backends';
 export * from './terraform-remote-state';
 export * from './terraform-local';
+export * from './terraform-variable';
 export * from './terraform-hcl-module';
