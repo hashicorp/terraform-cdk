@@ -163,22 +163,25 @@ export class AttributesEmitter {
     const name = isStruct ? att.name : att.storageName;
     switch (true) {
       case (type.isList && type.isMap):
-        this.code.line(`${att.terraformName}: listMapper(hashMapper(${this.determineMapType(att)}ToTerraform))(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform))(${context}.${name}),`);
+        break;
+      case (type.isStringList || type.isNumberList || type.isBooleanList):
+        this.code.line(`${att.terraformName}: cdktf.listMapper(cdktf.${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
         break;
       case (type.isList):
-        this.code.line(`${att.terraformName}: listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: cdktf.listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
         break;
       case (type.isMap):
-        this.code.line(`${att.terraformName}: hashMapper(${this.determineMapType(att)}ToTerraform)(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform)(${context}.${name}),`);
         break;
       case (type.isString):
-        this.code.line(`${att.terraformName}: stringToTerraform(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: cdktf.stringToTerraform(${context}.${name}),`);
         break;
       case (type.isNumber):
-        this.code.line(`${att.terraformName}: numberToTerraform(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: cdktf.numberToTerraform(${context}.${name}),`);
         break;
       case (type.isBoolean):
-        this.code.line(`${att.terraformName}: booleanToTerraform(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: cdktf.booleanToTerraform(${context}.${name}),`);
         break;
       default:
         this.code.line(`${att.terraformName}: ${downcaseFirst(type.name)}ToTerraform(${context}.${name}),`);

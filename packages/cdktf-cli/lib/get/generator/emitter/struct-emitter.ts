@@ -42,7 +42,7 @@ export class StructEmitter {
   }
 
   private emitClass(struct: Struct) {
-    this.code.openBlock(`export class ${struct.name} extends ComplexComputedList`);
+    this.code.openBlock(`export class ${struct.name} extends cdktf.ComplexComputedList`);
     for (const att of struct.attributes) {
       this.attributesEmitter.emit(att)
     }
@@ -52,7 +52,7 @@ export class StructEmitter {
   private emitToTerraformFuction(struct: Struct) {
     this.code.line();
     this.code.openBlock(`function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${struct.name}): any`);
-    this.code.line(`if (!canInspect(struct)) { return struct; }`);
+    this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
     this.code.openBlock('return');
     for (const att of struct.isClass ? struct.attributes : struct.assignableAttributes) {
       this.attributesEmitter.emitToTerraform(att, true);
