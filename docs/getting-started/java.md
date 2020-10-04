@@ -52,6 +52,13 @@ Project Description: (default: 'A simple getting started project for cdktf.')
 
 Also, this command installs the `cdktf` library so that it can be used in the project.
 
+## Configure Maven for GitHub Packages
+Currently cdktf is distributed only on GitHub packages. Until it is available in Maven Central, some additional configuration is needed.
+
+Specifically, add `https://maven.pkg.github.com/hashicorp/terraform-cdk` as a repository and add GitHub credentials using a Personal Access Token.
+
+For more details read through [GitHub's Guide](https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/configuring-apache-maven-for-use-with-github-packages).
+
 ## CDK for Terraform Application
 
 You can now open up the `Main.java` file to view your application code.

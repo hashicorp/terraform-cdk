@@ -78,6 +78,7 @@ jobs:
     name: Release to Maven
     needs: build_artifact
     runs-on: ubuntu-latest
+    if: false # Disable until maven credentials are setup
     container:
       image: jsii/superchain
     steps:
@@ -92,6 +93,25 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           MAVEN_STAGING_PROFILE_ID: ${{ secrets.MAVEN_STAGING_PROFILE_ID }}
+
+  release_maven_github:
+    name: Release to GitHub Maven
+    runs-on: ubuntu-latest
+    needs: build_artifact
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Publish package
+        run: cd "$(dirname "$(find dist/java/ -type f -name *.pom | head -1)")" && mvn deploy -f "$(find . -type f -name *.pom | head -1)" -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{github.repository}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
   release_homebrew:
     name: Release to Homebrew
