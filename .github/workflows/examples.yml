@@ -32,3 +32,4 @@ jobs:
         run: yarn examples:integration
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          MAVEN_OPTS: "-Xmx3G"
