@@ -31,7 +31,7 @@ The project currently supports TypeScript, Python, and Java.
 Choose a language:
 * [TypeScript](./docs/getting-started/typescript.md)
 * [Python](./docs/getting-started/python.md)
-* [Java](.docs/getting-started/java.md)
+* [Java](./docs/getting-started/java.md)
 
 ## Examples
 
