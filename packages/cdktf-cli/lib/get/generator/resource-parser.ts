@@ -35,7 +35,7 @@ class Parser {
     uniqueClassName(toPascalCase(`${baseName}Config`));
     const fileName = `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
-    const attributes = this.renderAttributesForBlock(new Scope(baseName), schema.block)
+    const attributes = this.renderAttributesForBlock(new Scope({name: baseName, isProvider: terraformSchemaType === 'provider'}), schema.block)
 
     const resourceModel = new ResourceModel({
       terraformType: type,
@@ -59,13 +59,13 @@ class Parser {
     const level = scope.length
     const isComputed = !!scope.find(e => e.isComputed === true);
     const isOptional = parent.isOptional
-
+    const isRequired = parent.isRequired
 
     if (typeof(attributeType) === 'string') {
       switch (attributeType) {
-        case 'bool': return new AttributeTypeModel('boolean', { isComputed, isOptional, level });
-        case 'string': return new AttributeTypeModel('string', { isComputed, isOptional, level });
-        case 'number': return new AttributeTypeModel('number', { isComputed, isOptional, level });
+        case 'bool': return new AttributeTypeModel('boolean', { isComputed, isOptional, isRequired, level });
+        case 'string': return new AttributeTypeModel('string', { isComputed, isOptional, isRequired, level });
+        case 'number': return new AttributeTypeModel('number', { isComputed, isOptional, isRequired, level });
         default: throw new Error(`invalid primitive type ${attributeType}`);
       }
     }
@@ -82,6 +82,7 @@ class Parser {
         attrType.isList = true;
         attrType.isComputed = isComputed
         attrType.isOptional = isOptional
+        attrType.isRequired = isRequired
         attrType.level = level
         return attrType;
       }
@@ -91,6 +92,7 @@ class Parser {
         valueType.isMap = true;
         valueType.isComputed = isComputed
         valueType.isOptional = isOptional
+        valueType.isRequired = isRequired
         valueType.level = level
         return valueType
       }
@@ -102,7 +104,7 @@ class Parser {
           attributes[name] = { type }
         }
         const struct = this.addAnonymousStruct(scope, attributes);
-        const model = new AttributeTypeModel(struct.name, {struct, isComputed, isOptional, level})
+        const model = new AttributeTypeModel(struct.name, {struct, isComputed, isOptional, isRequired, level})
         return model
       }
     }
@@ -115,7 +117,7 @@ class Parser {
 
     for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
       if (parentType.inBlockType && att.computed && !!att.optional === false) continue ;
-      const type = this.renderAttributeType([ parentType, new Scope(terraformAttributeName, !!att.computed, !!att.optional)], att.type);
+      const type = this.renderAttributeType([ parentType, new Scope({name: terraformAttributeName, isProvider: parentType.isProvider, isComputed: !!att.computed, isOptional: !!att.optional, isRequired: !!att.required})], att.type);
       const name = toCamelCase(terraformAttributeName);
 
       attributes.push(new AttributeModel({
@@ -126,22 +128,24 @@ class Parser {
         computed: !!att.computed,
         optional: !!att.optional,
         terraformName: terraformAttributeName,
-        type
+        type,
+        provider: parentType.isProvider,
+        required: !!att.required
       }))
     }
 
     for (const [ blockTypeName, blockType ] of Object.entries(block.block_types || { })) {
       // create a struct for this block
-      const blockAttributes = this.renderAttributesForBlock(new Scope(`${parentType.name}_${blockTypeName}`, false, true, true), blockType.block)
-      const blockStruct = this.addStruct([ parentType, new Scope(blockTypeName) ], blockAttributes)
+      const blockAttributes = this.renderAttributesForBlock(new Scope({name: `${parentType.name}_${blockTypeName}`, isProvider: parentType.isProvider, inBlockType: true}), blockType.block)
+      const blockStruct = this.addStruct([ parentType, new Scope({name: blockTypeName, isProvider: parentType.isProvider}) ], blockAttributes)
 
       // define the attribute
-      attributes.push(attributeForBlockType(blockTypeName, blockType, blockStruct));
+      attributes.push(attributeForBlockType(blockTypeName, blockType, blockStruct, parentType.isProvider));
     }
 
     return attributes;
 
-    function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct): AttributeModel {
+    function attributeForBlockType(terraformName: string, blockType: BlockType, struct: Struct, isProvider: boolean): AttributeModel {
       const name = toCamelCase(terraformName);
       switch (blockType.nesting_mode) {
         case 'single':
@@ -154,6 +158,8 @@ class Parser {
             storageName: `_${name}`,
             optional: !struct.attributes.some(x => !x.optional),
             computed: false,
+            provider: isProvider,
+            required: !struct.attributes.some(x => !x.required)
           });
 
         case 'map':
@@ -166,6 +172,8 @@ class Parser {
             storageName: `_${name}`,
             optional: false,
             computed: false,
+            provider: isProvider,
+            required: false
           });
 
         case 'list':
@@ -179,6 +187,8 @@ class Parser {
             storageName: `_${name}`,
             optional: blockType.min_items === undefined ? true : blockType.min_items < 1,
             computed: false,
+            provider: isProvider,
+            required: blockType.min_items === undefined ? false : blockType.min_items > 0
           });
       }
     }
@@ -188,6 +198,7 @@ class Parser {
     const parent = scope[scope.length - 1]
     const computed = !!parent.isComputed
     const optional = !!parent.isOptional
+    const required = !!parent.isRequired
     for (const [ terraformName, att ] of Object.entries(attrs)) {
       const name = toCamelCase(terraformName);
       attributes.push(new AttributeModel({
@@ -198,7 +209,9 @@ class Parser {
         optional: optional,
         terraformName,
         terraformFullName: [ ...scope, terraformName ].join('_'),
-        type: this.renderAttributeType([ ...scope, new Scope(terraformName, computed, optional) ], att.type),
+        type: this.renderAttributeType([ ...scope, new Scope({name: terraformName, isProvider: parent.isProvider, isComputed: computed, isOptional: optional, isRequired: required}) ], att.type),
+        provider: parent.isProvider,
+        required: required
       }));
     }
 

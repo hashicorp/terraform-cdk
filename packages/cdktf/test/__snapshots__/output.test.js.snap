@@ -9,7 +9,7 @@ exports[`boolean output 1`] = `
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": true
     }
   }
@@ -26,22 +26,22 @@ exports[`dependent output 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"test_weirdlongrunningresource_90E96B6A\\": {
+      \\"weird-long-running-resource\\": {
         \\"name\\": \\"foo\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/weird-long-running-resource\\",
-            \\"uniqueId\\": \\"test_weirdlongrunningresource_90E96B6A\\"
+            \\"uniqueId\\": \\"weird-long-running-resource\\"
           }
         }
       }
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": 1,
       \\"depends_on\\": [
-        \\"\${test_resource.test_weirdlongrunningresource_90E96B6A}\\"
+        \\"\${test_resource.weird-long-running-resource}\\"
       ]
     }
   }
@@ -57,7 +57,7 @@ exports[`description output 1`] = `
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": 1,
       \\"description\\": \\"test-description\\"
     }
@@ -74,7 +74,7 @@ exports[`list output 1`] = `
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": [
         \\"foo\\",
         \\"bar\\"
@@ -93,7 +93,7 @@ exports[`map output 1`] = `
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": {
         \\"foo\\": \\"bar\\"
       }
@@ -111,7 +111,7 @@ exports[`number output 1`] = `
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": 1
     }
   }
@@ -127,7 +127,7 @@ exports[`sensitive output 1`] = `
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": 1,
       \\"sensitive\\": true
     }
@@ -144,7 +144,7 @@ exports[`string output 1`] = `
     }
   },
   \\"output\\": {
-    \\"test_testoutput_C2E8674F\\": {
+    \\"test-output\\": {
       \\"value\\": \\"1\\"
     }
   }

@@ -3,7 +3,7 @@ import { TerraformModule } from "cdktf/lib/terraform-module";
 import { TestProvider } from './helper'
 
 test('stack synthesis merges all elements into a single output', () => {
-  const app = Testing.stubVersion(new App({stackTraces: false}));
+  const app = Testing.stubVersion(Testing.enableFutureFlags(new App({stackTraces: false})));
   const stack = new TerraformStack(app, 'MyStack');
 
   new TestProvider(stack, 'test-provider', {
@@ -43,6 +43,30 @@ test('stack synthesis merges all elements into a single output', () => {
       }
     }
   });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test('stack synthesis no flags', () => {
+  const app = Testing.stubVersion(new App({stackTraces: false}));
+  const stack = new TerraformStack(app, 'MyStack');
+
+  new TestProvider(stack, 'test-provider', {
+    accessKey: 'foo'
+  })
+
+  new MyResource(stack, 'Resource1', {
+    terraformResourceType: 'aws_bucket'
+  });
+
+  const eks = new MyModule(stack, 'EksModule', {
+    source: 'terraform-aws-modules/eks/aws',
+    version: '7.0.1',
+  });
+
+  new TerraformOutput(stack, "eks_version", {
+    value: eks.version
+  })
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

@@ -29,26 +29,26 @@
     ]
   },
   "module": {
-    "pythonsimple_CustomVpc_D3E4490A": {
+    "CustomVpc": {
       "name": "custom-vpc",
       "source": "terraform-aws-modules/vpc/aws",
       "version": "2.39.0",
       "//": {
         "metadata": {
           "path": "python-simple/CustomVpc",
-          "uniqueId": "pythonsimple_CustomVpc_D3E4490A"
+          "uniqueId": "CustomVpc"
         }
       }
     }
   },
   "resource": {
     "aws_sns_topic": {
-      "pythonsimple_Topic_451716E7": {
+      "Topic": {
         "display_name": "my-first-sns-topic",
         "//": {
           "metadata": {
             "path": "python-simple/Topic",
-            "uniqueId": "pythonsimple_Topic_451716E7"
+            "uniqueId": "Topic"
           }
         }
       }

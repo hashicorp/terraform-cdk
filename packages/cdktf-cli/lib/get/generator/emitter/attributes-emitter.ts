@@ -14,6 +14,7 @@ export class AttributesEmitter {
       case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptional(att);
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
       case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexOptional(att);
+      case (att.computed && att.optional && !att.isRequired && att.isConfigIgnored): return this.emitOptionalComputedIgnored(att);
       case (att.computed && att.isOptional): return this.emitOptionalComputed(att);
       case (att.computed): return this.emitComputed(att);
       case (att.isOptional): return this.emitOptional(att);
@@ -24,22 +25,46 @@ export class AttributesEmitter {
   private emitOptional(att: AttributeModel) {
     this.code.line(`private ${att.storageName}?: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return this.${att.storageName};`);
+      this.code.line(`return ${att.isProvider ? "this." + att.storageName : this.determineGetAttCall(att)};`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name} ${att.isProvider ? ' | undefined' : ''})`);
       this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+
+    this.code.openBlock(`public ${this.getResetName(att.name)}()`);
+      this.code.line(`this.${att.storageName} = undefined;`);
+    this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
 
   private emitOptionalComputed(att: AttributeModel) {
     this.code.line(`private ${att.storageName}?: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return this.${att.storageName} ?? ${this.determineGetAttCall(att)};`);
+      this.code.line(`return ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
       this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+
+    this.code.openBlock(`public ${this.getResetName(att.name)}()`);
+      this.code.line(`this.${att.storageName} = undefined;`);
+    this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
+    this.code.closeBlock();
+  }
+
+  private emitOptionalComputedIgnored(att: AttributeModel) {
+    this.code.openBlock(`public get ${att.name}()`);
+      this.code.line(`return ${this.determineGetAttCall(att)};`);
     this.code.closeBlock();
   }
 
@@ -52,11 +77,16 @@ export class AttributesEmitter {
   private emitRequired(att: AttributeModel) {
     this.code.line(`private ${att.storageName}: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return this.${att.storageName};`);
+      this.code.line(`return ${att.isProvider ? "this." + att.storageName : this.determineGetAttCall(att)};`);
     this.code.closeBlock();
 
     this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
       this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
 
@@ -74,12 +104,21 @@ export class AttributesEmitter {
 
   private emitComputedComplexOptional(att: AttributeModel) {
     this.code.line(`private ${att.storageName}?: ${att.type.name}`);
-    this.code.openBlock(`public get ${att.name}(): ${att.type.name} | undefined`);
-      this.code.line(`return this.${att.storageName}; // Getting the computed value is not yet implemented`);
+    this.code.openBlock(`public get ${att.name}(): ${att.type.name}`);
+      this.code.line(`return this.interpolationForAttribute('${att.terraformName}') as any; // Getting the computed value is not yet implemented`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name} | undefined)`);
+    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
       this.code.line(`this.${att.storageName} = value;`);
+    this.code.closeBlock();
+
+    this.code.openBlock(`public ${this.getResetName(att.name)}()`);
+      this.code.line(`this.${att.storageName} = undefined;`);
+    this.code.closeBlock();
+
+    this.code.line(`// Temporarily expose input value. Use with caution.`);
+    this.code.openBlock(`public get ${att.name}Input()`);
+      this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
 
@@ -98,7 +137,7 @@ export class AttributesEmitter {
     if (process.env.DEBUG) {
       console.error(`The attribute ${JSON.stringify(att)} isn't implemented yet`)
     }
-    return `'not implemented' as any`
+    return `this.interpolationForAttribute('${att.terraformName}') as any`
   }
 
   public determineMapType(att: AttributeModel): string {
@@ -110,5 +149,10 @@ export class AttributesEmitter {
       console.error(`The attribute ${JSON.stringify(att)} isn't implemented yet`)
     }
     return `any`
+  }
+
+  public getResetName(name: string) {
+    if (!name) return name;
+    return `reset${name[0].toUpperCase() + name.slice(1)}`;
   }
 }

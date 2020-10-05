@@ -10,6 +10,8 @@ export interface AttributeModelOptions {
   terraformFullName: string;
   description?: string;
   getAttCall?: string;
+  provider: boolean;
+  required: boolean;
 }
 
 export class AttributeModel {
@@ -21,6 +23,8 @@ export class AttributeModel {
   public terraformName: string;
   public terraformFullName: string;
   private _description?: string;
+  public provider: boolean;
+  public required: boolean;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -31,6 +35,8 @@ export class AttributeModel {
     this.terraformName = options.terraformName;
     this.terraformFullName = options.terraformFullName;
     this._description = options.description;
+    this.provider = options.provider;
+    this.required = options.required;
   }
 
   public get typeDefinition() {
@@ -39,7 +45,7 @@ export class AttributeModel {
   }
 
   public get isAssignable() {
-    return !this.computed;
+    return this.required || this.optional;
   }
 
   public get isOptional(): boolean {
@@ -47,11 +53,15 @@ export class AttributeModel {
   }
 
   public get isRequired(): boolean {
-    return !this.isOptional
+    return this.required
   }
 
   public get isTokenizable(): boolean {
     return this.type.isTokenizable
+  }
+
+  public get isProvider(): boolean {
+    return this.provider;
   }
 
   public get name(): string {
@@ -64,5 +74,13 @@ export class AttributeModel {
 
   public get description(): string | undefined {
     return this._description?.replace(/(\*\/)/gi, `*\\/`)
+  }
+
+  public get isConfigIgnored(): boolean {
+    if (this.isAssignable && !this.computed) {
+      return false;
+    }
+    const ignoreList = ['arn', 'id'];
+    return ignoreList.includes(this.name);
   }
 }

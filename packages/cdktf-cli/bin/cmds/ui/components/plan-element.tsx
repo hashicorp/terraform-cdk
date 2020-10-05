@@ -40,11 +40,12 @@ export const PlanElementStatus = ({action}: PlanElementStatusProps) => {
 
 interface PlanElementProps {
   resource: PlannedResource;
+  stackName?: string;
 }
 
-export const PlanElement = ({resource}: PlanElementProps) => (
+export const PlanElement = ({resource, stackName}: PlanElementProps) => (
   <Box key={resource.id}>
     <PlanElementStatus action={resource.action}/>
-    <ResourceName name={resource.id}/>
+    <ResourceName name={resource.id} stackName={stackName}/>
   </Box>
 )

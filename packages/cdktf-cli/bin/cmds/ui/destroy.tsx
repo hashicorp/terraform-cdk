@@ -89,7 +89,7 @@ export const DestroyComponent = ({ destroy }: DestroyComponentConfig): React.Rea
         <Text bold>Resources</Text>
         {applyableResources.map((resource: any) => (
           <Box key={resource.id} marginLeft={1}>
-            <DeployingElement resource={resource} />
+            <DeployingElement resource={resource} stackName={stackName} />
           </Box>
         ))}
         <Box marginTop={1}>

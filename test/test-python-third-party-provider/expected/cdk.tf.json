@@ -20,20 +20,20 @@
   },
   "resource": {
     "docker_image": {
-      "pythonthirdpartyprovider_nginxlatest_F677E4EF": {
+      "nginxlatest": {
         "keep_locally": false,
         "name": "nginx:latest",
         "//": {
           "metadata": {
             "path": "python-third-party-provider/nginx-latest",
-            "uniqueId": "pythonthirdpartyprovider_nginxlatest_F677E4EF"
+            "uniqueId": "nginxlatest"
           }
         }
       }
     },
     "docker_container": {
-      "pythonthirdpartyprovider_nginxcdktf_C2D51A82": {
-        "image": "nginx:latest",
+      "nginxcdktf": {
+        "image": "${docker_image.nginxlatest.name}",
         "name": "nginx-python-cdktf",
         "privileged": false,
         "ports": [
@@ -45,7 +45,7 @@
         "//": {
           "metadata": {
             "path": "python-third-party-provider/nginx-cdktf",
-            "uniqueId": "pythonthirdpartyprovider_nginxcdktf_C2D51A82"
+            "uniqueId": "nginxcdktf"
           }
         }
       }
