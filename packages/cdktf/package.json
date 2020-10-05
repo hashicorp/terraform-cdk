@@ -19,6 +19,13 @@
       "python": {
         "distName": "cdktf",
         "module": "cdktf"
+      },
+      "java": {
+        "package": "com.hashicorp.cdktf",
+        "maven": {
+          "groupId": "com.hashicorp",
+          "artifactId": "cdktf"
+        }
       }
     }
   },

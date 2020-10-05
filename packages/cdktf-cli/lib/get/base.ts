@@ -12,7 +12,7 @@ export enum Language {
   JAVA = 'java',
 }
 
-export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON ];
+export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON, Language.JAVA ];
 
 export interface GetOptions {
   readonly targetLanguage: Language;
@@ -77,6 +77,14 @@ export abstract class GetBase {
               outdir: codeMakerOutdir,
               moduleName: source.replace(/\//gi, '.').replace(/-/gi, '_')
             };
+          }
+
+          // java
+          if (options.targetLanguage === Language.JAVA) {
+            opts.java = {
+              outdir: '.', // generated java files aren't packaged, so just include directly in app
+              package: `imports.${source.replace(/\//gi, '.').replace(/-/gi, '_')}`
+            }
           }
 
           await srcmak.srcmak(staging, opts);
