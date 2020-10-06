@@ -17,6 +17,7 @@
     "integration": "test/run-against-dist test/test-all.sh",
     "integration-windows": "test\\run-against-dist.bat test\\test-all.bat",
     "release-github": "tools/release-github.sh",
+    "release-github-maven": "tools/release-github-maven.sh",
     "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
     "push-docker-jsii": "docker push hashicorp/jsii-terraform"
   },
