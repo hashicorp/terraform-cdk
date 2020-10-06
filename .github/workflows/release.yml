@@ -103,6 +103,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - uses: actions/checkout@v2
       - name: Download dist
         uses: actions/download-artifact@v2
         with:
