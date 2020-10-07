@@ -103,13 +103,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - uses: actions/checkout@v2
       - name: Download dist
         uses: actions/download-artifact@v2
         with:
           name: dist
           path: dist
       - name: Publish package
-        run: cd "$(dirname "$(find dist/java/ -type f -name *.pom | head -1)")" && mvn deploy -f "$(find . -type f -name *.pom | head -1)" -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{github.repository}}
+        run: yarn release-github-maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
