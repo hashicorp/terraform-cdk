@@ -1,0 +1,11 @@
+.terraform
+cdktf.out
+terraform.tfstate*
+
+.classpath
+.project
+.idea
+.settings
+.vscode
+*.iml
+target/

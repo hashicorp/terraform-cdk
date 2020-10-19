@@ -84,6 +84,10 @@ All Typescript [examples](./examples/typescript) leverage yarn workspaces to dir
 
 For Python [examples](./examples/python), packages are referenced from `./dist`, there's no symlinking possible for live code updates. You'll have to explictly run `yarn package` to create new packages to be referenced in the Pipefile.
 
+#### Java
+
+For Java [examples](./examples/java), packages are referenced from `./dist`, there's no symlinking possible for live code updates. You'll have to explictly run `yarn package` to create new packages to be referenced in the pom.
+
 ### Outside of this Monorepo
 
 If you want to use the libraries and cli from the repo for local development, you can make use of `yarn link`.
@@ -147,3 +151,44 @@ If the changes in your PR do not conflict with any of the existing code in the p
 automatic rebasing when the PR is accepted into the code. However, if there are conflicts (there will be
 a warning on the PR that reads "This branch cannot be rebased due to conflicts"), you will need to manually
 rebase the branch on master, fixing any conflicts along the way before the code can be merged.
+
+## Feature Flags
+
+Sometimes we want to introduce new breaking behavior because we believe this is
+the correct default behavior for the CDK for Terraform. The problem of course is that breaking
+changes are only allowed in major versions and those are rare.
+
+To address this need, we have a feature flags pattern/mechanism. It allows us to
+introduce new breaking behavior which is disabled by default (so existing
+projects will not be affected) but enabled automatically for new projects
+created through `cdktf init`.
+
+The pattern is simple:
+
+1. Define a new const under
+   [cdktf/lib/features.ts](https://github.com/hashicorp/terraform-cdk/blob/master/packages/cdktf/lib/features.ts)
+   with the name of the context key that **enables** this new feature (for
+   example, `EXCLUDE_STACK_ID_FROM_LOGICAL_IDS`).
+2. Use `node.tryGetContext(ENABLE_XXX)` to check if this feature is enabled
+   in your code. If it is not defined, revert to the legacy behavior.
+3. Add your feature flag to the `FUTURE_FLAGS` map in
+   [cdktf/lib/features.ts](https://github.com/hashicorp/terraform-cdk/blob/master/packages/cdktf/lib/features.ts).
+   This map is inserted to generated `cdktf.json` files for new projects created
+   through `cdktf init`.
+4. In your PR title (which goes into CHANGELOG), add a `(under feature flag)` suffix. e.g:
+
+    ```
+    fix(core): top level constructs should omit stack id from name (under feature flag)
+    ```
+5. Under `BREAKING CHANGES` in your commit message describe this new behavior:
+
+    ```
+    BREAKING CHANGE: top level resource names for new projects created through "cdktf init"
+    will omit the stack id from their name. This is enabled through the flag
+    `excludeStackIdFromLogicalIds` in newly generated `cdktf.json` files.
+    ```
+
+In the next major version of the
+CDKTF we will either remove the
+legacy behavior or flip the logic for all these features and then
+reset the `FEATURE_FLAGS` map for the next cycle.

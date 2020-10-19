@@ -30,7 +30,7 @@ const MAX_ID_LEN = 255;
  * @param components The path components
  * @returns a unique alpha-numeric identifier with a maximum length of 255
  */
-export function makeUniqueId(components: string[]) {
+export function makeUniqueId(components: string[], allowSepChars: boolean) {
   components = components.filter(x => x !== HIDDEN_ID);
 
   if (components.length === 0) {
@@ -46,7 +46,7 @@ export function makeUniqueId(components: string[]) {
     // logical ID). sadly, changing it in the 1.x version line is impossible
     // because it will be a breaking change. we should consider for v2.0.
     // https://github.com/aws/aws-cdk/issues/6421
-    const candidate = removeNonAlphanumeric(components[0]);
+    const candidate = removeDisallowedCharacters(components[0], allowSepChars);
 
     // if our candidate is short enough, use it as is. otherwise, fall back to
     // the normal mode.
@@ -58,7 +58,7 @@ export function makeUniqueId(components: string[]) {
   const hash = pathHash(components);
   const human = removeDupes(components)
     .filter(x => x !== HIDDEN_FROM_HUMAN_ID)
-    .map(removeNonAlphanumeric)
+    .map(s => removeDisallowedCharacters(s, allowSepChars))
     .join(UNIQUE_SEP)
     .slice(0, MAX_HUMAN_LEN);
 
@@ -75,11 +75,24 @@ function pathHash(path: string[]): string {
   return md5.slice(0, HASH_LEN).toUpperCase();
 }
 
+function removeDisallowedCharacters(s: string, allowSepChars: boolean) {
+  if (allowSepChars) {
+    return removeNonAlphanumericSep(s);
+  }
+  else {
+    return removeNonAlphanumeric(s);
+  }
+}
+
 /**
  * Removes all non-alphanumeric characters in a string.
  */
 function removeNonAlphanumeric(s: string) {
   return s.replace(/[^A-Za-z0-9]/g, '');
+}
+
+function removeNonAlphanumericSep(s: string) {
+  return s.replace(/[^A-Za-z0-9_-]/g, '');
 }
 
 /**

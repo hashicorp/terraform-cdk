@@ -24,13 +24,14 @@ The CDK for Terraform project includes two packages:
 * [cdktf-cli](./packages/cdktf-cli) - A CLI that allows users to run commands to initialize, import, and synthesize CDK for Terraform applications.
 * [cdktf](./packages/cdktf) - A library for defining Terraform resources using programming constructs.
 
-The project currently supports TypeScript and Python.
+The project currently supports TypeScript, Python, and Java.
 
 ## Getting Started
 
 Choose a language:
 * [TypeScript](./docs/getting-started/typescript.md)
 * [Python](./docs/getting-started/python.md)
+* [Java](./docs/getting-started/java.md)
 
 ## Examples
 
@@ -60,6 +61,12 @@ Choose a language:
 * [docker](./examples/python/docker)
 * [kubernetes](./examples/python/kubernetes)
 
+### Java
+
+* [aws](./examples/java/aws)
+* [azure](./examples/java/azure)
+* [google](./examples/java/google)
+
 ## Documentation
 
 * Install and run a quick start tutorial at [HashiCorp Learn](https://learn.hashicorp.com/terraform/cdktf/cdktf-install)
@@ -70,9 +77,11 @@ Choose a language:
 * Using the CDK for Terraform [escape hatch](./docs/working-with-cdk-for-terraform/escape-hatch.md).
 * Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
 * Using Terraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
+* Using Terraform [variables](./docs/working-with-cdk-for-terraform/terraform-variables.md).
 * Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
 * Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 * Defining Terraform [locals](./docs/working-with-cdk-for-terraform/terraform-locals.md).
+* Handling breaking changes with [feature flags](./docs/working-with-cdk-for-terraform/feature-flags.md).
 
 ## Contributing and Feedback
 

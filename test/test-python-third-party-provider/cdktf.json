@@ -4,5 +4,8 @@
   "terraformProviders": [
     "terraform-providers/docker@~> 2.0"
   ],
-  "codeMakerOutput": "imports"
+  "codeMakerOutput": "imports",
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
 }

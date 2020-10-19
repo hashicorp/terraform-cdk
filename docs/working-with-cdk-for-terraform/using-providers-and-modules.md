@@ -216,3 +216,28 @@ When using the `cdktf` cli commands, it'll automatically set the process env `TF
 Last but not least, when approaching multiple stacks wihtin oen application (not yet implemented), provider caching is a basic prerequisite.
 
 This behaviour can be disabled by setting `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to non null value, e.g. `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. This might be desired, when a different cache directory is configured via a `.terraformrc` configuration file.
+
+## Using Modules
+For using modules on the terraform registry, see [cdktf.json](./cdktf.json).
+
+For using modules from other sources (local, github, etc), you can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
+
+Typescirpt example:
+```typescript
+    const provider = new TestProvider(stack, 'provider', {
+        accessKey: 'key',
+        alias: 'provider1'
+    });
+
+    const module = new TerraformHclModule(stack, 'test', {
+        source: './foo',
+        variables: {
+          param1: 'value1'
+        },
+        providers: [provider]
+    });
+
+    new TestResource(stack, 'resource', {
+        name: module.getString('name')
+    });
+```

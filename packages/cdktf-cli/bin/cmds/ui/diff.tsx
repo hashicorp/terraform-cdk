@@ -48,7 +48,7 @@ export const Plan = (): React.ReactElement => {
           <Text>Stack: </Text><Text bold>{stackName}</Text>
         </Box>
         {plan?.needsApply ? (<Text bold>Resources</Text>) : (<></>)}
-        {plan?.applyableResources.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource} /></Box>))}
+        {plan?.applyableResources.map(resource => (<Box key={resource.id} marginLeft={1}><PlanElement resource={resource} stackName={stackName} /></Box>))}
         <Box marginTop={1}>
           <Text bold>Diff: </Text>
           <PlanSummary resources={plan?.applyableResources || []} /><Text>.</Text>

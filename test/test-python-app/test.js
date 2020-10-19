@@ -26,7 +26,7 @@ fs.rmdirSync('cdktf.out', { recursive: true });
 execSync(`cdktf get`, { stdio: 'inherit', env });
 
 // build
-execSync('pipenv run python main.py', { stdio: 'inherit', env })
+execSync('cdktf synth', { stdio: 'inherit', env })
 
 // get rid of downloaded Terraform providers, no point in diffing them
 fs.rmdirSync('cdktf.out/.terraform', { recursive: true });

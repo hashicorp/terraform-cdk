@@ -8,6 +8,7 @@ import * as terraformCloudClient from './helper/terraform-cloud-client';
 import * as chalk from 'chalk';
 import { terraformCheck } from './terraform-check';
 import { displayVersionMessage } from './version-check'
+import { FUTURE_FLAGS } from 'cdktf/lib/features';
 
 const chalkColour = new chalk.Instance();
 
@@ -20,6 +21,7 @@ for (const template of availableTemplates) {
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require('../../package.json');
+const constructsVersion = pkg.dependencies.constructs;
 
 class Command implements yargs.CommandModule {
   public readonly command = 'init [OPTIONS]';
@@ -76,8 +78,10 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
 
+    const futureFlags = Object.entries(FUTURE_FLAGS).map(([key, value]) => `"${key}": "${value}"`).join(`,\n`);
+
     await sscaff(templateInfo.Path, '.', {
-      ...deps, ...projectInfo
+      ...deps, ...projectInfo, futureFlags
     });
   }
 }
@@ -87,7 +91,8 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
     const ret = {
       'npm_cdktf': path.resolve(dist, 'js', `cdktf@${version}.jsii.tgz`),
       'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
-      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`)
+      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`),
+      'mvn_cdktf': path.resolve(dist, 'java', `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`)
     };
 
     for (const file of Object.values(ret)) {
@@ -96,7 +101,15 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
       }
     }
 
-    return ret;
+    const versions = {
+      'cdktf_version': version,
+      'constructs_version': constructsVersion,
+    }
+
+    return {
+      ...ret,
+      ...versions
+    };
   }
 
   if (version === '0.0.0') {
@@ -110,9 +123,12 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   const ver = version.includes('-') ? version : `^${version}`;
 
   return {
+    'cdktf_version': version,
+    'constructs_version': constructsVersion,
     'npm_cdktf': `cdktf@${ver}`,
     'npm_cdktf_cli': `cdktf-cli@${ver}`,
-    'pypi_cdktf': `cdktf~=${version}` // no support for pre-release
+    'pypi_cdktf': `cdktf~=${version}`, // no support for pre-release
+    'mvn_cdktf': version
   };
 }
 
@@ -188,6 +204,9 @@ interface Deps {
   npm_cdktf: string;
   npm_cdktf_cli: string;
   pypi_cdktf: string;
+  mvn_cdktf: string;
+  cdktf_version: string;
+  constructs_version: string;
 }
 
 interface Project {

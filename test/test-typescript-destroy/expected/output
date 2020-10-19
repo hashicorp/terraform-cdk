@@ -1,5 +1,5 @@
 Destroying Stack: hello-deploy
 Resources
- ✔ NULL_RESOURCE        test                null_resource.hellodeploy_test_31FBB65F
+ ✔ NULL_RESOURCE        test                null_resource.test
 
 Summary: 1 destroyed.

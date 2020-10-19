@@ -10,11 +10,11 @@ exports[`minimal configuration 1`] = `
   },
   \\"data\\": {
     \\"test_data_source\\": {
-      \\"test_DBA94737\\": {
+      \\"test\\": {
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test_DBA94737\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
@@ -33,11 +33,11 @@ exports[`with complex computed list 1`] = `
   },
   \\"data\\": {
     \\"test_data_source\\": {
-      \\"testdatasource_test_18A2C18D\\": {
+      \\"test\\": {
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test-data-source/test\\",
-            \\"uniqueId\\": \\"testdatasource_test_18A2C18D\\"
+            \\"uniqueId\\": \\"test\\"
           }
         }
       }
@@ -45,12 +45,12 @@ exports[`with complex computed list 1`] = `
   },
   \\"resource\\": {
     \\"test_resource\\": {
-      \\"testdatasource_testresource_11F97659\\": {
-        \\"name\\": \\"\${data.test_data_source.testdatasource_test_18A2C18D.complex_computed_list.0.id}\\",
+      \\"test-resource\\": {
+        \\"name\\": \\"\${data.test_data_source.test.complex_computed_list.0.id}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test-data-source/test-resource\\",
-            \\"uniqueId\\": \\"testdatasource_testresource_11F97659\\"
+            \\"uniqueId\\": \\"test-resource\\"
           }
         }
       }

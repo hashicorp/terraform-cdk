@@ -1,13 +1,12 @@
 import yargs from 'yargs'
 import React from 'react';
 import { readConfigSync } from '../../lib/config';
-import { Language } from '../../lib/get/base';
+import { Language, LANGUAGES } from '../../lib/get/base';
 import { Get } from './ui/get'
 import { renderInk } from './render-ink'
 import { displayVersionMessage } from './version-check'
 
 const config = readConfigSync();
-const LANGUAGES = [ 'typescript', 'python' ];
 
 interface Arguments {
   providers: string[];
