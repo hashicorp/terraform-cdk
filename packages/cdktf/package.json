@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "description": "Cloud Development Kit for Terraform",
   "scripts": {
-    "build": "jsii",
-    "watch": "jsii -w",
+    "build": "jsii --silence-warnings reserved-word",
+    "watch": "jsii -w --silence-warnings reserved-word",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "package": "jsii-pacmak",
     "lint": "eslint . --ext .ts",
@@ -19,6 +19,13 @@
       "python": {
         "distName": "cdktf",
         "module": "cdktf"
+      },
+      "java": {
+        "package": "com.hashicorp.cdktf",
+        "maven": {
+          "groupId": "com.hashicorp",
+          "artifactId": "cdktf"
+        }
       }
     }
   },

@@ -11,3 +11,4 @@ dist
 
 # Include .jsii
 !.jsii
+terraform-cdk.github-issues

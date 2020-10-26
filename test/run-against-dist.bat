@@ -10,8 +10,8 @@ set cwd=%cd%
 cd /D %CDKTF_DIST%
 
 rem verify this is indeed a "dist" directory
-if not exist "js" if not exist "python" (
-  echo "ERROR: unable to find the subdirectories 'js' and 'python' which should be in the 'dist' directory"
+if not exist "js" if not exist "python" if not exist "java" (
+  echo "ERROR: unable to find the subdirectories 'js', 'python', and 'java' which should be in the 'dist' directory"
   echo "Did you run 'yarn run package' to create the 'dist' directory?"
   exit /B 1
 )

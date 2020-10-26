@@ -20,3 +20,4 @@ tsconfig.json
 **/.terraform
 .vscode
 bootstrap.json
+terraform-cdk.github-issues
