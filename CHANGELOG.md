@@ -1,3 +1,21 @@
+## 0.0.18
+
+**Fixed bugs:**
+
+- Update jsii with python docs fix [\#418](https://github.com/hashicorp/terraform-cdk/issues/418)
+- Maintain dependencies between required construct properties [\#310](https://github.com/hashicorp/terraform-cdk/issues/310)
+
+**Implemented enhancements:**
+
+- Java support [\#360](https://github.com/hashicorp/terraform-cdk/issues/360)
+- Simple Terraform Locals [\#357](https://github.com/hashicorp/terraform-cdk/issues/357)
+- allow to use TERRAFORM_BINARY_NAME env to set terraform binary [\#366](https://github.com/hashicorp/terraform-cdk/issues/366)
+- Default to NPM in templates [\#359](https://github.com/hashicorp/terraform-cdk/issues/359)
+- Terraform version check [\#378](https://github.com/hashicorp/terraform-cdk/issues/378)
+- Terraform Variables [\#277](https://github.com/hashicorp/terraform-cdk/issues/277)
+- Terraform hcl module [\#375](https://github.com/hashicorp/terraform-cdk/issues/375)
+- Support for matching existing Terraform names [\#329](https://github.com/hashicorp/terraform-cdk/issues/329)
+
 ## 0.0.17
 
 **Fixed bugs:**
