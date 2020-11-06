@@ -91,7 +91,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
     const ret = {
       'npm_cdktf': path.resolve(dist, 'js', `cdktf@${version}.jsii.tgz`),
       'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
-      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`),
+      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-pre\./g, '.dev')}-py3-none-any.whl`),
       'mvn_cdktf': path.resolve(dist, 'java', `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`)
     };
 
