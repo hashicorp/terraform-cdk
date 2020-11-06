@@ -18,7 +18,7 @@ jobs:
       - name: installing dependencies
         run: |
           yarn install
-      - run: tools/align-version.sh "-pre.${{ env.GITHUB_RUN_NUMBER }}"
+      - run: tools/align-version.sh "-pre.${{ github.run_number }}"
       - run: yarn build
       - run: yarn test
       - run: yarn package
