@@ -1,6 +1,6 @@
 {
     "language": "csharp",
-    "app": "dotnet run",
+    "app": "dotnet build",
     "terraformProviders": ["aws@~> 2.0"],
     "codeMakerOutput": "imports"
 }
