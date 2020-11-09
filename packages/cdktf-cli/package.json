@@ -38,7 +38,7 @@
     "ink": "^2.7.1",
     "ink-confirm-input": "^2.0.0",
     "ink-spinner": "^3.0.1",
-    "jsii-srcmak": "^0.1.22",
+    "jsii-srcmak": "^0.1.38",
     "log4js": "^6.3.0",
     "open": "^7.0.4",
     "react": "^16.13.1",

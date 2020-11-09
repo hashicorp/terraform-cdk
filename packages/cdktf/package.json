@@ -26,6 +26,10 @@
           "groupId": "com.hashicorp",
           "artifactId": "cdktf"
         }
+      },
+      "dotnet": {
+        "packageId": "Hashicorp.Cdktf",
+        "namespace": "Hashicorp.Cdktf"
       }
     }
   },
