@@ -1321,12 +1321,11 @@ exports[`reset and input name conflicts 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface NameConflictConfig extends TerraformMetaArguments {
+export interface NameConflictConfig extends cdktf.TerraformMetaArguments {
   readonly values?: string;
   readonly resetValues?: string;
   readonly template?: string;
@@ -1335,7 +1334,7 @@ export interface NameConflictConfig extends TerraformMetaArguments {
 
 // Resource
 
-export class NameConflict extends TerraformResource {
+export class NameConflict extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1432,10 +1431,10 @@ export class NameConflict extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      values: this._values,
-      reset_values: this._resetValues,
-      template: this._template,
-      template_input: this._templateInput,
+      values: cdktf.stringToTerraform(this._values),
+      reset_values: cdktf.stringToTerraform(this._resetValues),
+      template: cdktf.stringToTerraform(this._template),
+      template_input: cdktf.stringToTerraform(this._templateInput),
     };
   }
 }
