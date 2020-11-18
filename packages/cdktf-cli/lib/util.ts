@@ -90,3 +90,13 @@ export async function readCDKTFVersion(outputDir: string): Promise<string> {
 
   return ""
 }
+
+/**
+ * Downcase the first character in a string.
+ *
+ * @param str the string to be processed.
+ */
+export function downcaseFirst(str: string): string {
+  if (str === '') { return str; }
+  return `${str[0].toLocaleLowerCase()}${str.slice(1)}`;
+}

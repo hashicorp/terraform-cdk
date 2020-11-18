@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`do change capitalization of arbritary nested types 1`] = `
+exports[`do not change capitalization of arbritary nested types 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
@@ -13,7 +13,7 @@ exports[`do change capitalization of arbritary nested types 1`] = `
       \\"test\\": {
         \\"name\\": \\"bar\\",
         \\"nested_type\\": {
-          \\"tag\\": \\"isDowncased\\"
+          \\"Tag\\": \\"isDowncased\\"
         },
         \\"//\\": {
           \\"metadata\\": {

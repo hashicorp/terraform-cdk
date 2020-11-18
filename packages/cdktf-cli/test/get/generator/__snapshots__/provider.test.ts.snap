@@ -5,7 +5,7 @@ exports[`generate provider 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformProvider } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
@@ -69,6 +69,17 @@ export interface AwsProviderAssumeRole {
   /** The session name to use when assuming the role. If omitted, no session name is passed to the AssumeRole call. */
   readonly sessionName?: string;
 }
+
+function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    external_id: cdktf.stringToTerraform(struct!.externalId),
+    policy: cdktf.stringToTerraform(struct!.policy),
+    role_arn: cdktf.stringToTerraform(struct!.roleArn),
+    session_name: cdktf.stringToTerraform(struct!.sessionName),
+  }
+}
+
 export interface AwsProviderEndpoints {
   /** Use this to override the default service endpoint URL */
   readonly accessanalyzer?: string;
@@ -341,6 +352,148 @@ export interface AwsProviderEndpoints {
   /** Use this to override the default service endpoint URL */
   readonly xray?: string;
 }
+
+function awsProviderEndpointsToTerraform(struct?: AwsProviderEndpoints): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    accessanalyzer: cdktf.stringToTerraform(struct!.accessanalyzer),
+    acm: cdktf.stringToTerraform(struct!.acm),
+    acmpca: cdktf.stringToTerraform(struct!.acmpca),
+    amplify: cdktf.stringToTerraform(struct!.amplify),
+    apigateway: cdktf.stringToTerraform(struct!.apigateway),
+    applicationautoscaling: cdktf.stringToTerraform(struct!.applicationautoscaling),
+    applicationinsights: cdktf.stringToTerraform(struct!.applicationinsights),
+    appmesh: cdktf.stringToTerraform(struct!.appmesh),
+    appstream: cdktf.stringToTerraform(struct!.appstream),
+    appsync: cdktf.stringToTerraform(struct!.appsync),
+    athena: cdktf.stringToTerraform(struct!.athena),
+    autoscaling: cdktf.stringToTerraform(struct!.autoscaling),
+    autoscalingplans: cdktf.stringToTerraform(struct!.autoscalingplans),
+    backup: cdktf.stringToTerraform(struct!.backup),
+    batch: cdktf.stringToTerraform(struct!.batch),
+    budgets: cdktf.stringToTerraform(struct!.budgets),
+    cloud9: cdktf.stringToTerraform(struct!.cloud9),
+    cloudformation: cdktf.stringToTerraform(struct!.cloudformation),
+    cloudfront: cdktf.stringToTerraform(struct!.cloudfront),
+    cloudhsm: cdktf.stringToTerraform(struct!.cloudhsm),
+    cloudsearch: cdktf.stringToTerraform(struct!.cloudsearch),
+    cloudtrail: cdktf.stringToTerraform(struct!.cloudtrail),
+    cloudwatch: cdktf.stringToTerraform(struct!.cloudwatch),
+    cloudwatchevents: cdktf.stringToTerraform(struct!.cloudwatchevents),
+    cloudwatchlogs: cdktf.stringToTerraform(struct!.cloudwatchlogs),
+    codebuild: cdktf.stringToTerraform(struct!.codebuild),
+    codecommit: cdktf.stringToTerraform(struct!.codecommit),
+    codedeploy: cdktf.stringToTerraform(struct!.codedeploy),
+    codepipeline: cdktf.stringToTerraform(struct!.codepipeline),
+    cognitoidentity: cdktf.stringToTerraform(struct!.cognitoidentity),
+    cognitoidp: cdktf.stringToTerraform(struct!.cognitoidp),
+    configservice: cdktf.stringToTerraform(struct!.configservice),
+    cur: cdktf.stringToTerraform(struct!.cur),
+    dataexchange: cdktf.stringToTerraform(struct!.dataexchange),
+    datapipeline: cdktf.stringToTerraform(struct!.datapipeline),
+    datasync: cdktf.stringToTerraform(struct!.datasync),
+    dax: cdktf.stringToTerraform(struct!.dax),
+    devicefarm: cdktf.stringToTerraform(struct!.devicefarm),
+    directconnect: cdktf.stringToTerraform(struct!.directconnect),
+    dlm: cdktf.stringToTerraform(struct!.dlm),
+    dms: cdktf.stringToTerraform(struct!.dms),
+    docdb: cdktf.stringToTerraform(struct!.docdb),
+    ds: cdktf.stringToTerraform(struct!.ds),
+    dynamodb: cdktf.stringToTerraform(struct!.dynamodb),
+    ec2: cdktf.stringToTerraform(struct!.ec2),
+    ecr: cdktf.stringToTerraform(struct!.ecr),
+    ecs: cdktf.stringToTerraform(struct!.ecs),
+    efs: cdktf.stringToTerraform(struct!.efs),
+    eks: cdktf.stringToTerraform(struct!.eks),
+    elasticache: cdktf.stringToTerraform(struct!.elasticache),
+    elasticbeanstalk: cdktf.stringToTerraform(struct!.elasticbeanstalk),
+    elastictranscoder: cdktf.stringToTerraform(struct!.elastictranscoder),
+    elb: cdktf.stringToTerraform(struct!.elb),
+    emr: cdktf.stringToTerraform(struct!.emr),
+    es: cdktf.stringToTerraform(struct!.es),
+    firehose: cdktf.stringToTerraform(struct!.firehose),
+    fms: cdktf.stringToTerraform(struct!.fms),
+    forecast: cdktf.stringToTerraform(struct!.forecast),
+    fsx: cdktf.stringToTerraform(struct!.fsx),
+    gamelift: cdktf.stringToTerraform(struct!.gamelift),
+    glacier: cdktf.stringToTerraform(struct!.glacier),
+    globalaccelerator: cdktf.stringToTerraform(struct!.globalaccelerator),
+    glue: cdktf.stringToTerraform(struct!.glue),
+    greengrass: cdktf.stringToTerraform(struct!.greengrass),
+    guardduty: cdktf.stringToTerraform(struct!.guardduty),
+    iam: cdktf.stringToTerraform(struct!.iam),
+    imagebuilder: cdktf.stringToTerraform(struct!.imagebuilder),
+    inspector: cdktf.stringToTerraform(struct!.inspector),
+    iot: cdktf.stringToTerraform(struct!.iot),
+    iotanalytics: cdktf.stringToTerraform(struct!.iotanalytics),
+    iotevents: cdktf.stringToTerraform(struct!.iotevents),
+    kafka: cdktf.stringToTerraform(struct!.kafka),
+    kinesis: cdktf.stringToTerraform(struct!.kinesis),
+    kinesis_analytics: cdktf.stringToTerraform(struct!.kinesisAnalytics),
+    kinesisanalytics: cdktf.stringToTerraform(struct!.kinesisanalytics),
+    kinesisvideo: cdktf.stringToTerraform(struct!.kinesisvideo),
+    kms: cdktf.stringToTerraform(struct!.kms),
+    lakeformation: cdktf.stringToTerraform(struct!.lakeformation),
+    lambda: cdktf.stringToTerraform(struct!.lambda),
+    lexmodels: cdktf.stringToTerraform(struct!.lexmodels),
+    licensemanager: cdktf.stringToTerraform(struct!.licensemanager),
+    lightsail: cdktf.stringToTerraform(struct!.lightsail),
+    macie: cdktf.stringToTerraform(struct!.macie),
+    managedblockchain: cdktf.stringToTerraform(struct!.managedblockchain),
+    marketplacecatalog: cdktf.stringToTerraform(struct!.marketplacecatalog),
+    mediaconnect: cdktf.stringToTerraform(struct!.mediaconnect),
+    mediaconvert: cdktf.stringToTerraform(struct!.mediaconvert),
+    medialive: cdktf.stringToTerraform(struct!.medialive),
+    mediapackage: cdktf.stringToTerraform(struct!.mediapackage),
+    mediastore: cdktf.stringToTerraform(struct!.mediastore),
+    mediastoredata: cdktf.stringToTerraform(struct!.mediastoredata),
+    mq: cdktf.stringToTerraform(struct!.mq),
+    neptune: cdktf.stringToTerraform(struct!.neptune),
+    opsworks: cdktf.stringToTerraform(struct!.opsworks),
+    organizations: cdktf.stringToTerraform(struct!.organizations),
+    personalize: cdktf.stringToTerraform(struct!.personalize),
+    pinpoint: cdktf.stringToTerraform(struct!.pinpoint),
+    pricing: cdktf.stringToTerraform(struct!.pricing),
+    qldb: cdktf.stringToTerraform(struct!.qldb),
+    quicksight: cdktf.stringToTerraform(struct!.quicksight),
+    r53: cdktf.stringToTerraform(struct!.r53),
+    ram: cdktf.stringToTerraform(struct!.ram),
+    rds: cdktf.stringToTerraform(struct!.rds),
+    redshift: cdktf.stringToTerraform(struct!.redshift),
+    resourcegroups: cdktf.stringToTerraform(struct!.resourcegroups),
+    route53: cdktf.stringToTerraform(struct!.route53),
+    route53domains: cdktf.stringToTerraform(struct!.route53Domains),
+    route53resolver: cdktf.stringToTerraform(struct!.route53Resolver),
+    s3: cdktf.stringToTerraform(struct!.s3),
+    s3control: cdktf.stringToTerraform(struct!.s3Control),
+    sagemaker: cdktf.stringToTerraform(struct!.sagemaker),
+    sdb: cdktf.stringToTerraform(struct!.sdb),
+    secretsmanager: cdktf.stringToTerraform(struct!.secretsmanager),
+    securityhub: cdktf.stringToTerraform(struct!.securityhub),
+    serverlessrepo: cdktf.stringToTerraform(struct!.serverlessrepo),
+    servicecatalog: cdktf.stringToTerraform(struct!.servicecatalog),
+    servicediscovery: cdktf.stringToTerraform(struct!.servicediscovery),
+    servicequotas: cdktf.stringToTerraform(struct!.servicequotas),
+    ses: cdktf.stringToTerraform(struct!.ses),
+    shield: cdktf.stringToTerraform(struct!.shield),
+    sns: cdktf.stringToTerraform(struct!.sns),
+    sqs: cdktf.stringToTerraform(struct!.sqs),
+    ssm: cdktf.stringToTerraform(struct!.ssm),
+    stepfunctions: cdktf.stringToTerraform(struct!.stepfunctions),
+    storagegateway: cdktf.stringToTerraform(struct!.storagegateway),
+    sts: cdktf.stringToTerraform(struct!.sts),
+    swf: cdktf.stringToTerraform(struct!.swf),
+    transfer: cdktf.stringToTerraform(struct!.transfer),
+    waf: cdktf.stringToTerraform(struct!.waf),
+    wafregional: cdktf.stringToTerraform(struct!.wafregional),
+    wafv2: cdktf.stringToTerraform(struct!.wafv2),
+    worklink: cdktf.stringToTerraform(struct!.worklink),
+    workmail: cdktf.stringToTerraform(struct!.workmail),
+    workspaces: cdktf.stringToTerraform(struct!.workspaces),
+    xray: cdktf.stringToTerraform(struct!.xray),
+  }
+}
+
 export interface AwsProviderIgnoreTags {
   /** Resource tag key prefixes to ignore across all resources. */
   readonly keyPrefixes?: string[];
@@ -348,9 +501,18 @@ export interface AwsProviderIgnoreTags {
   readonly keys?: string[];
 }
 
+function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    key_prefixes: cdktf.listMapper(cdktf.stringToTerraform)(struct!.keyPrefixes),
+    keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.keys),
+  }
+}
+
+
 // Resource
 
-export class AwsProvider extends TerraformProvider {
+export class AwsProvider extends cdktf.TerraformProvider {
 
   // ===========
   // INITIALIZER
@@ -714,26 +876,26 @@ export class AwsProvider extends TerraformProvider {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      access_key: this._accessKey,
-      allowed_account_ids: this._allowedAccountIds,
-      forbidden_account_ids: this._forbiddenAccountIds,
-      insecure: this._insecure,
-      max_retries: this._maxRetries,
-      profile: this._profile,
-      region: this._region,
-      s3_force_path_style: this._s3ForcePathStyle,
-      secret_key: this._secretKey,
-      shared_credentials_file: this._sharedCredentialsFile,
-      skip_credentials_validation: this._skipCredentialsValidation,
-      skip_get_ec2_platforms: this._skipGetEc2Platforms,
-      skip_metadata_api_check: this._skipMetadataApiCheck,
-      skip_region_validation: this._skipRegionValidation,
-      skip_requesting_account_id: this._skipRequestingAccountId,
-      token: this._token,
-      alias: this._alias,
-      assume_role: this._assumeRole,
-      endpoints: this._endpoints,
-      ignore_tags: this._ignoreTags,
+      access_key: cdktf.stringToTerraform(this._accessKey),
+      allowed_account_ids: cdktf.listMapper(cdktf.stringToTerraform)(this._allowedAccountIds),
+      forbidden_account_ids: cdktf.listMapper(cdktf.stringToTerraform)(this._forbiddenAccountIds),
+      insecure: cdktf.booleanToTerraform(this._insecure),
+      max_retries: cdktf.numberToTerraform(this._maxRetries),
+      profile: cdktf.stringToTerraform(this._profile),
+      region: cdktf.stringToTerraform(this._region),
+      s3_force_path_style: cdktf.booleanToTerraform(this._s3ForcePathStyle),
+      secret_key: cdktf.stringToTerraform(this._secretKey),
+      shared_credentials_file: cdktf.stringToTerraform(this._sharedCredentialsFile),
+      skip_credentials_validation: cdktf.booleanToTerraform(this._skipCredentialsValidation),
+      skip_get_ec2_platforms: cdktf.booleanToTerraform(this._skipGetEc2Platforms),
+      skip_metadata_api_check: cdktf.booleanToTerraform(this._skipMetadataApiCheck),
+      skip_region_validation: cdktf.booleanToTerraform(this._skipRegionValidation),
+      skip_requesting_account_id: cdktf.booleanToTerraform(this._skipRequestingAccountId),
+      token: cdktf.stringToTerraform(this._token),
+      alias: cdktf.stringToTerraform(this._alias),
+      assume_role: cdktf.listMapper(awsProviderAssumeRoleToTerraform)(this._assumeRole),
+      endpoints: cdktf.listMapper(awsProviderEndpointsToTerraform)(this._endpoints),
+      ignore_tags: cdktf.listMapper(awsProviderIgnoreTagsToTerraform)(this._ignoreTags),
     };
   }
 }

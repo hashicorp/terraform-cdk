@@ -102,7 +102,7 @@ test('do not change capitalization of tags', () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
-test('do change capitalization of arbritary nested types', () => {
+test('do not change capitalization of arbritary nested types', () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, 'tests');
 

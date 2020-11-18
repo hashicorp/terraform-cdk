@@ -13,7 +13,7 @@ export class ResourceEmitter {
     this.code.line();
     this.code.line(`// Resource`)
     this.code.line();
-    this.code.openBlock(`export class ${resource.className} extends ${resource.parentClassName}`);
+    this.code.openBlock(`export class ${resource.className} extends cdktf.${resource.parentClassName}`);
 
     this.emitHeader('INITIALIZER');
     this.emitInitializer(resource);
@@ -41,7 +41,7 @@ export class ResourceEmitter {
     this.code.open(`return {`);
 
     for (const att of resource.synthesizableAttributes) {
-      this.code.line(`${att.terraformName}: this.${att.storageName},`);
+      this.attributesEmitter.emitToTerraform(att, false);
     }
 
     this.code.close(`};`);

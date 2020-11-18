@@ -5,13 +5,11 @@ exports[`generate an acm certifacte resource with complex computed types 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
-import { ComplexComputedList } from \\"cdktf\\";
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface AcmCertificateConfig extends TerraformMetaArguments {
+export interface AcmCertificateConfig extends cdktf.TerraformMetaArguments {
   readonly certificateAuthorityArn?: string;
   readonly certificateBody?: string;
   readonly certificateChain?: string;
@@ -23,7 +21,7 @@ export interface AcmCertificateConfig extends TerraformMetaArguments {
   /** options block */
   readonly options?: AcmCertificateOptions[];
 }
-export class AcmCertificateDomainValidationOptions extends ComplexComputedList {
+export class AcmCertificateDomainValidationOptions extends cdktf.ComplexComputedList {
 
   // domain_name - computed: true, optional: false, required: false
   public get domainName() {
@@ -49,9 +47,17 @@ export interface AcmCertificateOptions {
   readonly certificateTransparencyLoggingPreference?: string;
 }
 
+function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptions): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    certificate_transparency_logging_preference: cdktf.stringToTerraform(struct!.certificateTransparencyLoggingPreference),
+  }
+}
+
+
 // Resource
 
-export class AcmCertificate extends TerraformResource {
+export class AcmCertificate extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -253,15 +259,15 @@ export class AcmCertificate extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      certificate_authority_arn: this._certificateAuthorityArn,
-      certificate_body: this._certificateBody,
-      certificate_chain: this._certificateChain,
-      domain_name: this._domainName,
-      private_key: this._privateKey,
-      subject_alternative_names: this._subjectAlternativeNames,
-      tags: this._tags,
-      validation_method: this._validationMethod,
-      options: this._options,
+      certificate_authority_arn: cdktf.stringToTerraform(this._certificateAuthorityArn),
+      certificate_body: cdktf.stringToTerraform(this._certificateBody),
+      certificate_chain: cdktf.stringToTerraform(this._certificateChain),
+      domain_name: cdktf.stringToTerraform(this._domainName),
+      private_key: cdktf.stringToTerraform(this._privateKey),
+      subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
+      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      validation_method: cdktf.stringToTerraform(this._validationMethod),
+      options: cdktf.listMapper(acmCertificateOptionsToTerraform)(this._options),
     };
   }
 }
