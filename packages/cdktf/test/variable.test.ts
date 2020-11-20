@@ -121,7 +121,7 @@ test('reference', () => {
     });
 
     new TestResource(stack, 'test-resource', {
-        name: variable.stringValue
+        name: variable.value
     });
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
