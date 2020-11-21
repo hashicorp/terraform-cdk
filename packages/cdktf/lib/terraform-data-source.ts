@@ -4,8 +4,9 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import {  TerraformGeneratorMetadata, TerraformResourceConfig, TerraformResourceLifecycle, ITerraformResource } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
+import { ITerraformDependable } from "./terraform-dependable";
 
-export class TerraformDataSource extends TerraformElement implements ITerraformResource {
+export class TerraformDataSource extends TerraformElement implements ITerraformResource, ITerraformDependable {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
 

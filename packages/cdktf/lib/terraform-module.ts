@@ -2,11 +2,14 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { deepMerge } from "./util";
+import { ITerraformDependable } from "./terraform-dependable";
+import { Token } from "./tokens";
 
 export interface TerraformModuleOptions {
   readonly source: string;
   readonly version?: string;
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
+  readonly dependsOn?: ITerraformDependable[];
 }
 
 export interface TerraformModuleProvider {
@@ -14,11 +17,12 @@ export interface TerraformModuleProvider {
   readonly moduleAlias: string;
 }
 
-export abstract class TerraformModule extends TerraformElement {
+export abstract class TerraformModule extends TerraformElement implements ITerraformDependable {
 
   public readonly source: string;
   public readonly version?: string;
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
+  public dependsOn?: string[];
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id);
@@ -26,6 +30,9 @@ export abstract class TerraformModule extends TerraformElement {
     this.source = options.source;
     this.version = options.version;
     this._providers = options.providers;
+    if (Array.isArray(options.dependsOn)) {
+      this.dependsOn = options.dependsOn.map(dependency => dependency.fqn);
+    }
   }
 
   // jsii can't handle abstract classes?
@@ -35,6 +42,10 @@ export abstract class TerraformModule extends TerraformElement {
 
   public interpolationForOutput(moduleOutput: string) {
     return `\${module.${this.friendlyUniqueId}.${moduleOutput}}` as any;
+  }
+
+  public get fqn(): string {
+    return Token.asString(`module.${this.friendlyUniqueId}`);
   }
 
   public get providers() {
@@ -60,7 +71,8 @@ public addProvider(provider: TerraformProvider | TerraformModuleProvider) {
         else {
             return { [`${p.provider.terraformResourceType}.${p.moduleAlias}`]: p.provider.fqn };
         }
-    }),
+      }),
+      dependsOn: this.dependsOn,
     },
       this.rawOverrides
     )
