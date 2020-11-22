@@ -67,3 +67,19 @@ test('with boolean map', () => {
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test('dependent data source', () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'test');
+
+  const resource = new TestResource(stack, 'resource', {
+    name: 'foo'
+  })
+
+  new TestDataSource(stack, 'data_source', {
+    name: 'foo',
+    dependsOn: [resource]
+  })
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+}); 

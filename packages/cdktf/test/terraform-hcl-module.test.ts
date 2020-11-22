@@ -131,3 +131,34 @@ test('add provider', () => {
     module.addProvider(provider);
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test('depend on module', () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, 'test');
+
+    const module = new TerraformHclModule(stack, 'test', {
+        source: './foo'
+    });
+
+    new TestResource(stack, 'resource', {
+        name: 'foo',
+        dependsOn: [module]
+    });
+    expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test('depend on other module', () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, 'test');
+
+    const module1 = new TerraformHclModule(stack, 'test_1', {
+        source: './foo'
+    });
+
+    new TerraformHclModule(stack, 'test_2', {
+        source: './foo',
+        dependsOn: [module1]
+    });
+
+    expect(Testing.synth(stack)).toMatchSnapshot();
+});

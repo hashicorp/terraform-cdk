@@ -22,7 +22,10 @@ export class TestResource extends TerraformResource {
         providerName: TestProviderMetadata.TYPE,
         providerVersionConstraint: '~> 2.0'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
 
     this.name = config.name
@@ -48,7 +51,10 @@ export class OtherTestResource extends TerraformResource {
         providerName: TestProviderMetadata.TYPE,
         providerVersionConstraint: '~> 2.0'
       },
-      provider: config.provider
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
   }
 
