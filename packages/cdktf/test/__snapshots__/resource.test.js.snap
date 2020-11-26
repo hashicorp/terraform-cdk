@@ -1,5 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`dependent resource 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"data_source\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/data_source\\",
+            \\"uniqueId\\": \\"data_source\\"
+          }
+        }
+      }
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"foo\\",
+        \\"depends_on\\": [
+          \\"data.test_data_source.data_source\\"
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`do not change capitalization of arbritary nested types 1`] = `
 "{
   \\"//\\": {

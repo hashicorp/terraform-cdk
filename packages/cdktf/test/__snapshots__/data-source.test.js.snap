@@ -1,5 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`dependent data source 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"foo\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  },
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"data_source\\": {
+        \\"depends_on\\": [
+          \\"test_resource.resource\\"
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/data_source\\",
+            \\"uniqueId\\": \\"data_source\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`minimal configuration 1`] = `
 "{
   \\"//\\": {

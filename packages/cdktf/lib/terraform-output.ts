@@ -1,20 +1,20 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
-import { TerraformResource } from "./terraform-resource"
 import { keysToSnakeCase, deepMerge } from "./util"
+import { ITerraformDependable } from "./terraform-dependable";
 
 export interface TerraformOutputConfig {
   readonly value: string | number | boolean | any[] | { [key: string]: any } | undefined;
   readonly description?: string;
   readonly sensitive?: boolean;
-  readonly dependsOn?: TerraformResource[];
+  readonly dependsOn?: ITerraformDependable[];
 }
 
 export class TerraformOutput extends TerraformElement {
   public value: string | number | boolean | any[] | { [key: string]: any } | undefined;
   public description?: string;
   public sensitive?: boolean;
-  public dependsOn?: TerraformResource[];
+  public dependsOn?: ITerraformDependable[];
 
   constructor(scope: Construct, id: string, config: TerraformOutputConfig) {
     super(scope, id);

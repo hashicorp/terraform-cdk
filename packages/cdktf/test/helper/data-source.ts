@@ -18,6 +18,9 @@ export class TestDataSource extends TerraformDataSource {
         providerVersionConstraint: '~> 2.0'
       },
       provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this.name = config.name;
   }
