@@ -1316,6 +1316,131 @@ export class PrimitiveString extends cdktf.TerraformResource {
 "
 `;
 
+exports[`reset and input name conflicts 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/name_conflict.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface NameConflictConfig extends cdktf.TerraformMetaArguments {
+  readonly values?: string;
+  readonly resetValues?: string;
+  readonly template?: string;
+  readonly templateInput?: string;
+}
+
+// Resource
+
+export class NameConflict extends cdktf.TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: NameConflictConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_name_conflict',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._values = config.values;
+    this._resetValues = config.resetValues;
+    this._template = config.template;
+    this._templateInput = config.templateInput;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // values - computed: false, optional: true, required: false
+  private _values?: string;
+  public get values() {
+    return this.getStringAttribute('values');
+  }
+  public set values(value: string ) {
+    this._values = value;
+  }
+  public resetTfValues() {
+    this._values = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get valuesInput() {
+    return this._values
+  }
+
+  // reset_values - computed: false, optional: true, required: false
+  private _resetValues?: string;
+  public get resetValues() {
+    return this.getStringAttribute('reset_values');
+  }
+  public set resetValues(value: string ) {
+    this._resetValues = value;
+  }
+  public resetResetValues() {
+    this._resetValues = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get resetValuesInput() {
+    return this._resetValues
+  }
+
+  // template - computed: false, optional: true, required: false
+  private _template?: string;
+  public get template() {
+    return this.getStringAttribute('template');
+  }
+  public set template(value: string ) {
+    this._template = value;
+  }
+  public resetTemplate() {
+    this._template = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get templateTfInput() {
+    return this._template
+  }
+
+  // template_input - computed: false, optional: true, required: false
+  private _templateInput?: string;
+  public get templateInput() {
+    return this.getStringAttribute('template_input');
+  }
+  public set templateInput(value: string ) {
+    this._templateInput = value;
+  }
+  public resetTemplateInput() {
+    this._templateInput = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get templateInputInput() {
+    return this._templateInput
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      values: cdktf.stringToTerraform(this._values),
+      reset_values: cdktf.stringToTerraform(this._resetValues),
+      template: cdktf.stringToTerraform(this._template),
+      template_input: cdktf.stringToTerraform(this._templateInput),
+    };
+  }
+}
+"
+`;
+
 exports[`set / list block type 1`] = `
 "// https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html
 // generated from terraform resource schema

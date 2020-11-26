@@ -50,7 +50,9 @@ export class ResourceEmitter {
 
   private emitResourceAttributes(resource: ResourceModel) {
     for (const att of resource.attributes) {
-      this.attributesEmitter.emit(att)
+      this.attributesEmitter.emit(att, 
+        this.attributesEmitter.needsResetEscape(att, resource.attributes), 
+        this.attributesEmitter.needsInputEscape(att, resource.attributes));
     }
   }
 
