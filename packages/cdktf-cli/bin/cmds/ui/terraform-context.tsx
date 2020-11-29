@@ -1,7 +1,8 @@
 /* eslint-disable no-control-regex */
 import React from 'react'
 import * as path from 'path'
-import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from "./models/terraform"
+import { TerraformCli } from "./models/terraform-cli"
+import { DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
 import { SynthStack } from '../helper/synth-stack'
 
 type DefaultValue = undefined;
@@ -77,6 +78,7 @@ const parseOutput = (str: string): DeployingResource[] => {
       acc.push(resource)
     }
     return acc
+  // eslint-disable-next-line @typescript-eslint/no-array-constructor
   }, new Array)
 }
 
@@ -162,7 +164,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
 }
 
 interface TerraformProviderConfig {
-  initialState?: DeployState
+  initialState?: DeployState;
 }
 
 // eslint-disable-next-line react/prop-types
@@ -202,7 +204,7 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
 
   const cwd = process.cwd();
   const outdir = path.join(cwd, targetDir);
-  const terraform = new Terraform(outdir);
+  const terraform = new TerraformCli(outdir);
 
   const execTerraformSynth = async () => {
     try {
@@ -232,7 +234,7 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     }
   }
 
-  const execTerraformPlan = async (destroy: boolean = false): Promise<TerraformPlan | undefined> => {
+  const execTerraformPlan = async (destroy = false): Promise<TerraformPlan | undefined> => {
     let plan: TerraformPlan
     try {
       dispatch({ type: 'PLAN' })
