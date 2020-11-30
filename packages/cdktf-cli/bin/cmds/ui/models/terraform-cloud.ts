@@ -12,9 +12,9 @@ export class TerraformCloudPlan implements TerraformPlan {
   constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {}
 
   public get resources(): PlannedResource[]  {
-    if (!this.plan.resource_changes) return [];
+    if (!this.plan.resourceChanges) return [];
 
-    return this.plan.resource_changes.map((resource: ResourceChanges) => {
+    return this.plan.resourceChanges.map((resource: ResourceChanges) => {
       return {
         id: resource.address,
         action: resource.change.actions[0]
@@ -43,13 +43,6 @@ export interface TerraformCredentialsFile {
   credentials: TerraformCredentials;
 }
 
-
-
-/**
- * @param {String} source
- * @param {String} out
- * @returns {Promise}
- */
 const zipDirectory = (source: string): Promise<Buffer | false> => {
   const archive = archiver('tar', {gzip: true});
   const stream = new WritableStreamBuffer()
@@ -66,6 +59,12 @@ const zipDirectory = (source: string): Promise<Buffer | false> => {
   });
 }
 
+const wait = (ms = 1000) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
+
 export class TerraformCloud implements Terraform  {
   private readonly terraformConfigFilePath = path.join(os.homedir(), '.terraform.d', 'credentials.tfrc.json')
   private readonly token: string;
@@ -73,6 +72,7 @@ export class TerraformCloud implements Terraform  {
   private readonly workspaceName: string;
   private readonly organizationName: string;
   private readonly client: TerraformCloudClient.TerraformCloud;
+  private configurationVersionId?: string;
 
   constructor(public readonly workdir: string, public readonly config: TerraformJsonConfigBackendRemote) {
     if (!config.workspaces.name) throw new Error("Please provide a workspace name for Terraform Cloud");
@@ -99,23 +99,60 @@ export class TerraformCloud implements Terraform  {
       data: {
         type: 'configuration-version',
         attributes: {
-          autoQueueRuns: true
+          autoQueueRuns: false
         }
       }
     })
+
+    this.configurationVersionId = version.id
 
     const zipBuffer = await zipDirectory(this.workdir)
     const url = (version.attributes as any)['upload-url']
 
     if (!zipBuffer) throw new Error("Couldn't upload directory to Terraform Cloud");
 
-    const uploadedVersion = await this.client.ConfigurationVersion.upload(url, zipBuffer)
-    console.log({uploadedVersion})
+    await this.client.ConfigurationVersion.upload(url, zipBuffer)
   }
 
   public async plan(destroy = false): Promise<TerraformPlan> {
-    destroy
-    return new TerraformCloudPlan('f', {})
+    if (!this.configurationVersionId) throw new Error("Please create a ConfigurationVersion before planning");
+    const workspace = await this.workspace()
+    let result = await this.client.Runs.create({
+      data: {
+        attributes: {
+          iDestroy: destroy,
+          message: 'cdktf',
+        },
+        relationships: {
+          configurationVersion: {
+            data: {
+              id: this.configurationVersionId,
+              type: "configuration-versions"
+            }
+          },
+          workspace: {
+            data: {
+              id: workspace.id,
+              type: "workspaces"
+            }
+          }
+        }
+      }
+    })
+
+    const pendingStates = ['pending', 'plan_queued', 'planning']
+
+    if (pendingStates.includes(result.attributes.status)) {
+      result = await this.client.Runs.show(result.id)
+      while (pendingStates.includes(result.attributes.status)) {
+        result = await this.client.Runs.show(result.id)
+        await wait(1000);
+      }
+    }
+
+    const plan = await this.client.Plans.jsonOutput(result.relationships.plan.data.id)
+
+    return new TerraformCloudPlan('terraform-cloud', plan)
   }
 
   public async deploy(_planFile: string, _stdout: (chunk: Buffer) => any): Promise<void> {
