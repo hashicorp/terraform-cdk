@@ -9,7 +9,7 @@ interface SynthesizedStackMetadata {
   "//"?: {[key: string]: TerraformStackMetadata };
 }
 
-interface SynthesizedStack {
+export interface SynthesizedStack {
   file: string;
   name: string;
   content: string;

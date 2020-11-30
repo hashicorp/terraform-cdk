@@ -2,8 +2,10 @@
 import React from 'react'
 import * as path from 'path'
 import { TerraformCli } from "./models/terraform-cli"
-import { DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
+import { TerraformCloud } from "./models/terraform-cloud"
+import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
 import { SynthStack } from '../helper/synth-stack'
+import { TerraformJson } from './terraform-json'
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -202,14 +204,26 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     throw new Error('useTerraform must be used within a TerraformContextDispatch.Provider')
   }
 
-  const cwd = process.cwd();
-  const outdir = path.join(cwd, targetDir);
-  const terraform = new TerraformCli(outdir);
+  let terraform: Terraform;
+
+  const excecutorForStack = (stackJSON: string): Terraform => {
+    if (stackJSON === undefined) throw new Error('no synthesized stack found');
+    const cwd = process.cwd();
+    const outdir = path.join(cwd, targetDir);
+    const stack = JSON.parse(stackJSON) as TerraformJson
+
+    if (stack.terraform?.backend?.remote) {
+      return new TerraformCloud(outdir, stack.terraform?.backend?.remote)
+    } else {
+      return new TerraformCli(outdir)
+    }
+  }
 
   const execTerraformSynth = async () => {
     try {
       dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
+      terraform = excecutorForStack(stacks[0].content)
       dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
     } catch (e) {
       dispatch({ type: 'ERROR', error: e })
