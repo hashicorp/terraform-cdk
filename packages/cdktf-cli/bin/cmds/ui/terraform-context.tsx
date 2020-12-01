@@ -184,6 +184,7 @@ export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig>
 interface UseTerraformInput {
   targetDir: string;
   synthCommand: string;
+  isSpeculative?: boolean;
 }
 
 export const useTerraformState = () => {
@@ -196,7 +197,7 @@ export const useTerraformState = () => {
   return state
 }
 
-export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => {
+export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false }: UseTerraformInput) => {
   const dispatch = React.useContext(TerraformContextDispatch)
   const state = useTerraformState()
 
@@ -213,7 +214,7 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     const stack = JSON.parse(stackJSON) as TerraformJson
 
     if (stack.terraform?.backend?.remote) {
-      return new TerraformCloud(outdir, stack.terraform?.backend?.remote)
+      return new TerraformCloud(outdir, stack.terraform?.backend?.remote, isSpeculative)
     } else {
       return new TerraformCli(outdir)
     }

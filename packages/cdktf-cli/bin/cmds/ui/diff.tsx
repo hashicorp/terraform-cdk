@@ -59,7 +59,7 @@ export const Plan = (): React.ReactElement => {
 }
 
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
-  const { plan } = useTerraform({ targetDir, synthCommand })
+  const { plan } = useTerraform({ targetDir, synthCommand, isSpeculative: true })
 
   const { status, stackName, errors } = plan()
 

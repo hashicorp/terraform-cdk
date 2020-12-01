@@ -72,16 +72,17 @@ export class TerraformCloud implements Terraform  {
   private readonly workspaceName: string;
   private readonly organizationName: string;
   private readonly client: TerraformCloudClient.TerraformCloud;
+  private readonly isSpeculative: boolean;
   private configurationVersionId?: string;
 
-  constructor(public readonly workdir: string, public readonly config: TerraformJsonConfigBackendRemote) {
+  constructor(public readonly workdir: string, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
     if (!config.workspaces.name) throw new Error("Please provide a workspace name for Terraform Cloud");
     if (!config.organization) throw new Error("Please provide an organization for Terraform Cloud");
 
     this.hostname = config.hostname || 'app.terraform.io'
     this.workspaceName = config.workspaces.name
     this.organizationName = config.organization
-
+    this.isSpeculative = isSpeculative
     if (config.token) {
       this.token = config.token
     } else {
@@ -99,7 +100,8 @@ export class TerraformCloud implements Terraform  {
       data: {
         type: 'configuration-version',
         attributes: {
-          autoQueueRuns: false
+          autoQueueRuns: false,
+          speculative: this.isSpeculative
         }
       }
     })
