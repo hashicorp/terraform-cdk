@@ -109,11 +109,9 @@ export class TerraformCloud implements Terraform  {
     this.configurationVersionId = version.id
 
     const zipBuffer = await zipDirectory(this.workdir)
-    const url = (version.attributes as any)['upload-url']
-
     if (!zipBuffer) throw new Error("Couldn't upload directory to Terraform Cloud");
 
-    await this.client.ConfigurationVersion.upload(url, zipBuffer)
+    await this.client.ConfigurationVersion.upload(version.attributes.uploadUrl, zipBuffer)
   }
 
   public async plan(destroy = false): Promise<TerraformPlan> {
@@ -154,7 +152,7 @@ export class TerraformCloud implements Terraform  {
 
     const plan = await this.client.Plans.jsonOutput(result.relationships.plan.data.id)
 
-    return new TerraformCloudPlan('terraform-cloud', plan)
+    return new TerraformCloudPlan('terraform-cloud', plan as unknown as any)
   }
 
   public async deploy(_planFile: string, _stdout: (chunk: Buffer) => any): Promise<void> {
