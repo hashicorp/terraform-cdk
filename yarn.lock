@@ -1371,6 +1371,14 @@
   dependencies:
     type-detect "4.0.8"
 
+"@skorfmann/terraform-cloud@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.6.0.tgz#6b81bddfab692df8a55ad692c49bd27549502892"
+  integrity sha512-dccXpe0V577osVhSEPK1JaZWSEVUu/6wwllV13IQw1ZsJwGAFfUIzYZbfSZCH6Jj/OsD0N7A0sdaxpXVGxh+5A==
+  dependencies:
+    axios "^0.19.0"
+    camelcase-keys "^6.2.2"
+
 "@types/archiver@^5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@types/archiver/-/archiver-5.1.0.tgz#869f4ce4028e49cf9a0243cf914415f4cc3d1f3d"
@@ -8248,10 +8256,6 @@ terminal-link@^2.0.0:
   dependencies:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
-
-"terraform-cloud@link:../terraform-cloud":
-  version "0.0.0"
-  uid ""
 
 test-exclude@^6.0.0:
   version "6.0.0"
