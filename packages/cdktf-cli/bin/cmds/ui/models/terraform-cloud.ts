@@ -73,6 +73,7 @@ export class TerraformCloud implements Terraform  {
   private readonly organizationName: string;
   private readonly client: TerraformCloudClient.TerraformCloud;
   private readonly isSpeculative: boolean;
+  private run?: TerraformCloudClient.Run;
   private configurationVersionId?: string;
 
   constructor(public readonly workdir: string, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
@@ -120,7 +121,7 @@ export class TerraformCloud implements Terraform  {
     let result = await this.client.Runs.create({
       data: {
         attributes: {
-          iDestroy: destroy,
+          isDestroy: destroy,
           message: 'cdktf',
         },
         relationships: {
@@ -151,16 +152,58 @@ export class TerraformCloud implements Terraform  {
     }
 
     const plan = await this.client.Plans.jsonOutput(result.relationships.plan.data.id)
-
+    this.run = result
     return new TerraformCloudPlan('terraform-cloud', plan as unknown as any)
   }
 
-  public async deploy(_planFile: string, _stdout: (chunk: Buffer) => any): Promise<void> {
-    return
+  public async deploy(_planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
+    if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before deploying");
+
+    const deployingStates = ['confirmed', 'apply_queued', 'applying']
+    const runId = this.run.id;
+    await this.client.Runs.action('apply', runId)
+    let result = await this.client.Runs.show(runId)
+
+    if (deployingStates.includes(result.attributes.status)) {
+      result = await this.client.Runs.show(runId)
+      while (deployingStates.includes(result.attributes.status)) {
+        result = await this.client.Runs.show(runId)
+        await wait(1000);
+      }
+    }
+
+    const logs = await this.client.Applies.logs(result.relationships.apply.data.id)
+    stdout(Buffer.from(logs.data, 'utf8'))
+
+    switch (result.attributes.status) {
+      case 'applied': console.log('done') ; break;
+      default: throw new  Error(`error: ${result.attributes.status}`);
+    }
   }
 
-  public async destroy(_stdout: (chunk: Buffer) => any): Promise<void> {
-    return
+  public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
+    if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before destroying");
+
+    const destroyingStates = ['confirmed', 'apply_queued', 'applying']
+    const runId = this.run.id;
+    await this.client.Runs.action('apply', runId)
+    let result = await this.client.Runs.show(runId)
+
+    if (destroyingStates.includes(result.attributes.status)) {
+      result = await this.client.Runs.show(runId)
+      while (destroyingStates.includes(result.attributes.status)) {
+        result = await this.client.Runs.show(runId)
+        await wait(1000);
+      }
+    }
+
+    const logs = await this.client.Applies.logs(result.relationships.apply.data.id)
+    stdout(Buffer.from(logs.data, 'utf8'))
+
+    switch (result.attributes.status) {
+      case 'applied': console.log('done') ; break;
+      default: throw new  Error(`error: ${result.attributes.status}`);
+    }
   }
 
   public async version(): Promise<string> {
