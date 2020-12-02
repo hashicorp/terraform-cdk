@@ -4,7 +4,7 @@ import * as os from 'os';
 import * as fs from 'fs';
 import { Terraform, TerraformPlan, TerraformOutput, PlannedResourceAction, PlannedResource, ResourceChanges } from './terraform'
 import { TerraformJsonConfigBackendRemote } from '../terraform-json'
-import * as TerraformCloudClient from 'terraform-cloud'
+import * as TerraformCloudClient from '@skorfmann/terraform-cloud'
 import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
 
