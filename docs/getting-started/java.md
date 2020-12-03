@@ -7,6 +7,13 @@
 - Java ([Amazon Corretto](https://aws.amazon.com/corretto/), any [OpenJDK](https://openjdk.java.net/install/index.html) distribution, or [Oracle's JDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)) >= 8
 - [Maven](https://maven.apache.org/download.cgi) >= 3.5
 
+## Configure Maven for GitHub Packages
+Currently cdktf is distributed only on GitHub packages. Until it is available in Maven Central, some additional configuration is needed.
+
+Specifically, add `https://maven.pkg.github.com/hashicorp/terraform-cdk` as a repository and add GitHub credentials using a Personal Access Token.
+
+For more details read through [GitHub's Guide](https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/configuring-apache-maven-for-use-with-github-packages).
+
 ### Install CDK for Terraform CLI
 
 Install with [Homebrew](https://brew.sh):
@@ -51,13 +58,6 @@ Project Description: (default: 'A simple getting started project for cdktf.')
 ```
 
 Also, this command installs the `cdktf` library so that it can be used in the project.
-
-## Configure Maven for GitHub Packages
-Currently cdktf is distributed only on GitHub packages. Until it is available in Maven Central, some additional configuration is needed.
-
-Specifically, add `https://maven.pkg.github.com/hashicorp/terraform-cdk` as a repository and add GitHub credentials using a Personal Access Token.
-
-For more details read through [GitHub's Guide](https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/configuring-apache-maven-for-use-with-github-packages).
 
 ## CDK for Terraform Application
 
