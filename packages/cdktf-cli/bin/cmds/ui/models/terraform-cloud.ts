@@ -97,6 +97,11 @@ export class TerraformCloud implements Terraform  {
     this.client = new TerraformCloudClient.TerraformCloud(this.token)
   }
 
+  public async isRemoteWorkspace(): Promise<boolean> {
+    const workspace = await this.workspace()
+    return workspace.attributes.executionMode !== 'local'
+  }
+
   public async init(): Promise<void> {
     const workspace = await this.workspace()
     const version = await this.client.ConfigurationVersion.create(workspace.id, {

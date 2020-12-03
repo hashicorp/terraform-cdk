@@ -213,7 +213,12 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false }:
     const stack = JSON.parse(stackJSON) as TerraformJson
 
     if (stack.terraform?.backend?.remote) {
-      setTerraform(new TerraformCloud(outdir, stack.terraform?.backend?.remote, isSpeculative))
+      const tfClient = new TerraformCloud(outdir, stack.terraform?.backend?.remote, isSpeculative)
+      if (tfClient.isRemoteWorkspace()) {
+        setTerraform(tfClient)
+      } else {
+        setTerraform(new TerraformCli(outdir))
+      }
     } else {
       setTerraform(new TerraformCli(outdir))
     }

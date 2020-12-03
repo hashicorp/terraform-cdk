@@ -1371,10 +1371,10 @@
   dependencies:
     type-detect "4.0.8"
 
-"@skorfmann/terraform-cloud@^1.6.1":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.6.1.tgz#ed5c1aa0e787db63a9ee02f968008136471bb65c"
-  integrity sha512-oQu4bfetE/jK3t2Xo/aqzT0VlLNGJq/BG2WWK8j+XGl+daJ7XeHyHUS2IEXDSMfQGGKGi4O1PBAcNDPK3KB9tA==
+"@skorfmann/terraform-cloud@^1.6.2":
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.6.2.tgz#c9e7246abcbdf1781cb6b3805da9fd649080bae5"
+  integrity sha512-7aSiUb6fTCuRUfKOXsjczPzlmWs2t8S4kNuLv4qp9s1gQ1q/cmp2jaDIxg/MSpBMaKDni/Nv4OyN8hnnR0qGsA==
   dependencies:
     axios "^0.19.0"
     camelcase-keys "^6.2.2"
