@@ -86,6 +86,8 @@ export class TerraformCloud implements Terraform  {
     this.isSpeculative = isSpeculative
     if (config.token) {
       this.token = config.token
+    } else if (process.env.TERRAFORM_CLOUD_TOKEN) {
+      this.token = process.env.TERRAFORM_CLOUD_TOKEN
     } else {
       if (!fs.existsSync(this.terraformConfigFilePath)) throw new Error('Please provide token for Terraform Cloud');
       const configFile = JSON.parse(fs.readFileSync(this.terraformConfigFilePath, 'utf8')) as TerraformCredentialsFile
