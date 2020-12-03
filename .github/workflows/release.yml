@@ -110,9 +110,12 @@ jobs:
           name: dist
           path: dist
       - name: Publish package
-        run: yarn release-github-maven
+        run: npx -p jsii-release jsii-release-maven
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_SERVER_ID: github
+          MAVEN_REPOSITORY_URL: "https://maven.pkg.github.com/${{ github.repository }}"
           
   release_homebrew:
     name: Release to Homebrew
