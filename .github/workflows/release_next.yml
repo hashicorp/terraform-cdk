@@ -5,19 +5,17 @@ on:
       - master
 
 jobs:
-  release:
+  build_artifact:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     container:
       image: hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
-
     steps:
       - uses: actions/checkout@v2
       - name: installing dependencies
-        run: |
-          yarn install
+        run: yarn install
       - run: tools/align-version.sh "-pre.${{ github.run_number }}"
       - run: yarn build
       - run: yarn test
@@ -25,7 +23,38 @@ jobs:
       - run: yarn integration
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: dist
+
+  release_npm:
+    name: Release to NPM
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+    steps:
+      - uses: actions/checkout@v2
       - run: npx -p jsii-release jsii-release-npm
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_DIST_TAG: next
+
+  release_pypi:
+    name: Release to PyPi
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Release
+        run: npx -p jsii-release jsii-release-pypi
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
