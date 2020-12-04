@@ -41,10 +41,10 @@ jobs:
         with:
           name: dist
       - name: Release
-        - run: npx -p jsii-release jsii-release-npm
-          env:
-            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-            NPM_DIST_TAG: next
+        run: npx -p jsii-release jsii-release-npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_DIST_TAG: next
 
   release_pypi:
     name: Release to PyPi
