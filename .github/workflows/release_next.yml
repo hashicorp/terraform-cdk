@@ -36,7 +36,11 @@ jobs:
     container:
       image: hashicorp/jsii-terraform
     steps:
-      - uses: actions/checkout@v2
+      - name: Download build artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Release
       - run: npx -p jsii-release jsii-release-npm
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
