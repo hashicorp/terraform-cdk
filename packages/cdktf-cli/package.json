@@ -13,7 +13,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "yarn lint && jest",
     "jest-watch": "jest --watch",
-    "package": "./package.sh"
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
