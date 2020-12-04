@@ -1,6 +1,6 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useCallback, useState } from 'react';
-import { Text, Box, Color, useApp } from 'ink'
+import React, { Fragment, useState } from 'react';
+import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
 import ConfirmInput from 'ink-confirm-input';
 import { DeployingElement } from './components'
@@ -118,19 +118,8 @@ interface DeployConfig {
 }
 
 export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): React.ReactElement => {
-  const { exit } = useApp()
-  const [shouldContinue, confirmDeployment] = useState<boolean>(autoApprove);
-  const { deploy } = useTerraform({ targetDir, synthCommand })
-  const { state: { status, stackName, errors, plan }, confirmation } = deploy()
-
-  const confirmationCallback = useCallback(submitValue => {
-    if (submitValue === false) {
-      exit()
-      return
-    }
-    confirmDeployment(submitValue)
-    confirmation(submitValue)
-  }, []);
+  const { deploy } = useTerraform({ targetDir, synthCommand, autoApprove })
+  const { state: { status, stackName, errors, plan }, confirmation, isConfirmed } = deploy()
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
@@ -147,8 +136,8 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
         </Fragment>
       ) : (
           <>
-            {!shouldContinue && <Box flexDirection="column"><Plan /><Confirm callback={confirmationCallback} /></Box>}
-            {shouldContinue && <Apply/>}
+            {!isConfirmed && <Box flexDirection="column"><Plan /><Confirm callback={confirmation} /></Box>}
+            {isConfirmed && <Apply/>}
           </>
         )
 

@@ -6,6 +6,7 @@ import { TerraformCloud } from "./models/terraform-cloud"
 import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
 import { SynthStack } from '../helper/synth-stack'
 import { TerraformJson } from './terraform-json'
+import { useApp } from 'ink'
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -185,6 +186,7 @@ interface UseTerraformInput {
   targetDir: string;
   synthCommand: string;
   isSpeculative?: boolean;
+  autoApprove?: boolean;
 }
 
 export const useTerraformState = () => {
@@ -197,14 +199,27 @@ export const useTerraformState = () => {
   return state
 }
 
-export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false }: UseTerraformInput) => {
+export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, autoApprove = false }: UseTerraformInput) => {
   const dispatch = React.useContext(TerraformContextDispatch)
   const state = useTerraformState()
   const [terraform, setTerraform] = React.useState<Terraform>()
+  const [confirmed, setConfirmed] = React.useState<boolean>(autoApprove)
+  const { exit } = useApp()
 
   if (dispatch === undefined) {
     throw new Error('useTerraform must be used within a TerraformContextDispatch.Provider')
   }
+
+
+  const confirmationCallback = React.useCallback(submitValue => {
+    if (submitValue === false) {
+      exit()
+      return
+    }
+
+    setConfirmed(submitValue)
+  }, []);
+
 
   const excecutorForStack = (stackJSON: string): void => {
     if (stackJSON === undefined) throw new Error('no synthesized stack found');
@@ -373,8 +388,6 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false }:
   }
 
   const deploy = () => {
-    const [confirmed, setConfirmed] = React.useState<boolean>()
-
     React.useEffect(() => {
       const invoke = async () => {
         await execTerraformSynth()
@@ -395,19 +408,17 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false }:
         await execTerraformApply()
         await execTerraformOutput()
       }
-
-      if (confirmed) invoke();
-    }, [terraform, confirmed])
+      if (confirmed && state.status === Status.PLANNED) invoke();
+    }, [terraform, confirmed, state.status])
 
     return {
       state,
-      confirmation: setConfirmed
+      confirmation: confirmationCallback,
+      isConfirmed: confirmed
     }
   }
 
   const destroy = () => {
-    const [confirmed, setConfirmed] = React.useState<boolean>()
-
     React.useEffect(() => {
       const invoke = async () => {
         await execTerraformSynth()
@@ -428,12 +439,13 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false }:
         await execTerraformDestroy()
       }
 
-      if (confirmed) invoke();
-    }, [terraform, confirmed])
+      if (confirmed && state.status === Status.PLANNED) invoke();
+    }, [terraform, confirmed, state.status])
 
     return {
       state,
-      confirmation: setConfirmed
+      confirmation: confirmationCallback,
+      isConfirmed: confirmed
     }
   }
 
