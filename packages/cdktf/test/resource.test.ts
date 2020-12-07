@@ -1,6 +1,7 @@
 
 import { Testing, TerraformStack } from '../lib';
 import { TestProvider, TestResource, OtherTestResource } from './helper'
+import { TestDataSource } from './helper/data-source';
 
 test('minimal configuration', () => {
   const app = Testing.app();
@@ -102,7 +103,7 @@ test('do not change capitalization of tags', () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
-test('do change capitalization of arbritary nested types', () => {
+test('do not change capitalization of arbritary nested types', () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, 'tests');
 
@@ -112,6 +113,22 @@ test('do change capitalization of arbritary nested types', () => {
       "Tag": "isDowncased"
     }
   });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test('dependent resource', () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, 'test');
+
+  const dataSource = new TestDataSource(stack, 'data_source', {
+    name: 'foo'
+  })
+
+  new TestResource(stack, 'resource', {
+    name: 'foo',
+    dependsOn: [dataSource]
+  })
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

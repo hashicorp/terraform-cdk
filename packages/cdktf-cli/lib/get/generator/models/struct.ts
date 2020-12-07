@@ -35,6 +35,6 @@ export class ConfigStruct extends Struct {
   }
 
   public get extends(): string {
-    return ` extends TerraformMetaArguments`
+    return ` extends cdktf.TerraformMetaArguments`
   }
 }

@@ -83,6 +83,78 @@ exports[`complex providers 1`] = `
 }"
 `;
 
+exports[`depend on module 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"./foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"foo\\",
+        \\"depends_on\\": [
+          \\"module.test\\"
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`depend on other module 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"module\\": {
+    \\"test_1\\": {
+      \\"source\\": \\"./foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test_1\\",
+          \\"uniqueId\\": \\"test_1\\"
+        }
+      }
+    },
+    \\"test_2\\": {
+      \\"source\\": \\"./foo\\",
+      \\"dependsOn\\": [
+        \\"module.test_1\\"
+      ],
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test_2\\",
+          \\"uniqueId\\": \\"test_2\\"
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`minimal configuration 1`] = `
 "{
   \\"//\\": {

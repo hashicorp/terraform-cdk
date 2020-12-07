@@ -3,6 +3,7 @@ import { Token } from "./tokens"
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { keysToSnakeCase, deepMerge } from "./util";
+import { ITerraformDependable } from "./terraform-dependable";
 
 export interface ITerraformResource {
   readonly terraformResourceType: string;
@@ -24,7 +25,7 @@ export interface TerraformResourceLifecycle {
 }
 
 export interface TerraformMetaArguments {
-  readonly dependsOn?: TerraformResource[];
+  readonly dependsOn?: ITerraformDependable[];
   readonly count?: number;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
@@ -40,7 +41,7 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
 }
 
-export class TerraformResource extends TerraformElement implements ITerraformResource {
+export class TerraformResource extends TerraformElement implements ITerraformResource, ITerraformDependable {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
 
@@ -103,7 +104,7 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
    */
   public toTerraform(): any {
     const attributes = deepMerge(
-      keysToSnakeCase(this.synthesizeAttributes()),
+      this.synthesizeAttributes(),
       keysToSnakeCase(this.terraformMetaArguments),
       this.rawOverrides
     )

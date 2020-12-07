@@ -44,12 +44,8 @@ export class ResourceModel {
     this.terraformSchemaType = options.terraformSchemaType
     this.dependencies = [
       `import { Construct } from 'constructs';`,
-      `import { ${this.parentClassName} } from 'cdktf';`
+      `import * as cdktf from 'cdktf';`
     ]
-
-    if (!this.isProvider) {
-      this.dependencies.push(`import { TerraformMetaArguments } from 'cdktf';`)
-    }
   }
 
   public get structs(): Struct[] {
@@ -65,12 +61,7 @@ export class ResourceModel {
   }
 
   public get importStatements(): string[] {
-    const attributeDependencies = this.attributes.map(attr => attr.type.dependencies).filter(Boolean) as string[];
-    return [...this.dependencies, ...attributeDependencies].filter(onlyUnique);
-
-    function onlyUnique(value: string, index: number, self: string[]) {
-      return self.indexOf(value) === index;
-    }
+    return this.dependencies;
   }
 
   public get schemaAsJson(): string {

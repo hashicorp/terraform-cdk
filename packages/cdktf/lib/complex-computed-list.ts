@@ -27,7 +27,7 @@ export class StringMap {
   constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): string {
-    return Token.asString(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]}`)
+    return Token.asString(this.terraformResource.interpolationForAttribute(`${this.terraformAttribute}["${key}"]`))
   }
 }
 
@@ -35,7 +35,7 @@ export class NumberMap {
   constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): number {
-    return Token.asNumber(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]`)
+    return Token.asNumber(this.terraformResource.interpolationForAttribute(`${this.terraformAttribute}["${key}"]`))
   }
 }
 
@@ -43,7 +43,7 @@ export class BooleanMap {
   constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string) {}
 
   public lookup(key: string): boolean {
-    return Token.asString(`\${${this.terraformResource.terraformResourceType}.${this.terraformResource.friendlyUniqueId}.${this.terraformAttribute}["${key}"]`) as any as boolean
+    return Token.asString(this.terraformResource.interpolationForAttribute(`${this.terraformAttribute}["${key}"]`)) as any as boolean
   }
 }
 

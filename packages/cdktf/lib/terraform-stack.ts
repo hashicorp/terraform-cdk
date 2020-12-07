@@ -129,17 +129,12 @@ export class TerraformStack extends Construct {
       }
     };
 
-    const visit = (node: IConstruct) => {
-      if (node instanceof TerraformElement) {
-        deepMerge(tf,  node.toTerraform());
-      }
+    const elements = terraformElements(this);
+    const fragments = elements.map(e => resolve(this, e.toTerraform()));
 
-      for (const child of Node.of(node).children) {
-        visit(child);
-      }
+    for (const fragment of fragments) {
+      deepMerge(tf, fragment);
     }
-
-    visit(this);
 
     deepMerge(tf, this.rawOverrides);
 
@@ -150,4 +145,19 @@ export class TerraformStack extends Construct {
     const resourceOutput = path.join(session.outdir, this.artifactFile);
     fs.writeFileSync(resourceOutput, JSON.stringify(this.toTerraform(), undefined, 2));
   }
+}
+
+function terraformElements(node: IConstruct, into: TerraformElement[] = []): TerraformElement[] {
+  if (node instanceof TerraformElement) {
+    into.push(node);
+  }
+
+  for (const child of Node.of(node).children) {
+    // Don't recurse into a substack
+    if (TerraformStack.isStack(child)) { continue; }
+
+    terraformElements(child, into);
+  }
+
+  return into;
 }

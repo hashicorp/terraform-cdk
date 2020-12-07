@@ -16,3 +16,5 @@ export * from './terraform-remote-state';
 export * from './terraform-local';
 export * from './terraform-variable';
 export * from './terraform-hcl-module';
+export * from './runtime';
+export * from './terraform-dependable';

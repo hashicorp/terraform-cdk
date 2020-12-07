@@ -96,23 +96,23 @@ jobs:
 
   release_maven_github:
     name: Release to GitHub Maven
-    runs-on: ubuntu-latest
     needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
     steps:
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - uses: actions/checkout@v2
       - name: Download dist
         uses: actions/download-artifact@v2
         with:
           name: dist
           path: dist
-      - name: Publish package
-        run: yarn release-github-maven
+      - name: Release
+        run: npx -p jsii-release jsii-release-maven
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_SERVER_ID: github
+          MAVEN_REPOSITORY_URL: "https://maven.pkg.github.com/${{ github.repository }}"
           
   release_homebrew:
     name: Release to Homebrew

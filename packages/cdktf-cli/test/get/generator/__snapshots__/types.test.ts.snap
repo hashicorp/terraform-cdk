@@ -5,19 +5,18 @@ exports[`boolean list attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface BooleanListConfig extends TerraformMetaArguments {
+export interface BooleanListConfig extends cdktf.TerraformMetaArguments {
   readonly fooRequired: boolean[];
   readonly fooOptional?: boolean[];
 }
 
 // Resource
 
-export class BooleanList extends TerraformResource {
+export class BooleanList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -77,8 +76,8 @@ export class BooleanList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: this._fooRequired,
-      foo_optional: this._fooOptional,
+      foo_required: cdktf.listMapper(cdktf.booleanToTerraform)(this._fooRequired),
+      foo_optional: cdktf.listMapper(cdktf.booleanToTerraform)(this._fooOptional),
     };
   }
 }
@@ -90,20 +89,18 @@ exports[`boolean map attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
-import { BooleanMap } from \\"cdktf\\";
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface BooleanMapConfig extends TerraformMetaArguments {
+export interface BooleanMapConfig extends cdktf.TerraformMetaArguments {
   readonly fooComputedOptional?: { [key: string]: boolean };
   readonly fooOptional?: { [key: string]: boolean };
 }
 
 // Resource
 
-export class BooleanMap extends TerraformResource {
+export class BooleanMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -130,7 +127,7 @@ export class BooleanMap extends TerraformResource {
 
   // foo_computed - computed: true, optional: false, required: false
   public fooComputed(key: string): boolean {
-    return new BooleanMap(this, 'foo_computed').lookup(key);
+    return new cdktf.BooleanMap(this, 'foo_computed').lookup(key);
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
@@ -171,8 +168,8 @@ export class BooleanMap extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
+      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
+      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
     };
   }
 }
@@ -184,15 +181,13 @@ exports[`computed complex attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
-import { ComplexComputedList } from \\"cdktf\\";
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface ComputedComplexConfig extends TerraformMetaArguments {
+export interface ComputedComplexConfig extends cdktf.TerraformMetaArguments {
 }
-export class ComputedComplexEgress extends ComplexComputedList {
+export class ComputedComplexEgress extends cdktf.ComplexComputedList {
 
   // cidr_blocks - computed: true, optional: false, required: false
   public get cidrBlocks() {
@@ -242,7 +237,7 @@ export class ComputedComplexEgress extends ComplexComputedList {
 
 // Resource
 
-export class ComputedComplex extends TerraformResource {
+export class ComputedComplex extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -287,22 +282,20 @@ exports[`computed complex nested attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
-import { ComplexComputedList } from \\"cdktf\\";
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface ComputedComplexNestedConfig extends TerraformMetaArguments {
+export interface ComputedComplexNestedConfig extends cdktf.TerraformMetaArguments {
 }
-export class ComputedComplexNestedResourcesAutoscalingGroups extends ComplexComputedList {
+export class ComputedComplexNestedResourcesAutoscalingGroups extends cdktf.ComplexComputedList {
 
   // name - computed: true, optional: false, required: false
   public get name() {
     return this.getStringAttribute('name');
   }
 }
-export class ComputedComplexNestedResources extends ComplexComputedList {
+export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
 
   // autoscaling_groups - computed: true, optional: false, required: false
   public get autoscalingGroups() {
@@ -317,7 +310,7 @@ export class ComputedComplexNestedResources extends ComplexComputedList {
 
 // Resource
 
-export class ComputedComplexNested extends TerraformResource {
+export class ComputedComplexNested extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -362,12 +355,11 @@ exports[`computed nested complex list block type 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface BlockTypeNestedComputedListConfig extends TerraformMetaArguments {
+export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaArguments {
   /** inputs block */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
@@ -375,9 +367,17 @@ export interface BlockTypeNestedComputedListInputs {
   readonly namePrefix: string;
 }
 
+function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    name_prefix: cdktf.stringToTerraform(struct!.namePrefix),
+  }
+}
+
+
 // Resource
 
-export class BlockTypeNestedComputedList extends TerraformResource {
+export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -423,7 +423,7 @@ export class BlockTypeNestedComputedList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      inputs: this._inputs,
+      inputs: cdktf.listMapper(blockTypeNestedComputedListInputsToTerraform)(this._inputs),
     };
   }
 }
@@ -435,12 +435,11 @@ exports[`computed optional complex attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface ComputedOptionalComplexConfig extends TerraformMetaArguments {
+export interface ComputedOptionalComplexConfig extends cdktf.TerraformMetaArguments {
   readonly egress?: ComputedOptionalComplexEgress[];
 }
 export interface ComputedOptionalComplexEgress {
@@ -455,9 +454,25 @@ export interface ComputedOptionalComplexEgress {
   readonly toPort?: number;
 }
 
+function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    description: cdktf.stringToTerraform(struct!.description),
+    from_port: cdktf.numberToTerraform(struct!.fromPort),
+    ipv6_cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    protocol: cdktf.stringToTerraform(struct!.protocol),
+    security_groups: cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    self: cdktf.booleanToTerraform(struct!.selfAttribute),
+    to_port: cdktf.numberToTerraform(struct!.toPort),
+  }
+}
+
+
 // Resource
 
-export class ComputedOptionalComplex extends TerraformResource {
+export class ComputedOptionalComplex extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -503,7 +518,7 @@ export class ComputedOptionalComplex extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      egress: this._egress,
+      egress: cdktf.listMapper(computedOptionalComplexEgressToTerraform)(this._egress),
     };
   }
 }
@@ -515,27 +530,43 @@ exports[`deeply nested block types 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface DeeplyNestedBlockTypesConfig extends TerraformMetaArguments {
+export interface DeeplyNestedBlockTypesConfig extends cdktf.TerraformMetaArguments {
   /** lifecycle_rule block */
   readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
 }
 export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   readonly date?: string;
 }
+
+function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    date: cdktf.stringToTerraform(struct!.date),
+  }
+}
+
 export interface DeeplyNestedBlockTypesLifecycleRule {
   readonly abortIncompleteMultipartUploadDays?: number;
   /** expiration block */
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration[];
 }
 
+function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
+    expiration: cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform)(struct!.expiration),
+  }
+}
+
+
 // Resource
 
-export class DeeplyNestedBlockTypes extends TerraformResource {
+export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -581,7 +612,7 @@ export class DeeplyNestedBlockTypes extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      lifecycle_rule: this._lifecycleRule,
+      lifecycle_rule: cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleToTerraform)(this._lifecycleRule),
     };
   }
 }
@@ -593,17 +624,16 @@ exports[`ignored attributes 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface IgnoredAttributesConfig extends TerraformMetaArguments {
+export interface IgnoredAttributesConfig extends cdktf.TerraformMetaArguments {
 }
 
 // Resource
 
-export class IgnoredAttributes extends TerraformResource {
+export class IgnoredAttributes extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -653,19 +683,18 @@ exports[`incompatible attribute names 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface IncompatibleAttributeNamesConfig extends TerraformMetaArguments {
+export interface IncompatibleAttributeNamesConfig extends cdktf.TerraformMetaArguments {
   readonly fetchPasswordData?: string;
   readonly selfAttribute: string;
 }
 
 // Resource
 
-export class IncompatibleAttributeNames extends TerraformResource {
+export class IncompatibleAttributeNames extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -725,8 +754,8 @@ export class IncompatibleAttributeNames extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      get_password_data: this._getPasswordData,
-      self: this._self,
+      get_password_data: cdktf.stringToTerraform(this._getPasswordData),
+      self: cdktf.stringToTerraform(this._self),
     };
   }
 }
@@ -738,18 +767,16 @@ exports[`list of string map attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
-import { StringMap } from \\"cdktf\\";
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface ListOfStringMapConfig extends TerraformMetaArguments {
+export interface ListOfStringMapConfig extends cdktf.TerraformMetaArguments {
 }
 
 // Resource
 
-export class ListOfStringMap extends TerraformResource {
+export class ListOfStringMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -774,7 +801,7 @@ export class ListOfStringMap extends TerraformResource {
 
   // keys - computed: true, optional: false, required: false
   public keys(index: string, key: string): string {
-    return new StringMap(this, \`keys.\${index}\`).lookup(key);
+    return new cdktf.StringMap(this, \`keys.\${index}\`).lookup(key);
   }
 
   // =========
@@ -794,19 +821,18 @@ exports[`number list attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface NumberListConfig extends TerraformMetaArguments {
+export interface NumberListConfig extends cdktf.TerraformMetaArguments {
   readonly fooRequired: number[];
   readonly fooOptional?: number[];
 }
 
 // Resource
 
-export class NumberList extends TerraformResource {
+export class NumberList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -866,8 +892,8 @@ export class NumberList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: this._fooRequired,
-      foo_optional: this._fooOptional,
+      foo_required: cdktf.listMapper(cdktf.numberToTerraform)(this._fooRequired),
+      foo_optional: cdktf.listMapper(cdktf.numberToTerraform)(this._fooOptional),
     };
   }
 }
@@ -879,20 +905,18 @@ exports[`number map attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
-import { NumberMap } from \\"cdktf\\";
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface NumberMapConfig extends TerraformMetaArguments {
+export interface NumberMapConfig extends cdktf.TerraformMetaArguments {
   readonly fooComputedOptional?: { [key: string]: number };
   readonly fooOptional?: { [key: string]: number };
 }
 
 // Resource
 
-export class NumberMap extends TerraformResource {
+export class NumberMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -919,7 +943,7 @@ export class NumberMap extends TerraformResource {
 
   // foo_computed - computed: true, optional: false, required: false
   public fooComputed(key: string): number {
-    return new NumberMap(this, 'foo_computed').lookup(key);
+    return new cdktf.NumberMap(this, 'foo_computed').lookup(key);
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
@@ -960,8 +984,8 @@ export class NumberMap extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
+      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
+      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
     };
   }
 }
@@ -973,12 +997,11 @@ exports[`primitive boolean 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface PrimitiveBooleanConfig extends TerraformMetaArguments {
+export interface PrimitiveBooleanConfig extends cdktf.TerraformMetaArguments {
   readonly fooComputedOptional?: boolean;
   readonly fooOptional?: boolean;
   readonly fooRequired: boolean;
@@ -986,7 +1009,7 @@ export interface PrimitiveBooleanConfig extends TerraformMetaArguments {
 
 // Resource
 
-export class PrimitiveBoolean extends TerraformResource {
+export class PrimitiveBoolean extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1068,9 +1091,9 @@ export class PrimitiveBoolean extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
-      foo_required: this._fooRequired,
+      foo_computed_optional: cdktf.booleanToTerraform(this._fooComputedOptional),
+      foo_optional: cdktf.booleanToTerraform(this._fooOptional),
+      foo_required: cdktf.booleanToTerraform(this._fooRequired),
     };
   }
 }
@@ -1082,12 +1105,11 @@ exports[`primitive number 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface PrimitiveNumberConfig extends TerraformMetaArguments {
+export interface PrimitiveNumberConfig extends cdktf.TerraformMetaArguments {
   readonly fooComputedOptional?: number;
   readonly fooOptional?: number;
   readonly fooRequired: number;
@@ -1095,7 +1117,7 @@ export interface PrimitiveNumberConfig extends TerraformMetaArguments {
 
 // Resource
 
-export class PrimitiveNumber extends TerraformResource {
+export class PrimitiveNumber extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1177,9 +1199,9 @@ export class PrimitiveNumber extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
-      foo_required: this._fooRequired,
+      foo_computed_optional: cdktf.numberToTerraform(this._fooComputedOptional),
+      foo_optional: cdktf.numberToTerraform(this._fooOptional),
+      foo_required: cdktf.numberToTerraform(this._fooRequired),
     };
   }
 }
@@ -1191,12 +1213,11 @@ exports[`primitive string 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface PrimitiveStringConfig extends TerraformMetaArguments {
+export interface PrimitiveStringConfig extends cdktf.TerraformMetaArguments {
   readonly fooComputedOptional?: string;
   readonly fooOptional?: string;
   readonly fooRequired: string;
@@ -1204,7 +1225,7 @@ export interface PrimitiveStringConfig extends TerraformMetaArguments {
 
 // Resource
 
-export class PrimitiveString extends TerraformResource {
+export class PrimitiveString extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1286,9 +1307,134 @@ export class PrimitiveString extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: this._fooComputedOptional,
-      foo_optional: this._fooOptional,
-      foo_required: this._fooRequired,
+      foo_computed_optional: cdktf.stringToTerraform(this._fooComputedOptional),
+      foo_optional: cdktf.stringToTerraform(this._fooOptional),
+      foo_required: cdktf.stringToTerraform(this._fooRequired),
+    };
+  }
+}
+"
+`;
+
+exports[`reset and input name conflicts 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/name_conflict.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface NameConflictConfig extends cdktf.TerraformMetaArguments {
+  readonly values?: string;
+  readonly resetValues?: string;
+  readonly template?: string;
+  readonly templateInput?: string;
+}
+
+// Resource
+
+export class NameConflict extends cdktf.TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: NameConflictConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_name_conflict',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._values = config.values;
+    this._resetValues = config.resetValues;
+    this._template = config.template;
+    this._templateInput = config.templateInput;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // values - computed: false, optional: true, required: false
+  private _values?: string;
+  public get values() {
+    return this.getStringAttribute('values');
+  }
+  public set values(value: string ) {
+    this._values = value;
+  }
+  public resetTfValues() {
+    this._values = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get valuesInput() {
+    return this._values
+  }
+
+  // reset_values - computed: false, optional: true, required: false
+  private _resetValues?: string;
+  public get resetValues() {
+    return this.getStringAttribute('reset_values');
+  }
+  public set resetValues(value: string ) {
+    this._resetValues = value;
+  }
+  public resetResetValues() {
+    this._resetValues = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get resetValuesInput() {
+    return this._resetValues
+  }
+
+  // template - computed: false, optional: true, required: false
+  private _template?: string;
+  public get template() {
+    return this.getStringAttribute('template');
+  }
+  public set template(value: string ) {
+    this._template = value;
+  }
+  public resetTemplate() {
+    this._template = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get templateTfInput() {
+    return this._template
+  }
+
+  // template_input - computed: false, optional: true, required: false
+  private _templateInput?: string;
+  public get templateInput() {
+    return this.getStringAttribute('template_input');
+  }
+  public set templateInput(value: string ) {
+    this._templateInput = value;
+  }
+  public resetTemplateInput() {
+    this._templateInput = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get templateInputInput() {
+    return this._templateInput
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      values: cdktf.stringToTerraform(this._values),
+      reset_values: cdktf.stringToTerraform(this._resetValues),
+      template: cdktf.stringToTerraform(this._template),
+      template_input: cdktf.stringToTerraform(this._templateInput),
     };
   }
 }
@@ -1300,12 +1446,11 @@ exports[`set / list block type 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface BlockTypeSetListConfig extends TerraformMetaArguments {
+export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
   /** timeouts_set block */
   readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
   /** timeouts_list block */
@@ -1314,13 +1459,29 @@ export interface BlockTypeSetListConfig extends TerraformMetaArguments {
 export interface BlockTypeSetListTimeoutsSet {
   readonly create?: string;
 }
+
+function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    create: cdktf.stringToTerraform(struct!.create),
+  }
+}
+
 export interface BlockTypeSetListTimeoutsList {
   readonly create?: string;
 }
 
+function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    create: cdktf.stringToTerraform(struct!.create),
+  }
+}
+
+
 // Resource
 
-export class BlockTypeSetList extends TerraformResource {
+export class BlockTypeSetList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1383,8 +1544,8 @@ export class BlockTypeSetList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts_set: this._timeoutsSet,
-      timeouts_list: this._timeoutsList,
+      timeouts_set: cdktf.listMapper(blockTypeSetListTimeoutsSetToTerraform)(this._timeoutsSet),
+      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListToTerraform)(this._timeoutsList),
     };
   }
 }
@@ -1396,12 +1557,11 @@ exports[`single block type 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface SingleBlockTypeConfig extends TerraformMetaArguments {
+export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
   /** timeouts block */
   readonly timeouts?: SingleBlockTypeTimeouts;
 }
@@ -1409,9 +1569,17 @@ export interface SingleBlockTypeTimeouts {
   readonly create?: string;
 }
 
+function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    create: cdktf.stringToTerraform(struct!.create),
+  }
+}
+
+
 // Resource
 
-export class SingleBlockType extends TerraformResource {
+export class SingleBlockType extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1457,7 +1625,7 @@ export class SingleBlockType extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts: this._timeouts,
+      timeouts: singleBlockTypeTimeoutsToTerraform(this._timeouts),
     };
   }
 }
@@ -1469,12 +1637,11 @@ exports[`string list attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface StringListConfig extends TerraformMetaArguments {
+export interface StringListConfig extends cdktf.TerraformMetaArguments {
   readonly subjectAlternativeNamesOptionalComputed?: string[];
   readonly subjectAlternativeNamesRequired: string[];
   readonly subjectAlternativeNamesOptional?: string[];
@@ -1482,7 +1649,7 @@ export interface StringListConfig extends TerraformMetaArguments {
 
 // Resource
 
-export class StringList extends TerraformResource {
+export class StringList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1564,9 +1731,9 @@ export class StringList extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_optional_computed: this._subjectAlternativeNamesOptionalComputed,
-      subject_alternative_names_required: this._subjectAlternativeNamesRequired,
-      subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
+      subject_alternative_names_optional_computed: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptionalComputed),
+      subject_alternative_names_required: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesRequired),
+      subject_alternative_names_optional: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptional),
     };
   }
 }
@@ -1578,20 +1745,18 @@ exports[`string map attribute 1`] = `
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
-import { TerraformResource } from 'cdktf';
-import { TerraformMetaArguments } from 'cdktf';
-import { StringMap } from \\"cdktf\\";
+import * as cdktf from 'cdktf';
 
 // Configuration
 
-export interface StringMapConfig extends TerraformMetaArguments {
+export interface StringMapConfig extends cdktf.TerraformMetaArguments {
   readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string };
   readonly subjectAlternativeNamesOptional?: { [key: string]: string };
 }
 
 // Resource
 
-export class StringMap extends TerraformResource {
+export class StringMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
@@ -1618,7 +1783,7 @@ export class StringMap extends TerraformResource {
 
   // subject_alternative_names_computed - computed: true, optional: false, required: false
   public subjectAlternativeNamesComputed(key: string): string {
-    return new StringMap(this, 'subject_alternative_names_computed').lookup(key);
+    return new cdktf.StringMap(this, 'subject_alternative_names_computed').lookup(key);
   }
 
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
@@ -1659,8 +1824,8 @@ export class StringMap extends TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_computed_optional: this._subjectAlternativeNamesComputedOptional,
-      subject_alternative_names_optional: this._subjectAlternativeNamesOptional,
+      subject_alternative_names_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesComputedOptional),
+      subject_alternative_names_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesOptional),
     };
   }
 }

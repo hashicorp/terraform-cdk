@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { ComplexComputedList, TerraformDataSource, TerraformMetaArguments } from '../../lib';
+import { ComplexComputedList, TerraformDataSource, TerraformMetaArguments, StringMap, NumberMap, BooleanMap } from '../../lib';
 import { TestProviderMetadata } from './provider';
 
 export interface TestDataSourceConfig extends TerraformMetaArguments {
@@ -18,12 +18,27 @@ export class TestDataSource extends TerraformDataSource {
         providerVersionConstraint: '~> 2.0'
       },
       provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
     });
     this.name = config.name;
   }
 
   public complexComputedList(index: string) {
     return new TestComplexComputedList(this, 'complex_computed_list', index);
+  }
+
+  public stringMap(key: string) {
+    return new StringMap(this, 'string_map').lookup(key);
+  }
+
+  public numberMap(key: string) {
+    return new NumberMap(this, 'number_map').lookup(key);
+  }
+
+  public booleanMap(key: string) {
+    return new BooleanMap(this, 'boolean_map').lookup(key);
   }
 
   protected synthesizeAttributes(): { [p: string]: any } {

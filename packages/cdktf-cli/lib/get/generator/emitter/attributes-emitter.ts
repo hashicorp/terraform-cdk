@@ -1,28 +1,29 @@
 import { CodeMaker } from 'codemaker';
 import { AttributeModel } from "../models";
+import { downcaseFirst } from '../../../util';
 
 export class AttributesEmitter {
   constructor(private code: CodeMaker) {}
 
-  public emit(att: AttributeModel) {
+  public emit(att: AttributeModel, escapeReset: boolean, escapeInput: boolean) {
     this.code.line();
     this.code.line(`// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`);
 
     switch (true) {
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList && att.type.isMap): return this.emitComputedComplexListMap(att);
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexList(att);
-      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptional(att);
+      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isList): return this.emitComputedComplexOptional(att, escapeReset, escapeInput);
       case (att.computed && !att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexMap(att);
-      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexOptional(att);
+      case (att.computed && att.isOptional && att.type.isComputedComplex && att.type.isMap): return this.emitComputedComplexOptional(att, escapeReset, escapeInput);
       case (att.computed && att.optional && !att.isRequired && att.isConfigIgnored): return this.emitOptionalComputedIgnored(att);
-      case (att.computed && att.isOptional): return this.emitOptionalComputed(att);
+      case (att.computed && att.isOptional): return this.emitOptionalComputed(att, escapeReset, escapeInput);
       case (att.computed): return this.emitComputed(att);
-      case (att.isOptional): return this.emitOptional(att);
-      case (att.isRequired): return this.emitRequired(att);
+      case (att.isOptional): return this.emitOptional(att, escapeReset, escapeInput);
+      case (att.isRequired): return this.emitRequired(att, escapeInput);
     }
   }
 
-  private emitOptional(att: AttributeModel) {
+  private emitOptional(att: AttributeModel, escapeReset: boolean, escapeInput: boolean) {
     this.code.line(`private ${att.storageName}?: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
       this.code.line(`return ${att.isProvider ? "this." + att.storageName : this.determineGetAttCall(att)};`);
@@ -32,17 +33,17 @@ export class AttributesEmitter {
       this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public ${this.getResetName(att.name)}()`);
+    this.code.openBlock(`public ${this.getResetName(att.name, escapeReset)}()`);
       this.code.line(`this.${att.storageName} = undefined;`);
     this.code.closeBlock();
 
     this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${att.name}Input()`);
+    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
       this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
 
-  private emitOptionalComputed(att: AttributeModel) {
+  private emitOptionalComputed(att: AttributeModel, escapeReset: boolean, escapeInput: boolean) {
     this.code.line(`private ${att.storageName}?: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
       this.code.line(`return ${this.determineGetAttCall(att)};`);
@@ -52,12 +53,12 @@ export class AttributesEmitter {
       this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public ${this.getResetName(att.name)}()`);
+    this.code.openBlock(`public ${this.getResetName(att.name, escapeReset)}()`);
       this.code.line(`this.${att.storageName} = undefined;`);
     this.code.closeBlock();
 
     this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${att.name}Input()`);
+    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
       this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
@@ -74,7 +75,7 @@ export class AttributesEmitter {
     this.code.closeBlock();
   }
 
-  private emitRequired(att: AttributeModel) {
+  private emitRequired(att: AttributeModel, escapeInput: boolean) {
     this.code.line(`private ${att.storageName}: ${att.type.name};`);
     this.code.openBlock(`public get ${att.name}()`);
       this.code.line(`return ${att.isProvider ? "this." + att.storageName : this.determineGetAttCall(att)};`);
@@ -85,7 +86,7 @@ export class AttributesEmitter {
     this.code.closeBlock();
 
     this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${att.name}Input()`);
+    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
       this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
@@ -102,7 +103,7 @@ export class AttributesEmitter {
     this.code.closeBlock();
   }
 
-  private emitComputedComplexOptional(att: AttributeModel) {
+  private emitComputedComplexOptional(att: AttributeModel, escapeReset: boolean, escapeInput: boolean) {
     this.code.line(`private ${att.storageName}?: ${att.type.name}`);
     this.code.openBlock(`public get ${att.name}(): ${att.type.name}`);
       this.code.line(`return this.interpolationForAttribute('${att.terraformName}') as any; // Getting the computed value is not yet implemented`);
@@ -112,12 +113,12 @@ export class AttributesEmitter {
       this.code.line(`this.${att.storageName} = value;`);
     this.code.closeBlock();
 
-    this.code.openBlock(`public ${this.getResetName(att.name)}()`);
+    this.code.openBlock(`public ${this.getResetName(att.name, escapeReset)}()`);
       this.code.line(`this.${att.storageName} = undefined;`);
     this.code.closeBlock();
 
     this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${att.name}Input()`);
+    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
       this.code.line(`return this.${att.storageName}`);
     this.code.closeBlock();
   }
@@ -151,8 +152,62 @@ export class AttributesEmitter {
     return `any`
   }
 
-  public getResetName(name: string) {
+  public needsInputEscape(att: AttributeModel, attributes: AttributeModel[]): boolean {
+    return attributes.find(a => a.terraformName.match(`^${att.terraformName}_input$`)) instanceof AttributeModel;
+  }
+
+  public getInputName(att: AttributeModel, escape: boolean) {
+    if (escape) {
+      return `${att.name}TfInput`;
+    }
+    else {
+      return `${att.name}Input`;
+    }
+  }
+
+  public needsResetEscape(att: AttributeModel, attributes: AttributeModel[]): boolean {
+    return attributes.find(a => a.terraformName.match(`^reset_${att.terraformName}$`)) instanceof AttributeModel;
+  }
+
+  public getResetName(name: string, escape: boolean) {
     if (!name) return name;
-    return `reset${name[0].toUpperCase() + name.slice(1)}`;
+    if (escape) {
+      return `resetTf${name[0].toUpperCase() + name.slice(1)}`;
+    }
+    else {
+      return `reset${name[0].toUpperCase() + name.slice(1)}`;
+    }
+  }
+
+  public emitToTerraform(att: AttributeModel, isStruct: boolean) {
+    const type = att.type;
+    const context = isStruct ? 'struct!' : 'this';
+    const name = isStruct ? att.name : att.storageName;
+    switch (true) {
+      case (type.isList && type.isMap):
+        this.code.line(`${att.terraformName}: cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform))(${context}.${name}),`);
+        break;
+      case (type.isStringList || type.isNumberList || type.isBooleanList):
+        this.code.line(`${att.terraformName}: cdktf.listMapper(cdktf.${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
+        break;
+      case (type.isList):
+        this.code.line(`${att.terraformName}: cdktf.listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
+        break;
+      case (type.isMap):
+        this.code.line(`${att.terraformName}: cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform)(${context}.${name}),`);
+        break;
+      case (type.isString):
+        this.code.line(`${att.terraformName}: cdktf.stringToTerraform(${context}.${name}),`);
+        break;
+      case (type.isNumber):
+        this.code.line(`${att.terraformName}: cdktf.numberToTerraform(${context}.${name}),`);
+        break;
+      case (type.isBoolean):
+        this.code.line(`${att.terraformName}: cdktf.booleanToTerraform(${context}.${name}),`);
+        break;
+      default:
+        this.code.line(`${att.terraformName}: ${downcaseFirst(type.name)}ToTerraform(${context}.${name}),`);
+        break;
+    }
   }
 }

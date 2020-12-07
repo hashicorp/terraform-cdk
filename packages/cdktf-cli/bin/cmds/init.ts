@@ -87,11 +87,13 @@ This means that your Terraform state file will be stored locally on disk in a fi
 }
 
 async function determineDeps(version: string, dist?: string): Promise<Deps> {
+  const pythonVersion = version.replace(/-pre\./g, '.dev')
+
   if (dist) {
     const ret = {
       'npm_cdktf': path.resolve(dist, 'js', `cdktf@${version}.jsii.tgz`),
       'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
-      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${version.replace(/-/g, '_')}-py3-none-any.whl`),
+      'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${pythonVersion}-py3-none-any.whl`),
       'mvn_cdktf': path.resolve(dist, 'java', `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`),
       'nuget_cdktf': path.resolve(dist, 'dotnet', `Hashicorp.Cdktf.${version}.nupkg`)
     };
@@ -128,7 +130,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
     'constructs_version': constructsVersion,
     'npm_cdktf': `cdktf@${ver}`,
     'npm_cdktf_cli': `cdktf-cli@${ver}`,
-    'pypi_cdktf': `cdktf~=${version}`, // no support for pre-release
+    'pypi_cdktf': `cdktf~=${pythonVersion}`,
     'mvn_cdktf': version,
     'nuget_cdktf': version
   };
