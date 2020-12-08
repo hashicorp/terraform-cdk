@@ -37,6 +37,10 @@ Options:
 Options can be specified via environment variables with the "CDKTF_" prefix (e.g. "CDKTF_OUTPUT")
 ```
 
+### CI enviornment
+
+If running in automated environments, the dynamic CLI output rendering can be forced to be static with the `CI` enviornment variable set to a trueish value.
+
 ## Available commands
 
 * [get](#cdktf-get)
