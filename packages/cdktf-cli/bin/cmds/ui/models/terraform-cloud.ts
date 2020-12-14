@@ -51,10 +51,9 @@ const zipDirectory = (source: string): Promise<Buffer | false> => {
     archive
       .directory(source, false)
       .on('error', err => reject(err))
+      .on('end', () => resolve(stream.getContents()))
       .pipe(stream)
     ;
-
-    stream.on('close', () => resolve(stream.getContents()));
     archive.finalize();
   });
 }
