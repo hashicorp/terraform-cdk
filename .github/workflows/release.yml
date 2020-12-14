@@ -9,7 +9,7 @@ jobs:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
 
@@ -40,13 +40,13 @@ jobs:
         run: yarn release-github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
   release_npm:
     name: Release to Github Packages NPM regitry
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v1
@@ -99,7 +99,7 @@ jobs:
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download dist
         uses: actions/download-artifact@v2
@@ -113,7 +113,7 @@ jobs:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_SERVER_ID: github
           MAVEN_REPOSITORY_URL: "https://maven.pkg.github.com/${{ github.repository }}"
-          
+
   release_homebrew:
     name: Release to Homebrew
     # The branch or tag ref that triggered the workflow run.
