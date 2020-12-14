@@ -9,7 +9,7 @@ jobs:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
@@ -34,7 +34,7 @@ jobs:
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v1
@@ -51,7 +51,7 @@ jobs:
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v1
@@ -68,7 +68,7 @@ jobs:
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download dist
         uses: actions/download-artifact@v2

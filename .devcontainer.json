@@ -1,6 +1,6 @@
 {
   "name": "Dev Container Definition - Terraform CDK",
-  "image": "hashicorp/jsii-terraform",
+  "image": "hashicorp.jfrog.io/docker/hashicorp/jsii-terraform",
   "postCreateCommand": "yarn build",
   "extensions": ["dbaeumer.vscode-eslint@2.1.5"]
 }

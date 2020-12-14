@@ -8,7 +8,7 @@ jobs:
       matrix:
         terraform: ["0.12.29", "0.13.4", "0.14.0"]
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     env:
       TF_PLUGIN_CACHE_DIR: "/root/.terraform.d/plugin-cache"
       CHECKPOINT_DISABLE: "1"
