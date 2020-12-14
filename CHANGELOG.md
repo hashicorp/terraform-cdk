@@ -1,3 +1,14 @@
+## 0.0.19
+
+**Fixed bugs:**
+
+- Depends on expansion [\#442](https://github.com/hashicorp/terraform-cdk/issues/442)
+- Make sure tokens resolved before converting to json [\#439](https://github.com/hashicorp/terraform-cdk/issues/439)
+- Alter reset and input names when they conflict [\#429](https://github.com/hashicorp/terraform-cdk/issues/429)
+- Fix complex map attribute data source reference [\#441](https://github.com/hashicorp/terraform-cdk/issues/441)
+- Remap 'equals' to 'equalTo' to work around jsii limitation [\#428](https://github.com/hashicorp/terraform-cdk/issues/428)
+- Generated custom mappings [\#395](https://github.com/hashicorp/terraform-cdk/issues/395)
+
 ## 0.0.18
 
 **Fixed bugs:**
