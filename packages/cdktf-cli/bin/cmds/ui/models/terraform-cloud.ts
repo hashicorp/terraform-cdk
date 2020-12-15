@@ -9,7 +9,7 @@ import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
 
 export class TerraformCloudPlan implements TerraformPlan {
-  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {}
+  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}, public readonly url: string) {}
 
   public get resources(): PlannedResource[]  {
     if (!this.plan.resourceChanges) return [];
@@ -72,8 +72,8 @@ export class TerraformCloud implements Terraform  {
   private readonly organizationName: string;
   private readonly client: TerraformCloudClient.TerraformCloud;
   private readonly isSpeculative: boolean;
-  private run?: TerraformCloudClient.Run;
   private configurationVersionId?: string;
+  public run?: TerraformCloudClient.Run;
 
   constructor(public readonly workdir: string, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
     if (!config.workspaces.name) throw new Error("Please provide a workspace name for Terraform Cloud");
@@ -157,9 +157,11 @@ export class TerraformCloud implements Terraform  {
       }
     }
 
+
     const plan = await this.client.Plans.jsonOutput(result.relationships.plan.data.id)
     this.run = result
-    return new TerraformCloudPlan('terraform-cloud', plan as unknown as any)
+    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`
+    return new TerraformCloudPlan('terraform-cloud', plan as unknown as any, url)
   }
 
   public async deploy(_planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {

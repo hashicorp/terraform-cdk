@@ -2,7 +2,7 @@
 import React from 'react'
 import * as path from 'path'
 import { TerraformCli } from "./models/terraform-cli"
-import { TerraformCloud } from "./models/terraform-cloud"
+import { TerraformCloud, TerraformCloudPlan } from "./models/terraform-cloud"
 import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
 import { SynthStack } from '../helper/synth-stack'
 import { TerraformJson } from './terraform-json'
@@ -89,6 +89,7 @@ export type DeployState = {
   status: Status;
   resources: DeployingResource[];
   plan?: TerraformPlan;
+  url?: string;
   stackName?: string;
   stackJSON?: string;
   errors?: string[];
@@ -139,10 +140,19 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return { ...state, status: Status.PLANNING }
     }
     case 'PLANNED': {
-      return {
-        ...state,
-        status: Status.PLANNED,
-        plan: action.plan
+      if (action.plan instanceof TerraformCloudPlan) {
+        return {
+          ...state,
+          status: Status.PLANNED,
+          plan: action.plan,
+          url: action.plan.url
+        }
+      } else {
+        return {
+          ...state,
+          status: Status.PLANNED,
+          plan: action.plan,
+        }
       }
     }
     case 'DEPLOY': {
