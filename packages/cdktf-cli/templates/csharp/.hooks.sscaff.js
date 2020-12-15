@@ -37,7 +37,7 @@ exports.post = options => {
     pkgName = pkgFileName.substring(0, pkgFileName.lastIndexOf(".".concat(cdktf_version)));
     srcFolder = path.dirname(nuget_cdktf);
 
-    execSync(`dotnet add package '${pkgName}' --source '${srcFolder}'`, { stdio: 'inherit' });
+    execSync(`dotnet add package "${pkgName}" --source "${srcFolder}"`, { stdio: 'inherit' });
   }
   else {
     execSync(`dotnet restore`, { stdio: 'inherit' });
