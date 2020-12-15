@@ -1,6 +1,7 @@
 const { execSync } = require('child_process');
 const { readFileSync, writeFileSync } = require('fs');
 const os = require('os');
+const path = require('path');
 
 const cli = require.resolve('../../bin/cdktf');
 
@@ -30,22 +31,20 @@ exports.post = options => {
     terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
   }
 
-  pkgFileName = nuget_cdktf.substring(nuget_cdktf.lastIndexOf('/') + 1);
-  pkgName = pkgFileName.substring(0, pkgFileName.lastIndexOf(".".concat(cdktf_version)));
-  srcFolder = nuget_cdktf.substring(0, nuget_cdktf.lastIndexOf('/'));
-
-  srcFolder = "/root/workspace/terraform-cdk/dist/dotnet/";
-
   // locally built package
-  if (cdktf_version == '0.0.0') {    
+  if (cdktf_version == '0.0.0') {
+    pkgFileName = path.basename(nuget_cdktf);
+    pkgName = pkgFileName.substring(0, pkgFileName.lastIndexOf(".".concat(cdktf_version)));
+    srcFolder = path.dirname(nuget_cdktf);
+
     execSync(`dotnet add package '${pkgName}' --source '${srcFolder}'`, { stdio: 'inherit' });
   }
   else {
-    execSync(`dotnet add package '${pkgName}'`, { stdio: 'inherit' });
+    execSync(`dotnet restore`, { stdio: 'inherit' });
   }
 
   execSync(`\"${process.execPath}\" ${cli} get`, { stdio: 'inherit' });
-  //execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
+  execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
 
   console.log(readFileSync('./help', 'utf-8'));
 };
@@ -58,7 +57,7 @@ using Hashicorp.Cdktf.NamedRemoteWorkspace;
 using Hashicorp.Cdktf.RemoteBackend;
 using Hashicorp.Cdktf.RemoteBackendProps;`);
   result = result.replace(`new Main(app, "${baseName}");`, `Main stack = new Main(app, "${baseName}");
-new RemoteBackend(stack, RemoteBackendProps.builder().hostname("app.terraform.io").organization("${organizationName}").workspaces(new NamedRemoteWorkspace("${workspaceName}")).build());`);
+new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedRemoteWorkspace("${workspaceName}") };`);
 
   writeFileSync('./Main.cs', result, 'utf-8');
 } 
