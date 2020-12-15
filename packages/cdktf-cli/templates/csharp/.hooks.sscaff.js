@@ -52,12 +52,8 @@ exports.post = options => {
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./Main.cs', 'utf-8');
 
-  result = template.replace(`using Hashicorp.Cdktf.App;`, `using Hashicorp.Cdktf.App;
-using Hashicorp.Cdktf.NamedRemoteWorkspace;
-using Hashicorp.Cdktf.RemoteBackend;
-using Hashicorp.Cdktf.RemoteBackendProps;`);
-  result = result.replace(`new Main(app, "${baseName}");`, `Main stack = new Main(app, "${baseName}");
-new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedRemoteWorkspace("${workspaceName}") };`);
+  result = template.replace(`new MyApp(app, "${baseName}");`, `MyApp stack = new MyApp(app, "${baseName}");
+new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedRemoteWorkspace("${workspaceName}") });`);
 
   writeFileSync('./Main.cs', result, 'utf-8');
 } 
