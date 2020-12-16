@@ -27,7 +27,8 @@
       "examples/python/*",
       "examples/typescript/*",
       "examples/typescript/backends/*",
-      "examples/java/*"
+      "examples/java/*",
+      "examples/csharp/*"
     ],
     "nohoist": [
       "cdktf/json-stable-stringify",

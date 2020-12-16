@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MPL-2.0",
   "scripts": {
-    "reinstall": "dotnet restore",
+    "reinstall": "dotnet add package Hashicorp.Cdktf --source ./../../../dist/dotnet/ --version 0.0.0",
     "build": "cdktf get",
     "synth": "cdktf synth"
   }
