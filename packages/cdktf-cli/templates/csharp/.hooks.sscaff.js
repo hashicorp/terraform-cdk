@@ -31,8 +31,8 @@ exports.post = options => {
     terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
   }
 
-  // locally built package
-  if (cdktf_version == '0.0.0') {
+  // dist package
+  if (nuget_cdktf.endsWith('.nupkg')) {
     pkgFileName = path.basename(nuget_cdktf);
     pkgName = pkgFileName.substring(0, pkgFileName.lastIndexOf(".".concat(cdktf_version)));
     srcFolder = path.dirname(nuget_cdktf);
