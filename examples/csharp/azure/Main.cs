@@ -15,7 +15,7 @@ namespace MyCompany.MyApp
                 Features = new List<AzurermProviderFeatures>()
             });
 
-            new VirtualNetwork(this, "TfVnet", {
+            new VirtualNetwork(this, "TfVnet", new VirtualNetworkConfig {
                 Location = "uksouth",
                 AddressSpace = new List<string> {"10.0.0.0/24"},
                 Name = "TerraformVNet",
