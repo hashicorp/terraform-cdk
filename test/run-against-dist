@@ -8,8 +8,8 @@ cwd=$PWD
 cd ${CDKTF_DIST}
 
 # verify this is indeed a "dist" directory
-if [ ! -d "js" ] || [ ! -d "python" ] || [ ! -d "java" ] ; then
-  echo "ERROR: unable to find the subdirectories 'js', 'python', and 'java' which should be in the 'dist' directory"
+if [ ! -d "js" ] || [ ! -d "python" ] || [ ! -d "java" ] || [ ! -d "dotnet" ] ; then
+  echo "ERROR: unable to find the subdirectories 'js', 'python', 'java', and 'dotnet' which should be in the 'dist' directory"
   echo "Did you run 'yarn run package' to create the 'dist' directory?"
   exit 1
 fi
