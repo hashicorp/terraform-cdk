@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include=".gen\aws\aws.csproj" />
+    <ProjectReference Include=".gen\azurerm\azurerm.csproj" />
   </ItemGroup>
 
 </Project>
