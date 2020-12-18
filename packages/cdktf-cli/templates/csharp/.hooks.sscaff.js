@@ -33,15 +33,18 @@ exports.post = options => {
 
   // dist package
   if (nuget_cdktf.endsWith('.nupkg')) {
-    pkgFileName = path.basename(nuget_cdktf);
-    pkgName = pkgFileName.substring(0, pkgFileName.lastIndexOf(".".concat(cdktf_version)));
     srcFolder = path.dirname(nuget_cdktf);
 
-    execSync(`dotnet add package "${pkgName}" --source "${srcFolder}"`, { stdio: 'inherit' });
+    writeFileSync('./NuGet.Config', `<?xml version="1.0" encoding="utf-8"?>
+    <configuration>
+      <packageSources>
+        <add key="Locally Distributed Packages" value="${srcFolder}" />
+        <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
+      </packageSources>
+    </configuration>`, 'utf-8');
   }
-  else {
-    execSync(`dotnet restore`, { stdio: 'inherit' });
-  }
+
+  execSync(`dotnet restore`, { stdio: 'inherit' });
 
   execSync(`\"${process.execPath}\" ${cli} get`, { stdio: 'inherit' });
   execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
