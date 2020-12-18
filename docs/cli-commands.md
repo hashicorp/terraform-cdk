@@ -69,7 +69,7 @@ Options:
   --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                           [boolean] [default: true]
   --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                           [string]
   --output, -o       Output directory for generated Constructs                                                                     [string] [default: ".gen"]
-  --language, -l     Output programming language                                                        [string] [required] [choices: "typescript", "python", "java"]
+  --language, -l     Output programming language                                                        [string] [required] [choices: "typescript", "python", "java", "csharp"]
   -h, --help         Show help                                                                                                                      [boolean]
 ```
 
@@ -109,7 +109,7 @@ Options:
   --version              Show version number                                                                                                                                  [boolean]
   --disable-logging      Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                 [boolean] [default: true]
   --log-level            Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                 [string]
-  --template             The template name to be used to create a new project.                                                               [string] [choices: "python", "typescript", "java"]
+  --template             The template name to be used to create a new project.                                                               [string] [choices: "python", "typescript", "java", "csharp"]
   --project-name         The name of the project.                                                                                                                              [string]
   --project-description  The description of the project.                                                                                                                       [string]
   --dist                 Install dependencies from a "dist" directory (for development)                                                                                        [string]
