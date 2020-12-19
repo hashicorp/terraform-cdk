@@ -12,12 +12,12 @@ namespace MyCompany.MyApp
         public MyApp(Construct scope, string id) : base(scope, id)
         {
             new AzurermProvider(this, "AzureRm", new AzurermProviderConfig {
-                Features = new List<AzurermProviderFeatures>()
+                Features = Array.Empty<AzurermProviderFeatures>()
             });
 
             new VirtualNetwork(this, "TfVnet", new VirtualNetworkConfig {
                 Location = "uksouth",
-                AddressSpace = new List<string> {"10.0.0.0/24"},
+                AddressSpace = new [] {"10.0.0.0/24"},
                 Name = "TerraformVNet",
                 ResourceGroupName = "<YOUR_RESOURCE_GROUP_NAME>"
             });

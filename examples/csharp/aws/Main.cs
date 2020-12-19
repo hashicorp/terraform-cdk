@@ -21,11 +21,11 @@ namespace MyCompany.MyApp
             DynamodbTable table = new DynamodbTable(this, "Hello", new DynamodbTableConfig {
                 Name = $"my-first-table-{region.Name}",
                 HashKey = "temp",
-                Attribute = new List<DynamodbTableAttribute> {
-                    new DynamodbTableAttribute(new DynamodbTableAttributeConfig {
+                Attribute = new [] {
+                    new DynamodbTableAttribute {
                         Name = "id",
                         Type = "S"
-                    })
+                    }
                 },
                 BillingMode = "PAY_PER_REQUEST"
             });
@@ -34,7 +34,7 @@ namespace MyCompany.MyApp
             table.AddOverride("lifecycle", new Dictionary<string, object> { ["create_before_destroy"] = true });
 
             const int topicCount = 1;
-            List<SnsTopic> topics = Enumerable.Rage(0, topicCount).Select(i => new SnsTopic(this, $"Topic{i}", new SnsTopicConfig {
+            List<SnsTopic> topics = Enumerable.Range(0, topicCount).Select(i => new SnsTopic(this, $"Topic{i}", new SnsTopicConfig {
                 DisplayName = $"my-first-sns-topic{i}"
             })).ToList();
 
