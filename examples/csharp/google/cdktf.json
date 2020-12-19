@@ -1,7 +1,7 @@
 {
   "language": "csharp",
   "app": "dotnet run -p MyTerraformStack.csproj",
-  "terraformProviders": ["google@~> 3.0.0"],
+  "terraformProviders": ["google@~> 2.0.0"],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
   }
