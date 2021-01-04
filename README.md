@@ -12,7 +12,6 @@ HashiCorp Terraform.
 [![PyPI version](https://badge.fury.io/py/cdktf.svg)](https://badge.fury.io/py/cdktf)
 [![homebrew](https://img.shields.io/homebrew/v/cdktf?color=brightgreen)](https://formulae.brew.sh/formula/cdktf#default)
 
-
 ## Overview
 
 The CDK for Terraform project helps users define infrastructure resources using supported programming languages and generates a Terraform configuration in JSON. Users can then use the Terraform or the CDK for Terraform CLI to deploy the application.
@@ -29,6 +28,7 @@ The project currently supports TypeScript, Python, and Java.
 ## Getting Started
 
 Choose a language:
+
 * [TypeScript](./docs/getting-started/typescript.md)
 * [Python](./docs/getting-started/python.md)
 * [Java](./docs/getting-started/java.md)
@@ -113,4 +113,3 @@ Build the project and packages
 ```bash
 yarn build
 ```
-
