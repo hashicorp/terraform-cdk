@@ -1,6 +1,7 @@
 import { CodeMaker } from 'codemaker';
 import { AttributeModel } from "../models";
 import { downcaseFirst } from '../../../util';
+import { CUSTOM_DEFAULTS } from '../custom-defaults';
 
 export class AttributesEmitter {
   constructor(private code: CodeMaker) {}
@@ -183,30 +184,35 @@ export class AttributesEmitter {
     const type = att.type;
     const context = isStruct ? 'struct!' : 'this';
     const name = isStruct ? att.name : att.storageName;
+    const customDefault = CUSTOM_DEFAULTS[att.terraformFullName];
+
+    const varReference= `${context}.${name}`;
+    const defaultCheck = customDefault !== undefined ? `${varReference} === undefined ? ${customDefault} : ` : '';
+
     switch (true) {
       case (type.isList && type.isMap):
-        this.code.line(`${att.terraformName}: cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform))(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform))(${varReference}),`);
         break;
       case (type.isStringList || type.isNumberList || type.isBooleanList):
-        this.code.line(`${att.terraformName}: cdktf.listMapper(cdktf.${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(type.innerType)}ToTerraform)(${varReference}),`);
         break;
       case (type.isList):
-        this.code.line(`${att.terraformName}: cdktf.listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${varReference}),`);
         break;
       case (type.isMap):
-        this.code.line(`${att.terraformName}: cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform)(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform)(${varReference}),`);
         break;
       case (type.isString):
-        this.code.line(`${att.terraformName}: cdktf.stringToTerraform(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.stringToTerraform(${varReference}),`);
         break;
       case (type.isNumber):
-        this.code.line(`${att.terraformName}: cdktf.numberToTerraform(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.numberToTerraform(${varReference}),`);
         break;
       case (type.isBoolean):
-        this.code.line(`${att.terraformName}: cdktf.booleanToTerraform(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`);
         break;
       default:
-        this.code.line(`${att.terraformName}: ${downcaseFirst(type.name)}ToTerraform(${context}.${name}),`);
+        this.code.line(`${att.terraformName}: ${defaultCheck}${downcaseFirst(type.name)}ToTerraform(${varReference}),`);
         break;
     }
   }

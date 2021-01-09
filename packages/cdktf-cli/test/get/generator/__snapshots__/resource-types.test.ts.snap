@@ -1845,15 +1845,15 @@ export interface SecurityGroupEgress {
 function securityGroupEgressToTerraform(struct?: SecurityGroupEgress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
-    description: cdktf.stringToTerraform(struct!.description),
-    from_port: cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
-    protocol: cdktf.stringToTerraform(struct!.protocol),
-    security_groups: cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
-    self: cdktf.booleanToTerraform(struct!.selfAttribute),
-    to_port: cdktf.numberToTerraform(struct!.toPort),
+    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    description: struct!.description === undefined ? null : cdktf.stringToTerraform(struct!.description),
+    from_port: struct!.fromPort === undefined ? null : cdktf.numberToTerraform(struct!.fromPort),
+    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    protocol: struct!.protocol === undefined ? null : cdktf.stringToTerraform(struct!.protocol),
+    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    self: struct!.selfAttribute === undefined ? null : cdktf.booleanToTerraform(struct!.selfAttribute),
+    to_port: struct!.toPort === undefined ? null : cdktf.numberToTerraform(struct!.toPort),
   }
 }
 
@@ -1872,15 +1872,15 @@ export interface SecurityGroupIngress {
 function securityGroupIngressToTerraform(struct?: SecurityGroupIngress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
-    description: cdktf.stringToTerraform(struct!.description),
-    from_port: cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
-    protocol: cdktf.stringToTerraform(struct!.protocol),
-    security_groups: cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
-    self: cdktf.booleanToTerraform(struct!.selfAttribute),
-    to_port: cdktf.numberToTerraform(struct!.toPort),
+    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    description: struct!.description === undefined ? null : cdktf.stringToTerraform(struct!.description),
+    from_port: struct!.fromPort === undefined ? null : cdktf.numberToTerraform(struct!.fromPort),
+    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    protocol: struct!.protocol === undefined ? null : cdktf.stringToTerraform(struct!.protocol),
+    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    self: struct!.selfAttribute === undefined ? null : cdktf.booleanToTerraform(struct!.selfAttribute),
+    to_port: struct!.toPort === undefined ? null : cdktf.numberToTerraform(struct!.toPort),
   }
 }
 
