@@ -9,6 +9,13 @@ export class Struct {
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
+    const attributes = this.attributes.filter(
+      (attribute) => attribute.isAssignable
+    );
+    return this.filterIgnoredAttributes(attributes);
+  }
+
+  public get accessibleAttributes(): AttributeModel[] {
     const attributes = this.isAnonymous
       ? this.attributes
       : this.attributes.filter((attribute) => attribute.isAssignable);

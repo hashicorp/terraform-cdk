@@ -27,7 +27,7 @@ export class StructEmitter {
       this.code.openBlock(`export interface ${struct.name}${struct.extends}`);
     }
 
-    for (const att of struct.assignableAttributes) {
+    for (const att of struct.accessibleAttributes) {
       if (att.description) {
         this.code.line(`/**`);
         this.code.line(`* ${att.description}`);
@@ -76,9 +76,7 @@ export class StructEmitter {
     );
     this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
     this.code.openBlock("return");
-    for (const att of struct.isClass
-      ? struct.attributes
-      : struct.assignableAttributes) {
+    for (const att of struct.assignableAttributes) {
       this.attributesEmitter.emitToTerraform(att, true);
     }
     this.code.closeBlock(";");
