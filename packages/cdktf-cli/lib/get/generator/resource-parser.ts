@@ -117,7 +117,6 @@ class Parser {
     const attributes = new Array<AttributeModel>();
 
     for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
-      if (parentType.inBlockType && att.computed && !!att.optional === false) continue ;
       const type = this.renderAttributeType([ parentType, new Scope({name: terraformAttributeName, parent: parentType, isProvider: parentType.isProvider, isComputed: !!att.computed, isOptional: !!att.optional, isRequired: !!att.required})], att.type);
       const name = toCamelCase(terraformAttributeName);
 
