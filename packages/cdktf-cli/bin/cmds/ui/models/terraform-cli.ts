@@ -69,7 +69,8 @@ export class TerraformCli implements Terraform {
   }
 
   public async output(): Promise<{[key: string]: TerraformOutput}> {
-    const output = await exec(terraformBinaryName, ['output', '-json', ...this.stateFileOption], { cwd: this.workdir, env: process.env });    return JSON.parse(output)
+    const output = await exec(terraformBinaryName, ['output', '-json', ...this.stateFileOption], { cwd: this.workdir, env: process.env });
+    return JSON.parse(output)
   }
 
   private get stateFileOption() {
