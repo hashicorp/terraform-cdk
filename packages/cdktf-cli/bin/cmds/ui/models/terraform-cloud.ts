@@ -219,7 +219,20 @@ export class TerraformCloud implements Terraform  {
   }
 
   public async output(): Promise<{[key: string]: TerraformOutput}> {
-    return {}
+    const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
+    if (!stateVersion.included) throw new Error('no included outputs found')
+
+    const outputs = stateVersion.included.reduce((acc, output) => {
+      acc[output.id] = {
+        sensitive: output.attributes.sensitive,
+        type: output.attributes.type,
+        value: output.attributes.value
+      }
+
+      return acc
+    }, {} as {[key: string]: TerraformOutput})
+
+    return outputs
   }
 
   private async workspace() {
