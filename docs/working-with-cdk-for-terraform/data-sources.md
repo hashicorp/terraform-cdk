@@ -22,7 +22,7 @@ export class HelloTerraform extends TerraformStack {
 
 [Terraform remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html) retrieves state data from a [Terraform backend](https://www.terraform.io/docs/backends/index.html). This allows you to use the root-level outputs of one or more Terraform configurations as input data for another configuration.
 
-Typesciprt example usage:
+Typescript example usage:
 ```typescript
 .....
 import { DataTerraformRemoteState } from 'cdktf';
@@ -45,4 +45,23 @@ export class HelloTerraform extends TerraformStack {
         });
     }
 }
+```
+
+Python example with state stored on S3 and locking with DynamoDB:
+```python
+from cdktf import S3Backend
+
+# Bucket and table must be created first
+# Replace with your own values
+bucket_and_table_name = 'replace'
+region = 'us-east-2'
+
+state = {
+    'bucket': bucket_and_table_name,
+    'key': ns,
+    'region': region,
+    'encrypt': True,
+    'dynamodb_table': bucket_and_table_name
+}
+S3Backend(self, **state)
 ```
