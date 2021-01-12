@@ -50,7 +50,7 @@
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
     "stream-buffers": "^3.0.2",
-    "@skorfmann/terraform-cloud": "^1.6.2",
+    "@skorfmann/terraform-cloud": "^1.7.0",
     "uuid": "^8.3.0",
     "yargs": "^15.1.0"
   },
