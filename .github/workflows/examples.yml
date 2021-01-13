@@ -33,4 +33,3 @@ jobs:
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
-          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
