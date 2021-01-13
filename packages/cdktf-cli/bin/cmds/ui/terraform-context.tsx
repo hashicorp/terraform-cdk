@@ -386,19 +386,6 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
     return state
   }
 
-  const planDestroy = () => {
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformSynth()
-        await execTerraformInit()
-        await execTerraformPlan(true)
-      }
-      invoke()
-    }, []) // once
-
-    return state
-  }
-
   const deploy = () => {
     React.useEffect(() => {
       const invoke = async () => {
@@ -465,7 +452,6 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
     synth,
     init,
     plan,
-    planDestroy,
     deploy,
     destroy
   }
