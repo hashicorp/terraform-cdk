@@ -231,7 +231,7 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
   }, []);
 
 
-  const excecutorForStack = (stackJSON: string): void => {
+  const excecutorForStack = async (stackJSON: string): Promise<void> => {
     if (stackJSON === undefined) throw new Error('no synthesized stack found');
     const cwd = process.cwd();
     const outdir = path.join(cwd, targetDir);
@@ -239,7 +239,7 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
 
     if (stack.terraform?.backend?.remote) {
       const tfClient = new TerraformCloud(outdir, stack.terraform?.backend?.remote, isSpeculative)
-      if (tfClient.isRemoteWorkspace()) {
+      if (await tfClient.isRemoteWorkspace()) {
         setTerraform(tfClient)
       } else {
         setTerraform(new TerraformCli(outdir))
@@ -253,7 +253,7 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
     try {
       dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
-      excecutorForStack(stacks[0].content)
+      await excecutorForStack(stacks[0].content)
       dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
     } catch (e) {
       dispatch({ type: 'ERROR', error: e })
