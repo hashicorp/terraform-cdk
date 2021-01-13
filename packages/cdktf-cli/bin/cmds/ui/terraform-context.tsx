@@ -249,11 +249,13 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
     }
   }
 
-  const execTerraformSynth = async () => {
+  const execTerraformSynth = async (synthOnly = false) => {
     try {
       dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
-      await excecutorForStack(stacks[0].content)
+      if (synthOnly) {
+        await excecutorForStack(stacks[0].content)
+      }
       dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
     } catch (e) {
       dispatch({ type: 'ERROR', error: e })
@@ -336,7 +338,7 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
   const synth = () => {
     React.useEffect(() => {
       const invoke = async () => {
-        await execTerraformSynth()
+        await execTerraformSynth(true)
       }
 
       invoke()
