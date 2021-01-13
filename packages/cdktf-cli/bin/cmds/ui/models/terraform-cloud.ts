@@ -216,7 +216,7 @@ export class TerraformCloud implements Terraform  {
   }
 
   public async version(): Promise<string> {
-    return ''
+    return (await this.workspace()).attributes.terraformVersion
   }
 
   public async output(): Promise<{[key: string]: TerraformOutput}> {
