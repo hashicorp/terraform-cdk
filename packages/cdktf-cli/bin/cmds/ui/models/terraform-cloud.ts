@@ -102,7 +102,7 @@ export class TerraformCloud implements Terraform  {
   }
 
   public async init(): Promise<void> {
-    if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://www.terraform.io/docs/cloud/migrate/index.html')
+    if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
     const workspace = await this.workspace()
     const version = await this.client.ConfigurationVersion.create(workspace.id, {
       data: {
