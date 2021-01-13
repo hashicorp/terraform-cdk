@@ -44,7 +44,7 @@ export const CloudRunInfo = (): React.ReactElement => {
 
   const staticElements = [url]
 
-  return <Static>{ staticElements.map(e => (<Text key={e}>This is running remotely: { e }</Text>))} </Static>
+  return <Static>{ staticElements.map(e => (<Text key={e}>Running plan in the remote backend. To view this run in a browser, visit: { e }</Text>))} </Static>
 }
 
 export const Plan = (): React.ReactElement => {
