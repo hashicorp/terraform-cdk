@@ -55,11 +55,9 @@ test("Apply", async () => {
     stackName: "testing"
   };
 
-  const stub = () => {};
-
   const { lastFrame } = render(
     <TerraformProvider initialState={initialState}>
-      <Apply deploy={stub} />
+      <Apply />
     </TerraformProvider>
   );
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`

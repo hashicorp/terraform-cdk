@@ -1,10 +1,10 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useCallback, useState } from 'react';
-import { Text, Box, Color, useApp } from 'ink'
+import React, { Fragment, useState } from 'react';
+import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
 import ConfirmInput from 'ink-confirm-input';
 import { DeployingElement } from './components'
-import { DeployingResource, TerraformPlan, PlannedResourceAction } from './models/terraform'
+import { DeployingResource, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 import { Plan } from './diff'
 
@@ -39,16 +39,7 @@ interface ConfirmConfig {
 }
 
 const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
-  const { exit } = useApp()
   const [value, setValue] = useState('');
-  const handleSubmit = useCallback(submitValue => {
-    if (submitValue === false) {
-      exit()
-      return
-    }
-
-    callback(submitValue)
-  }, [exit, callback]);
 
   return (
     <Box flexDirection="column" marginTop={1}>
@@ -61,23 +52,17 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
         <ConfirmInput
           value={value}
           onChange={setValue}
-          onSubmit={handleSubmit}
+          onSubmit={callback}
         />
       </Box>
     </Box>
-
   )
 }
 
-interface DestroyComponentConfig {
-  destroy: (plan: TerraformPlan | undefined) => any;
-}
-
-export const DestroyComponent = ({ destroy }: DestroyComponentConfig): React.ReactElement => {
-  const { resources, status, stackName, plan } = useTerraformState()  
+export const DestroyComponent = (): React.ReactElement => {
+  const { resources, status, stackName } = useTerraformState()
   const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
   const applyableResources = resources.filter(resource => (applyActions.includes(resource.action)));
-  destroy(plan)
   return (
     <Fragment>
       <Box flexDirection="column">
@@ -108,15 +93,12 @@ interface DestroyConfig {
 }
 
 export const Destroy = ({ targetDir, synthCommand, autoApprove }: DestroyConfig): React.ReactElement => {
-  const { planDestroy, destroy } = useTerraform({ targetDir, synthCommand })
-  const { status, stackName, errors, plan } = planDestroy()
+  const { destroy } = useTerraform({ targetDir, synthCommand, autoApprove })
+  const { state: { status, stackName, errors, plan }, confirmation, isConfirmed } = destroy()
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
-
-  const [shouldContinue, confirmDeployment] = useState<boolean>(autoApprove);
-
 
   if (errors) return (<Box>{errors}</Box>);
   if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{stackName}</Text></Text></>);
@@ -129,11 +111,10 @@ export const Destroy = ({ targetDir, synthCommand, autoApprove }: DestroyConfig)
         </Fragment>
       ) : (
           <>
-            {!shouldContinue && <Box flexDirection="column"><Plan /><Confirm callback={confirmDeployment} /></Box>}
-            {shouldContinue && <DestroyComponent destroy={destroy} />}
+            {!isConfirmed && <Box flexDirection="column"><Plan /><Confirm callback={confirmation} /></Box>}
+            {isConfirmed && <DestroyComponent />}
           </>
         )
-
       }
     </Box>
   )
