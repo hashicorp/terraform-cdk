@@ -1,4 +1,4 @@
-import { Terraform } from './ui/models/terraform'
+import { TerraformCli } from './ui/models/terraform-cli'
 import * as semver from 'semver';
 
 const MIN_SUPPORTED_VERSION = '0.12.0'
@@ -6,7 +6,7 @@ const VERSION_REGEXP = /Terraform v\d+.\d+.\d+/
 
 export const terraformCheck = async (): Promise<void> => {
   try {
-    const terraform: Terraform = new Terraform('./')
+    const terraform = new TerraformCli('./')
 
     const terraformVersion = await terraform.version()
     const terraformVersionMatches = terraformVersion.match(VERSION_REGEXP)

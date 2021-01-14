@@ -1,5 +1,5 @@
 import { Construct, Node, ConstructMetadata } from 'constructs';
-import fs = require('fs');
+import * as fs from 'fs';
 import { version } from '../package.json';
 
 export const CONTEXT_ENV = 'CDKTF_CONTEXT_JSON';

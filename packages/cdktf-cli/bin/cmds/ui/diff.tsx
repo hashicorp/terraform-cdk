@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Text, Box, Color } from 'ink'
+import { Text, Box, Color, Static } from 'ink'
 import Spinner from 'ink-spinner';
 import { PlannedResource } from "./models/terraform"
 import { PlanElement } from './components'
@@ -38,12 +38,22 @@ const PlanSummary = ({ resources }: PlanSummaryConfig): React.ReactElement => {
   </>)
 }
 
+export const CloudRunInfo = (): React.ReactElement => {
+  const { url } = useTerraformState()
+  if (url == undefined) return <></>;
+
+  const staticElements = [url]
+
+  return <Static>{ staticElements.map(e => (<Text key={e}>Running plan in the remote backend. To view this run in a browser, visit: { e }</Text>))} </Static>
+}
+
 export const Plan = (): React.ReactElement => {
   const { plan, stackName } = useTerraformState()
 
   return (
     <Fragment>
       <Box flexDirection="column">
+        <CloudRunInfo/>
         <Box>
           <Text>Stack: </Text><Text bold>{stackName}</Text>
         </Box>
@@ -59,7 +69,7 @@ export const Plan = (): React.ReactElement => {
 }
 
 export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElement => {
-  const { plan } = useTerraform({ targetDir, synthCommand })
+  const { plan } = useTerraform({ targetDir, synthCommand, isSpeculative: true })
 
   const { status, stackName, errors } = plan()
 
@@ -70,6 +80,7 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
 
   return (
     <Box>
+      <CloudRunInfo/>
       {isPlanning ? (
         <Fragment>
           <Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>{statusText}</Text></Box>

@@ -8,7 +8,8 @@
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "package": "jsii-pacmak",
     "lint": "eslint . --ext .ts",
-    "test": "jest --passWithNoTests && yarn lint"
+    "test": "jest --passWithNoTests && yarn lint",
+    "dist-clean": "rm -rf dist"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
