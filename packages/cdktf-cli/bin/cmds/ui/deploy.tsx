@@ -1,10 +1,10 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useCallback, useState } from 'react';
-import { Text, Box, Color, useApp } from 'ink'
+import React, { Fragment, useState } from 'react';
+import { Text, Box, Color } from 'ink'
 import Spinner from 'ink-spinner';
 import ConfirmInput from 'ink-confirm-input';
 import { DeployingElement } from './components'
-import { DeployingResource, TerraformOutput, TerraformPlan, PlannedResourceAction } from './models/terraform'
+import { DeployingResource, TerraformOutput, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 import { Plan } from './diff'
 
@@ -57,16 +57,7 @@ interface ConfirmConfig {
 }
 
 const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
-  const { exit } = useApp()
   const [value, setValue] = useState('');
-  const handleSubmit = useCallback(submitValue => {
-    if (submitValue === false) {
-      exit()
-      return
-    }
-
-    callback(submitValue)
-  }, [exit, callback]);
 
   return (
     <Box flexDirection="column" marginTop={1}>
@@ -79,7 +70,7 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
         <ConfirmInput
           value={value}
           onChange={setValue}
-          onSubmit={handleSubmit}
+          onSubmit={callback}
         />
       </Box>
     </Box>
@@ -87,15 +78,10 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
   )
 }
 
-interface ApplyConfig {
-  deploy: (plan: TerraformPlan | undefined) => any;
-}
-
-export const Apply = ({ deploy }: ApplyConfig): React.ReactElement => {
-  const { resources, status, stackName, output, plan } = useTerraformState()
+export const Apply = (): React.ReactElement => {
+  const { resources, status, stackName, output } = useTerraformState()
   const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
   const applyableResources = resources.filter(resource => (applyActions.includes(resource.action)));
-  deploy(plan)
   return (
     <Fragment>
       <Box flexDirection="column">
@@ -132,15 +118,12 @@ interface DeployConfig {
 }
 
 export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): React.ReactElement => {
-  const { plan: execPlan, deploy } = useTerraform({ targetDir, synthCommand })
-  const { status, stackName, errors, plan } = execPlan()
+  const { deploy } = useTerraform({ targetDir, synthCommand, autoApprove })
+  const { state: { status, stackName, errors, plan }, confirmation, isConfirmed } = deploy()
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
   const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
-
-  const [shouldContinue, confirmDeployment] = useState<boolean>(autoApprove);
-
 
   if (errors) return (<Box>{errors.map((e: any) => e.message)}</Box>);
   if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{stackName}</Text></Text></>);
@@ -153,8 +136,8 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
         </Fragment>
       ) : (
           <>
-            {!shouldContinue && <Box flexDirection="column"><Plan /><Confirm callback={confirmDeployment} /></Box>}
-            {shouldContinue && <Apply deploy={deploy} />}
+            {!isConfirmed && <Box flexDirection="column"><Plan /><Confirm callback={confirmation} /></Box>}
+            {isConfirmed && <Apply/>}
           </>
         )
 

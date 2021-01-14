@@ -8,7 +8,8 @@
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "package": "jsii-pacmak",
     "lint": "eslint . --ext .ts",
-    "test": "jest --passWithNoTests && yarn lint"
+    "test": "jest --passWithNoTests && yarn lint",
+    "dist-clean": "rm -rf dist"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -75,9 +76,9 @@
     "@typescript-eslint/parser": "^2.20.0",
     "constructs": "^3.0.0",
     "eslint": "^6.8.0",
-    "jest": "^25.1.0",
     "jsii": "^1.17.1",
     "jsii-pacmak": "^1.17.1",
+    "jest": "^26.6.3",
     "json-schema-to-typescript": "^8.0.1",
     "typescript": "^3.9.7"
   },

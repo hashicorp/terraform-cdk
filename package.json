@@ -18,7 +18,8 @@
     "integration-windows": "test\\run-against-dist.bat test\\test-all.bat",
     "release-github": "tools/release-github.sh",
     "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
-    "push-docker-jsii": "docker push hashicorp/jsii-terraform"
+    "push-docker-jsii": "docker push hashicorp/jsii-terraform",
+    "dist-clean": "lerna run dist-clean --stream && rm -rf dist"
   },
   "workspaces": {
     "packages": [

@@ -1,8 +1,12 @@
 /* eslint-disable no-control-regex */
 import React from 'react'
 import * as path from 'path'
-import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from "./models/terraform"
+import { TerraformCli } from "./models/terraform-cli"
+import { TerraformCloud, TerraformCloudPlan } from "./models/terraform-cloud"
+import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
 import { SynthStack } from '../helper/synth-stack'
+import { TerraformJson } from './terraform-json'
+import { useApp } from 'ink'
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -77,6 +81,7 @@ const parseOutput = (str: string): DeployingResource[] => {
       acc.push(resource)
     }
     return acc
+  // eslint-disable-next-line @typescript-eslint/no-array-constructor
   }, new Array)
 }
 
@@ -84,6 +89,7 @@ export type DeployState = {
   status: Status;
   resources: DeployingResource[];
   plan?: TerraformPlan;
+  url?: string;
   stackName?: string;
   stackJSON?: string;
   errors?: string[];
@@ -134,10 +140,19 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return { ...state, status: Status.PLANNING }
     }
     case 'PLANNED': {
-      return {
-        ...state,
-        status: Status.PLANNED,
-        plan: action.plan
+      if (action.plan instanceof TerraformCloudPlan) {
+        return {
+          ...state,
+          status: Status.PLANNED,
+          plan: action.plan,
+          url: action.plan.url
+        }
+      } else {
+        return {
+          ...state,
+          status: Status.PLANNED,
+          plan: action.plan,
+        }
       }
     }
     case 'DEPLOY': {
@@ -162,7 +177,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
 }
 
 interface TerraformProviderConfig {
-  initialState?: DeployState
+  initialState?: DeployState;
 }
 
 // eslint-disable-next-line react/prop-types
@@ -180,6 +195,8 @@ export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig>
 interface UseTerraformInput {
   targetDir: string;
   synthCommand: string;
+  isSpeculative?: boolean;
+  autoApprove?: boolean;
 }
 
 export const useTerraformState = () => {
@@ -192,22 +209,53 @@ export const useTerraformState = () => {
   return state
 }
 
-export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => {
+export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, autoApprove = false }: UseTerraformInput) => {
   const dispatch = React.useContext(TerraformContextDispatch)
   const state = useTerraformState()
+  const [terraform, setTerraform] = React.useState<Terraform>()
+  const [confirmed, setConfirmed] = React.useState<boolean>(autoApprove)
+  const { exit } = useApp()
 
   if (dispatch === undefined) {
     throw new Error('useTerraform must be used within a TerraformContextDispatch.Provider')
   }
 
-  const cwd = process.cwd();
-  const outdir = path.join(cwd, targetDir);
-  const terraform = new Terraform(outdir);
 
-  const execTerraformSynth = async () => {
+  const confirmationCallback = React.useCallback(submitValue => {
+    if (submitValue === false) {
+      exit()
+      return
+    }
+
+    setConfirmed(submitValue)
+  }, []);
+
+
+  const excecutorForStack = async (stackJSON: string): Promise<void> => {
+    if (stackJSON === undefined) throw new Error('no synthesized stack found');
+    const cwd = process.cwd();
+    const outdir = path.join(cwd, targetDir);
+    const stack = JSON.parse(stackJSON) as TerraformJson
+
+    if (stack.terraform?.backend?.remote) {
+      const tfClient = new TerraformCloud(outdir, stack.terraform?.backend?.remote, isSpeculative)
+      if (await tfClient.isRemoteWorkspace()) {
+        setTerraform(tfClient)
+      } else {
+        setTerraform(new TerraformCli(outdir))
+      }
+    } else {
+      setTerraform(new TerraformCli(outdir))
+    }
+  }
+
+  const execTerraformSynth = async (loadExecutor = true) => {
     try {
       dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
+      if (loadExecutor) {
+        await excecutorForStack(stacks[0].content)
+      }
       dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
     } catch (e) {
       dispatch({ type: 'ERROR', error: e })
@@ -216,6 +264,7 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
 
   const execTerraformInit = async () => {
     try {
+      if (!terraform) throw new Error('Terraform is not initialized yet');
       dispatch({ type: 'INIT' })
       await terraform.init();
     } catch (e) {
@@ -225,6 +274,7 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
 
   const execTerraformOutput = async () => {
     try {
+      if (!terraform) throw new Error('Terraform is not initialized yet');
       const output = await terraform.output();
       dispatch({ type: 'OUTPUT', output })
     } catch (e) {
@@ -232,9 +282,10 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     }
   }
 
-  const execTerraformPlan = async (destroy: boolean = false): Promise<TerraformPlan | undefined> => {
+  const execTerraformPlan = async (destroy = false): Promise<TerraformPlan | undefined> => {
     let plan: TerraformPlan
     try {
+      if (!terraform) throw new Error('Terraform is not initialized yet');
       dispatch({ type: 'PLAN' })
       plan = await terraform.plan(destroy);
       dispatch({ type: 'PLANNED', plan })
@@ -245,12 +296,14 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     return
   }
 
-  const execTerraformApply = async (plan: TerraformPlan) => {
+  const execTerraformApply = async () => {
+    const plan = state.plan
     try {
+      if (!terraform) throw new Error('Terraform is not initialized yet');
+      if (!plan) throw new Error('No plan');
       if (plan.needsApply) {
         const resources: DeployingResource[] = plan.applyableResources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
         dispatch({ type: 'DEPLOY', resources })
-
         await terraform.deploy(plan.planFile, (output: Buffer) => {
           const resources = parseOutput(output.toString());
           dispatch({ type: 'UPDATE_RESOURCES', resources })
@@ -262,8 +315,11 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     }
   }
 
-  const execTerraformDestroy = async (plan: TerraformPlan) => {
+  const execTerraformDestroy = async () => {
+    const plan = state.plan
     try {
+      if (!terraform) throw new Error('Terraform is not initialized yet');
+      if (!plan) throw new Error('No plan');
       if (plan.needsApply) {
         const resources: DeployingResource[] = plan.applyableResources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
         dispatch({ type: 'DESTROY', resources })
@@ -282,11 +338,11 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
   const synth = () => {
     React.useEffect(() => {
       const invoke = async () => {
-        await execTerraformSynth()
+        await execTerraformSynth(false)
       }
 
       invoke()
-    }, []) // once
+    }, [])
 
     return state
   }
@@ -295,11 +351,18 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     React.useEffect(() => {
       const invoke = async () => {
         await execTerraformSynth()
+      }
+      invoke()
+    }, [])
+
+
+    React.useEffect(() => {
+      const invoke = async () => {
         await execTerraformInit()
       }
 
-      invoke()
-    }, []) // once
+      if (state.status === Status.SYNTHESIZED) invoke();
+    }, [state.status, terraform])
 
     return state
   }
@@ -308,65 +371,87 @@ export const useTerraform = ({ targetDir, synthCommand }: UseTerraformInput) => 
     React.useEffect(() => {
       const invoke = async () => {
         await execTerraformSynth()
+      }
+      invoke()
+    }, [])
+
+    React.useEffect(() => {
+      const invoke = async () => {
         await execTerraformInit()
         await execTerraformPlan()
       }
-      invoke()
-    }, []) // once
+      if (state.status === Status.SYNTHESIZED) invoke();
+    }, [state.status, terraform])
 
     return state
   }
 
-  const planDestroy = () => {
+  const deploy = () => {
     React.useEffect(() => {
       const invoke = async () => {
         await execTerraformSynth()
+      }
+      invoke()
+    }, [])
+
+    React.useEffect(() => {
+      const invoke = async () => {
+        await execTerraformInit()
+        await execTerraformPlan(false)
+      }
+      if (state.status === Status.SYNTHESIZED) invoke();
+    }, [state.status, terraform])
+
+    React.useEffect(() => {
+      const invoke = async () => {
+        await execTerraformApply()
+        await execTerraformOutput()
+      }
+      if (confirmed && state.status === Status.PLANNED) invoke();
+    }, [terraform, confirmed, state.status])
+
+    return {
+      state,
+      confirmation: confirmationCallback,
+      isConfirmed: confirmed
+    }
+  }
+
+  const destroy = () => {
+    React.useEffect(() => {
+      const invoke = async () => {
+        await execTerraformSynth()
+      }
+      invoke()
+    }, [])
+
+    React.useEffect(() => {
+      const invoke = async () => {
         await execTerraformInit()
         await execTerraformPlan(true)
       }
-      invoke()
-    }, []) // once
+      if (state.status === Status.SYNTHESIZED) invoke();
+    }, [state.status, terraform])
 
-    return state
-  }
-
-  const deploy = (plan?: TerraformPlan) => {
     React.useEffect(() => {
       const invoke = async () => {
-        if (plan) {
-          await execTerraformApply(plan)
-        } else {
-          throw new Error("expected plan to be present but was undefined")
-        }
-
-        await execTerraformOutput()
+        await execTerraformDestroy()
       }
-      invoke()
-    }, []) // once
 
-    return state
-  }
+      if (confirmed && state.status === Status.PLANNED) invoke();
+    }, [terraform, confirmed, state.status])
 
-  const destroy = (plan?: TerraformPlan) => {
-    React.useEffect(() => {
-      const invoke = async () => {
-        if (plan) {
-          await execTerraformDestroy(plan)
-        } else {
-          throw new Error("expected plan to be present but was undefined")
-        }
-      }
-      invoke()
-    }, []) // once
-
-    return state
+    return {
+      state,
+      confirmation: confirmationCallback,
+      isConfirmed: confirmed
+    }
   }
 
   return {
     synth,
     init,
     plan,
-    planDestroy,
     deploy,
     destroy
   }

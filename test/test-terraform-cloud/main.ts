@@ -2,6 +2,8 @@ import { Construct } from 'constructs';
 import { App, TerraformStack, Testing  } from 'cdktf';
 import * as NullProvider from './.gen/providers/null';
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
+const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
+const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -17,11 +19,11 @@ export class HelloTerra extends TerraformStack {
 
     this.addOverride('terraform.backend', {
       remote: {
-        organization: 'cdktf-team',
+        organization,
         workspaces: {
-          name: 'test'
+          name
         },
-        token: token
+        token
       }
     });
   }
