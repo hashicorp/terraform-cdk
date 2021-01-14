@@ -130,7 +130,7 @@ jobs:
         run: npx -p jsii-release jsii-release-nuget
         env:
           NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
-          NUGET_SERVER: "https://nuget.pkg.github.com/${{ github.repository }}"
+          NUGET_SERVER: "https://nuget.pkg.github.com/${{ github.repository_owner }}"
 
   release_homebrew:
     name: Release to Homebrew
