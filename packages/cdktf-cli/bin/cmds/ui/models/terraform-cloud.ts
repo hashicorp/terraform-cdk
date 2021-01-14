@@ -185,7 +185,7 @@ export class TerraformCloud implements Terraform  {
     stdout(Buffer.from(logs.data, 'utf8'))
 
     switch (result.attributes.status) {
-      case 'applied': console.log('done') ; break;
+      case 'applied': break;
       default: throw new  Error(`error: ${result.attributes.status}`);
     }
   }
@@ -210,7 +210,7 @@ export class TerraformCloud implements Terraform  {
     stdout(Buffer.from(logs.data, 'utf8'))
 
     switch (result.attributes.status) {
-      case 'applied': console.log('done') ; break;
+      case 'applied': break;
       default: throw new  Error(`error: ${result.attributes.status}`);
     }
   }
@@ -221,7 +221,7 @@ export class TerraformCloud implements Terraform  {
 
   public async output(): Promise<{[key: string]: TerraformOutput}> {
     const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
-    if (!stateVersion.included) throw new Error('no included outputs found')
+    if (!stateVersion.included) return {}
 
     const outputs = stateVersion.included.reduce((acc, output) => {
       acc[output.id] = {
