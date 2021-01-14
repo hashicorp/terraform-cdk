@@ -13,7 +13,7 @@ namespace MyCompany.MyApp
     {
         public MyApp(Construct scope, string id) : base(scope, id)
         {
-            string credentials = File.ReadAllText("google.json", Encoding.UTF8);
+            string credentials = File.Exists("google.json") ? File.ReadAllText("google.json", Encoding.UTF8) : "{}";
 
             new GoogleProvider(this, "Google", new GoogleProviderConfig {
                 Region = "us-central1",
