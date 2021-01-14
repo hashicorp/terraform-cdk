@@ -5,7 +5,7 @@ set -e
 export CI='1'
 
 export TERRAFORM_CLOUD_WORKSPACE_NAME="${GITHUB_RUN_NUMBER}-$(date +%s%N)"
-export TERRAFORM_CLOUD_ORGANIZATION="cdktf-team"
+export TERRAFORM_CLOUD_ORGANIZATION="cdktf"
 
 # Don't run on external Pull Requests - Will be addressed properly with
 # https://github.com/hashicorp/terraform-cdk/issues/200
