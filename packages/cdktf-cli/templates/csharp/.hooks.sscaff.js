@@ -1,6 +1,7 @@
 const { execSync } = require('child_process');
 const { readFileSync, writeFileSync } = require('fs');
 const os = require('os');
+const path = require('path');
 
 const cli = require.resolve('../../bin/cdktf');
 
@@ -30,22 +31,23 @@ exports.post = options => {
     terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
   }
 
-  pkgFileName = nuget_cdktf.substring(nuget_cdktf.lastIndexOf('/') + 1);
-  pkgName = pkgFileName.substring(0, pkgFileName.lastIndexOf(".".concat(cdktf_version)));
-  srcFolder = nuget_cdktf.substring(0, nuget_cdktf.lastIndexOf('/'));
+  // dist package
+  if (nuget_cdktf.endsWith('.nupkg')) {
+    srcFolder = path.dirname(nuget_cdktf);
 
-  srcFolder = "/root/workspace/terraform-cdk/dist/dotnet/";
+    writeFileSync('./NuGet.Config', `<?xml version="1.0" encoding="utf-8"?>
+    <configuration>
+      <packageSources>
+        <add key="Locally Distributed Packages" value="${srcFolder}" />
+        <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
+      </packageSources>
+    </configuration>`, 'utf-8');
+  }
 
-  // locally built package
-  if (cdktf_version == '0.0.0') {    
-    execSync(`dotnet add package '${pkgName}' --source '${srcFolder}'`, { stdio: 'inherit' });
-  }
-  else {
-    execSync(`dotnet add package '${pkgName}'`, { stdio: 'inherit' });
-  }
+  execSync(`dotnet restore`, { stdio: 'inherit' });
 
   execSync(`\"${process.execPath}\" ${cli} get`, { stdio: 'inherit' });
-  //execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
+  execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
 
   console.log(readFileSync('./help', 'utf-8'));
 };
@@ -53,12 +55,8 @@ exports.post = options => {
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./Main.cs', 'utf-8');
 
-  result = template.replace(`using Hashicorp.Cdktf.App;`, `using Hashicorp.Cdktf.App;
-using Hashicorp.Cdktf.NamedRemoteWorkspace;
-using Hashicorp.Cdktf.RemoteBackend;
-using Hashicorp.Cdktf.RemoteBackendProps;`);
-  result = result.replace(`new Main(app, "${baseName}");`, `Main stack = new Main(app, "${baseName}");
-new RemoteBackend(stack, RemoteBackendProps.builder().hostname("app.terraform.io").organization("${organizationName}").workspaces(new NamedRemoteWorkspace("${workspaceName}")).build());`);
+  result = template.replace(`new MyApp(app, "${baseName}");`, `MyApp stack = new MyApp(app, "${baseName}");
+new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedRemoteWorkspace("${workspaceName}") });`);
 
   writeFileSync('./Main.cs', result, 'utf-8');
 } 

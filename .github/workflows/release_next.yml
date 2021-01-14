@@ -82,3 +82,21 @@ jobs:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_SERVER_ID: github
           MAVEN_REPOSITORY_URL: "https://maven.pkg.github.com/${{ github.repository }}"
+
+  release_nuget_github:
+    name: Release to GitHub NuGet
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+    steps:
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Release
+        run: npx -p jsii-release jsii-release-nuget
+        env:
+          NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_SERVER: "https://nuget.pkg.github.com/${{ github.repository }}"

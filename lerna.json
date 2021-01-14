@@ -5,7 +5,8 @@
     "examples/typescript/*",
     "examples/python/*",
     "examples/typescript/backends/*",
-    "examples/java/*"
+    "examples/java/*",
+    "examples/csharp/*"
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,

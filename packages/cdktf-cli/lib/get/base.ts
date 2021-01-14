@@ -91,7 +91,7 @@ export abstract class GetBase {
           if (options.targetLanguage === Language.CSHARP) {
             opts.csharp = {
               outdir: codeMakerOutdir,
-              namespace: source.replace(/\//gi, '.').replace(/-/gi, '')
+              namespace: source.replace(/\//gi, '.').replace(/-/gi, '_')
             }
           }
 

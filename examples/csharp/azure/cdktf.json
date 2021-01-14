@@ -1,6 +1,8 @@
 {
-  "language": "python",
-  "app": "dotnet build",
-  "terraformProviders": ["azurerm@~> 2.0.0"],
-  "codeMakerOutput": "imports"
+  "language": "csharp",
+  "app": "dotnet run -p MyTerraformStack.csproj",
+  "terraformProviders": ["azurerm@~> 2.0"],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
 }

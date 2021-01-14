@@ -88,6 +88,10 @@ For Python [examples](./examples/python), packages are referenced from `./dist`,
 
 For Java [examples](./examples/java), packages are referenced from `./dist`, there's no symlinking possible for live code updates. You'll have to explictly run `yarn package` to create new packages to be referenced in the pom.
 
+#### C#
+
+For C# [examples](./examples/csharp), packages are referenced from `./dist`, there's no symlinking possible for live code updates. You'll have to explictly run `yarn package` to create new packages to be referenced in the project.
+
 ### Outside of this Monorepo
 
 If you want to use the libraries and cli from the repo for local development, you can make use of `yarn link`.

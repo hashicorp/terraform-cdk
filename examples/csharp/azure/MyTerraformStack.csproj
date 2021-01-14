@@ -3,11 +3,14 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RestoreSources>$(RestoreSources);./../../../dist/dotnet;https://api.nuget.org/v3/index.json</RestoreSources>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Hashicorp.Cdktf" Version="0.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".gen\azurerm\azurerm.csproj" />
   </ItemGroup>
 
 </Project>

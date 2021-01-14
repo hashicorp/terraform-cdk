@@ -1,6 +1,8 @@
 {
     "language": "csharp",
-    "app": "dotnet build",
+    "app": "dotnet run -p MyTerraformStack.csproj",
     "terraformProviders": ["aws@~> 2.0"],
-    "codeMakerOutput": "imports"
+    "context": {
+        {{futureFlags}}
+    }
 }
