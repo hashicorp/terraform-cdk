@@ -18,14 +18,16 @@ execSync(`cdktf init --template csharp --project-name="csharp-test" --project-de
 
 // put some code in it
 fs.copyFileSync(path.join(scriptdir, 'Main.cs'), 'Main.cs');
-fs.copyFileSync(path.join(scriptdir, 'MyTerraformStack.csproj'), 'MyTerraformStack.csproj');
 fs.copyFileSync(path.join(scriptdir, 'cdktf.json'), 'cdktf.json');
 
 // regenerate with module
 execSync(`cdktf get`, { stdio: 'inherit', env });
 
+// reference generated module
+execSync('dotnet add reference .gen/aws/aws.csproj', { stdio: 'inherit', env });
+
 // build
-execSync('cdktf synth', { stdio: 'inherit', env })
+execSync('cdktf synth', { stdio: 'inherit', env });
 
 // show output
 if (os.platform() === 'win32') {
