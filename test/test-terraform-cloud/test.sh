@@ -47,14 +47,15 @@ cdktf get
 cdktf deploy --auto-approve > output
 diff output ${scriptdir}/expected/output
 
-echo "Destroying workspace ${TERRAFORM_CLOUD_WORKSPACE_NAME} in ${TERRAFORM_CLOUD_ORGANIZATION}."
-curl \
-  --header "Authorization: Bearer $TERRAFORM_CLOUD_TOKEN" \
-  --header "Content-Type: application/vnd.api+json" \
-  --request DELETE \
-  --output /dev/null \
-  --silent \
-  https://app.terraform.io/api/v2/organizations/${TERRAFORM_CLOUD_ORGANIZATION}/workspaces/${TERRAFORM_CLOUD_WORKSPACE_NAME}
-echo "Destroyed successfully."
+# The current token isn't allowed to destroy
+# echo "Destroying workspace ${TERRAFORM_CLOUD_WORKSPACE_NAME} in ${TERRAFORM_CLOUD_ORGANIZATION}."
+# curl \
+#   --header "Authorization: Bearer $TERRAFORM_CLOUD_TOKEN" \
+#   --header "Content-Type: application/vnd.api+json" \
+#   --request DELETE \
+#   --output /dev/null \
+#   --silent \
+#   https://app.terraform.io/api/v2/organizations/${TERRAFORM_CLOUD_ORGANIZATION}/workspaces/${TERRAFORM_CLOUD_WORKSPACE_NAME}
+# echo "Destroyed successfully."
 
 echo "PASS"
