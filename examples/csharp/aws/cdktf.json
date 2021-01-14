@@ -1,6 +1,6 @@
 {
   "language": "csharp",
-  "app": "dotnet run -p MyTerraformStack.csproj",
+  "app": "dotnet run /nowarn:nu1605 -p MyTerraformStack.csproj",
   "terraformProviders": ["aws@~> 2.0"],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
