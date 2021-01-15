@@ -16,6 +16,8 @@ process.chdir(folder);
 // initialize an empty project
 execSync(`cdktf init --template csharp --project-name="csharp-test" --project-description="csharp test app" --local`, { stdio: 'inherit', env });
 
+execSync(`dotnet restore`)
+
 // put some code in it
 fs.copyFileSync(path.join(scriptdir, 'Main.cs'), 'Main.cs');
 fs.copyFileSync(path.join(scriptdir, 'cdktf.json'), 'cdktf.json');
