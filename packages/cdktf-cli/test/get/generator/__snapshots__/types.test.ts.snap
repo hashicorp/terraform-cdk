@@ -690,6 +690,7 @@ import * as cdktf from 'cdktf';
 export interface IncompatibleAttributeNamesConfig extends cdktf.TerraformMetaArguments {
   readonly fetchPasswordData?: string;
   readonly selfAttribute: string;
+  readonly equalTo: string;
 }
 
 // Resource
@@ -713,6 +714,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
     });
     this._getPasswordData = config.fetchPasswordData;
     this._self = config.selfAttribute;
+    this._equals = config.equalTo;
   }
 
   // ==========
@@ -748,6 +750,19 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
     return this._self
   }
 
+  // equals - computed: false, optional: false, required: true
+  private _equals: string;
+  public get equalTo() {
+    return this.getStringAttribute('equals');
+  }
+  public set equalTo(value: string) {
+    this._equals = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get equalToInput() {
+    return this._equals
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -756,6 +771,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
     return {
       get_password_data: cdktf.stringToTerraform(this._getPasswordData),
       self: cdktf.stringToTerraform(this._self),
+      equals: cdktf.stringToTerraform(this._equals),
     };
   }
 }
