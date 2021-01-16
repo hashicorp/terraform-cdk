@@ -17,7 +17,7 @@ public class Main extends TerraformStack {
     public Main(final Construct scope, final String id) {
         super(scope, id);
 
-        AzurermProvider.Builder.create(this, "AzureRm").features(new ArrayList<AzurermProviderFeatures>()).build();
+        AzurermProvider.Builder.create(this, "AzureRm").features(Arrays.asList(new AzurermProviderFeatures())).build();
 
         VirtualNetwork.Builder.create(this, "TfVnet")
             .location("uksouth")
