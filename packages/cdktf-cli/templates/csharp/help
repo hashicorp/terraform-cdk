@@ -20,3 +20,12 @@
     cdktf destroy         Destroy the given stack
 
 ========================================================================================================
+
+Important:
+
+Please make sure to sign in to the Github Package registry and set your credentials in the Nuget.Config file which was generated.
+You can find more info about setting up the Github Package registry here: https://cdk.tf/github-nuget
+
+Then run "dotnet restore" to install the dependencies.
+
+This is a temporary solution. We'll be publishing to the official nuget.org registry soon.

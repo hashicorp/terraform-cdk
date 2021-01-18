@@ -42,12 +42,25 @@ exports.post = options => {
         <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
       </packageSources>
     </configuration>`, 'utf-8');
+  } else {
+    writeFileSync('./NuGet.Config', `<?xml version="1.0" encoding="utf-8"?>
+    <configuration>
+        <packageSources>
+            <add key="github" value="https://nuget.pkg.github.com/hashicorp/index.json" />
+        </packageSources>
+        <packageSourceCredentials>
+            <github>
+                <add key="Username" value="%GITHUB_USER%" />
+                <add key="ClearTextPassword" value="%GITHUB_TOKEN%" />
+            </github>
+        </packageSourceCredentials>
+    </configuration>`, 'utf-8');
   }
 
-  execSync(`dotnet restore`, { stdio: 'inherit' });
+  // execSync(`dotnet restore`, { stdio: 'inherit' });
 
   execSync(`\"${process.execPath}\" ${cli} get`, { stdio: 'inherit' });
-  execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
+  // execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
 
   console.log(readFileSync('./help', 'utf-8'));
 };
@@ -59,4 +72,4 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
 new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedRemoteWorkspace("${workspaceName}") });`);
 
   writeFileSync('./Main.cs', result, 'utf-8');
-} 
+}
