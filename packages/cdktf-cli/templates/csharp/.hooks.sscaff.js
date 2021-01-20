@@ -46,8 +46,8 @@ exports.post = options => {
 
   execSync(`dotnet restore`, { stdio: 'inherit' });
 
-  execSync(`\"${process.execPath}\" ${cli} get`, { stdio: 'inherit' });
-  execSync(`\"${process.execPath}\" ${cli} synth`, { stdio: 'inherit' });
+  execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
+  execSync(`\"${process.execPath}\" \"${cli}\" synth`, { stdio: 'inherit' });
 
   console.log(readFileSync('./help', 'utf-8'));
 };

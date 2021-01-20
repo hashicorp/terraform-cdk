@@ -29,7 +29,7 @@ exports.post = options => {
   execSync('pip install -r requirements.txt', { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
-  execSync(`${cli} get`, { stdio: 'inherit' });
+  execSync(`\"${cli}\" get`, { stdio: 'inherit' });
   execSync(`python3 ./main.py`);
 
   console.log(readFileSync('./help', 'utf-8'));
