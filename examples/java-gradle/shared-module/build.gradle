@@ -1,0 +1,44 @@
+import groovy.json.JsonSlurper
+
+subprojects {
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/hashicorp/terraform-cdk")
+            credentials {
+                username = project.githubUsername
+                password = project.githubToken
+            }
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(11)
+        }
+    }
+
+    def getTask = task get(type: Exec){
+        group = "cdktf"
+        onlyIf {
+            def cdktfJson = new JsonSlurper()
+                    .parseText(project.file("cdktf.json").text)
+
+            !cdktfJson.terraformProviders.isEmpty() && !cdktfJson.terraformModules.isEmpty()
+        }
+        workingDir(projectDir)
+        commandLine("cdktf")
+        args("get")
+    }
+
+    def synthTask = task synth(type: Exec){
+        group = "cdktf"
+        workingDir(projectDir)
+        commandLine("cdktf")
+        args("synth")
+    }
+}

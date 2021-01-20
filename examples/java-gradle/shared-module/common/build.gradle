@@ -1,0 +1,11 @@
+apply plugin: 'java-library'
+apply plugin: 'application'
+
+application {
+    mainClass = 'com.example.cdktf.common.BaseApplicationModule'
+}
+
+dependencies {
+    api 'com.hashicorp:cdktf:0.1.0'
+    api 'software.constructs:constructs:3.0.0'
+}
