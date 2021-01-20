@@ -1,3 +1,4 @@
+build
 **/cdk.tf.json
 **/src/main/java/imports
 **/src/main/resources/imports

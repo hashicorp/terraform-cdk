@@ -28,7 +28,7 @@ subprojects {
             def cdktfJson = new JsonSlurper()
                     .parseText(project.file("cdktf.json").text)
 
-            !cdktfJson.terraformProviders.isEmpty() && !cdktfJson.terraformModules.isEmpty()
+            !cdktfJson.terraformProviders?.isEmpty() && !cdktfJson.terraformModules?.isEmpty()
         }
         workingDir(projectDir)
         commandLine("cdktf")
