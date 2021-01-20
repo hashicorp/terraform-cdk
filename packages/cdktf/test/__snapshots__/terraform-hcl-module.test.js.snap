@@ -282,6 +282,42 @@ exports[`reference module 1`] = `
 }"
 `;
 
+exports[`reference module list 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"./foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"test\\",
+        \\"names\\": \\"\${module.test.names}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`set variable 1`] = `
 "{
   \\"//\\": {
