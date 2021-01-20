@@ -141,7 +141,7 @@ exports[`depend on other module 1`] = `
     },
     \\"test_2\\": {
       \\"source\\": \\"./foo\\",
-      \\"dependsOn\\": [
+      \\"depends_on\\": [
         \\"module.test_1\\"
       ],
       \\"//\\": {

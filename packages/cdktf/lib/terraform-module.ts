@@ -72,7 +72,8 @@ public addProvider(provider: TerraformProvider | TerraformModuleProvider) {
             return { [`${p.provider.terraformResourceType}.${p.moduleAlias}`]: p.provider.fqn };
         }
       }),
-      dependsOn: this.dependsOn,
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      depends_on: this.dependsOn,
     },
       this.rawOverrides
     )
