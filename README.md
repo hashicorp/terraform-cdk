@@ -67,6 +67,7 @@ Choose a language:
 * [aws](./examples/java/aws)
 * [azure](./examples/java/azure)
 * [google](./examples/java/google)
+* [gradle-shared-module](./examples/java/gradle-shared-module)
 
 ### C#
 
