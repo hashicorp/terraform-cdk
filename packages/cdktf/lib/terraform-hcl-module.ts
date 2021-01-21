@@ -1,5 +1,6 @@
 import { Construct } from "constructs";
 import { TerraformModuleOptions, TerraformModule } from "./terraform-module";
+import { Token } from "./tokens";
 
 export interface TerraformHclModuleOptions extends TerraformModuleOptions {
     readonly variables?: {[key: string]: any};
@@ -26,23 +27,23 @@ export class TerraformHclModule extends TerraformModule {
     }
 
     public get(output: string): any {
-        return this.interpolationForOutput(output);
+        return Token.asAny(this.interpolationForOutput(output));
     }
 
     public getString(output: string): string {
-        return this.get(output);
+        return Token.asString(this.interpolationForOutput(output));
     }
 
     public getNumber(output: string): number {
-        return this.get(output);
+        return Token.asNumber(this.interpolationForOutput(output));
     }
 
     public getBoolean(output: string): boolean {
-        return this.get(output);
+        return Token.asString(this.interpolationForOutput(output)) as any as boolean;
     }
 
     public getList(output: string): string[] {
-        return this.get(output);
+        return Token.asList(this.interpolationForOutput(output));
     }
 
     protected synthesizeAttributes(): { [name: string]: any } {

@@ -104,6 +104,22 @@ test('reference module', () => {
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
+test('reference module list', () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, 'test');
+
+    const module = new TerraformHclModule(stack, 'test', {
+        source: './foo'
+    });
+
+    const resource = new TestResource(stack, 'resource', {
+        name: 'test'
+    });
+    resource.names = module.getList('names');
+
+    expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
 test('set variable', () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, 'test');
