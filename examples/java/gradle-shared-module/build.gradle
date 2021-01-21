@@ -47,3 +47,38 @@ subprojects {
         args("synth")
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************************
+ *
+ *       The following configuration is only for `terraform-cdk`
+ *       integration testing purposes and should be removed in
+ *       consumer implementations.
+ *
+ ***********************************************************************/
+if(System.getenv("CI")?.toBoolean()) {
+    // We're applying dependency substitution during CI
+    // to ensure that we test against the latest local version
+    // of the cdktf artifact.
+    subprojects {
+        configurations {
+            all {
+                resolutionStrategy.dependencySubstitution {
+                    substitute(module("com.hashicorp:cdktf"))
+                            .using(module("com.hashicorp:cdktf:0.0.0"))
+                            .withoutClassifier()
+                }
+            }
+        }
+    }
+}
