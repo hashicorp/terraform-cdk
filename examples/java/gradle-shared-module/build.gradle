@@ -5,13 +5,18 @@ subprojects {
     apply plugin: 'java'
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/hashicorp/terraform-cdk")
             credentials {
-                username = project.githubUsername
-                password = project.githubToken
+                if (System.getenv("CI")?.toBoolean()) {
+                    password = System.getenv("GITHUB_TOKEN")
+                } else {
+                    username = project.githubUsername
+                    password = project.githubToken
+                }
             }
         }
     }
@@ -22,7 +27,7 @@ subprojects {
         }
     }
 
-    def getTask = task get(type: Exec){
+    def getTask = task get(type: Exec) {
         group = "cdktf"
         onlyIf {
             def cdktfJson = new JsonSlurper()
@@ -35,7 +40,7 @@ subprojects {
         args("get")
     }
 
-    def synthTask = task synth(type: Exec){
+    def synthTask = task synth(type: Exec) {
         group = "cdktf"
         workingDir(projectDir)
         commandLine("cdktf")
