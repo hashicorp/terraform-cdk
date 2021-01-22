@@ -31,5 +31,6 @@ jobs:
       - name: examples integration tests
         run: yarn examples:integration
         env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"

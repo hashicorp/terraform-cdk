@@ -1,0 +1,13 @@
+{
+  "language": "java",
+  "app": "../gradlew -q :common:run",
+  "output": "./",
+  "codeMakerOutput": "./src/main/java/imports",
+  "terraformProviders": [
+    "aws@~> 2.70.0"
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": true,
+    "allowSepCharsInLogicalIds": true
+  }
+}

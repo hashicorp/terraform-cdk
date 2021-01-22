@@ -1,0 +1,84 @@
+import groovy.json.JsonSlurper
+
+subprojects {
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/hashicorp/terraform-cdk")
+            credentials {
+                if (System.getenv("CI")?.toBoolean()) {
+                    password = System.getenv("GITHUB_TOKEN")
+                } else {
+                    username = project.githubUsername
+                    password = project.githubToken
+                }
+            }
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(11)
+        }
+    }
+
+    def getTask = task get(type: Exec) {
+        group = "cdktf"
+        onlyIf {
+            def cdktfJson = new JsonSlurper()
+                    .parseText(project.file("cdktf.json").text)
+
+            !cdktfJson.terraformProviders?.isEmpty() && !cdktfJson.terraformModules?.isEmpty()
+        }
+        workingDir(projectDir)
+        commandLine("cdktf")
+        args("get")
+    }
+
+    def synthTask = task synth(type: Exec) {
+        group = "cdktf"
+        workingDir(projectDir)
+        commandLine("cdktf")
+        args("synth")
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************************
+ *
+ *       The following configuration is only for `terraform-cdk`
+ *       integration testing purposes and should be removed in
+ *       consumer implementations.
+ *
+ ***********************************************************************/
+if(System.getenv("CI")?.toBoolean()) {
+    // We're applying dependency substitution during CI
+    // to ensure that we test against the latest local version
+    // of the cdktf artifact.
+    subprojects {
+        configurations {
+            all {
+                resolutionStrategy.dependencySubstitution {
+                    substitute(module("com.hashicorp:cdktf"))
+                            .using(module("com.hashicorp:cdktf:0.0.0"))
+                            .withoutClassifier()
+                }
+            }
+        }
+    }
+}
