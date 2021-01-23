@@ -5,6 +5,10 @@
   "scripts": {
     "build": "lerna run --scope cdktf* build",
     "package": "lerna run package && tools/collect-dist.sh",
+    "package:python": "lerna run package:python && tools/collect-dist.sh",
+    "package:java": "lerna run package:java && tools/collect-dist.sh",
+    "package:donet": "lerna run package:donet && tools/collect-dist.sh",
+    "package:js": "lerna run package:js && tools/collect-dist.sh",
     "package-windows": "lerna run package && tools\\collect-dist.bat",
     "bootstrap-plugin-cache": "./test/run-against-dist ./tools/bootstrap-plugin-cache.sh",
     "examples:reinstall": "lerna run --parallel --scope @examples/* --ignore @examples/java* reinstall && lerna run --stream --scope @examples/java* reinstall --concurrency 1",
