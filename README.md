@@ -99,7 +99,7 @@ CDK for Terraform is an early experimental project and the development team woul
 * Ask a question on the HashiCorp [Discuss](https://discuss.hashicorp.com/) using the [terraform-cdk](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/) category.
 * Report a [bug](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title=) or request a new [feature](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=).
 * Browse all [open issues](https://github.com/hashicorp/terraform-cdk/issues).
-* Public [roadmap](https://github.com/hashicorp/terraform-cdk/projects/1).
+* [Beta roadmap](https://github.com/orgs/hashicorp/projects/77).
 
 ## Building
 
