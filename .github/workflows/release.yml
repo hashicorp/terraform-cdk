@@ -132,6 +132,23 @@ jobs:
           NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
           NUGET_SERVER: "https://nuget.pkg.github.com/${{ github.repository_owner }}"
 
+  release_nuget:
+    name: Release to NuGet
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/jsii-terraform
+    steps:
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Release
+        run: npx -p jsii-release jsii-release-nuget
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
   release_homebrew:
     name: Release to Homebrew
     # The branch or tag ref that triggered the workflow run.
