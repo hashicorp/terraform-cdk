@@ -95,7 +95,7 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
       'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
       'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${pythonVersion}-py3-none-any.whl`),
       'mvn_cdktf': path.resolve(dist, 'java', `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`),
-      'nuget_cdktf': path.resolve(dist, 'dotnet', `Hashicorp.Cdktf.${version}.nupkg`)
+      'nuget_cdktf': path.resolve(dist, 'dotnet', `HashiCorp.Cdktf.${version}.nupkg`)
     };
 
     for (const file of Object.values(ret)) {

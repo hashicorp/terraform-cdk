@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hashicorp.Cdktf" Version="0.0.0" />
+    <PackageReference Include="HashiCorp.Cdktf" Version="0.0.0" />
   </ItemGroup>
 
   <ItemGroup>

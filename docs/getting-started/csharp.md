@@ -69,7 +69,7 @@ vim Main.c
 ```csharp
 using System;
 using Constructs;
-using Hashicorp.Cdktf;
+using HashiCorp.Cdktf;
 
 
 namespace MyCompany.MyApp
@@ -99,7 +99,7 @@ Let's take a simple .NET application that uses the CDK for Terraform package.
 ```csharp
 using System;
 using Constructs;
-using Hashicorp.Cdktf;
+using HashiCorp.Cdktf;
 
 using aws;
 

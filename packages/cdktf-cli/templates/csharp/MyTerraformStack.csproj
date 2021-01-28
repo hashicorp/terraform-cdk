@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hashicorp.Cdktf" Version="{{ cdktf_version }}" />
+    <PackageReference Include="HashiCorp.Cdktf" Version="{{ cdktf_version }}" />
   </ItemGroup>
 
 </Project>

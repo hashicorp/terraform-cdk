@@ -33,8 +33,8 @@
         }
       },
       "dotnet": {
-        "packageId": "Hashicorp.Cdktf",
-        "namespace": "Hashicorp.Cdktf"
+        "packageId": "HashiCorp.Cdktf",
+        "namespace": "HashiCorp.Cdktf"
       }
     }
   },
