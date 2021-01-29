@@ -1,10 +1,14 @@
 {
   "name": "root",
-  "version": "0.0.19",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "lerna run --scope cdktf* build",
     "package": "lerna run package && tools/collect-dist.sh",
+    "package:python": "lerna run package:python && tools/collect-dist.sh",
+    "package:java": "lerna run package:java && tools/collect-dist.sh",
+    "package:donet": "lerna run package:donet && tools/collect-dist.sh",
+    "package:js": "lerna run package:js && tools/collect-dist.sh",
     "package-windows": "lerna run package && tools\\collect-dist.bat",
     "bootstrap-plugin-cache": "./test/run-against-dist ./tools/bootstrap-plugin-cache.sh",
     "examples:reinstall": "lerna run --parallel --scope @examples/* --ignore @examples/java* reinstall && lerna run --stream --scope @examples/java* reinstall --concurrency 1",
@@ -18,7 +22,8 @@
     "integration-windows": "test\\run-against-dist.bat test\\test-all.bat",
     "release-github": "tools/release-github.sh",
     "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
-    "push-docker-jsii": "docker push hashicorp/jsii-terraform"
+    "push-docker-jsii": "docker push hashicorp/jsii-terraform",
+    "dist-clean": "lerna run dist-clean --stream && rm -rf dist"
   },
   "workspaces": {
     "packages": [
@@ -27,7 +32,8 @@
       "examples/python/*",
       "examples/typescript/*",
       "examples/typescript/backends/*",
-      "examples/java/*"
+      "examples/java/*",
+      "examples/csharp/*"
     ],
     "nohoist": [
       "cdktf/json-stable-stringify",

@@ -6,6 +6,7 @@ on:
 
 jobs:
   build-docker-image:
+    if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     steps:
       - name: Set up Docker Buildx

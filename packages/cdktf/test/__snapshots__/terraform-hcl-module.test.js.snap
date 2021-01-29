@@ -141,7 +141,7 @@ exports[`depend on other module 1`] = `
     },
     \\"test_2\\": {
       \\"source\\": \\"./foo\\",
-      \\"dependsOn\\": [
+      \\"depends_on\\": [
         \\"module.test_1\\"
       ],
       \\"//\\": {
@@ -270,6 +270,42 @@ exports[`reference module 1`] = `
     \\"test_resource\\": {
       \\"resource\\": {
         \\"name\\": \\"\${module.test.name}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`reference module list 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"./foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"test\\",
+        \\"names\\": \\"\${module.test.names}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test/resource\\",

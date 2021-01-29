@@ -1,3 +1,19 @@
+## 0.1.0
+
+**Implemented enhancements:**
+
+- C# Support [\#477](https://github.com/hashicorp/terraform-cdk/issues/477)
+- Terraform Cloud support with remote execution mode [\#449](https://github.com/hashicorp/terraform-cdk/issues/449)
+
+**Fixed bugs:**
+
+- Include feature flags in java template and test [\#471](https://github.com/hashicorp/terraform-cdk/issues/471)
+
+**Security Updates:**
+
+- Bump ini from 1.3.5 to 1.3.8 [\#460](https://github.com/hashicorp/terraform-cdk/issues/460)
+- CVE-2020-7789 / GHSA-p9pc-299p-vxgp [\#478](https://github.com/hashicorp/terraform-cdk/issues/478) / [\#493](https://github.com/hashicorp/terraform-cdk/issues/493)
+
 ## 0.0.19
 
 **Fixed bugs:**

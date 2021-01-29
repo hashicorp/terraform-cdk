@@ -8,11 +8,11 @@ import { TerraformProviderConstraint } from './generator/provider-generator';
 export enum Language {
   TYPESCRIPT = 'typescript',
   PYTHON = 'python',
-  DOTNET = 'dotnet',
+  CSHARP = 'csharp',
   JAVA = 'java',
 }
 
-export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON, Language.JAVA ];
+export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON, Language.JAVA, Language.CSHARP ];
 
 export interface GetOptions {
   readonly targetLanguage: Language;
@@ -84,6 +84,14 @@ export abstract class GetBase {
             opts.java = {
               outdir: '.', // generated java files aren't packaged, so just include directly in app
               package: `imports.${source.replace(/\//gi, '.').replace(/-/gi, '_')}`
+            }
+          }
+
+          // dotnet
+          if (options.targetLanguage === Language.CSHARP) {
+            opts.csharp = {
+              outdir: codeMakerOutdir,
+              namespace: source.replace(/\//gi, '.').replace(/-/gi, '_')
             }
           }
 

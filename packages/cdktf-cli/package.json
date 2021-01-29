@@ -13,7 +13,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "yarn lint && jest",
     "jest-watch": "jest --watch",
-    "package": "./package.sh"
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
@@ -26,9 +27,12 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
+    "@types/archiver": "^5.1.0",
     "@types/node": "^14.0.26",
     "@types/readline-sync": "^1.4.3",
+    "@types/stream-buffers": "^3.0.3",
     "@types/uuid": "^8.3.0",
+    "archiver": "^5.1.0",
     "cdktf": "0.0.0",
     "chalk": "^4.1.0",
     "codemaker": "^0.22.0",
@@ -38,13 +42,15 @@
     "ink": "^2.7.1",
     "ink-confirm-input": "^2.0.0",
     "ink-spinner": "^3.0.1",
-    "jsii-srcmak": "^0.1.186",
+    "jsii-srcmak": "^0.1.195",
     "log4js": "^6.3.0",
     "open": "^7.0.4",
     "react": "^16.13.1",
     "readline-sync": "^1.4.10",
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
+    "stream-buffers": "^3.0.2",
+    "@skorfmann/terraform-cloud": "^1.7.1",
     "uuid": "^8.3.0",
     "yargs": "^15.1.0"
   },

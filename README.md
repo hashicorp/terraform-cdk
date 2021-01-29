@@ -23,7 +23,7 @@ The CDK for Terraform project includes two packages:
 * [cdktf-cli](./packages/cdktf-cli) - A CLI that allows users to run commands to initialize, import, and synthesize CDK for Terraform applications.
 * [cdktf](./packages/cdktf) - A library for defining Terraform resources using programming constructs.
 
-The project currently supports TypeScript, Python, and Java.
+The project currently supports TypeScript, Python, Java, and C#.
 
 ## Getting Started
 
@@ -32,6 +32,7 @@ Choose a language:
 * [TypeScript](./docs/getting-started/typescript.md)
 * [Python](./docs/getting-started/python.md)
 * [Java](./docs/getting-started/java.md)
+* [C#](./docs/getting-started/csharp.md)
 
 ## Examples
 
@@ -66,6 +67,13 @@ Choose a language:
 * [aws](./examples/java/aws)
 * [azure](./examples/java/azure)
 * [google](./examples/java/google)
+* [gradle-shared-module](./examples/java/gradle-shared-module)
+
+### C#
+
+* [aws](./examples/csharp/aws)
+* [azure](./examples/csharp/azure)
+* [google](./examples/csharp/google)
 
 ## Documentation
 
@@ -91,7 +99,7 @@ CDK for Terraform is an early experimental project and the development team woul
 * Ask a question on the HashiCorp [Discuss](https://discuss.hashicorp.com/) using the [terraform-cdk](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/) category.
 * Report a [bug](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title=) or request a new [feature](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=).
 * Browse all [open issues](https://github.com/hashicorp/terraform-cdk/issues).
-* Public [roadmap](https://github.com/hashicorp/terraform-cdk/projects/1).
+* [Beta roadmap](https://github.com/orgs/hashicorp/projects/77).
 
 ## Building
 

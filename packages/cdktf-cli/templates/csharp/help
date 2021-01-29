@@ -1,0 +1,31 @@
+========================================================================================================
+
+  Your cdktf csharp project is ready!
+
+  cat help                Prints this message
+
+  Compile:
+    dotnet build          Builds your dotnet packages
+
+  Synthesize:
+    cdktf synth           Synthesize Terraform resources to cdktf.out/
+
+  Diff:
+    cdktf diff            Perform a diff (terraform plan) for the given stack
+
+  Deploy:
+    cdktf deploy          Deploy the given stack
+
+  Destroy:
+    cdktf destroy         Destroy the given stack
+
+========================================================================================================
+
+Important:
+
+Please make sure to sign in to the Github Package registry and set your credentials in the Nuget.Config file which was generated.
+You can find more info about setting up the Github Package registry here: https://cdk.tf/github-nuget
+
+Then run "dotnet restore" to install the dependencies.
+
+This is a temporary solution. We'll be publishing to the official nuget.org registry soon.
