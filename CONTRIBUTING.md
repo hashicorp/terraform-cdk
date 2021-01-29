@@ -144,7 +144,7 @@ $ yarn link "cdktf"
 
 From here on both, the `cli` and the `cdktf` packages are linked and changes will be reflected immediatlely.
 
-## Rebasing contributions against master
+## Rebasing contributions against main
 
 PRs in this repo are merged using the [`rebase`](https://git-scm.com/docs/git-rebase) method. This keeps
 the git history clean by adding the PR commits to the most recent end of the commit history. It also has
@@ -154,7 +154,7 @@ git history based on when the commits were first created.
 If the changes in your PR do not conflict with any of the existing code in the project, then Github supports
 automatic rebasing when the PR is accepted into the code. However, if there are conflicts (there will be
 a warning on the PR that reads "This branch cannot be rebased due to conflicts"), you will need to manually
-rebase the branch on master, fixing any conflicts along the way before the code can be merged.
+rebase the branch on main, fixing any conflicts along the way before the code can be merged.
 
 ## Feature Flags
 
@@ -170,13 +170,13 @@ created through `cdktf init`.
 The pattern is simple:
 
 1. Define a new const under
-   [cdktf/lib/features.ts](https://github.com/hashicorp/terraform-cdk/blob/master/packages/cdktf/lib/features.ts)
+   [cdktf/lib/features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts)
    with the name of the context key that **enables** this new feature (for
    example, `EXCLUDE_STACK_ID_FROM_LOGICAL_IDS`).
 2. Use `node.tryGetContext(ENABLE_XXX)` to check if this feature is enabled
    in your code. If it is not defined, revert to the legacy behavior.
 3. Add your feature flag to the `FUTURE_FLAGS` map in
-   [cdktf/lib/features.ts](https://github.com/hashicorp/terraform-cdk/blob/master/packages/cdktf/lib/features.ts).
+   [cdktf/lib/features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts).
    This map is inserted to generated `cdktf.json` files for new projects created
    through `cdktf init`.
 4. In your PR title (which goes into CHANGELOG), add a `(under feature flag)` suffix. e.g:
