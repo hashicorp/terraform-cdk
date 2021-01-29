@@ -6,13 +6,6 @@
 - [Node.js](https://nodejs.org) >= v12.16
 - [.NET](https://dotnet.microsoft.com/download) >= Core 3.1
 
-## Configure dotnet for GitHub Packages
-Currently cdktf is distributed only on GitHub packages. Until it is available on nuget.org, some additional configuration is needed.
-
-Specifically, add `https://nuget.pkg.github.com/hashicorp/index.json` as a package source using GitHub username and Personal Access Token for package source credentials.
-
-For more details read through [GitHub's Guide](https://docs.github.com/en/free-pro-team@latest/packages/guides/configuring-dotnet-cli-for-use-with-github-packages).
-
 ### Install CDK for Terraform CLI
 
 Install with [Homebrew](https://brew.sh):
