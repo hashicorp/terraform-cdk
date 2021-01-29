@@ -7,7 +7,7 @@
     "package": "lerna run package && tools/collect-dist.sh",
     "package:python": "lerna run package:python && tools/collect-dist.sh",
     "package:java": "lerna run package:java && tools/collect-dist.sh",
-    "package:donet": "lerna run package:donet && tools/collect-dist.sh",
+    "package:dotnet": "lerna run package:dotnet && tools/collect-dist.sh",
     "package:js": "lerna run package:js && tools/collect-dist.sh",
     "package-windows": "lerna run package && tools\\collect-dist.bat",
     "bootstrap-plugin-cache": "./test/run-against-dist ./tools/bootstrap-plugin-cache.sh",

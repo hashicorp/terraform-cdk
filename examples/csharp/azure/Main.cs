@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using azurerm;
 using Constructs;
-using Hashicorp.Cdktf;
+using HashiCorp.Cdktf;
 
 
 namespace MyCompany.MyApp

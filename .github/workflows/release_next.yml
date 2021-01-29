@@ -83,8 +83,8 @@ jobs:
           MAVEN_SERVER_ID: github
           MAVEN_REPOSITORY_URL: "https://maven.pkg.github.com/${{ github.repository }}"
 
-  release_nuget_github:
-    name: Release to GitHub NuGet
+  release_nuget:
+    name: Release to NuGet
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
@@ -98,5 +98,4 @@ jobs:
       - name: Release
         run: npx -p jsii-release jsii-release-nuget
         env:
-          NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
-          NUGET_SERVER: "https://nuget.pkg.github.com/${{ github.repository_owner }}"
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}

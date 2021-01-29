@@ -1,6 +1,6 @@
 using System;
 using Constructs;
-using Hashicorp.Cdktf;
+using HashiCorp.Cdktf;
 
 
 namespace MyCompany.MyApp
