@@ -37,6 +37,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Build
+      run: |
+        yarn install
+        yarn build
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
