@@ -6,7 +6,12 @@ const cli = require.resolve('../../bin/cdktf');
 
 exports.pre = () => {
   try {
-    execSync('which pip')
+    if (os.platform() === 'win32') {
+      execSync('where pip')
+    }
+    else {
+      execSync('which pip')
+    }
   } catch {
     console.error(`Unable to find "pip".`)
     process.exit(1);
@@ -29,7 +34,7 @@ exports.post = options => {
   execSync('pip install -r requirements.txt', { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
-  execSync(`${cli} get`, { stdio: 'inherit' });
+  execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
   execSync(`python3 ./main.py`);
 
   console.log(readFileSync('./help', 'utf-8'));
