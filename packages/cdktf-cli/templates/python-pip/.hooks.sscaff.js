@@ -8,13 +8,13 @@ const cli = require.resolve('../../bin/cdktf');
 exports.pre = () => {
   try {
     if (os.platform() === 'win32') {
-      execSync('where pip')
+      execSync('where pip3')
     }
     else {
-      execSync('which pip')
+      execSync('which pip3')
     }
   } catch {
-    console.error(`Unable to find "pip".`)
+    console.error(`Unable to find "pip3".`)
     process.exit(1);
   }
 };
@@ -32,7 +32,7 @@ exports.post = options => {
   }
 
   writeFileSync('requirements.txt', pypi_cdktf, 'utf-8');
-  execSync('pip install --user -r requirements.txt', { stdio: 'inherit' });
+  execSync('pip3 install --user -r requirements.txt', { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
   execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
