@@ -32,7 +32,7 @@ exports.post = options => {
   }
 
   writeFileSync('requirements.txt', pypi_cdktf, 'utf-8');
-  execSync('pip install -r requirements.txt', { stdio: 'inherit' });
+  execSync('pip install --user -r requirements.txt', { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
   execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
