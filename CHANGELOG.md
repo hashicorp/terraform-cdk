@@ -1,4 +1,4 @@
-## 0.1.0
+## 0.1.0 (January 14, 2021)
 
 **Implemented enhancements:**
 
@@ -14,7 +14,7 @@
 - Bump ini from 1.3.5 to 1.3.8 [\#460](https://github.com/hashicorp/terraform-cdk/issues/460)
 - CVE-2020-7789 / GHSA-p9pc-299p-vxgp [\#478](https://github.com/hashicorp/terraform-cdk/issues/478) / [\#493](https://github.com/hashicorp/terraform-cdk/issues/493)
 
-## 0.0.19
+## 0.0.19 (December 6, 2020)
 
 **Fixed bugs:**
 
@@ -25,7 +25,7 @@
 - Remap 'equals' to 'equalTo' to work around jsii limitation [\#428](https://github.com/hashicorp/terraform-cdk/issues/428)
 - Generated custom mappings [\#395](https://github.com/hashicorp/terraform-cdk/issues/395)
 
-## 0.0.18
+## 0.0.18 (November 5, 2020)
 
 **Fixed bugs:**
 
@@ -43,7 +43,7 @@
 - Terraform hcl module [\#375](https://github.com/hashicorp/terraform-cdk/issues/375)
 - Support for matching existing Terraform names [\#329](https://github.com/hashicorp/terraform-cdk/issues/329)
 
-## 0.0.17
+## 0.0.17 (September 1, 2020)
 
 **Fixed bugs:**
 
@@ -57,7 +57,7 @@
 - CLI installable via Homebrew [\#342](https://github.com/hashicorp/terraform-cdk/issues/342)
 - Support Terraform provider caching by default [#189](https://github.com/hashicorp/terraform-cdk/issues/189), [\#222](https://github.com/hashicorp/terraform-cdk/issues/222), [\#349](https://github.com/hashicorp/terraform-cdk/issues/349)
 
-## 0.0.16
+## 0.0.16 (August 21, 2020)
 
 **Fixed bugs:**
 
@@ -69,7 +69,7 @@
 - Adding cdktf version to the terraform user agent [\#321](https://github.com/hashicorp/terraform-cdk/issues/321)
 - Migrate to jsii-srcmak [\#276](https://github.com/hashicorp/terraform-cdk/issues/276)
 
-## 0.0.15
+## 0.0.15 (August 17, 2020)
 
 **Fixed bugs:**
 
@@ -80,7 +80,7 @@
 
 - Use remote backend class for typescript template [\#313](https://github.com/hashicorp/terraform-cdk/issues/313)
 
-## 0.0.14
+## 0.0.14 (August 9, 2020)
 
 **Implemented enhancements:**
 
@@ -90,7 +90,7 @@
 
 - Fix dot-prop security dependency bot alert [\#296](https://github.com/hashicorp/terraform-cdk/issues/296)
 
-## 0.0.13
+## 0.0.13 (July 31, 2020)
 
 **Fixed bugs:**
 
@@ -106,13 +106,13 @@
 - Terraform backend config [\#224](https://github.com/hashicorp/terraform-cdk/pull/224)
 - Terraform data remote state [\#241](https://github.com/hashicorp/terraform-cdk/pull/241)
 
-## 0.0.12
+## 0.0.12 (July 18, 2020)
 
 **Fixed bugs:**
 
 - `cdktf init` was broken on Windows [\#198](https://github.com/hashicorp/terraform-cdk/issues/198)
 
-## 0.0.11
+## 0.0.11 (July 15, 2020)
 
 **Implemented enhancements:**
 
@@ -132,19 +132,19 @@
 - cdktf init Terraform Cloud workspace creation doesn't work [\#144](https://github.com/hashicorp/terraform-cdk/issues/144)
 - Case sensitive tags are incorrectly downcased [\#75](https://github.com/hashicorp/terraform-cdk/issues/75)
 
-## 0.0.10
+## 0.0.10 (July 7, 2020)
 
 - Bug when creating Terraform Cloud workspace via `cdktf init` (#144)
 
-## 0.0.9
+## 0.0.9 (Jul 7, 2020)
 
 - Fix `cdktf init` issue (#139)
 
-## 0.0.8
+## 0.0.8 (July 5, 2020)
 
 Minor bug fixes and documentation for getting started guides.
 
-## 0.0.7
+## 0.0.7 (July 3, 2020)
 
 - Support for `cdktf diff` (#90)
 - Support for `cdktf deploy` (#92)
@@ -156,39 +156,39 @@ Minor bug fixes and documentation for getting started guides.
 
 There are other minor bug fixes included in the release. (#109, #122, #128).
 
-## 0.0.6
+## 0.0.6 (May 14, 2020)
 
 - Typescript examples and template defaults for synthesize commands to compile application (#63)
 - Terraform Output doesn't handle Optional Types (#83)
 
-## 0.0.5
+## 0.0.5 (May 13, 2020)
 
 - Document Terraform outputs and remote backend (#64)
 - Fix providers file workflow (#66)
 - Stack escape hatch (#81)
 
-## 0.0.4
+## 0.0.4 (May 12, 2020)
 
 - Getting started guide for Python (#73)
 - Change output directory to `cdktf.out` for Terraform configuration (#70)
 - Fix output directory argument for `cdktf synth` (#62)
 
-## 0.0.3
+## 0.0.3 (May 11, 2020)
 
 Enable synthesis to Python
 
-## 0.0.2-alpha.2
+## 0.0.2-alpha.2 (May 9, 2020)
 
 Minor output changes and updated README.md example.
 
-## 0.0.2-alpha.1
+## 0.0.2-alpha.1 (May 9, 2020)
 
 Alpha release for Github and NPM
 
-## 0.0.2
+## 0.0.2 (May 8, 2020)
 
 Initial release to GitHub and NPM.
 
-## 0.0.1
+## 0.0.1 (May 8, 2020)
 
 Initial release of `cdktf-cli` and `cdktf` to Github and NPM registry.
