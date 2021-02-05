@@ -1,5 +1,9 @@
 name: Examples Integration
-on: [pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 
 jobs:
   build:

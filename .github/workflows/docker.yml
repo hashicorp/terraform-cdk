@@ -3,6 +3,9 @@ name: docker
 on:
   push:
     branches: main
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 
 jobs:
   build-docker-image:
