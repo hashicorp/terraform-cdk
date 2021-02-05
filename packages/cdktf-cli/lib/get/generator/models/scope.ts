@@ -5,10 +5,12 @@ export interface ScopeProps {
   readonly isOptional?: boolean;
   readonly isRequired?: boolean;
   readonly inBlockType?: boolean;
+  readonly parent?: Scope;
 }
 
 export class Scope {
   public readonly name: string;
+  public readonly parent?: Scope;
   public readonly isProvider: boolean;
   public isComputed: boolean;
   public isOptional: boolean;
@@ -17,10 +19,22 @@ export class Scope {
 
   constructor(props: ScopeProps) {
     this.name = props.name;
+    this.parent = props.parent;
     this.isProvider = props.isProvider;
     this.isComputed = props.isComputed ?? false;
     this.isOptional = props.isOptional ?? true;
     this.isRequired = props.isRequired ?? false;
     this.inBlockType = props.inBlockType ?? false;
+  }
+
+  public fullName(attributeName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    let scope: Scope|undefined = this;
+    let name = attributeName;
+    while (scope) {
+      name = `${scope.name}.${name}`;
+      scope = scope.parent;
+    }
+    return name;
   }
 }
