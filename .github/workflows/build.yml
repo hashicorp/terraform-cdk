@@ -73,7 +73,7 @@ jobs:
     strategy:
       matrix:
         terraform: ["0.12.29", "0.13.4", "0.14.0"]
-        target: ["typescript", "others"]
+        target: ["typescript", "python", "java", "csharp"]
     needs: build
     env:
       CHECKPOINT_DISABLE: "1"
