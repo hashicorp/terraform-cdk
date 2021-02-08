@@ -11,4 +11,37 @@ describe('ReportRequest', () => {
 
     await ReportRequest(reportParams)
   });
+
+  describe('CHECKPOINT_DISABLE', () => {
+    let checkPointDisable: any;
+
+    beforeEach(() => {
+      checkPointDisable = process.env.CHECKPOINT_DISABLE
+    })
+
+    afterEach(() => {
+      process.env.CHECKPOINT_DISABLE = checkPointDisable;
+    })
+
+    it('does not perform request when disabled via ENV', async () => {
+      process.env.CHECKPOINT_DISABLE = 'truthy'
+
+      const scope = nock('https://checkpoint-api.hashicorp.com')
+        .post(new RegExp('/v1/.*'))
+        .reply()
+
+      await ReportRequest(reportParams)
+      expect(scope.isDone()).toBeFalsy()
+    })
+
+    it('does perform request by default', async () => {
+      delete process.env.CHECKPOINT_DISABLE
+      const scope = nock('https://checkpoint-api.hashicorp.com')
+        .post(new RegExp('/v1/*'))
+        .reply(201, '')
+
+      await ReportRequest(reportParams)
+      expect(scope.isDone).toBeTruthy()
+    })
+  })
 });
