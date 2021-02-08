@@ -1,0 +1,23 @@
+name: checkrun-timechart
+on:
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  checkrun-timechart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: wait
+        uses: "WyriHaximus/github-action-wait-for-status@v1.2"
+        with:
+          ignoreActions: checkrun-timechart
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: checkrun-timechart
+        uses: urcomputeringpal/checkrun-timechart-action@v0.0.5
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          SHA: "${{ github.event.pull_request.head.sha }}"
+          TRACE_START: "${{ github.event.pull_request.updated_at }}"
