@@ -10,7 +10,10 @@ for /d %%d in ("test-*") do (
             echo --------------------------------------------------------------------
             echo %%d
             echo --------------------------------------------------------------------
+            set startTime=%time%
             call node "%%d\test.js"
+            echo Start Time: %startTime%
+            echo Finish Time: %time%
             IF !ERRORLEVEL! NEQ 0 exit /B 1
         )
     )
