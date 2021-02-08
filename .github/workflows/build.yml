@@ -94,7 +94,7 @@ jobs:
           name: dist
           path: dist
       - name: integration tests
-        run: yarn integration:%TEST_TARGET%
+        run: yarn integration:${env:TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
