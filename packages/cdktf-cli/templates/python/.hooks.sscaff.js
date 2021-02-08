@@ -25,7 +25,7 @@ exports.post = options => {
     console.log(`\nGenerating Terraform Cloud configuration for '${options.OrganizationName}' organization and '${options.WorkspaceName}' workspace.....`)
     terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
   }
-  
+
   const pypi_cdktf = options.pypi_cdktf;
   if (!pypi_cdktf) {
     throw new Error(`missing context "pypi_cdktf"`);
@@ -34,9 +34,6 @@ exports.post = options => {
   execSync('pipenv install', { stdio: 'inherit' });
   execSync(`pipenv install ${pypi_cdktf}`, { stdio: 'inherit' });
   chmodSync('main.py', '700');
-
-  execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
-  execSync(`pipenv run python main.py`);
 
   console.log(readFileSync('./help', 'utf-8'));
 };

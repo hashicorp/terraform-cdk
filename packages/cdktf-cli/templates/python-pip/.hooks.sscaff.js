@@ -35,9 +35,6 @@ exports.post = options => {
   execSync('pip3 install --user -r requirements.txt', { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
-  execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
-  execSync(`python3 ./main.py`);
-
   console.log(readFileSync('./help', 'utf-8'));
 };
 
