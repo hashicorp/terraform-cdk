@@ -231,7 +231,7 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
   }, []);
 
 
-  const excecutorForStack = async (stackJSON: string): Promise<void> => {
+  const executorForStack = async (stackJSON: string): Promise<void> => {
     if (stackJSON === undefined) throw new Error('no synthesized stack found');
     const cwd = process.cwd();
     const outdir = path.join(cwd, targetDir);
@@ -254,7 +254,7 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
       dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
       if (loadExecutor) {
-        await excecutorForStack(stacks[0].content)
+        await executorForStack(stacks[0].content)
       }
       dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
     } catch (e) {
