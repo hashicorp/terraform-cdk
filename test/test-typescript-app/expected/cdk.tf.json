@@ -53,7 +53,7 @@
     }
   },
   "output": {
-    "sns-topic-arn": {
+    "snstopicarn": {
       "value": "${aws_sns_topic.Topic.arn}"
     }
   }
