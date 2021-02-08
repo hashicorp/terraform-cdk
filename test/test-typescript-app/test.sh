@@ -14,8 +14,10 @@ cdktf init --template typescript --project-name="typescript-test" --project-desc
 
 # put some code in it
 cp ${scriptdir}/main.ts .
+cp ${scriptdir}/cdktf.json .
 
 # build
+yarn get
 yarn compile
 yarn synth > /dev/null
 
