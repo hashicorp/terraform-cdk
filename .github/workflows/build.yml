@@ -46,6 +46,7 @@ jobs:
     strategy:
       matrix:
         terraform: ["0.12.29", "0.13.4", "0.14.0"]
+        target: ["typescript", "others"]
     container:
       image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     needs: build
@@ -61,8 +62,9 @@ jobs:
           name: dist
           path: dist
       - name: integration tests
-        run: yarn integration
+        run: yarn integration:${TEST_TARGET}
         env:
+          TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
 
@@ -71,6 +73,7 @@ jobs:
     strategy:
       matrix:
         terraform: ["0.12.29", "0.13.4", "0.14.0"]
+        target: ["typescript", "others"]
     needs: build
     env:
       CHECKPOINT_DISABLE: "1"
@@ -91,6 +94,7 @@ jobs:
           name: dist
           path: dist
       - name: integration tests
-        run: yarn integration-windows
+        run: yarn integration:%TEST_TARGET%
         env:
+          TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
