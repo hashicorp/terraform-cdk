@@ -28,7 +28,7 @@ async function post(url: string, data: string) {
                 'Content-Length': data.length,
                 'User-Agent': 'HashiCorp/cdktf-cli'
             },
-            method: 'POST'
+            method: 'POST',
         }, res => {
             if (res.statusCode) {
                 const statusCode = res.statusCode;
@@ -38,16 +38,16 @@ async function post(url: string, data: string) {
             }
             const data = new Array<Buffer>();
             res.on('data', chunk => data.push(chunk));
-
-            res.once('error', err => ko(err));
-            res.once('end', () => {
+            res.on('error', err => ko(err));
+            res.on('end', () => {
                 return ok();
             });
         });
 
+        req.setTimeout(1000, () => ko((new Error('request timeout'))));
         req.write(data);
-
         req.end();
+        req.on('error', err => ko(err));
     })
 }
 
@@ -82,7 +82,7 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
         processLogger(e.message)
     }
 
-} 
+}
 
 
 
