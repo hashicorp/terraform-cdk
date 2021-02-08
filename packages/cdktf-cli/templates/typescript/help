@@ -5,6 +5,7 @@
   cat help              Print this message
 
   Compile:
+    npm run get         Import/update Terraform providers and modules (you should check-in this directory)
     npm run compile     Compile typescript code to javascript (or "npm run watch")
     npm run watch       Watch for changes and compile typescript in the background
     npm run build       Compile typescript
