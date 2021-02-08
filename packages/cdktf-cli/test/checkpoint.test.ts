@@ -1,11 +1,3 @@
-const mockedLogger = jest.fn()
-jest.mock('../lib/logging', () => (
-  {
-    ...(jest.requireActual('../lib/logging') as {}),
-    processLogger: mockedLogger
-  }
-))
-
 import { ReportRequest, ReportParams } from '../lib/checkpoint';
 import nock from 'nock';
 
@@ -18,17 +10,5 @@ describe('ReportRequest', () => {
       .replyWithError('some request error happened');
 
     await ReportRequest(reportParams)
-  });
-
-  it('handles timeouts', async () => {
-    mockedLogger.mockReset()
-
-    nock('https://checkpoint-api.hashicorp.com')
-      .post(new RegExp('/v1/.*'))
-      .delayConnection(1010)
-      .reply()
-
-    await ReportRequest(reportParams)
-    expect(mockedLogger).toBeCalledWith('request timeout')
   });
 });
