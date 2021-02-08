@@ -15,7 +15,7 @@ HashiCorp Terraform.
 
 ## Overview
 
-CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules and providers](./docs/working-with-cdk-for-terraform/using-providers-and-modules.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Users can then use the Terraform or the CDK for Terraform CLI to deploy the application.
+CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules and providers](./docs/working-with-cdk-for-terraform/using-providers-and-modules.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
 
 The CDK for Terraform project includes two packages:
 
