@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         terraform: ["0.12.29", "0.13.4", "0.14.0"]
+        target: ["all", "java"]
     container:
       image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     env:
@@ -33,8 +34,11 @@ jobs:
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: examples integration tests
-        run: yarn examples:integration
+        run: |
+          [[ $TEST_TARGET = "all" ]] && suffix="" || suffix=":$TEST_TARGET"
+          yarn examples:integration${suffix}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          TEST_TARGET: "${{ matrix.target }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
