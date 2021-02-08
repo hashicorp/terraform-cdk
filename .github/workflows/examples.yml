@@ -6,7 +6,7 @@ on:
       - 'docs/**'
 
 jobs:
-  build:
+  examples_integration:
     runs-on: ubuntu-latest
     strategy:
       matrix:
