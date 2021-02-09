@@ -4,7 +4,7 @@ setlocal EnableDelayedExpansion
 set buildTarget=%~1
 cd /D %~dp0
 
-for /d %%d in ("test-%buildTarget%*") do (
+for /d %%d in ("test-!buildTarget!*") do (
     if exist "%%d\" (
         if exist "%%d\test.js" (
             echo --------------------------------------------------------------------
