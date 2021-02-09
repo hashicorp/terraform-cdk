@@ -15,7 +15,7 @@
     "examples:build": "lerna run --parallel --scope @examples/* --ignore @examples/java* build && lerna run --stream --scope @examples/java* build --concurrency 1",
     "examples:synth": "lerna run --parallel --scope @examples/* --ignore @examples/java* synth && lerna run --stream --scope @examples/java* synth --concurrency 1",
     "examples:integration": "test/run-against-dist yarn examples:reinstall && yarn examples:build && yarn examples:synth",
-    "test": "lerna run test",
+    "test": "lerna run --scope cdktf* test",
     "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
     "link-packages": "lerna exec --scope cdktf* yarn link",
     "integration": "test/run-against-dist test/test-all.sh",
