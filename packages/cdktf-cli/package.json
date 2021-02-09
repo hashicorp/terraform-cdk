@@ -27,17 +27,13 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@types/archiver": "^5.1.0",
     "@types/node": "^14.0.26",
-    "@types/readline-sync": "^1.4.3",
-    "@types/stream-buffers": "^3.0.3",
-    "@types/uuid": "^8.3.0",
+    "@skorfmann/terraform-cloud": "^1.7.1",
     "archiver": "^5.1.0",
     "cdktf": "0.0.0",
     "chalk": "^4.1.0",
     "codemaker": "^0.22.0",
     "constructs": "^3.0.0",
-    "eslint-plugin-react": "^7.20.0",
     "fs-extra": "^8.1.0",
     "ink": "^2.7.1",
     "ink-confirm-input": "^2.0.0",
@@ -50,7 +46,6 @@
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
     "stream-buffers": "^3.0.2",
-    "@skorfmann/terraform-cloud": "^1.7.1",
     "uuid": "^8.3.0",
     "yargs": "^15.1.0"
   },
@@ -82,7 +77,6 @@
     "@types/ink-spinner": "^3.0.0",
     "@types/jest": "^25.1.2",
     "@types/json-schema": "^7.0.4",
-    "@types/node": "^14.0.26",
     "@types/react": "^16.9.35",
     "@types/semver": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
@@ -90,7 +84,14 @@
     "eslint": "^6.8.0",
     "ink-testing-library": "^2.0.0",
     "jest": "^26.6.3",
+    "nock": "^13.0.7",
     "ts-jest": "^26.4.4",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "@types/nock": "^11.1.0",
+    "@types/archiver": "^5.1.0",
+    "@types/readline-sync": "^1.4.3",
+    "@types/stream-buffers": "^3.0.3",
+    "@types/uuid": "^8.3.0",
+    "eslint-plugin-react": "^7.20.0"
   }
 }

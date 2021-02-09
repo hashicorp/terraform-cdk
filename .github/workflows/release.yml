@@ -65,7 +65,7 @@ jobs:
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: jsii/superchain
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v1
@@ -81,14 +81,14 @@ jobs:
     name: Release to Maven
     needs: build_artifact
     runs-on: ubuntu-latest
-    if: false # Disable until maven credentials are setup
     container:
-      image: jsii/superchain
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v1
         with:
           name: dist
+          path: dist
       - name: Release
         run: npx -p jsii-release jsii-release-maven
         env:
@@ -97,32 +97,12 @@ jobs:
           MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           MAVEN_STAGING_PROFILE_ID: ${{ secrets.MAVEN_STAGING_PROFILE_ID }}
 
-  release_maven_github:
-    name: Release to GitHub Maven
-    needs: build_artifact
-    runs-on: ubuntu-latest
-    container:
-      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
-    steps:
-      - name: Download dist
-        uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: dist
-      - name: Release
-        run: npx -p jsii-release jsii-release-maven
-        env:
-          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          MAVEN_USERNAME: ${{ github.actor }}
-          MAVEN_SERVER_ID: github
-          MAVEN_REPOSITORY_URL: "https://maven.pkg.github.com/${{ github.repository }}"
-
   release_nuget:
     name: Release to NuGet
     needs: build_artifact
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/jsii-terraform
+      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
     steps:
       - name: Download dist
         uses: actions/download-artifact@v2

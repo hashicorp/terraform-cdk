@@ -1,5 +1,3 @@
-import * as http from 'http';
-import * as https from 'https';
 import { spawn, SpawnOptions } from 'child_process';
 import * as fs from 'fs-extra';
 import * as os from 'os';
@@ -33,31 +31,6 @@ export async function mkdtemp(closure: (dir: string) => Promise<void>) {
   } finally {
     await fs.remove(workdir);
   }
-}
-
-async function get(url: string, protocol: typeof http | typeof https = https): Promise<string> {
-  return new Promise((ok, ko) => {
-    const req = protocol.get(url, res => {
-      if (res.statusCode !== 200) {
-        throw new Error(`${res.statusMessage}: ${url}`);
-      }
-      const data = new Array<Buffer>();
-      res.on('data', chunk => data.push(chunk));
-      res.once('end', () => ok(Buffer.concat(data).toString('utf-8')));
-      res.once('error', ko);
-    });
-
-    req.once('error', ko);
-    req.end();
-  });
-}
-
-export async function httpGet(url: string): Promise<string> {
-  return get(url, http)
-}
-
-export async function httpsGet(url: string): Promise<string> {
-  return get(url)
 }
 
 export const exec = async (command: string, args: string[], options: SpawnOptions, stdout?: (chunk: Buffer) => any): Promise<string> => {
