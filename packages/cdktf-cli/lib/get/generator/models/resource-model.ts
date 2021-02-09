@@ -44,7 +44,7 @@ export class ResourceModel {
     this.terraformSchemaType = options.terraformSchemaType
     this.dependencies = [
       `import { Construct } from 'constructs';`,
-      `import * as cdktf from 'cdktf';`
+      `import cdktf from 'cdktf';`
     ]
   }
 
