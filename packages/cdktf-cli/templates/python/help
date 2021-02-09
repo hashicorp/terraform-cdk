@@ -19,19 +19,6 @@
   Destroy:
     cdktf destroy         Destroy the given stack
 
-  Use Prebuilt Providers:
-
-  You can add one or multiple of the prebuilt providers listed below:
-
-  npm install -a @cdktf/provider-aws
-  npm install -a @cdktf/provider-google
-  npm install -a @cdktf/provider-azurerm
-  npm install -a @cdktf/provider-docker
-  npm install -a @cdktf/provider-github
-  npm install -a @cdktf/provider-null
-
-  Check for an up to date list here https://github.com/terraform-cdk-providers
-
-  Alternatively, you can also build the provider bindings yourself:
+  Learn more about using modules and providers https://cdk.tf/modules-and-providers
 
 ========================================================================================================
