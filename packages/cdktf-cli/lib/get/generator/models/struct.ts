@@ -5,7 +5,7 @@ export class Struct {
     public readonly name: string,
     public readonly attributes: AttributeModel[],
     public readonly isClass = false,
-    public readonly isAnonymous = false
+    public readonly isComputed = false
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
@@ -15,11 +15,15 @@ export class Struct {
     return this.filterIgnoredAttributes(attributes);
   }
 
-  public get accessibleAttributes(): AttributeModel[] {
-    const attributes = this.isAnonymous
-      ? this.attributes
-      : this.attributes.filter((attribute) => attribute.isAssignable);
+  public get nonAssignableAttributes(): AttributeModel[] {
+    const attributes = this.attributes.filter(
+      (attribute) => !attribute.isAssignable
+    );
     return this.filterIgnoredAttributes(attributes);
+  }
+
+  public get accessibleAttributes(): AttributeModel[] {
+    return this.filterIgnoredAttributes(this.attributes);
   }
 
   public get optionalAttributes(): AttributeModel[] {
@@ -45,7 +49,9 @@ export class Struct {
   }
 
   public get extends(): string {
-    return "";
+    return this.isComputed
+      ? ` extends ${this.name.replace("Computed", "")}`
+      : "";
   }
 }
 

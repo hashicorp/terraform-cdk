@@ -27,7 +27,9 @@ export class StructEmitter {
       this.code.openBlock(`export interface ${struct.name}${struct.extends}`);
     }
 
-    for (const att of struct.accessibleAttributes) {
+    for (const att of struct.isComputed
+      ? struct.nonAssignableAttributes
+      : struct.assignableAttributes) {
       if (att.description) {
         this.code.line(`/**`);
         this.code.line(`* ${att.description}`);
@@ -48,7 +50,7 @@ export class StructEmitter {
     }
     this.code.closeBlock();
 
-    if (!(struct instanceof ConfigStruct)) {
+    if (!(struct instanceof ConfigStruct) && !struct.isComputed) {
       this.emitToTerraformFuction(struct);
     }
   }
