@@ -371,10 +371,7 @@ export class BlockTypeNestedComputedListInputsStartingPositionConfiguration exte
   }
 }
 export interface BlockTypeNestedComputedListInputs {
-  readonly id?: string;
   readonly namePrefix: string;
-  readonly startingPositionConfiguration?: BlockTypeNestedComputedListInputsStartingPositionConfiguration;
-  readonly streamNames?: string[];
 }
 
 function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
@@ -384,6 +381,11 @@ function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedCo
   }
 }
 
+export interface BlockTypeNestedComputedListInputsComputed extends BlockTypeNestedListInputsComputed {
+  readonly id: string;
+  readonly startingPositionConfiguration: BlockTypeNestedComputedListInputsStartingPositionConfiguration;
+  readonly streamNames: string[];
+}
 
 // Resource
 
