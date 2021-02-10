@@ -364,14 +364,27 @@ class Parser {
   }
 
   private addStruct(scope: Scope[], attributes: AttributeModel[]) {
-    const name = uniqueClassName(
-      toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
-    );
-    const parent = scope[scope.length - 1];
-    const isClass = parent.isComputed && !parent.isOptional;
-    const isAnonymous = true;
-    const s = new Struct(name, attributes, isClass, isAnonymous);
+    const name = uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x.name)).join('_')))
+    const parent = scope[scope.length - 1]
+    const isClass = parent.isComputed && !parent.isOptional
+    const s = new Struct(
+      name,
+      attributes,
+      isClass,
+      false
+    )
     this.structs.push(s);
+
+    if (!isClass && attributes.some(at => at.computed && !at.isOptional && !at.isRequired)) {
+      const computedStruct = new Struct(
+        `${name}Computed`,
+        attributes,
+        isClass,
+        true
+      )
+      this.structs.push(computedStruct);
+    }
+
     return s;
   }
 }
