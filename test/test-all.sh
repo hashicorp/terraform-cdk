@@ -4,11 +4,13 @@ scriptdir=$(cd $(dirname $0) && pwd)
 
 cd ${scriptdir}
 
-for dir in test-*; do
+BUILD_TARGET=$1
+
+for dir in test-${BUILD_TARGET}*; do
   [ ! -d $dir ] && continue
 
   echo "--------------------------------------------------------------------"
   echo $dir
   echo "--------------------------------------------------------------------"
-  $dir/test.sh
+  time $dir/test.sh
 done

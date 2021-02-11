@@ -45,10 +45,6 @@ exports.post = options => {
   }
 
   execSync(`dotnet restore`, { stdio: 'inherit' });
-
-  execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
-  execSync(`\"${process.execPath}\" \"${cli}\" synth`, { stdio: 'inherit' });
-
   console.log(readFileSync('./help', 'utf-8'));
 };
 
@@ -59,4 +55,4 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
 new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedRemoteWorkspace("${workspaceName}") });`);
 
   writeFileSync('./Main.cs', result, 'utf-8');
-} 
+}

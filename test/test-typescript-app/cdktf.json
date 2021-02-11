@@ -1,9 +1,10 @@
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": [],
-  "terraformModules": [],
+  "terraformProviders": [
+    "aws@~> 2.0"
+  ],
   "context": {
-    {{futureFlags}}
+    "excludeStackIdFromLogicalIds": "true"
   }
 }

@@ -11,7 +11,7 @@ scriptdir=$(cd $(dirname $0) && pwd)
 cd $(mktemp -d)
 mkdir test && cd test
 
-cdktf init --template typescript-minimal --project-name="typescript-bootstrap" --project-description="typescript bootstrap plugin cache" --local
+cdktf init --template typescript --project-name="typescript-bootstrap" --project-description="typescript bootstrap plugin cache" --local
 
 # add null provider
 mv ${scriptdir}/../bootstrap.json ./cdktf.json

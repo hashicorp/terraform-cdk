@@ -21,7 +21,7 @@ mkdir test && cd test
 # to define remote state backend and test
 # the deploy which should call into Terraform
 # Cloud for the remote state.
-cdktf init --template typescript-minimal --project-name="typescript-test" --project-description="typescript test app" --local
+cdktf init --template typescript --project-name="typescript-test" --project-description="typescript test app" --local
 
 # Create Workspace
 echo "Creating workspace ${TERRAFORM_CLOUD_WORKSPACE_NAME} in ${TERRAFORM_CLOUD_ORGANIZATION}."
