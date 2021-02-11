@@ -2,7 +2,7 @@
 import React, { Fragment, useState } from 'react';
 import { Text, Box } from 'ink'
 import Spinner from 'ink-spinner';
-import ConfirmInput from 'ink-confirm-input';
+import ConfirmInput from '@skorfmann/ink-confirm-input';
 import { DeployingElement } from './components'
 import { DeployingResource, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
