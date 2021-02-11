@@ -4,7 +4,7 @@ scriptdir=$(cd $(dirname $0) && pwd)
 
 cd ${scriptdir}
 
-BUILD_TARGET=$1
+BUILD_TARGET=${1-}
 
 for dir in test-${BUILD_TARGET}*; do
   [ ! -d $dir ] && continue
