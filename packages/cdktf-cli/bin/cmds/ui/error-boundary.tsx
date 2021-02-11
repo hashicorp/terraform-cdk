@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text, Color } from 'ink'
+import { Box, Text } from 'ink'
 import { logger } from '../../../lib/logging'
 
 export interface ErrorBoundaryState {
@@ -25,7 +25,7 @@ export class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      return <Box><Text><Color red>Something went wrong.</Color></Text></Box>;
+      return <Box><Text><Text color="red">Something went wrong.</Text></Text></Box>;
     }
 
     return this.props.children;

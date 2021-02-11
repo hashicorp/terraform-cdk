@@ -1,6 +1,6 @@
 /* eslint-disable no-control-regex */
 import React, { Fragment, useState } from 'react';
-import { Text, Box, Color } from 'ink'
+import { Text, Box } from 'ink'
 import Spinner from 'ink-spinner';
 import ConfirmInput from 'ink-confirm-input';
 import { DeployingElement } from './components'
@@ -86,7 +86,7 @@ export const Apply = (): React.ReactElement => {
     <Fragment>
       <Box flexDirection="column">
         <Box>
-          {Status.DEPLOYING == status ? (<><Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
+          {Status.DEPLOYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
             <><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></>
           )}
         </Box>
@@ -132,7 +132,7 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
     <Box>
       {isPlanning ? (
         <Fragment>
-          <Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>{statusText}</Text></Box>
+          <Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>{statusText}</Text></Box>
         </Fragment>
       ) : (
           <>

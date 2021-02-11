@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Text, Box, Color, Static } from 'ink'
+import { Text, Box, Static } from 'ink'
 import Spinner from 'ink-spinner';
 import { PlannedResource } from "./models/terraform"
 import { PlanElement } from './components'
@@ -44,7 +44,7 @@ export const CloudRunInfo = (): React.ReactElement => {
 
   const staticElements = [url]
 
-  return <Static>{ staticElements.map(e => (<Text key={e}>Running plan in the remote backend. To view this run in a browser, visit: { e }</Text>))} </Static>
+  return <Static items={staticElements}>{ e => (<Text key={e}>Running plan in the remote backend. To view this run in a browser, visit: { e }</Text>) }</Static>
 }
 
 export const Plan = (): React.ReactElement => {
@@ -83,7 +83,7 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
       <CloudRunInfo/>
       {isPlanning ? (
         <Fragment>
-          <Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>{statusText}</Text></Box>
+          <Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>{statusText}</Text></Box>
         </Fragment>
       ) : (<Plan />)}
     </Box>

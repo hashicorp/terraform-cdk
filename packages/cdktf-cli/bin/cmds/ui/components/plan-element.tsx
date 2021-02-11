@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Box, Color } from 'ink'
+import { Text, Box } from 'ink'
 import { PlannedResource, PlannedResourceAction } from "../models/terraform"
 import { ResourceName } from './resource-name'
 
@@ -35,7 +35,7 @@ export const PlanElementStatus = ({action}: PlanElementStatusProps) => {
       break;
   }
 
-  return(<Color keyword={color}><Text>{ actionSymbol }&nbsp;</Text></Color>)
+  return(<Text color={color}>{ actionSymbol }&nbsp;</Text>)
 }
 
 interface PlanElementProps {

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import * as fs from 'fs-extra';
-import { Text, Box, Color, useApp } from "ink";
+import { Text, Box, useApp } from "ink";
 import Spinner from "ink-spinner";
 import { Language } from '../../../lib/get/base';
 import { ConstructsMaker, ConstructsOptions } from '../helper/constructs-maker'
@@ -52,15 +52,15 @@ export const Get = ({ codeMakerOutput, language, modules, providers }: GetConfig
 
     const isGenerating: boolean = currentStatus != Status.DONE
     const statusText = `${currentStatus}...`
-    const jsonTerraformOutput = <Text>Generated <Color green>{language}</Color> constructs in the output directory: <Text bold>{codeMakerOutput}</Text></Text>
+    const jsonTerraformOutput = <Text>Generated <Text color="green">{language}</Text> constructs in the output directory: <Text bold>{codeMakerOutput}</Text></Text>
 
     return (
         <Box>
             {isGenerating ? (
                 <Fragment>
-                    <Color green>
+                    <Text color="green">
                         <Spinner type="dots" />
-                    </Color>
+                    </Text>
                     <Box paddingLeft={1}>
                         <Text>{statusText}</Text>
                     </Box>
