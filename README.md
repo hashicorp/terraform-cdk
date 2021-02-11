@@ -15,9 +15,7 @@ HashiCorp Terraform.
 
 ## Overview
 
-The CDK for Terraform project helps users define infrastructure resources using supported programming languages and generates a Terraform configuration in JSON. Users can then use the Terraform or the CDK for Terraform CLI to deploy the application.
-
-The project uses [AWS CDK](https://aws.amazon.com/cdk/) [constructs](https://github.com/aws/constructs) to define applications.
+CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules and providers](./docs/working-with-cdk-for-terraform/using-providers-and-modules.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
 
 The CDK for Terraform project includes two packages:
 
@@ -122,3 +120,6 @@ Build the project and packages
 ```bash
 yarn build
 ```
+## Cloud Development Kit (CDK) Ecosystem
+
+CDK for Terraform apps are structured as a tree of [constructs](https://github.com/aws/constructs). The language support beyond Typescript is made possible by [jsii](https://github.com/aws/jsii).
