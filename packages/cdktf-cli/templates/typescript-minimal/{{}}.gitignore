@@ -1,7 +1,0 @@
-*.d.ts
-*.js
-node_modules
-cdktf.out
-terraform.tfstate*
-.gen
-.terraform

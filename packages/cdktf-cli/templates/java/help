@@ -19,4 +19,6 @@
   Destroy:
     cdktf destroy         Destroy the given stack
 
+  Learn more about using modules and providers https://cdk.tf/modules-and-providers
+
 ========================================================================================================

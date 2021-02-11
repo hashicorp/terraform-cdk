@@ -38,9 +38,6 @@ exports.post = options => {
   }
 
   execSync(`mvn install`, { stdio: 'inherit' });
-  execSync(`\"${process.execPath}\" \"${cli}\" get`, { stdio: 'inherit' });
-  execSync(`\"${process.execPath}\" \"${cli}\" synth`, { stdio: 'inherit' });
-
   console.log(readFileSync('./help', 'utf-8'));
 };
 
@@ -53,6 +50,6 @@ import com.hashicorp.cdktf.RemoteBackend;
 import com.hashicorp.cdktf.RemoteBackendProps;`);
   result = result.replace(`new Main(app, "${baseName}");`, `Main stack = new Main(app, "${baseName}");
 new RemoteBackend(stack, RemoteBackendProps.builder().hostname("app.terraform.io").organization("${organizationName}").workspaces(new NamedRemoteWorkspace("${workspaceName}")).build());`);
-  
+
   writeFileSync('./src/main/java/com/mycompany/app/Main.java', result, 'utf-8');
 }
