@@ -28,7 +28,7 @@ export const DeploySummary = ({ resources }: DeploySummaryConfig): React.ReactEl
   return (<>
     {Object.keys(summary).map((key, i) => (
       <Box key={key}>
-        {i > 0 && ", "}
+        {i > 0 && <Text>, </Text>}
         <Text>{summary[key]} {key}</Text>
       </Box>
     ))
@@ -66,7 +66,7 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
       <Text>  Only 'yes' will be accepted to approve.</Text>
 
       <Box flexDirection="row" marginTop={1}>
-        <Text bold>  Enter a value:</Text>&nbsp;
+        <Text bold>  Enter a value:</Text>
         <ConfirmInput
           value={value}
           onChange={setValue}
@@ -123,7 +123,7 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
-  const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const statusText = (stackName === '') ? <Text>{status}...</Text> : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
   if (errors) return (<Box>{errors.map((e: any) => e.message)}</Box>);
   if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{stackName}</Text></Text></>);

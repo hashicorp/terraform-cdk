@@ -33,7 +33,9 @@
       "examples/typescript/*",
       "examples/typescript/backends/*",
       "examples/java/*",
-      "examples/csharp/*"
+      "examples/csharp/*",
+      ".yalc/*",
+      ".yalc/@*/*"
     ],
     "nohoist": [
       "cdktf/json-stable-stringify",

@@ -1396,6 +1396,16 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@skorfmann/ink-confirm-input@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@skorfmann/ink-confirm-input/-/ink-confirm-input-3.0.0.tgz#415ddd6f9ed3fe031774d3d0fa3f8318144d50b9"
+  integrity sha512-mPZe3gBAV4ZDeYZbEs6WpNZuHHj7Hse9p44z6lrKBcbAMWnvApVOC7zZUpeQsUuWPTOWQRu/QSYElDKNajQ2oA==
+  dependencies:
+    delay "^5.0.0"
+    ink-text-input "^4.0.1"
+    prop-types "^15.5.10"
+    yn "^3.1.1"
+
 "@skorfmann/terraform-cloud@^1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.7.1.tgz#579870fc1587f6b28f9b86a138235cefcb62653a"
@@ -3160,6 +3170,11 @@ define-property@^2.0.2:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
 
+delay@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/delay/-/delay-5.0.0.tgz#137045ef1b96e5071060dd5be60bf9334436bd1d"
+  integrity sha512-ReEBKkIfe4ya47wlPYf/gu5ib6yUG0/Aez0JQZQz94kiWtRQvZIQbTiehsnwHvLSWJnQdhVeqYue7Id1dKr0qw==
+
 delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
@@ -4460,15 +4475,6 @@ init-package-json@^1.10.3:
     validate-npm-package-license "^3.0.1"
     validate-npm-package-name "^3.0.0"
 
-ink-confirm-input@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ink-confirm-input/-/ink-confirm-input-2.0.0.tgz#ee65758f6315396bbcd0613ef626f1d594703cde"
-  integrity sha512-YCd7a9XW0DIIbOhF3XiLo3WF86mOart9qI1qN56wT5IDJxU+j8BanEZh5/QXoazyIPSv1iXlHPIlRB5cbZIMIA==
-  dependencies:
-    ink-text-input "^3.2.1"
-    prop-types "^15.5.10"
-    yn "^3.1.1"
-
 ink-spinner@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/ink-spinner/-/ink-spinner-4.0.1.tgz#f67a59ff6d4698a5d67b7bb66266ea6829a8a4e1"
@@ -4484,13 +4490,13 @@ ink-testing-library@^2.0.0:
     "@types/node" "^14.0.13"
     "@types/react" "^16.9.38"
 
-ink-text-input@^3.2.1:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/ink-text-input/-/ink-text-input-3.3.0.tgz#ab1f5e668321b3df7e26be64c327e49ff476f3ce"
-  integrity sha512-gO4wrOf2ie3YuEARTIwGlw37lMjFn3Gk6CKIDrMlHb46WFMagZU7DplohjM24zynlqfnXA5UDEIfC2NBcvD8kg==
+ink-text-input@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/ink-text-input/-/ink-text-input-4.0.1.tgz#e3de3f7e7f4247d64018838c57bbbc6120901368"
+  integrity sha512-wiqkrB2tgnCnv51r2LpNLVfgrd/V+UXF3ccry+/Q7on9CBt8LVavX6NDYRMdXljuM+CcFV/sVro0bCr5oxB05w==
   dependencies:
-    chalk "^3.0.0"
-    prop-types "^15.5.10"
+    chalk "^4.1.0"
+    type-fest "^0.15.1"
 
 ink@*:
   version "2.7.1"
@@ -8531,6 +8537,11 @@ type-fest@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.13.1.tgz#0172cb5bce80b0bd542ea348db50c7e21834d934"
   integrity sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==
+
+type-fest@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.15.1.tgz#d2c4e73d3e4a53cf1a906396dd460a1c5178ca00"
+  integrity sha512-n+UXrN8i5ioo7kqT/nF8xsEzLaqFra7k32SEsSPwvXVGyAcRgV/FUQN/sgfptJTR1oRmmq7z4IXMFSM7im7C9A==
 
 type-fest@^0.3.0:
   version "0.3.1"

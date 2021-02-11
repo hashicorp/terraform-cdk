@@ -30,7 +30,7 @@ const PlanSummary = ({ resources }: PlanSummaryConfig): React.ReactElement => {
   return (<>
     {Object.keys(summary).map((key, i) => (
       <Box key={key}>
-        {i > 0 && ", "}
+        {i > 0 && <Text>, </Text>}
         <Text>{summary[key]} to {key}</Text>
       </Box>
     ))
