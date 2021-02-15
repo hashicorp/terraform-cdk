@@ -69,6 +69,40 @@ test("Apply", async () => {
   `);
 });
 
+test("Apply Multiple Resources", async () => {
+  const resource: DeployingResource = {
+    id: "null_resource.hellodiff_test_352350",
+    action: PlannedResourceAction.CREATE,
+    applyState: DeployingResourceApplyState.CREATING
+  };
+
+  const otherResource: DeployingResource = {
+    id: "null_resource.hellodiff_test_85E428D7",
+    action: PlannedResourceAction.CREATE,
+    applyState: DeployingResourceApplyState.CREATED
+  };
+
+  const initialState: DeployState = {
+    status: Status.STARTING,
+    resources: [resource, otherResource],
+    stackName: "hellodiff"
+  };
+
+  const { lastFrame } = render(
+    <TerraformProvider initialState={initialState}>
+      <Apply />
+    </TerraformProvider>
+  );
+  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
+    "Deploying Stack: hellodiff
+    Resources
+     ⠋ NULL_RESOURCE        test_352350         null_resource.hellodiff_test_352350
+     ✔ NULL_RESOURCE        test                null_resource.hellodiff_test_85E428D7
+
+    Summary: 1 created, 0 updated, 0 destroyed."
+  `);
+});
+
 const stripAnsi = (str: string | undefined): string => {
   if (!str) {
     return "";
