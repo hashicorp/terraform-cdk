@@ -67,6 +67,7 @@ class Parser {
         case 'bool': return new AttributeTypeModel('boolean', { isComputed, isOptional, isRequired, level });
         case 'string': return new AttributeTypeModel('string', { isComputed, isOptional, isRequired, level });
         case 'number': return new AttributeTypeModel('number', { isComputed, isOptional, isRequired, level });
+        case 'dynamic': return new AttributeTypeModel('any', { isComputed, isOptional, isRequired, level, isMap: true })
         default: throw new Error(`invalid primitive type ${attributeType}`);
       }
     }
