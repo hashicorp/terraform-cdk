@@ -43,6 +43,7 @@
       "examples/typescript/backends/*",
       "examples/java/*",
       "examples/csharp/*",
+      "test",
       ".yalc/*",
       ".yalc/@*/*"
     ],
