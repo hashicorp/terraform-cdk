@@ -12,7 +12,7 @@ jobs:
       matrix:
         terraform: ["0.12.29", "0.13.4", "0.14.0"]
     container:
-      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
 
@@ -48,7 +48,7 @@ jobs:
         terraform: ["0.12.29", "0.13.4", "0.14.0"]
         target: ["typescript", "python", "java", "csharp"]
     container:
-      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     needs: build
     env:
       CHECKPOINT_DISABLE: "1"
