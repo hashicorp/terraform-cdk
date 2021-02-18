@@ -1,0 +1,34 @@
+{
+  "provider_schemas": {
+    "aws": {
+      "resource_schemas": {
+        "aws_primitive_dynamic": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "foo_computed": {
+                "type": "dynamic",
+                "computed": true
+              },
+              "foo_computed_optional": {
+                "type": "dynamic",
+                "computed": true,
+                "optional": true
+              },
+              "foo_optional": {
+                "type": "dynamic",
+                "optional": true
+              },
+              "foo_required": {
+                "type": "dynamic",
+                "required": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+
