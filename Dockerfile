@@ -1,4 +1,4 @@
-FROM hashicorp.jfrog.io/docker/jsii/superchain
+FROM docker.mirror.hashicorp.services/jsii/superchain
 
 RUN yum install -y unzip jq && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
 

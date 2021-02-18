@@ -13,7 +13,7 @@ jobs:
         terraform: ["0.14.0"]
         target: ["python", "csharp", "java", "typescript"]
     container:
-      image: hashicorp.jfrog.io/docker/hashicorp/jsii-terraform
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       TF_PLUGIN_CACHE_DIR: "/root/.terraform.d/plugin-cache"
       CHECKPOINT_DISABLE: "1"
