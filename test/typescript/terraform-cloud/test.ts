@@ -16,15 +16,19 @@ if (withAuth == it.skip) {
 
 describe("full integration test", () => {
   let driver: TestDriver;
+  let workspaceName: string;
+  const orgName = 'cdktf'
 
   beforeAll(() => {
-    driver = new TestDriver(__dirname)
+    workspaceName = `${GITHUB_RUN_NUMBER}-${Date.now()}`
+    driver = new TestDriver(__dirname, {
+      TERRAFORM_CLOUD_WORKSPACE_NAME: workspaceName,
+      TERRAFORM_CLOUD_ORGANIZATION: orgName
+    });
     driver.setupTypescriptProject()
   });
 
   withAuth("deploy in Terraform Cloud", async () => {
-    const orgName = 'cdktf'
-    const workspaceName = `${GITHUB_RUN_NUMBER}-${Date.now()}`
     const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN)
     await client.Workspaces.create(orgName, {
       data: {
@@ -37,8 +41,7 @@ describe("full integration test", () => {
       }
     })
 
-    expect(driver.deploy()).toMatchInlineSnapshot(``)
-
+    expect(driver.deploy()).toMatchSnapshot()
     await client.Workspaces.deleteByName(orgName, workspaceName)
   })
 })
