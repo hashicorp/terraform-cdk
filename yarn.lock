@@ -1406,18 +1406,10 @@
     prop-types "^15.5.10"
     yn "^3.1.1"
 
-"@skorfmann/terraform-cloud@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.7.1.tgz#579870fc1587f6b28f9b86a138235cefcb62653a"
-  integrity sha512-uwcalR9R5/9M+UcOeKR+XgCyIlipl5dxiAryuWT8D4erW6sPnTE/B97G6F3VzzrZfcaPmljX5NVG8Dkl79ki6A==
-  dependencies:
-    axios "^0.21.1"
-    camelcase-keys "^6.2.2"
-
-"@skorfmann/terraform-cloud@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.9.0.tgz#486affeeafe567936dc91d1112fe0c98afffda48"
-  integrity sha512-XuDPEA8m7PxqFyRXS1ZztMWwyEU+zUHAc2z82VIqRGWxexpB7QgBSqH8xcv1TPm61751eWLkEd11PuqQs7TmNA==
+"@skorfmann/terraform-cloud@^1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.9.1.tgz#6fbdf6846efd6fdeb3405126cc91cd7d5c846eff"
+  integrity sha512-R28bedoGjAmDiEYHu2cmeVd3R6vxq6anQQlGCpdjk5oqnSiROFFm8dzywvMon4/9C+CErhgY7fr76NVErS/U2w==
   dependencies:
     axios "^0.21.1"
     camelcase-keys "^6.2.2"

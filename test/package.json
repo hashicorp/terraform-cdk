@@ -5,7 +5,7 @@
   "scripts": {},
   "license": "MPL-2.0",
   "devDependencies": {
-    "@skorfmann/terraform-cloud": "^1.9.0",
+    "@skorfmann/terraform-cloud": "^1.9.1",
     "@types/jest": "^26.0.20",
     "jest": "^26.6.3",
     "jest-runner-groups": "^2.0.1",
