@@ -478,14 +478,22 @@ function cloudfrontDistributionViewerCertificateToTerraform(struct?: CloudfrontD
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html aws_cloudfront_distribution}
+*/
 export class CloudfrontDistribution extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html aws_cloudfront_distribution}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options CloudfrontDistributionConfig
+  */
   public constructor(scope: Construct, id: string, config: CloudfrontDistributionConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_cloudfront_distribution',
@@ -923,14 +931,22 @@ export interface FmsAdminAccountConfig extends cdktf.TerraformMetaArguments {
   readonly accountId?: string;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html aws_fms_admin_account}
+*/
 export class FmsAdminAccount extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html aws_fms_admin_account}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options FmsAdminAccountConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: FmsAdminAccountConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_fms_admin_account',
@@ -1374,14 +1390,22 @@ function s3BucketWebsiteToTerraform(struct?: S3BucketWebsite): any {
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html aws_s3_bucket}
+*/
 export class S3Bucket extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html aws_s3_bucket}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options S3BucketConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: S3BucketConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_s3_bucket',
@@ -1898,14 +1922,22 @@ function securityGroupTimeoutsToTerraform(struct?: SecurityGroupTimeouts): any {
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/security_group.html aws_security_group}
+*/
 export class SecurityGroup extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/security_group.html aws_security_group}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options SecurityGroupConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: SecurityGroupConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_security_group',

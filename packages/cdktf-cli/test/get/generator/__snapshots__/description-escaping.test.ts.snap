@@ -18,14 +18,22 @@ export interface DescriptionEscapingConfig extends cdktf.TerraformMetaArguments 
   readonly brokenComments: boolean;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/google/r/description_escaping.html description_escaping}
+*/
 export class DescriptionEscaping extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/google/r/description_escaping.html description_escaping}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options DescriptionEscapingConfig
+  */
   public constructor(scope: Construct, id: string, config: DescriptionEscapingConfig) {
     super(scope, id, {
       terraformResourceType: 'description_escaping',

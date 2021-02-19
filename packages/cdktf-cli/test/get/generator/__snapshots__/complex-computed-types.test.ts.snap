@@ -55,14 +55,22 @@ function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptions): any {
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html aws_acm_certificate}
+*/
 export class AcmCertificate extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html aws_acm_certificate}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options AcmCertificateConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: AcmCertificateConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_acm_certificate',

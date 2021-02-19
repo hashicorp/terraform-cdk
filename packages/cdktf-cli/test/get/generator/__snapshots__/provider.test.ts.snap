@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generate provider 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/aws_provider.html
+"// https://www.terraform.io/docs/providers/aws
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -510,14 +510,22 @@ function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws aws}
+*/
 export class AwsProvider extends cdktf.TerraformProvider {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws aws}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options AwsProviderConfig
+  */
   public constructor(scope: Construct, id: string, config: AwsProviderConfig) {
     super(scope, id, {
       terraformResourceType: 'aws',
