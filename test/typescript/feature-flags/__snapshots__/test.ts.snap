@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"hello-deploy\\"
+    }
+  },
+  \\"resource\\": {
+    \\"null_resource\\": {
+      \\"hello-deploy_test-Foo_Bar_186E52EA\\": {
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            }
+          }
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-deploy/test-Foo_Bar\\",
+            \\"uniqueId\\": \\"hello-deploy_test-Foo_Bar_186E52EA\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"hello-deploy\\"
+    }
+  },
+  \\"resource\\": {
+    \\"null_resource\\": {
+      \\"testFooBar\\": {
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            }
+          }
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-deploy/test-Foo_Bar\\",
+            \\"uniqueId\\": \\"testFooBar\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`full integration test without features 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"hello-deploy\\"
+    }
+  },
+  \\"resource\\": {
+    \\"null_resource\\": {
+      \\"hellodeploy_testFooBar_186E52EA\\": {
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            }
+          }
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-deploy/test-Foo_Bar\\",
+            \\"uniqueId\\": \\"hellodeploy_testFooBar_186E52EA\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;

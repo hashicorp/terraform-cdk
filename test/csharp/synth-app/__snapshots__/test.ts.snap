@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`csharp full integration test synth synth generates JSON 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"csharp-simple\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\",
+        \\"source\\": \\"aws\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"region\\": \\"eu-central-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_sns_topic\\": {
+      \\"Topic\\": {
+        \\"display_name\\": \\"my-first-sns-topic\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"csharp-simple/Topic\\",
+            \\"uniqueId\\": \\"Topic\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;

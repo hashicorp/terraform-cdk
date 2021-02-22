@@ -1406,10 +1406,10 @@
     prop-types "^15.5.10"
     yn "^3.1.1"
 
-"@skorfmann/terraform-cloud@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.7.1.tgz#579870fc1587f6b28f9b86a138235cefcb62653a"
-  integrity sha512-uwcalR9R5/9M+UcOeKR+XgCyIlipl5dxiAryuWT8D4erW6sPnTE/B97G6F3VzzrZfcaPmljX5NVG8Dkl79ki6A==
+"@skorfmann/terraform-cloud@^1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.9.1.tgz#6fbdf6846efd6fdeb3405126cc91cd7d5c846eff"
+  integrity sha512-R28bedoGjAmDiEYHu2cmeVd3R6vxq6anQQlGCpdjk5oqnSiROFFm8dzywvMon4/9C+CErhgY7fr76NVErS/U2w==
   dependencies:
     axios "^0.21.1"
     camelcase-keys "^6.2.2"
@@ -1564,7 +1564,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@26.x":
+"@types/jest@26.x", "@types/jest@^26.0.20":
   version "26.0.20"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.20.tgz#cd2f2702ecf69e86b586e1f5223a60e454056307"
   integrity sha512-9zi2Y+5USJRxd0FsahERhBwlcvFh6D2GLQnY2FH2BzK8J9s9omvNHIbvABwIluXa0fD8XVKMLTO0aOEuUfACAA==
@@ -5256,6 +5256,11 @@ jest-resolve@^26.6.2:
     resolve "^1.18.1"
     slash "^3.0.0"
 
+jest-runner-groups@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/jest-runner-groups/-/jest-runner-groups-2.0.1.tgz#a4d2c102e3e1a37aa9899d5452a13fc5b7e4b531"
+  integrity sha512-MDTgnYnFhtaJ+zSdLRBdYL5AFZ6tno1mbx2FW233OejH3U3lojQbxgrpfjypmYELMdOvgHS7n65jQ4Q2sFrEGw==
+
 jest-runner@^26.6.3:
   version "26.6.3"
   resolved "https://registry.yarnpkg.com/jest-runner/-/jest-runner-26.6.3.tgz#2d1fed3d46e10f233fd1dbd3bfaa3fe8924be159"
@@ -5866,15 +5871,15 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
+lodash@4.x, lodash@^4.17.19, lodash@^4.17.20:
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
 lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.2.1:
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
   integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
-
-lodash@^4.17.19, lodash@^4.17.20:
-  version "4.17.20"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
-  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
 log-update@^3.0.0:
   version "3.4.0"
@@ -8487,6 +8492,23 @@ ts-jest@^26.4.4:
     semver "7.x"
     yargs-parser "20.x"
 
+ts-jest@^26.5.1:
+  version "26.5.1"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.1.tgz#4d53ee4481552f57c1624f0bd3425c8b17996150"
+  integrity sha512-G7Rmo3OJMvlqE79amJX8VJKDiRcd7/r61wh9fnvvG8cAjhA9edklGw/dCxRSQmfZ/z8NDums5srSVgwZos1qfg==
+  dependencies:
+    "@types/jest" "26.x"
+    bs-logger "0.x"
+    buffer-from "1.x"
+    fast-json-stable-stringify "2.x"
+    jest-util "^26.1.0"
+    json5 "2.x"
+    lodash "4.x"
+    make-error "1.x"
+    mkdirp "1.x"
+    semver "7.x"
+    yargs-parser "20.x"
+
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
@@ -8584,6 +8606,11 @@ typescript@^3.9.7, typescript@~3.9.7:
   version "3.9.7"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
+
+typescript@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
+  integrity sha512-6OSu9PTIzmn9TCDiovULTnET6BgXtDYL4Gg4szY+cGsc3JP1dQL8qvE8kShTRx1NIw4Q9IBHlwODjkjWEtMUyA==
 
 uglify-js@^3.1.4:
   version "3.10.0"
