@@ -180,6 +180,17 @@ test('primitive boolean', async () => {
   expect(output).toMatchSnapshot();
 });
 
+test('primitive dynamic', async () => {
+  const code = new CodeMaker()
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'primitive-dynamic.test'));
+  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'primitive-dynamic.test.fixture.json'), 'utf-8'));
+  new TerraformGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(path.join(workdir, 'providers/aws/primitive-dynamic.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
+
 test('ignored attributes', async () => {
   const code = new CodeMaker()
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'ignored-attributes.test'));

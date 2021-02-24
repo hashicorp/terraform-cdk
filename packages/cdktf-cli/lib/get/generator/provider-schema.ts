@@ -35,6 +35,7 @@ export type AttributeType =
   'string'
   | 'bool'
   | 'number'
+  | 'dynamic'
   | [ 'set', AttributeType ]
   | [ 'map', AttributeType ]
   | [ 'list', AttributeType ]
