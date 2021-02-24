@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "ink-testing-library";
 import { Output } from "../../bin/cmds/ui/deploy";
 import { DeploySummary, Apply } from "../../bin/cmds/ui/deploy";
+import { stripAnsi } from '../test-helper'
 import {
   DeployingResource,
   DeployingResourceApplyState,
@@ -102,13 +103,3 @@ test("Apply Multiple Resources", async () => {
     Summary: 1 created, 0 updated, 0 destroyed."
   `);
 });
-
-const stripAnsi = (str: string | undefined): string => {
-  if (!str) {
-    return "";
-  }
-  return str.replace(
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-    ""
-  );
-};

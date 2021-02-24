@@ -7,6 +7,7 @@ import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResou
 import { SynthStack } from '../helper/synth-stack'
 import { TerraformJson } from './terraform-json'
 import { useApp } from 'ink'
+import stripAnsi from 'strip-ansi'
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -25,10 +26,6 @@ export enum Status {
   DEPLOYING = 'deploying',
   DESTROYING = 'destroying',
   DONE = 'done'
-}
-
-const stripAnsi = (str: string): string => {
-  return str.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
 }
 
 const parseOutput = (str: string): DeployingResource[] => {

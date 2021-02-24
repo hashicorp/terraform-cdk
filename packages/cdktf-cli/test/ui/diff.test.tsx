@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "ink-testing-library";
 import { Plan } from "../../bin/cmds/ui/diff";
+import { stripAnsi } from '../test-helper'
 import {
   PlannedResource,
   PlannedResourceAction
@@ -133,13 +134,3 @@ test("Diff Multiple Resources", async () => {
     Diff: 2 to create, 0 to update, 0 to delete."
   `);
 });
-
-const stripAnsi = (str: string | undefined): string => {
-  if (!str) {
-    return "";
-  }
-  return str.replace(
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-    ""
-  );
-};

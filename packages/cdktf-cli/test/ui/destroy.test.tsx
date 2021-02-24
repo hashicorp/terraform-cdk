@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "ink-testing-library";
 import { DestroyComponent } from "../../bin/cmds/ui/destroy";
+import { stripAnsi } from '../test-helper'
 import {
   DeployingResource,
   DeployingResourceApplyState,
@@ -72,13 +73,3 @@ test("Apply Multiple Resources", async () => {
     Summary: 1 destroyed."
   `);
 });
-
-const stripAnsi = (str: string | undefined): string => {
-  if (!str) {
-    return "";
-  }
-  return str.replace(
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-    ""
-  );
-};
