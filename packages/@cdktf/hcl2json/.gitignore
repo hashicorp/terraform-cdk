@@ -1,0 +1,6 @@
+**/*.d.ts.map
+**/*.js.map
+**/*wasm
+**/*wasm.gz
+tsconfig.tsbuildinfo
+wasm.md
