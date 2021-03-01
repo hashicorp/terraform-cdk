@@ -37,6 +37,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
+      "packages/@cdktf/*",
       "examples/*",
       "examples/python/*",
       "examples/typescript/*",

@@ -1,6 +1,7 @@
 {
   "packages": [
     "packages/*",
+    "packages/@cdktf/*",
     "examples/*",
     "examples/typescript/*",
     "examples/python/*",
