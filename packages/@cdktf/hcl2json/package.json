@@ -2,8 +2,8 @@
   "name": "@cdktf/hcl2jon",
   "version": "0.0.0",
   "description": "Transform HCL into JSON",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc && ./build-go.sh",
     "watch": "tsc -w",
