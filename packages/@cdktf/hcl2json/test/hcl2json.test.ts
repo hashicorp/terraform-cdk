@@ -52,6 +52,13 @@ describe("convertFiles", () => {
     expect(JSON.stringify(parsed, null, 2)).toMatchSnapshot();
   });
 
+  test("a directory with standard json only", async () => {
+    const parsed = await convertFiles(
+      path.join(__dirname, "fixtures", "with-standard-json")
+    );
+    expect(JSON.stringify(parsed, null, 2)).toMatchInlineSnapshot(`"{}"`);
+  });
+
   test("no files", async () => {
     const parsed = await convertFiles(
       path.join(__dirname, "fixtures", "no-files")
@@ -63,16 +70,15 @@ describe("convertFiles", () => {
     try {
       await convertFiles(path.join(__dirname, "fixtures", "invalid-files"));
     } catch (e) {
-      expect(e.message).toMatch(/Invalid multi-line string/)
+      expect(e.message).toMatch(/Invalid multi-line string/);
     }
   });
 
   test("invalid path", async () => {
     try {
-      await convertFiles(path.join('/some/not/existing/path'));
+      await convertFiles(path.join("/some/not/existing/path"));
     } catch (e) {
-      expect(e.message).toMatch(/no such file or directory/)
+      expect(e.message).toMatch(/no such file or directory/);
     }
-
   });
 });
