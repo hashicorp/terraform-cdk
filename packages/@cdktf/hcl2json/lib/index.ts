@@ -8,6 +8,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { Go } from './wasm_exec'
+import { deepMerge } from './deepmerge';
 
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>
@@ -72,4 +73,28 @@ const wasm = goBridge(fs.readFile(path.join(__dirname, '..', 'main.wasm')))
 export async function parse(filename: string, contents: string): Promise<Record<string, any>> {
   const res = await wasm.parse(filename, contents)
   return JSON.parse(res)
+}
+
+export async function convertFiles(workingDirectory: string): Promise<Record<string, any> | void> {
+  let tfFileContents = '';
+  const tfJSONFileContents: Record<string, any>[] = []
+
+  for (const file of fs.readdirSync(workingDirectory)) {
+    const filePath = path.resolve(workingDirectory, file)
+    if (!fs.lstatSync(filePath).isDirectory()) {
+      if (file.match(/\.tf$/)) {
+        tfFileContents += fs.readFileSync(filePath, 'utf-8')
+      }
+      else if (file.match(/\.tf\.json$/)) {
+        tfJSONFileContents.push(JSON.parse(fs.readFileSync(filePath, 'utf-8')))
+      }
+    }
+  }
+
+  if (tfFileContents === '' && tfJSONFileContents === []) {
+    console.error(`No '.tf' or '.tf.json' files found in ${workingDirectory}`)
+    return;
+  }
+
+  return deepMerge(await parse('hcl2json.tf', tfFileContents), ...tfJSONFileContents)
 }
