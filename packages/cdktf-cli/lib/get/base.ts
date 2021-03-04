@@ -71,11 +71,13 @@ export abstract class GetBase {
             opts.jsii = { path: options.outputJsii };
           }
 
+          const cleanSource = GetBase.sanitizeSource(source, options.targetLanguage, isModule);
+
           // python!
           if (options.targetLanguage === Language.PYTHON) {
             opts.python = {
               outdir: codeMakerOutdir,
-              moduleName: source.replace(/\//gi, '.').replace(/-/gi, '_')
+              moduleName: cleanSource
             };
           }
 
@@ -83,7 +85,7 @@ export abstract class GetBase {
           if (options.targetLanguage === Language.JAVA) {
             opts.java = {
               outdir: '.', // generated java files aren't packaged, so just include directly in app
-              package: `imports.${source.replace(/\//gi, '.').replace(/-/gi, '_')}`
+              package: `imports.${cleanSource}`
             }
           }
 
@@ -91,13 +93,26 @@ export abstract class GetBase {
           if (options.targetLanguage === Language.CSHARP) {
             opts.csharp = {
               outdir: codeMakerOutdir,
-              namespace: source.replace(/\//gi, '.').replace(/-/gi, '_')
+              namespace: cleanSource
             }
           }
 
           await srcmak.srcmak(staging, opts);
         });
       }
+    }
+  }
+
+  private static sanitizeSource(source: string, language: Language, isModule: boolean): string {
+    switch (language) {
+      case Language.JAVA:
+        return !isModule && source === "null" ? "nullprovider" : source.replace(/\//gi, '.').replace(/-/gi, '_');
+      case Language.CSHARP:
+        return !isModule && source === "null" ? "Providers.Null" : source.replace(/\//gi, '.').replace(/-/gi, '_');
+      case Language.PYTHON:
+        return source.replace(/\//gi, '.').replace(/-/gi, '_');
+      default:
+        return source;
     }
   }
 
