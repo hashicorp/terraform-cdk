@@ -1,8 +1,8 @@
 /* eslint-disable no-control-regex */
 import React, { Fragment, useState } from 'react';
-import { Text, Box, Color } from 'ink'
+import { Text, Box } from 'ink'
 import Spinner from 'ink-spinner';
-import ConfirmInput from 'ink-confirm-input';
+import ConfirmInput from '@skorfmann/ink-confirm-input';
 import { DeployingElement } from './components'
 import { DeployingResource, TerraformOutput, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
@@ -28,7 +28,7 @@ export const DeploySummary = ({ resources }: DeploySummaryConfig): React.ReactEl
   return (<>
     {Object.keys(summary).map((key, i) => (
       <Box key={key}>
-        {i > 0 && ", "}
+        {i > 0 && <Text>, </Text>}
         <Text>{summary[key]} {key}</Text>
       </Box>
     ))
@@ -66,7 +66,7 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
       <Text>  Only 'yes' will be accepted to approve.</Text>
 
       <Box flexDirection="row" marginTop={1}>
-        <Text bold>  Enter a value:</Text>&nbsp;
+        <Text bold>  Enter a value:</Text>
         <ConfirmInput
           value={value}
           onChange={setValue}
@@ -86,7 +86,7 @@ export const Apply = (): React.ReactElement => {
     <Fragment>
       <Box flexDirection="column">
         <Box>
-          {Status.DEPLOYING == status ? (<><Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
+          {Status.DEPLOYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
             <><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></>
           )}
         </Box>
@@ -123,7 +123,7 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
-  const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const statusText = (stackName === '') ? <Text>{status}...</Text> : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
 
   if (errors) return (<Box>{errors.map((e: any) => e.message)}</Box>);
   if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{stackName}</Text></Text></>);
@@ -132,7 +132,7 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
     <Box>
       {isPlanning ? (
         <Fragment>
-          <Color green><Spinner type="dots" /></Color><Box paddingLeft={1}><Text>{statusText}</Text></Box>
+          <Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>{statusText}</Text></Box>
         </Fragment>
       ) : (
           <>

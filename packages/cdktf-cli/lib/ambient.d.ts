@@ -1,1 +1,1 @@
-declare module 'ink-confirm-input';
+declare module '@skorfmann/ink-confirm-input';

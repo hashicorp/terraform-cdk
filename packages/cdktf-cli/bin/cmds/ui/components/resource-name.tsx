@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Box, Color } from 'ink'
+import { Text, Box } from 'ink'
 
 export interface ResourceNameConfig {
   name: string;
@@ -25,7 +25,7 @@ export const ResourceName = ({name, stackName}: ResourceNameConfig) => {
           <Text>{resourceName}</Text>
         </Box>
         <Box paddingLeft={1} width={"50%"}>
-          <Color gray>{name}</Color>
+          <Text color="gray">{name}</Text>
         </Box>
       </Box>
     </Box>
