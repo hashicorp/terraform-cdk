@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Text, Box, Color } from "ink";
+import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 
@@ -36,9 +36,9 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
       <Box>
         {isSynthesizing ? (
           <Fragment>
-            <Color green>
+            <Text color="green">
               <Spinner type="dots" />
-            </Color>
+            </Text>
             <Box paddingLeft={1}>
               <Text>{statusText}</Text>
             </Box>

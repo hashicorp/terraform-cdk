@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`full integration test synth synth generates JSON 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"hello-terra\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\",
+        \\"source\\": \\"aws\\"
+      }
+    },
+    \\"backend\\": {
+      \\"remote\\": {
+        \\"organization\\": \\"test\\",
+        \\"workspaces\\": {
+          \\"name\\": \\"test\\"
+        }
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"region\\": \\"eu-central-1\\",
+        \\"ignore_tags\\": [
+          {
+            \\"keys\\": [
+              \\"foo\\"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_sns_topic\\": {
+      \\"Topic\\": {
+        \\"display_name\\": \\"topic\\",
+        \\"provider\\": \\"aws\\",
+        \\"lifecycle\\": {
+          \\"create_before_destroy\\": true
+        },
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-terra/Topic\\",
+            \\"uniqueId\\": \\"Topic\\"
+          }
+        }
+      }
+    }
+  },
+  \\"output\\": {
+    \\"snstopicarn\\": {
+      \\"value\\": \\"\${aws_sns_topic.Topic.arn}\\"
+    }
+  }
+}"
+`;

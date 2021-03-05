@@ -1,7 +1,6 @@
 /* eslint-disable no-control-regex */
 import React from 'react';
 import { TerraformProvider } from './terraform-context'
-import { ErrorBoundary } from './error-boundary'
 import { useTerraformState } from './terraform-context'
 import { useApp } from 'ink'
 
@@ -21,12 +20,10 @@ export const TerraformErrors: React.FunctionComponent<{}> = ({ children }): Reac
 // eslint-disable-next-line react/prop-types
 export const App: React.FunctionComponent<{}> = ({ children }): React.ReactElement => {
   return (
-    <ErrorBoundary>
-      <TerraformProvider>
-        <TerraformErrors>
-          { children }
-        </TerraformErrors>
-      </TerraformProvider>
-    </ErrorBoundary>
+    <TerraformProvider>
+      <TerraformErrors>
+        { children }
+      </TerraformErrors>
+    </TerraformProvider>
   )
 }
