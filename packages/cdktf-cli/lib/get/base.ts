@@ -106,14 +106,20 @@ export abstract class GetBase {
   private static sanitizeSource(source: string, language: Language, isModule: boolean): string {
     switch (language) {
       case Language.JAVA:
-        return !isModule && source === "null" ? "nullprovider" : source.replace(/\//gi, '.').replace(/-/gi, '_');
+        // "null" is a reserved keyworkd and can't be used as a package name
+        return !isModule && source === "null" ? "nullprovider" : GetBase.replaceSlashAndDash(source);
       case Language.CSHARP:
-        return !isModule && source === "null" ? "Providers.Null" : source.replace(/\//gi, '.').replace(/-/gi, '_');
+        // "null" is a reserved keyworkd and can't be used as a namespace
+        return !isModule && source === "null" ? "Providers.Null" : GetBase.replaceSlashAndDash(source);
       case Language.PYTHON:
-        return source.replace(/\//gi, '.').replace(/-/gi, '_');
+        return GetBase.replaceSlashAndDash(source);
       default:
         return source;
     }
+  }
+
+  private static replaceSlashAndDash(source: string): string {
+    return source.replace(/\//gi, '.').replace(/-/gi, '_');
   }
 
   protected abstract typesPath(name: string): string;
