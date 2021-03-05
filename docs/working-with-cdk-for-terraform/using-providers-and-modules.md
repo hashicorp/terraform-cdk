@@ -218,7 +218,7 @@ Last but not least, when approaching multiple stacks wihtin oen application (not
 This behaviour can be disabled by setting `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to non null value, e.g. `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. This might be desired, when a different cache directory is configured via a `.terraformrc` configuration file.
 
 ## Using Modules
-For using modules on the terraform registry, see [cdktf.json](./cdktf.json).
+For using modules on the terraform registry, see [cdktf.json](./cdktf-json.md).
 
 For using modules from other sources (local, github, etc), you can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
 
