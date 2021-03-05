@@ -106,10 +106,10 @@ export abstract class GetBase {
   private static sanitizeSource(source: string, language: Language, isModule: boolean): string {
     switch (language) {
       case Language.JAVA:
-        // "null" is a reserved keyworkd and can't be used as a package name
+        // "null" is a reserved keyword and can't be used as a package name
         return !isModule && source === "null" ? "nullprovider" : GetBase.replaceSlashAndDash(source);
       case Language.CSHARP:
-        // "null" is a reserved keyworkd and can't be used as a namespace
+        // "null" is a reserved keyword and can't be used as a namespace
         return !isModule && source === "null" ? "Providers.Null" : GetBase.replaceSlashAndDash(source);
       case Language.PYTHON:
         return GetBase.replaceSlashAndDash(source);
