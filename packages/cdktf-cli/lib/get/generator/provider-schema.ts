@@ -77,10 +77,21 @@ const transformVariables = (variables: any) => {
 
   for (const name of Object.keys(variables)) {
     const variable = variables[name][0]
-    const variableType = (variable['type'] as string).match(/\$\{(.*)\}/)
+    let variableType: string;
+    // eslint-disable-next-line no-prototype-builtins
+    if (variable.hasOwnProperty('type') == false && variable.hasOwnProperty('default') == true) {
+      switch (typeof variable['default']) {
+        case "boolean": variableType = 'bool' ; break;
+        default: variableType = 'any';
+      }
+    } else {
+      const matched = (variable['type'] as string).match(/\$\{(.*)\}/)
+      variableType = matched ? matched[1] : 'any'
+    }
+
     const item: any = {
       name,
-      type: variableType ? variableType[1] : 'any',
+      type: variableType,
       description: variable['description'],
       // eslint-disable-next-line no-prototype-builtins
       required: variable.hasOwnProperty('default') == false

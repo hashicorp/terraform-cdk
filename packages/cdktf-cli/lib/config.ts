@@ -31,11 +31,13 @@ export interface TerraformDependencyConstraint {
   readonly name: string;
   readonly source: string;
   readonly version?: string;
+  readonly fqn: string;
 }
 
 export class TerraformModuleConstraint implements TerraformDependencyConstraint {
   public readonly name: string;
   public readonly source: string;
+  public readonly fqn: string;
   public readonly version?: string;
 
   constructor(item: TerraformDependencyConstraint | string) {
@@ -43,9 +45,11 @@ export class TerraformModuleConstraint implements TerraformDependencyConstraint 
       const parsed = parseDependencyConstraint(item);
       this.name = parsed.name
       this.source = parsed.source
+      this.fqn = parsed.fqn
       this.version = parsed.version
     } else {
       this.name = item.name;
+      this.fqn = item.name;
       this.source = item.source;
       this.version = item.version;
     }
@@ -56,15 +60,18 @@ export class TerraformProviderConstraint implements TerraformDependencyConstrain
   public readonly name: string;
   public readonly source: string;
   public readonly version?: string;
+  public readonly fqn: string;
 
   constructor(item: TerraformDependencyConstraint | string) {
     if (typeof(item) === 'string') {
       const parsed = parseDependencyConstraint(item);
       this.name = parsed.name
+      this.fqn = parsed.fqn
       this.source = parsed.fqn
       this.version = parsed.version
     } else {
       this.name = item.name;
+      this.fqn = item.name;
       this.version = item.version;
       this.source = item.source;
     }

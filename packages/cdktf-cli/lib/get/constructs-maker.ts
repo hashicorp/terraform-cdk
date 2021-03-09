@@ -36,7 +36,7 @@ export abstract class ConstructsMakerTarget {
   public readonly fileName: string;
 
   constructor(public readonly constraint: TerraformDependencyConstraint, public readonly targetLanguage: Language) {
-    this.fileName = `${this.typesPath(this.constraint.name)}.ts`
+    this.fileName = `${this.typesPath(this.constraint.fqn)}.ts`
   }
 
   public static from(constraint: TerraformDependencyConstraint, targetLanguage: Language) {
@@ -57,6 +57,10 @@ export abstract class ConstructsMakerTarget {
 
   public get name() {
     return this.constraint.name
+  }
+
+  public get fqn() {
+    return this.constraint.fqn
   }
 
   public get moduleKey() {
@@ -176,8 +180,13 @@ export class ConstructsMaker {
 
     const providerTargets: ConstructsMakerProviderTarget[] = this.targets.filter(target => target instanceof ConstructsMakerProviderTarget) as ConstructsMakerProviderTarget[];
 
-    new TerraformProviderGenerator(this.code, schema.providerSchema, providerTargets);
-    new ModuleGenerator(this.code, moduleTargets);
+    if (providerTargets.length > 0) {
+      new TerraformProviderGenerator(this.code, schema.providerSchema, providerTargets);
+    }
+
+    if (moduleTargets.length > 0) {
+      new ModuleGenerator(this.code, moduleTargets);
+    }
   }
 
   public async generate() {
@@ -185,7 +194,9 @@ export class ConstructsMaker {
 
     if (this.isJavascriptTarget) {
       await this.save()
-    } else if (this.options.outputJsii) {
+    }
+
+    if (!this.isJavascriptTarget || this.options.outputJsii) {
       for (const target of this.targets) {
         await mkdtemp(async staging => {
           // this is not typescript, so we generate in a staging directory and

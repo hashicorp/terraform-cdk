@@ -7,7 +7,7 @@ import { TerraformDependencyConstraint } from '../../lib/config';
 export function expectImportMatchSnapshot(constraint: TerraformDependencyConstraint) {
   jest.setTimeout(60_000);
 
-  test(constraint.source, async () => {
+  test(constraint.name, async () => {
     await mkdtemp(async workdir => {
       const jsiiPath = path.join(workdir, '.jsii');
 

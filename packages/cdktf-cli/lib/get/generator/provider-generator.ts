@@ -36,13 +36,12 @@ export class TerraformProviderGenerator {
   private resourceEmitter:  ResourceEmitter;
   private structEmitter:  StructEmitter;
   constructor(private readonly code: CodeMaker, schema: ProviderSchema, private providerConstraints?: ConstructsMakerTarget[]) {
-
     this.code.indentation = 2;
     this.resourceEmitter = new ResourceEmitter(this.code)
     this.structEmitter = new StructEmitter(this.code)
 
     if (!schema.provider_schemas) {
-      console.error('warning: no providers');
+      console.info('no providers - nothing to do');
       return;
     }
 

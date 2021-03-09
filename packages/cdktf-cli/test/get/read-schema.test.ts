@@ -4,7 +4,7 @@ import { TerraformModuleConstraint, TerraformProviderConstraint } from "../../li
 
 describe("readSchema", () => {
   beforeAll(() => {
-    jest.setTimeout(10000)
+    jest.setTimeout(30000)
   })
 
   it("generates a single provider schema", async () => {
@@ -20,4 +20,12 @@ describe("readSchema", () => {
     const result = await readSchema([targets])
     expect(result).toMatchSnapshot();
   });
+
+  it("generates a more complex schema", async () => {
+    const module = new TerraformModuleConstraint('terraform-aws-modules/eks/aws@7.0.1')
+    const targets = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT)
+    const result = await readSchema([targets])
+    expect(result).toMatchSnapshot();
+  });
+
 });

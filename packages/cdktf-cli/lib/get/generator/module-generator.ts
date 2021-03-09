@@ -25,7 +25,7 @@ export class ModuleGenerator {
     this.code.line(`import { TerraformModule } from 'cdktf';`);
     this.code.line(`import { Construct } from 'constructs';`);
 
-    const baseName = this.code.toPascalCase(spec.name.replace(/-/g, '_'));
+    const baseName = this.code.toPascalCase(target.fqn.replace(/[-/]/g, '_'));
     const optionsType = `${baseName}Options`;
 
     this.code.openBlock(`export interface ${optionsType}`);
@@ -84,7 +84,6 @@ export class ModuleGenerator {
     this.code.closeBlock();
 
     this.code.closeBlock(); // class
-
     this.code.closeFile(target.fileName);
   }
 
