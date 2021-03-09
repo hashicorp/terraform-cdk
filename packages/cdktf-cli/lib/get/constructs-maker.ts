@@ -64,7 +64,7 @@ export abstract class ConstructsMakerTarget {
   }
 
   public get moduleKey() {
-    return this.constraint.name.replace(/\//gi, '_')
+    return this.fqn.replace(/\//gi, '_')
   }
 
   public abstract get srcMakName(): string;
@@ -73,7 +73,7 @@ export abstract class ConstructsMakerTarget {
   public abstract get trackingPayload(): Record<string, any>;
 
   protected get simplifiedName(): string {
-    return this.constraint.name.replace(/\//gi, '.').replace(/-/gi, '_');
+    return this.fqn.replace(/\//gi, '.').replace(/-/gi, '_');
   }
 
   protected abstract typesPath(name: string): string;
@@ -95,7 +95,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
       case Language.JAVA, Language.CSHARP, Language.PYTHON:
         return this.simplifiedName;
       default:
-        return this.constraint.name;
+        return this.constraint.fqn;
     }
   }
 
@@ -135,7 +135,7 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
       case Language.PYTHON:
         return this.simplifiedName;
       default:
-        return this.constraint.name;
+        return this.constraint.fqn;
     }
   }
 

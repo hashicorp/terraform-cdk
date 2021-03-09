@@ -9,6 +9,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { Go } from './wasm_exec'
 import { deepMerge } from './deepmerge';
+import { gunzipSync } from 'zlib';
 
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>
@@ -68,7 +69,11 @@ function goBridge(getBytes: Promise<Buffer>) {
   return proxy
 }
 
-const wasm = goBridge(fs.readFile(path.join(__dirname, '..', 'main.wasm')))
+const loadWasm = async () => {
+  return gunzipSync(await fs.readFile(path.join(__dirname, '..', 'main.wasm.gz')))
+}
+
+const wasm = goBridge(loadWasm())
 
 export async function parse(filename: string, contents: string): Promise<Record<string, any>> {
   const res = await wasm.parse(filename, contents)

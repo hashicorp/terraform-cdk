@@ -50,7 +50,9 @@ export class ModuleGenerator {
     this.code.open(`public constructor(scope: Construct, id: string, options: ${optionsType}${allOptional}) {`);
     this.code.open(`super(scope, id, {`);
     this.code.line(`source: '${target.source}',`);
-    this.code.line(`version: '${target.version}',`);
+    if (target.version) {
+      this.code.line(`version: '${target.version}',`);
+    }
     this.code.close(`});`);
 
     for (const input of spec.inputs) {
