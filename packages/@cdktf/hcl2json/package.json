@@ -1,5 +1,5 @@
 {
-  "name": "@cdktf/hcl2jon",
+  "name": "@cdktf/hcl2json",
   "version": "0.0.0",
   "description": "Transform HCL into JSON",
   "main": "lib/index.js",

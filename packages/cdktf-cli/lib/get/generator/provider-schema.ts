@@ -1,9 +1,10 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { promisify } from 'util';
 import { exec, withTempDir } from '../../util';
+import { ModuleSchema } from './module-schema';
+import { ConstructsMakerTarget } from '../constructs-maker';
+import { convertFiles } from '@cdktf/hcl2json'
 
-const writeFile = promisify(fs.writeFile);
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || 'terraform'
 
 export interface ProviderSchema {
@@ -56,32 +57,142 @@ export interface Block {
   block_types: { [name: string]: BlockType };
 }
 
-export async function readSchema(providers: string[]): Promise<ProviderSchema> {
-  const provider: { [name: string]: {} } = {};
-  const requiredProviders: { [name: string]: { source?: string;  version?: string } } = { };
+export interface TerraformSchema {
+  providers: ProviderSchema;
+  modules: ModuleSchema;
+}
 
-  for (const p of providers) {
-    const [ fqname, version ] = p.split('@');
-    const name = fqname.split('/').pop()
-    if (!name) { throw new Error(`Provider name should be properly set in ${p}`) }
+interface ModuleIndexItem {
+  Key: string;
+  Source: string;
+  Dir: string;
+  Version?: string;
+}
+interface ModuleIndex {
+  Modules: ModuleIndexItem[];
+}
 
-    provider[name] = {};
-    requiredProviders[name] = { version, source: fqname };
+const transformVariables = (variables: any) => {
+  const result = []
+
+  for (const name of Object.keys(variables)) {
+    const variable = variables[name][0]
+    const variableType = (variable['type'] as string).match(/\$\{(.*)\}/)
+    const item: any = {
+      name,
+      type: variableType ? variableType[1] : 'any',
+      description: variable['description'],
+      // eslint-disable-next-line no-prototype-builtins
+      required: variable.hasOwnProperty('default') == false
+    }
+
+    if (!item.required) {
+      item['default'] = variable['default']
+    }
+
+    result.push(item)
   }
-  let schema = '';
+
+  return result
+}
+
+const transformOutputs = (outputs: any) => {
+  const result = []
+
+  for (const name of Object.keys(outputs)) {
+    const output = outputs[name][0]
+
+    const item: any = {
+      name,
+      description: output['description'],
+    }
+
+    result.push(item)
+  }
+
+  return result
+}
+
+
+const harvestModuleSchema = async (workingDirectory: string, modules: string[]): Promise<Record<string, any>> => {
+  const fileName = path.join(workingDirectory, '.terraform', 'modules', 'modules.json')
+  const result: Record<string, any> = {};
+
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Modules were not generated properly - couldn't find ${fileName}`)
+  }
+
+  const moduleIndex = JSON.parse(fs.readFileSync(fileName, 'utf-8')) as ModuleIndex
+
+  for (const mod of modules) {
+    const m = moduleIndex.Modules.find(other => mod === other.Key);
+
+    if (!m) {
+      throw new Error(`Couldn't find ${m}`)
+    }
+
+    const parsed =  await convertFiles(path.join(workingDirectory, m.Dir))
+
+    if (!parsed) {
+      throw new Error(`Modules were not generated properly - couldn't parse ${m.Dir}`)
+    }
+
+    const schema: ModuleSchema = {
+      inputs: transformVariables(parsed.variable),
+      outputs: transformOutputs(parsed.output),
+      name: mod
+    }
+
+    result[mod] = schema;
+  }
+
+  return result;
+}
+
+export interface TerraformConfig {
+  provider?: { [name: string]: Record<string, any> };
+  terraform: { required_providers?: { [name: string]: { source?: string;  version?: string } } };
+  module?: { [name: string]: { source: string;  version?: string } };
+}
+
+
+export async function readSchema(targets: ConstructsMakerTarget[]) {
+  const config: TerraformConfig = {
+    terraform: {}
+  }
+
+  for (const target of targets) {
+    if (target.isModule) {
+      if (!config.module) config.module = {};
+      config.module[target.name] = { version: target.version, source: target.source };
+    } else {
+      if (!config.provider) config.provider = {};
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      if (!config.terraform.required_providers) config.terraform.required_providers = {};
+      config.provider[target.name] = {};
+      config.terraform.required_providers[target.name] = { version: target.version, source: target.source };
+    }
+  }
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  let providerSchema: ProviderSchema = { format_version: '1.0'};
+  let moduleSchema: Record<string, ModuleSchema> = {};
 
   await withTempDir('fetchSchema', async () => {
     const outdir = process.cwd();
-    const filePath = path.join(outdir, 'providers.tf.json');
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    await writeFile(filePath, JSON.stringify({ provider, terraform: { required_providers: requiredProviders }}));
+    const filePath = path.join(outdir, 'main.tf.json');
+    await fs.writeFile(filePath, JSON.stringify(config));
 
-    // todo: when implementing logging, we need to make sure we can show the terraform init
-    // output if the log level is set to debug
     await exec(terraformBinaryName, [ 'init' ], { cwd: outdir });
-    schema = await exec(terraformBinaryName, ['providers', 'schema', '-json'], { cwd: outdir });
-    fs.unlinkSync(filePath)
+    if (config.provider) {
+      providerSchema = JSON.parse(await exec(terraformBinaryName, ['providers', 'schema', '-json'], { cwd: outdir })) as ProviderSchema;
+    }
+    if (config.module) {
+      moduleSchema = await harvestModuleSchema(outdir, Object.keys(config.module))
+    }
   })
 
-  return JSON.parse(schema);
+  return {
+    providerSchema,
+    moduleSchema
+  };
 }
