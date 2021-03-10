@@ -23,7 +23,7 @@ const isMatching = (target: ConstructsMakerTarget, terraformSchemaName: string):
       throw new Error(`can't handle ${terraformSchemaName}`)
     }
 
-    return target.source === provider;
+    return target.name === provider;
   }
 }
 
