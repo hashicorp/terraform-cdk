@@ -2,8 +2,9 @@ import { shell } from '../../../lib/util';
 import * as fs from 'fs-extra';
 import * as path from 'path'
 import { TerraformStackMetadata } from 'cdktf'
-import { Report } from './telemetry';
+import { ReportRequest, ReportParams } from '../../../lib/checkpoint'
 import { performance } from 'perf_hooks';
+import { versionNumber } from '../version-check';
 
 interface SynthesizedStackMetadata {
   "//"?: {[key: string]: TerraformStackMetadata };
@@ -66,8 +67,15 @@ export class SynthStack {
   }
 
   public static async synthTelemetry(command: string, totalTime: number): Promise<void> {
-    const payload = { command: command, totalTime: totalTime };
+    const reportParams: ReportParams = {
+      command: 'synth',
+      product: 'cdktf',
+      version: versionNumber(),
+      dateTime: new Date(),
+      payload: { command: command, totalTime: totalTime }
+    };
 
-    await Report('synth', '', new Date(), payload);
+
+    await ReportRequest(reportParams);
   }
 }
