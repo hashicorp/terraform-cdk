@@ -4,3 +4,4 @@
 **/*wasm.gz
 tsconfig.tsbuildinfo
 wasm.md
+!tsconfig.json
