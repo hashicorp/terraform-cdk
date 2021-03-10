@@ -175,7 +175,11 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
   for (const target of targets) {
     if (target.isModule) {
       if (!config.module) config.module = {};
-      config.module[target.name] = { version: target.version, source: target.source };
+      const source = (target.constraint as any).localSource || target.source
+      config.module[target.name] = { source: source };
+      if (target.version) {
+        config.module[target.name]['version'] = target.version
+      }
     } else {
       if (!config.provider) config.provider = {};
       // eslint-disable-next-line @typescript-eslint/camelcase

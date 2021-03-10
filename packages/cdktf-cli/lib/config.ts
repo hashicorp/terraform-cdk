@@ -37,6 +37,7 @@ export interface TerraformDependencyConstraint {
 export class TerraformModuleConstraint implements TerraformDependencyConstraint {
   public readonly name: string;
   public readonly source: string;
+  public readonly localSource?: string;
   public readonly fqn: string;
   public readonly version?: string;
 
@@ -48,9 +49,14 @@ export class TerraformModuleConstraint implements TerraformDependencyConstraint 
       this.fqn = parsed.fqn
       this.version = parsed.version
     } else {
+      if (item.source.startsWith('./') || item.source.startsWith('../')) {
+        this.source = item.source
+        this.localSource = `file://${path.join(process.cwd(), item.source)}`
+      } else {
+        this.source = item.source;
+      }
       this.name = item.name;
       this.fqn = item.name;
-      this.source = item.source;
       this.version = item.version;
     }
   }

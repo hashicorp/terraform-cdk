@@ -119,6 +119,19 @@ describe("parseConfig", () => {
       `);
     });
 
+    it("parses module for local module for module generator", async () => {
+      const input = {
+        terraformModules: [
+          {
+            name: 'local-module',
+            source: "./foo"
+          },
+        ]
+      };
+      const parsed: any = parseConfig(JSON.stringify(input))
+      expect(parsed.terraformModules[0].localSource).toMatch('terraform-cdk/packages/cdktf-cli/foo')
+    });
+
     it("parses sub module registry string", async () => {
       const input = {
         terraformModules: [
