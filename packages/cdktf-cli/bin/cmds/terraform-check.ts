@@ -1,7 +1,7 @@
 import { TerraformCli } from './ui/models/terraform-cli'
 import * as semver from 'semver';
 
-const MIN_SUPPORTED_VERSION = '0.12.0'
+const MIN_SUPPORTED_VERSION = '0.13.0'
 const VERSION_REGEXP = /Terraform v\d+.\d+.\d+/
 
 export const terraformCheck = async (): Promise<void> => {
