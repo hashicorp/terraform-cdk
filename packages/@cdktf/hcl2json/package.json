@@ -4,6 +4,9 @@
   "description": "Transform HCL into JSON",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc && ./build-go.sh",
     "watch": "tsc -w",
