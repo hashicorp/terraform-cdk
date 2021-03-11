@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ["0.14.0"]
+        terraform: ["0.14.7"]
         target: ["python", "csharp", "java", "typescript"]
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
