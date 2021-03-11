@@ -17,9 +17,8 @@ export const terraformCheck = async (): Promise<void> => {
       const cleanTerraformVersion = semver.clean(terraformVersionMatches[0].substring(terraformVersionMatches[0].indexOf('v')))
 
       if (cleanTerraformVersion && semver.lt(cleanTerraformVersion, MIN_SUPPORTED_VERSION)) {
-        const errorMessage = `Error: unsupported Terraform version [${cleanTerraformVersion}] - please upgrade to >=${MIN_SUPPORTED_VERSION}`
-          console.error(errorMessage)
-          process.exit(1)
+        const warningMessage = `Warning: unsupported Terraform version [${cleanTerraformVersion}] - please upgrade to >=${MIN_SUPPORTED_VERSION}`
+        console.warn(warningMessage)
       }
     }
   } catch(e) {
