@@ -12,6 +12,8 @@ interface ProviderData {
 }
 
 const isMatching = (target: ConstructsMakerTarget, terraformSchemaName: string): boolean => {
+  if (target.isModule) return false;
+
   const elements = terraformSchemaName.split('/')
 
   if (elements.length === 1) {
@@ -46,7 +48,11 @@ export class TerraformProviderGenerator {
     }
 
     for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
-      this.emitProvider(fqpn, provider);
+      if (this.providerConstraints && this.providerConstraints.find((p) => (isMatching(p, fqpn)))) {
+        this.emitProvider(fqpn, provider);
+      } else if (!this.providerConstraints) {
+        this.emitProvider(fqpn, provider);
+      }
     }
   }
 

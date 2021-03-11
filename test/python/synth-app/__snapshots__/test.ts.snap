@@ -35,7 +35,7 @@ exports[`python full integration test synth synth generates JSON 1`] = `
     \\"CustomVpc\\": {
       \\"name\\": \\"custom-vpc\\",
       \\"source\\": \\"terraform-aws-modules/vpc/aws\\",
-      \\"version\\": \\"2.39.0\\",
+      \\"version\\": \\"2.77.0\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"python-simple/CustomVpc\\",

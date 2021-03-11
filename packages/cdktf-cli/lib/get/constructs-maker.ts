@@ -75,10 +75,8 @@ export abstract class ConstructsMakerTarget {
   public abstract get isModule(): boolean;
   public abstract get isProvider(): boolean;
   public abstract get trackingPayload(): Record<string, any>;
+  protected abstract get simplifiedName(): string;
 
-  protected get simplifiedName(): string {
-    return this.fqn.replace(/\//gi, '.').replace(/-/gi, '_');
-  }
 
   protected abstract typesPath(name: string): string;
 }
@@ -114,6 +112,10 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
 
   protected typesPath(name: string): string {
     return `modules/${name}`;
+  }
+
+  protected get simplifiedName(): string {
+    return this.fqn.replace(/\//gi, '.').replace(/-/gi, '_');
   }
 }
 
@@ -158,6 +160,10 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
 
   private get isNullProvider() {
     return this.constraint.name === "null"
+  }
+
+  protected get simplifiedName(): string {
+    return this.name.replace(/\//gi, '.').replace(/-/gi, '_');
   }
 }
 
