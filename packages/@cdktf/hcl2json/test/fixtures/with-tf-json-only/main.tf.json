@@ -1,0 +1,14 @@
+{
+  "variable": {
+    "create_vpc": [{
+      "default": true,
+      "description": "Controls if VPC should be created (it affects almost all resources)",
+      "type": "bool"
+    }],
+    "name": [{
+      "default": "",
+      "description": "Name to be used on all the resources as identifier",
+      "type": "string"
+    }]
+  }
+}

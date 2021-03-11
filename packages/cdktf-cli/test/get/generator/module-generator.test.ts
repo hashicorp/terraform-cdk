@@ -1,15 +1,17 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { ModuleGenerator } from '../../../lib/get/generator/module-generator';
-import { CodeMaker } from 'codemaker';
+import { ConstructsMaker, Language } from '../../../lib/get/constructs-maker'
+import { TerraformModuleConstraint  } from '../../../lib/config'
 
 test('generate some modules', async () => {
-  const code = new CodeMaker()
+  jest.setTimeout(20000)
+
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'module-generator.test'));
-  const spec = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'module-generator.test.fixture.json'), 'utf-8'));
-  new ModuleGenerator(code, spec);
-  await code.save(workdir);
+  const constraint = new TerraformModuleConstraint('terraform-aws-modules/eks/aws@7.0.1')
+
+  const maker = new ConstructsMaker({codeMakerOutput: workdir, targetLanguage: Language.TYPESCRIPT}, [constraint])
+  await maker.generate()
 
   const output = fs.readFileSync(path.join(workdir, 'modules/terraform-aws-modules/eks/aws.ts'), 'utf-8');
   expect(output).toMatchSnapshot();
