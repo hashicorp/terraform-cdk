@@ -36,7 +36,11 @@ export abstract class ConstructsMakerTarget {
   public readonly fileName: string;
 
   constructor(public readonly constraint: TerraformDependencyConstraint, public readonly targetLanguage: Language) {
-    this.fileName = `${this.typesPath(this.constraint.fqn)}.ts`
+    if (this.constraint instanceof TerraformModuleConstraint) {
+      this.fileName = `${this.typesPath(this.constraint.fqn)}.ts`
+    } else {
+      this.fileName = `${this.typesPath(this.constraint.name)}.ts`
+    }
   }
 
   public static from(constraint: TerraformDependencyConstraint, targetLanguage: Language) {
