@@ -22,6 +22,7 @@ describe("full integration test", () => {
 
   test("build modules", () => {
     driver.synth()
-    expect(driver.synthesizedStack()).toMatchSnapshot()
+    const snapshotName = `build-modules-${process.platform === 'win32' ? 'windows' : 'posix'}`
+    expect(driver.synthesizedStack()).toMatchSnapshot(snapshotName)
   })
 })
