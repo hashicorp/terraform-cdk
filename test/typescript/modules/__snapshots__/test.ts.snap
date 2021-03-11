@@ -53,7 +53,7 @@ exports[`full integration test build modules: build-modules-windows 1`] = `
   },
   \\"module\\": {
     \\"localmodule\\": {
-      \\"source\\": \\"..\\local-module\\",
+      \\"source\\": \\"..\\\\local-module\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"hello-modules/local-module\\",
