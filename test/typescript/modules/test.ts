@@ -8,6 +8,9 @@ import { TestDriver } from "../../test-helper";
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
+const onWindows = process.platform === 'win32' ? it : it.skip
+const onPosix = process.platform !== 'win32' ? it : it.skip
+
 describe("full integration test", () => {
   let driver: TestDriver;
 
@@ -20,9 +23,13 @@ describe("full integration test", () => {
     driver.get()
   });
 
-  test("build modules", () => {
+  onPosix("build modules posix", () => {
     driver.synth()
-    const snapshotName = `build-modules-${process.platform === 'win32' ? 'windows' : 'posix'}`
-    expect(driver.synthesizedStack()).toMatchSnapshot(snapshotName)
+    expect(driver.synthesizedStack()).toMatchSnapshot()
+  })
+
+  onWindows("build modules windows", () => {
+    driver.synth()
+    expect(driver.synthesizedStack()).toMatchSnapshot()
   })
 })

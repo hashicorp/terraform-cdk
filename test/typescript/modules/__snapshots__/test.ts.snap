@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`full integration test build modules: build-modules-posix 1`] = `
+exports[`full integration test build modules posix 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
@@ -43,7 +43,7 @@ exports[`full integration test build modules: build-modules-posix 1`] = `
 }"
 `;
 
-exports[`full integration test build modules: build-modules-windows 1`] = `
+exports[`full integration test build modules windows 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
