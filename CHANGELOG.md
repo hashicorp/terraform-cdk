@@ -1,3 +1,37 @@
+## 0.2.0 (March 11, 2021)
+
+**Breaking Changes**
+
+- Generated classes for modules from the registry will change - see [this comment](https://github.com/hashicorp/terraform-cdk/pull/584#issuecomment-794534236) for more details
+- Phased out testing and support for Terraform `0.12`. It's likely to still work for now, but it's not guaranteed anymore [\#592](https://github.com/hashicorp/terraform-cdk/issues/592)
+
+**Implemented enhancements:**
+
+- Improve Module Support [\#584](https://github.com/hashicorp/terraform-cdk/issues/584)
+- Release packages to Maven Central [\#556](https://github.com/hashicorp/terraform-cdk/issues/556)
+- Release packages to Nuget.org [\#528](https://github.com/hashicorp/terraform-cdk/issues/528)
+- TerraformHclModule outputs use tokens [\#512](https://github.com/hashicorp/terraform-cdk/issues/512)
+- Improve C# init behaviour for Github Package Registry [\#497](https://github.com/hashicorp/terraform-cdk/issues/497)
+- Support for dynamic attribute type [\#565](https://github.com/hashicorp/terraform-cdk/issues/565)
+- Upgrade to ink v3 [\#559](https://github.com/hashicorp/terraform-cdk/issues/559)
+
+**Fixed bugs:**
+
+- Correct depends on casing for modules [\#508](https://github.com/hashicorp/terraform-cdk/issues/508)
+- Python pip template adjustments for windows [\#535](https://github.com/hashicorp/terraform-cdk/issues/535)
+- Checkpoint Error Handling / Timeout [\#552](https://github.com/hashicorp/terraform-cdk/issues/552)
+- Inject defaults for certain attributes [\#479](https://github.com/hashicorp/terraform-cdk/issues/479)
+- Python-pip template fix/improvements [\#541](https://github.com/hashicorp/terraform-cdk/issues/541)
+- Quote cdktf path in init templates [\#511](https://github.com/hashicorp/terraform-cdk/issues/511)
+- Include feature flags in java template and test [\#471](https://github.com/hashicorp/terraform-cdk/issues/471)
+- Update jsii-srcmak to remove symlink [\#580](https://github.com/hashicorp/terraform-cdk/issues/580)
+- Rename null provider for java & c# [\#589](https://github.com/hashicorp/terraform-cdk/issues/589)
+
+**Chores:**
+
+- Fix typo in execTerraformSynth [\#554](https://github.com/hashicorp/terraform-cdk/issues/554)
+- Upgrade Java exec-maven-plugin 3.0.0 [\#536](https://github.com/hashicorp/terraform-cdk/issues/536)
+
 ## 0.1.0 (January 14, 2021)
 
 **Implemented enhancements:**
