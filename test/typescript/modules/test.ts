@@ -14,7 +14,6 @@ describe("full integration test", () => {
   beforeAll(() => {
     driver = new TestDriver(__dirname)
     driver.switchToTempDir()
-    console.log({workingdirectory: driver.workingDirectory})
     driver.init('typescript')
     driver.copyFiles('main.ts', 'cdktf.json')
     fs.copySync(path.join(__dirname, 'local-module'), path.join(driver.workingDirectory, 'local-module'))
