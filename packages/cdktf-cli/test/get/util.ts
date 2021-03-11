@@ -1,22 +1,23 @@
 import { promises as fs } from 'fs';
 import { mkdtemp } from "../../lib/util";
-import { Language, GetBase } from "../../lib/get/base";
+import { Language, ConstructsMaker } from "../../lib/get/constructs-maker";
 import * as path from 'path';
+import { TerraformDependencyConstraint } from '../../lib/config';
 
-export function expectImportMatchSnapshot(target: string, fn: () => GetBase) {
+export function expectImportMatchSnapshot(constraint: TerraformDependencyConstraint) {
   jest.setTimeout(60_000);
 
-  test(target, async () => {
+  test(constraint.name, async () => {
     await mkdtemp(async workdir => {
-      const importer = fn();
       const jsiiPath = path.join(workdir, '.jsii');
 
-      await importer.get({
+      const maker = new ConstructsMaker({
         codeMakerOutput: workdir,
         outputJsii: jsiiPath,
-        targetLanguage: Language.TYPESCRIPT,
-        targetNames: [target]
-      });
+        targetLanguage: Language.TYPESCRIPT
+      }, [constraint])
+
+      await maker.generate()
 
       const manifest = JSON.parse(await fs.readFile(jsiiPath, 'utf-8'));
 

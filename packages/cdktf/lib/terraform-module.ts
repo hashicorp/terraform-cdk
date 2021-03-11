@@ -4,6 +4,7 @@ import { TerraformProvider } from "./terraform-provider";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
+import * as path from 'path';
 
 export interface TerraformModuleOptions {
   readonly source: string;
@@ -27,7 +28,11 @@ export abstract class TerraformModule extends TerraformElement implements ITerra
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id);
 
-    this.source = options.source;
+    if (options.source.startsWith('./') || options.source.startsWith('../')) {
+      this.source = path.join('..', options.source);
+    } else {
+      this.source = options.source
+    }
     this.version = options.version;
     this._providers = options.providers;
     if (Array.isArray(options.dependsOn)) {

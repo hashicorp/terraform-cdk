@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "build": "lerna run --scope cdktf* build",
+    "build": "lerna run --scope cdktf* --scope @cdktf/* build",
     "package": "lerna run package && tools/collect-dist.sh",
     "package:python": "lerna run package:python && tools/collect-dist.sh",
     "package:java": "lerna run package:java && tools/collect-dist.sh",
@@ -16,9 +16,9 @@
     "examples:integration:csharp": "test/run-against-dist tools/build-examples.sh csharp",
     "examples:integration:python": "test/run-against-dist tools/build-examples.sh python",
     "examples:integration:typescript": "test/run-against-dist tools/build-examples.sh typescript",
-    "test": "lerna run --scope cdktf* test",
+    "test": "lerna run --scope cdktf* --scope @cdktf* test",
     "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
-    "link-packages": "lerna exec --scope cdktf* yarn link",
+    "link-packages": "lerna exec --scope cdktf* --scope @cdktf* yarn link",
     "integration": "cd test && ./run-against-dist npx jest --runInBand",
     "integration:typescript": "cd test && ./run-against-dist npx jest --runInBand --group=typescript",
     "integration:python": "cd test && ./run-against-dist npx jest --runInBand --group=python",
@@ -37,6 +37,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
+      "packages/@cdktf/*",
       "examples/*",
       "examples/python/*",
       "examples/typescript/*",

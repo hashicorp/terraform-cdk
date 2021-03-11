@@ -1,18 +1,18 @@
 import { Construct } from "constructs";
 import { Token } from "./tokens"
 import { TerraformElement } from "./terraform-element";
-import { TerraformGeneratorMetadata } from './terraform-resource'
+import { TerraformProviderGeneratorMetadata } from './terraform-resource'
 import { keysToSnakeCase, deepMerge } from "./util";
 
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
-  readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+  readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
   readonly terraformProviderSource?: string;
 }
 
 export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
-  public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+  public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
   public readonly terraformProviderSource?: string;
 
   constructor(scope: Construct, id: string, config: TerraformProviderConfig) {

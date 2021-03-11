@@ -31,19 +31,19 @@ export interface TerraformMetaArguments {
   readonly lifecycle?: TerraformResourceLifecycle;
 }
 
-export interface TerraformGeneratorMetadata {
+export interface TerraformProviderGeneratorMetadata {
   readonly providerName: string;
   readonly providerVersionConstraint?: string;
 }
 
 export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformResourceType: string;
-  readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+  readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
 export class TerraformResource extends TerraformElement implements ITerraformResource, ITerraformDependable {
   public readonly terraformResourceType: string;
-  public readonly terraformGeneratorMetadata?: TerraformGeneratorMetadata;
+  public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 
   // TerraformMetaArguments
 

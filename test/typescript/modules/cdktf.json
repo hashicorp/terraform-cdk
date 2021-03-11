@@ -1,0 +1,20 @@
+{
+  "language": "typescript",
+  "app": "npm run --silent compile && node main.js",
+  "terraformProviders": [],
+  "terraformModules": [
+    "terraform-aws-modules/iam/aws//modules/iam-account@3.12.0",
+    {
+      "name": "gcloud",
+      "source": "terraform-google-modules/gcloud/google",
+      "version": "2.0.3"
+    },
+    {
+      "name": "our-local-module",
+      "source": "./local-module"
+    }
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}
