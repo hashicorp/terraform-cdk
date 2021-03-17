@@ -16,3 +16,21 @@ test('generate some modules', async () => {
   const output = fs.readFileSync(path.join(workdir, 'modules/terraform-aws-modules/eks/aws.ts'), 'utf-8');
   expect(output).toMatchSnapshot();
 });
+
+test('no module outputs', async () => {
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'no-output-module.test'));
+  fs.mkdirSync(path.join(workdir, 'module'));
+  fs.copyFileSync(path.join(__dirname, 'fixtures', 'module-no-outputs.test.fixture.tf'), path.join(workdir, 'module', 'main.tf'));
+
+  const constraint = new TerraformModuleConstraint({
+    source: `./${path.relative(__dirname, path.join(workdir, 'module'))}`,
+    name: 'module',
+    fqn: 'module'
+  });
+
+  const maker = new ConstructsMaker({codeMakerOutput: workdir, targetLanguage: Language.TYPESCRIPT}, [constraint])
+  await maker.generate();
+
+  const output = fs.readFileSync(path.join(workdir, 'modules/module.ts'), 'utf-8');
+  expect(output).toMatchSnapshot();
+});
