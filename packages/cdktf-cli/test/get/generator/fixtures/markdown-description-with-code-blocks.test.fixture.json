@@ -1,0 +1,21 @@
+{
+	"provider_schemas": {
+		"aws": {
+			"resource_schemas": {
+				"code_blocks": {
+					"version": 1,
+					"block": {
+						"attributes": {
+							"with_code_block": {
+                "type": "bool",
+								"description": "Here comes a code block '''foo.bar''' and here is more text.",
+                "required": true
+							}
+						}
+					},
+          "block_types": {}
+				}
+			}
+		}
+	}
+}

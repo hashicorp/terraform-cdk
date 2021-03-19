@@ -75,7 +75,7 @@ export class AttributeModel {
   }
 
   public get description(): string | undefined {
-    return this._description?.replace(/(\*\/)/gi, `*\\/`)
+    return this._description?.replace(/(\*\/)/gi, `*\\/`).replace(/'''/gi, '```');
   }
 
   public get isConfigIgnored(): boolean {
