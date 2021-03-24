@@ -8,8 +8,8 @@ from cdktf import App, TerraformStack, TerraformOutput, Token
 from imports.aws import AwsProvider, DataAwsCallerIdentity
 
 # for terraform module
-from imports.terraform_aws_modules.vpc.aws import TerraformAwsModulesVpcAws
-from imports.terraform_aws_modules.eks.aws import TerraformAwsModulesEksAws
+from imports.vpc import Vpc
+from imports.eks import Eks
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
@@ -17,7 +17,7 @@ class MyStack(TerraformStack):
 
         AwsProvider(self, 'Aws', region='us-west-2')
 
-        my_vpc = TerraformAwsModulesVpcAws(self, 'MyVpc',
+        my_vpc = Vpc(self, 'MyVpc',
             name='my-vpc',
             cidr='10.0.0.0/16',
             azs=['us-west-2a', 'us-west-2b', 'us-west-2c'],
@@ -26,11 +26,12 @@ class MyStack(TerraformStack):
             enable_nat_gateway=True
         )
 
-        my_eks= TerraformAwsModulesEksAws(self, 'MyEks',
+        my_eks= Eks(self, 'MyEks',
             cluster_name='my-eks',
             subnets=Token().as_list(my_vpc.private_subnets_output),
             vpc_id=Token().as_string(my_vpc.vpc_id_output),
-            manage_aws_auth='false'
+            manage_aws_auth=False,
+            cluster_version='1.17'
         )
 
         TerraformOutput(self, 'cluster_endpoint',
