@@ -62,7 +62,7 @@ const parseOutput = (str: string): DeployingResource[] => {
         applyState = DeployingResourceApplyState.WAITING
     }
 
-    if (resourceMatch && resourceMatch.length >= 0) {
+    if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
       return {
         id: resourceMatch[1],
         action: PlannedResourceAction.CREATE,
