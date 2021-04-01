@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import * as fs from 'fs-extra';
 import { Text, Box, useApp } from "ink";
-import Spinner from "ink-spinner";
 import { Language, ConstructsMaker, GetOptions } from '../../../lib/get/constructs-maker';
 import { TerraformDependencyConstraint } from '../../../lib/config'
+import {ActivityIndicator} from "./components/activity-indicator";
 
 enum Status {
     STARTING = "starting",
@@ -54,9 +54,7 @@ export const Get = ({ codeMakerOutput, language, constraints }: GetConfig): Reac
         <Box>
             {isGenerating ? (
                 <Fragment>
-                    <Text color="green">
-                        <Spinner type="dots" />
-                    </Text>
+                    <ActivityIndicator />
                     <Box paddingLeft={1}>
                         <Text>{statusText}</Text>
                     </Box>

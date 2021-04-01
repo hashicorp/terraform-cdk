@@ -1,12 +1,12 @@
 /* eslint-disable no-control-regex */
 import React, { Fragment, useState } from 'react';
 import { Text, Box } from 'ink'
-import Spinner from 'ink-spinner';
 import ConfirmInput from '@skorfmann/ink-confirm-input';
 import { DeployingElement } from './components'
 import { DeployingResource, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 import { Plan } from './diff'
+import {ActivityIndicator} from "./components/activity-indicator";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -67,7 +67,7 @@ export const DestroyComponent = (): React.ReactElement => {
     <Fragment>
       <Box flexDirection="column">
         <Box>
-          {Status.DESTROYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Destroying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
+          {Status.DESTROYING == status ? (<><ActivityIndicator /><Box paddingLeft={1}><Text>Destroying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
             <><Text>Destroying Stack: </Text><Text bold>{stackName}</Text></>
           )}
         </Box>
@@ -107,7 +107,7 @@ export const Destroy = ({ targetDir, synthCommand, autoApprove }: DestroyConfig)
     <Box>
       {isPlanning ? (
         <Fragment>
-          <Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>{statusText}</Text></Box>
+          <ActivityIndicator /><Box paddingLeft={1}><Text>{statusText}</Text></Box>
         </Fragment>
       ) : (
           <>

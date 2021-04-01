@@ -1,12 +1,12 @@
 /* eslint-disable no-control-regex */
 import React, { Fragment, useState } from 'react';
 import { Text, Box } from 'ink'
-import Spinner from 'ink-spinner';
 import ConfirmInput from '@skorfmann/ink-confirm-input';
 import { DeployingElement } from './components'
 import { DeployingResource, TerraformOutput, PlannedResourceAction } from './models/terraform'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 import { Plan } from './diff'
+import {ActivityIndicator} from "./components/activity-indicator";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -86,7 +86,7 @@ export const Apply = (): React.ReactElement => {
     <Fragment>
       <Box flexDirection="column">
         <Box>
-          {Status.DEPLOYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
+          {Status.DEPLOYING == status ? (<><ActivityIndicator /><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
             <><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></>
           )}
         </Box>
@@ -132,7 +132,7 @@ export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): 
     <Box>
       {isPlanning ? (
         <Fragment>
-          <Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>{statusText}</Text></Box>
+          <ActivityIndicator /><Box paddingLeft={1}><Text>{statusText}</Text></Box>
         </Fragment>
       ) : (
           <>

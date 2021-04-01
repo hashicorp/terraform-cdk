@@ -38,7 +38,7 @@
     "constructs": "^3.0.0",
     "fs-extra": "^8.1.0",
     "ink": "^3.0.8",
-    "ink-spinner": "^4.0.1",
+    "cli-spinners": "^2.6.0",
     "jsii-srcmak": "^0.1.223",
     "log4js": "^6.3.0",
     "open": "^7.0.4",
@@ -65,7 +65,9 @@
     "rules": {
       "@typescript-eslint/no-explicit-any": 0,
       "@typescript-eslint/explicit-function-return-type": 0,
-      "@typescript-eslint/no-use-before-define": 0
+      "@typescript-eslint/no-use-before-define": 0,
+      "react/prop-types": 0,
+      "react/display-name": 0
     },
     "ignorePatterns": [
       "node_modules",

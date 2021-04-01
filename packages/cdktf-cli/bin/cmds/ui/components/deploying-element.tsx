@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, Box } from 'ink'
-import Spinner from 'ink-spinner';
 import { DeployingResourceApplyState, DeployingResource } from "../models/terraform"
 import { ResourceName } from './resource-name'
+import {ActivityIndicator} from "./activity-indicator";
 
 interface DeployingElementStatusProps {
   resource: DeployingResource;
@@ -55,7 +55,7 @@ export const DeployingElementStatus = ({resource}: DeployingElementStatusProps) 
 
   return(
     <>
-      { inProgress ? (<Text color={color}><Spinner/>&nbsp;</Text>) : (
+      { inProgress ? (<ActivityIndicator>&nbsp;</ActivityIndicator>) : (
       <Text color={color}>{ actionSymbol }&nbsp;</Text>)}
     </>
   )

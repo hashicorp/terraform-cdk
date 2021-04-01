@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { Text, Box, Static } from 'ink'
-import Spinner from 'ink-spinner';
 import { PlannedResource } from "./models/terraform"
 import { PlanElement } from './components'
 import { useTerraform, Status, useTerraformState } from './terraform-context'
+import {ActivityIndicator} from "./components/activity-indicator";
 
 interface DiffConfig {
   targetDir: string;
@@ -83,7 +83,7 @@ export const Diff = ({ targetDir, synthCommand }: DiffConfig): React.ReactElemen
       <CloudRunInfo/>
       {isPlanning ? (
         <Fragment>
-          <Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>{statusText}</Text></Box>
+          <ActivityIndicator /><Box paddingLeft={1}><Text>{statusText}</Text></Box>
         </Fragment>
       ) : (<Plan />)}
     </Box>

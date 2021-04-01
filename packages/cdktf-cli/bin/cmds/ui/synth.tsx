@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
 import { useTerraform, Status, useTerraformState } from './terraform-context'
+import {ActivityIndicator} from "./components/activity-indicator";
 
 interface CommonSynthConfig {
   targetDir: string;
@@ -36,9 +36,7 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
       <Box>
         {isSynthesizing ? (
           <Fragment>
-            <Text color="green">
-              <Spinner type="dots" />
-            </Text>
+            <ActivityIndicator />
             <Box paddingLeft={1}>
               <Text>{statusText}</Text>
             </Box>
