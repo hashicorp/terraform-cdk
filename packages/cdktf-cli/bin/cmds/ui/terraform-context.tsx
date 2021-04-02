@@ -41,6 +41,7 @@ const parseOutput = (str: string): DeployingResource[] => {
 
     switch (true) {
       case /Creating.../.test(line):
+      case /Still creating.../.test(line):
         applyState = DeployingResourceApplyState.CREATING
         break;
       case /Creation complete/.test(line):
@@ -53,6 +54,7 @@ const parseOutput = (str: string): DeployingResource[] => {
         applyState = DeployingResourceApplyState.UPDATED
         break;
       case /Destroying.../.test(line):
+      case /Still destroying.../.test(line):
         applyState = DeployingResourceApplyState.DESTROYING
         break;
       case /Destruction complete/.test(line):
