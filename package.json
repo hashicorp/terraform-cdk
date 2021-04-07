@@ -12,7 +12,7 @@
     "package-windows": "lerna run package && tools\\collect-dist.bat",
     "bootstrap-plugin-cache": "./test/run-against-dist ./tools/bootstrap-plugin-cache.sh",
     "examples:integration": "test/run-against-dist tools/build-examples.sh",
-    "examples:integration:java": "test/run-against-dist tools/build-examples.sh java",
+    "examples:integration:java": "test/run-against-dist tools/build-examples-java.sh",
     "examples:integration:csharp": "test/run-against-dist tools/build-examples.sh csharp",
     "examples:integration:python": "test/run-against-dist tools/build-examples.sh python",
     "examples:integration:typescript": "test/run-against-dist tools/build-examples.sh typescript",
