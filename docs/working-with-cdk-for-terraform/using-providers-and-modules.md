@@ -213,7 +213,7 @@ When using the `cdktf` cli commands, it'll automatically set the process env `TF
 
 `cdktf get` works in a temporary directory, hence all downloaded providers would be lost without caching. For the deployment related commands `diff` / `deploy` / `destroy`, the working directory is usually `cdktf.out` and is treated as throwaway folder. While not common, it's totally reasonable to remove the `cdktf.out` folder and synthesize again. In that case, caching will help as well.
 
-Last but not least, when approaching multiple stacks wihtin oen application (not yet implemented), provider caching is a basic prerequisite.
+Last but not least, when approaching multiple stacks within one application (not yet implemented), provider caching is a basic prerequisite.
 
 This behaviour can be disabled by setting `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to non null value, e.g. `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. This might be desired, when a different cache directory is configured via a `.terraformrc` configuration file.
 

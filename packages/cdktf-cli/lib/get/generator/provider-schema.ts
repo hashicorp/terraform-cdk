@@ -110,15 +110,17 @@ const transformVariables = (variables: any) => {
 const transformOutputs = (outputs: any) => {
   const result = []
 
-  for (const name of Object.keys(outputs)) {
-    const output = outputs[name][0]
+  if (outputs) {
+    for (const name of Object.keys(outputs)) {
+      const output = outputs[name][0]
 
-    const item: any = {
-      name,
-      description: output['description'],
+      const item: any = {
+        name,
+        description: output['description'],
+      }
+
+      result.push(item)
     }
-
-    result.push(item)
   }
 
   return result

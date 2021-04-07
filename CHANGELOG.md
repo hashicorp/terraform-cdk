@@ -1,3 +1,12 @@
+## 0.2.1 (March 29, 2021)
+
+**Fixed Bugs**
+
+- Allow for module without outputs [\#599](https://github.com/hashicorp/terraform-cdk/pull/599)
+- Fix Python template [\#604](https://github.com/hashicorp/terraform-cdk/pull/604)
+- Don't treat warning lines as resources [\#585](https://github.com/hashicorp/terraform-cdk/pull/585)
+- Handle malformed code blocks in provider schema descriptions [\#605](https://github.com/hashicorp/terraform-cdk/pull/605)
+
 ## 0.2.0 (March 11, 2021)
 
 **Breaking Changes**
