@@ -54,22 +54,30 @@ async function get(url: string, token: string) {
 async function post(url: string, token: string, data: string) {
     return new Promise<any>((ok, ko) => {
         const req = https.request(format(url), { 
-            headers: { 'Authorization': `Bearer ${token}`,
+            headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/vnd.api+json',
-                'Content-Length': data.length }, 
-            method: 'POST' }, res => {
-                if (res.statusCode) {
-                    const statusCode = res.statusCode;
-                    if (!VALID_ERROR_CODES.includes(statusCode)) {
-                        return ko(new Error(res.statusMessage));
-                    }
-                }
+                'Content-Length': data.length
+            },
+            method: 'POST'
+        }, res => {
             const data = new Array<Buffer>();
             res.on('data', chunk => data.push(chunk));
-
             res.once('error', err => ko(err));
             res.once('end', () => {
                 const response = JSON.parse(Buffer.concat(data).toString('utf-8'));
+
+                if (res.statusCode) {
+                    const statusCode = res.statusCode;
+                    if (!VALID_ERROR_CODES.includes(statusCode)) {
+                        const { errors } = response;
+                        const message = errors
+                            .map((error: { detail: string }) => error.detail)
+                            .join(', ');
+
+                        return ko(new Error(message));
+                    }
+                }
                 return ok(response);
             });
         });
