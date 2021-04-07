@@ -3,7 +3,7 @@ import { format } from 'url';
 
 const BASE_URL = `https://app.terraform.io/api/v2/`;
 
-const VALID_ERROR_CODES = [200, 201];
+const SUCCESS_STATUS_CODES = [200, 201];
 
 export interface Attributes {
     username: string;
@@ -69,7 +69,7 @@ async function post(url: string, token: string, data: string) {
 
                 if (res.statusCode) {
                     const statusCode = res.statusCode;
-                    if (!VALID_ERROR_CODES.includes(statusCode)) {
+                    if (!SUCCESS_STATUS_CODES.includes(statusCode)) {
                         const { errors } = response;
                         const message = errors
                             .map((error: { detail: string }) => error.detail)
