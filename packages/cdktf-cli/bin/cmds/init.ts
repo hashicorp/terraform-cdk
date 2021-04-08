@@ -73,7 +73,12 @@ This means that your Terraform state file will be stored locally on disk in a fi
     // only set with the '--local' option is specified the user.
     if (token != "") {
       console.log(chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`);
-      await terraformCloudClient.createWorkspace(projectInfo.OrganizationName, projectInfo.WorkspaceName, token);
+      try {
+        await terraformCloudClient.createWorkspace(projectInfo.OrganizationName, projectInfo.WorkspaceName, token);
+      } catch (error) {
+        console.error(chalkColour`{redBright ERROR: Could not create Terraform Cloud Workspace: ${error.message}}`);
+        process.exit(1);
+      }
     }
 
     const deps: any = await determineDeps(argv.cdktfVersion, argv.dist);
@@ -177,6 +182,9 @@ If you want to exit, press {magenta ^C}.
     if (organizationSelect == -1) {
       process.exit(0);
     }
+
+    console.log(chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`)
+
     const workspaceName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Workspace Name:} (default: '${templateName}') `, { defaultInput: templateName } )
     project.OrganizationName = organizationOptions[organizationSelect]
     project.WorkspaceName = workspaceName
