@@ -1,10 +1,14 @@
 import { shell } from '../../../lib/util';
 import * as fs from 'fs-extra';
 import * as path from 'path'
+import * as chalk from 'chalk';
+import indentString from 'indent-string';
 import { TerraformStackMetadata } from 'cdktf'
 import { ReportRequest, ReportParams } from '../../../lib/checkpoint'
 import { performance } from 'perf_hooks';
 import { versionNumber } from '../version-check';
+
+const chalkColour = new chalk.Instance();
 
 interface SynthesizedStackMetadata {
   "//"?: {[key: string]: TerraformStackMetadata };
@@ -20,14 +24,28 @@ export class SynthStack {
   public static async synth(command: string, outdir: string): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
+    try {
+      await shell(command, [], {
+        shell: true,
+        env: {
+          ...process.env,
+          CDKTF_OUTDIR: outdir
+        }
+      });
+    } catch (e) {
+      const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}
 
-    await shell(command, [], {
-      shell: true,
-      env: {
-        ...process.env,
-        CDKTF_OUTDIR: outdir
-      }
-    });
+Synth command: {blue ${command}}
+Error:         {redBright ${e.message}}
+${e.stderr ? chalkColour`
+Command output on stderr:
+
+{dim ${indentString(e.stderr, 4)}}
+`
+          : ''}`;
+      console.error(errorOutput);
+      process.exit(1);
+    }
 
     if (!await fs.pathExists(outdir)) {
       console.error(`ERROR: synthesis failed, app expected to create "${outdir}"`);
