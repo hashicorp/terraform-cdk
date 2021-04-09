@@ -11,6 +11,16 @@ export class TestDriver {
     this.env = Object.assign({CI: 1}, process.env, addToEnv);
   }
 
+  private execSync(command: string) {
+    try {
+      execSync(command, { stdio: "pipe", env: this.env });
+    } catch(e) {
+      console.log(e.stdout.toString())
+      console.error(e.stderr.toString())
+      throw e;
+    }
+  }
+
   switchToTempDir = () => {
     const pathName = path.join(os.tmpdir(), "test");
     this.workingDirectory = fs.mkdtempSync(pathName);
@@ -43,7 +53,7 @@ export class TestDriver {
   }
 
   synth = () => {
-    execSync(`cdktf synth`, { stdio: "pipe", env: this.env });
+    this.execSync(`cdktf synth`);
   }
 
   diff = () => {
