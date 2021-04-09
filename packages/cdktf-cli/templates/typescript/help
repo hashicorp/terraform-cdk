@@ -31,12 +31,12 @@
 
   You can add one or multiple of the prebuilt providers listed below:
 
-  npm install -a @cdktf/provider-aws
-  npm install -a @cdktf/provider-google
-  npm install -a @cdktf/provider-azurerm
-  npm install -a @cdktf/provider-docker
-  npm install -a @cdktf/provider-github
-  npm install -a @cdktf/provider-null
+  npm install @cdktf/provider-aws
+  npm install @cdktf/provider-google
+  npm install @cdktf/provider-azurerm
+  npm install @cdktf/provider-docker
+  npm install @cdktf/provider-github
+  npm install @cdktf/provider-null
 
   You can also build any module or provider locally. Learn more https://cdk.tf/modules-and-providers
 
