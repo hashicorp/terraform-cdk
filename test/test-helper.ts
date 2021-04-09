@@ -43,7 +43,7 @@ export class TestDriver {
   }
 
   synth = () => {
-    execSync(`cdktf synth`, { stdio: "inherit", env: this.env });
+    execSync(`cdktf synth`, { stdio: "pipe", env: this.env });
   }
 
   diff = () => {
