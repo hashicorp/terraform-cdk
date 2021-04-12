@@ -64,6 +64,29 @@ const wait = (ms = 1000) => {
   });
 }
 
+function BeaufifyErrors(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const isMethod = descriptor && descriptor.value instanceof Function;
+    if (!isMethod)
+      return;
+
+    const originalMethod = descriptor!.value;
+    descriptor!.value = async function (...args: any[]) {
+      try {
+        return await originalMethod.apply(this, args);
+      } catch (e) {
+        if (e.response && e.response.status >= 400 && e.response.status <= 599){
+          const errors = e.response.data?.errors as (object[] | undefined);
+          if (errors) {
+            throw new Error(`Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
+          }
+        }
+        throw e;
+      }
+    };
+
+    Object.defineProperty(target, propertyKey, descriptor!);
+}
+
 export class TerraformCloud implements Terraform {
   private readonly terraformConfigFilePath = path.join(os.homedir(), '.terraform.d', 'credentials.tfrc.json')
   private readonly token: string;
@@ -96,11 +119,13 @@ export class TerraformCloud implements Terraform {
     this.client = new TerraformCloudClient.TerraformCloud(this.token)
   }
 
+  @BeaufifyErrors
   public async isRemoteWorkspace(): Promise<boolean> {
     const workspace = await this.workspace()
     return workspace.attributes.executionMode !== 'local'
   }
 
+  @BeaufifyErrors
   public async init(): Promise<void> {
     if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
     const workspace = await this.workspace()
@@ -122,6 +147,7 @@ export class TerraformCloud implements Terraform {
     await this.client.ConfigurationVersion.upload(version.attributes.uploadUrl, zipBuffer)
   }
 
+  @BeaufifyErrors
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId) throw new Error("Please create a ConfigurationVersion before planning");
     const workspace = await this.workspace()
@@ -165,6 +191,7 @@ export class TerraformCloud implements Terraform {
     return new TerraformCloudPlan('terraform-cloud', plan as unknown as any, url)
   }
 
+  @BeaufifyErrors
   public async deploy(_planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before deploying");
 
@@ -190,6 +217,7 @@ export class TerraformCloud implements Terraform {
     }
   }
 
+  @BeaufifyErrors
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before destroying");
 
@@ -215,10 +243,12 @@ export class TerraformCloud implements Terraform {
     }
   }
 
+  @BeaufifyErrors
   public async version(): Promise<string> {
     return (await this.workspace()).attributes.terraformVersion
   }
 
+  @BeaufifyErrors
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
     if (!stateVersion.included) return {}
@@ -236,11 +266,14 @@ export class TerraformCloud implements Terraform {
     return outputs
   }
 
+  @BeaufifyErrors
   private async workspace() {
     try {
       return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
     } catch (e) {
       if (e.response?.status === 404) {
+        // return a more descriptive error message as http response is not descriptive enough
+        // will not be touched by BeautifyErrors decorator
         throw new Error(`TerraformCloud returned an HTTP 404 error. Please make sure the configured organization (${this.organizationName}) and workspace (${this.workspaceName}) exist and you have the correct access rights.`);
       }
       throw e;
