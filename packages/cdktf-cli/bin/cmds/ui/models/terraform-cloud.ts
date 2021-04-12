@@ -9,9 +9,9 @@ import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
 
 export class TerraformCloudPlan implements TerraformPlan {
-  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}, public readonly url: string) {}
+  constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }, public readonly url: string) { }
 
-  public get resources(): PlannedResource[]  {
+  public get resources(): PlannedResource[] {
     if (!this.plan.resourceChanges) return [];
 
     return this.plan.resourceChanges.map((resource: ResourceChanges) => {
@@ -44,7 +44,7 @@ export interface TerraformCredentialsFile {
 }
 
 const zipDirectory = (source: string): Promise<Buffer | false> => {
-  const archive = archiver('tar', {gzip: true});
+  const archive = archiver('tar', { gzip: true });
   const stream = new WritableStreamBuffer()
 
   return new Promise((resolve, reject) => {
@@ -53,7 +53,7 @@ const zipDirectory = (source: string): Promise<Buffer | false> => {
       .on('error', err => reject(err))
       .on('end', () => resolve(stream.getContents()))
       .pipe(stream)
-    ;
+      ;
     archive.finalize();
   });
 }
@@ -64,7 +64,7 @@ const wait = (ms = 1000) => {
   });
 }
 
-export class TerraformCloud implements Terraform  {
+export class TerraformCloud implements Terraform {
   private readonly terraformConfigFilePath = path.join(os.homedir(), '.terraform.d', 'credentials.tfrc.json')
   private readonly token: string;
   private readonly hostname: string;
@@ -186,7 +186,7 @@ export class TerraformCloud implements Terraform  {
 
     switch (result.attributes.status) {
       case 'applied': break;
-      default: throw new  Error(`error: ${result.attributes.status}`);
+      default: throw new Error(`error: ${result.attributes.status}`);
     }
   }
 
@@ -211,7 +211,7 @@ export class TerraformCloud implements Terraform  {
 
     switch (result.attributes.status) {
       case 'applied': break;
-      default: throw new  Error(`error: ${result.attributes.status}`);
+      default: throw new Error(`error: ${result.attributes.status}`);
     }
   }
 
@@ -219,7 +219,7 @@ export class TerraformCloud implements Terraform  {
     return (await this.workspace()).attributes.terraformVersion
   }
 
-  public async output(): Promise<{[key: string]: TerraformOutput}> {
+  public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
     if (!stateVersion.included) return {}
 
@@ -231,12 +231,19 @@ export class TerraformCloud implements Terraform  {
       }
 
       return acc
-    }, {} as {[key: string]: TerraformOutput})
+    }, {} as { [key: string]: TerraformOutput })
 
     return outputs
   }
 
   private async workspace() {
-    return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
+    try {
+      return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
+    } catch (e) {
+      if (e.response?.status === 404) {
+        throw new Error(`TerraformCloud returned an HTTP 404 error. Please make sure the configured organization (${this.organizationName}) and workspace (${this.workspaceName}) exist and you have the correct access rights.`);
+      }
+      throw e;
+    }
   }
 }
