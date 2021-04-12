@@ -4,10 +4,19 @@ import * as os from 'os';
 import * as path from 'path';
 import { processLogger } from './logging';
 
-export async function shell(program: string, args: string[] = [], options: SpawnOptions = { }) {
-  return exec(program, args, options, (chunk: Buffer) => {
-    console.log(chunk.toString())
-  })
+export async function shell(program: string, args: string[] = [], options: SpawnOptions = {}) {
+  const stderr = new Array<string | Uint8Array>();
+  try {
+    return await exec(program, args, options,
+      (chunk: Buffer) => console.log(chunk.toString()),
+      (chunk: string | Uint8Array) => stderr.push(chunk)
+    );
+  } catch (e) {
+    if (stderr.length > 0) {
+      e.stderr = stderr.map(chunk => chunk.toString()).join('');
+    }
+    throw e;
+  }
 }
 
 export async function withTempDir(dirname: string, closure: () => Promise<void>) {
@@ -33,16 +42,26 @@ export async function mkdtemp(closure: (dir: string) => Promise<void>) {
   }
 }
 
-export const exec = async (command: string, args: string[], options: SpawnOptions, stdout?: (chunk: Buffer) => any): Promise<string> => {
+export const exec = async (
+  command: string,
+  args: string[],
+  options: SpawnOptions,
+  stdout?: (chunk: Buffer) => any,
+  stderr?: (chunk: string | Uint8Array) => any
+): Promise<string> => {
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
     const out = new Array<Buffer>();
     if (stdout !== undefined) {
-      child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk) ; stdout(chunk) });
+      child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk); stdout(chunk) });
     } else {
-      child.stdout?.on('data', (chunk: Buffer) =>  { processLogger(chunk) ; out.push(chunk) } );
+      child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk); out.push(chunk) });
     }
-    child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk) ; process.stderr.write(chunk) });
+    if (stderr !== undefined) {
+      child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk); stderr(chunk) });
+    } else {
+      child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk); process.stderr.write(chunk) });
+    }
     child.once('error', (err: any) => ko(err));
     child.once('close', (code: number) => {
       if (code !== 0) {
