@@ -1,3 +1,11 @@
+## 0.2.2 (April 13, 2021)
+
+**Fixed Bugs**
+
+- Resources containing hyphens in resource ids did not correctly display their apply status [\#614](https://github.com/hashicorp/terraform-cdk/pull/614)
+- Add missing handling for resource status lines [\#619](https://github.com/hashicorp/terraform-cdk/pull/619)
+- Print more descriptive error messages if requests to Terraform Cloud fail [\#623](https://github.com/hashicorp/terraform-cdk/pull/623), [\#626](https://github.com/hashicorp/terraform-cdk/pull/626), [\#488](https://github.com/hashicorp/terraform-cdk/issues/488), [\#400](https://github.com/hashicorp/terraform-cdk/issues/400)
+
 ## 0.2.1 (March 29, 2021)
 
 **Fixed Bugs**
