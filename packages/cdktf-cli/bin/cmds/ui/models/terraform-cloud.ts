@@ -64,7 +64,7 @@ const wait = (ms = 1000) => {
   });
 }
 
-function BeaufifyErrors(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const isMethod = descriptor && descriptor.value instanceof Function;
     if (!isMethod)
       return;
@@ -119,13 +119,13 @@ export class TerraformCloud implements Terraform {
     this.client = new TerraformCloudClient.TerraformCloud(this.token)
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   public async isRemoteWorkspace(): Promise<boolean> {
     const workspace = await this.workspace()
     return workspace.attributes.executionMode !== 'local'
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   public async init(): Promise<void> {
     if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
     const workspace = await this.workspace()
@@ -147,7 +147,7 @@ export class TerraformCloud implements Terraform {
     await this.client.ConfigurationVersion.upload(version.attributes.uploadUrl, zipBuffer)
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId) throw new Error("Please create a ConfigurationVersion before planning");
     const workspace = await this.workspace()
@@ -191,7 +191,7 @@ export class TerraformCloud implements Terraform {
     return new TerraformCloudPlan('terraform-cloud', plan as unknown as any, url)
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   public async deploy(_planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before deploying");
 
@@ -217,7 +217,7 @@ export class TerraformCloud implements Terraform {
     }
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before destroying");
 
@@ -243,12 +243,12 @@ export class TerraformCloud implements Terraform {
     }
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   public async version(): Promise<string> {
     return (await this.workspace()).attributes.terraformVersion
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
     if (!stateVersion.included) return {}
@@ -266,7 +266,7 @@ export class TerraformCloud implements Terraform {
     return outputs
   }
 
-  @BeaufifyErrors
+  @BeautifyErrors
   private async workspace() {
     try {
       return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
