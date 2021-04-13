@@ -9,9 +9,9 @@ import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
 
 export class TerraformCloudPlan implements TerraformPlan {
-  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}, public readonly url: string) {}
+  constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }, public readonly url: string) { }
 
-  public get resources(): PlannedResource[]  {
+  public get resources(): PlannedResource[] {
     if (!this.plan.resourceChanges) return [];
 
     return this.plan.resourceChanges.map((resource: ResourceChanges) => {
@@ -44,7 +44,7 @@ export interface TerraformCredentialsFile {
 }
 
 const zipDirectory = (source: string): Promise<Buffer | false> => {
-  const archive = archiver('tar', {gzip: true});
+  const archive = archiver('tar', { gzip: true });
   const stream = new WritableStreamBuffer()
 
   return new Promise((resolve, reject) => {
@@ -53,7 +53,7 @@ const zipDirectory = (source: string): Promise<Buffer | false> => {
       .on('error', err => reject(err))
       .on('end', () => resolve(stream.getContents()))
       .pipe(stream)
-    ;
+      ;
     archive.finalize();
   });
 }
@@ -64,7 +64,30 @@ const wait = (ms = 1000) => {
   });
 }
 
-export class TerraformCloud implements Terraform  {
+function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const isMethod = descriptor && descriptor.value instanceof Function;
+    if (!isMethod)
+      return;
+
+    const originalMethod = descriptor!.value;
+    descriptor!.value = async function (...args: any[]) {
+      try {
+        return await originalMethod.apply(this, args);
+      } catch (e) {
+        if (e.response && e.response.status >= 400 && e.response.status <= 599){
+          const errors = e.response.data?.errors as (object[] | undefined);
+          if (errors) {
+            throw new Error(`Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
+          }
+        }
+        throw e;
+      }
+    };
+
+    Object.defineProperty(target, propertyKey, descriptor!);
+}
+
+export class TerraformCloud implements Terraform {
   private readonly terraformConfigFilePath = path.join(os.homedir(), '.terraform.d', 'credentials.tfrc.json')
   private readonly token: string;
   private readonly hostname: string;
@@ -96,11 +119,13 @@ export class TerraformCloud implements Terraform  {
     this.client = new TerraformCloudClient.TerraformCloud(this.token)
   }
 
+  @BeautifyErrors
   public async isRemoteWorkspace(): Promise<boolean> {
     const workspace = await this.workspace()
     return workspace.attributes.executionMode !== 'local'
   }
 
+  @BeautifyErrors
   public async init(): Promise<void> {
     if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
     const workspace = await this.workspace()
@@ -122,6 +147,7 @@ export class TerraformCloud implements Terraform  {
     await this.client.ConfigurationVersion.upload(version.attributes.uploadUrl, zipBuffer)
   }
 
+  @BeautifyErrors
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId) throw new Error("Please create a ConfigurationVersion before planning");
     const workspace = await this.workspace()
@@ -165,6 +191,7 @@ export class TerraformCloud implements Terraform  {
     return new TerraformCloudPlan('terraform-cloud', plan as unknown as any, url)
   }
 
+  @BeautifyErrors
   public async deploy(_planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before deploying");
 
@@ -186,10 +213,11 @@ export class TerraformCloud implements Terraform  {
 
     switch (result.attributes.status) {
       case 'applied': break;
-      default: throw new  Error(`error: ${result.attributes.status}`);
+      default: throw new Error(`error: ${result.attributes.status}`);
     }
   }
 
+  @BeautifyErrors
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before destroying");
 
@@ -211,15 +239,17 @@ export class TerraformCloud implements Terraform  {
 
     switch (result.attributes.status) {
       case 'applied': break;
-      default: throw new  Error(`error: ${result.attributes.status}`);
+      default: throw new Error(`error: ${result.attributes.status}`);
     }
   }
 
+  @BeautifyErrors
   public async version(): Promise<string> {
     return (await this.workspace()).attributes.terraformVersion
   }
 
-  public async output(): Promise<{[key: string]: TerraformOutput}> {
+  @BeautifyErrors
+  public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
     if (!stateVersion.included) return {}
 
@@ -231,12 +261,22 @@ export class TerraformCloud implements Terraform  {
       }
 
       return acc
-    }, {} as {[key: string]: TerraformOutput})
+    }, {} as { [key: string]: TerraformOutput })
 
     return outputs
   }
 
+  @BeautifyErrors
   private async workspace() {
-    return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
+    try {
+      return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
+    } catch (e) {
+      if (e.response?.status === 404) {
+        // return a more descriptive error message as http response is not descriptive enough
+        // will not be touched by BeautifyErrors decorator
+        throw new Error(`TerraformCloud returned an HTTP 404 error. Please make sure the configured organization (${this.organizationName}) and workspace (${this.workspaceName}) exist and you have the correct access rights.`);
+      }
+      throw e;
+    }
   }
 }
