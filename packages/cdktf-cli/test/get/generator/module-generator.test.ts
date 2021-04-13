@@ -19,3 +19,5 @@ test('generate some modules', async () => {
 });
 
 expectModuleToMatchSnapshot('no module outputs', 'generator', 'module-no-outputs.test.fixture.tf');
+
+expectModuleToMatchSnapshot('typeless variables', 'generator', 'module-no-variable-type.test.fixture.tf');

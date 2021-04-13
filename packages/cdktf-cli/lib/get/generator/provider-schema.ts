@@ -82,10 +82,11 @@ const transformVariables = (variables: any) => {
     if (variable.hasOwnProperty('type') == false && variable.hasOwnProperty('default') == true) {
       switch (typeof variable['default']) {
         case "boolean": variableType = 'bool' ; break;
+        case "number": variableType = 'number' ; break;
         default: variableType = 'any';
       }
     } else {
-      const matched = (variable['type'] as string).match(/\$\{(.*)\}/)
+      const matched = (variable['type'] as string)?.match(/\$\{(.*)\}/)
       variableType = matched ? matched[1] : 'any'
     }
 
