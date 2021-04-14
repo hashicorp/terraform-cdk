@@ -21,3 +21,4 @@ tsconfig.json
 .vscode
 bootstrap.json
 terraform-cdk.github-issues
+.idea
