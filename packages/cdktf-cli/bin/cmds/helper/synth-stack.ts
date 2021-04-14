@@ -21,7 +21,7 @@ interface SynthesizedStack {
 }
 
 export class SynthStack {
-  public static async synth(command: string, outdir: string): Promise<SynthesizedStack[]> {
+  public static async synth(command: string, outdir: string, targetStack: string): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
     try {
@@ -29,7 +29,8 @@ export class SynthStack {
         shell: true,
         env: {
           ...process.env,
-          CDKTF_OUTDIR: outdir
+          CDKTF_OUTDIR: outdir,
+          CDKTF_TARGET_STACK_ID: targetStack
         }
       });
     } catch (e) {
@@ -58,27 +59,27 @@ Command output on stderr:
 
     const stacks: SynthesizedStack[] = [];
 
-    for (const file of await fs.readdir(outdir)) {
-      if (file.endsWith('.tf.json')) {
-        const filePath = path.join(outdir, file);
-        const jsonContent: SynthesizedStackMetadata = JSON.parse(fs.readFileSync(filePath).toString());
-        const name = jsonContent['//']?.metadata.stackName;
-        if (name !== undefined) {
-          stacks.push({
-            file: path.join(outdir, file),
-            name,
-            content: JSON.stringify(jsonContent, null, 2)
-          })
-        }
+    const isDirectory = (source: string) => fs.lstatSync(source).isDirectory()
+    const getDirectories = (source: string) =>
+      fs.readdirSync(source).map(name => path.join(source, name)).filter(isDirectory)
+
+    const directories = getDirectories(path.join(outdir, 'stacks'))
+
+    for (const directory of directories) {
+      const filePath = path.join(directory, 'cdk.tf.json');
+      const jsonContent: SynthesizedStackMetadata = JSON.parse(fs.readFileSync(filePath).toString());
+      const name = jsonContent['//']?.metadata.stackName;
+      if (name !== undefined) {
+        stacks.push({
+          file: path.join(outdir, filePath),
+          name,
+          content: JSON.stringify(jsonContent, null, 2)
+        })
       }
     }
 
     if (stacks.length === 0) {
       console.error('ERROR: No Terraform code synthesized.');
-    }
-
-    if (stacks.length > 1) {
-      console.error('ERROR: Found more than one stack. Multiple stacks are not supported at the moment and might lead to unpredictable behaviour.');
     }
 
     return stacks

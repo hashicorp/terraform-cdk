@@ -193,6 +193,7 @@ export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig>
 }
 interface UseTerraformInput {
   targetDir: string;
+  targetStack: string;
   synthCommand: string;
   isSpeculative?: boolean;
   autoApprove?: boolean;
@@ -208,7 +209,7 @@ export const useTerraformState = () => {
   return state
 }
 
-export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, autoApprove = false }: UseTerraformInput) => {
+export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculative = false, autoApprove = false }: UseTerraformInput) => {
   const dispatch = React.useContext(TerraformContextDispatch)
   const state = useTerraformState()
   const [terraform, setTerraform] = React.useState<Terraform>()
@@ -251,7 +252,7 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
   const execTerraformSynth = async (loadExecutor = true) => {
     try {
       dispatch({ type: 'SYNTH' })
-      const stacks = await SynthStack.synth(synthCommand, targetDir);
+      const stacks = await SynthStack.synth(synthCommand, targetDir, targetStack);
       if (loadExecutor) {
         await executorForStack(stacks[0].content)
       }

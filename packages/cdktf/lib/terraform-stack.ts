@@ -1,6 +1,6 @@
 import { Construct, IConstruct, ISynthesisSession, Node } from 'constructs';
 import { resolve } from './_tokens'
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
@@ -83,7 +83,7 @@ export class TerraformStack extends Construct {
    * Returns the naming scheme used to allocate logical IDs. By default, uses
    * the `HashedAddressingScheme` but this method can be overridden to customize
    * this behavior.
-   * 
+   *
    * @param tfElement The element for which the logical ID is allocated.
    */
   protected allocateLogicalId(tfElement: TerraformElement): string {
@@ -96,7 +96,7 @@ export class TerraformStack extends Construct {
     else {
       stackIndex = 0;
     }
-    
+
     const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
     return components.length > 0 ? makeUniqueId(components, node.tryGetContext(ALLOW_SEP_CHARS_IN_LOGICAL_IDS)) : '';
   }
@@ -142,8 +142,12 @@ export class TerraformStack extends Construct {
   }
 
   protected onSynthesize(session: ISynthesisSession) {
-    const resourceOutput = path.join(session.outdir, this.artifactFile);
-    fs.writeFileSync(resourceOutput, JSON.stringify(this.toTerraform(), undefined, 2));
+    const stackName = Node.of(this).id
+
+    const workingDirectory = path.join(session.outdir, 'stacks', stackName)
+    if (!fs.existsSync(workingDirectory)) fs.ensureDirSync(workingDirectory);
+
+    fs.writeFileSync(path.join(workingDirectory, this.artifactFile), JSON.stringify(this.toTerraform(), undefined, 2));
   }
 }
 

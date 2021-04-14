@@ -9,11 +9,12 @@ import { displayVersionMessage } from './version-check'
 const config = readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = 'synth [OPTIONS]';
+  public readonly command = 'synth [stack] [OPTIONS]';
   public readonly describe = 'Synthesizes Terraform code for the given app in a directory.';
   public readonly aliases = [ 'synthesize' ];
 
   public readonly builder = (args: yargs.Argv) => args
+    .positional('stack', { desc: 'Synthesize stack which matches the given stack id only', type: 'string' })
     .option('app', { default: config.app, desc: 'Command to use in order to execute cdktf app', alias: 'a' })
     .option('output', { default: config.output, desc: 'Output directory', alias: 'o' })
     .option('json', { type: 'boolean', desc: 'Provide JSON output for the generated Terraform configuration.', default: false })
@@ -24,13 +25,14 @@ class Command implements yargs.CommandModule {
     const command = argv.app;
     const outdir = argv.output;
     const jsonOutput = argv.json;
+    const stack = argv.stack;
 
     if (config.checkCodeMakerOutput && !await fs.pathExists(config.codeMakerOutput)) {
       console.error(`ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`);
       process.exit(1);
     }
 
-    await renderInk(React.createElement(Synth, { targetDir: outdir, synthCommand: command, jsonOutput: jsonOutput }))
+    await renderInk(React.createElement(Synth, { targetDir: outdir, targetStack: stack, synthCommand: command, jsonOutput: jsonOutput }))
   }
 }
 

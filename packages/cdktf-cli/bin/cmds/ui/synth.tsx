@@ -5,6 +5,7 @@ import { useTerraform, Status, useTerraformState } from './terraform-context'
 
 interface CommonSynthConfig {
   targetDir: string;
+  targetStack: string;
   jsonOutput: boolean;
 }
 
@@ -23,8 +24,8 @@ const SynthOutput = ({ targetDir, jsonOutput }: SynthOutputConfig): React.ReactE
   )
 }
 
-export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
-    const { synth } = useTerraform({targetDir, synthCommand})
+export const Synth = ({ targetDir, targetStack, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
+    const { synth } = useTerraform({targetDir, targetStack, synthCommand})
     const { status, stackName, errors } = synth()
 
     const isSynthesizing: boolean = status != Status.SYNTHESIZED
