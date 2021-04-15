@@ -17,7 +17,7 @@ Please check the [Terraform CDK Providers](https://github.com/terraform-cdk-prov
 e.g. in Typescript / Node:
 
 ```
-npm install -a @cdktf/provider-aws
+npm install @cdktf/provider-aws
 ```
 
 ## Importing Providers and Modules

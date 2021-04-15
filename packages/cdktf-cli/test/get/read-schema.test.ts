@@ -4,7 +4,7 @@ import { TerraformModuleConstraint, TerraformProviderConstraint } from "../../li
 
 describe("readSchema", () => {
   beforeAll(() => {
-    jest.setTimeout(30000)
+    jest.setTimeout(40000)
   })
 
   it("generates a single provider schema", async () => {
