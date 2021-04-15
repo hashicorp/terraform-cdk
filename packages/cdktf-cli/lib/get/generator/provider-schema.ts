@@ -75,34 +75,36 @@ interface ModuleIndex {
 const transformVariables = (variables: any) => {
   const result = []
 
-  for (const name of Object.keys(variables)) {
-    const variable = variables[name][0]
-    let variableType: string;
-    // eslint-disable-next-line no-prototype-builtins
-    if (variable.hasOwnProperty('type') == false && variable.hasOwnProperty('default') == true) {
-      switch (typeof variable['default']) {
-        case "boolean": variableType = 'bool' ; break;
-        case "number": variableType = 'number' ; break;
-        default: variableType = 'any';
-      }
-    } else {
-      const matched = (variable['type'] as string)?.match(/\$\{(.*)\}/)
-      variableType = matched ? matched[1] : 'any'
-    }
-
-    const item: any = {
-      name,
-      type: variableType,
-      description: variable['description'],
+  if (variables) {
+    for (const name of Object.keys(variables)) {
+      const variable = variables[name][0]
+      let variableType: string;
       // eslint-disable-next-line no-prototype-builtins
-      required: variable.hasOwnProperty('default') == false
-    }
+      if (variable.hasOwnProperty('type') == false && variable.hasOwnProperty('default') == true) {
+        switch (typeof variable['default']) {
+          case "boolean": variableType = 'bool' ; break;
+          case "number": variableType = 'number' ; break;
+          default: variableType = 'any';
+        }
+      } else {
+        const matched = (variable['type'] as string)?.match(/\$\{(.*)\}/)
+        variableType = matched ? matched[1] : 'any'
+      }
 
-    if (!item.required) {
-      item['default'] = variable['default']
-    }
+      const item: any = {
+        name,
+        type: variableType,
+        description: variable['description'],
+        // eslint-disable-next-line no-prototype-builtins
+        required: variable.hasOwnProperty('default') == false
+      }
 
-    result.push(item)
+      if (!item.required) {
+        item['default'] = variable['default']
+      }
+
+      result.push(item)
+    }
   }
 
   return result
