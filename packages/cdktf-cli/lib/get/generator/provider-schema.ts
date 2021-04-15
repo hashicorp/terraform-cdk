@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { exec, withTempDir } from '../../util';
-import { ModuleSchema } from './module-schema';
+import { ModuleSchema, Input } from './module-schema';
 import { ConstructsMakerTarget } from '../constructs-maker';
 import { convertFiles } from '@cdktf/hcl2json'
 
@@ -73,7 +73,9 @@ interface ModuleIndex {
 }
 
 const transformVariables = (variables: any) => {
-  const result = []
+  const result: Input[] = []
+
+  if (!variables) return result;
 
   for (const name of Object.keys(variables)) {
     const variable = variables[name][0]
@@ -90,7 +92,7 @@ const transformVariables = (variables: any) => {
       variableType = matched ? matched[1] : 'any'
     }
 
-    const item: any = {
+    const item: Input = {
       name,
       type: variableType,
       description: variable['description'],

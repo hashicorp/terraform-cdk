@@ -18,6 +18,8 @@ test('generate some modules', async () => {
   expect(output).toMatchSnapshot();
 });
 
-expectModuleToMatchSnapshot('no module outputs', 'generator', 'module-no-outputs.test.fixture.tf');
+expectModuleToMatchSnapshot('no module outputs', 'generator', ['module-no-outputs.test.fixture.tf']);
 
-expectModuleToMatchSnapshot('typeless variables', 'generator', 'module-no-variable-type.test.fixture.tf');
+expectModuleToMatchSnapshot('typeless variables', 'generator', ['module-no-variable-type.test.fixture.tf']);
+
+expectModuleToMatchSnapshot('no newline', 'generator', ['module-no-newline-1.test.fixture.tf', 'module-no-newline-2.test.fixture.tf']);
