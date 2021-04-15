@@ -6,7 +6,7 @@ import { TerraformModuleConstraint  } from '../../../lib/config'
 import { expectModuleToMatchSnapshot } from '../util';
 
 test('generate some modules', async () => {
-  jest.setTimeout(20000)
+  jest.setTimeout(60000)
 
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'module-generator.test'));
   const constraint = new TerraformModuleConstraint('terraform-aws-modules/eks/aws@7.0.1')
