@@ -30,12 +30,15 @@ export function expectImportMatchSnapshot(constraint: TerraformDependencyConstra
   });
 }
 
-export function expectModuleToMatchSnapshot(testName: string, testCategory: string, fixtureName: string) {
+export function expectModuleToMatchSnapshot(testName: string, testCategory: string, fixtureNames: string[]) {
   test(testName, async () => {
     await withTempDir(`${testName.replace(/\s*/, '-')}.test`, async () => {
       const curdir = process.cwd();
       fs.mkdirSync('module');
-      fs.copyFileSync(path.join(__dirname, testCategory, 'fixtures', fixtureName), path.join(curdir, 'module', 'main.tf'));
+
+      fixtureNames.forEach(fixtureName => {
+        fs.copyFileSync(path.join(__dirname, testCategory, 'fixtures', fixtureName), path.join(curdir, 'module', fixtureName));
+      });
   
       const constraint = new TerraformModuleConstraint({
         source: './module',
