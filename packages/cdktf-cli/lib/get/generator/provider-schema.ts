@@ -179,9 +179,9 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
     if (target.isModule) {
       if (!config.module) config.module = {};
       const source = (target.constraint as any).localSource || target.source
-      config.module[target.name] = { source: source };
+      config.module[target.moduleKey] = { source: source };
       if (target.version) {
-        config.module[target.name]['version'] = target.version
+        config.module[target.moduleKey]['version'] = target.version
       }
     } else {
       if (!config.provider) config.provider = {};
