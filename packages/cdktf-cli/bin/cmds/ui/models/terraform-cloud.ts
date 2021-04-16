@@ -7,7 +7,7 @@ import { TerraformJsonConfigBackendRemote } from '../terraform-json'
 import * as TerraformCloudClient from '@skorfmann/terraform-cloud'
 import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
-import { StackManifest } from 'cdktf';
+import { SynthesizedStack } from '../../helper/synth-stack';
 
 export class TerraformCloudPlan implements TerraformPlan {
   constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }, public readonly url: string) { }
@@ -100,7 +100,7 @@ export class TerraformCloud implements Terraform {
   public readonly workDir: string;
   public run?: TerraformCloudClient.Run;
 
-  constructor(public readonly stack: StackManifest, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
+  constructor(public readonly stack: SynthesizedStack, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
     if (!config.workspaces.name) throw new Error("Please provide a workspace name for Terraform Cloud");
     if (!config.organization) throw new Error("Please provide an organization for Terraform Cloud");
     this.workDir = stack.workingDirectory

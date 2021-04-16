@@ -7,7 +7,7 @@ import { deepMerge } from './util';
 import { TerraformProvider } from './terraform-provider';
 import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS, ALLOW_SEP_CHARS_IN_LOGICAL_IDS } from './features';
 import { makeUniqueId } from './private/unique';
-import { Manifest } from './app'
+import { Manifest } from './manifest'
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
