@@ -5,10 +5,10 @@ import { version } from '../package.json';
 import * as path from 'path';
 export const CONTEXT_ENV = 'CDKTF_CONTEXT_JSON';
 export interface StackManifest {
-  name: string;
-  constructPath: string;
-  synthesizedStackPath: string;
-  workingDirectory: string;
+  readonly name: string;
+  readonly constructPath: string;
+  readonly synthesizedStackPath: string;
+  readonly workingDirectory: string;
 }
 
 export class Manifest {
@@ -35,7 +35,7 @@ export class Manifest {
     return manifest;
   }
 
-  public build() {
+  public buildManifest(): any {
     return {
       version: this.version,
       stacks: this.stacks.reduce((newObject: Record<string, StackManifest>, stack: StackManifest) => {
@@ -46,7 +46,7 @@ export class Manifest {
   }
 
   public writeToFile() {
-    fs.writeFileSync(path.join(this.outdir, Manifest.fileName), JSON.stringify(this.build(), undefined, 2));
+    fs.writeFileSync(path.join(this.outdir, Manifest.fileName), JSON.stringify(this.buildManifest(), undefined, 2));
   }
 }
 
