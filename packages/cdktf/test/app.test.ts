@@ -1,5 +1,6 @@
 import { CONTEXT_ENV, App } from "../lib";
 import { Node } from "constructs";
+import { version } from '../package.json';
 
 test('context can be passed through CDKTF_CONTEXT', () => {
     process.env[CONTEXT_ENV] = JSON.stringify({
@@ -31,5 +32,5 @@ test('context can be passed through CDKTF_CONTEXT', () => {
 test('ckdtfVersion is accessible in context', () => {
     const prog = new App();
     const node = Node.of(prog);
-    expect(node.tryGetContext('cdktfVersion')).toEqual('0.0.0');
+    expect(node.tryGetContext('cdktfVersion')).toEqual(version);
 });
