@@ -1,12 +1,13 @@
 import { Construct, IConstruct, ISynthesisSession, Node } from 'constructs';
 import { resolve } from './_tokens'
-import * as fs from 'fs-extra';
+import * as fs from 'fs';
 import * as path from 'path';
 import { TerraformElement } from './terraform-element';
 import { deepMerge } from './util';
 import { TerraformProvider } from './terraform-provider';
 import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS, ALLOW_SEP_CHARS_IN_LOGICAL_IDS } from './features';
 import { makeUniqueId } from './private/unique';
+import { Manifest } from './app'
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
@@ -16,14 +17,12 @@ export interface TerraformStackMetadata {
 }
 
 export class TerraformStack extends Construct {
-  public readonly artifactFile: string;
   private readonly rawOverrides: any = {}
   private readonly cdktfVersion: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.artifactFile = `cdk.tf.json`;
     this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
 
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
@@ -142,12 +141,13 @@ export class TerraformStack extends Construct {
   }
 
   protected onSynthesize(session: ISynthesisSession) {
-    const stackName = Node.of(this).id
+    const manifest = session.manifest as Manifest
+    const stackManifest = manifest.forStack(this)
 
-    const workingDirectory = path.join(session.outdir, 'stacks', stackName)
-    if (!fs.existsSync(workingDirectory)) fs.ensureDirSync(workingDirectory);
+    const workingDirectory = path.join(session.outdir, stackManifest.workingDirectory)
+    if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
 
-    fs.writeFileSync(path.join(workingDirectory, this.artifactFile), JSON.stringify(this.toTerraform(), undefined, 2));
+    fs.writeFileSync(path.join(session.outdir, stackManifest.synthesizedStackPath), JSON.stringify(this.toTerraform(), undefined, 2));
   }
 }
 

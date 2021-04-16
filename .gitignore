@@ -18,6 +18,8 @@ tsconfig.json
 **/coverage
 **/dist
 **/.terraform
+**/*.tfstate
+**/*.tfstate.backup
 .vscode
 bootstrap.json
 terraform-cdk.github-issues

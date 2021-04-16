@@ -1,12 +1,27 @@
 import { TerraformCli } from './ui/models/terraform-cli'
 import * as semver from 'semver';
+import { SynthesizedStack } from './helper/synth-stack';
+import { existsSync } from 'fs-extra';
+import * as path from 'path';
 
 const MIN_SUPPORTED_VERSION = '0.13.0'
 const VERSION_REGEXP = /Terraform v\d+.\d+.\d+/
 
 export const terraformCheck = async (): Promise<void> => {
   try {
-    const terraform = new TerraformCli('./')
+    if (existsSync(path.join(process.cwd(), 'terraform.tfstate'))) {
+      throw new Error(`Found 'terraform.tfstate' Terraform state file. Please rename it to match the stack name. Learn more https://cdk.tf/multiple-stacks`)
+    }
+
+    const fakeStack: SynthesizedStack = {
+      name: '',
+      workingDirectory: './',
+      constructPath: '',
+      content: '',
+      synthesizedStackPath: ''
+    }
+
+    const terraform = new TerraformCli(fakeStack)
 
     const terraformVersion = await terraform.version()
     const terraformVersionMatches = terraformVersion.match(VERSION_REGEXP)

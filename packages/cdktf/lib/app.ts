@@ -1,9 +1,54 @@
 import { Construct, Node, ConstructMetadata } from 'constructs';
 import * as fs from 'fs';
-import { exit } from 'process';
+import { TerraformStack } from './terraform-stack';
 import { version } from '../package.json';
-
+import * as path from 'path';
 export const CONTEXT_ENV = 'CDKTF_CONTEXT_JSON';
+export interface StackManifest {
+  name: string;
+  constructPath: string;
+  synthesizedStackPath: string;
+  workingDirectory: string;
+}
+
+export class Manifest {
+  public static readonly fileName = 'manifest.json';
+  public static readonly stacksFolder = 'stacks';
+  public static readonly stackFileName = 'cdk.tf.json';
+
+  public readonly stacks: StackManifest[] = [];
+
+  constructor(public readonly version: string, public readonly outdir: string) {
+    fs.mkdirSync(this.outdir, Manifest.stacksFolder)
+  }
+
+  public forStack(stack: TerraformStack): StackManifest {
+    const node = Node.of(stack)
+    const manifest = {
+      name: node.id,
+      constructPath: node.path,
+      workingDirectory: path.join(Manifest.stacksFolder, node.id),
+      synthesizedStackPath: path.join(Manifest.stacksFolder, node.id, Manifest.stackFileName)
+    }
+    this.stacks.push(manifest)
+
+    return manifest;
+  }
+
+  public build() {
+    return {
+      version: this.version,
+      stacks: this.stacks.reduce((newObject: Record<string, StackManifest>, stack: StackManifest) => {
+        newObject[stack.name] = stack;
+        return newObject
+      }, {})
+    }
+  }
+
+  public writeToFile() {
+    fs.writeFileSync(path.join(this.outdir, Manifest.fileName), JSON.stringify(this.build(), undefined, 2));
+  }
+}
 
 export interface AppOptions {
     /**
@@ -57,7 +102,6 @@ export class App extends Construct {
         }
 
         node.setContext('cdktfVersion', version)
-        node.setContext('appOutdir', this.outdir)
     }
 
     /**
@@ -68,21 +112,16 @@ export class App extends Construct {
         fs.mkdirSync(this.outdir);
       }
 
-      if (this.targetStackId) {
-        try {
-          const stackNode = Node.of(Node.of(this).findChild(this.targetStackId))
-          stackNode.synthesize({
-            outdir: this.outdir
-          });
-        } catch (e) {
-          console.error(`Couldn't synth stack ${this.targetStackId} - ${e}`)
-          exit(1)
+      const manifest = new Manifest(version, this.outdir)
+
+      Node.of(this).synthesize({
+        outdir: this.outdir,
+        sessionContext: {
+          manifest
         }
-      } else {
-        Node.of(this).synthesize({
-          outdir: this.outdir
-        });
-      }
+      });
+
+      manifest.writeToFile();
     }
 
     private loadContext(defaults: { [key: string]: string } = { }) {
