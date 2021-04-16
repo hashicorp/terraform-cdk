@@ -185,7 +185,7 @@ export class ConstructsMaker {
 
     const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(target => target instanceof ConstructsMakerModuleTarget) as ConstructsMakerModuleTarget[]
     for (const target of moduleTargets) {
-      target.spec = schema.moduleSchema[target.name]
+      target.spec = schema.moduleSchema[target.moduleKey]
     }
 
     const providerTargets: ConstructsMakerProviderTarget[] = this.targets.filter(target => target instanceof ConstructsMakerProviderTarget) as ConstructsMakerProviderTarget[];
