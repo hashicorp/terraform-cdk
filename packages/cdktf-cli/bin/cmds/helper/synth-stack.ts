@@ -89,8 +89,9 @@ Command output on stderr:
     const stackNames = stacks.map(s => s.name)
     const orphanedDirectories = existingDirectories.filter(e => !stackNames.includes(path.basename(e)))
 
-    console.log({orphanedDirectories})
-
+    for (const orphanedDirectory of orphanedDirectories) {
+      fs.rmdirSync(orphanedDirectory, { recursive: true })
+    }
 
     return stacks
   }
