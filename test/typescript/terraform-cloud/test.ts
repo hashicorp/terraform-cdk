@@ -15,6 +15,10 @@ if (withAuth == it.skip) {
   console.log('TERRAFORM_CLOUD_TOKEN is undefined, skipping authed tests')
 }
 
+const delay = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe("full integration test", () => {
   let driver: TestDriver;
   let workspaceName: string;
@@ -47,6 +51,9 @@ describe("full integration test", () => {
         type: 'workspaces'
       }
     })
+
+    // Trying to prevent random 422 errrors
+    await delay(1000)
 
     expect(driver.deploy()).toMatchSnapshot()
     await client.Workspaces.deleteByName(orgName, workspaceName)
