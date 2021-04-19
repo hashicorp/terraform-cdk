@@ -8,13 +8,13 @@ import { TestDriver } from "../../test-helper";
 describe("csharp full integration test synth", () => {
   let driver: TestDriver;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
-    driver.setupCsharpProject()
+    await driver.setupCsharpProject()
   });
 
   test("synth generates JSON", async () => {
-    driver.synth()
+    await driver.synth()
     expect(driver.synthesizedStack()).toMatchSnapshot()
   })
 })

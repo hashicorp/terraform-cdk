@@ -1,4 +1,8 @@
+import { TemplateServer } from "./template-server";
+
 const { execSync } = require("child_process");
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 const os = require("os");
 const path = require("path");
 const fs = require("fs");
@@ -8,13 +12,14 @@ export class TestDriver {
   public workingDirectory: string;
 
   constructor(public rootDir: string, addToEnv: Record<string, string> = {}) {
-    this.env = Object.assign({CI: 1}, process.env, addToEnv);
+    this.env = Object.assign({ CI: 1 }, process.env, addToEnv);
   }
 
-  private execSync(command: string) {
+  private async exec(command: string) {
     try {
-      execSync(command, { stdio: "pipe", env: this.env });
-    } catch(e) {
+      const output = await exec(command, { stdio: "pipe", env: this.env });
+      // console.dir(output);
+    } catch (e) {
       console.log(e.stdout.toString())
       console.error(e.stderr.toString())
       throw e;
@@ -41,10 +46,9 @@ export class TestDriver {
     return fs.readFileSync(path.join(this.workingDirectory, 'cdktf.out', 'cdk.tf.json'), 'utf-8')
   }
 
-  init = (template) => {
-    execSync(
-      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local`,
-      { stdio: "inherit", env: this.env }
+  init = async (template: string) => {
+    await this.exec(
+      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local`
     );
   }
 
@@ -52,8 +56,8 @@ export class TestDriver {
     execSync(`cdktf get`, { stdio: "inherit", env: this.env });
   }
 
-  synth = () => {
-    this.execSync(`cdktf synth`);
+  synth = async () => {
+    await this.exec(`cdktf synth`);
   }
 
   diff = () => {
@@ -68,34 +72,47 @@ export class TestDriver {
     return execSync(`cdktf destroy --auto-approve`, { env: this.env }).toString();
   }
 
-  setupTypescriptProject = () => {
+  setupTypescriptProject = async () => {
     this.switchToTempDir()
-    this.init('typescript')
+    await this.init('typescript')
     this.copyFiles('main.ts', 'cdktf.json')
     this.get()
   }
 
-  setupPythonProject = () => {
+  setupPythonProject = async () => {
     this.switchToTempDir()
-    this.init('python')
+    await this.init('python')
     this.copyFiles('main.py', 'cdktf.json')
     this.get()
   }
 
-  setupCsharpProject = () => {
+  setupCsharpProject = async () => {
     this.switchToTempDir()
-    this.init('csharp')
+    await this.init('csharp')
     this.copyFiles('Main.cs', 'cdktf.json')
     this.get()
     execSync('dotnet add reference .gen/aws/aws.csproj', { stdio: 'inherit', env: this.env });
   }
 
-  setupJavaProject = () => {
+  setupJavaProject = async () => {
     this.switchToTempDir()
-    this.init('java')
+    await this.init('java')
     this.copyFiles('cdktf.json')
     this.copyFile('Main.java', 'src/main/java/com/mycompany/app/Main.java')
     this.get()
+  }
+
+  setupRemoteTemplateProject = async (overrideUrl?: string) => {
+    const templateServer = new TemplateServer(path.resolve(__dirname, '..', 'packages/cdktf-cli/templates/typescript'));
+    try {
+      const url = await templateServer.start();
+      this.switchToTempDir()
+      await this.init(overrideUrl || url)
+      this.copyFiles('cdktf.json')
+      this.get()
+    } finally {
+      await templateServer.stop();
+    }
   }
 }
 

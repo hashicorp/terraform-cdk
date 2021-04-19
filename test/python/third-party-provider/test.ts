@@ -8,13 +8,13 @@ import { TestDriver } from "../../test-helper";
 describe("python full integration 3rd party", () => {
   let driver: TestDriver;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
-    driver.setupPythonProject()
+    await driver.setupPythonProject()
   });
 
   test("synth generates JSON", async () => {
-    driver.synth()
+    await driver.synth()
     expect(driver.synthesizedStack()).toMatchSnapshot()
   })
 })

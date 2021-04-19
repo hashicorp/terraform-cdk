@@ -9,9 +9,9 @@ import { TestDriver } from "../../test-helper";
 describe("full integration test", () => {
   let driver: TestDriver;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
-    driver.setupTypescriptProject()
+    await driver.setupTypescriptProject()
   });
 
   test("build providers", () => {

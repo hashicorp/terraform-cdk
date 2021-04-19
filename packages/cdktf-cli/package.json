@@ -36,6 +36,8 @@
     "chalk": "^4.1.0",
     "codemaker": "^0.22.0",
     "constructs": "^3.0.0",
+    "extract-zip": "^2.0.1",
+    "follow-redirects": "^1.13.3",
     "fs-extra": "^8.1.0",
     "indent-string": "^4.0.0",
     "ink": "^3.0.8",
@@ -76,6 +78,7 @@
   },
   "devDependencies": {
     "@types/archiver": "^5.1.0",
+    "@types/follow-redirects": "^1.13.0",
     "@types/fs-extra": "^8.1.0",
     "@types/ink": "^2.0.3",
     "@types/ink-spinner": "^3.0.0",
