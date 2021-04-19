@@ -25,11 +25,11 @@ describe("full integration test", () => {
 
   onPosix("build modules posix", () => {
     driver.synth()
-    expect(driver.synthesizedStack()).toMatchSnapshot()
+    expect(driver.synthesizedStack('hello-modules')).toMatchSnapshot()
   })
 
   onWindows("build modules windows", () => {
     driver.synth()
-    expect(driver.synthesizedStack()).toMatchSnapshot()
+    expect(driver.synthesizedStack('hello-modules')).toMatchSnapshot()
   })
 })

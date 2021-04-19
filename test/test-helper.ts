@@ -37,8 +37,8 @@ export class TestDriver {
     fs.copyFileSync(path.join(this.rootDir, source), dest);
   }
 
-  synthesizedStack = () => {
-    return fs.readFileSync(path.join(this.workingDirectory, 'cdktf.out', 'cdk.tf.json'), 'utf-8')
+  synthesizedStack = (stackName: string) => {
+    return fs.readFileSync(path.join(this.workingDirectory, 'cdktf.out', 'stacks', stackName, 'cdk.tf.json'), 'utf-8')
   }
 
   init = (template) => {

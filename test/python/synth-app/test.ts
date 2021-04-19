@@ -15,6 +15,6 @@ describe("python full integration test synth", () => {
 
   test("synth generates JSON", async () => {
     driver.synth()
-    expect(driver.synthesizedStack()).toMatchSnapshot()
+    expect(driver.synthesizedStack('python-simple')).toMatchSnapshot()
   })
 })

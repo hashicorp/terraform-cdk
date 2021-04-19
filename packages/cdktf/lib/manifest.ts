@@ -18,7 +18,8 @@ export class Manifest {
   public readonly stacks: StackManifest[] = [];
 
   constructor(public readonly version: string, public readonly outdir: string) {
-    fs.mkdirSync(this.outdir, Manifest.stacksFolder)
+    const stacksPath = path.join(this.outdir, Manifest.stacksFolder)
+    if (!fs.existsSync(stacksPath)) fs.mkdirSync(stacksPath);
   }
 
   public forStack(stack: TerraformStack): StackManifest {

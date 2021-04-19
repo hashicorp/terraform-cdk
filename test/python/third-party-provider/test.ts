@@ -15,6 +15,6 @@ describe("python full integration 3rd party", () => {
 
   test("synth generates JSON", async () => {
     driver.synth()
-    expect(driver.synthesizedStack()).toMatchSnapshot()
+    expect(driver.synthesizedStack('python-third-party-provider')).toMatchSnapshot()
   })
 })
