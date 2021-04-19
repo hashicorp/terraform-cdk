@@ -240,7 +240,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
   console.log(chalkColour`Fetching remote template from: {whiteBright ${templateUrl}}`);
   try {
     const url = new URL(templateUrl);
-    let remoteFileName = url.pathname.substring(url.pathname.lastIndexOf('/') + 1) || 'template.zip';
+    const remoteFileName = url.pathname.substring(url.pathname.lastIndexOf('/') + 1) || 'template.zip';
     logger.trace(`Detected remote file name to be "${remoteFileName}" out of template URL "${templateUrl}"`)
 
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cdktf.'));
@@ -325,7 +325,7 @@ interface Project {
 interface Template {
   Name: string;
   Path: string;
-  cleanupTemporaryFiles?: () => Promise<void>,
+  cleanupTemporaryFiles?: () => Promise<void>;
 }
 
 module.exports = new Command();
