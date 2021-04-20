@@ -7,7 +7,7 @@ import { TestDriver } from "../../test-helper";
 
 describe("java full integration", () => {
   let driver: TestDriver;
-  jest.setTimeout(60_000);
+  jest.setTimeout(120_000);
 
   beforeAll(async () => {
     driver = new TestDriver(__dirname)
