@@ -1,8 +1,7 @@
 import { TemplateServer } from "./template-server";
+import { spawn } from 'child_process';
 
 const { execSync } = require("child_process");
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
 const os = require("os");
 const path = require("path");
 const fs = require("fs");
@@ -15,10 +14,32 @@ export class TestDriver {
     this.env = Object.assign({ CI: 1 }, process.env, addToEnv);
   }
 
-  private async exec(command: string) {
+  private async exec(command: string, args: string[] = []) {
     try {
-      const output = await exec(command, { stdio: "pipe", env: this.env });
-      // console.dir(output);
+      await new Promise((resolve, reject) => {
+        const stdout = [], stderr = [];
+        const process = spawn(command, args, { shell: true, stdio: 'pipe', env: this.env },);
+        process.stdout.on('data', (data) => {
+          stdout.push(data.toString());
+        });
+        process.stderr.on('data', (data) => {
+          stderr.push(data.toString());
+        });
+        process.on('close', (code) => {
+          if (code === 0) {
+            resolve({
+              stdout: stdout.join('\n'),
+              stderr: stderr.join('\n'),
+            });
+          } else {
+            const error = new Error(`spawned command ${command} with args ${args} failed with exit code ${code}`);
+            (error as any).code = code;
+            (error as any).stdout = stdout.join('\n');
+            (error as any).stderr = stderr.join('\n');
+            reject(error);
+          }
+        });
+      });
     } catch (e) {
       console.log(e.stdout.toString())
       console.error(e.stderr.toString())
@@ -52,8 +73,8 @@ export class TestDriver {
     );
   }
 
-  get = () => {
-    execSync(`cdktf get`, { stdio: "inherit", env: this.env });
+  get = async () => {
+    await this.exec(`cdktf get`);
   }
 
   synth = async () => {
@@ -76,21 +97,21 @@ export class TestDriver {
     this.switchToTempDir()
     await this.init('typescript')
     this.copyFiles('main.ts', 'cdktf.json')
-    this.get()
+    await this.get()
   }
 
   setupPythonProject = async () => {
     this.switchToTempDir()
     await this.init('python')
     this.copyFiles('main.py', 'cdktf.json')
-    this.get()
+    await this.get()
   }
 
   setupCsharpProject = async () => {
     this.switchToTempDir()
     await this.init('csharp')
     this.copyFiles('Main.cs', 'cdktf.json')
-    this.get()
+    await this.get()
     execSync('dotnet add reference .gen/aws/aws.csproj', { stdio: 'inherit', env: this.env });
   }
 
@@ -99,7 +120,7 @@ export class TestDriver {
     await this.init('java')
     this.copyFiles('cdktf.json')
     this.copyFile('Main.java', 'src/main/java/com/mycompany/app/Main.java')
-    this.get()
+    await this.get()
   }
 
   setupRemoteTemplateProject = async (overrideUrl?: string) => {
@@ -109,7 +130,7 @@ export class TestDriver {
       this.switchToTempDir()
       await this.init(overrideUrl || url)
       this.copyFiles('cdktf.json')
-      this.get()
+      await this.get()
     } finally {
       await templateServer.stop();
     }

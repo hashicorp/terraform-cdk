@@ -13,7 +13,7 @@ describe("full integration test synth", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname)
     await driver.setupTypescriptProject()
-  });
+  }, 120_000);
 
   test("synth generates JSON", async () => {
     await driver.synth()

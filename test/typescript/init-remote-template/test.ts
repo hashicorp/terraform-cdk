@@ -21,7 +21,7 @@ describe("remote templates", () => {
     driver = new TestDriver(__dirname)
     
     try {
-      const result = await driver.setupRemoteTemplateProject('invalid_url');
+      await driver.setupRemoteTemplateProject('invalid_url');
       fail('Expected init to throw an error');
     } catch (e) {
       expect(e.stderr).toContain('Could not download template: the supplied url is invalid');

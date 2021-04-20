@@ -12,7 +12,7 @@ describe("java full integration", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname)
     await driver.setupJavaProject()
-  });
+  }, 120_000);
 
   test("synth generates JSON", async () => {
     await driver.synth()

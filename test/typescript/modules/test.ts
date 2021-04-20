@@ -20,8 +20,8 @@ describe("full integration test", () => {
     await driver.init('typescript')
     driver.copyFiles('main.ts', 'cdktf.json')
     fs.copySync(path.join(__dirname, 'local-module'), path.join(driver.workingDirectory, 'local-module'))
-    driver.get()
-  });
+    await driver.get()
+  }, 120_000);
 
   onPosix("build modules posix", async () => {
     await driver.synth()
