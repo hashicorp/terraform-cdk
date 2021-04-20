@@ -21,7 +21,7 @@ If you're using a Github repository for your template, you can create URLs to yo
 #### tag `v.0.0.1`
 `https://github.com/<user or organization>/<repo>/archive/refs/tags/v0.0.1.zip`
 
-**Please Note:** Currently only public accessible zip archives are supported. If you need support for private packages, please [file an issue](https://github.com/hashicorp/terraform-cdk/issues/new?labels=enhancement%2C+new&template=feature-request.md).
+**Please Note:** Currently only urls to zip archives can be specified, hence only url based authentication mechanisms are supported. If you need support for private packages, please [file an issue](https://github.com/hashicorp/terraform-cdk/issues/new?labels=enhancement%2C+new&template=feature-request.md).
 
 ### Debugging
 todo: -> set log output
