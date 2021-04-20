@@ -13,7 +13,7 @@ export class TestDriver {
 
   private execSync(command: string) {
     try {
-      execSync(command, { stdio: "pipe", env: this.env });
+      return execSync(command, { stdio: "pipe", env: this.env });
     } catch(e) {
       console.log(e.stdout.toString())
       console.error(e.stderr.toString())
@@ -52,20 +52,20 @@ export class TestDriver {
     execSync(`cdktf get`, { stdio: "inherit", env: this.env });
   }
 
-  synth = () => {
-    this.execSync(`cdktf synth`);
+  synth = (flags?: string) => {
+    return this.execSync(`cdktf synth ${flags ? flags : ''}`).toString();
   }
 
-  diff = () => {
-    return execSync(`cdktf diff`, { env: this.env }).toString();
+  diff = (stackName?: string) => {
+    return execSync(`cdktf diff ${stackName ? stackName : ''}`, { env: this.env }).toString();
   }
 
-  deploy = () => {
-    return execSync(`cdktf deploy --auto-approve`, { env: this.env }).toString();
+  deploy = (stackName?: string) => {
+    return execSync(`cdktf deploy ${stackName ? stackName : ''} --auto-approve`, { env: this.env }).toString();
   }
 
-  destroy = () => {
-    return execSync(`cdktf destroy --auto-approve`, { env: this.env }).toString();
+  destroy = (stackName?: string) => {
+    return execSync(`cdktf destroy ${stackName ? stackName : ''} --auto-approve`, { env: this.env }).toString();
   }
 
   setupTypescriptProject = () => {

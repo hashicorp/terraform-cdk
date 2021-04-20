@@ -5,6 +5,7 @@ import { useTerraform, Status, useTerraformState } from './terraform-context'
 
 interface CommonSynthConfig {
   targetDir: string;
+  targetStack: string;
   jsonOutput: boolean;
 }
 
@@ -17,17 +18,21 @@ interface SynthConfig extends CommonSynthConfig {
 }
 
 const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
-  const { currentStack } = useTerraformState()
+  const { currentStack, stacks } = useTerraformState()
 
   return(
     <>
-      { jsonOutput ? (<Box><Text>{currentStack.content}</Text></Box>) : (<Text>Generated Terraform code in the output directory: <Text bold>{currentStack.workingDirectory}</Text></Text>) }
+      { jsonOutput ? (
+          <Box><Text>{currentStack.content}</Text></Box>
+        ) : (
+          <Text>Generated Terraform code for the stacks: {stacks?.map(s => s.name).join(', ')}</Text>
+        ) }
     </>
   )
 }
 
-export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
-    const { synth } = useTerraform({targetDir, synthCommand})
+export const Synth = ({ targetDir, targetStack, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
+    const { synth } = useTerraform({targetDir, targetStack, synthCommand})
     const { status, currentStack, errors } = synth()
 
     const isSynthesizing: boolean = status != Status.SYNTHESIZED
@@ -49,7 +54,7 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
         ) : (
           <Fragment>
             <Box>
-              <SynthOutput jsonOutput={jsonOutput}/>
+              <SynthOutput jsonOutput={jsonOutput} />
             </Box>
           </Fragment>
         )}

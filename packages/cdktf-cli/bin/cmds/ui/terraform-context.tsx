@@ -270,6 +270,11 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
         dispatch({ type: 'CURRENT_STACK', currentStack: stack })
 
         await executorForStack(stack)
+      } else { // synth
+        const stack = targetStack ? stacks.find(s => s.name === targetStack) : stacks[0]
+        if (stack) {
+          dispatch({ type: 'CURRENT_STACK', currentStack: stack })
+        }
       }
 
       dispatch({ type: 'SYNTHESIZED', stacks })
