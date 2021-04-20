@@ -53,7 +53,7 @@ describe("full integration test", () => {
     })
 
     // Trying to prevent random 422 errrors
-    await delay(1000)
+    await delay(3000)
 
     expect(driver.deploy()).toMatchSnapshot()
     await client.Workspaces.deleteByName(orgName, workspaceName)
