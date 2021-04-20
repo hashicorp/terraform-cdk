@@ -16,5 +16,5 @@ describe("csharp full integration test synth", () => {
   test("synth generates JSON", async () => {
     await driver.synth()
     expect(driver.synthesizedStack()).toMatchSnapshot()
-  }, 60_000);
+  }, 120_000);
 })

@@ -31,19 +31,19 @@ describe("full integration test", () => {
     writeConfig(driver.workingDirectory, jsonWithContext({ excludeStackIdFromLogicalIds: "true" }))
     await driver.synth()
     expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
-  });
+  }, 60_000);
 
   test("with allowSepCharsInLogicalIds feature", async () => {
     writeConfig(driver.workingDirectory, jsonWithContext({ allowSepCharsInLogicalIds: "true" }))
     await driver.synth()
     expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
-  });
+  }, 60_000);
 
   test("without features", async () => {
     writeConfig(driver.workingDirectory, cdktfJSON)
     await driver.synth()
     expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
-  });
+  }, 60_000);
 
   const jsonWithContext = (context) => {
     return Object.assign({}, cdktfJSON, { context })
