@@ -264,7 +264,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
     }
 
     return {
-      'Name': remoteFileName.endsWith('.zip') ? remoteFileName.substring(0, remoteFileName.length - 4) : remoteFileName,
+      'Name': path.parse(remoteFileName).name, // strips .zip from filename
       'Path': templatePath,
       cleanupTemporaryFiles: async () => {
         console.log('Clearing up temporary directory of remote template')
