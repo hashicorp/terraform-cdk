@@ -14,9 +14,9 @@ import { TestDriver } from "../../test-helper";
 describe("test with colors", () => {
   let driver: TestDriver;
 
-  test("build providers", () => {
+  test("build providers", async () => {
     driver = new TestDriver(__dirname, { FORCE_COLOR: '1' })
     driver.switchToTempDir()
-    driver.init('typescript')
-  })
+    await driver.init('typescript')
+  }, 120_000)
 })

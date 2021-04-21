@@ -18,32 +18,32 @@ describe("full integration test", () => {
     ]
   }
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
     driver.switchToTempDir()
-    driver.init('typescript')
+    await driver.init('typescript')
     driver.copyFiles('main.ts')
     writeConfig(driver.workingDirectory, cdktfJSON)
-    driver.get()
+    await driver.get()
   });
 
-  test("with excludeStackIdFromLogicalIds feature", () => {
+  test("with excludeStackIdFromLogicalIds feature", async () => {
     writeConfig(driver.workingDirectory, jsonWithContext({ excludeStackIdFromLogicalIds: "true" }))
-    driver.synth()
+    await driver.synth()
     expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
-  });
+  }, 60_000);
 
-  test("with allowSepCharsInLogicalIds feature", () => {
+  test("with allowSepCharsInLogicalIds feature", async () => {
     writeConfig(driver.workingDirectory, jsonWithContext({ allowSepCharsInLogicalIds: "true" }))
-    driver.synth()
+    await driver.synth()
     expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
-  });
+  }, 60_000);
 
-  test("without features", () => {
+  test("without features", async () => {
     writeConfig(driver.workingDirectory, cdktfJSON)
-    driver.synth()
+    await driver.synth()
     expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
-  });
+  }, 60_000);
 
   const jsonWithContext = (context) => {
     return Object.assign({}, cdktfJSON, { context })
