@@ -18,5 +18,5 @@ describe("test with colors", () => {
     driver = new TestDriver(__dirname, { FORCE_COLOR: '1' })
     driver.switchToTempDir()
     await driver.init('typescript')
-  }, 120_000)
+  })
 })

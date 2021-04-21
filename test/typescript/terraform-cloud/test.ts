@@ -15,17 +15,12 @@ if (withAuth == it.skip) {
   console.log('TERRAFORM_CLOUD_TOKEN is undefined, skipping authed tests')
 }
 
-const delay = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 describe("full integration test", () => {
   let driver: TestDriver;
   let workspaceName: string;
   const orgName = 'cdktf'
 
   beforeAll(async () => {
-    jest.setTimeout(240_000);
     workspaceName = `${GITHUB_RUN_NUMBER}-${crypto.randomBytes(10).toString('hex')}`
     driver = new TestDriver(__dirname, {
       TERRAFORM_CLOUD_WORKSPACE_NAME: workspaceName,
@@ -33,10 +28,6 @@ describe("full integration test", () => {
     });
     await driver.setupTypescriptProject()
   });
-
-  afterAll(() => {
-    jest.setTimeout(5000); // default
-  })
 
   withAuth("deploy in Terraform Cloud", async () => {
     const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN)

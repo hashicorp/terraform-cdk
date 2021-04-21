@@ -25,5 +25,5 @@ describe("full integration test synth", () => {
 Synth command: npm run --silent compile && node thisFileDoesNotExist.js
 Error:         non-zero exit code 1`);
     }
-  }, 120_000)
+  })
 })
