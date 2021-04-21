@@ -129,15 +129,21 @@ multiple-stacks-production-us   cdktf.out/stacks/multiple-stacks-production-us
 multiple-stacks-production-eu   cdktf.out/stacks/multiple-stacks-production-eu
 ```
 
-### Limitations
+### Current Limitations
+
+#### Deployments
 
 At the moment all Terraform operations are limited to a single stack. In order to run `diff`, `deploy` or `destroy`, a target stack has to be specified. A deploy command like `cdktf deploy multiple-stacks-dev` will work and all Terraform operations will run in the folder `cdktf.out/stacks/multiple-stacks-dev`.
 
 Omitting the target stack by running a plain `cdktf deploy` will result in error. This will change in future versions, where support for targeting all or a subset of stacks will be added.
 
-### Cross Stack References
+Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) when you're interested in this feature.
 
-Referencing resources from another stack is not yet supported automatically. It can be achieved manually by using Outputs and the Remote State data source. Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) when you're interested in this feature.
+#### Cross Stack References
+
+Referencing resources from another stack is not yet supported automatically. It can be achieved manually by using Outputs and the Remote State data source.
+
+Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) when you're interested in this feature.
 
 ### Migration from `<= 0.2`
 
