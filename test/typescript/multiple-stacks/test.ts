@@ -46,10 +46,7 @@ describe("full integration test", () => {
       "
     `);
 
-
-    let error;
-    try { driver.diff() } catch(e) { error = e.message }
-    expect(error).toMatch('Found more than one stack, please specify a target stack first, second');
+    expect(() => driver.diff()).toThrowError('Found more than one stack')
   });
 
   test("list", () => {
