@@ -14,7 +14,7 @@ To improve the general user experience around provider imports and to allow buil
 
 Please check the [Terraform CDK Providers](https://github.com/terraform-cdk-providers) organization as well for an up to date list. As these are normal NPM / PyPI packages, they can be used as any other dependency.
 
-e.g. in Typescript / Node:
+e.g. in TypeScript / Node:
 
 ```
 npm install @cdktf/provider-aws
@@ -222,7 +222,7 @@ For using modules on the terraform registry, see [cdktf.json](./cdktf-json.md).
 
 For using modules from other sources (local, github, etc), you can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
 
-Typescirpt example:
+TypeScript example:
 ```typescript
     const provider = new TestProvider(stack, 'provider', {
         accessKey: 'key',

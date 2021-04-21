@@ -7,14 +7,15 @@ import { TestDriver } from "../../test-helper";
 
 describe("java full integration", () => {
   let driver: TestDriver;
+  jest.setTimeout(240_000);
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
-    driver.setupJavaProject()
+    await driver.setupJavaProject()
   });
 
   test("synth generates JSON", async () => {
-    driver.synth()
+    await driver.synth()
     expect(driver.synthesizedStack('java-simple')).toMatchSnapshot()
   })
 })

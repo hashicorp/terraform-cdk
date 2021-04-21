@@ -1,7 +1,9 @@
 import yargs from 'yargs'
 import * as readlineSync from 'readline-sync';
+import extract from 'extract-zip';
 import { TerraformLogin } from './helper/terraform-login'
 import * as fs from 'fs-extra';
+import * as os from 'os';
 import * as path from 'path';
 import { sscaff } from 'sscaff';
 import * as terraformCloudClient from './helper/terraform-cloud-client';
@@ -9,6 +11,8 @@ import * as chalk from 'chalk';
 import { terraformCheck } from './terraform-check';
 import { displayVersionMessage } from './version-check'
 import { FUTURE_FLAGS } from 'cdktf/lib/features';
+import { downloadFile, HttpError } from '../../lib/util';
+import { logger } from '../../lib/logging';
 
 const chalkColour = new chalk.Instance();
 
@@ -28,14 +32,13 @@ class Command implements yargs.CommandModule {
   public readonly describe = 'Create a new cdktf project from a template.';
   public readonly builder = (args: yargs.Argv) => args
     .showHelpOnFail(true)
-    .option('template', { type: 'string', desc: 'The template name to be used to create a new project.' })
-    .option('project-name', { type: 'string', desc: 'The name of the project.'})
-    .option('project-description', { type: 'string', desc: 'The description of the project.'})
+    .option('template', { type: 'string', desc: `The template to be used to create a new project. Either URL to zip file or one of the built-in templates: [${templates.map(t => `"${t}"`).join(', ')}]` })
+    .option('project-name', { type: 'string', desc: 'The name of the project.' })
+    .option('project-description', { type: 'string', desc: 'The description of the project.' })
     .option('dist', { type: 'string', desc: 'Install dependencies from a "dist" directory (for development)' })
-    .option('local', { type: 'boolean', desc: 'Use local state storage for generated Terraform.', default: false})
+    .option('local', { type: 'boolean', desc: 'Use local state storage for generated Terraform.', default: false })
     .option('cdktf-version', { type: 'string', desc: 'The cdktf version to use while creating a new project.', default: pkg.version })
     .strict()
-    .choices('template', templates);
 
   public async handler(argv: any) {
     await terraformCheck()
@@ -65,7 +68,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
 
     // Gather information about the template and the project
-    const templateInfo = await getTemplatePath(template);
+    const templateInfo = await getTemplate(template);
 
     const projectInfo: any = await gatherInfo(token, templateInfo.Name, argv.projectName, argv.projectDescription);
 
@@ -88,6 +91,10 @@ This means that your Terraform state file will be stored locally on disk in a fi
     await sscaff(templateInfo.Path, '.', {
       ...deps, ...projectInfo, futureFlags
     });
+
+    if (templateInfo.cleanupTemporaryFiles) {
+      await templateInfo.cleanupTemporaryFiles()
+    }
   }
 }
 
@@ -185,7 +192,7 @@ If you want to exit, press {magenta ^C}.
 
     console.log(chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`)
 
-    const workspaceName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Workspace Name:} (default: '${templateName}') `, { defaultInput: templateName } )
+    const workspaceName = readlineSync.question(chalkColour`{blueBright Terraform Cloud Workspace Name:} (default: '${templateName}') `, { defaultInput: templateName })
     project.OrganizationName = organizationOptions[organizationSelect]
     project.WorkspaceName = workspaceName
   }
@@ -193,23 +200,109 @@ If you want to exit, press {magenta ^C}.
   return project;
 }
 
-async function getTemplatePath(templateName: string): Promise<Template> {
+/**
+ * 
+ * @param templateName either the name of built-in templates or an url pointing to a zip archive
+ */
+async function getTemplate(templateName: string): Promise<Template> {
   if (templateName == '') {
+    const templateOptionRemote = '<remote zip file>';
+    const options = [...templates, templateOptionRemote];
     // Prompt for template
-    const selection = readlineSync.keyInSelect(templates, chalkColour`{whiteBright What template you want to use?}`)
+    const selection = readlineSync.keyInSelect(options, chalkColour`{whiteBright What template you want to use?}`)
     if (selection == -1) {
       process.exit(0);
     }
-    templateName = templates[selection];
-    console.log(chalkColour`\n{whiteBright Initializing a project using the {greenBright ${templateName}} template.}`);
+    if (selection === options.indexOf(templateOptionRemote)) {
+      templateName = readlineSync.question('Please enter an URL pointing to the template zip file you want to use: ');
+      if (templateName == '') {
+        console.log('No URL was given (received empty string). Aborted.');
+        process.exit(1);
+      }
+    } else {
+      templateName = options[selection];
+      console.log(chalkColour`\n{whiteBright Initializing a project using the {greenBright ${templateName}} template.}`);
+    }
   }
 
-  const templatePath = path.join(templatesDir, templateName);
-
-  return {
-    'Name': templateName,
-    'Path': templatePath
+  // treat as remote url
+  if (!templates.includes(templateName)) {
+    return fetchRemoteTemplate(templateName);
+  } else {
+    return {
+      'Name': templateName,
+      'Path': path.join(templatesDir, templateName)
+    }
   }
+}
+
+async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
+  console.log(chalkColour`Fetching remote template from: {whiteBright ${templateUrl}}`);
+  try {
+    const url = new URL(templateUrl);
+    const remoteFileName = path.basename(url.pathname) || 'template.zip';
+    logger.trace(`Detected remote file name to be "${remoteFileName}" out of template URL "${templateUrl}"`)
+
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cdktf.'));
+    const tmpZipFile = path.join(tmpDir, remoteFileName);
+    const zipExtractDir = path.join(tmpDir, 'extracted');
+
+    logger.trace(`Downloading "${remoteFileName}" to temporary directory "${tmpDir}"`);
+    console.log(chalkColour`Downloading "{whiteBright ${remoteFileName}}" to temporary directory`);
+    await downloadFile(url.href, tmpZipFile);
+    
+    console.log('Extracting zip file');
+    await extract(tmpZipFile, { dir: zipExtractDir });
+
+    // walk directory to find cdktf.json as the extracted directory contains a root directory with unknown name
+    // this also allows nesting the template itself into a sub directory and having a root directory with an unrelated README
+    console.log(chalkColour`Looking for directory containing {whiteBright cdktf.json}`);
+    const templatePath = await findCdkTfJsonDirectory(zipExtractDir);
+
+    if (!templatePath) {
+      throw new Error(chalkColour`Could not find a {whiteBright cdktf.json} in the extracted directory`);
+    }
+
+    return {
+      'Name': path.parse(remoteFileName).name, // strips .zip from filename
+      'Path': templatePath,
+      cleanupTemporaryFiles: async () => {
+        console.log('Clearing up temporary directory of remote template')
+        await fs.remove(tmpDir);
+      },
+    }
+
+  } catch (e) {
+    if (e.code === 'ERR_INVALID_URL') {
+      console.error(chalkColour`Could not download template: {redBright the supplied url is invalid}`);
+      console.error(chalkColour`Please supply a valid url (including the protocol) or use one of the built-in templates.`);
+      process.exit(1);
+    }
+    if (e instanceof HttpError) {
+      console.error(chalkColour`Could not download template: {redBright ${e.message}}`);
+      process.exit(1);
+    }
+
+    console.error(e)
+    process.exit(1);
+  }
+}
+
+async function findCdkTfJsonDirectory(rootDir: string): Promise<string | null> {
+  const files = await fs.readdir(rootDir);
+
+  if (files.includes('cdktf.json')) {
+    return rootDir;
+  }
+  for (const file of files) {
+    const fullPath = path.join(rootDir, file);
+    if ((await fs.stat(fullPath)).isDirectory()) {
+      const dir = findCdkTfJsonDirectory(fullPath);
+      if (dir) return dir;
+      // else continue with next sub directory
+    }
+  }
+  return null;
 }
 
 interface Deps {
@@ -232,6 +325,7 @@ interface Project {
 interface Template {
   Name: string;
   Path: string;
+  cleanupTemporaryFiles?: () => Promise<void>;
 }
 
 module.exports = new Command();

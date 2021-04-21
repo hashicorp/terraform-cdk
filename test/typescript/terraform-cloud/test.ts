@@ -24,14 +24,14 @@ describe("full integration test", () => {
   let workspaceName: string;
   const orgName = 'cdktf'
 
-  beforeAll(() => {
-    jest.setTimeout(60000);
+  beforeAll(async () => {
+    jest.setTimeout(240_000);
     workspaceName = `${GITHUB_RUN_NUMBER}-${crypto.randomBytes(10).toString('hex')}`
     driver = new TestDriver(__dirname, {
       TERRAFORM_CLOUD_WORKSPACE_NAME: workspaceName,
       TERRAFORM_CLOUD_ORGANIZATION: orgName
     });
-    driver.setupTypescriptProject()
+    await driver.setupTypescriptProject()
   });
 
   afterAll(() => {

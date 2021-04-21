@@ -14,22 +14,22 @@ const onPosix = process.platform !== 'win32' ? it : it.skip
 describe("full integration test", () => {
   let driver: TestDriver;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
     driver.switchToTempDir()
-    driver.init('typescript')
+    await driver.init('typescript')
     driver.copyFiles('main.ts', 'cdktf.json')
     fs.copySync(path.join(__dirname, 'local-module'), path.join(driver.workingDirectory, 'local-module'))
-    driver.get()
+    await driver.get()
   });
 
-  onPosix("build modules posix", () => {
-    driver.synth()
+  onPosix("build modules posix", async () => {
+    await driver.synth()
     expect(driver.synthesizedStack('hello-modules')).toMatchSnapshot()
-  })
+  }, 120_000)
 
-  onWindows("build modules windows", () => {
-    driver.synth()
+  onWindows("build modules windows", async () => {
+    await driver.synth()
     expect(driver.synthesizedStack('hello-modules')).toMatchSnapshot()
-  })
+  }, 120_000)
 })

@@ -1,5 +1,6 @@
 import { spawn, SpawnOptions } from 'child_process';
 import * as fs from 'fs-extra';
+import { https, http } from 'follow-redirects';
 import * as os from 'os';
 import * as path from 'path';
 import { processLogger } from './logging';
@@ -91,4 +92,38 @@ export async function readCDKTFVersion(outputDir: string): Promise<string> {
 export function downcaseFirst(str: string): string {
   if (str === '') { return str; }
   return `${str[0].toLocaleLowerCase()}${str.slice(1)}`;
+}
+
+export class HttpError extends Error {
+  constructor(message?: string, public statusCode?: number) {
+    super(message); // 'Error' breaks prototype chain here
+    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+    // see: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-2.html#support-for-newtarget
+  }
+}
+
+export async function downloadFile(url: string, targetFilename: string): Promise<void> {
+  const client = url.startsWith('http://') ? http : https;
+  const file = fs.createWriteStream(targetFilename);
+  return new Promise((ok, ko) => {
+    const request = client.get(url, response => {
+      if (response.statusCode !== 200) {
+        ko(new HttpError(`Failed to get '${url}' (${response.statusCode})`, response.statusCode));
+        return;
+      }
+      response.pipe(file);
+    });
+
+    file.on('finish', () => ok());
+
+    request.on('error', err => {
+      fs.unlink(targetFilename, () => ko(err));
+    });
+
+    file.on('error', err => {
+      fs.unlink(targetFilename, () => ko(err));
+    });
+
+    request.end();
+  });
 }

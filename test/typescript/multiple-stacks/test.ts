@@ -1,31 +1,30 @@
-/**
- * Testing a full cycle of diff, deploy and destroy
- *
- * @group typescript
- */
-
+//
+// Testing a full cycle of diff, deploy and destroy
+//
+// @group typescript
+//
 import { TestDriver } from "../../test-helper";
 
 describe("full integration test", () => {
   let driver: TestDriver;
 
-  beforeAll(() => {
-    driver = new TestDriver(__dirname)
-    driver.setupTypescriptProject()
+  beforeAll(async () => {
+    driver = new TestDriver(__dirname);
+    await driver.setupTypescriptProject();
   });
 
-  test("synth", () => {
-    driver.synth()
-    expect(driver.synthesizedStack('first')).toMatchSnapshot()
-    expect(driver.synthesizedStack('second')).toMatchSnapshot()
+  test("synth", async () => {
+    await driver.synth();
+    expect(driver.synthesizedStack("first")).toMatchSnapshot();
+    expect(driver.synthesizedStack("second")).toMatchSnapshot();
   });
 
-  test("synth with json output", () => {
-    expect(driver.synth('--json')).toMatchSnapshot()
+  test("synth with json output", async () => {
+    expect((await driver.synth("--json")).stdout).toMatchSnapshot();
   });
 
   test("diff", () => {
-    expect(driver.diff('first')).toMatchInlineSnapshot(`
+    expect(driver.diff("first")).toMatchInlineSnapshot(`
       "Stack: first
       Resources
        + NULL_RESOURCE       test                null_resource.test
@@ -35,8 +34,7 @@ describe("full integration test", () => {
       "
     `);
 
-
-    expect(driver.diff('second')).toMatchInlineSnapshot(`
+    expect(driver.diff("second")).toMatchInlineSnapshot(`
       "Stack: second
       Resources
        + NULL_RESOURCE       test                null_resource.test
@@ -46,7 +44,7 @@ describe("full integration test", () => {
       "
     `);
 
-    expect(() => driver.diff()).toThrowError('Found more than one stack')
+    expect(() => driver.diff()).toThrowError("Found more than one stack");
   });
 
   test("list", () => {
@@ -59,7 +57,7 @@ describe("full integration test", () => {
   });
 
   test("deploy", () => {
-    expect(driver.deploy('first')).toMatchInlineSnapshot(`
+    expect(driver.deploy("first")).toMatchInlineSnapshot(`
       "Deploying Stack: first
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
@@ -69,7 +67,7 @@ describe("full integration test", () => {
       "
     `);
 
-    expect(driver.deploy('second')).toMatchInlineSnapshot(`
+    expect(driver.deploy("second")).toMatchInlineSnapshot(`
       "Deploying Stack: second
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
@@ -79,13 +77,13 @@ describe("full integration test", () => {
       "
     `);
 
-    let error;
-    try { driver.deploy() } catch(e) { error = e.message }
-    expect(error).toMatch('Found more than one stack, please specify a target stack first, second');
+    expect(() => driver.deploy()).toThrowError(
+      "Found more than one stack, please specify a target stack first, second"
+    );
   });
 
   test("destroy", () => {
-    expect(driver.destroy('first')).toMatchInlineSnapshot(`
+    expect(driver.destroy("first")).toMatchInlineSnapshot(`
       "Destroying Stack: first
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
@@ -95,7 +93,7 @@ describe("full integration test", () => {
       "
     `);
 
-    expect(driver.destroy('second')).toMatchInlineSnapshot(`
+    expect(driver.destroy("second")).toMatchInlineSnapshot(`
       "Destroying Stack: second
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
@@ -105,8 +103,8 @@ describe("full integration test", () => {
       "
     `);
 
-    let error;
-    try { driver.destroy() } catch(e) { error = e.message }
-    expect(error).toMatch('Found more than one stack, please specify a target stack first, second');
+    expect(() => driver.destroy()).toThrowError(
+      "Found more than one stack, please specify a target stack first, second"
+    );
   });
 });

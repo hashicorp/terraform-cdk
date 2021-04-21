@@ -8,13 +8,13 @@ import { TestDriver } from "../../test-helper";
 describe("python full integration test synth", () => {
   let driver: TestDriver;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
-    driver.setupPythonProject()
+    await driver.setupPythonProject()
   });
 
   test("synth generates JSON for both stacks", async () => {
-    driver.synth()
+    await driver.synth()
     expect(driver.synthesizedStack('python-simple-one')).toMatchSnapshot()
     expect(driver.synthesizedStack('python-simple-two')).toMatchSnapshot()
   })

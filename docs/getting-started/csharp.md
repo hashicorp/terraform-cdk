@@ -56,7 +56,7 @@ Also, this command installs the `cdktf` library so that it can be used in the pr
 You can now open up the `Main.cs` file to view your application code.
 
 ```bash
-vim Main.c
+vim Main.cs
 ```
 
 ```csharp
