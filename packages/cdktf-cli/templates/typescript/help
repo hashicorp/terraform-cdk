@@ -2,30 +2,30 @@
 
   Your cdktf typescript project is ready!
 
-  cat help              Print this message
+  cat help                Print this message
 
   Compile:
-    npm run get         Import/update Terraform providers and modules (you should check-in this directory)
-    npm run compile     Compile typescript code to javascript (or "npm run watch")
-    npm run watch       Watch for changes and compile typescript in the background
-    npm run build       Compile typescript
+    npm run get           Import/update Terraform providers and modules (you should check-in this directory)
+    npm run compile       Compile typescript code to javascript (or "npm run watch")
+    npm run watch         Watch for changes and compile typescript in the background
+    npm run build         Compile typescript
 
   Synthesize:
-    cdktf synth         Synthesize Terraform resources from stacks to cdktf.out/ (ready for 'terraform apply')
+    cdktf synth [stack]   Synthesize Terraform resources from stacks to cdktf.out/ (ready for 'terraform apply')
 
   Diff:
-    cdktf diff          Perform a diff (terraform plan) for the given stack
+    cdktf diff [stack]    Perform a diff (terraform plan) for the given stack
 
   Deploy:
-    cdktf deploy        Deploy the given stack
+    cdktf deploy [stack]  Deploy the given stack
 
   Destroy:
-    cdktf destroy       Destroy the stack
+    cdktf destroy [stack] Destroy the stack
 
 
  Upgrades:
-   npm run upgrade       Upgrade cdktf modules to latest version
-   npm run upgrade:next  Upgrade cdktf modules to latest "@next" version (last commit)
+   npm run upgrade        Upgrade cdktf modules to latest version
+   npm run upgrade:next   Upgrade cdktf modules to latest "@next" version (last commit)
 
  Use Prebuilt Providers:
 
