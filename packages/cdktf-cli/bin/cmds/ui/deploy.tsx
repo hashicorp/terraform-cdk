@@ -79,21 +79,21 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
 }
 
 export const Apply = (): React.ReactElement => {
-  const { resources, status, stackName, output } = useTerraformState()
+  const { resources, status, currentStack, output } = useTerraformState()
   const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
   const applyableResources = resources.filter(resource => (applyActions.includes(resource.action)));
   return (
     <Fragment>
       <Box flexDirection="column">
         <Box>
-          {Status.DEPLOYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
-            <><Text>Deploying Stack: </Text><Text bold>{stackName}</Text></>
+          {Status.DEPLOYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Deploying Stack: </Text><Text bold>{currentStack.name}</Text></Box></>) : (
+            <><Text>Deploying Stack: </Text><Text bold>{currentStack.name}</Text></>
           )}
         </Box>
         <Text bold>Resources</Text>
         {applyableResources.map((resource: any) => (
           <Box key={resource.id} marginLeft={1}>
-            <DeployingElement resource={resource} stackName={stackName} />
+            <DeployingElement resource={resource} stackName={currentStack.name} />
           </Box>
         ))}
         <Box marginTop={1}>
@@ -113,20 +113,21 @@ export const Apply = (): React.ReactElement => {
 
 interface DeployConfig {
   targetDir: string;
+  targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
 }
 
-export const Deploy = ({ targetDir, synthCommand, autoApprove }: DeployConfig): React.ReactElement => {
-  const { deploy } = useTerraform({ targetDir, synthCommand, autoApprove })
-  const { state: { status, stackName, errors, plan }, confirmation, isConfirmed } = deploy()
+export const Deploy = ({ targetDir, targetStack, synthCommand, autoApprove }: DeployConfig): React.ReactElement => {
+  const { deploy } = useTerraform({ targetDir, targetStack, synthCommand, autoApprove })
+  const { state: { status, currentStack, errors, plan }, confirmation, isConfirmed } = deploy()
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
-  const statusText = (stackName === '') ? <Text>{status}...</Text> : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const statusText = (currentStack.name === '') ? <Text>{status}...</Text> : <Text>{status}<Text bold>&nbsp;{currentStack.name}</Text>...</Text>
 
   if (errors) return (<Box>{errors.map((e: any) => e.message)}</Box>);
-  if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{stackName}</Text></Text></>);
+  if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{currentStack.name}</Text></Text></>);
 
   return (
     <Box>

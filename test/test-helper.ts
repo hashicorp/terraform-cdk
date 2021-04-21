@@ -14,9 +14,9 @@ export class TestDriver {
     this.env = Object.assign({ CI: 1 }, process.env, addToEnv);
   }
 
-  private async exec(command: string, args: string[] = []) {
+  private async exec(command: string, args: string[] = []): Promise<{stdout: string, stderr: string}> {
     try {
-      await new Promise((resolve, reject) => {
+      return await new Promise((resolve, reject) => {
         const stdout = [], stderr = [];
         const process = spawn(command, args, { shell: true, stdio: 'pipe', env: this.env },);
         process.stdout.on('data', (data) => {
@@ -63,8 +63,8 @@ export class TestDriver {
     fs.copyFileSync(path.join(this.rootDir, source), dest);
   }
 
-  synthesizedStack = () => {
-    return fs.readFileSync(path.join(this.workingDirectory, 'cdktf.out', 'cdk.tf.json'), 'utf-8')
+  synthesizedStack = (stackName: string) => {
+    return fs.readFileSync(path.join(this.workingDirectory, 'cdktf.out', 'stacks', stackName, 'cdk.tf.json'), 'utf-8')
   }
 
   init = async (template: string) => {
@@ -77,20 +77,24 @@ export class TestDriver {
     await this.exec(`cdktf get`);
   }
 
-  synth = async () => {
-    await this.exec(`cdktf synth`);
+  synth = async (flags?: string) => {
+    return await this.exec(`cdktf synth ${flags ? flags : ''}`);
   }
 
-  diff = () => {
-    return execSync(`cdktf diff`, { env: this.env }).toString();
+  list = (flags?: string) => {
+    return execSync(`cdktf list ${flags ? flags : ''}`, { env: this.env}).toString();
   }
 
-  deploy = () => {
-    return execSync(`cdktf deploy --auto-approve`, { env: this.env }).toString();
+  diff = (stackName?: string) => {
+    return execSync(`cdktf diff ${stackName ? stackName : ''}`, { env: this.env }).toString();
   }
 
-  destroy = () => {
-    return execSync(`cdktf destroy --auto-approve`, { env: this.env }).toString();
+  deploy = (stackName?: string) => {
+    return execSync(`cdktf deploy ${stackName ? stackName : ''} --auto-approve`, { env: this.env }).toString();
+  }
+
+  destroy = (stackName?: string) => {
+    return execSync(`cdktf destroy ${stackName ? stackName : ''} --auto-approve`, { env: this.env }).toString();
   }
 
   setupTypescriptProject = async () => {

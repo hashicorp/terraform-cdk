@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { exec, readCDKTFVersion } from 'cdktf-cli/lib/util'
 import { Terraform, TerraformPlan, TerraformOutput, PlannedResourceAction, PlannedResource, ResourceChanges } from './terraform'
+import { SynthesizedStack } from '../../helper/synth-stack';
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || 'terraform'
 
@@ -29,7 +30,10 @@ export class TerraformCliPlan implements TerraformPlan {
 }
 
 export class TerraformCli implements Terraform {
-  constructor(public readonly workdir: string) {
+  public readonly workdir: string;
+
+  constructor(public readonly stack: SynthesizedStack) {
+    this.workdir = stack.workingDirectory
   }
 
   public async init(): Promise<void> {
@@ -38,7 +42,7 @@ export class TerraformCli implements Terraform {
   }
 
   public async plan(destroy = false): Promise<TerraformPlan> {
-    const planFile = path.join(this.workdir, 'plan')
+    const planFile = 'plan'
     const options = ['plan', '-input=false', '-out', planFile, ...this.stateFileOption]
     if (destroy) {
       options.push('-destroy')
@@ -50,9 +54,8 @@ export class TerraformCli implements Terraform {
   }
 
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
-    const relativePlanFile = path.relative(this.workdir, planFile);
     await this.setUserAgent()
-    await exec(terraformBinaryName, ['apply', '-auto-approve', '-input=false', ...this.stateFileOption, relativePlanFile], { cwd: this.workdir, env: process.env }, stdout);
+    await exec(terraformBinaryName, ['apply', '-auto-approve', '-input=false', ...this.stateFileOption, planFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
@@ -74,7 +77,7 @@ export class TerraformCli implements Terraform {
   }
 
   private get stateFileOption() {
-    return ['-state', path.join(process.cwd(), 'terraform.tfstate')]
+    return ['-state', path.join(process.cwd(), `terraform.${this.stack.name}.tfstate`)]
   }
 
   public async setUserAgent(): Promise<void> {

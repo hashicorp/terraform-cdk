@@ -7,7 +7,8 @@ import { TerraformJsonConfigBackendRemote } from '../terraform-json'
 import * as TerraformCloudClient from '@skorfmann/terraform-cloud'
 import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
-
+import { SynthesizedStack } from '../../helper/synth-stack';
+import { logger } from '../../../../lib/logging';
 export class TerraformCloudPlan implements TerraformPlan {
   constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }, public readonly url: string) { }
 
@@ -96,11 +97,13 @@ export class TerraformCloud implements Terraform {
   private readonly client: TerraformCloudClient.TerraformCloud;
   private readonly isSpeculative: boolean;
   private configurationVersionId?: string;
+  public readonly workDir: string;
   public run?: TerraformCloudClient.Run;
 
-  constructor(public readonly workdir: string, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
+  constructor(public readonly stack: SynthesizedStack, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
     if (!config.workspaces.name) throw new Error("Please provide a workspace name for Terraform Cloud");
     if (!config.organization) throw new Error("Please provide an organization for Terraform Cloud");
+    this.workDir = stack.workingDirectory
 
     this.hostname = config.hostname || 'app.terraform.io'
     this.workspaceName = config.workspaces.name
@@ -141,10 +144,13 @@ export class TerraformCloud implements Terraform {
 
     this.configurationVersionId = version.id
 
-    const zipBuffer = await zipDirectory(this.workdir)
+    const zipBuffer = await zipDirectory(this.workDir)
     if (!zipBuffer) throw new Error("Couldn't upload directory to Terraform Cloud");
 
     await this.client.ConfigurationVersion.upload(version.attributes.uploadUrl, zipBuffer)
+
+    // we might get an HTTP 422 error if we don't wait for the processing and try to run too early. see #647
+    await this.waitForConfigurationVersionToBeReady();
   }
 
   @BeautifyErrors
@@ -278,5 +284,40 @@ export class TerraformCloud implements Terraform {
       }
       throw e;
     }
+  }
+
+  private async isConfigurationVersionReady(): Promise<boolean> {
+    if (!this.configurationVersionId) throw new Error('No ConfigurationVersionId known. Cannot wait for ConfigurationVersion to become ready');
+    const configVersion = await this.client.ConfigurationVersion.show(this.configurationVersionId);
+    const { status } = configVersion.attributes;
+    switch (status) {
+      case 'uploaded': return true;
+      case 'errored': {
+        const { error, errorMessage } = configVersion.attributes;
+        logger.error(`ConfigurationVersion in Terraform Cloud has status "${status}". Returned config version was ${JSON.stringify(configVersion)}`);
+        throw new Error(`Terraform Cloud ConfigurationVersion ${this.configurationVersionId} has status "errored" ${JSON.stringify({ error, errorMessage })}`);
+      }
+      case 'pending': // fallthrough
+      default:
+        logger.debug(`ConfigurationVersion in Terraform Cloud not considered ready with status "${status}".`)
+        return false;
+    }
+  }
+
+  private async waitForConfigurationVersionToBeReady(timeoutMs = 60_000): Promise<void> {
+    logger.debug('waiting for Configuration Version to be ready in Terraform Cloud');
+    let timeoutReached = false;
+    const ready = async () => {
+      while (!(await this.isConfigurationVersionReady() && !timeoutReached)) {
+        await wait(1000);
+      }
+    };
+    const timeout = async () => {
+      await wait(timeoutMs);
+      timeoutReached = true;
+      throw new Error(`Waiting for Terraform Cloud ConfigurationVersion to become ready timed out (timeout was ${timeoutMs}ms)`);
+    };
+    await Promise.race([ready(), timeout()]);
+    logger.debug('Configuration Version is ready in Terraform Cloud');
   }
 }

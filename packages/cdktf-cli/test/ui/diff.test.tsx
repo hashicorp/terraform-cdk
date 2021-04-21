@@ -11,6 +11,7 @@ import {
   DeployState,
   Status
 } from "../../bin/cmds/ui/terraform-context";
+import { SynthesizedStack } from "../../bin/cmds/helper/synth-stack";
 
 test("Diff", async () => {
   const resource: PlannedResource = {
@@ -18,9 +19,17 @@ test("Diff", async () => {
     action: PlannedResourceAction.CREATE
   };
 
+  const currentStack: SynthesizedStack = {
+    constructPath: '',
+    content: '',
+    name: 'testing',
+    synthesizedStackPath: './foo/stacks/bar',
+    workingDirectory: './foo'
+  }
+
   const initialState: DeployState = {
     status: Status.STARTING,
-    stackName: "testing",
+    currentStack,
     resources: [],
     plan: {
       needsApply: true,
@@ -45,9 +54,17 @@ test("Diff", async () => {
 });
 
 test("Diff no Changes", async () => {
+  const currentStack: SynthesizedStack = {
+    constructPath: '',
+    content: '',
+    name: 'testing',
+    synthesizedStackPath: './foo/stacks/bar',
+    workingDirectory: './foo'
+  }
+
   const initialState: DeployState = {
     status: Status.STARTING,
-    stackName: "testing",
+    currentStack,
     resources: [],
     plan: {
       needsApply: false,
@@ -70,9 +87,17 @@ test("Diff no Changes", async () => {
 });
 
 test("Diff with Cloud URL", async () => {
+  const currentStack: SynthesizedStack = {
+    constructPath: '',
+    content: '',
+    name: 'testing',
+    synthesizedStackPath: './foo/stacks/bar',
+    workingDirectory: './foo'
+  }
+
   const initialState: DeployState = {
     status: Status.STARTING,
-    stackName: "testing",
+    currentStack,
     resources: [],
     url: "https://app.terraform.io/foo/bar",
     plan: {
@@ -108,9 +133,17 @@ test("Diff Multiple Resources", async () => {
     action: PlannedResourceAction.CREATE
   };
 
+  const currentStack: SynthesizedStack = {
+    constructPath: '',
+    content: '',
+    name: 'testing',
+    synthesizedStackPath: './foo/stacks/bar',
+    workingDirectory: './foo'
+  }
+
   const initialState: DeployState = {
     status: Status.STARTING,
-    stackName: "testing",
+    currentStack,
     resources: [],
     plan: {
       needsApply: true,

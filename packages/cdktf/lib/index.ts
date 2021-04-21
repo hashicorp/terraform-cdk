@@ -18,3 +18,4 @@ export * from './terraform-variable';
 export * from './terraform-hcl-module';
 export * from './runtime';
 export * from './terraform-dependable';
+export * from './manifest';

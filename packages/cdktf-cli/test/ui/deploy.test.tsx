@@ -14,6 +14,7 @@ import {
   DeployState,
   Status
 } from "../../bin/cmds/ui/terraform-context";
+import { SynthesizedStack } from "../../bin/cmds/helper/synth-stack";
 
 test("DeploySummary", async () => {
   const resource: DeployingResource = {
@@ -50,10 +51,18 @@ test("Apply", async () => {
     applyState: DeployingResourceApplyState.CREATING
   };
 
+  const currentStack: SynthesizedStack = {
+    constructPath: '',
+    content: '',
+    name: 'testing',
+    synthesizedStackPath: './foo/stacks/bar',
+    workingDirectory: './foo'
+  }
+
   const initialState: DeployState = {
     status: Status.STARTING,
     resources: [resource],
-    stackName: "testing"
+    currentStack
   };
 
   const { lastFrame } = render(
@@ -83,10 +92,18 @@ test("Apply Multiple Resources", async () => {
     applyState: DeployingResourceApplyState.CREATED
   };
 
+  const currentStack: SynthesizedStack = {
+    constructPath: '',
+    content: '',
+    name: 'hellodiff',
+    synthesizedStackPath: './foo/stacks/bar',
+    workingDirectory: './foo'
+  }
+
   const initialState: DeployState = {
     status: Status.STARTING,
     resources: [resource, otherResource],
-    stackName: "hellodiff"
+    currentStack
   };
 
   const { lastFrame } = render(

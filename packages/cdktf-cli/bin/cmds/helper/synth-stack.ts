@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path'
 import * as chalk from 'chalk';
 import indentString from 'indent-string';
-import { TerraformStackMetadata } from 'cdktf'
+import { Manifest, StackManifest, TerraformStackMetadata } from 'cdktf'
 import { ReportRequest, ReportParams } from '../../../lib/checkpoint'
 import { performance } from 'perf_hooks';
 import { versionNumber } from '../version-check';
@@ -14,16 +14,28 @@ interface SynthesizedStackMetadata {
   "//"?: {[key: string]: TerraformStackMetadata };
 }
 
-interface SynthesizedStack {
-  file: string;
-  name: string;
+export interface SynthesizedStack extends StackManifest {
   content: string;
+}
+
+interface ManifestJson {
+  version: string;
+  stacks: StackManifest[];
 }
 
 export class SynthStack {
   public static async synth(command: string, outdir: string): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
+
+    const isDirectory = (source: string) => fs.lstatSync(source).isDirectory()
+    const getDirectories = (source: string) => {
+      if (!fs.existsSync(source)) return [];
+      return fs.readdirSync(source).map(name => path.join(source, name)).filter(isDirectory)
+    }
+
+    const existingDirectories = getDirectories(path.join(outdir, Manifest.stacksFolder))
+
     try {
       await shell(command, [], {
         shell: true,
@@ -47,8 +59,8 @@ Command output on stderr:
       process.exit(1);
     }
 
-    if (!await fs.pathExists(outdir)) {
-      console.error(`ERROR: synthesis failed, app expected to create "${outdir}"`);
+    if (!await fs.pathExists(path.join(outdir, Manifest.fileName))) {
+      console.error(`ERROR: synthesis failed, app expected to create "${outdir}/${Manifest.fileName}"`);
       process.exit(1);
     }
 
@@ -57,28 +69,28 @@ Command output on stderr:
     await this.synthTelemetry(command, (endTime - startTime));
 
     const stacks: SynthesizedStack[] = [];
+    const manifest = JSON.parse(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString()) as ManifestJson
 
-    for (const file of await fs.readdir(outdir)) {
-      if (file.endsWith('.tf.json')) {
-        const filePath = path.join(outdir, file);
-        const jsonContent: SynthesizedStackMetadata = JSON.parse(fs.readFileSync(filePath).toString());
-        const name = jsonContent['//']?.metadata.stackName;
-        if (name !== undefined) {
-          stacks.push({
-            file: path.join(outdir, file),
-            name,
-            content: JSON.stringify(jsonContent, null, 2)
-          })
-        }
-      }
+    for (const stackName in manifest.stacks) {
+      const stack = manifest.stacks[stackName];
+      const filePath = path.join(outdir, stack.synthesizedStackPath);
+      const jsonContent: SynthesizedStackMetadata = JSON.parse(fs.readFileSync(filePath).toString());
+      stacks.push({
+        ...stack,
+        workingDirectory: path.join(outdir, stack.workingDirectory),
+        content: JSON.stringify(jsonContent, null, 2)
+      })
     }
 
     if (stacks.length === 0) {
       console.error('ERROR: No Terraform code synthesized.');
     }
 
-    if (stacks.length > 1) {
-      console.error('ERROR: Found more than one stack. Multiple stacks are not supported at the moment and might lead to unpredictable behaviour.');
+    const stackNames = stacks.map(s => s.name)
+    const orphanedDirectories = existingDirectories.filter(e => !stackNames.includes(path.basename(e)))
+
+    for (const orphanedDirectory of orphanedDirectories) {
+      fs.rmdirSync(orphanedDirectory, { recursive: true })
     }
 
     return stacks
