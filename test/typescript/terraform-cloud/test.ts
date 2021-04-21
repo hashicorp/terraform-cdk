@@ -15,10 +15,6 @@ if (withAuth == it.skip) {
   console.log('TERRAFORM_CLOUD_TOKEN is undefined, skipping authed tests')
 }
 
-const delay = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 describe("full integration test", () => {
   let driver: TestDriver;
   let workspaceName: string;
