@@ -1,3 +1,24 @@
+## 0.3.0 (April 21, 2021)
+
+**Breaking Changes**
+
+We're now supporting multiple Stacks! - existing Terraform state files from **local** Terraform workflows have to be renamed to match the stack name.
+
+Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` file in the project root folder was used. With version `0.3.0` the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
+
+**Implemented enhancements:**
+
+- Add support for remote templates [\#645](https://github.com/hashicorp/terraform-cdk/pull/645)
+- Handle Multiple Stacks [\#636](https://github.com/hashicorp/terraform-cdk/pull/636)
+
+**Fixed Bugs**
+
+- Wait for ConfigurationVersion to be ready when using Terraform Cloud [\#655](https://github.com/hashicorp/terraform-cdk/pull/655)
+- Fix module variables without type [\#630](https://github.com/hashicorp/terraform-cdk/pull/630)
+- Fix module without newline [\#633](https://github.com/hashicorp/terraform-cdk/pull/633)
+- Rename instance variable to a more specific name to avoid name collisions [\#640](https://github.com/hashicorp/terraform-cdk/pull/640)
+- Fix multiple modules with same end name [\#637](https://github.com/hashicorp/terraform-cdk/pull/637)
+
 ## 0.2.2 (April 13, 2021)
 
 **Fixed Bugs**
