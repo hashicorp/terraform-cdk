@@ -60,21 +60,21 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
 }
 
 export const DestroyComponent = (): React.ReactElement => {
-  const { resources, status, stackName } = useTerraformState()
+  const { resources, status, currentStack } = useTerraformState()
   const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
   const applyableResources = resources.filter(resource => (applyActions.includes(resource.action)));
   return (
     <Fragment>
       <Box flexDirection="column">
         <Box>
-          {Status.DESTROYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Destroying Stack: </Text><Text bold>{stackName}</Text></Box></>) : (
-            <><Text>Destroying Stack: </Text><Text bold>{stackName}</Text></>
+          {Status.DESTROYING == status ? (<><Text color="green"><Spinner type="dots" /></Text><Box paddingLeft={1}><Text>Destroying Stack: </Text><Text bold>{currentStack.name}</Text></Box></>) : (
+            <><Text>Destroying Stack: </Text><Text bold>{currentStack.name}</Text></>
           )}
         </Box>
         <Text bold>Resources</Text>
         {applyableResources.map((resource: any) => (
           <Box key={resource.id} marginLeft={1}>
-            <DeployingElement resource={resource} stackName={stackName} />
+            <DeployingElement resource={resource} stackName={currentStack.name} />
           </Box>
         ))}
         <Box marginTop={1}>
@@ -88,20 +88,21 @@ export const DestroyComponent = (): React.ReactElement => {
 
 interface DestroyConfig {
   targetDir: string;
+  targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
 }
 
-export const Destroy = ({ targetDir, synthCommand, autoApprove }: DestroyConfig): React.ReactElement => {
-  const { destroy } = useTerraform({ targetDir, synthCommand, autoApprove })
-  const { state: { status, stackName, errors, plan }, confirmation, isConfirmed } = destroy()
+export const Destroy = ({ targetDir, targetStack, synthCommand, autoApprove }: DestroyConfig): React.ReactElement => {
+  const { destroy } = useTerraform({ targetDir, targetStack, synthCommand, autoApprove })
+  const { state: { status, currentStack, errors, plan }, confirmation, isConfirmed } = destroy()
 
   const planStages = [Status.INITIALIZING, Status.PLANNING, Status.SYNTHESIZING, Status.SYNTHESIZED, Status.STARTING]
   const isPlanning = planStages.includes(status)
-  const statusText = (stackName === '') ? <Text>{status}...</Text> : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
+  const statusText = (currentStack.name === '') ? <Text>{status}...</Text> : <Text>{status}<Text bold>&nbsp;{currentStack.name}</Text>...</Text>
 
   if (errors) return (<Box>{errors}</Box>);
-  if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{stackName}</Text></Text></>);
+  if (plan && !plan.needsApply) return (<><Text>No changes for Stack: <Text bold>{currentStack.name}</Text></Text></>);
 
   return (
     <Box>

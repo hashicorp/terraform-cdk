@@ -30,27 +30,27 @@ describe("full integration test", () => {
   test("with excludeStackIdFromLogicalIds feature", async () => {
     writeConfig(driver.workingDirectory, jsonWithContext({ excludeStackIdFromLogicalIds: "true" }))
     await driver.synth()
-    expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
+    expect(loadStackJson(driver.workingDirectory, 'hello-deploy')).toMatchSnapshot();
   }, 60_000);
 
   test("with allowSepCharsInLogicalIds feature", async () => {
     writeConfig(driver.workingDirectory, jsonWithContext({ allowSepCharsInLogicalIds: "true" }))
     await driver.synth()
-    expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
+    expect(loadStackJson(driver.workingDirectory, 'hello-deploy')).toMatchSnapshot();
   }, 60_000);
 
   test("without features", async () => {
     writeConfig(driver.workingDirectory, cdktfJSON)
     await driver.synth()
-    expect(loadStackJson(driver.workingDirectory)).toMatchSnapshot();
+    expect(loadStackJson(driver.workingDirectory, 'hello-deploy')).toMatchSnapshot();
   }, 60_000);
 
   const jsonWithContext = (context) => {
     return Object.assign({}, cdktfJSON, { context })
   }
 
-  const loadStackJson = (workingDir) => {
-    return fs.readFileSync(path.join(workingDir, 'cdktf.out', 'cdk.tf.json'), 'utf-8')
+  const loadStackJson = (workingDir, stackName) => {
+    return fs.readFileSync(path.join(workingDir, 'cdktf.out', 'stacks', stackName, 'cdk.tf.json'), 'utf-8')
   }
 
   const writeConfig = (workingDir, json) => {

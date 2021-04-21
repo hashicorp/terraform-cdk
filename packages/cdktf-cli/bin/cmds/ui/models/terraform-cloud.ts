@@ -7,8 +7,8 @@ import { TerraformJsonConfigBackendRemote } from '../terraform-json'
 import * as TerraformCloudClient from '@skorfmann/terraform-cloud'
 import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
+import { SynthesizedStack } from '../../helper/synth-stack';
 import { logger } from '../../../../lib/logging';
-
 export class TerraformCloudPlan implements TerraformPlan {
   constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }, public readonly url: string) { }
 
@@ -97,11 +97,13 @@ export class TerraformCloud implements Terraform {
   private readonly client: TerraformCloudClient.TerraformCloud;
   private readonly isSpeculative: boolean;
   private configurationVersionId?: string;
+  public readonly workDir: string;
   public run?: TerraformCloudClient.Run;
 
-  constructor(public readonly workdir: string, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
+  constructor(public readonly stack: SynthesizedStack, public readonly config: TerraformJsonConfigBackendRemote, isSpeculative = false) {
     if (!config.workspaces.name) throw new Error("Please provide a workspace name for Terraform Cloud");
     if (!config.organization) throw new Error("Please provide an organization for Terraform Cloud");
+    this.workDir = stack.workingDirectory
 
     this.hostname = config.hostname || 'app.terraform.io'
     this.workspaceName = config.workspaces.name
@@ -142,7 +144,7 @@ export class TerraformCloud implements Terraform {
 
     this.configurationVersionId = version.id
 
-    const zipBuffer = await zipDirectory(this.workdir)
+    const zipBuffer = await zipDirectory(this.workDir)
     if (!zipBuffer) throw new Error("Couldn't upload directory to Terraform Cloud");
 
     await this.client.ConfigurationVersion.upload(version.attributes.uploadUrl, zipBuffer)

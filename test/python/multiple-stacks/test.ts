@@ -13,8 +13,9 @@ describe("python full integration test synth", () => {
     await driver.setupPythonProject()
   });
 
-  test("synth generates JSON", async () => {
+  test("synth generates JSON for both stacks", async () => {
     await driver.synth()
-    expect(driver.synthesizedStack('python-simple')).toMatchSnapshot()
-  }, 240_000);
+    expect(driver.synthesizedStack('python-simple-one')).toMatchSnapshot()
+    expect(driver.synthesizedStack('python-simple-two')).toMatchSnapshot()
+  }, 240_000)
 })

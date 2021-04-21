@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`python full integration test synth synth generates JSON for both stacks 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"python-simple-one\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\",
+        \\"source\\": \\"aws\\"
+      }
+    },
+    \\"backend\\": {
+      \\"remote\\": {
+        \\"organization\\": \\"test\\",
+        \\"workspaces\\": {
+          \\"name\\": \\"test\\"
+        }
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"region\\": \\"eu-central-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_sns_topic\\": {
+      \\"Topic\\": {
+        \\"display_name\\": \\"my-first-sns-topic\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"python-simple-one/Topic\\",
+            \\"uniqueId\\": \\"Topic\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`python full integration test synth synth generates JSON for both stacks 2`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"python-simple-two\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\",
+        \\"source\\": \\"aws\\"
+      }
+    },
+    \\"backend\\": {
+      \\"remote\\": {
+        \\"organization\\": \\"test\\",
+        \\"workspaces\\": {
+          \\"name\\": \\"test\\"
+        }
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"region\\": \\"eu-central-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_sns_topic\\": {
+      \\"Topic\\": {
+        \\"display_name\\": \\"my-first-sns-topic\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"python-simple-two/Topic\\",
+            \\"uniqueId\\": \\"Topic\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
