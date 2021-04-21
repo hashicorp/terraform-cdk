@@ -13,6 +13,7 @@ Up until CDK for Terraform version `0.2` only a single stack was supported. For 
 
 **Fixed Bugs**
 
+- Wait for ConfigurationVersion to be ready when using Terraform Cloud [\#655](https://github.com/hashicorp/terraform-cdk/pull/655)
 - Fix module variables without type [\#630](https://github.com/hashicorp/terraform-cdk/pull/630)
 - Fix module without newline [\#633](https://github.com/hashicorp/terraform-cdk/pull/633)
 - Rename instance variable to a more specific name to avoid name collisions [\#640](https://github.com/hashicorp/terraform-cdk/pull/640)
