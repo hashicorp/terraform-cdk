@@ -56,6 +56,10 @@ export class TestDriver {
     return this.execSync(`cdktf synth ${flags ? flags : ''}`).toString();
   }
 
+  list = (flags?: string) => {
+    return this.execSync(`cdktf list ${flags ? flags : ''}`).toString();
+  }
+
   diff = (stackName?: string) => {
     return execSync(`cdktf diff ${stackName ? stackName : ''}`, { env: this.env }).toString();
   }

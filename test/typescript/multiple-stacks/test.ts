@@ -52,6 +52,15 @@ describe("full integration test", () => {
     expect(error).toMatch('Found more than one stack, please specify a target stack first, second');
   });
 
+  test("list", () => {
+    expect(driver.list()).toMatchInlineSnapshot(`
+      "Stack name                      Path
+      first                           cdktf.out/stacks/first
+      second                          cdktf.out/stacks/second
+      "
+    `);
+  });
+
   test("deploy", () => {
     expect(driver.deploy('first')).toMatchInlineSnapshot(`
       "Deploying Stack: first
