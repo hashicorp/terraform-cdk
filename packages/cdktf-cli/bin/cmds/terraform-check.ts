@@ -10,7 +10,10 @@ const VERSION_REGEXP = /Terraform v\d+.\d+.\d+/
 export const terraformCheck = async (): Promise<void> => {
   try {
     if (existsSync(path.join(process.cwd(), 'terraform.tfstate'))) {
-      throw new Error(`Found 'terraform.tfstate' Terraform state file. Please rename it to match the stack name. Learn more https://cdk.tf/multiple-stacks`)
+      throw new Error(`
+        CDK for Terraform now supports multiple stacks!
+        Found 'terraform.tfstate' Terraform state file. Please rename it to match the stack name. Learn more https://cdk.tf/multiple-stacks
+      `)
     }
 
     const fakeStack: SynthesizedStack = {
