@@ -21,15 +21,15 @@ describe("full integration test", () => {
     driver.copyFiles('main.ts', 'cdktf.json')
     fs.copySync(path.join(__dirname, 'local-module'), path.join(driver.workingDirectory, 'local-module'))
     await driver.get()
-  }, 120_000);
+  });
 
   onPosix("build modules posix", async () => {
     await driver.synth()
     expect(driver.synthesizedStack()).toMatchSnapshot()
-  }, 60_000)
+  }, 120_000)
 
   onWindows("build modules windows", async () => {
     await driver.synth()
     expect(driver.synthesizedStack()).toMatchSnapshot()
-  }, 60_000)
+  }, 120_000)
 })

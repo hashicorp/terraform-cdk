@@ -11,7 +11,7 @@ describe("csharp full integration test synth", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname)
     await driver.setupCsharpProject()
-  }, 180_000);
+  });
 
   test("synth generates JSON", async () => {
     await driver.synth()

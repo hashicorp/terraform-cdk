@@ -11,7 +11,7 @@ describe("python full integration test synth", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname)
     await driver.setupPythonProject()
-  }, 240_000);
+  });
 
   test("synth generates JSON", async () => {
     await driver.synth()

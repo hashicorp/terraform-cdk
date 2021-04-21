@@ -12,7 +12,7 @@ describe("full integration test", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname)
     await driver.setupTypescriptProject()
-  }, 120_000);
+  });
 
   test("diff", () => {
     expect(driver.diff()).toMatchInlineSnapshot(`

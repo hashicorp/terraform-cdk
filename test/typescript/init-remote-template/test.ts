@@ -14,7 +14,7 @@ describe("remote templates", () => {
     await driver.setupRemoteTemplateProject();
     const files = await fs.readdir(driver.workingDirectory);
     expect(files).toEqual(['.gen', '.gitignore', '.npmrc', 'cdktf.json', 'help', 'main.ts', 'package.json', 'tsconfig.json']);
-  }, 60_000)
+  }, 120_000)
 
   test("handles invalid url", async () => {
     const driver = new TestDriver(__dirname)
@@ -25,5 +25,5 @@ describe("remote templates", () => {
     } catch (e) {
       expect(e.stderr).toContain('Could not download template: the supplied url is invalid');
     }
-  }, 60_000)
+  }, 120_000)
 })

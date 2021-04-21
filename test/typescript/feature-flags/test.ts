@@ -25,7 +25,7 @@ describe("full integration test", () => {
     driver.copyFiles('main.ts')
     writeConfig(driver.workingDirectory, cdktfJSON)
     await driver.get()
-  }, 120_000);
+  });
 
   test("with excludeStackIdFromLogicalIds feature", async () => {
     writeConfig(driver.workingDirectory, jsonWithContext({ excludeStackIdFromLogicalIds: "true" }))
