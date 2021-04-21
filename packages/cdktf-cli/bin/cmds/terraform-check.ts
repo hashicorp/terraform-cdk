@@ -16,6 +16,9 @@ export const terraformCheck = async (): Promise<void> => {
       `)
     }
 
+    // We're abusing the TerraformCli class here,
+    // hence we need to construct this object.
+    // Only the `workingDirectory` is releveant here.
     const fakeStack: SynthesizedStack = {
       name: '',
       workingDirectory: './',
