@@ -1,5 +1,6 @@
 .terraform
 cdktf.out
+cdktf.log
 terraform.tfstate*
 
 .classpath
