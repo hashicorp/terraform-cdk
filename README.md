@@ -91,6 +91,7 @@ Choose a language:
 * Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 * Defining Terraform [locals](./docs/working-with-cdk-for-terraform/terraform-locals.md).
 * Handling breaking changes with [feature flags](./docs/working-with-cdk-for-terraform/feature-flags.md).
+* Writing own [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) for init.
 
 ## Contributing and Feedback
 
