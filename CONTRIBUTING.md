@@ -1,6 +1,6 @@
 # Contributing
 
-To build and install `terraform-cdk` locally, Node version 12.16+
+To build and install `terraform-cdk` locally, Node version 12.16+ and Go is required.
 
 ## Getting Started
 
