@@ -38,7 +38,6 @@ Choose a language:
 
 ### Typescript
 
-* [aws](./examples/typescript/aws)
 * [aws-cloudfront-proxy](./examples/typescript/aws-cloudfront-proxy)
 * [azure](./examples/typescript/azure)
 * [azure-app-service](./examples/typescript/azure-app-service)
