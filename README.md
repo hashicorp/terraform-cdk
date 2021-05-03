@@ -38,6 +38,8 @@ Choose a language:
 
 ### Typescript
 
+* [aws-prebuilt](./examples/typescript/aws-prebuilt)
+* [aws-multiple-stacks](./examples/typescript/aws-multiple-stacks)
 * [aws-cloudfront-proxy](./examples/typescript/aws-cloudfront-proxy)
 * [azure](./examples/typescript/azure)
 * [azure-app-service](./examples/typescript/azure-app-service)
