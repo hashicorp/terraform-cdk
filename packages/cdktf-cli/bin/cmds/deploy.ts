@@ -10,6 +10,7 @@ const config = readConfigSync();
 class Command implements yargs.CommandModule {
   public readonly command = 'deploy [stack] [OPTIONS]';
   public readonly describe = 'Deploy the given stack';
+  public readonly aliases = ['apply'];
 
   public readonly builder = (args: yargs.Argv) => args
     .positional('stack', { desc: 'Deploy stack which matches the given id only. Required when more than one stack is present in the app', type: 'string' })

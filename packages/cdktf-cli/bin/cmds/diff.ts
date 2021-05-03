@@ -10,6 +10,7 @@ const config = readConfigSync();
 class Command implements yargs.CommandModule {
   public readonly command = 'diff [stack] [OPTIONS]';
   public readonly describe = 'Perform a diff (terraform plan) for the given stack';
+  public readonly aliases = ['plan'];
 
   public readonly builder = (args: yargs.Argv) => args
     .positional('stack', { desc: 'Diff stack which matches the given id only. Required when more than one stack is present in the app', type: 'string' })
