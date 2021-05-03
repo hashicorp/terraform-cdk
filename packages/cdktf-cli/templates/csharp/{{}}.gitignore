@@ -2,6 +2,7 @@
 # cdktf and terraform ignores
 .terraform
 cdktf.out
+cdktf.log
 terraform.tfstate*
 
 # Created by https://www.gitignore.io/api/csharp
