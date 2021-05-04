@@ -5,3 +5,5 @@ const getProvider = (constraint: TerraformDependencyConstraint) =>
   expectImportMatchSnapshot(constraint);
 
 getProvider(new TerraformProviderConstraint('aws@= 2.60.0'));
+
+getProvider(new TerraformProviderConstraint('phillbaker/elasticsearch@= 1.5.1'));
