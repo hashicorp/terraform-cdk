@@ -1,6 +1,6 @@
 # Remote Templates
 
-Templates allow scaffolding a new CDK for Terraform project. When you setup a new project via `cdktf init` you can supply one of the [built-in templates](../packages/cdktf-cli/templates) (e.g. `typescript` or `python`) or use your own. This document describes how to create your own template to use with `cdktf init`.
+Templates allow scaffolding a new CDK for Terraform project. When you setup a new project via `cdktf init` you can supply one of the [built-in templates](../../packages/cdktf-cli/templates) (e.g. `typescript` or `python`) or use your own. This document describes how to create your own template to use with `cdktf init`.
 
 ## Using Remote Templates
 Currently the `cdktf` supports downloading and extracting a zip archive containing the files for the template. When extracting the archive, it searches for the `cdktf.json` file. If that file cannot be found in the root directory, it walks all directories until it finds the file. This allows creating an archive that contains e.g. a `README.md` in the root directory explaining things which itself won't turn up in the created project directory. However, most templates won't make use of it.  
@@ -40,7 +40,7 @@ pypi_cdktf: string;
 mvn_cdktf: string;
 nuget_cdktf: string;
 ```
-Those variables contain versions that are relative to the cdktf-cli that scaffolds the template. See the [built-in templates](../packages/cdktf-cli/templates) as reference of how you can use them.
+Those variables contain versions that are relative to the cdktf-cli that scaffolds the template. See the [built-in templates](../../packages/cdktf-cli/templates) as reference of how you can use them.
 
 ### Using `pre` and `post` Hooks
 [Hooks](https://github.com/awslabs/node-sscaff#hooks) allow you to run additional logic before and after the generation of the output.
