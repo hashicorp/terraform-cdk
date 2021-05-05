@@ -18,9 +18,10 @@ export enum Language {
   PYTHON = 'python',
   CSHARP = 'csharp',
   JAVA = 'java',
+  GO = 'go',
 }
 
-export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON, Language.JAVA, Language.CSHARP ];
+export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON, Language.JAVA, Language.CSHARP, Language.GO ];
 
 export interface GetOptions {
   readonly targetLanguage: Language;
@@ -94,7 +95,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
 
   public get srcMakName(): string {
     switch (this.targetLanguage) {
-      case Language.JAVA, Language.CSHARP, Language.PYTHON:
+      case Language.JAVA, Language.CSHARP, Language.PYTHON, Language.GO:
         return this.simplifiedName;
       default:
         return this.constraint.fqn;
@@ -139,6 +140,8 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
         // "null" is a reserved keyword and can't be used as a namespace
         return this.isNullProvider ? "Providers.Null" : this.simplifiedName;
       case Language.PYTHON:
+        return this.simplifiedName;
+      case Language.GO:
         return this.simplifiedName;
       default:
         return this.constraint.fqn;
@@ -249,6 +252,13 @@ export class ConstructsMaker {
             }
           }
 
+          if (this.isGoTarget) {
+            opts.golang = {
+              outdir: this.codeMakerOutdir,
+              moduleName: target.moduleKey.replace(/_/g, ''),
+            }
+          }
+          
           await srcmak.srcmak(staging, opts);
         });
       }
@@ -277,6 +287,10 @@ export class ConstructsMaker {
 
   private get isCsharpTarget() {
     return this.options.targetLanguage === Language.CSHARP
+  }
+
+  private get isGoTarget() {
+    return this.options.targetLanguage === Language.GO
   }
 }
 
