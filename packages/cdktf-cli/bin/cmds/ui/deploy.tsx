@@ -39,13 +39,19 @@ export const DeploySummary = ({ resources }: DeploySummaryConfig): React.ReactEl
 interface OutputConfig {
   output: { [key: string]: TerraformOutput };
 }
+function sanitize(value: any) {
+  if (typeof value === "object") {
+    return JSON.stringify(value);
+  }
 
+  return value;
+}
 export const Output = ({ output }: OutputConfig): React.ReactElement => {
   return (
     <Box flexDirection="column">
       {Object.keys(output).map((key) => (
         <Box key={key}>
-          <Text>{key} = {output[key].value}</Text>
+          <Text>{key} = {sanitize(output[key].value)}</Text>
         </Box>
       ))}
     </Box>
