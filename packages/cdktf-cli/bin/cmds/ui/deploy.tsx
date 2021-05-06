@@ -84,6 +84,31 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
   )
 }
 
+interface ApplyableResourcesConfig {
+  resources: DeployingResource[]
+  stackName: string
+}
+const ApplyableResources = ({ resources, stackName }: ApplyableResourcesConfig): React.ReactElement => {
+  if (!resources.length) {
+    return <></>
+  }
+
+  return (
+    <>
+    <Text bold>Resources</Text>
+      {resources.map((resource: any) => (
+        <Box key={resource.id} marginLeft={1}>
+          <DeployingElement resource={resource} stackName={stackName} />
+        </Box>
+      ))}
+      <Box marginTop={1}>
+        <Text bold>Summary: </Text>
+        <DeploySummary resources={resources} /><Text>.</Text>
+      </Box>
+    </>
+  )
+}
+
 export const Apply = (): React.ReactElement => {
   const { resources, status, currentStack, output } = useTerraformState()
   const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
@@ -96,16 +121,7 @@ export const Apply = (): React.ReactElement => {
             <><Text>Deploying Stack: </Text><Text bold>{currentStack.name}</Text></>
           )}
         </Box>
-        <Text bold>Resources</Text>
-        {applyableResources.map((resource: any) => (
-          <Box key={resource.id} marginLeft={1}>
-            <DeployingElement resource={resource} stackName={currentStack.name} />
-          </Box>
-        ))}
-        <Box marginTop={1}>
-          <Text bold>Summary: </Text>
-          <DeploySummary resources={applyableResources} /><Text>.</Text>
-        </Box>
+        <ApplyableResources resources={applyableResources} stackName={currentStack.name} />
         {output && Object.keys(output).length > 0 &&
           <Box marginTop={1}>
             <Text bold>Output: </Text>
