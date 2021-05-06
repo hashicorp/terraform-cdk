@@ -56,6 +56,43 @@ export interface TerraformPlan {
   readonly planFile: string;
 }
 
+
+function filterChangingResources(resources: PlannedResource[]) {
+  const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
+  return resources.filter(resource => (applyActions.includes(resource.action)));
+}
+export abstract class AbstractTerraformPlan implements TerraformPlan {
+  constructor(public readonly planFile: string, private readonly resourceChanges: ResourceChanges[], private readonly outputChanges: Record<string, ResourceChangesChange>) {}
+
+  public get resources(): PlannedResource[]  {
+    return (this.resourceChanges || []).map(resource => {
+      return {
+        id: resource.address,
+        action: resource.change.actions[0]
+      } as PlannedResource;
+    });
+  }
+
+  public get applyableResources(): PlannedResource[] {
+    return filterChangingResources(this.resources);
+  }
+
+  public get outputs(): PlannedResource[] {
+    return Object.entries(this.outputChanges || {}).map(([key,value]) => ({
+      id: `output.${key}`,
+      action: value.actions[0]
+    })) as PlannedResource[];
+  }
+
+  public get changingOutputs(): PlannedResource[] {
+    return filterChangingResources(this.outputs);
+  }
+
+  public get needsApply(): boolean {
+    return this.applyableResources.length > 0 || this.changingOutputs.length > 0;
+  }
+}
+
 export interface Terraform {
   init: () => Promise<void>;
   plan: (destroy: boolean) => Promise<TerraformPlan>;

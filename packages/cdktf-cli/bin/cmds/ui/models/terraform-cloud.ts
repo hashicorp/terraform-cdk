@@ -2,34 +2,16 @@
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
-import { Terraform, TerraformPlan, TerraformOutput, PlannedResourceAction, PlannedResource, ResourceChanges } from './terraform'
+import { Terraform, TerraformPlan, TerraformOutput, AbstractTerraformPlan } from './terraform';
 import { TerraformJsonConfigBackendRemote } from '../terraform-json'
 import * as TerraformCloudClient from '@skorfmann/terraform-cloud'
 import archiver from 'archiver';
 import { WritableStreamBuffer } from 'stream-buffers';
 import { SynthesizedStack } from '../../helper/synth-stack';
 import { logger } from '../../../../lib/logging';
-export class TerraformCloudPlan implements TerraformPlan {
-  constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }, public readonly url: string) { }
-
-  public get resources(): PlannedResource[] {
-    if (!this.plan.resourceChanges) return [];
-
-    return this.plan.resourceChanges.map((resource: ResourceChanges) => {
-      return {
-        id: resource.address,
-        action: resource.change.actions[0]
-      } as PlannedResource
-    })
-  }
-
-  public get applyableResources(): PlannedResource[] {
-    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
-    return this.resources.filter(resource => (applyActions.includes(resource.action)));
-  }
-
-  public get needsApply(): boolean {
-    return this.applyableResources.length > 0
+export class TerraformCloudPlan extends AbstractTerraformPlan implements TerraformPlan {
+  constructor(public readonly planFile: string, public readonly plan: { [key: string]: any }, public readonly url: string) { 
+    super(planFile, plan.resourceChanges, plan.outputChanges);
   }
 }
 
