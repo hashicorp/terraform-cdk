@@ -78,7 +78,7 @@ describe("full integration test", () => {
     `);
 
     expect(() => driver.deploy()).toThrowError(
-      "Found more than one stack, please specify a target stack first, second"
+      "Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: first, second"
     );
   });
 
@@ -104,7 +104,7 @@ describe("full integration test", () => {
     `);
 
     expect(() => driver.destroy()).toThrowError(
-      "Found more than one stack, please specify a target stack first, second"
+      "Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: first, second"
     );
   });
 });
