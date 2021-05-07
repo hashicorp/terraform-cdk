@@ -253,12 +253,17 @@ export class ConstructsMaker {
           }
 
           if (this.isGoTarget) {
+            const [orgName , packageName] = target.fqn.split('/');
+
             opts.golang = {
-              outdir: this.codeMakerOutdir,
-              moduleName: target.moduleKey.replace(/_/g, ''),
+              // jsii-srcmac will produce a folder inside this dir named after "packageName", so this results in e.g. .gen/hashicorp/random
+              outdir: path.join(this.codeMakerOutdir, orgName),
+              moduleName: `github.com/terraform-cdk-providers/cdktf-provider-${target.moduleKey.replace(/_/g, '-')}-go`,
+              packageName // package will be named e.g. random for hashicorp/random
             }
+            console.log({opts, target});
           }
-          
+
           await srcmak.srcmak(staging, opts);
         });
       }
