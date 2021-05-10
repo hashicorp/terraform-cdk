@@ -262,7 +262,7 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
 
       if (loadExecutor) {
         if (stacks.length > 1 && !targetStack) {
-          throw new Error(`Found more than one stack, please specify a target stack ${stacks.map(s => s.name).join(', ')}`);
+          throw new Error(`Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: ${stacks.map(s => s.name).join(', ')} `);
         }
         const stack = targetStack ? stacks.find(s => s.name === targetStack) : stacks[0]
         if (!stack) throw new Error(`Can't find given stack ${targetStack} - Found the following stacks ${stacks.map(s => s.name).join(', ')}`);
