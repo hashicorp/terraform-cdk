@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`full integration test file asset copied 1`] = `"Hello Asset World"`;
+
+exports[`full integration test folder asset copied 1`] = `"This is a"`;
+
+exports[`full integration test folder asset copied 2`] = `"This is b"`;
+
+exports[`full integration test folder asset copied 3`] = `"this is c"`;
+
+exports[`full integration test synth 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"stack\\"
+    }
+  },
+  \\"assets\\": {
+    \\"localasset\\": {
+      \\"path\\": \\"../../../local-asset.txt\\"
+    },
+    \\"fixtures\\": {
+      \\"path\\": \\"../../../fixtures\\"
+    }
+  }
+}"
+`;
