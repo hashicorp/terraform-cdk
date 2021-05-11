@@ -57,4 +57,14 @@ describe("full integration test", () => {
       )
     ).toMatchSnapshot();
   });
+
+  test("zip file created", async () => {
+    await driver.synth();
+
+    const stat = fs.statSync(
+      path.resolve(driver.stackDirectory("stack"), "zippedfixtures/archive.zip")
+    );
+    expect(stat.isFile()).toBe(true);
+    expect(stat.size).toBe(1799);
+  });
 });

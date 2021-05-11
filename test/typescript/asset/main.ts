@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, Testing, TerraformAsset } from "cdktf";
+import { App, TerraformStack, Testing, TerraformAsset, AssetType } from "cdktf";
 import * as path from "path";
 
 export class HelloTerra extends TerraformStack {
@@ -12,6 +12,11 @@ export class HelloTerra extends TerraformStack {
 
     new TerraformAsset(this, "fixtures", {
       path: path.resolve(__dirname, "fixtures"),
+    });
+
+    new TerraformAsset(this, "zipped-fixtures", {
+      path: path.resolve(__dirname, "fixtures"),
+      type: AssetType.ARCHIVE,
     });
   }
 }

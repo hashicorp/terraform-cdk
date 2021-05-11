@@ -4,21 +4,20 @@ import { keysToSnakeCase, deepMerge } from "./util";
 import * as fs from "fs";
 import * as path from "path";
 import { Manifest } from "./manifest";
-import { copySync } from "./private/fs";
+import { copySync, archiveSync } from "./private/fs";
 
 export interface TerraformAssetConfig {
   readonly path: string;
   readonly type?: AssetType;
 }
 
-enum AssetType {
+export enum AssetType {
   FILE,
   DIRECTORY,
-  ZIP,
+  ARCHIVE,
 }
 
-// TODO: add type (support more than single files)
-// TODO: implement ignore regex for folders
+const ARCHIVE_NAME = "/archive.zip";
 export class TerraformAsset extends TerraformElement {
   public path: string;
   public type: AssetType;
@@ -33,8 +32,9 @@ export class TerraformAsset extends TerraformElement {
     }
 
     const stat = fs.statSync(config.path);
-    this.type =
-      config.type || stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
+    const inferredType = stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
+    this.type = !config.type ? inferredType : config.type;
+    this.path = config.path;
 
     if (stat.isFile() && this.type !== AssetType.FILE) {
       throw new Error(
@@ -47,13 +47,19 @@ export class TerraformAsset extends TerraformElement {
         `TerraformAsset ${id} expects path to be a file, a directory was passed: '${config.path}'`
       );
     }
-
-    this.path = config.path;
   }
 
   protected synthesizeAttributes(): { [key: string]: any } {
+    let filename = "";
+    switch (this.type) {
+      case AssetType.ARCHIVE:
+        filename = ARCHIVE_NAME;
+        break;
+      case AssetType.FILE:
+        filename = path.basename(this.path);
+    }
     return {
-      path: path.relative(__dirname, this.path),
+      path: path.join(this.friendlyUniqueId, filename),
     };
   }
 
@@ -77,11 +83,14 @@ export class TerraformAsset extends TerraformElement {
           path.resolve(targetPath, path.basename(this.path))
         );
         break;
+
       case AssetType.DIRECTORY:
         copySync(this.path, targetPath);
         break;
-      //   case AssetType.ZIP:
-      //     break;
+
+      case AssetType.ARCHIVE:
+        archiveSync(this.path, path.join(targetPath, ARCHIVE_NAME));
+        break;
       default:
         throw new Error(`Asset type ${this.type} is not implemented`);
     }

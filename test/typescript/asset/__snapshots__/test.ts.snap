@@ -22,6 +22,9 @@ exports[`full integration test synth 1`] = `
     },
     \\"fixtures\\": {
       \\"path\\": \\"../../../fixtures\\"
+    },
+    \\"zippedfixtures\\": {
+      \\"path\\": \\"../../../fixtures\\"
     }
   }
 }"
