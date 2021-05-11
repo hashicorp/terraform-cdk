@@ -45,7 +45,11 @@ export const Output = ({ output }: OutputConfig): React.ReactElement => {
     <Box flexDirection="column">
       {Object.keys(output).map((key) => (
         <Box key={key}>
-          <Text>{key} = {output[key].value}</Text>
+          <Text>{key} = {
+            typeof output[key].value === 'object' ?
+              JSON.stringify(output[key].value, null, 2) :
+              output[key].value
+          }</Text>
         </Box>
       ))}
     </Box>

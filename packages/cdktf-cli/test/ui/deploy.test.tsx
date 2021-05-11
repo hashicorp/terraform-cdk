@@ -37,11 +37,32 @@ test("Output", async () => {
       sensitive: false,
       type: "bar",
       value: "baz"
+    },
+    map: {
+      sensitive: false,
+      type: "map",
+      value: { keyA: "valueA", keyB: "valueB" }
+    },
+    list: {
+      sensitive: false,
+      type: "list",
+      value: ["A", "B", "C"]
     }
   };
 
   const { lastFrame } = render(<Output output={output} />);
-  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`"foo = baz"`);
+  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
+    "foo = baz
+    map = {
+      \\"keyA\\": \\"valueA\\",
+      \\"keyB\\": \\"valueB\\"
+    }
+    list = [
+      \\"A\\",
+      \\"B\\",
+      \\"C\\"
+    ]"
+  `);
 });
 
 test("Apply", async () => {
