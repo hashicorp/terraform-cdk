@@ -258,7 +258,7 @@ export class ConstructsMaker {
             opts.golang = {
               // jsii-srcmac will produce a folder inside this dir named after "packageName", so this results in e.g. .gen/hashicorp/random
               outdir: path.join(this.codeMakerOutdir, orgName),
-              moduleName: `github.com/terraform-cdk-providers/cdktf-provider-${target.moduleKey.replace(/_/g, '-')}-go`,
+              moduleName: `github.com/hashicorp/terraform-cdk-provider-${target.moduleKey.replace(/_/g, '-')}-go`,
               packageName // package will be named e.g. random for hashicorp/random
             }
             console.log({opts, target});
