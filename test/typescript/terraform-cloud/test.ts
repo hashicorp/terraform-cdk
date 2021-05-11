@@ -27,6 +27,7 @@ describe("full integration test", () => {
       TERRAFORM_CLOUD_ORGANIZATION: orgName
     });
     await driver.setupTypescriptProject()
+    driver.copyFolders("fixtures");
   });
 
   withAuth("deploy in Terraform Cloud", async () => {

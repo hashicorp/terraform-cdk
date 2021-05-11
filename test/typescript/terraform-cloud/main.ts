@@ -1,6 +1,7 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack, Testing, TerraformOutput } from 'cdktf';
+import { App, TerraformStack, Testing, TerraformAsset, TerraformOutput } from 'cdktf';
 import * as NullProvider from './.gen/providers/null';
+import * as path from 'path';
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
 const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
 const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
@@ -14,6 +15,10 @@ export class HelloTerra extends TerraformStack {
     nullResouce.addOverride('provisioner', [{
       'local-exec': {
         command: `echo "hello deploy"`
+      }
+    }, {
+      'remote-exec': {
+        command: `cat ./asset-a/a.txt`
       }
     }]);
 
@@ -29,6 +34,10 @@ export class HelloTerra extends TerraformStack {
 
     new TerraformOutput(this, "output", {
       value: "constant value"
+    })
+
+    new TerraformAsset(this, "asset-a", {
+      path: path.resolve(__dirname, "fixtures/a.txt")
     })
   }
 }
