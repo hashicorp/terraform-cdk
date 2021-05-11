@@ -1,0 +1,8 @@
+{
+    "language": "go",
+    "app": "go run main.go",
+    "terraformProviders": [
+        "kreuzwerker/docker@~> 2.11"
+    ],
+    "terraformModules": []
+}
