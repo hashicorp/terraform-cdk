@@ -8,13 +8,13 @@ import { TestDriver } from "../../test-helper";
 describe("java full integration", () => {
   let driver: TestDriver;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     driver = new TestDriver(__dirname)
-    driver.setupJavaProject()
+    await driver.setupJavaProject()
   });
 
   test("synth generates JSON", async () => {
-    driver.synth()
-    expect(driver.synthesizedStack()).toMatchSnapshot()
+    await driver.synth()
+    expect(driver.synthesizedStack('java-simple')).toMatchSnapshot()
   })
 })

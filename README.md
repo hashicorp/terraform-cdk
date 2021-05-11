@@ -38,7 +38,8 @@ Choose a language:
 
 ### Typescript
 
-* [aws](./examples/typescript/aws)
+* [aws-prebuilt](./examples/typescript/aws-prebuilt)
+* [aws-multiple-stacks](./examples/typescript/aws-multiple-stacks)
 * [aws-cloudfront-proxy](./examples/typescript/aws-cloudfront-proxy)
 * [azure](./examples/typescript/azure)
 * [azure-app-service](./examples/typescript/azure-app-service)
@@ -68,6 +69,7 @@ Choose a language:
 * [azure](./examples/java/azure)
 * [google](./examples/java/google)
 * [gradle-shared-module](./examples/java/gradle-shared-module)
+* [kubernetes](./examples/java/kubernetes)
 
 ### C#
 
@@ -90,6 +92,7 @@ Choose a language:
 * Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 * Defining Terraform [locals](./docs/working-with-cdk-for-terraform/terraform-locals.md).
 * Handling breaking changes with [feature flags](./docs/working-with-cdk-for-terraform/feature-flags.md).
+* Writing own [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) for init.
 
 ## Contributing and Feedback
 

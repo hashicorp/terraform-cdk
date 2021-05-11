@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`full integration test synth 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"first\\"
+    }
+  },
+  \\"resource\\": {
+    \\"null_resource\\": {
+      \\"test\\": {
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            }
+          }
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"first/test\\",
+            \\"uniqueId\\": \\"test\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`full integration test synth 2`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"second\\"
+    }
+  },
+  \\"resource\\": {
+    \\"null_resource\\": {
+      \\"test\\": {
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            }
+          }
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"second/test\\",
+            \\"uniqueId\\": \\"test\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`full integration test synth with json output 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"first\\"
+    }
+  },
+  \\"resource\\": {
+    \\"null_resource\\": {
+      \\"test\\": {
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            }
+          }
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"first/test\\",
+            \\"uniqueId\\": \\"test\\"
+          }
+        }
+      }
+    }
+  }
+}
+"
+`;

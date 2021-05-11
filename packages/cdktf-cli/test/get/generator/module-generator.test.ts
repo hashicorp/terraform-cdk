@@ -3,10 +3,10 @@ import * as os from 'os';
 import * as path from 'path';
 import { ConstructsMaker, Language } from '../../../lib/get/constructs-maker'
 import { TerraformModuleConstraint  } from '../../../lib/config'
-import { withTempDir } from '../../../lib/util';
+import { expectModuleToMatchSnapshot } from '../util';
 
 test('generate some modules', async () => {
-  jest.setTimeout(20000)
+  jest.setTimeout(60000)
 
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'module-generator.test'));
   const constraint = new TerraformModuleConstraint('terraform-aws-modules/eks/aws@7.0.1')
@@ -18,25 +18,25 @@ test('generate some modules', async () => {
   expect(output).toMatchSnapshot();
 });
 
-test('no module outputs', async () => {
-  await withTempDir('no-output-module.test', async () => {
-    const curdir = process.cwd();
-    fs.mkdirSync('module');
-    fs.copyFileSync(path.join(__dirname, 'fixtures', 'module-no-outputs.test.fixture.tf'), path.join(curdir, 'module', 'main.tf'));
+expectModuleToMatchSnapshot('no module outputs', 'generator', ['module-no-outputs.test.fixture.tf']);
 
-    const constraint = new TerraformModuleConstraint({
-      source: './module',
-      name: 'module',
-      fqn: 'module'
-    });
+expectModuleToMatchSnapshot('typeless variables', 'generator', ['module-no-variable-type.test.fixture.tf']);
 
-    fs.mkdirSync('work');
-    const workdir = path.join(curdir, 'work');
-  
-    const maker = new ConstructsMaker({codeMakerOutput: workdir, targetLanguage: Language.TYPESCRIPT}, [constraint])
-    await maker.generate();
-  
-    const output = fs.readFileSync(path.join(workdir, 'modules/module.ts'), 'utf-8');
-    expect(output).toMatchSnapshot();
-  });
+expectModuleToMatchSnapshot('no newline', 'generator', ['module-no-newline-1.test.fixture.tf', 'module-no-newline-2.test.fixture.tf']);
+
+test('generate multiple aws modules', async () => {
+  jest.setTimeout(20000);
+
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'module-generator-aws.test'));
+  const constraints = [new TerraformModuleConstraint('terraform-aws-modules/vpc/aws@2.78.0'), 
+    new TerraformModuleConstraint('terraform-aws-modules/rds-aurora/aws@4.1.0')];
+
+  const maker = new ConstructsMaker({codeMakerOutput: workdir, targetLanguage: Language.TYPESCRIPT}, constraints);
+  await maker.generate();
+
+  const vpcOutput = fs.readFileSync(path.join(workdir, 'modules/terraform-aws-modules/vpc/aws.ts'), 'utf-8');
+  expect(vpcOutput).toMatchSnapshot();
+
+  const rdsOutput = fs.readFileSync(path.join(workdir, 'modules/terraform-aws-modules/rds-aurora/aws.ts'), 'utf-8');
+  expect(rdsOutput).toMatchSnapshot();
 });

@@ -3,7 +3,7 @@
 exports[`readSchema generates a more complex schema 1`] = `
 Object {
   "moduleSchema": Object {
-    "aws": Object {
+    "terraform-aws-modules_eks_aws": Object {
       "inputs": Array [
         Object {
           "default": true,
@@ -349,7 +349,7 @@ Object {
           "type": "bool",
         },
       ],
-      "name": "aws",
+      "name": "terraform-aws-modules_eks_aws",
       "outputs": Array [
         Object {
           "description": "Name of cloudwatch log group created",
@@ -471,7 +471,7 @@ Object {
 exports[`readSchema generates a single module schema 1`] = `
 Object {
   "moduleSchema": Object {
-    "iam-account": Object {
+    "terraform-aws-modules_iam_aws__modules_iam-account": Object {
       "inputs": Array [
         Object {
           "description": "AWS IAM account alias for this account",
@@ -557,7 +557,7 @@ Object {
           "type": "bool",
         },
       ],
-      "name": "iam-account",
+      "name": "terraform-aws-modules_iam_aws__modules_iam-account",
       "outputs": Array [
         Object {
           "description": "The AWS Account ID number of the account that owns or contains the calling entity",

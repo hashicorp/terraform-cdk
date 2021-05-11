@@ -89,6 +89,7 @@ export async function convertFiles(workingDirectory: string): Promise<Record<str
     if (!fs.lstatSync(filePath).isDirectory()) {
       if (file.match(/\.tf$/)) {
         tfFileContents += fs.readFileSync(filePath, 'utf-8')
+        tfFileContents += '\n'
       }
       else if (file.match(/\.tf\.json$/)) {
         tfJSONFileContents.push(JSON.parse(fs.readFileSync(filePath, 'utf-8')))

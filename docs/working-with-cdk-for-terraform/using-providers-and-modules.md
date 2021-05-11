@@ -14,10 +14,10 @@ To improve the general user experience around provider imports and to allow buil
 
 Please check the [Terraform CDK Providers](https://github.com/terraform-cdk-providers) organization as well for an up to date list. As these are normal NPM / PyPI packages, they can be used as any other dependency.
 
-e.g. in Typescript / Node:
+e.g. in TypeScript / Node:
 
 ```
-npm install -a @cdktf/provider-aws
+npm install @cdktf/provider-aws
 ```
 
 ## Importing Providers and Modules
@@ -213,7 +213,7 @@ When using the `cdktf` cli commands, it'll automatically set the process env `TF
 
 `cdktf get` works in a temporary directory, hence all downloaded providers would be lost without caching. For the deployment related commands `diff` / `deploy` / `destroy`, the working directory is usually `cdktf.out` and is treated as throwaway folder. While not common, it's totally reasonable to remove the `cdktf.out` folder and synthesize again. In that case, caching will help as well.
 
-Last but not least, when approaching multiple stacks wihtin oen application (not yet implemented), provider caching is a basic prerequisite.
+Last but not least, when approaching multiple stacks within one application (not yet implemented), provider caching is a basic prerequisite.
 
 This behaviour can be disabled by setting `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to non null value, e.g. `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. This might be desired, when a different cache directory is configured via a `.terraformrc` configuration file.
 
@@ -222,7 +222,7 @@ For using modules on the terraform registry, see [cdktf.json](./cdktf-json.md).
 
 For using modules from other sources (local, github, etc), you can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
 
-Typescirpt example:
+TypeScript example:
 ```typescript
     const provider = new TestProvider(stack, 'provider', {
         accessKey: 'key',

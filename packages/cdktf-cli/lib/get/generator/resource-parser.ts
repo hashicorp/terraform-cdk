@@ -34,7 +34,7 @@ class Parser {
     const className = uniqueClassName(toPascalCase(baseName));
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
     uniqueClassName(toPascalCase(`${baseName}Config`));
-    const fileName = `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
+    const fileName = baseName === 'index' ? 'index-resource.ts' : `${toSnakeCase(baseName).replace(/_/g, '-')}.ts`;
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
     const attributes = this.renderAttributesForBlock(new Scope({name: baseName, isProvider, parent: isProvider ? undefined : new Scope({name: provider, isProvider: true})}), schema.block)
 

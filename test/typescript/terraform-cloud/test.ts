@@ -7,6 +7,7 @@
 
 import { TestDriver } from '../../test-helper'
 import { TerraformCloud } from '@skorfmann/terraform-cloud';
+import * as crypto from 'crypto';
 const { TERRAFORM_CLOUD_TOKEN, GITHUB_RUN_NUMBER, TERRAFORM_VERSION } = process.env;
 const withAuth = TERRAFORM_CLOUD_TOKEN ? it : it.skip
 
@@ -19,19 +20,14 @@ describe("full integration test", () => {
   let workspaceName: string;
   const orgName = 'cdktf'
 
-  beforeAll(() => {
-    jest.setTimeout(60000);
-    workspaceName = `${GITHUB_RUN_NUMBER}-${Date.now()}`
+  beforeAll(async () => {
+    workspaceName = `${GITHUB_RUN_NUMBER}-${crypto.randomBytes(10).toString('hex')}`
     driver = new TestDriver(__dirname, {
       TERRAFORM_CLOUD_WORKSPACE_NAME: workspaceName,
       TERRAFORM_CLOUD_ORGANIZATION: orgName
     });
-    driver.setupTypescriptProject()
+    await driver.setupTypescriptProject()
   });
-
-  afterAll(() => {
-    jest.setTimeout(5000); // default
-  })
 
   withAuth("deploy in Terraform Cloud", async () => {
     const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN)

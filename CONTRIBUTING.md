@@ -1,6 +1,20 @@
 # Contributing
 
-To build and install `terraform-cdk` locally, Node version 12.16+
+To build and install `terraform-cdk` locally you need to install:
+
+- Node version 12.16+
+- Go 1.16+
+- dotnet (v3.1.0)
+- mvn
+- pipenv
+
+Alternatively you can work on the CDK from within a docker container with the image `docker.mirror.hashicorp.services/hashicorp/jsii-terraform`, e.g.:
+
+```shell
+$ docker run -it --rm -w=/home -v (pwd):/home docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+```
+
+or through [Visual Studio Code Remote - Containers](https://code.visualstudio.com/docs/remote/containers).
 
 ## Getting Started
 
