@@ -41,7 +41,7 @@ interface OutputConfig {
 }
 function sanitize(value: any) {
   if (typeof value === "object") {
-    return JSON.stringify(value);
+    return JSON.stringify(value, null, 2);
   }
 
   return value;

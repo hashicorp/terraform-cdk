@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "ink-testing-library";
 import { Output } from "../../bin/cmds/ui/deploy";
 import { DeploySummary, Apply } from "../../bin/cmds/ui/deploy";
-import { stripAnsi } from '../test-helper'
+import { stripAnsi } from "../test-helper";
 import {
   DeployingResource,
   DeployingResourceApplyState,
@@ -37,11 +37,32 @@ test("Output", async () => {
       sensitive: false,
       type: "bar",
       value: "baz"
+    },
+    map: {
+      sensitive: false,
+      type: "map",
+      value: { keyA: "valueA", keyB: "valueB" }
+    },
+    list: {
+      sensitive: false,
+      type: "list",
+      value: ["A", "B", "C"]
     }
   };
 
   const { lastFrame } = render(<Output output={output} />);
-  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`"foo = baz"`);
+  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
+    "foo = baz
+    map = {
+      \\"keyA\\": \\"valueA\\",
+      \\"keyB\\": \\"valueB\\"
+    }
+    list = [
+      \\"A\\",
+      \\"B\\",
+      \\"C\\"
+    ]"
+  `);
 });
 
 test("Apply", async () => {
@@ -52,12 +73,12 @@ test("Apply", async () => {
   };
 
   const currentStack: SynthesizedStack = {
-    constructPath: '',
-    content: '',
-    name: 'testing',
-    synthesizedStackPath: './foo/stacks/bar',
-    workingDirectory: './foo'
-  }
+    constructPath: "",
+    content: "",
+    name: "testing",
+    synthesizedStackPath: "./foo/stacks/bar",
+    workingDirectory: "./foo"
+  };
 
   const initialState: DeployState = {
     status: Status.STARTING,
@@ -93,12 +114,12 @@ test("Apply Multiple Resources", async () => {
   };
 
   const currentStack: SynthesizedStack = {
-    constructPath: '',
-    content: '',
-    name: 'hellodiff',
-    synthesizedStackPath: './foo/stacks/bar',
-    workingDirectory: './foo'
-  }
+    constructPath: "",
+    content: "",
+    name: "hellodiff",
+    synthesizedStackPath: "./foo/stacks/bar",
+    workingDirectory: "./foo"
+  };
 
   const initialState: DeployState = {
     status: Status.STARTING,
