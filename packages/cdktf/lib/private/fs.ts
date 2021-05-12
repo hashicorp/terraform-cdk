@@ -2,6 +2,9 @@ import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
+import * as crypto from "crypto";
+
+const HASH_LEN = 32;
 
 // Full implementation at https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy-sync/copy-sync.js
 export function copySync(src: string, dest: string) {
@@ -38,4 +41,25 @@ export function archiveSync(src: string, dest: string) {
   }
 
   execSync(`zip -r ${dest} ${src}`);
+}
+
+export function hashPath(src: string) {
+  const hash = crypto.createHash("md5");
+
+  function hashRecursion(p: string) {
+    const stat = fs.statSync(p);
+    if (stat.isFile()) {
+      hash.update(fs.readFileSync(p));
+    } else if (stat.isDirectory()) {
+      fs.readdirSync(p).forEach((filename) =>
+        hashRecursion(path.resolve(p, filename))
+      );
+    }
+  }
+
+  hashRecursion(src);
+  return hash
+    .digest("hex")
+    .slice(0, HASH_LEN)
+    .toUpperCase();
 }

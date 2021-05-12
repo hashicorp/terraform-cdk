@@ -1,14 +1,14 @@
 import { Construct, ISynthesisSession } from "constructs";
 import { TerraformElement } from "./terraform-element";
-import { keysToSnakeCase, deepMerge } from "./util";
 import * as fs from "fs";
 import * as path from "path";
 import { Manifest } from "./manifest";
-import { copySync, archiveSync } from "./private/fs";
+import { copySync, archiveSync, hashPath } from "./private/fs";
 
 export interface TerraformAssetConfig {
   readonly path: string;
   readonly type?: AssetType;
+  readonly assetHash?: string;
 }
 
 export enum AssetType {
@@ -17,9 +17,12 @@ export enum AssetType {
   ARCHIVE,
 }
 
-const ARCHIVE_NAME = "/archive.zip";
+const ARCHIVE_NAME = "archive.zip";
+const ASSETS_DIRECTORY = "assets";
+
 export class TerraformAsset extends TerraformElement {
-  public path: string;
+  private sourcePath: string;
+  public assetHash: string;
   public type: AssetType;
 
   constructor(scope: Construct, id: string, config: TerraformAssetConfig) {
@@ -34,7 +37,8 @@ export class TerraformAsset extends TerraformElement {
     const stat = fs.statSync(config.path);
     const inferredType = stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
     this.type = !config.type ? inferredType : config.type;
-    this.path = config.path;
+    this.sourcePath = config.path;
+    this.assetHash = config.assetHash || hashPath(this.sourcePath)
 
     if (stat.isFile() && this.type !== AssetType.FILE) {
       throw new Error(
@@ -49,18 +53,17 @@ export class TerraformAsset extends TerraformElement {
     }
   }
 
-  protected synthesizeAttributes(): { [key: string]: any } {
+  public get path(): string {
     let filename = "";
     switch (this.type) {
       case AssetType.ARCHIVE:
         filename = ARCHIVE_NAME;
         break;
       case AssetType.FILE:
-        filename = path.basename(this.path);
+        filename = path.basename(this.sourcePath);
     }
-    return {
-      path: path.join(this.friendlyUniqueId, filename),
-    };
+
+    return path.join(ASSETS_DIRECTORY, this.friendlyUniqueId, filename);
   }
 
   protected onSynthesize(session: ISynthesisSession) {
@@ -71,25 +74,26 @@ export class TerraformAsset extends TerraformElement {
       session.outdir,
       stackManifest.synthesizedStackPath,
       "..",
-      this.friendlyUniqueId
+      this.path
     );
 
-    fs.mkdirSync(targetPath, { recursive: true });
+    if (this.type === AssetType.DIRECTORY) {
+      fs.mkdirSync(targetPath, { recursive: true });
+    } else {
+      fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+    }
 
     switch (this.type) {
       case AssetType.FILE:
-        fs.copyFileSync(
-          this.path,
-          path.resolve(targetPath, path.basename(this.path))
-        );
+        fs.copyFileSync(this.sourcePath, targetPath);
         break;
 
       case AssetType.DIRECTORY:
-        copySync(this.path, targetPath);
+        copySync(this.sourcePath, targetPath);
         break;
 
       case AssetType.ARCHIVE:
-        archiveSync(this.path, path.join(targetPath, ARCHIVE_NAME));
+        archiveSync(this.sourcePath, targetPath);
         break;
       default:
         throw new Error(`Asset type ${this.type} is not implemented`);
@@ -97,13 +101,6 @@ export class TerraformAsset extends TerraformElement {
   }
 
   public toTerraform(): any {
-    return {
-      assets: {
-        [this.friendlyUniqueId]: deepMerge(
-          keysToSnakeCase(this.synthesizeAttributes()),
-          this.rawOverrides
-        ),
-      },
-    };
+    return {};
   }
 }
