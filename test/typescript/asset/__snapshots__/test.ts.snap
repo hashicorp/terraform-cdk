@@ -18,13 +18,13 @@ exports[`full integration test synth 1`] = `
   },
   \\"assets\\": {
     \\"localasset\\": {
-      \\"path\\": \\"../../../local-asset.txt\\"
+      \\"path\\": \\"localasset/local-asset.txt\\"
     },
     \\"fixtures\\": {
-      \\"path\\": \\"../../../fixtures\\"
+      \\"path\\": \\"fixtures\\"
     },
     \\"zippedfixtures\\": {
-      \\"path\\": \\"../../../fixtures\\"
+      \\"path\\": \\"zippedfixtures/archive.zip\\"
     }
   }
 }"
