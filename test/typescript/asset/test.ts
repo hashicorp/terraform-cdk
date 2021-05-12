@@ -65,6 +65,5 @@ describe("full integration test", () => {
       path.resolve(driver.stackDirectory("stack"), "assets/zippedfixtures/archive.zip")
     );
     expect(stat.isFile()).toBe(true);
-    expect(stat.size).toBe(1799);
   });
 });
