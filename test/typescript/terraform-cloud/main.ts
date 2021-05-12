@@ -16,10 +16,6 @@ export class HelloTerra extends TerraformStack {
       'local-exec': {
         command: `echo "hello deploy"`
       }
-    }, {
-      'remote-exec': {
-        command: `cat ./asset-a/a.txt`
-      }
     }]);
 
     this.addOverride('terraform.backend', {

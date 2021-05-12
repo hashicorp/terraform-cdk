@@ -3,6 +3,7 @@
  *
  * @group typescript
  * @group terraform-cloud
+ * @group asset
  */
 
 import { TestDriver } from '../../test-helper'
