@@ -41,3 +41,7 @@ const app = new App();
 new MyStack(app, "demo");
 app.synth();
 ```
+
+## Dependencies
+
+Using `AssetType.ARCHIVE` requires `zip` to be installed and in the path.
