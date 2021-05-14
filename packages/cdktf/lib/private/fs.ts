@@ -29,18 +29,25 @@ export function copySync(src: string, dest: string) {
 }
 
 export function archiveSync(src: string, dest: string) {
-  try {
-    if (os.platform() === "win32") {
-      execSync("where zip");
-    } else {
-      execSync("which zip");
+  if (os.platform() === "win32") {
+    try {
+      execSync("where tar.exe");  
+    } catch {
+      console.error(`Unable to find "tar.exe".`);
+      process.exit(1);
     }
-  } catch {
-    console.error(`Unable to find "zip".`);
-    process.exit(1);
-  }
+    
+    execSync(`tar.exe -a -c -f ${dest} ${src}`);
+  } else {
+    try {
+      execSync("which zip");
+    } catch {
+      console.error(`Unable to find "zip".`);
+      process.exit(1);
+    }
 
-  execSync(`zip -r ${dest} ${src}`);
+    execSync(`zip -r ${dest} ${src}`);
+  }
 }
 
 export function hashPath(src: string) {
