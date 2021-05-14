@@ -1,0 +1,10 @@
+{
+  "language": "python",
+  "app": "pipenv run python main.py",
+  "terraformProviders": ["aws@~> 2.0"],
+  "terraformModules": ["terraform-aws-modules/vpc/aws@2.77.0"],
+  "codeMakerOutput": "imports",
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}
