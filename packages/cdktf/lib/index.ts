@@ -20,3 +20,5 @@ export * from "./runtime";
 export * from "./terraform-dependable";
 export * from "./manifest";
 export * from "./terraform-asset";
+export * from "./terraform-addressable";
+export * from "./attributes";
