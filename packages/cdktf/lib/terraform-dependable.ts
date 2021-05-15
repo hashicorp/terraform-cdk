@@ -1,3 +1,4 @@
-export interface ITerraformDependable {
-    readonly fqn: string;
+import { ITerraformAddressable } from "./terraform-addressable";
+
+export interface ITerraformDependable extends ITerraformAddressable {
 }

@@ -38,6 +38,16 @@ export function hashMapper(elementMapper: Mapper): Mapper {
   };
 }
 
+export function setMapper(elementMapper: Mapper): Mapper {
+  return (x: any) => {
+    if (!canInspect(x)) { return x; }
+
+    const ret: any[] = [];
+    x.forEach((value: any) => ret.push(elementMapper(value)));
+    return ret;
+  };
+}
+
 /**
  * Return whether this object can be validated at all
  *
