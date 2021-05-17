@@ -74,12 +74,15 @@ export interface TerraformVariableConfig {
      * If both the type and default arguments are specified, the given default value must be convertible to the specified type.
      */
     readonly type?: string;
+
+    readonly sensitive?: boolean;
 }
 
 export class TerraformVariable extends TerraformElement {
     public readonly default?: any;
     public readonly description?: string;
     public readonly type?: string;
+    public readonly sensitive?: boolean;
 
     constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
         super(scope, id);
@@ -87,6 +90,7 @@ export class TerraformVariable extends TerraformElement {
         this.default = config.default;
         this.description = config.description;
         this.type = config.type;
+        this.sensitive = config.sensitive;
     }
 
     public get stringValue(): string {
@@ -117,7 +121,8 @@ export class TerraformVariable extends TerraformElement {
         return {
             default: this.default,
             description: this.description,
-            type: this.type
+            type: this.type,
+            sensitive: this.sensitive,
         }
     }
 
