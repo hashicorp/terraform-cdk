@@ -1,9 +1,10 @@
-import { Construct, ISynthesisSession } from "constructs";
-import { TerraformElement } from "./terraform-element";
+import { Construct, ISynthesisSession, Node } from "constructs";
 import * as fs from "fs";
 import * as path from "path";
 import { Manifest } from "./manifest";
 import { copySync, archiveSync, hashPath } from "./private/fs";
+import { Resource } from "./resource";
+import { allocateLogicalId } from "./terraform-stack";
 
 export interface TerraformAssetConfig {
   readonly path: string;
@@ -20,7 +21,7 @@ export enum AssetType {
 const ARCHIVE_NAME = "archive.zip";
 const ASSETS_DIRECTORY = "assets";
 
-export class TerraformAsset extends TerraformElement {
+export class TerraformAsset extends Resource {
   private sourcePath: string;
   public assetHash: string;
   public type: AssetType;
@@ -63,7 +64,11 @@ export class TerraformAsset extends TerraformElement {
         filename = path.basename(this.sourcePath);
     }
 
-    return path.join(ASSETS_DIRECTORY, this.friendlyUniqueId, filename);
+    return path.join(
+      ASSETS_DIRECTORY,
+      allocateLogicalId(Node.of(this), this.stack),
+      filename
+    );
   }
 
   public get fileName(): string | undefined {
