@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`python full integration test assets synth generates JSON and copies files 1`] = `"This is a fixture"`;
+
+exports[`python full integration test assets synth generates JSON and copies files 2`] = `"A fixture"`;
