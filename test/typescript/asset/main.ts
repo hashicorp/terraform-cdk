@@ -1,23 +1,36 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, Testing, TerraformAsset, AssetType } from "cdktf";
+import { App, TerraformStack, Testing, TerraformAsset, TerraformOutput, AssetType } from "cdktf";
 import * as path from "path";
+
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new TerraformAsset(this, "local-asset", {
+    const localAsset = new TerraformAsset(this, "local-asset", {
       path: path.resolve(__dirname, "local-asset.txt"),
     });
 
-    new TerraformAsset(this, "fixtures", {
+    const fixtures =  new TerraformAsset(this, "fixtures", {
       path: path.resolve(__dirname, "fixtures"),
     });
 
-    new TerraformAsset(this, "zipped-fixtures", {
+    const zippedFixtures = new TerraformAsset(this, "zipped-fixtures", {
       path: path.resolve(__dirname, "fixtures"),
       type: AssetType.ARCHIVE,
     });
+
+    new TerraformOutput(this, "local-asset-name", {
+      value: localAsset.fileName
+    })
+
+    new TerraformOutput(this, "fixtures-name", {
+      value: fixtures.fileName || "Should be the value"
+    })
+
+    new TerraformOutput(this, "zipped-fixtures-name", {
+      value: zippedFixtures.fileName
+    })
   }
 }
 

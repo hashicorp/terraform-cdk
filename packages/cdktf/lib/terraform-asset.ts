@@ -38,7 +38,7 @@ export class TerraformAsset extends TerraformElement {
     const inferredType = stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
     this.type = !config.type ? inferredType : config.type;
     this.sourcePath = config.path;
-    this.assetHash = config.assetHash || hashPath(this.sourcePath)
+    this.assetHash = config.assetHash || hashPath(this.sourcePath);
 
     if (stat.isFile() && this.type !== AssetType.FILE) {
       throw new Error(
@@ -64,6 +64,10 @@ export class TerraformAsset extends TerraformElement {
     }
 
     return path.join(ASSETS_DIRECTORY, this.friendlyUniqueId, filename);
+  }
+
+  public get fileName(): string | undefined {
+    return this.type === AssetType.FILE ? path.basename(this.path) : undefined;
   }
 
   protected onSynthesize(session: ISynthesisSession) {

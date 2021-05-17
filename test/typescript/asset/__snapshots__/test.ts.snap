@@ -15,6 +15,14 @@ exports[`full integration test synth 1`] = `
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"stack\\"
     }
+  },
+  \\"output\\": {
+    \\"localassetname\\": {
+      \\"value\\": \\"local-asset.txt\\"
+    },
+    \\"fixturesname\\": {
+      \\"value\\": \\"Should be the value\\"
+    }
   }
 }"
 `;
