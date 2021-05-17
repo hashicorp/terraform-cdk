@@ -2,6 +2,11 @@
 
 A Terraform Asset takes a file or directory outside of the CDK for Terraform context and moves it into it. Assets copy referenced files into the stacks context for further usage in other resources.
 
+This is useful for:
+
+- Lambda functions for copying over previously generated zip files
+- S3 Content for deploying static local files
+
 ```typescript
 import * as path from "path";
 import { Construct } from "constructs";
