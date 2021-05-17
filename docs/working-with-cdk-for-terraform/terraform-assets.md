@@ -35,7 +35,7 @@ class MyStack extends TerraformStack {
 
     new S3BucketObject(this, "lambda-archive", {
       bucket: bucket.bucket,
-      key: "lambda.zip",
+      key: asset.fileName,
       source: asset.path,
     });
   }
