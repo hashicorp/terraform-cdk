@@ -164,13 +164,9 @@ export class TerraformCloud implements Terraform {
     })
 
     const pendingStates = ['pending', 'plan_queued', 'planning']
-
-    if (pendingStates.includes(result.attributes.status)) {
+    while (pendingStates.includes(result.attributes.status)) {
       result = await this.client.Runs.show(result.id)
-      while (pendingStates.includes(result.attributes.status)) {
-        result = await this.client.Runs.show(result.id)
-        await wait(1000);
-      }
+      await wait(1000);
     }
 
 
