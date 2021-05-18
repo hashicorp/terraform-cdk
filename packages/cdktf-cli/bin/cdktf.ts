@@ -5,6 +5,9 @@ import * as semver from 'semver';
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs-extra';
+import { terraformVersion } from './cmds/helper/terraform';
+import { DISPLAY_VERSION } from './cmds/version-check';
+
 
 const ensurePluginCache = (): string => {
   const pluginCachePath = process.env.TF_PLUGIN_CACHE_DIR || path.join(os.homedir(), '.terraform.d', 'plugin-cache')
@@ -41,5 +44,15 @@ yargs
       console.error(`Please run "${argv.$0} help" to get a list of commands.`)
       process.exit(1);
     }
+  })
+  .fail((_message, error) => {
+    console.error(error.stack);
+
+    terraformVersion.then(tfVersion => {
+      console.error(`
+Debug Information:
+    Terraform CDK version: ${DISPLAY_VERSION}
+    Terraform version: ${tfVersion}`)
+    });
   })
   .argv;

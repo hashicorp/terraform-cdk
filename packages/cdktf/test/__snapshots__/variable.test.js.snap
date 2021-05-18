@@ -161,6 +161,23 @@ exports[`reference 1`] = `
 }"
 `;
 
+exports[`sensitive variable 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test-variable\\": {
+      \\"type\\": \\"string\\",
+      \\"sensitive\\": true
+    }
+  }
+}"
+`;
+
 exports[`set collection type 1`] = `
 "{
   \\"//\\": {
