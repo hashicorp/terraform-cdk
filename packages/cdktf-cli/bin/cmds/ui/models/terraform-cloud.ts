@@ -188,16 +188,18 @@ export class TerraformCloud implements Terraform {
     await this.client.Runs.action('apply', runId)
     let result = await this.client.Runs.show(runId)
 
-    if (deployingStates.includes(result.attributes.status)) {
-      result = await this.client.Runs.show(runId)
-      while (deployingStates.includes(result.attributes.status)) {
-        result = await this.client.Runs.show(runId)
-        await wait(1000);
-      }
+    async function update(client: TerraformCloudClient.TerraformCloud) {
+      const res = await client.Runs.show(runId);
+
+      // fetch logs and update UI in the background
+      client.Applies.logs(result.relationships.apply.data.id).then(({ data }) => stdout(Buffer.from(data, 'utf8')));
+      return res;
     }
 
-    const logs = await this.client.Applies.logs(result.relationships.apply.data.id)
-    stdout(Buffer.from(logs.data, 'utf8'))
+    while (deployingStates.includes(result.attributes.status)) {
+      result = await update(this.client)
+      await wait(1000);
+    }
 
     switch (result.attributes.status) {
       case 'applied': break;
@@ -214,16 +216,18 @@ export class TerraformCloud implements Terraform {
     await this.client.Runs.action('apply', runId)
     let result = await this.client.Runs.show(runId)
 
-    if (destroyingStates.includes(result.attributes.status)) {
-      result = await this.client.Runs.show(runId)
-      while (destroyingStates.includes(result.attributes.status)) {
-        result = await this.client.Runs.show(runId)
-        await wait(1000);
-      }
+    async function update(client: TerraformCloudClient.TerraformCloud) {
+      const res = await client.Runs.show(runId);
+
+      // fetch logs and update UI in the background
+      client.Applies.logs(result.relationships.apply.data.id).then(({ data }) => stdout(Buffer.from(data, 'utf8')));
+      return res;
     }
 
-    const logs = await this.client.Applies.logs(result.relationships.apply.data.id)
-    stdout(Buffer.from(logs.data, 'utf8'))
+    while (destroyingStates.includes(result.attributes.status)) {
+      result = await update(this.client)
+      await wait(1000);
+    }
 
     switch (result.attributes.status) {
       case 'applied': break;
