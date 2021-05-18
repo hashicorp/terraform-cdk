@@ -11,26 +11,6 @@ import { Manifest } from './manifest'
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
-
-/**
- * Returns the naming scheme used to allocate logical IDs. By default, uses
- * the `HashedAddressingScheme` but this method can be overridden to customize
- * this behavior.
- *
- * @param tfElement The element for which the logical ID is allocated.
- */
-export function allocateLogicalId(node: Node, stack: TerraformStack): string {
-  let stackIndex;
-  if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
-    stackIndex = node.scopes.indexOf(stack);
-  }
-  else {
-    stackIndex = 0;
-  }
-
-  const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
-  return components.length > 0 ? makeUniqueId(components, node.tryGetContext(ALLOW_SEP_CHARS_IN_LOGICAL_IDS)) : '';
-}
 export interface TerraformStackMetadata {
   readonly stackName: string;
   readonly version: string;
@@ -93,10 +73,32 @@ export class TerraformStack extends Construct {
     curr[lastKey] = value;
   }
 
-  public getLogicalId(tfElement: TerraformElement): string {
+  public getLogicalId(tfElement: TerraformElement | Node): string {
     // wrap the allocation for future renaming support
-    return allocateLogicalId(tfElement.constructNode, tfElement.stack);
+    return this.allocateLogicalId(tfElement);
+  }
 
+  /**
+   * Returns the naming scheme used to allocate logical IDs. By default, uses
+   * the `HashedAddressingScheme` but this method can be overridden to customize
+   * this behavior.
+   *
+   * @param tfElement The element for which the logical ID is allocated.
+   */
+  protected allocateLogicalId(tfElement: TerraformElement | Node): string {
+    const node =  "constructNode" in tfElement ? tfElement.constructNode : tfElement;
+    const stack = "stack" in tfElement ? tfElement.cdktfStack : this;
+
+    let stackIndex;
+    if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
+      stackIndex = node.scopes.indexOf(stack);
+    }
+    else {
+      stackIndex = 0;
+    }
+
+    const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
+    return components.length > 0 ? makeUniqueId(components, node.tryGetContext(ALLOW_SEP_CHARS_IN_LOGICAL_IDS)) : '';
   }
 
   public allProviders(): TerraformProvider[] {

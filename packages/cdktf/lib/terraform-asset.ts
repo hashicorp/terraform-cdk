@@ -4,7 +4,6 @@ import * as path from "path";
 import { Manifest } from "./manifest";
 import { copySync, archiveSync, hashPath } from "./private/fs";
 import { Resource } from "./resource";
-import { allocateLogicalId } from "./terraform-stack";
 
 export interface TerraformAssetConfig {
   readonly path: string;
@@ -66,7 +65,7 @@ export class TerraformAsset extends Resource {
 
     return path.join(
       ASSETS_DIRECTORY,
-      allocateLogicalId(Node.of(this), this.stack),
+      this.stack.getLogicalId(Node.of(this)), // needed to get a human friendly, unique segment in the path
       filename
     );
   }
