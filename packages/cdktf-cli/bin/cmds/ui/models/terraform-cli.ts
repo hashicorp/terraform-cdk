@@ -2,8 +2,8 @@ import * as path from 'path';
 import { exec, readCDKTFVersion } from 'cdktf-cli/lib/util'
 import { Terraform, TerraformPlan, TerraformOutput, AbstractTerraformPlan } from './terraform';
 import { SynthesizedStack } from '../../helper/synth-stack';
+import { terraformBinaryName } from '../../helper/terraform';
 
-const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || 'terraform'
 
 export class TerraformCliPlan extends AbstractTerraformPlan implements TerraformPlan {
   constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {
