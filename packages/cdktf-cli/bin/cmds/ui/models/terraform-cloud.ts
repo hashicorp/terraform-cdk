@@ -47,7 +47,8 @@ const wait = (ms = 1000) => {
   });
 }
 
-function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+function BeautifyErrors(name: string) {
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const isMethod = descriptor && descriptor.value instanceof Function;
     if (!isMethod)
       return;
@@ -60,7 +61,7 @@ function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDe
         if (e.response && e.response.status >= 400 && e.response.status <= 599){
           const errors = e.response.data?.errors as (object[] | undefined);
           if (errors) {
-            throw new Error(`Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
+            throw new Error(`${name}: Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
           }
         }
         throw e;
@@ -68,8 +69,8 @@ function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDe
     };
 
     Object.defineProperty(target, propertyKey, descriptor!);
+  }
 }
-
 export class TerraformCloud implements Terraform {
   private readonly terraformConfigFilePath = path.join(os.homedir(), '.terraform.d', 'credentials.tfrc.json')
   private readonly token: string;
@@ -104,13 +105,13 @@ export class TerraformCloud implements Terraform {
     this.client = new TerraformCloudClient.TerraformCloud(this.token)
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("IsRemoteWorkspace")
   public async isRemoteWorkspace(): Promise<boolean> {
     const workspace = await this.workspace()
     return workspace.attributes.executionMode !== 'local'
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Init")
   public async init(): Promise<void> {
     if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
     const workspace = await this.workspace()
@@ -135,7 +136,7 @@ export class TerraformCloud implements Terraform {
     await this.waitForConfigurationVersionToBeReady();
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Plan")
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId) throw new Error("Please create a ConfigurationVersion before planning");
     const workspace = await this.workspace()
@@ -179,7 +180,7 @@ export class TerraformCloud implements Terraform {
     return new TerraformCloudPlan('terraform-cloud', plan as unknown as any, url)
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Deploy")
   public async deploy(_planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before deploying");
 
@@ -205,7 +206,7 @@ export class TerraformCloud implements Terraform {
     }
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Destroy")
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before destroying");
 
@@ -231,12 +232,12 @@ export class TerraformCloud implements Terraform {
     }
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Version")
   public async version(): Promise<string> {
     return (await this.workspace()).attributes.terraformVersion
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Output")
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
     if (!stateVersion.included) return {}
@@ -254,7 +255,7 @@ export class TerraformCloud implements Terraform {
     return outputs
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Workspace")
   private async workspace() {
     try {
       return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
