@@ -1,0 +1,11 @@
+.terraform
+cdktf.out
+terraform.tfstate*
+
+.idea
+.settings
+.vscode
+*.iml
+
+# go build output
+docker

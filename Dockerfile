@@ -5,7 +5,9 @@ RUN yum install -y unzip jq && curl https://raw.githubusercontent.com/pypa/pipen
 ENV DEFAULT_TERRAFORM_VERSION=0.14.7                                \
     TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
     # MAVEN_OPTS is set in jsii/superchain with -Xmx512m. This isn't enough memory for provider generation.
-    MAVEN_OPTS="-Xms256m -Xmx3G"
+    MAVEN_OPTS="-Xms256m -Xmx3G" \
+    # provider generation for Go needs quite some memory (e.g. cdktf get for hashicorp/aws provider)
+    NODE_OPTIONS="--max-old-space-size=8192"
 
 # Install Terraform
 RUN AVAILABLE_TERRAFORM_VERSIONS="0.13.6 ${DEFAULT_TERRAFORM_VERSION} 0.15.0-beta1" && \

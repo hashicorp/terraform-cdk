@@ -142,7 +142,7 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
       case Language.PYTHON:
         return this.simplifiedName;
       case Language.GO:
-        return this.simplifiedName;
+        return this.constraint.fqn.split('/').pop() || 'unnamed'; // e.g. aws for hashicorp/aws
       default:
         return this.constraint.fqn;
     }
@@ -253,13 +253,17 @@ export class ConstructsMaker {
           }
 
           if (this.isGoTarget) {
-            const [orgName , packageName] = target.fqn.split('/');
+            const targetType = target.isProvider ? 'provider' : 'module';
+            // could also contain e.g. "aws" as abbreviation for "hashicorp/aws" for official providers
+            const parts = target.fqn.split('/');
+            const [orgName, packageName] = parts.length === 1 ? ['hashicorp', parts[0]] : parts;
+            // TODO: check what could be in fqn for modules (e.g. pointing to a nested dir in a git repo)
 
             opts.golang = {
               // jsii-srcmac will produce a folder inside this dir named after "packageName", so this results in e.g. .gen/hashicorp/random
               outdir: path.join(this.codeMakerOutdir, orgName),
-              moduleName: `github.com/hashicorp/terraform-cdk-provider-${target.moduleKey.replace(/_/g, '-')}-go`,
-              packageName // package will be named e.g. random for hashicorp/random
+              moduleName: `github.com/hashicorp/terraform-cdk-${targetType}-${orgName}-${packageName}-go`,
+              packageName: target.srcMakName // package will be named e.g. random for hashicorp/random
             }
             console.log({opts, target});
           }
