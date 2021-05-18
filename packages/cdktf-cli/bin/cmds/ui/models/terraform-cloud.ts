@@ -169,10 +169,13 @@ export class TerraformCloud implements Terraform {
       await wait(1000);
     }
 
+    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`
+    if (result.attributes.status === 'errored') {
+      throw new Error(`Error planning the run, please take a look at ${url}`)
+    }
 
     const plan = await this.client.Plans.jsonOutput(result.relationships.plan.data.id)
     this.run = result
-    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`
     return new TerraformCloudPlan('terraform-cloud', plan as unknown as any, url)
   }
 
