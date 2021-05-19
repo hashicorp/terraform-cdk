@@ -36,7 +36,7 @@ export class TerraformAsset extends Resource {
 
     const stat = fs.statSync(config.path);
     const inferredType = stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
-    this.type = !config.type ? inferredType : config.type;
+    this.type = config.type ?? inferredType;
     this.sourcePath = config.path;
     this.assetHash = config.assetHash || hashPath(this.sourcePath);
 

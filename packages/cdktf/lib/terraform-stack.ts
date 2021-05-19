@@ -86,8 +86,8 @@ export class TerraformStack extends Construct {
    * @param tfElement The element for which the logical ID is allocated.
    */
   protected allocateLogicalId(tfElement: TerraformElement | Node): string {
-    const node =  "constructNode" in tfElement ? tfElement.constructNode : tfElement;
-    const stack = "stack" in tfElement ? tfElement.cdktfStack : this;
+    const node = tfElement instanceof TerraformElement ? tfElement.constructNode : tfElement;
+    const stack = tfElement  instanceof TerraformElement ? tfElement.cdktfStack : this;
 
     let stackIndex;
     if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
