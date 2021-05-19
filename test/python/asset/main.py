@@ -10,14 +10,6 @@ class MyStack(TerraformStack):
 
         NullProvider(self, "null")
         Resource(self, "null-resource")
-        self.add_override('terraform.backend', {
-            'remote': {
-                'organization': 'test',
-                'workspaces': {
-                    'name': 'test'
-                }
-            }
-        })
 
         TerraformAsset(self, 'fixture', path=os.path.abspath("./fixture.txt"))
         TerraformAsset(self, 'fixtures', path=os.path.abspath("./fixtures"), type=AssetType.ARCHIVE)
