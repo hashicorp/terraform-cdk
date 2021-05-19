@@ -1,5 +1,7 @@
 # Contributing
 
+To make contributing more convenient we have a vagrant setup, [read more here](#vagrant)
+
 To build and install `terraform-cdk` locally you need to install:
 
 - Node version 12.16+
@@ -15,6 +17,42 @@ $ docker run -it --rm -w=/home -v (pwd):/home docker.mirror.hashicorp.services/h
 ```
 
 or through [Visual Studio Code Remote - Containers](https://code.visualstudio.com/docs/remote/containers).
+
+## Vagrant  
+
+1. Install [vagrant](https://www.vagrantup.com/docs/installation)
+2. Boot your vagrant machine: `vagrant up <linux|windows>`
+3. SSH into machine: `vagrant ssh <linux|windows>`
+4. Follow Linux or Windows instructions below
+
+### Linux
+
+```sh
+cd terraform-cdk
+# follow instructions below from here on
+```
+
+### Windows
+
+Due to yarn's usage of symlinks we need to manually sync back and forth between the host machine and the windows VM. We have a special command in place that can be used:
+
+```bat
+<!-- This gives you access to the installed binaries like node or python -->
+refreshenv
+
+<!-- For a one time copy from your host system to the vm run -->
+.\terraform-cdk-origin\tools\vagrant\windows-copy-to-vm.bat
+
+<!-- In development you might want to sync files more often, run this and abort it with ctrl+C -->
+.\terraform-cdk-origin\tools\vagrant\windows-sync-to-vm.bat
+
+<!-- Go to the working environment and follow instructions below -->
+cd .\terraform-cdk
+
+<!-- For a one time copy from your vm to the host system run -->
+.\terraform-cdk-origin\tools\vagrant\windows-copy-to-host.bat
+
+```
 
 ## Getting Started
 
