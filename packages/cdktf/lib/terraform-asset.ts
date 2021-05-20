@@ -57,7 +57,7 @@ export class TerraformAsset extends Resource {
     return path.join(
       ASSETS_DIRECTORY,
       this.stack.getLogicalId(Node.of(this)), // needed to get a human friendly, unique segment in the path
-      this.fileName ?? ""
+      this.type === AssetType.DIRECTORY ? "" : this.fileName
     );
   }
 
