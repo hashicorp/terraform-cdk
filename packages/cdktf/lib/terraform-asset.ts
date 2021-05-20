@@ -54,24 +54,22 @@ export class TerraformAsset extends Resource {
   }
 
   public get path(): string {
-    let filename = "";
-    switch (this.type) {
-      case AssetType.ARCHIVE:
-        filename = ARCHIVE_NAME;
-        break;
-      case AssetType.FILE:
-        filename = path.basename(this.sourcePath);
-    }
-
     return path.join(
       ASSETS_DIRECTORY,
       this.stack.getLogicalId(Node.of(this)), // needed to get a human friendly, unique segment in the path
-      filename
+      this.fileName ?? ""
     );
   }
 
   public get fileName(): string | undefined {
-    return this.type === AssetType.FILE ? path.basename(this.path) : undefined;
+    switch (this.type) {
+      case AssetType.ARCHIVE:
+        return ARCHIVE_NAME;
+      case AssetType.FILE:
+        return path.basename(this.sourcePath);
+      case AssetType.DIRECTORY:
+        return undefined;
+    }
   }
 
   protected onSynthesize(session: ISynthesisSession) {
