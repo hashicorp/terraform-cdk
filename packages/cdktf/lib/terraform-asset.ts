@@ -105,8 +105,4 @@ export class TerraformAsset extends Resource {
         throw new Error(`Asset type ${this.type} is not implemented`);
     }
   }
-
-  public toTerraform(): any {
-    return {};
-  }
 }
