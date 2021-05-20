@@ -90,7 +90,7 @@ export class TerraformStack extends Construct {
 
     let stackIndex;
     if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
-      stackIndex = node.scopes.indexOf(tfElement.stack);
+      stackIndex = node.scopes.indexOf(tfElement.cdktfStack);
     }
     else {
       stackIndex = 0;
