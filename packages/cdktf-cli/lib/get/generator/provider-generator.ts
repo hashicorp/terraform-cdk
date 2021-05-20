@@ -3,68 +3,56 @@ import { Provider, ProviderSchema } from './provider-schema';
 import { ResourceModel } from "./models"
 import { ResourceParser } from './resource-parser'
 import { ResourceEmitter, StructEmitter } from './emitter'
+import { ConstructsMakerTarget } from '../constructs-maker'
 
-export class TerraformProviderConstraint {
-  public version: string;
-  public source?: string;
-  public name: string
-  public fqn:  string;
-
-  constructor(public cdktfConstraint: string) {
-    const [ fqn, version ] = cdktfConstraint.split('@');
-    const nameParts = fqn.split('/');
-    const name = nameParts.pop();
-    if (!name) { throw new Error(`Provider name should be properly set in ${cdktfConstraint}`) }
-
-    this.name = name;
-    this.source = nameParts.join('/');
-    this.version = version;
-    this.fqn = fqn
-  }
-
-  public isMatching(terraformSchemaName: string): boolean {
-    const elements = terraformSchemaName.split('/')
-
-    if (elements.length === 1) {
-      return this.name === terraformSchemaName
-    } else {
-      const [hostname, scope, provider] = elements
-
-      if (!hostname || !scope || !provider) {
-        throw new Error(`can't handle ${terraformSchemaName}`)
-      }
-
-      return this.name === provider;
-    }
-  }
-}
 interface ProviderData {
   name: string;
   source: string;
   version: string;
 }
 
+const isMatching = (target: ConstructsMakerTarget, terraformSchemaName: string): boolean => {
+  if (target.isModule) return false;
+
+  const elements = terraformSchemaName.split('/')
+
+  if (elements.length === 1) {
+    return target.source === terraformSchemaName
+  } else {
+    const [hostname, scope, provider] = elements
+
+    if (!hostname || !scope || !provider) {
+      throw new Error(`can't handle ${terraformSchemaName}`)
+    }
+
+    return target.name === provider;
+  }
+}
+
 export interface ProviderConstraints {
   [fqn: string]: ProviderData;
 }
 
-export class TerraformGenerator {
+export class TerraformProviderGenerator {
   private resourceParser = new ResourceParser();
   private resourceEmitter:  ResourceEmitter;
   private structEmitter:  StructEmitter;
-  constructor(private readonly code: CodeMaker, schema: ProviderSchema, private providerConstraints?: TerraformProviderConstraint[]) {
-
+  constructor(private readonly code: CodeMaker, schema: ProviderSchema, private providerConstraints?: ConstructsMakerTarget[]) {
     this.code.indentation = 2;
     this.resourceEmitter = new ResourceEmitter(this.code)
     this.structEmitter = new StructEmitter(this.code)
 
     if (!schema.provider_schemas) {
-      console.error('warning: no providers');
+      console.info('no providers - nothing to do');
       return;
     }
 
     for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
-      this.emitProvider(fqpn, provider);
+      if (this.providerConstraints && this.providerConstraints.find((p) => (isMatching(p, fqpn)))) {
+        this.emitProvider(fqpn, provider);
+      } else if (!this.providerConstraints) {
+        this.emitProvider(fqpn, provider);
+      }
     }
   }
 
@@ -88,13 +76,12 @@ export class TerraformGenerator {
     if (provider.provider) {
       const providerResource = this.resourceParser.parse(name, `provider`, provider.provider, 'provider')
       if (this.providerConstraints) {
-        const constraint = this.providerConstraints.find((p) => (p.isMatching(fqpn)))
+        const constraint = this.providerConstraints.find((p) => (isMatching(p, fqpn)))
         if (!constraint) {
-          console.log({foo: this.providerConstraints, fqpn})
           throw new Error(`can't handle ${fqpn}`)
         }
         providerResource.providerVersionConstraint = constraint.version;
-        providerResource.terraformProviderSource = constraint.fqn;
+        providerResource.terraformProviderSource = constraint.source;
       }
       files.push(this.emitResourceFile(providerResource));
     }

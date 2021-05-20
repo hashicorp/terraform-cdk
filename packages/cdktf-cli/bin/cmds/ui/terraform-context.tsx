@@ -1,12 +1,13 @@
 /* eslint-disable no-control-regex */
 import React from 'react'
-import * as path from 'path'
 import { TerraformCli } from "./models/terraform-cli"
 import { TerraformCloud, TerraformCloudPlan } from "./models/terraform-cloud"
 import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
 import { SynthStack } from '../helper/synth-stack'
 import { TerraformJson } from './terraform-json'
 import { useApp } from 'ink'
+import stripAnsi from 'strip-ansi'
+import { SynthesizedStack } from '../helper/synth-stack'
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -27,10 +28,6 @@ export enum Status {
   DONE = 'done'
 }
 
-const stripAnsi = (str: string): string => {
-  return str.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
-}
-
 const parseOutput = (str: string): DeployingResource[] => {
   const lines = stripAnsi(str.toString()).split('\n')
 
@@ -39,11 +36,12 @@ const parseOutput = (str: string): DeployingResource[] => {
     if (/^Outputs:/.test(line)) { return }
     if (/^data\..*/.test(line)) { return }
 
-    const resourceMatch = line.match(/^([a-zA-Z\d_.]*):/)
+    const resourceMatch = line.match(/^([a-zA-Z\d_\-.]*):/)
     let applyState: DeployingResourceApplyState;
 
     switch (true) {
       case /Creating.../.test(line):
+      case /Still creating.../.test(line):
         applyState = DeployingResourceApplyState.CREATING
         break;
       case /Creation complete/.test(line):
@@ -56,6 +54,7 @@ const parseOutput = (str: string): DeployingResource[] => {
         applyState = DeployingResourceApplyState.UPDATED
         break;
       case /Destroying.../.test(line):
+      case /Still destroying.../.test(line):
         applyState = DeployingResourceApplyState.DESTROYING
         break;
       case /Destruction complete/.test(line):
@@ -65,7 +64,7 @@ const parseOutput = (str: string): DeployingResource[] => {
         applyState = DeployingResourceApplyState.WAITING
     }
 
-    if (resourceMatch && resourceMatch.length >= 0) {
+    if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
       return {
         id: resourceMatch[1],
         action: PlannedResourceAction.CREATE,
@@ -90,15 +89,16 @@ export type DeployState = {
   resources: DeployingResource[];
   plan?: TerraformPlan;
   url?: string;
-  stackName?: string;
-  stackJSON?: string;
+  currentStack: SynthesizedStack;
+  stacks?: SynthesizedStack[];
   errors?: string[];
   output?: { [key: string]: TerraformOutput };
 }
 
 type Action =
   | { type: 'SYNTH' }
-  | { type: 'NEW_STACK'; stackName: string; stackJSON: string }
+  | { type: 'SYNTHESIZED'; stacks: SynthesizedStack[] }
+  | { type: 'CURRENT_STACK'; currentStack: SynthesizedStack }
   | { type: 'INIT' }
   | { type: 'PLAN' }
   | { type: 'PLANNED'; plan: TerraformPlan }
@@ -125,12 +125,13 @@ function deployReducer(state: DeployState, action: Action): DeployState {
     case 'SYNTH': {
       return { ...state, status: Status.SYNTHESIZING }
     }
-    case 'NEW_STACK': {
+    case 'SYNTHESIZED': {
+      return { ...state, status: Status.SYNTHESIZED, stacks: action.stacks }
+    }
+    case 'CURRENT_STACK': {
       return {
         ...state,
-        status: Status.SYNTHESIZED,
-        stackName: action.stackName,
-        stackJSON: action.stackJSON
+        currentStack: action.currentStack
       }
     }
     case 'INIT': {
@@ -182,7 +183,15 @@ interface TerraformProviderConfig {
 
 // eslint-disable-next-line react/prop-types
 export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig> = ({ children, initialState }): React.ReactElement => {
-  const [state, dispatch] = React.useReducer(deployReducer, initialState || { status: Status.STARTING, resources: [] })
+  const initialCurrentStack: SynthesizedStack = {
+    constructPath: '',
+    content: '',
+    name: '',
+    synthesizedStackPath: '',
+    workingDirectory: ''
+  }
+
+  const [state, dispatch] = React.useReducer(deployReducer, initialState || { status: Status.STARTING, resources: [], currentStack: initialCurrentStack })
 
   return (
     <TerraformContextState.Provider value={state}>
@@ -194,6 +203,7 @@ export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig>
 }
 interface UseTerraformInput {
   targetDir: string;
+  targetStack?: string;
   synthCommand: string;
   isSpeculative?: boolean;
   autoApprove?: boolean;
@@ -209,7 +219,7 @@ export const useTerraformState = () => {
   return state
 }
 
-export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, autoApprove = false }: UseTerraformInput) => {
+export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculative = false, autoApprove = false }: UseTerraformInput) => {
   const dispatch = React.useContext(TerraformContextDispatch)
   const state = useTerraformState()
   const [terraform, setTerraform] = React.useState<Terraform>()
@@ -219,7 +229,6 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
   if (dispatch === undefined) {
     throw new Error('useTerraform must be used within a TerraformContextDispatch.Provider')
   }
-
 
   const confirmationCallback = React.useCallback(submitValue => {
     if (submitValue === false) {
@@ -231,21 +240,18 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
   }, []);
 
 
-  const executorForStack = async (stackJSON: string): Promise<void> => {
-    if (stackJSON === undefined) throw new Error('no synthesized stack found');
-    const cwd = process.cwd();
-    const outdir = path.join(cwd, targetDir);
-    const stack = JSON.parse(stackJSON) as TerraformJson
+  const executorForStack = async (stack: SynthesizedStack): Promise<void> => {
+    const parsedStack = JSON.parse(stack.content) as TerraformJson
 
-    if (stack.terraform?.backend?.remote) {
-      const tfClient = new TerraformCloud(outdir, stack.terraform?.backend?.remote, isSpeculative)
+    if (parsedStack.terraform?.backend?.remote) {
+      const tfClient = new TerraformCloud(stack, parsedStack.terraform?.backend?.remote, isSpeculative)
       if (await tfClient.isRemoteWorkspace()) {
         setTerraform(tfClient)
       } else {
-        setTerraform(new TerraformCli(outdir))
+        setTerraform(new TerraformCli(stack))
       }
     } else {
-      setTerraform(new TerraformCli(outdir))
+      setTerraform(new TerraformCli(stack))
     }
   }
 
@@ -253,10 +259,25 @@ export const useTerraform = ({ targetDir, synthCommand, isSpeculative = false, a
     try {
       dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
+
       if (loadExecutor) {
-        await executorForStack(stacks[0].content)
+        if (stacks.length > 1 && !targetStack) {
+          throw new Error(`Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: ${stacks.map(s => s.name).join(', ')} `);
+        }
+        const stack = targetStack ? stacks.find(s => s.name === targetStack) : stacks[0]
+        if (!stack) throw new Error(`Can't find given stack ${targetStack} - Found the following stacks ${stacks.map(s => s.name).join(', ')}`);
+
+        dispatch({ type: 'CURRENT_STACK', currentStack: stack })
+
+        await executorForStack(stack)
+      } else { // synth
+        const stack = targetStack ? stacks.find(s => s.name === targetStack) : stacks[0]
+        if (stack) {
+          dispatch({ type: 'CURRENT_STACK', currentStack: stack })
+        }
       }
-      dispatch({ type: 'NEW_STACK', stackName: stacks[0].name, stackJSON: stacks[0].content })
+
+      dispatch({ type: 'SYNTHESIZED', stacks })
     } catch (e) {
       dispatch({ type: 'ERROR', error: e })
     }

@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { Language } from './get/base';
+import { Language } from './get/constructs-maker';
 import { env } from 'process';
 import { CONTEXT_ENV } from 'cdktf';
 
@@ -10,8 +10,78 @@ const DEFAULTS = {
   codeMakerOutput: '.gen'
 }
 
-function isPresent(input: string[] | undefined): boolean {
+const parseDependencyConstraint = (item: string) => {
+  const [ fqn, version ] = item.split('@');
+  const nameParts = fqn.split('/');
+  const name = nameParts.pop();
+  if (!name) { throw new Error(`Provider name should be properly set in ${item}`) }
+
+  return {
+    name,
+    source: fqn,
+    version,
+    fqn
+  }
+}
+
+function isPresent(input: any[] | undefined): boolean {
   return Array.isArray(input) && input.length > 0
+}
+export interface TerraformDependencyConstraint {
+  readonly name: string;
+  readonly source: string;
+  readonly version?: string;
+  readonly fqn: string;
+}
+
+export class TerraformModuleConstraint implements TerraformDependencyConstraint {
+  public readonly name: string;
+  public readonly source: string;
+  public readonly localSource?: string;
+  public readonly fqn: string;
+  public readonly version?: string;
+
+  constructor(item: TerraformDependencyConstraint | string) {
+    if (typeof(item) === 'string') {
+      const parsed = parseDependencyConstraint(item);
+      this.name = parsed.name
+      this.source = parsed.source
+      this.fqn = parsed.fqn
+      this.version = parsed.version
+    } else {
+      if (item.source.startsWith('./') || item.source.startsWith('../')) {
+        this.source = item.source
+        this.localSource = `file://${path.join(process.cwd(), item.source)}`
+      } else {
+        this.source = item.source;
+      }
+      this.name = item.name;
+      this.fqn = item.name;
+      this.version = item.version;
+    }
+  }
+}
+
+export class TerraformProviderConstraint implements TerraformDependencyConstraint{
+  public readonly name: string;
+  public readonly source: string;
+  public readonly version?: string;
+  public readonly fqn: string;
+
+  constructor(item: TerraformDependencyConstraint | string) {
+    if (typeof(item) === 'string') {
+      const parsed = parseDependencyConstraint(item);
+      this.name = parsed.name
+      this.fqn = parsed.fqn
+      this.source = parsed.fqn
+      this.version = parsed.version
+    } else {
+      this.name = item.name;
+      this.fqn = item.name;
+      this.version = item.version;
+      this.source = item.source;
+    }
+  }
 }
 
 export interface Config {
@@ -19,27 +89,42 @@ export interface Config {
   readonly language?: Language;
   readonly output: string;
   readonly codeMakerOutput: string;
-  readonly terraformProviders?: string[];
-  readonly terraformModules?: string[];
+  terraformProviders?: TerraformProviderConstraint[];
+  terraformModules?: TerraformModuleConstraint[];
   checkCodeMakerOutput?: boolean;
   readonly context?: {[key: string]: any};
 }
 
-export function readConfigSync(): Config {
-  const configFile = path.join(process.cwd(), CONFIG_FILE)
-  let config: Config = DEFAULTS;
-  if (fs.existsSync(configFile)) {
-    config = {
-      ...config,
-      ...JSON.parse(fs.readFileSync(configFile).toString())
-    };
-  }
+export const parseConfig = (configJSON?: string) => {
+  const config: Config = {
+    ...DEFAULTS,
+    ...JSON.parse(configJSON || '{}')
+  };
 
   config.checkCodeMakerOutput = isPresent(config.terraformModules) || isPresent(config.terraformProviders)
+
+  if (isPresent(config.terraformModules)) {
+    config.terraformModules = config.terraformModules?.map(mod => new TerraformModuleConstraint(mod))
+  }
+
+  if (isPresent(config.terraformProviders)) {
+    config.terraformProviders = config.terraformProviders?.map(provider => new TerraformProviderConstraint(provider))
+  }
+
 
   if(config.context) {
     env[CONTEXT_ENV] = JSON.stringify(config.context);
   }
 
   return config;
+}
+
+export function readConfigSync(configFile = path.join(process.cwd(), CONFIG_FILE)): Config {
+  let configFileContent: string | undefined;
+
+  if (fs.existsSync(configFile)) {
+    configFileContent = fs.readFileSync(configFile).toString()
+  }
+
+  return parseConfig(configFileContent);
 }

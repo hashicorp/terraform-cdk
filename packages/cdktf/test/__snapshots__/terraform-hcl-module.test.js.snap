@@ -10,7 +10,7 @@ exports[`add provider 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
@@ -63,7 +63,7 @@ exports[`complex providers 1`] = `
         \\"id1\\",
         \\"id2\\"
       ],
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"providers\\": [
         {
           \\"test.src\\": \\"test.provider1\\"
@@ -93,7 +93,7 @@ exports[`depend on module 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -131,7 +131,7 @@ exports[`depend on other module 1`] = `
   },
   \\"module\\": {
     \\"test_1\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test_1\\",
@@ -140,7 +140,7 @@ exports[`depend on other module 1`] = `
       }
     },
     \\"test_2\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"depends_on\\": [
         \\"module.test_1\\"
       ],
@@ -165,7 +165,7 @@ exports[`minimal configuration 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -199,7 +199,7 @@ exports[`multiple providers 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"
@@ -235,7 +235,7 @@ exports[`pass variables 1`] = `
         \\"id1\\",
         \\"id2\\"
       ],
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -257,7 +257,7 @@ exports[`reference module 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -292,7 +292,7 @@ exports[`reference module list 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -329,7 +329,7 @@ exports[`set variable 1`] = `
   \\"module\\": {
     \\"test\\": {
       \\"param1\\": \\"value1\\",
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -359,7 +359,7 @@ exports[`simple provider 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./foo\\",
+      \\"source\\": \\"../foo\\",
       \\"providers\\": [
         {
           \\"test\\": \\"test.provider1\\"

@@ -77,3 +77,69 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
 }
 "
 `;
+
+exports[`malformed code blocks which break in python rst 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/code_blocks.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface CodeBlocksConfig extends cdktf.TerraformMetaArguments {
+  /** Here comes a code block \`\`\`foo.bar\`\`\` and here is more text. */
+  readonly withCodeBlock: boolean;
+}
+
+// Resource
+
+export class CodeBlocks extends cdktf.TerraformResource {
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  public constructor(scope: Construct, id: string, config: CodeBlocksConfig) {
+    super(scope, id, {
+      terraformResourceType: 'code_blocks',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._withCodeBlock = config.withCodeBlock;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // with_code_block - computed: false, optional: false, required: true
+  private _withCodeBlock: boolean;
+  public get withCodeBlock() {
+    return this.getBooleanAttribute('with_code_block');
+  }
+  public set withCodeBlock(value: boolean) {
+    this._withCodeBlock = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get withCodeBlockInput() {
+    return this._withCodeBlock
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      with_code_block: cdktf.booleanToTerraform(this._withCodeBlock),
+    };
+  }
+}
+"
+`;

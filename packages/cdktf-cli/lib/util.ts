@@ -1,13 +1,23 @@
 import { spawn, SpawnOptions } from 'child_process';
 import * as fs from 'fs-extra';
+import { https, http } from 'follow-redirects';
 import * as os from 'os';
 import * as path from 'path';
 import { processLogger } from './logging';
 
-export async function shell(program: string, args: string[] = [], options: SpawnOptions = { }) {
-  return exec(program, args, options, (chunk: Buffer) => {
-    console.log(chunk.toString())
-  })
+export async function shell(program: string, args: string[] = [], options: SpawnOptions = {}) {
+  const stderr = new Array<string | Uint8Array>();
+  try {
+    return await exec(program, args, options,
+      (chunk: Buffer) => console.log(chunk.toString()),
+      (chunk: string | Uint8Array) => stderr.push(chunk)
+    );
+  } catch (e) {
+    if (stderr.length > 0) {
+      e.stderr = stderr.map(chunk => chunk.toString()).join('');
+    }
+    throw e;
+  }
 }
 
 export async function withTempDir(dirname: string, closure: () => Promise<void>) {
@@ -33,16 +43,26 @@ export async function mkdtemp(closure: (dir: string) => Promise<void>) {
   }
 }
 
-export const exec = async (command: string, args: string[], options: SpawnOptions, stdout?: (chunk: Buffer) => any): Promise<string> => {
+export const exec = async (
+  command: string,
+  args: string[],
+  options: SpawnOptions,
+  stdout?: (chunk: Buffer) => any,
+  stderr?: (chunk: string | Uint8Array) => any
+): Promise<string> => {
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
     const out = new Array<Buffer>();
     if (stdout !== undefined) {
-      child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk) ; stdout(chunk) });
+      child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk); stdout(chunk) });
     } else {
-      child.stdout?.on('data', (chunk: Buffer) =>  { processLogger(chunk) ; out.push(chunk) } );
+      child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk); out.push(chunk) });
     }
-    child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk) ; process.stderr.write(chunk) });
+    if (stderr !== undefined) {
+      child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk); stderr(chunk) });
+    } else {
+      child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk); process.stderr.write(chunk) });
+    }
     child.once('error', (err: any) => ko(err));
     child.once('close', (code: number) => {
       if (code !== 0) {
@@ -72,4 +92,38 @@ export async function readCDKTFVersion(outputDir: string): Promise<string> {
 export function downcaseFirst(str: string): string {
   if (str === '') { return str; }
   return `${str[0].toLocaleLowerCase()}${str.slice(1)}`;
+}
+
+export class HttpError extends Error {
+  constructor(message?: string, public statusCode?: number) {
+    super(message); // 'Error' breaks prototype chain here
+    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+    // see: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-2.html#support-for-newtarget
+  }
+}
+
+export async function downloadFile(url: string, targetFilename: string): Promise<void> {
+  const client = url.startsWith('http://') ? http : https;
+  const file = fs.createWriteStream(targetFilename);
+  return new Promise((ok, ko) => {
+    const request = client.get(url, response => {
+      if (response.statusCode !== 200) {
+        ko(new HttpError(`Failed to get '${url}' (${response.statusCode})`, response.statusCode));
+        return;
+      }
+      response.pipe(file);
+    });
+
+    file.on('finish', () => ok());
+
+    request.on('error', err => {
+      fs.unlink(targetFilename, () => ko(err));
+    });
+
+    file.on('error', err => {
+      fs.unlink(targetFilename, () => ko(err));
+    });
+
+    request.end();
+  });
 }

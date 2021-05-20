@@ -1,34 +1,42 @@
 import React, { Fragment } from "react";
-import { Text, Box, Color } from "ink";
+import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { useTerraform, Status, useTerraformState } from './terraform-context'
 
 interface CommonSynthConfig {
   targetDir: string;
+  targetStack: string;
   jsonOutput: boolean;
 }
 
-type SynthOutputConfig = CommonSynthConfig
+type SynthOutputConfig = {
+  jsonOutput: boolean;
+}
 
 interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
 }
 
-const SynthOutput = ({ targetDir, jsonOutput }: SynthOutputConfig): React.ReactElement => {
-  const { stackJSON } = useTerraformState()
+const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
+  const { currentStack, stacks } = useTerraformState()
+
   return(
     <>
-      { jsonOutput ? (<Box><Text>{stackJSON}</Text></Box>) : (<Text>Generated Terraform code in the output directory: <Text bold>{targetDir}</Text></Text>) }
+      { jsonOutput ? (
+          <Box><Text>{currentStack.content}</Text></Box>
+        ) : (
+          <Text>Generated Terraform code for the stacks: {stacks?.map(s => s.name).join(', ')}</Text>
+        ) }
     </>
   )
 }
 
-export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
-    const { synth } = useTerraform({targetDir, synthCommand})
-    const { status, stackName, errors } = synth()
+export const Synth = ({ targetDir, targetStack, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
+    const { synth } = useTerraform({targetDir, targetStack, synthCommand})
+    const { status, currentStack, errors } = synth()
 
     const isSynthesizing: boolean = status != Status.SYNTHESIZED
-    const statusText = (stackName === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{stackName}</Text>...</Text>
+    const statusText = (currentStack.name === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{currentStack.name}</Text>...</Text>
 
     if (errors) return(<Box>{ errors }</Box>);
 
@@ -36,9 +44,9 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
       <Box>
         {isSynthesizing ? (
           <Fragment>
-            <Color green>
+            <Text color="green">
               <Spinner type="dots" />
-            </Color>
+            </Text>
             <Box paddingLeft={1}>
               <Text>{statusText}</Text>
             </Box>
@@ -46,7 +54,7 @@ export const Synth = ({ targetDir, synthCommand, jsonOutput }: SynthConfig): Rea
         ) : (
           <Fragment>
             <Box>
-              <SynthOutput targetDir={targetDir} jsonOutput={jsonOutput}/>
+              <SynthOutput jsonOutput={jsonOutput} />
             </Box>
           </Fragment>
         )}

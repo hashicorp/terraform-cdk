@@ -8,7 +8,7 @@ export interface TerraformElementMetadata {
 }
 
 export class TerraformElement extends Construct {
-  public readonly stack: TerraformStack;
+  public readonly cdktfStack: TerraformStack;
   protected readonly rawOverrides: any = {}
 
   /**
@@ -20,7 +20,7 @@ export class TerraformElement extends Construct {
     super(scope, id)
 
     this.constructNode.addMetadata('stacktrace', 'trace')
-    this.stack = TerraformStack.of(this);
+    this.cdktfStack = TerraformStack.of(this);
   }
 
   public get constructNode(): Node {
@@ -36,7 +36,7 @@ export class TerraformElement extends Construct {
       return this._logicalIdOverride;
     }
     else {
-      return this.stack.getLogicalId(this);
+      return this.cdktfStack.getLogicalId(this);
     }
   }
 

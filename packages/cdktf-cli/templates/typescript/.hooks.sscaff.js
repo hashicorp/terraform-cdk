@@ -11,13 +11,10 @@ exports.post = ctx => {
   }
 
   const npm_cdktf = ctx.npm_cdktf;
-  const npm_cdktf_cli = ctx.npm_cdktf_cli;
-
   if (!npm_cdktf) { throw new Error(`missing context "npm_cdktf"`); }
-  if (!npm_cdktf_cli) { throw new Error(`missing context "npm_cdktf_cli"`); }
 
   installDeps([npm_cdktf, `constructs@${constructs_version}`]);
-  installDeps([npm_cdktf_cli, '@types/node', 'typescript'], true);
+  installDeps(['@types/node', 'typescript'], true);
 
   console.log(readFileSync('./help', 'utf-8'));
 };

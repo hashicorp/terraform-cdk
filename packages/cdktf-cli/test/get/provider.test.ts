@@ -1,7 +1,9 @@
 import { expectImportMatchSnapshot } from "./util";
-import { GetProvider } from "../../lib/get/providers";
+import { TerraformDependencyConstraint, TerraformProviderConstraint } from "../../lib/config";
 
-const getProvider = (provider: string) =>
-  expectImportMatchSnapshot(provider, () => new GetProvider());
+const getProvider = (constraint: TerraformDependencyConstraint) =>
+  expectImportMatchSnapshot(constraint);
 
-getProvider('aws@= 2.60.0');
+getProvider(new TerraformProviderConstraint('aws@= 2.60.0'));
+
+getProvider(new TerraformProviderConstraint('phillbaker/elasticsearch@= 1.5.1'));

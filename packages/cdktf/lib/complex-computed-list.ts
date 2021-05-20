@@ -48,11 +48,11 @@ export class BooleanMap {
 }
 
 export class ComplexComputedList extends ComplexComputedAttribute {
-  constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string, protected index: string) {
+  constructor(protected terraformResource: ITerraformResource, protected terraformAttribute: string, protected complexComputedListIndex: string) {
     super(terraformResource, terraformAttribute)
   }
 
   protected interpolationForAttribute(property: string) {
-    return this.terraformResource.interpolationForAttribute(`${this.terraformAttribute}.${this.index}.${property}`);
+    return this.terraformResource.interpolationForAttribute(`${this.terraformAttribute}.${this.complexComputedListIndex}.${property}`);
   }
 }

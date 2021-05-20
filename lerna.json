@@ -1,12 +1,14 @@
 {
   "packages": [
     "packages/*",
+    "packages/@cdktf/*",
     "examples/*",
     "examples/typescript/*",
     "examples/python/*",
     "examples/typescript/backends/*",
     "examples/java/*",
-    "examples/csharp/*"
+    "examples/csharp/*",
+    "test"
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,

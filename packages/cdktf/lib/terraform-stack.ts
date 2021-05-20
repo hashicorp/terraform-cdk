@@ -7,6 +7,7 @@ import { deepMerge } from './util';
 import { TerraformProvider } from './terraform-provider';
 import { EXCLUDE_STACK_ID_FROM_LOGICAL_IDS, ALLOW_SEP_CHARS_IN_LOGICAL_IDS } from './features';
 import { makeUniqueId } from './private/unique';
+import { Manifest } from './manifest'
 
 const STACK_SYMBOL = Symbol.for('ckdtf/TerraformStack');
 
@@ -16,14 +17,12 @@ export interface TerraformStackMetadata {
 }
 
 export class TerraformStack extends Construct {
-  public readonly artifactFile: string;
   private readonly rawOverrides: any = {}
   private readonly cdktfVersion: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.artifactFile = `cdk.tf.json`;
     this.cdktfVersion = Node.of(this).tryGetContext('cdktfVersion')
 
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
@@ -83,7 +82,7 @@ export class TerraformStack extends Construct {
    * Returns the naming scheme used to allocate logical IDs. By default, uses
    * the `HashedAddressingScheme` but this method can be overridden to customize
    * this behavior.
-   * 
+   *
    * @param tfElement The element for which the logical ID is allocated.
    */
   protected allocateLogicalId(tfElement: TerraformElement): string {
@@ -91,12 +90,12 @@ export class TerraformStack extends Construct {
 
     let stackIndex;
     if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
-      stackIndex = node.scopes.indexOf(tfElement.stack);
+      stackIndex = node.scopes.indexOf(tfElement.cdktfStack);
     }
     else {
       stackIndex = 0;
     }
-    
+
     const components = node.scopes.slice(stackIndex + 1).map(c => Node.of(c).id);
     return components.length > 0 ? makeUniqueId(components, node.tryGetContext(ALLOW_SEP_CHARS_IN_LOGICAL_IDS)) : '';
   }
@@ -142,8 +141,13 @@ export class TerraformStack extends Construct {
   }
 
   protected onSynthesize(session: ISynthesisSession) {
-    const resourceOutput = path.join(session.outdir, this.artifactFile);
-    fs.writeFileSync(resourceOutput, JSON.stringify(this.toTerraform(), undefined, 2));
+    const manifest = session.manifest as Manifest
+    const stackManifest = manifest.forStack(this)
+
+    const workingDirectory = path.join(session.outdir, stackManifest.workingDirectory)
+    if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
+
+    fs.writeFileSync(path.join(session.outdir, stackManifest.synthesizedStackPath), JSON.stringify(this.toTerraform(), undefined, 2));
   }
 }
 

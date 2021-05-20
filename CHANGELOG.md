@@ -1,3 +1,75 @@
+## 0.3.0 (April 21, 2021)
+
+**Breaking Changes**
+
+We're now supporting multiple Stacks! - existing Terraform state files from **local** Terraform workflows have to be renamed to match the stack name.
+
+Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` file in the project root folder was used. With version `0.3.0` the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
+
+**Implemented enhancements:**
+
+- Add support for remote templates [\#645](https://github.com/hashicorp/terraform-cdk/pull/645)
+- Handle Multiple Stacks [\#636](https://github.com/hashicorp/terraform-cdk/pull/636)
+
+**Fixed Bugs**
+
+- Wait for ConfigurationVersion to be ready when using Terraform Cloud [\#655](https://github.com/hashicorp/terraform-cdk/pull/655)
+- Fix module variables without type [\#630](https://github.com/hashicorp/terraform-cdk/pull/630)
+- Fix module without newline [\#633](https://github.com/hashicorp/terraform-cdk/pull/633)
+- Rename instance variable to a more specific name to avoid name collisions [\#640](https://github.com/hashicorp/terraform-cdk/pull/640)
+- Fix multiple modules with same end name [\#637](https://github.com/hashicorp/terraform-cdk/pull/637)
+
+## 0.2.2 (April 13, 2021)
+
+**Fixed Bugs**
+
+- Resources containing hyphens in resource ids did not correctly display their apply status [\#614](https://github.com/hashicorp/terraform-cdk/pull/614)
+- Add missing handling for resource status lines [\#619](https://github.com/hashicorp/terraform-cdk/pull/619)
+- Print more descriptive error messages if requests to Terraform Cloud fail [\#623](https://github.com/hashicorp/terraform-cdk/pull/623), [\#626](https://github.com/hashicorp/terraform-cdk/pull/626), [\#488](https://github.com/hashicorp/terraform-cdk/issues/488), [\#400](https://github.com/hashicorp/terraform-cdk/issues/400)
+
+## 0.2.1 (March 29, 2021)
+
+**Fixed Bugs**
+
+- Allow for module without outputs [\#599](https://github.com/hashicorp/terraform-cdk/pull/599)
+- Fix Python template [\#604](https://github.com/hashicorp/terraform-cdk/pull/604)
+- Don't treat warning lines as resources [\#585](https://github.com/hashicorp/terraform-cdk/pull/585)
+- Handle malformed code blocks in provider schema descriptions [\#605](https://github.com/hashicorp/terraform-cdk/pull/605)
+
+## 0.2.0 (March 11, 2021)
+
+**Breaking Changes**
+
+- Generated classes for modules from the registry will change - see [this comment](https://github.com/hashicorp/terraform-cdk/pull/584#issuecomment-794534236) for more details
+- Phased out testing and support for Terraform `0.12`. It's likely to still work for now, but it's not guaranteed anymore [\#592](https://github.com/hashicorp/terraform-cdk/issues/592)
+
+**Implemented enhancements:**
+
+- Improve Module Support [\#584](https://github.com/hashicorp/terraform-cdk/issues/584)
+- Release packages to Maven Central [\#556](https://github.com/hashicorp/terraform-cdk/issues/556)
+- Release packages to Nuget.org [\#528](https://github.com/hashicorp/terraform-cdk/issues/528)
+- TerraformHclModule outputs use tokens [\#512](https://github.com/hashicorp/terraform-cdk/issues/512)
+- Improve C# init behaviour for Github Package Registry [\#497](https://github.com/hashicorp/terraform-cdk/issues/497)
+- Support for dynamic attribute type [\#565](https://github.com/hashicorp/terraform-cdk/issues/565)
+- Upgrade to ink v3 [\#559](https://github.com/hashicorp/terraform-cdk/issues/559)
+
+**Fixed bugs:**
+
+- Correct depends on casing for modules [\#508](https://github.com/hashicorp/terraform-cdk/issues/508)
+- Python pip template adjustments for windows [\#535](https://github.com/hashicorp/terraform-cdk/issues/535)
+- Checkpoint Error Handling / Timeout [\#552](https://github.com/hashicorp/terraform-cdk/issues/552)
+- Inject defaults for certain attributes [\#479](https://github.com/hashicorp/terraform-cdk/issues/479)
+- Python-pip template fix/improvements [\#541](https://github.com/hashicorp/terraform-cdk/issues/541)
+- Quote cdktf path in init templates [\#511](https://github.com/hashicorp/terraform-cdk/issues/511)
+- Include feature flags in java template and test [\#471](https://github.com/hashicorp/terraform-cdk/issues/471)
+- Update jsii-srcmak to remove symlink [\#580](https://github.com/hashicorp/terraform-cdk/issues/580)
+- Rename null provider for java & c# [\#589](https://github.com/hashicorp/terraform-cdk/issues/589)
+
+**Chores:**
+
+- Fix typo in execTerraformSynth [\#554](https://github.com/hashicorp/terraform-cdk/issues/554)
+- Upgrade Java exec-maven-plugin 3.0.0 [\#536](https://github.com/hashicorp/terraform-cdk/issues/536)
+
 ## 0.1.0 (January 14, 2021)
 
 **Implemented enhancements:**

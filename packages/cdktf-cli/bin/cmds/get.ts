@@ -1,7 +1,7 @@
 import yargs from 'yargs'
 import React from 'react';
-import { readConfigSync } from '../../lib/config';
-import { Language, LANGUAGES } from '../../lib/get/base';
+import { readConfigSync, TerraformDependencyConstraint } from '../../lib/config';
+import { Language, LANGUAGES } from '../../lib/get/constructs-maker';
 import { Get } from './ui/get'
 import { renderInk } from './render-ink'
 import { displayVersionMessage } from './version-check'
@@ -9,8 +9,6 @@ import { displayVersionMessage } from './version-check'
 const config = readConfigSync();
 
 interface Arguments {
-  providers: string[];
-  modules: string[];
   output: string;
   language: Language;
 }
@@ -31,12 +29,14 @@ class Command implements yargs.CommandModule {
     const modules = config.terraformModules ?? [];
     const { output, language } = args
 
-    if (providers.length === 0 && modules.length === 0) {
-      console.error(`ERROR: Please specify providers in "cdktf.json" config file`);
+    const constraints: TerraformDependencyConstraint[] = [...providers, ...modules]
+
+    if (constraints.length === 0) {
+      console.error(`ERROR: Please specify providers or modules in "cdktf.json" config file`);
       process.exit(1);
     }
 
-    await renderInk(React.createElement(Get, { codeMakerOutput: output, language: language, modules: modules, providers: providers }));
+    await renderInk(React.createElement(Get, { codeMakerOutput: output, language: language, constraints }));
   }
 }
 

@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "ink-testing-library";
 import { Output } from "../../bin/cmds/ui/deploy";
 import { DeploySummary, Apply } from "../../bin/cmds/ui/deploy";
+import { stripAnsi } from "../test-helper";
 import {
   DeployingResource,
   DeployingResourceApplyState,
@@ -13,6 +14,7 @@ import {
   DeployState,
   Status
 } from "../../bin/cmds/ui/terraform-context";
+import { SynthesizedStack } from "../../bin/cmds/helper/synth-stack";
 
 test("DeploySummary", async () => {
   const resource: DeployingResource = {
@@ -35,11 +37,32 @@ test("Output", async () => {
       sensitive: false,
       type: "bar",
       value: "baz"
+    },
+    map: {
+      sensitive: false,
+      type: "map",
+      value: { keyA: "valueA", keyB: "valueB" }
+    },
+    list: {
+      sensitive: false,
+      type: "list",
+      value: ["A", "B", "C"]
     }
   };
 
   const { lastFrame } = render(<Output output={output} />);
-  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`"foo = baz"`);
+  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
+    "foo = baz
+    map = {
+      \\"keyA\\": \\"valueA\\",
+      \\"keyB\\": \\"valueB\\"
+    }
+    list = [
+      \\"A\\",
+      \\"B\\",
+      \\"C\\"
+    ]"
+  `);
 });
 
 test("Apply", async () => {
@@ -49,10 +72,18 @@ test("Apply", async () => {
     applyState: DeployingResourceApplyState.CREATING
   };
 
+  const currentStack: SynthesizedStack = {
+    constructPath: "",
+    content: "",
+    name: "testing",
+    synthesizedStackPath: "./foo/stacks/bar",
+    workingDirectory: "./foo"
+  };
+
   const initialState: DeployState = {
     status: Status.STARTING,
     resources: [resource],
-    stackName: "testing"
+    currentStack
   };
 
   const { lastFrame } = render(
@@ -69,12 +100,44 @@ test("Apply", async () => {
   `);
 });
 
-const stripAnsi = (str: string | undefined): string => {
-  if (!str) {
-    return "";
-  }
-  return str.replace(
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-    ""
+test("Apply Multiple Resources", async () => {
+  const resource: DeployingResource = {
+    id: "null_resource.hellodiff_test_352350",
+    action: PlannedResourceAction.CREATE,
+    applyState: DeployingResourceApplyState.CREATING
+  };
+
+  const otherResource: DeployingResource = {
+    id: "null_resource.hellodiff_test_85E428D7",
+    action: PlannedResourceAction.CREATE,
+    applyState: DeployingResourceApplyState.CREATED
+  };
+
+  const currentStack: SynthesizedStack = {
+    constructPath: "",
+    content: "",
+    name: "hellodiff",
+    synthesizedStackPath: "./foo/stacks/bar",
+    workingDirectory: "./foo"
+  };
+
+  const initialState: DeployState = {
+    status: Status.STARTING,
+    resources: [resource, otherResource],
+    currentStack
+  };
+
+  const { lastFrame } = render(
+    <TerraformProvider initialState={initialState}>
+      <Apply />
+    </TerraformProvider>
   );
-};
+  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
+    "Deploying Stack: hellodiff
+    Resources
+     ⠋ NULL_RESOURCE        test_352350         null_resource.hellodiff_test_352350
+     ✔ NULL_RESOURCE        test                null_resource.hellodiff_test_85E428D7
+
+    Summary: 1 created, 0 updated, 0 destroyed."
+  `);
+});

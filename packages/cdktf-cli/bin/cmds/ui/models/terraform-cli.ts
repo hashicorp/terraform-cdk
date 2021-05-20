@@ -1,35 +1,21 @@
 import * as path from 'path';
 import { exec, readCDKTFVersion } from 'cdktf-cli/lib/util'
-import { Terraform, TerraformPlan, TerraformOutput, PlannedResourceAction, PlannedResource, ResourceChanges } from './terraform'
+import { Terraform, TerraformPlan, TerraformOutput, AbstractTerraformPlan } from './terraform';
+import { SynthesizedStack } from '../../helper/synth-stack';
+import { terraformBinaryName } from '../../helper/terraform';
 
-const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || 'terraform'
 
-export class TerraformCliPlan implements TerraformPlan {
-  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {}
-
-  public get resources(): PlannedResource[]  {
-    if (!this.plan.resource_changes) return [];
-
-    return this.plan.resource_changes.map((resource: ResourceChanges) => {
-      return {
-        id: resource.address,
-        action: resource.change.actions[0]
-      } as PlannedResource
-    })
-  }
-
-  public get applyableResources(): PlannedResource[] {
-    const applyActions = [PlannedResourceAction.UPDATE, PlannedResourceAction.CREATE, PlannedResourceAction.DELETE, PlannedResourceAction.READ];
-    return this.resources.filter(resource => (applyActions.includes(resource.action)));
-  }
-
-  public get needsApply(): boolean {
-    return this.applyableResources.length > 0
+export class TerraformCliPlan extends AbstractTerraformPlan implements TerraformPlan {
+  constructor(public readonly planFile: string, public readonly plan: {[key: string]: any}) {
+    super(planFile, plan.resource_changes, plan.output_changes);
   }
 }
 
 export class TerraformCli implements Terraform {
-  constructor(public readonly workdir: string) {
+  public readonly workdir: string;
+
+  constructor(public readonly stack: SynthesizedStack) {
+    this.workdir = stack.workingDirectory
   }
 
   public async init(): Promise<void> {
@@ -38,7 +24,7 @@ export class TerraformCli implements Terraform {
   }
 
   public async plan(destroy = false): Promise<TerraformPlan> {
-    const planFile = path.join(this.workdir, 'plan')
+    const planFile = 'plan'
     const options = ['plan', '-input=false', '-out', planFile, ...this.stateFileOption]
     if (destroy) {
       options.push('-destroy')
@@ -50,9 +36,8 @@ export class TerraformCli implements Terraform {
   }
 
   public async deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
-    const relativePlanFile = path.relative(this.workdir, planFile);
     await this.setUserAgent()
-    await exec(terraformBinaryName, ['apply', '-auto-approve', '-input=false', ...this.stateFileOption, relativePlanFile], { cwd: this.workdir, env: process.env }, stdout);
+    await exec(terraformBinaryName, ['apply', '-auto-approve', '-input=false', ...this.stateFileOption, planFile], { cwd: this.workdir, env: process.env }, stdout);
   }
 
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
@@ -74,7 +59,7 @@ export class TerraformCli implements Terraform {
   }
 
   private get stateFileOption() {
-    return ['-state', path.join(process.cwd(), 'terraform.tfstate')]
+    return ['-state', path.join(process.cwd(), `terraform.${this.stack.name}.tfstate`)]
   }
 
   public async setUserAgent(): Promise<void> {

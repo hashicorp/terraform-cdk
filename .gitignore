@@ -2,6 +2,7 @@
 
 *.js
 !jest.config.js
+!jest.setup.js
 !test.js
 *.d.ts
 node_modules
@@ -18,6 +19,9 @@ tsconfig.json
 **/coverage
 **/dist
 **/.terraform
+**/*.tfstate
+**/*.tfstate.backup
 .vscode
 bootstrap.json
 terraform-cdk.github-issues
+.idea
