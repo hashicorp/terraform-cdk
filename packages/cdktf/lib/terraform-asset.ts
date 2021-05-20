@@ -61,14 +61,12 @@ export class TerraformAsset extends Resource {
     );
   }
 
-  public get fileName(): string | undefined {
+  public get fileName(): string {
     switch (this.type) {
       case AssetType.ARCHIVE:
         return ARCHIVE_NAME;
-      case AssetType.FILE:
+      default:
         return path.basename(this.sourcePath);
-      case AssetType.DIRECTORY:
-        return undefined;
     }
   }
 

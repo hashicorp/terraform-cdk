@@ -21,7 +21,7 @@ exports[`full integration test synth 1`] = `
       \\"value\\": \\"local-asset.txt\\"
     },
     \\"fixturesname\\": {
-      \\"value\\": \\"Should be the value\\"
+      \\"value\\": \\"fixtures\\"
     },
     \\"zippedfixturesname\\": {
       \\"value\\": \\"archive.zip\\"

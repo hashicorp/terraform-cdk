@@ -25,7 +25,7 @@ export class HelloTerra extends TerraformStack {
     })
 
     new TerraformOutput(this, "fixtures-name", {
-      value: fixtures.fileName || "Should be the value"
+      value: fixtures.fileName
     })
 
     new TerraformOutput(this, "zipped-fixtures-name", {
