@@ -32,9 +32,13 @@ export class HelloTerra extends TerraformStack {
       value: "constant value"
     })
 
-    new TerraformAsset(this, "asset-a", {
+    const asset = new TerraformAsset(this, "asset-a", {
       path: path.resolve(__dirname, "fixtures/a.txt")
-    })
+    });
+
+    new TerraformOutput(this, "isAssetPresent", {
+      value: `\${fileexists("\${path.module}/${asset.path}") ? "yes" : "no"}`,
+    });
   }
 }
 
