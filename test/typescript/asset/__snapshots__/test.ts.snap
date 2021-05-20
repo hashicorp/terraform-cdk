@@ -22,6 +22,9 @@ exports[`full integration test synth 1`] = `
     },
     \\"fixturesname\\": {
       \\"value\\": \\"Should be the value\\"
+    },
+    \\"zippedfixturesname\\": {
+      \\"value\\": \\"archive.zip\\"
     }
   }
 }"
