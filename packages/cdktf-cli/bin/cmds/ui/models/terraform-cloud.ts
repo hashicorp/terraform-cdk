@@ -242,7 +242,7 @@ export class TerraformCloud implements Terraform {
     if (!stateVersion.included) return {}
 
     const outputs = stateVersion.included.reduce((acc, output) => {
-      acc[output.id] = {
+      acc[output.attributes.name] = {
         sensitive: output.attributes.sensitive,
         type: output.attributes.type,
         value: output.attributes.value

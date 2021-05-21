@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack, Testing  } from 'cdktf';
+import { App, TerraformStack, Testing, TerraformOutput } from 'cdktf';
 import * as NullProvider from './.gen/providers/null';
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
 const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
@@ -26,6 +26,10 @@ export class HelloTerra extends TerraformStack {
         token
       }
     });
+
+    new TerraformOutput(this, "output", {
+      value: "constant value"
+    })
   }
 }
 
