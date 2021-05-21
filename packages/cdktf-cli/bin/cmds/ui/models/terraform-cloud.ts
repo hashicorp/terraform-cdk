@@ -142,16 +142,16 @@ export class TerraformCloud implements Terraform {
     const workspace = await this.workspace()
     const workspaceUrl = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}`
 
-    if (workspace.attributes.locked && (workspace as any).relationships?.lockedBy?.data?.type === "users") {
+    if (workspace.attributes.locked && workspace.relationships?.lockedBy?.data?.type === "users") {
       throw new Error(`Can not plan, the workspace ${this.organizationName}/${this.workspaceName} is locked by a user. You can find more information at ${workspaceUrl}`)
     }
 
-    if (workspace.attributes.locked && (workspace as any).relationships?.lockedBy?.data?.type === "runs") {
+    if (workspace.attributes.locked && workspace.relationships?.lockedBy?.data?.type === "runs") {
       throw new Error(`Can not plan, the workspace ${this.organizationName}/${this.workspaceName} is locked by a previous run, please wait until it's done. You can find more information at ${workspaceUrl}`)
     }
 
     if (workspace.attributes.locked) {
-      throw new Error(`Can not plan, the workspace ${this.organizationName}/${this.workspaceName} is locked for an unknown reason: ${JSON.stringify((workspace as any).relationships?.lockedBy)}. You can find more information at ${workspaceUrl}`)
+      throw new Error(`Can not plan, the workspace ${this.organizationName}/${this.workspaceName} is locked for an unknown reason: ${JSON.stringify(workspace.relationships?.lockedBy)}. You can find more information at ${workspaceUrl}`)
     }
 
     let result = await this.client.Runs.create({
