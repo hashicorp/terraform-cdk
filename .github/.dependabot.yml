@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    versioning-strategy: lockfile-only
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: jsii
+      - dependency-name: "@jsii/*"
+      - dependency-name: codemaker
