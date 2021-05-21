@@ -91,6 +91,10 @@
       "js"
     ]
   },
+  "dependencies": {
+    "archiver": "5.3.0"
+  },
+  "bundledDependencies": ["archiver"],
   "stability": "experimental",
   "peerDependencies": {
     "constructs": "^3.0.0"

@@ -47,7 +47,8 @@
       "test",
       ".yalc/*",
       ".yalc/@*/*"
-    ]
+    ],
+    "nohoist": ["archiver", "**/archiver", "**/archiver/**"]
   },
   "devDependencies": {
     "changelog-parser": "^2.8.0",

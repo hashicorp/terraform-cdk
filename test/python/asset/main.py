@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 from constructs import Construct
-from cdktf import App, TerraformStack, Testing, TerraformAsset, AssetType
+from cdktf import App, TerraformStack, Testing, TerraformAsset, AssetType, TerraformOutput
 from imports.null import NullProvider, Resource
 
 class MyStack(TerraformStack):
@@ -11,8 +11,11 @@ class MyStack(TerraformStack):
         NullProvider(self, "null")
         Resource(self, "null-resource")
 
-        TerraformAsset(self, 'fixture', path=os.path.abspath("./fixture.txt"))
-        TerraformAsset(self, 'fixtures', path=os.path.abspath("./fixtures"), type=AssetType.ARCHIVE)
+        fixture = TerraformAsset(self, 'fixture', path=os.path.abspath("./fixture.txt"))
+        fixtures = TerraformAsset(self, 'fixtures', path=os.path.abspath("./fixtures"), type=AssetType.ARCHIVE)
+
+        TerraformOutput(self, 'fixture-output', value=fixture.path)
+        TerraformOutput(self, 'fixtures-output', value=fixtures.path)
 
 app = Testing.stub_version(App(stack_traces=False))
 MyStack(app, "python-assets")

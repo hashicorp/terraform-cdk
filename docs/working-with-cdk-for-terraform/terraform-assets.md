@@ -36,7 +36,7 @@ class MyStack extends TerraformStack {
     new S3BucketObject(this, "lambda-archive", {
       bucket: bucket.bucket,
       key: asset.fileName,
-      source: asset.path,
+      source: asset.path, // returns a posix path
     });
   }
 }
@@ -46,7 +46,3 @@ const app = new App();
 new MyStack(app, "demo");
 app.synth();
 ```
-
-## Dependencies
-
-Using `AssetType.ARCHIVE` requires `zip` to be installed and in the path.
