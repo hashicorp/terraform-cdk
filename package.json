@@ -49,10 +49,6 @@
       "test",
       ".yalc/*",
       ".yalc/@*/*"
-    ],
-    "nohoist": [
-      "cdktf/json-stable-stringify",
-      "cdktf/json-stable-stringify/**"
     ]
   },
   "devDependencies": {

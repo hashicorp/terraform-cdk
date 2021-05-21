@@ -29,7 +29,7 @@
   "dependencies": {
     "@cdktf/hcl2json": "0.0.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
-    "@skorfmann/terraform-cloud": "^1.10.0",
+    "@skorfmann/terraform-cloud": "^1.10.1",
     "@types/node": "^14.0.26",
     "archiver": "^5.1.0",
     "cdktf": "0.0.0",
