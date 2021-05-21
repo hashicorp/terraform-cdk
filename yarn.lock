@@ -1406,10 +1406,10 @@
     prop-types "^15.5.10"
     yn "^3.1.1"
 
-"@skorfmann/terraform-cloud@^1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.10.0.tgz#cba669213dacf92aa1a80c8e8d112f0b5e422cc9"
-  integrity sha512-Yd5WWmmUjFYBpQpsAnAntwQMerilNRpHILNPA7x0EkwHhf+5KTSKYZwzYL/bOY1QfGJX6DTnOSHXIRStHZDUgg==
+"@skorfmann/terraform-cloud@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.10.1.tgz#a09c9fb3a582b04c39b97a16e53424172db2feb1"
+  integrity sha512-yQpxfH1VbwIcsyRQ8eN8qLJ76pZ4CQ1Ck1SmFtiKE7J790KFwC8o2r1dlTU130M/bv1eb/8gdPY1T3DLj40D8w==
   dependencies:
     axios "^0.21.1"
     camelcase-keys "^6.2.2"
