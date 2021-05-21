@@ -253,19 +253,20 @@ export class ConstructsMaker {
           }
 
           if (this.isGoTarget) {
-            const targetType = target.isProvider ? 'provider' : 'module';
+            // const targetType = target.isProvider ? 'provider' : 'module';
+            
             // could also contain e.g. "aws" as abbreviation for "hashicorp/aws" for official providers
-            const parts = target.fqn.split('/');
-            const [orgName, packageName] = parts.length === 1 ? ['hashicorp', parts[0]] : parts;
-            // TODO: check what could be in fqn for modules (e.g. pointing to a nested dir in a git repo)
+            const parts = target.fqn.split('/'); // TODO: check what could be in fqn for modules (e.g. pointing to a nested dir in a git repo)
+            const [orgName, /*packageName*/] = parts.length === 1 ? ['hashicorp', parts[0]] : parts;
+            
+            // jsii-srcmac will produce a folder inside this dir named after "packageName", so this results in e.g. .gen/hashicorp/random
+            const outdir = path.join(this.codeMakerOutdir, orgName);
 
-            opts.golang = {
-              // jsii-srcmac will produce a folder inside this dir named after "packageName", so this results in e.g. .gen/hashicorp/random
-              outdir: path.join(this.codeMakerOutdir, orgName),
-              moduleName: `github.com/hashicorp/terraform-cdk-${targetType}-${orgName}-${packageName}-go`,
+            opts.golang = {  
+              outdir,
+              moduleName: (await determineGoModuleName(outdir)), // e.g. `github.com/org/userproject/.gen/hashicorcp`
               packageName: target.srcMakName // package will be named e.g. random for hashicorp/random
             }
-            console.log({opts, target});
           }
 
           await srcmak.srcmak(staging, opts);
@@ -313,4 +314,45 @@ const report = async (target: ConstructsMakerTarget): Promise<void> => {
     language: target.targetLanguage
   };
   await ReportRequest(reportParams);
+}
+
+/**
+ * searches for the closest `go.mod` file and returns the nested go module name for `dir`
+ * e.g. (/dir/.gen/) => cdk.tf/stack/.gen if the parent dir of .gen has a go.mod for "module cdk.tf/stack"
+ * 
+ * @param dir the directory to start the search from (searches upwards)
+ * @returns the package name for `dir`
+ * @throws an Error if no go.mod was found
+ */
+const determineGoModuleName = async (dir: string): Promise<string> => {
+  let previousDir;
+  let currentDir = path.resolve(dir);
+
+  do {
+    let files: string[] = [];
+    try {
+      files = await fs.readdir(currentDir);
+    } catch (e) {
+      // directory might not exist yet, but we still walk upwards from there, so ignore 'ENOENT'
+      if (e.code !== 'ENOENT') {
+        throw e;
+      }
+    }
+    if (files.includes('go.mod')) {
+      const file = path.resolve(currentDir, 'go.mod');
+      const gomod = await fs.readFile(file);
+      const match = /^module\s*(\S*)\s*$/m.exec(gomod.toString())
+      if (match && match[1]) {
+        const childdir = path.relative(currentDir, dir).replace(/\\/g, '/'); // replace '\' with '/' for windows paths
+        return `${match[1]}/${childdir}`;
+      }
+      throw new Error(`Could not determine the root Go module name. Found ${file} but failed to regex match the module name directive`);
+    }
+    // go up one directory. As dirname('/') will return '/' we cancel the loop
+    // as soon as the dir does not change anymore.
+    previousDir = currentDir;
+    currentDir = path.dirname(currentDir);
+  } while (currentDir !== previousDir);
+  
+  throw new Error(`Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`);
 }
