@@ -68,6 +68,10 @@ export abstract class ConstructsMakerTarget {
     return this.constraint.fqn
   }
 
+  public get namespace() {
+    return this.constraint.namespace
+  }
+
   public get moduleKey() {
     return this.fqn.replace(/\//gi, '_')
   }
@@ -142,7 +146,7 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
       case Language.PYTHON:
         return this.simplifiedName;
       case Language.GO:
-        return this.constraint.fqn.split('/').pop() || 'unnamed'; // e.g. aws for hashicorp/aws
+        return this.name;
       default:
         return this.constraint.fqn;
     }
@@ -253,18 +257,16 @@ export class ConstructsMaker {
           }
 
           if (this.isGoTarget) {
+            // TODO: check if needed for modules somehow
             // const targetType = target.isProvider ? 'provider' : 'module';
             
-            // could also contain e.g. "aws" as abbreviation for "hashicorp/aws" for official providers
-            const parts = target.fqn.split('/'); // TODO: check what could be in fqn for modules (e.g. pointing to a nested dir in a git repo)
-            const [orgName, /*packageName*/] = parts.length === 1 ? ['hashicorp', parts[0]] : parts;
-            
-            // jsii-srcmac will produce a folder inside this dir named after "packageName", so this results in e.g. .gen/hashicorp/random
-            const outdir = path.join(this.codeMakerOutdir, orgName);
+            // jsii-srcmac will produce a folder inside this dir named after "packageName"
+            // so this results in e.g. .gen/hashicorp/random
+            const outdir = path.join(this.codeMakerOutdir, target.namespace ?? '');
 
             opts.golang = {  
               outdir,
-              moduleName: (await determineGoModuleName(outdir)), // e.g. `github.com/org/userproject/.gen/hashicorcp`
+              moduleName: (await determineGoModuleName(outdir)), // e.g. `github.com/org/userproject/.gen/hashicorp`
               packageName: target.srcMakName // package will be named e.g. random for hashicorp/random
             }
           }
@@ -324,7 +326,7 @@ const report = async (target: ConstructsMakerTarget): Promise<void> => {
  * @returns the package name for `dir`
  * @throws an Error if no go.mod was found
  */
-const determineGoModuleName = async (dir: string): Promise<string> => {
+export const determineGoModuleName = async (dir: string): Promise<string> => {
   let previousDir;
   let currentDir = path.resolve(dir);
 

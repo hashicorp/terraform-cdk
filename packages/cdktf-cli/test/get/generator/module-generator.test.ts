@@ -25,7 +25,7 @@ expectModuleToMatchSnapshot('typeless variables', 'generator', ['module-no-varia
 expectModuleToMatchSnapshot('no newline', 'generator', ['module-no-newline-1.test.fixture.tf', 'module-no-newline-2.test.fixture.tf']);
 
 test('generate multiple aws modules', async () => {
-  jest.setTimeout(20000);
+  jest.setTimeout(40000);
 
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'module-generator-aws.test'));
   const constraints = [new TerraformModuleConstraint('terraform-aws-modules/vpc/aws@2.78.0'), 
