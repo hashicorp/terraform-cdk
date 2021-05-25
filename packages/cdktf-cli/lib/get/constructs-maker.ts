@@ -99,8 +99,11 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
 
   public get srcMakName(): string {
     switch (this.targetLanguage) {
-      case Language.JAVA, Language.CSHARP, Language.PYTHON, Language.GO:
+      case Language.PYTHON:
+      case Language.GO:
         return this.simplifiedName;
+      case Language.JAVA:
+      case Language.CSHARP:
       default:
         return this.constraint.fqn;
     }
