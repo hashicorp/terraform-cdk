@@ -1,0 +1,42 @@
+name: "Lint PR"
+
+on:
+  pull_request: # switch to pull_request_target so that it runs on forks as well
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      # Please look up the latest version from
+      # https://github.com/amannn/action-semantic-pull-request/releases
+      - uses: amannn/action-semantic-pull-request@v3.4.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            chore
+            refactor
+            revert
+          scopes: |
+            lib
+            cli
+            hcl2json
+            tests
+            examples
+            readme
+            docs
+            release
+            deps
+          # Configure that a scope must always be provided.
+          requireScope: true
+          # When using "Squash and merge" on a PR with only one commit, GitHub
+          # will suggest using that commit message instead of the PR title for the
+          # merge commit, and it's easy to commit this by mistake. Enable this option
+          # to also validate the commit message for one commit PRs.
+          validateSingleCommit: true
