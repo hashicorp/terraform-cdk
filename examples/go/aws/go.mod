@@ -8,5 +8,5 @@ require (
 	github.com/hashicorp/terraform-cdk-go/cdktf v0.0.0
 )
 
-// only required when running example within terraform-cdk repo
+// only required when running example against terraform-cdk repo locally
 replace github.com/hashicorp/terraform-cdk-go/cdktf => ../../../packages/cdktf/dist/go/cdktf
