@@ -33,6 +33,7 @@ Choose a language:
 * [Python](./docs/getting-started/python.md)
 * [Java](./docs/getting-started/java.md)
 * [C#](./docs/getting-started/csharp.md)
+* [Go](./docs/getting-started/go.md)
 
 ## Examples
 
