@@ -5,7 +5,8 @@ Starts a Docker container with an Nginx server.
 Steps:
 
 - Start Docker on your machine
-- Run `cdktf get` to install dependencies
+- Run `cdktf get` to generate provider bindings
+- Run `go mod tidy` to install dependencies (e.g. jsii-runtime-go)
 - Run `cdktf deploy` to run the Nginx container
 - Visit http://localhost:8000/ to view the Nginx default page
 - Optional: `docker ps` will show the running container
