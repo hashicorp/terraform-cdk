@@ -349,7 +349,7 @@ export const determineGoModuleName = async (dir: string): Promise<string> => {
       const match = /^module\s*(\S*)\s*$/m.exec(gomod.toString())
       if (match && match[1]) {
         const childdir = path.relative(currentDir, dir).replace(/\\/g, '/'); // replace '\' with '/' for windows paths
-        return `${match[1]}/${childdir}`;
+        return childdir.length > 0 ? `${match[1]}/${childdir}` : match[1];
       }
       throw new Error(`Could not determine the root Go module name. Found ${file} but failed to regex match the module name directive`);
     }
