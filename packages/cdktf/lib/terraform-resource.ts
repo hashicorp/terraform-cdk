@@ -82,7 +82,7 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
   }
 
   public get fqn(): string {
-    return Token.asString(`${this.terraformResourceType}.${this.friendlyUniqueId}`);
+    return `${this.terraformResourceType}.${this.friendlyUniqueId}`;
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
