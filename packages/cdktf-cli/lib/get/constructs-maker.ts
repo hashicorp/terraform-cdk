@@ -274,6 +274,9 @@ export class ConstructsMaker {
             }
           }
 
+          // increase memory to allow generating large providers (i.e. aws for Go)
+          process.env.NODE_OPTIONS = "--max-old-space-size=8192";
+
           await srcmak.srcmak(staging, opts);
         });
       }
