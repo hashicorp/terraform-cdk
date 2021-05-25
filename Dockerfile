@@ -8,7 +8,7 @@ ENV DEFAULT_TERRAFORM_VERSION=0.14.7                                \
     MAVEN_OPTS="-Xms256m -Xmx3G"
 
 # Install Terraform
-RUN AVAILABLE_TERRAFORM_VERSIONS="0.13.6 ${DEFAULT_TERRAFORM_VERSION} 0.15.0-beta1 0.15.4" && \
+RUN AVAILABLE_TERRAFORM_VERSIONS="0.13.6 ${DEFAULT_TERRAFORM_VERSION} 0.15.0-beta1 0.15.4 0.14.11" && \
     for VERSION in ${AVAILABLE_TERRAFORM_VERSIONS}; do curl -LOk https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip && \
     mkdir -p /usr/local/bin/tf/versions/${VERSION} && \
     unzip terraform_${VERSION}_linux_amd64.zip -d /usr/local/bin/tf/versions/${VERSION} && \
