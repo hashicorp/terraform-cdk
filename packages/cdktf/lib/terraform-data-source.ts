@@ -38,6 +38,8 @@ export class TerraformDataSource
     this.lifecycle = config.lifecycle;
   }
 
+  //TODO likely remove these (and interpolationForAttribute) since they will no longer be used internally
+  //At a minimum, the return types will need to change
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
   }
@@ -57,9 +59,7 @@ export class TerraformDataSource
   }
 
   public get fqn(): string {
-    return Token.asString(
-      `data.${this.terraformResourceType}.${this.friendlyUniqueId}`
-    );
+    return `data.${this.terraformResourceType}.${this.friendlyUniqueId}`;
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
