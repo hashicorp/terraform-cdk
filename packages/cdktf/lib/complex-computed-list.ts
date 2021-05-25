@@ -1,6 +1,7 @@
 import { Token } from "./tokens";
 import { ITerraformResource } from "./terraform-resource";
 
+//TODO most likely remove this entire file as functionality is moving to attribute system
 abstract class ComplexComputedAttribute {
   constructor(
     protected terraformResource: ITerraformResource,
