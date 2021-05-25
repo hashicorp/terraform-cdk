@@ -1,6 +1,7 @@
 .terraform
 cdktf.out
 terraform.tfstate*
+generated
 
 .idea
 .settings

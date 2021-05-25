@@ -4,7 +4,7 @@
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
 - [Node.js](https://nodejs.org) >= v12.16
-- [Go](https://golang.org/dl/) >= 1.11 (CDK for Terraform uses [go modules](https://golang.org/doc/go1.11#modules))
+- [Go](https://golang.org/dl/) >= 1.16 (CDK for Terraform uses [go modules](https://golang.org/doc/go1.11#modules) and JSII requires Go 1.16)
 
 ### Install CDK for Terraform CLI
 
@@ -31,8 +31,6 @@ cd hello-terraform
 **Initialize a new CDK for Terraform project**
 
 ```bash
-mkdir hello-terraform
-cd hello-terraform
 cdktf init --template="go" --local
 ```
 
@@ -50,7 +48,6 @@ Project Description: (default: 'A simple getting started project for cdktf.')
 ```
 
 Also, this command installs the `cdktf` library so that it can be used in the project.
-Todo: add this to the go template
 
 ## CDK for Terraform Application
 
@@ -60,29 +57,28 @@ You can now open up the `main.go` file to view your application code.
 vim main.go
 ```
 
-```go todo: paste code here
-using System;
-using Constructs;
-using HashiCorp.Cdktf;
+```go
+package main
 
+import (
+	"github.com/aws/constructs-go/constructs/v3"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+)
 
-namespace MyCompany.MyApp
-{
-    class MyApp : TerraformStack
-    {
-        public MyApp(Construct scope, string id) : base(scope, id)
-        {
-            // define resources here
-        }
+func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &id)
 
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new MyApp(app, "hello-terraform");
-            app.Synth();
-            Console.WriteLine("App synth complete");
-        }
-    }
+	// The code that defines your stack goes here
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewMyStack(app, "hello-terraform")
+
+	app.Synth()
 }
 ```
 
@@ -90,40 +86,64 @@ Refer to the [examples](../../examples/) directory for additional examples.
 
 Let's take a simple Go application that uses the CDK for Terraform package.
 
-```csharp TODO: adjust for Go
-using System;
-using Constructs;
-using HashiCorp.Cdktf;
+```go
+package main
 
-using aws;
+import (
+	"cdk.tf/go/stack/generated/kreuzwerker/docker"
 
+	"github.com/aws/constructs-go/constructs/v3"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+)
 
-namespace MyCompany.MyApp
-{
-    class MyApp : TerraformStack
-    {
-        public MyApp(Construct scope, string id) : base(scope, id)
-        {
-            new AwsProvider(this, "AWS", new AwsProviderConfig {
-              Region = "us-east-1"
-            });
+func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &id)
 
-            new Instance(this, "hello", new InstanceConfig {
-              Ami = "ami-2757f631",
-              InstanceType = "t2.micro"
-            });
-        }
+	docker.NewDockerProvider(stack, jsii.String("provider"), &docker.DockerProviderConfig{})
 
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new MyApp(app, "hello-terraform");
-            app.Synth();
-            Console.WriteLine("App synth complete");
-        }
-    }
+	dockerImage := docker.NewImage(stack, jsii.String("nginxImage"), &docker.ImageConfig{
+		Name:        jsii.String("nginx:latest"),
+		KeepLocally: jsii.Bool(false),
+	})
+
+	docker.NewContainer(stack, jsii.String("nginxContainer"), &docker.ContainerConfig{
+		Image: dockerImage.Latest(),
+		Name:  jsii.String("tutorial"),
+		Ports: &[]*docker.ContainerPorts{{
+			Internal: jsii.Number(80), External: jsii.Number(8000),
+		}},
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewMyStack(app, "hello-terraform")
+
+	app.Synth()
 }
 ```
+
+## Generating Go provider bindings
+For the above example to work, we need to add the `kreuzwerker/docker` Terraform provider to the `cdktf.json`.
+
+```json
+{
+    ...
+    "terraformProviders": [
+        "kreuzwerker/docker@~> 2.11"
+    ],
+    ...
+}
+```
+
+After adding the provider and saving the file, we can run `cdktf get` to download generate the bindings for the providers. By default the generated Go code will be output to the `generated` subdirectory.  
+
+### Dependencies
+The generated provider bindings depend on `jsii-runtime-go`. To automatically add that depedency to your code, you can run `go mod tidy`.
 
 ## Synthesize Application
 
@@ -134,7 +154,7 @@ cdktf synth
 ```
 
 ```bash
-Generated Terraform code in the output directory: cdktf.out
+Generated Terraform code for the stacks: hello-terraform
 ```
 
 This command will generate a directory called `cdktf.out`. This directory contains the Terraform JSON configuration for
@@ -147,25 +167,38 @@ cd cdktf.out
 Terraform AWS provider and instance expressed as Terraform JSON configuration.
 
 ```json
-cat cdk.json
+cat stacks/hello-terraform/cdk.json # shortened for brevity
 {
   "terraform": {
     "required_providers": {
-      "aws": "~> 2.0"
+      "docker": {
+        "version": "~> 2.11",
+        "source": "kreuzwerker/docker"
+      }
     }
   },
   "provider": {
-    "aws": [
-      {
-        "region": "us-east-1"
-      }
+    "docker": [
+      {}
     ]
   },
   "resource": {
-    "aws_instance": {
-      "hello": {
-        "ami": "ami-2757f631",
-        "instance_type": "t2.micro"
+    "docker_image": {
+      "nginxImage": {
+        "keep_locally": false,
+        "name": "nginx:latest"
+      }
+    },
+    "docker_container": {
+      "nginxContainer": {
+        "image": "${docker_image.nginxImage.latest}",
+        "name": "tutorial",
+        "ports": [
+          {
+            "external": 8000,
+            "internal": 80
+          }
+        ]
       }
     }
   }
@@ -188,25 +221,32 @@ cdktf deploy
 This command will ask for confirmation on a generated diff and then deploy the application.
 
 ```bash
-Stack: helloterraform
+Stack: hello-terraform
 Resources
- + AWS_INSTANCE         hello aws_instance.hello
+ + DOCKER_CONTAINER     nginxContainer      docker_container.nginxContainer
+ + DOCKER_IMAGE         nginxImage          docker_image.nginxImage
 
-Diff: 1 to create, 0 to update, 0 to delete.
-Do you want to continue (Y/n)? y
+Diff: 2 to create, 0 to update, 0 to delete.
+
+Do you want to perform these actions?
+  CDK for Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value:
 ```
 
 Deployed application
 
 ```bash
-Deploying Stack: helloterraform
+Deploying Stack: hello-terraform
 Resources
- ✔ AWS_INSTANCE         hello aws_instance.hello
+ ✔ DOCKER_CONTAINER     nginxContainer      docker_container.nginxContainer
+ ✔ DOCKER_IMAGE         nginxImage          docker_image.nginxImage
 
-Summary: 1 created, 0 updated, 0 destroyed.
+Summary: 2 created, 0 updated, 0 destroyed.
 ```
 
-The `cdktf deploy` command runs a `terraform apply` in the background. If you are using local storage mode then it creates a `terraform.tfstate` file in the root of the project.
+The `cdktf deploy` command runs a `terraform apply` in the background. If you are using local storage mode then it creates a `terraform.hello-terraform.tfstate` file in the root of the project.
 
 ## Destroy Application
 
@@ -220,20 +260,27 @@ This command will ask for confirmation on a generated diff and then destroy the 
 the user confirms that they want to continue with the destroy operation.
 
 ```bash
-Stack: helloterraform
+Stack: hello-terraform
 Resources
- - AWS_INSTANCE         hello aws_instance.hello
+ - DOCKER_CONTAINER     nginxContainer      docker_container.nginxContainer
+ - DOCKER_IMAGE         nginxImage          docker_image.nginxImage
 
-Diff: 0 to create, 0 to update, 1 to delete.
-Do you want to continue (Y/n)?
+Diff: 0 to create, 0 to update, 2 to delete.
+
+Do you want to perform these actions?
+ CDK for Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value:
 ```
 
 Destroyed application
 
 ```bash
-Destroying Stack: helloterraform
+Destroying Stack: hello-terraform
 Resources
- ✔ AWS_INSTANCE         hello aws_instance.hello
+ ✔ DOCKER_CONTAINER     nginxContainer      docker_container.nginxContainer
+ ✔ DOCKER_IMAGE         nginxImage          docker_image.nginxImage
 
-Summary: 1 destroyed.
+Summary: 2 destroyed.
 ```

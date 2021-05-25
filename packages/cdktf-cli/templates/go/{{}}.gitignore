@@ -4,6 +4,7 @@
 cdktf.out
 cdktf.log
 *terraform.*.tfstate*
+generated
 
 # src https://github.com/github/gitignore/blob/master/Go.gitignore
 # Binaries for programs and plugins

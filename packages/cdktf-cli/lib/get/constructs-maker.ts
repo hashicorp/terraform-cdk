@@ -275,6 +275,7 @@ export class ConstructsMaker {
           }
 
           // increase memory to allow generating large providers (i.e. aws for Go)
+          // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
           process.env.NODE_OPTIONS = "--max-old-space-size=8192";
 
           await srcmak.srcmak(staging, opts);
