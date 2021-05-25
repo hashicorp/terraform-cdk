@@ -97,7 +97,6 @@
     "ink-testing-library": "^2.0.0",
     "jest": "^26.6.3",
     "nock": "^13.0.7",
-    "postinstall-postinstall": "^2.1.0",
     "ts-jest": "^26.4.4",
     "typescript": "^3.9.7"
   }
