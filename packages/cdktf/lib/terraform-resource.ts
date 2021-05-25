@@ -68,6 +68,8 @@ export class TerraformResource
     this.lifecycle = config.lifecycle;
   }
 
+  //TODO likely remove these (and interpolationForAttribute) since they will no longer be used internally
+  //At a minimum, the return types will need to change
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
   }
