@@ -39,8 +39,6 @@ cd hello-terraform
 **Initialize a new CDK for Terraform project**
 
 ```bash
-mkdir hello-terraform
-cd hello-terraform
 cdktf init --template="java" --local
 ```
 
