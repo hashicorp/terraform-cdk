@@ -5,5 +5,11 @@
     "terraformProviders": [
         "hashicorp/aws@~> 3.40.0"
     ],
-    "terraformModules": []
+    "terraformModules": [
+        {
+            "name": "aws-eks-module",
+            "source": "terraform-aws-modules/eks/aws",
+            "version": "~> 16.0"
+        }
+    ]
 }

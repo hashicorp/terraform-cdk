@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/aws_eks_module"
 	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws"
 
 	"github.com/aws/constructs-go/constructs/v3"
@@ -21,6 +22,13 @@ func NewExampleCdktfGoAwsStack(scope constructs.Construct, id string) cdktf.Terr
 		Tags: &map[string]*string{
 			"environment": jsii.String("development"),
 		},
+	})
+
+	aws_eks_module.NewAwsEksModule(stack, jsii.String("EKS"), &aws_eks_module.AwsEksModuleOptions{
+		ClusterName:    jsii.String("my-eks"),
+		Subnets:        jsii.Strings("a", "b"),
+		VpcId:          jsii.String("id"),
+		ClusterVersion: jsii.String("1.17"),
 	})
 
 	return stack
