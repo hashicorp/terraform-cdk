@@ -16,7 +16,7 @@ Steps:
 package main
 
 import (
-	"github.com/hashicorp/terraform-cdk/examples/go/docker/.gen/kreuzwerker/docker"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker"
 
 	"github.com/aws/constructs-go/constructs/v3"
 	"github.com/aws/jsii-runtime-go"
