@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ["0.13.6", "0.14.7", "0.15.0-beta1"]
+        terraform: ["0.14.11", "0.15.4"]
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -45,7 +45,7 @@ jobs:
       - name: create bundle
         run: yarn package
       - name: Upload dist
-        if: ${{ matrix.terraform == '0.14.7' }}
+        if: ${{ matrix.terraform == '0.14.11' }}
         uses: actions/upload-artifact@v2
         with:
           name: dist
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ["0.13.6", "0.14.7", "0.15.0-beta1"]
+        terraform: ["0.14.11", "0.15.4"]
         target: ["typescript", "python", "java", "csharp"]
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -94,7 +94,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        terraform: ["0.13.6", "0.14.7", "0.15.0-beta1"]
+        terraform: ["0.14.11", "0.15.4"]
         target: ["typescript", "python", "java", "csharp"]
     needs: build
     env:
