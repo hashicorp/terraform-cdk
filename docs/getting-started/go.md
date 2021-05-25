@@ -127,6 +127,10 @@ func main() {
 }
 ```
 
+JSII [is using pointers](https://github.com/aws/aws-cdk-rfcs/blob/master/text/204-golang-bindings.md#optional-values-and-pointer-types)
+to be able to represent an unset optional value as `nil`. Hence the helper functions `jsii.String()` and `jsii.Number()` are used
+in the example to get pointers to the corresponding types which can are passed as inputs.
+
 ## Generating Go provider bindings
 For the above example to work, we need to add the `kreuzwerker/docker` Terraform provider to the `cdktf.json`.
 
