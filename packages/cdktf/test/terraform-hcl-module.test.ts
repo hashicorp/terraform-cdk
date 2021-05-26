@@ -115,7 +115,7 @@ test('reference module list', () => {
     const resource = new TestResource(stack, 'resource', {
         name: 'test'
     });
-    resource.names = module.getList('names');
+    resource.putNames(module.getStringList('names'));
 
     expect(Testing.synth(stack)).toMatchSnapshot();
 });
