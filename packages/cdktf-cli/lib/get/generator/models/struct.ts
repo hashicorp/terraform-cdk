@@ -1,11 +1,20 @@
 import { AttributeModel } from './attribute-model';
 
 export class Struct {
-  constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isClass = false, public readonly isAnonymous = false) {}
+  constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isClass = false, public readonly isComputed = false) {}
 
   public get assignableAttributes(): AttributeModel[] {
-    const attributes = this.isAnonymous ? this.attributes : this.attributes.filter(attribute => attribute.isAssignable)
+    const attributes = this.attributes.filter(attribute => attribute.isAssignable)
     return this.filterIgnoredAttributes(attributes)
+  }
+
+  public get nonAssignableAttributes(): AttributeModel[] {
+    const attributes = this.attributes.filter(attribute => !attribute.isAssignable)
+    return this.filterIgnoredAttributes(attributes)
+  }
+
+  public get accessibleAttributes(): AttributeModel[] {
+    return this.filterIgnoredAttributes(this.attributes)
   }
 
   public get optionalAttributes(): AttributeModel[] {
@@ -25,7 +34,7 @@ export class Struct {
   }
 
   public get extends(): string {
-    return '';
+    return this.isComputed ? ` extends ${this.name.replace('Computed', '')}` : '';
   }
 }
 

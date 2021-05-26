@@ -363,6 +363,13 @@ export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaAr
   /** inputs block */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
+export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends cdktf.ComplexComputedList {
+
+  // starting_position - computed: true, optional: false, required: false
+  public get startingPosition() {
+    return this.getStringAttribute('starting_position');
+  }
+}
 export interface BlockTypeNestedComputedListInputs {
   readonly namePrefix: string;
 }
@@ -374,6 +381,11 @@ function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedCo
   }
 }
 
+export interface BlockTypeNestedComputedListInputsComputed extends BlockTypeNestedListInputsComputed {
+  readonly id: string;
+  readonly startingPositionConfiguration: BlockTypeNestedComputedListInputsStartingPositionConfiguration;
+  readonly streamNames: string[];
+}
 
 // Resource
 
