@@ -1,5 +1,4 @@
 import { Construct } from "constructs";
-import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProviderGeneratorMetadata } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
@@ -34,8 +33,8 @@ export abstract class TerraformProvider extends TerraformElement {
 
   public get fqn(): string {
     return this.alias !== undefined
-      ? Token.asString(`${this.terraformResourceType}.${this.alias}`)
-      : Token.asString(`${this.terraformResourceType}`);
+      ? `${this.terraformResourceType}.${this.alias}`
+      : `${this.terraformResourceType}`;
   }
 
   public get metaAttributes(): { [name: string]: any } {
