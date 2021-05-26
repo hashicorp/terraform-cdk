@@ -46,7 +46,10 @@ export abstract class TerraformAttribute implements ITerraformAddressable {
   }
 
   public get fqn(): string {
-    let reference = `${this.parent.fqn}.${this.attribute}`;
+    let reference =
+      this.attribute === ""
+        ? this.parent.fqn
+        : `${this.parent.fqn}.${this.attribute}`;
     this._operations.forEach((operation) => {
       reference = operation(reference);
     });
