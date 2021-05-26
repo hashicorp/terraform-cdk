@@ -404,7 +404,11 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaArguments {
-  /** inputs block */
+  /**
+  * inputs block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#inputs BlockTypeNestedComputedList#inputs}
+  */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
 export interface BlockTypeNestedComputedListInputs {
@@ -628,7 +632,11 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface DeeplyNestedBlockTypesConfig extends cdktf.TerraformMetaArguments {
-  /** lifecycle_rule block */
+  /**
+  * lifecycle_rule block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#lifecycle_rule DeeplyNestedBlockTypes#lifecycle_rule}
+  */
   readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
 }
 export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
@@ -650,7 +658,11 @@ export interface DeeplyNestedBlockTypesLifecycleRule {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#abort_incomplete_multipart_upload_days DeeplyNestedBlockTypes#abort_incomplete_multipart_upload_days}
   */
   readonly abortIncompleteMultipartUploadDays?: number;
-  /** expiration block */
+  /**
+  * expiration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#expiration DeeplyNestedBlockTypes#expiration}
+  */
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration[];
 }
 
@@ -1831,9 +1843,17 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
-  /** timeouts_set block */
+  /**
+  * timeouts_set block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#timeouts_set BlockTypeSetList#timeouts_set}
+  */
   readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
-  /** timeouts_list block */
+  /**
+  * timeouts_list block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#timeouts_list BlockTypeSetList#timeouts_list}
+  */
   readonly timeoutsList?: BlockTypeSetListTimeoutsList[];
 }
 export interface BlockTypeSetListTimeoutsSet {
@@ -1956,7 +1976,11 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
-  /** timeouts block */
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html#timeouts SingleBlockType#timeouts}
+  */
   readonly timeouts?: SingleBlockTypeTimeouts;
 }
 export interface SingleBlockTypeTimeouts {

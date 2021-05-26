@@ -10,11 +10,15 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface DescriptionEscapingConfig extends cdktf.TerraformMetaArguments {
-  /** The resource name of the Cloud KMS CryptoKey to be used to protect access 
+  /**
+  * The resource name of the Cloud KMS CryptoKey to be used to protect access 
  to messages published on this topic. Your project's PubSub service account 
  ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com') must have 
  'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature. 
- The expected format is 'projects/*\\\\/locations/*\\\\/keyRings/*\\\\/cryptoKeys/*' */
+ The expected format is 'projects/*\\\\/locations/*\\\\/keyRings/*\\\\/cryptoKeys/*'
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/google/r/description_escaping.html#broken_comments DescriptionEscaping#broken_comments}
+  */
   readonly brokenComments: boolean;
 }
 
@@ -88,7 +92,11 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface CodeBlocksConfig extends cdktf.TerraformMetaArguments {
-  /** Here comes a code block \`\`\`foo.bar\`\`\` and here is more text. */
+  /**
+  * Here comes a code block \`\`\`foo.bar\`\`\` and here is more text.
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/code_blocks.html#with_code_block CodeBlocks#with_code_block}
+  */
   readonly withCodeBlock: boolean;
 }
 
