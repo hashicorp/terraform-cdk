@@ -1,7 +1,7 @@
 package main
 
 import (
-	"cdk.tf/go/stack/.gen/hashicorp/random"
+	"cdk.tf/go/stack/generated/hashicorp/random"
 	"github.com/aws/constructs-go/constructs/v3"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"

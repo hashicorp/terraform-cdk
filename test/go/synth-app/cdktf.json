@@ -2,6 +2,7 @@
   "language": "go",
   "app": "go run main.go",
   "terraformProviders": ["random@~> 3.1.0"],
+  "codeMakerOutput": "generated",
   "context": {
     "excludeStackIdFromLogicalIds": "true"
   }
