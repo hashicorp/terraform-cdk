@@ -4,7 +4,7 @@ exports[`Go full integration test synth synth generates JSON 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"0.0.0\\",
+      \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"go-simple\\"
     }
   },
