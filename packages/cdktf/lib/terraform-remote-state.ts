@@ -1,14 +1,25 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
-import { Token } from "./tokens";
 import { deepMerge, keysToSnakeCase } from "./util";
+import {
+  TerraformAnyAttribute,
+  TerraformStringAttribute,
+  TerraformNumberAttribute,
+  TerraformBooleanAttribute,
+  TerraformStringListAttribute,
+  TerraformAnyListAttribute,
+} from "./attributes";
+import { ITerraformAddressable } from "./terraform-addressable";
 
 export interface DataTerraformRemoteStateConfig {
   readonly workspace?: string;
   readonly defaults?: { [key: string]: any };
 }
 
-export abstract class TerraformRemoteState extends TerraformElement {
+export abstract class TerraformRemoteState
+  extends TerraformElement
+  implements ITerraformAddressable
+{
   constructor(
     scope: Construct,
     id: string,
@@ -18,30 +29,32 @@ export abstract class TerraformRemoteState extends TerraformElement {
     super(scope, id);
   }
 
-  public getString(output: string): string {
-    return Token.asString(this.interpolationForAttribute(output));
+  public get(output: string) {
+    return new TerraformAnyAttribute(this, `outputs.${output}`);
   }
 
-  public getNumber(output: string): number {
-    return Token.asNumber(this.interpolationForAttribute(output));
+  public getString(output: string) {
+    return new TerraformStringAttribute(this, `outputs.${output}`);
   }
 
-  public getList(output: string): string[] {
-    return Token.asList(this.interpolationForAttribute(output));
+  public getNumber(output: string) {
+    return new TerraformNumberAttribute(this, `outputs.${output}`);
   }
 
-  public getBoolean(output: string): boolean {
-    return Token.asString(
-      this.interpolationForAttribute(output)
-    ) as any as boolean;
+  public getBoolean(output: string) {
+    return new TerraformBooleanAttribute(this, `outputs.${output}`);
   }
 
-  public get(output: string): any {
-    return Token.asAny(this.interpolationForAttribute(output));
+  public getStringList(output: string) {
+    return new TerraformStringListAttribute(this, `outputs.${output}`);
   }
 
-  private interpolationForAttribute(terraformAttribute: string): any {
-    return `\${data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}}`;
+  public getList(output: string) {
+    return new TerraformAnyListAttribute(this, `outputs.${output}`);
+  }
+
+  public get fqn() {
+    return `data.terraform_remote_state.${this.friendlyUniqueId}`;
   }
 
   private extractConfig(): { [name: string]: any } {
