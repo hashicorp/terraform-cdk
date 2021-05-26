@@ -13,7 +13,13 @@ export interface AwsProviderConfig {
   /** The access key for API operations. You can retrieve this
 from the 'Security & Credentials' section of the AWS console. */
   readonly accessKey?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#allowed_account_ids AwsProvider#allowed_account_ids}
+  */
   readonly allowedAccountIds?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#forbidden_account_ids AwsProvider#forbidden_account_ids}
+  */
   readonly forbiddenAccountIds?: string[];
   /** Explicitly allow the provider to perform \\"insecure\\" SSL requests. If omitted,default value is \`false\` */
   readonly insecure?: boolean;
@@ -42,6 +48,9 @@ this defaults to ~/.aws/credentials. */
   readonly skipCredentialsValidation?: boolean;
   /** Skip getting the supported EC2 platforms. Used by users that don't have ec2:DescribeAccountAttributes permissions. */
   readonly skipGetEc2Platforms?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#skip_metadata_api_check AwsProvider#skip_metadata_api_check}
+  */
   readonly skipMetadataApiCheck?: boolean;
   /** Skip static validation of region name. Used by users of alternative AWS-like APIs or users w/ access to regions that are not public (yet). */
   readonly skipRegionValidation?: boolean;
@@ -520,7 +529,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws aws}
+  * Create a new {@link https://www.terraform.io/docs/providers/aws aws} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings
