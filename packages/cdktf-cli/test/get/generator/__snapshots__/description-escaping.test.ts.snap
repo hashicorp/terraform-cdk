@@ -92,14 +92,22 @@ export interface CodeBlocksConfig extends cdktf.TerraformMetaArguments {
   readonly withCodeBlock: boolean;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/code_blocks.html code_blocks}
+*/
 export class CodeBlocks extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/code_blocks.html code_blocks}
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param options CodeBlocksConfig
+  */
   public constructor(scope: Construct, id: string, config: CodeBlocksConfig) {
     super(scope, id, {
       terraformResourceType: 'code_blocks',
