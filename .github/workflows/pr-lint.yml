@@ -40,3 +40,10 @@ jobs:
           # merge commit, and it's easy to commit this by mistake. Enable this option
           # to also validate the commit message for one commit PRs.
           validateSingleCommit: true
+
+          subjectPatternError: |
+            The subject "{subject}" found in the pull request title "{title}" does not match the required format.
+            The format is "type(scope): message", supported types are feat, fix, chore, refactor, revert.
+            The supported scopes are lib, cli, hcl2json, tests, examples, readme, docs, release, deps.
+            Please stick to the format so that our automatic release process picks your commit up and
+            your code makes it into the next release.
