@@ -2,6 +2,18 @@ import { readSchema } from "../../lib/get/generator/provider-schema";
 import { ConstructsMakerModuleTarget, ConstructsMakerProviderTarget, Language } from "../../lib/get/constructs-maker";
 import { TerraformModuleConstraint, TerraformProviderConstraint } from "../../lib/config";
 
+expect.addSnapshotSerializer({
+  test: value => {
+    if (typeof value !== 'object' || value === null) return false;
+
+    return value['format_version'] !== undefined
+  },
+  print: (value: any) => {
+    value['format_version'] = "STUBBED VERSION"
+    return JSON.stringify(value, null, 2)
+  }
+});
+
 describe("readSchema", () => {
   beforeAll(() => {
     jest.setTimeout(120000)
