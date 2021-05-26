@@ -36,6 +36,7 @@ export class TestResource extends TerraformResource {
     });
 
     this.putName(config.name);
+    this.putNames(new TerraformStringListAttribute(this, "names"));
     this.tags = config.tags;
     this.nestedType = config.nestedType;
   }
