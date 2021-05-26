@@ -33,6 +33,7 @@ Choose a language:
 * [Python](./docs/getting-started/python.md)
 * [Java](./docs/getting-started/java.md)
 * [C#](./docs/getting-started/csharp.md)
+* [Go](./docs/getting-started/go.md)
 
 ## Examples
 
@@ -76,6 +77,12 @@ Choose a language:
 * [aws](./examples/csharp/aws)
 * [azure](./examples/csharp/azure)
 * [google](./examples/csharp/google)
+
+### Go
+> Please note: Support for Golang is at an experimental state. In the CDK for Terraform and in the [upstream library JSII](https://aws.github.io/jsii/user-guides/lib-author/configuration/targets/go/) which powers the support for the supported languages.
+
+* [docker](./examples/go/docker)
+* [aws](./examples/go/aws) ⚠️ _High memory usage: the provider generation currently needs ~6 GB of memory. Hence the maximum for Node.js is [currently set to 8GB](https://github.com/hashicorp/terraform-cdk/blob/11d2e783d1fe94e50abd116ba73689c02590a391/packages/cdktf-cli/lib/get/constructs-maker.ts#L279)_
 
 ## Documentation
 

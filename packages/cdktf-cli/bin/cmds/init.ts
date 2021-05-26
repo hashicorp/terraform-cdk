@@ -107,7 +107,8 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
       'npm_cdktf_cli': path.resolve(dist, 'js', `cdktf-cli-${version}.tgz`),
       'pypi_cdktf': path.resolve(dist, 'python', `cdktf-${pythonVersion}-py3-none-any.whl`),
       'mvn_cdktf': path.resolve(dist, 'java', `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`),
-      'nuget_cdktf': path.resolve(dist, 'dotnet', `HashiCorp.Cdktf.${version}.nupkg`)
+      'nuget_cdktf': path.resolve(dist, 'dotnet', `HashiCorp.Cdktf.${version}.nupkg`),
+      'go_cdktf': path.resolve(dist, 'go', `cdktf`),
     };
 
     for (const file of Object.values(ret)) {
@@ -144,7 +145,8 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
     'npm_cdktf_cli': `cdktf-cli@${ver}`,
     'pypi_cdktf': `cdktf~=${pythonVersion}`,
     'mvn_cdktf': version,
-    'nuget_cdktf': version
+    'nuget_cdktf': version,
+    'go_cdktf': `v${version}`,
   };
 }
 
@@ -311,6 +313,7 @@ interface Deps {
   pypi_cdktf: string;
   mvn_cdktf: string;
   nuget_cdktf: string;
+  go_cdktf: string;
   cdktf_version: string;
   constructs_version: string;
 }

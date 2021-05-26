@@ -18,9 +18,10 @@ export enum Language {
   PYTHON = 'python',
   CSHARP = 'csharp',
   JAVA = 'java',
+  GO = 'go',
 }
 
-export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON, Language.JAVA, Language.CSHARP ];
+export const LANGUAGES = [ Language.TYPESCRIPT, Language.PYTHON, Language.JAVA, Language.CSHARP, Language.GO ];
 
 export interface GetOptions {
   readonly targetLanguage: Language;
@@ -67,6 +68,10 @@ export abstract class ConstructsMakerTarget {
     return this.constraint.fqn
   }
 
+  public get namespace() {
+    return this.constraint.namespace
+  }
+
   public get moduleKey() {
     return this.fqn.replace(/\//gi, '_')
   }
@@ -94,8 +99,11 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
 
   public get srcMakName(): string {
     switch (this.targetLanguage) {
-      case Language.JAVA, Language.CSHARP, Language.PYTHON:
+      case Language.PYTHON:
+      case Language.GO:
         return this.simplifiedName;
+      case Language.JAVA:
+      case Language.CSHARP:
       default:
         return this.constraint.fqn;
     }
@@ -140,6 +148,8 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
         return this.isNullProvider ? "Providers.Null" : this.simplifiedName;
       case Language.PYTHON:
         return this.simplifiedName;
+      case Language.GO:
+        return this.name;
       default:
         return this.constraint.fqn;
     }
@@ -249,6 +259,32 @@ export class ConstructsMaker {
             }
           }
 
+          if (this.isGoTarget) {
+            // TODO: check if needed for modules somehow
+            // const targetType = target.isProvider ? 'provider' : 'module';
+            
+            // jsii-srcmac will produce a folder inside this dir named after "packageName"
+            // so this results in e.g. .gen/hashicorp/random
+            const outdir = path.join(this.codeMakerOutdir, target.namespace ?? '');
+
+            opts.golang = {  
+              outdir,
+              moduleName: (await determineGoModuleName(outdir)), // e.g. `github.com/org/userproject/.gen/hashicorp`
+              packageName: target.srcMakName // package will be named e.g. random for hashicorp/random
+            }
+          }
+
+          if (process.env.NODE_OPTIONS && !process.env.NODE_OPTIONS.includes(`--max-old-space-size`)) {
+            console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
+The provider generation needs a substantial amount of memory (~6-7GB) for some providers and languages.
+So cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=8192" by default. As your environment already contains
+a NODE_OPTIONS variable, we won't override it. Hence, the provider generation might fail with an out of memory error.`)
+          } else {
+            // increase memory to allow generating large providers (i.e. aws for Go)
+            // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
+            process.env.NODE_OPTIONS = "--max-old-space-size=8192";
+          }
+
           await srcmak.srcmak(staging, opts);
         });
       }
@@ -278,6 +314,10 @@ export class ConstructsMaker {
   private get isCsharpTarget() {
     return this.options.targetLanguage === Language.CSHARP
   }
+
+  private get isGoTarget() {
+    return this.options.targetLanguage === Language.GO
+  }
 }
 
 const report = async (target: ConstructsMakerTarget): Promise<void> => {
@@ -290,4 +330,45 @@ const report = async (target: ConstructsMakerTarget): Promise<void> => {
     language: target.targetLanguage
   };
   await ReportRequest(reportParams);
+}
+
+/**
+ * searches for the closest `go.mod` file and returns the nested go module name for `dir`
+ * e.g. (/dir/.gen/) => cdk.tf/stack/.gen if the parent dir of .gen has a go.mod for "module cdk.tf/stack"
+ * 
+ * @param dir the directory to start the search from (searches upwards)
+ * @returns the package name for `dir`
+ * @throws an Error if no go.mod was found
+ */
+export const determineGoModuleName = async (dir: string): Promise<string> => {
+  let previousDir;
+  let currentDir = path.resolve(dir);
+
+  do {
+    let files: string[] = [];
+    try {
+      files = await fs.readdir(currentDir);
+    } catch (e) {
+      // directory might not exist yet, but we still walk upwards from there, so ignore 'ENOENT'
+      if (e.code !== 'ENOENT') {
+        throw e;
+      }
+    }
+    if (files.includes('go.mod')) {
+      const file = path.resolve(currentDir, 'go.mod');
+      const gomod = await fs.readFile(file);
+      const match = /^module\s*(\S*)\s*$/m.exec(gomod.toString())
+      if (match && match[1]) {
+        const childdir = path.relative(currentDir, dir).replace(/\\/g, '/'); // replace '\' with '/' for windows paths
+        return childdir.length > 0 ? `${match[1]}/${childdir}` : match[1];
+      }
+      throw new Error(`Could not determine the root Go module name. Found ${file} but failed to regex match the module name directive`);
+    }
+    // go up one directory. As dirname('/') will return '/' we cancel the loop
+    // as soon as the dir does not change anymore.
+    previousDir = currentDir;
+    currentDir = path.dirname(currentDir);
+  } while (currentDir !== previousDir);
+  
+  throw new Error(`Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`);
 }
