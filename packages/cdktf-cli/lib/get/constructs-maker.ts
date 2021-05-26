@@ -274,9 +274,16 @@ export class ConstructsMaker {
             }
           }
 
-          // increase memory to allow generating large providers (i.e. aws for Go)
-          // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
-          process.env.NODE_OPTIONS = "--max-old-space-size=8192";
+          if (process.env.NODE_OPTIONS && !process.env.NODE_OPTIONS.includes(`--max-old-space-size`)) {
+            console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
+The provider generation needs a substantial amount of memory (~6-7GB) for some providers and languages.
+So cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=8192" by default. As your environment already contains
+a NODE_OPTIONS variable, we won't override it. Hence, the provider generation might fail with an out of memory error.`)
+          } else {
+            // increase memory to allow generating large providers (i.e. aws for Go)
+            // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
+            process.env.NODE_OPTIONS = "--max-old-space-size=8192";
+          }
 
           await srcmak.srcmak(staging, opts);
         });
