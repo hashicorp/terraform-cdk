@@ -2,6 +2,8 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util"
 import { Token } from "./tokens";
+import { ITerraformAddressable } from "./terraform-addressable";
+import { TerraformStringAttribute, TerraformNumberAttribute, TerraformAnyListAttribute, TerraformStringListAttribute, TerraformBooleanAttribute, TerraformAnyAttribute } from "./attributes";
 
 export abstract class VariableType {
     public static readonly STRING = 'string';
@@ -76,7 +78,7 @@ export interface TerraformVariableConfig {
     readonly type?: string;
 }
 
-export class TerraformVariable extends TerraformElement {
+export class TerraformVariable extends TerraformElement implements ITerraformAddressable {
     public readonly default?: any;
     public readonly description?: string;
     public readonly type?: string;
@@ -89,28 +91,32 @@ export class TerraformVariable extends TerraformElement {
         this.type = config.type;
     }
 
-    public get stringValue(): string {
-        return Token.asString(this.interpolation());
+    public get stringValue() {
+        return new TerraformStringAttribute(this, '');
     }
 
-    public get numberValue(): number {
-        return Token.asNumber(this.interpolation());
+    public get numberValue() {
+        return new TerraformNumberAttribute(this, '');
     }
 
-    public get listValue(): string[] {
-        return Token.asList(this.interpolation());
+    public get listValue() {
+        return new TerraformAnyListAttribute(this, '');
     }
 
-    public get booleanValue(): boolean {
-        return Token.asString(this.interpolation()) as any as boolean
+    public get stringListValue() {
+        return new TerraformStringListAttribute(this, '');
     }
 
-    public get value(): any {
-        return Token.asAny(this.interpolation());
+    public get booleanValue() {
+        return new TerraformBooleanAttribute(this, '');
     }
 
-    private interpolation(): any {
-        return `\${var.${this.friendlyUniqueId}}`
+    public get value() {
+        return new TerraformAnyAttribute(this, '');
+    }
+
+    public get fqn() {
+        return `var.${this.friendlyUniqueId}`;
     }
 
     public synthesizeAttributes(): { [key: string]: any } {
