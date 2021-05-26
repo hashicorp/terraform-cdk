@@ -1,48 +1,74 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
-import { Token } from "./tokens";
+import {
+  TerraformAny,
+  TerraformAnyAttribute,
+  TerraformStringAttribute,
+  TerraformNumberAttribute,
+  TerraformStringListAttribute,
+  TerraformAnyListAttribute,
+  TerraformBooleanAttribute,
+} from "./attributes";
+import { ITerraformAddressable } from "./terraform-addressable";
 
-export class TerraformLocal extends TerraformElement {
-  private _expression: any;
+export class TerraformLocal
+  extends TerraformElement
+  implements ITerraformAddressable
+{
+  private _expression!: TerraformAnyAttribute;
 
-  constructor(scope: Construct, id: string, expression: any) {
+  constructor(scope: Construct, id: string, expression: TerraformAny) {
     super(scope, id);
 
-    this._expression = expression;
+    this.putExpression(expression);
   }
 
-  public set expression(value: any) {
-    this._expression = value;
+  public putExpression(value: TerraformAny) {
+    this._expression = TerraformAnyAttribute.create(this, "", value);
   }
 
   public get expression() {
-    return Token.asAny(this.interpolation());
+    return this._expression;
   }
 
-  public get asString(): string {
-    return Token.asString(this.interpolation());
+  public get asString() {
+    return new TerraformStringAttribute(this, "", this.expression.value, {
+      nested: this.expression,
+    });
   }
 
-  public get asNumber(): number {
-    return Token.asNumber(this.interpolation());
+  public get asNumber() {
+    return new TerraformNumberAttribute(this, "", this.expression.value, {
+      nested: this.expression,
+    });
   }
 
-  public get asList(): string[] {
-    return Token.asList(this.interpolation());
+  public get asStringList() {
+    return new TerraformStringListAttribute(this, "", this.expression.value, {
+      nested: this.expression,
+    });
   }
 
-  public get asBoolean(): boolean {
-    return Token.asString(this.interpolation()) as any as boolean;
+  public get asList() {
+    return new TerraformAnyListAttribute(this, "", this.expression.value, {
+      nested: this.expression,
+    });
   }
 
-  private interpolation(): any {
-    return `\${local.${this.friendlyUniqueId}}`;
+  public get asBoolean() {
+    return new TerraformBooleanAttribute(this, "", this.expression.value, {
+      nested: this.expression,
+    });
+  }
+
+  public get fqn() {
+    return `local.${this.friendlyUniqueId}`;
   }
 
   public toTerraform(): any {
     return {
       locals: {
-        [this.friendlyUniqueId]: this._expression,
+        [this.friendlyUniqueId]: this._expression.toTerraform(),
       },
     };
   }
