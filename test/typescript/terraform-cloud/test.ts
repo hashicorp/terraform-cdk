@@ -3,6 +3,7 @@
  *
  * @group typescript
  * @group terraform-cloud
+ * @group asset
  */
 
 import { TestDriver } from '../../test-helper'
@@ -27,6 +28,7 @@ describe("full integration test", () => {
       TERRAFORM_CLOUD_ORGANIZATION: orgName
     });
     await driver.setupTypescriptProject()
+    driver.copyFolders("fixtures");
   });
 
   withAuth("deploy in Terraform Cloud", async () => {
