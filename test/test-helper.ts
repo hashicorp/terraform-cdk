@@ -5,6 +5,7 @@ const { execSync } = require("child_process");
 const os = require("os");
 const path = require("path");
 const fs = require("fs");
+const fse = require("fs-extra");
 
 export class TestDriver {
   public env: Record<string, string>
@@ -53,6 +54,12 @@ export class TestDriver {
     process.chdir(this.workingDirectory);
   }
 
+  copyFolders = (...folderNames) => {
+    for (const folderName of folderNames) {
+      fse.copySync(path.join(this.rootDir, folderName), folderName)
+    }
+  }
+
   copyFiles = (...fileNames) => {
     for (const fileName of fileNames) {
       fs.copyFileSync(path.join(this.rootDir, fileName), fileName);
@@ -63,8 +70,12 @@ export class TestDriver {
     fs.copyFileSync(path.join(this.rootDir, source), dest);
   }
 
+  stackDirectory = (stackName: string) => {
+    return path.join(this.workingDirectory, 'cdktf.out', 'stacks', stackName)
+  }
+
   synthesizedStack = (stackName: string) => {
-    return fs.readFileSync(path.join(this.workingDirectory, 'cdktf.out', 'stacks', stackName, 'cdk.tf.json'), 'utf-8')
+    return fs.readFileSync(path.join(this.stackDirectory(stackName), 'cdk.tf.json'), 'utf-8')
   }
 
   init = async (template: string) => {
@@ -125,6 +136,18 @@ export class TestDriver {
     this.copyFiles('cdktf.json')
     this.copyFile('Main.java', 'src/main/java/com/mycompany/app/Main.java')
     await this.get()
+  }
+
+  setupGoProject = async () => {
+    this.switchToTempDir()
+    await this.init('go')
+    this.copyFiles('cdktf.json')
+    this.copyFile('main.go', 'main.go')
+
+    await this.get()
+
+    // automatically retrieves required jsii-runtime module (used in generated providers)
+    await this.exec('go mod tidy');
   }
 
   setupRemoteTemplateProject = async (overrideUrl?: string) => {

@@ -8,6 +8,7 @@
     "examples/typescript/backends/*",
     "examples/java/*",
     "examples/csharp/*",
+    "examples/go/*",
     "test"
   ],
   "npmClient": "yarn",

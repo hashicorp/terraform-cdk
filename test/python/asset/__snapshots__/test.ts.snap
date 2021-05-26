@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`python full integration test assets synth generates JSON and copies files 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"python-assets\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"version\\": \\"~> 3.1.0\\",
+        \\"source\\": \\"hashicorp/null\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"null\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"null_resource\\": {
+      \\"nullresource\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"python-assets/null-resource\\",
+            \\"uniqueId\\": \\"nullresource\\"
+          }
+        }
+      }
+    }
+  },
+  \\"output\\": {
+    \\"fixtureoutput\\": {
+      \\"value\\": \\"assets/fixture/fixture.txt\\"
+    },
+    \\"fixturesoutput\\": {
+      \\"value\\": \\"assets/fixtures/archive.zip\\"
+    }
+  }
+}"
+`;
+
+exports[`python full integration test assets synth generates JSON and copies files 2`] = `"This is a fixture"`;

@@ -7,5 +7,8 @@ Resources
 
 
 Summary: 1 created, 0 updated, 0 destroyed.
+
+Output: isAssetPresent = yes
+        output = constant value
 "
 `;

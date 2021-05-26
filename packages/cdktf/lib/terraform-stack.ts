@@ -73,7 +73,7 @@ export class TerraformStack extends Construct {
     curr[lastKey] = value;
   }
 
-  public getLogicalId(tfElement: TerraformElement): string {
+  public getLogicalId(tfElement: TerraformElement | Node): string {
     // wrap the allocation for future renaming support
     return this.allocateLogicalId(tfElement);
   }
@@ -85,12 +85,13 @@ export class TerraformStack extends Construct {
    *
    * @param tfElement The element for which the logical ID is allocated.
    */
-  protected allocateLogicalId(tfElement: TerraformElement): string {
-    const node = tfElement.constructNode
+  protected allocateLogicalId(tfElement: TerraformElement | Node): string {
+    const node = tfElement instanceof TerraformElement ? tfElement.constructNode : tfElement;
+    const stack = tfElement  instanceof TerraformElement ? tfElement.cdktfStack : this;
 
     let stackIndex;
     if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
-      stackIndex = node.scopes.indexOf(tfElement.cdktfStack);
+      stackIndex = node.scopes.indexOf(stack);
     }
     else {
       stackIndex = 0;

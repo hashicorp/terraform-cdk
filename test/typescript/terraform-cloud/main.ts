@@ -1,6 +1,7 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack, Testing  } from 'cdktf';
+import { App, TerraformStack, Testing, TerraformAsset, TerraformOutput } from 'cdktf';
 import * as NullProvider from './.gen/providers/null';
+import * as path from 'path';
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
 const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
 const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
@@ -25,6 +26,18 @@ export class HelloTerra extends TerraformStack {
         },
         token
       }
+    });
+
+    new TerraformOutput(this, "output", {
+      value: "constant value"
+    })
+
+    const asset = new TerraformAsset(this, "asset-a", {
+      path: path.resolve(__dirname, "fixtures/a.txt")
+    });
+
+    new TerraformOutput(this, "isAssetPresent", {
+      value: `\${fileexists("\${path.module}/${asset.path}") ? "yes" : "no"}`,
     });
   }
 }

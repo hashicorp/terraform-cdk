@@ -115,6 +115,23 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
+  release_golang:
+    name: Release Go to Github Repo
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    steps:
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Release
+        run: npx -p jsii-release jsii-release-golang
+        env:
+          GITHUB_TOKEN: ${{ secrets.TERRAFORM_CDK_GO_REPO_GITHUB_TOKEN }}
+
   release_homebrew:
     name: Release to Homebrew
     # The branch or tag ref that triggered the workflow run.

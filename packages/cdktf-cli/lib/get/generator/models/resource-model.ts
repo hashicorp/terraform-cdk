@@ -14,6 +14,7 @@ interface ResourceModelOptions {
   provider: string;
   schema: Schema;
   terraformSchemaType: string;
+  configStructName: string;
 }
 
 export class ResourceModel {
@@ -30,6 +31,7 @@ export class ResourceModel {
   private _structs: Struct[];
   private dependencies: string[];
   private terraformSchemaType: string;
+  private configStructName: string;
 
   constructor(options: ResourceModelOptions) {
     this.terraformType = options.terraformType
@@ -41,7 +43,8 @@ export class ResourceModel {
     this.fileName = options.fileName;
     this.filePath = options.filePath;
     this._structs = options.structs;
-    this.terraformSchemaType = options.terraformSchemaType
+    this.terraformSchemaType = options.terraformSchemaType;
+    this.configStructName = options.configStructName;
     this.dependencies = [
       `import { Construct } from 'constructs';`,
       `import * as cdktf from 'cdktf';`
@@ -53,7 +56,7 @@ export class ResourceModel {
   }
 
   public get configStruct() {
-    return new ConfigStruct(`${this.className}Config`, this.attributes)
+    return new ConfigStruct(this.configStructName, this.attributes)
   }
 
   public get synthesizableAttributes(): AttributeModel[] {

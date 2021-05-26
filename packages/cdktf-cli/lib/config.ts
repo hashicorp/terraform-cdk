@@ -14,13 +14,15 @@ const parseDependencyConstraint = (item: string) => {
   const [ fqn, version ] = item.split('@');
   const nameParts = fqn.split('/');
   const name = nameParts.pop();
+  const namespace = nameParts.pop();
   if (!name) { throw new Error(`Provider name should be properly set in ${item}`) }
 
   return {
     name,
     source: fqn,
     version,
-    fqn
+    fqn,
+    namespace,
   }
 }
 
@@ -32,6 +34,7 @@ export interface TerraformDependencyConstraint {
   readonly source: string;
   readonly version?: string;
   readonly fqn: string;
+  readonly namespace?: string;
 }
 
 export class TerraformModuleConstraint implements TerraformDependencyConstraint {
@@ -67,6 +70,7 @@ export class TerraformProviderConstraint implements TerraformDependencyConstrain
   public readonly source: string;
   public readonly version?: string;
   public readonly fqn: string;
+  public readonly namespace?: string;
 
   constructor(item: TerraformDependencyConstraint | string) {
     if (typeof(item) === 'string') {
@@ -75,11 +79,13 @@ export class TerraformProviderConstraint implements TerraformDependencyConstrain
       this.fqn = parsed.fqn
       this.source = parsed.fqn
       this.version = parsed.version
+      this.namespace = parsed.namespace
     } else {
       this.name = item.name;
       this.fqn = item.name;
       this.version = item.version;
       this.source = item.source;
+      this.namespace = item.namespace;
     }
   }
 }

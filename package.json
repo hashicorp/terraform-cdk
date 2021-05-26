@@ -16,6 +16,7 @@
     "examples:integration:csharp": "test/run-against-dist tools/build-examples.sh csharp",
     "examples:integration:python": "test/run-against-dist tools/build-examples.sh python",
     "examples:integration:typescript": "test/run-against-dist tools/build-examples.sh typescript",
+    "examples:integration:go": "test/run-against-dist tools/build-examples.sh go",
     "test": "lerna run --scope cdktf* --scope @cdktf* test",
     "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
     "link-packages": "lerna exec --scope cdktf* --scope @cdktf* yarn link",
@@ -24,6 +25,7 @@
     "integration:python": "cd test && ./run-against-dist npx jest --runInBand --group=python",
     "integration:csharp": "cd test && ./run-against-dist npx jest --runInBand --group=csharp",
     "integration:java": "cd test && ./run-against-dist npx jest --runInBand --group=java",
+    "integration:go": "cd test && ./run-against-dist npx jest --runInBand --group=go",
     "integration:windows": "cd test && run-against-dist.bat \"npx jest --runInBand\"",
     "integration:windows:typescript": "cd test && run-against-dist.bat \"npx jest --runInBand --group=typescript\"",
     "integration:windows:python": "cd test && run-against-dist.bat \"npx jest --runInBand --group=python\"",
@@ -44,10 +46,12 @@
       "examples/typescript/backends/*",
       "examples/java/*",
       "examples/csharp/*",
+      "examples/go/*",
       "test",
       ".yalc/*",
       ".yalc/@*/*"
-    ]
+    ],
+    "nohoist": ["archiver", "**/archiver", "**/archiver/**"]
   },
   "devDependencies": {
     "changelog-parser": "^2.8.0",

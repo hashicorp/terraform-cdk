@@ -47,7 +47,8 @@ const wait = (ms = 1000) => {
   });
 }
 
-function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+function BeautifyErrors(name: string) {
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const isMethod = descriptor && descriptor.value instanceof Function;
     if (!isMethod)
       return;
@@ -60,7 +61,7 @@ function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDe
         if (e.response && e.response.status >= 400 && e.response.status <= 599){
           const errors = e.response.data?.errors as (object[] | undefined);
           if (errors) {
-            throw new Error(`Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
+            throw new Error(`${name}: Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
           }
         }
         throw e;
@@ -68,8 +69,8 @@ function BeautifyErrors(target: any, propertyKey: string, descriptor: PropertyDe
     };
 
     Object.defineProperty(target, propertyKey, descriptor!);
+  }
 }
-
 export class TerraformCloud implements Terraform {
   private readonly terraformConfigFilePath = path.join(os.homedir(), '.terraform.d', 'credentials.tfrc.json')
   private readonly token: string;
@@ -104,13 +105,13 @@ export class TerraformCloud implements Terraform {
     this.client = new TerraformCloudClient.TerraformCloud(this.token)
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("IsRemoteWorkspace")
   public async isRemoteWorkspace(): Promise<boolean> {
     const workspace = await this.workspace()
     return workspace.attributes.executionMode !== 'local'
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Init")
   public async init(): Promise<void> {
     if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
     const workspace = await this.workspace()
@@ -135,10 +136,24 @@ export class TerraformCloud implements Terraform {
     await this.waitForConfigurationVersionToBeReady();
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Plan")
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId) throw new Error("Please create a ConfigurationVersion before planning");
     const workspace = await this.workspace()
+    const workspaceUrl = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}`
+
+    if (workspace.attributes.locked && workspace.relationships?.lockedBy?.data?.type === "users") {
+      throw new Error(`Can not plan, the workspace ${this.organizationName}/${this.workspaceName} is locked by a user. You can find more information at ${workspaceUrl}`)
+    }
+
+    if (workspace.attributes.locked && workspace.relationships?.lockedBy?.data?.type === "runs") {
+      throw new Error(`Can not plan, the workspace ${this.organizationName}/${this.workspaceName} is locked by a previous run, please wait until it's done. You can find more information at ${workspaceUrl}`)
+    }
+
+    if (workspace.attributes.locked) {
+      throw new Error(`Can not plan, the workspace ${this.organizationName}/${this.workspaceName} is locked for an unknown reason: ${JSON.stringify(workspace.relationships?.lockedBy)}. You can find more information at ${workspaceUrl}`)
+    }
+
     let result = await this.client.Runs.create({
       data: {
         attributes: {
@@ -163,23 +178,22 @@ export class TerraformCloud implements Terraform {
     })
 
     const pendingStates = ['pending', 'plan_queued', 'planning']
-
-    if (pendingStates.includes(result.attributes.status)) {
+    while (pendingStates.includes(result.attributes.status)) {
       result = await this.client.Runs.show(result.id)
-      while (pendingStates.includes(result.attributes.status)) {
-        result = await this.client.Runs.show(result.id)
-        await wait(1000);
-      }
+      await wait(1000);
     }
 
+    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`
+    if (result.attributes.status === 'errored') {
+      throw new Error(`Error planning the run, please take a look at ${url}`)
+    }
 
     const plan = await this.client.Plans.jsonOutput(result.relationships.plan.data.id)
     this.run = result
-    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`
     return new TerraformCloudPlan('terraform-cloud', plan as unknown as any, url)
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Deploy")
   public async deploy(_planFile: string, stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before deploying");
 
@@ -188,16 +202,18 @@ export class TerraformCloud implements Terraform {
     await this.client.Runs.action('apply', runId)
     let result = await this.client.Runs.show(runId)
 
-    if (deployingStates.includes(result.attributes.status)) {
-      result = await this.client.Runs.show(runId)
-      while (deployingStates.includes(result.attributes.status)) {
-        result = await this.client.Runs.show(runId)
-        await wait(1000);
-      }
+    async function update(client: TerraformCloudClient.TerraformCloud) {
+      const res = await client.Runs.show(runId);
+
+      // fetch logs and update UI in the background
+      client.Applies.logs(result.relationships.apply.data.id).then(({ data }) => stdout(Buffer.from(data, 'utf8')));
+      return res;
     }
 
-    const logs = await this.client.Applies.logs(result.relationships.apply.data.id)
-    stdout(Buffer.from(logs.data, 'utf8'))
+    while (deployingStates.includes(result.attributes.status)) {
+      result = await update(this.client)
+      await wait(1000);
+    }
 
     switch (result.attributes.status) {
       case 'applied': break;
@@ -205,7 +221,7 @@ export class TerraformCloud implements Terraform {
     }
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Destroy")
   public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
     if (!this.run) throw new Error("Please create a ConfigurationVersion / Plan before destroying");
 
@@ -214,16 +230,18 @@ export class TerraformCloud implements Terraform {
     await this.client.Runs.action('apply', runId)
     let result = await this.client.Runs.show(runId)
 
-    if (destroyingStates.includes(result.attributes.status)) {
-      result = await this.client.Runs.show(runId)
-      while (destroyingStates.includes(result.attributes.status)) {
-        result = await this.client.Runs.show(runId)
-        await wait(1000);
-      }
+    async function update(client: TerraformCloudClient.TerraformCloud) {
+      const res = await client.Runs.show(runId);
+
+      // fetch logs and update UI in the background
+      client.Applies.logs(result.relationships.apply.data.id).then(({ data }) => stdout(Buffer.from(data, 'utf8')));
+      return res;
     }
 
-    const logs = await this.client.Applies.logs(result.relationships.apply.data.id)
-    stdout(Buffer.from(logs.data, 'utf8'))
+    while (destroyingStates.includes(result.attributes.status)) {
+      result = await update(this.client)
+      await wait(1000);
+    }
 
     switch (result.attributes.status) {
       case 'applied': break;
@@ -231,18 +249,18 @@ export class TerraformCloud implements Terraform {
     }
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Version")
   public async version(): Promise<string> {
     return (await this.workspace()).attributes.terraformVersion
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Output")
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const stateVersion = await this.client.StateVersions.current((await this.workspace()).id, true)
     if (!stateVersion.included) return {}
 
     const outputs = stateVersion.included.reduce((acc, output) => {
-      acc[output.id] = {
+      acc[output.attributes.name] = {
         sensitive: output.attributes.sensitive,
         type: output.attributes.type,
         value: output.attributes.value
@@ -254,7 +272,7 @@ export class TerraformCloud implements Terraform {
     return outputs
   }
 
-  @BeautifyErrors
+  @BeautifyErrors("Workspace")
   private async workspace() {
     try {
       return await this.client.Workspaces.showByName(this.organizationName, this.workspaceName)
