@@ -1,6 +1,13 @@
 import { Construct } from "constructs";
 import { TerraformModuleOptions, TerraformModule } from "./terraform-module";
-import { Token } from "./tokens";
+import {
+  TerraformAnyAttribute,
+  TerraformStringAttribute,
+  TerraformNumberAttribute,
+  TerraformBooleanAttribute,
+  TerraformStringListAttribute,
+  TerraformAnyListAttribute,
+} from "./attributes";
 
 export interface TerraformHclModuleOptions extends TerraformModuleOptions {
   readonly variables?: { [key: string]: any };
@@ -30,26 +37,28 @@ export class TerraformHclModule extends TerraformModule {
     this._variables[variable] = value;
   }
 
-  public get(output: string): any {
-    return Token.asAny(this.interpolationForOutput(output));
+  public get(output: string) {
+    return new TerraformAnyAttribute(this, output);
   }
 
-  public getString(output: string): string {
-    return Token.asString(this.interpolationForOutput(output));
+  public getString(output: string) {
+    return new TerraformStringAttribute(this, output);
   }
 
-  public getNumber(output: string): number {
-    return Token.asNumber(this.interpolationForOutput(output));
+  public getNumber(output: string) {
+    return new TerraformNumberAttribute(this, output);
   }
 
-  public getBoolean(output: string): boolean {
-    return Token.asString(
-      this.interpolationForOutput(output)
-    ) as any as boolean;
+  public getBoolean(output: string) {
+    return new TerraformBooleanAttribute(this, output);
   }
 
-  public getList(output: string): string[] {
-    return Token.asList(this.interpolationForOutput(output));
+  public getStringList(output: string) {
+    return new TerraformStringListAttribute(this, output);
+  }
+
+  public getList(output: string) {
+    return new TerraformAnyListAttribute(this, output);
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
