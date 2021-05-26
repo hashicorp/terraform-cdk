@@ -6,8 +6,11 @@ import { copySync, archiveSync, hashPath } from "./private/fs";
 import { Resource } from "./resource";
 
 export interface TerraformAssetConfig {
+  // absolute path to the file or folder configured
   readonly path: string;
+  // file type of the asset, either AssetType.FILE, AssetType.DIRECTORY, AssetType.ARCHIVE
   readonly type?: AssetType;
+  // hash value of the asset, if passed will be used as returned assetHash
   readonly assetHash?: string;
 }
 
@@ -22,9 +25,18 @@ const ASSETS_DIRECTORY = "assets";
 
 export class TerraformAsset extends Resource {
   private sourcePath: string;
+  // hash value of the asset that can be passed to consuming constructs (e.g. to not recreate a lambda function in case the underlying files did not change)
   public assetHash: string;
+  // file type of the asset, either AssetType.FILE, AssetType.DIRECTORY, AssetType.ARCHIVE
   public type: AssetType;
 
+  /**
+   * A Terraform Asset takes a file or directory outside of the CDK for Terraform context and moves it into it.
+   * Assets copy referenced files into the stacks context for further usage in other resources.
+   * @param scope
+   * @param id
+   * @param config
+   */
   constructor(scope: Construct, id: string, config: TerraformAssetConfig) {
     super(scope, id);
 
@@ -53,6 +65,10 @@ export class TerraformAsset extends Resource {
     }
   }
 
+  /**
+   * The path relative to the root of the terraform directory in posix format
+   * Use this property to reference the asset
+   */
   public get path(): string {
     return path.posix.join(
       ASSETS_DIRECTORY,
@@ -61,6 +77,9 @@ export class TerraformAsset extends Resource {
     );
   }
 
+  /**
+   * Name of the asset
+   */
   public get fileName(): string {
     switch (this.type) {
       case AssetType.ARCHIVE:
