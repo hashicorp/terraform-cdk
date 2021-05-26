@@ -1,2 +1,0 @@
-require github.com/hashicorp/terraform-cdk-provider-hashicorp-random-go/random v0.0.0
-replace github.com/hashicorp/terraform-cdk-provider-hashicorp-random-go/random => ./.gen/hashicorp/random
