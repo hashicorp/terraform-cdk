@@ -1,7 +1,6 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
-import { Token } from "./tokens";
 import { ITerraformAddressable } from "./terraform-addressable";
 import {
   TerraformStringAttribute,
