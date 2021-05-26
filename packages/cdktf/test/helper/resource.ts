@@ -2,16 +2,15 @@
 import { TerraformResource, TerraformMetaArguments, ComplexComputedList } from '../../lib';
 import { Construct } from 'constructs';
 import { TestProviderMetadata } from './provider'
+import { TerraformString, TerraformStringAttribute, TerraformStringList, TerraformStringListAttribute } from '../../lib/attributes';
 
 export interface TestResourceConfig extends TerraformMetaArguments {
-  name: string;
+  name: TerraformString;
   tags?: { [key: string]: string };
   nestedType?: { [key: string]: string };
 }
 
 export class TestResource extends TerraformResource {
-  public name: string;
-  public names?: string[];
   public tags?: { [key: string]: string };
   public nestedType?: { [key: string]: string };
 
@@ -28,15 +27,36 @@ export class TestResource extends TerraformResource {
       lifecycle: config.lifecycle
     });
 
-    this.name = config.name
+    this.putName(config.name);
     this.tags = config.tags
     this.nestedType = config.nestedType
   }
 
+  private _name!: TerraformStringAttribute;
+  public get name(): TerraformStringAttribute {
+    return this._name;
+  }
+  public putName(value: TerraformString) {
+    this._name = TerraformStringAttribute.create(this, 'name', value);
+  }
+
+  private _names!: TerraformStringListAttribute;
+  public get names(): TerraformStringListAttribute {
+    return this._names;
+  }
+  public putNames(value: TerraformStringList | undefined) {
+    if(value === undefined) {
+      this._names.reset();
+    }
+    else {
+      this._names = TerraformStringListAttribute.create(this, 'names', value);
+    }
+  }
+
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      name: this.name,
-      names: this.names,
+      name: this._name.toTerraform(),
+      names: this._names.toTerraform(),
       tags: this.tags,
       nested_type: this.nestedType // eslint-disable-line @typescript-eslint/camelcase
     }
