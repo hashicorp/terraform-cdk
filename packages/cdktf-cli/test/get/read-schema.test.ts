@@ -10,7 +10,7 @@ expect.addSnapshotSerializer({
   },
   print: (value: any) => {
     value['format_version'] = "STUBBED VERSION"
-    return JSON.stringify(value, null ,2)
+    return JSON.stringify(value, null, 2)
   }
 });
 
