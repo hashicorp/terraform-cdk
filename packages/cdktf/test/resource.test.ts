@@ -71,7 +71,7 @@ test('serialize list interpolation', () => {
   });
 
   const otherResource = new OtherTestResource(stack, 'othertest', {});
-  resource.names = otherResource.names
+  resource.putNames(otherResource.names);
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
