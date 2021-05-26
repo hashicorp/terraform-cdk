@@ -21,7 +21,7 @@ Install with [Homebrew](https://brew.sh):
 ```shell
 $ brew install cdktf
 ```
-Or install with npm (requires [Node.js](https://nodejs.org)):
+Or install with `npm` (comes with [Node.js](https://nodejs.org)):
 
 ```bash
 npm install -g cdktf-cli

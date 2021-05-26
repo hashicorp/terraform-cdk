@@ -127,6 +127,18 @@ export class TestDriver {
     await this.get()
   }
 
+  setupGoProject = async () => {
+    this.switchToTempDir()
+    await this.init('go')
+    this.copyFiles('cdktf.json')
+    this.copyFile('main.go', 'main.go')
+
+    await this.get()
+
+    // automatically retrieves required jsii-runtime module (used in generated providers)
+    await this.exec('go mod tidy');
+  }
+
   setupRemoteTemplateProject = async (overrideUrl?: string) => {
     const templateServer = new TemplateServer(path.resolve(__dirname, '..', 'packages/cdktf-cli/templates/typescript'));
     try {

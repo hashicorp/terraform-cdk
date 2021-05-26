@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import * as fs from 'fs-extra';
-import { Text, Box, useApp } from "ink";
+import { Text, Box, useApp, Newline } from "ink";
 import Spinner from "ink-spinner";
 import { Language, ConstructsMaker, GetOptions } from '../../../lib/get/constructs-maker';
 import { TerraformDependencyConstraint } from '../../../lib/config'
@@ -48,7 +48,18 @@ export const Get = ({ codeMakerOutput, language, constraints }: GetConfig): Reac
 
     const isGenerating: boolean = currentStatus != Status.DONE
     const statusText = `${currentStatus}...`
-    const jsonTerraformOutput = <Text>Generated <Text color="green">{language}</Text> constructs in the output directory: <Text bold>{codeMakerOutput}</Text></Text>
+    const jsonTerraformOutput = (
+        <Text>
+            Generated <Text color="green">{language}</Text> constructs in the output directory: <Text bold>{codeMakerOutput}</Text>
+            { language === Language.GO &&
+                <>
+                    <Newline />
+                    <Newline />
+                    <Text>The generated code depends on <Text color="cyan">jsii-runtime-go</Text>.
+                    If you haven&apos;t yet installed it, you can run <Text color="blueBright">go mod tidy</Text> to automatically install it.</Text>
+                </>
+            }
+        </Text>);
 
     return (
         <Box>
@@ -62,12 +73,12 @@ export const Get = ({ codeMakerOutput, language, constraints }: GetConfig): Reac
                     </Box>
                 </Fragment>
             ) : (
-                    <Fragment>
-                        <Box>
-                            {jsonTerraformOutput}
-                        </Box>
-                    </Fragment>
-                )}
+                <Fragment>
+                    <Box>
+                        {jsonTerraformOutput}
+                    </Box>
+                </Fragment>
+            )}
         </Box>
     );
 };
