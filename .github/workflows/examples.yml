@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         terraform: ["0.14.7"]
-        target: ["python", "csharp", "java", "typescript"]
+        target: ["python", "csharp", "java", "typescript", "go"]
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:

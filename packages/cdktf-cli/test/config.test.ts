@@ -38,6 +38,7 @@ describe("parseConfig", () => {
             TerraformProviderConstraint {
               "fqn": "aws",
               "name": "aws",
+              "namespace": undefined,
               "source": "aws",
               "version": "~> 2.0",
             },
@@ -60,6 +61,7 @@ describe("parseConfig", () => {
             TerraformProviderConstraint {
               "fqn": "hashicorp/aws",
               "name": "aws",
+              "namespace": "hashicorp",
               "source": "hashicorp/aws",
               "version": "~> 2.0",
             },
@@ -87,6 +89,7 @@ describe("parseConfig", () => {
             TerraformProviderConstraint {
               "fqn": "aws",
               "name": "aws",
+              "namespace": undefined,
               "source": undefined,
               "version": "~> 2.0",
             },
@@ -123,13 +126,15 @@ describe("parseConfig", () => {
       const input = {
         terraformModules: [
           {
-            name: 'local-module',
+            name: "local-module",
             source: "./foo"
-          },
+          }
         ]
       };
-      const parsed: any = parseConfig(JSON.stringify(input))
-      expect(parsed.terraformModules[0].localSource).toMatch('terraform-cdk/packages/cdktf-cli/foo')
+      const parsed: any = parseConfig(JSON.stringify(input));
+      expect(parsed.terraformModules[0].localSource).toMatch(
+        "terraform-cdk/packages/cdktf-cli/foo"
+      );
     });
 
     it("parses sub module registry string", async () => {

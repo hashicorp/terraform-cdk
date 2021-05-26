@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Go full integration test synth synth generates JSON 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"0.0.0\\",
+      \\"stackName\\": \\"go-simple\\"
+    }
+  },
+  \\"resource\\": {
+    \\"random_pet\\": {
+      \\"pet\\": {
+        \\"prefix\\": \\"my\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"go-simple/pet\\",
+            \\"uniqueId\\": \\"pet\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;

@@ -5,7 +5,7 @@ import * as path from 'path';
 import { TerraformDependencyConstraint, TerraformModuleConstraint } from '../../lib/config';
 
 export function expectImportMatchSnapshot(constraint: TerraformDependencyConstraint) {
-  jest.setTimeout(60_000);
+  jest.setTimeout(120_000);
 
   test(constraint.name, async () => {
     await mkdtemp(async workdir => {
