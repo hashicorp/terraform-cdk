@@ -23,6 +23,7 @@ jobs:
             chore
             refactor
             revert
+            test
           scopes: |
             lib
             cli
