@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProviderGeneratorMetadata } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
+import { TerraformString, TerraformStringAttribute } from "./attributes";
 
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
@@ -22,23 +23,31 @@ export abstract class TerraformProvider extends TerraformElement {
     this.terraformProviderSource = config.terraformProviderSource;
   }
 
-  public get alias(): string | undefined {
+  public get alias(): TerraformString | undefined {
     // This is always* being overriden currently
     return undefined;
   }
 
-  public set alias(_value: string | undefined) {
+  public set alias(_value: TerraformString | undefined) {
     // This is always* being overriden currently
   }
 
   public get fqn(): string {
     return this.alias !== undefined
-      ? `${this.terraformResourceType}.${this.alias}`
+      ? `${this.terraformResourceType}.${this.aliasAsString}`
       : `${this.terraformResourceType}`;
   }
 
   public get metaAttributes(): { [name: string]: any } {
-    return this.alias !== undefined ? { alias: this.alias } : {};
+    return this.alias !== undefined ? { alias: this.aliasAsString } : {};
+  }
+
+  private get aliasAsString(): string | undefined {
+    if (this.alias instanceof TerraformStringAttribute) {
+      return this.alias.value;
+    } else {
+      return this.alias;
+    }
   }
 
   // jsii can't handle abstract classes?
