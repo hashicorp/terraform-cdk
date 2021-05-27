@@ -131,6 +131,7 @@ jobs:
         run: npx -p jsii-release jsii-release-golang
         env:
           GITHUB_TOKEN: ${{ secrets.TERRAFORM_CDK_GO_REPO_GITHUB_TOKEN }}
+          GIT_USER_NAME: "CDK for Terraform Team"
 
   release_homebrew:
     name: Release to Homebrew
