@@ -68,7 +68,7 @@ class Parser {
         case 'bool': return new AttributeTypeModel('boolean', { isComputed, isOptional, isRequired, level });
         case 'string': return new AttributeTypeModel('string', { isComputed, isOptional, isRequired, level });
         case 'number': return new AttributeTypeModel('number', { isComputed, isOptional, isRequired, level });
-        case 'dynamic': return new AttributeTypeModel('any', { isComputed, isOptional, isRequired, level, isMap: true })
+        case 'dynamic': return new AttributeTypeModel('dynamic', { isComputed, isOptional, isRequired, level })
         default: throw new Error(`invalid primitive type ${attributeType}`);
       }
     }
@@ -82,7 +82,8 @@ class Parser {
 
       if (kind === 'set' || kind === 'list') {
         const attrType = this.renderAttributeType(scope, type as AttributeType);
-        attrType.isList = true;
+        attrType.isList = kind === 'list';
+        attrType.isSet = kind === 'set';
         attrType.isComputed = isComputed
         attrType.isOptional = isOptional
         attrType.isRequired = isRequired
@@ -191,7 +192,7 @@ class Parser {
             name,
             terraformName: terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, { struct, isList: true, isOptional: optional, isRequired: required }),
+            type: new AttributeTypeModel(struct.name, { struct, isList: blockType.nesting_mode === 'list', isOptional: optional, isRequired: required, isSet: blockType.nesting_mode === 'set' }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional,
