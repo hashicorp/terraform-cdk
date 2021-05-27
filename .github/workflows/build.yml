@@ -56,7 +56,7 @@ jobs:
     strategy:
       matrix:
         terraform: ["0.14.11", "0.15.4"]
-        target: ["typescript", "python", "java", "csharp"]
+        target: ["typescript", "python", "java", "csharp", "go"]
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     needs: build
@@ -95,7 +95,7 @@ jobs:
     strategy:
       matrix:
         terraform: ["0.14.11", "0.15.4"]
-        target: ["typescript", "python", "java", "csharp"]
+        target: ["typescript", "python", "java", "csharp", "go"]
     needs: build
     env:
       CHECKPOINT_DISABLE: "1"
