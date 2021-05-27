@@ -78,6 +78,10 @@ export class AttributeTypeModel {
     }
   }
 
+  public get attributeName(): string {
+    return `${this.name}Attribute`;
+  }
+
   public get isComplex(): boolean {
     return !!this.struct || (this.isMap && this.isComputed);
   }
