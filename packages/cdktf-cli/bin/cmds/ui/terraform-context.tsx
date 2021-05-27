@@ -34,6 +34,7 @@ const parseOutput = (str: string): DeployingResource[] => {
   const resources = lines.map(line => {
 
     if (/^Outputs:/.test(line)) { return }
+    if (/^Plan:/.test(line)) { return }
     if (/^data\..*/.test(line)) { return }
 
     const resourceMatch = line.match(/^([a-zA-Z_][a-zA-Z\d_\-.]*):/)
