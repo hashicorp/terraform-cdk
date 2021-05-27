@@ -144,7 +144,7 @@ For the above example to work, we need to add the `kreuzwerker/docker` Terraform
 }
 ```
 
-After adding the provider and saving the file, we can run `cdktf get` to download generate the bindings for the providers. By default the generated Go code will be output to the `generated` subdirectory.  
+After adding the provider and saving the file, we can run `cdktf get` to generate the bindings for the providers. By default the generated Go code will be output to the `generated` subdirectory.  
 
 ### Dependencies
 The generated provider bindings depend on `jsii-runtime-go`. To automatically add that depedency to your code, you can run `go mod tidy`.
