@@ -5,6 +5,9 @@
 //
 import { TestDriver } from "../../test-helper";
 
+const onWindows = process.platform === 'win32' ? it : it.skip
+const onPosix = process.platform !== 'win32' ? it : it.skip
+
 describe("full integration test", () => {
   let driver: TestDriver;
 
@@ -47,11 +50,21 @@ describe("full integration test", () => {
     expect(() => driver.diff()).toThrowError("Found more than one stack");
   });
 
-  test("list", () => {
+  onPosix("list posix", () => {
     expect(driver.list()).toMatchInlineSnapshot(`
       "Stack name                      Path
       first                           cdktf.out/stacks/first
       second                          cdktf.out/stacks/second
+      "
+    `);
+  });
+
+  // onWindows() - disabled temporarily
+  it.skip("list windows", () => {
+    expect(driver.list()).toMatchInlineSnapshot(`
+      "Stack name                      Path
+      first                           cdktf.out\\stacks\\first
+      second                          cdktf.out\\stacks\\second
       "
     `);
   });
