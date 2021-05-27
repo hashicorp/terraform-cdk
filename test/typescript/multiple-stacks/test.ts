@@ -5,7 +5,7 @@
 //
 import { TestDriver } from "../../test-helper";
 
-const onWindows = process.platform === 'win32' ? it.skip : it.skip
+const onWindows = process.platform === 'win32' ? it : it.skip
 const onPosix = process.platform !== 'win32' ? it : it.skip
 
 describe("full integration test", () => {
