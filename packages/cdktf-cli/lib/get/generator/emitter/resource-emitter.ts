@@ -63,7 +63,7 @@ export class ResourceEmitter {
     this.code.line(`* Create a new {@link ${resource.linkToDocs} ${resource.terraformResourceType}} ${resource.isDataSource ? 'Data Source' : 'Resource'}`);
     this.code.line(`*`)
     this.code.line(`* @param scope The scope in which to define this construct`)
-    this.code.line(`* @param id The scoped construct ID. Must be unique amongst siblings`)
+    this.code.line(`* @param id The scoped construct ID. Must be unique amongst siblings in the same scope`)
     this.code.line(`* @param options ${resource.configStruct.attributeType}`)
     this.code.line(`*/`)
     this.code.openBlock(`public constructor(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`);
