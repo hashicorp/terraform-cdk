@@ -10,38 +10,113 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface CloudfrontDistributionConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#aliases CloudfrontDistribution#aliases}
+  */
   readonly aliases?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#comment CloudfrontDistribution#comment}
+  */
   readonly comment?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_root_object CloudfrontDistribution#default_root_object}
+  */
   readonly defaultRootObject?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#enabled CloudfrontDistribution#enabled}
+  */
   readonly enabled: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#http_version CloudfrontDistribution#http_version}
+  */
   readonly httpVersion?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#is_ipv6_enabled CloudfrontDistribution#is_ipv6_enabled}
+  */
   readonly isIpv6Enabled?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#price_class CloudfrontDistribution#price_class}
+  */
   readonly priceClass?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#retain_on_delete CloudfrontDistribution#retain_on_delete}
+  */
   readonly retainOnDelete?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#tags CloudfrontDistribution#tags}
+  */
   readonly tags?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#wait_for_deployment CloudfrontDistribution#wait_for_deployment}
+  */
   readonly waitForDeployment?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#web_acl_id CloudfrontDistribution#web_acl_id}
+  */
   readonly webAclId?: string;
-  /** cache_behavior block */
+  /**
+  * cache_behavior block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cache_behavior CloudfrontDistribution#cache_behavior}
+  */
   readonly cacheBehavior?: CloudfrontDistributionCacheBehavior[];
-  /** custom_error_response block */
+  /**
+  * custom_error_response block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#custom_error_response CloudfrontDistribution#custom_error_response}
+  */
   readonly customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
-  /** default_cache_behavior block */
+  /**
+  * default_cache_behavior block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_cache_behavior CloudfrontDistribution#default_cache_behavior}
+  */
   readonly defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
-  /** logging_config block */
+  /**
+  * logging_config block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#logging_config CloudfrontDistribution#logging_config}
+  */
   readonly loggingConfig?: CloudfrontDistributionLoggingConfig[];
-  /** ordered_cache_behavior block */
+  /**
+  * ordered_cache_behavior block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#ordered_cache_behavior CloudfrontDistribution#ordered_cache_behavior}
+  */
   readonly orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
-  /** origin block */
+  /**
+  * origin block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin CloudfrontDistribution#origin}
+  */
   readonly origin: CloudfrontDistributionOrigin[];
-  /** origin_group block */
+  /**
+  * origin_group block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_group CloudfrontDistribution#origin_group}
+  */
   readonly originGroup?: CloudfrontDistributionOriginGroup[];
-  /** restrictions block */
+  /**
+  * restrictions block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#restrictions CloudfrontDistribution#restrictions}
+  */
   readonly restrictions: CloudfrontDistributionRestrictions[];
-  /** viewer_certificate block */
+  /**
+  * viewer_certificate block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_certificate CloudfrontDistribution#viewer_certificate}
+  */
   readonly viewerCertificate: CloudfrontDistributionViewerCertificate[];
 }
 export interface CloudfrontDistributionCacheBehaviorForwardedValuesCookies {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forward CloudfrontDistribution#forward}
+  */
   readonly forward: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#whitelisted_names CloudfrontDistribution#whitelisted_names}
+  */
   readonly whitelistedNames?: string[];
 }
 
@@ -54,10 +129,23 @@ function cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerraform(st
 }
 
 export interface CloudfrontDistributionCacheBehaviorForwardedValues {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#headers CloudfrontDistribution#headers}
+  */
   readonly headers?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string CloudfrontDistribution#query_string}
+  */
   readonly queryString: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string_cache_keys CloudfrontDistribution#query_string_cache_keys}
+  */
   readonly queryStringCacheKeys?: string[];
-  /** cookies block */
+  /**
+  * cookies block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cookies CloudfrontDistribution#cookies}
+  */
   readonly cookies: CloudfrontDistributionCacheBehaviorForwardedValuesCookies[];
 }
 
@@ -72,8 +160,17 @@ function cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform(struct?: 
 }
 
 export interface CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#event_type CloudfrontDistribution#event_type}
+  */
   readonly eventType: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_body CloudfrontDistribution#include_body}
+  */
   readonly includeBody?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_arn CloudfrontDistribution#lambda_arn}
+  */
   readonly lambdaArn: string;
 }
 
@@ -87,21 +184,65 @@ function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTerraform
 }
 
 export interface CloudfrontDistributionCacheBehavior {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#allowed_methods CloudfrontDistribution#allowed_methods}
+  */
   readonly allowedMethods: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cached_methods CloudfrontDistribution#cached_methods}
+  */
   readonly cachedMethods: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#compress CloudfrontDistribution#compress}
+  */
   readonly compress?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_ttl CloudfrontDistribution#default_ttl}
+  */
   readonly defaultTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#field_level_encryption_id CloudfrontDistribution#field_level_encryption_id}
+  */
   readonly fieldLevelEncryptionId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#max_ttl CloudfrontDistribution#max_ttl}
+  */
   readonly maxTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#min_ttl CloudfrontDistribution#min_ttl}
+  */
   readonly minTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#path_pattern CloudfrontDistribution#path_pattern}
+  */
   readonly pathPattern: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#smooth_streaming CloudfrontDistribution#smooth_streaming}
+  */
   readonly smoothStreaming?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#target_origin_id CloudfrontDistribution#target_origin_id}
+  */
   readonly targetOriginId: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#trusted_signers CloudfrontDistribution#trusted_signers}
+  */
   readonly trustedSigners?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_protocol_policy CloudfrontDistribution#viewer_protocol_policy}
+  */
   readonly viewerProtocolPolicy: string;
-  /** forwarded_values block */
+  /**
+  * forwarded_values block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forwarded_values CloudfrontDistribution#forwarded_values}
+  */
   readonly forwardedValues: CloudfrontDistributionCacheBehaviorForwardedValues[];
-  /** lambda_function_association block */
+  /**
+  * lambda_function_association block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_function_association CloudfrontDistribution#lambda_function_association}
+  */
   readonly lambdaFunctionAssociation?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation[];
 }
 
@@ -126,9 +267,21 @@ function cloudfrontDistributionCacheBehaviorToTerraform(struct?: CloudfrontDistr
 }
 
 export interface CloudfrontDistributionCustomErrorResponse {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#error_caching_min_ttl CloudfrontDistribution#error_caching_min_ttl}
+  */
   readonly errorCachingMinTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#error_code CloudfrontDistribution#error_code}
+  */
   readonly errorCode: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#response_code CloudfrontDistribution#response_code}
+  */
   readonly responseCode?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#response_page_path CloudfrontDistribution#response_page_path}
+  */
   readonly responsePagePath?: string;
 }
 
@@ -143,7 +296,13 @@ function cloudfrontDistributionCustomErrorResponseToTerraform(struct?: Cloudfron
 }
 
 export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forward CloudfrontDistribution#forward}
+  */
   readonly forward: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#whitelisted_names CloudfrontDistribution#whitelisted_names}
+  */
   readonly whitelistedNames?: string[];
 }
 
@@ -156,10 +315,23 @@ function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToTerra
 }
 
 export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValues {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#headers CloudfrontDistribution#headers}
+  */
   readonly headers?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string CloudfrontDistribution#query_string}
+  */
   readonly queryString: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string_cache_keys CloudfrontDistribution#query_string_cache_keys}
+  */
   readonly queryStringCacheKeys?: string[];
-  /** cookies block */
+  /**
+  * cookies block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cookies CloudfrontDistribution#cookies}
+  */
   readonly cookies: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies[];
 }
 
@@ -174,8 +346,17 @@ function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerraform(st
 }
 
 export interface CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#event_type CloudfrontDistribution#event_type}
+  */
   readonly eventType: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_body CloudfrontDistribution#include_body}
+  */
   readonly includeBody?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_arn CloudfrontDistribution#lambda_arn}
+  */
   readonly lambdaArn: string;
 }
 
@@ -189,20 +370,61 @@ function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToTe
 }
 
 export interface CloudfrontDistributionDefaultCacheBehavior {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#allowed_methods CloudfrontDistribution#allowed_methods}
+  */
   readonly allowedMethods: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cached_methods CloudfrontDistribution#cached_methods}
+  */
   readonly cachedMethods: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#compress CloudfrontDistribution#compress}
+  */
   readonly compress?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_ttl CloudfrontDistribution#default_ttl}
+  */
   readonly defaultTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#field_level_encryption_id CloudfrontDistribution#field_level_encryption_id}
+  */
   readonly fieldLevelEncryptionId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#max_ttl CloudfrontDistribution#max_ttl}
+  */
   readonly maxTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#min_ttl CloudfrontDistribution#min_ttl}
+  */
   readonly minTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#smooth_streaming CloudfrontDistribution#smooth_streaming}
+  */
   readonly smoothStreaming?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#target_origin_id CloudfrontDistribution#target_origin_id}
+  */
   readonly targetOriginId: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#trusted_signers CloudfrontDistribution#trusted_signers}
+  */
   readonly trustedSigners?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_protocol_policy CloudfrontDistribution#viewer_protocol_policy}
+  */
   readonly viewerProtocolPolicy: string;
-  /** forwarded_values block */
+  /**
+  * forwarded_values block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forwarded_values CloudfrontDistribution#forwarded_values}
+  */
   readonly forwardedValues: CloudfrontDistributionDefaultCacheBehaviorForwardedValues[];
-  /** lambda_function_association block */
+  /**
+  * lambda_function_association block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_function_association CloudfrontDistribution#lambda_function_association}
+  */
   readonly lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[];
 }
 
@@ -226,8 +448,17 @@ function cloudfrontDistributionDefaultCacheBehaviorToTerraform(struct?: Cloudfro
 }
 
 export interface CloudfrontDistributionLoggingConfig {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#bucket CloudfrontDistribution#bucket}
+  */
   readonly bucket: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_cookies CloudfrontDistribution#include_cookies}
+  */
   readonly includeCookies?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#prefix CloudfrontDistribution#prefix}
+  */
   readonly prefix?: string;
 }
 
@@ -241,7 +472,13 @@ function cloudfrontDistributionLoggingConfigToTerraform(struct?: CloudfrontDistr
 }
 
 export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forward CloudfrontDistribution#forward}
+  */
   readonly forward: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#whitelisted_names CloudfrontDistribution#whitelisted_names}
+  */
   readonly whitelistedNames?: string[];
 }
 
@@ -254,10 +491,23 @@ function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToTerra
 }
 
 export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValues {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#headers CloudfrontDistribution#headers}
+  */
   readonly headers?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string CloudfrontDistribution#query_string}
+  */
   readonly queryString: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string_cache_keys CloudfrontDistribution#query_string_cache_keys}
+  */
   readonly queryStringCacheKeys?: string[];
-  /** cookies block */
+  /**
+  * cookies block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cookies CloudfrontDistribution#cookies}
+  */
   readonly cookies: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies[];
 }
 
@@ -272,8 +522,17 @@ function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerraform(st
 }
 
 export interface CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#event_type CloudfrontDistribution#event_type}
+  */
   readonly eventType: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_body CloudfrontDistribution#include_body}
+  */
   readonly includeBody?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_arn CloudfrontDistribution#lambda_arn}
+  */
   readonly lambdaArn: string;
 }
 
@@ -287,21 +546,65 @@ function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToTe
 }
 
 export interface CloudfrontDistributionOrderedCacheBehavior {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#allowed_methods CloudfrontDistribution#allowed_methods}
+  */
   readonly allowedMethods: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cached_methods CloudfrontDistribution#cached_methods}
+  */
   readonly cachedMethods: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#compress CloudfrontDistribution#compress}
+  */
   readonly compress?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_ttl CloudfrontDistribution#default_ttl}
+  */
   readonly defaultTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#field_level_encryption_id CloudfrontDistribution#field_level_encryption_id}
+  */
   readonly fieldLevelEncryptionId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#max_ttl CloudfrontDistribution#max_ttl}
+  */
   readonly maxTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#min_ttl CloudfrontDistribution#min_ttl}
+  */
   readonly minTtl?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#path_pattern CloudfrontDistribution#path_pattern}
+  */
   readonly pathPattern: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#smooth_streaming CloudfrontDistribution#smooth_streaming}
+  */
   readonly smoothStreaming?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#target_origin_id CloudfrontDistribution#target_origin_id}
+  */
   readonly targetOriginId: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#trusted_signers CloudfrontDistribution#trusted_signers}
+  */
   readonly trustedSigners?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_protocol_policy CloudfrontDistribution#viewer_protocol_policy}
+  */
   readonly viewerProtocolPolicy: string;
-  /** forwarded_values block */
+  /**
+  * forwarded_values block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forwarded_values CloudfrontDistribution#forwarded_values}
+  */
   readonly forwardedValues: CloudfrontDistributionOrderedCacheBehaviorForwardedValues[];
-  /** lambda_function_association block */
+  /**
+  * lambda_function_association block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_function_association CloudfrontDistribution#lambda_function_association}
+  */
   readonly lambdaFunctionAssociation?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation[];
 }
 
@@ -326,7 +629,13 @@ function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: Cloudfro
 }
 
 export interface CloudfrontDistributionOriginCustomHeader {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#name CloudfrontDistribution#name}
+  */
   readonly name: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#value CloudfrontDistribution#value}
+  */
   readonly value: string;
 }
 
@@ -339,11 +648,29 @@ function cloudfrontDistributionOriginCustomHeaderToTerraform(struct?: Cloudfront
 }
 
 export interface CloudfrontDistributionOriginCustomOriginConfig {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#http_port CloudfrontDistribution#http_port}
+  */
   readonly httpPort: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#https_port CloudfrontDistribution#https_port}
+  */
   readonly httpsPort: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_keepalive_timeout CloudfrontDistribution#origin_keepalive_timeout}
+  */
   readonly originKeepaliveTimeout?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_protocol_policy CloudfrontDistribution#origin_protocol_policy}
+  */
   readonly originProtocolPolicy: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_read_timeout CloudfrontDistribution#origin_read_timeout}
+  */
   readonly originReadTimeout?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_ssl_protocols CloudfrontDistribution#origin_ssl_protocols}
+  */
   readonly originSslProtocols: string[];
 }
 
@@ -360,6 +687,9 @@ function cloudfrontDistributionOriginCustomOriginConfigToTerraform(struct?: Clou
 }
 
 export interface CloudfrontDistributionOriginS3OriginConfig {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_access_identity CloudfrontDistribution#origin_access_identity}
+  */
   readonly originAccessIdentity: string;
 }
 
@@ -371,14 +701,35 @@ function cloudfrontDistributionOriginS3OriginConfigToTerraform(struct?: Cloudfro
 }
 
 export interface CloudfrontDistributionOrigin {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#domain_name CloudfrontDistribution#domain_name}
+  */
   readonly domainName: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_id CloudfrontDistribution#origin_id}
+  */
   readonly originId: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_path CloudfrontDistribution#origin_path}
+  */
   readonly originPath?: string;
-  /** custom_header block */
+  /**
+  * custom_header block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#custom_header CloudfrontDistribution#custom_header}
+  */
   readonly customHeader?: CloudfrontDistributionOriginCustomHeader[];
-  /** custom_origin_config block */
+  /**
+  * custom_origin_config block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#custom_origin_config CloudfrontDistribution#custom_origin_config}
+  */
   readonly customOriginConfig?: CloudfrontDistributionOriginCustomOriginConfig[];
-  /** s3_origin_config block */
+  /**
+  * s3_origin_config block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#s3_origin_config CloudfrontDistribution#s3_origin_config}
+  */
   readonly s3OriginConfig?: CloudfrontDistributionOriginS3OriginConfig[];
 }
 
@@ -395,6 +746,9 @@ function cloudfrontDistributionOriginToTerraform(struct?: CloudfrontDistribution
 }
 
 export interface CloudfrontDistributionOriginGroupFailoverCriteria {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#status_codes CloudfrontDistribution#status_codes}
+  */
   readonly statusCodes: number[];
 }
 
@@ -406,6 +760,9 @@ function cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform(struct?: C
 }
 
 export interface CloudfrontDistributionOriginGroupMember {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_id CloudfrontDistribution#origin_id}
+  */
   readonly originId: string;
 }
 
@@ -417,10 +774,21 @@ function cloudfrontDistributionOriginGroupMemberToTerraform(struct?: CloudfrontD
 }
 
 export interface CloudfrontDistributionOriginGroup {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_id CloudfrontDistribution#origin_id}
+  */
   readonly originId: string;
-  /** failover_criteria block */
+  /**
+  * failover_criteria block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#failover_criteria CloudfrontDistribution#failover_criteria}
+  */
   readonly failoverCriteria: CloudfrontDistributionOriginGroupFailoverCriteria[];
-  /** member block */
+  /**
+  * member block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#member CloudfrontDistribution#member}
+  */
   readonly member: CloudfrontDistributionOriginGroupMember[];
 }
 
@@ -434,7 +802,13 @@ function cloudfrontDistributionOriginGroupToTerraform(struct?: CloudfrontDistrib
 }
 
 export interface CloudfrontDistributionRestrictionsGeoRestriction {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#locations CloudfrontDistribution#locations}
+  */
   readonly locations?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#restriction_type CloudfrontDistribution#restriction_type}
+  */
   readonly restrictionType: string;
 }
 
@@ -447,7 +821,11 @@ function cloudfrontDistributionRestrictionsGeoRestrictionToTerraform(struct?: Cl
 }
 
 export interface CloudfrontDistributionRestrictions {
-  /** geo_restriction block */
+  /**
+  * geo_restriction block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#geo_restriction CloudfrontDistribution#geo_restriction}
+  */
   readonly geoRestriction: CloudfrontDistributionRestrictionsGeoRestriction[];
 }
 
@@ -459,10 +837,25 @@ function cloudfrontDistributionRestrictionsToTerraform(struct?: CloudfrontDistri
 }
 
 export interface CloudfrontDistributionViewerCertificate {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#acm_certificate_arn CloudfrontDistribution#acm_certificate_arn}
+  */
   readonly acmCertificateArn?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cloudfront_default_certificate CloudfrontDistribution#cloudfront_default_certificate}
+  */
   readonly cloudfrontDefaultCertificate?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#iam_certificate_id CloudfrontDistribution#iam_certificate_id}
+  */
   readonly iamCertificateId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#minimum_protocol_version CloudfrontDistribution#minimum_protocol_version}
+  */
   readonly minimumProtocolVersion?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#ssl_support_method CloudfrontDistribution#ssl_support_method}
+  */
   readonly sslSupportMethod?: string;
 }
 
@@ -478,14 +871,22 @@ function cloudfrontDistributionViewerCertificateToTerraform(struct?: CloudfrontD
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html aws_cloudfront_distribution}
+*/
 export class CloudfrontDistribution extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html aws_cloudfront_distribution} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options CloudfrontDistributionConfig
+  */
   public constructor(scope: Construct, id: string, config: CloudfrontDistributionConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_cloudfront_distribution',
@@ -920,17 +1321,28 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface FmsAdminAccountConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html#account_id FmsAdminAccount#account_id}
+  */
   readonly accountId?: string;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html aws_fms_admin_account}
+*/
 export class FmsAdminAccount extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html aws_fms_admin_account} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options FmsAdminAccountConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: FmsAdminAccountConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_fms_admin_account',
@@ -993,42 +1405,129 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface S3BucketConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#acceleration_status S3Bucket#acceleration_status}
+  */
   readonly accelerationStatus?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#acl S3Bucket#acl}
+  */
   readonly acl?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#bucket S3Bucket#bucket}
+  */
   readonly bucket?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#bucket_prefix S3Bucket#bucket_prefix}
+  */
   readonly bucketPrefix?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#force_destroy S3Bucket#force_destroy}
+  */
   readonly forceDestroy?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#hosted_zone_id S3Bucket#hosted_zone_id}
+  */
   readonly hostedZoneId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#policy S3Bucket#policy}
+  */
   readonly policy?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#region S3Bucket#region}
+  */
   readonly region?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#request_payer S3Bucket#request_payer}
+  */
   readonly requestPayer?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#tags S3Bucket#tags}
+  */
   readonly tags?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#website_domain S3Bucket#website_domain}
+  */
   readonly websiteDomain?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#website_endpoint S3Bucket#website_endpoint}
+  */
   readonly websiteEndpoint?: string;
-  /** cors_rule block */
+  /**
+  * cors_rule block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#cors_rule S3Bucket#cors_rule}
+  */
   readonly corsRule?: S3BucketCorsRule[];
-  /** grant block */
+  /**
+  * grant block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#grant S3Bucket#grant}
+  */
   readonly grant?: S3BucketGrant[];
-  /** lifecycle_rule block */
+  /**
+  * lifecycle_rule block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#lifecycle_rule S3Bucket#lifecycle_rule}
+  */
   readonly lifecycleRule?: S3BucketLifecycleRule[];
-  /** logging block */
+  /**
+  * logging block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#logging S3Bucket#logging}
+  */
   readonly logging?: S3BucketLogging[];
-  /** object_lock_configuration block */
+  /**
+  * object_lock_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#object_lock_configuration S3Bucket#object_lock_configuration}
+  */
   readonly objectLockConfiguration?: S3BucketObjectLockConfiguration[];
-  /** replication_configuration block */
+  /**
+  * replication_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#replication_configuration S3Bucket#replication_configuration}
+  */
   readonly replicationConfiguration?: S3BucketReplicationConfiguration[];
-  /** server_side_encryption_configuration block */
+  /**
+  * server_side_encryption_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#server_side_encryption_configuration S3Bucket#server_side_encryption_configuration}
+  */
   readonly serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
-  /** versioning block */
+  /**
+  * versioning block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#versioning S3Bucket#versioning}
+  */
   readonly versioning?: S3BucketVersioning[];
-  /** website block */
+  /**
+  * website block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#website S3Bucket#website}
+  */
   readonly website?: S3BucketWebsite[];
 }
 export interface S3BucketCorsRule {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#allowed_headers S3Bucket#allowed_headers}
+  */
   readonly allowedHeaders?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#allowed_methods S3Bucket#allowed_methods}
+  */
   readonly allowedMethods: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#allowed_origins S3Bucket#allowed_origins}
+  */
   readonly allowedOrigins: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#expose_headers S3Bucket#expose_headers}
+  */
   readonly exposeHeaders?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#max_age_seconds S3Bucket#max_age_seconds}
+  */
   readonly maxAgeSeconds?: number;
 }
 
@@ -1044,9 +1543,21 @@ function s3BucketCorsRuleToTerraform(struct?: S3BucketCorsRule): any {
 }
 
 export interface S3BucketGrant {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#id S3Bucket#id}
+  */
   readonly id?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#permissions S3Bucket#permissions}
+  */
   readonly permissions: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#type S3Bucket#type}
+  */
   readonly type: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#uri S3Bucket#uri}
+  */
   readonly uri?: string;
 }
 
@@ -1061,8 +1572,17 @@ function s3BucketGrantToTerraform(struct?: S3BucketGrant): any {
 }
 
 export interface S3BucketLifecycleRuleExpiration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#date S3Bucket#date}
+  */
   readonly date?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
+  */
   readonly days?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#expired_object_delete_marker S3Bucket#expired_object_delete_marker}
+  */
   readonly expiredObjectDeleteMarker?: boolean;
 }
 
@@ -1076,6 +1596,9 @@ function s3BucketLifecycleRuleExpirationToTerraform(struct?: S3BucketLifecycleRu
 }
 
 export interface S3BucketLifecycleRuleNoncurrentVersionExpiration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
+  */
   readonly days?: number;
 }
 
@@ -1087,7 +1610,13 @@ function s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform(struct?: S3
 }
 
 export interface S3BucketLifecycleRuleNoncurrentVersionTransition {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
+  */
   readonly days?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class S3Bucket#storage_class}
+  */
   readonly storageClass: string;
 }
 
@@ -1100,8 +1629,17 @@ function s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform(struct?: S3
 }
 
 export interface S3BucketLifecycleRuleTransition {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#date S3Bucket#date}
+  */
   readonly date?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
+  */
   readonly days?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class S3Bucket#storage_class}
+  */
   readonly storageClass: string;
 }
 
@@ -1115,18 +1653,49 @@ function s3BucketLifecycleRuleTransitionToTerraform(struct?: S3BucketLifecycleRu
 }
 
 export interface S3BucketLifecycleRule {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#abort_incomplete_multipart_upload_days S3Bucket#abort_incomplete_multipart_upload_days}
+  */
   readonly abortIncompleteMultipartUploadDays?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#enabled S3Bucket#enabled}
+  */
   readonly enabled: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#id S3Bucket#id}
+  */
   readonly id?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#prefix S3Bucket#prefix}
+  */
   readonly prefix?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#tags S3Bucket#tags}
+  */
   readonly tags?: { [key: string]: string };
-  /** expiration block */
+  /**
+  * expiration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#expiration S3Bucket#expiration}
+  */
   readonly expiration?: S3BucketLifecycleRuleExpiration[];
-  /** noncurrent_version_expiration block */
+  /**
+  * noncurrent_version_expiration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#noncurrent_version_expiration S3Bucket#noncurrent_version_expiration}
+  */
   readonly noncurrentVersionExpiration?: S3BucketLifecycleRuleNoncurrentVersionExpiration[];
-  /** noncurrent_version_transition block */
+  /**
+  * noncurrent_version_transition block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#noncurrent_version_transition S3Bucket#noncurrent_version_transition}
+  */
   readonly noncurrentVersionTransition?: S3BucketLifecycleRuleNoncurrentVersionTransition[];
-  /** transition block */
+  /**
+  * transition block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#transition S3Bucket#transition}
+  */
   readonly transition?: S3BucketLifecycleRuleTransition[];
 }
 
@@ -1146,7 +1715,13 @@ function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule): any {
 }
 
 export interface S3BucketLogging {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#target_bucket S3Bucket#target_bucket}
+  */
   readonly targetBucket: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#target_prefix S3Bucket#target_prefix}
+  */
   readonly targetPrefix?: string;
 }
 
@@ -1159,8 +1734,17 @@ function s3BucketLoggingToTerraform(struct?: S3BucketLogging): any {
 }
 
 export interface S3BucketObjectLockConfigurationRuleDefaultRetention {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
+  */
   readonly days?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#mode S3Bucket#mode}
+  */
   readonly mode: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#years S3Bucket#years}
+  */
   readonly years?: number;
 }
 
@@ -1174,7 +1758,11 @@ function s3BucketObjectLockConfigurationRuleDefaultRetentionToTerraform(struct?:
 }
 
 export interface S3BucketObjectLockConfigurationRule {
-  /** default_retention block */
+  /**
+  * default_retention block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#default_retention S3Bucket#default_retention}
+  */
   readonly defaultRetention: S3BucketObjectLockConfigurationRuleDefaultRetention[];
 }
 
@@ -1186,8 +1774,15 @@ function s3BucketObjectLockConfigurationRuleToTerraform(struct?: S3BucketObjectL
 }
 
 export interface S3BucketObjectLockConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#object_lock_enabled S3Bucket#object_lock_enabled}
+  */
   readonly objectLockEnabled: string;
-  /** rule block */
+  /**
+  * rule block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#rule S3Bucket#rule}
+  */
   readonly rule?: S3BucketObjectLockConfigurationRule[];
 }
 
@@ -1200,6 +1795,9 @@ function s3BucketObjectLockConfigurationToTerraform(struct?: S3BucketObjectLockC
 }
 
 export interface S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#owner S3Bucket#owner}
+  */
   readonly owner: string;
 }
 
@@ -1211,11 +1809,27 @@ function s3BucketReplicationConfigurationRulesDestinationAccessControlTranslatio
 }
 
 export interface S3BucketReplicationConfigurationRulesDestination {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#account_id S3Bucket#account_id}
+  */
   readonly accountId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#bucket S3Bucket#bucket}
+  */
   readonly bucket: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#replica_kms_key_id S3Bucket#replica_kms_key_id}
+  */
   readonly replicaKmsKeyId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class S3Bucket#storage_class}
+  */
   readonly storageClass?: string;
-  /** access_control_translation block */
+  /**
+  * access_control_translation block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#access_control_translation S3Bucket#access_control_translation}
+  */
   readonly accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation[];
 }
 
@@ -1231,7 +1845,13 @@ function s3BucketReplicationConfigurationRulesDestinationToTerraform(struct?: S3
 }
 
 export interface S3BucketReplicationConfigurationRulesFilter {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#prefix S3Bucket#prefix}
+  */
   readonly prefix?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#tags S3Bucket#tags}
+  */
   readonly tags?: { [key: string]: string };
 }
 
@@ -1244,6 +1864,9 @@ function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: S3Bucke
 }
 
 export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#enabled S3Bucket#enabled}
+  */
   readonly enabled: boolean;
 }
 
@@ -1255,7 +1878,11 @@ function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncry
 }
 
 export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteria {
-  /** sse_kms_encrypted_objects block */
+  /**
+  * sse_kms_encrypted_objects block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#sse_kms_encrypted_objects S3Bucket#sse_kms_encrypted_objects}
+  */
   readonly sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects[];
 }
 
@@ -1267,15 +1894,39 @@ function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToTerraform
 }
 
 export interface S3BucketReplicationConfigurationRules {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#id S3Bucket#id}
+  */
   readonly id?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#prefix S3Bucket#prefix}
+  */
   readonly prefix?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#priority S3Bucket#priority}
+  */
   readonly priority?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#status S3Bucket#status}
+  */
   readonly status: string;
-  /** destination block */
+  /**
+  * destination block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#destination S3Bucket#destination}
+  */
   readonly destination: S3BucketReplicationConfigurationRulesDestination[];
-  /** filter block */
+  /**
+  * filter block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#filter S3Bucket#filter}
+  */
   readonly filter?: S3BucketReplicationConfigurationRulesFilter[];
-  /** source_selection_criteria block */
+  /**
+  * source_selection_criteria block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#source_selection_criteria S3Bucket#source_selection_criteria}
+  */
   readonly sourceSelectionCriteria?: S3BucketReplicationConfigurationRulesSourceSelectionCriteria[];
 }
 
@@ -1293,8 +1944,15 @@ function s3BucketReplicationConfigurationRulesToTerraform(struct?: S3BucketRepli
 }
 
 export interface S3BucketReplicationConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#role S3Bucket#role}
+  */
   readonly role: string;
-  /** rules block */
+  /**
+  * rules block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#rules S3Bucket#rules}
+  */
   readonly rules: S3BucketReplicationConfigurationRules[];
 }
 
@@ -1307,7 +1965,13 @@ function s3BucketReplicationConfigurationToTerraform(struct?: S3BucketReplicatio
 }
 
 export interface S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#kms_master_key_id S3Bucket#kms_master_key_id}
+  */
   readonly kmsMasterKeyId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#sse_algorithm S3Bucket#sse_algorithm}
+  */
   readonly sseAlgorithm: string;
 }
 
@@ -1320,7 +1984,11 @@ function s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionB
 }
 
 export interface S3BucketServerSideEncryptionConfigurationRule {
-  /** apply_server_side_encryption_by_default block */
+  /**
+  * apply_server_side_encryption_by_default block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#apply_server_side_encryption_by_default S3Bucket#apply_server_side_encryption_by_default}
+  */
   readonly applyServerSideEncryptionByDefault: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault[];
 }
 
@@ -1332,7 +2000,11 @@ function s3BucketServerSideEncryptionConfigurationRuleToTerraform(struct?: S3Buc
 }
 
 export interface S3BucketServerSideEncryptionConfiguration {
-  /** rule block */
+  /**
+  * rule block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#rule S3Bucket#rule}
+  */
   readonly rule: S3BucketServerSideEncryptionConfigurationRule[];
 }
 
@@ -1344,7 +2016,13 @@ function s3BucketServerSideEncryptionConfigurationToTerraform(struct?: S3BucketS
 }
 
 export interface S3BucketVersioning {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#enabled S3Bucket#enabled}
+  */
   readonly enabled?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#mfa_delete S3Bucket#mfa_delete}
+  */
   readonly mfaDelete?: boolean;
 }
 
@@ -1357,9 +2035,21 @@ function s3BucketVersioningToTerraform(struct?: S3BucketVersioning): any {
 }
 
 export interface S3BucketWebsite {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#error_document S3Bucket#error_document}
+  */
   readonly errorDocument?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#index_document S3Bucket#index_document}
+  */
   readonly indexDocument?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#redirect_all_requests_to S3Bucket#redirect_all_requests_to}
+  */
   readonly redirectAllRequestsTo?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#routing_rules S3Bucket#routing_rules}
+  */
   readonly routingRules?: string;
 }
 
@@ -1374,14 +2064,22 @@ function s3BucketWebsiteToTerraform(struct?: S3BucketWebsite): any {
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html aws_s3_bucket}
+*/
 export class S3Bucket extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html aws_s3_bucket} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options S3BucketConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: S3BucketConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_s3_bucket',
@@ -1819,26 +2517,81 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface SecurityGroupConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#description SecurityGroup#description}
+  */
   readonly description?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#egress SecurityGroup#egress}
+  */
   readonly egress?: SecurityGroupEgress[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#ingress SecurityGroup#ingress}
+  */
   readonly ingress?: SecurityGroupIngress[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#name SecurityGroup#name}
+  */
   readonly name?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#name_prefix SecurityGroup#name_prefix}
+  */
   readonly namePrefix?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#revoke_rules_on_delete SecurityGroup#revoke_rules_on_delete}
+  */
   readonly revokeRulesOnDelete?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#tags SecurityGroup#tags}
+  */
   readonly tags?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#vpc_id SecurityGroup#vpc_id}
+  */
   readonly vpcId?: string;
-  /** timeouts block */
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#timeouts SecurityGroup#timeouts}
+  */
   readonly timeouts?: SecurityGroupTimeouts;
 }
 export interface SecurityGroupEgress {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#cidr_blocks SecurityGroup#cidr_blocks}
+  */
   readonly cidrBlocks?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#description SecurityGroup#description}
+  */
   readonly description?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#from_port SecurityGroup#from_port}
+  */
   readonly fromPort?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#ipv6_cidr_blocks SecurityGroup#ipv6_cidr_blocks}
+  */
   readonly ipv6CidrBlocks?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#prefix_list_ids SecurityGroup#prefix_list_ids}
+  */
   readonly prefixListIds?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#protocol SecurityGroup#protocol}
+  */
   readonly protocol?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#security_groups SecurityGroup#security_groups}
+  */
   readonly securityGroups?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#self SecurityGroup#self}
+  */
   readonly selfAttribute?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#to_port SecurityGroup#to_port}
+  */
   readonly toPort?: number;
 }
 
@@ -1858,14 +2611,41 @@ function securityGroupEgressToTerraform(struct?: SecurityGroupEgress): any {
 }
 
 export interface SecurityGroupIngress {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#cidr_blocks SecurityGroup#cidr_blocks}
+  */
   readonly cidrBlocks?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#description SecurityGroup#description}
+  */
   readonly description?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#from_port SecurityGroup#from_port}
+  */
   readonly fromPort?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#ipv6_cidr_blocks SecurityGroup#ipv6_cidr_blocks}
+  */
   readonly ipv6CidrBlocks?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#prefix_list_ids SecurityGroup#prefix_list_ids}
+  */
   readonly prefixListIds?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#protocol SecurityGroup#protocol}
+  */
   readonly protocol?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#security_groups SecurityGroup#security_groups}
+  */
   readonly securityGroups?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#self SecurityGroup#self}
+  */
   readonly selfAttribute?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#to_port SecurityGroup#to_port}
+  */
   readonly toPort?: number;
 }
 
@@ -1885,7 +2665,13 @@ function securityGroupIngressToTerraform(struct?: SecurityGroupIngress): any {
 }
 
 export interface SecurityGroupTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#create SecurityGroup#create}
+  */
   readonly create?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#delete SecurityGroup#delete}
+  */
   readonly delete?: string;
 }
 
@@ -1898,14 +2684,22 @@ function securityGroupTimeoutsToTerraform(struct?: SecurityGroupTimeouts): any {
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/security_group.html aws_security_group}
+*/
 export class SecurityGroup extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/security_group.html aws_security_group} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options SecurityGroupConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: SecurityGroupConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_security_group',

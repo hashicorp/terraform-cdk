@@ -72,7 +72,8 @@ export class ResourceModel {
   }
 
   public get linkToDocs(): string {
-    return `https://www.terraform.io/docs/providers/${this.provider}/r/${toSnakeCase(this.className)}.html`
+    if (this.isProvider) return `https://www.terraform.io/docs/providers/${this.provider}`;
+    return `https://www.terraform.io/docs/providers/${this.provider}/${this.isDataSource ? 'd' : 'r'}/${this.terraformDocName}.html`
   }
 
   public get isProvider(): boolean {
@@ -89,6 +90,10 @@ export class ResourceModel {
 
   public get terraformResourceType(): string {
     return this.isProvider ? this.provider : this.isDataSource ? this.terraformType.replace(/^data_/, '') : this.terraformType
+  }
+
+  public get terraformDocName(): string {
+    return toSnakeCase(this.terraformResourceType.replace(new RegExp(`^${this.provider}_`, 'i'), ''))
   }
 
   private escapeSchema(schema: string): string {

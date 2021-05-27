@@ -10,18 +10,32 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BooleanListConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html#foo_required BooleanList#foo_required}
+  */
   readonly fooRequired: boolean[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html#foo_optional BooleanList#foo_optional}
+  */
   readonly fooOptional?: boolean[];
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html aws_boolean_list}
+*/
 export class BooleanList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html aws_boolean_list} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options BooleanListConfig
+  */
   public constructor(scope: Construct, id: string, config: BooleanListConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_boolean_list',
@@ -94,18 +108,32 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BooleanMapConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html#foo_computed_optional BooleanMap#foo_computed_optional}
+  */
   readonly fooComputedOptional?: { [key: string]: boolean };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html#foo_optional BooleanMap#foo_optional}
+  */
   readonly fooOptional?: { [key: string]: boolean };
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html aws_boolean_map}
+*/
 export class BooleanMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html aws_boolean_map} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options BooleanMapConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: BooleanMapConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_boolean_map',
@@ -235,14 +263,22 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
   }
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex.html aws_computed_complex}
+*/
 export class ComputedComplex extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_complex.html aws_computed_complex} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options ComputedComplexConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: ComputedComplexConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_complex',
@@ -308,14 +344,22 @@ export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
   }
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html aws_computed_complex_nested}
+*/
 export class ComputedComplexNested extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html aws_computed_complex_nested} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options ComputedComplexNestedConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: ComputedComplexNestedConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_complex_nested',
@@ -360,10 +404,17 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaArguments {
-  /** inputs block */
+  /**
+  * inputs block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#inputs BlockTypeNestedComputedList#inputs}
+  */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
 export interface BlockTypeNestedComputedListInputs {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#name_prefix BlockTypeNestedComputedList#name_prefix}
+  */
   readonly namePrefix: string;
 }
 
@@ -375,14 +426,22 @@ function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedCo
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html aws_block_type_nested_computed_list}
+*/
 export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html aws_block_type_nested_computed_list} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options BlockTypeNestedComputedListConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: BlockTypeNestedComputedListConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_block_type_nested_computed_list',
@@ -440,17 +499,47 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface ComputedOptionalComplexConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#egress ComputedOptionalComplex#egress}
+  */
   readonly egress?: ComputedOptionalComplexEgress[];
 }
 export interface ComputedOptionalComplexEgress {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#cidr_blocks ComputedOptionalComplex#cidr_blocks}
+  */
   readonly cidrBlocks?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#description ComputedOptionalComplex#description}
+  */
   readonly description?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#from_port ComputedOptionalComplex#from_port}
+  */
   readonly fromPort?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#ipv6_cidr_blocks ComputedOptionalComplex#ipv6_cidr_blocks}
+  */
   readonly ipv6CidrBlocks?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#prefix_list_ids ComputedOptionalComplex#prefix_list_ids}
+  */
   readonly prefixListIds?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#protocol ComputedOptionalComplex#protocol}
+  */
   readonly protocol?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#security_groups ComputedOptionalComplex#security_groups}
+  */
   readonly securityGroups?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#self ComputedOptionalComplex#self}
+  */
   readonly selfAttribute?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#to_port ComputedOptionalComplex#to_port}
+  */
   readonly toPort?: number;
 }
 
@@ -470,14 +559,22 @@ function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalCompl
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html aws_computed_optional_complex}
+*/
 export class ComputedOptionalComplex extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html aws_computed_optional_complex} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options ComputedOptionalComplexConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: ComputedOptionalComplexConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_computed_optional_complex',
@@ -535,10 +632,17 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface DeeplyNestedBlockTypesConfig extends cdktf.TerraformMetaArguments {
-  /** lifecycle_rule block */
+  /**
+  * lifecycle_rule block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#lifecycle_rule DeeplyNestedBlockTypes#lifecycle_rule}
+  */
   readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
 }
 export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#date DeeplyNestedBlockTypes#date}
+  */
   readonly date?: string;
 }
 
@@ -550,8 +654,15 @@ function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: Deepl
 }
 
 export interface DeeplyNestedBlockTypesLifecycleRule {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#abort_incomplete_multipart_upload_days DeeplyNestedBlockTypes#abort_incomplete_multipart_upload_days}
+  */
   readonly abortIncompleteMultipartUploadDays?: number;
-  /** expiration block */
+  /**
+  * expiration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#expiration DeeplyNestedBlockTypes#expiration}
+  */
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration[];
 }
 
@@ -564,14 +675,22 @@ function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlo
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html aws_deeply_nested_block_types}
+*/
 export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html aws_deeply_nested_block_types} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options DeeplyNestedBlockTypesConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: DeeplyNestedBlockTypesConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_deeply_nested_block_types',
@@ -631,14 +750,22 @@ import * as cdktf from 'cdktf';
 export interface IgnoredAttributesConfig extends cdktf.TerraformMetaArguments {
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html aws_ignored_attributes}
+*/
 export class IgnoredAttributes extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html aws_ignored_attributes} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options IgnoredAttributesConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: IgnoredAttributesConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_ignored_attributes',
@@ -688,19 +815,36 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface IncompatibleAttributeNamesConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#get_password_data IncompatibleAttributeNames#get_password_data}
+  */
   readonly fetchPasswordData?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#self IncompatibleAttributeNames#self}
+  */
   readonly selfAttribute: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#equals IncompatibleAttributeNames#equals}
+  */
   readonly equalTo: string;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html aws_incompatible_attribute_names}
+*/
 export class IncompatibleAttributeNames extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html aws_incompatible_attribute_names} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options IncompatibleAttributeNamesConfig
+  */
   public constructor(scope: Construct, id: string, config: IncompatibleAttributeNamesConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_incompatible_attribute_names',
@@ -790,14 +934,22 @@ import * as cdktf from 'cdktf';
 export interface ListOfStringMapConfig extends cdktf.TerraformMetaArguments {
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map.html aws_list_of_string_map}
+*/
 export class ListOfStringMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map.html aws_list_of_string_map} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options ListOfStringMapConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: ListOfStringMapConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_list_of_string_map',
@@ -842,18 +994,32 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface NumberListConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_list.html#foo_required NumberList#foo_required}
+  */
   readonly fooRequired: number[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_list.html#foo_optional NumberList#foo_optional}
+  */
   readonly fooOptional?: number[];
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_list.html aws_number_list}
+*/
 export class NumberList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/number_list.html aws_number_list} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options NumberListConfig
+  */
   public constructor(scope: Construct, id: string, config: NumberListConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_number_list',
@@ -926,18 +1092,32 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface NumberMapConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map.html#foo_computed_optional NumberMap#foo_computed_optional}
+  */
   readonly fooComputedOptional?: { [key: string]: number };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map.html#foo_optional NumberMap#foo_optional}
+  */
   readonly fooOptional?: { [key: string]: number };
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_map.html aws_number_map}
+*/
 export class NumberMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/number_map.html aws_number_map} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options NumberMapConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: NumberMapConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_number_map',
@@ -1018,19 +1198,36 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveBooleanConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html#foo_computed_optional PrimitiveBoolean#foo_computed_optional}
+  */
   readonly fooComputedOptional?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html#foo_optional PrimitiveBoolean#foo_optional}
+  */
   readonly fooOptional?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html#foo_required PrimitiveBoolean#foo_required}
+  */
   readonly fooRequired: boolean;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html aws_primitive_boolean}
+*/
 export class PrimitiveBoolean extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html aws_primitive_boolean} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options PrimitiveBooleanConfig
+  */
   public constructor(scope: Construct, id: string, config: PrimitiveBooleanConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_primitive_boolean',
@@ -1126,19 +1323,36 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveDynamicConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html#foo_computed_optional PrimitiveDynamic#foo_computed_optional}
+  */
   readonly fooComputedOptional?: { [key: string]: any };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html#foo_optional PrimitiveDynamic#foo_optional}
+  */
   readonly fooOptional?: { [key: string]: any };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html#foo_required PrimitiveDynamic#foo_required}
+  */
   readonly fooRequired: { [key: string]: any };
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html aws_primitive_dynamic}
+*/
 export class PrimitiveDynamic extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html aws_primitive_dynamic} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options PrimitiveDynamicConfig
+  */
   public constructor(scope: Construct, id: string, config: PrimitiveDynamicConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_primitive_dynamic',
@@ -1234,19 +1448,36 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveNumberConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html#foo_computed_optional PrimitiveNumber#foo_computed_optional}
+  */
   readonly fooComputedOptional?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html#foo_optional PrimitiveNumber#foo_optional}
+  */
   readonly fooOptional?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html#foo_required PrimitiveNumber#foo_required}
+  */
   readonly fooRequired: number;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html aws_primitive_number}
+*/
 export class PrimitiveNumber extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html aws_primitive_number} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options PrimitiveNumberConfig
+  */
   public constructor(scope: Construct, id: string, config: PrimitiveNumberConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_primitive_number',
@@ -1342,19 +1573,36 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveStringConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html#foo_computed_optional PrimitiveString#foo_computed_optional}
+  */
   readonly fooComputedOptional?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html#foo_optional PrimitiveString#foo_optional}
+  */
   readonly fooOptional?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html#foo_required PrimitiveString#foo_required}
+  */
   readonly fooRequired: string;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html aws_primitive_string}
+*/
 export class PrimitiveString extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html aws_primitive_string} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options PrimitiveStringConfig
+  */
   public constructor(scope: Construct, id: string, config: PrimitiveStringConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_primitive_string',
@@ -1450,20 +1698,40 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface NameConflictConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#values NameConflict#values}
+  */
   readonly values?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#reset_values NameConflict#reset_values}
+  */
   readonly resetValues?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#template NameConflict#template}
+  */
   readonly template?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#template_input NameConflict#template_input}
+  */
   readonly templateInput?: string;
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html aws_name_conflict}
+*/
 export class NameConflict extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html aws_name_conflict} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options NameConflictConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: NameConflictConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_name_conflict',
@@ -1575,12 +1843,23 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
-  /** timeouts_set block */
+  /**
+  * timeouts_set block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#timeouts_set BlockTypeSetList#timeouts_set}
+  */
   readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
-  /** timeouts_list block */
+  /**
+  * timeouts_list block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#timeouts_list BlockTypeSetList#timeouts_list}
+  */
   readonly timeoutsList?: BlockTypeSetListTimeoutsList[];
 }
 export interface BlockTypeSetListTimeoutsSet {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#create BlockTypeSetList#create}
+  */
   readonly create?: string;
 }
 
@@ -1592,6 +1871,9 @@ function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeout
 }
 
 export interface BlockTypeSetListTimeoutsList {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#create BlockTypeSetList#create}
+  */
   readonly create?: string;
 }
 
@@ -1603,14 +1885,22 @@ function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeou
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html aws_block_type_set_list}
+*/
 export class BlockTypeSetList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html aws_block_type_set_list} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options BlockTypeSetListConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: BlockTypeSetListConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_block_type_set_list',
@@ -1686,10 +1976,17 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
-  /** timeouts block */
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html#timeouts SingleBlockType#timeouts}
+  */
   readonly timeouts?: SingleBlockTypeTimeouts;
 }
 export interface SingleBlockTypeTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html#create SingleBlockType#create}
+  */
   readonly create?: string;
 }
 
@@ -1701,14 +1998,22 @@ function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts): a
 }
 
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html aws_single_block_type}
+*/
 export class SingleBlockType extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html aws_single_block_type} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options SingleBlockTypeConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: SingleBlockTypeConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_single_block_type',
@@ -1766,19 +2071,36 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface StringListConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list.html#subject_alternative_names_optional_computed StringList#subject_alternative_names_optional_computed}
+  */
   readonly subjectAlternativeNamesOptionalComputed?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list.html#subject_alternative_names_required StringList#subject_alternative_names_required}
+  */
   readonly subjectAlternativeNamesRequired: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list.html#subject_alternative_names_optional StringList#subject_alternative_names_optional}
+  */
   readonly subjectAlternativeNamesOptional?: string[];
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_list.html aws_string_list}
+*/
 export class StringList extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/string_list.html aws_string_list} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options StringListConfig
+  */
   public constructor(scope: Construct, id: string, config: StringListConfig) {
     super(scope, id, {
       terraformResourceType: 'aws_string_list',
@@ -1874,18 +2196,32 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface StringMapConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map.html#subject_alternative_names_computed_optional StringMap#subject_alternative_names_computed_optional}
+  */
   readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map.html#subject_alternative_names_optional StringMap#subject_alternative_names_optional}
+  */
   readonly subjectAlternativeNamesOptional?: { [key: string]: string };
 }
 
-// Resource
-
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_map.html aws_string_map}
+*/
 export class StringMap extends cdktf.TerraformResource {
 
   // ===========
   // INITIALIZER
   // ===========
 
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/string_map.html aws_string_map} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options StringMapConfig = {}
+  */
   public constructor(scope: Construct, id: string, config: StringMapConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_string_map',

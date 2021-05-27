@@ -29,7 +29,15 @@ export class StructEmitter {
 
     for (const att of struct.assignableAttributes) {
       if (att.description) {
-        this.code.line(`/** ${att.description} */`);
+        this.code.line(`/**`);
+        this.code.line(`* ${att.description}`);
+        this.code.line(`* `);
+        this.code.line(`* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`);
+        this.code.line(`*/`)
+      } else {
+        this.code.line(`/**`);
+        this.code.line(`* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`);
+        this.code.line(`*/`)
       }
 
       this.code.line(`readonly ${att.typeDefinition};`);
