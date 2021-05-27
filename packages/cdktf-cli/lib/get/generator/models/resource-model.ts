@@ -93,11 +93,7 @@ export class ResourceModel {
   }
 
   public get terraformDocName(): string {
-    if (this.isDataSource) {
-      return toSnakeCase(this.className.replace(new RegExp(`^data${this.provider}`, 'i'), ''))
-    } else {
-      return toSnakeCase(this.className)
-    }
+    return toSnakeCase(this.terraformResourceType.replace(new RegExp(`^${this.provider}_`, 'i'), ''))
   }
 
   private escapeSchema(schema: string): string {
