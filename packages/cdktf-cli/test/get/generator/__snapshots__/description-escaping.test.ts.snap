@@ -35,7 +35,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   * Create a new {@link https://www.terraform.io/docs/providers/google/r/description_escaping.html description_escaping} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options DescriptionEscapingConfig
   */
   public constructor(scope: Construct, id: string, config: DescriptionEscapingConfig) {
@@ -113,7 +113,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
   * Create a new {@link https://www.terraform.io/docs/providers/aws/r/code_blocks.html code_blocks} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options CodeBlocksConfig
   */
   public constructor(scope: Construct, id: string, config: CodeBlocksConfig) {

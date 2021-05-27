@@ -1164,7 +1164,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   * Create a new {@link https://www.terraform.io/docs/providers/aws aws} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options AwsProviderConfig
   */
   public constructor(scope: Construct, id: string, config: AwsProviderConfig) {

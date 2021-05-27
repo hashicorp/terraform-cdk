@@ -99,7 +99,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   * Create a new {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html aws_acm_certificate} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options AcmCertificateConfig = {}
   */
   public constructor(scope: Construct, id: string, config: AcmCertificateConfig = {}) {

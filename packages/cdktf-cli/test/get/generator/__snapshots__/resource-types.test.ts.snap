@@ -884,7 +884,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   * Create a new {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html aws_cloudfront_distribution} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options CloudfrontDistributionConfig
   */
   public constructor(scope: Construct, id: string, config: CloudfrontDistributionConfig) {
@@ -1340,7 +1340,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   * Create a new {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html aws_fms_admin_account} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options FmsAdminAccountConfig = {}
   */
   public constructor(scope: Construct, id: string, config: FmsAdminAccountConfig = {}) {
@@ -2077,7 +2077,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   * Create a new {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html aws_s3_bucket} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options S3BucketConfig = {}
   */
   public constructor(scope: Construct, id: string, config: S3BucketConfig = {}) {
@@ -2697,7 +2697,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   * Create a new {@link https://www.terraform.io/docs/providers/aws/r/security_group.html aws_security_group} Resource
   *
   * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
   * @param options SecurityGroupConfig = {}
   */
   public constructor(scope: Construct, id: string, config: SecurityGroupConfig = {}) {
