@@ -50,7 +50,7 @@ describe("full integration test", () => {
     expect(() => driver.diff()).toThrowError("Found more than one stack");
   });
 
-  onPosix("list", () => {
+  onPosix("list posix", () => {
     expect(driver.list()).toMatchInlineSnapshot(`
       "Stack name                      Path
       first                           cdktf.out/stacks/first
@@ -59,7 +59,7 @@ describe("full integration test", () => {
     `);
   });
 
-  onWindows("list", () => {
+  onWindows("list windows", () => {
     expect(driver.list()).toMatchInlineSnapshot(`
       "Stack name                      Path
       first                           cdktf.out\\stacks\\first
