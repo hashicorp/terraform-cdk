@@ -8,18 +8,14 @@ export interface AttributeTypeModelOptions {
   isRequired?: boolean;
   isMap?: boolean;
   level?: number;
+  isSet?: boolean;
 }
 
 export enum TokenizableTypes {
   STRING = "string",
-  STRING_LIST = "string[]",
   NUMBER = "number",
   BOOLEAN = "boolean",
-}
-
-export interface ComputedComplexOptions {
-  name: string;
-  type: string;
+  DYNAMIC = "dynamic",
 }
 
 export class AttributeTypeModel {
@@ -30,6 +26,7 @@ export class AttributeTypeModel {
   public isMap: boolean;
   public struct?: Struct;
   public level?: number;
+  public isSet: boolean;
 
   constructor(private _type: string, options: AttributeTypeModelOptions) {
     this.isList = !!options.isList;
@@ -39,43 +36,79 @@ export class AttributeTypeModel {
     this.isRequired = !!options.isRequired;
     this.level = options.level;
     this.struct = options.struct;
+    this.isSet = !!options.isSet;
   }
 
   public get name(): string {
-    if (this.isStringMap) return `cdktf.StringMap`;
-    if (this.isNumberMap) return `cdktf.NumberMap`;
-    if (this.isBooleanMap) return `cdktf.BooleanMap`;
-    if (this.isMap) return `{ [key: string]: ${this._type} }`;
-    if (this.isList && !this.isComputed) return `${this._type}[]`;
-    if (
-      this.isList &&
-      this.isComputed &&
-      (this.isPrimitive || !this.struct?.isClass)
-    )
-      return `${this._type}[]`;
-    if (this.isList && this.isComputed && this.isComplex)
-      return `${this._type}`;
-    return this._type;
+    if (this.isCollection) {
+      switch (this._type) {
+        case TokenizableTypes.STRING:
+          return `cdktf.TerraformString${this.collectionType}`;
+        case TokenizableTypes.NUMBER:
+          return `cdktf.TerraformNumber${this.collectionType}`;
+        case TokenizableTypes.BOOLEAN:
+          return `cdktf.TerraformBoolean${this.collectionType}`;
+        default:
+          if (this.struct) {
+            return `Terraform${this._type}${this.collectionType}`;
+          } else {
+            // May support some other types in the future
+            return `cdktf.TerraformAny${this.collectionType}`;
+          }
+      }
+    } else if (this.struct) {
+      return `Terraform${this._type}`;
+    } else {
+      switch (this._type) {
+        case TokenizableTypes.STRING:
+          return `cdktf.TerraformString`;
+        case TokenizableTypes.NUMBER:
+          return `cdktf.TerraformNumber`;
+        case TokenizableTypes.BOOLEAN:
+          return `cdktf.TerraformBoolean`;
+        case TokenizableTypes.DYNAMIC:
+          return `cdktf.TerraformDynamic`;
+        default:
+          // I don't think this is possible, but just in case
+          return `cdktf.TerraformAny`;
+      }
+    }
   }
 
   public get isComplex(): boolean {
     return !!this.struct || (this.isMap && this.isComputed);
   }
 
-  public get isPrimitive(): boolean {
-    return !this.isComplex;
+  public get isCollection(): boolean {
+    return this.isList || this.isMap || this.isSet;
+  }
+
+  public get collectionType(): string | undefined {
+    if (this.isList) {
+      return "List";
+    } else if (this.isMap) {
+      return "Map";
+    } else if (this.isSet) {
+      return "Set";
+    } else {
+      return undefined;
+    }
   }
 
   public get isString(): boolean {
-    return this.name === TokenizableTypes.STRING;
+    return this._type === TokenizableTypes.STRING;
   }
 
   public get isNumber(): boolean {
-    return this.name === TokenizableTypes.NUMBER;
+    return this._type === TokenizableTypes.NUMBER;
+  }
+
+  public get isBoolean(): boolean {
+    return this._type === TokenizableTypes.BOOLEAN;
   }
 
   public get isStringList(): boolean {
-    return this.name === TokenizableTypes.STRING_LIST;
+    return this.isList && this._type === TokenizableTypes.STRING;
   }
 
   public get isNumberList(): boolean {
@@ -86,35 +119,16 @@ export class AttributeTypeModel {
     return this.isList && this._type === TokenizableTypes.BOOLEAN;
   }
 
-  public get isBoolean(): boolean {
-    return this.name === TokenizableTypes.BOOLEAN || this.isBooleanMap;
-  }
-
   public get isStringMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.STRING &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.STRING;
   }
 
   public get isNumberMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.NUMBER &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.NUMBER;
   }
 
   public get isBooleanMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.BOOLEAN &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.BOOLEAN;
   }
 
   public get isComputedComplex(): boolean {
@@ -123,16 +137,6 @@ export class AttributeTypeModel {
 
   public get isRootType(): boolean {
     return this.level === 2;
-  }
-
-  public get isComputedPrimitive(): boolean {
-    return this.isComputed && this.isPrimitive;
-  }
-
-  public get isTokenizable(): boolean {
-    return Object.values(TokenizableTypes).includes(
-      this.name as TokenizableTypes
-    );
   }
 
   public get innerType() {

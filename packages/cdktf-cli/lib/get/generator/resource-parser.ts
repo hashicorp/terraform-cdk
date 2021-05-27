@@ -123,12 +123,11 @@ class Parser {
             level,
           });
         case "dynamic":
-          return new AttributeTypeModel("any", {
+          return new AttributeTypeModel("dynamic", {
             isComputed,
             isOptional,
             isRequired,
             level,
-            isMap: true,
           });
         default:
           throw new Error(`invalid primitive type ${attributeType}`);
@@ -144,7 +143,8 @@ class Parser {
 
       if (kind === "set" || kind === "list") {
         const attrType = this.renderAttributeType(scope, type as AttributeType);
-        attrType.isList = true;
+        attrType.isList = kind === "list";
+        attrType.isSet = kind === "set";
         attrType.isComputed = isComputed;
         attrType.isOptional = isOptional;
         attrType.isRequired = isRequired;
@@ -322,9 +322,10 @@ class Parser {
             terraformFullName: parent.fullName(terraformName),
             type: new AttributeTypeModel(struct.name, {
               struct,
-              isList: true,
+              isList: blockType.nesting_mode === "list",
               isOptional: optional,
               isRequired: required,
+              isSet: blockType.nesting_mode === "set",
             }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
