@@ -1,3 +1,26 @@
+## 0.4.0 (May 27, 2021)
+
+**Implemented enhancements**
+
+- Experimental Go Support [\#686](https://github.com/hashicorp/terraform-cdk/pull/686)
+- Add Asset Construct [\#698](https://github.com/hashicorp/terraform-cdk/pull/698)
+- Support sensitive variables [\#701](https://github.com/hashicorp/terraform-cdk/pull/701)
+- Update python templates to use RemoteBackend construct [\#644](https://github.com/hashicorp/terraform-cdk/pull/644) & [\#669](https://github.com/hashicorp/terraform-cdk/pull/669)
+- UX: Explain how to specify a stack in the error message [\#689](https://github.com/hashicorp/terraform-cdk/pull/689)
+- Terraform Cloud: Output uses attribute name instead of id [\#717](https://github.com/hashicorp/terraform-cdk/pull/717)
+- Terraform Cloud: Stream resource updates [\#712](https://github.com/hashicorp/terraform-cdk/pull/712)
+
+**Fixed Bugs**
+
+- Return non-zero exit code on unknown command and allow terraform-like command names [\#680](https://github.com/hashicorp/terraform-cdk/pull/680)
+- Add cdktf.log to .gitignore of built-in templates [\#662](https://github.com/hashicorp/terraform-cdk/pull/662)
+- Fix elasticsearch index resource [\#681](https://github.com/hashicorp/terraform-cdk/pull/681)
+- Fix gitignore after init [\#691](https://github.com/hashicorp/terraform-cdk/pull/691)
+- Deploy changes on TF output changes [\#687](https://github.com/hashicorp/terraform-cdk/pull/687)
+- Fix: Unable to use resources containing an argument named 'stack' [\#716](https://github.com/hashicorp/terraform-cdk/pull/716)
+- OCI Synth issues: "module has already exported a member" [\#713](https://github.com/hashicorp/terraform-cdk/pull/713)
+- Adapt to changed output format in Terraform 0.15.4 [\#736](https://github.com/hashicorp/terraform-cdk/pull/736)
+
 ## 0.3.0 (April 21, 2021)
 
 **Breaking Changes**
@@ -6,7 +29,7 @@ We're now supporting multiple Stacks! - existing Terraform state files from **lo
 
 Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` file in the project root folder was used. With version `0.3.0` the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
 
-**Implemented enhancements:**
+**Implemented enhancements**
 
 - Add support for remote templates [\#645](https://github.com/hashicorp/terraform-cdk/pull/645)
 - Handle Multiple Stacks [\#636](https://github.com/hashicorp/terraform-cdk/pull/636)
