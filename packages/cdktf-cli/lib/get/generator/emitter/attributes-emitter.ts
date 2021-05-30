@@ -1,6 +1,7 @@
 import { CodeMaker } from "codemaker";
 import { AttributeModel } from "../models";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
+import { downcaseFirst } from "../../../util";
 
 export class AttributesEmitter {
   constructor(private code: CodeMaker) {}
@@ -152,53 +153,51 @@ export class AttributesEmitter {
 
   public emitToTerraform(att: AttributeModel, isStruct: boolean) {
     const context = isStruct ? "struct!" : "this";
+    const name = isStruct ? att.name : att.storageName;
+    const varReference = `${context}.${name}`;
 
     if (att.isProvider) {
-      //TODO this is wrong
       this.code.line(
-        `${att.terraformName}: ${context}.${att.storageName}.toTerraform(),`
+        `${
+          att.terraformName
+        }: ${varReference} instanceof cdktf.TerraformAttribute ? ${varReference}.toTerraform() : ${this.getToTerraform(
+          att,
+          varReference
+        )},`
       );
     } else {
-      this.code.line(
-        `${att.terraformName}: ${context}.${att.storageName}.toTerraform(),`
-      );
+      this.code.line(`${att.terraformName}: ${varReference}.toTerraform(),`);
     }
   }
 
-  // public emitToTerraform(att: AttributeModel, isStruct: boolean) {
-  //   const type = att.type;
-  //   const context = isStruct ? 'struct!' : 'this';
-  //   const name = isStruct ? att.name : att.storageName;
-  //   const customDefault = CUSTOM_DEFAULTS[att.terraformFullName];
+  private getToTerraform(att: AttributeModel, varReference: string) {
+    const type = att.type;
 
-  //   const varReference= `${context}.${name}`;
-  //   const defaultCheck = customDefault !== undefined ? `${varReference} === undefined ? ${customDefault} : ` : '';
-
-  //   switch (true) {
-  //     case (type.isList && type.isMap):
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform))(${varReference}),`);
-  //       break;
-  //     case (type.isStringList || type.isNumberList || type.isBooleanList):
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(type.innerType)}ToTerraform)(${varReference}),`);
-  //       break;
-  //     case (type.isList):
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${varReference}),`);
-  //       break;
-  //     case (type.isMap):
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform)(${varReference}),`);
-  //       break;
-  //     case (type.isString):
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.stringToTerraform(${varReference}),`);
-  //       break;
-  //     case (type.isNumber):
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.numberToTerraform(${varReference}),`);
-  //       break;
-  //     case (type.isBoolean):
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`);
-  //       break;
-  //     default:
-  //       this.code.line(`${att.terraformName}: ${defaultCheck}${downcaseFirst(type.name)}ToTerraform(${varReference}),`);
-  //       break;
-  //   }
-  // }
+    switch (true) {
+      case type.isList && type.isMap:
+        return `cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(
+          att
+        )}ToTerraform))(${varReference})`;
+      case type.isStringList || type.isNumberList || type.isBooleanList:
+        return `cdktf.listMapper(cdktf.${downcaseFirst(
+          type.innerType
+        )}ToTerraform)(${varReference})`;
+      case type.isList:
+        return `cdktf.listMapper(${downcaseFirst(
+          type.innerType
+        )}ToTerraform)(${varReference})`;
+      case type.isMap:
+        return `cdktf.hashMapper(cdktf.${this.determineMapType(
+          att
+        )}ToTerraform)(${varReference})`;
+      case type.isString:
+        return `cdktf.stringToTerraform(${varReference})`;
+      case type.isNumber:
+        return `cdktf.numberToTerraform(${varReference})`;
+      case type.isBoolean:
+        return `cdktf.booleanToTerraform(${varReference})`;
+      default:
+        return `${downcaseFirst(type.name)}ToTerraform(${varReference})`;
+    }
+  }
 }
