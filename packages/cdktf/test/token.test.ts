@@ -232,3 +232,41 @@ test("Combine an Intrinsic Function with tokens as string", () => {
 
   expect(new FnJoin(',', ["a", token, 1]).toString()).toEqual('${Token[Fn::Join.17]}')
 });
+
+test("unexpected list behaviour since one can mess it up", () => {
+  const foo = {
+    yeah: "I'm a string"
+  };
+
+  const token = Token.asString(foo);
+
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const list = Token.asList(["a", token, 1])
+
+  list.push('yueah')
+  const newList = list.map((i => Token.isUnresolved(i) ? i : 'replaced value'))
+
+  expect(resolve(stack, newList)).toMatchInlineSnapshot(`
+    Array [
+      "replaced value",
+      "replaced value",
+    ]
+  `);
+});
+
+test("throw an errr", () => {
+  const foo = {
+    yeah: "I'm a string"
+  };
+
+  const token = Token.asString(foo);
+
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const list = Token.asList(["a", token, 1])
+
+  list.push('yueah')
+
+  expect(() => resolve(stack, list)).toThrowError("Cannot add elements to list token, got: #{Token[TOKEN.21]},yueah")
+});
