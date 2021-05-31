@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import { https, http } from 'follow-redirects';
 import * as os from 'os';
 import * as path from 'path';
-import { processLogger } from './logging';
+import { processLogger, processErrorLogger } from './logging';
 
 export async function shell(program: string, args: string[] = [], options: SpawnOptions = {}) {
   const stderr = new Array<string | Uint8Array>();
@@ -59,9 +59,9 @@ export const exec = async (
       child.stdout?.on('data', (chunk: Buffer) => { processLogger(chunk); out.push(chunk) });
     }
     if (stderr !== undefined) {
-      child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk); stderr(chunk) });
+      child.stderr?.on('data', (chunk: string | Uint8Array) => { processErrorLogger(chunk); stderr(chunk) });
     } else {
-      child.stderr?.on('data', (chunk: string | Uint8Array) => { processLogger(chunk); process.stderr.write(chunk) });
+      child.stderr?.on('data', (chunk: string | Uint8Array) => { processErrorLogger(chunk); process.stderr.write(chunk) });
     }
     child.once('error', (err: any) => ko(err));
     child.once('close', (code: number) => {

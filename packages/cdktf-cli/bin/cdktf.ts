@@ -7,6 +7,7 @@ import * as os from 'os';
 import * as fs from 'fs-extra';
 import { terraformVersion } from './cmds/helper/terraform';
 import { DISPLAY_VERSION } from './cmds/version-check';
+import { logger } from '../lib/logging';
 
 
 const ensurePluginCache = (): string => {
@@ -47,6 +48,8 @@ yargs
   })
   .fail((_message, error) => {
     console.error(error.stack);
+    logger.error(error);
+    logger.error(error.stack);
 
     terraformVersion.then(tfVersion => {
       console.error(`

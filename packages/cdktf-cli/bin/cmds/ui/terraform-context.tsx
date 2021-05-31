@@ -8,6 +8,7 @@ import { TerraformJson } from './terraform-json'
 import { useApp } from 'ink'
 import stripAnsi from 'strip-ansi'
 import { SynthesizedStack } from '../helper/synth-stack'
+import { logger, processLogger } from '../../../lib/logging'
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -242,11 +243,13 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
 
 
   const executorForStack = async (stack: SynthesizedStack): Promise<void> => {
-    const parsedStack = JSON.parse(stack.content) as TerraformJson
+    const parsedStack = JSON.parse(stack.content) as TerraformJson;
+    logger.debug(`Parsed current stack: ${JSON.stringify(parsedStack)}`);
 
     if (parsedStack.terraform?.backend?.remote) {
       const tfClient = new TerraformCloud(stack, parsedStack.terraform?.backend?.remote, isSpeculative)
       if (await tfClient.isRemoteWorkspace()) {
+        logger.debug("Using terraform cloud client");
         setTerraform(tfClient)
       } else {
         setTerraform(new TerraformCli(stack))
@@ -260,6 +263,7 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
     try {
       dispatch({ type: 'SYNTH' })
       const stacks = await SynthStack.synth(synthCommand, targetDir);
+      logger.info(`Synthesised ${stacks.length} stacks`);
 
       if (loadExecutor) {
         if (stacks.length > 1 && !targetStack) {
@@ -327,6 +331,7 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
         const resources: DeployingResource[] = plan.applyableResources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
         dispatch({ type: 'DEPLOY', resources })
         await terraform.deploy(plan.planFile, (output: Buffer) => {
+          processLogger(output);
           const resources = parseOutput(output.toString());
           dispatch({ type: 'UPDATE_RESOURCES', resources })
         });
@@ -347,6 +352,7 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
         dispatch({ type: 'DESTROY', resources })
 
         await terraform.destroy((output: Buffer) => {
+          processLogger(output);
           const resources = parseOutput(output.toString());
           dispatch({ type: 'UPDATE_RESOURCES', resources })
         });
