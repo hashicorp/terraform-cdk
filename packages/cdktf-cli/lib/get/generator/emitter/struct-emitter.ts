@@ -69,14 +69,15 @@ export class StructEmitter {
           this.code.line(`return value;`);
         this.code.closeBlock();
         this.code.openBlock(`else`);
-          this.code.line(`return new ${struct.name}(parent, terraformAttribute, value.value { nested: value });`);
+          this.code.line(`return new ${struct.name}(parent, terraformAttribute, value.value, { nested: value });`);
         this.code.closeBlock();
       this.code.closeBlock();
       this.code.line();
 
       this.code.openBlock(`protected valueToTerraform()`);
-        this.code.line(`return ${this.attributesEmitter.getTypeToTerraform(struct.attributeTypeModel, 'this.value')}`);
-      this.code.closeBlock;
+        this.code.line(`return ${this.attributesEmitter.getTypeToTerraform(struct.attributeTypeModel, 'this.value')};`);
+      this.code.closeBlock();
+      this.code.line();
 
       for (const att of struct.attributes) {
         this.attributesEmitter.emitAttributeAccessor(att);
@@ -90,7 +91,7 @@ export class StructEmitter {
           break;
         case 'Set':
           this.code.openBlock(`public toList(): ${struct.name.replace('Set', 'List')}`);
-            this.code.line(`return new ${struct.name.replace('Set', 'List')}(this.parent, this.terraformAttribute, this.value, { nested: this.nested, operation: fqn => \`tolist(\${fqn})\` });`);
+            this.code.line(`return new ${struct.name.replace('Set', 'List')}(this.parent, this.attribute, this.value, { nested: this.nested, operation: (fqn: string) => \`tolist(\${fqn})\` });`);
           this.code.closeBlock();
           break;
         case 'Map':
