@@ -189,8 +189,23 @@ class Parser {
   public renderAttributesForBlock(parentType: Scope, block: Block) {
     const attributes = new Array<AttributeModel>();
 
-    for (const [ terraformAttributeName, att ] of Object.entries(block.attributes || { })) {
-      const type = this.renderAttributeType([ parentType, new Scope({name: terraformAttributeName, parent: parentType, isProvider: parentType.isProvider, isComputed: !!att.computed, isOptional: !!att.optional, isRequired: !!att.required})], att.type);
+    for (const [terraformAttributeName, att] of Object.entries(
+      block.attributes || {}
+    )) {
+      const type = this.renderAttributeType(
+        [
+          parentType,
+          new Scope({
+            name: terraformAttributeName,
+            parent: parentType,
+            isProvider: parentType.isProvider,
+            isComputed: !!att.computed,
+            isOptional: !!att.optional,
+            isRequired: !!att.required,
+          }),
+        ],
+        att.type
+      );
       const name = toCamelCase(terraformAttributeName);
 
       attributes.push(
@@ -231,7 +246,8 @@ class Parser {
             isProvider: parentType.isProvider,
           }),
         ],
-        blockAttributes
+        blockAttributes,
+        blockType.nesting_mode
       );
 
       // define the attribute
@@ -360,32 +376,56 @@ class Parser {
       );
     }
 
-    return this.addStruct(scope, attributes);
+    return this.addStruct(scope, attributes, "object");
   }
 
-  private addStruct(scope: Scope[], attributes: AttributeModel[]) {
-    const name = uniqueClassName(toPascalCase(scope.map(x => toSnakeCase(x.name)).join('_')))
-    const parent = scope[scope.length - 1]
-    const isClass = parent.isComputed && !parent.isOptional
-    const s = new Struct(
-      name,
-      attributes,
-      isClass,
-      false
-    )
-    this.structs.push(s);
-
-    if (!isClass && attributes.some(at => at.computed && !at.isOptional && !at.isRequired)) {
-      const computedStruct = new Struct(
-        `${name}Computed`,
-        attributes,
-        isClass,
-        true
-      )
-      this.structs.push(computedStruct);
+  private addStruct(
+    scope: Scope[],
+    attributes: AttributeModel[],
+    structContainer: string
+  ) {
+    const name = uniqueClassName(
+      toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
+    );
+    const parent = scope[scope.length - 1];
+    const isClass = parent.isComputed && !parent.isOptional;
+    let struct: Struct | undefined = undefined;
+    if (!isClass) {
+      struct = new Struct(name, attributes, false);
+      this.structs.push(struct);
     }
 
-    return s;
+    const attributeStruct = new Struct(
+      `Terraform${name}Attribute`,
+      attributes,
+      true,
+      struct
+    );
+    this.structs.push(attributeStruct);
+
+    switch (structContainer) {
+      case "map":
+        this.structs.push(
+          new Struct(`Terraform${name}MapAttribute`, [], true, struct, "Map")
+        );
+        break;
+      case "list":
+        this.structs.push(
+          new Struct(`Terraform${name}ListAttribute`, [], true, struct, "List")
+        );
+        break;
+      case "set":
+        this.structs.push(
+          new Struct(`Terraform${name}SetAttribute`, [], true, struct, "Set")
+        );
+        break;
+    }
+
+    if (!struct) {
+      struct = attributeStruct;
+    }
+
+    return struct;
   }
 }
 

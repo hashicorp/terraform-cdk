@@ -12,7 +12,7 @@ export class StructEmitter {
 
   public emit(resource: ResourceModel) {
     resource.structs.forEach((struct) => {
-      if (struct.isClass) {
+      if (struct.isAttribute) {
         this.emitClass(struct);
       } else {
         this.emitInterface(resource, struct);
@@ -27,7 +27,7 @@ export class StructEmitter {
       this.code.openBlock(`export interface ${struct.name}${struct.extends}`);
     }
 
-    for (const att of struct.isComputed ? struct.nonAssignableAttributes : struct.assignableAttributes) {
+    for (const att of struct.assignableAttributes) {
       if (att.description) {
         this.code.line(`/**`);
         this.code.line(`* ${att.description}`);
@@ -48,19 +48,99 @@ export class StructEmitter {
     }
     this.code.closeBlock();
 
-    if (!(struct instanceof ConfigStruct) && !struct.isComputed) {
+    if (!(struct instanceof ConfigStruct) && !struct.isAttribute) {
       this.emitToTerraformFuction(struct);
     }
   }
 
   private emitClass(struct: Struct) {
+    this.code.openBlock(`export class ${struct.name}${struct.extends}`);
     this.code.openBlock(
-      `export class ${struct.name} extends cdktf.ComplexComputedList`
+      `public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: ${struct.attributeValueType}, options?: cdktf.TerraformAttributeOptions)`
     );
-    for (const att of struct.attributes) {
-      this.attributesEmitter.emit(att);
-    }
+    this.code.line("super(parent, terraformAttribute, value, options);");
     this.code.closeBlock();
+    this.code.line();
+
+    this.code.openBlock(
+      `public get value(): ${struct.attributeValueType} | undefined`
+    );
+    this.code.line("return this.realValue;");
+    this.code.closeBlock();
+    this.code.line();
+
+    this.code.openBlock(
+      `public static create(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: ${struct.attributeTypeAlias})`
+    );
+    this.code.openBlock(`if (!(value instanceof ${struct.name}))`);
+    this.code.line(
+      `return new ${struct.name}(parent, terraformAttribute, value);`
+    );
+    this.code.closeBlock();
+    this.code.openBlock(`else if (value.parent === parent)`);
+    this.code.line(`return value;`);
+    this.code.closeBlock();
+    this.code.openBlock(`else`);
+    this.code.line(
+      `return new ${struct.name}(parent, terraformAttribute, value.value { nested: value });`
+    );
+    this.code.closeBlock();
+    this.code.closeBlock();
+    this.code.line();
+
+    this.code.openBlock(`protected valueToTerraform()`);
+    this.code.line(
+      `return ${this.attributesEmitter.getTypeToTerraform(
+        struct.attributeTypeModel,
+        "this.value"
+      )}`
+    );
+    this.code.closeBlock;
+
+    for (const att of struct.attributes) {
+      this.attributesEmitter.emitAttributeAccessor(att);
+    }
+
+    switch (struct.attributeBase) {
+      case "List":
+        this.code.openBlock(
+          `public get(index: number): ${struct.attributeValueAttribute}`
+        );
+        this.code.line(
+          `return new ${struct.attributeValueAttribute}(this, index.toString());`
+        );
+        this.code.closeBlock();
+        break;
+      case "Set":
+        this.code.openBlock(
+          `public toList(): ${struct.name.replace("Set", "List")}`
+        );
+        this.code.line(
+          `return new ${struct.name.replace(
+            "Set",
+            "List"
+          )}(this.parent, this.terraformAttribute, this.value, { nested: this.nested, operation: fqn => \`tolist(\${fqn})\` });`
+        );
+        this.code.closeBlock();
+        break;
+      case "Map":
+        this.code.openBlock(
+          `public get(key: string): ${struct.attributeValueAttribute}`
+        );
+        this.code.line(
+          `return new ${struct.attributeValueAttribute}(this, \`\${key}\`);`
+        );
+        this.code.closeBlock();
+        break;
+    }
+
+    this.code.closeBlock();
+    this.code.line();
+
+    this.code.line(
+      `export type ${struct.attributeTypeAlias} = ${struct.attributeValueType} | ${struct.name};`
+    );
+    this.code.line();
   }
 
   private emitToTerraformFuction(struct: Struct) {
@@ -71,7 +151,7 @@ export class StructEmitter {
       }): any`
     );
     this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
-    this.code.openBlock('return');
+    this.code.openBlock("return");
     for (const att of struct.assignableAttributes) {
       this.attributesEmitter.emitToTerraform(att, true);
     }

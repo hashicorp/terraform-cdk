@@ -40,7 +40,7 @@ export class AttributeModel {
   }
 
   public get typeDefinition() {
-    const optional = this.optional ? '?' : '';
+    const optional = this.optional ? "?" : "";
     return `${this.name}${optional}: ${this.type.name}`;
   }
 
