@@ -418,6 +418,11 @@ class Parser {
         this.structs.push(
           new Struct(`Terraform${name}SetAttribute`, [], true, struct, "Set")
         );
+
+        //because we generate a toList function
+        this.structs.push(
+          new Struct(`Terraform${name}ListAttribute`, [], true, struct, "List")
+        );
         break;
     }
 
