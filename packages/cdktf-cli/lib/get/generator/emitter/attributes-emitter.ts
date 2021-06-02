@@ -101,7 +101,7 @@ export class AttributesEmitter {
 
   public emitAttributeAccessor(att: AttributeModel) {
     this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return new ${att.type.attributeName}(this, ${att.terraformName}, this.value?.${att.name});`);
+      this.code.line(`return ${att.type.attributeName}.create(this, '${att.terraformName}', this.value?.${att.name});`);
     this.code.closeBlock();
   }
 
@@ -153,7 +153,7 @@ export class AttributesEmitter {
       case (type.isBoolean):
         return `cdktf.booleanToTerraform(${varReference})`;
       default:
-        return `${downcaseFirst(type.name)}ToTerraform(${varReference})`;
+        return `${downcaseFirst(type.innerType)}ToTerraform(${varReference})`;
     }
   }
 }
