@@ -199,6 +199,14 @@ export class AttributesEmitter {
         return `cdktf.hashMapper(cdktf.${this.determineMapType(
           type
         )}ToTerraform)(${varReference})`;
+      case type.isStringSet || type.isNumberSet || type.isBooleanSet:
+        return `cdktf.setMapper(cdktf.${downcaseFirst(
+          type.innerType
+        )}ToTerraform)(${varReference})`;
+      case type.isSet:
+        return `cdktf.setMapper(${downcaseFirst(
+          type.innerType
+        )}ToTerraform)(${varReference})`;
       case type.isString:
         return `cdktf.stringToTerraform(${varReference})`;
       case type.isNumber:

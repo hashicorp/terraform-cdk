@@ -135,6 +135,18 @@ export class AttributeTypeModel {
     return this.isMap && this._type === TokenizableTypes.BOOLEAN;
   }
 
+  public get isStringSet(): boolean {
+    return this.isSet && this._type === TokenizableTypes.STRING;
+  }
+
+  public get isNumberSet(): boolean {
+    return this.isSet && this._type === TokenizableTypes.NUMBER;
+  }
+
+  public get isBooleanSet(): boolean {
+    return this.isSet && this._type === TokenizableTypes.BOOLEAN;
+  }
+
   public get isComputedComplex(): boolean {
     return this.isRootType && this.isComputed && this.isComplex;
   }
