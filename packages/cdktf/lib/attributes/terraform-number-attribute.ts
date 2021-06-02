@@ -11,8 +11,8 @@ export class TerraformNumberAttribute extends TerraformAttribute {
         return this.realValue;
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumber) {
-        if (typeof(value) === 'number') {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumber | undefined) {
+        if (typeof(value) === 'number' || value === undefined) {
             return new TerraformNumberAttribute(parent, terraformAttribute, value);
         }
         else if (value.parent === parent) {

@@ -17,7 +17,7 @@ export class TerraformBooleanMapAttribute extends TerraformMapAttribute {
         return new TerraformBooleanAttribute(this, `${key}`);
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanMap) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanMap | undefined) {
         if (!(value instanceof TerraformBooleanMapAttribute)) {
             return new TerraformBooleanMapAttribute(parent, terraformAttribute, value);
         }

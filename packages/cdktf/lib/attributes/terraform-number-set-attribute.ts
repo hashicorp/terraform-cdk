@@ -18,7 +18,7 @@ export class TerraformNumberSetAttribute extends TerraformSetAttribute {
         return new TerraformNumberListAttribute(this.parent, this.attribute, this.value, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumberSet) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumberSet | undefined) {
         if (!(value instanceof TerraformNumberSetAttribute)) {
             return new TerraformNumberSetAttribute(parent, terraformAttribute, value);
         }

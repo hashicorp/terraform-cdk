@@ -17,7 +17,7 @@ export class TerraformNumberListAttribute extends TerraformListAttribute {
         return new TerraformNumberAttribute(this, index.toString());
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumberList) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumberList | undefined) {
         if (!(value instanceof TerraformNumberListAttribute)) {
             return new TerraformNumberListAttribute(parent, terraformAttribute, value);
         }

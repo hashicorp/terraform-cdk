@@ -18,7 +18,7 @@ export class TerraformBooleanSetAttribute extends TerraformSetAttribute {
         return new TerraformBooleanListAttribute(this.parent, this.attribute, this.value, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanSet) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanSet | undefined) {
         if (!(value instanceof TerraformBooleanSetAttribute)) {
             return new TerraformBooleanSetAttribute(parent, terraformAttribute, value);
         }

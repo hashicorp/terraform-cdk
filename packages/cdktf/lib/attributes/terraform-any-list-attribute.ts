@@ -17,7 +17,7 @@ export class TerraformAnyListAttribute extends TerraformListAttribute {
         return new TerraformAnyAttribute(this, index.toString());
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAnyList) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAnyList | undefined) {
         if (!(value instanceof TerraformAnyListAttribute)) {
             return new TerraformAnyListAttribute(parent, terraformAttribute, value);
         }

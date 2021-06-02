@@ -17,7 +17,7 @@ export class TerraformStringMapAttribute extends TerraformMapAttribute {
         return new TerraformStringAttribute(this, `${key}`);
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformStringMap) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformStringMap | undefined) {
         if (!(value instanceof TerraformStringMapAttribute)) {
             return new TerraformStringMapAttribute(parent, terraformAttribute, value);
         }
