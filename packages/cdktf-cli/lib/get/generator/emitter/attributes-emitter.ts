@@ -1,5 +1,5 @@
 import { CodeMaker } from 'codemaker';
-import { AttributeModel } from "../models";
+import { AttributeModel, AttributeTypeModel } from "../models";
 import { CUSTOM_DEFAULTS } from '../custom-defaults';
 import { downcaseFirst } from '../../../util';
 
@@ -99,17 +99,22 @@ export class AttributesEmitter {
     }
   }
 
+  public emitAttributeAccessor(att: AttributeModel) {
+    this.code.openBlock(`public get ${att.name}()`);
+      this.code.line(`return new ${att.type.attributeName}(this, ${att.terraformName}, this.value?.${att.name});`);
+    this.code.closeBlock();
+  }
+
   private getPutName(att: AttributeModel): string {
     return `put${att.name[0].toUpperCase() + att.name.slice(1)}`;
   }
 
-  public determineMapType(att: AttributeModel): string {
-    const type = att.type
+  public determineMapType(type: AttributeTypeModel): string {
     if (type.isStringMap) { return `string` }
     if (type.isNumberMap) { return `number` }
     if (type.isBooleanMap) { return `boolean` }
     if (process.env.DEBUG) {
-      console.error(`The attribute ${JSON.stringify(att)} isn't implemented yet`)
+      console.error(`The attribute ${JSON.stringify(type)} isn't implemented yet`)
     }
     return `any`
   }
@@ -127,18 +132,20 @@ export class AttributesEmitter {
     }
   }
 
-  private getToTerraform(att: AttributeModel, varReference: string) {
-    const type = att.type;
-
+  public getToTerraform(att: AttributeModel, varReference: string) {
+    return this.getTypeToTerraform(att.type, varReference);
+  }
+  
+  public getTypeToTerraform(type: AttributeTypeModel, varReference: string) {
     switch (true) {
       case (type.isList && type.isMap):
-        return `cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform))(${varReference})`;
+        return `cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(type)}ToTerraform))(${varReference})`;
       case (type.isStringList || type.isNumberList || type.isBooleanList):
         return `cdktf.listMapper(cdktf.${downcaseFirst(type.innerType)}ToTerraform)(${varReference})`;
       case (type.isList):
         return `cdktf.listMapper(${downcaseFirst(type.innerType)}ToTerraform)(${varReference})`;
       case (type.isMap):
-        return `cdktf.hashMapper(cdktf.${this.determineMapType(att)}ToTerraform)(${varReference})`;
+        return `cdktf.hashMapper(cdktf.${this.determineMapType(type)}ToTerraform)(${varReference})`;
       case (type.isString):
         return `cdktf.stringToTerraform(${varReference})`;
       case (type.isNumber):
