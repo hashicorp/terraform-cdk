@@ -82,7 +82,7 @@ export class StructEmitter {
     this.code.closeBlock();
     this.code.openBlock(`else`);
     this.code.line(
-      `return new ${struct.name}(parent, terraformAttribute, value.value { nested: value });`
+      `return new ${struct.name}(parent, terraformAttribute, value.value, { nested: value });`
     );
     this.code.closeBlock();
     this.code.closeBlock();
@@ -93,13 +93,29 @@ export class StructEmitter {
       `return ${this.attributesEmitter.getTypeToTerraform(
         struct.attributeTypeModel,
         "this.value"
-      )}`
+      )};`
     );
-    this.code.closeBlock;
+    this.code.closeBlock();
+    this.code.line();
 
-    for (const att of struct.attributes) {
-      this.attributesEmitter.emitAttributeAccessor(att);
-    }
+    this.code.openBlock(
+      `public static create(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: ${struct.attributeTypeAlias})`
+    );
+    this.code.openBlock(`if (!(value instanceof ${struct.name}))`);
+    this.code.line(
+      `return new ${struct.name}(parent, terraformAttribute, value);`
+    );
+    this.code.closeBlock();
+    this.code.openBlock(`else if (value.parent === parent)`);
+    this.code.line(`return value;`);
+    this.code.closeBlock();
+    this.code.openBlock(`else`);
+    this.code.line(
+      `return new ${struct.name}(parent, terraformAttribute, value.value { nested: value });`
+    );
+    this.code.closeBlock();
+    this.code.closeBlock();
+    this.code.line();
 
     switch (struct.attributeBase) {
       case "List":
@@ -119,7 +135,7 @@ export class StructEmitter {
           `return new ${struct.name.replace(
             "Set",
             "List"
-          )}(this.parent, this.terraformAttribute, this.value, { nested: this.nested, operation: fqn => \`tolist(\${fqn})\` });`
+          )}(this.parent, this.attribute, this.value, { nested: this.nested, operation: (fqn: string) => \`tolist(\${fqn})\` });`
         );
         this.code.closeBlock();
         break;
