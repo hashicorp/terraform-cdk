@@ -18,7 +18,7 @@ export class TerraformAnySetAttribute extends TerraformSetAttribute {
         return new TerraformAnyListAttribute(this.parent, this.attribute, this.value, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAnySet) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAnySet | undefined) {
         if (!(value instanceof TerraformAnySetAttribute)) {
             return new TerraformAnySetAttribute(parent, terraformAttribute, value);
         }

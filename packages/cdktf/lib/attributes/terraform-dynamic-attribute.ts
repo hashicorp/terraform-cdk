@@ -11,7 +11,7 @@ export class TerraformDynamicAttribute extends TerraformAttribute {
         return this.realValue;
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformDynamic) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformDynamic | undefined) {
         if (!(value instanceof TerraformDynamicAttribute)) {
             return new TerraformDynamicAttribute(parent, terraformAttribute, value);
         }

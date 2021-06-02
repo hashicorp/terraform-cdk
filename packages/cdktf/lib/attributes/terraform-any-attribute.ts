@@ -15,7 +15,7 @@ export class TerraformAnyAttribute extends TerraformAttribute implements ITerraf
         return new TerraformAnyAttribute(this, attributeName, this.value?.attributeName);
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAny) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAny | undefined) {
         if (!(value instanceof TerraformAnyAttribute)) {
             return new TerraformAnyAttribute(parent, terraformAttribute, value);
         }

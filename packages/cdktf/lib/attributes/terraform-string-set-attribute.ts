@@ -18,7 +18,7 @@ export class TerraformStringSetAttribute extends TerraformSetAttribute {
         return new TerraformStringListAttribute(this.parent, this.attribute, this.value, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformStringSet) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformStringSet | undefined) {
         if (!(value instanceof TerraformStringSetAttribute)) {
             return new TerraformStringSetAttribute(parent, terraformAttribute, value);
         }

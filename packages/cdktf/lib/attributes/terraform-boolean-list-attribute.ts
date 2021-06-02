@@ -17,7 +17,7 @@ export class TerraformBooleanListAttribute extends TerraformListAttribute {
         return new TerraformBooleanAttribute(this, index.toString());
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanList) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanList | undefined) {
         if (!(value instanceof TerraformBooleanListAttribute)) {
             return new TerraformBooleanListAttribute(parent, terraformAttribute, value);
         }

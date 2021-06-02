@@ -17,7 +17,7 @@ export class TerraformStringListAttribute extends TerraformListAttribute {
         return new TerraformStringAttribute(this, index.toString());
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformStringList) {
+    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformStringList | undefined) {
         if (!(value instanceof TerraformStringListAttribute)) {
             return new TerraformStringListAttribute(parent, terraformAttribute, value);
         }
