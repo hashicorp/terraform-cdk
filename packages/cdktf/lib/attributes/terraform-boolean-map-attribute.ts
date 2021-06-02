@@ -28,7 +28,7 @@ export class TerraformBooleanMapAttribute extends TerraformMapAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformBooleanMap
+    value: TerraformBooleanMap | undefined
   ) {
     if (!(value instanceof TerraformBooleanMapAttribute)) {
       return new TerraformBooleanMapAttribute(

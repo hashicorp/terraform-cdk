@@ -22,9 +22,9 @@ export class TerraformBooleanAttribute extends TerraformAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformBoolean
+    value: TerraformBoolean | undefined
   ) {
-    if (typeof value === "boolean") {
+    if (typeof value === "boolean" || value === undefined) {
       return new TerraformBooleanAttribute(parent, terraformAttribute, value);
     } else if (value.parent === parent) {
       return value;

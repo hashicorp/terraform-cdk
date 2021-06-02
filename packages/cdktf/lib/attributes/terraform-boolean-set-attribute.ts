@@ -33,7 +33,7 @@ export class TerraformBooleanSetAttribute extends TerraformSetAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformBooleanSet
+    value: TerraformBooleanSet | undefined
   ) {
     if (!(value instanceof TerraformBooleanSetAttribute)) {
       return new TerraformBooleanSetAttribute(

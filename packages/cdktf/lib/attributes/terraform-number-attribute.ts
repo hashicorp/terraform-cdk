@@ -22,9 +22,9 @@ export class TerraformNumberAttribute extends TerraformAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformNumber
+    value: TerraformNumber | undefined
   ) {
-    if (typeof value === "number") {
+    if (typeof value === "number" || value === undefined) {
       return new TerraformNumberAttribute(parent, terraformAttribute, value);
     } else if (value.parent === parent) {
       return value;

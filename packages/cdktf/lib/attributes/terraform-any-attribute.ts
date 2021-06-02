@@ -33,7 +33,7 @@ export class TerraformAnyAttribute
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformAny
+    value: TerraformAny | undefined
   ) {
     if (!(value instanceof TerraformAnyAttribute)) {
       return new TerraformAnyAttribute(parent, terraformAttribute, value);

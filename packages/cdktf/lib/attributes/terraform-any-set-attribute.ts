@@ -33,7 +33,7 @@ export class TerraformAnySetAttribute extends TerraformSetAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformAnySet
+    value: TerraformAnySet | undefined
   ) {
     if (!(value instanceof TerraformAnySetAttribute)) {
       return new TerraformAnySetAttribute(parent, terraformAttribute, value);

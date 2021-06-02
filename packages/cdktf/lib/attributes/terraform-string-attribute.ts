@@ -22,9 +22,9 @@ export class TerraformStringAttribute extends TerraformAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformString
+    value: TerraformString | undefined
   ) {
-    if (typeof value === "string") {
+    if (typeof value === "string" || value === undefined) {
       return new TerraformStringAttribute(parent, terraformAttribute, value);
     } else if (value.parent === parent) {
       return value;

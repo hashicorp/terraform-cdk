@@ -28,7 +28,7 @@ export class TerraformNumberMapAttribute extends TerraformMapAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformNumberMap
+    value: TerraformNumberMap | undefined
   ) {
     if (!(value instanceof TerraformNumberMapAttribute)) {
       return new TerraformNumberMapAttribute(parent, terraformAttribute, value);

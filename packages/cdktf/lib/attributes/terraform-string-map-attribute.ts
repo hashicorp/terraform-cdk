@@ -28,7 +28,7 @@ export class TerraformStringMapAttribute extends TerraformMapAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformStringMap
+    value: TerraformStringMap | undefined
   ) {
     if (!(value instanceof TerraformStringMapAttribute)) {
       return new TerraformStringMapAttribute(parent, terraformAttribute, value);

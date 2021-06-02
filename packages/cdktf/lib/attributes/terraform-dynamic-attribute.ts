@@ -22,7 +22,7 @@ export class TerraformDynamicAttribute extends TerraformAttribute {
   public static create(
     parent: ITerraformAddressable,
     terraformAttribute: string,
-    value: TerraformDynamic
+    value: TerraformDynamic | undefined
   ) {
     if (!(value instanceof TerraformDynamicAttribute)) {
       return new TerraformDynamicAttribute(parent, terraformAttribute, value);

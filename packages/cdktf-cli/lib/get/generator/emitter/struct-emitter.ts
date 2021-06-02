@@ -70,6 +70,32 @@ export class StructEmitter {
     this.code.line();
 
     this.code.openBlock(
+      `public static create(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: ${struct.attributeTypeAlias} | undefined)`
+    );
+    this.code.openBlock(`if (!(value instanceof ${struct.name}))`);
+    this.code.line(
+      `return new ${struct.name}(parent, terraformAttribute, value);`
+    );
+    this.code.closeBlock();
+    this.code.openBlock(`else if (value.parent === parent)`);
+    this.code.line(`return value;`);
+    this.code.closeBlock();
+    this.code.openBlock(`else`);
+    this.code.line(
+      `return new ${struct.name}(parent, terraformAttribute, value.value, { nested: value });`
+    );
+    this.code.closeBlock();
+    this.code.closeBlock();
+    this.code.line();
+
+    this.code.openBlock(
+      `public get value(): ${struct.attributeValueType} | undefined`
+    );
+    this.code.line("return this.realValue;");
+    this.code.closeBlock();
+    this.code.line();
+
+    this.code.openBlock(
       `public static create(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: ${struct.attributeTypeAlias})`
     );
     this.code.openBlock(`if (!(value instanceof ${struct.name}))`);
