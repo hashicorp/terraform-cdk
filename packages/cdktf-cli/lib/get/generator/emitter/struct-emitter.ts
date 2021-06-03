@@ -82,8 +82,8 @@ export class StructEmitter {
           this.code.closeBlock();
           break;
         case 'Set':
-          this.code.openBlock(`public toList(): ${struct.name.replace('Set', 'List')}`);
-            this.code.line(`return new ${struct.name.replace('Set', 'List')}(this.parent, this.attribute, this.value, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });`);
+          this.code.openBlock(`public toList(): ${struct.name.replace('SetAttribute', 'ListAttribute')}`);
+            this.code.line(`return new ${struct.name.replace('SetAttribute', 'ListAttribute')}(this.parent, this.attribute, this.value, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });`);
           this.code.closeBlock();
           break;
         case 'Map':
