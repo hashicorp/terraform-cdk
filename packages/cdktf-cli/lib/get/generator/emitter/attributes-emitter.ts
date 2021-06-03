@@ -163,7 +163,7 @@ export class AttributesEmitter {
     const name = isStruct ? att.name : att.storageName;
     const varReference = `${context}.${name}`;
 
-    if (att.isProvider) {
+    if (att.isProvider || isStruct) {
       this.code.line(
         `${
           att.terraformName
