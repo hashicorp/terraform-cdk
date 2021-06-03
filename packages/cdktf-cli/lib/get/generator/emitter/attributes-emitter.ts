@@ -100,6 +100,8 @@ export class AttributesEmitter {
   }
 
   public emitAttributeAccessor(att: AttributeModel) {
+    this.code.line();
+    this.code.line(`// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`);
     this.code.openBlock(`public get ${att.name}()`);
       this.code.line(`return ${att.type.attributeName}.create(this, '${att.terraformName}', this.value?.${att.name});`);
     this.code.closeBlock();
