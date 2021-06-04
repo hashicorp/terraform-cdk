@@ -128,14 +128,16 @@ export class AttributesEmitter {
     }
   }
 
-  public emitAttributeAccessor(att: AttributeModel) {
+  public emitAttributeAccessor(att: AttributeModel, isReadOnly: boolean) {
     this.code.line();
     this.code.line(
       `// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`
     );
     this.code.openBlock(`public get ${att.name}()`);
     this.code.line(
-      `return ${att.type.attributeName}.construct(this, '${att.terraformName}', this.internalValue?.${att.name});`
+      `return ${att.type.attributeName}.construct(this, '${
+        att.terraformName
+      }', ${isReadOnly ? "undefined" : `this.internalValue?.${att.name}`});`
     );
     this.code.closeBlock();
   }
@@ -217,6 +219,8 @@ export class AttributesEmitter {
         return `cdktf.numberToTerraform(${varReference})`;
       case type.isBoolean:
         return `cdktf.booleanToTerraform(${varReference})`;
+      case type.isDyanmic:
+        return `cdktf.hashMapper(cdktf.anyToTerraform)(${varReference})`;
       default:
         return `${downcaseFirst(type.innerType)}ToTerraform(${varReference})`;
     }

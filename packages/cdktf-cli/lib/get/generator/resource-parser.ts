@@ -91,7 +91,8 @@ class Parser {
 
   private renderAttributeType(
     scope: Scope[],
-    attributeType: AttributeType
+    attributeType: AttributeType,
+    parentKind: string | undefined = undefined
   ): AttributeTypeModel {
     const parent = scope[scope.length - 1];
     const level = scope.length;
@@ -142,7 +143,11 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        const attrType = this.renderAttributeType(scope, type as AttributeType);
+        const attrType = this.renderAttributeType(
+          scope,
+          type as AttributeType,
+          kind
+        );
         attrType.isList = kind === "list";
         attrType.isSet = kind === "set";
         attrType.isComputed = isComputed;
@@ -155,7 +160,8 @@ class Parser {
       if (kind === "map") {
         const valueType = this.renderAttributeType(
           scope,
-          type as AttributeType
+          type as AttributeType,
+          kind
         );
         valueType.isMap = true;
         valueType.isComputed = isComputed;
@@ -171,8 +177,12 @@ class Parser {
         for (const [name, type] of Object.entries(objAttributes)) {
           attributes[name] = { type };
         }
-        const struct = this.addAnonymousStruct(scope, attributes);
-        const model = new AttributeTypeModel(struct.name, {
+        const [struct, structName] = this.addAnonymousStruct(
+          scope,
+          attributes,
+          parentKind
+        );
+        const model = new AttributeTypeModel(structName, {
           struct,
           isComputed,
           isOptional,
@@ -237,7 +247,7 @@ class Parser {
         }),
         blockType.block
       );
-      const blockStruct = this.addStruct(
+      const [blockStruct] = this.addStruct(
         [
           parentType,
           new Scope({
@@ -338,7 +348,8 @@ class Parser {
   }
   private addAnonymousStruct(
     scope: Scope[],
-    attrs: { [name: string]: Attribute }
+    attrs: { [name: string]: Attribute },
+    parentKind: string | undefined
   ) {
     const attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
@@ -376,14 +387,14 @@ class Parser {
       );
     }
 
-    return this.addStruct(scope, attributes, "object");
+    return this.addStruct(scope, attributes, parentKind ?? "object");
   }
 
   private addStruct(
     scope: Scope[],
     attributes: AttributeModel[],
     structContainer: string
-  ) {
+  ): [Struct, string] {
     const name = uniqueClassName(
       toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
     );
@@ -391,7 +402,7 @@ class Parser {
     const isClass = parent.isComputed && !parent.isOptional;
     let struct: Struct | undefined = undefined;
     if (!isClass) {
-      struct = new Struct(name, attributes, false);
+      struct = new Struct(name, attributes);
       this.structs.push(struct);
     }
 
@@ -399,29 +410,58 @@ class Parser {
       `Terraform${name}Attribute`,
       attributes,
       true,
-      struct
+      name,
+      isClass
     );
     this.structs.push(attributeStruct);
 
     switch (structContainer) {
       case "map":
         this.structs.push(
-          new Struct(`Terraform${name}MapAttribute`, [], true, struct, "Map")
+          new Struct(
+            `Terraform${name}MapAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "Map"
+          )
         );
         break;
       case "list":
         this.structs.push(
-          new Struct(`Terraform${name}ListAttribute`, [], true, struct, "List")
+          new Struct(
+            `Terraform${name}ListAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "List"
+          )
         );
         break;
       case "set":
         this.structs.push(
-          new Struct(`Terraform${name}SetAttribute`, [], true, struct, "Set")
+          new Struct(
+            `Terraform${name}SetAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "Set"
+          )
         );
 
         //because we generate a toList function
         this.structs.push(
-          new Struct(`Terraform${name}ListAttribute`, [], true, struct, "List")
+          new Struct(
+            `Terraform${name}ListAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "List"
+          )
         );
         break;
     }
@@ -430,7 +470,7 @@ class Parser {
       struct = attributeStruct;
     }
 
-    return struct;
+    return [struct, name];
   }
 }
 

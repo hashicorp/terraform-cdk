@@ -111,6 +111,10 @@ export class AttributeTypeModel {
     return this._type === TokenizableTypes.BOOLEAN;
   }
 
+  public get isDyanmic(): boolean {
+    return this._type === TokenizableTypes.DYNAMIC;
+  }
+
   public get isStringList(): boolean {
     return this.isList && this._type === TokenizableTypes.STRING;
   }

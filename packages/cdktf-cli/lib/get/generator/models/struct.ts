@@ -6,7 +6,8 @@ export class Struct {
     public readonly name: string,
     public readonly attributes: AttributeModel[],
     public readonly isAttribute = false,
-    private readonly baseStruct: Struct | undefined = undefined,
+    private readonly baseName: string = "",
+    public readonly isReadOnly = true,
     public readonly attributeBase = "Object"
   ) {}
 
@@ -58,16 +59,16 @@ export class Struct {
 
   public get attributeValueType() {
     switch (true) {
-      case this.baseStruct === undefined:
-        return ""; //TODO figure out this case
+      case this.isReadOnly:
+        return "any";
       case this.attributeBase === "Object":
-        return this.baseStruct?.name;
+        return this.baseName;
       case this.attributeBase === "List":
-        return `${this.baseStruct?.name}[]`;
+        return `${this.baseName}[]`;
       case this.attributeBase === "Set":
-        return `${this.baseStruct?.name}[]`; //jsii doesn't support sets currently
+        return `${this.baseName}[]`; //jsii doesn't support sets currently
       case this.attributeBase === "Map":
-        return `{ [key: string]: ${this.baseStruct?.name} }`;
+        return `{ [key: string]: ${this.baseName} }`;
       default:
         return ""; //this case shouldn't happen
     }
@@ -75,16 +76,14 @@ export class Struct {
 
   public get attributeValueAttribute() {
     switch (true) {
-      case this.baseStruct === undefined:
-        return ""; //TODO figure out this case
       case this.attributeBase === "Object":
-        return this.baseStruct?.name;
+        return this.baseName;
       case this.attributeBase === "List":
-        return `Terraform${this.baseStruct?.name}Attribute`;
+        return `Terraform${this.baseName}Attribute`;
       case this.attributeBase === "Set":
-        return `Terraform${this.baseStruct?.name}Attribute`;
+        return `Terraform${this.baseName}Attribute`;
       case this.attributeBase === "Map":
-        return `Terraform${this.baseStruct?.name}Attribute`;
+        return `Terraform${this.baseName}Attribute`;
       default:
         return ""; //this case shouldn't happen
     }
@@ -92,16 +91,14 @@ export class Struct {
 
   public get attributeTypeAlias() {
     switch (true) {
-      case this.baseStruct === undefined:
-        return ""; //TODO figure out this case
       case this.attributeBase === "Object":
-        return `Terraform${this.baseStruct?.name}`;
+        return `Terraform${this.baseName}`;
       case this.attributeBase === "List":
-        return `Terraform${this.baseStruct?.name}List`;
+        return `Terraform${this.baseName}List`;
       case this.attributeBase === "Set":
-        return `Terraform${this.baseStruct?.name}Set`;
+        return `Terraform${this.baseName}Set`;
       case this.attributeBase === "Map":
-        return `Terraform${this.baseStruct?.name}Map`;
+        return `Terraform${this.baseName}Map`;
       default:
         return ""; //this case shouldn't happen
     }
@@ -109,24 +106,16 @@ export class Struct {
 
   public get attributeTypeModel() {
     switch (true) {
-      case this.baseStruct === undefined:
-        return new AttributeTypeModel(this.name, {}); //TODO figure out this case
       case this.attributeBase === "Object":
-        return new AttributeTypeModel(this.baseStruct?.name ?? "", {});
+        return new AttributeTypeModel(this.baseName, {});
       case this.attributeBase === "List":
-        return new AttributeTypeModel(this.baseStruct?.name ?? "", {
-          isList: true,
-        });
+        return new AttributeTypeModel(this.baseName, { isList: true });
       case this.attributeBase === "Set":
-        return new AttributeTypeModel(this.baseStruct?.name ?? "", {
-          isSet: true,
-        });
+        return new AttributeTypeModel(this.baseName, { isSet: true });
       case this.attributeBase === "Map":
-        return new AttributeTypeModel(this.baseStruct?.name ?? "", {
-          isMap: true,
-        });
+        return new AttributeTypeModel(this.baseName, { isMap: true });
       default:
-        return new AttributeTypeModel(this.baseStruct?.name ?? "", {}); //this case shouldn't happen
+        return new AttributeTypeModel(this.baseName, {}); //this case shouldn't happen
     }
   }
 }
