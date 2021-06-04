@@ -10,49 +10,138 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface AcmCertificateConfig extends cdktf.TerraformMetaArguments {
-  readonly certificateAuthorityArn?: string;
-  readonly certificateBody?: string;
-  readonly certificateChain?: string;
-  readonly domainName?: string;
-  readonly privateKey?: string;
-  readonly subjectAlternativeNames?: string[];
-  readonly tags?: { [key: string]: string };
-  readonly validationMethod?: string;
+  readonly certificateAuthorityArn?: cdktf.TerraformString;
+  readonly certificateBody?: cdktf.TerraformString;
+  readonly certificateChain?: cdktf.TerraformString;
+  readonly domainName?: cdktf.TerraformString;
+  readonly privateKey?: cdktf.TerraformString;
+  readonly subjectAlternativeNames?: cdktf.TerraformStringList;
+  readonly tags?: cdktf.TerraformStringMap;
+  readonly validationMethod?: cdktf.TerraformString;
   /** options block */
-  readonly options?: AcmCertificateOptions[];
+  readonly options?: TerraformAcmCertificateOptionsList;
 }
-export class AcmCertificateDomainValidationOptions extends cdktf.ComplexComputedList {
+export class TerraformAcmCertificateDomainValidationOptionsAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
 
   // domain_name - computed: true, optional: false, required: false
   public get domainName() {
-    return this.getStringAttribute('domain_name');
+    return cdktf.TerraformStringAttribute.construct(this, 'domain_name', undefined);
   }
 
   // resource_record_name - computed: true, optional: false, required: false
   public get resourceRecordName() {
-    return this.getStringAttribute('resource_record_name');
+    return cdktf.TerraformStringAttribute.construct(this, 'resource_record_name', undefined);
   }
 
   // resource_record_type - computed: true, optional: false, required: false
   public get resourceRecordType() {
-    return this.getStringAttribute('resource_record_type');
+    return cdktf.TerraformStringAttribute.construct(this, 'resource_record_type', undefined);
   }
 
   // resource_record_value - computed: true, optional: false, required: false
   public get resourceRecordValue() {
-    return this.getStringAttribute('resource_record_value');
+    return cdktf.TerraformStringAttribute.construct(this, 'resource_record_value', undefined);
   }
 }
+
+export class TerraformAcmCertificateDomainValidationOptionsListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
+  public get(index: number): TerraformAcmCertificateDomainValidationOptionsAttribute {
+    return new TerraformAcmCertificateDomainValidationOptionsAttribute(this, index.toString());
+  }
+}
+
 export interface AcmCertificateOptions {
-  readonly certificateTransparencyLoggingPreference?: string;
+  readonly certificateTransparencyLoggingPreference?: cdktf.TerraformString;
 }
 
 function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptions): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    certificate_transparency_logging_preference: cdktf.stringToTerraform(struct!.certificateTransparencyLoggingPreference),
+    certificate_transparency_logging_preference: struct!.certificateTransparencyLoggingPreference instanceof cdktf.TerraformAttribute ? struct!.certificateTransparencyLoggingPreference.toTerraform() : cdktf.stringToTerraform(struct!.certificateTransparencyLoggingPreference),
   }
 }
+
+export class TerraformAcmCertificateOptionsAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: AcmCertificateOptions, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): AcmCertificateOptions | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformAcmCertificateOptions | undefined) {
+    if (!(value instanceof TerraformAcmCertificateOptionsAttribute)) {
+      return new TerraformAcmCertificateOptionsAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformAcmCertificateOptionsAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return acmCertificateOptionsToTerraform(this.internalValue);
+  }
+
+
+  // certificate_transparency_logging_preference - computed: false, optional: true, required: false
+  public get certificateTransparencyLoggingPreference() {
+    return cdktf.TerraformStringAttribute.construct(this, 'certificate_transparency_logging_preference', this.internalValue?.certificateTransparencyLoggingPreference);
+  }
+}
+
+export type TerraformAcmCertificateOptions = AcmCertificateOptions | TerraformAcmCertificateOptionsAttribute;
+
+export class TerraformAcmCertificateOptionsListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: AcmCertificateOptions[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): AcmCertificateOptions[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformAcmCertificateOptionsList | undefined) {
+    if (!(value instanceof TerraformAcmCertificateOptionsListAttribute)) {
+      return new TerraformAcmCertificateOptionsListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformAcmCertificateOptionsListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.listMapper(acmCertificateOptionsToTerraform)(this.internalValue);
+  }
+
+  public get(index: number): TerraformAcmCertificateOptionsAttribute {
+    return new TerraformAcmCertificateOptionsAttribute(this, index.toString());
+  }
+}
+
+export type TerraformAcmCertificateOptionsList = AcmCertificateOptions[] | TerraformAcmCertificateOptionsListAttribute;
 
 
 // Resource
@@ -74,15 +163,19 @@ export class AcmCertificate extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._certificateAuthorityArn = config.certificateAuthorityArn;
-    this._certificateBody = config.certificateBody;
-    this._certificateChain = config.certificateChain;
-    this._domainName = config.domainName;
-    this._privateKey = config.privateKey;
-    this._subjectAlternativeNames = config.subjectAlternativeNames;
-    this._tags = config.tags;
-    this._validationMethod = config.validationMethod;
-    this._options = config.options;
+    this._arn = new cdktf.TerraformStringAttribute(this, 'arn', undefined)
+    this.putCertificateAuthorityArn(config.certificateAuthorityArn ?? new cdktf.TerraformStringAttribute(this, 'certificate_authority_arn', undefined));
+    this.putCertificateBody(config.certificateBody ?? new cdktf.TerraformStringAttribute(this, 'certificate_body', undefined));
+    this.putCertificateChain(config.certificateChain ?? new cdktf.TerraformStringAttribute(this, 'certificate_chain', undefined));
+    this.putDomainName(config.domainName ?? new cdktf.TerraformStringAttribute(this, 'domain_name', undefined));
+    this._domainValidationOptions = new TerraformAcmCertificateDomainValidationOptionsListAttribute(this, 'domain_validation_options', undefined)
+    this._id = new cdktf.TerraformStringAttribute(this, 'id', undefined)
+    this.putPrivateKey(config.privateKey ?? new cdktf.TerraformStringAttribute(this, 'private_key', undefined));
+    this.putSubjectAlternativeNames(config.subjectAlternativeNames ?? new cdktf.TerraformStringListAttribute(this, 'subject_alternative_names', undefined));
+    this.putTags(config.tags ?? new cdktf.TerraformStringMapAttribute(this, 'tags', undefined));
+    this._validationEmails = new cdktf.TerraformStringListAttribute(this, 'validation_emails', undefined)
+    this.putValidationMethod(config.validationMethod ?? new cdktf.TerraformStringAttribute(this, 'validation_method', undefined));
+    this.putOptions(config.options ?? new TerraformAcmCertificateOptionsListAttribute(this, 'options', undefined));
   }
 
   // ==========
@@ -90,167 +183,153 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // ==========
 
   // arn - computed: true, optional: false, required: false
+  private _arn: cdktf.TerraformStringAttribute;
   public get arn() {
-    return this.getStringAttribute('arn');
+    return this._arn;
   }
 
   // certificate_authority_arn - computed: false, optional: true, required: false
-  private _certificateAuthorityArn?: string;
+  private _certificateAuthorityArn!: cdktf.TerraformStringAttribute;
   public get certificateAuthorityArn() {
-    return this.getStringAttribute('certificate_authority_arn');
+    return this._certificateAuthorityArn;
   }
-  public set certificateAuthorityArn(value: string ) {
-    this._certificateAuthorityArn = value;
-  }
-  public resetCertificateAuthorityArn() {
-    this._certificateAuthorityArn = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get certificateAuthorityArnInput() {
-    return this._certificateAuthorityArn
+  public putCertificateAuthorityArn(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._certificateAuthorityArn.resetInternal();
+    }
+    else {
+      this._certificateAuthorityArn = cdktf.TerraformStringAttribute.construct(this, 'certificate_authority_arn', value);
+    }
   }
 
   // certificate_body - computed: false, optional: true, required: false
-  private _certificateBody?: string;
+  private _certificateBody!: cdktf.TerraformStringAttribute;
   public get certificateBody() {
-    return this.getStringAttribute('certificate_body');
+    return this._certificateBody;
   }
-  public set certificateBody(value: string ) {
-    this._certificateBody = value;
-  }
-  public resetCertificateBody() {
-    this._certificateBody = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get certificateBodyInput() {
-    return this._certificateBody
+  public putCertificateBody(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._certificateBody.resetInternal();
+    }
+    else {
+      this._certificateBody = cdktf.TerraformStringAttribute.construct(this, 'certificate_body', value);
+    }
   }
 
   // certificate_chain - computed: false, optional: true, required: false
-  private _certificateChain?: string;
+  private _certificateChain!: cdktf.TerraformStringAttribute;
   public get certificateChain() {
-    return this.getStringAttribute('certificate_chain');
+    return this._certificateChain;
   }
-  public set certificateChain(value: string ) {
-    this._certificateChain = value;
-  }
-  public resetCertificateChain() {
-    this._certificateChain = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get certificateChainInput() {
-    return this._certificateChain
+  public putCertificateChain(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._certificateChain.resetInternal();
+    }
+    else {
+      this._certificateChain = cdktf.TerraformStringAttribute.construct(this, 'certificate_chain', value);
+    }
   }
 
   // domain_name - computed: true, optional: true, required: false
-  private _domainName?: string;
+  private _domainName!: cdktf.TerraformStringAttribute;
   public get domainName() {
-    return this.getStringAttribute('domain_name');
+    return this._domainName;
   }
-  public set domainName(value: string) {
-    this._domainName = value;
-  }
-  public resetDomainName() {
-    this._domainName = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get domainNameInput() {
-    return this._domainName
+  public putDomainName(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._domainName.resetInternal();
+    }
+    else {
+      this._domainName = cdktf.TerraformStringAttribute.construct(this, 'domain_name', value);
+    }
   }
 
   // domain_validation_options - computed: true, optional: false, required: false
-  public domainValidationOptions(index: string) {
-    return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index);
+  private _domainValidationOptions: TerraformAcmCertificateDomainValidationOptionsListAttribute;
+  public get domainValidationOptions() {
+    return this._domainValidationOptions;
   }
 
   // id - computed: true, optional: true, required: false
+  private _id: cdktf.TerraformStringAttribute;
   public get id() {
-    return this.getStringAttribute('id');
+    return this._id;
   }
 
   // private_key - computed: false, optional: true, required: false
-  private _privateKey?: string;
+  private _privateKey!: cdktf.TerraformStringAttribute;
   public get privateKey() {
-    return this.getStringAttribute('private_key');
+    return this._privateKey;
   }
-  public set privateKey(value: string ) {
-    this._privateKey = value;
-  }
-  public resetPrivateKey() {
-    this._privateKey = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get privateKeyInput() {
-    return this._privateKey
+  public putPrivateKey(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._privateKey.resetInternal();
+    }
+    else {
+      this._privateKey = cdktf.TerraformStringAttribute.construct(this, 'private_key', value);
+    }
   }
 
   // subject_alternative_names - computed: true, optional: true, required: false
-  private _subjectAlternativeNames?: string[];
+  private _subjectAlternativeNames!: cdktf.TerraformStringListAttribute;
   public get subjectAlternativeNames() {
-    return this.getListAttribute('subject_alternative_names');
+    return this._subjectAlternativeNames;
   }
-  public set subjectAlternativeNames(value: string[]) {
-    this._subjectAlternativeNames = value;
-  }
-  public resetSubjectAlternativeNames() {
-    this._subjectAlternativeNames = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get subjectAlternativeNamesInput() {
-    return this._subjectAlternativeNames
+  public putSubjectAlternativeNames(value: cdktf.TerraformStringList | undefined) {
+    if (value === undefined) {
+      this._subjectAlternativeNames.resetInternal();
+    }
+    else {
+      this._subjectAlternativeNames = cdktf.TerraformStringListAttribute.construct(this, 'subject_alternative_names', value);
+    }
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string };
+  private _tags!: cdktf.TerraformStringMapAttribute;
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this._tags;
   }
-  public set tags(value: { [key: string]: string } ) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get tagsInput() {
-    return this._tags
+  public putTags(value: cdktf.TerraformStringMap | undefined) {
+    if (value === undefined) {
+      this._tags.resetInternal();
+    }
+    else {
+      this._tags = cdktf.TerraformStringMapAttribute.construct(this, 'tags', value);
+    }
   }
 
   // validation_emails - computed: true, optional: false, required: false
+  private _validationEmails: cdktf.TerraformStringListAttribute;
   public get validationEmails() {
-    return this.getListAttribute('validation_emails');
+    return this._validationEmails;
   }
 
   // validation_method - computed: true, optional: true, required: false
-  private _validationMethod?: string;
+  private _validationMethod!: cdktf.TerraformStringAttribute;
   public get validationMethod() {
-    return this.getStringAttribute('validation_method');
+    return this._validationMethod;
   }
-  public set validationMethod(value: string) {
-    this._validationMethod = value;
-  }
-  public resetValidationMethod() {
-    this._validationMethod = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get validationMethodInput() {
-    return this._validationMethod
+  public putValidationMethod(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._validationMethod.resetInternal();
+    }
+    else {
+      this._validationMethod = cdktf.TerraformStringAttribute.construct(this, 'validation_method', value);
+    }
   }
 
   // options - computed: false, optional: true, required: false
-  private _options?: AcmCertificateOptions[];
+  private _options!: TerraformAcmCertificateOptionsListAttribute;
   public get options() {
-    return this.interpolationForAttribute('options') as any;
+    return this._options;
   }
-  public set options(value: AcmCertificateOptions[] ) {
-    this._options = value;
-  }
-  public resetOptions() {
-    this._options = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get optionsInput() {
-    return this._options
+  public putOptions(value: TerraformAcmCertificateOptionsList | undefined) {
+    if (value === undefined) {
+      this._options.resetInternal();
+    }
+    else {
+      this._options = TerraformAcmCertificateOptionsListAttribute.construct(this, 'options', value);
+    }
   }
 
   // =========
@@ -259,15 +338,15 @@ export class AcmCertificate extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      certificate_authority_arn: cdktf.stringToTerraform(this._certificateAuthorityArn),
-      certificate_body: cdktf.stringToTerraform(this._certificateBody),
-      certificate_chain: cdktf.stringToTerraform(this._certificateChain),
-      domain_name: cdktf.stringToTerraform(this._domainName),
-      private_key: cdktf.stringToTerraform(this._privateKey),
-      subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
-      validation_method: cdktf.stringToTerraform(this._validationMethod),
-      options: cdktf.listMapper(acmCertificateOptionsToTerraform)(this._options),
+      certificate_authority_arn: this._certificateAuthorityArn.toTerraform(),
+      certificate_body: this._certificateBody.toTerraform(),
+      certificate_chain: this._certificateChain.toTerraform(),
+      domain_name: this._domainName.toTerraform(),
+      private_key: this._privateKey.toTerraform(),
+      subject_alternative_names: this._subjectAlternativeNames.toTerraform(),
+      tags: this._tags.toTerraform(),
+      validation_method: this._validationMethod.toTerraform(),
+      options: this._options.toTerraform(),
     };
   }
 }

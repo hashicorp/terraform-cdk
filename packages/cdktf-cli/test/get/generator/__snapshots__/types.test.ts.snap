@@ -10,8 +10,8 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BooleanListConfig extends cdktf.TerraformMetaArguments {
-  readonly fooRequired: boolean[];
-  readonly fooOptional?: boolean[];
+  readonly fooRequired: cdktf.TerraformBooleanList;
+  readonly fooOptional?: cdktf.TerraformBooleanList;
 }
 
 // Resource
@@ -33,8 +33,8 @@ export class BooleanList extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooRequired = config.fooRequired;
-    this._fooOptional = config.fooOptional;
+    this.putFooRequired(config.fooRequired);
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformBooleanListAttribute(this, 'foo_optional', undefined));
   }
 
   // ==========
@@ -42,32 +42,26 @@ export class BooleanList extends cdktf.TerraformResource {
   // ==========
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired: boolean[];
+  private _fooRequired!: cdktf.TerraformBooleanListAttribute;
   public get fooRequired() {
-    return this.interpolationForAttribute('foo_required') as any;
+    return this._fooRequired;
   }
-  public set fooRequired(value: boolean[]) {
-    this._fooRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooRequiredInput() {
-    return this._fooRequired
+  public putFooRequired(value: cdktf.TerraformBooleanList) {
+    this._fooRequired = cdktf.TerraformBooleanListAttribute.construct(this, 'foo_required', value);
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean[];
+  private _fooOptional!: cdktf.TerraformBooleanListAttribute;
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this._fooOptional;
   }
-  public set fooOptional(value: boolean[] ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformBooleanList | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformBooleanListAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // =========
@@ -76,8 +70,8 @@ export class BooleanList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: cdktf.listMapper(cdktf.booleanToTerraform)(this._fooRequired),
-      foo_optional: cdktf.listMapper(cdktf.booleanToTerraform)(this._fooOptional),
+      foo_required: this._fooRequired.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
     };
   }
 }
@@ -94,8 +88,8 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface BooleanMapConfig extends cdktf.TerraformMetaArguments {
-  readonly fooComputedOptional?: { [key: string]: boolean };
-  readonly fooOptional?: { [key: string]: boolean };
+  readonly fooComputedOptional?: cdktf.TerraformBooleanMap;
+  readonly fooOptional?: cdktf.TerraformBooleanMap;
 }
 
 // Resource
@@ -117,8 +111,9 @@ export class BooleanMap extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooComputedOptional = config.fooComputedOptional;
-    this._fooOptional = config.fooOptional;
+    this._fooComputed = new cdktf.TerraformBooleanMapAttribute(this, 'foo_computed', undefined)
+    this.putFooComputedOptional(config.fooComputedOptional ?? new cdktf.TerraformBooleanMapAttribute(this, 'foo_computed_optional', undefined));
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformBooleanMapAttribute(this, 'foo_optional', undefined));
   }
 
   // ==========
@@ -126,40 +121,37 @@ export class BooleanMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): boolean {
-    return new cdktf.BooleanMap(this, 'foo_computed').lookup(key);
+  private _fooComputed: cdktf.TerraformBooleanMapAttribute;
+  public get fooComputed() {
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: boolean }
-  public get fooComputedOptional(): { [key: string]: boolean } {
-    return this.interpolationForAttribute('foo_computed_optional') as any; // Getting the computed value is not yet implemented
+  private _fooComputedOptional!: cdktf.TerraformBooleanMapAttribute;
+  public get fooComputedOptional() {
+    return this._fooComputedOptional;
   }
-  public set fooComputedOptional(value: { [key: string]: boolean }) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+  public putFooComputedOptional(value: cdktf.TerraformBooleanMap | undefined) {
+    if (value === undefined) {
+      this._fooComputedOptional.resetInternal();
+    }
+    else {
+      this._fooComputedOptional = cdktf.TerraformBooleanMapAttribute.construct(this, 'foo_computed_optional', value);
+    }
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: boolean };
+  private _fooOptional!: cdktf.TerraformBooleanMapAttribute;
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this._fooOptional;
   }
-  public set fooOptional(value: { [key: string]: boolean } ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformBooleanMap | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformBooleanMapAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // =========
@@ -168,8 +160,8 @@ export class BooleanMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
-      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
+      foo_computed_optional: this._fooComputedOptional.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
     };
   }
 }
@@ -187,53 +179,90 @@ import * as cdktf from 'cdktf';
 
 export interface ComputedComplexConfig extends cdktf.TerraformMetaArguments {
 }
-export class ComputedComplexEgress extends cdktf.ComplexComputedList {
+export class TerraformComputedComplexEgressAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
 
   // cidr_blocks - computed: true, optional: false, required: false
   public get cidrBlocks() {
-    return this.getListAttribute('cidr_blocks');
+    return cdktf.TerraformStringListAttribute.construct(this, 'cidr_blocks', undefined);
   }
 
   // description - computed: true, optional: false, required: false
   public get description() {
-    return this.getStringAttribute('description');
+    return cdktf.TerraformStringAttribute.construct(this, 'description', undefined);
   }
 
   // from_port - computed: true, optional: false, required: false
   public get fromPort() {
-    return this.getNumberAttribute('from_port');
+    return cdktf.TerraformNumberAttribute.construct(this, 'from_port', undefined);
   }
 
   // ipv6_cidr_blocks - computed: true, optional: false, required: false
   public get ipv6CidrBlocks() {
-    return this.getListAttribute('ipv6_cidr_blocks');
+    return cdktf.TerraformStringListAttribute.construct(this, 'ipv6_cidr_blocks', undefined);
   }
 
   // prefix_list_ids - computed: true, optional: false, required: false
   public get prefixListIds() {
-    return this.getListAttribute('prefix_list_ids');
+    return cdktf.TerraformStringListAttribute.construct(this, 'prefix_list_ids', undefined);
   }
 
   // protocol - computed: true, optional: false, required: false
   public get protocol() {
-    return this.getStringAttribute('protocol');
+    return cdktf.TerraformStringAttribute.construct(this, 'protocol', undefined);
   }
 
   // security_groups - computed: true, optional: false, required: false
   public get securityGroups() {
-    return this.getListAttribute('security_groups');
+    return cdktf.TerraformStringSetAttribute.construct(this, 'security_groups', undefined);
   }
 
   // self - computed: true, optional: false, required: false
   public get selfAttribute() {
-    return this.getBooleanAttribute('self');
+    return cdktf.TerraformBooleanAttribute.construct(this, 'self', undefined);
   }
 
   // to_port - computed: true, optional: false, required: false
   public get toPort() {
-    return this.getNumberAttribute('to_port');
+    return cdktf.TerraformNumberAttribute.construct(this, 'to_port', undefined);
   }
 }
+
+export class TerraformComputedComplexEgressSetAttribute extends cdktf.TerraformSetAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
+  public toList(): TerraformComputedComplexEgressListAttribute {
+    return new TerraformComputedComplexEgressListAttribute(this.terraformParent, this.terraformAttribute, undefined, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });
+  }
+}
+
+export class TerraformComputedComplexEgressListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
+  public get(index: number): TerraformComputedComplexEgressAttribute {
+    return new TerraformComputedComplexEgressAttribute(this, index.toString());
+  }
+}
+
 
 // Resource
 
@@ -254,6 +283,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
+    this._egress = new TerraformComputedComplexEgressSetAttribute(this, 'egress', undefined)
   }
 
   // ==========
@@ -261,8 +291,9 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: false, required: false
-  public egress(index: string) {
-    return new ComputedComplexEgress(this, 'egress', index);
+  private _egress: TerraformComputedComplexEgressSetAttribute;
+  public get egress() {
+    return this._egress;
   }
 
   // =========
@@ -288,25 +319,71 @@ import * as cdktf from 'cdktf';
 
 export interface ComputedComplexNestedConfig extends cdktf.TerraformMetaArguments {
 }
-export class ComputedComplexNestedResourcesAutoscalingGroups extends cdktf.ComplexComputedList {
+export class TerraformComputedComplexNestedResourcesAutoscalingGroupsAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
 
   // name - computed: true, optional: false, required: false
   public get name() {
-    return this.getStringAttribute('name');
+    return cdktf.TerraformStringAttribute.construct(this, 'name', undefined);
   }
 }
-export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
+
+export class TerraformComputedComplexNestedResourcesAutoscalingGroupsListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
+  public get(index: number): TerraformComputedComplexNestedResourcesAutoscalingGroupsAttribute {
+    return new TerraformComputedComplexNestedResourcesAutoscalingGroupsAttribute(this, index.toString());
+  }
+}
+
+export class TerraformComputedComplexNestedResourcesAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
 
   // autoscaling_groups - computed: true, optional: false, required: false
   public get autoscalingGroups() {
-    return this.interpolationForAttribute('autoscaling_groups') as any;
+    return new TerraformComputedComplexNestedResourcesAutoscalingGroupsListAttribute(this, 'autoscaling_groups');
   }
 
   // remote_access_security_group_id - computed: true, optional: false, required: false
   public get remoteAccessSecurityGroupId() {
-    return this.getStringAttribute('remote_access_security_group_id');
+    return cdktf.TerraformStringAttribute.construct(this, 'remote_access_security_group_id', undefined);
   }
 }
+
+export class TerraformComputedComplexNestedResourcesListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
+  public get(index: number): TerraformComputedComplexNestedResourcesAttribute {
+    return new TerraformComputedComplexNestedResourcesAttribute(this, index.toString());
+  }
+}
+
 
 // Resource
 
@@ -327,6 +404,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
+    this._resources = new TerraformComputedComplexNestedResourcesListAttribute(this, 'resources', undefined)
   }
 
   // ==========
@@ -334,8 +412,9 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // ==========
 
   // resources - computed: true, optional: false, required: false
-  public resources(index: string) {
-    return new ComputedComplexNestedResources(this, 'resources', index);
+  private _resources: TerraformComputedComplexNestedResourcesListAttribute;
+  public get resources() {
+    return this._resources;
   }
 
   // =========
@@ -361,31 +440,130 @@ import * as cdktf from 'cdktf';
 
 export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaArguments {
   /** inputs block */
-  readonly inputs?: BlockTypeNestedComputedListInputs[];
+  readonly inputs?: TerraformBlockTypeNestedComputedListInputsList;
 }
-export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends cdktf.ComplexComputedList {
+export class TerraformBlockTypeNestedComputedListInputsStartingPositionConfigurationAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
 
   // starting_position - computed: true, optional: false, required: false
   public get startingPosition() {
-    return this.getStringAttribute('starting_position');
+    return cdktf.TerraformStringAttribute.construct(this, 'starting_position', undefined);
   }
 }
+
+export class TerraformBlockTypeNestedComputedListInputsStartingPositionConfigurationListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: any, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+
+  public get(index: number): TerraformBlockTypeNestedComputedListInputsStartingPositionConfigurationAttribute {
+    return new TerraformBlockTypeNestedComputedListInputsStartingPositionConfigurationAttribute(this, index.toString());
+  }
+}
+
 export interface BlockTypeNestedComputedListInputs {
-  readonly namePrefix: string;
+  readonly namePrefix: cdktf.TerraformString;
 }
 
 function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    name_prefix: cdktf.stringToTerraform(struct!.namePrefix),
+    name_prefix: struct!.namePrefix instanceof cdktf.TerraformAttribute ? struct!.namePrefix.toTerraform() : cdktf.stringToTerraform(struct!.namePrefix),
   }
 }
 
-export interface BlockTypeNestedComputedListInputsComputed extends BlockTypeNestedListInputsComputed {
-  readonly id: string;
-  readonly startingPositionConfiguration: BlockTypeNestedComputedListInputsStartingPositionConfiguration;
-  readonly streamNames: string[];
+export class TerraformBlockTypeNestedComputedListInputsAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: BlockTypeNestedComputedListInputs, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): BlockTypeNestedComputedListInputs | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformBlockTypeNestedComputedListInputs | undefined) {
+    if (!(value instanceof TerraformBlockTypeNestedComputedListInputsAttribute)) {
+      return new TerraformBlockTypeNestedComputedListInputsAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformBlockTypeNestedComputedListInputsAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return blockTypeNestedComputedListInputsToTerraform(this.internalValue);
+  }
+
+
+  // id - computed: true, optional: false, required: false
+  public get id() {
+    return cdktf.TerraformStringAttribute.construct(this, 'id', undefined);
+  }
+
+  // name_prefix - computed: false, optional: false, required: true
+  public get namePrefix() {
+    return cdktf.TerraformStringAttribute.construct(this, 'name_prefix', this.internalValue?.namePrefix);
+  }
+
+  // starting_position_configuration - computed: true, optional: false, required: false
+  public get startingPositionConfiguration() {
+    return new TerraformBlockTypeNestedComputedListInputsStartingPositionConfigurationListAttribute(this, 'starting_position_configuration');
+  }
+
+  // stream_names - computed: true, optional: false, required: false
+  public get streamNames() {
+    return cdktf.TerraformStringSetAttribute.construct(this, 'stream_names', undefined);
+  }
 }
+
+export type TerraformBlockTypeNestedComputedListInputs = BlockTypeNestedComputedListInputs | TerraformBlockTypeNestedComputedListInputsAttribute;
+
+export class TerraformBlockTypeNestedComputedListInputsListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: BlockTypeNestedComputedListInputs[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): BlockTypeNestedComputedListInputs[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformBlockTypeNestedComputedListInputsList | undefined) {
+    if (!(value instanceof TerraformBlockTypeNestedComputedListInputsListAttribute)) {
+      return new TerraformBlockTypeNestedComputedListInputsListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformBlockTypeNestedComputedListInputsListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.listMapper(blockTypeNestedComputedListInputsToTerraform)(this.internalValue);
+  }
+
+  public get(index: number): TerraformBlockTypeNestedComputedListInputsAttribute {
+    return new TerraformBlockTypeNestedComputedListInputsAttribute(this, index.toString());
+  }
+}
+
+export type TerraformBlockTypeNestedComputedListInputsList = BlockTypeNestedComputedListInputs[] | TerraformBlockTypeNestedComputedListInputsListAttribute;
+
 
 // Resource
 
@@ -406,7 +584,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._inputs = config.inputs;
+    this.putInputs(config.inputs ?? new TerraformBlockTypeNestedComputedListInputsListAttribute(this, 'inputs', undefined));
   }
 
   // ==========
@@ -414,19 +592,17 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // ==========
 
   // inputs - computed: false, optional: true, required: false
-  private _inputs?: BlockTypeNestedComputedListInputs[];
+  private _inputs!: TerraformBlockTypeNestedComputedListInputsListAttribute;
   public get inputs() {
-    return this.interpolationForAttribute('inputs') as any;
+    return this._inputs;
   }
-  public set inputs(value: BlockTypeNestedComputedListInputs[] ) {
-    this._inputs = value;
-  }
-  public resetInputs() {
-    this._inputs = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get inputsInput() {
-    return this._inputs
+  public putInputs(value: TerraformBlockTypeNestedComputedListInputsList | undefined) {
+    if (value === undefined) {
+      this._inputs.resetInternal();
+    }
+    else {
+      this._inputs = TerraformBlockTypeNestedComputedListInputsListAttribute.construct(this, 'inputs', value);
+    }
   }
 
   // =========
@@ -435,7 +611,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      inputs: cdktf.listMapper(blockTypeNestedComputedListInputsToTerraform)(this._inputs),
+      inputs: this._inputs.toTerraform(),
     };
   }
 }
@@ -452,34 +628,172 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface ComputedOptionalComplexConfig extends cdktf.TerraformMetaArguments {
-  readonly egress?: ComputedOptionalComplexEgress[];
+  readonly egress?: TerraformComputedOptionalComplexEgressSet;
 }
 export interface ComputedOptionalComplexEgress {
-  readonly cidrBlocks?: string[];
-  readonly description?: string;
-  readonly fromPort?: number;
-  readonly ipv6CidrBlocks?: string[];
-  readonly prefixListIds?: string[];
-  readonly protocol?: string;
-  readonly securityGroups?: string[];
-  readonly selfAttribute?: boolean;
-  readonly toPort?: number;
+  readonly cidrBlocks?: cdktf.TerraformStringList;
+  readonly description?: cdktf.TerraformString;
+  readonly fromPort?: cdktf.TerraformNumber;
+  readonly ipv6CidrBlocks?: cdktf.TerraformStringList;
+  readonly prefixListIds?: cdktf.TerraformStringList;
+  readonly protocol?: cdktf.TerraformString;
+  readonly securityGroups?: cdktf.TerraformStringSet;
+  readonly selfAttribute?: cdktf.TerraformBoolean;
+  readonly toPort?: cdktf.TerraformNumber;
 }
 
 function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
-    description: cdktf.stringToTerraform(struct!.description),
-    from_port: cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
-    protocol: cdktf.stringToTerraform(struct!.protocol),
-    security_groups: cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
-    self: cdktf.booleanToTerraform(struct!.selfAttribute),
-    to_port: cdktf.numberToTerraform(struct!.toPort),
+    cidr_blocks: struct!.cidrBlocks instanceof cdktf.TerraformAttribute ? struct!.cidrBlocks.toTerraform() : cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    description: struct!.description instanceof cdktf.TerraformAttribute ? struct!.description.toTerraform() : cdktf.stringToTerraform(struct!.description),
+    from_port: struct!.fromPort instanceof cdktf.TerraformAttribute ? struct!.fromPort.toTerraform() : cdktf.numberToTerraform(struct!.fromPort),
+    ipv6_cidr_blocks: struct!.ipv6CidrBlocks instanceof cdktf.TerraformAttribute ? struct!.ipv6CidrBlocks.toTerraform() : cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: struct!.prefixListIds instanceof cdktf.TerraformAttribute ? struct!.prefixListIds.toTerraform() : cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    protocol: struct!.protocol instanceof cdktf.TerraformAttribute ? struct!.protocol.toTerraform() : cdktf.stringToTerraform(struct!.protocol),
+    security_groups: struct!.securityGroups instanceof cdktf.TerraformAttribute ? struct!.securityGroups.toTerraform() : cdktf.setMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    self: struct!.selfAttribute instanceof cdktf.TerraformAttribute ? struct!.selfAttribute.toTerraform() : cdktf.booleanToTerraform(struct!.selfAttribute),
+    to_port: struct!.toPort instanceof cdktf.TerraformAttribute ? struct!.toPort.toTerraform() : cdktf.numberToTerraform(struct!.toPort),
   }
 }
+
+export class TerraformComputedOptionalComplexEgressAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: ComputedOptionalComplexEgress, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): ComputedOptionalComplexEgress | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformComputedOptionalComplexEgress | undefined) {
+    if (!(value instanceof TerraformComputedOptionalComplexEgressAttribute)) {
+      return new TerraformComputedOptionalComplexEgressAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformComputedOptionalComplexEgressAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return computedOptionalComplexEgressToTerraform(this.internalValue);
+  }
+
+
+  // cidr_blocks - computed: true, optional: true, required: false
+  public get cidrBlocks() {
+    return cdktf.TerraformStringListAttribute.construct(this, 'cidr_blocks', this.internalValue?.cidrBlocks);
+  }
+
+  // description - computed: true, optional: true, required: false
+  public get description() {
+    return cdktf.TerraformStringAttribute.construct(this, 'description', this.internalValue?.description);
+  }
+
+  // from_port - computed: true, optional: true, required: false
+  public get fromPort() {
+    return cdktf.TerraformNumberAttribute.construct(this, 'from_port', this.internalValue?.fromPort);
+  }
+
+  // ipv6_cidr_blocks - computed: true, optional: true, required: false
+  public get ipv6CidrBlocks() {
+    return cdktf.TerraformStringListAttribute.construct(this, 'ipv6_cidr_blocks', this.internalValue?.ipv6CidrBlocks);
+  }
+
+  // prefix_list_ids - computed: true, optional: true, required: false
+  public get prefixListIds() {
+    return cdktf.TerraformStringListAttribute.construct(this, 'prefix_list_ids', this.internalValue?.prefixListIds);
+  }
+
+  // protocol - computed: true, optional: true, required: false
+  public get protocol() {
+    return cdktf.TerraformStringAttribute.construct(this, 'protocol', this.internalValue?.protocol);
+  }
+
+  // security_groups - computed: true, optional: true, required: false
+  public get securityGroups() {
+    return cdktf.TerraformStringSetAttribute.construct(this, 'security_groups', this.internalValue?.securityGroups);
+  }
+
+  // self - computed: true, optional: true, required: false
+  public get selfAttribute() {
+    return cdktf.TerraformBooleanAttribute.construct(this, 'self', this.internalValue?.selfAttribute);
+  }
+
+  // to_port - computed: true, optional: true, required: false
+  public get toPort() {
+    return cdktf.TerraformNumberAttribute.construct(this, 'to_port', this.internalValue?.toPort);
+  }
+}
+
+export type TerraformComputedOptionalComplexEgress = ComputedOptionalComplexEgress | TerraformComputedOptionalComplexEgressAttribute;
+
+export class TerraformComputedOptionalComplexEgressSetAttribute extends cdktf.TerraformSetAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: ComputedOptionalComplexEgress[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): ComputedOptionalComplexEgress[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformComputedOptionalComplexEgressSet | undefined) {
+    if (!(value instanceof TerraformComputedOptionalComplexEgressSetAttribute)) {
+      return new TerraformComputedOptionalComplexEgressSetAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformComputedOptionalComplexEgressSetAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.setMapper(computedOptionalComplexEgressToTerraform)(this.internalValue);
+  }
+
+  public toList(): TerraformComputedOptionalComplexEgressListAttribute {
+    return new TerraformComputedOptionalComplexEgressListAttribute(this.terraformParent, this.terraformAttribute, this.internalValue, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });
+  }
+}
+
+export type TerraformComputedOptionalComplexEgressSet = ComputedOptionalComplexEgress[] | TerraformComputedOptionalComplexEgressSetAttribute;
+
+export class TerraformComputedOptionalComplexEgressListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: ComputedOptionalComplexEgress[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): ComputedOptionalComplexEgress[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformComputedOptionalComplexEgressList | undefined) {
+    if (!(value instanceof TerraformComputedOptionalComplexEgressListAttribute)) {
+      return new TerraformComputedOptionalComplexEgressListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformComputedOptionalComplexEgressListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.listMapper(computedOptionalComplexEgressToTerraform)(this.internalValue);
+  }
+
+  public get(index: number): TerraformComputedOptionalComplexEgressAttribute {
+    return new TerraformComputedOptionalComplexEgressAttribute(this, index.toString());
+  }
+}
+
+export type TerraformComputedOptionalComplexEgressList = ComputedOptionalComplexEgress[] | TerraformComputedOptionalComplexEgressListAttribute;
 
 
 // Resource
@@ -501,7 +815,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._egress = config.egress;
+    this.putEgress(config.egress ?? new TerraformComputedOptionalComplexEgressSetAttribute(this, 'egress', undefined));
   }
 
   // ==========
@@ -509,19 +823,17 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: ComputedOptionalComplexEgress[]
-  public get egress(): ComputedOptionalComplexEgress[] {
-    return this.interpolationForAttribute('egress') as any; // Getting the computed value is not yet implemented
+  private _egress!: TerraformComputedOptionalComplexEgressSetAttribute;
+  public get egress() {
+    return this._egress;
   }
-  public set egress(value: ComputedOptionalComplexEgress[]) {
-    this._egress = value;
-  }
-  public resetEgress() {
-    this._egress = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get egressInput() {
-    return this._egress
+  public putEgress(value: TerraformComputedOptionalComplexEgressSet | undefined) {
+    if (value === undefined) {
+      this._egress.resetInternal();
+    }
+    else {
+      this._egress = TerraformComputedOptionalComplexEgressSetAttribute.construct(this, 'egress', value);
+    }
   }
 
   // =========
@@ -530,7 +842,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      egress: cdktf.listMapper(computedOptionalComplexEgressToTerraform)(this._egress),
+      egress: this._egress.toTerraform(),
     };
   }
 }
@@ -548,32 +860,201 @@ import * as cdktf from 'cdktf';
 
 export interface DeeplyNestedBlockTypesConfig extends cdktf.TerraformMetaArguments {
   /** lifecycle_rule block */
-  readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
+  readonly lifecycleRule?: TerraformDeeplyNestedBlockTypesLifecycleRuleList;
 }
 export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
-  readonly date?: string;
+  readonly date?: cdktf.TerraformString;
 }
 
 function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    date: cdktf.stringToTerraform(struct!.date),
+    date: struct!.date instanceof cdktf.TerraformAttribute ? struct!.date.toTerraform() : cdktf.stringToTerraform(struct!.date),
   }
 }
 
+export class TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: DeeplyNestedBlockTypesLifecycleRuleExpiration, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformDeeplyNestedBlockTypesLifecycleRuleExpiration | undefined) {
+    if (!(value instanceof TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationAttribute)) {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(this.internalValue);
+  }
+
+
+  // date - computed: false, optional: true, required: false
+  public get date() {
+    return cdktf.TerraformStringAttribute.construct(this, 'date', this.internalValue?.date);
+  }
+}
+
+export type TerraformDeeplyNestedBlockTypesLifecycleRuleExpiration = DeeplyNestedBlockTypesLifecycleRuleExpiration | TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationAttribute;
+
+export class TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSetAttribute extends cdktf.TerraformSetAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: DeeplyNestedBlockTypesLifecycleRuleExpiration[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSet | undefined) {
+    if (!(value instanceof TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSetAttribute)) {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSetAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSetAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.setMapper(deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform)(this.internalValue);
+  }
+
+  public toList(): TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationListAttribute {
+    return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationListAttribute(this.terraformParent, this.terraformAttribute, this.internalValue, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });
+  }
+}
+
+export type TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSet = DeeplyNestedBlockTypesLifecycleRuleExpiration[] | TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSetAttribute;
+
+export class TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: DeeplyNestedBlockTypesLifecycleRuleExpiration[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationList | undefined) {
+    if (!(value instanceof TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationListAttribute)) {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform)(this.internalValue);
+  }
+
+  public get(index: number): TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationAttribute {
+    return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationAttribute(this, index.toString());
+  }
+}
+
+export type TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationList = DeeplyNestedBlockTypesLifecycleRuleExpiration[] | TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationListAttribute;
+
 export interface DeeplyNestedBlockTypesLifecycleRule {
-  readonly abortIncompleteMultipartUploadDays?: number;
+  readonly abortIncompleteMultipartUploadDays?: cdktf.TerraformNumber;
   /** expiration block */
-  readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration[];
+  readonly expiration?: TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSet;
 }
 
 function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
-    expiration: cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform)(struct!.expiration),
+    abort_incomplete_multipart_upload_days: struct!.abortIncompleteMultipartUploadDays instanceof cdktf.TerraformAttribute ? struct!.abortIncompleteMultipartUploadDays.toTerraform() : cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
+    expiration: struct!.expiration instanceof cdktf.TerraformAttribute ? struct!.expiration.toTerraform() : cdktf.setMapper(deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform)(struct!.expiration),
   }
 }
+
+export class TerraformDeeplyNestedBlockTypesLifecycleRuleAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: DeeplyNestedBlockTypesLifecycleRule, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): DeeplyNestedBlockTypesLifecycleRule | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformDeeplyNestedBlockTypesLifecycleRule | undefined) {
+    if (!(value instanceof TerraformDeeplyNestedBlockTypesLifecycleRuleAttribute)) {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return deeplyNestedBlockTypesLifecycleRuleToTerraform(this.internalValue);
+  }
+
+
+  // abort_incomplete_multipart_upload_days - computed: false, optional: true, required: false
+  public get abortIncompleteMultipartUploadDays() {
+    return cdktf.TerraformNumberAttribute.construct(this, 'abort_incomplete_multipart_upload_days', this.internalValue?.abortIncompleteMultipartUploadDays);
+  }
+
+  // expiration - computed: false, optional: true, required: false
+  public get expiration() {
+    return new TerraformDeeplyNestedBlockTypesLifecycleRuleExpirationSetAttribute(this, 'expiration');
+  }
+}
+
+export type TerraformDeeplyNestedBlockTypesLifecycleRule = DeeplyNestedBlockTypesLifecycleRule | TerraformDeeplyNestedBlockTypesLifecycleRuleAttribute;
+
+export class TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: DeeplyNestedBlockTypesLifecycleRule[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): DeeplyNestedBlockTypesLifecycleRule[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformDeeplyNestedBlockTypesLifecycleRuleList | undefined) {
+    if (!(value instanceof TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute)) {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleToTerraform)(this.internalValue);
+  }
+
+  public get(index: number): TerraformDeeplyNestedBlockTypesLifecycleRuleAttribute {
+    return new TerraformDeeplyNestedBlockTypesLifecycleRuleAttribute(this, index.toString());
+  }
+}
+
+export type TerraformDeeplyNestedBlockTypesLifecycleRuleList = DeeplyNestedBlockTypesLifecycleRule[] | TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute;
 
 
 // Resource
@@ -595,7 +1076,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._lifecycleRule = config.lifecycleRule;
+    this.putLifecycleRule(config.lifecycleRule ?? new TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute(this, 'lifecycle_rule', undefined));
   }
 
   // ==========
@@ -603,19 +1084,17 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // ==========
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
+  private _lifecycleRule!: TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute;
   public get lifecycleRule() {
-    return this.interpolationForAttribute('lifecycle_rule') as any;
+    return this._lifecycleRule;
   }
-  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] ) {
-    this._lifecycleRule = value;
-  }
-  public resetLifecycleRule() {
-    this._lifecycleRule = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get lifecycleRuleInput() {
-    return this._lifecycleRule
+  public putLifecycleRule(value: TerraformDeeplyNestedBlockTypesLifecycleRuleList | undefined) {
+    if (value === undefined) {
+      this._lifecycleRule.resetInternal();
+    }
+    else {
+      this._lifecycleRule = TerraformDeeplyNestedBlockTypesLifecycleRuleListAttribute.construct(this, 'lifecycle_rule', value);
+    }
   }
 
   // =========
@@ -624,7 +1103,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      lifecycle_rule: cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleToTerraform)(this._lifecycleRule),
+      lifecycle_rule: this._lifecycleRule.toTerraform(),
     };
   }
 }
@@ -662,6 +1141,8 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
+    this._id = new cdktf.TerraformStringAttribute(this, 'id', undefined)
+    this._arn = new cdktf.TerraformStringAttribute(this, 'arn', undefined)
   }
 
   // ==========
@@ -669,13 +1150,15 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
   // ==========
 
   // id - computed: true, optional: true, required: false
+  private _id: cdktf.TerraformStringAttribute;
   public get id() {
-    return this.getStringAttribute('id');
+    return this._id;
   }
 
   // arn - computed: true, optional: false, required: false
+  private _arn: cdktf.TerraformStringAttribute;
   public get arn() {
-    return this.getStringAttribute('arn');
+    return this._arn;
   }
 
   // =========
@@ -700,9 +1183,9 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface IncompatibleAttributeNamesConfig extends cdktf.TerraformMetaArguments {
-  readonly fetchPasswordData?: string;
-  readonly selfAttribute: string;
-  readonly equalTo: string;
+  readonly fetchPasswordData?: cdktf.TerraformString;
+  readonly selfAttribute: cdktf.TerraformString;
+  readonly equalTo: cdktf.TerraformString;
 }
 
 // Resource
@@ -724,9 +1207,9 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._getPasswordData = config.fetchPasswordData;
-    this._self = config.selfAttribute;
-    this._equals = config.equalTo;
+    this.putFetchPasswordData(config.fetchPasswordData ?? new cdktf.TerraformStringAttribute(this, 'get_password_data', undefined));
+    this.putSelfAttribute(config.selfAttribute);
+    this.putEqualTo(config.equalTo);
   }
 
   // ==========
@@ -734,45 +1217,35 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // ==========
 
   // get_password_data - computed: false, optional: true, required: false
-  private _getPasswordData?: string;
+  private _getPasswordData!: cdktf.TerraformStringAttribute;
   public get fetchPasswordData() {
-    return this.getStringAttribute('get_password_data');
+    return this._getPasswordData;
   }
-  public set fetchPasswordData(value: string ) {
-    this._getPasswordData = value;
-  }
-  public resetFetchPasswordData() {
-    this._getPasswordData = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fetchPasswordDataInput() {
-    return this._getPasswordData
+  public putFetchPasswordData(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._getPasswordData.resetInternal();
+    }
+    else {
+      this._getPasswordData = cdktf.TerraformStringAttribute.construct(this, 'get_password_data', value);
+    }
   }
 
   // self - computed: false, optional: false, required: true
-  private _self: string;
+  private _self!: cdktf.TerraformStringAttribute;
   public get selfAttribute() {
-    return this.getStringAttribute('self');
+    return this._self;
   }
-  public set selfAttribute(value: string) {
-    this._self = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get selfAttributeInput() {
-    return this._self
+  public putSelfAttribute(value: cdktf.TerraformString) {
+    this._self = cdktf.TerraformStringAttribute.construct(this, 'self', value);
   }
 
   // equals - computed: false, optional: false, required: true
-  private _equals: string;
+  private _equals!: cdktf.TerraformStringAttribute;
   public get equalTo() {
-    return this.getStringAttribute('equals');
+    return this._equals;
   }
-  public set equalTo(value: string) {
-    this._equals = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get equalToInput() {
-    return this._equals
+  public putEqualTo(value: cdktf.TerraformString) {
+    this._equals = cdktf.TerraformStringAttribute.construct(this, 'equals', value);
   }
 
   // =========
@@ -781,9 +1254,9 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      get_password_data: cdktf.stringToTerraform(this._getPasswordData),
-      self: cdktf.stringToTerraform(this._self),
-      equals: cdktf.stringToTerraform(this._equals),
+      get_password_data: this._getPasswordData.toTerraform(),
+      self: this._self.toTerraform(),
+      equals: this._equals.toTerraform(),
     };
   }
 }
@@ -821,6 +1294,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
+    this._keys = new cdktf.TerraformStringListAttribute(this, 'keys', undefined)
   }
 
   // ==========
@@ -828,8 +1302,9 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // ==========
 
   // keys - computed: true, optional: false, required: false
-  public keys(index: string, key: string): string {
-    return new cdktf.StringMap(this, \`keys.\${index}\`).lookup(key);
+  private _keys: cdktf.TerraformStringListAttribute;
+  public get keys() {
+    return this._keys;
   }
 
   // =========
@@ -854,8 +1329,8 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface NumberListConfig extends cdktf.TerraformMetaArguments {
-  readonly fooRequired: number[];
-  readonly fooOptional?: number[];
+  readonly fooRequired: cdktf.TerraformNumberList;
+  readonly fooOptional?: cdktf.TerraformNumberList;
 }
 
 // Resource
@@ -877,8 +1352,8 @@ export class NumberList extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooRequired = config.fooRequired;
-    this._fooOptional = config.fooOptional;
+    this.putFooRequired(config.fooRequired);
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformNumberListAttribute(this, 'foo_optional', undefined));
   }
 
   // ==========
@@ -886,32 +1361,26 @@ export class NumberList extends cdktf.TerraformResource {
   // ==========
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired: number[];
+  private _fooRequired!: cdktf.TerraformNumberListAttribute;
   public get fooRequired() {
-    return this.interpolationForAttribute('foo_required') as any;
+    return this._fooRequired;
   }
-  public set fooRequired(value: number[]) {
-    this._fooRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooRequiredInput() {
-    return this._fooRequired
+  public putFooRequired(value: cdktf.TerraformNumberList) {
+    this._fooRequired = cdktf.TerraformNumberListAttribute.construct(this, 'foo_required', value);
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: number[];
+  private _fooOptional!: cdktf.TerraformNumberListAttribute;
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this._fooOptional;
   }
-  public set fooOptional(value: number[] ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformNumberList | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformNumberListAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // =========
@@ -920,8 +1389,8 @@ export class NumberList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: cdktf.listMapper(cdktf.numberToTerraform)(this._fooRequired),
-      foo_optional: cdktf.listMapper(cdktf.numberToTerraform)(this._fooOptional),
+      foo_required: this._fooRequired.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
     };
   }
 }
@@ -938,8 +1407,8 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface NumberMapConfig extends cdktf.TerraformMetaArguments {
-  readonly fooComputedOptional?: { [key: string]: number };
-  readonly fooOptional?: { [key: string]: number };
+  readonly fooComputedOptional?: cdktf.TerraformNumberMap;
+  readonly fooOptional?: cdktf.TerraformNumberMap;
 }
 
 // Resource
@@ -961,8 +1430,9 @@ export class NumberMap extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooComputedOptional = config.fooComputedOptional;
-    this._fooOptional = config.fooOptional;
+    this._fooComputed = new cdktf.TerraformNumberMapAttribute(this, 'foo_computed', undefined)
+    this.putFooComputedOptional(config.fooComputedOptional ?? new cdktf.TerraformNumberMapAttribute(this, 'foo_computed_optional', undefined));
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformNumberMapAttribute(this, 'foo_optional', undefined));
   }
 
   // ==========
@@ -970,40 +1440,37 @@ export class NumberMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): number {
-    return new cdktf.NumberMap(this, 'foo_computed').lookup(key);
+  private _fooComputed: cdktf.TerraformNumberMapAttribute;
+  public get fooComputed() {
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: number }
-  public get fooComputedOptional(): { [key: string]: number } {
-    return this.interpolationForAttribute('foo_computed_optional') as any; // Getting the computed value is not yet implemented
+  private _fooComputedOptional!: cdktf.TerraformNumberMapAttribute;
+  public get fooComputedOptional() {
+    return this._fooComputedOptional;
   }
-  public set fooComputedOptional(value: { [key: string]: number }) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+  public putFooComputedOptional(value: cdktf.TerraformNumberMap | undefined) {
+    if (value === undefined) {
+      this._fooComputedOptional.resetInternal();
+    }
+    else {
+      this._fooComputedOptional = cdktf.TerraformNumberMapAttribute.construct(this, 'foo_computed_optional', value);
+    }
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: number };
+  private _fooOptional!: cdktf.TerraformNumberMapAttribute;
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this._fooOptional;
   }
-  public set fooOptional(value: { [key: string]: number } ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformNumberMap | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformNumberMapAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // =========
@@ -1012,8 +1479,8 @@ export class NumberMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
-      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
+      foo_computed_optional: this._fooComputedOptional.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
     };
   }
 }
@@ -1030,9 +1497,9 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveBooleanConfig extends cdktf.TerraformMetaArguments {
-  readonly fooComputedOptional?: boolean;
-  readonly fooOptional?: boolean;
-  readonly fooRequired: boolean;
+  readonly fooComputedOptional?: cdktf.TerraformBoolean;
+  readonly fooOptional?: cdktf.TerraformBoolean;
+  readonly fooRequired: cdktf.TerraformBoolean;
 }
 
 // Resource
@@ -1054,9 +1521,10 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooComputedOptional = config.fooComputedOptional;
-    this._fooOptional = config.fooOptional;
-    this._fooRequired = config.fooRequired;
+    this._fooComputed = new cdktf.TerraformBooleanAttribute(this, 'foo_computed', undefined)
+    this.putFooComputedOptional(config.fooComputedOptional ?? new cdktf.TerraformBooleanAttribute(this, 'foo_computed_optional', undefined));
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformBooleanAttribute(this, 'foo_optional', undefined));
+    this.putFooRequired(config.fooRequired);
   }
 
   // ==========
@@ -1064,53 +1532,46 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
+  private _fooComputed: cdktf.TerraformBooleanAttribute;
   public get fooComputed() {
-    return this.getBooleanAttribute('foo_computed');
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: boolean;
+  private _fooComputedOptional!: cdktf.TerraformBooleanAttribute;
   public get fooComputedOptional() {
-    return this.getBooleanAttribute('foo_computed_optional');
+    return this._fooComputedOptional;
   }
-  public set fooComputedOptional(value: boolean) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+  public putFooComputedOptional(value: cdktf.TerraformBoolean | undefined) {
+    if (value === undefined) {
+      this._fooComputedOptional.resetInternal();
+    }
+    else {
+      this._fooComputedOptional = cdktf.TerraformBooleanAttribute.construct(this, 'foo_computed_optional', value);
+    }
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean;
+  private _fooOptional!: cdktf.TerraformBooleanAttribute;
   public get fooOptional() {
-    return this.getBooleanAttribute('foo_optional');
+    return this._fooOptional;
   }
-  public set fooOptional(value: boolean ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformBoolean | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformBooleanAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired: boolean;
+  private _fooRequired!: cdktf.TerraformBooleanAttribute;
   public get fooRequired() {
-    return this.getBooleanAttribute('foo_required');
+    return this._fooRequired;
   }
-  public set fooRequired(value: boolean) {
-    this._fooRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooRequiredInput() {
-    return this._fooRequired
+  public putFooRequired(value: cdktf.TerraformBoolean) {
+    this._fooRequired = cdktf.TerraformBooleanAttribute.construct(this, 'foo_required', value);
   }
 
   // =========
@@ -1119,9 +1580,9 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.booleanToTerraform(this._fooComputedOptional),
-      foo_optional: cdktf.booleanToTerraform(this._fooOptional),
-      foo_required: cdktf.booleanToTerraform(this._fooRequired),
+      foo_computed_optional: this._fooComputedOptional.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
+      foo_required: this._fooRequired.toTerraform(),
     };
   }
 }
@@ -1138,9 +1599,9 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveDynamicConfig extends cdktf.TerraformMetaArguments {
-  readonly fooComputedOptional?: { [key: string]: any };
-  readonly fooOptional?: { [key: string]: any };
-  readonly fooRequired: { [key: string]: any };
+  readonly fooComputedOptional?: cdktf.TerraformDynamic;
+  readonly fooOptional?: cdktf.TerraformDynamic;
+  readonly fooRequired: cdktf.TerraformDynamic;
 }
 
 // Resource
@@ -1162,9 +1623,10 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooComputedOptional = config.fooComputedOptional;
-    this._fooOptional = config.fooOptional;
-    this._fooRequired = config.fooRequired;
+    this._fooComputed = new cdktf.TerraformDynamicAttribute(this, 'foo_computed', undefined)
+    this.putFooComputedOptional(config.fooComputedOptional ?? new cdktf.TerraformDynamicAttribute(this, 'foo_computed_optional', undefined));
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformDynamicAttribute(this, 'foo_optional', undefined));
+    this.putFooRequired(config.fooRequired);
   }
 
   // ==========
@@ -1172,53 +1634,46 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): any {
-    return new { [key: string]: any }(this, 'foo_computed').lookup(key);
+  private _fooComputed: cdktf.TerraformDynamicAttribute;
+  public get fooComputed() {
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: any }
-  public get fooComputedOptional(): { [key: string]: any } {
-    return this.interpolationForAttribute('foo_computed_optional') as any; // Getting the computed value is not yet implemented
+  private _fooComputedOptional!: cdktf.TerraformDynamicAttribute;
+  public get fooComputedOptional() {
+    return this._fooComputedOptional;
   }
-  public set fooComputedOptional(value: { [key: string]: any }) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+  public putFooComputedOptional(value: cdktf.TerraformDynamic | undefined) {
+    if (value === undefined) {
+      this._fooComputedOptional.resetInternal();
+    }
+    else {
+      this._fooComputedOptional = cdktf.TerraformDynamicAttribute.construct(this, 'foo_computed_optional', value);
+    }
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: any };
+  private _fooOptional!: cdktf.TerraformDynamicAttribute;
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this._fooOptional;
   }
-  public set fooOptional(value: { [key: string]: any } ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformDynamic | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformDynamicAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired: { [key: string]: any };
+  private _fooRequired!: cdktf.TerraformDynamicAttribute;
   public get fooRequired() {
-    return this.interpolationForAttribute('foo_required') as any;
+    return this._fooRequired;
   }
-  public set fooRequired(value: { [key: string]: any }) {
-    this._fooRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooRequiredInput() {
-    return this._fooRequired
+  public putFooRequired(value: cdktf.TerraformDynamic) {
+    this._fooRequired = cdktf.TerraformDynamicAttribute.construct(this, 'foo_required', value);
   }
 
   // =========
@@ -1227,9 +1682,9 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
-      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
-      foo_required: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooRequired),
+      foo_computed_optional: this._fooComputedOptional.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
+      foo_required: this._fooRequired.toTerraform(),
     };
   }
 }
@@ -1246,9 +1701,9 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveNumberConfig extends cdktf.TerraformMetaArguments {
-  readonly fooComputedOptional?: number;
-  readonly fooOptional?: number;
-  readonly fooRequired: number;
+  readonly fooComputedOptional?: cdktf.TerraformNumber;
+  readonly fooOptional?: cdktf.TerraformNumber;
+  readonly fooRequired: cdktf.TerraformNumber;
 }
 
 // Resource
@@ -1270,9 +1725,10 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooComputedOptional = config.fooComputedOptional;
-    this._fooOptional = config.fooOptional;
-    this._fooRequired = config.fooRequired;
+    this._fooComputed = new cdktf.TerraformNumberAttribute(this, 'foo_computed', undefined)
+    this.putFooComputedOptional(config.fooComputedOptional ?? new cdktf.TerraformNumberAttribute(this, 'foo_computed_optional', undefined));
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformNumberAttribute(this, 'foo_optional', undefined));
+    this.putFooRequired(config.fooRequired);
   }
 
   // ==========
@@ -1280,53 +1736,46 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
+  private _fooComputed: cdktf.TerraformNumberAttribute;
   public get fooComputed() {
-    return this.getNumberAttribute('foo_computed');
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: number;
+  private _fooComputedOptional!: cdktf.TerraformNumberAttribute;
   public get fooComputedOptional() {
-    return this.getNumberAttribute('foo_computed_optional');
+    return this._fooComputedOptional;
   }
-  public set fooComputedOptional(value: number) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+  public putFooComputedOptional(value: cdktf.TerraformNumber | undefined) {
+    if (value === undefined) {
+      this._fooComputedOptional.resetInternal();
+    }
+    else {
+      this._fooComputedOptional = cdktf.TerraformNumberAttribute.construct(this, 'foo_computed_optional', value);
+    }
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: number;
+  private _fooOptional!: cdktf.TerraformNumberAttribute;
   public get fooOptional() {
-    return this.getNumberAttribute('foo_optional');
+    return this._fooOptional;
   }
-  public set fooOptional(value: number ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformNumber | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformNumberAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired: number;
+  private _fooRequired!: cdktf.TerraformNumberAttribute;
   public get fooRequired() {
-    return this.getNumberAttribute('foo_required');
+    return this._fooRequired;
   }
-  public set fooRequired(value: number) {
-    this._fooRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooRequiredInput() {
-    return this._fooRequired
+  public putFooRequired(value: cdktf.TerraformNumber) {
+    this._fooRequired = cdktf.TerraformNumberAttribute.construct(this, 'foo_required', value);
   }
 
   // =========
@@ -1335,9 +1784,9 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.numberToTerraform(this._fooComputedOptional),
-      foo_optional: cdktf.numberToTerraform(this._fooOptional),
-      foo_required: cdktf.numberToTerraform(this._fooRequired),
+      foo_computed_optional: this._fooComputedOptional.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
+      foo_required: this._fooRequired.toTerraform(),
     };
   }
 }
@@ -1354,9 +1803,9 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface PrimitiveStringConfig extends cdktf.TerraformMetaArguments {
-  readonly fooComputedOptional?: string;
-  readonly fooOptional?: string;
-  readonly fooRequired: string;
+  readonly fooComputedOptional?: cdktf.TerraformString;
+  readonly fooOptional?: cdktf.TerraformString;
+  readonly fooRequired: cdktf.TerraformString;
 }
 
 // Resource
@@ -1378,9 +1827,10 @@ export class PrimitiveString extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._fooComputedOptional = config.fooComputedOptional;
-    this._fooOptional = config.fooOptional;
-    this._fooRequired = config.fooRequired;
+    this._fooComputed = new cdktf.TerraformStringAttribute(this, 'foo_computed', undefined)
+    this.putFooComputedOptional(config.fooComputedOptional ?? new cdktf.TerraformStringAttribute(this, 'foo_computed_optional', undefined));
+    this.putFooOptional(config.fooOptional ?? new cdktf.TerraformStringAttribute(this, 'foo_optional', undefined));
+    this.putFooRequired(config.fooRequired);
   }
 
   // ==========
@@ -1388,53 +1838,46 @@ export class PrimitiveString extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
+  private _fooComputed: cdktf.TerraformStringAttribute;
   public get fooComputed() {
-    return this.getStringAttribute('foo_computed');
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: string;
+  private _fooComputedOptional!: cdktf.TerraformStringAttribute;
   public get fooComputedOptional() {
-    return this.getStringAttribute('foo_computed_optional');
+    return this._fooComputedOptional;
   }
-  public set fooComputedOptional(value: string) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+  public putFooComputedOptional(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._fooComputedOptional.resetInternal();
+    }
+    else {
+      this._fooComputedOptional = cdktf.TerraformStringAttribute.construct(this, 'foo_computed_optional', value);
+    }
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: string;
+  private _fooOptional!: cdktf.TerraformStringAttribute;
   public get fooOptional() {
-    return this.getStringAttribute('foo_optional');
+    return this._fooOptional;
   }
-  public set fooOptional(value: string ) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooOptionalInput() {
-    return this._fooOptional
+  public putFooOptional(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._fooOptional.resetInternal();
+    }
+    else {
+      this._fooOptional = cdktf.TerraformStringAttribute.construct(this, 'foo_optional', value);
+    }
   }
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired: string;
+  private _fooRequired!: cdktf.TerraformStringAttribute;
   public get fooRequired() {
-    return this.getStringAttribute('foo_required');
+    return this._fooRequired;
   }
-  public set fooRequired(value: string) {
-    this._fooRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fooRequiredInput() {
-    return this._fooRequired
+  public putFooRequired(value: cdktf.TerraformString) {
+    this._fooRequired = cdktf.TerraformStringAttribute.construct(this, 'foo_required', value);
   }
 
   // =========
@@ -1443,9 +1886,9 @@ export class PrimitiveString extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.stringToTerraform(this._fooComputedOptional),
-      foo_optional: cdktf.stringToTerraform(this._fooOptional),
-      foo_required: cdktf.stringToTerraform(this._fooRequired),
+      foo_computed_optional: this._fooComputedOptional.toTerraform(),
+      foo_optional: this._fooOptional.toTerraform(),
+      foo_required: this._fooRequired.toTerraform(),
     };
   }
 }
@@ -1462,10 +1905,10 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface NameConflictConfig extends cdktf.TerraformMetaArguments {
-  readonly values?: string;
-  readonly resetValues?: string;
-  readonly template?: string;
-  readonly templateInput?: string;
+  readonly values?: cdktf.TerraformString;
+  readonly resetValues?: cdktf.TerraformString;
+  readonly template?: cdktf.TerraformString;
+  readonly templateInput?: cdktf.TerraformString;
 }
 
 // Resource
@@ -1487,10 +1930,10 @@ export class NameConflict extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._values = config.values;
-    this._resetValues = config.resetValues;
-    this._template = config.template;
-    this._templateInput = config.templateInput;
+    this.putValues(config.values ?? new cdktf.TerraformStringAttribute(this, 'values', undefined));
+    this.putResetValues(config.resetValues ?? new cdktf.TerraformStringAttribute(this, 'reset_values', undefined));
+    this.putTemplate(config.template ?? new cdktf.TerraformStringAttribute(this, 'template', undefined));
+    this.putTemplateInput(config.templateInput ?? new cdktf.TerraformStringAttribute(this, 'template_input', undefined));
   }
 
   // ==========
@@ -1498,67 +1941,59 @@ export class NameConflict extends cdktf.TerraformResource {
   // ==========
 
   // values - computed: false, optional: true, required: false
-  private _values?: string;
+  private _values!: cdktf.TerraformStringAttribute;
   public get values() {
-    return this.getStringAttribute('values');
+    return this._values;
   }
-  public set values(value: string ) {
-    this._values = value;
-  }
-  public resetTfValues() {
-    this._values = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get valuesInput() {
-    return this._values
+  public putValues(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._values.resetInternal();
+    }
+    else {
+      this._values = cdktf.TerraformStringAttribute.construct(this, 'values', value);
+    }
   }
 
   // reset_values - computed: false, optional: true, required: false
-  private _resetValues?: string;
+  private _resetValues!: cdktf.TerraformStringAttribute;
   public get resetValues() {
-    return this.getStringAttribute('reset_values');
+    return this._resetValues;
   }
-  public set resetValues(value: string ) {
-    this._resetValues = value;
-  }
-  public resetResetValues() {
-    this._resetValues = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get resetValuesInput() {
-    return this._resetValues
+  public putResetValues(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._resetValues.resetInternal();
+    }
+    else {
+      this._resetValues = cdktf.TerraformStringAttribute.construct(this, 'reset_values', value);
+    }
   }
 
   // template - computed: false, optional: true, required: false
-  private _template?: string;
+  private _template!: cdktf.TerraformStringAttribute;
   public get template() {
-    return this.getStringAttribute('template');
+    return this._template;
   }
-  public set template(value: string ) {
-    this._template = value;
-  }
-  public resetTemplate() {
-    this._template = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get templateTfInput() {
-    return this._template
+  public putTemplate(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._template.resetInternal();
+    }
+    else {
+      this._template = cdktf.TerraformStringAttribute.construct(this, 'template', value);
+    }
   }
 
   // template_input - computed: false, optional: true, required: false
-  private _templateInput?: string;
+  private _templateInput!: cdktf.TerraformStringAttribute;
   public get templateInput() {
-    return this.getStringAttribute('template_input');
+    return this._templateInput;
   }
-  public set templateInput(value: string ) {
-    this._templateInput = value;
-  }
-  public resetTemplateInput() {
-    this._templateInput = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get templateInputInput() {
-    return this._templateInput
+  public putTemplateInput(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._templateInput.resetInternal();
+    }
+    else {
+      this._templateInput = cdktf.TerraformStringAttribute.construct(this, 'template_input', value);
+    }
   }
 
   // =========
@@ -1567,10 +2002,10 @@ export class NameConflict extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      values: cdktf.stringToTerraform(this._values),
-      reset_values: cdktf.stringToTerraform(this._resetValues),
-      template: cdktf.stringToTerraform(this._template),
-      template_input: cdktf.stringToTerraform(this._templateInput),
+      values: this._values.toTerraform(),
+      reset_values: this._resetValues.toTerraform(),
+      template: this._template.toTerraform(),
+      template_input: this._templateInput.toTerraform(),
     };
   }
 }
@@ -1588,31 +2023,195 @@ import * as cdktf from 'cdktf';
 
 export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
   /** timeouts_set block */
-  readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
+  readonly timeoutsSet?: TerraformBlockTypeSetListTimeoutsSetSet;
   /** timeouts_list block */
-  readonly timeoutsList?: BlockTypeSetListTimeoutsList[];
+  readonly timeoutsList?: TerraformBlockTypeSetListTimeoutsListList;
 }
 export interface BlockTypeSetListTimeoutsSet {
-  readonly create?: string;
+  readonly create?: cdktf.TerraformString;
 }
 
 function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    create: cdktf.stringToTerraform(struct!.create),
+    create: struct!.create instanceof cdktf.TerraformAttribute ? struct!.create.toTerraform() : cdktf.stringToTerraform(struct!.create),
   }
 }
 
+export class TerraformBlockTypeSetListTimeoutsSetAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: BlockTypeSetListTimeoutsSet, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): BlockTypeSetListTimeoutsSet | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformBlockTypeSetListTimeoutsSet | undefined) {
+    if (!(value instanceof TerraformBlockTypeSetListTimeoutsSetAttribute)) {
+      return new TerraformBlockTypeSetListTimeoutsSetAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformBlockTypeSetListTimeoutsSetAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return blockTypeSetListTimeoutsSetToTerraform(this.internalValue);
+  }
+
+
+  // create - computed: false, optional: true, required: false
+  public get create() {
+    return cdktf.TerraformStringAttribute.construct(this, 'create', this.internalValue?.create);
+  }
+}
+
+export type TerraformBlockTypeSetListTimeoutsSet = BlockTypeSetListTimeoutsSet | TerraformBlockTypeSetListTimeoutsSetAttribute;
+
+export class TerraformBlockTypeSetListTimeoutsSetSetAttribute extends cdktf.TerraformSetAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: BlockTypeSetListTimeoutsSet[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): BlockTypeSetListTimeoutsSet[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformBlockTypeSetListTimeoutsSetSet | undefined) {
+    if (!(value instanceof TerraformBlockTypeSetListTimeoutsSetSetAttribute)) {
+      return new TerraformBlockTypeSetListTimeoutsSetSetAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformBlockTypeSetListTimeoutsSetSetAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.setMapper(blockTypeSetListTimeoutsSetToTerraform)(this.internalValue);
+  }
+
+  public toList(): TerraformBlockTypeSetListTimeoutsSetListAttribute {
+    return new TerraformBlockTypeSetListTimeoutsSetListAttribute(this.terraformParent, this.terraformAttribute, this.internalValue, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });
+  }
+}
+
+export type TerraformBlockTypeSetListTimeoutsSetSet = BlockTypeSetListTimeoutsSet[] | TerraformBlockTypeSetListTimeoutsSetSetAttribute;
+
+export class TerraformBlockTypeSetListTimeoutsSetListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: BlockTypeSetListTimeoutsSet[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): BlockTypeSetListTimeoutsSet[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformBlockTypeSetListTimeoutsSetList | undefined) {
+    if (!(value instanceof TerraformBlockTypeSetListTimeoutsSetListAttribute)) {
+      return new TerraformBlockTypeSetListTimeoutsSetListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformBlockTypeSetListTimeoutsSetListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.listMapper(blockTypeSetListTimeoutsSetToTerraform)(this.internalValue);
+  }
+
+  public get(index: number): TerraformBlockTypeSetListTimeoutsSetAttribute {
+    return new TerraformBlockTypeSetListTimeoutsSetAttribute(this, index.toString());
+  }
+}
+
+export type TerraformBlockTypeSetListTimeoutsSetList = BlockTypeSetListTimeoutsSet[] | TerraformBlockTypeSetListTimeoutsSetListAttribute;
+
 export interface BlockTypeSetListTimeoutsList {
-  readonly create?: string;
+  readonly create?: cdktf.TerraformString;
 }
 
 function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    create: cdktf.stringToTerraform(struct!.create),
+    create: struct!.create instanceof cdktf.TerraformAttribute ? struct!.create.toTerraform() : cdktf.stringToTerraform(struct!.create),
   }
 }
+
+export class TerraformBlockTypeSetListTimeoutsListAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: BlockTypeSetListTimeoutsList, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): BlockTypeSetListTimeoutsList | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformBlockTypeSetListTimeoutsList | undefined) {
+    if (!(value instanceof TerraformBlockTypeSetListTimeoutsListAttribute)) {
+      return new TerraformBlockTypeSetListTimeoutsListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformBlockTypeSetListTimeoutsListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return blockTypeSetListTimeoutsListToTerraform(this.internalValue);
+  }
+
+
+  // create - computed: false, optional: true, required: false
+  public get create() {
+    return cdktf.TerraformStringAttribute.construct(this, 'create', this.internalValue?.create);
+  }
+}
+
+export type TerraformBlockTypeSetListTimeoutsList = BlockTypeSetListTimeoutsList | TerraformBlockTypeSetListTimeoutsListAttribute;
+
+export class TerraformBlockTypeSetListTimeoutsListListAttribute extends cdktf.TerraformListAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: BlockTypeSetListTimeoutsList[], options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): BlockTypeSetListTimeoutsList[] | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformBlockTypeSetListTimeoutsListList | undefined) {
+    if (!(value instanceof TerraformBlockTypeSetListTimeoutsListListAttribute)) {
+      return new TerraformBlockTypeSetListTimeoutsListListAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformBlockTypeSetListTimeoutsListListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return cdktf.listMapper(blockTypeSetListTimeoutsListToTerraform)(this.internalValue);
+  }
+
+  public get(index: number): TerraformBlockTypeSetListTimeoutsListAttribute {
+    return new TerraformBlockTypeSetListTimeoutsListAttribute(this, index.toString());
+  }
+}
+
+export type TerraformBlockTypeSetListTimeoutsListList = BlockTypeSetListTimeoutsList[] | TerraformBlockTypeSetListTimeoutsListListAttribute;
 
 
 // Resource
@@ -1634,8 +2233,8 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._timeoutsSet = config.timeoutsSet;
-    this._timeoutsList = config.timeoutsList;
+    this.putTimeoutsSet(config.timeoutsSet ?? new TerraformBlockTypeSetListTimeoutsSetSetAttribute(this, 'timeouts_set', undefined));
+    this.putTimeoutsList(config.timeoutsList ?? new TerraformBlockTypeSetListTimeoutsListListAttribute(this, 'timeouts_list', undefined));
   }
 
   // ==========
@@ -1643,35 +2242,31 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // ==========
 
   // timeouts_set - computed: false, optional: true, required: false
-  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[];
+  private _timeoutsSet!: TerraformBlockTypeSetListTimeoutsSetSetAttribute;
   public get timeoutsSet() {
-    return this.interpolationForAttribute('timeouts_set') as any;
+    return this._timeoutsSet;
   }
-  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] ) {
-    this._timeoutsSet = value;
-  }
-  public resetTimeoutsSet() {
-    this._timeoutsSet = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get timeoutsSetInput() {
-    return this._timeoutsSet
+  public putTimeoutsSet(value: TerraformBlockTypeSetListTimeoutsSetSet | undefined) {
+    if (value === undefined) {
+      this._timeoutsSet.resetInternal();
+    }
+    else {
+      this._timeoutsSet = TerraformBlockTypeSetListTimeoutsSetSetAttribute.construct(this, 'timeouts_set', value);
+    }
   }
 
   // timeouts_list - computed: false, optional: true, required: false
-  private _timeoutsList?: BlockTypeSetListTimeoutsList[];
+  private _timeoutsList!: TerraformBlockTypeSetListTimeoutsListListAttribute;
   public get timeoutsList() {
-    return this.interpolationForAttribute('timeouts_list') as any;
+    return this._timeoutsList;
   }
-  public set timeoutsList(value: BlockTypeSetListTimeoutsList[] ) {
-    this._timeoutsList = value;
-  }
-  public resetTimeoutsList() {
-    this._timeoutsList = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get timeoutsListInput() {
-    return this._timeoutsList
+  public putTimeoutsList(value: TerraformBlockTypeSetListTimeoutsListList | undefined) {
+    if (value === undefined) {
+      this._timeoutsList.resetInternal();
+    }
+    else {
+      this._timeoutsList = TerraformBlockTypeSetListTimeoutsListListAttribute.construct(this, 'timeouts_list', value);
+    }
   }
 
   // =========
@@ -1680,8 +2275,8 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts_set: cdktf.listMapper(blockTypeSetListTimeoutsSetToTerraform)(this._timeoutsSet),
-      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListToTerraform)(this._timeoutsList),
+      timeouts_set: this._timeoutsSet.toTerraform(),
+      timeouts_list: this._timeoutsList.toTerraform(),
     };
   }
 }
@@ -1699,18 +2294,52 @@ import * as cdktf from 'cdktf';
 
 export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
   /** timeouts block */
-  readonly timeouts?: SingleBlockTypeTimeouts;
+  readonly timeouts?: TerraformSingleBlockTypeTimeouts;
 }
 export interface SingleBlockTypeTimeouts {
-  readonly create?: string;
+  readonly create?: cdktf.TerraformString;
 }
 
 function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    create: cdktf.stringToTerraform(struct!.create),
+    create: struct!.create instanceof cdktf.TerraformAttribute ? struct!.create.toTerraform() : cdktf.stringToTerraform(struct!.create),
   }
 }
+
+export class TerraformSingleBlockTypeTimeoutsAttribute extends cdktf.TerraformObjectAttribute {
+  public constructor(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value?: SingleBlockTypeTimeouts, options?: cdktf.TerraformAttributeOptions) {
+    super(parent, terraformAttribute, value, options);
+  }
+
+  public get internalValue(): SingleBlockTypeTimeouts | undefined {
+    return this.realValue;
+  }
+
+  public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: TerraformSingleBlockTypeTimeouts | undefined) {
+    if (!(value instanceof TerraformSingleBlockTypeTimeoutsAttribute)) {
+      return new TerraformSingleBlockTypeTimeoutsAttribute(parent, terraformAttribute, value);
+    }
+    else if (value.terraformParent === parent) {
+      return value;
+    }
+    else {
+      return new TerraformSingleBlockTypeTimeoutsAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
+    }
+  }
+
+  protected valueToTerraform(): any {
+    return singleBlockTypeTimeoutsToTerraform(this.internalValue);
+  }
+
+
+  // create - computed: false, optional: true, required: false
+  public get create() {
+    return cdktf.TerraformStringAttribute.construct(this, 'create', this.internalValue?.create);
+  }
+}
+
+export type TerraformSingleBlockTypeTimeouts = SingleBlockTypeTimeouts | TerraformSingleBlockTypeTimeoutsAttribute;
 
 
 // Resource
@@ -1732,7 +2361,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._timeouts = config.timeouts;
+    this.putTimeouts(config.timeouts ?? new TerraformSingleBlockTypeTimeoutsAttribute(this, 'timeouts', undefined));
   }
 
   // ==========
@@ -1740,19 +2369,17 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ==========
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts?: SingleBlockTypeTimeouts;
+  private _timeouts!: TerraformSingleBlockTypeTimeoutsAttribute;
   public get timeouts() {
-    return this.interpolationForAttribute('timeouts') as any;
+    return this._timeouts;
   }
-  public set timeouts(value: SingleBlockTypeTimeouts ) {
-    this._timeouts = value;
-  }
-  public resetTimeouts() {
-    this._timeouts = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get timeoutsInput() {
-    return this._timeouts
+  public putTimeouts(value: TerraformSingleBlockTypeTimeouts | undefined) {
+    if (value === undefined) {
+      this._timeouts.resetInternal();
+    }
+    else {
+      this._timeouts = TerraformSingleBlockTypeTimeoutsAttribute.construct(this, 'timeouts', value);
+    }
   }
 
   // =========
@@ -1761,7 +2388,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts: singleBlockTypeTimeoutsToTerraform(this._timeouts),
+      timeouts: this._timeouts.toTerraform(),
     };
   }
 }
@@ -1778,9 +2405,9 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface StringListConfig extends cdktf.TerraformMetaArguments {
-  readonly subjectAlternativeNamesOptionalComputed?: string[];
-  readonly subjectAlternativeNamesRequired: string[];
-  readonly subjectAlternativeNamesOptional?: string[];
+  readonly subjectAlternativeNamesOptionalComputed?: cdktf.TerraformStringList;
+  readonly subjectAlternativeNamesRequired: cdktf.TerraformStringList;
+  readonly subjectAlternativeNamesOptional?: cdktf.TerraformStringList;
 }
 
 // Resource
@@ -1802,9 +2429,10 @@ export class StringList extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._subjectAlternativeNamesOptionalComputed = config.subjectAlternativeNamesOptionalComputed;
-    this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
-    this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
+    this.putSubjectAlternativeNamesOptionalComputed(config.subjectAlternativeNamesOptionalComputed ?? new cdktf.TerraformStringListAttribute(this, 'subject_alternative_names_optional_computed', undefined));
+    this._subjectAlternativeNamesComputed = new cdktf.TerraformStringListAttribute(this, 'subject_alternative_names_computed', undefined)
+    this.putSubjectAlternativeNamesRequired(config.subjectAlternativeNamesRequired);
+    this.putSubjectAlternativeNamesOptional(config.subjectAlternativeNamesOptional ?? new cdktf.TerraformStringListAttribute(this, 'subject_alternative_names_optional', undefined));
   }
 
   // ==========
@@ -1812,53 +2440,46 @@ export class StringList extends cdktf.TerraformResource {
   // ==========
 
   // subject_alternative_names_optional_computed - computed: true, optional: true, required: false
-  private _subjectAlternativeNamesOptionalComputed?: string[];
+  private _subjectAlternativeNamesOptionalComputed!: cdktf.TerraformStringListAttribute;
   public get subjectAlternativeNamesOptionalComputed() {
-    return this.getListAttribute('subject_alternative_names_optional_computed');
+    return this._subjectAlternativeNamesOptionalComputed;
   }
-  public set subjectAlternativeNamesOptionalComputed(value: string[]) {
-    this._subjectAlternativeNamesOptionalComputed = value;
-  }
-  public resetSubjectAlternativeNamesOptionalComputed() {
-    this._subjectAlternativeNamesOptionalComputed = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get subjectAlternativeNamesOptionalComputedInput() {
-    return this._subjectAlternativeNamesOptionalComputed
+  public putSubjectAlternativeNamesOptionalComputed(value: cdktf.TerraformStringList | undefined) {
+    if (value === undefined) {
+      this._subjectAlternativeNamesOptionalComputed.resetInternal();
+    }
+    else {
+      this._subjectAlternativeNamesOptionalComputed = cdktf.TerraformStringListAttribute.construct(this, 'subject_alternative_names_optional_computed', value);
+    }
   }
 
   // subject_alternative_names_computed - computed: true, optional: false, required: false
+  private _subjectAlternativeNamesComputed: cdktf.TerraformStringListAttribute;
   public get subjectAlternativeNamesComputed() {
-    return this.getListAttribute('subject_alternative_names_computed');
+    return this._subjectAlternativeNamesComputed;
   }
 
   // subject_alternative_names_required - computed: false, optional: false, required: true
-  private _subjectAlternativeNamesRequired: string[];
+  private _subjectAlternativeNamesRequired!: cdktf.TerraformStringListAttribute;
   public get subjectAlternativeNamesRequired() {
-    return this.getListAttribute('subject_alternative_names_required');
+    return this._subjectAlternativeNamesRequired;
   }
-  public set subjectAlternativeNamesRequired(value: string[]) {
-    this._subjectAlternativeNamesRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get subjectAlternativeNamesRequiredInput() {
-    return this._subjectAlternativeNamesRequired
+  public putSubjectAlternativeNamesRequired(value: cdktf.TerraformStringList) {
+    this._subjectAlternativeNamesRequired = cdktf.TerraformStringListAttribute.construct(this, 'subject_alternative_names_required', value);
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
-  private _subjectAlternativeNamesOptional?: string[];
+  private _subjectAlternativeNamesOptional!: cdktf.TerraformStringListAttribute;
   public get subjectAlternativeNamesOptional() {
-    return this.getListAttribute('subject_alternative_names_optional');
+    return this._subjectAlternativeNamesOptional;
   }
-  public set subjectAlternativeNamesOptional(value: string[] ) {
-    this._subjectAlternativeNamesOptional = value;
-  }
-  public resetSubjectAlternativeNamesOptional() {
-    this._subjectAlternativeNamesOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get subjectAlternativeNamesOptionalInput() {
-    return this._subjectAlternativeNamesOptional
+  public putSubjectAlternativeNamesOptional(value: cdktf.TerraformStringList | undefined) {
+    if (value === undefined) {
+      this._subjectAlternativeNamesOptional.resetInternal();
+    }
+    else {
+      this._subjectAlternativeNamesOptional = cdktf.TerraformStringListAttribute.construct(this, 'subject_alternative_names_optional', value);
+    }
   }
 
   // =========
@@ -1867,9 +2488,9 @@ export class StringList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_optional_computed: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptionalComputed),
-      subject_alternative_names_required: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesRequired),
-      subject_alternative_names_optional: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptional),
+      subject_alternative_names_optional_computed: this._subjectAlternativeNamesOptionalComputed.toTerraform(),
+      subject_alternative_names_required: this._subjectAlternativeNamesRequired.toTerraform(),
+      subject_alternative_names_optional: this._subjectAlternativeNamesOptional.toTerraform(),
     };
   }
 }
@@ -1886,8 +2507,8 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface StringMapConfig extends cdktf.TerraformMetaArguments {
-  readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string };
-  readonly subjectAlternativeNamesOptional?: { [key: string]: string };
+  readonly subjectAlternativeNamesComputedOptional?: cdktf.TerraformStringMap;
+  readonly subjectAlternativeNamesOptional?: cdktf.TerraformStringMap;
 }
 
 // Resource
@@ -1909,8 +2530,9 @@ export class StringMap extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._subjectAlternativeNamesComputedOptional = config.subjectAlternativeNamesComputedOptional;
-    this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
+    this._subjectAlternativeNamesComputed = new cdktf.TerraformStringMapAttribute(this, 'subject_alternative_names_computed', undefined)
+    this.putSubjectAlternativeNamesComputedOptional(config.subjectAlternativeNamesComputedOptional ?? new cdktf.TerraformStringMapAttribute(this, 'subject_alternative_names_computed_optional', undefined));
+    this.putSubjectAlternativeNamesOptional(config.subjectAlternativeNamesOptional ?? new cdktf.TerraformStringMapAttribute(this, 'subject_alternative_names_optional', undefined));
   }
 
   // ==========
@@ -1918,40 +2540,37 @@ export class StringMap extends cdktf.TerraformResource {
   // ==========
 
   // subject_alternative_names_computed - computed: true, optional: false, required: false
-  public subjectAlternativeNamesComputed(key: string): string {
-    return new cdktf.StringMap(this, 'subject_alternative_names_computed').lookup(key);
+  private _subjectAlternativeNamesComputed: cdktf.TerraformStringMapAttribute;
+  public get subjectAlternativeNamesComputed() {
+    return this._subjectAlternativeNamesComputed;
   }
 
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
-  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string }
-  public get subjectAlternativeNamesComputedOptional(): { [key: string]: string } {
-    return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any; // Getting the computed value is not yet implemented
+  private _subjectAlternativeNamesComputedOptional!: cdktf.TerraformStringMapAttribute;
+  public get subjectAlternativeNamesComputedOptional() {
+    return this._subjectAlternativeNamesComputedOptional;
   }
-  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string }) {
-    this._subjectAlternativeNamesComputedOptional = value;
-  }
-  public resetSubjectAlternativeNamesComputedOptional() {
-    this._subjectAlternativeNamesComputedOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get subjectAlternativeNamesComputedOptionalInput() {
-    return this._subjectAlternativeNamesComputedOptional
+  public putSubjectAlternativeNamesComputedOptional(value: cdktf.TerraformStringMap | undefined) {
+    if (value === undefined) {
+      this._subjectAlternativeNamesComputedOptional.resetInternal();
+    }
+    else {
+      this._subjectAlternativeNamesComputedOptional = cdktf.TerraformStringMapAttribute.construct(this, 'subject_alternative_names_computed_optional', value);
+    }
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
-  private _subjectAlternativeNamesOptional?: { [key: string]: string };
+  private _subjectAlternativeNamesOptional!: cdktf.TerraformStringMapAttribute;
   public get subjectAlternativeNamesOptional() {
-    return this.interpolationForAttribute('subject_alternative_names_optional') as any;
+    return this._subjectAlternativeNamesOptional;
   }
-  public set subjectAlternativeNamesOptional(value: { [key: string]: string } ) {
-    this._subjectAlternativeNamesOptional = value;
-  }
-  public resetSubjectAlternativeNamesOptional() {
-    this._subjectAlternativeNamesOptional = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get subjectAlternativeNamesOptionalInput() {
-    return this._subjectAlternativeNamesOptional
+  public putSubjectAlternativeNamesOptional(value: cdktf.TerraformStringMap | undefined) {
+    if (value === undefined) {
+      this._subjectAlternativeNamesOptional.resetInternal();
+    }
+    else {
+      this._subjectAlternativeNamesOptional = cdktf.TerraformStringMapAttribute.construct(this, 'subject_alternative_names_optional', value);
+    }
   }
 
   // =========
@@ -1960,8 +2579,8 @@ export class StringMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesComputedOptional),
-      subject_alternative_names_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesOptional),
+      subject_alternative_names_computed_optional: this._subjectAlternativeNamesComputedOptional.toTerraform(),
+      subject_alternative_names_optional: this._subjectAlternativeNamesOptional.toTerraform(),
     };
   }
 }

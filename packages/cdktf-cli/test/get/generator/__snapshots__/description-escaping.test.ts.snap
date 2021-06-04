@@ -15,7 +15,7 @@ export interface DescriptionEscapingConfig extends cdktf.TerraformMetaArguments 
  ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com') must have 
  'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature. 
  The expected format is 'projects/*\\\\/locations/*\\\\/keyRings/*\\\\/cryptoKeys/*' */
-  readonly brokenComments: boolean;
+  readonly brokenComments: cdktf.TerraformBoolean;
 }
 
 // Resource
@@ -37,7 +37,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._brokenComments = config.brokenComments;
+    this.putBrokenComments(config.brokenComments);
   }
 
   // ==========
@@ -45,16 +45,12 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   // ==========
 
   // broken_comments - computed: false, optional: false, required: true
-  private _brokenComments: boolean;
+  private _brokenComments!: cdktf.TerraformBooleanAttribute;
   public get brokenComments() {
-    return this.getBooleanAttribute('broken_comments');
+    return this._brokenComments;
   }
-  public set brokenComments(value: boolean) {
-    this._brokenComments = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get brokenCommentsInput() {
-    return this._brokenComments
+  public putBrokenComments(value: cdktf.TerraformBoolean) {
+    this._brokenComments = cdktf.TerraformBooleanAttribute.construct(this, 'broken_comments', value);
   }
 
   // =========
@@ -63,7 +59,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      broken_comments: cdktf.booleanToTerraform(this._brokenComments),
+      broken_comments: this._brokenComments.toTerraform(),
     };
   }
 }
@@ -81,7 +77,7 @@ import * as cdktf from 'cdktf';
 
 export interface CodeBlocksConfig extends cdktf.TerraformMetaArguments {
   /** Here comes a code block \`\`\`foo.bar\`\`\` and here is more text. */
-  readonly withCodeBlock: boolean;
+  readonly withCodeBlock: cdktf.TerraformBoolean;
 }
 
 // Resource
@@ -103,7 +99,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._withCodeBlock = config.withCodeBlock;
+    this.putWithCodeBlock(config.withCodeBlock);
   }
 
   // ==========
@@ -111,16 +107,12 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // ==========
 
   // with_code_block - computed: false, optional: false, required: true
-  private _withCodeBlock: boolean;
+  private _withCodeBlock!: cdktf.TerraformBooleanAttribute;
   public get withCodeBlock() {
-    return this.getBooleanAttribute('with_code_block');
+    return this._withCodeBlock;
   }
-  public set withCodeBlock(value: boolean) {
-    this._withCodeBlock = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get withCodeBlockInput() {
-    return this._withCodeBlock
+  public putWithCodeBlock(value: cdktf.TerraformBoolean) {
+    this._withCodeBlock = cdktf.TerraformBooleanAttribute.construct(this, 'with_code_block', value);
   }
 
   // =========
@@ -129,7 +121,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      with_code_block: cdktf.booleanToTerraform(this._withCodeBlock),
+      with_code_block: this._withCodeBlock.toTerraform(),
     };
   }
 }
