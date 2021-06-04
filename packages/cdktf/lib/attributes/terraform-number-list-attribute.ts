@@ -9,7 +9,7 @@ export class TerraformNumberListAttribute extends TerraformListAttribute {
         super(parent, terraformAttribute, value, options);
     }
 
-    public get value(): TerraformNumber[] | undefined {
+    public get internalValue(): TerraformNumber[] | undefined {
         return this.realValue;
     }
 
@@ -17,20 +17,20 @@ export class TerraformNumberListAttribute extends TerraformListAttribute {
         return new TerraformNumberAttribute(this, index.toString());
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumberList | undefined) {
+    public static construct(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumberList | undefined) {
         if (!(value instanceof TerraformNumberListAttribute)) {
             return new TerraformNumberListAttribute(parent, terraformAttribute, value);
         }
-        else if (value.parent === parent) {
+        else if (value.terraformParent === parent) {
             return value;
         }
         else {
-            return new TerraformNumberListAttribute(parent, terraformAttribute, value.value, { nested: value });
+            return new TerraformNumberListAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
         }
     }
 
     protected valueToTerraform() {
-        return listMapper(numberToTerraform)(this.value);
+        return listMapper(numberToTerraform)(this.internalValue);
     }
 }
 

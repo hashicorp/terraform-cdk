@@ -10,28 +10,28 @@ export class TerraformAnySetAttribute extends TerraformSetAttribute {
         super(parent, terraformAttribute, value, options);
     }
 
-    public get value(): TerraformAny[] /* Set<T> isn't supported by jsii */ | undefined {
+    public get internalValue(): TerraformAny[] /* Set<T> isn't supported by jsii */ | undefined {
         return this.realValue;
     }
 
     public toList(): TerraformAnyListAttribute {
-        return new TerraformAnyListAttribute(this.parent, this.attribute, this.value, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
+        return new TerraformAnyListAttribute(this.terraformParent, this.terraformAttribute, this.internalValue, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAnySet | undefined) {
+    public static construct(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAnySet | undefined) {
         if (!(value instanceof TerraformAnySetAttribute)) {
             return new TerraformAnySetAttribute(parent, terraformAttribute, value);
         }
-        else if (value.parent === parent) {
+        else if (value.terraformParent === parent) {
             return value;
         }
         else {
-            return new TerraformAnySetAttribute(parent, terraformAttribute, value.value, { nested: value });
+            return new TerraformAnySetAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
         }
     }
 
     protected valueToTerraform() {
-        return setMapper(anyToTerraform)(this.value);
+        return setMapper(anyToTerraform)(this.internalValue);
     }
 }
 

@@ -48,26 +48,26 @@ export class StructEmitter {
       this.code.closeBlock();
       this.code.line();
 
-      this.code.openBlock(`public get value(): ${struct.attributeValueType} | undefined`);
+      this.code.openBlock(`public get internalValue(): ${struct.attributeValueType} | undefined`);
         this.code.line('return this.realValue;');
       this.code.closeBlock();
       this.code.line();
 
-      this.code.openBlock(`public static create(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: ${struct.attributeTypeAlias} | undefined)`);
+      this.code.openBlock(`public static construct(parent: cdktf.ITerraformAddressable, terraformAttribute: string, value: ${struct.attributeTypeAlias} | undefined)`);
         this.code.openBlock(`if (!(value instanceof ${struct.name}))`);
           this.code.line(`return new ${struct.name}(parent, terraformAttribute, value);`);
         this.code.closeBlock();
-        this.code.openBlock(`else if (value.parent === parent)`);
+        this.code.openBlock(`else if (value.terraformParent === parent)`);
           this.code.line(`return value;`);
         this.code.closeBlock();
         this.code.openBlock(`else`);
-          this.code.line(`return new ${struct.name}(parent, terraformAttribute, value.value, { nested: value });`);
+          this.code.line(`return new ${struct.name}(parent, terraformAttribute, value.internalValue, { nested: value });`);
         this.code.closeBlock();
       this.code.closeBlock();
       this.code.line();
 
       this.code.openBlock(`protected valueToTerraform()`);
-        this.code.line(`return ${this.attributesEmitter.getTypeToTerraform(struct.attributeTypeModel, 'this.value')};`);
+        this.code.line(`return ${this.attributesEmitter.getTypeToTerraform(struct.attributeTypeModel, 'this.internalValue')};`);
       this.code.closeBlock();
       this.code.line();
 
@@ -83,7 +83,7 @@ export class StructEmitter {
           break;
         case 'Set':
           this.code.openBlock(`public toList(): ${struct.name.replace('SetAttribute', 'ListAttribute')}`);
-            this.code.line(`return new ${struct.name.replace('SetAttribute', 'ListAttribute')}(this.parent, this.attribute, this.value, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });`);
+            this.code.line(`return new ${struct.name.replace('SetAttribute', 'ListAttribute')}(this.terraformParent, this.terraformAttribute, this.internalValue, { nested: this.nested, _operation: (fqn: string) => \`tolist(\${fqn})\` });`);
           this.code.closeBlock();
           break;
         case 'Map':

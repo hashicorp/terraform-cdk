@@ -10,28 +10,28 @@ export class TerraformBooleanSetAttribute extends TerraformSetAttribute {
         super(parent, terraformAttribute, value, options);
     }
 
-    public get value(): TerraformBoolean[] /* Set<T> isn't supported by jsii */ | undefined {
+    public get internalValue(): TerraformBoolean[] /* Set<T> isn't supported by jsii */ | undefined {
         return this.realValue;
     }
 
     public toList(): TerraformBooleanListAttribute {
-        return new TerraformBooleanListAttribute(this.parent, this.attribute, this.value, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
+        return new TerraformBooleanListAttribute(this.terraformParent, this.terraformAttribute, this.internalValue, { nested: this.nested, _operation: fqn => `tolist(${fqn})` });
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanSet | undefined) {
+    public static construct(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformBooleanSet | undefined) {
         if (!(value instanceof TerraformBooleanSetAttribute)) {
             return new TerraformBooleanSetAttribute(parent, terraformAttribute, value);
         }
-        else if (value.parent === parent) {
+        else if (value.terraformParent === parent) {
             return value;
         }
         else {
-            return new TerraformBooleanSetAttribute(parent, terraformAttribute, value.value, { nested: value });
+            return new TerraformBooleanSetAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
         }
     }
 
     protected valueToTerraform() {
-        return setMapper(booleanToTerraform)(this.value);
+        return setMapper(booleanToTerraform)(this.internalValue);
     }
 }
 
