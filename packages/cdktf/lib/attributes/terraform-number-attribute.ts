@@ -7,24 +7,24 @@ export class TerraformNumberAttribute extends TerraformAttribute {
         super(parent, terraformAttribute, value, options);
     }
 
-    public get value(): number | undefined {
+    public get internalValue(): number | undefined {
         return this.realValue;
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumber | undefined) {
+    public static construct(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformNumber | undefined) {
         if (typeof(value) === 'number' || value === undefined) {
             return new TerraformNumberAttribute(parent, terraformAttribute, value);
         }
-        else if (value.parent === parent) {
+        else if (value.terraformParent === parent) {
             return value;
         }
         else {
-            return new TerraformNumberAttribute(parent, terraformAttribute, value.value, { nested: value });
+            return new TerraformNumberAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
         }
     }
 
     protected valueToTerraform() {
-        return numberToTerraform(this.value);
+        return numberToTerraform(this.internalValue);
     }
 }
 

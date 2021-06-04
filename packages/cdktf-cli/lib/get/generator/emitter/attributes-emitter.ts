@@ -51,10 +51,10 @@ export class AttributesEmitter {
 
     this.code.openBlock(`public ${this.getPutName(att)}(value: ${att.type.name} | undefined)`);
       this.code.openBlock(`if (value === undefined)`);
-        this.code.line(`this.${att.storageName}.reset();`);
+        this.code.line(`this.${att.storageName}.resetInternal();`);
       this.code.closeBlock();
       this.code.openBlock(`else`);
-        this.code.line(`this.${att.storageName} = ${att.type.attributeName}.create(this, '${att.terraformName}', value);`);
+        this.code.line(`this.${att.storageName} = ${att.type.attributeName}.construct(this, '${att.terraformName}', value);`);
       this.code.closeBlock();
     this.code.closeBlock();
   }
@@ -80,7 +80,7 @@ export class AttributesEmitter {
     this.code.closeBlock();
 
     this.code.openBlock(`public ${this.getPutName(att)}(value: ${att.type.name})`);
-      this.code.line(`this.${att.storageName} = ${att.type.attributeName}.create(this, '${att.terraformName}', value);`);
+      this.code.line(`this.${att.storageName} = ${att.type.attributeName}.construct(this, '${att.terraformName}', value);`);
     this.code.closeBlock();
   }
 
@@ -103,7 +103,7 @@ export class AttributesEmitter {
     this.code.line();
     this.code.line(`// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`);
     this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return ${att.type.attributeName}.create(this, '${att.terraformName}', this.value?.${att.name});`);
+      this.code.line(`return ${att.type.attributeName}.construct(this, '${att.terraformName}', this.internalValue?.${att.name});`);
     this.code.closeBlock();
   }
 

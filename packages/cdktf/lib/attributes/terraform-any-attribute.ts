@@ -7,28 +7,28 @@ export class TerraformAnyAttribute extends TerraformAttribute implements ITerraf
         super(parent, terraformAttribute, value, options);
     }
 
-    public get value(): any | undefined {
+    public get internalValue(): any | undefined {
         return this.realValue;
     }
 
     public getAttribute(attributeName: string): TerraformAnyAttribute {
-        return new TerraformAnyAttribute(this, attributeName, this.value?.attributeName);
+        return new TerraformAnyAttribute(this, attributeName, this.internalValue?.attributeName);
     }
 
-    public static create(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAny | undefined) {
+    public static construct(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAny | undefined) {
         if (!(value instanceof TerraformAnyAttribute)) {
             return new TerraformAnyAttribute(parent, terraformAttribute, value);
         }
-        else if (value.parent === parent) {
+        else if (value.terraformParent === parent) {
             return value;
         }
         else {
-            return new TerraformAnyAttribute(parent, terraformAttribute, value.value, { nested: value });
+            return new TerraformAnyAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
         }
     }
 
     protected valueToTerraform() {
-        return anyToTerraform(this.value);
+        return anyToTerraform(this.internalValue);
     }
 }
 
