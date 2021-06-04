@@ -428,7 +428,22 @@ export class BlockTypeNestedComputedListInputsStartingPositionConfiguration exte
   }
 }
 export interface BlockTypeNestedComputedListInputs {
-  readonly namePrefix: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#id BlockTypeNestedComputedList#id}
+  */
+  readonly id?: cdktf.TerraformString;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#name_prefix BlockTypeNestedComputedList#name_prefix}
+  */
+  readonly namePrefix: cdktf.TerraformString;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#starting_position_configuration BlockTypeNestedComputedList#starting_position_configuration}
+  */
+  readonly startingPositionConfiguration?: TerraformBlockTypeNestedComputedListInputsStartingPositionConfigurationList;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#stream_names BlockTypeNestedComputedList#stream_names}
+  */
+  readonly streamNames?: cdktf.TerraformStringSet;
 }
 
 function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
@@ -438,11 +453,6 @@ function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedCo
   }
 }
 
-export interface BlockTypeNestedComputedListInputsComputed extends BlockTypeNestedListInputsComputed {
-  readonly id: string;
-  readonly startingPositionConfiguration: BlockTypeNestedComputedListInputsStartingPositionConfiguration;
-  readonly streamNames: string[];
-}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html aws_block_type_nested_computed_list}
