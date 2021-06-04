@@ -121,9 +121,9 @@ export class StructEmitter {
   }
 
   private emitValueToTerraform(struct: Struct) {
-    this.code.openBlock(`protected valueToTerraform()`);
+    this.code.openBlock(`protected valueToTerraform(): any`);
     if (struct.isReadOnly) {
-      this.code.line("return null;");
+      this.code.line("return undefined;");
     } else {
       this.code.line(
         `return ${this.attributesEmitter.getTypeToTerraform(

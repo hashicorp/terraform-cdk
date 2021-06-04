@@ -129,16 +129,26 @@ export class AttributesEmitter {
   }
 
   public emitAttributeAccessor(att: AttributeModel, isReadOnly: boolean) {
+    const readOnly =
+      isReadOnly || (att.computed && !att.isOptional && !att.isRequired);
+    const readOnlyStruct = att.type.struct?.isReadOnly ?? false;
+
     this.code.line();
     this.code.line(
       `// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`
     );
     this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(
-      `return ${att.type.attributeName}.construct(this, '${
-        att.terraformName
-      }', ${isReadOnly ? "undefined" : `this.internalValue?.${att.name}`});`
-    );
+    if (readOnlyStruct) {
+      this.code.line(
+        `return new ${att.type.attributeName}(this, '${att.terraformName}');`
+      );
+    } else {
+      this.code.line(
+        `return ${att.type.attributeName}.construct(this, '${
+          att.terraformName
+        }', ${readOnly ? "undefined" : `this.internalValue?.${att.name}`});`
+      );
+    }
     this.code.closeBlock();
   }
 
