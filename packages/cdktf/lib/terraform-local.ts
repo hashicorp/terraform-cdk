@@ -24,7 +24,7 @@ export class TerraformLocal
   }
 
   public putExpression(value: TerraformAny) {
-    this._expression = TerraformAnyAttribute.create(this, "", value);
+    this._expression = TerraformAnyAttribute.construct(this, "", value);
   }
 
   public get expression() {
@@ -32,33 +32,48 @@ export class TerraformLocal
   }
 
   public get asString() {
-    return new TerraformStringAttribute(this, "", this.expression.value, {
-      nested: this.expression,
-    });
+    return new TerraformStringAttribute(
+      this,
+      "",
+      this.expression.internalValue,
+      { nested: this.expression }
+    );
   }
 
   public get asNumber() {
-    return new TerraformNumberAttribute(this, "", this.expression.value, {
-      nested: this.expression,
-    });
+    return new TerraformNumberAttribute(
+      this,
+      "",
+      this.expression.internalValue,
+      { nested: this.expression }
+    );
   }
 
   public get asStringList() {
-    return new TerraformStringListAttribute(this, "", this.expression.value, {
-      nested: this.expression,
-    });
+    return new TerraformStringListAttribute(
+      this,
+      "",
+      this.expression.internalValue,
+      { nested: this.expression }
+    );
   }
 
   public get asList() {
-    return new TerraformAnyListAttribute(this, "", this.expression.value, {
-      nested: this.expression,
-    });
+    return new TerraformAnyListAttribute(
+      this,
+      "",
+      this.expression.internalValue,
+      { nested: this.expression }
+    );
   }
 
   public get asBoolean() {
-    return new TerraformBooleanAttribute(this, "", this.expression.value, {
-      nested: this.expression,
-    });
+    return new TerraformBooleanAttribute(
+      this,
+      "",
+      this.expression.internalValue,
+      { nested: this.expression }
+    );
   }
 
   public get fqn() {

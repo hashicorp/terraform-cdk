@@ -14,7 +14,7 @@ export class TerraformAnyListAttribute extends TerraformListAttribute {
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value(): TerraformAny[] | undefined {
+  public get internalValue(): TerraformAny[] | undefined {
     return this.realValue;
   }
 
@@ -22,27 +22,27 @@ export class TerraformAnyListAttribute extends TerraformListAttribute {
     return new TerraformAnyAttribute(this, index.toString());
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformAnyList | undefined
   ) {
     if (!(value instanceof TerraformAnyListAttribute)) {
       return new TerraformAnyListAttribute(parent, terraformAttribute, value);
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformAnyListAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return listMapper(anyToTerraform)(this.value);
+    return listMapper(anyToTerraform)(this.internalValue);
   }
 }
 

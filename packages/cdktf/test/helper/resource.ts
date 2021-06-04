@@ -46,7 +46,7 @@ export class TestResource extends TerraformResource {
     return this._name;
   }
   public putName(value: TerraformString) {
-    this._name = TerraformStringAttribute.create(this, "name", value);
+    this._name = TerraformStringAttribute.construct(this, "name", value);
   }
 
   private _names!: TerraformStringListAttribute;
@@ -55,9 +55,13 @@ export class TestResource extends TerraformResource {
   }
   public putNames(value: TerraformStringList | undefined) {
     if (value === undefined) {
-      this._names.reset();
+      this._names.resetInternal();
     } else {
-      this._names = TerraformStringListAttribute.create(this, "names", value);
+      this._names = TerraformStringListAttribute.construct(
+        this,
+        "names",
+        value
+      );
     }
   }
 

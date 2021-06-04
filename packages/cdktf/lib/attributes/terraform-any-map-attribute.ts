@@ -14,7 +14,7 @@ export class TerraformAnyMapAttribute extends TerraformMapAttribute {
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value(): { [key: string]: TerraformAny } | undefined {
+  public get internalValue(): { [key: string]: TerraformAny } | undefined {
     return this.realValue;
   }
 
@@ -22,27 +22,27 @@ export class TerraformAnyMapAttribute extends TerraformMapAttribute {
     return new TerraformAnyAttribute(this, `${key}`);
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformAnyMap | undefined
   ) {
     if (!(value instanceof TerraformAnyMapAttribute)) {
       return new TerraformAnyMapAttribute(parent, terraformAttribute, value);
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformAnyMapAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return hashMapper(anyToTerraform)(this.value);
+    return hashMapper(anyToTerraform)(this.internalValue);
   }
 }
 

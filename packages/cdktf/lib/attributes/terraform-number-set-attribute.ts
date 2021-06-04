@@ -15,7 +15,7 @@ export class TerraformNumberSetAttribute extends TerraformSetAttribute {
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value():
+  public get internalValue():
     | TerraformNumber[] /* Set<T> isn't supported by jsii */
     | undefined {
     return this.realValue;
@@ -23,34 +23,34 @@ export class TerraformNumberSetAttribute extends TerraformSetAttribute {
 
   public toList(): TerraformNumberListAttribute {
     return new TerraformNumberListAttribute(
-      this.parent,
-      this.attribute,
-      this.value,
+      this.terraformParent,
+      this.terraformAttribute,
+      this.internalValue,
       { nested: this.nested, _operation: (fqn) => `tolist(${fqn})` }
     );
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformNumberSet | undefined
   ) {
     if (!(value instanceof TerraformNumberSetAttribute)) {
       return new TerraformNumberSetAttribute(parent, terraformAttribute, value);
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformNumberSetAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return setMapper(numberToTerraform)(this.value);
+    return setMapper(numberToTerraform)(this.internalValue);
   }
 }
 

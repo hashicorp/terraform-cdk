@@ -18,8 +18,8 @@ export abstract class TerraformAttribute implements ITerraformAddressable {
   protected readonly _operations: { (fqn: string): string }[] = [];
 
   public constructor(
-    protected readonly parent: ITerraformAddressable,
-    protected readonly attribute: string,
+    protected readonly terraformParent: ITerraformAddressable,
+    protected readonly terraformAttribute: string,
     protected realValue?: any,
     options?: TerraformAttributeOptions
   ) {
@@ -31,9 +31,20 @@ export abstract class TerraformAttribute implements ITerraformAddressable {
     }
   }
 
-  public reset() {
+  public resetInternal() {
     this.realValue = undefined;
     this.nested = undefined;
+  }
+
+  public get fqn(): string {
+    let reference =
+      this.terraformAttribute === ""
+        ? this.terraformParent.fqn
+        : `${this.terraformParent.fqn}.${this.terraformAttribute}`;
+    this._operations.forEach((operation) => {
+      reference = operation(reference);
+    });
+    return reference;
   }
 
   public toTerraform(): any {
@@ -43,17 +54,6 @@ export abstract class TerraformAttribute implements ITerraformAddressable {
     } else {
       return this.valueToTerraform();
     }
-  }
-
-  public get fqn(): string {
-    let reference =
-      this.attribute === ""
-        ? this.parent.fqn
-        : `${this.parent.fqn}.${this.attribute}`;
-    this._operations.forEach((operation) => {
-      reference = operation(reference);
-    });
-    return reference;
   }
 
   public get terraformReference(): string {

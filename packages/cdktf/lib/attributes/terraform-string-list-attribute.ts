@@ -17,7 +17,7 @@ export class TerraformStringListAttribute extends TerraformListAttribute {
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value(): TerraformString[] | undefined {
+  public get internalValue(): TerraformString[] | undefined {
     return this.realValue;
   }
 
@@ -25,7 +25,7 @@ export class TerraformStringListAttribute extends TerraformListAttribute {
     return new TerraformStringAttribute(this, index.toString());
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformStringList | undefined
@@ -36,20 +36,20 @@ export class TerraformStringListAttribute extends TerraformListAttribute {
         terraformAttribute,
         value
       );
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformStringListAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return listMapper(stringToTerraform)(this.value);
+    return listMapper(stringToTerraform)(this.internalValue);
   }
 }
 

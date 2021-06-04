@@ -15,31 +15,31 @@ export class TerraformBooleanAttribute extends TerraformAttribute {
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value(): boolean | undefined {
+  public get internalValue(): boolean | undefined {
     return this.realValue;
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformBoolean | undefined
   ) {
     if (typeof value === "boolean" || value === undefined) {
       return new TerraformBooleanAttribute(parent, terraformAttribute, value);
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformBooleanAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return booleanToTerraform(this.value);
+    return booleanToTerraform(this.internalValue);
   }
 }
 

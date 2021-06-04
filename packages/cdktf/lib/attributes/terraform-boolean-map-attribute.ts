@@ -17,7 +17,7 @@ export class TerraformBooleanMapAttribute extends TerraformMapAttribute {
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value(): { [key: string]: TerraformBoolean } | undefined {
+  public get internalValue(): { [key: string]: TerraformBoolean } | undefined {
     return this.realValue;
   }
 
@@ -25,7 +25,7 @@ export class TerraformBooleanMapAttribute extends TerraformMapAttribute {
     return new TerraformBooleanAttribute(this, `${key}`);
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformBooleanMap | undefined
@@ -36,20 +36,20 @@ export class TerraformBooleanMapAttribute extends TerraformMapAttribute {
         terraformAttribute,
         value
       );
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformBooleanMapAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return hashMapper(booleanToTerraform)(this.value);
+    return hashMapper(booleanToTerraform)(this.internalValue);
   }
 }
 

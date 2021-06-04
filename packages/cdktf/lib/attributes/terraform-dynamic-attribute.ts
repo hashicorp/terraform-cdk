@@ -15,31 +15,31 @@ export class TerraformDynamicAttribute extends TerraformAttribute {
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value(): { [key: string]: any } | undefined {
+  public get internalValue(): { [key: string]: any } | undefined {
     return this.realValue;
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformDynamic | undefined
   ) {
     if (!(value instanceof TerraformDynamicAttribute)) {
       return new TerraformDynamicAttribute(parent, terraformAttribute, value);
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformDynamicAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return hashMapper(anyToTerraform)(this.value);
+    return hashMapper(anyToTerraform)(this.internalValue);
   }
 }
 

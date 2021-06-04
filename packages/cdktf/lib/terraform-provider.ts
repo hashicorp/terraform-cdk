@@ -44,7 +44,7 @@ export abstract class TerraformProvider extends TerraformElement {
 
   private get aliasAsString(): string | undefined {
     if (this.alias instanceof TerraformStringAttribute) {
-      return this.alias.value;
+      return this.alias.internalValue;
     } else {
       return this.alias;
     }

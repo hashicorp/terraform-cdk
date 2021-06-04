@@ -18,7 +18,7 @@ export class TerraformAnyAttribute
     super(parent, terraformAttribute, value, options);
   }
 
-  public get value(): any | undefined {
+  public get internalValue(): any | undefined {
     return this.realValue;
   }
 
@@ -26,31 +26,31 @@ export class TerraformAnyAttribute
     return new TerraformAnyAttribute(
       this,
       attributeName,
-      this.value?.attributeName
+      this.internalValue?.attributeName
     );
   }
 
-  public static create(
+  public static construct(
     parent: ITerraformAddressable,
     terraformAttribute: string,
     value: TerraformAny | undefined
   ) {
     if (!(value instanceof TerraformAnyAttribute)) {
       return new TerraformAnyAttribute(parent, terraformAttribute, value);
-    } else if (value.parent === parent) {
+    } else if (value.terraformParent === parent) {
       return value;
     } else {
       return new TerraformAnyAttribute(
         parent,
         terraformAttribute,
-        value.value,
+        value.internalValue,
         { nested: value }
       );
     }
   }
 
   protected valueToTerraform() {
-    return anyToTerraform(this.value);
+    return anyToTerraform(this.internalValue);
   }
 }
 
