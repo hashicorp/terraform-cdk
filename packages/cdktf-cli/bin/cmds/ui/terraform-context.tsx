@@ -62,7 +62,7 @@ const parseOutput = (str: string): DeployingResource[] => {
         applyState = DeployingResourceApplyState.DESTROYED
         break;
       default:
-        applyState = DeployingResourceApplyState.WAITING
+        return
     }
 
     if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
