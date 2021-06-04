@@ -12,7 +12,7 @@ import { terraformCheck } from './terraform-check';
 import { displayVersionMessage } from './version-check'
 import { FUTURE_FLAGS } from 'cdktf/lib/features';
 import { downloadFile, HttpError } from '../../lib/util';
-import { logger } from '../../lib/logging';
+import { logFileName, logger } from '../../lib/logging';
 
 const chalkColour = new chalk.Instance();
 
@@ -44,7 +44,7 @@ class Command implements yargs.CommandModule {
     await terraformCheck()
     await displayVersionMessage()
 
-    if (fs.readdirSync('.').filter(f => !f.startsWith('.')).length > 0) {
+    if (fs.readdirSync('.').filter(f => !f.startsWith('.') && f !== logFileName).length > 0) {
       console.error(chalkColour`{redBright ERROR: Cannot initialize a project in a non-empty directory}`);
       process.exit(1);
     }
