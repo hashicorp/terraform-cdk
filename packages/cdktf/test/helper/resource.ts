@@ -1,8 +1,8 @@
 
-import { TerraformResource, TerraformMetaArguments, ComplexComputedList } from '../../lib';
+import { TerraformResource, TerraformMetaArguments, ITerraformAddressable } from '../../lib';
 import { Construct } from 'constructs';
 import { TestProviderMetadata } from './provider'
-import { TerraformString, TerraformStringAttribute, TerraformStringList, TerraformStringListAttribute } from '../../lib/attributes';
+import { TerraformString, TerraformStringAttribute, TerraformStringList, TerraformStringListAttribute, TerraformObjectAttribute, TerraformListAttribute } from '../../lib/attributes';
 
 export interface TestResourceConfig extends TerraformMetaArguments {
   name: TerraformString;
@@ -79,12 +79,12 @@ export class OtherTestResource extends TerraformResource {
     });
   }
 
-  public get names(): string[] {
-    return this.getListAttribute("names")
+  public get names() {
+    return new TerraformStringListAttribute(this, 'names');
   }
 
-  public complexComputedList(index: string) {
-    return new TestComplexComputedList(this, 'complex_computed_list', index);
+  public complexComputedList(index: number) {
+    return new TestComplexComputedList(this, 'complex_computed_list').get(index);
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
@@ -92,8 +92,26 @@ export class OtherTestResource extends TerraformResource {
   }
 }
 
-class TestComplexComputedList extends ComplexComputedList {
+class TestComplexComputedList extends TerraformListAttribute {
+  public constructor(parent: ITerraformAddressable, terraformAttribute: string) {
+    super(parent, terraformAttribute);
+  }
+  protected valueToTerraform(): any {
+    return undefined;
+  }
+  public get(index: number): TestComputedAttribute {
+    return new TestComputedAttribute(this, index.toString());
+  }
+}
+
+class TestComputedAttribute extends TerraformObjectAttribute {
+  public constructor(parent: ITerraformAddressable, terraformAttribute: string) {
+    super(parent, terraformAttribute);
+  }
+  protected valueToTerraform(): any {
+    return undefined;
+  }
   public get id() {
-    return this.getStringAttribute('id');
+    return new TerraformStringAttribute(this, 'id');
   }
 }
