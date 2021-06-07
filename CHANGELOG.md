@@ -1,3 +1,10 @@
+## 0.4.1 (June 7, 2021)
+
+**Fixed Bugs**
+
+- Fix `cdktf destroy` - Make sure output parses only relevant parts [\#761](https://github.com/hashicorp/terraform-cdk/pull/761)
+- Dont error on init when log has been written [\#759](https://github.com/hashicorp/terraform-cdk/pull/759)
+
 ## 0.4.0 (May 27, 2021)
 
 **Implemented enhancements**
