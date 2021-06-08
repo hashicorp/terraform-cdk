@@ -35,6 +35,8 @@ Choose a language:
 * [C#](./docs/getting-started/csharp.md)
 * [Go](./docs/getting-started/go.md)
 
+> **Hands-on:** Try the tutorials in the [CDK for Terraform](https://learn.hashicorp.com/collections/terraform/cdktf) collection on HashiCorp Learn.
+
 ## Examples
 
 ### Typescript
