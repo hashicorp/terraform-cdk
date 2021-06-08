@@ -1,5 +1,6 @@
 # Getting Started with Go
 
+> **Hands-on:** Try the [Build AWS Infrastructure with Go](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-go?in=terraform/cdktf) tutorial on HashiCorp Learn.
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12

@@ -1,5 +1,6 @@
 # Getting started with TypeScript
 
+> **Hands-on:** Try the [Build AWS Infrastructure with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf) tutorial on HashiCorp Learn.
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12

@@ -1,5 +1,6 @@
 # Getting Started with Python
 
+> **Hands-on:** Try the [Build AWS Infrastructure with Python](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-python?in=terraform/cdktf) tutorial on HashiCorp Learn.
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
