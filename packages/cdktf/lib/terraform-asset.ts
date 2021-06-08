@@ -72,7 +72,8 @@ export class TerraformAsset extends Resource {
   public get path(): string {
     return path.posix.join(
       ASSETS_DIRECTORY,
-      this.stack.getLogicalId(Node.of(this)), // needed to get a human friendly, unique segment in the path
+      this.stack.getLogicalId(Node.of(this)), // readable name
+      this.assetHash, // hash depending on content so that path changes if content changes
       this.type === AssetType.DIRECTORY ? "" : this.fileName
     );
   }

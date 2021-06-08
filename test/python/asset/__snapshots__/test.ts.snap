@@ -36,10 +36,10 @@ exports[`python full integration test assets synth generates JSON and copies fil
   },
   \\"output\\": {
     \\"fixtureoutput\\": {
-      \\"value\\": \\"assets/fixture/fixture.txt\\"
+      \\"value\\": \\"assets/fixture/hash/fixture.txt\\"
     },
     \\"fixturesoutput\\": {
-      \\"value\\": \\"assets/fixtures/archive.zip\\"
+      \\"value\\": \\"assets/fixtures/hash/archive.zip\\"
     }
   }
 }"
