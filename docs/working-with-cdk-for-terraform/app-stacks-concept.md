@@ -1,5 +1,7 @@
 # App / Stacks Concept
 
+> **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial on HashiCorp Learn. This tutorial guides you through a multi-stack application.
+
 In CDK for Terraform we have the concept of an Application which consists of one or more Stacks.
 
 ## Constructs
