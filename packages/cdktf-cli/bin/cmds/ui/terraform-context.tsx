@@ -2,7 +2,7 @@
 import React from 'react'
 import { TerraformCli } from "./models/terraform-cli"
 import { TerraformCloud, TerraformCloudPlan } from "./models/terraform-cloud"
-import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResourceAction, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
+import { Terraform, DeployingResource, DeployingResourceApplyState, PlannedResource, TerraformPlan, TerraformOutput } from './models/terraform'
 import { SynthStack } from '../helper/synth-stack'
 import { TerraformJson } from './terraform-json'
 import { useApp } from 'ink'
@@ -28,53 +28,9 @@ export enum Status {
   DONE = 'done'
 }
 
-const parseOutput = (str: string): DeployingResource[] => {
+const parseOutput = (str: string, outputParser: (line: string) => DeployingResource | undefined): DeployingResource[] => {
   const lines = stripAnsi(str.toString()).split('\n')
-
-  const resources = lines.map(line => {
-
-    if (/^Outputs:/.test(line)) { return }
-    if (/^Plan:/.test(line)) { return }
-    if (/^data\..*/.test(line)) { return }
-
-    const resourceMatch = line.match(/^([a-zA-Z_][a-zA-Z\d_\-.]*):/)
-    let applyState: DeployingResourceApplyState;
-
-    switch (true) {
-      case /Creating.../.test(line):
-      case /Still creating.../.test(line):
-        applyState = DeployingResourceApplyState.CREATING
-        break;
-      case /Creation complete/.test(line):
-        applyState = DeployingResourceApplyState.CREATED
-        break;
-      case /Modifying.../.test(line):
-        applyState = DeployingResourceApplyState.UPDATING
-        break;
-      case /Modifications complete/.test(line):
-        applyState = DeployingResourceApplyState.UPDATED
-        break;
-      case /Destroying.../.test(line):
-      case /Still destroying.../.test(line):
-        applyState = DeployingResourceApplyState.DESTROYING
-        break;
-      case /Destruction complete/.test(line):
-        applyState = DeployingResourceApplyState.DESTROYED
-        break;
-      default:
-        return
-    }
-
-    if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
-      return {
-        id: resourceMatch[1],
-        action: PlannedResourceAction.CREATE,
-        applyState
-      }
-    } else {
-      return
-    }
-  })
+  const resources = lines.map(line => outputParser(line));
 
   return resources.reduce((acc, resource) => {
     if (resource) {
@@ -327,7 +283,7 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
         const resources: DeployingResource[] = plan.applyableResources.map((r: PlannedResource) => (Object.assign({}, r, { applyState: DeployingResourceApplyState.WAITING })))
         dispatch({ type: 'DEPLOY', resources })
         await terraform.deploy(plan.planFile, (output: Buffer) => {
-          const resources = parseOutput(output.toString());
+          const resources = parseOutput(output.toString(), terraform.outputParser);
           dispatch({ type: 'UPDATE_RESOURCES', resources })
         });
       }
@@ -347,7 +303,7 @@ export const useTerraform = ({ targetDir, targetStack, synthCommand, isSpeculati
         dispatch({ type: 'DESTROY', resources })
 
         await terraform.destroy((output: Buffer) => {
-          const resources = parseOutput(output.toString());
+          const resources = parseOutput(output.toString(), terraform.outputParser);
           dispatch({ type: 'UPDATE_RESOURCES', resources })
         });
       }

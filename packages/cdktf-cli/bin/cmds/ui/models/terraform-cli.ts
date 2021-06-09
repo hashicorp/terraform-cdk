@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { exec, readCDKTFVersion } from 'cdktf-cli/lib/util'
-import { Terraform, TerraformPlan, TerraformOutput, AbstractTerraformPlan } from './terraform';
+import { Terraform, TerraformPlan, TerraformOutput, AbstractTerraformPlan, getResourceState, PlannedResourceAction, DeployingResource } from './terraform';
 import { SynthesizedStack } from '../../helper/synth-stack';
 import { terraformBinaryName } from '../../helper/terraform';
 
@@ -68,6 +68,25 @@ export class TerraformCli implements Terraform {
     const version = await readCDKTFVersion(this.workdir)
     if (version != "") {
       process.env.TF_APPEND_USER_AGENT = "cdktf/" + version + " (+https://github.com/hashicorp/terraform-cdk)";
+    }
+  }
+
+  public outputParser(line: string): DeployingResource | undefined {
+    if (/^Outputs:/.test(line)) { return }
+    if (/^Plan:/.test(line)) { return }
+    if (/^data\..*/.test(line)) { return }
+
+    const resourceMatch = line.match(/^([a-zA-Z_][a-zA-Z\d_\-.]*):/)
+    const applyState = getResourceState(line);
+
+    if (applyState && resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
+      return {
+        id: resourceMatch[1] as string,
+        action: PlannedResourceAction.CREATE,
+        applyState
+      }
+    } else {
+      return
     }
   }
 }

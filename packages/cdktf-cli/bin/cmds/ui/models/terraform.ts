@@ -93,10 +93,35 @@ export abstract class AbstractTerraformPlan implements TerraformPlan {
   }
 }
 
+export const getResourceState = (line: string): DeployingResourceApplyState | undefined => {
+  switch (true) {
+    case /Creating.../.test(line):
+    case /Provisioning.../.test(line):
+    case /Still creating.../.test(line):
+    case /Still provisioning.../.test(line):
+      return DeployingResourceApplyState.CREATING;
+    case /Creation complete/.test(line):
+    case /Provisioning complete/.test(line):
+      return DeployingResourceApplyState.CREATED;
+    case /Modifying.../.test(line):
+      return DeployingResourceApplyState.UPDATING;
+    case /Modifications complete/.test(line):
+      return DeployingResourceApplyState.UPDATED;
+    case /Destroying.../.test(line):
+    case /Still destroying.../.test(line):
+      return DeployingResourceApplyState.DESTROYING;
+    case /Destruction complete/.test(line):
+      return DeployingResourceApplyState.DESTROYED;
+    default:
+      return undefined
+  }
+}
+
 export interface Terraform {
   init: () => Promise<void>;
   plan: (destroy: boolean) => Promise<TerraformPlan>;
   deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void>;
   destroy(stdout: (chunk: Buffer) => any): Promise<void>;
   output(): Promise<{[key: string]: TerraformOutput}>;
+  outputParser: (line: string) => DeployingResource | undefined;
 }

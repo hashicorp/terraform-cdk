@@ -2,7 +2,7 @@
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
-import { Terraform, TerraformPlan, TerraformOutput, AbstractTerraformPlan } from './terraform';
+import { Terraform, TerraformPlan, TerraformOutput, AbstractTerraformPlan, DeployingResource, getResourceState, PlannedResourceAction } from './terraform';
 import { TerraformJsonConfigBackendRemote } from '../terraform-json'
 import * as TerraformCloudClient from '@skorfmann/terraform-cloud'
 import archiver from 'archiver';
@@ -25,6 +25,29 @@ export interface TerraformCredentials {
 export interface TerraformCredentialsFile {
   credentials: TerraformCredentials;
 }
+
+// This is ducktyped, we should check the real type upstream
+type CloudLog = {
+  "@level": string;
+  "@message": string;
+  "@module": string;
+  "@timestamp": string;
+  hook?: {
+    resource?: {
+      addr?: string;
+      module?: string;
+      resource?: string;
+      implied_provider?: string;
+      resource_type?: string;
+      resource_name?: string;
+    };
+    action?: string;
+    id_key?: string;
+    id_value?: string;
+  };
+  type: string;
+};
+
 
 const zipDirectory = (source: string): Promise<Buffer | false> => {
   const archive = archiver('tar', { gzip: true });
@@ -319,5 +342,27 @@ export class TerraformCloud implements Terraform {
     };
     await Promise.race([ready(), timeout()]);
     logger.debug('Configuration Version is ready in Terraform Cloud');
+  }
+
+  public outputParser(line: string): DeployingResource | undefined {
+    let message: CloudLog;
+    try {
+      message = JSON.parse(line) as CloudLog
+    } catch (error) {
+      throw new Error(`Could not parse Terraform Cloud output: ${line}`);
+    }
+
+    const resourceMatch = message.hook?.resource?.resource;
+    const applyState = getResourceState(message['@message']); // TODO: use type instead
+
+    if (applyState && resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
+      return {
+        id: resourceMatch[1],
+        action: PlannedResourceAction.CREATE,
+        applyState
+      }
+    } else {
+      return
+    }
   }
 }
