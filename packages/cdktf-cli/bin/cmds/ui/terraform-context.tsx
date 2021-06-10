@@ -8,6 +8,9 @@ import { TerraformJson } from './terraform-json'
 import { useApp } from 'ink'
 import stripAnsi from 'strip-ansi'
 import { SynthesizedStack } from '../helper/synth-stack'
+import { logger } from '../../../lib/logging'
+import { schema, ActionTypes } from './models/schema';
+import * as z from 'zod';
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -27,6 +30,61 @@ export enum Status {
   DESTROYING = 'destroying',
   DONE = 'done'
 }
+
+const mapActionToState = (action: ActionTypes, done: boolean) => {
+  switch (action) {
+    case "create":
+    case "update":
+      return done
+        ? DeployingResourceApplyState.CREATED
+        : DeployingResourceApplyState.CREATING;
+    case "delete":
+      return done
+        ? DeployingResourceApplyState.DESTROYED
+        : DeployingResourceApplyState.DESTROYING;
+    default:
+      return DeployingResourceApplyState.WAITING;
+  }
+};
+const parseJsonOutputLine = (
+  line: string
+): Omit<DeployingResource, "action"> | undefined => {
+  let json,message;
+  try {
+    json = JSON.parse(line);
+  } catch {
+    logger.debug(`Could not parse line as JSON: ${line}`);
+    return;
+  }
+
+  try {
+    message = schema.parse(json);
+  } catch(err) {
+    if (err instanceof z.ZodError) {
+      logger.warn(`Error parsing line into schema: ${JSON.stringify(err.errors)} => ${line}`)
+    }
+    
+    return
+  }
+
+  switch (message.type) {
+    case "apply_start":
+    case "apply_progress":
+      return {
+        id: message.hook.resource.resource,
+        applyState: mapActionToState(message.hook.action, false),
+      };
+
+    case "apply_complete":
+      return {
+        id: message.hook.resource.resource,
+        applyState: mapActionToState(message.hook.action, true),
+      };
+    default:
+      return;
+  }
+};
+
 
 const parseTextOutputLine = (line: string): Omit<DeployingResource, "action"> | undefined => {
   if (/^Outputs:/.test(line)) { return }
@@ -75,7 +133,7 @@ const parseOutput = (str: string): DeployingResource[] => {
   const lines = stripAnsi(str.toString()).split('\n')
 
   const resources = lines.map(line => {
-    const parsed = parseTextOutputLine(line)
+    const parsed = parseJsonOutputLine(line) || parseTextOutputLine(line)
     if (parsed === undefined) {
       return;
     }
