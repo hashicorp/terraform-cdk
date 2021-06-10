@@ -63,6 +63,7 @@ Choose a language:
 
 * [aws](./examples/python/aws)
 * [aws-eks](./examples/python/aws-eks)
+* [azure](./examples/python/azure)
 * [docker](./examples/python/docker)
 * [kubernetes](./examples/python/kubernetes)
 
