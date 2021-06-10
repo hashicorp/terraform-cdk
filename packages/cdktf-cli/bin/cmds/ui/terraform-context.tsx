@@ -28,52 +28,64 @@ export enum Status {
   DONE = 'done'
 }
 
+const parseTextOutputLine = (line: string): Omit<DeployingResource, "action"> | undefined => {
+  if (/^Outputs:/.test(line)) { return }
+  if (/^Plan:/.test(line)) { return }
+  if (/^data\..*/.test(line)) { return }
+
+  const resourceMatch = line.match(/^([a-zA-Z_][a-zA-Z\d_\-.]*):/)
+  let applyState: DeployingResourceApplyState;
+
+  switch (true) {
+    case /Creating.../.test(line):
+    case /Still creating.../.test(line):
+      applyState = DeployingResourceApplyState.CREATING
+      break;
+    case /Creation complete/.test(line):
+      applyState = DeployingResourceApplyState.CREATED
+      break;
+    case /Modifying.../.test(line):
+      applyState = DeployingResourceApplyState.UPDATING
+      break;
+    case /Modifications complete/.test(line):
+      applyState = DeployingResourceApplyState.UPDATED
+      break;
+    case /Destroying.../.test(line):
+    case /Still destroying.../.test(line):
+      applyState = DeployingResourceApplyState.DESTROYING
+      break;
+    case /Destruction complete/.test(line):
+      applyState = DeployingResourceApplyState.DESTROYED
+      break;
+    default:
+      return
+  }
+
+  if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
+    return {
+      id: resourceMatch[1],
+      applyState
+    }
+  } else {
+    return
+  }
+}
+
 const parseOutput = (str: string): DeployingResource[] => {
   const lines = stripAnsi(str.toString()).split('\n')
 
   const resources = lines.map(line => {
-
-    if (/^Outputs:/.test(line)) { return }
-    if (/^Plan:/.test(line)) { return }
-    if (/^data\..*/.test(line)) { return }
-
-    const resourceMatch = line.match(/^([a-zA-Z_][a-zA-Z\d_\-.]*):/)
-    let applyState: DeployingResourceApplyState;
-
-    switch (true) {
-      case /Creating.../.test(line):
-      case /Still creating.../.test(line):
-        applyState = DeployingResourceApplyState.CREATING
-        break;
-      case /Creation complete/.test(line):
-        applyState = DeployingResourceApplyState.CREATED
-        break;
-      case /Modifying.../.test(line):
-        applyState = DeployingResourceApplyState.UPDATING
-        break;
-      case /Modifications complete/.test(line):
-        applyState = DeployingResourceApplyState.UPDATED
-        break;
-      case /Destroying.../.test(line):
-      case /Still destroying.../.test(line):
-        applyState = DeployingResourceApplyState.DESTROYING
-        break;
-      case /Destruction complete/.test(line):
-        applyState = DeployingResourceApplyState.DESTROYED
-        break;
-      default:
-        return
+    const parsed = parseTextOutputLine(line)
+    if (parsed === undefined) {
+      return;
     }
-
-    if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
-      return {
-        id: resourceMatch[1],
-        action: PlannedResourceAction.CREATE,
-        applyState
-      }
-    } else {
-      return
-    }
+    
+    const { id, applyState } = parsed;
+    return {
+      id, 
+      applyState,
+      action: PlannedResourceAction.CREATE,
+    };
   })
 
   return resources.reduce((acc, resource) => {
