@@ -1,7 +1,7 @@
 import os
 
 from constructs import Construct
-from cdktf import App, TerraformStack, TerraformOutput
+from cdktf import App, TerraformStack, TerraformOutput, TerraformAsset, AssetType
 
 from imports.google import (
     CloudfunctionsFunctionIamBinding,
@@ -20,13 +20,18 @@ class CloudFunctionStack(TerraformStack):
 
         code_bucket = StorageBucket(self, "bucket", name="terraform-cf-zip-files", project=project_id)
 
-        code_object = StorageBucketObject(self, "archive", \
-            name="source.zip",
-            bucket = code_bucket.name,
-            source = os.path.join(os.path.abspath("./"), "function", "source.zip"),
+        asset = TerraformAsset(self, "cloud-function-asset", \
+            path = os.path.join( os.path.abspath(os.path.dirname(__name__)), "function"),
+            type = AssetType.ARCHIVE
             )
 
-        cloud_function = CloudfunctionsFunction(self, 'addition function', \
+        code_object = StorageBucketObject(self, "archive", \
+            name=asset.file_name,
+            bucket = code_bucket.name,
+            source = asset.path,
+            )
+
+        cloud_function = CloudfunctionsFunction(self, 'addition-function', \
             name="addition",
             project=project_id,
             region="us-central1",
@@ -46,6 +51,6 @@ class CloudFunctionStack(TerraformStack):
             role="roles/cloudfunctions.invoker"
             )
 
-        url = TerraformOutput(self, "cloud function url",\
+        url = TerraformOutput(self, "cloud-function-url",\
             value=cloud_function.https_trigger_url
             )
