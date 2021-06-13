@@ -1,3 +1,5 @@
+A simple example GCP cloud function built using cdktf python template
+
 ## Usage
 
 Install Pipenv using Homebrew by running:
