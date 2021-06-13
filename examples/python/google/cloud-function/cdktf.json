@@ -1,0 +1,11 @@
+{
+  "language": "python",
+  "app": "pipenv run python main.py",
+  "terraformProviders": ["google@~> 3.3"],
+  "terraformModules": [],
+  "codeMakerOutput": "imports",
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+"allowSepCharsInLogicalIds": "true"
+  }
+}
