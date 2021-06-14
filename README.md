@@ -12,6 +12,8 @@
 CDK (Cloud Development Kit) for Terraform allows developers to use familiar
 programming languages to define cloud infrastructure and provision it through
 HashiCorp Terraform.
+
+![terraform platform](./docs/terraform-platform.png)
 ## Overview
 
 CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules and providers](./docs/working-with-cdk-for-terraform/using-providers-and-modules.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
