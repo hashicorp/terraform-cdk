@@ -1,3 +1,9 @@
+![](https://github.com/hashicorp/terraform-cdk/workflows/Release/badge.svg)
+[![npm version](https://badge.fury.io/js/cdktf.svg)](https://badge.fury.io/js/cdktf)
+[![PyPI version](https://badge.fury.io/py/cdktf.svg)](https://badge.fury.io/py/cdktf)
+[![NuGet version](https://badge.fury.io/nu/HashiCorp.Cdktf.svg)](https://badge.fury.io/nu/HashiCorp.Cdktf)
+[![Maven Central](https://img.shields.io/maven-central/v/com.hashicorp/cdktf?color=brightgreen)](https://search.maven.org/artifact/com.hashicorp/cdktf)
+[![homebrew](https://img.shields.io/homebrew/v/cdktf?color=brightgreen)](https://formulae.brew.sh/formula/cdktf#default)
 # CDK for Terraform
 
 > This experimental repository contains software which is still being developed
@@ -6,14 +12,6 @@
 CDK (Cloud Development Kit) for Terraform allows developers to use familiar
 programming languages to define cloud infrastructure and provision it through
 HashiCorp Terraform.
-
-![](https://github.com/hashicorp/terraform-cdk/workflows/Release/badge.svg)
-[![npm version](https://badge.fury.io/js/cdktf.svg)](https://badge.fury.io/js/cdktf)
-[![PyPI version](https://badge.fury.io/py/cdktf.svg)](https://badge.fury.io/py/cdktf)
-[![NuGet version](https://badge.fury.io/nu/HashiCorp.Cdktf.svg)](https://badge.fury.io/nu/HashiCorp.Cdktf)
-[![Maven Central](https://img.shields.io/maven-central/v/com.hashicorp/cdktf?color=brightgreen)](https://search.maven.org/artifact/com.hashicorp/cdktf)
-[![homebrew](https://img.shields.io/homebrew/v/cdktf?color=brightgreen)](https://formulae.brew.sh/formula/cdktf#default)
-
 ## Overview
 
 CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules and providers](./docs/working-with-cdk-for-terraform/using-providers-and-modules.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
