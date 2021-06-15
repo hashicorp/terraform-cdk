@@ -33,4 +33,4 @@ jobs:
         if: steps.waitforstatuschecks.outputs.status != 'success'
         with:
           script: |
-            core.setFailed('One of the Github Acions worfklows failed for this PR')
+            core.setFailed('One of the Github Actions workflows failed for this PR')
