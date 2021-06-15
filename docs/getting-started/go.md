@@ -132,6 +132,30 @@ JSII [is using pointers](https://github.com/aws/aws-cdk-rfcs/blob/master/text/20
 to be able to represent an unset optional value as `nil`. Hence the helper functions `jsii.String()` and `jsii.Number()` are used
 in the example to get pointers to the corresponding types which can are passed as inputs.
 
+## Using Terraform Providers
+
+As you can see in the example above we want to deploy AWS resources, therefore we need to use the [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs). The default way to work with a provider is to specify it in your local `cdktf.json` file, like this:
+
+```jsonc
+{
+  "language": "go",
+  "app": "go run main.go",
+  "terraformProviders": [
+    // Terraform Providers with version constraint go here 
+    "aws@~> 3.45" 
+  ],
+  "terraformModules": [
+    // Terraform Modules with version constraint go here
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}
+```
+
+Next you need to run `cdktf get` which generates provider-specific bindings.
+To save some time you can also use pre-built provider, please visit the ["Using Providers and Modules"-Guide](../working-with-cdk-for-terraform/using-providers-and-modules.md) for more on that topic.
+
 ## Generating Go provider bindings
 For the above example to work, we need to add the `kreuzwerker/docker` Terraform provider to the `cdktf.json`.
 
