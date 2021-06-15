@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: wait
+        id: waitforstatuschecks
         uses: "WyriHaximus/github-action-wait-for-status@v1.2"
         with:
           ignoreActions: checkrun-timechart
@@ -21,3 +22,15 @@ jobs:
         with:
           SHA: "${{ github.event.pull_request.head.sha }}"
           TRACE_START: "${{ github.event.pull_request.updated_at }}"
+
+      # It's difficult to determine all jobs for a PR
+      # see https://docs.mergify.io/conditions/#about-status-checks
+      # Since we have this 'checkrun-timechart' job, which essentially
+      # knows all the statuses (see https://github.com/WyriHaximus/github-action-wait-for-status#output),
+      # we can leverage it to provide a global status to mergify.
+      - name: 'mergify status'
+        uses: actions/github-script@v3
+        if: steps.waitforstatuschecks.outputs.status != 'success'
+        with:
+          script: |
+            core.setFailed('One of the Github Actions workflows failed for this PR')
