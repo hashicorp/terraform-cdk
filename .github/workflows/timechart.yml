@@ -33,4 +33,4 @@ jobs:
         if: steps.waitforstatuschecks.outputs.status != 'success'
         with:
           script: |
-            core.setFailed('One of the tests failed')
+            core.setFailed('One of the Github Acions worfklows failed for this PR')
