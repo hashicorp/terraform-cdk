@@ -8,6 +8,9 @@ import { TerraformJson } from './terraform-json'
 import { useApp } from 'ink'
 import stripAnsi from 'strip-ansi'
 import { SynthesizedStack } from '../helper/synth-stack'
+import { logger } from '../../../lib/logging'
+import { schema, ActionTypes } from './models/schema';
+import * as z from 'zod';
 
 type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
@@ -28,52 +31,119 @@ export enum Status {
   DONE = 'done'
 }
 
+const mapActionToState = (action: ActionTypes, done: boolean) => {
+  switch (action) {
+    case "create":
+    case "update":
+      return done
+        ? DeployingResourceApplyState.CREATED
+        : DeployingResourceApplyState.CREATING;
+    case "delete":
+      return done
+        ? DeployingResourceApplyState.DESTROYED
+        : DeployingResourceApplyState.DESTROYING;
+    default:
+      return DeployingResourceApplyState.WAITING;
+  }
+};
+const parseJsonOutputLine = (
+  line: string
+): Omit<DeployingResource, "action"> | undefined => {
+  let json,message;
+  try {
+    json = JSON.parse(line);
+  } catch {
+    logger.debug(`Could not parse line as JSON: ${line}`);
+    return;
+  }
+
+  try {
+    message = schema.parse(json);
+  } catch(err) {
+    if (err instanceof z.ZodError) {
+      logger.warn(`Error parsing line into schema: ${JSON.stringify(err.errors)} => ${line}`)
+    }
+    
+    return
+  }
+
+  switch (message.type) {
+    case "apply_start":
+    case "apply_progress":
+      return {
+        id: message.hook.resource.resource,
+        applyState: mapActionToState(message.hook.action, false),
+      };
+
+    case "apply_complete":
+      return {
+        id: message.hook.resource.resource,
+        applyState: mapActionToState(message.hook.action, true),
+      };
+    default:
+      return;
+  }
+};
+
+
+const parseTextOutputLine = (line: string): Omit<DeployingResource, "action"> | undefined => {
+  if (/^Outputs:/.test(line)) { return }
+  if (/^Plan:/.test(line)) { return }
+  if (/^data\..*/.test(line)) { return }
+
+  const resourceMatch = line.match(/^([a-zA-Z_][a-zA-Z\d_\-.]*):/)
+  let applyState: DeployingResourceApplyState;
+
+  switch (true) {
+    case /Creating.../.test(line):
+    case /Still creating.../.test(line):
+      applyState = DeployingResourceApplyState.CREATING
+      break;
+    case /Creation complete/.test(line):
+      applyState = DeployingResourceApplyState.CREATED
+      break;
+    case /Modifying.../.test(line):
+      applyState = DeployingResourceApplyState.UPDATING
+      break;
+    case /Modifications complete/.test(line):
+      applyState = DeployingResourceApplyState.UPDATED
+      break;
+    case /Destroying.../.test(line):
+    case /Still destroying.../.test(line):
+      applyState = DeployingResourceApplyState.DESTROYING
+      break;
+    case /Destruction complete/.test(line):
+      applyState = DeployingResourceApplyState.DESTROYED
+      break;
+    default:
+      return
+  }
+
+  if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
+    return {
+      id: resourceMatch[1],
+      applyState
+    }
+  } else {
+    return
+  }
+}
+
 const parseOutput = (str: string): DeployingResource[] => {
   const lines = stripAnsi(str.toString()).split('\n')
 
   const resources = lines.map(line => {
-
-    if (/^Outputs:/.test(line)) { return }
-    if (/^Plan:/.test(line)) { return }
-    if (/^data\..*/.test(line)) { return }
-
-    const resourceMatch = line.match(/^([a-zA-Z_][a-zA-Z\d_\-.]*):/)
-    let applyState: DeployingResourceApplyState;
-
-    switch (true) {
-      case /Creating.../.test(line):
-      case /Still creating.../.test(line):
-        applyState = DeployingResourceApplyState.CREATING
-        break;
-      case /Creation complete/.test(line):
-        applyState = DeployingResourceApplyState.CREATED
-        break;
-      case /Modifying.../.test(line):
-        applyState = DeployingResourceApplyState.UPDATING
-        break;
-      case /Modifications complete/.test(line):
-        applyState = DeployingResourceApplyState.UPDATED
-        break;
-      case /Destroying.../.test(line):
-      case /Still destroying.../.test(line):
-        applyState = DeployingResourceApplyState.DESTROYING
-        break;
-      case /Destruction complete/.test(line):
-        applyState = DeployingResourceApplyState.DESTROYED
-        break;
-      default:
-        return
+    const parsed = parseJsonOutputLine(line) || parseTextOutputLine(line)
+    if (parsed === undefined) {
+      return;
     }
-
-    if (resourceMatch && resourceMatch.length >= 0 && resourceMatch[1] != "Warning") {
-      return {
-        id: resourceMatch[1],
-        action: PlannedResourceAction.CREATE,
-        applyState
-      }
-    } else {
-      return
-    }
+    
+    const { id, applyState } = parsed;
+    return {
+      id, 
+      applyState,
+      action: PlannedResourceAction.CREATE,
+    };
   })
 
   return resources.reduce((acc, resource) => {
