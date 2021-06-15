@@ -86,6 +86,7 @@ Choose a language:
 
 * [docker](./examples/go/docker)
 * [aws](./examples/go/aws) ⚠️ _High memory usage: the provider generation currently needs ~6 GB of memory. Hence the maximum for Node.js is [currently set to 8GB](https://github.com/hashicorp/terraform-cdk/blob/11d2e783d1fe94e50abd116ba73689c02590a391/packages/cdktf-cli/lib/get/constructs-maker.ts#L279)_
+* [google cloud kubernetes engine + kubernetes](./examples/go/google)
 
 ## Documentation
 

@@ -1,0 +1,23 @@
+{
+  "language": "go",
+  "app": "go run main.go",
+  "codeMakerOutput": "generated",
+  "terraformProviders": [
+    "hashicorp/kubernetes@ ~> 2.2.0",
+    "kreuzwerker/docker@ ~> 2.11.0",
+    "hashicorp/local@ ~> 2.1.0",
+    "hashicorp/helm@ ~> 2.1.2",
+    "hashicorp/google@ ~> 3.69.0"
+  ],
+  "terraformModules": [
+    {
+      "name": "gkeAuth",
+      "source": "terraform-google-modules/kubernetes-engine/google//modules/auth",
+      "version": "14.3.0"
+    }
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}
