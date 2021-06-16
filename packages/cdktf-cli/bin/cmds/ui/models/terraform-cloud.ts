@@ -60,9 +60,12 @@ function BeautifyErrors(name: string) {
       } catch (e) {
         if (e.response && e.response.status >= 400 && e.response.status <= 599){
           const errors = e.response.data?.errors as (object[] | undefined);
+          logger.error(`Error in ${name}: ${JSON.stringify(e)}`);
           if (errors) {
             throw new Error(`${name}: Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
           }
+        } else {
+          logger.warn(`Error in ${name}: ${JSON.stringify(e)}`);
         }
         throw e;
       }
