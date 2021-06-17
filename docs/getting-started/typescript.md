@@ -94,7 +94,9 @@ app.synth();
 
 ## Using Terraform Providers
 
-As you can see in the example above we want to deploy AWS resources, therefore we need to use the [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs). The default way to work with a provider is to specify it in your local `cdktf.json` file, like this:
+As you can see in the example above we want to deploy AWS resources, therefore we need to use the [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs). Every [Terraform Provider](https://registry.terraform.io/browse/providers) and [Terraform Module](https://registry.terraform.io/browse/modules) can be used with the workflow described here.
+
+You specify it in your local `cdktf.json` file, like this:
 
 ```jsonc
 {
