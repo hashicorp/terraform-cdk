@@ -92,6 +92,32 @@ new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
+## Using Terraform Providers
+
+As you can see in the example above we want to deploy AWS resources, therefore we need to use the [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs). Every [Terraform Provider](https://registry.terraform.io/browse/providers) and [Terraform Module](https://registry.terraform.io/browse/modules) can be used with the workflow described here.
+
+You specify it in your local `cdktf.json` file, like this:
+
+```jsonc
+{
+  "language": "typescript",
+  "app": "npm run --silent compile && node main.js",
+  "terraformProviders": [
+    // Terraform Providers with version constraint go here 
+    "aws@~> 3.45" 
+  ],
+  "terraformModules": [
+    // Terraform Modules with version constraint go here
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}
+```
+
+Next you need to run `cdktf get` which generates provider-specific bindings.
+To save some time you can also use pre-built provider, please visit the ["Using Providers and Modules"-Guide](../working-with-cdk-for-terraform/using-providers-and-modules.md) for more on that topic.
+
 **Synthesize Application**
 
 When you are ready you can run the `synthesize` command to generate Terraform JSON configuration for the application.
