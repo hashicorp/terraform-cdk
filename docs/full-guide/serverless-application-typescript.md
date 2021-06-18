@@ -61,6 +61,8 @@ The example consists of three stacks:
 - PostsStack
 - PreviewStack
 
+For the `FrontendStack` and the `PostsStack` there are two instances each, one for each environment (`dev` and `prod`).
+
 ### FrontendStack
 
 The frontend stack manages infrastructure for a statically hosted web frontend
