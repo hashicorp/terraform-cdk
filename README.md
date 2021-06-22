@@ -41,6 +41,7 @@ Choose a language:
 
 ### Typescript
 
+* [aws-ecs-docker-and-static-frontend](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript)
 * [aws-prebuilt](./examples/typescript/aws-prebuilt)
 * [aws-multiple-stacks](./examples/typescript/aws-multiple-stacks)
 * [aws-cloudfront-proxy](./examples/typescript/aws-cloudfront-proxy)
