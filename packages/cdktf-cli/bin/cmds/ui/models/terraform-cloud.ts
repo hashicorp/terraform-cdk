@@ -130,6 +130,8 @@ export class TerraformCloud implements Terraform {
 
     this.configurationVersionId = version.id
 
+    this.removeLocalTerraformDirectory()
+
     const zipBuffer = await zipDirectory(this.workDir)
     if (!zipBuffer) throw new Error("Couldn't upload directory to Terraform Cloud");
 
@@ -322,5 +324,13 @@ export class TerraformCloud implements Terraform {
     };
     await Promise.race([ready(), timeout()]);
     logger.debug('Configuration Version is ready in Terraform Cloud');
+  }
+
+  private removeLocalTerraformDirectory() {
+    try {
+      fs.rmdirSync(path.resolve(this.stack.synthesizedStackPath, ".terraform"), {recursive: true});
+    } catch (error) {
+      logger.debug(`Could not remove .terraform folder`, error);
+    }
   }
 }
