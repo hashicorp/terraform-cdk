@@ -1,0 +1,12 @@
+========================================================================================================
+
+ Your cdktf Python project is ready!
+
+   cat help      Prints this message
+   cdktf synth   Synthesize Terraform resources to cdktf.out/
+   cdktf get     Imports Terraform Provider Resources
+
+  Deploy:
+   terraform apply ./cdktf.out
+
+========================================================================================================
