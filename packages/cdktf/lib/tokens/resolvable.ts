@@ -60,7 +60,7 @@ export interface IResolvable {
 /**
  * A Token that can post-process the complete resolved value, after resolve() has recursed over it
  */
-export interface IPostProcessor  {
+export interface IPostProcessor {
   /**
    * Process the completely resolved value, after full recursion/resolution has happened
    */
@@ -74,7 +74,11 @@ export interface ITokenResolver {
   /**
    * Resolve a single token
    */
-  resolveToken(t: IResolvable, context: IResolveContext, postProcessor: IPostProcessor): any;
+  resolveToken(
+    t: IResolvable,
+    context: IResolveContext,
+    postProcessor: IPostProcessor
+  ): any;
 
   /**
    * Resolve a string with at least one stringified token in it
@@ -110,8 +114,12 @@ export interface IFragmentConcatenator {
  */
 export class StringConcat implements IFragmentConcatenator {
   public join(left: any | undefined, right: any | undefined): any {
-    if (left === undefined) { return right !== undefined ? `${right}` : undefined; }
-    if (right === undefined) { return `${left}`; }
+    if (left === undefined) {
+      return right !== undefined ? `${right}` : undefined;
+    }
+    if (right === undefined) {
+      return `${left}`;
+    }
     return `${left}${right}`;
   }
 }
@@ -122,8 +130,7 @@ export class StringConcat implements IFragmentConcatenator {
  * @experimental
  */
 export class DefaultTokenResolver implements ITokenResolver {
-  constructor(private readonly concat: IFragmentConcatenator) {
-  }
+  constructor(private readonly concat: IFragmentConcatenator) {}
 
   /**
    * Default Token resolution
@@ -131,7 +138,11 @@ export class DefaultTokenResolver implements ITokenResolver {
    * Resolve the Token, recurse into whatever it returns,
    * then finally post-process it.
    */
-  public resolveToken(t: IResolvable, context: IResolveContext, postProcessor: IPostProcessor) {
+  public resolveToken(
+    t: IResolvable,
+    context: IResolveContext,
+    postProcessor: IPostProcessor
+  ) {
     try {
       let resolved = t.resolve(context);
 
@@ -142,7 +153,9 @@ export class DefaultTokenResolver implements ITokenResolver {
     } catch (e) {
       let message = `Resolution error: ${e.message}.`;
       if (t.creationStack && t.creationStack.length > 0) {
-        message += `\nObject creation stack:\n  at ${t.creationStack.join('\n  at ')}`;
+        message += `\nObject creation stack:\n  at ${t.creationStack.join(
+          "\n  at "
+        )}`;
       }
 
       e.message = message;
@@ -153,7 +166,10 @@ export class DefaultTokenResolver implements ITokenResolver {
   /**
    * Resolve string fragments to Tokens
    */
-  public resolveString(fragments: TokenizedStringFragments, context: IResolveContext) {
+  public resolveString(
+    fragments: TokenizedStringFragments,
+    context: IResolveContext
+  ) {
     return fragments.mapTokens({ mapToken: context.resolve }).join(this.concat);
   }
 
@@ -167,7 +183,9 @@ export class DefaultTokenResolver implements ITokenResolver {
     const tokenMap = TokenMap.instance();
     const fragments = str.split(tokenMap.lookupToken.bind(tokenMap));
     if (fragments.length !== 1) {
-      throw new Error(`Cannot concatenate strings in a tokenized string array, got: ${xs[0]}`);
+      throw new Error(
+        `Cannot concatenate strings in a tokenized string array, got: ${xs[0]}`
+      );
     }
 
     return fragments.mapTokens({ mapToken: context.resolve }).firstValue;

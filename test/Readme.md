@@ -29,6 +29,7 @@ $ ./run-against-dist npx jest --runInBand
 2. Create a file named `test.ts`
 
 Test Environment:
+
 - The test script is executed within a temporary working directory under
   /tmp/xxxx/test (where xxxx is some random tmp file).
 - See existing tests as examples on how to bring in auxiliary files to the test.
@@ -37,4 +38,3 @@ Test Environment:
 - To install dependencies from pacakge managers, use `yarn`, `npm`, `pipenv`,
   `mvn` and `nuget`. Those programs will be shimmed to allow consuming local
   dependencies.
-

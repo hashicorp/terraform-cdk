@@ -7,12 +7,12 @@ import {
   DeployingResource,
   DeployingResourceApplyState,
   PlannedResourceAction,
-  TerraformOutput
+  TerraformOutput,
 } from "../../bin/cmds/ui/models/terraform";
 import {
   TerraformProvider,
   DeployState,
-  Status
+  Status,
 } from "../../bin/cmds/ui/terraform-context";
 import { SynthesizedStack } from "../../bin/cmds/helper/synth-stack";
 
@@ -20,7 +20,7 @@ test("DeploySummary", async () => {
   const resource: DeployingResource = {
     id: "foo.bar_352350",
     action: PlannedResourceAction.CREATE,
-    applyState: DeployingResourceApplyState.CREATED
+    applyState: DeployingResourceApplyState.CREATED,
   };
 
   const { lastFrame } = render(<DeploySummary resources={[resource]} />);
@@ -36,18 +36,18 @@ test("Output", async () => {
     foo: {
       sensitive: false,
       type: "bar",
-      value: "baz"
+      value: "baz",
     },
     map: {
       sensitive: false,
       type: "map",
-      value: { keyA: "valueA", keyB: "valueB" }
+      value: { keyA: "valueA", keyB: "valueB" },
     },
     list: {
       sensitive: false,
       type: "list",
-      value: ["A", "B", "C"]
-    }
+      value: ["A", "B", "C"],
+    },
   };
 
   const { lastFrame } = render(<Output output={output} />);
@@ -69,7 +69,7 @@ test("Apply", async () => {
   const resource: DeployingResource = {
     id: "foo.bar_352350",
     action: PlannedResourceAction.CREATE,
-    applyState: DeployingResourceApplyState.CREATING
+    applyState: DeployingResourceApplyState.CREATING,
   };
 
   const currentStack: SynthesizedStack = {
@@ -77,13 +77,13 @@ test("Apply", async () => {
     content: "",
     name: "testing",
     synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo"
+    workingDirectory: "./foo",
   };
 
   const initialState: DeployState = {
     status: Status.STARTING,
     resources: [resource],
-    currentStack
+    currentStack,
   };
 
   const { lastFrame } = render(
@@ -104,13 +104,13 @@ test("Apply Multiple Resources", async () => {
   const resource: DeployingResource = {
     id: "null_resource.hellodiff_test_352350",
     action: PlannedResourceAction.CREATE,
-    applyState: DeployingResourceApplyState.CREATING
+    applyState: DeployingResourceApplyState.CREATING,
   };
 
   const otherResource: DeployingResource = {
     id: "null_resource.hellodiff_test_85E428D7",
     action: PlannedResourceAction.CREATE,
-    applyState: DeployingResourceApplyState.CREATED
+    applyState: DeployingResourceApplyState.CREATED,
   };
 
   const currentStack: SynthesizedStack = {
@@ -118,13 +118,13 @@ test("Apply Multiple Resources", async () => {
     content: "",
     name: "hellodiff",
     synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo"
+    workingDirectory: "./foo",
   };
 
   const initialState: DeployState = {
     status: Status.STARTING,
     resources: [resource, otherResource],
-    currentStack
+    currentStack,
   };
 
   const { lastFrame } = render(

@@ -1,10 +1,10 @@
-import * as archiver from 'archiver';
-import * as http from 'http';
-import { AddressInfo } from 'net';
+import * as archiver from "archiver";
+import * as http from "http";
+import { AddressInfo } from "net";
 
 export class TemplateServer {
   private server: http.Server;
-  private static templateFile = 'template.zip';
+  private static templateFile = "template.zip";
 
   constructor(private srcDirectory: string) {
     this.server = http.createServer(this.handle);
@@ -16,16 +16,18 @@ export class TemplateServer {
       res.end();
     }
 
-    res.on('error', err => { throw err; });
+    res.on("error", (err) => {
+      throw err;
+    });
     res.writeHead(200, {
-      'Content-Type': 'application/zip',
+      "Content-Type": "application/zip",
     });
 
-    const archive = archiver('zip');
+    const archive = archiver("zip");
     archive.pipe(res);
     archive.directory(this.srcDirectory, false);
     archive.finalize();
-  }
+  };
 
   async start(): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -41,6 +43,8 @@ export class TemplateServer {
   }
 
   async stop(): Promise<void> {
-    return new Promise((resolve, reject) => this.server.close(err => err ? reject(err) : resolve()));
+    return new Promise((resolve, reject) =>
+      this.server.close((err) => (err ? reject(err) : resolve()))
+    );
   }
 }

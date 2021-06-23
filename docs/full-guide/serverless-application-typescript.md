@@ -253,7 +253,7 @@ You can see this in `main.ts` in the `PostsStack`:
 
 ```typescript
 const output = new TerraformOutput(this, "apiEndpoint", {
-  value: posts.apiEndpoint
+  value: posts.apiEndpoint,
 });
 this.apiEndpointOutputId = output.friendlyUniqueId;
 ```

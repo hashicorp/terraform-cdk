@@ -19,19 +19,23 @@ export const numberToTerraform: Mapper = identity;
 
 export function listMapper(elementMapper: Mapper): Mapper {
   return (x: any) => {
-    if (!canInspect(x)) { return x; }
+    if (!canInspect(x)) {
+      return x;
+    }
     return x.map(elementMapper);
   };
 }
 
 export function hashMapper(elementMapper: Mapper): Mapper {
   return (x: any) => {
-    if (!canInspect(x)) { return x; }
+    if (!canInspect(x)) {
+      return x;
+    }
 
     const ret: any = {};
 
     Object.keys(x).forEach((key) => {
-        ret[key] = elementMapper(x[key]);
+      ret[key] = elementMapper(x[key]);
     });
 
     return ret;

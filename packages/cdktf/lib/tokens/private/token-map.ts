@@ -2,14 +2,21 @@
 import { IResolvable } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
 import { Token } from "../token";
-import { BEGIN_LIST_TOKEN_MARKER, BEGIN_STRING_TOKEN_MARKER, createTokenDouble,
-  END_TOKEN_MARKER, extractTokenDouble, TokenString, VALID_KEY_CHARS } from "./encoding";
+import {
+  BEGIN_LIST_TOKEN_MARKER,
+  BEGIN_STRING_TOKEN_MARKER,
+  createTokenDouble,
+  END_TOKEN_MARKER,
+  extractTokenDouble,
+  TokenString,
+  VALID_KEY_CHARS,
+} from "./encoding";
 
 const glob = global as any;
 
-const STRING_SYMBOL = Symbol.for('@aws-cdk/core.TokenMap.STRING');
-const LIST_SYMBOL = Symbol.for('@aws-cdk/core.TokenMap.LIST');
-const NUMBER_SYMBOL = Symbol.for('@aws-cdk/core.TokenMap.NUMBER');
+const STRING_SYMBOL = Symbol.for("@aws-cdk/core.TokenMap.STRING");
+const LIST_SYMBOL = Symbol.for("@aws-cdk/core.TokenMap.LIST");
+const NUMBER_SYMBOL = Symbol.for("@aws-cdk/core.TokenMap.NUMBER");
 
 /**
  * Central place where we keep a mapping from Tokens to their String representation
@@ -76,9 +83,15 @@ export class TokenMap {
    * Lookup a token from an encoded value
    */
   public tokenFromEncoding(x: any): IResolvable | undefined {
-    if (typeof x === 'string') { return this.lookupString(x); }
-    if (Array.isArray(x)) { return this.lookupList(x); }
-    if (Token.isUnresolved(x)) { return x; }
+    if (typeof x === "string") {
+      return this.lookupString(x);
+    }
+    if (Array.isArray(x)) {
+      return this.lookupList(x);
+    }
+    if (Token.isUnresolved(x)) {
+      return x;
+    }
     return undefined;
   }
 
@@ -97,7 +110,9 @@ export class TokenMap {
    * Reverse a string representation into a Token object
    */
   public lookupList(xs: string[]): IResolvable | undefined {
-    if (xs.length !== 1) { return undefined; }
+    if (xs.length !== 1) {
+      return undefined;
+    }
     const str = TokenString.forListToken(xs[0]);
     const fragments = str.split(this.lookupToken.bind(this));
     if (fragments.length === 1) {
@@ -119,9 +134,13 @@ export class TokenMap {
    */
   public lookupNumberToken(x: number): IResolvable | undefined {
     const tokenIndex = extractTokenDouble(x);
-    if (tokenIndex === undefined) { return undefined; }
+    if (tokenIndex === undefined) {
+      return undefined;
+    }
     const t = this.numberTokenMap.get(tokenIndex);
-    if (t === undefined) { throw new Error('Encoded representation of unknown number Token found'); }
+    if (t === undefined) {
+      throw new Error("Encoded representation of unknown number Token found");
+    }
     return t;
   }
 
@@ -140,7 +159,10 @@ export class TokenMap {
 
   private registerStringKey(token: IResolvable, displayHint?: string): string {
     const counter = this.tokenCounter++;
-    const representation = (displayHint || `TOKEN`).replace(new RegExp(`[^${VALID_KEY_CHARS}]`, 'g'), '.');
+    const representation = (displayHint || `TOKEN`).replace(
+      new RegExp(`[^${VALID_KEY_CHARS}]`, "g"),
+      "."
+    );
     const key = `${representation}.${counter}`;
     this.stringTokenMap.set(key, token);
     return key;

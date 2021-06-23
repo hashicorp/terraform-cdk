@@ -1,5 +1,5 @@
 // tslint:disable-next-line:no-var-requires
-import * as crypto from 'crypto';
+import * as crypto from "crypto";
 
 /**
  * Resources with this ID are hidden from humans
@@ -7,15 +7,15 @@ import * as crypto from 'crypto';
  * They do not appear in the human-readable part of the logical ID,
  * but they are included in the hash calculation.
  */
-const HIDDEN_FROM_HUMAN_ID = 'Resource';
+const HIDDEN_FROM_HUMAN_ID = "Resource";
 
 /**
  * Resources with this ID are complete hidden from the logical ID calculation.
  */
-const HIDDEN_ID = 'Default';
+const HIDDEN_ID = "Default";
 
-const PATH_SEP = '/';
-const UNIQUE_SEP = '_'
+const PATH_SEP = "/";
+const UNIQUE_SEP = "_";
 
 const HASH_LEN = 8;
 const MAX_HUMAN_LEN = 240; // max ID len is 255
@@ -31,10 +31,12 @@ const MAX_ID_LEN = 255;
  * @returns a unique alpha-numeric identifier with a maximum length of 255
  */
 export function makeUniqueId(components: string[], allowSepChars: boolean) {
-  components = components.filter(x => x !== HIDDEN_ID);
+  components = components.filter((x) => x !== HIDDEN_ID);
 
   if (components.length === 0) {
-    throw new Error('Unable to calculate a unique id for an empty set of components');
+    throw new Error(
+      "Unable to calculate a unique id for an empty set of components"
+    );
   }
 
   // top-level resources will simply use the `name` as-is in order to support
@@ -57,8 +59,8 @@ export function makeUniqueId(components: string[], allowSepChars: boolean) {
 
   const hash = pathHash(components);
   const human = removeDupes(components)
-    .filter(x => x !== HIDDEN_FROM_HUMAN_ID)
-    .map(s => removeDisallowedCharacters(s, allowSepChars))
+    .filter((x) => x !== HIDDEN_FROM_HUMAN_ID)
+    .map((s) => removeDisallowedCharacters(s, allowSepChars))
     .join(UNIQUE_SEP)
     .slice(0, MAX_HUMAN_LEN);
 
@@ -71,15 +73,17 @@ export function makeUniqueId(components: string[], allowSepChars: boolean) {
  * The hash is limited in size.
  */
 function pathHash(path: string[]): string {
-  const md5 = crypto.createHash('md5').update(path.join(PATH_SEP)).digest("hex");
+  const md5 = crypto
+    .createHash("md5")
+    .update(path.join(PATH_SEP))
+    .digest("hex");
   return md5.slice(0, HASH_LEN).toUpperCase();
 }
 
 function removeDisallowedCharacters(s: string, allowSepChars: boolean) {
   if (allowSepChars) {
     return removeNonAlphanumericSep(s);
-  }
-  else {
+  } else {
     return removeNonAlphanumeric(s);
   }
 }
@@ -88,11 +92,11 @@ function removeDisallowedCharacters(s: string, allowSepChars: boolean) {
  * Removes all non-alphanumeric characters in a string.
  */
 function removeNonAlphanumeric(s: string) {
-  return s.replace(/[^A-Za-z0-9]/g, '');
+  return s.replace(/[^A-Za-z0-9]/g, "");
 }
 
 function removeNonAlphanumericSep(s: string) {
-  return s.replace(/[^A-Za-z0-9_-]/g, '');
+  return s.replace(/[^A-Za-z0-9_-]/g, "");
 }
 
 /**

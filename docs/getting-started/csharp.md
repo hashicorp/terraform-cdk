@@ -13,6 +13,7 @@ Install with [Homebrew](https://brew.sh):
 ```shell
 $ brew install cdktf
 ```
+
 Or install with `npm` (comes with [Node.js](https://nodejs.org)):
 
 ```bash
@@ -133,8 +134,8 @@ You specify it in your local `cdktf.json` file, like this:
   "language": "csharp",
   "app": "dotnet run -p MyTerraformStack.csproj",
   "terraformProviders": [
-    // Terraform Providers with version constraint go here 
-    "aws@~> 3.45" 
+    // Terraform Providers with version constraint go here
+    "aws@~> 3.45"
   ],
   "terraformModules": [
     // Terraform Modules with version constraint go here

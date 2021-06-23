@@ -44,14 +44,13 @@ const hcl = `
 
 ### Parse an entire directory
 
-
 ```js
-import { convertFiles } from '@cdktf/hcl2json'
+import { convertFiles } from "@cdktf/hcl2json";
 
 (async () => {
-  const json = await convertFiles('/your/terraform/code')
-  console.log(json)
-})()
+  const json = await convertFiles("/your/terraform/code");
+  console.log(json);
+})();
 
 // => Unified JSON representation of all *.tf and *.tf.json files in the given directory
 ```

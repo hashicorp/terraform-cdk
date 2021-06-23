@@ -1,5 +1,5 @@
-import { Construct } from 'constructs';
-import { App, TerraformStack, RemoteBackend } from 'cdktf';
+import { Construct } from "constructs";
+import { App, TerraformStack, RemoteBackend } from "cdktf";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -13,15 +13,14 @@ class MyStack extends TerraformStack {
       organization: "company",
 
       workspaces: {
-        name: "my-app-prod"
-      }
+        name: "my-app-prod",
+      },
     });
 
     // define resources here
-
   }
 }
 
 const app = new App();
-new MyStack(app, 'typescript-backends');
+new MyStack(app, "typescript-backends");
 app.synth();

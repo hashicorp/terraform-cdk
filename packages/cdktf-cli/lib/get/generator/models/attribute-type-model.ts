@@ -1,4 +1,4 @@
-import { Struct } from './struct'
+import { Struct } from "./struct";
 
 export interface AttributeTypeModelOptions {
   struct?: Struct;
@@ -11,10 +11,10 @@ export interface AttributeTypeModelOptions {
 }
 
 export enum TokenizableTypes {
-  STRING = 'string',
-  STRING_LIST = 'string[]',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean'
+  STRING = "string",
+  STRING_LIST = "string[]",
+  NUMBER = "number",
+  BOOLEAN = "boolean",
 }
 
 export interface ComputedComplexOptions {
@@ -37,7 +37,7 @@ export class AttributeTypeModel {
     this.isComputed = !!options.isComputed;
     this.isOptional = !!options.isOptional;
     this.isRequired = !!options.isRequired;
-    this.level = options.level
+    this.level = options.level;
     this.struct = options.struct;
   }
 
@@ -47,29 +47,35 @@ export class AttributeTypeModel {
     if (this.isBooleanMap) return `cdktf.BooleanMap`;
     if (this.isMap) return `{ [key: string]: ${this._type} }`;
     if (this.isList && !this.isComputed) return `${this._type}[]`;
-    if (this.isList && this.isComputed && (this.isPrimitive || !this.struct?.isClass)) return `${this._type}[]`;
-    if (this.isList && this.isComputed && this.isComplex) return `${this._type}`;
-    return this._type
+    if (
+      this.isList &&
+      this.isComputed &&
+      (this.isPrimitive || !this.struct?.isClass)
+    )
+      return `${this._type}[]`;
+    if (this.isList && this.isComputed && this.isComplex)
+      return `${this._type}`;
+    return this._type;
   }
 
   public get isComplex(): boolean {
-    return !!this.struct || (this.isMap && this.isComputed)
+    return !!this.struct || (this.isMap && this.isComputed);
   }
 
   public get isPrimitive(): boolean {
-    return !this.isComplex
+    return !this.isComplex;
   }
 
   public get isString(): boolean {
-    return this.name === TokenizableTypes.STRING
+    return this.name === TokenizableTypes.STRING;
   }
 
   public get isNumber(): boolean {
-    return this.name === TokenizableTypes.NUMBER
+    return this.name === TokenizableTypes.NUMBER;
   }
 
   public get isStringList(): boolean {
-    return this.name === TokenizableTypes.STRING_LIST
+    return this.name === TokenizableTypes.STRING_LIST;
   }
 
   public get isNumberList(): boolean {
@@ -81,35 +87,52 @@ export class AttributeTypeModel {
   }
 
   public get isBoolean(): boolean {
-    return this.name === TokenizableTypes.BOOLEAN || this.isBooleanMap
+    return this.name === TokenizableTypes.BOOLEAN || this.isBooleanMap;
   }
 
   public get isStringMap(): boolean {
-    return !this.isOptional && this.isMap && this._type === TokenizableTypes.STRING && this.isComputed
+    return (
+      !this.isOptional &&
+      this.isMap &&
+      this._type === TokenizableTypes.STRING &&
+      this.isComputed
+    );
   }
 
   public get isNumberMap(): boolean {
-    return !this.isOptional && this.isMap && this._type === TokenizableTypes.NUMBER && this.isComputed
+    return (
+      !this.isOptional &&
+      this.isMap &&
+      this._type === TokenizableTypes.NUMBER &&
+      this.isComputed
+    );
   }
 
   public get isBooleanMap(): boolean {
-    return !this.isOptional && this.isMap && this._type === TokenizableTypes.BOOLEAN && this.isComputed
+    return (
+      !this.isOptional &&
+      this.isMap &&
+      this._type === TokenizableTypes.BOOLEAN &&
+      this.isComputed
+    );
   }
 
   public get isComputedComplex(): boolean {
-    return this.isRootType && this.isComputed && this.isComplex
+    return this.isRootType && this.isComputed && this.isComplex;
   }
 
   public get isRootType(): boolean {
-    return this.level === 2
+    return this.level === 2;
   }
 
   public get isComputedPrimitive(): boolean {
-    return this.isComputed && this.isPrimitive
+    return this.isComputed && this.isPrimitive;
   }
 
   public get isTokenizable(): boolean {
-    return Object.values(TokenizableTypes).includes(this.name as TokenizableTypes)
+    return Object.values(TokenizableTypes).includes(
+      this.name as TokenizableTypes
+    );
   }
 
   public get innerType() {

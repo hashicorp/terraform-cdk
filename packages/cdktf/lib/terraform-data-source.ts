@@ -1,12 +1,20 @@
 import { Construct } from "constructs";
-import { Token } from "./tokens"
+import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
-import {  TerraformProviderGeneratorMetadata, TerraformResourceConfig, TerraformResourceLifecycle, ITerraformResource } from "./terraform-resource";
+import {
+  TerraformProviderGeneratorMetadata,
+  TerraformResourceConfig,
+  TerraformResourceLifecycle,
+  ITerraformResource,
+} from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 
-export class TerraformDataSource extends TerraformElement implements ITerraformResource, ITerraformDependable {
+export class TerraformDataSource
+  extends TerraformElement
+  implements ITerraformResource, ITerraformDependable
+{
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 
@@ -23,7 +31,7 @@ export class TerraformDataSource extends TerraformElement implements ITerraformR
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
-      this.dependsOn = config.dependsOn.map(dependency => dependency.fqn);
+      this.dependsOn = config.dependsOn.map((dependency) => dependency.fqn);
     }
     this.count = config.count;
     this.provider = config.provider;
@@ -43,11 +51,15 @@ export class TerraformDataSource extends TerraformElement implements ITerraformR
   }
 
   public getBooleanAttribute(terraformAttribute: string) {
-    return Token.asString(this.interpolationForAttribute(terraformAttribute)) as any as boolean
+    return Token.asString(
+      this.interpolationForAttribute(terraformAttribute)
+    ) as any as boolean;
   }
 
   public get fqn(): string {
-    return Token.asString(`data.${this.terraformResourceType}.${this.friendlyUniqueId}`);
+    return Token.asString(
+      `data.${this.terraformResourceType}.${this.friendlyUniqueId}`
+    );
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
@@ -55,13 +67,13 @@ export class TerraformDataSource extends TerraformElement implements ITerraformR
       dependsOn: this.dependsOn,
       count: this.count,
       provider: this.provider?.fqn,
-      lifecycle: this.lifecycle
-    }
+      lifecycle: this.lifecycle,
+    };
   }
 
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
-    return {}
+    return {};
   }
 
   /**
@@ -72,16 +84,16 @@ export class TerraformDataSource extends TerraformElement implements ITerraformR
       this.synthesizeAttributes(),
       keysToSnakeCase(this.terraformMetaArguments),
       this.rawOverrides
-    )
+    );
 
-    attributes['//'] = this.constructNodeMetadata
+    attributes["//"] = this.constructNodeMetadata;
 
     return {
       data: {
         [this.terraformResourceType]: {
-          [this.friendlyUniqueId]: attributes
-        }
-      }
+          [this.friendlyUniqueId]: attributes,
+        },
+      },
     };
   }
 

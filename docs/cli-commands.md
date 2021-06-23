@@ -43,17 +43,17 @@ If running in automated environments, the dynamic CLI output rendering can be fo
 
 ## Available commands
 
-* [get](#cdktf-get)
-* [init](#cdktf-init)
-* [synth](#cdktf-synth)
-* [diff](#cdktf-diff)
-* [deploy](#cdktf-deploy)
-* [destroy](#cdktf-destroy)
-* [login](#cdktf-login)
+- [get](#cdktf-get)
+- [init](#cdktf-init)
+- [synth](#cdktf-synth)
+- [diff](#cdktf-diff)
+- [deploy](#cdktf-deploy)
+- [destroy](#cdktf-destroy)
+- [login](#cdktf-login)
 
 ### cdktf get
 
-This command downloads the providers and modules for an application and 
+This command downloads the providers and modules for an application and
 generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers
 and modules.
 
