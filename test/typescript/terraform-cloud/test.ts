@@ -48,4 +48,26 @@ describe("full integration test", () => {
     expect(driver.deploy()).toMatchSnapshot()
     await client.Workspaces.deleteByName(orgName, workspaceName)
   })
+
+  withAuth("deploy locally and then in Terraform Cloud", async () => {
+    const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN)
+
+    await client.Workspaces.create(orgName, {
+      data: {
+        attributes: {
+          name: workspaceName,
+          executionMode: 'remote',
+          terraformVersion: TERRAFORM_VERSION
+        },
+        type: 'workspaces'
+      }
+    })
+
+    process.env.TF_EXECUTE_LOCAL = "true";
+    driver.deploy();
+    process.env.TF_EXECUTE_LOCAL = undefined;
+    driver.deploy();
+
+    await client.Workspaces.deleteByName(orgName, workspaceName)
+  })
 })

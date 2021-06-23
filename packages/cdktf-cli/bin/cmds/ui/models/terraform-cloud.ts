@@ -60,9 +60,12 @@ function BeautifyErrors(name: string) {
       } catch (e) {
         if (e.response && e.response.status >= 400 && e.response.status <= 599){
           const errors = e.response.data?.errors as (object[] | undefined);
+          logger.error(`Error in ${name}: ${JSON.stringify(e)}`);
           if (errors) {
             throw new Error(`${name}: Request to Terraform Cloud failed with status ${e.response.status}: ${errors.map(e => JSON.stringify(e)).join(', ')}`);
           }
+        } else {
+          logger.warn(`Error in ${name}: ${JSON.stringify(e)}`);
         }
         throw e;
       }
@@ -113,7 +116,7 @@ export class TerraformCloud implements Terraform {
 
   @BeautifyErrors("Init")
   public async init(): Promise<void> {
-    if (fs.existsSync(path.join(process.cwd(), 'terraform.tfstate'))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
+    if (fs.existsSync(path.join(process.cwd(), `terraform.${this.stack.name}.tfstate`))) throw new Error('Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state')
     const workspace = await this.workspace()
     const version = await this.client.ConfigurationVersion.create(workspace.id, {
       data: {
@@ -126,6 +129,8 @@ export class TerraformCloud implements Terraform {
     })
 
     this.configurationVersionId = version.id
+
+    this.removeLocalTerraformDirectory()
 
     const zipBuffer = await zipDirectory(this.workDir)
     if (!zipBuffer) throw new Error("Couldn't upload directory to Terraform Cloud");
@@ -319,5 +324,13 @@ export class TerraformCloud implements Terraform {
     };
     await Promise.race([ready(), timeout()]);
     logger.debug('Configuration Version is ready in Terraform Cloud');
+  }
+
+  private removeLocalTerraformDirectory() {
+    try {
+      fs.rmdirSync(path.resolve(this.stack.synthesizedStackPath, ".terraform"), {recursive: true});
+    } catch (error) {
+      logger.debug(`Could not remove .terraform folder`, error);
+    }
   }
 }

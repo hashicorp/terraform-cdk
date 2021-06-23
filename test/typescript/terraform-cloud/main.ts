@@ -5,6 +5,7 @@ import * as path from 'path';
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
 const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
 const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
+const localExecution = process.env.TF_EXECUTE_LOCAL === "true";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -18,15 +19,17 @@ export class HelloTerra extends TerraformStack {
       }
     }]);
 
-    this.addOverride('terraform.backend', {
-      remote: {
-        organization,
-        workspaces: {
-          name
-        },
-        token
-      }
-    });
+    if (!localExecution) {
+      this.addOverride('terraform.backend', {
+        remote: {
+          organization,
+          workspaces: {
+            name
+          },
+          token
+        }
+      });
+    }
 
     new TerraformOutput(this, "output", {
       value: "constant value"
