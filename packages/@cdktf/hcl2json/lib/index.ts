@@ -55,8 +55,8 @@ function goBridge(getBytes: Promise<Buffer>) {
         }
 
         return new Promise((resolve, reject) => {
-          // @ts-ignore
           const cb = (err: string, ...msg: string[]) =>
+            // @ts-ignore
             err ? reject(new Error(err)) : resolve(...msg);
 
           const run = () => {

@@ -213,6 +213,7 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
       }
     } else {
       if (!config.provider) config.provider = {};
+
       // eslint-disable-next-line @typescript-eslint/camelcase
       if (!config.terraform.required_providers)
         config.terraform.required_providers = {};

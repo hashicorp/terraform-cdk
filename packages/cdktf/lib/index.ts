@@ -6,6 +6,7 @@ export * from "./terraform-provider";
 export * from "./terraform-resource";
 export * from "./terraform-data-source";
 export * from "./terraform-output";
+export * from "./complex-computed-list";
 export * from "./resource";
 export * from "./testing";
 export * from "./app";
