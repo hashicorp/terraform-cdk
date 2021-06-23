@@ -37,7 +37,8 @@
     "release-github": "tools/release-github.sh",
     "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
     "push-docker-jsii": "docker push hashicorp/jsii-terraform",
-    "dist-clean": "lerna run dist-clean --stream && rm -rf dist"
+    "dist-clean": "lerna run dist-clean --stream && rm -rf dist",
+    "prepare": "husky install"
   },
   "workspaces": {
     "packages": [
@@ -62,7 +63,12 @@
   },
   "devDependencies": {
     "changelog-parser": "^2.8.0",
+    "husky": ">=6",
     "lerna": "^3.20.2",
+    "lint-staged": ">=10",
     "prettier": "^2.3.1"
+  },
+  "lint-staged": {
+    "*.{ts,js,css,md}": "prettier --write"
   }
 }
