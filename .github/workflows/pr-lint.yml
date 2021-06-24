@@ -28,6 +28,7 @@ jobs:
             lib
             cli
             hcl2json
+            hcl2cdk
             tests
             examples
             readme
