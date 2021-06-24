@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 from constructs import Construct
 from cdktf import App, TerraformStack
 from imports.ucloud import DataUcloudImages, Instance, UcloudProvider
@@ -8,7 +9,11 @@ class MyStack(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
         super().__init__(scope, ns)
 
-        UcloudProvider(self, "UCloud", region="cn-bj2")
+        UcloudProvider(
+            self, "UCloud",
+            region="cn-bj2",
+            project_id=os.getenv("UCLOUD_PROJECT_ID"),
+        )
         images = DataUcloudImages(
             self, "images",
             availability_zone="cn-bj2-04",

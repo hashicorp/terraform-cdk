@@ -19,7 +19,10 @@ public class Main extends TerraformStack {
     public Main(final Construct scope, final String id) {
         super(scope, id);
 
-        UcloudProvider.Builder.create(this, "ucloud").region("cn-bj2").build();
+        UcloudProvider.Builder.create(this, "ucloud")
+	    .region("cn-bj2")
+	    .projectId(System.getenv("UCLOUD_PROJECT_ID"))
+	    .build();
 
 	DataUcloudImages images = DataUcloudImages.Builder.create(this, "images")
 	    .availabilityZone("cn-bj2-04")
