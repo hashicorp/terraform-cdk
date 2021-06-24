@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`convert typescript handles $t configuration 1`] = `
+"new TerraformOutput(this, \\"cidr_out\\", {
+  value: \\"test\\",
+});
+"
+`;
+
+exports[`convert typescript handles $t configuration 2`] = `
+"new TerraformOutput(this, \\"cidr_out\\", {
+  value: \\"test\\",
+  sensitive: \\"true\\",
+});
+"
+`;
+
+exports[`convert typescript handles $t configuration 3`] = `
+"new TerraformOutput(this, \\"cidr_out\\", {
+  value: \\"test\\",
+  description: \\"Best output\\",
+  sensitive: \\"true\\",
+});
+"
+`;
+
+exports[`convert typescript handles $t configuration 4`] = `
+"new TerraformOutput(this, \\"first_cidr_out\\", {
+  value: \\"first\\",
+});
+new TerraformOutput(this, \\"second_cidr_out\\", {
+  value: \\"second\\",
+});
+"
+`;

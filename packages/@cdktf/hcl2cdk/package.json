@@ -1,0 +1,43 @@
+{
+  "name": "@cdktf/hcl2cdk",
+  "version": "0.0.0",
+  "description": "Transform HCL into CDK",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "test": "jest",
+    "jest-watch": "jest --watch",
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/hcl2cdk"
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@babel/generator": "^7.14.5",
+    "@babel/template": "^7.14.5",
+    "@babel/types": "^7.14.5",
+    "@cdktf/hcl2json": "*",
+    "prettier": "^2.3.1",
+    "zod": "^1.11.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.0.0",
+    "jest": "^26.6.3",
+    "typescript": "^4.2.2"
+  }
+}
