@@ -7,8 +7,7 @@
 
 # CDK for Terraform
 
-> This experimental repository contains software which is still being developed
-> and in the alpha testing stage. It is not ready for production use.
+[Learn more about this product’s maturity and production readiness](#maturity)
 
 CDK (Cloud Development Kit) for Terraform allows developers to use familiar
 programming languages to define cloud infrastructure and provision it through
@@ -110,6 +109,17 @@ Choose a language:
 - Handling breaking changes with [feature flags](./docs/working-with-cdk-for-terraform/feature-flags.md).
 - Writing own [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) for init.
 - Using [assets](./docs/working-with-cdk-for-terraform/terraform-assets.md) to transfer files into the Terraform context.
+
+<a name="maturity"></a>
+# Project Maturity and Production Readiness
+CDK for Terraform is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product.
+
+This tool can be used with Terraform Cloud and Terraform Enterprise, but is not eligible for commercial support, and is not officially recommended for production use cases. Like other HashiCorp pre-1.0 tools, some early-adopter users are already using CDK for Terraform in production, and we are working with those users to validate and improve workflows. 
+
+Early adopters of CDK for Terraform should expect to encounter and work around bugs occasionally, may need to refactor their codebase with each major release, and will intermittently need to use HCL and understand how JSON Terraform configurations are generated, for example to use [overrides](https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/escape-hatch.md) to use Terraform functionality that cannot currently be expressed using CDK for Terraform. Our goal is to provide a user experience where this is an exceptional edge case. If you’re comfortable with this level of troubleshooting, we’re very interested in your feedback and practical experience.
+
+These caveats apply to CDK for Terraform itself, which generates Terraform configurations. Generated Terraform configurations are applied using Terraform Core, a well established / mature tool to provision infrastructure.
+
 
 ## Contributing and Feedback
 
