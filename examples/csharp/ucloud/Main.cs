@@ -13,7 +13,8 @@ namespace MyCompany.MyApp
         public MyApp(Construct scope, string id) : base(scope, id)
         {
             new UcloudProvider(this, "ucloud", new UcloudProviderConfig {
-                Region = "cn-bj2"
+                Region = "cn-bj2",
+                ProjectId = System.Environment.GetEnvironmentVariable("UCLOUD_PROJECT_ID"),
             });
 
             DataUcloudImages images = new DataUcloudImages(this, "images", new DataUcloudImagesConfig {
