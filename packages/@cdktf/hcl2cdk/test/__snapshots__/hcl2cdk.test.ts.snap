@@ -33,3 +33,16 @@ new TerraformOutput(this, \\"second_cidr_out\\", {
 });
 "
 `;
+
+exports[`convert typescript handles $t configuration 5`] = `
+"new TerraformVariable(this, \\"weekday\\", {});
+"
+`;
+
+exports[`convert typescript handles $t configuration 6`] = `
+"new TerraformVariable(this, \\"availability_zone_names\\", {
+  default: \\"us-west-1a\\",
+  description: \\"What AMI to use to create an instance\\",
+});
+"
+`;

@@ -37,7 +37,20 @@ describe("convert", () => {
             value = "second"
         }`,
       },
-    ])(`handles $t configuration`, async ({ hcl, t }) => {
+      {
+        t: "variable",
+        hcl: `variable "weekday" {}`,
+      },
+      {
+        t: "variable-default",
+        hcl: `
+        variable "availability_zone_names" {
+            type    = list(string)
+            default = ["us-west-1a"]
+            description = "What AMI to use to create an instance"
+        }`,
+      },
+    ])("handles $t configuration", async ({ hcl, t }) => {
       const code = await convert(`${t}.hcl`, hcl, { language: "typescript" });
       expect(code).toMatchSnapshot();
     });
