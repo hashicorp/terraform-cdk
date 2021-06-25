@@ -8,7 +8,7 @@ class MyStack extends TerraformStack {
 
     new UcloudProvider(this, 'UCloud', {
       region: 'cn-bj2',
-      projectId: process.env.UCLOUD_PROJECT_ID,
+      projectId: process.env.UCLOUD_PROJECT_ID || '',
     })
 
     let images = new DataUcloudImages(this, 'images', {
