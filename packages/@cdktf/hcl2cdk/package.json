@@ -31,6 +31,7 @@
     "@babel/template": "^7.14.5",
     "@babel/types": "^7.14.5",
     "@cdktf/hcl2json": "*",
+    "change-case": "^4.1.2",
     "prettier": "^2.3.1",
     "zod": "^1.11.7"
   },

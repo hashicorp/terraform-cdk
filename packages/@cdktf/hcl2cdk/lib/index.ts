@@ -3,14 +3,27 @@ import template from "@babel/template";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
-import { schema, Output, Variable } from "./schema";
+import { pascalCase, camelCase } from "change-case";
+import { schema, Output, Variable, Provider } from "./schema";
 
 type ConvertOptions = {
   language: "typescript";
 };
 
+const encodeValue = (item: any) => {
+  switch (typeof item) {
+    case "string":
+      return `"${item}"`;
+    case "boolean":
+    case "number":
+      return item;
+    case "object":
+      return JSON.stringify(item); // TODO: deeply snake case keys
+  }
+  throw new Error("Unsupported type " + item);
+};
 const optionalProperty = (key: string, item: undefined | any) =>
-  `${item ? key + ': "' + item + '",' : ""}`;
+  `${item ? camelCase(key) + ": " + encodeValue(item) + "," : ""}`;
 const optionalProperties = (record: Record<string, any>) =>
   Object.entries(record).reduce(
     (carry, [key, item]) => carry + optionalProperty(key, item),
@@ -43,6 +56,14 @@ function variable(key: string, item: Variable): t.Statement {
 `)() as t.Statement;
 }
 
+function provider(key: string, item: Provider): t.Statement {
+  return template(`
+  new ${pascalCase(key)}(this, "${key}", {
+      ${optionalProperties(item[0])}
+  })
+`)() as t.Statement;
+}
+
 export async function convert(
   filename: string,
   hcl: string,
@@ -59,9 +80,14 @@ export async function convert(
   const variableAst = Object.entries(plan.variable || {}).map(([key, item]) =>
     variable(key, item)
   );
+  const providersAst = Object.entries(plan.provider || {}).map(([key, item]) =>
+    provider(key, item)
+  );
   const outputAst = Object.entries(plan.output || {}).map(([key, item]) =>
     output(key, item)
   );
-  const { code } = generate(t.program([...variableAst, ...outputAst]) as any);
+  const { code } = generate(
+    t.program([...variableAst, ...providersAst, ...outputAst]) as any
+  );
   return prettier.format(code, { parser: "babel" });
 }

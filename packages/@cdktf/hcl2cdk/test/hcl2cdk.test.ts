@@ -3,61 +3,73 @@ import { convert } from "../lib/index";
 describe("convert", () => {
   describe("typescript", () => {
     it.each([
-      {
-        t: "output",
-        hcl: `
+      [
+        "output",
+        `
         output "cidr_out" {
             value = "test"
         }`,
-      },
-      {
-        t: "output-sensitive",
-        hcl: `
+      ],
+      [
+        "sensitive output",
+        `
         output "cidr_out" {
             value = "test"
             sensitive = true
         }`,
-      },
-      {
-        t: "output-description",
-        hcl: `
+      ],
+      [
+        "output withdescription",
+        `
         output "cidr_out" {
             value = "test"
             sensitive = true
             description = "Best output"
         }`,
-      },
-      {
-        t: "output-multiple",
-        hcl: `
+      ],
+      [
+        "multiple outputs",
+        `
         output "first_cidr_out" {
             value = "first"
         }
         output "second_cidr_out" {
             value = "second"
         }`,
-      },
-      {
-        t: "variable",
-        hcl: `variable "weekday" {}`,
-      },
-      {
-        t: "variable-default",
-        hcl: `
+      ],
+      ["variable", `variable "weekday" {}`],
+      [
+        "variable with default",
+        `
         variable "availability_zone_names" {
             type    = list(string)
             default = ["us-west-1a"]
             description = "What AMI to use to create an instance"
         }`,
-      },
-    ])("handles $t configuration", async ({ hcl, t }) => {
-      const code = await convert(`${t}.hcl`, hcl, { language: "typescript" });
+      ],
+      ["empty provider", `provider "docker" {}`],
+      [
+        "provider with complex config",
+        `
+        provider "aws" {
+          access_key                  = "mock_access_key"
+          region                      = "us-east-1"
+          secret_key                  = "mock_secret_key"
+          skip_credentials_validation = true
+          skip_metadata_api_check     = true
+          skip_requesting_account_id  = true
+        
+          endpoints {
+            dynamodb = "http://localhost:8000"
+          }
+        }
+      `,
+      ],
+    ])("%s configuration", async (_name, hcl) => {
+      const code = await convert(`file.hcl`, hcl, {
+        language: "typescript",
+      });
       expect(code).toMatchSnapshot();
     });
-
-    it.todo("handles variable configuration");
-    it.todo("handles references");
-    it.todo("handles provider configuration");
-    it.todo("handles module configuration");
   });
 });

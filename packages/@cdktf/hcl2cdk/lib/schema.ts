@@ -1,27 +1,33 @@
 import * as z from "zod";
+import { ZodRawShape } from "zod/lib/src/types/base";
 
-const outputConfig = z.array(
-  z.object({
-    value: z.string(),
-    description: z.string().optional(),
-    sensitive: z.boolean().optional(),
-    depends_on: z.string().optional(),
-  })
-);
+const tfObject = <T extends ZodRawShape>(config: T) =>
+  z.array(z.object(config).partial());
+
+const outputConfig = tfObject({
+  value: z.string(),
+  description: z.string().optional(),
+  sensitive: z.boolean().optional(),
+  depends_on: z.string().optional(),
+});
 export type Output = z.infer<typeof outputConfig>;
 
-const variableConfig = z.array(
-  z.object({
-    type: z.string().optional(),
-    default: z.any().optional(),
-    description: z.string().optional(),
-    sensitive: z.boolean().optional(),
-  })
-);
+const variableConfig = tfObject({
+  type: z.string(),
+  default: z.any(),
+  description: z.string(),
+  sensitive: z.boolean(),
+});
 export type Variable = z.infer<typeof variableConfig>;
 
-export const schema = z.object({
-  locals: z.array(z.any()).optional(),
-  variable: z.record(variableConfig).optional(),
-  output: z.record(outputConfig).optional(),
-});
+const providerConfig = z.array(z.record(z.any()));
+export type Provider = z.infer<typeof providerConfig>;
+
+export const schema = z
+  .object({
+    locals: z.array(z.any()),
+    variable: z.record(variableConfig),
+    output: z.record(outputConfig),
+    provider: z.record(providerConfig),
+  })
+  .partial();
