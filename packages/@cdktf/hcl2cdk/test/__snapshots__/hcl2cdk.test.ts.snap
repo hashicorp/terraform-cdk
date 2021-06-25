@@ -128,6 +128,22 @@ exports[`convert typescript empty provider configuration 1`] = `
 "
 `;
 
+exports[`convert typescript locals configuration 1`] = `
+"const howMany = 42;
+const isItGreat = true;
+const owner = \\"Community Team\\";
+const serviceName = \\"forum\\";
+"
+`;
+
+exports[`convert typescript multiple locals blocks configuration 1`] = `
+"const owner = \\"Community Team\\";
+const serviceName = \\"forum\\";
+const howMany = 42;
+const isItGreat = true;
+"
+`;
+
 exports[`convert typescript multiple outputs configuration 1`] = `
 "new TerraformOutput(this, \\"first_cidr_out\\", {
   value: \\"first\\",

@@ -52,6 +52,11 @@ function variable(key: string, item: Variable): t.Statement {
   const [{ type, ...props }] = item;
   return construct("TerraformVariable", key, props);
 }
+function local(key: string, item: any): t.Statement {
+  return t.variableDeclaration("const", [
+    t.variableDeclarator(t.identifier(camelCase(key)), valueToTs(item)),
+  ]);
+}
 
 // TODO: support alias
 function provider(key: string, item: Provider): t.Statement {
@@ -103,13 +108,22 @@ export async function convert(
   const variablesAst = forEachGlobal(plan.variable, variable);
   const providersAst = forEachGlobal(plan.provider, provider);
   const outputsAst = forEachGlobal(plan.output, output);
+  // locals are a special case
+  const localsAst = forEachGlobal(
+    Array.isArray(plan.locals)
+      ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
+      : {},
+    local
+  );
 
   // TODO: support references and do ordering
+  // Locals, Data, and Resources can use references as inputs and can be referenced
   const resourcesAst = forEachNamespaced(plan.resource, resource);
   const dataAst = forEachNamespaced(plan.data, resource);
 
   const { code } = generate(
     t.program([
+      ...localsAst,
       ...variablesAst,
       ...providersAst,
       ...dataAst,

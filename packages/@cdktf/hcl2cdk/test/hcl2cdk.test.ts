@@ -187,6 +187,29 @@ describe("convert", () => {
           id = var.subnet_id
         }`,
       ],
+      [
+        "locals",
+        `
+        locals {
+          service_name = "forum"
+          owner        = "Community Team"
+          is_it_great  = true
+          how_many     = 42
+        }`,
+      ],
+      [
+        "multiple locals blocks",
+        `
+        locals {
+          service_name = "forum"
+          owner        = "Community Team"
+        }
+
+        locals {
+          is_it_great  = true
+          how_many     = 42
+        }`,
+      ],
     ])("%s configuration", async (_name, hcl) => {
       const code = await convert(`file.hcl`, hcl, {
         language: "typescript",
