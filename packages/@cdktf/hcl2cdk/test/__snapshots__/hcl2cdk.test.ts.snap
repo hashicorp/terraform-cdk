@@ -1,5 +1,128 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`convert typescript complex resource configuration 1`] = `
+"new AwsCloudfrontDistribution(this, \\"s3_distribution\\", {
+  aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
+  comment: \\"Some comment\\",
+  defaultCacheBehavior: [
+    {
+      allowedMethods: [
+        \\"DELETE\\",
+        \\"GET\\",
+        \\"HEAD\\",
+        \\"OPTIONS\\",
+        \\"PATCH\\",
+        \\"POST\\",
+        \\"PUT\\",
+      ],
+      cachedMethods: [\\"GET\\", \\"HEAD\\"],
+      defaultTtl: 3600,
+      forwardedValues: [
+        {
+          cookies: [
+            {
+              forward: \\"none\\",
+            },
+          ],
+          queryString: false,
+        },
+      ],
+      maxTtl: 86400,
+      minTtl: 0,
+      targetOriginId: \\"\${local.s3_origin_id}\\",
+      viewerProtocolPolicy: \\"allow-all\\",
+    },
+  ],
+  defaultRootObject: \\"index.html\\",
+  enabled: true,
+  isIpv6Enabled: true,
+  loggingConfig: [
+    {
+      bucket: \\"mylogs.s3.amazonaws.com\\",
+      includeCookies: false,
+      prefix: \\"myprefix\\",
+    },
+  ],
+  orderedCacheBehavior: [
+    {
+      allowedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      cachedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      compress: true,
+      defaultTtl: 86400,
+      forwardedValues: [
+        {
+          cookies: [
+            {
+              forward: \\"none\\",
+            },
+          ],
+          headers: [\\"Origin\\"],
+          queryString: false,
+        },
+      ],
+      maxTtl: 31536000,
+      minTtl: 0,
+      pathPattern: \\"/content/immutable/*\\",
+      targetOriginId: \\"\${local.s3_origin_id}\\",
+      viewerProtocolPolicy: \\"redirect-to-https\\",
+    },
+    {
+      allowedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      cachedMethods: [\\"GET\\", \\"HEAD\\"],
+      compress: true,
+      defaultTtl: 3600,
+      forwardedValues: [
+        {
+          cookies: [
+            {
+              forward: \\"none\\",
+            },
+          ],
+          queryString: false,
+        },
+      ],
+      maxTtl: 86400,
+      minTtl: 0,
+      pathPattern: \\"/content/*\\",
+      targetOriginId: \\"\${local.s3_origin_id}\\",
+      viewerProtocolPolicy: \\"redirect-to-https\\",
+    },
+  ],
+  origin: [
+    {
+      domainName: \\"\${aws_s3_bucket.b.bucket_regional_domain_name}\\",
+      originId: \\"\${local.s3_origin_id}\\",
+      s3OriginConfig: [
+        {
+          originAccessIdentity:
+            \\"origin-access-identity/cloudfront/ABCDEFG1234567\\",
+        },
+      ],
+    },
+  ],
+  priceClass: \\"PriceClass_200\\",
+  restrictions: [
+    {
+      geoRestriction: [
+        {
+          locations: [\\"US\\", \\"CA\\", \\"GB\\", \\"DE\\"],
+          restrictionType: \\"whitelist\\",
+        },
+      ],
+    },
+  ],
+  tags: {
+    environment: \\"production\\",
+  },
+  viewerCertificate: [
+    {
+      cloudfrontDefaultCertificate: true,
+    },
+  ],
+});
+"
+`;
+
 exports[`convert typescript empty provider configuration 1`] = `
 "new Docker(this, \\"docker\\", {});
 "
@@ -52,6 +175,13 @@ exports[`convert typescript sensitive output configuration 1`] = `
 "new TerraformOutput(this, \\"cidr_out\\", {
   value: \\"test\\",
   sensitive: true,
+});
+"
+`;
+
+exports[`convert typescript simple data source configuration 1`] = `
+"new AwsSubnet(this, \\"selected\\", {
+  id: \\"\${var.subnet_id}\\",
 });
 "
 `;
