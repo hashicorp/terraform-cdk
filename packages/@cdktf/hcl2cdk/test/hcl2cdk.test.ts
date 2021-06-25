@@ -65,6 +65,13 @@ describe("convert", () => {
         }
       `,
       ],
+      [
+        "simple resource",
+        `
+        resource "aws_vpc" "example" {
+          cidr_block = "10.0.0.0/16"
+        }`,
+      ],
     ])("%s configuration", async (_name, hcl) => {
       const code = await convert(`file.hcl`, hcl, {
         language: "typescript",

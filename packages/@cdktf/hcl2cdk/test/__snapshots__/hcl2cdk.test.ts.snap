@@ -48,27 +48,17 @@ exports[`convert typescript provider with complex config configuration 1`] = `
 "
 `;
 
-exports[`convert typescript provider with complexconfig configuration 1`] = `
-"new Aws(this, \\"aws\\", {
-  accessKey: \\"mock_access_key\\",
-  endpoints: [
-    {
-      dynamodb: \\"http://localhost:8000\\",
-    },
-  ],
-  region: \\"us-east-1\\",
-  secretKey: \\"mock_secret_key\\",
-  skipCredentialsValidation: true,
-  skipMetadataApiCheck: true,
-  skipRequestingAccountId: true,
-});
-"
-`;
-
 exports[`convert typescript sensitive output configuration 1`] = `
 "new TerraformOutput(this, \\"cidr_out\\", {
   value: \\"test\\",
   sensitive: true,
+});
+"
+`;
+
+exports[`convert typescript simple resource configuration 1`] = `
+"new AwsVpc(this, \\"example\\", {
+  cidrBlock: \\"10.0.0.0/16\\",
 });
 "
 `;

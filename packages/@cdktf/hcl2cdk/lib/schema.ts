@@ -23,11 +23,15 @@ export type Variable = z.infer<typeof variableConfig>;
 const providerConfig = z.array(z.record(z.any()));
 export type Provider = z.infer<typeof providerConfig>;
 
+const resourceConfig = z.array(z.record(z.any()));
+export type Resource = z.infer<typeof resourceConfig>;
+
 export const schema = z
   .object({
     locals: z.array(z.any()),
     variable: z.record(variableConfig),
     output: z.record(outputConfig),
     provider: z.record(providerConfig),
+    resource: z.record(z.record(resourceConfig)),
   })
   .partial();

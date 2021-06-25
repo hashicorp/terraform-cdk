@@ -56,9 +56,18 @@ function variable(key: string, item: Variable): t.Statement {
 `)() as t.Statement;
 }
 
+// TODO: support alias
 function provider(key: string, item: Provider): t.Statement {
   return template(`
   new ${pascalCase(key)}(this, "${key}", {
+      ${optionalProperties(item[0])}
+  })
+`)() as t.Statement;
+}
+
+function resource(type: string, key: string, item: Provider): t.Statement {
+  return template(`
+  new ${pascalCase(type)}(this, "${key}", {
       ${optionalProperties(item[0])}
   })
 `)() as t.Statement;
@@ -83,11 +92,28 @@ export async function convert(
   const providersAst = Object.entries(plan.provider || {}).map(([key, item]) =>
     provider(key, item)
   );
+
+  // TODO: support references and do ordering
+  const resourcesAst = Object.entries(plan.resource || {}).reduce(
+    (outerCarry, [type, items]) => [
+      ...outerCarry,
+      ...Object.entries(items).reduce(
+        (innerCarry, [key, item]) => [...innerCarry, resource(type, key, item)],
+        [] as t.Statement[]
+      ),
+    ],
+    [] as t.Statement[]
+  );
   const outputAst = Object.entries(plan.output || {}).map(([key, item]) =>
     output(key, item)
   );
   const { code } = generate(
-    t.program([...variableAst, ...providersAst, ...outputAst]) as any
+    t.program([
+      ...variableAst,
+      ...providersAst,
+      ...resourcesAst,
+      ...outputAst,
+    ]) as any
   );
   return prettier.format(code, { parser: "babel" });
 }
