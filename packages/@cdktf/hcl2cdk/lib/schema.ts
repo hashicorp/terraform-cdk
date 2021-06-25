@@ -5,6 +5,7 @@ const outputConfig = z.array(
     value: z.string(),
     description: z.string().optional(),
     sensitive: z.boolean().optional(),
+    depends_on: z.string().optional(),
   })
 );
 export type Output = z.infer<typeof outputConfig>;
