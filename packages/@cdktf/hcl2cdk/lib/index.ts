@@ -5,6 +5,7 @@ import prettier from "prettier";
 import { pascalCase, camelCase } from "change-case";
 import { schema, Output, Variable, Provider } from "./schema";
 
+
 type ConvertOptions = {
   language: "typescript";
 };
@@ -69,26 +70,37 @@ function resource(type: string, key: string, item: Provider): t.Statement {
 
 // locals, provider, variables, and outputs are global key value maps
 function forEachGlobal<T>(
+  prefix: string,
   record: Record<string, T> | undefined,
   iterator: (key: string, value: T) => t.Statement
-): t.Statement[] {
-  return Object.entries(record || {}).map(([key, item]) => iterator(key, item));
+): Record<string, t.Statement> {
+  return Object.entries(record || {}).reduce(
+    (carry, [key, item]) => ({
+      ...carry,
+      [`${prefix}.${key}`]: iterator(key, item),
+    }),
+    {}
+  );
 }
 
 // data and resource are namespaced key value maps
 function forEachNamespaced<T>(
   record: Record<string, Record<string, T>> | undefined,
-  iterator: (type: string, key: string, value: T) => t.Statement
-): t.Statement[] {
+  iterator: (type: string, key: string, value: T) => t.Statement,
+  prefix?: string
+): Record<string, t.Statement> {
   return Object.entries(record || {}).reduce(
-    (outerCarry, [type, items]) => [
+    (outerCarry, [type, items]) => ({
       ...outerCarry,
-      ...Object.entries(items).reduce(
-        (innerCarry, [key, item]) => [...innerCarry, iterator(type, key, item)],
-        [] as t.Statement[]
-      ),
-    ],
-    [] as t.Statement[]
+      ...Object.entries(items).reduce((innerCarry, [key, item]) => {
+        const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
+        return {
+          ...innerCarry,
+          [id]: iterator(type, key, item),
+        };
+      }, {} as Record<string, t.Statement>),
+    }),
+    {} as Record<string, t.Statement>
   );
 }
 
@@ -105,31 +117,22 @@ export async function convert(
   console.log(JSON.stringify(json));
   const plan = schema.parse(json);
 
-  const variablesAst = forEachGlobal(plan.variable, variable);
-  const providersAst = forEachGlobal(plan.provider, provider);
-  const outputsAst = forEachGlobal(plan.output, output);
-  // locals are a special case
-  const localsAst = forEachGlobal(
-    Array.isArray(plan.locals)
-      ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
-      : {},
-    local
-  );
+  const nodeMap = {
+    ...forEachGlobal("providers", plan.provider, provider),
+    ...forEachGlobal("var", plan.variable, variable),
+    // locals are a special case
+    ...forEachGlobal(
+      "local",
+      Array.isArray(plan.locals)
+        ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
+        : {},
+      local
+    ),
+    ...forEachGlobal("out", plan.output, output),
+    ...forEachNamespaced(plan.resource, resource),
+    ...forEachNamespaced(plan.data, resource, "data"),
+  };
 
-  // TODO: support references and do ordering
-  // Locals, Data, and Resources can use references as inputs and can be referenced
-  const resourcesAst = forEachNamespaced(plan.resource, resource);
-  const dataAst = forEachNamespaced(plan.data, resource);
-
-  const { code } = generate(
-    t.program([
-      ...localsAst,
-      ...variablesAst,
-      ...providersAst,
-      ...dataAst,
-      ...resourcesAst,
-      ...outputsAst,
-    ]) as any
-  );
+  const { code } = generate(t.program(Object.values(nodeMap)) as any);
   return prettier.format(code, { parser: "babel" });
 }
