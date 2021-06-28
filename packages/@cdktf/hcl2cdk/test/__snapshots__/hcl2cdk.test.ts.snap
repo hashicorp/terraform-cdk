@@ -29,7 +29,7 @@ exports[`convert typescript complex resource configuration 1`] = `
       ],
       maxTtl: 86400,
       minTtl: 0,
-      targetOriginId: \\"\${local.s3_origin_id}\\",
+      targetOriginId: \\"local_s3_origin_id\\",
       viewerProtocolPolicy: \\"allow-all\\",
     },
   ],
@@ -63,7 +63,7 @@ exports[`convert typescript complex resource configuration 1`] = `
       maxTtl: 31536000,
       minTtl: 0,
       pathPattern: \\"/content/immutable/*\\",
-      targetOriginId: \\"\${local.s3_origin_id}\\",
+      targetOriginId: \\"local_s3_origin_id\\",
       viewerProtocolPolicy: \\"redirect-to-https\\",
     },
     {
@@ -84,14 +84,14 @@ exports[`convert typescript complex resource configuration 1`] = `
       maxTtl: 86400,
       minTtl: 0,
       pathPattern: \\"/content/*\\",
-      targetOriginId: \\"\${local.s3_origin_id}\\",
+      targetOriginId: \\"local_s3_origin_id\\",
       viewerProtocolPolicy: \\"redirect-to-https\\",
     },
   ],
   origin: [
     {
-      domainName: \\"\${aws_s3_bucket.b.bucket_regional_domain_name}\\",
-      originId: \\"\${local.s3_origin_id}\\",
+      domainName: \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
+      originId: \\"local_s3_origin_id\\",
       s3OriginConfig: [
         {
           originAccessIdentity:
@@ -123,6 +123,22 @@ exports[`convert typescript complex resource configuration 1`] = `
 "
 `;
 
+exports[`convert typescript data references configuration 1`] = `
+"new TerraformVariable(this, \\"bucket_name\\", {
+  default: \\"demo\\",
+});
+const dataAwsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: varBucketName,
+});
+new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: dataAwsS3Bucket.examplebucket.arn,
+  key: \\"someobject\\",
+  source: \\"index.html\\",
+});
+"
+`;
+
 exports[`convert typescript empty provider configuration 1`] = `
 "new Docker(this, \\"docker\\", {});
 "
@@ -133,6 +149,15 @@ exports[`convert typescript locals configuration 1`] = `
 const isItGreat = true;
 const owner = \\"Community Team\\";
 const serviceName = \\"forum\\";
+"
+`;
+
+exports[`convert typescript locals references configuration 1`] = `
+"const bucketName = \\"foo\\";
+new AwsS3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: localBucketName,
+});
 "
 `;
 
@@ -187,6 +212,60 @@ exports[`convert typescript provider with complex config configuration 1`] = `
 "
 `;
 
+exports[`convert typescript resource references configuration 1`] = `
+"const awsKmsKeyExamplekms = new AwsKmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const awsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: awsS3BucketExamplebucket.id,
+  key: \\"someobject\\",
+  kmsKeyId: awsKmsKeyExamplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert typescript resource references with HCL functions configuration 1`] = `
+"const awsKmsKeyExamplekms = new AwsKmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const awsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: \\"\${element(aws_s3_bucket.examplebucket, 0).id}\\",
+  key: \\"someobject\\",
+  kmsKeyId: awsKmsKeyExamplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert typescript resource references with lists configuration 1`] = `
+"const awsKmsKeyExamplekms = new AwsKmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const awsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: \\"\${aws_s3_bucket.examplebucket.*.id}\\",
+  key: \\"someobject\\",
+  kmsKeyId: awsKmsKeyExamplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
 exports[`convert typescript sensitive output configuration 1`] = `
 "new TerraformOutput(this, \\"cidr_out\\", {
   value: \\"test\\",
@@ -197,7 +276,7 @@ exports[`convert typescript sensitive output configuration 1`] = `
 
 exports[`convert typescript simple data source configuration 1`] = `
 "new AwsSubnet(this, \\"selected\\", {
-  id: \\"\${var.subnet_id}\\",
+  id: \\"subnet_id\\",
 });
 "
 `;
@@ -211,6 +290,17 @@ exports[`convert typescript simple resource configuration 1`] = `
 
 exports[`convert typescript variable configuration 1`] = `
 "new TerraformVariable(this, \\"weekday\\", {});
+"
+`;
+
+exports[`convert typescript variable references configuration 1`] = `
+"new TerraformVariable(this, \\"bucket_name\\", {
+  default: \\"demo\\",
+});
+new AwsS3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: varBucketName,
+});
 "
 `;
 

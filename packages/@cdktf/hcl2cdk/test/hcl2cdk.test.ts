@@ -77,8 +77,8 @@ describe("convert", () => {
         ` 
         resource "aws_cloudfront_distribution" "s3_distribution" {
           origin {
-            domain_name = aws_s3_bucket.b.bucket_regional_domain_name
-            origin_id   = local.s3_origin_id
+            domain_name = "aws_s3_bucket.b.bucket_regional_domain_name"
+            origin_id   = "local_s3_origin_id"
         
             s3_origin_config {
               origin_access_identity = "origin-access-identity/cloudfront/ABCDEFG1234567"
@@ -101,7 +101,7 @@ describe("convert", () => {
           default_cache_behavior {
             allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
             cached_methods   = ["GET", "HEAD"]
-            target_origin_id = local.s3_origin_id
+            target_origin_id = "local_s3_origin_id"
         
             forwarded_values {
               query_string = false
@@ -122,7 +122,7 @@ describe("convert", () => {
             path_pattern     = "/content/immutable/*"
             allowed_methods  = ["GET", "HEAD", "OPTIONS"]
             cached_methods   = ["GET", "HEAD", "OPTIONS"]
-            target_origin_id = local.s3_origin_id
+            target_origin_id = "local_s3_origin_id"
         
             forwarded_values {
               query_string = false
@@ -145,7 +145,7 @@ describe("convert", () => {
             path_pattern     = "/content/*"
             allowed_methods  = ["GET", "HEAD", "OPTIONS"]
             cached_methods   = ["GET", "HEAD"]
-            target_origin_id = local.s3_origin_id
+            target_origin_id = "local_s3_origin_id"
         
             forwarded_values {
               query_string = false
@@ -184,7 +184,7 @@ describe("convert", () => {
         "simple data source",
         `
         data "aws_subnet" "selected" {
-          id = var.subnet_id
+          id = "subnet_id"
         }`,
       ],
       [
@@ -208,6 +208,110 @@ describe("convert", () => {
         locals {
           is_it_great  = true
           how_many     = 42
+        }`,
+      ],
+      [
+        "resource references",
+        `
+        resource "aws_kms_key" "examplekms" {
+          description             = "KMS key 1"
+          deletion_window_in_days = 7
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = "examplebuckettftest"
+          acl    = "private"
+        }
+        
+        resource "aws_s3_bucket_object" "examplebucket_object" {
+          key        = "someobject"
+          bucket     = aws_s3_bucket.examplebucket.id
+          source     = "index.html"
+          kms_key_id = aws_kms_key.examplekms.arn
+        }`,
+      ],
+      [
+        "resource references with HCL functions",
+        `
+        resource "aws_kms_key" "examplekms" {
+          description             = "KMS key 1"
+          deletion_window_in_days = 7
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = "examplebuckettftest"
+          acl    = "private"
+        }
+        
+        resource "aws_s3_bucket_object" "examplebucket_object" {
+          key        = "someobject"
+          bucket     = element(aws_s3_bucket.examplebucket, 0).id
+          source     = "index.html"
+          kms_key_id = aws_kms_key.examplekms.arn
+        }`,
+      ],
+      [
+        "resource references with lists",
+        `
+        resource "aws_kms_key" "examplekms" {
+          description             = "KMS key 1"
+          deletion_window_in_days = 7
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = "examplebuckettftest"
+          acl    = "private"
+        }
+        
+        resource "aws_s3_bucket_object" "examplebucket_object" {
+          key        = "someobject"
+          bucket     = aws_s3_bucket.examplebucket.*.id
+          source     = "index.html"
+          kms_key_id = aws_kms_key.examplekms.arn
+        }`,
+      ],
+      [
+        "locals references",
+        `
+        locals {
+          bucket_name = "foo"
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = local.bucket_name
+          acl    = "private"
+        }`,
+      ],
+      [
+        "variable references",
+        `
+        variable "bucket_name" {
+          type    = string
+          default = "demo"
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = var.bucket_name
+          acl    = "private"
+        }`,
+      ],
+      [
+        "data references",
+        `
+        variable "bucket_name" {
+          type    = string
+          default = "demo"
+        }
+        
+        data "aws_s3_bucket" "examplebucket" {
+          bucket = var.bucket_name
+          acl    = "private"
+        }
+        
+        resource "aws_s3_bucket_object" "examplebucket_object" {
+          key        = "someobject"
+          bucket     = data.aws_s3_bucket.examplebucket.arn
+          source     = "index.html"
         }`,
       ],
     ])("%s configuration", async (_name, hcl) => {

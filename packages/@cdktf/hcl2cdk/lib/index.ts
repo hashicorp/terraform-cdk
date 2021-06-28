@@ -4,7 +4,7 @@ import * as t from "@babel/types";
 import prettier from "prettier";
 import { pascalCase, camelCase } from "change-case";
 import { schema, Output, Variable, Provider } from "./schema";
-
+import { DirectedGraph } from "graphology";
 
 type ConvertOptions = {
   language: "typescript";
@@ -13,6 +13,20 @@ type ConvertOptions = {
 const valueToTs = (item: any): t.Expression => {
   switch (typeof item) {
     case "string":
+      if (item.startsWith("${") && !item.includes("(") && !item.includes("*")) {
+        // It's a HCL Expression, we assume it is just a variable reference
+        // e.g. ${aws_s3_bucket.foo.id}
+        const hclExpr = item.substr(2, item.length - 3);
+        const [resource, name, ...selector] = hclExpr.split(".");
+        const variableReference = t.identifier(
+          camelCase([resource, name].join("_"))
+        );
+
+        return selector.reduce(
+          (carry, member) => t.memberExpression(carry, t.identifier(member)),
+          variableReference as t.Expression
+        );
+      }
       return t.stringLiteral(item);
     case "boolean":
       return t.booleanLiteral(item);
@@ -34,74 +48,39 @@ const valueToTs = (item: any): t.Expression => {
   throw new Error("Unsupported type " + item);
 };
 
-const construct = (type: string, name: string, config: Record<string, any>) =>
-  t.expressionStatement(
-    t.newExpression(t.identifier(type), [
-      t.thisExpression(),
-      t.stringLiteral(name),
-      valueToTs(config),
-    ])
-  );
+function findUsedReferences(
+  nodeIds: string[],
+  item: unknown,
+  references: string[] = []
+): string[] {
+  if (Array.isArray(item)) {
+    return [
+      ...references,
+      ...item.reduce(
+        (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
+        []
+      ),
+    ];
+  }
 
-function output(key: string, item: Output): t.Statement {
-  const [{ value, description, sensitive }] = item;
-  return construct("TerraformOutput", key, { value, description, sensitive });
-}
+  if (typeof item === "object") {
+    return [
+      ...references,
+      ...Object.values(item as Record<string, any>).reduce(
+        (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
+        []
+      ),
+    ];
+  }
 
-function variable(key: string, item: Variable): t.Statement {
-  // We don't handle type information right now
-  const [{ type, ...props }] = item;
-  return construct("TerraformVariable", key, props);
-}
-function local(key: string, item: any): t.Statement {
-  return t.variableDeclaration("const", [
-    t.variableDeclarator(t.identifier(camelCase(key)), valueToTs(item)),
-  ]);
-}
-
-// TODO: support alias
-function provider(key: string, item: Provider): t.Statement {
-  return construct(pascalCase(key), key, item[0]);
-}
-
-function resource(type: string, key: string, item: Provider): t.Statement {
-  return construct(pascalCase(type), key, item[0]);
-}
-
-// locals, provider, variables, and outputs are global key value maps
-function forEachGlobal<T>(
-  prefix: string,
-  record: Record<string, T> | undefined,
-  iterator: (key: string, value: T) => t.Statement
-): Record<string, t.Statement> {
-  return Object.entries(record || {}).reduce(
-    (carry, [key, item]) => ({
-      ...carry,
-      [`${prefix}.${key}`]: iterator(key, item),
-    }),
-    {}
-  );
-}
-
-// data and resource are namespaced key value maps
-function forEachNamespaced<T>(
-  record: Record<string, Record<string, T>> | undefined,
-  iterator: (type: string, key: string, value: T) => t.Statement,
-  prefix?: string
-): Record<string, t.Statement> {
-  return Object.entries(record || {}).reduce(
-    (outerCarry, [type, items]) => ({
-      ...outerCarry,
-      ...Object.entries(items).reduce((innerCarry, [key, item]) => {
-        const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
-        return {
-          ...innerCarry,
-          [id]: iterator(type, key, item),
-        };
-      }, {} as Record<string, t.Statement>),
-    }),
-    {} as Record<string, t.Statement>
-  );
+  if (typeof item === "string") {
+    const node = nodeIds.find((id) => item.includes(id));
+    if (node) {
+      return [...references, node];
+    }
+    return references;
+  }
+  return references;
 }
 
 export async function convert(
@@ -116,6 +95,106 @@ export async function convert(
   const json = await parse(filename, hcl);
   console.log(JSON.stringify(json));
   const plan = schema.parse(json);
+
+  const construct = (
+    type: string,
+    name: string,
+    config: Record<string, any>,
+    variableName?: string
+  ) => {
+    const expression = t.newExpression(t.identifier(type), [
+      t.thisExpression(),
+      t.stringLiteral(name),
+      valueToTs(config),
+    ]);
+
+    return variableName
+      ? t.variableDeclaration("const", [
+          t.variableDeclarator(t.identifier(variableName), expression),
+        ])
+      : t.expressionStatement(expression);
+  };
+
+  function output(key: string, _id: string, item: Output): t.Statement {
+    const [{ value, description, sensitive }] = item;
+    return construct("TerraformOutput", key, { value, description, sensitive });
+  }
+
+  function variable(key: string, _id: string, item: Variable): t.Statement {
+    // We don't handle type information right now
+    const [{ type, ...props }] = item;
+    return construct("TerraformVariable", key, props);
+  }
+  function local(key: string, _id: string, item: any): t.Statement {
+    return t.variableDeclaration("const", [
+      t.variableDeclarator(t.identifier(camelCase(key)), valueToTs(item)),
+    ]);
+  }
+
+  // TODO: support alias
+  function provider(key: string, _id: string, item: Provider): t.Statement {
+    return construct(pascalCase(key), key, item[0]);
+  }
+
+  function resource(
+    type: string,
+    key: string,
+    id: string,
+    item: Provider,
+    graph: DirectedGraph
+  ): t.Statement {
+    const isReferenced = graph.outNeighbors(id).length > 0;
+    // TODO: remove provider part from type
+    return construct(
+      pascalCase(type),
+      key,
+      item[0],
+      isReferenced ? camelCase(id) : undefined
+    );
+  }
+
+  // locals, provider, variables, and outputs are global key value maps
+  function forEachGlobal<T, R>(
+    prefix: string,
+    record: Record<string, T> | undefined,
+    iterator: (key: string, id: string, value: T, graph: DirectedGraph) => R
+  ): Record<string, (graph: DirectedGraph) => R> {
+    return Object.entries(record || {}).reduce((carry, [key, item]) => {
+      const id = `${prefix}.${key}`;
+      return {
+        ...carry,
+        [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),
+      };
+    }, {});
+  }
+
+  // data and resource are namespaced key value maps
+  function forEachNamespaced<T, R>(
+    record: Record<string, Record<string, T>> | undefined,
+    iterator: (
+      type: string,
+      key: string,
+      id: string,
+      value: T,
+      graph: DirectedGraph
+    ) => R,
+    prefix?: string
+  ): Record<string, (graph: DirectedGraph) => R> {
+    return Object.entries(record || {}).reduce(
+      (outerCarry, [type, items]) => ({
+        ...outerCarry,
+        ...Object.entries(items).reduce((innerCarry, [key, item]) => {
+          const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
+          return {
+            ...innerCarry,
+            [id]: (graph: DirectedGraph) =>
+              iterator(type, key, id, item, graph),
+          };
+        }, {} as Record<string, (graph: DirectedGraph) => R>),
+      }),
+      {} as Record<string, (graph: DirectedGraph) => R>
+    );
+  }
 
   const nodeMap = {
     ...forEachGlobal("providers", plan.provider, provider),
@@ -133,6 +212,66 @@ export async function convert(
     ...forEachNamespaced(plan.data, resource, "data"),
   };
 
-  const { code } = generate(t.program(Object.values(nodeMap)) as any);
+  const graph = new DirectedGraph();
+  // Add all nodes so we can detect if an edge is added for an unknown link
+  Object.entries(nodeMap).forEach(([key, value]) =>
+    graph.addNode(key, { code: value })
+  );
+  const nodeIds = Object.keys(nodeMap);
+
+  // Add Edges
+  function addGlobalEdges(_key: string, id: string, value: unknown) {
+    findUsedReferences(nodeIds, value).forEach((ref) =>
+      graph.addDirectedEdge(ref, id)
+    );
+  }
+  function addNamespacedEdges(
+    _type: string,
+    _key: string,
+    id: string,
+    value: unknown
+  ) {
+    findUsedReferences(nodeIds, value).forEach((ref) =>
+      graph.addDirectedEdge(ref, id)
+    );
+  }
+  Object.values({
+    ...forEachGlobal("providers", plan.provider, addGlobalEdges),
+    ...forEachGlobal("var", plan.variable, addGlobalEdges),
+    // locals are a special case
+    ...forEachGlobal(
+      "local",
+      Array.isArray(plan.locals)
+        ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
+        : {},
+      addGlobalEdges
+    ),
+    ...forEachGlobal("out", plan.output, addGlobalEdges),
+    ...forEachNamespaced(plan.resource, addNamespacedEdges),
+    ...forEachNamespaced(plan.data, addNamespacedEdges, "data"),
+  }).forEach((cb) => cb(graph));
+
+  const expressions: t.Statement[] = [];
+  let nodesToVisit = [...nodeIds];
+
+  console.log(graph.export());
+  while (nodesToVisit.length > 0) {
+    graph.forEachNode((nodeId) => {
+      if (!nodesToVisit.includes(nodeId)) {
+        return;
+      }
+
+      const unresolvedDependencies = graph
+        .inNeighbors(nodeId)
+        .filter((item) => nodesToVisit.includes(item));
+
+      if (unresolvedDependencies.length === 0) {
+        nodesToVisit = nodesToVisit.filter((id) => nodeId !== id);
+        expressions.push(graph.getNodeAttribute(nodeId, "code")(graph));
+      }
+    });
+  }
+
+  const { code } = generate(t.program(expressions) as any);
   return prettier.format(code, { parser: "babel" });
 }
