@@ -20,14 +20,12 @@ const variableConfig = tfObject({
 });
 export type Variable = z.infer<typeof variableConfig>;
 
-
 const providerConfig = z.array(z.record(z.any()));
 export type Provider = z.infer<typeof providerConfig>;
 
 const resourceConfig = z.array(z.record(z.any()));
 export type Resource = z.infer<typeof resourceConfig>;
 export type Data = Resource;
-
 
 export const schema = z
   .object({

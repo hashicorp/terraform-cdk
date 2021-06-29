@@ -11,7 +11,7 @@ yarn install @cdktf/hcl2cdktf
 ### Parse HCL strings
 
 ```ts
-import { transform } from '@cdktf/hcl2cdktf'
+import { transform } from "@cdktf/hcl2cdktf";
 
 const hcl = `
   variable "name" {
@@ -19,20 +19,18 @@ const hcl = `
     type        = string
     default     = ""
   }
-`
-
-(async () => {
+`(async () => {
   // my-filename.tf isn't relevant for the functionality, just metadata
-  const ts = await transform('my-filename.tf', hcl, { language: "typescript" })
-  console.log(ts)
-})()
+  const ts = await transform("my-filename.tf", hcl, { language: "typescript" });
+  console.log(ts);
+})();
 
 // =>
 
-new TerraformVariable(this, 'imageId', {
-    type: 'string',
-    default: 'ami-abcde123',
-    description: 'What AMI to use to create an instance'
+new TerraformVariable(this, "imageId", {
+  type: "string",
+  default: "ami-abcde123",
+  description: "What AMI to use to create an instance",
 });
 ```
 
@@ -40,14 +38,13 @@ new TerraformVariable(this, 'imageId', {
 
 ### Parse an entire directory
 
-
 ```js
-import { convertFiles } from '@cdktf/hcl2json'
+import { convertFiles } from "@cdktf/hcl2json";
 
 (async () => {
-  const json = await convertFiles('/your/terraform/code')
-  console.log(json)
-})()
+  const json = await convertFiles("/your/terraform/code");
+  console.log(json);
+})();
 
 // => Unified JSON representation of all *.tf and *.tf.json files in the given directory
 ```
