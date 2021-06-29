@@ -21,7 +21,7 @@ public class Main extends TerraformStack {
 
         UcloudProvider.Builder.create(this, "ucloud")
 	    .region("cn-bj2")
-	    .projectId(System.getenv("UCLOUD_PROJECT_ID"))
+	    .projectId(System.getenv().getOrDefault("UCLOUD_PROJECT_ID", ""))
 	    .build();
 
 	DataUcloudImages images = DataUcloudImages.Builder.create(this, "images")

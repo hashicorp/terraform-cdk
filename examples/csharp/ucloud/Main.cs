@@ -14,7 +14,7 @@ namespace MyCompany.MyApp
         {
             new UcloudProvider(this, "ucloud", new UcloudProviderConfig {
                 Region = "cn-bj2",
-                ProjectId = System.Environment.GetEnvironmentVariable("UCLOUD_PROJECT_ID"),
+                ProjectId = System.Environment.GetEnvironmentVariable("UCLOUD_PROJECT_ID") ?? "",
             });
 
             DataUcloudImages images = new DataUcloudImages(this, "images", new DataUcloudImagesConfig {

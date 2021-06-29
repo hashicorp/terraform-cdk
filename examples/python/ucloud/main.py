@@ -12,7 +12,7 @@ class MyStack(TerraformStack):
         UcloudProvider(
             self, "UCloud",
             region="cn-bj2",
-            project_id=os.getenv("UCLOUD_PROJECT_ID"),
+            project_id=os.getenv("UCLOUD_PROJECT_ID") or "",
         )
         images = DataUcloudImages(
             self, "images",
