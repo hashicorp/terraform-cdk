@@ -1,3 +1,3 @@
 export interface ITerraformDependable {
-    readonly fqn: string;
+  readonly fqn: string;
 }

@@ -26,7 +26,7 @@ describe("parseConfig", () => {
   describe("providers", () => {
     it("parses provider string", async () => {
       const input = {
-        terraformProviders: ["aws@~> 2.0"]
+        terraformProviders: ["aws@~> 2.0"],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
@@ -49,7 +49,7 @@ describe("parseConfig", () => {
 
     it("parses provider string with namespace", async () => {
       const input = {
-        terraformProviders: ["hashicorp/aws@~> 2.0"]
+        terraformProviders: ["hashicorp/aws@~> 2.0"],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
@@ -75,9 +75,9 @@ describe("parseConfig", () => {
         terraformProviders: [
           {
             name: "aws",
-            version: "~> 2.0"
-          }
-        ]
+            version: "~> 2.0",
+          },
+        ],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
@@ -102,7 +102,7 @@ describe("parseConfig", () => {
   describe("modules", () => {
     it("parses module string", async () => {
       const input = {
-        terraformModules: ["terraform-aws-modules/vpc/aws@2.39.0"]
+        terraformModules: ["terraform-aws-modules/vpc/aws@2.39.0"],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
@@ -127,9 +127,9 @@ describe("parseConfig", () => {
         terraformModules: [
           {
             name: "local-module",
-            source: "./foo"
-          }
-        ]
+            source: "./foo",
+          },
+        ],
       };
       const parsed: any = parseConfig(JSON.stringify(input));
       expect(parsed.terraformModules[0].localSource).toMatch(
@@ -140,8 +140,8 @@ describe("parseConfig", () => {
     it("parses sub module registry string", async () => {
       const input = {
         terraformModules: [
-          "terraform-aws-modules/iam/aws//modules/iam-account@3.12.0"
-        ]
+          "terraform-aws-modules/iam/aws//modules/iam-account@3.12.0",
+        ],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
@@ -168,9 +168,9 @@ describe("parseConfig", () => {
             name: "customAWSVpc",
             source:
               "https://github.com/terraform-aws-modules/terraform-aws-vpc",
-            version: "~> v2.0"
-          }
-        ]
+            version: "~> v2.0",
+          },
+        ],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
@@ -198,9 +198,9 @@ describe("parseConfig", () => {
             name: "customAWSVpc",
             source:
               "https://github.com/terraform-aws-modules/terraform-aws-vpc",
-            version: "~> v2.0"
-          }
-        ]
+            version: "~> v2.0",
+          },
+        ],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`

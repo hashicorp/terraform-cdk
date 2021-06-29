@@ -1,7 +1,10 @@
-
-import { TerraformResource, TerraformMetaArguments, ComplexComputedList } from '../../lib';
-import { Construct } from 'constructs';
-import { TestProviderMetadata } from './provider'
+import {
+  TerraformResource,
+  TerraformMetaArguments,
+  ComplexComputedList,
+} from "../../lib";
+import { Construct } from "constructs";
+import { TestProviderMetadata } from "./provider";
 
 export interface TestResourceConfig extends TerraformMetaArguments {
   name: string;
@@ -17,20 +20,20 @@ export class TestResource extends TerraformResource {
 
   constructor(scope: Construct, id: string, config: TestResourceConfig) {
     super(scope, id, {
-      terraformResourceType: 'test_resource',
+      terraformResourceType: "test_resource",
       terraformGeneratorMetadata: {
         providerName: TestProviderMetadata.TYPE,
-        providerVersionConstraint: '~> 2.0'
+        providerVersionConstraint: "~> 2.0",
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
     });
 
-    this.name = config.name
-    this.tags = config.tags
-    this.nestedType = config.nestedType
+    this.name = config.name;
+    this.tags = config.tags;
+    this.nestedType = config.nestedType;
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
@@ -38,41 +41,41 @@ export class TestResource extends TerraformResource {
       name: this.name,
       names: this.names,
       tags: this.tags,
-      nested_type: this.nestedType // eslint-disable-line @typescript-eslint/camelcase
-    }
+      nested_type: this.nestedType, // eslint-disable-line @typescript-eslint/camelcase
+    };
   }
 }
 
 export class OtherTestResource extends TerraformResource {
   constructor(scope: Construct, id: string, config: TerraformMetaArguments) {
     super(scope, id, {
-      terraformResourceType: 'other_test_resource',
+      terraformResourceType: "other_test_resource",
       terraformGeneratorMetadata: {
         providerName: TestProviderMetadata.TYPE,
-        providerVersionConstraint: '~> 2.0'
+        providerVersionConstraint: "~> 2.0",
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
     });
   }
 
   public get names(): string[] {
-    return this.getListAttribute("names")
+    return this.getListAttribute("names");
   }
 
   public complexComputedList(index: string) {
-    return new TestComplexComputedList(this, 'complex_computed_list', index);
+    return new TestComplexComputedList(this, "complex_computed_list", index);
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
-    return {}
+    return {};
   }
 }
 
 class TestComplexComputedList extends ComplexComputedList {
   public get id() {
-    return this.getStringAttribute('id');
+    return this.getStringAttribute("id");
   }
 }

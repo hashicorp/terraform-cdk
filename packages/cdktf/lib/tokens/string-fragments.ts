@@ -8,10 +8,10 @@ import { Tokenization } from "./token";
  *
  * Either a literal part of the string, or an unresolved Token.
  */
-type LiteralFragment = { type: 'literal'; lit: any };
-type TokenFragment = { type: 'token'; token: IResolvable };
-type IntrinsicFragment = { type: 'intrinsic'; value: any };
-type Fragment =  LiteralFragment | TokenFragment | IntrinsicFragment;
+type LiteralFragment = { type: "literal"; lit: any };
+type TokenFragment = { type: "token"; token: IResolvable };
+type IntrinsicFragment = { type: "intrinsic"; value: any };
+type Fragment = LiteralFragment | TokenFragment | IntrinsicFragment;
 
 /**
  * Fragments of a concatenated string containing stringified Tokens
@@ -25,7 +25,9 @@ export class TokenizedStringFragments {
    */
   public get firstToken(): IResolvable | undefined {
     const first = this.fragments[0];
-    if (first.type === 'token') { return first.token; }
+    if (first.type === "token") {
+      return first.token;
+    }
     return undefined;
   }
 
@@ -48,7 +50,7 @@ export class TokenizedStringFragments {
    * @param lit the literal to add
    */
   public addLiteral(lit: any) {
-    this.fragments.push({ type: 'literal', lit });
+    this.fragments.push({ type: "literal", lit });
   }
 
   /**
@@ -56,7 +58,7 @@ export class TokenizedStringFragments {
    * @param token the token to add
    */
   public addToken(token: IResolvable) {
-    this.fragments.push({ type: 'token', token });
+    this.fragments.push({ type: "token", token });
   }
 
   /**
@@ -64,7 +66,7 @@ export class TokenizedStringFragments {
    * @param value the intrinsic value to add
    */
   public addIntrinsic(value: any) {
-    this.fragments.push({ type: 'intrinsic', value });
+    this.fragments.push({ type: "intrinsic", value });
   }
 
   /**
@@ -73,7 +75,7 @@ export class TokenizedStringFragments {
   public get tokens(): IResolvable[] {
     const ret = new Array<IResolvable>();
     for (const f of this.fragments) {
-      if (f.type === 'token') {
+      if (f.type === "token") {
         ret.push(f.token);
       }
     }
@@ -88,10 +90,10 @@ export class TokenizedStringFragments {
 
     for (const f of this.fragments) {
       switch (f.type) {
-        case 'literal':
+        case "literal":
           ret.addLiteral(f.lit);
           break;
-        case 'token':
+        case "token":
           // eslint-disable-next-line no-case-declarations
           const mapped = mapper.mapToken(f.token);
           if (Tokenization.isResolvable(mapped)) {
@@ -100,7 +102,7 @@ export class TokenizedStringFragments {
             ret.addIntrinsic(mapped);
           }
           break;
-        case 'intrinsic':
+        case "intrinsic":
           ret.addIntrinsic(f.value);
           break;
       }
@@ -115,8 +117,12 @@ export class TokenizedStringFragments {
    * If there are any
    */
   public join(concat: IFragmentConcatenator): any {
-    if (this.fragments.length === 0) { return concat.join(undefined, undefined); }
-    if (this.fragments.length === 1) { return this.firstValue; }
+    if (this.fragments.length === 0) {
+      return concat.join(undefined, undefined);
+    }
+    if (this.fragments.length === 1) {
+      return this.firstValue;
+    }
 
     const values = this.fragments.map(fragmentValue);
 
@@ -148,8 +154,11 @@ export interface ITokenMapper {
  */
 function fragmentValue(fragment: Fragment): any {
   switch (fragment.type) {
-    case 'literal': return fragment.lit;
-    case 'token': return fragment.token.toString();
-    case 'intrinsic': return fragment.value;
+    case "literal":
+      return fragment.lit;
+    case "token":
+      return fragment.token.toString();
+    case "intrinsic":
+      return fragment.value;
   }
 }

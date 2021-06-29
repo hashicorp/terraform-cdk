@@ -48,8 +48,5 @@ export function hashPath(src: string) {
   }
 
   hashRecursion(src);
-  return hash
-    .digest("hex")
-    .slice(0, HASH_LEN)
-    .toUpperCase();
+  return hash.digest("hex").slice(0, HASH_LEN).toUpperCase();
 }

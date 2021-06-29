@@ -195,16 +195,17 @@ The pattern is simple:
    through `cdktf init`.
 4. In your PR title (which goes into CHANGELOG), add a `(under feature flag)` suffix. e.g:
 
-    ```
-    fix(core): top level constructs should omit stack id from name (under feature flag)
-    ```
+   ```
+   fix(core): top level constructs should omit stack id from name (under feature flag)
+   ```
+
 5. Under `BREAKING CHANGES` in your commit message describe this new behavior:
 
-    ```
-    BREAKING CHANGE: top level resource names for new projects created through "cdktf init"
-    will omit the stack id from their name. This is enabled through the flag
-    `excludeStackIdFromLogicalIds` in newly generated `cdktf.json` files.
-    ```
+   ```
+   BREAKING CHANGE: top level resource names for new projects created through "cdktf init"
+   will omit the stack id from their name. This is enabled through the flag
+   `excludeStackIdFromLogicalIds` in newly generated `cdktf.json` files.
+   ```
 
 In the next major version of the
 CDKTF we will either remove the

@@ -1,5 +1,5 @@
 import React from "react";
-import { stripAnsi } from '../test-helper'
+import { stripAnsi } from "../test-helper";
 import { render } from "ink-testing-library";
 import { ResourceName } from "../../bin/cmds/ui/components/resource-name";
 
@@ -11,7 +11,7 @@ test("ResourceName", async () => {
     />
   );
 
-  expect(stripAnsi(lastFrame() || '')).toMatchInlineSnapshot(
+  expect(stripAnsi(lastFrame() || "")).toMatchInlineSnapshot(
     `"NULL_RESOURCE        test                null_resource.hellodiff_test_85E428D7"`
   );
 });

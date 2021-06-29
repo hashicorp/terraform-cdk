@@ -25,3 +25,4 @@ tsconfig.json
 bootstrap.json
 terraform-cdk.github-issues
 .idea
+.husky

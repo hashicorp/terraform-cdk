@@ -1,10 +1,13 @@
-import yargs from 'yargs'
-import React from 'react';
-import { readConfigSync, TerraformDependencyConstraint } from '../../lib/config';
-import { Language, LANGUAGES } from '../../lib/get/constructs-maker';
-import { Get } from './ui/get'
-import { renderInk } from './render-ink'
-import { displayVersionMessage } from './version-check'
+import yargs from "yargs";
+import React from "react";
+import {
+  readConfigSync,
+  TerraformDependencyConstraint,
+} from "../../lib/config";
+import { Language, LANGUAGES } from "../../lib/get/constructs-maker";
+import { Get } from "./ui/get";
+import { renderInk } from "./render-ink";
+import { displayVersionMessage } from "./version-check";
 
 const config = readConfigSync();
 
@@ -14,29 +17,54 @@ interface Arguments {
 }
 
 class Command implements yargs.CommandModule {
-  public readonly command = 'get [OPTIONS]';
-  public readonly describe = 'Generate CDK Constructs for Terraform providers and modules.';
+  public readonly command = "get [OPTIONS]";
+  public readonly describe =
+    "Generate CDK Constructs for Terraform providers and modules.";
 
-  public readonly builder = (args: yargs.Argv) => args
-    .showHelpOnFail(true)
-    .option('output', { default: config.codeMakerOutput, type: 'string', desc: 'Output directory for generated Constructs', alias: 'o' })
-    .option('language', { default: config.language, required: true, type: 'string', desc: 'Output programming language', alias: 'l', choices: LANGUAGES });
+  public readonly builder = (args: yargs.Argv) =>
+    args
+      .showHelpOnFail(true)
+      .option("output", {
+        default: config.codeMakerOutput,
+        type: "string",
+        desc: "Output directory for generated Constructs",
+        alias: "o",
+      })
+      .option("language", {
+        default: config.language,
+        required: true,
+        type: "string",
+        desc: "Output programming language",
+        alias: "l",
+        choices: LANGUAGES,
+      });
 
   public async handler(argv: any) {
-    await displayVersionMessage()
-    const args = argv as Arguments
+    await displayVersionMessage();
+    const args = argv as Arguments;
     const providers = config.terraformProviders ?? [];
     const modules = config.terraformModules ?? [];
-    const { output, language } = args
+    const { output, language } = args;
 
-    const constraints: TerraformDependencyConstraint[] = [...providers, ...modules]
+    const constraints: TerraformDependencyConstraint[] = [
+      ...providers,
+      ...modules,
+    ];
 
     if (constraints.length === 0) {
-      console.error(`ERROR: Please specify providers or modules in "cdktf.json" config file`);
+      console.error(
+        `ERROR: Please specify providers or modules in "cdktf.json" config file`
+      );
       process.exit(1);
     }
 
-    await renderInk(React.createElement(Get, { codeMakerOutput: output, language: language, constraints }));
+    await renderInk(
+      React.createElement(Get, {
+        codeMakerOutput: output,
+        language: language,
+        constraints,
+      })
+    );
   }
 }
 

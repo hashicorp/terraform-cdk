@@ -8,6 +8,7 @@
 - [Maven](https://maven.apache.org/download.cgi) >= 3.5
 
 ## Configure Maven for GitHub Packages
+
 Currently cdktf is distributed only on GitHub packages. Until it is available in Maven Central, some additional configuration is needed.
 
 Specifically, add `https://maven.pkg.github.com/hashicorp/terraform-cdk` as a repository and add GitHub credentials using a Personal Access Token.
@@ -21,6 +22,7 @@ Install with [Homebrew](https://brew.sh):
 ```shell
 $ brew install cdktf
 ```
+
 Or install with `npm` (comes with [Node.js](https://nodejs.org)):
 
 ```bash
@@ -138,8 +140,8 @@ You specify it in your local `cdktf.json` file, like this:
   "language": "java",
   "app": "mvn -e -q compile exec:java",
   "terraformProviders": [
-    // Terraform Providers with version constraint go here 
-    "aws@~> 3.45" 
+    // Terraform Providers with version constraint go here
+    "aws@~> 3.45"
   ],
   "terraformModules": [
     // Terraform Modules with version constraint go here

@@ -1,7 +1,7 @@
 /**
  * Testing a full cycle of diff, deploy and destroy
  *
- * 
+ *
  */
 
 import { TestDriver } from "../../test-helper";
@@ -10,8 +10,8 @@ describe("full integration test", () => {
   let driver: TestDriver;
 
   beforeAll(async () => {
-    driver = new TestDriver(__dirname)
-    await driver.setupTypescriptProject()
+    driver = new TestDriver(__dirname);
+    await driver.setupTypescriptProject();
   });
 
   test("diff", () => {

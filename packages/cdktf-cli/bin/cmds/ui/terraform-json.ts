@@ -26,6 +26,6 @@ export interface TerraformJsonConfig {
 }
 export interface TerraformJson {
   "//": TerraformJsonRootComment;
-  resource: {[key: string]: any};
+  resource: { [key: string]: any };
   terraform?: TerraformJsonConfig;
 }

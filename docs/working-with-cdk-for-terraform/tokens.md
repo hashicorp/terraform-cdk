@@ -15,13 +15,13 @@ In TypeScript, the module output with the AWS VPC identifier from the `vpc` modu
 using `vpcIdOutput`.
 
 ```typescript
-const vpc = new Vpc(this, 'my-vpc', {
-  name: vpcName
+const vpc = new Vpc(this, "my-vpc", {
+  name: vpcName,
 });
 
-new Eks(this, 'EksModule', {
-  clusterName: 'my-kubernetes-cluster',
-  vpcId: vpc.vpcIdOutput
+new Eks(this, "EksModule", {
+  clusterName: "my-kubernetes-cluster",
+  vpcId: vpc.vpcIdOutput,
 });
 ```
 
@@ -44,7 +44,7 @@ As a result, some attributes specified using the CDK for Terraform may not map t
 to cast it to the correct attribute type. Tokens represent values that can only be resolved at a later time
 in the lifecycle of synthesis.
 
-For example, the EKS module requires a *list* of subnet ids in order to create
+For example, the EKS module requires a _list_ of subnet ids in order to create
 a cluster. The VPC module outputs a list of subnets. To pass the subnet id list to the EKS module,
 we use `publicSubnetsOutput` to retrieve the list from the VPC. However, the `subnets` attribute
 requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast the interpolated module
@@ -53,12 +53,12 @@ output as a list of strings.
 ```typescript
 const vpc = new Vpc(this, vpcName, {
   name: vpcName,
-  publicSubnets: ['10.0.1.0/24', '10.0.2.0/24']
+  publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"],
 });
 
-new Eks(this, 'EksModule', {
-  clusterName: 'my-kubernetes-cluster',
-  subnets: Token.asList(vpc.publicSubnetsOutput)
+new Eks(this, "EksModule", {
+  clusterName: "my-kubernetes-cluster",
+  subnets: Token.asList(vpc.publicSubnetsOutput),
 });
 ```
 

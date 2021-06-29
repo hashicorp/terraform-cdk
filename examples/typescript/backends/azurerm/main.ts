@@ -1,5 +1,5 @@
-import { Construct } from 'constructs';
-import { App, TerraformStack, AzurermBackend } from 'cdktf';
+import { Construct } from "constructs";
+import { App, TerraformStack, AzurermBackend } from "cdktf";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -12,14 +12,13 @@ class MyStack extends TerraformStack {
       resourceGroupName: "StorageAccount-ResourceGroup",
       storageAccountName: "abcd1234",
       containerName: "tfstate",
-      key: "prod.terraform.tfstate"
+      key: "prod.terraform.tfstate",
     });
 
     // define resources here
-
   }
 }
 
 const app = new App();
-new MyStack(app, 'typescript-backends');
+new MyStack(app, "typescript-backends");
 app.synth();

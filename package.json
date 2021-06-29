@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "lerna run --scope cdktf* --scope @cdktf/* build",
+    "format": "prettier --write .",
     "package": "lerna run package && tools/collect-dist.sh",
     "package:python": "lerna run package:python && tools/collect-dist.sh",
     "package:java": "lerna run package:java && tools/collect-dist.sh",
@@ -17,6 +18,7 @@
     "examples:integration:python": "test/run-against-dist tools/build-examples.sh python",
     "examples:integration:typescript": "test/run-against-dist tools/build-examples.sh typescript",
     "examples:integration:go": "test/run-against-dist tools/build-examples-sequential.sh go",
+    "pretest": "prettier --check .",
     "test": "lerna run --scope cdktf* --scope @cdktf* test",
     "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
     "link-packages": "lerna exec --scope cdktf* --scope @cdktf* yarn link",
@@ -35,7 +37,8 @@
     "release-github": "tools/release-github.sh",
     "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
     "push-docker-jsii": "docker push hashicorp/jsii-terraform",
-    "dist-clean": "lerna run dist-clean --stream && rm -rf dist"
+    "dist-clean": "lerna run dist-clean --stream && rm -rf dist",
+    "prepare": "husky install"
   },
   "workspaces": {
     "packages": [
@@ -52,10 +55,20 @@
       ".yalc/*",
       ".yalc/@*/*"
     ],
-    "nohoist": ["archiver", "**/archiver", "**/archiver/**"]
+    "nohoist": [
+      "archiver",
+      "**/archiver",
+      "**/archiver/**"
+    ]
   },
   "devDependencies": {
     "changelog-parser": "^2.8.0",
-    "lerna": "^3.20.2"
+    "husky": ">=6",
+    "lerna": "^3.20.2",
+    "lint-staged": ">=10",
+    "prettier": "^2.3.1"
+  },
+  "lint-staged": {
+    "*.{ts,js,css,md}": "prettier --write"
   }
 }

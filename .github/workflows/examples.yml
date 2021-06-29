@@ -2,8 +2,8 @@ name: Examples Integration
 on:
   pull_request:
     paths-ignore:
-      - '**.md'
-      - 'docs/**'
+      - "**.md"
+      - "docs/**"
 
 jobs:
   build:
@@ -30,8 +30,7 @@ jobs:
       - name: create bundle
         run: yarn package
       - name: bootstrap plugin cache
-        run:
-          yum install -y jq && yarn bootstrap-plugin-cache
+        run: yum install -y jq && yarn bootstrap-plugin-cache
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: examples integration tests

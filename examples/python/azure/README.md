@@ -5,10 +5,11 @@ A CDK for Terraform application in Python.
 ## Usage
 
 Install Pipenv using Homebrew by running:
-  
+
 ```bash
 $ brew install pipenv
 ```
+
 You can install Pipenv by visiting the [website](https://pipenv.pypa.io/en/latest/).
 
 Install project dependencies
@@ -48,7 +49,7 @@ class MyStack(TerraformStack):
             features=[{}]
             )
         example_rg = ResourceGroup(self, 'example-rg',\
-            name=rg_name, 
+            name=rg_name,
             location = loca,
             tags = tag
             )
@@ -86,7 +87,9 @@ terraform init
 terraform plan
 terraform apply
 ```
-or 
+
+or
+
 ```bash
 cdktf deploy
 ```
