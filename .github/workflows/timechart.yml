@@ -28,7 +28,7 @@ jobs:
       # Since we have this 'checkrun-timechart' job, which essentially
       # knows all the statuses (see https://github.com/WyriHaximus/github-action-wait-for-status#output),
       # we can leverage it to provide a global status to mergify.
-      - name: 'mergify status'
+      - name: "mergify status"
         uses: actions/github-script@v3
         if: steps.waitforstatuschecks.outputs.status != 'success'
         with:

@@ -1,23 +1,23 @@
-import { CodeMaker } from 'codemaker';
-import { ResourceModel, Struct, ConfigStruct } from "../models"
-import { AttributesEmitter } from './attributes-emitter'
-import { downcaseFirst } from '../../../util';
+import { CodeMaker } from "codemaker";
+import { ResourceModel, Struct, ConfigStruct } from "../models";
+import { AttributesEmitter } from "./attributes-emitter";
+import { downcaseFirst } from "../../../util";
 
 export class StructEmitter {
-  attributesEmitter: AttributesEmitter
+  attributesEmitter: AttributesEmitter;
 
   constructor(private readonly code: CodeMaker) {
-    this.attributesEmitter = new AttributesEmitter(this.code)
+    this.attributesEmitter = new AttributesEmitter(this.code);
   }
 
   public emit(resource: ResourceModel) {
-    resource.structs.forEach(struct => {
+    resource.structs.forEach((struct) => {
       if (struct.isClass) {
-        this.emitClass(struct)
+        this.emitClass(struct);
       } else {
-        this.emitInterface(resource, struct)
+        this.emitInterface(resource, struct);
       }
-    })
+    });
   }
 
   private emitInterface(resource: ResourceModel, struct: Struct) {
@@ -32,12 +32,16 @@ export class StructEmitter {
         this.code.line(`/**`);
         this.code.line(`* ${att.description}`);
         this.code.line(`* `);
-        this.code.line(`* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`);
-        this.code.line(`*/`)
+        this.code.line(
+          `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
+        );
+        this.code.line(`*/`);
       } else {
         this.code.line(`/**`);
-        this.code.line(`* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`);
-        this.code.line(`*/`)
+        this.code.line(
+          `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
+        );
+        this.code.line(`*/`);
       }
 
       this.code.line(`readonly ${att.typeDefinition};`);
@@ -50,24 +54,34 @@ export class StructEmitter {
   }
 
   private emitClass(struct: Struct) {
-    this.code.openBlock(`export class ${struct.name} extends cdktf.ComplexComputedList`);
+    this.code.openBlock(
+      `export class ${struct.name} extends cdktf.ComplexComputedList`
+    );
     for (const att of struct.attributes) {
-      this.attributesEmitter.emit(att, 
-        this.attributesEmitter.needsResetEscape(att, struct.attributes), 
-        this.attributesEmitter.needsInputEscape(att, struct.attributes));
+      this.attributesEmitter.emit(
+        att,
+        this.attributesEmitter.needsResetEscape(att, struct.attributes),
+        this.attributesEmitter.needsInputEscape(att, struct.attributes)
+      );
     }
     this.code.closeBlock();
   }
 
   private emitToTerraformFuction(struct: Struct) {
     this.code.line();
-    this.code.openBlock(`function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${struct.name}): any`);
+    this.code.openBlock(
+      `function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${
+        struct.name
+      }): any`
+    );
     this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
-    this.code.openBlock('return');
-    for (const att of struct.isClass ? struct.attributes : struct.assignableAttributes) {
+    this.code.openBlock("return");
+    for (const att of struct.isClass
+      ? struct.attributes
+      : struct.assignableAttributes) {
       this.attributesEmitter.emitToTerraform(att, true);
     }
-    this.code.closeBlock(';');
+    this.code.closeBlock(";");
     this.code.closeBlock();
     this.code.line();
   }

@@ -1,8 +1,11 @@
 import { CodeMaker, toCamelCase } from "codemaker";
-import {  ConstructsMakerModuleTarget } from '../constructs-maker'
+import { ConstructsMakerModuleTarget } from "../constructs-maker";
 
 export class ModuleGenerator {
-  constructor(private readonly code: CodeMaker, private readonly targets: ConstructsMakerModuleTarget[]) {
+  constructor(
+    private readonly code: CodeMaker,
+    private readonly targets: ConstructsMakerModuleTarget[]
+  ) {
     this.code.indentation = 2;
 
     for (const target of this.targets) {
@@ -11,10 +14,10 @@ export class ModuleGenerator {
   }
 
   private emitSubmodule(target: ConstructsMakerModuleTarget) {
-    const spec = target.spec
+    const spec = target.spec;
 
     if (!spec) {
-      throw new Error(`missing spec for ${target.name}`)
+      throw new Error(`missing spec for ${target.name}`);
     }
 
     this.code.openFile(target.fileName);
@@ -25,19 +28,23 @@ export class ModuleGenerator {
     this.code.line(`import { TerraformModule } from 'cdktf';`);
     this.code.line(`import { Construct } from 'constructs';`);
 
-    const baseName = this.code.toPascalCase(target.fqn.replace(/[-/]/g, '_'));
+    const baseName = this.code.toPascalCase(target.fqn.replace(/[-/]/g, "_"));
     const optionsType = `${baseName}Options`;
 
     this.code.openBlock(`export interface ${optionsType}`);
     for (const input of spec.inputs) {
-      const optional = (input.required && (input.default === undefined)) ? '' : '?';
+      const optional = input.required && input.default === undefined ? "" : "?";
       this.code.line(`/**`);
       this.code.line(` * ${input.description}`);
       if (input.default) {
         this.code.line(` * @default ${input.default}`);
       }
       this.code.line(` */`);
-      this.code.line(`readonly ${toCamelCase(input.name)}${optional}: ${parseType(input.type)};`);
+      this.code.line(
+        `readonly ${toCamelCase(input.name)}${optional}: ${parseType(
+          input.type
+        )};`
+      );
     }
     this.code.closeBlock();
 
@@ -45,9 +52,11 @@ export class ModuleGenerator {
 
     this.code.line(`private readonly inputs: { [name: string]: any } = { }`);
 
-    const allOptional = spec.inputs.find(x => x.required) ? '' : ' = {}';
+    const allOptional = spec.inputs.find((x) => x.required) ? "" : " = {}";
 
-    this.code.open(`public constructor(scope: Construct, id: string, options: ${optionsType}${allOptional}) {`);
+    this.code.open(
+      `public constructor(scope: Construct, id: string, options: ${optionsType}${allOptional}) {`
+    );
     this.code.open(`super(scope, id, {`);
     this.code.line(`source: '${target.source}',`);
     if (target.version) {
@@ -64,7 +73,9 @@ export class ModuleGenerator {
 
     for (const input of spec.inputs) {
       const inputName = toCamelCase(input.name);
-      const inputType = parseType(input.type) + ((input.required && (input.default === undefined)) ? '' : ' | undefined');
+      const inputType =
+        parseType(input.type) +
+        (input.required && input.default === undefined ? "" : " | undefined");
       this.code.openBlock(`public get ${inputName}(): ${inputType}`);
       this.code.line(`return this.inputs['${input.name}'] as ${inputType};`);
       this.code.closeBlock();
@@ -88,19 +99,32 @@ export class ModuleGenerator {
     this.code.closeBlock(); // class
     this.code.closeFile(target.fileName);
   }
-
 }
 
 function parseType(type: string) {
-  if (type === 'string') { return 'string'; }
-  if (type === 'number') { return 'number'; }
-  if (type === 'bool') { return 'boolean'; }
-  if (type === 'list') { return 'string[]'; }
-  if (type === 'map') { return '{ [key: string]: string }'; }
-  if (type === 'any') { return 'any'; }
+  if (type === "string") {
+    return "string";
+  }
+  if (type === "number") {
+    return "number";
+  }
+  if (type === "bool") {
+    return "boolean";
+  }
+  if (type === "list") {
+    return "string[]";
+  }
+  if (type === "map") {
+    return "{ [key: string]: string }";
+  }
+  if (type === "any") {
+    return "any";
+  }
 
   const complexType = parseComplexType(type);
-  if (complexType) { return complexType; }
+  if (complexType) {
+    return complexType;
+  }
 
   throw new Error(`unknown type ${type}`);
 }
@@ -112,18 +136,18 @@ function parseComplexType(type: string): string | undefined {
     return undefined;
   }
 
-  const [ , kind, innerType ] = match;
+  const [, kind, innerType] = match;
 
-  if (kind === 'object') {
+  if (kind === "object") {
     return `any`;
   }
 
-  if (kind === 'list') {
+  if (kind === "list") {
     return `${parseType(innerType)}[]`;
   }
 
-  if (kind === 'map') {
-    return `{ [key: string]: ${parseType(innerType) } }`;
+  if (kind === "map") {
+    return `{ [key: string]: ${parseType(innerType)} }`;
   }
 
   throw new Error(`unexpected kind ${kind}`);

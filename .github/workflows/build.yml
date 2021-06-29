@@ -2,8 +2,8 @@ name: Build
 on:
   pull_request:
     paths-ignore:
-      - '**.md'
-      - 'docs/**'
+      - "**.md"
+      - "docs/**"
 
 jobs:
   build:

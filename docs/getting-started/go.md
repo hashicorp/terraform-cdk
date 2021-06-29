@@ -1,6 +1,7 @@
 # Getting Started with Go
 
 > **Hands-on:** Try the [Build AWS Infrastructure with Go](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-go?in=terraform/cdktf) tutorial on HashiCorp Learn.
+
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
@@ -14,6 +15,7 @@ Install with [Homebrew](https://brew.sh):
 ```shell
 $ brew install cdktf
 ```
+
 Or install with `npm` (comes with [Node.js](https://nodejs.org)):
 
 ```bash
@@ -143,8 +145,8 @@ You specify it in your local `cdktf.json` file, like this:
   "language": "go",
   "app": "go run main.go",
   "terraformProviders": [
-    // Terraform Providers with version constraint go here 
-    "aws@~> 3.45" 
+    // Terraform Providers with version constraint go here
+    "aws@~> 3.45"
   ],
   "terraformModules": [
     // Terraform Modules with version constraint go here
@@ -159,6 +161,7 @@ Next you need to run `cdktf get` which generates provider-specific bindings.
 To save some time you can also use pre-built provider, please visit the ["Using Providers and Modules"-Guide](../working-with-cdk-for-terraform/using-providers-and-modules.md) for more on that topic.
 
 ## Generating Go provider bindings
+
 For the above example to work, we need to add the `kreuzwerker/docker` Terraform provider to the `cdktf.json`.
 
 ```json
@@ -171,9 +174,10 @@ For the above example to work, we need to add the `kreuzwerker/docker` Terraform
 }
 ```
 
-After adding the provider and saving the file, we can run `cdktf get` to generate the bindings for the providers. By default the generated Go code will be output to the `generated` subdirectory.  
+After adding the provider and saving the file, we can run `cdktf get` to generate the bindings for the providers. By default the generated Go code will be output to the `generated` subdirectory.
 
 ### Dependencies
+
 The generated provider bindings depend on `jsii-runtime-go`. To automatically add that depedency to your code, you can run `go mod tidy`.
 
 ## Synthesize Application

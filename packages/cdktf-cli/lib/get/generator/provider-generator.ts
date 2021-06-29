@@ -1,9 +1,9 @@
-import { CodeMaker } from 'codemaker';
-import { Provider, ProviderSchema } from './provider-schema';
-import { ResourceModel } from "./models"
-import { ResourceParser } from './resource-parser'
-import { ResourceEmitter, StructEmitter } from './emitter'
-import { ConstructsMakerTarget } from '../constructs-maker'
+import { CodeMaker } from "codemaker";
+import { Provider, ProviderSchema } from "./provider-schema";
+import { ResourceModel } from "./models";
+import { ResourceParser } from "./resource-parser";
+import { ResourceEmitter, StructEmitter } from "./emitter";
+import { ConstructsMakerTarget } from "../constructs-maker";
 
 interface ProviderData {
   name: string;
@@ -11,23 +11,26 @@ interface ProviderData {
   version: string;
 }
 
-const isMatching = (target: ConstructsMakerTarget, terraformSchemaName: string): boolean => {
+const isMatching = (
+  target: ConstructsMakerTarget,
+  terraformSchemaName: string
+): boolean => {
   if (target.isModule) return false;
 
-  const elements = terraformSchemaName.split('/')
+  const elements = terraformSchemaName.split("/");
 
   if (elements.length === 1) {
-    return target.source === terraformSchemaName
+    return target.source === terraformSchemaName;
   } else {
-    const [hostname, scope, provider] = elements
+    const [hostname, scope, provider] = elements;
 
     if (!hostname || !scope || !provider) {
-      throw new Error(`can't handle ${terraformSchemaName}`)
+      throw new Error(`can't handle ${terraformSchemaName}`);
     }
 
     return target.name === provider;
   }
-}
+};
 
 export interface ProviderConstraints {
   [fqn: string]: ProviderData;
@@ -35,20 +38,27 @@ export interface ProviderConstraints {
 
 export class TerraformProviderGenerator {
   private resourceParser = new ResourceParser();
-  private resourceEmitter:  ResourceEmitter;
-  private structEmitter:  StructEmitter;
-  constructor(private readonly code: CodeMaker, schema: ProviderSchema, private providerConstraints?: ConstructsMakerTarget[]) {
+  private resourceEmitter: ResourceEmitter;
+  private structEmitter: StructEmitter;
+  constructor(
+    private readonly code: CodeMaker,
+    schema: ProviderSchema,
+    private providerConstraints?: ConstructsMakerTarget[]
+  ) {
     this.code.indentation = 2;
-    this.resourceEmitter = new ResourceEmitter(this.code)
-    this.structEmitter = new StructEmitter(this.code)
+    this.resourceEmitter = new ResourceEmitter(this.code);
+    this.structEmitter = new StructEmitter(this.code);
 
     if (!schema.provider_schemas) {
-      console.info('no providers - nothing to do');
+      console.info("no providers - nothing to do");
       return;
     }
 
     for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
-      if (this.providerConstraints && this.providerConstraints.find((p) => (isMatching(p, fqpn)))) {
+      if (
+        this.providerConstraints &&
+        this.providerConstraints.find((p) => isMatching(p, fqpn))
+      ) {
         this.emitProvider(fqpn, provider);
       } else if (!this.providerConstraints) {
         this.emitProvider(fqpn, provider);
@@ -61,24 +71,50 @@ export class TerraformProviderGenerator {
   }
 
   private emitProvider(fqpn: string, provider: Provider) {
-    const name = fqpn.split('/').pop()
-    if (!name) { throw new Error(`can't handle ${fqpn}`) }
-
-    const files: string[] = []
-    for (const [type, resource] of Object.entries(provider.resource_schemas || [])) {
-      files.push(this.emitResourceFile(this.resourceParser.parse(name, type, resource, 'resource')));
+    const name = fqpn.split("/").pop();
+    if (!name) {
+      throw new Error(`can't handle ${fqpn}`);
     }
 
-    for (const [type, resource] of Object.entries(provider.data_source_schemas || [])) {
-      files.push(this.emitResourceFile(this.resourceParser.parse(name, `data_${type}`, resource, 'data_source')));
+    const files: string[] = [];
+    for (const [type, resource] of Object.entries(
+      provider.resource_schemas || []
+    )) {
+      files.push(
+        this.emitResourceFile(
+          this.resourceParser.parse(name, type, resource, "resource")
+        )
+      );
+    }
+
+    for (const [type, resource] of Object.entries(
+      provider.data_source_schemas || []
+    )) {
+      files.push(
+        this.emitResourceFile(
+          this.resourceParser.parse(
+            name,
+            `data_${type}`,
+            resource,
+            "data_source"
+          )
+        )
+      );
     }
 
     if (provider.provider) {
-      const providerResource = this.resourceParser.parse(name, `provider`, provider.provider, 'provider')
+      const providerResource = this.resourceParser.parse(
+        name,
+        `provider`,
+        provider.provider,
+        "provider"
+      );
       if (this.providerConstraints) {
-        const constraint = this.providerConstraints.find((p) => (isMatching(p, fqpn)))
+        const constraint = this.providerConstraints.find((p) =>
+          isMatching(p, fqpn)
+        );
         if (!constraint) {
-          throw new Error(`can't handle ${fqpn}`)
+          throw new Error(`can't handle ${fqpn}`);
         }
         providerResource.providerVersionConstraint = constraint.version;
         providerResource.terraformProviderSource = constraint.source;
@@ -86,26 +122,30 @@ export class TerraformProviderGenerator {
       files.push(this.emitResourceFile(providerResource));
     }
 
-    this.emitIndexFile(name, files)
+    this.emitIndexFile(name, files);
   }
 
   private emitIndexFile(provider: string, files: string[]): void {
-    const folder = `providers/${provider}`
-    const filePath = `${folder}/index.ts`
+    const folder = `providers/${provider}`;
+    const filePath = `${folder}/index.ts`;
     this.code.openFile(filePath);
-    this.code.line('// generated by cdktf get')
+    this.code.line("// generated by cdktf get");
     for (const file of files) {
-      this.code.line(`export * from './${file.replace(`${folder}/`, '').replace('.ts', '')}';`);
+      this.code.line(
+        `export * from './${file
+          .replace(`${folder}/`, "")
+          .replace(".ts", "")}';`
+      );
     }
-    this.code.line()
-    this.code.closeFile(filePath)
+    this.code.line();
+    this.code.closeFile(filePath);
   }
 
   private emitResourceFile(resource: ResourceModel): string {
     this.code.openFile(resource.filePath);
-      this.emitFileHeader(resource)
-      this.structEmitter.emit(resource);
-      this.resourceEmitter.emit(resource)
+    this.emitFileHeader(resource);
+    this.structEmitter.emit(resource);
+    this.resourceEmitter.emit(resource);
     this.code.closeFile(resource.filePath);
 
     return resource.filePath;
@@ -115,9 +155,9 @@ export class TerraformProviderGenerator {
     this.code.line(`// ${resource.linkToDocs}`);
     this.code.line(`// generated from terraform resource schema`);
     this.code.line();
-    resource.importStatements.forEach(statement => this.code.line(statement))
+    resource.importStatements.forEach((statement) => this.code.line(statement));
     this.code.line();
-    this.code.line('// Configuration');
+    this.code.line("// Configuration");
     this.code.line();
   }
 }

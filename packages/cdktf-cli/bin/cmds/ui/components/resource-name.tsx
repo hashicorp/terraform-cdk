@@ -1,21 +1,21 @@
-import React from 'react';
-import { Text, Box } from 'ink'
+import React from "react";
+import { Text, Box } from "ink";
 
 export interface ResourceNameConfig {
   name: string;
   stackName?: string;
 }
 
-export const ResourceName = ({name, stackName}: ResourceNameConfig) => {
-  const prettyName = name.replace(/(_[A-F\d]{8})$/, '')
+export const ResourceName = ({ name, stackName }: ResourceNameConfig) => {
+  const prettyName = name.replace(/(_[A-F\d]{8})$/, "");
 
-  let [resource, resourceName] = prettyName.split('.')
+  let [resource, resourceName] = prettyName.split(".");
   if (stackName != null && resourceName.startsWith(stackName)) {
-    const [, ...path] = resourceName.split('_')
-    resourceName = path.join('_')
+    const [, ...path] = resourceName.split("_");
+    resourceName = path.join("_");
   }
 
-  return(
+  return (
     <Box flexDirection="column" width={80}>
       <Box>
         <Box width={"25%"}>
@@ -29,5 +29,5 @@ export const ResourceName = ({name, stackName}: ResourceNameConfig) => {
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};

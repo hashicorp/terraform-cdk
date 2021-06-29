@@ -1,5 +1,5 @@
 import { Construct, Node } from "constructs";
-import { TerraformStack } from './terraform-stack'
+import { TerraformStack } from "./terraform-stack";
 
 export interface TerraformElementMetadata {
   readonly path: string;
@@ -9,7 +9,7 @@ export interface TerraformElementMetadata {
 
 export class TerraformElement extends Construct {
   public readonly cdktfStack: TerraformStack;
-  protected readonly rawOverrides: any = {}
+  protected readonly rawOverrides: any = {};
 
   /**
    * An explicit logical ID provided by `overrideLogicalId`.
@@ -17,25 +17,24 @@ export class TerraformElement extends Construct {
   private _logicalIdOverride?: string;
 
   constructor(scope: Construct, id: string) {
-    super(scope, id)
+    super(scope, id);
 
-    this.constructNode.addMetadata('stacktrace', 'trace')
+    this.constructNode.addMetadata("stacktrace", "trace");
     this.cdktfStack = TerraformStack.of(this);
   }
 
   public get constructNode(): Node {
-    return Node.of(this)
+    return Node.of(this);
   }
 
   public toTerraform(): any {
-    return { };
+    return {};
   }
 
   public get friendlyUniqueId() {
     if (this._logicalIdOverride) {
       return this._logicalIdOverride;
-    }
-    else {
+    } else {
       return this.cdktfStack.getLogicalId(this);
     }
   }
@@ -49,7 +48,7 @@ export class TerraformElement extends Construct {
   }
 
   public addOverride(path: string, value: any) {
-    const parts = path.split('.');
+    const parts = path.split(".");
     let curr: any = this.rawOverrides;
 
     while (parts.length > 1) {
@@ -58,7 +57,10 @@ export class TerraformElement extends Construct {
 
       // if we can't recurse further or the previous value is not an
       // object overwrite it with an object.
-      const isObject = curr[key] != null && typeof(curr[key]) === 'object' && !Array.isArray(curr[key]);
+      const isObject =
+        curr[key] != null &&
+        typeof curr[key] === "object" &&
+        !Array.isArray(curr[key]);
       if (!isObject) {
         curr[key] = {};
       }
@@ -71,13 +73,15 @@ export class TerraformElement extends Construct {
     curr[lastKey] = value;
   }
 
-  protected get constructNodeMetadata(): {[key: string]: any} {
+  protected get constructNodeMetadata(): { [key: string]: any } {
     return {
       metadata: {
         path: this.constructNode.path,
         uniqueId: this.friendlyUniqueId,
-        stackTrace: this.constructNode.metadata.find((e) => e.type === 'stacktrace')?.trace
-      } as TerraformElementMetadata
-    }
+        stackTrace: this.constructNode.metadata.find(
+          (e) => e.type === "stacktrace"
+        )?.trace,
+      } as TerraformElementMetadata,
+    };
   }
 }

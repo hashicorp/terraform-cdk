@@ -49,15 +49,22 @@ export class Token {
    * on the string.
    */
   public static asString(value: any, options: EncodingOptions = {}): string {
-    if (typeof value === 'string') { return value; }
-    return TokenMap.instance().registerString(Token.asAny(value), options.displayHint);
+    if (typeof value === "string") {
+      return value;
+    }
+    return TokenMap.instance().registerString(
+      Token.asAny(value),
+      options.displayHint
+    );
   }
 
   /**
    * Return a reversible number representation of this token
    */
   public static asNumber(value: any): number {
-    if (typeof value === 'number') { return value; }
+    if (typeof value === "number") {
+      return value;
+    }
     return TokenMap.instance().registerNumber(Token.asAny(value));
   }
 
@@ -65,8 +72,13 @@ export class Token {
    * Return a reversible list representation of this token
    */
   public static asList(value: any, options: EncodingOptions = {}): string[] {
-    if (Array.isArray(value) && value.every(x => typeof x === 'string')) { return value; }
-    return TokenMap.instance().registerList(Token.asAny(value), options.displayHint);
+    if (Array.isArray(value) && value.every((x) => typeof x === "string")) {
+      return value;
+    }
+    return TokenMap.instance().registerList(
+      Token.asAny(value),
+      options.displayHint
+    );
   }
 
   /**
@@ -113,7 +125,7 @@ export class Tokenization {
     return resolve(obj, {
       scope: options.scope,
       resolver: options.resolver,
-      preparing: (options.preparing !== undefined ? options.preparing : false)
+      preparing: options.preparing !== undefined ? options.preparing : false,
     });
   }
 
@@ -125,7 +137,11 @@ export class Tokenization {
    * object.
    */
   public static isResolvable(obj: any): obj is IResolvable {
-    return typeof(obj) === 'object' && obj !== null && typeof obj.resolve === 'function';
+    return (
+      typeof obj === "object" &&
+      obj !== null &&
+      typeof obj.resolve === "function"
+    );
   }
 
   /**
@@ -135,12 +151,14 @@ export class Tokenization {
     // only convert numbers to strings so that Refs, conditions, and other things don't end up synthesizing as [object object]
 
     if (Token.isUnresolved(x)) {
-      return Lazy.stringValue({ produce: context => {
+      return Lazy.stringValue({
+        produce: (context) => {
           const resolved = context.resolve(x);
-          return typeof resolved !== 'number' ? resolved : `${resolved}`;
-        } });
+          return typeof resolved !== "number" ? resolved : `${resolved}`;
+        },
+      });
     } else {
-      return typeof x !== 'number' ? x : `${x}`;
+      return typeof x !== "number" ? x : `${x}`;
     }
   }
 }

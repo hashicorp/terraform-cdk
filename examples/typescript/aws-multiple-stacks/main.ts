@@ -3,7 +3,7 @@ import { App, TerraformStack } from "cdktf";
 import { AwsProvider, Instance } from "./.gen/providers/aws";
 
 interface MyStackConfig {
-  environment: string,
+  environment: string;
   region?: string;
 }
 
@@ -11,7 +11,7 @@ class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string, config: MyStackConfig) {
     super(scope, id);
 
-    const { region = 'us-east-1' } = config
+    const { region = "us-east-1" } = config;
 
     new AwsProvider(this, "aws", {
       region,
@@ -21,15 +21,21 @@ class MyStack extends TerraformStack {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
       tags: {
-        environment: config.environment
-      }
+        environment: config.environment,
+      },
     });
   }
 }
 
 const app = new App();
-new MyStack(app, "multiple-stacks-dev", { environment: 'dev' });
-new MyStack(app, "multiple-stacks-staging", { environment: 'staging' });
-new MyStack(app, "multiple-stacks-production-us", { environment: 'production', region: 'us-east-1' });
-new MyStack(app, "multiple-stacks-production-eu", { environment: 'production', region: 'eu-central-1' });
+new MyStack(app, "multiple-stacks-dev", { environment: "dev" });
+new MyStack(app, "multiple-stacks-staging", { environment: "staging" });
+new MyStack(app, "multiple-stacks-production-us", {
+  environment: "production",
+  region: "us-east-1",
+});
+new MyStack(app, "multiple-stacks-production-eu", {
+  environment: "production",
+  region: "eu-central-1",
+});
 app.synth();

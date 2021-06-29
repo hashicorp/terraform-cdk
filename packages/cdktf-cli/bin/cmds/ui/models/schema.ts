@@ -9,33 +9,33 @@ const resource = z.object({
   implied_provider: z.string(),
   resource_type: z.string(),
   resource_name: z.string(),
-  resource_key: z.string().optional().nullable()
+  resource_key: z.string().optional().nullable(),
 });
 const baseMessage = z
   .object({
     "@level": z.enum(["info", "error", "warn"]),
     "@message": z.string(),
     "@module": z.string(),
-    "@timestamp": z.string()
+    "@timestamp": z.string(),
   })
   .nonstrict();
 
 const action = z.enum(["noop", "create", "read", "update", "delete"]);
 const change = z.object({
   resource,
-  action
+  action,
 });
 const replaceChange = change.extend({
   action: z.literal("replace"),
-  reason: z.enum(["tainted", "requested", "cannot_update"])
+  reason: z.enum(["tainted", "requested", "cannot_update"]),
 });
 const plannedChange = baseMessage.extend({
   type: z.literal("planned_change"),
-  change: z.union([replaceChange, change])
+  change: z.union([replaceChange, change]),
 });
 
 const version = baseMessage.extend({
-  type: z.literal("version")
+  type: z.literal("version"),
 });
 
 const changeSummary = baseMessage.extend({
@@ -44,8 +44,8 @@ const changeSummary = baseMessage.extend({
     add: z.number(),
     change: z.number(),
     remove: z.number(),
-    operation: z.enum(["plan", "apply", "deploy"])
-  })
+    operation: z.enum(["plan", "apply", "deploy"]),
+  }),
 });
 
 const outputs = baseMessage.extend({
@@ -54,9 +54,9 @@ const outputs = baseMessage.extend({
     z.object({
       sensitive: z.boolean(),
       type: z.string(),
-      value: z.string()
+      value: z.string(),
     })
-  )
+  ),
 });
 
 const applyStart = baseMessage.extend({
@@ -65,8 +65,8 @@ const applyStart = baseMessage.extend({
     resource,
     action,
     id_key: z.string().optional(),
-    id_value: z.string().optional()
-  })
+    id_value: z.string().optional(),
+  }),
 });
 
 const applyProgress = baseMessage.extend({
@@ -74,8 +74,8 @@ const applyProgress = baseMessage.extend({
   hook: z.object({
     resource,
     action,
-    elapsed_seconds: z.number()
-  })
+    elapsed_seconds: z.number(),
+  }),
 });
 
 const applyComplete = baseMessage.extend({
@@ -85,8 +85,8 @@ const applyComplete = baseMessage.extend({
     action,
     id_key: z.string().optional(),
     id_value: z.string().optional(),
-    elapsed_seconds: z.number()
-  })
+    elapsed_seconds: z.number(),
+  }),
 });
 
 const applyError = baseMessage.extend({
@@ -94,16 +94,16 @@ const applyError = baseMessage.extend({
   hook: z.object({
     resource,
     action,
-    elapsed_seconds: z.number()
-  })
+    elapsed_seconds: z.number(),
+  }),
 });
 
 const provisionStart = baseMessage.extend({
   type: z.literal("provision_start"),
   hook: z.object({
     resource,
-    provisioner: z.string()
-  })
+    provisioner: z.string(),
+  }),
 });
 
 const provisionProgress = baseMessage.extend({
@@ -111,24 +111,24 @@ const provisionProgress = baseMessage.extend({
   hook: z.object({
     resource,
     provisioner: z.string(),
-    output: z.string()
-  })
+    output: z.string(),
+  }),
 });
 
 const provisionComplete = baseMessage.extend({
   type: z.literal("provision_complete"),
   hook: z.object({
     resource,
-    provisioner: z.string()
-  })
+    provisioner: z.string(),
+  }),
 });
 
 const provisionErrored = baseMessage.extend({
   type: z.literal("provision_errored"),
   hook: z.object({
     resource,
-    provisioner: z.string()
-  })
+    provisioner: z.string(),
+  }),
 });
 
 const refreshStart = baseMessage.extend({
@@ -136,8 +136,8 @@ const refreshStart = baseMessage.extend({
   hook: z.object({
     resource,
     id_key: z.string().optional(),
-    id_value: z.string().optional()
-  })
+    id_value: z.string().optional(),
+  }),
 });
 
 const refreshComplete = baseMessage.extend({
@@ -145,8 +145,8 @@ const refreshComplete = baseMessage.extend({
   hook: z.object({
     resource,
     id_key: z.string().optional(),
-    id_value: z.string().optional()
-  })
+    id_value: z.string().optional(),
+  }),
 });
 
 export const schema = z.union([
@@ -163,7 +163,7 @@ export const schema = z.union([
   provisionComplete,
   provisionErrored,
   refreshStart,
-  refreshComplete
+  refreshComplete,
 ]);
 
 export type ActionTypes = z.infer<typeof action>;

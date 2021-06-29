@@ -1,13 +1,13 @@
 # Python-Docker
 
-
 ## Usage
 
 Install Pipenv using Homebrew by running:
-  
+
 ```bash
 $ brew install pipenv
 ```
+
 You can install Pipenv by visiting the [website](https://pipenv.pypa.io/en/latest/).
 
 Install project dependencies
@@ -34,9 +34,9 @@ from imports.docker import Image, Container
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
         super().__init__(scope, ns)
-        
+
         docker_image = Image(self, 'nginx-latest', name='nginx:latest', keep_locally=False)
-        
+
         Container(self, 'nginx-cdktf', name='nginx-python-cdktf',
                   image=docker_image.name, ports=[
                       {
@@ -50,7 +50,6 @@ MyStack(app, "python-docker")
 
 app.synth()
 ```
-
 
 Compile and generate Terraform configuration
 

@@ -1,40 +1,55 @@
-import { AttributeModel } from './attribute-model';
+import { AttributeModel } from "./attribute-model";
 
 export class Struct {
-  constructor(public readonly name: string, public readonly attributes: AttributeModel[], public readonly isClass = false, public readonly isAnonymous = false) {}
+  constructor(
+    public readonly name: string,
+    public readonly attributes: AttributeModel[],
+    public readonly isClass = false,
+    public readonly isAnonymous = false
+  ) {}
 
   public get assignableAttributes(): AttributeModel[] {
-    const attributes = this.isAnonymous ? this.attributes : this.attributes.filter(attribute => attribute.isAssignable)
-    return this.filterIgnoredAttributes(attributes)
+    const attributes = this.isAnonymous
+      ? this.attributes
+      : this.attributes.filter((attribute) => attribute.isAssignable);
+    return this.filterIgnoredAttributes(attributes);
   }
 
   public get optionalAttributes(): AttributeModel[] {
-    return this.attributes.filter(attribute => attribute.optional)
+    return this.attributes.filter((attribute) => attribute.optional);
   }
 
   public get allOptional(): boolean {
-    return this.attributes.filter(attribute => !attribute.optional && !attribute.computed).length == 0
+    return (
+      this.attributes.filter(
+        (attribute) => !attribute.optional && !attribute.computed
+      ).length == 0
+    );
   }
 
   public get attributeType() {
-    return `${this.name}${this.allOptional ? ' = {}' : ''}`
+    return `${this.name}${this.allOptional ? " = {}" : ""}`;
   }
 
-  protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
-    return attributes
+  protected filterIgnoredAttributes(
+    attributes: AttributeModel[]
+  ): AttributeModel[] {
+    return attributes;
   }
 
   public get extends(): string {
-    return '';
+    return "";
   }
 }
 
 export class ConfigStruct extends Struct {
-  protected filterIgnoredAttributes(attributes: AttributeModel[]): AttributeModel[] {
-    return attributes.filter(attribute => !attribute.isConfigIgnored)
+  protected filterIgnoredAttributes(
+    attributes: AttributeModel[]
+  ): AttributeModel[] {
+    return attributes.filter((attribute) => !attribute.isConfigIgnored);
   }
 
   public get extends(): string {
-    return ` extends cdktf.TerraformMetaArguments`
+    return ` extends cdktf.TerraformMetaArguments`;
   }
 }

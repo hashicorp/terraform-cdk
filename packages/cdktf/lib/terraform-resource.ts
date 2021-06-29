@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { Token } from "./tokens"
+import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { keysToSnakeCase, deepMerge } from "./util";
@@ -41,7 +41,10 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
-export class TerraformResource extends TerraformElement implements ITerraformResource, ITerraformDependable {
+export class TerraformResource
+  extends TerraformElement
+  implements ITerraformResource, ITerraformDependable
+{
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 
@@ -58,7 +61,7 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
-      this.dependsOn = config.dependsOn.map(dependency => dependency.fqn);
+      this.dependsOn = config.dependsOn.map((dependency) => dependency.fqn);
     }
     this.count = config.count;
     this.provider = config.provider;
@@ -78,11 +81,15 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
   }
 
   public getBooleanAttribute(terraformAttribute: string) {
-    return Token.asString(this.interpolationForAttribute(terraformAttribute)) as any as boolean
+    return Token.asString(
+      this.interpolationForAttribute(terraformAttribute)
+    ) as any as boolean;
   }
 
   public get fqn(): string {
-    return Token.asString(`${this.terraformResourceType}.${this.friendlyUniqueId}`);
+    return Token.asString(
+      `${this.terraformResourceType}.${this.friendlyUniqueId}`
+    );
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
@@ -90,13 +97,13 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
       dependsOn: this.dependsOn,
       count: this.count,
       provider: this.provider?.fqn,
-      lifecycle: this.lifecycle
-    }
+      lifecycle: this.lifecycle,
+    };
   }
 
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
-    return {}
+    return {};
   }
 
   /**
@@ -107,16 +114,16 @@ export class TerraformResource extends TerraformElement implements ITerraformRes
       this.synthesizeAttributes(),
       keysToSnakeCase(this.terraformMetaArguments),
       this.rawOverrides
-    )
+    );
 
-    attributes['//'] = this.constructNodeMetadata
+    attributes["//"] = this.constructNodeMetadata;
 
     return {
       resource: {
         [this.terraformResourceType]: {
-          [this.friendlyUniqueId]: attributes
-        }
-      }
+          [this.friendlyUniqueId]: attributes,
+        },
+      },
     };
   }
 

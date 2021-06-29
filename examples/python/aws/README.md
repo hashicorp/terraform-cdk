@@ -5,10 +5,11 @@ A CDK for Terraform application in Python.
 ## Usage
 
 Install Pipenv using Homebrew by running:
-  
+
 ```bash
 $ brew install pipenv
 ```
+
 You can install Pipenv by visiting the [website](https://pipenv.pypa.io/en/latest/).
 
 Install project dependencies

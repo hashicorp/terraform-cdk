@@ -1,5 +1,5 @@
 import { Construct, IConstruct } from "constructs";
-import { TerraformStack } from './terraform-stack'
+import { TerraformStack } from "./terraform-stack";
 
 export interface IResource extends IConstruct {
   /**

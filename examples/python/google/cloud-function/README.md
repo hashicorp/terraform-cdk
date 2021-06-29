@@ -3,10 +3,11 @@ A simple example GCP cloud function built using cdktf python template
 ## Usage
 
 Install Pipenv using Homebrew by running:
-  
+
 ```bash
 $ brew install pipenv
 ```
+
 You can install Pipenv by visiting the [website](https://pipenv.pypa.io/en/latest/).
 
 Install project dependencies
@@ -42,6 +43,7 @@ Verify the resources that are going to be created.
 ```bash
 cdktf plan
 ```
+
 Deploy the resources
 
 ```bash
