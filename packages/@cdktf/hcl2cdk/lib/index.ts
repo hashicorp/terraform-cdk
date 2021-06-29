@@ -1,5 +1,6 @@
 import { parse } from "@cdktf/hcl2json";
 import generate from "@babel/generator";
+import template from "@babel/template";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import { pascalCase, camelCase } from "change-case";
@@ -97,12 +98,12 @@ export async function convert(
   const plan = schema.parse(json);
 
   const construct = (
-    type: string,
+    subject: t.Expression,
     name: string,
     config: Record<string, any>,
     variableName?: string
   ) => {
-    const expression = t.newExpression(t.identifier(type), [
+    const expression = t.newExpression(subject, [
       t.thisExpression(),
       t.stringLiteral(name),
       valueToTs(config),
@@ -117,13 +118,17 @@ export async function convert(
 
   function output(key: string, _id: string, item: Output): t.Statement {
     const [{ value, description, sensitive }] = item;
-    return construct("TerraformOutput", key, { value, description, sensitive });
+    return construct(t.identifier("TerraformOutput"), key, {
+      value,
+      description,
+      sensitive,
+    });
   }
 
   function variable(key: string, _id: string, item: Variable): t.Statement {
     // We don't handle type information right now
     const [{ type, ...props }] = item;
-    return construct("TerraformVariable", key, props);
+    return construct(t.identifier("TerraformVariable"), key, props);
   }
   function local(key: string, _id: string, item: any): t.Statement {
     return t.variableDeclaration("const", [
@@ -133,7 +138,14 @@ export async function convert(
 
   // TODO: support alias
   function provider(key: string, _id: string, item: Provider): t.Statement {
-    return construct(pascalCase(key), key, item[0]);
+    return construct(
+      t.memberExpression(
+        t.identifier(key),
+        t.identifier(pascalCase(`${key}Provider`))
+      ),
+      key,
+      item[0]
+    );
   }
 
   function resource(
@@ -144,9 +156,12 @@ export async function convert(
     graph: DirectedGraph
   ): t.Statement {
     const isReferenced = graph.outNeighbors(id).length > 0;
-    // TODO: remove provider part from type
+    const [provider, ...name] = type.split("_");
     return construct(
-      pascalCase(type),
+      t.memberExpression(
+        t.identifier(provider),
+        t.identifier(pascalCase(name.join("_")))
+      ),
       key,
       item[0],
       isReferenced ? camelCase(id) : undefined
@@ -272,6 +287,13 @@ export async function convert(
     });
   }
 
-  const { code } = generate(t.program(expressions) as any);
+  const imports = Object.keys(plan.provider || {}).map(
+    (providerName) =>
+      template(
+        `import * as ${providerName} from "./.gen/${providerName}"`
+      )() as t.Statement
+  );
+
+  const { code } = generate(t.program([...imports, ...expressions]) as any);
   return prettier.format(code, { parser: "babel" });
 }

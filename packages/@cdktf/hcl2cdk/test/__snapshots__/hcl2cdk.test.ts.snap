@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`convert typescript complex resource configuration 1`] = `
-"new AwsCloudfrontDistribution(this, \\"s3_distribution\\", {
+"new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
   aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
   comment: \\"Some comment\\",
   defaultCacheBehavior: [
@@ -127,11 +127,11 @@ exports[`convert typescript data references configuration 1`] = `
 "new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
-const dataAwsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+const dataAwsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: varBucketName,
 });
-new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: dataAwsS3Bucket.examplebucket.arn,
   key: \\"someobject\\",
   source: \\"index.html\\",
@@ -140,7 +140,8 @@ new AwsS3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert typescript empty provider configuration 1`] = `
-"new Docker(this, \\"docker\\", {});
+"import * as docker from \\"./.gen/docker\\";
+new docker.DockerProvider(this, \\"docker\\", {});
 "
 `;
 
@@ -154,7 +155,7 @@ const serviceName = \\"forum\\";
 
 exports[`convert typescript locals references configuration 1`] = `
 "const bucketName = \\"foo\\";
-new AwsS3Bucket(this, \\"examplebucket\\", {
+new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: localBucketName,
 });
@@ -196,7 +197,8 @@ exports[`convert typescript output withdescription configuration 1`] = `
 `;
 
 exports[`convert typescript provider with complex config configuration 1`] = `
-"new Aws(this, \\"aws\\", {
+"import * as aws from \\"./.gen/aws\\";
+new aws.AwsProvider(this, \\"aws\\", {
   accessKey: \\"mock_access_key\\",
   endpoints: [
     {
@@ -213,15 +215,15 @@ exports[`convert typescript provider with complex config configuration 1`] = `
 `;
 
 exports[`convert typescript resource references configuration 1`] = `
-"const awsKmsKeyExamplekms = new AwsKmsKey(this, \\"examplekms\\", {
+"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
-const awsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"examplebuckettftest\\",
 });
-new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: awsS3BucketExamplebucket.id,
   key: \\"someobject\\",
   kmsKeyId: awsKmsKeyExamplekms.arn,
@@ -231,15 +233,15 @@ new AwsS3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert typescript resource references with HCL functions configuration 1`] = `
-"const awsKmsKeyExamplekms = new AwsKmsKey(this, \\"examplekms\\", {
+"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
-const awsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"examplebuckettftest\\",
 });
-new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: \\"\${element(aws_s3_bucket.examplebucket, 0).id}\\",
   key: \\"someobject\\",
   kmsKeyId: awsKmsKeyExamplekms.arn,
@@ -249,15 +251,15 @@ new AwsS3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert typescript resource references with lists configuration 1`] = `
-"const awsKmsKeyExamplekms = new AwsKmsKey(this, \\"examplekms\\", {
+"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
-const awsS3BucketExamplebucket = new AwsS3Bucket(this, \\"examplebucket\\", {
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"examplebuckettftest\\",
 });
-new AwsS3BucketObject(this, \\"examplebucket_object\\", {
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: \\"\${aws_s3_bucket.examplebucket.*.id}\\",
   key: \\"someobject\\",
   kmsKeyId: awsKmsKeyExamplekms.arn,
@@ -275,14 +277,14 @@ exports[`convert typescript sensitive output configuration 1`] = `
 `;
 
 exports[`convert typescript simple data source configuration 1`] = `
-"new AwsSubnet(this, \\"selected\\", {
+"new aws.Subnet(this, \\"selected\\", {
   id: \\"subnet_id\\",
 });
 "
 `;
 
 exports[`convert typescript simple resource configuration 1`] = `
-"new AwsVpc(this, \\"example\\", {
+"new aws.Vpc(this, \\"example\\", {
   cidrBlock: \\"10.0.0.0/16\\",
 });
 "
@@ -297,7 +299,7 @@ exports[`convert typescript variable references configuration 1`] = `
 "new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
-new AwsS3Bucket(this, \\"examplebucket\\", {
+new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: varBucketName,
 });
