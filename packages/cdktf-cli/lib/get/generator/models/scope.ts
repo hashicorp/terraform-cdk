@@ -29,7 +29,7 @@ export class Scope {
 
   public fullName(attributeName: string) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let scope: Scope|undefined = this;
+    let scope: Scope | undefined = this;
     let name = attributeName;
     while (scope) {
       name = `${scope.name}.${name}`;

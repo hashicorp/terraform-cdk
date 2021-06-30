@@ -29,27 +29,27 @@ Let's take the TypeScript [example](../getting-started/typescript.md) shown in t
 The project has the `main.ts` file that defines the AWS resources that need to be deployed.
 
 ```typescript
-import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
-import { AwsProvider, Instance } from './.gen/providers/aws';
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, Instance } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new AwsProvider(this, 'aws', {
-      region: 'us-east-1'
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
     });
 
-    new Instance(this, 'Hello', {
+    new Instance(this, "Hello", {
       ami: "ami-2757f631",
-      instanceType: "t2.micro"
+      instanceType: "t2.micro",
     });
   }
 }
 
 const app = new App();
-new MyStack(app, 'hello-terraform');
+new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
@@ -63,9 +63,7 @@ vim cdktf.json
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": [
-    "aws@~> 2.0"
-  ]
+  "terraformProviders": ["aws@~> 2.0"]
 }
 ```
 
@@ -76,10 +74,7 @@ For example, to add [DNS Simple](https://www.terraform.io/docs/providers/dnsimpl
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": [
-    "aws@~> 2.0",
-    "dnsimple"
-  ]
+  "terraformProviders": ["aws@~> 2.0", "dnsimple"]
 }
 ```
 
@@ -99,40 +94,40 @@ This command creates the appropriate TypeScript classes automatically that can b
 Import the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and define them.
 
 ```typescript
-import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
-import { AwsProvider, Instance } from './.gen/providers/aws';
-import { DnsimpleProvider, Record } from './.gen/providers/dnsimple';
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, Instance } from "./.gen/providers/aws";
+import { DnsimpleProvider, Record } from "./.gen/providers/dnsimple";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new AwsProvider(this, 'aws', {
-      region: 'us-east-1'
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
     });
 
-    const instance = new Instance(this, 'Hello', {
+    const instance = new Instance(this, "Hello", {
       ami: "ami-2757f631",
-      instanceType: "t2.micro"
+      instanceType: "t2.micro",
     });
 
-    new DnsimpleProvider(this, 'dnsimple', {
+    new DnsimpleProvider(this, "dnsimple", {
       token: Token.asString(process.env.DNSIMPLE_TOKEN),
-      account: Token.asString(process.env.DNSIMPLE_ACCOUNT)
+      account: Token.asString(process.env.DNSIMPLE_ACCOUNT),
     });
 
-    new Record(this, 'web-www', {
-      domain: 'example.com',
-      name: 'web',
+    new Record(this, "web-www", {
+      domain: "example.com",
+      name: "web",
       value: instance.publicIp,
-      type: 'A'
+      type: "A",
     });
   }
 }
 
 const app = new App();
-new MyStack(app, 'hello-terraform');
+new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
@@ -218,26 +213,28 @@ Last but not least, when using multiple stacks within one application, provider 
 This behaviour can be disabled by setting `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to non null value, e.g. `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. This might be desired, when a different cache directory is configured via a `.terraformrc` configuration file.
 
 ## Using Modules
+
 For using modules on the terraform registry, see [cdktf.json](./cdktf-json.md).
 
 For using modules from other sources (local, github, etc), you can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
 
 TypeScript example:
+
 ```typescript
-    const provider = new TestProvider(stack, 'provider', {
-        accessKey: 'key',
-        alias: 'provider1'
-    });
+const provider = new TestProvider(stack, "provider", {
+  accessKey: "key",
+  alias: "provider1",
+});
 
-    const module = new TerraformHclModule(stack, 'test', {
-        source: './foo',
-        variables: {
-          param1: 'value1'
-        },
-        providers: [provider]
-    });
+const module = new TerraformHclModule(stack, "test", {
+  source: "./foo",
+  variables: {
+    param1: "value1",
+  },
+  providers: [provider],
+});
 
-    new TestResource(stack, 'resource', {
-        name: module.getString('name')
-    });
+new TestResource(stack, "resource", {
+  name: module.getString("name"),
+});
 ```

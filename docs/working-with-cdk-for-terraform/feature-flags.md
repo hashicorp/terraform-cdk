@@ -5,7 +5,7 @@ CDK for Terraform uses feature flags to enable potentially breaking behaviors in
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
   "context": {
-      "excludeStackIdFromLogicalIds": "true"
+    "excludeStackIdFromLogicalIds": "true"
   }
 }
 ```

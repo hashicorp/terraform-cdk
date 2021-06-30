@@ -221,8 +221,8 @@ Up until CDK for Terraform version `0.2` only a single stack was supported. For 
 
 - Defaults are opposite of Terraform but should default to being non-destructive [\#155](https://github.com/hashicorp/terraform-cdk/issues/155)
 - Version check for new cdktf cli [\#130](https://github.com/hashicorp/terraform-cdk/issues/130)
-- Set NODE\_ENV for CLI [\#129](https://github.com/hashicorp/terraform-cdk/issues/129)
-- Make local state persistent  [\#116](https://github.com/hashicorp/terraform-cdk/issues/116)
+- Set NODE_ENV for CLI [\#129](https://github.com/hashicorp/terraform-cdk/issues/129)
+- Make local state persistent [\#116](https://github.com/hashicorp/terraform-cdk/issues/116)
 - Improved resource name structure in Diff / Deploy / Destroy [\#135](https://github.com/hashicorp/terraform-cdk/issues/135)
 
 **Fixed bugs:**

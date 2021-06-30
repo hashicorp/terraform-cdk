@@ -1,6 +1,7 @@
 # Getting Started with Python
 
 > **Hands-on:** Try the [Build AWS Infrastructure with Python](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-python?in=terraform/cdktf) tutorial on HashiCorp Learn.
+
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
@@ -14,6 +15,7 @@ Install with [Homebrew](https://brew.sh):
 ```shell
 $ brew install cdktf
 ```
+
 Or install with `npm` (comes with [Node.js](https://nodejs.org)):
 
 ```bash
@@ -44,6 +46,7 @@ cdktf init --template="python" --local
 ```
 
 ### pip
+
 ```bash
 cdktf init --template="python-pip" --local
 ```
@@ -125,8 +128,8 @@ You specify it in your local `cdktf.json` file, like this:
   "language": "python",
   "app": "pipenv run python main.py",
   "terraformProviders": [
-    // Terraform Providers with version constraint go here 
-    "aws@~> 3.45" 
+    // Terraform Providers with version constraint go here
+    "aws@~> 3.45"
   ],
   "terraformModules": [
     // Terraform Modules with version constraint go here

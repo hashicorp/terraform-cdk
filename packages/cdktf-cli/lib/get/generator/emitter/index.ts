@@ -1,3 +1,3 @@
-export * from './attributes-emitter'
-export * from './resource-emitter'
-export * from './struct-emitter'
+export * from "./attributes-emitter";
+export * from "./resource-emitter";
+export * from "./struct-emitter";

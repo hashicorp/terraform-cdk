@@ -17,7 +17,6 @@ import { AwsProvider } from "./.gen/providers/aws/aws-provider";
 import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
 import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 
-
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
@@ -42,7 +41,6 @@ class MyStack extends TerraformStack {
     });
   }
 }
-
 
 const app = new App();
 new MyStack(app, "demo");

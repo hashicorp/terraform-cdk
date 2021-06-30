@@ -1,5 +1,5 @@
-import { TerraformProvider } from '../../lib';
-import { Construct } from 'constructs';
+import { TerraformProvider } from "../../lib";
+import { Construct } from "constructs";
 
 export interface TestProviderConfig {
   alias?: string;
@@ -7,7 +7,7 @@ export interface TestProviderConfig {
 }
 
 export enum TestProviderMetadata {
-  TYPE = 'test'
+  TYPE = "test",
 }
 
 export class TestProvider extends TerraformProvider {
@@ -15,11 +15,11 @@ export class TestProvider extends TerraformProvider {
 
   constructor(scope: Construct, id: string, config: TestProviderConfig) {
     super(scope, id, {
-      terraformResourceType: TestProviderMetadata.TYPE
+      terraformResourceType: TestProviderMetadata.TYPE,
     });
 
-    this.alias = config.alias
-    this.accessKey = config.accessKey
+    this.alias = config.alias;
+    this.accessKey = config.accessKey;
   }
 
   private _alias?: string;
@@ -33,7 +33,7 @@ export class TestProvider extends TerraformProvider {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      access_key: this.accessKey
-    }
+      access_key: this.accessKey,
+    };
   }
 }

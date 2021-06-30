@@ -33,7 +33,9 @@ export class ConcreteDependable implements IDependable {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     DependableTrait.implement(this, {
-      get dependencyRoots() { return self._dependencyRoots; },
+      get dependencyRoots() {
+        return self._dependencyRoots;
+      },
     });
   }
 
@@ -45,7 +47,7 @@ export class ConcreteDependable implements IDependable {
   }
 }
 
-const DEPENDABLE_SYMBOL = Symbol.for('@aws-cdk/core.DependableTrait');
+const DEPENDABLE_SYMBOL = Symbol.for("@aws-cdk/core.DependableTrait");
 
 /**
  * Trait for IDependable

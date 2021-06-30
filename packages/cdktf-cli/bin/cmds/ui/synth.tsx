@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import { useTerraform, Status, useTerraformState } from './terraform-context'
+import { useTerraform, Status, useTerraformState } from "./terraform-context";
 
 interface CommonSynthConfig {
   targetDir: string;
@@ -11,53 +11,71 @@ interface CommonSynthConfig {
 
 type SynthOutputConfig = {
   jsonOutput: boolean;
-}
+};
 
 interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
 }
 
 const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
-  const { currentStack, stacks } = useTerraformState()
+  const { currentStack, stacks } = useTerraformState();
 
-  return(
+  return (
     <>
-      { jsonOutput ? (
-          <Box><Text>{currentStack.content}</Text></Box>
-        ) : (
-          <Text>Generated Terraform code for the stacks: {stacks?.map(s => s.name).join(', ')}</Text>
-        ) }
+      {jsonOutput ? (
+        <Box>
+          <Text>{currentStack.content}</Text>
+        </Box>
+      ) : (
+        <Text>
+          Generated Terraform code for the stacks:{" "}
+          {stacks?.map((s) => s.name).join(", ")}
+        </Text>
+      )}
     </>
-  )
-}
+  );
+};
 
-export const Synth = ({ targetDir, targetStack, synthCommand, jsonOutput }: SynthConfig): React.ReactElement => {
-    const { synth } = useTerraform({targetDir, targetStack, synthCommand})
-    const { status, currentStack, errors } = synth()
+export const Synth = ({
+  targetDir,
+  targetStack,
+  synthCommand,
+  jsonOutput,
+}: SynthConfig): React.ReactElement => {
+  const { synth } = useTerraform({ targetDir, targetStack, synthCommand });
+  const { status, currentStack, errors } = synth();
 
-    const isSynthesizing: boolean = status != Status.SYNTHESIZED
-    const statusText = (currentStack.name === '') ? `${status}...` : <Text>{status}<Text bold>&nbsp;{currentStack.name}</Text>...</Text>
+  const isSynthesizing: boolean = status != Status.SYNTHESIZED;
+  const statusText =
+    currentStack.name === "" ? (
+      `${status}...`
+    ) : (
+      <Text>
+        {status}
+        <Text bold>&nbsp;{currentStack.name}</Text>...
+      </Text>
+    );
 
-    if (errors) return(<Box>{ errors }</Box>);
+  if (errors) return <Box>{errors}</Box>;
 
-    return (
-      <Box>
-        {isSynthesizing ? (
-          <Fragment>
-            <Text color="green">
-              <Spinner type="dots" />
-            </Text>
-            <Box paddingLeft={1}>
-              <Text>{statusText}</Text>
-            </Box>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <Box>
-              <SynthOutput jsonOutput={jsonOutput} />
-            </Box>
-          </Fragment>
-        )}
-      </Box>
+  return (
+    <Box>
+      {isSynthesizing ? (
+        <Fragment>
+          <Text color="green">
+            <Spinner type="dots" />
+          </Text>
+          <Box paddingLeft={1}>
+            <Text>{statusText}</Text>
+          </Box>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Box>
+            <SynthOutput jsonOutput={jsonOutput} />
+          </Box>
+        </Fragment>
+      )}
+    </Box>
   );
 };

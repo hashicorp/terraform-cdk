@@ -1,11 +1,11 @@
 // This code was mostly copied from https://github.com/aws/aws-cdk/blob/0e96415ea9f365db93aa4b26e7464096b3d62af2/packages/aws-cdk/lib/version.ts
 
-import { exec as _exec } from 'child_process';
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import * as os from 'os';
-import * as semver from 'semver';
-import { promisify } from 'util';
+import { exec as _exec } from "child_process";
+import * as fs from "fs-extra";
+import * as path from "path";
+import * as os from "os";
+import * as semver from "semver";
+import { promisify } from "util";
 
 const ONE_DAY_IN_SECONDS = 1 * 24 * 60 * 60;
 
@@ -15,12 +15,12 @@ export const DISPLAY_VERSION = `${versionNumber()}`;
 
 export function versionNumber(): string {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  return require('../../package.json').version.replace(/\+[0-9a-f]+$/, '');
+  return require("../../package.json").version.replace(/\+[0-9a-f]+$/, "");
 }
 
 export class VersionCheckTTL {
   public static timestampFilePath(): string {
-    return path.join(cacheDir(), 'version');
+    return path.join(cacheDir(), "version");
   }
 
   private readonly file: string;
@@ -34,7 +34,9 @@ export class VersionCheckTTL {
       fs.mkdirsSync(path.dirname(this.file));
       fs.accessSync(path.dirname(this.file), fs.constants.W_OK);
     } catch {
-      throw new Error(`Directory (${path.dirname(this.file)}) is not writable.`);
+      throw new Error(
+        `Directory (${path.dirname(this.file)}) is not writable.`
+      );
     }
     this.ttlSecs = ttlSecs || ONE_DAY_IN_SECONDS;
   }
@@ -44,12 +46,13 @@ export class VersionCheckTTL {
       const lastCheckTime = (await fs.stat(this.file)).mtimeMs;
       const today = new Date().getTime();
 
-      if ((today - lastCheckTime) / 1000 > this.ttlSecs) { // convert ms to sec
+      if ((today - lastCheckTime) / 1000 > this.ttlSecs) {
+        // convert ms to sec
         return true;
       }
       return false;
     } catch (err) {
-      if (err.code === 'ENOENT') {
+      if (err.code === "ENOENT") {
         return true;
       } else {
         throw err;
@@ -59,7 +62,7 @@ export class VersionCheckTTL {
 
   public async update(latestVersion?: string): Promise<void> {
     if (!latestVersion) {
-      latestVersion = '';
+      latestVersion = "";
     }
     await fs.writeFile(this.file, latestVersion);
   }
@@ -67,14 +70,19 @@ export class VersionCheckTTL {
 
 // Export for unit testing only.
 // Don't use directly, use displayVersionMessage() instead.
-export async function latestVersionIfHigher(currentVersion: string, cacheFile: VersionCheckTTL): Promise<string|null> {
+export async function latestVersionIfHigher(
+  currentVersion: string,
+  cacheFile: VersionCheckTTL
+): Promise<string | null> {
   if (!(await cacheFile.hasExpired())) {
     return null;
   }
 
-  const { stdout, stderr } = await exec('npm view cdktf-cli version');
+  const { stdout, stderr } = await exec("npm view cdktf-cli version");
   if (stderr && stderr.trim().length > 0) {
-    console.error(`The 'npm view' command generated an error stream with content [${stderr.trim()}]`);
+    console.error(
+      `The 'npm view' command generated an error stream with content [${stderr.trim()}]`
+    );
   }
   const latestVersion = stdout.trim();
   if (!semver.valid(latestVersion)) {
@@ -97,9 +105,14 @@ export async function displayVersionMessage(): Promise<void> {
 
   try {
     const versionCheckCache = new VersionCheckTTL();
-    const laterVersion = await latestVersionIfHigher(versionNumber(), versionCheckCache);
+    const laterVersion = await latestVersionIfHigher(
+      versionNumber(),
+      versionCheckCache
+    );
     if (laterVersion) {
-      console.log(`Newer version of Terraform CDK is available [${laterVersion}] - Upgrade recommended`)
+      console.log(
+        `Newer version of Terraform CDK is available [${laterVersion}] - Upgrade recommended`
+      );
     }
   } catch (err) {
     console.error(`Could not run version check - ${err.message}`);
@@ -109,9 +122,12 @@ export async function displayVersionMessage(): Promise<void> {
 export function homeDir() {
   return process.env.CDKTF_HOME
     ? path.resolve(process.env.CDKTF_HOME)
-    : path.join((os.userInfo().homedir ?? os.homedir()).trim() || '/', '.cdktf');
+    : path.join(
+        (os.userInfo().homedir ?? os.homedir()).trim() || "/",
+        ".cdktf"
+      );
 }
 
 export function cacheDir() {
-  return path.join(homeDir(), 'cache');
+  return path.join(homeDir(), "cache");
 }

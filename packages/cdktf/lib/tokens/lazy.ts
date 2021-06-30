@@ -1,6 +1,6 @@
 // Copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/lazy.ts
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import { captureStackTrace } from './private/stack-trace';
+import { captureStackTrace } from "./private/stack-trace";
 import { IResolvable, IResolveContext } from "./resolvable";
 import { Token } from "./token";
 
@@ -106,7 +106,10 @@ export class Lazy {
    * @param producer The producer
    * @param options Options
    */
-  public static stringValue(producer: IStringProducer, options: LazyStringValueOptions = {}) {
+  public static stringValue(
+    producer: IStringProducer,
+    options: LazyStringValueOptions = {}
+  ) {
     return Token.asString(new LazyString(producer), options);
   }
 
@@ -123,7 +126,10 @@ export class Lazy {
    * @param producer The producer
    * @param options Options
    */
-  public static listValue(producer: IListProducer, options: LazyListValueOptions = {}) {
+  public static listValue(
+    producer: IListProducer,
+    options: LazyListValueOptions = {}
+  ) {
     return Token.asList(new LazyList(producer, options), options);
   }
 
@@ -132,7 +138,10 @@ export class Lazy {
    * @param producer The lazy producer
    * @param options Options
    */
-  public static anyValue(producer: IAnyProducer, options: LazyAnyValueOptions = {}): IResolvable {
+  public static anyValue(
+    producer: IAnyProducer,
+    options: LazyAnyValueOptions = {}
+  ): IResolvable {
     return new LazyAny(producer, options);
   }
 }
@@ -155,9 +164,8 @@ abstract class LazyBase implements IResolvable {
    * Called automatically when JSON.stringify() is called on a Token.
    */
   public toJSON(): any {
-    return '<unresolved-lazy>';
+    return "<unresolved-lazy>";
   }
-
 }
 
 class LazyString extends LazyBase {
@@ -181,7 +189,10 @@ class LazyNumber extends LazyBase {
 }
 
 class LazyList extends LazyBase {
-  constructor(private readonly producer: IListProducer, private readonly options: LazyListValueOptions = {}) {
+  constructor(
+    private readonly producer: IListProducer,
+    private readonly options: LazyListValueOptions = {}
+  ) {
     super();
   }
 
@@ -195,7 +206,10 @@ class LazyList extends LazyBase {
 }
 
 class LazyAny extends LazyBase {
-  constructor(private readonly producer: IAnyProducer, private readonly options: LazyAnyValueOptions = {}) {
+  constructor(
+    private readonly producer: IAnyProducer,
+    private readonly options: LazyAnyValueOptions = {}
+  ) {
     super();
   }
 

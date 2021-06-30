@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
-import { TerraformProviderGeneratorMetadata } from './terraform-resource'
+import { TerraformProviderGeneratorMetadata } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { TerraformString, TerraformStringAttribute } from "./attributes";
 
@@ -33,25 +33,26 @@ export abstract class TerraformProvider extends TerraformElement {
   }
 
   public get fqn(): string {
-    return (this.alias !== undefined) ? `${this.terraformResourceType}.${this.aliasAsString}` : `${this.terraformResourceType}`;
+    return this.alias !== undefined
+      ? `${this.terraformResourceType}.${this.aliasAsString}`
+      : `${this.terraformResourceType}`;
   }
 
   public get metaAttributes(): { [name: string]: any } {
-    return (this.alias !== undefined) ? { alias: this.aliasAsString } : {} ;
+    return this.alias !== undefined ? { alias: this.aliasAsString } : {};
   }
 
   private get aliasAsString(): string | undefined {
     if (this.alias instanceof TerraformStringAttribute) {
       return this.alias.internalValue;
-    }
-    else {
+    } else {
       return this.alias;
     }
   }
 
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
-    return {}
+    return {};
   }
 
   /**
@@ -64,13 +65,19 @@ export abstract class TerraformProvider extends TerraformElement {
         required_providers: {
           [this.terraformResourceType]: {
             version: this.terraformGeneratorMetadata?.providerVersionConstraint,
-            source: this.terraformProviderSource
-          }
-        }
+            source: this.terraformProviderSource,
+          },
+        },
       },
       provider: {
-        [this.terraformResourceType]: [deepMerge(keysToSnakeCase(this.synthesizeAttributes()), this.rawOverrides, this.metaAttributes)]
-      }
+        [this.terraformResourceType]: [
+          deepMerge(
+            keysToSnakeCase(this.synthesizeAttributes()),
+            this.rawOverrides,
+            this.metaAttributes
+          ),
+        ],
+      },
     };
   }
 }

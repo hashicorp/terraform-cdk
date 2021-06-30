@@ -1,4 +1,4 @@
-import { Struct } from './struct'
+import { Struct } from "./struct";
 
 export interface AttributeTypeModelOptions {
   struct?: Struct;
@@ -12,10 +12,10 @@ export interface AttributeTypeModelOptions {
 }
 
 export enum TokenizableTypes {
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  DYNAMIC = 'dynamic'
+  STRING = "string",
+  NUMBER = "number",
+  BOOLEAN = "boolean",
+  DYNAMIC = "dynamic",
 }
 
 export class AttributeTypeModel {
@@ -51,17 +51,14 @@ export class AttributeTypeModel {
         default:
           if (this.struct) {
             return `Terraform${this._type}${this.collectionType}`;
-          }
-          else {
+          } else {
             // May support some other types in the future
             return `cdktf.TerraformAny${this.collectionType}`;
           }
       }
-    }
-    else if (this.struct) {
+    } else if (this.struct) {
       return `Terraform${this._type}`;
-    }
-    else {
+    } else {
       switch (this._type) {
         case TokenizableTypes.STRING:
           return `cdktf.TerraformString`;
@@ -92,15 +89,12 @@ export class AttributeTypeModel {
 
   public get collectionType(): string | undefined {
     if (this.isList) {
-      return 'List';
-    }
-    else if (this.isMap) {
-      return 'Map';
-    }
-    else if (this.isSet) {
-      return 'Set';
-    }
-    else {
+      return "List";
+    } else if (this.isMap) {
+      return "Map";
+    } else if (this.isSet) {
+      return "Set";
+    } else {
       return undefined;
     }
   }

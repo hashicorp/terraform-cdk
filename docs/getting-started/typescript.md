@@ -1,6 +1,7 @@
 # Getting started with TypeScript
 
 > **Hands-on:** Try the [Build AWS Infrastructure with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf) tutorial on HashiCorp Learn.
+
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
@@ -103,8 +104,8 @@ You specify it in your local `cdktf.json` file, like this:
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": [
-    // Terraform Providers with version constraint go here 
-    "aws@~> 3.45" 
+    // Terraform Providers with version constraint go here
+    "aws@~> 3.45"
   ],
   "terraformModules": [
     // Terraform Modules with version constraint go here

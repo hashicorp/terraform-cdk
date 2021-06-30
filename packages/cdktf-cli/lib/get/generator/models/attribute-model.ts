@@ -1,4 +1,4 @@
-import { AttributeTypeModel } from './attribute-type-model';
+import { AttributeTypeModel } from "./attribute-type-model";
 
 export interface AttributeModelOptions {
   storageName: string; // private property
@@ -40,7 +40,7 @@ export class AttributeModel {
   }
 
   public get typeDefinition() {
-    const optional = this.optional ? '?' : '';
+    const optional = this.optional ? "?" : "";
     return `${this.name}${optional}: ${this.type.name}`;
   }
 
@@ -49,11 +49,11 @@ export class AttributeModel {
   }
 
   public get isOptional(): boolean {
-    return this.optional
+    return this.optional;
   }
 
   public get isRequired(): boolean {
-    return this.required
+    return this.required;
   }
 
   public get isProvider(): boolean {
@@ -62,23 +62,27 @@ export class AttributeModel {
 
   public get name(): string {
     // `self` and `build` doesn't work in as property name in Python
-    if (this._name === 'self' || this._name === 'build') return `${this._name}Attribute`;
+    if (this._name === "self" || this._name === "build")
+      return `${this._name}Attribute`;
     // jsii can't handle `getFoo` properties, since it's incompatible with Java
-    if (this._name.match(/^get[A-Z]+/)) return this._name.replace('get', 'fetch');
+    if (this._name.match(/^get[A-Z]+/))
+      return this._name.replace("get", "fetch");
     // `equals` is a prohibited name in jsii
-    if (this._name === 'equals') return 'equalTo';
-    return this._name
+    if (this._name === "equals") return "equalTo";
+    return this._name;
   }
 
   public get description(): string | undefined {
-    return this._description?.replace(/(\*\/)/gi, `*\\/`).replace(/'''/gi, '```');
+    return this._description
+      ?.replace(/(\*\/)/gi, `*\\/`)
+      .replace(/'''/gi, "```");
   }
 
   public get isConfigIgnored(): boolean {
     if (this.isAssignable && !this.computed) {
       return false;
     }
-    const ignoreList = ['arn', 'id'];
+    const ignoreList = ["arn", "id"];
     return ignoreList.includes(this.name);
   }
 }

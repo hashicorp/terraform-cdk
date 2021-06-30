@@ -23,7 +23,9 @@ export class Intrinsic implements IResolvable {
 
   constructor(value: any) {
     if (isFunction(value)) {
-      throw new Error(`Argument to Intrinsic must be a plain value object, got ${value}`);
+      throw new Error(
+        `Argument to Intrinsic must be a plain value object, got ${value}`
+      );
     }
 
     this.creationStack = captureStackTrace();
@@ -70,10 +72,14 @@ export class Intrinsic implements IResolvable {
    * @param message Error message
    */
   protected newError(message: string): any {
-    return new Error(`${message}\nToken created:\n    at ${this.creationStack.join('\n    at ')}\nError thrown:`);
+    return new Error(
+      `${message}\nToken created:\n    at ${this.creationStack.join(
+        "\n    at "
+      )}\nError thrown:`
+    );
   }
 }
 
 function isFunction(x: any) {
-  return typeof x === 'function';
+  return typeof x === "function";
 }

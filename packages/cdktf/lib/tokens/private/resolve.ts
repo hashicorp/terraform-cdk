@@ -1,10 +1,17 @@
 // copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/private/resolve.ts
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import { IConstruct } from 'constructs';
-import { DefaultTokenResolver, IPostProcessor, IResolvable, IResolveContext, ITokenResolver, StringConcat } from '../resolvable';
-import { TokenizedStringFragments } from '../string-fragments';
+import { IConstruct } from "constructs";
+import {
+  DefaultTokenResolver,
+  IPostProcessor,
+  IResolvable,
+  IResolveContext,
+  ITokenResolver,
+  StringConcat,
+} from "../resolvable";
+import { TokenizedStringFragments } from "../string-fragments";
 import { containsListTokenElement, TokenString, unresolved } from "./encoding";
-import { TokenMap } from './token-map';
+import { TokenMap } from "./token-map";
 
 // This file should not be exported to consumers, resolving should happen through Construct.resolve()
 
@@ -34,36 +41,50 @@ export interface IResolveOptions {
  */
 export function resolve(obj: any, options: IResolveOptions): any {
   const prefix = options.prefix || [];
-  const pathName = '/' + prefix.join('/');
+  const pathName = "/" + prefix.join("/");
 
   /**
    * Make a new resolution context
    */
   function makeContext(appendPath?: string): [IResolveContext, IPostProcessor] {
-    const newPrefix = appendPath !== undefined ? prefix.concat([appendPath]) : options.prefix;
+    const newPrefix =
+      appendPath !== undefined ? prefix.concat([appendPath]) : options.prefix;
 
     let postProcessor: IPostProcessor | undefined;
 
     const context: IResolveContext = {
       preparing: options.preparing,
       scope: options.scope,
-      registerPostProcessor(pp) { postProcessor = pp; },
-      resolve(x: any) { return resolve(x, { ...options, prefix: newPrefix }); },
+      registerPostProcessor(pp) {
+        postProcessor = pp;
+      },
+      resolve(x: any) {
+        return resolve(x, { ...options, prefix: newPrefix });
+      },
     };
 
-    return [context, { postProcess(x) { return postProcessor ? postProcessor.postProcess(x, context) : x; }}];
+    return [
+      context,
+      {
+        postProcess(x) {
+          return postProcessor ? postProcessor.postProcess(x, context) : x;
+        },
+      },
+    ];
   }
 
   // protect against cyclic references by limiting depth.
   if (prefix.length > 200) {
-    throw new Error('Unable to resolve object tree with circular reference. Path: ' + pathName);
+    throw new Error(
+      "Unable to resolve object tree with circular reference. Path: " + pathName
+    );
   }
 
   //
   // undefined
   //
 
-  if (typeof(obj) === 'undefined') {
+  if (typeof obj === "undefined") {
     return undefined;
   }
 
@@ -79,14 +100,16 @@ export function resolve(obj: any, options: IResolveOptions): any {
   // functions - not supported (only tokens are supported)
   //
 
-  if (typeof(obj) === 'function') {
-    throw new Error(`Trying to resolve a non-data object. Only token are supported for lazy evaluation. Path: ${pathName}. Object: ${obj}`);
+  if (typeof obj === "function") {
+    throw new Error(
+      `Trying to resolve a non-data object. Only token are supported for lazy evaluation. Path: ${pathName}. Object: ${obj}`
+    );
   }
 
   //
   // string - potentially replace all stringified Tokens
   //
-  if (typeof(obj) === 'string') {
+  if (typeof obj === "string") {
     const str = TokenString.forString(obj);
     if (str.test()) {
       const fragments = str.split(tokenMap.lookupToken.bind(tokenMap));
@@ -98,7 +121,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
   //
   // number - potentially decode Tokenized number
   //
-  if (typeof(obj) === 'number') {
+  if (typeof obj === "number") {
     return resolveNumberToken(obj, makeContext()[0]);
   }
 
@@ -106,7 +129,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
   // primitives - as-is
   //
 
-  if (typeof(obj) !== 'object' || obj instanceof Date) {
+  if (typeof obj !== "object" || obj instanceof Date) {
     return obj;
   }
 
@@ -121,7 +144,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
 
     const arr = obj
       .map((x, i) => makeContext(`${i}`)[0].resolve(x))
-      .filter(x => typeof(x) !== 'undefined');
+      .filter((x) => typeof x !== "undefined");
 
     return arr;
   }
@@ -143,20 +166,24 @@ export function resolve(obj: any, options: IResolveOptions): any {
   // mistake somewhere and resolve will get into an infinite loop recursing into
   // child.parent <---> parent.children
   if (isConstruct(obj)) {
-    throw new Error('Trying to resolve() a Construct at ' + pathName);
+    throw new Error("Trying to resolve() a Construct at " + pathName);
   }
 
-  const result: any = { };
+  const result: any = {};
   for (const key of Object.keys(obj)) {
     const resolvedKey = makeContext()[0].resolve(key);
-    if (typeof(resolvedKey) !== 'string') {
-      throw new Error(`"${key}" is used as the key in a map so must resolve to a string, but it resolves to: ${JSON.stringify(resolvedKey)}`);
+    if (typeof resolvedKey !== "string") {
+      throw new Error(
+        `"${key}" is used as the key in a map so must resolve to a string, but it resolves to: ${JSON.stringify(
+          resolvedKey
+        )}`
+      );
     }
 
     const value = makeContext(key)[0].resolve(obj[key]);
 
     // skip undefined
-    if (typeof(value) === 'undefined') {
+    if (typeof value === "undefined") {
       continue;
     }
 
@@ -183,7 +210,11 @@ export function findTokens(scope: IConstruct, fn: () => any): IResolvable[] {
 export class RememberingTokenResolver extends DefaultTokenResolver {
   private readonly tokensSeen = new Set<IResolvable>();
 
-  public resolveToken(t: IResolvable, context: IResolveContext, postProcessor: IPostProcessor) {
+  public resolveToken(
+    t: IResolvable,
+    context: IResolveContext,
+    postProcessor: IPostProcessor
+  ) {
     this.tokensSeen.add(t);
     return super.resolveToken(t, context, postProcessor);
   }
@@ -210,6 +241,8 @@ function isConstruct(x: any): boolean {
 
 function resolveNumberToken(x: number, context: IResolveContext): any {
   const token = TokenMap.instance().lookupNumberToken(x);
-  if (token === undefined) { return x; }
+  if (token === undefined) {
+    return x;
+  }
   return context.resolve(token);
 }

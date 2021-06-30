@@ -6,11 +6,11 @@ With the `cdktf.json` in your project root directory you can configure the behav
 
 ```ts
 export enum Language {
-  TYPESCRIPT = 'typescript',
-  PYTHON = 'python',
-  CSHARP = 'csharp',
-  JAVA = 'java',
-  GO = 'go',
+  TYPESCRIPT = "typescript",
+  PYTHON = "python",
+  CSHARP = "csharp",
+  JAVA = "java",
+  GO = "go",
 }
 
 export interface Config {
@@ -60,7 +60,7 @@ This will synthesize JSON into `my-workdir` and all Terraform operations - such 
 ```json
 {
   "app": "npm run --silent compile && node main.js",
-  "output": "my-workdir",
+  "output": "my-workdir"
 }
 ```
 
@@ -72,9 +72,7 @@ With this `terraformProviders` configuration, a `cdktf get` will build the lates
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": [
-    "aws@~> 2.0"
-  ]
+  "terraformProviders": ["aws@~> 2.0"]
 }
 ```
 
@@ -86,9 +84,7 @@ With this `terraformModules` configuration, a `cdktf get` will build the latest 
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformModules": [
-    "terraform-aws-modules/vpc/aws"
-  ]
+  "terraformModules": ["terraform-aws-modules/vpc/aws"]
 }
 ```
 
@@ -100,12 +96,8 @@ This combines examples above, a `cdktf get` will build both the AWS provider and
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformModules": [
-    "terraform-aws-modules/vpc/aws"
-  ],
-  "terraformProviders": [
-    "aws@~> 2.0"
-  ]
+  "terraformModules": ["terraform-aws-modules/vpc/aws"],
+  "terraformProviders": ["aws@~> 2.0"]
 }
 ```
 
@@ -125,7 +117,7 @@ It's possible to build multiple providers or modules as well.
     "kubernetes",
     "consul",
     "vault",
-    "nomad",
+    "nomad"
   ]
 }
 ```
@@ -138,9 +130,7 @@ This will generate the `aws` provider bindings in the folder `./imports`. This i
 {
   "language": "python",
   "app": "pipenv run ./main.py",
-  "terraformProviders": [
-    "aws@~> 2.0"
-  ],
+  "terraformProviders": ["aws@~> 2.0"],
   "codeMakerOutput": "imports"
 }
 ```

@@ -1,3 +1,3 @@
 export interface ITerraformAddressable {
-    readonly fqn: string;
+  readonly fqn: string;
 }

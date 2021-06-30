@@ -5,10 +5,11 @@ A CDK for Terraform application in Python to demonstrate use of the Kubernetes P
 ## Usage
 
 Install Pipenv using Homebrew by running:
-  
+
 ```bash
 $ brew install pipenv
 ```
+
 You can install Pipenv by visiting the [website](https://pipenv.pypa.io/en/latest/).
 
 Install project dependencies
@@ -33,7 +34,8 @@ cdktf synth
 
 The above command will create a folder called `cdktf.out` that contains all Terraform JSON configuration that was generated.
 
-Next, deploy your Terraform configuration. 
+Next, deploy your Terraform configuration.
+
 ```bash
 cdktf deploy
 ```

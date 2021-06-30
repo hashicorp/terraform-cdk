@@ -3,7 +3,7 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import * as path from 'path';
+import * as path from "path";
 
 export interface TerraformModuleOptions {
   readonly source: string;
@@ -17,8 +17,10 @@ export interface TerraformModuleProvider {
   readonly moduleAlias: string;
 }
 
-export abstract class TerraformModule extends TerraformElement implements ITerraformDependable {
-
+export abstract class TerraformModule
+  extends TerraformElement
+  implements ITerraformDependable
+{
   public readonly source: string;
   public readonly version?: string;
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
@@ -27,21 +29,21 @@ export abstract class TerraformModule extends TerraformElement implements ITerra
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id);
 
-    if (options.source.startsWith('./') || options.source.startsWith('../')) {
-      this.source = path.join('..', options.source);
+    if (options.source.startsWith("./") || options.source.startsWith("../")) {
+      this.source = path.join("..", options.source);
     } else {
-      this.source = options.source
+      this.source = options.source;
     }
     this.version = options.version;
     this._providers = options.providers;
     if (Array.isArray(options.dependsOn)) {
-      this.dependsOn = options.dependsOn.map(dependency => dependency.fqn);
+      this.dependsOn = options.dependsOn.map((dependency) => dependency.fqn);
     }
   }
 
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
-    return {}
+    return {};
   }
 
   public interpolationForOutput(moduleOutput: string) {
@@ -54,40 +56,43 @@ export abstract class TerraformModule extends TerraformElement implements ITerra
 
   public get providers() {
     return this._providers;
-}
+  }
 
-public addProvider(provider: TerraformProvider | TerraformModuleProvider) {
+  public addProvider(provider: TerraformProvider | TerraformModuleProvider) {
     if (!this._providers) {
-        this._providers = [];
+      this._providers = [];
     }
     this._providers.push(provider);
-}
+  }
 
   public toTerraform(): any {
-    const attributes = deepMerge({
-      ...this.synthesizeAttributes(),
-      source: this.source,
-      version: this.version,
-      providers: this.providers?.map(p => {
-        if (p instanceof TerraformProvider) {
+    const attributes = deepMerge(
+      {
+        ...this.synthesizeAttributes(),
+        source: this.source,
+        version: this.version,
+        providers: this.providers?.map((p) => {
+          if (p instanceof TerraformProvider) {
             return { [p.terraformResourceType]: p.fqn };
-        }
-        else {
-            return { [`${p.provider.terraformResourceType}.${p.moduleAlias}`]: p.provider.fqn };
-        }
-      }),
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      depends_on: this.dependsOn,
-    },
+          } else {
+            return {
+              [`${p.provider.terraformResourceType}.${p.moduleAlias}`]:
+                p.provider.fqn,
+            };
+          }
+        }),
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        depends_on: this.dependsOn,
+      },
       this.rawOverrides
-    )
+    );
 
-    attributes['//'] = this.constructNodeMetadata
+    attributes["//"] = this.constructNodeMetadata;
 
     return {
       module: {
-        [this.friendlyUniqueId]: attributes
-      }
-    }
+        [this.friendlyUniqueId]: attributes,
+      },
+    };
   }
 }

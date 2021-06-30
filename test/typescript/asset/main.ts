@@ -1,7 +1,13 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, Testing, TerraformAsset, TerraformOutput, AssetType } from "cdktf";
+import {
+  App,
+  TerraformStack,
+  Testing,
+  TerraformAsset,
+  TerraformOutput,
+  AssetType,
+} from "cdktf";
 import * as path from "path";
-
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -11,7 +17,7 @@ export class HelloTerra extends TerraformStack {
       path: path.resolve(__dirname, "local-asset.txt"),
     });
 
-    const fixtures =  new TerraformAsset(this, "fixtures", {
+    const fixtures = new TerraformAsset(this, "fixtures", {
       path: path.resolve(__dirname, "fixtures"),
     });
 
@@ -21,16 +27,16 @@ export class HelloTerra extends TerraformStack {
     });
 
     new TerraformOutput(this, "local-asset-name", {
-      value: localAsset.fileName
-    })
+      value: localAsset.fileName,
+    });
 
     new TerraformOutput(this, "fixtures-name", {
-      value: fixtures.fileName
-    })
+      value: fixtures.fileName,
+    });
 
     new TerraformOutput(this, "zipped-fixtures-name", {
-      value: zippedFixtures.fileName
-    })
+      value: zippedFixtures.fileName,
+    });
   }
 }
 

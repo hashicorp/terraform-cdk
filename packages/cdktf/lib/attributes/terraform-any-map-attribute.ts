@@ -5,33 +5,47 @@ import { TerraformAny, TerraformAnyAttribute } from "./terraform-any-attribute";
 import { ITerraformAddressable } from "../terraform-addressable";
 
 export class TerraformAnyMapAttribute extends TerraformMapAttribute {
-    public constructor(parent: ITerraformAddressable, terraformAttribute: string, value?: { [key: string]: TerraformAny }, options?: TerraformAttributeOptions) {
-        super(parent, terraformAttribute, value, options);
-    }
+  public constructor(
+    parent: ITerraformAddressable,
+    terraformAttribute: string,
+    value?: { [key: string]: TerraformAny },
+    options?: TerraformAttributeOptions
+  ) {
+    super(parent, terraformAttribute, value, options);
+  }
 
-    public get internalValue(): { [key: string]: TerraformAny } | undefined {
-        return this.realValue;
-    }
+  public get internalValue(): { [key: string]: TerraformAny } | undefined {
+    return this.realValue;
+  }
 
-    public get(key: string): TerraformAnyAttribute {
-        return new TerraformAnyAttribute(this, `${key}`);
-    }
+  public get(key: string): TerraformAnyAttribute {
+    return new TerraformAnyAttribute(this, `${key}`);
+  }
 
-    public static construct(parent: ITerraformAddressable, terraformAttribute: string, value: TerraformAnyMap | undefined) {
-        if (!(value instanceof TerraformAnyMapAttribute)) {
-            return new TerraformAnyMapAttribute(parent, terraformAttribute, value);
-        }
-        else if (value.terraformParent === parent) {
-            return value;
-        }
-        else {
-            return new TerraformAnyMapAttribute(parent, terraformAttribute, value.internalValue, { nested: value });
-        }
+  public static construct(
+    parent: ITerraformAddressable,
+    terraformAttribute: string,
+    value: TerraformAnyMap | undefined
+  ) {
+    if (!(value instanceof TerraformAnyMapAttribute)) {
+      return new TerraformAnyMapAttribute(parent, terraformAttribute, value);
+    } else if (value.terraformParent === parent) {
+      return value;
+    } else {
+      return new TerraformAnyMapAttribute(
+        parent,
+        terraformAttribute,
+        value.internalValue,
+        { nested: value }
+      );
     }
+  }
 
-    protected valueToTerraform() {
-        return hashMapper(anyToTerraform)(this.internalValue);
-    }
+  protected valueToTerraform() {
+    return hashMapper(anyToTerraform)(this.internalValue);
+  }
 }
 
-export type TerraformAnyMap = { [key: string]: TerraformAny } | TerraformAnyMapAttribute;
+export type TerraformAnyMap =
+  | { [key: string]: TerraformAny }
+  | TerraformAnyMapAttribute;

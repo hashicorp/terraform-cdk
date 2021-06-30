@@ -6,13 +6,13 @@ when a Terraform apply finishes.
 In TypeScript, a Terraform output for an AWS instance public IP can be expressed by `TerraformOutput`.
 
 ```typescript
-const instance = new Instance(this, 'hello', {
-  ami: 'ami-abcde123',
-  instanceType: 't2.micro'
+const instance = new Instance(this, "hello", {
+  ami: "ami-abcde123",
+  instanceType: "t2.micro",
 });
 
-new TerraformOutput(this, 'public_ip', {
-    value: instance.publicIp
+new TerraformOutput(this, "public_ip", {
+  value: instance.publicIp,
 });
 ```
 

@@ -5,13 +5,13 @@ A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) ass
 In TypeScript, a Terraform local is expressed by `TerraformLocal`.
 
 ```typescript
-const commonTags = new TerraformLocal(this, 'common_tags', {
-  Service: 'service_name',
-  Owner: 'owner'
+const commonTags = new TerraformLocal(this, "common_tags", {
+  Service: "service_name",
+  Owner: "owner",
 });
 
-new Instance(this, 'example', {
-    tags: commonTags.expression
+new Instance(this, "example", {
+  tags: commonTags.expression,
 });
 ```
 
