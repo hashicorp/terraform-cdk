@@ -79,7 +79,9 @@
       "@typescript-eslint/no-use-before-define": 0,
       "@typescript-eslint/explicit-module-boundary-types": 0,
       "@typescript-eslint/no-var-requires": 0,
-      "no-sequences": "error"
+      "react/no-unescaped-entities": 0,
+      "no-sequences": "error",
+      "no-irregular-whitespace": ["error", { "skipTemplates": true }]
     },
     "ignorePatterns": [
       "node_modules",

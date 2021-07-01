@@ -1,12 +1,16 @@
 /* eslint-disable no-control-regex */
-import React from "react";
+import React, { ReactNode } from "react";
 import { TerraformProvider } from "./terraform-context";
 import { useTerraformState } from "./terraform-context";
 import { useApp } from "ink";
 
-export const TerraformErrors: React.FunctionComponent<{}> = ({
+interface TerraformErrorProps {
+  children: ReactNode
+}
+
+export const TerraformErrors: React.FunctionComponent<TerraformErrorProps> = ({
   children,
-}): React.ReactElement => {
+}: TerraformErrorProps): React.ReactElement => {
   const { errors } = useTerraformState();
   const { exit } = useApp();
 
@@ -19,10 +23,12 @@ export const TerraformErrors: React.FunctionComponent<{}> = ({
   return <>{children}</>;
 };
 
-// eslint-disable-next-line react/prop-types
-export const App: React.FunctionComponent<{}> = ({
+interface AppProps {
+  children: ReactNode
+}
+export const App: React.FunctionComponent<AppProps> = ({
   children,
-}): React.ReactElement => {
+}: AppProps): React.ReactElement => {
   return (
     <TerraformProvider>
       <TerraformErrors>{children}</TerraformErrors>

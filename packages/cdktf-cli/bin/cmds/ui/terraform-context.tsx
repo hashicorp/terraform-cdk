@@ -1,5 +1,5 @@
 /* eslint-disable no-control-regex */
-import React from "react";
+import React, { ReactNode } from "react";
 import { TerraformCli } from "./models/terraform-cli";
 import { TerraformCloud, TerraformCloudPlan } from "./models/terraform-cloud";
 import {
@@ -24,8 +24,8 @@ type DefaultValue = undefined;
 type ContextValue = DefaultValue | DeployState;
 
 const TerraformContextState = React.createContext<ContextValue>(undefined);
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const TerraformContextDispatch = React.createContext(
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   (() => {}) as React.Dispatch<Action>
 );
 
@@ -290,11 +290,12 @@ function deployReducer(state: DeployState, action: Action): DeployState {
 
 interface TerraformProviderConfig {
   initialState?: DeployState;
+  children: ReactNode;
 }
 
 // eslint-disable-next-line react/prop-types
 export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig> =
-  ({ children, initialState }): React.ReactElement => {
+  ({ children, initialState }: TerraformProviderConfig): React.ReactElement => {
     const initialCurrentStack: SynthesizedStack = {
       constructPath: "",
       content: "",
@@ -515,13 +516,10 @@ export const useTerraform = ({
   };
 
   const synth = () => {
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformSynth(false);
-      };
-
-      invoke();
-    }, []);
+    const invoke = async () => {
+      await execTerraformSynth(false);
+    };
+    invoke();
 
     return state;
   };

@@ -9,6 +9,7 @@ export interface ResourceNameConfig {
 export const ResourceName = ({ name, stackName }: ResourceNameConfig) => {
   const prettyName = name.replace(/(_[A-F\d]{8})$/, "");
 
+  // eslint-disable-next-line prefer-const
   let [resource, resourceName] = prettyName.split(".");
   if (stackName != null && resourceName.startsWith(stackName)) {
     const [, ...path] = resourceName.split("_");
