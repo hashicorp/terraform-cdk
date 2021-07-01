@@ -12,7 +12,7 @@ export interface ReportParams {
   dateTime?: Date;
   arch?: string;
   os?: string;
-  payload: {};
+  payload: Record<string, any>;
   product: string;
   runID?: string;
   version?: string;

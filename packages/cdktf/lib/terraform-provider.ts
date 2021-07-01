@@ -53,7 +53,6 @@ export abstract class TerraformProvider extends TerraformElement {
   public toTerraform(): any {
     return {
       terraform: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         required_providers: {
           [this.terraformResourceType]: {
             version: this.terraformGeneratorMetadata?.providerVersionConstraint,

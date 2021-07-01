@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { TerraformCliPlan } from "../../bin/cmds/ui/models/terraform-cli";
 
 describe("terraform-cli", () => {

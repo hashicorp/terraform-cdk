@@ -216,9 +216,7 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
     } else {
       if (!config.provider) config.provider = {};
 
-      // eslint-disable-next-line @typescript-eslint/camelcase
       if (!config.terraform.required_providers) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         config.terraform.required_providers = {};
       }
       config.provider[target.name] = {};
@@ -228,7 +226,6 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
       };
     }
   }
-  // eslint-disable-next-line @typescript-eslint/camelcase
   let providerSchema: ProviderSchema = { format_version: "1.0" };
   let moduleSchema: Record<string, ModuleSchema> = {};
 

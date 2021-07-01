@@ -1,6 +1,5 @@
 import * as z from "zod";
 
-/* eslint-disable @typescript-eslint/camelcase */
 // Schemas from https://www.terraform.io/docs/internals/machine-readable-ui.html#change_summary
 const resource = z.object({
   addr: z.string(),

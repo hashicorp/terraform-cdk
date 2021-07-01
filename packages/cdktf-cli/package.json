@@ -64,13 +64,14 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
       "prettier"
     ],
     "rules": {
       "@typescript-eslint/no-explicit-any": 0,
       "@typescript-eslint/explicit-function-return-type": 0,
       "@typescript-eslint/no-use-before-define": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "@typescript-eslint/no-var-requires": 0,
       "no-sequences": "error"
     },
     "ignorePatterns": [
@@ -93,9 +94,9 @@
     "@types/semver": "^7.1.0",
     "@types/stream-buffers": "^3.0.3",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^2.20.0",
-    "@typescript-eslint/parser": "^2.20.0",
-    "eslint": "^6.8.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.20.0",
     "ink-testing-library": "^2.0.0",

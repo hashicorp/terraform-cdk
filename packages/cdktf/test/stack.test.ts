@@ -84,7 +84,6 @@ test("stack synthesis no flags", () => {
 class MyModule extends TerraformModule {
   protected synthesizeAttributes() {
     return {
-      //eslint-disable-next-line @typescript-eslint/camelcase
       cluster_name: "my_cluster_name",
     };
   }

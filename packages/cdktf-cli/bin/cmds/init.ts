@@ -145,7 +145,6 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 }
 
-/* eslint-disable @typescript-eslint/camelcase */
 async function determineDeps(version: string, dist?: string): Promise<Deps> {
   const pythonVersion = version.replace(/-pre\./g, ".dev");
 

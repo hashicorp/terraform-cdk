@@ -57,7 +57,6 @@ export abstract class TerraformRemoteState extends TerraformElement {
   public toTerraform(): any {
     return {
       data: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         terraform_remote_state: {
           [this.friendlyUniqueId]: deepMerge(
             {
