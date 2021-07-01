@@ -42,7 +42,6 @@ class Parser {
     if (isProvider) {
       baseName = `${provider}_${baseName}`;
       if (!("attributes" in schema.block)) {
-        // eslint-disable-next-line  @typescript-eslint/camelcase
         schema.block = { attributes: {}, block_types: {} };
       }
       // somehow missing from provider schema

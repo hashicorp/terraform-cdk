@@ -63,7 +63,9 @@ function BeautifyErrors(name: string) {
     const isMethod = descriptor && descriptor.value instanceof Function;
     if (!isMethod) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const originalMethod = descriptor!.value;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     descriptor!.value = async function (...args: any[]) {
       try {
         return await originalMethod.apply(this, args);
@@ -73,7 +75,9 @@ function BeautifyErrors(name: string) {
           e.response.status >= 400 &&
           e.response.status <= 599
         ) {
-          const errors = e.response.data?.errors as object[] | undefined;
+          const errors = e.response.data?.errors as
+            | Record<string, unknown>[]
+            | undefined;
           logger.error(`Error in ${name}: ${JSON.stringify(e)}`);
           if (errors) {
             throw new Error(
@@ -89,6 +93,7 @@ function BeautifyErrors(name: string) {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     Object.defineProperty(target, propertyKey, descriptor!);
   };
 }

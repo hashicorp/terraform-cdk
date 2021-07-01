@@ -46,7 +46,7 @@ export interface ResourceChanges {
 export interface TerraformOutput {
   sensitive: boolean;
   type: string;
-  value: string | object;
+  value: string | Record<string, unknown> | Array<any>;
 }
 
 export interface TerraformPlan {
