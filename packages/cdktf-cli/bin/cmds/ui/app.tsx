@@ -5,7 +5,7 @@ import { useTerraformState } from "./terraform-context";
 import { useApp } from "ink";
 
 interface TerraformErrorProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const TerraformErrors: React.FunctionComponent<TerraformErrorProps> = ({
@@ -24,7 +24,7 @@ export const TerraformErrors: React.FunctionComponent<TerraformErrorProps> = ({
 };
 
 interface AppProps {
-  children: ReactNode
+  children?: ReactNode;
 }
 export const App: React.FunctionComponent<AppProps> = ({
   children,

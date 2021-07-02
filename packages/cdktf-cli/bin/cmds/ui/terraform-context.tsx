@@ -321,13 +321,6 @@ export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig>
       </TerraformContextState.Provider>
     );
   };
-interface UseTerraformInput {
-  targetDir: string;
-  targetStack?: string;
-  synthCommand: string;
-  isSpeculative?: boolean;
-  autoApprove?: boolean;
-}
 
 export const useTerraformState = () => {
   const state = React.useContext(TerraformContextState);
@@ -341,18 +334,8 @@ export const useTerraformState = () => {
   return state;
 };
 
-export const useTerraform = ({
-  targetDir,
-  targetStack,
-  synthCommand,
-  isSpeculative = false,
-  autoApprove = false,
-}: UseTerraformInput) => {
+const useTerraformDispatch = () => {
   const dispatch = React.useContext(TerraformContextDispatch);
-  const state = useTerraformState();
-  const [terraform, setTerraform] = React.useState<Terraform>();
-  const [confirmed, setConfirmed] = React.useState<boolean>(autoApprove);
-  const { exit } = useApp();
 
   if (dispatch === undefined) {
     throw new Error(
@@ -360,14 +343,47 @@ export const useTerraform = ({
     );
   }
 
-  const confirmationCallback = React.useCallback((submitValue) => {
-    if (submitValue === false) {
-      exit();
-      return;
-    }
+  return dispatch;
+};
 
-    setConfirmed(submitValue);
-  }, []);
+const useConfirmation = ({
+  autoApprove = false,
+}: {
+  autoApprove?: boolean;
+}) => {
+  const { exit } = useApp();
+  const [confirmed, setConfirmed] = React.useState<boolean>(autoApprove);
+  const confirmationCallback = React.useCallback(
+    (submitValue) => {
+      if (submitValue === false) {
+        exit();
+        return;
+      }
+
+      setConfirmed(submitValue);
+    },
+    [exit]
+  );
+
+  return [confirmed, confirmationCallback] as const;
+};
+
+interface UseTerraformOptions {
+  targetDir: string;
+  targetStack?: string;
+  synthCommand: string;
+  isSpeculative?: boolean;
+}
+
+export const useTerraform = ({
+  targetDir,
+  targetStack,
+  synthCommand,
+  isSpeculative = false,
+}: UseTerraformOptions) => {
+  const dispatch = useTerraformDispatch();
+  const state = useTerraformState();
+  const [terraform, setTerraform] = React.useState<Terraform>();
 
   const executorForStack = async (stack: SynthesizedStack): Promise<void> => {
     const parsedStack = JSON.parse(stack.content) as TerraformJson;
@@ -432,7 +448,10 @@ export const useTerraform = ({
 
   const execTerraformInit = async () => {
     try {
-      if (!terraform) throw new Error("Terraform is not initialized yet");
+      if (!terraform)
+        throw new Error(
+          "Terraform is not initialized yet. Please call synth() with loadExecutor: true first"
+        );
       dispatch({ type: "INIT" });
       await terraform.init();
     } catch (e) {
@@ -515,120 +534,131 @@ export const useTerraform = ({
     }
   };
 
-  const synth = () => {
-    const invoke = async () => {
-      await execTerraformSynth(false);
-    };
-    invoke();
-
-    return state;
+  return {
+    synth: execTerraformSynth,
+    deploy: execTerraformApply,
+    diff: execTerraformPlan,
+    output: execTerraformOutput,
+    destroy: execTerraformDestroy,
+    init: execTerraformInit,
   };
+};
 
-  const init = () => {
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformSynth();
-      };
-      invoke();
-    }, []);
+const useRunOnce = <Fn extends (...args: any) => any>(
+  fn: Fn,
+  ...args: Parameters<Fn>
+) => {
+  React.useEffect(() => {
+    fn(args);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // only run once on mount – ignore any changes to fn
+};
 
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformInit();
-      };
+const useRunIf = <Fn extends (...args: any) => any>(
+  condition: boolean,
+  fn: Fn,
+  ...args: Parameters<Fn>
+) => {
+  React.useEffect(() => {
+    if (condition) fn(args);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [condition]); // only run if condition changes
+};
 
-      if (state.status === Status.SYNTHESIZED) invoke();
-    }, [state.status, terraform]);
+type UseRunSynthOptions = UseTerraformOptions;
+export const useRunSynth = (options: UseRunSynthOptions) => {
+  const state = useTerraformState();
+  const { synth } = useTerraform(options);
 
-    return state;
-  };
+  useRunOnce(synth, false);
 
-  const plan = () => {
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformSynth();
-      };
-      invoke();
-    }, []);
+  return state;
+};
 
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformInit();
-        await execTerraformPlan();
-      };
-      if (state.status === Status.SYNTHESIZED) invoke();
-    }, [state.status, terraform]);
+type UseRunInitOptions = UseTerraformOptions;
+export const useRunInit = (options: UseRunInitOptions) => {
+  const { synth, init } = useTerraform(options);
+  const state = useTerraformState();
 
-    return state;
-  };
+  useRunOnce(synth);
+  useRunIf(state.status === Status.SYNTHESIZED, init);
 
-  const deploy = () => {
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformSynth();
-      };
-      invoke();
-    }, []);
+  return state;
+};
 
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformInit();
-        await execTerraformPlan(false);
-      };
-      if (state.status === Status.SYNTHESIZED) invoke();
-    }, [state.status, terraform]);
+type UseRunDiffOptions = UseTerraformOptions;
+export const useRunDiff = (options: UseRunDiffOptions) => {
+  const { synth, init, diff } = useTerraform(options);
+  const state = useTerraformState();
 
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformApply();
-        await execTerraformOutput();
-      };
-      if (confirmed && state.status === Status.PLANNED) invoke();
-    }, [terraform, confirmed, state.status]);
+  useRunOnce(synth);
+  useRunIf(state.status === Status.SYNTHESIZED, async () => {
+    await init();
+    await diff();
+  });
+  // TODO: check: old effect had reference to [terraform] aswell
+  // React.useEffect(() => {
+  //   const invoke = async () => {
+  //     await execTerraformInit();
+  //     await execTerraformPlan();
+  //   };
+  //   if (state.status === Status.SYNTHESIZED) invoke();
+  // }, [state.status, terraform]);
 
-    return {
-      state,
-      confirmation: confirmationCallback,
-      isConfirmed: confirmed,
-    };
-  };
+  return state;
+};
 
-  const destroy = () => {
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformSynth();
-      };
-      invoke();
-    }, []);
+interface UseRunDeployOptions extends UseTerraformOptions {
+  autoApprove?: boolean;
+}
+export const useRunDeploy = ({
+  autoApprove,
+  ...options
+}: UseRunDeployOptions) => {
+  const state = useTerraformState();
+  const { synth, init, diff, deploy, output } = useTerraform(options);
+  const [confirmed, confirmationCallback] = useConfirmation({ autoApprove });
 
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformInit();
-        await execTerraformPlan(true);
-      };
-      if (state.status === Status.SYNTHESIZED) invoke();
-    }, [state.status, terraform]);
-
-    React.useEffect(() => {
-      const invoke = async () => {
-        await execTerraformDestroy();
-      };
-
-      if (confirmed && state.status === Status.PLANNED) invoke();
-    }, [terraform, confirmed, state.status]);
-
-    return {
-      state,
-      confirmation: confirmationCallback,
-      isConfirmed: confirmed,
-    };
-  };
+  useRunOnce(synth);
+  useRunIf(state.status === Status.SYNTHESIZED, async () => {
+    await init();
+    await diff();
+  });
+  useRunIf(confirmed && state.status === Status.PLANNED, async () => {
+    await deploy();
+    await output();
+  });
 
   return {
-    synth,
-    init,
-    plan,
-    deploy,
-    destroy,
+    state,
+    confirmation: confirmationCallback,
+    isConfirmed: confirmed,
+  };
+};
+
+interface UseRunDestroyOptions extends UseTerraformOptions {
+  autoApprove?: boolean;
+}
+export const useRunDestroy = ({
+  autoApprove,
+  ...options
+}: UseRunDestroyOptions) => {
+  const state = useTerraformState();
+  const { synth, init, diff, destroy } = useTerraform(options);
+  const [confirmed, confirmationCallback] = useConfirmation({ autoApprove });
+
+  useRunOnce(synth);
+  useRunIf(state.status === Status.SYNTHESIZED, async () => {
+    await init();
+    await diff(true); // true = plan a destroy
+  });
+  useRunIf(confirmed && state.status === Status.PLANNED, async () => {
+    await destroy();
+  });
+
+  return {
+    state,
+    confirmation: confirmationCallback,
+    isConfirmed: confirmed,
   };
 };

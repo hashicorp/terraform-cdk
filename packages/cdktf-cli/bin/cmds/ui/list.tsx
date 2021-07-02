@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import { useTerraform, Status } from "./terraform-context";
+import { useRunSynth, Status } from "./terraform-context";
 
 interface ListConfig {
   targetDir: string;
@@ -12,8 +12,7 @@ export const List = ({
   targetDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
-  const { synth } = useTerraform({ targetDir, synthCommand });
-  const { status, errors, stacks } = synth();
+  const { status, errors, stacks } = useRunSynth({ targetDir, synthCommand });
 
   const isSynthesizing: boolean = status != Status.SYNTHESIZED;
   const statusText = `${status}...`;

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import { useTerraform, Status, useTerraformState } from "./terraform-context";
+import { useRunSynth, Status, useTerraformState } from "./terraform-context";
 
 interface CommonSynthConfig {
   targetDir: string;
@@ -42,8 +42,11 @@ export const Synth = ({
   synthCommand,
   jsonOutput,
 }: SynthConfig): React.ReactElement => {
-  const { synth } = useTerraform({ targetDir, targetStack, synthCommand });
-  const { status, currentStack, errors } = synth();
+  const { status, currentStack, errors } = useRunSynth({
+    targetDir,
+    targetStack,
+    synthCommand,
+  });
 
   const isSynthesizing: boolean = status != Status.SYNTHESIZED;
   const statusText =

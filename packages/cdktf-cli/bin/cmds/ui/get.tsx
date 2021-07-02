@@ -59,7 +59,8 @@ export const Get = ({
       }
     };
     get();
-  }, []); // only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // only once, we don't expect props to change
 
   const isGenerating: boolean = currentStatus != Status.DONE;
   const statusText = `${currentStatus}...`;
