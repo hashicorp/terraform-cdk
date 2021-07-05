@@ -1,8 +1,23 @@
 import yargs from "yargs";
-import React from "react";
-import { Convert } from "./ui/convert";
-import { renderInk } from "./render-ink";
+import { convert } from "@cdktf/hcl2cdk";
+import * as fs from "fs";
 import { displayVersionMessage } from "./version-check";
+
+function readStreamAsString(stream: typeof process.stdin): Promise<string> {
+  return new Promise((ok, ko) => {
+    if (stream.isTTY) {
+      ko(
+        "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
+      );
+    } else {
+      let string = "";
+      stream.on("data", (data) => (string += data.toString()));
+
+      stream.on("close", () => ok(string));
+      stream.on("error", (err) => ko(err));
+    }
+  });
+}
 
 class Command implements yargs.CommandModule {
   public readonly command = "convert [OPTIONS]";
@@ -28,12 +43,19 @@ class Command implements yargs.CommandModule {
       })
       .showHelpOnFail(true);
 
-  public async handler(argv: any) {
+  public async handler({ language, file }: any) {
     await displayVersionMessage();
 
-    await renderInk(
-      React.createElement(Convert, { language: argv.language, file: argv.file })
-    );
+    const input = await readStreamAsString(process.stdin);
+    const { all: output } = await convert("stdin.hcl", input, {
+      language,
+    });
+
+    if (file) {
+      fs.writeFileSync(file, output, "utf-8");
+    } else {
+      console.log(output);
+    }
   }
 }
 
