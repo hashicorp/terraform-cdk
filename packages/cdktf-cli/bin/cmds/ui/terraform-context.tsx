@@ -544,23 +544,23 @@ export const useTerraform = ({
   };
 };
 
-const useRunOnce = <Fn extends (...args: any) => any>(
+const useRunOnce = <Fn extends (...args: any[]) => any>(
   fn: Fn,
   ...args: Parameters<Fn>
 ) => {
   React.useEffect(() => {
-    fn(args);
+    fn(...args);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // only run once on mount – ignore any changes to fn
 };
 
-const useRunIf = <Fn extends (...args: any) => any>(
+const useRunIf = <Fn extends (...args: any[]) => any>(
   condition: boolean,
   fn: Fn,
   ...args: Parameters<Fn>
 ) => {
   React.useEffect(() => {
-    if (condition) fn(args);
+    if (condition) fn(...args);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [condition]); // only run if condition changes
 };
