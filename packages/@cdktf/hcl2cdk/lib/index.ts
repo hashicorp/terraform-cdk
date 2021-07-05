@@ -151,7 +151,6 @@ export async function convert(
   }
 
   const json = await parse(filename, hcl);
-  console.log(JSON.stringify(json));
   const plan = schema.parse(json);
 
   function referenceableExpression(
@@ -399,8 +398,15 @@ export async function convert(
       )() as t.Statement
   );
 
-  const { code } = generate(
-    t.program([...providerImports, ...moduleImports, ...expressions]) as any
-  );
-  return prettier.format(code, { parser: "babel" });
+  function gen(statements: t.Statement[]) {
+    return prettier.format(generate(t.program(statements) as any).code, {
+      parser: "babel",
+    });
+  }
+
+  return {
+    all: gen([...providerImports, ...moduleImports, ...expressions]),
+    imports: gen([...providerImports, ...moduleImports]),
+    code: gen(expressions),
+  };
 }

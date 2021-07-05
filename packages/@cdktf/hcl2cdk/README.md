@@ -11,7 +11,7 @@ yarn install @cdktf/hcl2cdktf
 ### Parse HCL strings
 
 ```ts
-import { transform } from "@cdktf/hcl2cdktf";
+import { convert } from "@cdktf/hcl2cdktf";
 
 const hcl = `
   variable "name" {
@@ -21,8 +21,10 @@ const hcl = `
   }
 `(async () => {
   // my-filename.tf isn't relevant for the functionality, just metadata
-  const ts = await transform("my-filename.tf", hcl, { language: "typescript" });
-  console.log(ts);
+  const ts = await convert("my-filename.tf", hcl, { language: "typescript" });
+  console.log(ts.imports); // just the necessary imports
+  console.log(ts.code); // just the constructs
+  console.log(ts.all); // code with imports
 })();
 
 // =>

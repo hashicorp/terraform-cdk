@@ -339,10 +339,10 @@ describe("convert", () => {
         }`,
       ],
     ])("%s configuration", async (_name, hcl) => {
-      const code = await convert(`file.hcl`, hcl, {
+      const { all } = await convert(`file.hcl`, hcl, {
         language: "typescript",
       });
-      expect(code).toMatchSnapshot();
+      expect(all).toMatchSnapshot();
     });
 
     describe("errors on", () => {
