@@ -203,6 +203,24 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 "
 `;
 
+exports[`convert typescript modules configuration 1`] = `
+"import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
+new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
+  azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+  cidr: \\"10.0.0.0/16\\",
+  enableNatGateway: true,
+  enableVpnGateway: true,
+  name: \\"my-vpc\\",
+  privateSubnets: [\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+  publicSubnets: [\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+  tags: {
+    environment: \\"dev\\",
+    terraform: \\"true\\",
+  },
+});
+"
+`;
+
 exports[`convert typescript multiple locals blocks configuration 1`] = `
 "const owner = \\"Community Team\\";
 const serviceName = \\"forum\\";
@@ -251,6 +269,27 @@ new aws.AwsProvider(this, \\"aws\\", {
   skipCredentialsValidation: true,
   skipMetadataApiCheck: true,
   skipRequestingAccountId: true,
+});
+"
+`;
+
+exports[`convert typescript referenced modules configuration 1`] = `
+"import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
+const moduleVpc = new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
+  azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+  cidr: \\"10.0.0.0/16\\",
+  enableNatGateway: true,
+  enableVpnGateway: true,
+  name: \\"my-vpc\\",
+  privateSubnets: [\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+  publicSubnets: [\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+  tags: {
+    environment: \\"dev\\",
+    terraform: \\"true\\",
+  },
+});
+new TerraformOutput(this, \\"subnet_ids\\", {
+  value: moduleVpc.publicSubnetsOutput,
 });
 "
 `;

@@ -23,6 +23,9 @@ export type Variable = z.infer<typeof variableConfig>;
 const providerConfig = z.array(z.record(z.any()));
 export type Provider = z.infer<typeof providerConfig>;
 
+const moduleConfig = z.array(z.object({ source: z.string() }).nonstrict());
+export type Module = z.infer<typeof moduleConfig>;
+
 const resourceConfig = z.array(z.record(z.any()));
 export type Resource = z.infer<typeof resourceConfig>;
 export type Data = Resource;
@@ -33,6 +36,7 @@ export const schema = z
     variable: z.record(variableConfig),
     output: z.record(outputConfig),
     provider: z.record(providerConfig),
+    module: z.record(moduleConfig),
     resource: z.record(z.record(resourceConfig)),
     data: z.record(z.record(resourceConfig)),
   })

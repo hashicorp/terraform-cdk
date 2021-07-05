@@ -4,7 +4,7 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import { pascalCase, camelCase } from "change-case";
-import { schema, Output, Variable, Provider } from "./schema";
+import { schema, Output, Variable, Provider, Module } from "./schema";
 import { DirectedGraph } from "graphology";
 
 type ConvertOptions = {
@@ -62,7 +62,15 @@ const valueToTs = (item: any): t.Expression => {
         );
 
         return selector.reduce(
-          (carry, member) => t.memberExpression(carry, t.identifier(member)),
+          (carry, member, index) =>
+            t.memberExpression(
+              carry,
+              t.identifier(
+                index === 0 && resource === "module"
+                  ? camelCase(member + "Output")
+                  : camelCase(member)
+              )
+            ),
           variableReference as t.Expression
         );
       }
@@ -143,6 +151,7 @@ export async function convert(
   }
 
   const json = await parse(filename, hcl);
+  console.log(JSON.stringify(json));
   const plan = schema.parse(json);
 
   function referenceableExpression(
@@ -200,6 +209,21 @@ export async function convert(
     return t.variableDeclaration("const", [
       t.variableDeclarator(t.identifier(camelCase(key)), valueToTs(item)),
     ]);
+  }
+
+  function modules(
+    key: string,
+    id: string,
+    item: Module,
+    graph: DirectedGraph
+  ): t.Statement {
+    const [{ source, ...props }] = item;
+    return construct(
+      t.identifier(pascalCase(source)),
+      key,
+      props,
+      isReferenced(graph, id) ? camelCase(id) : undefined
+    );
   }
 
   // TODO: support alias
@@ -291,6 +315,7 @@ export async function convert(
       local
     ),
     ...forEachGlobal("out", plan.output, output),
+    ...forEachGlobal("module", plan.module, modules),
     ...forEachNamespaced(plan.resource, resource),
     ...forEachNamespaced(plan.data, resource, "data"),
   };
@@ -322,6 +347,7 @@ export async function convert(
       }
     });
   }
+
   Object.values({
     ...forEachGlobal("providers", plan.provider, addGlobalEdges),
     ...forEachGlobal("var", plan.variable, addGlobalEdges),
@@ -334,6 +360,7 @@ export async function convert(
       addGlobalEdges
     ),
     ...forEachGlobal("out", plan.output, addGlobalEdges),
+    ...forEachGlobal("module", plan.module, addGlobalEdges),
     ...forEachNamespaced(plan.resource, addNamespacedEdges),
     ...forEachNamespaced(plan.data, addNamespacedEdges, "data"),
   }).forEach((cb) => cb(graph));
@@ -358,13 +385,22 @@ export async function convert(
     });
   }
 
-  const imports = Object.keys(plan.provider || {}).map(
+  const providerImports = Object.keys(plan.provider || {}).map(
     (providerName) =>
       template(
         `import * as ${providerName} from "./.gen/${providerName}"`
       )() as t.Statement
   );
 
-  const { code } = generate(t.program([...imports, ...expressions]) as any);
+  const moduleImports = Object.values(plan.module || {}).map(
+    ([{ source }]) =>
+      template(
+        `import * as ${pascalCase(source)} from "./.gen/${source}"`
+      )() as t.Statement
+  );
+
+  const { code } = generate(
+    t.program([...providerImports, ...moduleImports, ...expressions]) as any
+  );
   return prettier.format(code, { parser: "babel" });
 }
