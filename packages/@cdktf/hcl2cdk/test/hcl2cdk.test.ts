@@ -513,6 +513,19 @@ describe("convert", () => {
             }
           }`,
         ],
+        [
+          "provider alias",
+          `
+          provider "aws" {
+            region = "us-east-1"
+          }
+
+          provider "aws2" {
+            alias  = "west"
+            region = "us-west-2"
+          }
+          `,
+        ],
       ])("%s", async (_name, hcl) => {
         expect(
           convert(`file.hcl`, hcl, {

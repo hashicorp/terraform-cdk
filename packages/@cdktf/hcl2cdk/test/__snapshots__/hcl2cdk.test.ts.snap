@@ -182,6 +182,8 @@ exports[`convert typescript errors on for expression 2 1`] = `
 
 exports[`convert typescript errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
+exports[`convert typescript errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
+
 exports[`convert typescript errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
 
 exports[`convert typescript errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;

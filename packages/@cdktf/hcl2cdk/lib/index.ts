@@ -214,12 +214,19 @@ function modules(
   return asExpression(source, key, props, isReferenced(graph, id));
 }
 
-// TODO: support alias
 function provider(key: string, _id: string, item: Provider): t.Statement {
+  const props = item[0];
+
+  if (props.alias) {
+    throw new Error(
+      `Unsupported Terraform feature found at "${key}": provider alias are not yet supported`
+    );
+  }
+
   return asExpression(
     `${key}.${pascalCase(key + "Provider")}`,
     key,
-    item[0],
+    props,
     false
   );
 }
