@@ -6,10 +6,7 @@ import prettier from "prettier";
 import { pascalCase, camelCase } from "change-case";
 import { schema, Output, Variable, Provider, Module } from "./schema";
 import { DirectedGraph } from "graphology";
-
-type ConvertOptions = {
-  language: "typescript";
-};
+import * as rosetta from "jsii-rosetta";
 
 const valueToTs = (item: any): t.Expression => {
   switch (typeof item) {
@@ -405,14 +402,35 @@ export async function convertToTypescript(filename: string, hcl: string) {
   };
 }
 
-export async function conver(
-  filename: string,
-  hcl: string,
-  options: ConvertOptions
-) {
-  if (options.language !== "typescript") {
-    throw new Error("Unsupported language used: " + options.language);
-  }
+type File = { contents: string; fileName: string };
+const translations = {
+  typescript: (file: File) => file.contents,
+  python: (file: File) =>
+    rosetta.translateTypeScript(file, new rosetta.PythonVisitor()).translation,
+  java: (file: File) =>
+    rosetta.translateTypeScript(file, new rosetta.JavaVisitor()).translation,
+  csharp: (file: File) =>
+    rosetta.translateTypeScript(file, new rosetta.CSharpVisitor()).translation,
+};
 
-  return await convertToTypescript(filename, hcl);
+type ConvertOptions = {
+  language: keyof typeof translations;
+};
+
+export async function convert(
+  fileName: string,
+  hcl: string,
+  { language }: ConvertOptions
+) {
+  const translater = translations[language];
+
+  if (!translater) {
+    throw new Error("Unsupported language used: " + language);
+  }
+  const tsCode = await convertToTypescript(fileName, hcl);
+  return {
+    all: translater({ fileName, contents: tsCode.all }),
+    imports: translater({ fileName, contents: tsCode.imports }),
+    code: translater({ fileName, contents: tsCode.code }),
+  };
 }

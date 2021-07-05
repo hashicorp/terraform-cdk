@@ -1,5 +1,895 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`convert csharp complex resource configuration 1`] = `
+"new aws.CloudfrontDistribution(this, \\"s3_distribution\\", new Struct {
+    Aliases = new [] { \\"mysite.example.com\\", \\"yoursite.example.com\\" },
+    Comment = \\"Some comment\\",
+    DefaultCacheBehavior = new [] { new Struct {
+        AllowedMethods = new [] { \\"DELETE\\", \\"GET\\", \\"HEAD\\", \\"OPTIONS\\", \\"PATCH\\", \\"POST\\", \\"PUT\\" },
+        CachedMethods = new [] { \\"GET\\", \\"HEAD\\" },
+        DefaultTtl = 3600,
+        ForwardedValues = new [] { new Struct {
+            Cookies = new [] { new Struct {
+                Forward = \\"none\\"
+            } },
+            QueryString = false
+        } },
+        MaxTtl = 86400,
+        MinTtl = 0,
+        TargetOriginId = \\"local_s3_origin_id\\",
+        ViewerProtocolPolicy = \\"allow-all\\"
+    } },
+    DefaultRootObject = \\"index.html\\",
+    Enabled = true,
+    IsIpv6Enabled = true,
+    LoggingConfig = new [] { new Struct {
+        Bucket = \\"mylogs.s3.amazonaws.com\\",
+        IncludeCookies = false,
+        Prefix = \\"myprefix\\"
+    } },
+    OrderedCacheBehavior = new [] { new Struct {
+        AllowedMethods = new [] { \\"GET\\", \\"HEAD\\", \\"OPTIONS\\" },
+        CachedMethods = new [] { \\"GET\\", \\"HEAD\\", \\"OPTIONS\\" },
+        Compress = true,
+        DefaultTtl = 86400,
+        ForwardedValues = new [] { new Struct {
+            Cookies = new [] { new Struct {
+                Forward = \\"none\\"
+            } },
+            Headers = new [] { \\"Origin\\" },
+            QueryString = false
+        } },
+        MaxTtl = 31536000,
+        MinTtl = 0,
+        PathPattern = \\"/content/immutable/*\\",
+        TargetOriginId = \\"local_s3_origin_id\\",
+        ViewerProtocolPolicy = \\"redirect-to-https\\"
+    }, new Struct {
+        AllowedMethods = new [] { \\"GET\\", \\"HEAD\\", \\"OPTIONS\\" },
+        CachedMethods = new [] { \\"GET\\", \\"HEAD\\" },
+        Compress = true,
+        DefaultTtl = 3600,
+        ForwardedValues = new [] { new Struct {
+            Cookies = new [] { new Struct {
+                Forward = \\"none\\"
+            } },
+            QueryString = false
+        } },
+        MaxTtl = 86400,
+        MinTtl = 0,
+        PathPattern = \\"/content/*\\",
+        TargetOriginId = \\"local_s3_origin_id\\",
+        ViewerProtocolPolicy = \\"redirect-to-https\\"
+    } },
+    Origin = new [] { new Struct {
+        DomainName = \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
+        OriginId = \\"local_s3_origin_id\\",
+        S3OriginConfig = new [] { new Struct {
+            OriginAccessIdentity = \\"origin-access-identity/cloudfront/ABCDEFG1234567\\"
+        } }
+    } },
+    PriceClass = \\"PriceClass_200\\",
+    Restrictions = new [] { new Struct {
+        GeoRestriction = new [] { new Struct {
+            Locations = new [] { \\"US\\", \\"CA\\", \\"GB\\", \\"DE\\" },
+            RestrictionType = \\"whitelist\\"
+        } }
+    } },
+    Tags = new Struct {
+        Environment = \\"production\\"
+    },
+    ViewerCertificate = new [] { new Struct {
+        CloudfrontDefaultCertificate = true
+    } }
+});"
+`;
+
+exports[`convert csharp data references configuration 1`] = `
+"var bucketName = new TerraformVariable(this, \\"bucket_name\\", new Struct {
+    Default = \\"demo\\"
+});
+var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+    Acl = \\"private\\",
+    Bucket = bucketName
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", new Struct {
+    Bucket = dataAwsS3Bucket.Examplebucket.Arn,
+    Key = \\"someobject\\",
+    Source = \\"index.html\\"
+});"
+`;
+
+exports[`convert csharp double references configuration 1`] = `
+"var bucketName = new TerraformVariable(this, \\"bucket_name\\", new Struct {
+    Default = \\"demo\\"
+});
+new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+    Acl = \\"private\\",
+    Bucket = bucketName,
+    Tags = new Struct {
+        TagKey = bucketName
+    }
+});"
+`;
+
+exports[`convert csharp empty provider configuration 1`] = `
+"using Gen.Docker;
+new DockerProvider(this, \\"docker\\", new Struct { });"
+`;
+
+exports[`convert csharp errors on arithmetics 1`] = `"Unsupported Terraform feature found: Arithmetics are not yet supported: \${var.members + var.admins}"`;
+
+exports[`convert csharp errors on conditionals 1`] = `"Unsupported Terraform feature found: Conditionals are not yet supported: \${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"`;
+
+exports[`convert csharp errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert csharp errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"content\\":[{\\"name\\":\\"\${setting.value[\\\\\\"name\\\\\\"]}\\",\\"namespace\\":\\"\${setting.value[\\\\\\"namespace\\\\\\"]}\\",\\"value\\":\\"\${setting.value[\\\\\\"value\\\\\\"]}\\"}],\\"for_each\\":\\"\${var.settings}\\"}"`;
+
+exports[`convert csharp errors on for expression 1 1`] = `
+"Unsupported Terraform feature found: For expressions are not yet supported: \${{
+              for name, user in var.users : name => user
+              if user.is_admin
+            }}"
+`;
+
+exports[`convert csharp errors on for expression 2 1`] = `
+"Unsupported Terraform feature found: For expressions are not yet supported: \${{
+              for name, user in var.users : user.role => name...
+            }}"
+`;
+
+exports[`convert csharp errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert csharp errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
+
+exports[`convert csharp errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
+
+exports[`convert csharp errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;
+
+exports[`convert csharp locals configuration 1`] = `
+"int howMany = 42;
+boolean isItGreat = true;
+string owner = \\"Community Team\\";
+string serviceName = \\"forum\\";"
+`;
+
+exports[`convert csharp locals references configuration 1`] = `
+"string bucketName = \\"foo\\";
+new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+    Acl = \\"private\\",
+    Bucket = bucketName
+});"
+`;
+
+exports[`convert csharp modules configuration 1`] = `
+"using Gen.Terraform.Aws.Modules.Vpc.Aws;
+new TerraformAwsModulesVpcAws(this, \\"vpc\\", new Struct {
+    Azs = new [] { \\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\" },
+    Cidr = \\"10.0.0.0/16\\",
+    EnableNatGateway = true,
+    EnableVpnGateway = true,
+    Name = \\"my-vpc\\",
+    PrivateSubnets = new [] { \\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\" },
+    PublicSubnets = new [] { \\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\" },
+    Tags = new Struct {
+        Environment = \\"dev\\",
+        Terraform = \\"true\\"
+    }
+});"
+`;
+
+exports[`convert csharp multiple locals blocks configuration 1`] = `
+"string owner = \\"Community Team\\";
+string serviceName = \\"forum\\";
+int howMany = 42;
+boolean isItGreat = true;"
+`;
+
+exports[`convert csharp multiple outputs configuration 1`] = `
+"new TerraformOutput(this, \\"first_cidr_out\\", new Struct {
+    Value = \\"first\\"
+});
+new TerraformOutput(this, \\"second_cidr_out\\", new Struct {
+    Value = \\"second\\"
+});"
+`;
+
+exports[`convert csharp output configuration 1`] = `
+"new TerraformOutput(this, \\"cidr_out\\", new Struct {
+    Value = \\"test\\"
+});"
+`;
+
+exports[`convert csharp output withdescription configuration 1`] = `
+"new TerraformOutput(this, \\"cidr_out\\", new Struct {
+    Value = \\"test\\",
+    Description = \\"Best output\\",
+    Sensitive = true
+});"
+`;
+
+exports[`convert csharp provider with complex config configuration 1`] = `
+"using Gen.Aws;
+new AwsProvider(this, \\"aws\\", new Struct {
+    AccessKey = \\"mock_access_key\\",
+    Endpoints = new [] { new Struct {
+        Dynamodb = \\"http://localhost:8000\\"
+    } },
+    Region = \\"us-east-1\\",
+    SecretKey = \\"mock_secret_key\\",
+    SkipCredentialsValidation = true,
+    SkipMetadataApiCheck = true,
+    SkipRequestingAccountId = true
+});"
+`;
+
+exports[`convert csharp referenced modules configuration 1`] = `
+"using Gen.Terraform.Aws.Modules.Vpc.Aws;
+var vpc = new TerraformAwsModulesVpcAws(this, \\"vpc\\", new Struct {
+    Azs = new [] { \\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\" },
+    Cidr = \\"10.0.0.0/16\\",
+    EnableNatGateway = true,
+    EnableVpnGateway = true,
+    Name = \\"my-vpc\\",
+    PrivateSubnets = new [] { \\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\" },
+    PublicSubnets = new [] { \\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\" },
+    Tags = new Struct {
+        Environment = \\"dev\\",
+        Terraform = \\"true\\"
+    }
+});
+new TerraformOutput(this, \\"subnet_ids\\", new Struct {
+    Value = vpc.PublicSubnetsOutput
+});"
+`;
+
+exports[`convert csharp resource references configuration 1`] = `
+"var examplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
+    DeletionWindowInDays = 7,
+    Description = \\"KMS key 1\\"
+});
+var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+    Acl = \\"private\\",
+    Bucket = \\"examplebuckettftest\\"
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", new Struct {
+    Bucket = awsS3BucketExamplebucket.Id,
+    Key = \\"someobject\\",
+    KmsKeyId = awsKmsKeyExamplekms.Arn,
+    Source = \\"index.html\\"
+});"
+`;
+
+exports[`convert csharp sensitive output configuration 1`] = `
+"new TerraformOutput(this, \\"cidr_out\\", new Struct {
+    Value = \\"test\\",
+    Sensitive = true
+});"
+`;
+
+exports[`convert csharp simple data source configuration 1`] = `
+"new aws.Subnet(this, \\"selected\\", new Struct {
+    Id = \\"subnet_id\\"
+});"
+`;
+
+exports[`convert csharp simple resource configuration 1`] = `
+"new aws.Vpc(this, \\"example\\", new Struct {
+    CidrBlock = \\"10.0.0.0/16\\"
+});"
+`;
+
+exports[`convert csharp variable configuration 1`] = `"new TerraformVariable(this, \\"weekday\\", new Struct { });"`;
+
+exports[`convert csharp variable references configuration 1`] = `
+"var bucketName = new TerraformVariable(this, \\"bucket_name\\", new Struct {
+    Default = \\"demo\\"
+});
+new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+    Acl = \\"private\\",
+    Bucket = bucketName
+});"
+`;
+
+exports[`convert csharp variable with default configuration 1`] = `
+"new TerraformVariable(this, \\"availability_zone_names\\", new Struct {
+    Default = new [] { \\"us-west-1a\\" },
+    Description = \\"What AMI to use to create an instance\\"
+});"
+`;
+
+exports[`convert java complex resource configuration 1`] = `
+"CloudfrontDistribution.Builder.create(this, \\"s3_distribution\\")
+        .aliases(asList(\\"mysite.example.com\\", \\"yoursite.example.com\\"))
+        .comment(\\"Some comment\\")
+        .defaultCacheBehavior(asList(Map.of(
+                \\"allowedMethods\\", asList(\\"DELETE\\", \\"GET\\", \\"HEAD\\", \\"OPTIONS\\", \\"PATCH\\", \\"POST\\", \\"PUT\\"),
+                \\"cachedMethods\\", asList(\\"GET\\", \\"HEAD\\"),
+                \\"defaultTtl\\", 3600,
+                \\"forwardedValues\\", asList(Map.of(
+                        \\"cookies\\", asList(Map.of(
+                                \\"forward\\", \\"none\\")),
+                        \\"queryString\\", false)),
+                \\"maxTtl\\", 86400,
+                \\"minTtl\\", 0,
+                \\"targetOriginId\\", \\"local_s3_origin_id\\",
+                \\"viewerProtocolPolicy\\", \\"allow-all\\")))
+        .defaultRootObject(\\"index.html\\")
+        .enabled(true)
+        .isIpv6Enabled(true)
+        .loggingConfig(asList(Map.of(
+                \\"bucket\\", \\"mylogs.s3.amazonaws.com\\",
+                \\"includeCookies\\", false,
+                \\"prefix\\", \\"myprefix\\")))
+        .orderedCacheBehavior(asList(Map.of(
+                \\"allowedMethods\\", asList(\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"),
+                \\"cachedMethods\\", asList(\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"),
+                \\"compress\\", true,
+                \\"defaultTtl\\", 86400,
+                \\"forwardedValues\\", asList(Map.of(
+                        \\"cookies\\", asList(Map.of(
+                                \\"forward\\", \\"none\\")),
+                        \\"headers\\", asList(\\"Origin\\"),
+                        \\"queryString\\", false)),
+                \\"maxTtl\\", 31536000,
+                \\"minTtl\\", 0,
+                \\"pathPattern\\", \\"/content/immutable/*\\",
+                \\"targetOriginId\\", \\"local_s3_origin_id\\",
+                \\"viewerProtocolPolicy\\", \\"redirect-to-https\\"), Map.of(
+                \\"allowedMethods\\", asList(\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"),
+                \\"cachedMethods\\", asList(\\"GET\\", \\"HEAD\\"),
+                \\"compress\\", true,
+                \\"defaultTtl\\", 3600,
+                \\"forwardedValues\\", asList(Map.of(
+                        \\"cookies\\", asList(Map.of(
+                                \\"forward\\", \\"none\\")),
+                        \\"queryString\\", false)),
+                \\"maxTtl\\", 86400,
+                \\"minTtl\\", 0,
+                \\"pathPattern\\", \\"/content/*\\",
+                \\"targetOriginId\\", \\"local_s3_origin_id\\",
+                \\"viewerProtocolPolicy\\", \\"redirect-to-https\\")))
+        .origin(asList(Map.of(
+                \\"domainName\\", \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
+                \\"originId\\", \\"local_s3_origin_id\\",
+                \\"s3OriginConfig\\", asList(Map.of(
+                        \\"originAccessIdentity\\", \\"origin-access-identity/cloudfront/ABCDEFG1234567\\")))))
+        .priceClass(\\"PriceClass_200\\")
+        .restrictions(asList(Map.of(
+                \\"geoRestriction\\", asList(Map.of(
+                        \\"locations\\", asList(\\"US\\", \\"CA\\", \\"GB\\", \\"DE\\"),
+                        \\"restrictionType\\", \\"whitelist\\")))))
+        .tags(Map.of(
+                \\"environment\\", \\"production\\"))
+        .viewerCertificate(asList(Map.of(
+                \\"cloudfrontDefaultCertificate\\", true)))
+        .build();"
+`;
+
+exports[`convert java data references configuration 1`] = `
+"Object bucketName = TerraformVariable.Builder.create(this, \\"bucket_name\\")
+        .default(\\"demo\\")
+        .build();
+Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+        .acl(\\"private\\")
+        .bucket(bucketName)
+        .build();
+S3BucketObject.Builder.create(this, \\"examplebucket_object\\")
+        .bucket(dataAwsS3Bucket.examplebucket.getArn())
+        .key(\\"someobject\\")
+        .source(\\"index.html\\")
+        .build();"
+`;
+
+exports[`convert java double references configuration 1`] = `
+"Object bucketName = TerraformVariable.Builder.create(this, \\"bucket_name\\")
+        .default(\\"demo\\")
+        .build();
+S3Bucket.Builder.create(this, \\"examplebucket\\")
+        .acl(\\"private\\")
+        .bucket(bucketName)
+        .tags(Map.of(
+                \\"tagKey\\", bucketName))
+        .build();"
+`;
+
+exports[`convert java empty provider configuration 1`] = `
+"import gen.docker.*;
+DockerProvider.Builder.create(this, \\"docker\\").build();"
+`;
+
+exports[`convert java errors on arithmetics 1`] = `"Unsupported Terraform feature found: Arithmetics are not yet supported: \${var.members + var.admins}"`;
+
+exports[`convert java errors on conditionals 1`] = `"Unsupported Terraform feature found: Conditionals are not yet supported: \${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"`;
+
+exports[`convert java errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert java errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"content\\":[{\\"name\\":\\"\${setting.value[\\\\\\"name\\\\\\"]}\\",\\"namespace\\":\\"\${setting.value[\\\\\\"namespace\\\\\\"]}\\",\\"value\\":\\"\${setting.value[\\\\\\"value\\\\\\"]}\\"}],\\"for_each\\":\\"\${var.settings}\\"}"`;
+
+exports[`convert java errors on for expression 1 1`] = `
+"Unsupported Terraform feature found: For expressions are not yet supported: \${{
+              for name, user in var.users : name => user
+              if user.is_admin
+            }}"
+`;
+
+exports[`convert java errors on for expression 2 1`] = `
+"Unsupported Terraform feature found: For expressions are not yet supported: \${{
+              for name, user in var.users : user.role => name...
+            }}"
+`;
+
+exports[`convert java errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert java errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
+
+exports[`convert java errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
+
+exports[`convert java errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;
+
+exports[`convert java locals configuration 1`] = `
+"Number howMany = 42;
+boolean isItGreat = true;
+String owner = \\"Community Team\\";
+String serviceName = \\"forum\\";"
+`;
+
+exports[`convert java locals references configuration 1`] = `
+"String bucketName = \\"foo\\";
+S3Bucket.Builder.create(this, \\"examplebucket\\")
+        .acl(\\"private\\")
+        .bucket(bucketName)
+        .build();"
+`;
+
+exports[`convert java modules configuration 1`] = `
+"import gen.terraform.aws.modules.vpc.aws.*;
+TerraformAwsModulesVpcAws.Builder.create(this, \\"vpc\\")
+        .azs(asList(\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"))
+        .cidr(\\"10.0.0.0/16\\")
+        .enableNatGateway(true)
+        .enableVpnGateway(true)
+        .name(\\"my-vpc\\")
+        .privateSubnets(asList(\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"))
+        .publicSubnets(asList(\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"))
+        .tags(Map.of(
+                \\"environment\\", \\"dev\\",
+                \\"terraform\\", \\"true\\"))
+        .build();"
+`;
+
+exports[`convert java multiple locals blocks configuration 1`] = `
+"String owner = \\"Community Team\\";
+String serviceName = \\"forum\\";
+Number howMany = 42;
+boolean isItGreat = true;"
+`;
+
+exports[`convert java multiple outputs configuration 1`] = `
+"TerraformOutput.Builder.create(this, \\"first_cidr_out\\")
+        .value(\\"first\\")
+        .build();
+TerraformOutput.Builder.create(this, \\"second_cidr_out\\")
+        .value(\\"second\\")
+        .build();"
+`;
+
+exports[`convert java output configuration 1`] = `
+"TerraformOutput.Builder.create(this, \\"cidr_out\\")
+        .value(\\"test\\")
+        .build();"
+`;
+
+exports[`convert java output withdescription configuration 1`] = `
+"TerraformOutput.Builder.create(this, \\"cidr_out\\")
+        .value(\\"test\\")
+        .description(\\"Best output\\")
+        .sensitive(true)
+        .build();"
+`;
+
+exports[`convert java provider with complex config configuration 1`] = `
+"import gen.aws.*;
+AwsProvider.Builder.create(this, \\"aws\\")
+        .accessKey(\\"mock_access_key\\")
+        .endpoints(asList(Map.of(
+                \\"dynamodb\\", \\"http://localhost:8000\\")))
+        .region(\\"us-east-1\\")
+        .secretKey(\\"mock_secret_key\\")
+        .skipCredentialsValidation(true)
+        .skipMetadataApiCheck(true)
+        .skipRequestingAccountId(true)
+        .build();"
+`;
+
+exports[`convert java referenced modules configuration 1`] = `
+"import gen.terraform.aws.modules.vpc.aws.*;
+Object vpc = TerraformAwsModulesVpcAws.Builder.create(this, \\"vpc\\")
+        .azs(asList(\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"))
+        .cidr(\\"10.0.0.0/16\\")
+        .enableNatGateway(true)
+        .enableVpnGateway(true)
+        .name(\\"my-vpc\\")
+        .privateSubnets(asList(\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"))
+        .publicSubnets(asList(\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"))
+        .tags(Map.of(
+                \\"environment\\", \\"dev\\",
+                \\"terraform\\", \\"true\\"))
+        .build();
+TerraformOutput.Builder.create(this, \\"subnet_ids\\")
+        .value(vpc.getPublicSubnetsOutput())
+        .build();"
+`;
+
+exports[`convert java resource references configuration 1`] = `
+"Object examplekms = KmsKey.Builder.create(this, \\"examplekms\\")
+        .deletionWindowInDays(7)
+        .description(\\"KMS key 1\\")
+        .build();
+Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+        .acl(\\"private\\")
+        .bucket(\\"examplebuckettftest\\")
+        .build();
+S3BucketObject.Builder.create(this, \\"examplebucket_object\\")
+        .bucket(awsS3BucketExamplebucket.getId())
+        .key(\\"someobject\\")
+        .kmsKeyId(awsKmsKeyExamplekms.getArn())
+        .source(\\"index.html\\")
+        .build();"
+`;
+
+exports[`convert java sensitive output configuration 1`] = `
+"TerraformOutput.Builder.create(this, \\"cidr_out\\")
+        .value(\\"test\\")
+        .sensitive(true)
+        .build();"
+`;
+
+exports[`convert java simple data source configuration 1`] = `
+"Subnet.Builder.create(this, \\"selected\\")
+        .id(\\"subnet_id\\")
+        .build();"
+`;
+
+exports[`convert java simple resource configuration 1`] = `
+"Vpc.Builder.create(this, \\"example\\")
+        .cidrBlock(\\"10.0.0.0/16\\")
+        .build();"
+`;
+
+exports[`convert java variable configuration 1`] = `"TerraformVariable.Builder.create(this, \\"weekday\\").build();"`;
+
+exports[`convert java variable references configuration 1`] = `
+"Object bucketName = TerraformVariable.Builder.create(this, \\"bucket_name\\")
+        .default(\\"demo\\")
+        .build();
+S3Bucket.Builder.create(this, \\"examplebucket\\")
+        .acl(\\"private\\")
+        .bucket(bucketName)
+        .build();"
+`;
+
+exports[`convert java variable with default configuration 1`] = `
+"TerraformVariable.Builder.create(this, \\"availability_zone_names\\")
+        .default(asList(\\"us-west-1a\\"))
+        .description(\\"What AMI to use to create an instance\\")
+        .build();"
+`;
+
+exports[`convert python complex resource configuration 1`] = `
+"aws.CloudfrontDistribution(self, \\"s3_distribution\\",
+    aliases=[\\"mysite.example.com\\", \\"yoursite.example.com\\"],
+    comment=\\"Some comment\\",
+    default_cache_behavior=[{
+        \\"allowed_methods\\": [\\"DELETE\\", \\"GET\\", \\"HEAD\\", \\"OPTIONS\\", \\"PATCH\\", \\"POST\\", \\"PUT\\"
+        ],
+        \\"cached_methods\\": [\\"GET\\", \\"HEAD\\"],
+        \\"default_ttl\\": 3600,
+        \\"forwarded_values\\": [{
+            \\"cookies\\": [{
+                \\"forward\\": \\"none\\"
+            }
+            ],
+            \\"query_string\\": False
+        }
+        ],
+        \\"max_ttl\\": 86400,
+        \\"min_ttl\\": 0,
+        \\"target_origin_id\\": \\"local_s3_origin_id\\",
+        \\"viewer_protocol_policy\\": \\"allow-all\\"
+    }
+    ],
+    default_root_object=\\"index.html\\",
+    enabled=True,
+    is_ipv6_enabled=True,
+    logging_config=[{
+        \\"bucket\\": \\"mylogs.s3.amazonaws.com\\",
+        \\"include_cookies\\": False,
+        \\"prefix\\": \\"myprefix\\"
+    }
+    ],
+    ordered_cache_behavior=[{
+        \\"allowed_methods\\": [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+        \\"cached_methods\\": [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+        \\"compress\\": True,
+        \\"default_ttl\\": 86400,
+        \\"forwarded_values\\": [{
+            \\"cookies\\": [{
+                \\"forward\\": \\"none\\"
+            }
+            ],
+            \\"headers\\": [\\"Origin\\"],
+            \\"query_string\\": False
+        }
+        ],
+        \\"max_ttl\\": 31536000,
+        \\"min_ttl\\": 0,
+        \\"path_pattern\\": \\"/content/immutable/*\\",
+        \\"target_origin_id\\": \\"local_s3_origin_id\\",
+        \\"viewer_protocol_policy\\": \\"redirect-to-https\\"
+    }, {
+        \\"allowed_methods\\": [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+        \\"cached_methods\\": [\\"GET\\", \\"HEAD\\"],
+        \\"compress\\": True,
+        \\"default_ttl\\": 3600,
+        \\"forwarded_values\\": [{
+            \\"cookies\\": [{
+                \\"forward\\": \\"none\\"
+            }
+            ],
+            \\"query_string\\": False
+        }
+        ],
+        \\"max_ttl\\": 86400,
+        \\"min_ttl\\": 0,
+        \\"path_pattern\\": \\"/content/*\\",
+        \\"target_origin_id\\": \\"local_s3_origin_id\\",
+        \\"viewer_protocol_policy\\": \\"redirect-to-https\\"
+    }
+    ],
+    origin=[{
+        \\"domain_name\\": \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
+        \\"origin_id\\": \\"local_s3_origin_id\\",
+        \\"s3_origin_config\\": [{
+            \\"origin_access_identity\\": \\"origin-access-identity/cloudfront/ABCDEFG1234567\\"
+        }
+        ]
+    }
+    ],
+    price_class=\\"PriceClass_200\\",
+    restrictions=[{
+        \\"geo_restriction\\": [{
+            \\"locations\\": [\\"US\\", \\"CA\\", \\"GB\\", \\"DE\\"],
+            \\"restriction_type\\": \\"whitelist\\"
+        }
+        ]
+    }
+    ],
+    tags={
+        \\"environment\\": \\"production\\"
+    },
+    viewer_certificate=[{
+        \\"cloudfront_default_certificate\\": True
+    }
+    ]
+)"
+`;
+
+exports[`convert python data references configuration 1`] = `
+"bucket_name = TerraformVariable(self, \\"bucket_name\\",
+    default=\\"demo\\"
+)
+examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+    acl=\\"private\\",
+    bucket=bucket_name
+)
+aws.S3BucketObject(self, \\"examplebucket_object\\",
+    bucket=data_aws_s3_bucket.examplebucket.arn,
+    key=\\"someobject\\",
+    source=\\"index.html\\"
+)"
+`;
+
+exports[`convert python double references configuration 1`] = `
+"bucket_name = TerraformVariable(self, \\"bucket_name\\",
+    default=\\"demo\\"
+)
+aws.S3Bucket(self, \\"examplebucket\\",
+    acl=\\"private\\",
+    bucket=bucket_name,
+    tags={
+        \\"tag_key\\": bucket_name
+    }
+)"
+`;
+
+exports[`convert python empty provider configuration 1`] = `
+"import ...gen.docker as docker
+docker.DockerProvider(self, \\"docker\\")"
+`;
+
+exports[`convert python errors on arithmetics 1`] = `"Unsupported Terraform feature found: Arithmetics are not yet supported: \${var.members + var.admins}"`;
+
+exports[`convert python errors on conditionals 1`] = `"Unsupported Terraform feature found: Conditionals are not yet supported: \${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"`;
+
+exports[`convert python errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert python errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"content\\":[{\\"name\\":\\"\${setting.value[\\\\\\"name\\\\\\"]}\\",\\"namespace\\":\\"\${setting.value[\\\\\\"namespace\\\\\\"]}\\",\\"value\\":\\"\${setting.value[\\\\\\"value\\\\\\"]}\\"}],\\"for_each\\":\\"\${var.settings}\\"}"`;
+
+exports[`convert python errors on for expression 1 1`] = `
+"Unsupported Terraform feature found: For expressions are not yet supported: \${{
+              for name, user in var.users : name => user
+              if user.is_admin
+            }}"
+`;
+
+exports[`convert python errors on for expression 2 1`] = `
+"Unsupported Terraform feature found: For expressions are not yet supported: \${{
+              for name, user in var.users : user.role => name...
+            }}"
+`;
+
+exports[`convert python errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert python errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
+
+exports[`convert python errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
+
+exports[`convert python errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;
+
+exports[`convert python locals configuration 1`] = `
+"how_many = 42
+is_it_great = True
+owner = \\"Community Team\\"
+service_name = \\"forum\\""
+`;
+
+exports[`convert python locals references configuration 1`] = `
+"bucket_name = \\"foo\\"
+aws.S3Bucket(self, \\"examplebucket\\",
+    acl=\\"private\\",
+    bucket=bucket_name
+)"
+`;
+
+exports[`convert python modules configuration 1`] = `
+"import ...gen.terraform_aws_modules.vpc.aws as TerraformAwsModulesVpcAws
+TerraformAwsModulesVpcAws(self, \\"vpc\\",
+    azs=[\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+    cidr=\\"10.0.0.0/16\\",
+    enable_nat_gateway=True,
+    enable_vpn_gateway=True,
+    name=\\"my-vpc\\",
+    private_subnets=[\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+    public_subnets=[\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+    tags={
+        \\"environment\\": \\"dev\\",
+        \\"terraform\\": \\"true\\"
+    }
+)"
+`;
+
+exports[`convert python multiple locals blocks configuration 1`] = `
+"owner = \\"Community Team\\"
+service_name = \\"forum\\"
+how_many = 42
+is_it_great = True"
+`;
+
+exports[`convert python multiple outputs configuration 1`] = `
+"TerraformOutput(self, \\"first_cidr_out\\",
+    value=\\"first\\"
+)
+TerraformOutput(self, \\"second_cidr_out\\",
+    value=\\"second\\"
+)"
+`;
+
+exports[`convert python output configuration 1`] = `
+"TerraformOutput(self, \\"cidr_out\\",
+    value=\\"test\\"
+)"
+`;
+
+exports[`convert python output withdescription configuration 1`] = `
+"TerraformOutput(self, \\"cidr_out\\",
+    value=\\"test\\",
+    description=\\"Best output\\",
+    sensitive=True
+)"
+`;
+
+exports[`convert python provider with complex config configuration 1`] = `
+"import ...gen.aws as aws
+aws.AwsProvider(self, \\"aws\\",
+    access_key=\\"mock_access_key\\",
+    endpoints=[{
+        \\"dynamodb\\": \\"http://localhost:8000\\"
+    }
+    ],
+    region=\\"us-east-1\\",
+    secret_key=\\"mock_secret_key\\",
+    skip_credentials_validation=True,
+    skip_metadata_api_check=True,
+    skip_requesting_account_id=True
+)"
+`;
+
+exports[`convert python referenced modules configuration 1`] = `
+"import ...gen.terraform_aws_modules.vpc.aws as TerraformAwsModulesVpcAws
+vpc = TerraformAwsModulesVpcAws(self, \\"vpc\\",
+    azs=[\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+    cidr=\\"10.0.0.0/16\\",
+    enable_nat_gateway=True,
+    enable_vpn_gateway=True,
+    name=\\"my-vpc\\",
+    private_subnets=[\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+    public_subnets=[\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+    tags={
+        \\"environment\\": \\"dev\\",
+        \\"terraform\\": \\"true\\"
+    }
+)
+TerraformOutput(self, \\"subnet_ids\\",
+    value=vpc.public_subnets_output
+)"
+`;
+
+exports[`convert python resource references configuration 1`] = `
+"examplekms = aws.KmsKey(self, \\"examplekms\\",
+    deletion_window_in_days=7,
+    description=\\"KMS key 1\\"
+)
+examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+    acl=\\"private\\",
+    bucket=\\"examplebuckettftest\\"
+)
+aws.S3BucketObject(self, \\"examplebucket_object\\",
+    bucket=aws_s3_bucket_examplebucket.id,
+    key=\\"someobject\\",
+    kms_key_id=aws_kms_key_examplekms.arn,
+    source=\\"index.html\\"
+)"
+`;
+
+exports[`convert python sensitive output configuration 1`] = `
+"TerraformOutput(self, \\"cidr_out\\",
+    value=\\"test\\",
+    sensitive=True
+)"
+`;
+
+exports[`convert python simple data source configuration 1`] = `
+"aws.Subnet(self, \\"selected\\",
+    id=\\"subnet_id\\"
+)"
+`;
+
+exports[`convert python simple resource configuration 1`] = `
+"aws.Vpc(self, \\"example\\",
+    cidr_block=\\"10.0.0.0/16\\"
+)"
+`;
+
+exports[`convert python variable configuration 1`] = `"TerraformVariable(self, \\"weekday\\")"`;
+
+exports[`convert python variable references configuration 1`] = `
+"bucket_name = TerraformVariable(self, \\"bucket_name\\",
+    default=\\"demo\\"
+)
+aws.S3Bucket(self, \\"examplebucket\\",
+    acl=\\"private\\",
+    bucket=bucket_name
+)"
+`;
+
+exports[`convert python variable with default configuration 1`] = `
+"TerraformVariable(self, \\"availability_zone_names\\",
+    default=[\\"us-west-1a\\"],
+    description=\\"What AMI to use to create an instance\\"
+)"
+`;
+
 exports[`convert typescript complex resource configuration 1`] = `
 "new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
   aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
