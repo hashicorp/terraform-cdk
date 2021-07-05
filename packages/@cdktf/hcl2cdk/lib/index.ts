@@ -141,6 +141,31 @@ function findUsedReferences(
   return references;
 }
 
+const referenceableExpression = (
+  expression: t.Expression,
+  variableName?: string
+) =>
+  variableName
+    ? t.variableDeclaration("const", [
+        t.variableDeclarator(t.identifier(variableName), expression),
+      ])
+    : t.expressionStatement(expression);
+
+const construct = (
+  subject: t.Expression,
+  name: string,
+  config: Record<string, any>,
+  variableName?: string
+) =>
+  referenceableExpression(
+    t.newExpression(subject, [
+      t.thisExpression(),
+      t.stringLiteral(name),
+      valueToTs(config),
+    ]),
+    variableName
+  );
+
 export async function convert(
   filename: string,
   hcl: string,
@@ -152,32 +177,6 @@ export async function convert(
 
   const json = await parse(filename, hcl);
   const plan = schema.parse(json);
-
-  function referenceableExpression(
-    expression: t.Expression,
-    variableName?: string
-  ) {
-    return variableName
-      ? t.variableDeclaration("const", [
-          t.variableDeclarator(t.identifier(variableName), expression),
-        ])
-      : t.expressionStatement(expression);
-  }
-
-  const construct = (
-    subject: t.Expression,
-    name: string,
-    config: Record<string, any>,
-    variableName?: string
-  ) =>
-    referenceableExpression(
-      t.newExpression(subject, [
-        t.thisExpression(),
-        t.stringLiteral(name),
-        valueToTs(config),
-      ]),
-      variableName
-    );
 
   function output(key: string, _id: string, item: Output): t.Statement {
     const [{ value, description, sensitive }] = item;
@@ -205,9 +204,7 @@ export async function convert(
   }
 
   function local(key: string, _id: string, item: any): t.Statement {
-    return t.variableDeclaration("const", [
-      t.variableDeclarator(t.identifier(camelCase(key)), valueToTs(item)),
-    ]);
+    return referenceableExpression(valueToTs(item), camelCase(key));
   }
 
   function modules(
