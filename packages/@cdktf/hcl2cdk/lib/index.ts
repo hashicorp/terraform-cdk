@@ -14,7 +14,45 @@ type ConvertOptions = {
 const valueToTs = (item: any): t.Expression => {
   switch (typeof item) {
     case "string":
-      if (item.startsWith("${") && !item.includes("(") && !item.includes("*")) {
+      if (item.startsWith("${")) {
+        if (item.includes("(")) {
+          throw new Error(
+            `Unsupported Terraform feature found: Functions are not yet supported: ${item}`
+          );
+        }
+
+        if (item.includes("?")) {
+          throw new Error(
+            `Unsupported Terraform feature found: Conditionals are not yet supported: ${item}`
+          );
+        }
+
+        if (
+          item.includes("for") &&
+          item.includes("in") &&
+          item.includes("=>")
+        ) {
+          throw new Error(
+            `Unsupported Terraform feature found: For expressions are not yet supported: ${item}`
+          );
+        }
+
+        if (
+          ["!", "-", "+", "-", ">", "<", "&&", "||"].some((op) =>
+            item.includes(op)
+          )
+        ) {
+          throw new Error(
+            `Unsupported Terraform feature found: Arithmetics are not yet supported: ${item}`
+          );
+        }
+
+        if (item.includes("*")) {
+          throw new Error(
+            `Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: ${item}`
+          );
+        }
+
         // It's a HCL Expression, we assume it is just a variable reference
         // e.g. ${aws_s3_bucket.foo.id}
         const hclExpr = item.substr(2, item.length - 3);
@@ -36,6 +74,17 @@ const valueToTs = (item: any): t.Expression => {
     case "object":
       if (Array.isArray(item)) {
         return t.arrayExpression(item.map(valueToTs));
+      }
+
+      if (
+        Object.keys(item).includes("for_each") ||
+        Object.keys(item).includes("count")
+      ) {
+        throw new Error(
+          `Unsupported Terraform feature found: for-each loops are not yet supported: ${JSON.stringify(
+            item
+          )}`
+        );
       }
 
       return t.objectExpression(
@@ -94,27 +143,33 @@ export async function convert(
   }
 
   const json = await parse(filename, hcl);
-  console.log(JSON.stringify(json));
   const plan = schema.parse(json);
+
+  function referenceableExpression(
+    expression: t.Expression,
+    variableName?: string
+  ) {
+    return variableName
+      ? t.variableDeclaration("const", [
+          t.variableDeclarator(t.identifier(variableName), expression),
+        ])
+      : t.expressionStatement(expression);
+  }
 
   const construct = (
     subject: t.Expression,
     name: string,
     config: Record<string, any>,
     variableName?: string
-  ) => {
-    const expression = t.newExpression(subject, [
-      t.thisExpression(),
-      t.stringLiteral(name),
-      valueToTs(config),
-    ]);
-
-    return variableName
-      ? t.variableDeclaration("const", [
-          t.variableDeclarator(t.identifier(variableName), expression),
-        ])
-      : t.expressionStatement(expression);
-  };
+  ) =>
+    referenceableExpression(
+      t.newExpression(subject, [
+        t.thisExpression(),
+        t.stringLiteral(name),
+        valueToTs(config),
+      ]),
+      variableName
+    );
 
   function output(key: string, _id: string, item: Output): t.Statement {
     const [{ value, description, sensitive }] = item;
@@ -125,11 +180,22 @@ export async function convert(
     });
   }
 
-  function variable(key: string, _id: string, item: Variable): t.Statement {
+  function variable(
+    key: string,
+    id: string,
+    item: Variable,
+    graph: DirectedGraph
+  ): t.Statement {
     // We don't handle type information right now
     const [{ type, ...props }] = item;
-    return construct(t.identifier("TerraformVariable"), key, props);
+    return construct(
+      t.identifier("TerraformVariable"),
+      key,
+      props,
+      isReferenced(graph, id) ? camelCase(id) : undefined
+    );
   }
+
   function local(key: string, _id: string, item: any): t.Statement {
     return t.variableDeclaration("const", [
       t.variableDeclarator(t.identifier(camelCase(key)), valueToTs(item)),
@@ -147,6 +213,9 @@ export async function convert(
       item[0]
     );
   }
+  function isReferenced(graph: DirectedGraph, id: string) {
+    return graph.outNeighbors(id).length > 0;
+  }
 
   function resource(
     type: string,
@@ -155,7 +224,6 @@ export async function convert(
     item: Provider,
     graph: DirectedGraph
   ): t.Statement {
-    const isReferenced = graph.outNeighbors(id).length > 0;
     const [provider, ...name] = type.split("_");
     return construct(
       t.memberExpression(
@@ -164,7 +232,7 @@ export async function convert(
       ),
       key,
       item[0],
-      isReferenced ? camelCase(id) : undefined
+      isReferenced(graph, id) ? camelCase(id) : undefined
     );
   }
 
@@ -236,9 +304,11 @@ export async function convert(
 
   // Add Edges
   function addGlobalEdges(_key: string, id: string, value: unknown) {
-    findUsedReferences(nodeIds, value).forEach((ref) =>
-      graph.addDirectedEdge(ref, id)
-    );
+    findUsedReferences(nodeIds, value).forEach((ref) => {
+      if (!graph.hasDirectedEdge(ref, id)) {
+        graph.addDirectedEdge(ref, id);
+      }
+    });
   }
   function addNamespacedEdges(
     _type: string,
@@ -246,9 +316,11 @@ export async function convert(
     id: string,
     value: unknown
   ) {
-    findUsedReferences(nodeIds, value).forEach((ref) =>
-      graph.addDirectedEdge(ref, id)
-    );
+    findUsedReferences(nodeIds, value).forEach((ref) => {
+      if (!graph.hasDirectedEdge(ref, id)) {
+        graph.addDirectedEdge(ref, id);
+      }
+    });
   }
   Object.values({
     ...forEachGlobal("providers", plan.provider, addGlobalEdges),
@@ -269,7 +341,6 @@ export async function convert(
   const expressions: t.Statement[] = [];
   let nodesToVisit = [...nodeIds];
 
-  console.log(graph.export());
   while (nodesToVisit.length > 0) {
     graph.forEachNode((nodeId) => {
       if (!nodesToVisit.includes(nodeId)) {

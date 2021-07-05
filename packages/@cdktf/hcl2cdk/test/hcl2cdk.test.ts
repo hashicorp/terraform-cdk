@@ -231,46 +231,6 @@ describe("convert", () => {
         }`,
       ],
       [
-        "resource references with HCL functions",
-        `
-        resource "aws_kms_key" "examplekms" {
-          description             = "KMS key 1"
-          deletion_window_in_days = 7
-        }
-        
-        resource "aws_s3_bucket" "examplebucket" {
-          bucket = "examplebuckettftest"
-          acl    = "private"
-        }
-        
-        resource "aws_s3_bucket_object" "examplebucket_object" {
-          key        = "someobject"
-          bucket     = element(aws_s3_bucket.examplebucket, 0).id
-          source     = "index.html"
-          kms_key_id = aws_kms_key.examplekms.arn
-        }`,
-      ],
-      [
-        "resource references with lists",
-        `
-        resource "aws_kms_key" "examplekms" {
-          description             = "KMS key 1"
-          deletion_window_in_days = 7
-        }
-        
-        resource "aws_s3_bucket" "examplebucket" {
-          bucket = "examplebuckettftest"
-          acl    = "private"
-        }
-        
-        resource "aws_s3_bucket_object" "examplebucket_object" {
-          key        = "someobject"
-          bucket     = aws_s3_bucket.examplebucket.*.id
-          source     = "index.html"
-          kms_key_id = aws_kms_key.examplekms.arn
-        }`,
-      ],
-      [
         "locals references",
         `
         locals {
@@ -314,11 +274,204 @@ describe("convert", () => {
           source     = "index.html"
         }`,
       ],
+      [
+        "double references",
+        `
+        variable "bucket_name" {
+          type    = string
+          default = "demo"
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = var.bucket_name
+          acl    = "private"
+          tags = {
+            tag-key = var.bucket_name
+          }
+        }`,
+      ],
     ])("%s configuration", async (_name, hcl) => {
       const code = await convert(`file.hcl`, hcl, {
         language: "typescript",
       });
       expect(code).toMatchSnapshot();
+    });
+
+    describe("errors on", () => {
+      it.each([
+        [
+          "resource references with HCL functions",
+          `
+          resource "aws_kms_key" "examplekms" {
+            description             = "KMS key 1"
+            deletion_window_in_days = 7
+          }
+          
+          resource "aws_s3_bucket" "examplebucket" {
+            bucket = "examplebuckettftest"
+            acl    = "private"
+          }
+          
+          resource "aws_s3_bucket_object" "examplebucket_object" {
+            key        = "someobject"
+            bucket     = element(aws_s3_bucket.examplebucket, 0).id
+            source     = "index.html"
+            kms_key_id = aws_kms_key.examplekms.arn
+          }`,
+        ],
+        [
+          "resource references with lists",
+          `
+          resource "aws_kms_key" "examplekms" {
+            description             = "KMS key 1"
+            deletion_window_in_days = 7
+          }
+          
+          resource "aws_s3_bucket" "examplebucket" {
+            bucket = "examplebuckettftest"
+            acl    = "private"
+          }
+          
+          resource "aws_s3_bucket_object" "examplebucket_object" {
+            key        = "someobject"
+            bucket     = aws_s3_bucket.examplebucket.*.id
+            source     = "index.html"
+            kms_key_id = aws_kms_key.examplekms.arn
+          }`,
+        ],
+        [
+          "conditionals",
+          `
+          resource "aws_kms_key" "examplekms" {
+            description             = "KMS key 1"
+            deletion_window_in_days = 7
+          }
+          
+          resource "aws_s3_bucket" "examplebucket" {
+            bucket = "examplebuckettftest"
+            acl    = "private"
+          }
+          
+          resource "aws_s3_bucket_object" "examplebucket_object" {
+            key        = "someobject"
+            bucket     = resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []
+            source     = "index.html"
+            kms_key_id = aws_kms_key.examplekms.arn
+          }`,
+        ],
+        [
+          "for expression 1",
+          `
+          variable "users" {
+            type = map(object({
+              is_admin = boolean
+            }))
+          }
+          
+          locals {
+            admin_users = {
+              for name, user in var.users : name => user
+              if user.is_admin
+            }
+            regular_users = {
+              for name, user in var.users : name => user
+              if !user.is_admin
+            }
+          }`,
+        ],
+        [
+          "for expression 2",
+          `
+          variable "users" {
+            type = map(object({
+              role = string
+            }))
+          }
+          
+          locals {
+            users_by_role = {
+              for name, user in var.users : user.role => name...
+            }
+          }`,
+        ],
+        [
+          "arithmetics",
+          `
+          variable "members" {
+            type = number
+          }
+          variable "admins" {
+            type = number
+          }
+          
+          locals {
+            users = var.members + var.admins
+          }`,
+        ],
+        [
+          "for_each loops",
+          `
+          variable "users" {
+            type = set(string)
+          }
+
+          resource "aws_iam_user" "lb" {
+            for_each = var.users
+            name = each.key
+            path = "/system/"
+          
+            tags = {
+              tag-key = "tag-value"
+            }
+          }
+          `,
+        ],
+        [
+          "count loops",
+          `
+          variable "users" {
+            type = set(string)
+          }
+
+          resource "aws_iam_user" "lb" {
+            count = length(var.users)
+            name = element(var.users, count.index)
+            path = "/system/"
+          
+            tags = {
+              tag-key = "tag-value"
+            }
+          }`,
+        ],
+        [
+          "dynamic blocks",
+          `
+          variable "settings" {
+            type = list(map(string))
+          }
+
+          resource "aws_elastic_beanstalk_environment" "tfenvtest" {
+            name                = "tf-test-name"
+            application         = "best-app"
+            solution_stack_name = "64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6"
+          
+            dynamic "setting" {
+              for_each = var.settings
+              content {
+                namespace = setting.value["namespace"]
+                name = setting.value["name"]
+                value = setting.value["value"]
+              }
+            }
+          }`,
+        ],
+      ])("%s", async (_name, hcl) => {
+        expect(
+          convert(`file.hcl`, hcl, {
+            language: "typescript",
+          })
+        ).rejects.toThrowErrorMatchingSnapshot();
+      });
     });
   });
 });
