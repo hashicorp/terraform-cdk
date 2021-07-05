@@ -124,12 +124,12 @@ exports[`convert typescript complex resource configuration 1`] = `
 `;
 
 exports[`convert typescript data references configuration 1`] = `
-"const varBucketName = new TerraformVariable(this, \\"bucket_name\\", {
+"const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
-const dataAwsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: varBucketName,
+  bucket: bucketName,
 });
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: dataAwsS3Bucket.examplebucket.arn,
@@ -140,14 +140,14 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert typescript double references configuration 1`] = `
-"const varBucketName = new TerraformVariable(this, \\"bucket_name\\", {
+"const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: varBucketName,
+  bucket: bucketName,
   tags: {
-    tagKey: varBucketName,
+    tagKey: bucketName,
   },
 });
 "
@@ -198,7 +198,7 @@ exports[`convert typescript locals references configuration 1`] = `
 "const bucketName = \\"foo\\";
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: localBucketName,
+  bucket: bucketName,
 });
 "
 `;
@@ -275,7 +275,7 @@ new aws.AwsProvider(this, \\"aws\\", {
 
 exports[`convert typescript referenced modules configuration 1`] = `
 "import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
-const moduleVpc = new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
+const vpc = new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
   azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
   cidr: \\"10.0.0.0/16\\",
   enableNatGateway: true,
@@ -289,17 +289,17 @@ const moduleVpc = new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
   },
 });
 new TerraformOutput(this, \\"subnet_ids\\", {
-  value: moduleVpc.publicSubnetsOutput,
+  value: vpc.publicSubnetsOutput,
 });
 "
 `;
 
 exports[`convert typescript resource references configuration 1`] = `
-"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"const examplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
-const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"examplebuckettftest\\",
 });
@@ -340,12 +340,12 @@ exports[`convert typescript variable configuration 1`] = `
 `;
 
 exports[`convert typescript variable references configuration 1`] = `
-"const varBucketName = new TerraformVariable(this, \\"bucket_name\\", {
+"const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: varBucketName,
+  bucket: bucketName,
 });
 "
 `;
