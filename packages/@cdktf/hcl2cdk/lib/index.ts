@@ -292,15 +292,7 @@ function forEachNamespaced<T, R>(
   );
 }
 
-export async function convert(
-  filename: string,
-  hcl: string,
-  options: ConvertOptions
-) {
-  if (options.language !== "typescript") {
-    throw new Error("Unsupported language used: " + options.language);
-  }
-
+export async function convertToTypescript(filename: string, hcl: string) {
   const json = await parse(filename, hcl);
   const plan = schema.parse(json);
 
@@ -411,4 +403,16 @@ export async function convert(
     imports: gen([...providerImports, ...moduleImports]),
     code: gen(expressions),
   };
+}
+
+export async function conver(
+  filename: string,
+  hcl: string,
+  options: ConvertOptions
+) {
+  if (options.language !== "typescript") {
+    throw new Error("Unsupported language used: " + options.language);
+  }
+
+  return await convertToTypescript(filename, hcl);
 }
