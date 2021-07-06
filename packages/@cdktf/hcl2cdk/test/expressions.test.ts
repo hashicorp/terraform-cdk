@@ -58,7 +58,7 @@ describe("expressions", () => {
       ]);
     });
 
-    it.skip("finds plain resource references in artihmetics", () => {
+    it("finds plain resource references in artihmetics", () => {
       expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.count + aws_s3_bucket.otherbucket.count }"
@@ -67,12 +67,12 @@ describe("expressions", () => {
         {
           referencee: "aws_s3_bucket.examplebucket.count",
           start: 2,
-          end: 32,
+          end: 35,
         },
         {
           referencee: "aws_s3_bucket.otherbucket.count",
-          start: 2,
-          end: 32,
+          start: 38,
+          end: 69,
         },
       ]);
     });
@@ -90,26 +90,26 @@ describe("expressions", () => {
       ]);
     });
 
-    it.skip("finds all resources in conditional", () => {
+    it("finds all resources in conditional", () => {
       expect(
         extractReferencesFromExpression(
-          "${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"
+          "${aws_kms_key.key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"
         )
       ).toEqual([
         {
-          referencee: "resource.aws_kms_key.deletion_window_in_days",
-          start: 6,
-          end: 7,
+          referencee: "aws_kms_key.key.deletion_window_in_days",
+          start: 2,
+          end: 41,
         },
         {
           referencee: "aws_s3_bucket.examplebucket.id",
-          start: 6,
-          end: 7,
+          start: 48,
+          end: 78,
         },
       ]);
     });
 
-    it.skip("finds all resources in functions", () => {
+    it("finds all resources in functions", () => {
       expect(
         extractReferencesFromExpression(
           "${element(aws_s3_bucket.examplebucket, 0).id}"
@@ -117,8 +117,8 @@ describe("expressions", () => {
       ).toEqual([
         {
           referencee: "aws_s3_bucket.examplebucket",
-          start: 6,
-          end: 7,
+          start: 10,
+          end: 37,
         },
       ]);
     });
@@ -138,7 +138,7 @@ describe("expressions", () => {
       ]);
     });
 
-    it.skip("finds all resources in for loops", () => {
+    it("finds all resources in for loops", () => {
       expect(
         extractReferencesFromExpression(
           "${{ for name, user in var.users : user.role => name...}}"
@@ -146,8 +146,8 @@ describe("expressions", () => {
       ).toEqual([
         {
           referencee: "var.users",
-          start: 6,
-          end: 7,
+          start: 22,
+          end: 31,
         },
       ]);
     });

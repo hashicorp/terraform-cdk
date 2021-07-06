@@ -8,26 +8,68 @@ type Reference = {
 };
 
 export function extractReferencesFromExpression(input: string): Reference[] {
+  const isDoubleParanthesis = input.startsWith("${{");
   if (!input.startsWith("${")) {
     return [];
   }
 
-  const start = 2;
-  const end = input.length - 1;
-  const expressionString = input.substring(start, end);
+  const start = isDoubleParanthesis ? 3 : 2;
+  const end = isDoubleParanthesis ? input.length - 2 : input.length - 1;
+  let expressionString = input.substring(start, end);
 
-  const parts = expressionString.split(".");
-  if (parts.length <= 1) {
-    return [];
+  if (
+    expressionString.includes("for") &&
+    expressionString.includes("in") &&
+    expressionString.includes(":")
+  ) {
+    // for name, user in var.users : user.role => name...
+    // We just want the var.users part (that could be an expression)
+    expressionString = expressionString.substring(
+      expressionString.indexOf("in") + 2,
+      expressionString.indexOf(":")
+    );
   }
 
-  return [
-    {
-      start,
-      end,
-      referencee: expressionString,
-    },
+  const delimiters = [
+    "(",
+    ",",
+    ")",
+    " ",
+    "!",
+    "-",
+    "*",
+    "/",
+    "%",
+    ">",
+    "<",
+    "=",
+    "&&",
+    "||",
+    "?",
   ];
+
+  let possibleVariableSpots = [expressionString];
+
+  delimiters.forEach((delimiter) => {
+    possibleVariableSpots = possibleVariableSpots.reduce(
+      (carry, str) => [...carry, ...str.split(delimiter)],
+      [] as string[]
+    );
+  });
+
+  return possibleVariableSpots.reduce((carry, spot) => {
+    // no reference
+    if (!spot.includes(".") || spot.startsWith(".") || spot.endsWith("...")) {
+      return carry;
+    }
+
+    const ref: Reference = {
+      start: input.indexOf(spot),
+      end: input.indexOf(spot) + spot.length,
+      referencee: spot,
+    };
+    return [...carry, ref];
+  }, [] as Reference[]);
 }
 
 function referenceToAst(ref: Reference) {
