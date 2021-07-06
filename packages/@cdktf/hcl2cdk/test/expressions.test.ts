@@ -20,7 +20,11 @@ describe("expressions", () => {
 
     it("finds plain var reference", () => {
       expect(extractReferencesFromExpression("${var.input}")).toEqual([
-        { referencee: "var.input", start: 2, end: 11 },
+        {
+          referencee: { id: "var.input", full: "var.input" },
+          start: 2,
+          end: 11,
+        },
       ]);
     });
 
@@ -28,7 +32,14 @@ describe("expressions", () => {
       expect(
         extractReferencesFromExpression("${module.vpc.public_subnets}")
       ).toEqual([
-        { referencee: "module.vpc.public_subnets", start: 2, end: 27 },
+        {
+          referencee: {
+            id: "module.vpc",
+            full: "module.vpc.public_subnets",
+          },
+          start: 2,
+          end: 27,
+        },
       ]);
     });
 
@@ -39,7 +50,10 @@ describe("expressions", () => {
         )
       ).toEqual([
         {
-          referencee: "data.aws_s3_bucket.examplebucket.arn",
+          referencee: {
+            id: "data.aws_s3_bucket.examplebucket",
+            full: "data.aws_s3_bucket.examplebucket.arn",
+          },
           start: 2,
           end: 38,
         },
@@ -51,7 +65,10 @@ describe("expressions", () => {
         extractReferencesFromExpression("${aws_s3_bucket.examplebucket.id}")
       ).toEqual([
         {
-          referencee: "aws_s3_bucket.examplebucket.id",
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket.id",
+          },
           start: 2,
           end: 32,
         },
@@ -65,12 +82,18 @@ describe("expressions", () => {
         )
       ).toEqual([
         {
-          referencee: "aws_s3_bucket.examplebucket.count",
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket.count",
+          },
           start: 2,
           end: 35,
         },
         {
-          referencee: "aws_s3_bucket.otherbucket.count",
+          referencee: {
+            id: "aws_s3_bucket.otherbucket",
+            full: "aws_s3_bucket.otherbucket.count",
+          },
           start: 38,
           end: 69,
         },
@@ -82,7 +105,10 @@ describe("expressions", () => {
         extractReferencesFromExpression("${aws_s3_bucket.examplebucket.*.id}")
       ).toEqual([
         {
-          referencee: "aws_s3_bucket.examplebucket",
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket",
+          },
           useFqn: true,
           start: 6,
           end: 7,
@@ -97,12 +123,18 @@ describe("expressions", () => {
         )
       ).toEqual([
         {
-          referencee: "aws_kms_key.key.deletion_window_in_days",
+          referencee: {
+            id: "aws_kms_key.key",
+            full: "aws_kms_key.key.deletion_window_in_days",
+          },
           start: 2,
           end: 41,
         },
         {
-          referencee: "aws_s3_bucket.examplebucket.id",
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket.id",
+          },
           start: 48,
           end: 78,
         },
@@ -116,7 +148,10 @@ describe("expressions", () => {
         )
       ).toEqual([
         {
-          referencee: "aws_s3_bucket.examplebucket",
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket",
+          },
           start: 10,
           end: 37,
         },
@@ -130,7 +165,10 @@ describe("expressions", () => {
         )
       ).toEqual([
         {
-          referencee: "aws_s3_bucket.examplebucket",
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket",
+          },
           useFqn: true,
           start: 6,
           end: 7,
@@ -145,7 +183,7 @@ describe("expressions", () => {
         )
       ).toEqual([
         {
-          referencee: "var.users",
+          referencee: { id: "var.users", full: "var.users" },
           start: 22,
           end: 31,
         },

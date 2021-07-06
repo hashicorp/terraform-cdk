@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`convert csharp arithmetics configuration 1`] = `
+"var admins = new TerraformVariable(this, \\"admins\\", new Struct { });
+var members = new TerraformVariable(this, \\"members\\", new Struct { });
+string users = $\\"\${members} +{admins}\\";"
+`;
+
 exports[`convert csharp complex resource configuration 1`] = `
 "new aws.CloudfrontDistribution(this, \\"s3_distribution\\", new Struct {
     Aliases = new [] { \\"mysite.example.com\\", \\"yoursite.example.com\\" },
@@ -84,6 +90,23 @@ exports[`convert csharp complex resource configuration 1`] = `
 });"
 `;
 
+exports[`convert csharp conditionals configuration 1`] = `
+"var examplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
+    DeletionWindowInDays = 7,
+    Description = \\"KMS key 1\\"
+});
+var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+    Acl = \\"private\\",
+    Bucket = \\"examplebuckettftest\\"
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", new Struct {
+    Bucket = $\\"\${awsKmsKeyExamplekms.deletionWindowInDays} > 3 ?{awsS3BucketExamplebucket.id} : []\\",
+    Key = \\"someobject\\",
+    KmsKeyId = awsKmsKeyExamplekms.Arn,
+    Source = \\"index.html\\"
+});"
+`;
+
 exports[`convert csharp data references configuration 1`] = `
 "var bucketName = new TerraformVariable(this, \\"bucket_name\\", new Struct {
     Default = \\"demo\\"
@@ -117,34 +140,26 @@ exports[`convert csharp empty provider configuration 1`] = `
 new DockerProvider(this, \\"docker\\", new Struct { });"
 `;
 
-exports[`convert csharp errors on arithmetics 1`] = `"Unsupported Terraform feature found: Arithmetics are not yet supported: \${var.members + var.admins}"`;
-
-exports[`convert csharp errors on conditionals 1`] = `"Unsupported Terraform feature found: Conditionals are not yet supported: \${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"`;
-
 exports[`convert csharp errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert csharp errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"content\\":[{\\"name\\":\\"\${setting.value[\\\\\\"name\\\\\\"]}\\",\\"namespace\\":\\"\${setting.value[\\\\\\"namespace\\\\\\"]}\\",\\"value\\":\\"\${setting.value[\\\\\\"value\\\\\\"]}\\"}],\\"for_each\\":\\"\${var.settings}\\"}"`;
-
-exports[`convert csharp errors on for expression 1 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : name => user
-              if user.is_admin
-            }}"
-`;
-
-exports[`convert csharp errors on for expression 2 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : user.role => name...
-            }}"
-`;
+exports[`convert csharp errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert csharp errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
 exports[`convert csharp errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
-exports[`convert csharp errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
-
 exports[`convert csharp errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;
+
+exports[`convert csharp for expression 1 configuration 1`] = `
+"var users = new TerraformVariable(this, \\"users\\", new Struct { });
+var adminUsers = users;
+var regularUsers = users;"
+`;
+
+exports[`convert csharp for expression 2 configuration 1`] = `
+"var users = new TerraformVariable(this, \\"users\\", new Struct { });
+var usersByRole = users;"
+`;
 
 exports[`convert csharp locals configuration 1`] = `
 "int howMany = 42;
@@ -260,6 +275,23 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", new Struct {
 });"
 `;
 
+exports[`convert csharp resource references with HCL functions configuration 1`] = `
+"var examplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
+    DeletionWindowInDays = 7,
+    Description = \\"KMS key 1\\"
+});
+var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+    Acl = \\"private\\",
+    Bucket = \\"examplebuckettftest\\"
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", new Struct {
+    Bucket = awsS3BucketExamplebucket,
+    Key = \\"someobject\\",
+    KmsKeyId = awsKmsKeyExamplekms.Arn,
+    Source = \\"index.html\\"
+});"
+`;
+
 exports[`convert csharp sensitive output configuration 1`] = `
 "new TerraformOutput(this, \\"cidr_out\\", new Struct {
     Value = \\"test\\",
@@ -296,6 +328,12 @@ exports[`convert csharp variable with default configuration 1`] = `
     Default = new [] { \\"us-west-1a\\" },
     Description = \\"What AMI to use to create an instance\\"
 });"
+`;
+
+exports[`convert java arithmetics configuration 1`] = `
+"Object admins = TerraformVariable.Builder.create(this, \\"admins\\").build();
+Object members = TerraformVariable.Builder.create(this, \\"members\\").build();
+String users = String.format(\\"$%s +%s\\", members, admins);"
 `;
 
 exports[`convert java complex resource configuration 1`] = `
@@ -366,6 +404,23 @@ exports[`convert java complex resource configuration 1`] = `
         .build();"
 `;
 
+exports[`convert java conditionals configuration 1`] = `
+"Object examplekms = KmsKey.Builder.create(this, \\"examplekms\\")
+        .deletionWindowInDays(7)
+        .description(\\"KMS key 1\\")
+        .build();
+Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+        .acl(\\"private\\")
+        .bucket(\\"examplebuckettftest\\")
+        .build();
+S3BucketObject.Builder.create(this, \\"examplebucket_object\\")
+        .bucket(String.format(\\"$%s > 3 ?%s : []\\", awsKmsKeyExamplekms.getDeletionWindowInDays(), awsS3BucketExamplebucket.getId()))
+        .key(\\"someobject\\")
+        .kmsKeyId(awsKmsKeyExamplekms.getArn())
+        .source(\\"index.html\\")
+        .build();"
+`;
+
 exports[`convert java data references configuration 1`] = `
 "Object bucketName = TerraformVariable.Builder.create(this, \\"bucket_name\\")
         .default(\\"demo\\")
@@ -398,34 +453,26 @@ exports[`convert java empty provider configuration 1`] = `
 DockerProvider.Builder.create(this, \\"docker\\").build();"
 `;
 
-exports[`convert java errors on arithmetics 1`] = `"Unsupported Terraform feature found: Arithmetics are not yet supported: \${var.members + var.admins}"`;
-
-exports[`convert java errors on conditionals 1`] = `"Unsupported Terraform feature found: Conditionals are not yet supported: \${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"`;
-
 exports[`convert java errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert java errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"content\\":[{\\"name\\":\\"\${setting.value[\\\\\\"name\\\\\\"]}\\",\\"namespace\\":\\"\${setting.value[\\\\\\"namespace\\\\\\"]}\\",\\"value\\":\\"\${setting.value[\\\\\\"value\\\\\\"]}\\"}],\\"for_each\\":\\"\${var.settings}\\"}"`;
-
-exports[`convert java errors on for expression 1 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : name => user
-              if user.is_admin
-            }}"
-`;
-
-exports[`convert java errors on for expression 2 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : user.role => name...
-            }}"
-`;
+exports[`convert java errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert java errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
 exports[`convert java errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
-exports[`convert java errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
-
 exports[`convert java errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;
+
+exports[`convert java for expression 1 configuration 1`] = `
+"Object users = TerraformVariable.Builder.create(this, \\"users\\").build();
+Object adminUsers = users;
+Object regularUsers = users;"
+`;
+
+exports[`convert java for expression 2 configuration 1`] = `
+"Object users = TerraformVariable.Builder.create(this, \\"users\\").build();
+Object usersByRole = users;"
+`;
 
 exports[`convert java locals configuration 1`] = `
 "Number howMany = 42;
@@ -538,6 +585,23 @@ S3BucketObject.Builder.create(this, \\"examplebucket_object\\")
         .build();"
 `;
 
+exports[`convert java resource references with HCL functions configuration 1`] = `
+"Object examplekms = KmsKey.Builder.create(this, \\"examplekms\\")
+        .deletionWindowInDays(7)
+        .description(\\"KMS key 1\\")
+        .build();
+Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+        .acl(\\"private\\")
+        .bucket(\\"examplebuckettftest\\")
+        .build();
+S3BucketObject.Builder.create(this, \\"examplebucket_object\\")
+        .bucket(awsS3BucketExamplebucket)
+        .key(\\"someobject\\")
+        .kmsKeyId(awsKmsKeyExamplekms.getArn())
+        .source(\\"index.html\\")
+        .build();"
+`;
+
 exports[`convert java sensitive output configuration 1`] = `
 "TerraformOutput.Builder.create(this, \\"cidr_out\\")
         .value(\\"test\\")
@@ -574,6 +638,12 @@ exports[`convert java variable with default configuration 1`] = `
         .default(asList(\\"us-west-1a\\"))
         .description(\\"What AMI to use to create an instance\\")
         .build();"
+`;
+
+exports[`convert python arithmetics configuration 1`] = `
+"admins = TerraformVariable(self, \\"admins\\")
+members = TerraformVariable(self, \\"members\\")
+users = f\\"\${members} +{admins}\\""
 `;
 
 exports[`convert python complex resource configuration 1`] = `
@@ -675,6 +745,23 @@ exports[`convert python complex resource configuration 1`] = `
 )"
 `;
 
+exports[`convert python conditionals configuration 1`] = `
+"examplekms = aws.KmsKey(self, \\"examplekms\\",
+    deletion_window_in_days=7,
+    description=\\"KMS key 1\\"
+)
+examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+    acl=\\"private\\",
+    bucket=\\"examplebuckettftest\\"
+)
+aws.S3BucketObject(self, \\"examplebucket_object\\",
+    bucket=f\\"\${awsKmsKeyExamplekms.deletionWindowInDays} > 3 ?{awsS3BucketExamplebucket.id} : []\\",
+    key=\\"someobject\\",
+    kms_key_id=aws_kms_key_examplekms.arn,
+    source=\\"index.html\\"
+)"
+`;
+
 exports[`convert python data references configuration 1`] = `
 "bucket_name = TerraformVariable(self, \\"bucket_name\\",
     default=\\"demo\\"
@@ -708,34 +795,26 @@ exports[`convert python empty provider configuration 1`] = `
 docker.DockerProvider(self, \\"docker\\")"
 `;
 
-exports[`convert python errors on arithmetics 1`] = `"Unsupported Terraform feature found: Arithmetics are not yet supported: \${var.members + var.admins}"`;
-
-exports[`convert python errors on conditionals 1`] = `"Unsupported Terraform feature found: Conditionals are not yet supported: \${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"`;
-
 exports[`convert python errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert python errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"content\\":[{\\"name\\":\\"\${setting.value[\\\\\\"name\\\\\\"]}\\",\\"namespace\\":\\"\${setting.value[\\\\\\"namespace\\\\\\"]}\\",\\"value\\":\\"\${setting.value[\\\\\\"value\\\\\\"]}\\"}],\\"for_each\\":\\"\${var.settings}\\"}"`;
-
-exports[`convert python errors on for expression 1 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : name => user
-              if user.is_admin
-            }}"
-`;
-
-exports[`convert python errors on for expression 2 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : user.role => name...
-            }}"
-`;
+exports[`convert python errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert python errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
 exports[`convert python errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
-exports[`convert python errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
-
 exports[`convert python errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;
+
+exports[`convert python for expression 1 configuration 1`] = `
+"users = TerraformVariable(self, \\"users\\")
+admin_users = users
+regular_users = users"
+`;
+
+exports[`convert python for expression 2 configuration 1`] = `
+"users = TerraformVariable(self, \\"users\\")
+users_by_role = users"
+`;
 
 exports[`convert python locals configuration 1`] = `
 "how_many = 42
@@ -852,6 +931,23 @@ aws.S3BucketObject(self, \\"examplebucket_object\\",
 )"
 `;
 
+exports[`convert python resource references with HCL functions configuration 1`] = `
+"examplekms = aws.KmsKey(self, \\"examplekms\\",
+    deletion_window_in_days=7,
+    description=\\"KMS key 1\\"
+)
+examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+    acl=\\"private\\",
+    bucket=\\"examplebuckettftest\\"
+)
+aws.S3BucketObject(self, \\"examplebucket_object\\",
+    bucket=aws_s3_bucket_examplebucket,
+    key=\\"someobject\\",
+    kms_key_id=aws_kms_key_examplekms.arn,
+    source=\\"index.html\\"
+)"
+`;
+
 exports[`convert python sensitive output configuration 1`] = `
 "TerraformOutput(self, \\"cidr_out\\",
     value=\\"test\\",
@@ -888,6 +984,13 @@ exports[`convert python variable with default configuration 1`] = `
     default=[\\"us-west-1a\\"],
     description=\\"What AMI to use to create an instance\\"
 )"
+`;
+
+exports[`convert typescript arithmetics configuration 1`] = `
+"const admins = new TerraformVariable(this, \\"admins\\", {});
+const members = new TerraformVariable(this, \\"members\\", {});
+const users = \`$\${members} +\${admins}\`;
+"
 `;
 
 exports[`convert typescript complex resource configuration 1`] = `
@@ -1013,6 +1116,24 @@ exports[`convert typescript complex resource configuration 1`] = `
 "
 `;
 
+exports[`convert typescript conditionals configuration 1`] = `
+"const examplekms = new aws.KmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: \`$\${examplekms.deletionWindowInDays} > 3 ?\${examplebucket.id} : []\`,
+  key: \\"someobject\\",
+  kmsKeyId: examplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
 exports[`convert typescript data references configuration 1`] = `
 "const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
@@ -1049,34 +1170,28 @@ new docker.DockerProvider(this, \\"docker\\", {});
 "
 `;
 
-exports[`convert typescript errors on arithmetics 1`] = `"Unsupported Terraform feature found: Arithmetics are not yet supported: \${var.members + var.admins}"`;
-
-exports[`convert typescript errors on conditionals 1`] = `"Unsupported Terraform feature found: Conditionals are not yet supported: \${resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"`;
-
 exports[`convert typescript errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert typescript errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"content\\":[{\\"name\\":\\"\${setting.value[\\\\\\"name\\\\\\"]}\\",\\"namespace\\":\\"\${setting.value[\\\\\\"namespace\\\\\\"]}\\",\\"value\\":\\"\${setting.value[\\\\\\"value\\\\\\"]}\\"}],\\"for_each\\":\\"\${var.settings}\\"}"`;
-
-exports[`convert typescript errors on for expression 1 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : name => user
-              if user.is_admin
-            }}"
-`;
-
-exports[`convert typescript errors on for expression 2 1`] = `
-"Unsupported Terraform feature found: For expressions are not yet supported: \${{
-              for name, user in var.users : user.role => name...
-            }}"
-`;
+exports[`convert typescript errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert typescript errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
 exports[`convert typescript errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
-exports[`convert typescript errors on resource references with HCL functions 1`] = `"Unsupported Terraform feature found: Functions are not yet supported: \${element(aws_s3_bucket.examplebucket, 0).id}"`;
-
 exports[`convert typescript errors on resource references with lists 1`] = `"Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: \${aws_s3_bucket.examplebucket.*.id}"`;
+
+exports[`convert typescript for expression 1 configuration 1`] = `
+"const users = new TerraformVariable(this, \\"users\\", {});
+const adminUsers = users;
+const regularUsers = users;
+"
+`;
+
+exports[`convert typescript for expression 2 configuration 1`] = `
+"const users = new TerraformVariable(this, \\"users\\", {});
+const usersByRole = users;
+"
+`;
 
 exports[`convert typescript locals configuration 1`] = `
 "const howMany = 42;
@@ -1197,6 +1312,24 @@ const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
 });
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: awsS3BucketExamplebucket.id,
+  key: \\"someobject\\",
+  kmsKeyId: awsKmsKeyExamplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert typescript resource references with HCL functions configuration 1`] = `
+"const examplekms = new aws.KmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: awsS3BucketExamplebucket,
   key: \\"someobject\\",
   kmsKeyId: awsKmsKeyExamplekms.arn,
   source: \\"index.html\\",

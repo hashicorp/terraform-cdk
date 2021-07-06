@@ -1,13 +1,19 @@
 import * as t from "@babel/types";
 import { camelCase } from "change-case";
 
-type Reference = {
+export type Reference = {
   start: number;
   end: number;
-  referencee: string; // identifier for resource
+  referencee: { id: string; full: string }; // identifier for resource
 };
 
 export function extractReferencesFromExpression(input: string): Reference[] {
+  if (input.includes(".*")) {
+    throw new Error(
+      `Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: ${input}`
+    );
+  }
+
   const isDoubleParanthesis = input.startsWith("${{");
   if (!input.startsWith("${")) {
     return [];
@@ -59,21 +65,35 @@ export function extractReferencesFromExpression(input: string): Reference[] {
 
   return possibleVariableSpots.reduce((carry, spot) => {
     // no reference
-    if (!spot.includes(".") || spot.startsWith(".") || spot.endsWith("...")) {
+    if (
+      !spot.includes(".") || // just a literal
+      spot.startsWith(".") || // dangling property access
+      spot.endsWith("...") || // spread (likely in for loop)
+      spot.startsWith("count.") || // special count variable
+      spot.startsWith("each.") // special each variable
+    ) {
       return carry;
     }
+
+    const [start, ...referenceParts] = spot.split(".");
+
+    const id = (
+      start === "data"
+        ? [start, referenceParts[0], referenceParts[1]]
+        : [start, referenceParts[0]]
+    ).join(".");
 
     const ref: Reference = {
       start: input.indexOf(spot),
       end: input.indexOf(spot) + spot.length,
-      referencee: spot,
+      referencee: { id, full: spot },
     };
     return [...carry, ref];
   }, [] as Reference[]);
 }
 
 function referenceToAst(ref: Reference) {
-  const [resource, name, ...selector] = ref.referencee.split(".");
+  const [resource, name, ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
     camelCase(
@@ -105,38 +125,6 @@ export function referencesToAst(
     return t.stringLiteral(input);
   }
 
-  if (input.includes("(")) {
-    throw new Error(
-      `Unsupported Terraform feature found: Functions are not yet supported: ${input}`
-    );
-  }
-
-  if (input.includes("?")) {
-    throw new Error(
-      `Unsupported Terraform feature found: Conditionals are not yet supported: ${input}`
-    );
-  }
-
-  if (input.includes("for") && input.includes("in") && input.includes("=>")) {
-    throw new Error(
-      `Unsupported Terraform feature found: For expressions are not yet supported: ${input}`
-    );
-  }
-
-  if (
-    ["!", "-", "+", "-", ">", "<", "&&", "||"].some((op) => input.includes(op))
-  ) {
-    throw new Error(
-      `Unsupported Terraform feature found: Arithmetics are not yet supported: ${input}`
-    );
-  }
-
-  if (input.includes("*")) {
-    throw new Error(
-      `Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: ${input}`
-    );
-  }
-
   const refAsts = refs
     .sort((a, b) => a.start - b.start)
     .map((ref) => ({ ref, ast: referenceToAst(ref) }));
@@ -152,9 +140,9 @@ export function referencesToAst(
 
   let lastEnd = 0;
 
-  refAsts.forEach(({ ref, ast }, index) => {
+  refAsts.forEach(({ ref, ast }) => {
     // leading quasi
-    if (index === 0 && ref.start !== lastEnd) {
+    if (ref.start !== lastEnd) {
       quasis.push(
         t.templateElement({ raw: input.substring(lastEnd, ref.start - 1) })
       );
@@ -163,13 +151,12 @@ export function referencesToAst(
     expressions.push(ast);
 
     lastEnd = ref.end;
-    // trailing quasi
-    if (index === refs.length && ref.end !== input.length) {
-      quasis.push(
-        t.templateElement({ raw: input.substring(0, ref.start - 1) }, true)
-      );
-    }
   });
+
+  // trailing quasi
+  quasis.push(
+    t.templateElement({ raw: input.substring(lastEnd, input.length - 1) }, true)
+  );
 
   return t.templateLiteral(quasis, expressions);
 }

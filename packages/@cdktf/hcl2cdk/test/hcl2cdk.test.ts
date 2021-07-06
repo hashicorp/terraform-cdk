@@ -340,6 +340,95 @@ describe("convert", () => {
           value = module.vpc.public_subnets
         }`,
         ],
+        [
+          "arithmetics",
+          `
+        variable "members" {
+          type = number
+        }
+        variable "admins" {
+          type = number
+        }
+        
+        locals {
+          users = var.members + var.admins
+        }`,
+        ],
+        [
+          "conditionals",
+          `
+        resource "aws_kms_key" "examplekms" {
+          description             = "KMS key 1"
+          deletion_window_in_days = 7
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = "examplebuckettftest"
+          acl    = "private"
+        }
+        
+        resource "aws_s3_bucket_object" "examplebucket_object" {
+          key        = "someobject"
+          bucket     = aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []
+          source     = "index.html"
+          kms_key_id = aws_kms_key.examplekms.arn
+        }`,
+        ],
+        [
+          "for expression 1",
+          `
+        variable "users" {
+          type = map(object({
+            is_admin = boolean
+          }))
+        }
+        
+        locals {
+          admin_users = {
+            for name, user in var.users : name => user
+            if user.is_admin
+          }
+          regular_users = {
+            for name, user in var.users : name => user
+            if !user.is_admin
+          }
+        }`,
+        ],
+        [
+          "for expression 2",
+          `
+        variable "users" {
+          type = map(object({
+            role = string
+          }))
+        }
+        
+        locals {
+          users_by_role = {
+            for name, user in var.users : user.role => name...
+          }
+        }`,
+        ],
+        [
+          "resource references with HCL functions",
+          `
+        resource "aws_kms_key" "examplekms" {
+          description             = "KMS key 1"
+          deletion_window_in_days = 7
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = "examplebuckettftest"
+          acl    = "private"
+        }
+        
+        resource "aws_s3_bucket_object" "examplebucket_object" {
+          key        = "someobject"
+          bucket     = element(aws_s3_bucket.examplebucket, 0).id
+          source     = "index.html"
+          kms_key_id = aws_kms_key.examplekms.arn
+        }`,
+        ],
       ])("%s configuration", async (_name, hcl) => {
         const { all } = await convert(`file.hcl`, hcl, {
           language: language as any,
@@ -349,26 +438,6 @@ describe("convert", () => {
 
       describe("errors on", () => {
         it.each([
-          [
-            "resource references with HCL functions",
-            `
-          resource "aws_kms_key" "examplekms" {
-            description             = "KMS key 1"
-            deletion_window_in_days = 7
-          }
-          
-          resource "aws_s3_bucket" "examplebucket" {
-            bucket = "examplebuckettftest"
-            acl    = "private"
-          }
-          
-          resource "aws_s3_bucket_object" "examplebucket_object" {
-            key        = "someobject"
-            bucket     = element(aws_s3_bucket.examplebucket, 0).id
-            source     = "index.html"
-            kms_key_id = aws_kms_key.examplekms.arn
-          }`,
-          ],
           [
             "resource references with lists",
             `
@@ -387,75 +456,6 @@ describe("convert", () => {
             bucket     = aws_s3_bucket.examplebucket.*.id
             source     = "index.html"
             kms_key_id = aws_kms_key.examplekms.arn
-          }`,
-          ],
-          [
-            "conditionals",
-            `
-          resource "aws_kms_key" "examplekms" {
-            description             = "KMS key 1"
-            deletion_window_in_days = 7
-          }
-          
-          resource "aws_s3_bucket" "examplebucket" {
-            bucket = "examplebuckettftest"
-            acl    = "private"
-          }
-          
-          resource "aws_s3_bucket_object" "examplebucket_object" {
-            key        = "someobject"
-            bucket     = resource.aws_kms_key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []
-            source     = "index.html"
-            kms_key_id = aws_kms_key.examplekms.arn
-          }`,
-          ],
-          [
-            "for expression 1",
-            `
-          variable "users" {
-            type = map(object({
-              is_admin = boolean
-            }))
-          }
-          
-          locals {
-            admin_users = {
-              for name, user in var.users : name => user
-              if user.is_admin
-            }
-            regular_users = {
-              for name, user in var.users : name => user
-              if !user.is_admin
-            }
-          }`,
-          ],
-          [
-            "for expression 2",
-            `
-          variable "users" {
-            type = map(object({
-              role = string
-            }))
-          }
-          
-          locals {
-            users_by_role = {
-              for name, user in var.users : user.role => name...
-            }
-          }`,
-          ],
-          [
-            "arithmetics",
-            `
-          variable "members" {
-            type = number
-          }
-          variable "admins" {
-            type = number
-          }
-          
-          locals {
-            users = var.members + var.admins
           }`,
           ],
           [

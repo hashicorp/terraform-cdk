@@ -8,6 +8,7 @@ import { schema, Output, Variable, Provider, Module } from "./schema";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
 import {
+  Reference,
   extractReferencesFromExpression,
   referencesToAst,
 } from "./expressions";
@@ -15,7 +16,6 @@ import {
 const valueToTs = (item: any): t.Expression => {
   switch (typeof item) {
     case "string":
-      console.log(item);
       return referencesToAst(item, extractReferencesFromExpression(item));
     case "boolean":
       return t.booleanLiteral(item);
@@ -51,8 +51,8 @@ const valueToTs = (item: any): t.Expression => {
 function findUsedReferences(
   nodeIds: string[],
   item: unknown,
-  references: string[] = []
-): string[] {
+  references: Reference[] = []
+): Reference[] {
   if (Array.isArray(item)) {
     return [
       ...references,
@@ -74,11 +74,16 @@ function findUsedReferences(
   }
 
   if (typeof item === "string") {
-    const node = nodeIds.find((id) => item.includes(id));
-    if (node) {
-      return [...references, node];
+    const extractedRefs = extractReferencesFromExpression(item);
+    if (!extractedRefs.every((ref) => nodeIds.includes(ref.referencee.id))) {
+      throw new Error(
+        `Found a reference that is unknown: ${item} resulted in references ${JSON.stringify(
+          extractedRefs
+        )}, but only these identifiers are known: ${JSON.stringify(nodeIds)}`
+      );
     }
-    return references;
+
+    return [...references, ...extractedRefs];
   }
   return references;
 }
@@ -260,8 +265,8 @@ export async function convertToTypescript(filename: string, hcl: string) {
   // Add Edges
   function addGlobalEdges(_key: string, id: string, value: unknown) {
     findUsedReferences(nodeIds, value).forEach((ref) => {
-      if (!graph.hasDirectedEdge(ref, id)) {
-        graph.addDirectedEdge(ref, id);
+      if (!graph.hasDirectedEdge(ref.referencee.id, id)) {
+        graph.addDirectedEdge(ref.referencee.id, id);
       }
     });
   }
@@ -272,8 +277,8 @@ export async function convertToTypescript(filename: string, hcl: string) {
     value: unknown
   ) {
     findUsedReferences(nodeIds, value).forEach((ref) => {
-      if (!graph.hasDirectedEdge(ref, id)) {
-        graph.addDirectedEdge(ref, id);
+      if (!graph.hasDirectedEdge(ref.referencee.id, id)) {
+        graph.addDirectedEdge(ref.referencee.id, id);
       }
     });
   }
