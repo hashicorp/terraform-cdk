@@ -7,76 +7,16 @@ import { pascalCase, camelCase } from "change-case";
 import { schema, Output, Variable, Provider, Module } from "./schema";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
+import {
+  extractReferencesFromExpression,
+  referencesToAst,
+} from "./expressions";
 
 const valueToTs = (item: any): t.Expression => {
   switch (typeof item) {
     case "string":
-      if (item.startsWith("${")) {
-        if (item.includes("(")) {
-          throw new Error(
-            `Unsupported Terraform feature found: Functions are not yet supported: ${item}`
-          );
-        }
-
-        if (item.includes("?")) {
-          throw new Error(
-            `Unsupported Terraform feature found: Conditionals are not yet supported: ${item}`
-          );
-        }
-
-        if (
-          item.includes("for") &&
-          item.includes("in") &&
-          item.includes("=>")
-        ) {
-          throw new Error(
-            `Unsupported Terraform feature found: For expressions are not yet supported: ${item}`
-          );
-        }
-
-        if (
-          ["!", "-", "+", "-", ">", "<", "&&", "||"].some((op) =>
-            item.includes(op)
-          )
-        ) {
-          throw new Error(
-            `Unsupported Terraform feature found: Arithmetics are not yet supported: ${item}`
-          );
-        }
-
-        if (item.includes("*")) {
-          throw new Error(
-            `Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: ${item}`
-          );
-        }
-
-        // It's a HCL Expression, we assume it is just a variable reference
-        // e.g. ${aws_s3_bucket.foo.id}
-        const hclExpr = item.substr(2, item.length - 3);
-        const [resource, name, ...selector] = hclExpr.split(".");
-
-        const variableReference = t.identifier(
-          camelCase(
-            ["var", "local", "module"].includes(resource)
-              ? name
-              : [resource, name].join("_")
-          )
-        );
-
-        return selector.reduce(
-          (carry, member, index) =>
-            t.memberExpression(
-              carry,
-              t.identifier(
-                index === 0 && resource === "module"
-                  ? camelCase(member + "Output")
-                  : camelCase(member)
-              )
-            ),
-          variableReference as t.Expression
-        );
-      }
-      return t.stringLiteral(item);
+      console.log(item);
+      return referencesToAst(item, extractReferencesFromExpression(item));
     case "boolean":
       return t.booleanLiteral(item);
     case "number":
