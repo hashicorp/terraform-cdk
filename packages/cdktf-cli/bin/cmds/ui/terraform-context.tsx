@@ -408,6 +408,8 @@ export const useTerraform = ({
     try {
       dispatch({ type: "SYNTH" });
       const stacks = await SynthStack.synth(synthCommand, targetDir);
+      console.log({loadExecutor});
+      
 
       if (loadExecutor) {
         if (stacks.length > 1 && !targetStack) {
