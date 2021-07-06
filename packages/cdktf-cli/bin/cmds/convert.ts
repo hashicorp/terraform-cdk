@@ -34,8 +34,12 @@ class Command implements yargs.CommandModule {
         "cat main.tf | cdktf convert -f imported.ts",
         "Takes the HCL content of main.tf and converts it to Terraform CDK content in imported.ts"
       )
+      .example(
+        "cat main.tf | cdktf convert --language python -f imported.py",
+        "Takes the HCL content of main.tf and converts it to Terraform CDK content in imported.ts"
+      )
       .option("language", {
-        choices: ["typescript"],
+        choices: ["typescript", "python", "csharp", "java"],
         default: "typescript",
       })
       .option("file", {
