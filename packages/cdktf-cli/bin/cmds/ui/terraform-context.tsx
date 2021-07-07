@@ -544,7 +544,7 @@ export const useTerraform = ({
   };
 };
 
-const useRunOnce = <T, TR, Fn extends (...args: T[]) => TR>(
+const useRunOnce = <Fn extends (...args: any[]) => any>(
   fn: Fn,
   ...args: Parameters<Fn>
 ) => {
@@ -554,7 +554,7 @@ const useRunOnce = <T, TR, Fn extends (...args: T[]) => TR>(
   }, []); // only run once on mount – ignore any changes to fn
 };
 
-const useRunIf = <Fn extends (...args: any[]) => any>(
+const useRunWhen = <Fn extends (...args: any[]) => any>(
   condition: boolean,
   fn: Fn,
   ...args: Parameters<Fn>
@@ -581,7 +581,7 @@ export const useRunInit = (options: UseRunInitOptions) => {
   const state = useTerraformState();
 
   useRunOnce(synth);
-  useRunIf(state.status === Status.SYNTHESIZED, init);
+  useRunWhen(state.status === Status.SYNTHESIZED, init);
 
   return state;
 };
@@ -592,18 +592,10 @@ export const useRunDiff = (options: UseRunDiffOptions) => {
   const state = useTerraformState();
 
   useRunOnce(synth);
-  useRunIf(state.status === Status.SYNTHESIZED, async () => {
+  useRunWhen(state.status === Status.SYNTHESIZED, async () => {
     await init();
     await diff();
   });
-  // TODO: check: old effect had reference to [terraform] aswell
-  // React.useEffect(() => {
-  //   const invoke = async () => {
-  //     await execTerraformInit();
-  //     await execTerraformPlan();
-  //   };
-  //   if (state.status === Status.SYNTHESIZED) invoke();
-  // }, [state.status, terraform]);
 
   return state;
 };
@@ -620,11 +612,11 @@ export const useRunDeploy = ({
   const [confirmed, confirmationCallback] = useConfirmation({ autoApprove });
 
   useRunOnce(synth);
-  useRunIf(state.status === Status.SYNTHESIZED, async () => {
+  useRunWhen(state.status === Status.SYNTHESIZED, async () => {
     await init();
     await diff();
   });
-  useRunIf(confirmed && state.status === Status.PLANNED, async () => {
+  useRunWhen(confirmed && state.status === Status.PLANNED, async () => {
     await deploy();
     await output();
   });
@@ -648,11 +640,11 @@ export const useRunDestroy = ({
   const [confirmed, confirmationCallback] = useConfirmation({ autoApprove });
 
   useRunOnce(synth);
-  useRunIf(state.status === Status.SYNTHESIZED, async () => {
+  useRunWhen(state.status === Status.SYNTHESIZED, async () => {
     await init();
     await diff(true); // true = plan a destroy
   });
-  useRunIf(confirmed && state.status === Status.PLANNED, async () => {
+  useRunWhen(confirmed && state.status === Status.PLANNED, async () => {
     await destroy();
   });
 
