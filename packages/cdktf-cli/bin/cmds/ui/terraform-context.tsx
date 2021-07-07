@@ -544,7 +544,7 @@ export const useTerraform = ({
   };
 };
 
-const useRunOnce = <Fn extends (...args: any[]) => any>(
+const useRunOnce = <T, TR, Fn extends (...args: T[]) => TR>(
   fn: Fn,
   ...args: Parameters<Fn>
 ) => {
