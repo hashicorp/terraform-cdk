@@ -527,6 +527,32 @@ describe("convert", () => {
           }
           `,
         ],
+        [
+          "property access through []",
+          `
+          variable "settings" {
+            type = map(string)
+          }
+
+          resource "aws_s3_bucket" "examplebucket" {
+            bucket = var.settings["bucket_name"]
+            acl    = "private"
+          }
+          `,
+        ],
+        [
+          "list access through []",
+          `
+          variable "settings" {
+            type = list(map(string))
+          }
+
+          resource "aws_s3_bucket" "examplebucket" {
+            bucket = var.settings[0]["bucket_name"]
+            acl    = "private"
+          }
+          `,
+        ],
       ])("%s", async (_name, hcl) => {
         expect(
           convert(`file.hcl`, hcl, {

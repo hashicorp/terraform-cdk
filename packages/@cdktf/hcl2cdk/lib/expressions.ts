@@ -78,6 +78,12 @@ export function extractReferencesFromExpression(
       return carry;
     }
 
+    // unsupported references
+    if (spot.includes("[")) {
+      throw new Error(
+        `Unsupported Terraform feature found: property access through foo.bar["xyz"] is not yet supported`
+      );
+    }
     const referenceParts = spot.split(".");
 
     const corespondingNodeId = nodeIds.find((id) => {

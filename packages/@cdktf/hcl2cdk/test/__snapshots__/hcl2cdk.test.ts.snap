@@ -142,9 +142,13 @@ new DockerProvider(this, \\"docker\\", new Struct { });"
 
 exports[`convert csharp errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert csharp errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert csharp errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert csharp errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert csharp errors on list access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
+
+exports[`convert csharp errors on property access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert csharp errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
@@ -455,9 +459,13 @@ DockerProvider.Builder.create(this, \\"docker\\").build();"
 
 exports[`convert java errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert java errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert java errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert java errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert java errors on list access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
+
+exports[`convert java errors on property access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert java errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
@@ -797,9 +805,13 @@ docker.DockerProvider(self, \\"docker\\")"
 
 exports[`convert python errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert python errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert python errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert python errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert python errors on list access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
+
+exports[`convert python errors on property access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert python errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
@@ -1172,9 +1184,13 @@ new docker.DockerProvider(this, \\"docker\\", {});
 
 exports[`convert typescript errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert typescript errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert typescript errors on dynamic blocks 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert typescript errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
+
+exports[`convert typescript errors on list access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
+
+exports[`convert typescript errors on property access through [] 1`] = `"Unsupported Terraform feature found: property access through foo.bar[\\"xyz\\"] is not yet supported"`;
 
 exports[`convert typescript errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 
