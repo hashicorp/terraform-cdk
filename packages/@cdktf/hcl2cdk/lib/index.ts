@@ -11,19 +11,23 @@ import {
   Reference,
   extractReferencesFromExpression,
   referencesToAst,
+  referenceToVariableName,
 } from "./expressions";
 
-const valueToTs = (item: any): t.Expression => {
+const valueToTs = (item: any, nodeIds: readonly string[]): t.Expression => {
   switch (typeof item) {
     case "string":
-      return referencesToAst(item, extractReferencesFromExpression(item));
+      return referencesToAst(
+        item,
+        extractReferencesFromExpression(item, nodeIds)
+      );
     case "boolean":
       return t.booleanLiteral(item);
     case "number":
       return t.numericLiteral(item);
     case "object":
       if (Array.isArray(item)) {
-        return t.arrayExpression(item.map(valueToTs));
+        return t.arrayExpression(item.map((i) => valueToTs(i, nodeIds)));
       }
 
       if (
@@ -41,7 +45,10 @@ const valueToTs = (item: any): t.Expression => {
         Object.entries(item)
           .filter(([_key, value]) => value !== undefined)
           .map(([key, value]) =>
-            t.objectProperty(t.stringLiteral(camelCase(key)), valueToTs(value))
+            t.objectProperty(
+              t.stringLiteral(camelCase(key)),
+              valueToTs(value, nodeIds)
+            )
           )
       );
   }
@@ -74,15 +81,7 @@ function findUsedReferences(
   }
 
   if (typeof item === "string") {
-    const extractedRefs = extractReferencesFromExpression(item);
-    if (!extractedRefs.every((ref) => nodeIds.includes(ref.referencee.id))) {
-      throw new Error(
-        `Found a reference that is unknown: ${item} resulted in references ${JSON.stringify(
-          extractedRefs
-        )}, but only these identifiers are known: ${JSON.stringify(nodeIds)}`
-      );
-    }
-
+    const extractedRefs = extractReferencesFromExpression(item, nodeIds);
     return [...references, ...extractedRefs];
   }
   return references;
@@ -92,7 +91,8 @@ function asExpression(
   type: string,
   name: string,
   config: any,
-  isReferenced: boolean
+  nodeIds: readonly string[],
+  reference?: Reference
 ) {
   const isNamespacedImport = type.includes(".");
   const subject = isNamespacedImport
@@ -105,15 +105,24 @@ function asExpression(
   const expression = t.newExpression(subject, [
     t.thisExpression(),
     t.stringLiteral(name),
-    valueToTs(config),
+    valueToTs(config, nodeIds),
   ]);
-  return isReferenced
+  return reference
     ? t.variableDeclaration("const", [
-        t.variableDeclarator(t.identifier(camelCase(name)), expression),
+        t.variableDeclarator(
+          t.identifier(referenceToVariableName(reference)),
+          expression
+        ),
       ])
     : t.expressionStatement(expression);
 }
-function output(key: string, _id: string, item: Output): t.Statement {
+function output(
+  key: string,
+  _id: string,
+  item: Output,
+  graph: DirectedGraph
+): t.Statement {
+  const nodeIds = graph.nodes();
   const [{ value, description, sensitive }] = item;
 
   return asExpression(
@@ -124,7 +133,7 @@ function output(key: string, _id: string, item: Output): t.Statement {
       description,
       sensitive,
     },
-    false
+    nodeIds
   );
 }
 
@@ -136,13 +145,29 @@ function variable(
 ): t.Statement {
   // We don't handle type information right now
   const [{ type, ...props }] = item;
+  const nodeIds = graph.nodes();
 
-  return asExpression("TerraformVariable", key, props, isReferenced(graph, id));
+  return asExpression(
+    "TerraformVariable",
+    key,
+    props,
+    nodeIds,
+    getReference(graph, id)
+  );
 }
 
-function local(key: string, _id: string, item: any): t.Statement {
+function local(
+  key: string,
+  _id: string,
+  item: any,
+  graph: DirectedGraph
+): t.Statement {
+  const nodeIds = graph.nodes();
   return t.variableDeclaration("const", [
-    t.variableDeclarator(t.identifier(camelCase(key)), valueToTs(item)),
+    t.variableDeclarator(
+      t.identifier(camelCase(key)),
+      valueToTs(item, nodeIds)
+    ),
   ]);
 }
 
@@ -153,10 +178,18 @@ function modules(
   graph: DirectedGraph
 ): t.Statement {
   const [{ source, ...props }] = item;
-  return asExpression(source, key, props, isReferenced(graph, id));
+  const nodeIds = graph.nodes();
+
+  return asExpression(source, key, props, nodeIds, getReference(graph, id));
 }
 
-function provider(key: string, _id: string, item: Provider): t.Statement {
+function provider(
+  key: string,
+  _id: string,
+  item: Provider,
+  graph: DirectedGraph
+): t.Statement {
+  const nodeIds = graph.nodes();
   const props = item[0];
 
   if (props.alias) {
@@ -169,11 +202,21 @@ function provider(key: string, _id: string, item: Provider): t.Statement {
     `${key}.${pascalCase(key + "Provider")}`,
     key,
     props,
-    false
+    nodeIds
   );
 }
-function isReferenced(graph: DirectedGraph, id: string) {
-  return graph.outNeighbors(id).length > 0;
+function getReference(graph: DirectedGraph, id: string) {
+  const neighbors = graph.outNeighbors(id);
+  if (neighbors.length > 0) {
+    const edge = graph.directedEdge(id, neighbors[0]);
+    if (edge) {
+      return graph.getEdgeAttribute(edge, "ref") as Reference;
+    } else {
+      return undefined;
+    }
+  } else {
+    return undefined;
+  }
 }
 
 function resource(
@@ -184,11 +227,13 @@ function resource(
   graph: DirectedGraph
 ): t.Statement {
   const [provider, ...name] = type.split("_");
+  const nodeIds = graph.nodes();
   return asExpression(
     `${provider}.${name.join("_")}`,
     key,
     item[0],
-    isReferenced(graph, id)
+    nodeIds,
+    getReference(graph, id)
   );
 }
 
@@ -266,7 +311,7 @@ export async function convertToTypescript(filename: string, hcl: string) {
   function addGlobalEdges(_key: string, id: string, value: unknown) {
     findUsedReferences(nodeIds, value).forEach((ref) => {
       if (!graph.hasDirectedEdge(ref.referencee.id, id)) {
-        graph.addDirectedEdge(ref.referencee.id, id);
+        graph.addDirectedEdge(ref.referencee.id, id, { ref });
       }
     });
   }
@@ -278,7 +323,7 @@ export async function convertToTypescript(filename: string, hcl: string) {
   ) {
     findUsedReferences(nodeIds, value).forEach((ref) => {
       if (!graph.hasDirectedEdge(ref.referencee.id, id)) {
-        graph.addDirectedEdge(ref.referencee.id, id);
+        graph.addDirectedEdge(ref.referencee.id, id, { ref });
       }
     });
   }

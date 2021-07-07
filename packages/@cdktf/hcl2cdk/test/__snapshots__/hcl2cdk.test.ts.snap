@@ -91,11 +91,11 @@ exports[`convert csharp complex resource configuration 1`] = `
 `;
 
 exports[`convert csharp conditionals configuration 1`] = `
-"var examplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
+"var awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
     DeletionWindowInDays = 7,
     Description = \\"KMS key 1\\"
 });
-var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+var awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
     Acl = \\"private\\",
     Bucket = \\"examplebuckettftest\\"
 });
@@ -111,7 +111,7 @@ exports[`convert csharp data references configuration 1`] = `
 "var bucketName = new TerraformVariable(this, \\"bucket_name\\", new Struct {
     Default = \\"demo\\"
 });
-var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+var dataAwsS3Bucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
     Acl = \\"private\\",
     Bucket = bucketName
 });
@@ -142,7 +142,7 @@ new DockerProvider(this, \\"docker\\", new Struct { });"
 
 exports[`convert csharp errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert csharp errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert csharp errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert csharp errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
@@ -259,11 +259,11 @@ new TerraformOutput(this, \\"subnet_ids\\", new Struct {
 `;
 
 exports[`convert csharp resource references configuration 1`] = `
-"var examplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
+"var awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
     DeletionWindowInDays = 7,
     Description = \\"KMS key 1\\"
 });
-var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+var awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
     Acl = \\"private\\",
     Bucket = \\"examplebuckettftest\\"
 });
@@ -276,11 +276,11 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", new Struct {
 `;
 
 exports[`convert csharp resource references with HCL functions configuration 1`] = `
-"var examplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
+"var awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", new Struct {
     DeletionWindowInDays = 7,
     Description = \\"KMS key 1\\"
 });
-var examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
+var awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", new Struct {
     Acl = \\"private\\",
     Bucket = \\"examplebuckettftest\\"
 });
@@ -405,11 +405,11 @@ exports[`convert java complex resource configuration 1`] = `
 `;
 
 exports[`convert java conditionals configuration 1`] = `
-"Object examplekms = KmsKey.Builder.create(this, \\"examplekms\\")
+"Object awsKmsKeyExamplekms = KmsKey.Builder.create(this, \\"examplekms\\")
         .deletionWindowInDays(7)
         .description(\\"KMS key 1\\")
         .build();
-Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+Object awsS3BucketExamplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
         .acl(\\"private\\")
         .bucket(\\"examplebuckettftest\\")
         .build();
@@ -425,7 +425,7 @@ exports[`convert java data references configuration 1`] = `
 "Object bucketName = TerraformVariable.Builder.create(this, \\"bucket_name\\")
         .default(\\"demo\\")
         .build();
-Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+Object dataAwsS3Bucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
         .acl(\\"private\\")
         .bucket(bucketName)
         .build();
@@ -455,7 +455,7 @@ DockerProvider.Builder.create(this, \\"docker\\").build();"
 
 exports[`convert java errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert java errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert java errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert java errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
@@ -569,11 +569,11 @@ TerraformOutput.Builder.create(this, \\"subnet_ids\\")
 `;
 
 exports[`convert java resource references configuration 1`] = `
-"Object examplekms = KmsKey.Builder.create(this, \\"examplekms\\")
+"Object awsKmsKeyExamplekms = KmsKey.Builder.create(this, \\"examplekms\\")
         .deletionWindowInDays(7)
         .description(\\"KMS key 1\\")
         .build();
-Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+Object awsS3BucketExamplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
         .acl(\\"private\\")
         .bucket(\\"examplebuckettftest\\")
         .build();
@@ -586,11 +586,11 @@ S3BucketObject.Builder.create(this, \\"examplebucket_object\\")
 `;
 
 exports[`convert java resource references with HCL functions configuration 1`] = `
-"Object examplekms = KmsKey.Builder.create(this, \\"examplekms\\")
+"Object awsKmsKeyExamplekms = KmsKey.Builder.create(this, \\"examplekms\\")
         .deletionWindowInDays(7)
         .description(\\"KMS key 1\\")
         .build();
-Object examplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
+Object awsS3BucketExamplebucket = S3Bucket.Builder.create(this, \\"examplebucket\\")
         .acl(\\"private\\")
         .bucket(\\"examplebuckettftest\\")
         .build();
@@ -746,11 +746,11 @@ exports[`convert python complex resource configuration 1`] = `
 `;
 
 exports[`convert python conditionals configuration 1`] = `
-"examplekms = aws.KmsKey(self, \\"examplekms\\",
+"aws_kms_key_examplekms = aws.KmsKey(self, \\"examplekms\\",
     deletion_window_in_days=7,
     description=\\"KMS key 1\\"
 )
-examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+aws_s3_bucket_examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
     acl=\\"private\\",
     bucket=\\"examplebuckettftest\\"
 )
@@ -766,7 +766,7 @@ exports[`convert python data references configuration 1`] = `
 "bucket_name = TerraformVariable(self, \\"bucket_name\\",
     default=\\"demo\\"
 )
-examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+data_aws_s3_bucket = aws.S3Bucket(self, \\"examplebucket\\",
     acl=\\"private\\",
     bucket=bucket_name
 )
@@ -797,7 +797,7 @@ docker.DockerProvider(self, \\"docker\\")"
 
 exports[`convert python errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert python errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert python errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert python errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
@@ -915,11 +915,11 @@ TerraformOutput(self, \\"subnet_ids\\",
 `;
 
 exports[`convert python resource references configuration 1`] = `
-"examplekms = aws.KmsKey(self, \\"examplekms\\",
+"aws_kms_key_examplekms = aws.KmsKey(self, \\"examplekms\\",
     deletion_window_in_days=7,
     description=\\"KMS key 1\\"
 )
-examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+aws_s3_bucket_examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
     acl=\\"private\\",
     bucket=\\"examplebuckettftest\\"
 )
@@ -932,11 +932,11 @@ aws.S3BucketObject(self, \\"examplebucket_object\\",
 `;
 
 exports[`convert python resource references with HCL functions configuration 1`] = `
-"examplekms = aws.KmsKey(self, \\"examplekms\\",
+"aws_kms_key_examplekms = aws.KmsKey(self, \\"examplekms\\",
     deletion_window_in_days=7,
     description=\\"KMS key 1\\"
 )
-examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
+aws_s3_bucket_examplebucket = aws.S3Bucket(self, \\"examplebucket\\",
     acl=\\"private\\",
     bucket=\\"examplebuckettftest\\"
 )
@@ -1117,18 +1117,18 @@ exports[`convert typescript complex resource configuration 1`] = `
 `;
 
 exports[`convert typescript conditionals configuration 1`] = `
-"const examplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
-const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"examplebuckettftest\\",
 });
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
-  bucket: \`$\${examplekms.deletionWindowInDays} > 3 ?\${examplebucket.id} : []\`,
+  bucket: \`$\${awsKmsKeyExamplekms.deletionWindowInDays} > 3 ?\${awsS3BucketExamplebucket.id} : []\`,
   key: \\"someobject\\",
-  kmsKeyId: examplekms.arn,
+  kmsKeyId: awsKmsKeyExamplekms.arn,
   source: \\"index.html\\",
 });
 "
@@ -1138,7 +1138,7 @@ exports[`convert typescript data references configuration 1`] = `
 "const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
-const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+const dataAwsS3Bucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: bucketName,
 });
@@ -1172,7 +1172,7 @@ new docker.DockerProvider(this, \\"docker\\", {});
 
 exports[`convert typescript errors on count loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"count\\":\\"\${length(var.users)}\\",\\"name\\":\\"\${element(var.users, count.index)}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
-exports[`convert typescript errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} resulted in references [{\\"start\\":2,\\"end\\":23,\\"referencee\\":{\\"id\\":\\"setting.value[\\\\\\"name\\\\\\"]\\",\\"full\\":\\"setting.value[\\\\\\"name\\\\\\"]\\"}}], but only these identifiers are known: [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
+exports[`convert typescript errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert typescript errors on for_each loops 1`] = `"Unsupported Terraform feature found: for-each loops are not yet supported: {\\"for_each\\":\\"\${var.users}\\",\\"name\\":\\"\${each.key}\\",\\"path\\":\\"/system/\\",\\"tags\\":{\\"tag-key\\":\\"tag-value\\"}}"`;
 
@@ -1302,11 +1302,11 @@ new TerraformOutput(this, \\"subnet_ids\\", {
 `;
 
 exports[`convert typescript resource references configuration 1`] = `
-"const examplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
-const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"examplebuckettftest\\",
 });
@@ -1320,11 +1320,11 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert typescript resource references with HCL functions configuration 1`] = `
-"const examplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
-const examplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"examplebuckettftest\\",
 });

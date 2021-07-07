@@ -7,7 +7,10 @@ export type Reference = {
   referencee: { id: string; full: string }; // identifier for resource
 };
 
-export function extractReferencesFromExpression(input: string): Reference[] {
+export function extractReferencesFromExpression(
+  input: string,
+  nodeIds: readonly string[]
+): Reference[] {
   if (input.includes(".*")) {
     throw new Error(
       `Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: ${input}`
@@ -75,32 +78,49 @@ export function extractReferencesFromExpression(input: string): Reference[] {
       return carry;
     }
 
-    const [start, ...referenceParts] = spot.split(".");
+    const referenceParts = spot.split(".");
 
-    const id = (
-      start === "data"
-        ? [start, referenceParts[0], referenceParts[1]]
-        : [start, referenceParts[0]]
-    ).join(".");
+    const corespondingNodeId = nodeIds.find((id) => {
+      const parts = id.split(".");
+      const matchesFirstTwo =
+        parts[0] === referenceParts[0] && parts[1] === referenceParts[1];
+      return (
+        matchesFirstTwo &&
+        (parts[0] === "data" ? parts[2] === referenceParts[2] : true)
+      );
+    });
+
+    if (!corespondingNodeId) {
+      throw new Error(
+        `Found a reference that is unknown: ${input} was not found in ${JSON.stringify(
+          nodeIds
+        )}`
+      );
+    }
 
     const ref: Reference = {
       start: input.indexOf(spot),
       end: input.indexOf(spot) + spot.length,
-      referencee: { id, full: spot },
+      referencee: { id: corespondingNodeId, full: spot },
     };
     return [...carry, ref];
   }, [] as Reference[]);
 }
 
-function referenceToAst(ref: Reference) {
-  const [resource, name, ...selector] = ref.referencee.full.split(".");
+export function referenceToVariableName(ref: Reference): string {
+  const [resource, name] = ref.referencee.full.split(".");
+  return camelCase(
+    ["var", "local", "module"].includes(resource)
+      ? name
+      : [resource, name].join("_")
+  );
+}
+
+export function referenceToAst(ref: Reference) {
+  const [resource, _name, ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
-    camelCase(
-      ["var", "local", "module"].includes(resource)
-        ? name
-        : [resource, name].join("_")
-    )
+    camelCase(referenceToVariableName(ref))
   );
 
   return selector.reduce(
