@@ -450,7 +450,7 @@ export const useTerraform = ({
     try {
       if (!terraform)
         throw new Error(
-          "Terraform is not initialized yet. Please call synth() with loadExecutor: true first"
+          "Internal error: Terraform is not initialized yet. Please call synth() with loadExecutor: true first"
         );
       dispatch({ type: "INIT" });
       await terraform.init();
