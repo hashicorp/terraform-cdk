@@ -12,7 +12,8 @@ const PROPERTY_ACCESS_REGEX = /\[.*\]/;
 
 export function extractReferencesFromExpression(
   input: string,
-  nodeIds: readonly string[]
+  nodeIds: readonly string[],
+  scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
 ): Reference[] {
   const isDoubleParanthesis = input.startsWith("${{");
   if (!input.startsWith("${")) {
@@ -79,10 +80,11 @@ export function extractReferencesFromExpression(
 
     const referenceParts = spot.split(".");
 
-    const corespondingNodeId = nodeIds.find((id) => {
+    const corespondingNodeId = [...nodeIds, ...scopedIds].find((id) => {
       const parts = id.split(".");
+      const matchesFirst = parts[0] === referenceParts[0];
       const matchesFirstTwo =
-        parts[0] === referenceParts[0] && parts[1] === referenceParts[1];
+        matchesFirst && (parts[1] === referenceParts[1] || parts.length === 1);
 
       return (
         matchesFirstTwo &&
@@ -94,8 +96,12 @@ export function extractReferencesFromExpression(
       throw new Error(
         `Found a reference that is unknown: ${input} was not found in ${JSON.stringify(
           nodeIds
-        )}`
+        )} with temporary values ${JSON.stringify(scopedIds)}`
       );
+    }
+
+    if (scopedIds.includes(corespondingNodeId)) {
+      return carry;
     }
 
     const start = input.indexOf(spot);
@@ -153,7 +159,8 @@ export function referenceToAst(ref: Reference) {
 
 export function referencesToAst(
   input: string,
-  refs: Reference[]
+  refs: Reference[],
+  scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
 ): t.Expression {
   if (refs.length === 0) {
     return t.stringLiteral(input);
@@ -161,12 +168,13 @@ export function referencesToAst(
 
   const refAsts = refs
     .sort((a, b) => a.start - b.start)
+    .filter((ref) => !scopedIds.includes(ref.referencee.id))
     .map((ref) => ({ ref, ast: referenceToAst(ref) }));
 
   if (
-    refs.length === 1 &&
-    refs[0].start === "${".length &&
-    refs[0].end === input.length - "}".length
+    refAsts.length === 1 &&
+    refAsts[0].ref.start === "${".length &&
+    refAsts[0].ref.end === input.length - "}".length
   ) {
     return refAsts[0].ast;
   }

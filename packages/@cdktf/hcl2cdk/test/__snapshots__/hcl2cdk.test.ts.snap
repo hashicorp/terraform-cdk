@@ -199,13 +199,36 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 "
 `;
 
+exports[`convert dynamic blocks configuration 1`] = `
+"const namespace = new TerraformVariable(this, \\"namespace\\", {});
+const settings = new TerraformVariable(this, \\"settings\\", {});
+new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
+  application: \\"best-app\\",
+  setting: [],
+  name: \\"tf-test-name\\",
+  solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
+});
+awsElasticBeanstalkEnvironmentAwsElasticBeanstalkEnvironmentTfenvtest.addOverride(
+  \\"setting\\",
+  {
+    for_each: settings.fqn,
+    content: [
+      {
+        name: '\${setting.value[\\"name\\"]}',
+        namespace: namespace.fqn,
+        value: '\${setting.value[\\"value\\"]}',
+      },
+    ],
+  }
+);
+"
+`;
+
 exports[`convert empty provider configuration 1`] = `
 "import * as docker from \\"./.gen/docker\\";
 new docker.DockerProvider(this, \\"docker\\", {});
 "
 `;
-
-exports[`convert errors on dynamic blocks 1`] = `"Found a reference that is unknown: \${setting.value[\\"name\\"]} was not found in [\\"var.settings\\",\\"aws_elastic_beanstalk_environment.tfenvtest\\"]"`;
 
 exports[`convert errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
 

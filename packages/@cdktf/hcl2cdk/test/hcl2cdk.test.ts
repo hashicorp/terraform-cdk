@@ -516,6 +516,32 @@ describe("convert", () => {
           }
         }`,
     ],
+    [
+      "dynamic blocks",
+      `
+        variable "settings" {
+          type = list(map(string))
+        }
+
+        variable "namespace" {
+          type = string
+        }
+
+        resource "aws_elastic_beanstalk_environment" "tfenvtest" {
+          name                = "tf-test-name"
+          application         = "best-app"
+          solution_stack_name = "64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6"
+        
+          dynamic "setting" {
+            for_each = var.settings
+            content {
+              namespace = var.namespace
+              name = setting.value["name"]
+              value = setting.value["value"]
+            }
+          }
+        }`,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(`file.hcl`, hcl, {
       language: "typescript",
@@ -525,28 +551,6 @@ describe("convert", () => {
 
   describe("errors on", () => {
     it.each([
-      [
-        "dynamic blocks",
-        `
-          variable "settings" {
-            type = list(map(string))
-          }
-
-          resource "aws_elastic_beanstalk_environment" "tfenvtest" {
-            name                = "tf-test-name"
-            application         = "best-app"
-            solution_stack_name = "64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6"
-          
-            dynamic "setting" {
-              for_each = var.settings
-              content {
-                namespace = setting.value["namespace"]
-                name = setting.value["name"]
-                value = setting.value["value"]
-              }
-            }
-          }`,
-      ],
       [
         "provider alias",
         `

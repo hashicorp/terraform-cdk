@@ -15,12 +15,17 @@ import {
   referenceToVariableName,
 } from "./expressions";
 
-const valueToTs = (item: any, nodeIds: readonly string[]): t.Expression => {
+const valueToTs = (
+  item: any,
+  nodeIds: string[],
+  scopedIds: string[] = []
+): t.Expression => {
   switch (typeof item) {
     case "string":
       return referencesToAst(
         item,
-        extractReferencesFromExpression(item, nodeIds)
+        extractReferencesFromExpression(item, nodeIds, scopedIds),
+        scopedIds
       );
     case "boolean":
       return t.booleanLiteral(item);
@@ -28,21 +33,74 @@ const valueToTs = (item: any, nodeIds: readonly string[]): t.Expression => {
       return t.numericLiteral(item);
     case "object":
       if (Array.isArray(item)) {
-        return t.arrayExpression(item.map((i) => valueToTs(i, nodeIds)));
+        return t.arrayExpression(
+          item.map((i) => valueToTs(i, nodeIds, scopedIds))
+        );
+      }
+
+      if (item["dynamic"]) {
       }
 
       return t.objectExpression(
         Object.entries(item)
           .filter(([_key, value]) => value !== undefined)
-          .map(([key, value]) =>
-            t.objectProperty(
-              t.stringLiteral(camelCase(key)),
-              valueToTs(value, nodeIds)
-            )
-          )
+          .map(([key, value]) => {
+            if (key === "dynamic") {
+              const { for_each, ...others } = value as any;
+              const dynamicRef = Object.keys(others)[0];
+              return t.objectProperty(
+                t.identifier(dynamicRef),
+                t.arrayExpression()
+              );
+            }
+
+            return t.objectProperty(
+              t.stringLiteral(key !== "for_each" ? camelCase(key) : key),
+              valueToTs(value, nodeIds, scopedIds)
+            );
+          })
       );
   }
   throw new Error("Unsupported type " + item);
+};
+type DynamicBlock = {
+  path: string;
+  for_each: any;
+  content: any;
+  scopedVar: string;
+};
+const extractDynamicBlocks = (config: any, path = ""): DynamicBlock[] => {
+  if (typeof config !== "object") {
+    return [];
+  }
+
+  if (Array.isArray(config)) {
+    return config.reduce(
+      (carry, item, index) => [
+        ...carry,
+        ...extractDynamicBlocks(item, `${path}.${index}`),
+      ],
+      []
+    );
+  }
+
+  if (config["dynamic"]) {
+    const scopedVar = Object.keys(config["dynamic"])[0];
+    const { for_each, content } = config["dynamic"][scopedVar][0];
+
+    return [
+      {
+        path: `${path}.${scopedVar}`,
+        for_each,
+        content,
+        scopedVar,
+      },
+    ];
+  }
+
+  return Object.entries(config).reduce((carry, [key, value]) => {
+    return [...carry, ...extractDynamicBlocks(value as any, `${path}.${key}`)];
+  }, [] as DynamicBlock[]);
 };
 
 function findUsedReferences(
@@ -61,6 +119,15 @@ function findUsedReferences(
   }
 
   if (typeof item === "object") {
+    if (item && "dynamic" in item) {
+      const dyn = (item as any)["dynamic"];
+      const { for_each, ...others } = dyn;
+      const dynamicRef = Object.keys(others)[0];
+      return [
+        ...references,
+        ...findUsedReferences([...nodeIds, dynamicRef], dyn),
+      ];
+    }
     return [
       ...references,
       ...Object.values(item as Record<string, any>).reduce(
@@ -71,7 +138,7 @@ function findUsedReferences(
   }
 
   if (typeof item === "string") {
-    const extractedRefs = extractReferencesFromExpression(item, nodeIds);
+    const extractedRefs = extractReferencesFromExpression(item, nodeIds, []);
     return [...references, ...extractedRefs];
   }
   return references;
@@ -81,7 +148,7 @@ function asExpression(
   type: string,
   name: string,
   config: any,
-  nodeIds: readonly string[],
+  nodeIds: string[],
   reference?: Reference
 ) {
   const isNamespacedImport = type.includes(".");
@@ -209,13 +276,26 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
+function addOverrideExpression(
+  variable: string,
+  path: string,
+  value: t.Expression
+) {
+  return t.expressionStatement(
+    t.callExpression(
+      t.memberExpression(t.identifier(variable), t.identifier("addOverride")),
+      [t.stringLiteral(path), value]
+    )
+  );
+}
+
 function resource(
   type: string,
   key: string,
   id: string,
   item: Resource,
   graph: DirectedGraph
-): t.Statement | t.Statement[] {
+): t.Statement[] {
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
   const resource = `${provider}.${name.join("_")}`;
@@ -228,36 +308,54 @@ function resource(
     nodeIds,
     getReference(graph, id)
   );
+  const expressions = [expression];
 
   if (for_each) {
-    const references = extractReferencesFromExpression(for_each, nodeIds);
-    const forEachOverrideExpression = t.expressionStatement(
-      t.callExpression(
-        t.memberExpression(
-          t.identifier(varibaleName(resource, id)),
-          t.identifier("addOverride")
-        ),
-        [t.stringLiteral("for_each"), referencesToAst(for_each, references)]
+    const references = extractReferencesFromExpression(for_each, nodeIds, [
+      "each",
+    ]);
+    expressions.push(
+      addOverrideExpression(
+        varibaleName(resource, id),
+        "for_each",
+        referencesToAst(for_each, references)
       )
     );
-    return [expression, forEachOverrideExpression];
   }
 
   if (count) {
-    const references = extractReferencesFromExpression(count, nodeIds);
-    const forEachOverrideExpression = t.expressionStatement(
-      t.callExpression(
-        t.memberExpression(
-          t.identifier(varibaleName(resource, id)),
-          t.identifier("addOverride")
-        ),
-        [t.stringLiteral("count"), referencesToAst(count, references)]
+    const references = extractReferencesFromExpression(count, nodeIds, [
+      "count",
+    ]);
+    expressions.push(
+      addOverrideExpression(
+        varibaleName(resource, id),
+        "count",
+        referencesToAst(count, references)
       )
     );
-    return [expression, forEachOverrideExpression];
   }
 
-  return expression;
+  // Check for dynamic blocks
+  return [
+    ...expressions,
+    ...extractDynamicBlocks(config).map(
+      ({ path, for_each, content, scopedVar }) => {
+        return addOverrideExpression(
+          varibaleName(resource, id),
+          path.substring(1), // The path starts with a dot that we don't want
+          valueToTs(
+            {
+              for_each,
+              content,
+            },
+            nodeIds,
+            [scopedVar]
+          )
+        ) as any;
+      }
+    ),
+  ];
 }
 
 // locals, provider, variables, and outputs are global key value maps
@@ -330,13 +428,18 @@ export async function convertToTypescript(filename: string, hcl: string) {
   );
   const nodeIds = Object.keys(nodeMap);
 
-  // Add Edges
-  function addGlobalEdges(_key: string, id: string, value: unknown) {
+  function addEdges(id: string, value: unknown) {
     findUsedReferences(nodeIds, value).forEach((ref) => {
-      if (!graph.hasDirectedEdge(ref.referencee.id, id)) {
+      if (
+        !graph.hasDirectedEdge(ref.referencee.id, id) &&
+        graph.hasNode(ref.referencee.id) // in case the referencee is a dynamic variable
+      ) {
         graph.addDirectedEdge(ref.referencee.id, id, { ref });
       }
     });
+  }
+  function addGlobalEdges(_key: string, id: string, value: unknown) {
+    addEdges(id, value);
   }
   function addNamespacedEdges(
     _type: string,
@@ -344,11 +447,7 @@ export async function convertToTypescript(filename: string, hcl: string) {
     id: string,
     value: unknown
   ) {
-    findUsedReferences(nodeIds, value).forEach((ref) => {
-      if (!graph.hasDirectedEdge(ref.referencee.id, id)) {
-        graph.addDirectedEdge(ref.referencee.id, id, { ref });
-      }
-    });
+    addEdges(id, value);
   }
 
   Object.values({
