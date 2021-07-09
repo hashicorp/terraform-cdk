@@ -144,7 +144,7 @@ export function referenceToAst(ref: Reference) {
     variableReference as t.Expression
   );
 
-  if (ref.useFqn) {
+  if (ref.useFqn || selector.length === 0) {
     return t.memberExpression(accessor, t.identifier("fqn"));
   } else {
     return accessor;

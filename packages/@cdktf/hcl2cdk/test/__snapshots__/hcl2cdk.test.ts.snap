@@ -11,7 +11,7 @@ exports[`convert Cross-Language Support supports typescript 1`] = `Promise {}`;
 exports[`convert arithmetics configuration 1`] = `
 "const admins = new TerraformVariable(this, \\"admins\\", {});
 const members = new TerraformVariable(this, \\"members\\", {});
-const users = \`\\\\\${\${members} + \${admins}}\`;
+const users = \`\\\\\${\${members.fqn} + \${admins.fqn}}\`;
 "
 `;
 
@@ -159,13 +159,13 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 exports[`convert count loops configuration 1`] = `
 "const users = new TerraformVariable(this, \\"users\\", {});
 new aws.IamUser(this, \\"lb\\", {
-  name: \`\\\\\${element(\${users}, count.index)}\`,
+  name: \`\\\\\${element(\${users.fqn}, count.index)}\`,
   path: \\"/system/\\",
   tags: {
     tagKey: \\"tag-value\\",
   },
 });
-awsIamUserAwsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users})}\`);
+awsIamUserAwsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.fqn})}\`);
 "
 `;
 
@@ -175,7 +175,7 @@ exports[`convert data references configuration 1`] = `
 });
 const dataAwsS3Bucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName,
+  bucket: bucketName.fqn,
 });
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: dataAwsS3Bucket.examplebucket.arn,
@@ -191,9 +191,9 @@ exports[`convert double references configuration 1`] = `
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName,
+  bucket: bucketName.fqn,
   tags: {
-    tagKey: bucketName,
+    tagKey: bucketName.fqn,
   },
 });
 "
@@ -239,11 +239,11 @@ awsS3BucketObjectAwsS3BucketObjectExamplebucketObject.addOverride(
 exports[`convert for expression 1 configuration 1`] = `
 "const users = new TerraformVariable(this, \\"users\\", {});
 const adminUsers = \`\\\\\${{
-            for name, user in \${users} : name => user
+            for name, user in \${users.fqn} : name => user
             if user.is_admin
           }}\`;
 const regularUsers = \`\\\\\${{
-            for name, user in \${users} : name => user
+            for name, user in \${users.fqn} : name => user
             if !user.is_admin
           }}\`;
 "
@@ -252,7 +252,7 @@ const regularUsers = \`\\\\\${{
 exports[`convert for expression 2 configuration 1`] = `
 "const users = new TerraformVariable(this, \\"users\\", {});
 const usersByRole = \`\\\\\${{
-            for name, user in \${users} : user.role => name...
+            for name, user in \${users.fqn} : user.role => name...
           }}\`;
 "
 `;
@@ -266,7 +266,7 @@ new aws.IamUser(this, \\"lb\\", {
     tagKey: \\"tag-value\\",
   },
 });
-awsIamUserAwsIamUserLb.addOverride(\\"for_each\\", users);
+awsIamUserAwsIamUserLb.addOverride(\\"for_each\\", users.fqn);
 "
 `;
 
@@ -291,7 +291,7 @@ exports[`convert locals references configuration 1`] = `
 "const bucketName = \\"foo\\";
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName,
+  bucket: bucketName.fqn,
 });
 "
 `;
@@ -424,7 +424,7 @@ const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   bucket: \\"examplebuckettftest\\",
 });
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
-  bucket: \`\\\\\${element(\${awsS3BucketExamplebucket}, 0).id}\`,
+  bucket: \`\\\\\${element(\${awsS3BucketExamplebucket.fqn}, 0).id}\`,
   key: \\"someobject\\",
   kmsKeyId: awsKmsKeyExamplekms.arn,
   source: \\"index.html\\",
@@ -465,7 +465,7 @@ exports[`convert variable references configuration 1`] = `
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName,
+  bucket: bucketName.fqn,
 });
 "
 `;

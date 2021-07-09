@@ -31,14 +31,6 @@ const valueToTs = (item: any, nodeIds: readonly string[]): t.Expression => {
         return t.arrayExpression(item.map((i) => valueToTs(i, nodeIds)));
       }
 
-      if (Object.keys(item).includes("count")) {
-        throw new Error(
-          `Unsupported Terraform feature found: count loops are not yet supported: ${JSON.stringify(
-            item
-          )}`
-        );
-      }
-
       return t.objectExpression(
         Object.entries(item)
           .filter(([_key, value]) => value !== undefined)
