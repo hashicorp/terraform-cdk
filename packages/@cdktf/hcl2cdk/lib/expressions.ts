@@ -5,18 +5,15 @@ export type Reference = {
   start: number;
   end: number;
   referencee: { id: string; full: string }; // identifier for resource
+  useFqn?: boolean;
 };
+
+const PROPERTY_ACCESS_REGEX = /\[.*\]/;
 
 export function extractReferencesFromExpression(
   input: string,
   nodeIds: readonly string[]
 ): Reference[] {
-  if (input.includes(".*")) {
-    throw new Error(
-      `Unsupported Terraform feature found: Splat operations (resource.name.*.property) are not yet supported: ${input}`
-    );
-  }
-
   const isDoubleParanthesis = input.startsWith("${{");
   if (!input.startsWith("${")) {
     return [];
@@ -43,6 +40,8 @@ export function extractReferencesFromExpression(
     "(",
     ",",
     ")",
+    ".*",
+    PROPERTY_ACCESS_REGEX,
     " ",
     "!",
     "-",
@@ -78,18 +77,13 @@ export function extractReferencesFromExpression(
       return carry;
     }
 
-    // unsupported references
-    if (spot.includes("[")) {
-      throw new Error(
-        `Unsupported Terraform feature found: property access through foo.bar["xyz"] is not yet supported`
-      );
-    }
     const referenceParts = spot.split(".");
 
     const corespondingNodeId = nodeIds.find((id) => {
       const parts = id.split(".");
       const matchesFirstTwo =
         parts[0] === referenceParts[0] && parts[1] === referenceParts[1];
+
       return (
         matchesFirstTwo &&
         (parts[0] === "data" ? parts[2] === referenceParts[2] : true)
@@ -104,10 +98,14 @@ export function extractReferencesFromExpression(
       );
     }
 
+    const start = input.indexOf(spot);
+    const end = start + spot.length;
+
     const ref: Reference = {
-      start: input.indexOf(spot),
-      end: input.indexOf(spot) + spot.length,
+      start,
+      end,
       referencee: { id: corespondingNodeId, full: spot },
+      useFqn: input.substr(end + 1, 1) === "*" || input.substr(end, 1) === "[", // If the following character is a * (splat) we need to use the FQN
     };
     return [...carry, ref];
   }, [] as Reference[]);
@@ -115,6 +113,10 @@ export function extractReferencesFromExpression(
 
 export function referenceToVariableName(ref: Reference): string {
   const [resource, name] = ref.referencee.full.split(".");
+  return varibaleName(resource, name);
+}
+
+export function varibaleName(resource: string, name: string): string {
   return camelCase(
     ["var", "local", "module"].includes(resource)
       ? name
@@ -129,7 +131,7 @@ export function referenceToAst(ref: Reference) {
     camelCase(referenceToVariableName(ref))
   );
 
-  return selector.reduce(
+  const accessor = selector.reduce(
     (carry, member, index) =>
       t.memberExpression(
         carry,
@@ -141,6 +143,12 @@ export function referenceToAst(ref: Reference) {
       ),
     variableReference as t.Expression
   );
+
+  if (ref.useFqn) {
+    return t.memberExpression(accessor, t.identifier("fqn"));
+  } else {
+    return accessor;
+  }
 }
 
 export function referencesToAst(
@@ -155,7 +163,11 @@ export function referencesToAst(
     .sort((a, b) => a.start - b.start)
     .map((ref) => ({ ref, ast: referenceToAst(ref) }));
 
-  if (refs.length === 1) {
+  if (
+    refs.length === 1 &&
+    refs[0].start === "${".length &&
+    refs[0].end === input.length - "}".length
+  ) {
     return refAsts[0].ast;
   }
 
@@ -170,7 +182,9 @@ export function referencesToAst(
     // leading quasi
     if (ref.start !== lastEnd) {
       quasis.push(
-        t.templateElement({ raw: input.substring(lastEnd, ref.start - 1) })
+        t.templateElement({
+          raw: input.substring(lastEnd, ref.start).replace("$", "\\$"),
+        })
       );
     }
 
@@ -181,7 +195,7 @@ export function referencesToAst(
 
   // trailing quasi
   quasis.push(
-    t.templateElement({ raw: input.substring(lastEnd, input.length - 1) }, true)
+    t.templateElement({ raw: input.substring(lastEnd, input.length) }, true)
   );
 
   return t.templateLiteral(quasis, expressions);

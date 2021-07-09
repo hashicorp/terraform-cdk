@@ -4,12 +4,13 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import { pascalCase, camelCase } from "change-case";
-import { schema, Output, Variable, Provider, Module } from "./schema";
+import { schema, Output, Variable, Provider, Module, Resource } from "./schema";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
 import {
   Reference,
   extractReferencesFromExpression,
+  varibaleName,
   referencesToAst,
   referenceToVariableName,
 } from "./expressions";
@@ -30,12 +31,9 @@ const valueToTs = (item: any, nodeIds: readonly string[]): t.Expression => {
         return t.arrayExpression(item.map((i) => valueToTs(i, nodeIds)));
       }
 
-      if (
-        Object.keys(item).includes("for_each") ||
-        Object.keys(item).includes("count")
-      ) {
+      if (Object.keys(item).includes("count")) {
         throw new Error(
-          `Unsupported Terraform feature found: for-each loops are not yet supported: ${JSON.stringify(
+          `Unsupported Terraform feature found: count loops are not yet supported: ${JSON.stringify(
             item
           )}`
         );
@@ -223,18 +221,51 @@ function resource(
   type: string,
   key: string,
   id: string,
-  item: Provider,
+  item: Resource,
   graph: DirectedGraph
-): t.Statement {
+): t.Statement | t.Statement[] {
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
-  return asExpression(
-    `${provider}.${name.join("_")}`,
+  const resource = `${provider}.${name.join("_")}`;
+
+  const { for_each, count, ...config } = item[0];
+  const expression = asExpression(
+    resource,
     key,
-    item[0],
+    config,
     nodeIds,
     getReference(graph, id)
   );
+
+  if (for_each) {
+    const references = extractReferencesFromExpression(for_each, nodeIds);
+    const forEachOverrideExpression = t.expressionStatement(
+      t.callExpression(
+        t.memberExpression(
+          t.identifier(varibaleName(resource, id)),
+          t.identifier("addOverride")
+        ),
+        [t.stringLiteral("for_each"), referencesToAst(for_each, references)]
+      )
+    );
+    return [expression, forEachOverrideExpression];
+  }
+
+  if (count) {
+    const references = extractReferencesFromExpression(count, nodeIds);
+    const forEachOverrideExpression = t.expressionStatement(
+      t.callExpression(
+        t.memberExpression(
+          t.identifier(varibaleName(resource, id)),
+          t.identifier("addOverride")
+        ),
+        [t.stringLiteral("count"), referencesToAst(count, references)]
+      )
+    );
+    return [expression, forEachOverrideExpression];
+  }
+
+  return expression;
 }
 
 // locals, provider, variables, and outputs are global key value maps
@@ -360,7 +391,11 @@ export async function convertToTypescript(filename: string, hcl: string) {
 
       if (unresolvedDependencies.length === 0) {
         nodesToVisit = nodesToVisit.filter((id) => nodeId !== id);
-        expressions.push(graph.getNodeAttribute(nodeId, "code")(graph));
+        const list = graph.getNodeAttribute(nodeId, "code")(graph);
+
+        (Array.isArray(list) ? list : [list]).forEach((item) =>
+          expressions.push(item)
+        );
       }
     });
   }

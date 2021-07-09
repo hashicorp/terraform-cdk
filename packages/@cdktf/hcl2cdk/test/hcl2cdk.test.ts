@@ -426,6 +426,96 @@ describe("convert", () => {
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
     ],
+    [
+      "for each on list using splat",
+      `
+        variable "buckets" {
+          type    = list(string)
+        }
+
+        resource "aws_kms_key" "examplekms" {
+          description             = "KMS key 1"
+          deletion_window_in_days = 7
+        }
+        
+        resource "aws_s3_bucket" "examplebucket" {
+          for_each = toset(var.buckets.*)
+
+          bucket = each.key
+          acl    = "private"
+        }
+        
+        resource "aws_s3_bucket_object" "examplebucket_object" {
+          for_each = toset(aws_s3_bucket.examplebucket.*)
+
+          key        = "someobject"
+          bucket     = each.key
+          source     = "index.html"
+          kms_key_id = aws_kms_key.examplekms.arn
+        }
+        `,
+    ],
+    [
+      "for_each loops",
+      `
+        variable "users" {
+          type = set(string)
+        }
+
+        resource "aws_iam_user" "lb" {
+          for_each = var.users
+          name = each.key
+          path = "/system/"
+        
+          tags = {
+            tag-key = "tag-value"
+          }
+        }
+        `,
+    ],
+    [
+      "property access through []",
+      `
+        variable "settings" {
+          type = map(string)
+        }
+
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = var.settings["bucket_name"]
+          acl    = "private"
+        }
+        `,
+    ],
+    [
+      "list access through []",
+      `
+        variable "settings" {
+          type = list(map(string))
+        }
+
+        resource "aws_s3_bucket" "examplebucket" {
+          bucket = var.settings[0]["bucket_name"]
+          acl    = "private"
+        }
+        `,
+    ],
+    [
+      "count loops",
+      `
+        variable "users" {
+          type = set(string)
+        }
+
+        resource "aws_iam_user" "lb" {
+          count = length(var.users)
+          name = element(var.users, count.index)
+          path = "/system/"
+        
+          tags = {
+            tag-key = "tag-value"
+          }
+        }`,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(`file.hcl`, hcl, {
       language: "typescript",
@@ -435,61 +525,6 @@ describe("convert", () => {
 
   describe("errors on", () => {
     it.each([
-      [
-        "resource references with lists",
-        `
-          resource "aws_kms_key" "examplekms" {
-            description             = "KMS key 1"
-            deletion_window_in_days = 7
-          }
-          
-          resource "aws_s3_bucket" "examplebucket" {
-            bucket = "examplebuckettftest"
-            acl    = "private"
-          }
-          
-          resource "aws_s3_bucket_object" "examplebucket_object" {
-            key        = "someobject"
-            bucket     = aws_s3_bucket.examplebucket.*.id
-            source     = "index.html"
-            kms_key_id = aws_kms_key.examplekms.arn
-          }`,
-      ],
-      [
-        "for_each loops",
-        `
-          variable "users" {
-            type = set(string)
-          }
-
-          resource "aws_iam_user" "lb" {
-            for_each = var.users
-            name = each.key
-            path = "/system/"
-          
-            tags = {
-              tag-key = "tag-value"
-            }
-          }
-          `,
-      ],
-      [
-        "count loops",
-        `
-          variable "users" {
-            type = set(string)
-          }
-
-          resource "aws_iam_user" "lb" {
-            count = length(var.users)
-            name = element(var.users, count.index)
-            path = "/system/"
-          
-            tags = {
-              tag-key = "tag-value"
-            }
-          }`,
-      ],
       [
         "dynamic blocks",
         `
@@ -522,32 +557,6 @@ describe("convert", () => {
           provider "aws2" {
             alias  = "west"
             region = "us-west-2"
-          }
-          `,
-      ],
-      [
-        "property access through []",
-        `
-          variable "settings" {
-            type = map(string)
-          }
-
-          resource "aws_s3_bucket" "examplebucket" {
-            bucket = var.settings["bucket_name"]
-            acl    = "private"
-          }
-          `,
-      ],
-      [
-        "list access through []",
-        `
-          variable "settings" {
-            type = list(map(string))
-          }
-
-          resource "aws_s3_bucket" "examplebucket" {
-            bucket = var.settings[0]["bucket_name"]
-            acl    = "private"
           }
           `,
       ],

@@ -44,6 +44,7 @@ describe("expressions", () => {
       expect(extractReferencesFromExpression("${var.input}", nodeIds)).toEqual([
         {
           referencee: { id: "var.input", full: "var.input" },
+          useFqn: false,
           start: 2,
           end: 11,
         },
@@ -59,6 +60,7 @@ describe("expressions", () => {
             id: "module.vpc",
             full: "module.vpc.public_subnets",
           },
+          useFqn: false,
           start: 2,
           end: 27,
         },
@@ -77,6 +79,7 @@ describe("expressions", () => {
             id: "data.aws_s3_bucket.examplebucket",
             full: "data.aws_s3_bucket.examplebucket.arn",
           },
+          useFqn: false,
           start: 2,
           end: 38,
         },
@@ -95,6 +98,7 @@ describe("expressions", () => {
             id: "aws_s3_bucket.examplebucket",
             full: "aws_s3_bucket.examplebucket.id",
           },
+          useFqn: false,
           start: 2,
           end: 32,
         },
@@ -113,6 +117,7 @@ describe("expressions", () => {
             id: "aws_s3_bucket.examplebucket",
             full: "aws_s3_bucket.examplebucket.count",
           },
+          useFqn: false,
           start: 2,
           end: 35,
         },
@@ -121,13 +126,14 @@ describe("expressions", () => {
             id: "aws_s3_bucket.otherbucket",
             full: "aws_s3_bucket.otherbucket.count",
           },
+          useFqn: false,
           start: 38,
           end: 69,
         },
       ]);
     });
 
-    it.skip("use fqn for splat reference", () => {
+    it("use fqn for splat reference", () => {
       expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.*.id}",
@@ -140,8 +146,27 @@ describe("expressions", () => {
             full: "aws_s3_bucket.examplebucket",
           },
           useFqn: true,
-          start: 6,
-          end: 7,
+          start: 2,
+          end: 29,
+        },
+      ]);
+    });
+
+    it("detect splat reference within function", () => {
+      expect(
+        extractReferencesFromExpression(
+          "${toset(aws_s3_bucket.examplebucket.*)}",
+          nodeIds
+        )
+      ).toEqual([
+        {
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket",
+          },
+          useFqn: true,
+          start: 8,
+          end: 35,
         },
       ]);
     });
@@ -158,6 +183,7 @@ describe("expressions", () => {
             id: "aws_kms_key.key",
             full: "aws_kms_key.key.deletion_window_in_days",
           },
+          useFqn: false,
           start: 2,
           end: 41,
         },
@@ -166,6 +192,7 @@ describe("expressions", () => {
             id: "aws_s3_bucket.examplebucket",
             full: "aws_s3_bucket.examplebucket.id",
           },
+          useFqn: false,
           start: 48,
           end: 78,
         },
@@ -184,13 +211,14 @@ describe("expressions", () => {
             id: "aws_s3_bucket.examplebucket",
             full: "aws_s3_bucket.examplebucket",
           },
+          useFqn: false,
           start: 10,
           end: 37,
         },
       ]);
     });
 
-    it.skip("finds all resources in functions with splat", () => {
+    it("finds all resources in functions with splat", () => {
       expect(
         extractReferencesFromExpression(
           "${element(aws_s3_bucket.examplebucket.*.id, 0)}",
@@ -203,8 +231,8 @@ describe("expressions", () => {
             full: "aws_s3_bucket.examplebucket",
           },
           useFqn: true,
-          start: 6,
-          end: 7,
+          start: 10,
+          end: 37,
         },
       ]);
     });
@@ -218,12 +246,33 @@ describe("expressions", () => {
       ).toEqual([
         {
           referencee: { id: "var.users", full: "var.users" },
+          useFqn: false,
           start: 22,
           end: 31,
         },
       ]);
     });
+
+    it("finds resources with property access", () => {
+      expect(
+        extractReferencesFromExpression(
+          "${aws_s3_bucket.examplebucket[0].id}",
+          nodeIds
+        )
+      ).toEqual([
+        {
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket",
+          },
+          useFqn: true,
+          start: 2,
+          end: 29,
+        },
+      ]);
+    });
   });
+
   describe("#referenceToAst", () => {
     it("property access", () => {
       expect(
@@ -233,6 +282,7 @@ describe("expressions", () => {
               referenceToAst({
                 start: 0,
                 end: 0,
+                useFqn: false,
                 referencee: {
                   id: "aws_kms_key.key",
                   full: "aws_kms_key.key.deletion_window_in_days",
