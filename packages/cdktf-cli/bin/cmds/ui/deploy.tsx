@@ -9,7 +9,7 @@ import {
   TerraformOutput,
   PlannedResourceAction,
 } from "./models/terraform";
-import { useTerraform, Status, useTerraformState } from "./terraform-context";
+import { Status, useTerraformState, useRunDeploy } from "./terraform-context";
 import { Plan } from "./diff";
 
 interface DeploySummaryConfig {
@@ -182,17 +182,16 @@ export const Deploy = ({
   synthCommand,
   autoApprove,
 }: DeployConfig): React.ReactElement => {
-  const { deploy } = useTerraform({
+  const {
+    state: { status, currentStack, errors, plan },
+    confirmation,
+    isConfirmed,
+  } = useRunDeploy({
     targetDir,
     targetStack,
     synthCommand,
     autoApprove,
   });
-  const {
-    state: { status, currentStack, errors, plan },
-    confirmation,
-    isConfirmed,
-  } = deploy();
 
   const planStages = [
     Status.INITIALIZING,

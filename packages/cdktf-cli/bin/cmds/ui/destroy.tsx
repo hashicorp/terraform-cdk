@@ -5,7 +5,7 @@ import Spinner from "ink-spinner";
 import ConfirmInput from "@skorfmann/ink-confirm-input";
 import { DeployingElement } from "./components";
 import { DeployingResource, PlannedResourceAction } from "./models/terraform";
-import { useTerraform, Status, useTerraformState } from "./terraform-context";
+import { Status, useTerraformState, useRunDestroy } from "./terraform-context";
 import { Plan } from "./diff";
 
 interface DeploySummaryConfig {
@@ -127,17 +127,16 @@ export const Destroy = ({
   synthCommand,
   autoApprove,
 }: DestroyConfig): React.ReactElement => {
-  const { destroy } = useTerraform({
+  const {
+    state: { status, currentStack, errors, plan },
+    confirmation,
+    isConfirmed,
+  } = useRunDestroy({
     targetDir,
     targetStack,
     synthCommand,
     autoApprove,
   });
-  const {
-    state: { status, currentStack, errors, plan },
-    confirmation,
-    isConfirmed,
-  } = destroy();
 
   const planStages = [
     Status.INITIALIZING,

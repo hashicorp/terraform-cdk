@@ -16,7 +16,7 @@
     "examples:integration:java": "test/run-against-dist tools/build-examples-sequential.sh java",
     "examples:integration:csharp": "test/run-against-dist tools/build-examples.sh csharp",
     "examples:integration:python": "test/run-against-dist tools/build-examples.sh python",
-    "examples:integration:typescript": "test/run-against-dist tools/build-examples.sh typescript",
+    "examples:integration:typescript": "test/run-against-dist tools/build-examples-sequential.sh typescript",
     "examples:integration:go": "test/run-against-dist tools/build-examples-sequential.sh go",
     "pretest": "prettier --check .",
     "test": "lerna run --scope cdktf* --scope @cdktf* test",
@@ -69,6 +69,6 @@
     "prettier": "^2.3.1"
   },
   "lint-staged": {
-    "*.{ts,js,css,md}": "prettier --write"
+    "*.{ts,tsx,js,css,md}": "prettier --write"
   }
 }
