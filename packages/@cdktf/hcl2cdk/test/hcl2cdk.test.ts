@@ -1,57 +1,55 @@
 import { convert } from "../lib/index";
 
-const targetLanguages = ["typescript", "python", "csharp", "java"];
 describe("convert", () => {
-  describe.each(targetLanguages)("%s", (language) => {
-    it.each([
-      [
-        "output",
-        `
+  it.each([
+    [
+      "output",
+      `
         output "cidr_out" {
             value = "test"
         }`,
-      ],
-      [
-        "sensitive output",
-        `
+    ],
+    [
+      "sensitive output",
+      `
         output "cidr_out" {
             value = "test"
             sensitive = true
         }`,
-      ],
-      [
-        "output withdescription",
-        `
+    ],
+    [
+      "output withdescription",
+      `
         output "cidr_out" {
             value = "test"
             sensitive = true
             description = "Best output"
         }`,
-      ],
-      [
-        "multiple outputs",
-        `
+    ],
+    [
+      "multiple outputs",
+      `
         output "first_cidr_out" {
             value = "first"
         }
         output "second_cidr_out" {
             value = "second"
         }`,
-      ],
-      ["variable", `variable "weekday" {}`],
-      [
-        "variable with default",
-        `
+    ],
+    ["variable", `variable "weekday" {}`],
+    [
+      "variable with default",
+      `
         variable "availability_zone_names" {
             type    = list(string)
             default = ["us-west-1a"]
             description = "What AMI to use to create an instance"
         }`,
-      ],
-      ["empty provider", `provider "docker" {}`],
-      [
-        "provider with complex config",
-        `
+    ],
+    ["empty provider", `provider "docker" {}`],
+    [
+      "provider with complex config",
+      `
         provider "aws" {
           access_key                  = "mock_access_key"
           region                      = "us-east-1"
@@ -65,17 +63,17 @@ describe("convert", () => {
           }
         }
       `,
-      ],
-      [
-        "simple resource",
-        `
+    ],
+    [
+      "simple resource",
+      `
         resource "aws_vpc" "example" {
           cidr_block = "10.0.0.0/16"
         }`,
-      ],
-      [
-        "complex resource",
-        ` 
+    ],
+    [
+      "complex resource",
+      ` 
         resource "aws_cloudfront_distribution" "s3_distribution" {
           origin {
             domain_name = "aws_s3_bucket.b.bucket_regional_domain_name"
@@ -180,27 +178,27 @@ describe("convert", () => {
             cloudfront_default_certificate = true
           }
         }`,
-      ],
-      [
-        "simple data source",
-        `
+    ],
+    [
+      "simple data source",
+      `
         data "aws_subnet" "selected" {
           id = "subnet_id"
         }`,
-      ],
-      [
-        "locals",
-        `
+    ],
+    [
+      "locals",
+      `
         locals {
           service_name = "forum"
           owner        = "Community Team"
           is_it_great  = true
           how_many     = 42
         }`,
-      ],
-      [
-        "multiple locals blocks",
-        `
+    ],
+    [
+      "multiple locals blocks",
+      `
         locals {
           service_name = "forum"
           owner        = "Community Team"
@@ -210,10 +208,10 @@ describe("convert", () => {
           is_it_great  = true
           how_many     = 42
         }`,
-      ],
-      [
-        "resource references",
-        `
+    ],
+    [
+      "resource references",
+      `
         resource "aws_kms_key" "examplekms" {
           description             = "KMS key 1"
           deletion_window_in_days = 7
@@ -230,10 +228,10 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
-      ],
-      [
-        "locals references",
-        `
+    ],
+    [
+      "locals references",
+      `
         locals {
           bucket_name = "foo"
         }
@@ -242,10 +240,10 @@ describe("convert", () => {
           bucket = local.bucket_name
           acl    = "private"
         }`,
-      ],
-      [
-        "variable references",
-        `
+    ],
+    [
+      "variable references",
+      `
         variable "bucket_name" {
           type    = string
           default = "demo"
@@ -255,10 +253,10 @@ describe("convert", () => {
           bucket = var.bucket_name
           acl    = "private"
         }`,
-      ],
-      [
-        "data references",
-        `
+    ],
+    [
+      "data references",
+      `
         variable "bucket_name" {
           type    = string
           default = "demo"
@@ -274,10 +272,10 @@ describe("convert", () => {
           bucket     = data.aws_s3_bucket.examplebucket.arn
           source     = "index.html"
         }`,
-      ],
-      [
-        "double references",
-        `
+    ],
+    [
+      "double references",
+      `
         variable "bucket_name" {
           type    = string
           default = "demo"
@@ -290,10 +288,10 @@ describe("convert", () => {
             tag-key = var.bucket_name
           }
         }`,
-      ],
-      [
-        "modules",
-        `
+    ],
+    [
+      "modules",
+      `
         module "vpc" {
           source = "terraform-aws-modules/vpc/aws"
         
@@ -312,10 +310,10 @@ describe("convert", () => {
             Environment = "dev"
           }
         }`,
-      ],
-      [
-        "referenced modules",
-        `
+    ],
+    [
+      "referenced modules",
+      `
         module "vpc" {
           source = "terraform-aws-modules/vpc/aws"
         
@@ -338,10 +336,10 @@ describe("convert", () => {
         output "subnet_ids" {
           value = module.vpc.public_subnets
         }`,
-      ],
-      [
-        "arithmetics",
-        `
+    ],
+    [
+      "arithmetics",
+      `
         variable "members" {
           type = number
         }
@@ -352,10 +350,10 @@ describe("convert", () => {
         locals {
           users = var.members + var.admins
         }`,
-      ],
-      [
-        "conditionals",
-        `
+    ],
+    [
+      "conditionals",
+      `
         resource "aws_kms_key" "examplekms" {
           description             = "KMS key 1"
           deletion_window_in_days = 7
@@ -372,10 +370,10 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
-      ],
-      [
-        "for expression 1",
-        `
+    ],
+    [
+      "for expression 1",
+      `
         variable "users" {
           type = map(object({
             is_admin = boolean
@@ -392,10 +390,10 @@ describe("convert", () => {
             if !user.is_admin
           }
         }`,
-      ],
-      [
-        "for expression 2",
-        `
+    ],
+    [
+      "for expression 2",
+      `
         variable "users" {
           type = map(object({
             role = string
@@ -407,10 +405,10 @@ describe("convert", () => {
             for name, user in var.users : user.role => name...
           }
         }`,
-      ],
-      [
-        "resource references with HCL functions",
-        `
+    ],
+    [
+      "resource references with HCL functions",
+      `
         resource "aws_kms_key" "examplekms" {
           description             = "KMS key 1"
           deletion_window_in_days = 7
@@ -427,19 +425,19 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
-      ],
-    ])("%s configuration", async (_name, hcl) => {
-      const { all } = await convert(`file.hcl`, hcl, {
-        language: language as any,
-      });
-      expect(all).toMatchSnapshot();
+    ],
+  ])("%s configuration", async (_name, hcl) => {
+    const { all } = await convert(`file.hcl`, hcl, {
+      language: "typescript",
     });
+    expect(all).toMatchSnapshot();
+  });
 
-    describe("errors on", () => {
-      it.each([
-        [
-          "resource references with lists",
-          `
+  describe("errors on", () => {
+    it.each([
+      [
+        "resource references with lists",
+        `
           resource "aws_kms_key" "examplekms" {
             description             = "KMS key 1"
             deletion_window_in_days = 7
@@ -456,10 +454,10 @@ describe("convert", () => {
             source     = "index.html"
             kms_key_id = aws_kms_key.examplekms.arn
           }`,
-        ],
-        [
-          "for_each loops",
-          `
+      ],
+      [
+        "for_each loops",
+        `
           variable "users" {
             type = set(string)
           }
@@ -474,10 +472,10 @@ describe("convert", () => {
             }
           }
           `,
-        ],
-        [
-          "count loops",
-          `
+      ],
+      [
+        "count loops",
+        `
           variable "users" {
             type = set(string)
           }
@@ -491,10 +489,10 @@ describe("convert", () => {
               tag-key = "tag-value"
             }
           }`,
-        ],
-        [
-          "dynamic blocks",
-          `
+      ],
+      [
+        "dynamic blocks",
+        `
           variable "settings" {
             type = list(map(string))
           }
@@ -513,10 +511,10 @@ describe("convert", () => {
               }
             }
           }`,
-        ],
-        [
-          "provider alias",
-          `
+      ],
+      [
+        "provider alias",
+        `
           provider "aws" {
             region = "us-east-1"
           }
@@ -526,10 +524,10 @@ describe("convert", () => {
             region = "us-west-2"
           }
           `,
-        ],
-        [
-          "property access through []",
-          `
+      ],
+      [
+        "property access through []",
+        `
           variable "settings" {
             type = map(string)
           }
@@ -539,10 +537,10 @@ describe("convert", () => {
             acl    = "private"
           }
           `,
-        ],
-        [
-          "list access through []",
-          `
+      ],
+      [
+        "list access through []",
+        `
           variable "settings" {
             type = list(map(string))
           }
@@ -552,14 +550,42 @@ describe("convert", () => {
             acl    = "private"
           }
           `,
-        ],
-      ])("%s", async (_name, hcl) => {
-        expect(
-          convert(`file.hcl`, hcl, {
-            language: language as any,
-          })
-        ).rejects.toThrowErrorMatchingSnapshot();
-      });
+      ],
+    ])("%s", async (_name, hcl) => {
+      expect(
+        convert(`file.hcl`, hcl, {
+          language: "typescript",
+        })
+      ).rejects.toThrowErrorMatchingSnapshot();
+    });
+  });
+
+  const targetLanguages = ["typescript", "python", "csharp", "java"];
+  describe("Cross-Language Support", () => {
+    it.each(targetLanguages)("supports %s", (language) => {
+      const hcl = `
+      resource "aws_kms_key" "examplekms" {
+        description             = "KMS key 1"
+        deletion_window_in_days = 7
+      }
+      
+      resource "aws_s3_bucket" "examplebucket" {
+        bucket = "examplebuckettftest"
+        acl    = "private"
+      }
+      
+      resource "aws_s3_bucket_object" "examplebucket_object" {
+        key        = "someobject"
+        bucket     = element(aws_s3_bucket.examplebucket, 0).id
+        source     = "index.html"
+        kms_key_id = aws_kms_key.examplekms.arn
+      }
+      `;
+      expect(
+        convert(`file.hcl`, hcl, {
+          language: language as any,
+        })
+      ).toMatchSnapshot();
     });
   });
 });
