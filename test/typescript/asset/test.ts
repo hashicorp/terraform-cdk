@@ -29,7 +29,7 @@ describe("full integration test", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("stack"),
-          "assets/localasset/local-asset.txt"
+          "assets/localasset-hash/local-asset.txt"
         ),
         "utf-8"
       )
@@ -40,13 +40,13 @@ describe("full integration test", () => {
     await driver.synth();
     expect(
       fs.readFileSync(
-        path.resolve(driver.stackDirectory("stack"), "assets/fixtures/a.txt"),
+        path.resolve(driver.stackDirectory("stack"), "assets/fixtures-hash/a.txt"),
         "utf-8"
       )
     ).toMatchSnapshot();
     expect(
       fs.readFileSync(
-        path.resolve(driver.stackDirectory("stack"), "assets/fixtures/b.txt"),
+        path.resolve(driver.stackDirectory("stack"), "assets/fixtures-hash/b.txt"),
         "utf-8"
       )
     ).toMatchSnapshot();
@@ -54,7 +54,7 @@ describe("full integration test", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("stack"),
-          "assets/fixtures/foo/bar/c.txt"
+          "assets/fixtures-hash/foo/bar/c.txt"
         ),
         "utf-8"
       )
@@ -67,7 +67,7 @@ describe("full integration test", () => {
     const stat = fs.statSync(
       path.resolve(
         driver.stackDirectory("stack"),
-        "assets/zippedfixtures/archive.zip"
+        "assets/zippedfixtures-hash/archive.zip"
       )
     );
     expect(stat.isFile()).toBe(true);

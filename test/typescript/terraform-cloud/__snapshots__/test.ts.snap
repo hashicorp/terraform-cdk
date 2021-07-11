@@ -3,10 +3,10 @@
 exports[`full integration test deploy in Terraform Cloud 1`] = `
 "Deploying Stack: hello-terra
 Resources
- ✔ NULL_RESOURCE       test                null_resource.test
+ ~ NULL_RESOURCE       test                null_resource.test
 
 
-Summary: 1 created, 0 updated, 0 destroyed.
+Summary: 0 created, 0 updated, 0 destroyed.
 
 Output: isAssetPresent = yes
         output = constant value

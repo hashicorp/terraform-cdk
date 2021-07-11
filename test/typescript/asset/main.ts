@@ -15,14 +15,17 @@ export class HelloTerra extends TerraformStack {
 
     const localAsset = new TerraformAsset(this, "local-asset", {
       path: path.resolve(__dirname, "local-asset.txt"),
+      assetHash: "hash",
     });
 
     const fixtures = new TerraformAsset(this, "fixtures", {
       path: path.resolve(__dirname, "fixtures"),
+      assetHash: "hash",
     });
 
     const zippedFixtures = new TerraformAsset(this, "zipped-fixtures", {
       path: path.resolve(__dirname, "fixtures"),
+      assetHash: "hash",
       type: AssetType.ARCHIVE,
     });
 

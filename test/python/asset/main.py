@@ -11,8 +11,8 @@ class MyStack(TerraformStack):
         NullProvider(self, "null")
         Resource(self, "null-resource")
 
-        fixture = TerraformAsset(self, 'fixture', path=os.path.abspath("./fixture.txt"))
-        fixtures = TerraformAsset(self, 'fixtures', path=os.path.abspath("./fixtures"), type=AssetType.ARCHIVE)
+        fixture = TerraformAsset(self, 'fixture', path=os.path.abspath("./fixture.txt"), assetHash="hash")
+        fixtures = TerraformAsset(self, 'fixtures', path=os.path.abspath("./fixtures"), assetHash="hash", type=AssetType.ARCHIVE)
 
         TerraformOutput(self, 'fixture-output', value=fixture.path)
         TerraformOutput(self, 'fixtures-output', value=fixtures.path)
