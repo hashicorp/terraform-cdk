@@ -26,3 +26,5 @@ bootstrap.json
 terraform-cdk.github-issues
 .idea
 .husky
+.vagrant
+
