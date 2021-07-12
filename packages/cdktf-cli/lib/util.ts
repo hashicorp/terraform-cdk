@@ -11,17 +11,24 @@ export async function shell(
   options: SpawnOptions = {}
 ) {
   const stderr = new Array<string | Uint8Array>();
+  const stdout = new Array<string>();
   try {
     return await exec(
       program,
       args,
       options,
-      (chunk: Buffer) => console.log(chunk.toString()),
+      (chunk: Buffer) => {
+        stdout.push(chunk.toString());
+        console.log(chunk.toString());
+      },
       (chunk: string | Uint8Array) => stderr.push(chunk)
     );
   } catch (e) {
     if (stderr.length > 0) {
       e.stderr = stderr.map((chunk) => chunk.toString()).join("");
+    }
+    if (stdout.length > 0) {
+      e.stdout = stdout.join("");
     }
     throw e;
   }
