@@ -5,7 +5,8 @@ exports[`dependent resource 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -44,7 +45,8 @@ exports[`do not change capitalization of arbritary nested types 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\"
+      \\"stackName\\": \\"tests\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {
@@ -71,7 +73,8 @@ exports[`do not change capitalization of tags 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\"
+      \\"stackName\\": \\"tests\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {
@@ -98,7 +101,8 @@ exports[`minimal configuration 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {
@@ -122,7 +126,8 @@ exports[`provider setter 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"provider\\": {
@@ -154,7 +159,8 @@ exports[`serialize list interpolation 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\"
+      \\"stackName\\": \\"tests\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {
@@ -189,7 +195,8 @@ exports[`with complex computed list 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\"
+      \\"stackName\\": \\"tests\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {
@@ -223,7 +230,8 @@ exports[`with provider alias 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"provider\\": {

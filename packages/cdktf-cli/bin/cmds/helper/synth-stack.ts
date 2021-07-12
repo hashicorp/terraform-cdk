@@ -98,7 +98,6 @@ Command output on stdout:
 
     // end performance timer
     const endTime = performance.now();
-    await this.synthTelemetry(command, endTime - startTime, synthOrigin);
 
     const stacks: SynthesizedStack[] = [];
     const manifest = JSON.parse(
@@ -117,6 +116,13 @@ Command output on stdout:
         content: JSON.stringify(jsonContent, null, 2),
       });
     }
+
+    await this.synthTelemetry(
+      command,
+      endTime - startTime,
+      stacks,
+      synthOrigin
+    );
 
     if (stacks.length === 0) {
       console.error("ERROR: No Terraform code synthesized.");
@@ -137,12 +143,16 @@ Command output on stdout:
   public static async synthTelemetry(
     command: string,
     totalTime: number,
+    stacks: SynthesizedStack[],
     synthOrigin?: SynthOrigin
   ): Promise<void> {
     await sendTelemetry("synth", {
       command: command,
       totalTime: totalTime,
       synthOrigin,
+      stackMetadata: stacks.map(
+        (stack) => JSON.parse(stack.content)["//"].metadata
+      ),
     });
   }
 

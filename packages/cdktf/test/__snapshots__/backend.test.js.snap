@@ -5,7 +5,8 @@ exports[`artifactory backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"artifactory\\"
     }
   },
   \\"terraform\\": {
@@ -27,7 +28,8 @@ exports[`azurerm backend access key 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\"
     }
   },
   \\"terraform\\": {
@@ -48,7 +50,8 @@ exports[`azurerm backend cli/sp 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\"
     }
   },
   \\"terraform\\": {
@@ -73,7 +76,8 @@ exports[`azurerm backend msi 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\"
     }
   },
   \\"terraform\\": {
@@ -97,7 +101,8 @@ exports[`azurerm backend sas 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\"
     }
   },
   \\"terraform\\": {
@@ -118,7 +123,8 @@ exports[`consul backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"consul\\"
     }
   },
   \\"terraform\\": {
@@ -146,7 +152,8 @@ exports[`cos backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"cos\\"
     }
   },
   \\"terraform\\": {
@@ -171,7 +178,8 @@ exports[`etcd backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"etcd\\"
     }
   },
   \\"terraform\\": {
@@ -192,7 +200,8 @@ exports[`etcdv3 backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"etcdv3\\"
     }
   },
   \\"terraform\\": {
@@ -221,7 +230,8 @@ exports[`gcs backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"gcs\\"
     }
   },
   \\"terraform\\": {
@@ -243,7 +253,8 @@ exports[`http backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"http\\"
     }
   },
   \\"terraform\\": {
@@ -272,7 +283,8 @@ exports[`local backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"terraform\\": {
@@ -291,7 +303,8 @@ exports[`manta backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"manta\\"
     }
   },
   \\"terraform\\": {
@@ -316,7 +329,8 @@ exports[`oss backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"oss\\"
     }
   },
   \\"terraform\\": {
@@ -354,7 +368,8 @@ exports[`pg backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"pg\\"
     }
   },
   \\"terraform\\": {
@@ -374,7 +389,8 @@ exports[`remote backend multi ws 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"remote\\"
     }
   },
   \\"terraform\\": {
@@ -397,7 +413,8 @@ exports[`remote backend single ws 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"remote\\"
     }
   },
   \\"terraform\\": {
@@ -419,7 +436,8 @@ exports[`s3 backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"s3\\"
     }
   },
   \\"terraform\\": {
@@ -462,7 +480,8 @@ exports[`swift backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"swift\\"
     }
   },
   \\"terraform\\": {

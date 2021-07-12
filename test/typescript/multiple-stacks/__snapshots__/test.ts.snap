@@ -5,7 +5,8 @@ exports[`full integration test synth 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"first\\"
+      \\"stackName\\": \\"first\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {
@@ -35,7 +36,8 @@ exports[`full integration test synth 2`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"second\\"
+      \\"stackName\\": \\"second\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {
@@ -65,7 +67,8 @@ exports[`full integration test synth with json output 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"first\\"
+      \\"stackName\\": \\"first\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {

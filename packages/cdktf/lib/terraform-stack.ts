@@ -17,7 +17,7 @@ const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
 export interface TerraformStackMetadata {
   readonly stackName: string;
   readonly version: string;
-  readonly backendType: string;
+  readonly backend: string;
 }
 
 export class TerraformStack extends Construct {
@@ -146,17 +146,10 @@ export class TerraformStack extends Construct {
     const metadata: TerraformStackMetadata = {
       version: this.cdktfVersion,
       stackName: Node.of(this).id,
-      backendType: "local", // overwritten by backend implementations if used
+      backend: "local", // overwritten by backend implementations if used
     };
 
     const elements = terraformElements(this);
-    const fragments = elements.map((e) => resolve(this, e.toTerraform()));
-
-    for (const fragment of fragments) {
-      deepMerge(tf, fragment);
-    }
-
-    deepMerge(tf, this.rawOverrides);
 
     const metadatas = elements.map((e) => resolve(this, e.toMetadata()));
     for (const meta of metadatas) {
@@ -164,6 +157,13 @@ export class TerraformStack extends Construct {
     }
 
     (tf as any)["//"] = { metadata };
+
+    const fragments = elements.map((e) => resolve(this, e.toTerraform()));
+    for (const fragment of fragments) {
+      deepMerge(tf, fragment);
+    }
+
+    deepMerge(tf, this.rawOverrides);
 
     return resolve(this, tf);
   }

@@ -5,7 +5,8 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-third-party-provider\\"
+      \\"stackName\\": \\"python-third-party-provider\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"terraform\\": {

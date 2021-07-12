@@ -5,7 +5,16 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"MyStack\\"
+      \\"stackName\\": \\"MyStack\\",
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"aws_topic\\": [
+          \\"//\\",
+          \\"prop2\\",
+          \\"prop3\\",
+          \\"provisioner\\"
+        ]
+      }
     }
   },
   \\"provider\\": {
@@ -93,7 +102,8 @@ exports[`stack synthesis no flags 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"MyStack\\"
+      \\"stackName\\": \\"MyStack\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"provider\\": {

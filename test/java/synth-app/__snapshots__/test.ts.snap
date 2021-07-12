@@ -5,7 +5,13 @@ exports[`java full integration synth generates JSON 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"java-simple\\"
+      \\"stackName\\": \\"java-simple\\",
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"aws_sns_topic\\": [
+          \\"display_name\\"
+        ]
+      }
     }
   },
   \\"terraform\\": {

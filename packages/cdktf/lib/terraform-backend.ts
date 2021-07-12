@@ -30,7 +30,7 @@ export abstract class TerraformBackend extends TerraformElement {
 
   public toMetadata(): any {
     return {
-      backendType: this.name,
+      backend: this.name,
     };
   }
 }

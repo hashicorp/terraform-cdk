@@ -5,7 +5,8 @@ exports[`python full integration test synth synth generates JSON 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-simple\\"
+      \\"stackName\\": \\"python-simple\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"terraform\\": {
