@@ -34,6 +34,7 @@
     "archiver": "^5.1.0",
     "cdktf": "0.0.0",
     "chalk": "^4.1.0",
+    "chokidar": "^3.5.2",
     "codemaker": "^0.22.0",
     "constructs": "^3.3.75",
     "extract-zip": "^2.0.1",
