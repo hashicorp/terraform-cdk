@@ -15,12 +15,8 @@ async function report(command: string, payload: Record<string, any>) {
 }
 
 function reportPrefixedError(type: string) {
-  return async (
-    command: string,
-    message: string,
-    context: Record<string, any>
-  ) => {
-    await report(command, { ...context, message, type });
+  return (command: string, message: string, context: Record<string, any>) => {
+    report(command, { ...context, message, type });
     const err: any = new Error(`${type} Error: ${message}`);
     Object.entries(context).forEach(([key, value]) => {
       err[key] = value;

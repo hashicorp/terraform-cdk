@@ -13,6 +13,7 @@ import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
 import { versionNumber } from "../../bin/cmds/version-check";
 import { ReportParams, ReportRequest } from "../checkpoint";
+import { Errors } from "../errors";
 
 const VERSION = versionNumber();
 
@@ -397,8 +398,10 @@ export const determineGoModuleName = async (dir: string): Promise<string> => {
         const childdir = path.relative(currentDir, dir).replace(/\\/g, "/"); // replace '\' with '/' for windows paths
         return childdir.length > 0 ? `${match[1]}/${childdir}` : match[1];
       }
-      throw new Error(
-        `Could not determine the root Go module name. Found ${file} but failed to regex match the module name directive`
+      throw await Errors.Internal(
+        "get",
+        `Could not determine the root Go module name. Found ${file} but failed to regex match the module name directive`,
+        { gomod }
       );
     }
     // go up one directory. As dirname('/') will return '/' we cancel the loop
@@ -407,7 +410,9 @@ export const determineGoModuleName = async (dir: string): Promise<string> => {
     currentDir = path.dirname(currentDir);
   } while (currentDir !== previousDir);
 
-  throw new Error(
-    `Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`
+  throw await Errors.Usage(
+    "get",
+    `Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`,
+    {}
   );
 };

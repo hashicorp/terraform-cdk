@@ -4,6 +4,7 @@ import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";
 import { ConstructsMakerTarget } from "../constructs-maker";
+import { Errors } from "../../errors";
 
 interface ProviderData {
   name: string;
@@ -25,7 +26,7 @@ const isMatching = (
     const [hostname, scope, provider] = elements;
 
     if (!hostname || !scope || !provider) {
-      throw new Error(`can't handle ${terraformSchemaName}`);
+      throw Errors.Internal("get", `can't handle ${terraformSchemaName}`, {});
     }
 
     return target.name === provider;
@@ -73,7 +74,7 @@ export class TerraformProviderGenerator {
   private emitProvider(fqpn: string, provider: Provider) {
     const name = fqpn.split("/").pop();
     if (!name) {
-      throw new Error(`can't handle ${fqpn}`);
+      throw Errors.Internal("get", `can't handle ${fqpn}`, { fqpn });
     }
 
     const files: string[] = [];
@@ -114,7 +115,7 @@ export class TerraformProviderGenerator {
           isMatching(p, fqpn)
         );
         if (!constraint) {
-          throw new Error(`can't handle ${fqpn}`);
+          throw Errors.Internal("get", `can't handle ${fqpn}`, {});
         }
         providerResource.providerVersionConstraint = constraint.version;
         providerResource.terraformProviderSource = constraint.source;

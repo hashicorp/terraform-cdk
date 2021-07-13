@@ -1,4 +1,5 @@
 import { toCamelCase, toPascalCase, toSnakeCase } from "codemaker";
+import { Errors } from "../../errors";
 import {
   Attribute,
   AttributeType,
@@ -131,13 +132,17 @@ class Parser {
             isMap: true,
           });
         default:
-          throw new Error(`invalid primitive type ${attributeType}`);
+          throw Errors.Internal(
+            "get",
+            `invalid primitive type ${attributeType}`,
+            {}
+          );
       }
     }
 
     if (Array.isArray(attributeType)) {
       if (attributeType.length !== 2) {
-        throw new Error(`unexpected array`);
+        throw Errors.Internal("get", `unexpected array`, {});
       }
 
       const [kind, type] = attributeType;
@@ -183,7 +188,7 @@ class Parser {
       }
     }
 
-    throw new Error(`unknown type ${attributeType}`);
+    throw Errors.Internal("get", `unknown type ${attributeType}`, {});
   }
 
   public renderAttributesForBlock(parentType: Scope, block: Block) {
