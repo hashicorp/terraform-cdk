@@ -13,6 +13,7 @@ import { displayVersionMessage } from "./version-check";
 import { FUTURE_FLAGS } from "cdktf/lib/features";
 import { downloadFile, HttpError } from "../../lib/util";
 import { logFileName, logger } from "../../lib/logging";
+import { Errors } from "../../lib/errors";
 
 const chalkColour = new chalk.Instance();
 
@@ -172,8 +173,10 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
 
     for (const file of Object.values(ret)) {
       if (!(await fs.pathExists(file))) {
-        throw new Error(
-          `unable to find ${file} under the "dist" directory (${dist})`
+        throw Errors.Internal(
+          "init",
+          `unable to find ${file} under the "dist" directory (${dist})`,
+          { version }
         );
       }
     }
@@ -190,8 +193,10 @@ async function determineDeps(version: string, dist?: string): Promise<Deps> {
   }
 
   if (version === "0.0.0") {
-    throw new Error(
-      chalkColour`{redBright cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory}`
+    throw Errors.Usage(
+      "init",
+      chalkColour`{redBright cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory}`,
+      {}
     );
   }
 
@@ -365,8 +370,10 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
     const templatePath = await findCdkTfJsonDirectory(zipExtractDir);
 
     if (!templatePath) {
-      throw new Error(
-        chalkColour`Could not find a {whiteBright cdktf.json} in the extracted directory`
+      throw Errors.Usage(
+        "init",
+        chalkColour`Could not find a {whiteBright cdktf.json} in the extracted directory`,
+        {}
       );
     }
 
@@ -386,17 +393,17 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
       console.error(
         chalkColour`Please supply a valid url (including the protocol) or use one of the built-in templates.`
       );
-      process.exit(1);
+      return await process.exit(1);
     }
     if (e instanceof HttpError) {
       console.error(
         chalkColour`Could not download template: {redBright ${e.message}}`
       );
-      process.exit(1);
+      return await process.exit(1);
     }
 
     console.error(e);
-    process.exit(1);
+    return await process.exit(1);
   }
 }
 

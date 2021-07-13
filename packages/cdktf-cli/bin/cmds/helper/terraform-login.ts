@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as readlineSync from "readline-sync";
 import * as open from "open";
 import * as chalk from "chalk";
+
 const chalkColour = new chalk.Instance();
 const homedir = require("os").homedir();
 const terraformCredentialsFilePath = `${homedir}/.terraform.d/credentials.tfrc.json`;
