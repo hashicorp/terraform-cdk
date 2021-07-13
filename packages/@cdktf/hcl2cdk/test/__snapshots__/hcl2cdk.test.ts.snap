@@ -230,8 +230,6 @@ new docker.DockerProvider(this, \\"docker\\", {});
 "
 `;
 
-exports[`convert errors on provider alias 1`] = `"Unsupported Terraform feature found at \\"aws2\\": provider alias are not yet supported"`;
-
 exports[`convert for each on list using splat configuration 1`] = `
 "const buckets = new TerraformVariable(this, \\"buckets\\", {});
 const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
@@ -302,6 +300,12 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 "
 `;
 
+exports[`convert local module configuration 1`] = `
+"import * as AwsVpc from \\"./.gen/aws_vpc\\";
+new AwsVpc(this, \\"aws_vpc\\", {});
+"
+`;
+
 exports[`convert locals configuration 1`] = `
 "const howMany = 42;
 const isItGreat = true;
@@ -332,6 +336,45 @@ new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
   tags: {
     environment: \\"dev\\",
     terraform: \\"true\\",
+  },
+});
+"
+`;
+
+exports[`convert multiple blocks configuration 1`] = `
+"new aws.SecurityGroup(this, \\"allow_tls\\", {
+  description: \\"Allow TLS inbound traffic\\",
+  egress: [
+    {
+      cidrBlocks: [\\"0.0.0.0/0\\"],
+      fromPort: 0,
+      ipv6CidrBlocks: [\\"::/0\\"],
+      protocol: \\"-1\\",
+      toPort: 0,
+    },
+  ],
+  ingress: [
+    {
+      description: \\"TLS from VPC\\",
+      fromPort: 443,
+      protocol: \\"tcp\\",
+      toPort: 443,
+    },
+    {
+      description: \\"TLS from VPC\\",
+      fromPort: 80,
+      protocol: \\"tcp\\",
+      toPort: 80,
+    },
+    {
+      fromPort: 8080,
+      protocol: \\"tcp\\",
+      toPort: 8080,
+    },
+  ],
+  name: \\"allow_tls\\",
+  tags: {
+    name: \\"allow_tls\\",
   },
 });
 "
@@ -377,6 +420,31 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \`\\\\\${\${settings.fqn}[\\"bucket_name\\"]}\`,
 });
+"
+`;
+
+exports[`convert provider alias configuration 1`] = `
+"import * as aws from \\"./.gen/aws\\";
+import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
+new aws.AwsProvider(this, \\"aws\\", {
+  region: \\"us-east-1\\",
+});
+new aws.AwsProvider(this, \\"aws\\", {
+  alias: \\"west\\",
+  region: \\"us-west-2\\",
+});
+const terraformAwsModulesVpcAwsVpc = new TerraformAwsModulesVpcAws(
+  this,
+  \\"vpc\\",
+  {}
+);
+terraformAwsModulesVpcAwsVpc.addOverride(\\"providers\\", {
+  aws: awsWest.fqn,
+});
+const awsInstanceFoo = new aws.Instance(this, \\"foo\\", {
+  foo: \\"bar\\",
+});
+awsInstanceFoo.addOverride(\\"provider\\", awsWest.fqn);
 "
 `;
 

@@ -10,7 +10,7 @@ import * as rosetta from "jsii-rosetta";
 import {
   Reference,
   extractReferencesFromExpression,
-  varibaleName,
+  variableName,
   referencesToAst,
   referenceToVariableName,
 } from "./expressions";
@@ -36,9 +36,6 @@ const valueToTs = (
         return t.arrayExpression(
           item.map((i) => valueToTs(i, nodeIds, scopedIds))
         );
-      }
-
-      if (item["dynamic"]) {
       }
 
       return t.objectExpression(
@@ -151,7 +148,7 @@ function asExpression(
   nodeIds: string[],
   reference?: Reference
 ) {
-  const isNamespacedImport = type.includes(".");
+  const isNamespacedImport = !type.includes("./") && type.includes(".");
   const subject = isNamespacedImport
     ? t.memberExpression(
         t.identifier(type.split(".")[0]), // e.g. aws
@@ -159,26 +156,43 @@ function asExpression(
       )
     : t.identifier(pascalCase(type));
 
+  const { provider, providers, ...otherOptions } = config;
+
   const expression = t.newExpression(subject, [
     t.thisExpression(),
     t.stringLiteral(name),
-    valueToTs(config, nodeIds),
+    valueToTs(otherOptions, nodeIds),
   ]);
-  return reference
-    ? t.variableDeclaration("const", [
-        t.variableDeclarator(
-          t.identifier(referenceToVariableName(reference)),
-          expression
-        ),
+
+  const statements = [];
+  const varName = reference
+    ? referenceToVariableName(reference)
+    : variableName(type, name);
+
+  if (reference || providers || provider) {
+    statements.push(
+      t.variableDeclaration("const", [
+        t.variableDeclarator(t.identifier(varName), expression),
       ])
-    : t.expressionStatement(expression);
+    );
+  } else {
+    statements.push(t.expressionStatement(expression));
+  }
+
+  if (provider) {
+    statements.push(
+      addOverrideExpression(varName, "provider", valueToTs(provider, nodeIds))
+    );
+  }
+  if (providers) {
+    statements.push(
+      addOverrideExpression(varName, "providers", valueToTs(providers, nodeIds))
+    );
+  }
+
+  return statements;
 }
-function output(
-  key: string,
-  _id: string,
-  item: Output,
-  graph: DirectedGraph
-): t.Statement {
+function output(key: string, _id: string, item: Output, graph: DirectedGraph) {
   const nodeIds = graph.nodes();
   const [{ value, description, sensitive }] = item;
 
@@ -199,7 +213,7 @@ function variable(
   id: string,
   item: Variable,
   graph: DirectedGraph
-): t.Statement {
+) {
   // We don't handle type information right now
   const [{ type, ...props }] = item;
   const nodeIds = graph.nodes();
@@ -213,12 +227,7 @@ function variable(
   );
 }
 
-function local(
-  key: string,
-  _id: string,
-  item: any,
-  graph: DirectedGraph
-): t.Statement {
+function local(key: string, _id: string, item: any, graph: DirectedGraph) {
   const nodeIds = graph.nodes();
   return t.variableDeclaration("const", [
     t.variableDeclarator(
@@ -228,12 +237,7 @@ function local(
   ]);
 }
 
-function modules(
-  key: string,
-  id: string,
-  item: Module,
-  graph: DirectedGraph
-): t.Statement {
+function modules(key: string, id: string, item: Module, graph: DirectedGraph) {
   const [{ source, ...props }] = item;
   const nodeIds = graph.nodes();
 
@@ -243,17 +247,11 @@ function modules(
 function provider(
   key: string,
   _id: string,
-  item: Provider,
+  item: Provider[0],
   graph: DirectedGraph
-): t.Statement {
+) {
   const nodeIds = graph.nodes();
-  const props = item[0];
-
-  if (props.alias) {
-    throw new Error(
-      `Unsupported Terraform feature found at "${key}": provider alias are not yet supported`
-    );
-  }
+  const props = item;
 
   return asExpression(
     `${key}.${pascalCase(key + "Provider")}`,
@@ -301,14 +299,10 @@ function resource(
   const resource = `${provider}.${name.join("_")}`;
 
   const { for_each, count, ...config } = item[0];
-  const expression = asExpression(
-    resource,
-    key,
-    config,
-    nodeIds,
-    getReference(graph, id)
-  );
-  const expressions = [expression];
+
+  const expressions = [
+    ...asExpression(resource, key, config, nodeIds, getReference(graph, id)),
+  ];
 
   if (for_each) {
     const references = extractReferencesFromExpression(for_each, nodeIds, [
@@ -316,7 +310,7 @@ function resource(
     ]);
     expressions.push(
       addOverrideExpression(
-        varibaleName(resource, id),
+        variableName(resource, id),
         "for_each",
         referencesToAst(for_each, references)
       )
@@ -329,7 +323,7 @@ function resource(
     ]);
     expressions.push(
       addOverrideExpression(
-        varibaleName(resource, id),
+        variableName(resource, id),
         "count",
         referencesToAst(count, references)
       )
@@ -342,7 +336,7 @@ function resource(
     ...extractDynamicBlocks(config).map(
       ({ path, for_each, content, scopedVar }) => {
         return addOverrideExpression(
-          varibaleName(resource, id),
+          variableName(resource, id),
           path.substring(1), // The path starts with a dot that we don't want
           valueToTs(
             {
@@ -358,7 +352,7 @@ function resource(
   ];
 }
 
-// locals, provider, variables, and outputs are global key value maps
+// locals, variables, and outputs are global key value maps
 function forEachGlobal<T, R>(
   prefix: string,
   record: Record<string, T> | undefined,
@@ -369,6 +363,24 @@ function forEachGlobal<T, R>(
     return {
       ...carry,
       [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),
+    };
+  }, {});
+}
+
+function forEachProvider<T, R>(
+  record: Record<string, T[]> | undefined,
+  iterator: (key: string, id: string, value: T, graph: DirectedGraph) => R
+): Record<string, (graph: DirectedGraph) => R> {
+  return Object.entries(record || {}).reduce((carry, [key, items]) => {
+    return {
+      ...carry,
+      ...items.reduce((innerCarry, item: T & { alias?: string }) => {
+        const id = item.alias ? `${key}.${item.alias}` : key;
+        return {
+          ...innerCarry,
+          [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),
+        };
+      }, {}),
     };
   }, {});
 }
@@ -405,7 +417,7 @@ export async function convertToTypescript(filename: string, hcl: string) {
   const plan = schema.parse(json);
 
   const nodeMap = {
-    ...forEachGlobal("providers", plan.provider, provider),
+    ...forEachProvider(plan.provider, provider),
     ...forEachGlobal("var", plan.variable, variable),
     // locals are a special case
     ...forEachGlobal(
@@ -494,14 +506,20 @@ export async function convertToTypescript(filename: string, hcl: string) {
   const providerImports = Object.keys(plan.provider || {}).map(
     (providerName) =>
       template(
-        `import * as ${providerName} from "./.gen/${providerName}"`
+        `import * as ${providerName} from "./.gen/${providerName.replace(
+          "./",
+          ""
+        )}"`
       )() as t.Statement
   );
 
   const moduleImports = Object.values(plan.module || {}).map(
     ([{ source }]) =>
       template(
-        `import * as ${pascalCase(source)} from "./.gen/${source}"`
+        `import * as ${pascalCase(source)} from "./.gen/${source.replace(
+          "./",
+          ""
+        )}"`
       )() as t.Statement
   );
 

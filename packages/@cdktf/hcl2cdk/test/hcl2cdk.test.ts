@@ -542,35 +542,85 @@ describe("convert", () => {
           }
         }`,
     ],
+    [
+      "multiple blocks",
+      `
+      resource "aws_security_group" "allow_tls" {
+        name        = "allow_tls"
+        description = "Allow TLS inbound traffic"
+      
+        ingress {
+          description      = "TLS from VPC"
+          from_port        = 443
+          to_port          = 443
+          protocol         = "tcp"
+        }
+
+        ingress {
+          description      = "TLS from VPC"
+          from_port        = 80
+          to_port          = 80
+          protocol         = "tcp"
+        }
+
+        ingress {
+          from_port        = 8080
+          to_port          = 8080
+          protocol         = "tcp"
+        }
+      
+        egress {
+          from_port        = 0
+          to_port          = 0
+          protocol         = "-1"
+          cidr_blocks      = ["0.0.0.0/0"]
+          ipv6_cidr_blocks = ["::/0"]
+        }
+      
+        tags = {
+          Name = "allow_tls"
+        }
+      }`,
+    ],
+    [
+      "provider alias",
+      `
+      provider "aws" {
+        region = "us-east-1"
+      }
+
+      provider "aws" {
+        alias  = "west"
+        region = "us-west-2"
+      }
+
+      resource "aws_instance" "foo" {
+        provider = aws.west
+      
+        foo = "bar"
+      }
+
+      module "vpc" {
+        source = "terraform-aws-modules/vpc/aws"
+        providers = {
+          aws = aws.west
+        }
+      }        
+      `,
+    ],
+    [
+      "local module",
+      `
+      module "aws_vpc" {
+        source = "./aws_vpc"
+      }        
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(`file.hcl`, hcl, {
       language: "typescript",
     });
     expect(all).toMatchSnapshot();
-  });
-
-  describe("errors on", () => {
-    it.each([
-      [
-        "provider alias",
-        `
-          provider "aws" {
-            region = "us-east-1"
-          }
-
-          provider "aws2" {
-            alias  = "west"
-            region = "us-west-2"
-          }
-          `,
-      ],
-    ])("%s", async (_name, hcl) => {
-      expect(
-        convert(`file.hcl`, hcl, {
-          language: "typescript",
-        })
-      ).rejects.toThrowErrorMatchingSnapshot();
-    });
   });
 
   const targetLanguages = ["typescript", "python", "csharp", "java"];

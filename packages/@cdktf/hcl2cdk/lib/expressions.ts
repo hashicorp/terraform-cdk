@@ -119,10 +119,10 @@ export function extractReferencesFromExpression(
 
 export function referenceToVariableName(ref: Reference): string {
   const [resource, name] = ref.referencee.full.split(".");
-  return varibaleName(resource, name);
+  return variableName(resource, name);
 }
 
-export function varibaleName(resource: string, name: string): string {
+export function variableName(resource: string, name: string): string {
   return camelCase(
     ["var", "local", "module"].includes(resource)
       ? name
