@@ -8,6 +8,7 @@ exports[`java full integration synth generates JSON 1`] = `
       \\"stackName\\": \\"java-simple\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
+        \\"stack\\": {},
         \\"aws_sns_topic\\": [
           \\"display_name\\"
         ]

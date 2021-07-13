@@ -6,7 +6,26 @@ exports[`full integration test synth synth generates JSON 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"hello-terra\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {
+          \\"terraform\\": {
+            \\"backend\\": {
+              \\"remote\\": {
+                \\"organization\\": \\"test\\",
+                \\"workspaces\\": {
+                  \\"name\\": \\"test\\"
+                }
+              }
+            }
+          }
+        },
+        \\"aws_sns_topic\\": [
+          \\"display_name\\",
+          \\"provider\\",
+          \\"lifecycle\\"
+        ]
+      }
     }
   },
   \\"terraform\\": {
