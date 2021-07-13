@@ -133,7 +133,7 @@ describe("parseConfig", () => {
       };
       const parsed: any = parseConfig(JSON.stringify(input));
       expect(parsed.terraformModules[0].localSource).toMatch(
-        "terraform-cdk/packages/cdktf-cli/foo"
+        "/packages/cdktf-cli/foo"
       );
     });
 
