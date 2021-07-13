@@ -56,10 +56,6 @@ export class AttributeModel {
     return this.required;
   }
 
-  public get isTokenizable(): boolean {
-    return this.type.isTokenizable;
-  }
-
   public get isProvider(): boolean {
     return this.provider;
   }

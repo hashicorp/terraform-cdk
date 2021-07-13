@@ -70,7 +70,7 @@ test("serialize list interpolation", () => {
   });
 
   const otherResource = new OtherTestResource(stack, "othertest", {});
-  resource.names = otherResource.names;
+  resource.putNames(otherResource.names);
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -82,7 +82,7 @@ test("with complex computed list", () => {
   const otherResource = new OtherTestResource(stack, "othertest", {});
 
   new TestResource(stack, "test", {
-    name: otherResource.complexComputedList("0").id,
+    name: otherResource.complexComputedList(0).id,
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();

@@ -13,118 +13,118 @@ export interface CloudfrontDistributionConfig extends cdktf.TerraformMetaArgumen
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#aliases CloudfrontDistribution#aliases}
   */
-  readonly aliases?: string[];
+  readonly aliases?: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#comment CloudfrontDistribution#comment}
   */
-  readonly comment?: string;
+  readonly comment?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_root_object CloudfrontDistribution#default_root_object}
   */
-  readonly defaultRootObject?: string;
+  readonly defaultRootObject?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#enabled CloudfrontDistribution#enabled}
   */
-  readonly enabled: boolean;
+  readonly enabled: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#http_version CloudfrontDistribution#http_version}
   */
-  readonly httpVersion?: string;
+  readonly httpVersion?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#is_ipv6_enabled CloudfrontDistribution#is_ipv6_enabled}
   */
-  readonly isIpv6Enabled?: boolean;
+  readonly isIpv6Enabled?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#price_class CloudfrontDistribution#price_class}
   */
-  readonly priceClass?: string;
+  readonly priceClass?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#retain_on_delete CloudfrontDistribution#retain_on_delete}
   */
-  readonly retainOnDelete?: boolean;
+  readonly retainOnDelete?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#tags CloudfrontDistribution#tags}
   */
-  readonly tags?: { [key: string]: string };
+  readonly tags?: cdktf.TerraformStringMap;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#wait_for_deployment CloudfrontDistribution#wait_for_deployment}
   */
-  readonly waitForDeployment?: boolean;
+  readonly waitForDeployment?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#web_acl_id CloudfrontDistribution#web_acl_id}
   */
-  readonly webAclId?: string;
+  readonly webAclId?: cdktf.TerraformString;
   /**
   * cache_behavior block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cache_behavior CloudfrontDistribution#cache_behavior}
   */
-  readonly cacheBehavior?: CloudfrontDistributionCacheBehavior[];
+  readonly cacheBehavior?: TerraformCloudfrontDistributionCacheBehaviorSet;
   /**
   * custom_error_response block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#custom_error_response CloudfrontDistribution#custom_error_response}
   */
-  readonly customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
+  readonly customErrorResponse?: TerraformCloudfrontDistributionCustomErrorResponseSet;
   /**
   * default_cache_behavior block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_cache_behavior CloudfrontDistribution#default_cache_behavior}
   */
-  readonly defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
+  readonly defaultCacheBehavior: TerraformCloudfrontDistributionDefaultCacheBehaviorList;
   /**
   * logging_config block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#logging_config CloudfrontDistribution#logging_config}
   */
-  readonly loggingConfig?: CloudfrontDistributionLoggingConfig[];
+  readonly loggingConfig?: TerraformCloudfrontDistributionLoggingConfigList;
   /**
   * ordered_cache_behavior block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#ordered_cache_behavior CloudfrontDistribution#ordered_cache_behavior}
   */
-  readonly orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
+  readonly orderedCacheBehavior?: TerraformCloudfrontDistributionOrderedCacheBehaviorList;
   /**
   * origin block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin CloudfrontDistribution#origin}
   */
-  readonly origin: CloudfrontDistributionOrigin[];
+  readonly origin: TerraformCloudfrontDistributionOriginSet;
   /**
   * origin_group block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_group CloudfrontDistribution#origin_group}
   */
-  readonly originGroup?: CloudfrontDistributionOriginGroup[];
+  readonly originGroup?: TerraformCloudfrontDistributionOriginGroupSet;
   /**
   * restrictions block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#restrictions CloudfrontDistribution#restrictions}
   */
-  readonly restrictions: CloudfrontDistributionRestrictions[];
+  readonly restrictions: TerraformCloudfrontDistributionRestrictionsList;
   /**
   * viewer_certificate block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_certificate CloudfrontDistribution#viewer_certificate}
   */
-  readonly viewerCertificate: CloudfrontDistributionViewerCertificate[];
+  readonly viewerCertificate: TerraformCloudfrontDistributionViewerCertificateList;
 }
 export interface CloudfrontDistributionCacheBehaviorForwardedValuesCookies {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forward CloudfrontDistribution#forward}
   */
-  readonly forward: string;
+  readonly forward: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#whitelisted_names CloudfrontDistribution#whitelisted_names}
   */
-  readonly whitelistedNames?: string[];
+  readonly whitelistedNames?: cdktf.TerraformStringSet;
 }
 
 function cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerraform(struct?: CloudfrontDistributionCacheBehaviorForwardedValuesCookies): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    forward: cdktf.stringToTerraform(struct!.forward),
-    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform)(struct!.whitelistedNames),
+    forward: struct!.forward.toTerraform(),
+    whitelisted_names: struct!.whitelistedNames.toTerraform(),
   }
 }
 
@@ -132,30 +132,30 @@ export interface CloudfrontDistributionCacheBehaviorForwardedValues {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#headers CloudfrontDistribution#headers}
   */
-  readonly headers?: string[];
+  readonly headers?: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string CloudfrontDistribution#query_string}
   */
-  readonly queryString: boolean;
+  readonly queryString: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string_cache_keys CloudfrontDistribution#query_string_cache_keys}
   */
-  readonly queryStringCacheKeys?: string[];
+  readonly queryStringCacheKeys?: cdktf.TerraformStringList;
   /**
   * cookies block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cookies CloudfrontDistribution#cookies}
   */
-  readonly cookies: CloudfrontDistributionCacheBehaviorForwardedValuesCookies[];
+  readonly cookies: TerraformCloudfrontDistributionCacheBehaviorForwardedValuesCookiesSet;
 }
 
 function cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform(struct?: CloudfrontDistributionCacheBehaviorForwardedValues): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.headers),
-    query_string: cdktf.booleanToTerraform(struct!.queryString),
-    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.queryStringCacheKeys),
-    cookies: cdktf.listMapper(cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerraform)(struct!.cookies),
+    headers: struct!.headers.toTerraform(),
+    query_string: struct!.queryString.toTerraform(),
+    query_string_cache_keys: struct!.queryStringCacheKeys.toTerraform(),
+    cookies: struct!.cookies.toTerraform(),
   }
 }
 
@@ -163,23 +163,23 @@ export interface CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#event_type CloudfrontDistribution#event_type}
   */
-  readonly eventType: string;
+  readonly eventType: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_body CloudfrontDistribution#include_body}
   */
-  readonly includeBody?: boolean;
+  readonly includeBody?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_arn CloudfrontDistribution#lambda_arn}
   */
-  readonly lambdaArn: string;
+  readonly lambdaArn: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTerraform(struct?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    event_type: cdktf.stringToTerraform(struct!.eventType),
-    include_body: cdktf.booleanToTerraform(struct!.includeBody),
-    lambda_arn: cdktf.stringToTerraform(struct!.lambdaArn),
+    event_type: struct!.eventType.toTerraform(),
+    include_body: struct!.includeBody.toTerraform(),
+    lambda_arn: struct!.lambdaArn.toTerraform(),
   }
 }
 
@@ -187,82 +187,82 @@ export interface CloudfrontDistributionCacheBehavior {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#allowed_methods CloudfrontDistribution#allowed_methods}
   */
-  readonly allowedMethods: string[];
+  readonly allowedMethods: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cached_methods CloudfrontDistribution#cached_methods}
   */
-  readonly cachedMethods: string[];
+  readonly cachedMethods: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#compress CloudfrontDistribution#compress}
   */
-  readonly compress?: boolean;
+  readonly compress?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_ttl CloudfrontDistribution#default_ttl}
   */
-  readonly defaultTtl?: number;
+  readonly defaultTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#field_level_encryption_id CloudfrontDistribution#field_level_encryption_id}
   */
-  readonly fieldLevelEncryptionId?: string;
+  readonly fieldLevelEncryptionId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#max_ttl CloudfrontDistribution#max_ttl}
   */
-  readonly maxTtl?: number;
+  readonly maxTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#min_ttl CloudfrontDistribution#min_ttl}
   */
-  readonly minTtl?: number;
+  readonly minTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#path_pattern CloudfrontDistribution#path_pattern}
   */
-  readonly pathPattern: string;
+  readonly pathPattern: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#smooth_streaming CloudfrontDistribution#smooth_streaming}
   */
-  readonly smoothStreaming?: boolean;
+  readonly smoothStreaming?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#target_origin_id CloudfrontDistribution#target_origin_id}
   */
-  readonly targetOriginId: string;
+  readonly targetOriginId: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#trusted_signers CloudfrontDistribution#trusted_signers}
   */
-  readonly trustedSigners?: string[];
+  readonly trustedSigners?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_protocol_policy CloudfrontDistribution#viewer_protocol_policy}
   */
-  readonly viewerProtocolPolicy: string;
+  readonly viewerProtocolPolicy: cdktf.TerraformString;
   /**
   * forwarded_values block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forwarded_values CloudfrontDistribution#forwarded_values}
   */
-  readonly forwardedValues: CloudfrontDistributionCacheBehaviorForwardedValues[];
+  readonly forwardedValues: TerraformCloudfrontDistributionCacheBehaviorForwardedValuesSet;
   /**
   * lambda_function_association block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_function_association CloudfrontDistribution#lambda_function_association}
   */
-  readonly lambdaFunctionAssociation?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation[];
+  readonly lambdaFunctionAssociation?: TerraformCloudfrontDistributionCacheBehaviorLambdaFunctionAssociationSet;
 }
 
 function cloudfrontDistributionCacheBehaviorToTerraform(struct?: CloudfrontDistributionCacheBehavior): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    cached_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cachedMethods),
-    compress: cdktf.booleanToTerraform(struct!.compress),
-    default_ttl: cdktf.numberToTerraform(struct!.defaultTtl),
-    field_level_encryption_id: cdktf.stringToTerraform(struct!.fieldLevelEncryptionId),
-    max_ttl: cdktf.numberToTerraform(struct!.maxTtl),
-    min_ttl: cdktf.numberToTerraform(struct!.minTtl),
-    path_pattern: cdktf.stringToTerraform(struct!.pathPattern),
-    smooth_streaming: cdktf.booleanToTerraform(struct!.smoothStreaming),
-    target_origin_id: cdktf.stringToTerraform(struct!.targetOriginId),
-    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.trustedSigners),
-    viewer_protocol_policy: cdktf.stringToTerraform(struct!.viewerProtocolPolicy),
-    forwarded_values: cdktf.listMapper(cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform)(struct!.forwardedValues),
-    lambda_function_association: cdktf.listMapper(cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTerraform)(struct!.lambdaFunctionAssociation),
+    allowed_methods: struct!.allowedMethods.toTerraform(),
+    cached_methods: struct!.cachedMethods.toTerraform(),
+    compress: struct!.compress.toTerraform(),
+    default_ttl: struct!.defaultTtl.toTerraform(),
+    field_level_encryption_id: struct!.fieldLevelEncryptionId.toTerraform(),
+    max_ttl: struct!.maxTtl.toTerraform(),
+    min_ttl: struct!.minTtl.toTerraform(),
+    path_pattern: struct!.pathPattern.toTerraform(),
+    smooth_streaming: struct!.smoothStreaming.toTerraform(),
+    target_origin_id: struct!.targetOriginId.toTerraform(),
+    trusted_signers: struct!.trustedSigners.toTerraform(),
+    viewer_protocol_policy: struct!.viewerProtocolPolicy.toTerraform(),
+    forwarded_values: struct!.forwardedValues.toTerraform(),
+    lambda_function_association: struct!.lambdaFunctionAssociation.toTerraform(),
   }
 }
 
@@ -270,28 +270,28 @@ export interface CloudfrontDistributionCustomErrorResponse {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#error_caching_min_ttl CloudfrontDistribution#error_caching_min_ttl}
   */
-  readonly errorCachingMinTtl?: number;
+  readonly errorCachingMinTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#error_code CloudfrontDistribution#error_code}
   */
-  readonly errorCode: number;
+  readonly errorCode: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#response_code CloudfrontDistribution#response_code}
   */
-  readonly responseCode?: number;
+  readonly responseCode?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#response_page_path CloudfrontDistribution#response_page_path}
   */
-  readonly responsePagePath?: string;
+  readonly responsePagePath?: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionCustomErrorResponseToTerraform(struct?: CloudfrontDistributionCustomErrorResponse): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    error_caching_min_ttl: cdktf.numberToTerraform(struct!.errorCachingMinTtl),
-    error_code: cdktf.numberToTerraform(struct!.errorCode),
-    response_code: cdktf.numberToTerraform(struct!.responseCode),
-    response_page_path: cdktf.stringToTerraform(struct!.responsePagePath),
+    error_caching_min_ttl: struct!.errorCachingMinTtl.toTerraform(),
+    error_code: struct!.errorCode.toTerraform(),
+    response_code: struct!.responseCode.toTerraform(),
+    response_page_path: struct!.responsePagePath.toTerraform(),
   }
 }
 
@@ -299,18 +299,18 @@ export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookie
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forward CloudfrontDistribution#forward}
   */
-  readonly forward: string;
+  readonly forward: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#whitelisted_names CloudfrontDistribution#whitelisted_names}
   */
-  readonly whitelistedNames?: string[];
+  readonly whitelistedNames?: cdktf.TerraformStringSet;
 }
 
 function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    forward: cdktf.stringToTerraform(struct!.forward),
-    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform)(struct!.whitelistedNames),
+    forward: struct!.forward.toTerraform(),
+    whitelisted_names: struct!.whitelistedNames.toTerraform(),
   }
 }
 
@@ -318,30 +318,30 @@ export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValues {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#headers CloudfrontDistribution#headers}
   */
-  readonly headers?: string[];
+  readonly headers?: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string CloudfrontDistribution#query_string}
   */
-  readonly queryString: boolean;
+  readonly queryString: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string_cache_keys CloudfrontDistribution#query_string_cache_keys}
   */
-  readonly queryStringCacheKeys?: string[];
+  readonly queryStringCacheKeys?: cdktf.TerraformStringList;
   /**
   * cookies block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cookies CloudfrontDistribution#cookies}
   */
-  readonly cookies: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies[];
+  readonly cookies: TerraformCloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesList;
 }
 
 function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorForwardedValues): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.headers),
-    query_string: cdktf.booleanToTerraform(struct!.queryString),
-    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.queryStringCacheKeys),
-    cookies: cdktf.listMapper(cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToTerraform)(struct!.cookies),
+    headers: struct!.headers.toTerraform(),
+    query_string: struct!.queryString.toTerraform(),
+    query_string_cache_keys: struct!.queryStringCacheKeys.toTerraform(),
+    cookies: struct!.cookies.toTerraform(),
   }
 }
 
@@ -349,23 +349,23 @@ export interface CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssocia
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#event_type CloudfrontDistribution#event_type}
   */
-  readonly eventType: string;
+  readonly eventType: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_body CloudfrontDistribution#include_body}
   */
-  readonly includeBody?: boolean;
+  readonly includeBody?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_arn CloudfrontDistribution#lambda_arn}
   */
-  readonly lambdaArn: string;
+  readonly lambdaArn: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    event_type: cdktf.stringToTerraform(struct!.eventType),
-    include_body: cdktf.booleanToTerraform(struct!.includeBody),
-    lambda_arn: cdktf.stringToTerraform(struct!.lambdaArn),
+    event_type: struct!.eventType.toTerraform(),
+    include_body: struct!.includeBody.toTerraform(),
+    lambda_arn: struct!.lambdaArn.toTerraform(),
   }
 }
 
@@ -373,77 +373,77 @@ export interface CloudfrontDistributionDefaultCacheBehavior {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#allowed_methods CloudfrontDistribution#allowed_methods}
   */
-  readonly allowedMethods: string[];
+  readonly allowedMethods: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cached_methods CloudfrontDistribution#cached_methods}
   */
-  readonly cachedMethods: string[];
+  readonly cachedMethods: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#compress CloudfrontDistribution#compress}
   */
-  readonly compress?: boolean;
+  readonly compress?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_ttl CloudfrontDistribution#default_ttl}
   */
-  readonly defaultTtl?: number;
+  readonly defaultTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#field_level_encryption_id CloudfrontDistribution#field_level_encryption_id}
   */
-  readonly fieldLevelEncryptionId?: string;
+  readonly fieldLevelEncryptionId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#max_ttl CloudfrontDistribution#max_ttl}
   */
-  readonly maxTtl?: number;
+  readonly maxTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#min_ttl CloudfrontDistribution#min_ttl}
   */
-  readonly minTtl?: number;
+  readonly minTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#smooth_streaming CloudfrontDistribution#smooth_streaming}
   */
-  readonly smoothStreaming?: boolean;
+  readonly smoothStreaming?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#target_origin_id CloudfrontDistribution#target_origin_id}
   */
-  readonly targetOriginId: string;
+  readonly targetOriginId: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#trusted_signers CloudfrontDistribution#trusted_signers}
   */
-  readonly trustedSigners?: string[];
+  readonly trustedSigners?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_protocol_policy CloudfrontDistribution#viewer_protocol_policy}
   */
-  readonly viewerProtocolPolicy: string;
+  readonly viewerProtocolPolicy: cdktf.TerraformString;
   /**
   * forwarded_values block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forwarded_values CloudfrontDistribution#forwarded_values}
   */
-  readonly forwardedValues: CloudfrontDistributionDefaultCacheBehaviorForwardedValues[];
+  readonly forwardedValues: TerraformCloudfrontDistributionDefaultCacheBehaviorForwardedValuesList;
   /**
   * lambda_function_association block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_function_association CloudfrontDistribution#lambda_function_association}
   */
-  readonly lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[];
+  readonly lambdaFunctionAssociation?: TerraformCloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationSet;
 }
 
 function cloudfrontDistributionDefaultCacheBehaviorToTerraform(struct?: CloudfrontDistributionDefaultCacheBehavior): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    cached_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cachedMethods),
-    compress: cdktf.booleanToTerraform(struct!.compress),
-    default_ttl: cdktf.numberToTerraform(struct!.defaultTtl),
-    field_level_encryption_id: cdktf.stringToTerraform(struct!.fieldLevelEncryptionId),
-    max_ttl: cdktf.numberToTerraform(struct!.maxTtl),
-    min_ttl: cdktf.numberToTerraform(struct!.minTtl),
-    smooth_streaming: cdktf.booleanToTerraform(struct!.smoothStreaming),
-    target_origin_id: cdktf.stringToTerraform(struct!.targetOriginId),
-    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.trustedSigners),
-    viewer_protocol_policy: cdktf.stringToTerraform(struct!.viewerProtocolPolicy),
-    forwarded_values: cdktf.listMapper(cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerraform)(struct!.forwardedValues),
-    lambda_function_association: cdktf.listMapper(cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToTerraform)(struct!.lambdaFunctionAssociation),
+    allowed_methods: struct!.allowedMethods.toTerraform(),
+    cached_methods: struct!.cachedMethods.toTerraform(),
+    compress: struct!.compress.toTerraform(),
+    default_ttl: struct!.defaultTtl.toTerraform(),
+    field_level_encryption_id: struct!.fieldLevelEncryptionId.toTerraform(),
+    max_ttl: struct!.maxTtl.toTerraform(),
+    min_ttl: struct!.minTtl.toTerraform(),
+    smooth_streaming: struct!.smoothStreaming.toTerraform(),
+    target_origin_id: struct!.targetOriginId.toTerraform(),
+    trusted_signers: struct!.trustedSigners.toTerraform(),
+    viewer_protocol_policy: struct!.viewerProtocolPolicy.toTerraform(),
+    forwarded_values: struct!.forwardedValues.toTerraform(),
+    lambda_function_association: struct!.lambdaFunctionAssociation.toTerraform(),
   }
 }
 
@@ -451,23 +451,23 @@ export interface CloudfrontDistributionLoggingConfig {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#bucket CloudfrontDistribution#bucket}
   */
-  readonly bucket: string;
+  readonly bucket: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_cookies CloudfrontDistribution#include_cookies}
   */
-  readonly includeCookies?: boolean;
+  readonly includeCookies?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#prefix CloudfrontDistribution#prefix}
   */
-  readonly prefix?: string;
+  readonly prefix?: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionLoggingConfigToTerraform(struct?: CloudfrontDistributionLoggingConfig): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    bucket: cdktf.stringToTerraform(struct!.bucket),
-    include_cookies: cdktf.booleanToTerraform(struct!.includeCookies),
-    prefix: cdktf.stringToTerraform(struct!.prefix),
+    bucket: struct!.bucket.toTerraform(),
+    include_cookies: struct!.includeCookies.toTerraform(),
+    prefix: struct!.prefix.toTerraform(),
   }
 }
 
@@ -475,18 +475,18 @@ export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookie
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forward CloudfrontDistribution#forward}
   */
-  readonly forward: string;
+  readonly forward: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#whitelisted_names CloudfrontDistribution#whitelisted_names}
   */
-  readonly whitelistedNames?: string[];
+  readonly whitelistedNames?: cdktf.TerraformStringSet;
 }
 
 function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    forward: cdktf.stringToTerraform(struct!.forward),
-    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform)(struct!.whitelistedNames),
+    forward: struct!.forward.toTerraform(),
+    whitelisted_names: struct!.whitelistedNames.toTerraform(),
   }
 }
 
@@ -494,30 +494,30 @@ export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValues {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#headers CloudfrontDistribution#headers}
   */
-  readonly headers?: string[];
+  readonly headers?: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string CloudfrontDistribution#query_string}
   */
-  readonly queryString: boolean;
+  readonly queryString: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#query_string_cache_keys CloudfrontDistribution#query_string_cache_keys}
   */
-  readonly queryStringCacheKeys?: string[];
+  readonly queryStringCacheKeys?: cdktf.TerraformStringList;
   /**
   * cookies block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cookies CloudfrontDistribution#cookies}
   */
-  readonly cookies: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies[];
+  readonly cookies: TerraformCloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesList;
 }
 
 function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorForwardedValues): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.headers),
-    query_string: cdktf.booleanToTerraform(struct!.queryString),
-    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.queryStringCacheKeys),
-    cookies: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToTerraform)(struct!.cookies),
+    headers: struct!.headers.toTerraform(),
+    query_string: struct!.queryString.toTerraform(),
+    query_string_cache_keys: struct!.queryStringCacheKeys.toTerraform(),
+    cookies: struct!.cookies.toTerraform(),
   }
 }
 
@@ -525,23 +525,23 @@ export interface CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssocia
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#event_type CloudfrontDistribution#event_type}
   */
-  readonly eventType: string;
+  readonly eventType: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#include_body CloudfrontDistribution#include_body}
   */
-  readonly includeBody?: boolean;
+  readonly includeBody?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_arn CloudfrontDistribution#lambda_arn}
   */
-  readonly lambdaArn: string;
+  readonly lambdaArn: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    event_type: cdktf.stringToTerraform(struct!.eventType),
-    include_body: cdktf.booleanToTerraform(struct!.includeBody),
-    lambda_arn: cdktf.stringToTerraform(struct!.lambdaArn),
+    event_type: struct!.eventType.toTerraform(),
+    include_body: struct!.includeBody.toTerraform(),
+    lambda_arn: struct!.lambdaArn.toTerraform(),
   }
 }
 
@@ -549,82 +549,82 @@ export interface CloudfrontDistributionOrderedCacheBehavior {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#allowed_methods CloudfrontDistribution#allowed_methods}
   */
-  readonly allowedMethods: string[];
+  readonly allowedMethods: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cached_methods CloudfrontDistribution#cached_methods}
   */
-  readonly cachedMethods: string[];
+  readonly cachedMethods: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#compress CloudfrontDistribution#compress}
   */
-  readonly compress?: boolean;
+  readonly compress?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#default_ttl CloudfrontDistribution#default_ttl}
   */
-  readonly defaultTtl?: number;
+  readonly defaultTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#field_level_encryption_id CloudfrontDistribution#field_level_encryption_id}
   */
-  readonly fieldLevelEncryptionId?: string;
+  readonly fieldLevelEncryptionId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#max_ttl CloudfrontDistribution#max_ttl}
   */
-  readonly maxTtl?: number;
+  readonly maxTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#min_ttl CloudfrontDistribution#min_ttl}
   */
-  readonly minTtl?: number;
+  readonly minTtl?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#path_pattern CloudfrontDistribution#path_pattern}
   */
-  readonly pathPattern: string;
+  readonly pathPattern: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#smooth_streaming CloudfrontDistribution#smooth_streaming}
   */
-  readonly smoothStreaming?: boolean;
+  readonly smoothStreaming?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#target_origin_id CloudfrontDistribution#target_origin_id}
   */
-  readonly targetOriginId: string;
+  readonly targetOriginId: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#trusted_signers CloudfrontDistribution#trusted_signers}
   */
-  readonly trustedSigners?: string[];
+  readonly trustedSigners?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#viewer_protocol_policy CloudfrontDistribution#viewer_protocol_policy}
   */
-  readonly viewerProtocolPolicy: string;
+  readonly viewerProtocolPolicy: cdktf.TerraformString;
   /**
   * forwarded_values block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#forwarded_values CloudfrontDistribution#forwarded_values}
   */
-  readonly forwardedValues: CloudfrontDistributionOrderedCacheBehaviorForwardedValues[];
+  readonly forwardedValues: TerraformCloudfrontDistributionOrderedCacheBehaviorForwardedValuesList;
   /**
   * lambda_function_association block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#lambda_function_association CloudfrontDistribution#lambda_function_association}
   */
-  readonly lambdaFunctionAssociation?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation[];
+  readonly lambdaFunctionAssociation?: TerraformCloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationSet;
 }
 
 function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: CloudfrontDistributionOrderedCacheBehavior): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    cached_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cachedMethods),
-    compress: cdktf.booleanToTerraform(struct!.compress),
-    default_ttl: cdktf.numberToTerraform(struct!.defaultTtl),
-    field_level_encryption_id: cdktf.stringToTerraform(struct!.fieldLevelEncryptionId),
-    max_ttl: cdktf.numberToTerraform(struct!.maxTtl),
-    min_ttl: cdktf.numberToTerraform(struct!.minTtl),
-    path_pattern: cdktf.stringToTerraform(struct!.pathPattern),
-    smooth_streaming: cdktf.booleanToTerraform(struct!.smoothStreaming),
-    target_origin_id: cdktf.stringToTerraform(struct!.targetOriginId),
-    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.trustedSigners),
-    viewer_protocol_policy: cdktf.stringToTerraform(struct!.viewerProtocolPolicy),
-    forwarded_values: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerraform)(struct!.forwardedValues),
-    lambda_function_association: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToTerraform)(struct!.lambdaFunctionAssociation),
+    allowed_methods: struct!.allowedMethods.toTerraform(),
+    cached_methods: struct!.cachedMethods.toTerraform(),
+    compress: struct!.compress.toTerraform(),
+    default_ttl: struct!.defaultTtl.toTerraform(),
+    field_level_encryption_id: struct!.fieldLevelEncryptionId.toTerraform(),
+    max_ttl: struct!.maxTtl.toTerraform(),
+    min_ttl: struct!.minTtl.toTerraform(),
+    path_pattern: struct!.pathPattern.toTerraform(),
+    smooth_streaming: struct!.smoothStreaming.toTerraform(),
+    target_origin_id: struct!.targetOriginId.toTerraform(),
+    trusted_signers: struct!.trustedSigners.toTerraform(),
+    viewer_protocol_policy: struct!.viewerProtocolPolicy.toTerraform(),
+    forwarded_values: struct!.forwardedValues.toTerraform(),
+    lambda_function_association: struct!.lambdaFunctionAssociation.toTerraform(),
   }
 }
 
@@ -632,18 +632,18 @@ export interface CloudfrontDistributionOriginCustomHeader {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#name CloudfrontDistribution#name}
   */
-  readonly name: string;
+  readonly name: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#value CloudfrontDistribution#value}
   */
-  readonly value: string;
+  readonly value: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionOriginCustomHeaderToTerraform(struct?: CloudfrontDistributionOriginCustomHeader): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    name: cdktf.stringToTerraform(struct!.name),
-    value: cdktf.stringToTerraform(struct!.value),
+    name: struct!.name.toTerraform(),
+    value: struct!.value.toTerraform(),
   }
 }
 
@@ -651,38 +651,38 @@ export interface CloudfrontDistributionOriginCustomOriginConfig {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#http_port CloudfrontDistribution#http_port}
   */
-  readonly httpPort: number;
+  readonly httpPort: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#https_port CloudfrontDistribution#https_port}
   */
-  readonly httpsPort: number;
+  readonly httpsPort: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_keepalive_timeout CloudfrontDistribution#origin_keepalive_timeout}
   */
-  readonly originKeepaliveTimeout?: number;
+  readonly originKeepaliveTimeout?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_protocol_policy CloudfrontDistribution#origin_protocol_policy}
   */
-  readonly originProtocolPolicy: string;
+  readonly originProtocolPolicy: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_read_timeout CloudfrontDistribution#origin_read_timeout}
   */
-  readonly originReadTimeout?: number;
+  readonly originReadTimeout?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_ssl_protocols CloudfrontDistribution#origin_ssl_protocols}
   */
-  readonly originSslProtocols: string[];
+  readonly originSslProtocols: cdktf.TerraformStringSet;
 }
 
 function cloudfrontDistributionOriginCustomOriginConfigToTerraform(struct?: CloudfrontDistributionOriginCustomOriginConfig): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    http_port: cdktf.numberToTerraform(struct!.httpPort),
-    https_port: cdktf.numberToTerraform(struct!.httpsPort),
-    origin_keepalive_timeout: cdktf.numberToTerraform(struct!.originKeepaliveTimeout),
-    origin_protocol_policy: cdktf.stringToTerraform(struct!.originProtocolPolicy),
-    origin_read_timeout: cdktf.numberToTerraform(struct!.originReadTimeout),
-    origin_ssl_protocols: cdktf.listMapper(cdktf.stringToTerraform)(struct!.originSslProtocols),
+    http_port: struct!.httpPort.toTerraform(),
+    https_port: struct!.httpsPort.toTerraform(),
+    origin_keepalive_timeout: struct!.originKeepaliveTimeout.toTerraform(),
+    origin_protocol_policy: struct!.originProtocolPolicy.toTerraform(),
+    origin_read_timeout: struct!.originReadTimeout.toTerraform(),
+    origin_ssl_protocols: struct!.originSslProtocols.toTerraform(),
   }
 }
 
@@ -690,13 +690,13 @@ export interface CloudfrontDistributionOriginS3OriginConfig {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_access_identity CloudfrontDistribution#origin_access_identity}
   */
-  readonly originAccessIdentity: string;
+  readonly originAccessIdentity: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionOriginS3OriginConfigToTerraform(struct?: CloudfrontDistributionOriginS3OriginConfig): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    origin_access_identity: cdktf.stringToTerraform(struct!.originAccessIdentity),
+    origin_access_identity: struct!.originAccessIdentity.toTerraform(),
   }
 }
 
@@ -704,44 +704,44 @@ export interface CloudfrontDistributionOrigin {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#domain_name CloudfrontDistribution#domain_name}
   */
-  readonly domainName: string;
+  readonly domainName: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_id CloudfrontDistribution#origin_id}
   */
-  readonly originId: string;
+  readonly originId: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_path CloudfrontDistribution#origin_path}
   */
-  readonly originPath?: string;
+  readonly originPath?: cdktf.TerraformString;
   /**
   * custom_header block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#custom_header CloudfrontDistribution#custom_header}
   */
-  readonly customHeader?: CloudfrontDistributionOriginCustomHeader[];
+  readonly customHeader?: TerraformCloudfrontDistributionOriginCustomHeaderSet;
   /**
   * custom_origin_config block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#custom_origin_config CloudfrontDistribution#custom_origin_config}
   */
-  readonly customOriginConfig?: CloudfrontDistributionOriginCustomOriginConfig[];
+  readonly customOriginConfig?: TerraformCloudfrontDistributionOriginCustomOriginConfigList;
   /**
   * s3_origin_config block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#s3_origin_config CloudfrontDistribution#s3_origin_config}
   */
-  readonly s3OriginConfig?: CloudfrontDistributionOriginS3OriginConfig[];
+  readonly s3OriginConfig?: TerraformCloudfrontDistributionOriginS3OriginConfigList;
 }
 
 function cloudfrontDistributionOriginToTerraform(struct?: CloudfrontDistributionOrigin): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    domain_name: cdktf.stringToTerraform(struct!.domainName),
-    origin_id: cdktf.stringToTerraform(struct!.originId),
-    origin_path: cdktf.stringToTerraform(struct!.originPath),
-    custom_header: cdktf.listMapper(cloudfrontDistributionOriginCustomHeaderToTerraform)(struct!.customHeader),
-    custom_origin_config: cdktf.listMapper(cloudfrontDistributionOriginCustomOriginConfigToTerraform)(struct!.customOriginConfig),
-    s3_origin_config: cdktf.listMapper(cloudfrontDistributionOriginS3OriginConfigToTerraform)(struct!.s3OriginConfig),
+    domain_name: struct!.domainName.toTerraform(),
+    origin_id: struct!.originId.toTerraform(),
+    origin_path: struct!.originPath.toTerraform(),
+    custom_header: struct!.customHeader.toTerraform(),
+    custom_origin_config: struct!.customOriginConfig.toTerraform(),
+    s3_origin_config: struct!.s3OriginConfig.toTerraform(),
   }
 }
 
@@ -749,13 +749,13 @@ export interface CloudfrontDistributionOriginGroupFailoverCriteria {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#status_codes CloudfrontDistribution#status_codes}
   */
-  readonly statusCodes: number[];
+  readonly statusCodes: cdktf.TerraformNumberSet;
 }
 
 function cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform(struct?: CloudfrontDistributionOriginGroupFailoverCriteria): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    status_codes: cdktf.listMapper(cdktf.numberToTerraform)(struct!.statusCodes),
+    status_codes: struct!.statusCodes.toTerraform(),
   }
 }
 
@@ -763,13 +763,13 @@ export interface CloudfrontDistributionOriginGroupMember {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_id CloudfrontDistribution#origin_id}
   */
-  readonly originId: string;
+  readonly originId: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionOriginGroupMemberToTerraform(struct?: CloudfrontDistributionOriginGroupMember): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    origin_id: cdktf.stringToTerraform(struct!.originId),
+    origin_id: struct!.originId.toTerraform(),
   }
 }
 
@@ -777,27 +777,27 @@ export interface CloudfrontDistributionOriginGroup {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#origin_id CloudfrontDistribution#origin_id}
   */
-  readonly originId: string;
+  readonly originId: cdktf.TerraformString;
   /**
   * failover_criteria block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#failover_criteria CloudfrontDistribution#failover_criteria}
   */
-  readonly failoverCriteria: CloudfrontDistributionOriginGroupFailoverCriteria[];
+  readonly failoverCriteria: TerraformCloudfrontDistributionOriginGroupFailoverCriteriaList;
   /**
   * member block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#member CloudfrontDistribution#member}
   */
-  readonly member: CloudfrontDistributionOriginGroupMember[];
+  readonly member: TerraformCloudfrontDistributionOriginGroupMemberList;
 }
 
 function cloudfrontDistributionOriginGroupToTerraform(struct?: CloudfrontDistributionOriginGroup): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    origin_id: cdktf.stringToTerraform(struct!.originId),
-    failover_criteria: cdktf.listMapper(cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform)(struct!.failoverCriteria),
-    member: cdktf.listMapper(cloudfrontDistributionOriginGroupMemberToTerraform)(struct!.member),
+    origin_id: struct!.originId.toTerraform(),
+    failover_criteria: struct!.failoverCriteria.toTerraform(),
+    member: struct!.member.toTerraform(),
   }
 }
 
@@ -805,18 +805,18 @@ export interface CloudfrontDistributionRestrictionsGeoRestriction {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#locations CloudfrontDistribution#locations}
   */
-  readonly locations?: string[];
+  readonly locations?: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#restriction_type CloudfrontDistribution#restriction_type}
   */
-  readonly restrictionType: string;
+  readonly restrictionType: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionRestrictionsGeoRestrictionToTerraform(struct?: CloudfrontDistributionRestrictionsGeoRestriction): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    locations: cdktf.listMapper(cdktf.stringToTerraform)(struct!.locations),
-    restriction_type: cdktf.stringToTerraform(struct!.restrictionType),
+    locations: struct!.locations.toTerraform(),
+    restriction_type: struct!.restrictionType.toTerraform(),
   }
 }
 
@@ -826,13 +826,13 @@ export interface CloudfrontDistributionRestrictions {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#geo_restriction CloudfrontDistribution#geo_restriction}
   */
-  readonly geoRestriction: CloudfrontDistributionRestrictionsGeoRestriction[];
+  readonly geoRestriction: TerraformCloudfrontDistributionRestrictionsGeoRestrictionList;
 }
 
 function cloudfrontDistributionRestrictionsToTerraform(struct?: CloudfrontDistributionRestrictions): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    geo_restriction: cdktf.listMapper(cloudfrontDistributionRestrictionsGeoRestrictionToTerraform)(struct!.geoRestriction),
+    geo_restriction: struct!.geoRestriction.toTerraform(),
   }
 }
 
@@ -840,33 +840,33 @@ export interface CloudfrontDistributionViewerCertificate {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#acm_certificate_arn CloudfrontDistribution#acm_certificate_arn}
   */
-  readonly acmCertificateArn?: string;
+  readonly acmCertificateArn?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#cloudfront_default_certificate CloudfrontDistribution#cloudfront_default_certificate}
   */
-  readonly cloudfrontDefaultCertificate?: boolean;
+  readonly cloudfrontDefaultCertificate?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#iam_certificate_id CloudfrontDistribution#iam_certificate_id}
   */
-  readonly iamCertificateId?: string;
+  readonly iamCertificateId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#minimum_protocol_version CloudfrontDistribution#minimum_protocol_version}
   */
-  readonly minimumProtocolVersion?: string;
+  readonly minimumProtocolVersion?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#ssl_support_method CloudfrontDistribution#ssl_support_method}
   */
-  readonly sslSupportMethod?: string;
+  readonly sslSupportMethod?: cdktf.TerraformString;
 }
 
 function cloudfrontDistributionViewerCertificateToTerraform(struct?: CloudfrontDistributionViewerCertificate): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    acm_certificate_arn: cdktf.stringToTerraform(struct!.acmCertificateArn),
-    cloudfront_default_certificate: cdktf.booleanToTerraform(struct!.cloudfrontDefaultCertificate),
-    iam_certificate_id: cdktf.stringToTerraform(struct!.iamCertificateId),
-    minimum_protocol_version: cdktf.stringToTerraform(struct!.minimumProtocolVersion),
-    ssl_support_method: cdktf.stringToTerraform(struct!.sslSupportMethod),
+    acm_certificate_arn: struct!.acmCertificateArn.toTerraform(),
+    cloudfront_default_certificate: struct!.cloudfrontDefaultCertificate.toTerraform(),
+    iam_certificate_id: struct!.iamCertificateId.toTerraform(),
+    minimum_protocol_version: struct!.minimumProtocolVersion.toTerraform(),
+    ssl_support_method: struct!.sslSupportMethod.toTerraform(),
   }
 }
 
@@ -898,26 +898,36 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._aliases = config.aliases;
-    this._comment = config.comment;
-    this._defaultRootObject = config.defaultRootObject;
-    this._enabled = config.enabled;
-    this._httpVersion = config.httpVersion;
-    this._isIpv6Enabled = config.isIpv6Enabled;
-    this._priceClass = config.priceClass;
-    this._retainOnDelete = config.retainOnDelete;
-    this._tags = config.tags;
-    this._waitForDeployment = config.waitForDeployment;
-    this._webAclId = config.webAclId;
-    this._cacheBehavior = config.cacheBehavior;
-    this._customErrorResponse = config.customErrorResponse;
-    this._defaultCacheBehavior = config.defaultCacheBehavior;
-    this._loggingConfig = config.loggingConfig;
-    this._orderedCacheBehavior = config.orderedCacheBehavior;
-    this._origin = config.origin;
-    this._originGroup = config.originGroup;
-    this._restrictions = config.restrictions;
-    this._viewerCertificate = config.viewerCertificate;
+    this._activeTrustedSigners = new cdktf.TerraformStringMapAttribute(this, 'active_trusted_signers', undefined)
+    this.putAliases(config.aliases ?? new cdktf.TerraformStringSetAttribute(this, 'aliases', undefined));
+    this._arn = new cdktf.TerraformStringAttribute(this, 'arn', undefined)
+    this._callerReference = new cdktf.TerraformStringAttribute(this, 'caller_reference', undefined)
+    this.putComment(config.comment ?? new cdktf.TerraformStringAttribute(this, 'comment', undefined));
+    this.putDefaultRootObject(config.defaultRootObject ?? new cdktf.TerraformStringAttribute(this, 'default_root_object', undefined));
+    this._domainName = new cdktf.TerraformStringAttribute(this, 'domain_name', undefined)
+    this.putEnabled(config.enabled);
+    this._etag = new cdktf.TerraformStringAttribute(this, 'etag', undefined)
+    this._hostedZoneId = new cdktf.TerraformStringAttribute(this, 'hosted_zone_id', undefined)
+    this.putHttpVersion(config.httpVersion ?? new cdktf.TerraformStringAttribute(this, 'http_version', undefined));
+    this._id = new cdktf.TerraformStringAttribute(this, 'id', undefined)
+    this._inProgressValidationBatches = new cdktf.TerraformNumberAttribute(this, 'in_progress_validation_batches', undefined)
+    this.putIsIpv6Enabled(config.isIpv6Enabled ?? new cdktf.TerraformBooleanAttribute(this, 'is_ipv6_enabled', undefined));
+    this._lastModifiedTime = new cdktf.TerraformStringAttribute(this, 'last_modified_time', undefined)
+    this.putPriceClass(config.priceClass ?? new cdktf.TerraformStringAttribute(this, 'price_class', undefined));
+    this.putRetainOnDelete(config.retainOnDelete ?? new cdktf.TerraformBooleanAttribute(this, 'retain_on_delete', undefined));
+    this._status = new cdktf.TerraformStringAttribute(this, 'status', undefined)
+    this.putTags(config.tags ?? new cdktf.TerraformStringMapAttribute(this, 'tags', undefined));
+    this.putWaitForDeployment(config.waitForDeployment ?? new cdktf.TerraformBooleanAttribute(this, 'wait_for_deployment', undefined));
+    this.putWebAclId(config.webAclId ?? new cdktf.TerraformStringAttribute(this, 'web_acl_id', undefined));
+    this.putCacheBehavior(config.cacheBehavior ?? new TerraformCloudfrontDistributionCacheBehaviorSetAttribute(this, 'cache_behavior', undefined));
+    this.putCustomErrorResponse(config.customErrorResponse ?? new TerraformCloudfrontDistributionCustomErrorResponseSetAttribute(this, 'custom_error_response', undefined));
+    this.putDefaultCacheBehavior(config.defaultCacheBehavior);
+    this.putLoggingConfig(config.loggingConfig ?? new TerraformCloudfrontDistributionLoggingConfigListAttribute(this, 'logging_config', undefined));
+    this.putOrderedCacheBehavior(config.orderedCacheBehavior ?? new TerraformCloudfrontDistributionOrderedCacheBehaviorListAttribute(this, 'ordered_cache_behavior', undefined));
+    this.putOrigin(config.origin);
+    this.putOriginGroup(config.originGroup ?? new TerraformCloudfrontDistributionOriginGroupSetAttribute(this, 'origin_group', undefined));
+    this.putRestrictions(config.restrictions);
+    this.putViewerCertificate(config.viewerCertificate);
   }
 
   // ==========
@@ -925,358 +935,318 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // ==========
 
   // active_trusted_signers - computed: true, optional: false, required: false
-  public activeTrustedSigners(key: string): string {
-    return new cdktf.StringMap(this, 'active_trusted_signers').lookup(key);
+  private _activeTrustedSigners: cdktf.TerraformStringMapAttribute;
+  public get activeTrustedSigners() {
+    return this._activeTrustedSigners;
   }
 
   // aliases - computed: false, optional: true, required: false
-  private _aliases?: string[];
+  private _aliases!: cdktf.TerraformStringSetAttribute;
   public get aliases() {
-    return this.getListAttribute('aliases');
+    return this._aliases;
   }
-  public set aliases(value: string[] ) {
-    this._aliases = value;
-  }
-  public resetAliases() {
-    this._aliases = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get aliasesInput() {
-    return this._aliases
+  public putAliases(value: cdktf.TerraformStringSet | undefined) {
+    if (value === undefined) {
+      this._aliases.reset();
+    }
+    else {
+      this._aliases = cdktf.TerraformStringSetAttribute.create(this, 'aliases', value);
+    }
   }
 
   // arn - computed: true, optional: false, required: false
+  private _arn: cdktf.TerraformStringAttribute;
   public get arn() {
-    return this.getStringAttribute('arn');
+    return this._arn;
   }
 
   // caller_reference - computed: true, optional: false, required: false
+  private _callerReference: cdktf.TerraformStringAttribute;
   public get callerReference() {
-    return this.getStringAttribute('caller_reference');
+    return this._callerReference;
   }
 
   // comment - computed: false, optional: true, required: false
-  private _comment?: string;
+  private _comment!: cdktf.TerraformStringAttribute;
   public get comment() {
-    return this.getStringAttribute('comment');
+    return this._comment;
   }
-  public set comment(value: string ) {
-    this._comment = value;
-  }
-  public resetComment() {
-    this._comment = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get commentInput() {
-    return this._comment
+  public putComment(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._comment.reset();
+    }
+    else {
+      this._comment = cdktf.TerraformStringAttribute.create(this, 'comment', value);
+    }
   }
 
   // default_root_object - computed: false, optional: true, required: false
-  private _defaultRootObject?: string;
+  private _defaultRootObject!: cdktf.TerraformStringAttribute;
   public get defaultRootObject() {
-    return this.getStringAttribute('default_root_object');
+    return this._defaultRootObject;
   }
-  public set defaultRootObject(value: string ) {
-    this._defaultRootObject = value;
-  }
-  public resetDefaultRootObject() {
-    this._defaultRootObject = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get defaultRootObjectInput() {
-    return this._defaultRootObject
+  public putDefaultRootObject(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._defaultRootObject.reset();
+    }
+    else {
+      this._defaultRootObject = cdktf.TerraformStringAttribute.create(this, 'default_root_object', value);
+    }
   }
 
   // domain_name - computed: true, optional: false, required: false
+  private _domainName: cdktf.TerraformStringAttribute;
   public get domainName() {
-    return this.getStringAttribute('domain_name');
+    return this._domainName;
   }
 
   // enabled - computed: false, optional: false, required: true
-  private _enabled: boolean;
+  private _enabled!: cdktf.TerraformBooleanAttribute;
   public get enabled() {
-    return this.getBooleanAttribute('enabled');
+    return this._enabled;
   }
-  public set enabled(value: boolean) {
-    this._enabled = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get enabledInput() {
-    return this._enabled
+  public putEnabled(value: cdktf.TerraformBoolean) {
+    this._enabled = cdktf.TerraformBooleanAttribute.create(this, 'enabled', value);
   }
 
   // etag - computed: true, optional: false, required: false
+  private _etag: cdktf.TerraformStringAttribute;
   public get etag() {
-    return this.getStringAttribute('etag');
+    return this._etag;
   }
 
   // hosted_zone_id - computed: true, optional: false, required: false
+  private _hostedZoneId: cdktf.TerraformStringAttribute;
   public get hostedZoneId() {
-    return this.getStringAttribute('hosted_zone_id');
+    return this._hostedZoneId;
   }
 
   // http_version - computed: false, optional: true, required: false
-  private _httpVersion?: string;
+  private _httpVersion!: cdktf.TerraformStringAttribute;
   public get httpVersion() {
-    return this.getStringAttribute('http_version');
+    return this._httpVersion;
   }
-  public set httpVersion(value: string ) {
-    this._httpVersion = value;
-  }
-  public resetHttpVersion() {
-    this._httpVersion = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get httpVersionInput() {
-    return this._httpVersion
+  public putHttpVersion(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._httpVersion.reset();
+    }
+    else {
+      this._httpVersion = cdktf.TerraformStringAttribute.create(this, 'http_version', value);
+    }
   }
 
   // id - computed: true, optional: true, required: false
+  private _id: cdktf.TerraformStringAttribute;
   public get id() {
-    return this.getStringAttribute('id');
+    return this._id;
   }
 
   // in_progress_validation_batches - computed: true, optional: false, required: false
+  private _inProgressValidationBatches: cdktf.TerraformNumberAttribute;
   public get inProgressValidationBatches() {
-    return this.getNumberAttribute('in_progress_validation_batches');
+    return this._inProgressValidationBatches;
   }
 
   // is_ipv6_enabled - computed: false, optional: true, required: false
-  private _isIpv6Enabled?: boolean;
+  private _isIpv6Enabled!: cdktf.TerraformBooleanAttribute;
   public get isIpv6Enabled() {
-    return this.getBooleanAttribute('is_ipv6_enabled');
+    return this._isIpv6Enabled;
   }
-  public set isIpv6Enabled(value: boolean ) {
-    this._isIpv6Enabled = value;
-  }
-  public resetIsIpv6Enabled() {
-    this._isIpv6Enabled = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get isIpv6EnabledInput() {
-    return this._isIpv6Enabled
+  public putIsIpv6Enabled(value: cdktf.TerraformBoolean | undefined) {
+    if (value === undefined) {
+      this._isIpv6Enabled.reset();
+    }
+    else {
+      this._isIpv6Enabled = cdktf.TerraformBooleanAttribute.create(this, 'is_ipv6_enabled', value);
+    }
   }
 
   // last_modified_time - computed: true, optional: false, required: false
+  private _lastModifiedTime: cdktf.TerraformStringAttribute;
   public get lastModifiedTime() {
-    return this.getStringAttribute('last_modified_time');
+    return this._lastModifiedTime;
   }
 
   // price_class - computed: false, optional: true, required: false
-  private _priceClass?: string;
+  private _priceClass!: cdktf.TerraformStringAttribute;
   public get priceClass() {
-    return this.getStringAttribute('price_class');
+    return this._priceClass;
   }
-  public set priceClass(value: string ) {
-    this._priceClass = value;
-  }
-  public resetPriceClass() {
-    this._priceClass = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get priceClassInput() {
-    return this._priceClass
+  public putPriceClass(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._priceClass.reset();
+    }
+    else {
+      this._priceClass = cdktf.TerraformStringAttribute.create(this, 'price_class', value);
+    }
   }
 
   // retain_on_delete - computed: false, optional: true, required: false
-  private _retainOnDelete?: boolean;
+  private _retainOnDelete!: cdktf.TerraformBooleanAttribute;
   public get retainOnDelete() {
-    return this.getBooleanAttribute('retain_on_delete');
+    return this._retainOnDelete;
   }
-  public set retainOnDelete(value: boolean ) {
-    this._retainOnDelete = value;
-  }
-  public resetRetainOnDelete() {
-    this._retainOnDelete = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get retainOnDeleteInput() {
-    return this._retainOnDelete
+  public putRetainOnDelete(value: cdktf.TerraformBoolean | undefined) {
+    if (value === undefined) {
+      this._retainOnDelete.reset();
+    }
+    else {
+      this._retainOnDelete = cdktf.TerraformBooleanAttribute.create(this, 'retain_on_delete', value);
+    }
   }
 
   // status - computed: true, optional: false, required: false
+  private _status: cdktf.TerraformStringAttribute;
   public get status() {
-    return this.getStringAttribute('status');
+    return this._status;
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string };
+  private _tags!: cdktf.TerraformStringMapAttribute;
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this._tags;
   }
-  public set tags(value: { [key: string]: string } ) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get tagsInput() {
-    return this._tags
+  public putTags(value: cdktf.TerraformStringMap | undefined) {
+    if (value === undefined) {
+      this._tags.reset();
+    }
+    else {
+      this._tags = cdktf.TerraformStringMapAttribute.create(this, 'tags', value);
+    }
   }
 
   // wait_for_deployment - computed: false, optional: true, required: false
-  private _waitForDeployment?: boolean;
+  private _waitForDeployment!: cdktf.TerraformBooleanAttribute;
   public get waitForDeployment() {
-    return this.getBooleanAttribute('wait_for_deployment');
+    return this._waitForDeployment;
   }
-  public set waitForDeployment(value: boolean ) {
-    this._waitForDeployment = value;
-  }
-  public resetWaitForDeployment() {
-    this._waitForDeployment = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get waitForDeploymentInput() {
-    return this._waitForDeployment
+  public putWaitForDeployment(value: cdktf.TerraformBoolean | undefined) {
+    if (value === undefined) {
+      this._waitForDeployment.reset();
+    }
+    else {
+      this._waitForDeployment = cdktf.TerraformBooleanAttribute.create(this, 'wait_for_deployment', value);
+    }
   }
 
   // web_acl_id - computed: false, optional: true, required: false
-  private _webAclId?: string;
+  private _webAclId!: cdktf.TerraformStringAttribute;
   public get webAclId() {
-    return this.getStringAttribute('web_acl_id');
+    return this._webAclId;
   }
-  public set webAclId(value: string ) {
-    this._webAclId = value;
-  }
-  public resetWebAclId() {
-    this._webAclId = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get webAclIdInput() {
-    return this._webAclId
+  public putWebAclId(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._webAclId.reset();
+    }
+    else {
+      this._webAclId = cdktf.TerraformStringAttribute.create(this, 'web_acl_id', value);
+    }
   }
 
   // cache_behavior - computed: false, optional: true, required: false
-  private _cacheBehavior?: CloudfrontDistributionCacheBehavior[];
+  private _cacheBehavior!: TerraformCloudfrontDistributionCacheBehaviorSetAttribute;
   public get cacheBehavior() {
-    return this.interpolationForAttribute('cache_behavior') as any;
+    return this._cacheBehavior;
   }
-  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] ) {
-    this._cacheBehavior = value;
-  }
-  public resetCacheBehavior() {
-    this._cacheBehavior = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get cacheBehaviorInput() {
-    return this._cacheBehavior
+  public putCacheBehavior(value: TerraformCloudfrontDistributionCacheBehaviorSet | undefined) {
+    if (value === undefined) {
+      this._cacheBehavior.reset();
+    }
+    else {
+      this._cacheBehavior = TerraformCloudfrontDistributionCacheBehaviorSetAttribute.create(this, 'cache_behavior', value);
+    }
   }
 
   // custom_error_response - computed: false, optional: true, required: false
-  private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
+  private _customErrorResponse!: TerraformCloudfrontDistributionCustomErrorResponseSetAttribute;
   public get customErrorResponse() {
-    return this.interpolationForAttribute('custom_error_response') as any;
+    return this._customErrorResponse;
   }
-  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] ) {
-    this._customErrorResponse = value;
-  }
-  public resetCustomErrorResponse() {
-    this._customErrorResponse = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get customErrorResponseInput() {
-    return this._customErrorResponse
+  public putCustomErrorResponse(value: TerraformCloudfrontDistributionCustomErrorResponseSet | undefined) {
+    if (value === undefined) {
+      this._customErrorResponse.reset();
+    }
+    else {
+      this._customErrorResponse = TerraformCloudfrontDistributionCustomErrorResponseSetAttribute.create(this, 'custom_error_response', value);
+    }
   }
 
   // default_cache_behavior - computed: false, optional: false, required: true
-  private _defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
+  private _defaultCacheBehavior!: TerraformCloudfrontDistributionDefaultCacheBehaviorListAttribute;
   public get defaultCacheBehavior() {
-    return this.interpolationForAttribute('default_cache_behavior') as any;
+    return this._defaultCacheBehavior;
   }
-  public set defaultCacheBehavior(value: CloudfrontDistributionDefaultCacheBehavior[]) {
-    this._defaultCacheBehavior = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get defaultCacheBehaviorInput() {
-    return this._defaultCacheBehavior
+  public putDefaultCacheBehavior(value: TerraformCloudfrontDistributionDefaultCacheBehaviorList) {
+    this._defaultCacheBehavior = TerraformCloudfrontDistributionDefaultCacheBehaviorListAttribute.create(this, 'default_cache_behavior', value);
   }
 
   // logging_config - computed: false, optional: true, required: false
-  private _loggingConfig?: CloudfrontDistributionLoggingConfig[];
+  private _loggingConfig!: TerraformCloudfrontDistributionLoggingConfigListAttribute;
   public get loggingConfig() {
-    return this.interpolationForAttribute('logging_config') as any;
+    return this._loggingConfig;
   }
-  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] ) {
-    this._loggingConfig = value;
-  }
-  public resetLoggingConfig() {
-    this._loggingConfig = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get loggingConfigInput() {
-    return this._loggingConfig
+  public putLoggingConfig(value: TerraformCloudfrontDistributionLoggingConfigList | undefined) {
+    if (value === undefined) {
+      this._loggingConfig.reset();
+    }
+    else {
+      this._loggingConfig = TerraformCloudfrontDistributionLoggingConfigListAttribute.create(this, 'logging_config', value);
+    }
   }
 
   // ordered_cache_behavior - computed: false, optional: true, required: false
-  private _orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
+  private _orderedCacheBehavior!: TerraformCloudfrontDistributionOrderedCacheBehaviorListAttribute;
   public get orderedCacheBehavior() {
-    return this.interpolationForAttribute('ordered_cache_behavior') as any;
+    return this._orderedCacheBehavior;
   }
-  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] ) {
-    this._orderedCacheBehavior = value;
-  }
-  public resetOrderedCacheBehavior() {
-    this._orderedCacheBehavior = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get orderedCacheBehaviorInput() {
-    return this._orderedCacheBehavior
+  public putOrderedCacheBehavior(value: TerraformCloudfrontDistributionOrderedCacheBehaviorList | undefined) {
+    if (value === undefined) {
+      this._orderedCacheBehavior.reset();
+    }
+    else {
+      this._orderedCacheBehavior = TerraformCloudfrontDistributionOrderedCacheBehaviorListAttribute.create(this, 'ordered_cache_behavior', value);
+    }
   }
 
   // origin - computed: false, optional: false, required: true
-  private _origin: CloudfrontDistributionOrigin[];
+  private _origin!: TerraformCloudfrontDistributionOriginSetAttribute;
   public get origin() {
-    return this.interpolationForAttribute('origin') as any;
+    return this._origin;
   }
-  public set origin(value: CloudfrontDistributionOrigin[]) {
-    this._origin = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get originInput() {
-    return this._origin
+  public putOrigin(value: TerraformCloudfrontDistributionOriginSet) {
+    this._origin = TerraformCloudfrontDistributionOriginSetAttribute.create(this, 'origin', value);
   }
 
   // origin_group - computed: false, optional: true, required: false
-  private _originGroup?: CloudfrontDistributionOriginGroup[];
+  private _originGroup!: TerraformCloudfrontDistributionOriginGroupSetAttribute;
   public get originGroup() {
-    return this.interpolationForAttribute('origin_group') as any;
+    return this._originGroup;
   }
-  public set originGroup(value: CloudfrontDistributionOriginGroup[] ) {
-    this._originGroup = value;
-  }
-  public resetOriginGroup() {
-    this._originGroup = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get originGroupInput() {
-    return this._originGroup
+  public putOriginGroup(value: TerraformCloudfrontDistributionOriginGroupSet | undefined) {
+    if (value === undefined) {
+      this._originGroup.reset();
+    }
+    else {
+      this._originGroup = TerraformCloudfrontDistributionOriginGroupSetAttribute.create(this, 'origin_group', value);
+    }
   }
 
   // restrictions - computed: false, optional: false, required: true
-  private _restrictions: CloudfrontDistributionRestrictions[];
+  private _restrictions!: TerraformCloudfrontDistributionRestrictionsListAttribute;
   public get restrictions() {
-    return this.interpolationForAttribute('restrictions') as any;
+    return this._restrictions;
   }
-  public set restrictions(value: CloudfrontDistributionRestrictions[]) {
-    this._restrictions = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get restrictionsInput() {
-    return this._restrictions
+  public putRestrictions(value: TerraformCloudfrontDistributionRestrictionsList) {
+    this._restrictions = TerraformCloudfrontDistributionRestrictionsListAttribute.create(this, 'restrictions', value);
   }
 
   // viewer_certificate - computed: false, optional: false, required: true
-  private _viewerCertificate: CloudfrontDistributionViewerCertificate[];
+  private _viewerCertificate!: TerraformCloudfrontDistributionViewerCertificateListAttribute;
   public get viewerCertificate() {
-    return this.interpolationForAttribute('viewer_certificate') as any;
+    return this._viewerCertificate;
   }
-  public set viewerCertificate(value: CloudfrontDistributionViewerCertificate[]) {
-    this._viewerCertificate = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get viewerCertificateInput() {
-    return this._viewerCertificate
+  public putViewerCertificate(value: TerraformCloudfrontDistributionViewerCertificateList) {
+    this._viewerCertificate = TerraformCloudfrontDistributionViewerCertificateListAttribute.create(this, 'viewer_certificate', value);
   }
 
   // =========
@@ -1285,26 +1255,26 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      aliases: cdktf.listMapper(cdktf.stringToTerraform)(this._aliases),
-      comment: cdktf.stringToTerraform(this._comment),
-      default_root_object: cdktf.stringToTerraform(this._defaultRootObject),
-      enabled: cdktf.booleanToTerraform(this._enabled),
-      http_version: cdktf.stringToTerraform(this._httpVersion),
-      is_ipv6_enabled: cdktf.booleanToTerraform(this._isIpv6Enabled),
-      price_class: cdktf.stringToTerraform(this._priceClass),
-      retain_on_delete: cdktf.booleanToTerraform(this._retainOnDelete),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
-      wait_for_deployment: cdktf.booleanToTerraform(this._waitForDeployment),
-      web_acl_id: cdktf.stringToTerraform(this._webAclId),
-      cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform)(this._cacheBehavior),
-      custom_error_response: cdktf.listMapper(cloudfrontDistributionCustomErrorResponseToTerraform)(this._customErrorResponse),
-      default_cache_behavior: cdktf.listMapper(cloudfrontDistributionDefaultCacheBehaviorToTerraform)(this._defaultCacheBehavior),
-      logging_config: cdktf.listMapper(cloudfrontDistributionLoggingConfigToTerraform)(this._loggingConfig),
-      ordered_cache_behavior: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorToTerraform)(this._orderedCacheBehavior),
-      origin: cdktf.listMapper(cloudfrontDistributionOriginToTerraform)(this._origin),
-      origin_group: cdktf.listMapper(cloudfrontDistributionOriginGroupToTerraform)(this._originGroup),
-      restrictions: cdktf.listMapper(cloudfrontDistributionRestrictionsToTerraform)(this._restrictions),
-      viewer_certificate: cdktf.listMapper(cloudfrontDistributionViewerCertificateToTerraform)(this._viewerCertificate),
+      aliases: this._aliases.toTerraform(),
+      comment: this._comment.toTerraform(),
+      default_root_object: this._defaultRootObject.toTerraform(),
+      enabled: this._enabled.toTerraform(),
+      http_version: this._httpVersion.toTerraform(),
+      is_ipv6_enabled: this._isIpv6Enabled.toTerraform(),
+      price_class: this._priceClass.toTerraform(),
+      retain_on_delete: this._retainOnDelete.toTerraform(),
+      tags: this._tags.toTerraform(),
+      wait_for_deployment: this._waitForDeployment.toTerraform(),
+      web_acl_id: this._webAclId.toTerraform(),
+      cache_behavior: this._cacheBehavior.toTerraform(),
+      custom_error_response: this._customErrorResponse.toTerraform(),
+      default_cache_behavior: this._defaultCacheBehavior.toTerraform(),
+      logging_config: this._loggingConfig.toTerraform(),
+      ordered_cache_behavior: this._orderedCacheBehavior.toTerraform(),
+      origin: this._origin.toTerraform(),
+      origin_group: this._originGroup.toTerraform(),
+      restrictions: this._restrictions.toTerraform(),
+      viewer_certificate: this._viewerCertificate.toTerraform(),
     };
   }
 }
@@ -1324,7 +1294,7 @@ export interface FmsAdminAccountConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html#account_id FmsAdminAccount#account_id}
   */
-  readonly accountId?: string;
+  readonly accountId?: cdktf.TerraformString;
 }
 
 /**
@@ -1354,7 +1324,8 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._accountId = config.accountId;
+    this.putAccountId(config.accountId ?? new cdktf.TerraformStringAttribute(this, 'account_id', undefined));
+    this._id = new cdktf.TerraformStringAttribute(this, 'id', undefined)
   }
 
   // ==========
@@ -1362,24 +1333,23 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   // ==========
 
   // account_id - computed: true, optional: true, required: false
-  private _accountId?: string;
+  private _accountId!: cdktf.TerraformStringAttribute;
   public get accountId() {
-    return this.getStringAttribute('account_id');
+    return this._accountId;
   }
-  public set accountId(value: string) {
-    this._accountId = value;
-  }
-  public resetAccountId() {
-    this._accountId = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get accountIdInput() {
-    return this._accountId
+  public putAccountId(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._accountId.reset();
+    }
+    else {
+      this._accountId = cdktf.TerraformStringAttribute.create(this, 'account_id', value);
+    }
   }
 
   // id - computed: true, optional: true, required: false
+  private _id: cdktf.TerraformStringAttribute;
   public get id() {
-    return this.getStringAttribute('id');
+    return this._id;
   }
 
   // =========
@@ -1388,7 +1358,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      account_id: cdktf.stringToTerraform(this._accountId),
+      account_id: this._accountId.toTerraform(),
     };
   }
 }
@@ -1408,137 +1378,137 @@ export interface S3BucketConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#acceleration_status S3Bucket#acceleration_status}
   */
-  readonly accelerationStatus?: string;
+  readonly accelerationStatus?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#acl S3Bucket#acl}
   */
-  readonly acl?: string;
+  readonly acl?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#bucket S3Bucket#bucket}
   */
-  readonly bucket?: string;
+  readonly bucket?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#bucket_prefix S3Bucket#bucket_prefix}
   */
-  readonly bucketPrefix?: string;
+  readonly bucketPrefix?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#force_destroy S3Bucket#force_destroy}
   */
-  readonly forceDestroy?: boolean;
+  readonly forceDestroy?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#hosted_zone_id S3Bucket#hosted_zone_id}
   */
-  readonly hostedZoneId?: string;
+  readonly hostedZoneId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#policy S3Bucket#policy}
   */
-  readonly policy?: string;
+  readonly policy?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#region S3Bucket#region}
   */
-  readonly region?: string;
+  readonly region?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#request_payer S3Bucket#request_payer}
   */
-  readonly requestPayer?: string;
+  readonly requestPayer?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string };
+  readonly tags?: cdktf.TerraformStringMap;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#website_domain S3Bucket#website_domain}
   */
-  readonly websiteDomain?: string;
+  readonly websiteDomain?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#website_endpoint S3Bucket#website_endpoint}
   */
-  readonly websiteEndpoint?: string;
+  readonly websiteEndpoint?: cdktf.TerraformString;
   /**
   * cors_rule block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#cors_rule S3Bucket#cors_rule}
   */
-  readonly corsRule?: S3BucketCorsRule[];
+  readonly corsRule?: TerraformS3BucketCorsRuleList;
   /**
   * grant block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#grant S3Bucket#grant}
   */
-  readonly grant?: S3BucketGrant[];
+  readonly grant?: TerraformS3BucketGrantSet;
   /**
   * lifecycle_rule block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#lifecycle_rule S3Bucket#lifecycle_rule}
   */
-  readonly lifecycleRule?: S3BucketLifecycleRule[];
+  readonly lifecycleRule?: TerraformS3BucketLifecycleRuleList;
   /**
   * logging block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#logging S3Bucket#logging}
   */
-  readonly logging?: S3BucketLogging[];
+  readonly logging?: TerraformS3BucketLoggingSet;
   /**
   * object_lock_configuration block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#object_lock_configuration S3Bucket#object_lock_configuration}
   */
-  readonly objectLockConfiguration?: S3BucketObjectLockConfiguration[];
+  readonly objectLockConfiguration?: TerraformS3BucketObjectLockConfigurationList;
   /**
   * replication_configuration block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#replication_configuration S3Bucket#replication_configuration}
   */
-  readonly replicationConfiguration?: S3BucketReplicationConfiguration[];
+  readonly replicationConfiguration?: TerraformS3BucketReplicationConfigurationList;
   /**
   * server_side_encryption_configuration block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#server_side_encryption_configuration S3Bucket#server_side_encryption_configuration}
   */
-  readonly serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
+  readonly serverSideEncryptionConfiguration?: TerraformS3BucketServerSideEncryptionConfigurationList;
   /**
   * versioning block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#versioning S3Bucket#versioning}
   */
-  readonly versioning?: S3BucketVersioning[];
+  readonly versioning?: TerraformS3BucketVersioningList;
   /**
   * website block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#website S3Bucket#website}
   */
-  readonly website?: S3BucketWebsite[];
+  readonly website?: TerraformS3BucketWebsiteList;
 }
 export interface S3BucketCorsRule {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#allowed_headers S3Bucket#allowed_headers}
   */
-  readonly allowedHeaders?: string[];
+  readonly allowedHeaders?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#allowed_methods S3Bucket#allowed_methods}
   */
-  readonly allowedMethods: string[];
+  readonly allowedMethods: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#allowed_origins S3Bucket#allowed_origins}
   */
-  readonly allowedOrigins: string[];
+  readonly allowedOrigins: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#expose_headers S3Bucket#expose_headers}
   */
-  readonly exposeHeaders?: string[];
+  readonly exposeHeaders?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#max_age_seconds S3Bucket#max_age_seconds}
   */
-  readonly maxAgeSeconds?: number;
+  readonly maxAgeSeconds?: cdktf.TerraformNumber;
 }
 
 function s3BucketCorsRuleToTerraform(struct?: S3BucketCorsRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    allowed_headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedHeaders),
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    allowed_origins: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedOrigins),
-    expose_headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.exposeHeaders),
-    max_age_seconds: cdktf.numberToTerraform(struct!.maxAgeSeconds),
+    allowed_headers: struct!.allowedHeaders.toTerraform(),
+    allowed_methods: struct!.allowedMethods.toTerraform(),
+    allowed_origins: struct!.allowedOrigins.toTerraform(),
+    expose_headers: struct!.exposeHeaders.toTerraform(),
+    max_age_seconds: struct!.maxAgeSeconds.toTerraform(),
   }
 }
 
@@ -1546,28 +1516,28 @@ export interface S3BucketGrant {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#id S3Bucket#id}
   */
-  readonly id?: string;
+  readonly id?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#permissions S3Bucket#permissions}
   */
-  readonly permissions: string[];
+  readonly permissions: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#type S3Bucket#type}
   */
-  readonly type: string;
+  readonly type: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#uri S3Bucket#uri}
   */
-  readonly uri?: string;
+  readonly uri?: cdktf.TerraformString;
 }
 
 function s3BucketGrantToTerraform(struct?: S3BucketGrant): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    id: cdktf.stringToTerraform(struct!.id),
-    permissions: cdktf.listMapper(cdktf.stringToTerraform)(struct!.permissions),
-    type: cdktf.stringToTerraform(struct!.type),
-    uri: cdktf.stringToTerraform(struct!.uri),
+    id: struct!.id.toTerraform(),
+    permissions: struct!.permissions.toTerraform(),
+    type: struct!.type.toTerraform(),
+    uri: struct!.uri.toTerraform(),
   }
 }
 
@@ -1575,23 +1545,23 @@ export interface S3BucketLifecycleRuleExpiration {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#date S3Bucket#date}
   */
-  readonly date?: string;
+  readonly date?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
   */
-  readonly days?: number;
+  readonly days?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#expired_object_delete_marker S3Bucket#expired_object_delete_marker}
   */
-  readonly expiredObjectDeleteMarker?: boolean;
+  readonly expiredObjectDeleteMarker?: cdktf.TerraformBoolean;
 }
 
 function s3BucketLifecycleRuleExpirationToTerraform(struct?: S3BucketLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    date: cdktf.stringToTerraform(struct!.date),
-    days: cdktf.numberToTerraform(struct!.days),
-    expired_object_delete_marker: cdktf.booleanToTerraform(struct!.expiredObjectDeleteMarker),
+    date: struct!.date.toTerraform(),
+    days: struct!.days.toTerraform(),
+    expired_object_delete_marker: struct!.expiredObjectDeleteMarker.toTerraform(),
   }
 }
 
@@ -1599,13 +1569,13 @@ export interface S3BucketLifecycleRuleNoncurrentVersionExpiration {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
   */
-  readonly days?: number;
+  readonly days?: cdktf.TerraformNumber;
 }
 
 function s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform(struct?: S3BucketLifecycleRuleNoncurrentVersionExpiration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    days: cdktf.numberToTerraform(struct!.days),
+    days: struct!.days.toTerraform(),
   }
 }
 
@@ -1613,18 +1583,18 @@ export interface S3BucketLifecycleRuleNoncurrentVersionTransition {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
   */
-  readonly days?: number;
+  readonly days?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class S3Bucket#storage_class}
   */
-  readonly storageClass: string;
+  readonly storageClass: cdktf.TerraformString;
 }
 
 function s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform(struct?: S3BucketLifecycleRuleNoncurrentVersionTransition): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    days: cdktf.numberToTerraform(struct!.days),
-    storage_class: cdktf.stringToTerraform(struct!.storageClass),
+    days: struct!.days.toTerraform(),
+    storage_class: struct!.storageClass.toTerraform(),
   }
 }
 
@@ -1632,23 +1602,23 @@ export interface S3BucketLifecycleRuleTransition {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#date S3Bucket#date}
   */
-  readonly date?: string;
+  readonly date?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
   */
-  readonly days?: number;
+  readonly days?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class S3Bucket#storage_class}
   */
-  readonly storageClass: string;
+  readonly storageClass: cdktf.TerraformString;
 }
 
 function s3BucketLifecycleRuleTransitionToTerraform(struct?: S3BucketLifecycleRuleTransition): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    date: cdktf.stringToTerraform(struct!.date),
-    days: cdktf.numberToTerraform(struct!.days),
-    storage_class: cdktf.stringToTerraform(struct!.storageClass),
+    date: struct!.date.toTerraform(),
+    days: struct!.days.toTerraform(),
+    storage_class: struct!.storageClass.toTerraform(),
   }
 }
 
@@ -1656,61 +1626,61 @@ export interface S3BucketLifecycleRule {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#abort_incomplete_multipart_upload_days S3Bucket#abort_incomplete_multipart_upload_days}
   */
-  readonly abortIncompleteMultipartUploadDays?: number;
+  readonly abortIncompleteMultipartUploadDays?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#enabled S3Bucket#enabled}
   */
-  readonly enabled: boolean;
+  readonly enabled: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#id S3Bucket#id}
   */
-  readonly id?: string;
+  readonly id?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#prefix S3Bucket#prefix}
   */
-  readonly prefix?: string;
+  readonly prefix?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string };
+  readonly tags?: cdktf.TerraformStringMap;
   /**
   * expiration block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#expiration S3Bucket#expiration}
   */
-  readonly expiration?: S3BucketLifecycleRuleExpiration[];
+  readonly expiration?: TerraformS3BucketLifecycleRuleExpirationSet;
   /**
   * noncurrent_version_expiration block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#noncurrent_version_expiration S3Bucket#noncurrent_version_expiration}
   */
-  readonly noncurrentVersionExpiration?: S3BucketLifecycleRuleNoncurrentVersionExpiration[];
+  readonly noncurrentVersionExpiration?: TerraformS3BucketLifecycleRuleNoncurrentVersionExpirationSet;
   /**
   * noncurrent_version_transition block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#noncurrent_version_transition S3Bucket#noncurrent_version_transition}
   */
-  readonly noncurrentVersionTransition?: S3BucketLifecycleRuleNoncurrentVersionTransition[];
+  readonly noncurrentVersionTransition?: TerraformS3BucketLifecycleRuleNoncurrentVersionTransitionSet;
   /**
   * transition block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#transition S3Bucket#transition}
   */
-  readonly transition?: S3BucketLifecycleRuleTransition[];
+  readonly transition?: TerraformS3BucketLifecycleRuleTransitionSet;
 }
 
 function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
-    enabled: cdktf.booleanToTerraform(struct!.enabled),
-    id: cdktf.stringToTerraform(struct!.id),
-    prefix: cdktf.stringToTerraform(struct!.prefix),
-    tags: cdktf.hashMapper(cdktf.anyToTerraform)(struct!.tags),
-    expiration: cdktf.listMapper(s3BucketLifecycleRuleExpirationToTerraform)(struct!.expiration),
-    noncurrent_version_expiration: cdktf.listMapper(s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform)(struct!.noncurrentVersionExpiration),
-    noncurrent_version_transition: cdktf.listMapper(s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform)(struct!.noncurrentVersionTransition),
-    transition: cdktf.listMapper(s3BucketLifecycleRuleTransitionToTerraform)(struct!.transition),
+    abort_incomplete_multipart_upload_days: struct!.abortIncompleteMultipartUploadDays.toTerraform(),
+    enabled: struct!.enabled.toTerraform(),
+    id: struct!.id.toTerraform(),
+    prefix: struct!.prefix.toTerraform(),
+    tags: struct!.tags.toTerraform(),
+    expiration: struct!.expiration.toTerraform(),
+    noncurrent_version_expiration: struct!.noncurrentVersionExpiration.toTerraform(),
+    noncurrent_version_transition: struct!.noncurrentVersionTransition.toTerraform(),
+    transition: struct!.transition.toTerraform(),
   }
 }
 
@@ -1718,18 +1688,18 @@ export interface S3BucketLogging {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#target_bucket S3Bucket#target_bucket}
   */
-  readonly targetBucket: string;
+  readonly targetBucket: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#target_prefix S3Bucket#target_prefix}
   */
-  readonly targetPrefix?: string;
+  readonly targetPrefix?: cdktf.TerraformString;
 }
 
 function s3BucketLoggingToTerraform(struct?: S3BucketLogging): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    target_bucket: cdktf.stringToTerraform(struct!.targetBucket),
-    target_prefix: cdktf.stringToTerraform(struct!.targetPrefix),
+    target_bucket: struct!.targetBucket.toTerraform(),
+    target_prefix: struct!.targetPrefix.toTerraform(),
   }
 }
 
@@ -1737,23 +1707,23 @@ export interface S3BucketObjectLockConfigurationRuleDefaultRetention {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#days S3Bucket#days}
   */
-  readonly days?: number;
+  readonly days?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#mode S3Bucket#mode}
   */
-  readonly mode: string;
+  readonly mode: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#years S3Bucket#years}
   */
-  readonly years?: number;
+  readonly years?: cdktf.TerraformNumber;
 }
 
 function s3BucketObjectLockConfigurationRuleDefaultRetentionToTerraform(struct?: S3BucketObjectLockConfigurationRuleDefaultRetention): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    days: cdktf.numberToTerraform(struct!.days),
-    mode: cdktf.stringToTerraform(struct!.mode),
-    years: cdktf.numberToTerraform(struct!.years),
+    days: struct!.days.toTerraform(),
+    mode: struct!.mode.toTerraform(),
+    years: struct!.years.toTerraform(),
   }
 }
 
@@ -1763,13 +1733,13 @@ export interface S3BucketObjectLockConfigurationRule {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#default_retention S3Bucket#default_retention}
   */
-  readonly defaultRetention: S3BucketObjectLockConfigurationRuleDefaultRetention[];
+  readonly defaultRetention: TerraformS3BucketObjectLockConfigurationRuleDefaultRetentionList;
 }
 
 function s3BucketObjectLockConfigurationRuleToTerraform(struct?: S3BucketObjectLockConfigurationRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    default_retention: cdktf.listMapper(s3BucketObjectLockConfigurationRuleDefaultRetentionToTerraform)(struct!.defaultRetention),
+    default_retention: struct!.defaultRetention.toTerraform(),
   }
 }
 
@@ -1777,20 +1747,20 @@ export interface S3BucketObjectLockConfiguration {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#object_lock_enabled S3Bucket#object_lock_enabled}
   */
-  readonly objectLockEnabled: string;
+  readonly objectLockEnabled: cdktf.TerraformString;
   /**
   * rule block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#rule S3Bucket#rule}
   */
-  readonly rule?: S3BucketObjectLockConfigurationRule[];
+  readonly rule?: TerraformS3BucketObjectLockConfigurationRuleList;
 }
 
 function s3BucketObjectLockConfigurationToTerraform(struct?: S3BucketObjectLockConfiguration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    object_lock_enabled: cdktf.stringToTerraform(struct!.objectLockEnabled),
-    rule: cdktf.listMapper(s3BucketObjectLockConfigurationRuleToTerraform)(struct!.rule),
+    object_lock_enabled: struct!.objectLockEnabled.toTerraform(),
+    rule: struct!.rule.toTerraform(),
   }
 }
 
@@ -1798,13 +1768,13 @@ export interface S3BucketReplicationConfigurationRulesDestinationAccessControlTr
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#owner S3Bucket#owner}
   */
-  readonly owner: string;
+  readonly owner: cdktf.TerraformString;
 }
 
 function s3BucketReplicationConfigurationRulesDestinationAccessControlTranslationToTerraform(struct?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    owner: cdktf.stringToTerraform(struct!.owner),
+    owner: struct!.owner.toTerraform(),
   }
 }
 
@@ -1812,35 +1782,35 @@ export interface S3BucketReplicationConfigurationRulesDestination {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#account_id S3Bucket#account_id}
   */
-  readonly accountId?: string;
+  readonly accountId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#bucket S3Bucket#bucket}
   */
-  readonly bucket: string;
+  readonly bucket: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#replica_kms_key_id S3Bucket#replica_kms_key_id}
   */
-  readonly replicaKmsKeyId?: string;
+  readonly replicaKmsKeyId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class S3Bucket#storage_class}
   */
-  readonly storageClass?: string;
+  readonly storageClass?: cdktf.TerraformString;
   /**
   * access_control_translation block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#access_control_translation S3Bucket#access_control_translation}
   */
-  readonly accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation[];
+  readonly accessControlTranslation?: TerraformS3BucketReplicationConfigurationRulesDestinationAccessControlTranslationList;
 }
 
 function s3BucketReplicationConfigurationRulesDestinationToTerraform(struct?: S3BucketReplicationConfigurationRulesDestination): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    account_id: cdktf.stringToTerraform(struct!.accountId),
-    bucket: cdktf.stringToTerraform(struct!.bucket),
-    replica_kms_key_id: cdktf.stringToTerraform(struct!.replicaKmsKeyId),
-    storage_class: cdktf.stringToTerraform(struct!.storageClass),
-    access_control_translation: cdktf.listMapper(s3BucketReplicationConfigurationRulesDestinationAccessControlTranslationToTerraform)(struct!.accessControlTranslation),
+    account_id: struct!.accountId.toTerraform(),
+    bucket: struct!.bucket.toTerraform(),
+    replica_kms_key_id: struct!.replicaKmsKeyId.toTerraform(),
+    storage_class: struct!.storageClass.toTerraform(),
+    access_control_translation: struct!.accessControlTranslation.toTerraform(),
   }
 }
 
@@ -1848,18 +1818,18 @@ export interface S3BucketReplicationConfigurationRulesFilter {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#prefix S3Bucket#prefix}
   */
-  readonly prefix?: string;
+  readonly prefix?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string };
+  readonly tags?: cdktf.TerraformStringMap;
 }
 
 function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: S3BucketReplicationConfigurationRulesFilter): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    prefix: cdktf.stringToTerraform(struct!.prefix),
-    tags: cdktf.hashMapper(cdktf.anyToTerraform)(struct!.tags),
+    prefix: struct!.prefix.toTerraform(),
+    tags: struct!.tags.toTerraform(),
   }
 }
 
@@ -1867,13 +1837,13 @@ export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSse
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#enabled S3Bucket#enabled}
   */
-  readonly enabled: boolean;
+  readonly enabled: cdktf.TerraformBoolean;
 }
 
 function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsToTerraform(struct?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    enabled: cdktf.booleanToTerraform(struct!.enabled),
+    enabled: struct!.enabled.toTerraform(),
   }
 }
 
@@ -1883,13 +1853,13 @@ export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteria {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#sse_kms_encrypted_objects S3Bucket#sse_kms_encrypted_objects}
   */
-  readonly sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects[];
+  readonly sseKmsEncryptedObjects?: TerraformS3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsSet;
 }
 
 function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToTerraform(struct?: S3BucketReplicationConfigurationRulesSourceSelectionCriteria): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    sse_kms_encrypted_objects: cdktf.listMapper(s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsToTerraform)(struct!.sseKmsEncryptedObjects),
+    sse_kms_encrypted_objects: struct!.sseKmsEncryptedObjects.toTerraform(),
   }
 }
 
@@ -1897,49 +1867,49 @@ export interface S3BucketReplicationConfigurationRules {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#id S3Bucket#id}
   */
-  readonly id?: string;
+  readonly id?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#prefix S3Bucket#prefix}
   */
-  readonly prefix?: string;
+  readonly prefix?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#priority S3Bucket#priority}
   */
-  readonly priority?: number;
+  readonly priority?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#status S3Bucket#status}
   */
-  readonly status: string;
+  readonly status: cdktf.TerraformString;
   /**
   * destination block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#destination S3Bucket#destination}
   */
-  readonly destination: S3BucketReplicationConfigurationRulesDestination[];
+  readonly destination: TerraformS3BucketReplicationConfigurationRulesDestinationSet;
   /**
   * filter block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#filter S3Bucket#filter}
   */
-  readonly filter?: S3BucketReplicationConfigurationRulesFilter[];
+  readonly filter?: TerraformS3BucketReplicationConfigurationRulesFilterList;
   /**
   * source_selection_criteria block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#source_selection_criteria S3Bucket#source_selection_criteria}
   */
-  readonly sourceSelectionCriteria?: S3BucketReplicationConfigurationRulesSourceSelectionCriteria[];
+  readonly sourceSelectionCriteria?: TerraformS3BucketReplicationConfigurationRulesSourceSelectionCriteriaSet;
 }
 
 function s3BucketReplicationConfigurationRulesToTerraform(struct?: S3BucketReplicationConfigurationRules): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    id: cdktf.stringToTerraform(struct!.id),
-    prefix: cdktf.stringToTerraform(struct!.prefix),
-    priority: cdktf.numberToTerraform(struct!.priority),
-    status: cdktf.stringToTerraform(struct!.status),
-    destination: cdktf.listMapper(s3BucketReplicationConfigurationRulesDestinationToTerraform)(struct!.destination),
-    filter: cdktf.listMapper(s3BucketReplicationConfigurationRulesFilterToTerraform)(struct!.filter),
-    source_selection_criteria: cdktf.listMapper(s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToTerraform)(struct!.sourceSelectionCriteria),
+    id: struct!.id.toTerraform(),
+    prefix: struct!.prefix.toTerraform(),
+    priority: struct!.priority.toTerraform(),
+    status: struct!.status.toTerraform(),
+    destination: struct!.destination.toTerraform(),
+    filter: struct!.filter.toTerraform(),
+    source_selection_criteria: struct!.sourceSelectionCriteria.toTerraform(),
   }
 }
 
@@ -1947,20 +1917,20 @@ export interface S3BucketReplicationConfiguration {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#role S3Bucket#role}
   */
-  readonly role: string;
+  readonly role: cdktf.TerraformString;
   /**
   * rules block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#rules S3Bucket#rules}
   */
-  readonly rules: S3BucketReplicationConfigurationRules[];
+  readonly rules: TerraformS3BucketReplicationConfigurationRulesSet;
 }
 
 function s3BucketReplicationConfigurationToTerraform(struct?: S3BucketReplicationConfiguration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    role: cdktf.stringToTerraform(struct!.role),
-    rules: cdktf.listMapper(s3BucketReplicationConfigurationRulesToTerraform)(struct!.rules),
+    role: struct!.role.toTerraform(),
+    rules: struct!.rules.toTerraform(),
   }
 }
 
@@ -1968,18 +1938,18 @@ export interface S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEnc
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#kms_master_key_id S3Bucket#kms_master_key_id}
   */
-  readonly kmsMasterKeyId?: string;
+  readonly kmsMasterKeyId?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#sse_algorithm S3Bucket#sse_algorithm}
   */
-  readonly sseAlgorithm: string;
+  readonly sseAlgorithm: cdktf.TerraformString;
 }
 
 function s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultToTerraform(struct?: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    kms_master_key_id: cdktf.stringToTerraform(struct!.kmsMasterKeyId),
-    sse_algorithm: cdktf.stringToTerraform(struct!.sseAlgorithm),
+    kms_master_key_id: struct!.kmsMasterKeyId.toTerraform(),
+    sse_algorithm: struct!.sseAlgorithm.toTerraform(),
   }
 }
 
@@ -1989,13 +1959,13 @@ export interface S3BucketServerSideEncryptionConfigurationRule {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#apply_server_side_encryption_by_default S3Bucket#apply_server_side_encryption_by_default}
   */
-  readonly applyServerSideEncryptionByDefault: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault[];
+  readonly applyServerSideEncryptionByDefault: TerraformS3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultList;
 }
 
 function s3BucketServerSideEncryptionConfigurationRuleToTerraform(struct?: S3BucketServerSideEncryptionConfigurationRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    apply_server_side_encryption_by_default: cdktf.listMapper(s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultToTerraform)(struct!.applyServerSideEncryptionByDefault),
+    apply_server_side_encryption_by_default: struct!.applyServerSideEncryptionByDefault.toTerraform(),
   }
 }
 
@@ -2005,13 +1975,13 @@ export interface S3BucketServerSideEncryptionConfiguration {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#rule S3Bucket#rule}
   */
-  readonly rule: S3BucketServerSideEncryptionConfigurationRule[];
+  readonly rule: TerraformS3BucketServerSideEncryptionConfigurationRuleList;
 }
 
 function s3BucketServerSideEncryptionConfigurationToTerraform(struct?: S3BucketServerSideEncryptionConfiguration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    rule: cdktf.listMapper(s3BucketServerSideEncryptionConfigurationRuleToTerraform)(struct!.rule),
+    rule: struct!.rule.toTerraform(),
   }
 }
 
@@ -2019,18 +1989,18 @@ export interface S3BucketVersioning {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#enabled S3Bucket#enabled}
   */
-  readonly enabled?: boolean;
+  readonly enabled?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#mfa_delete S3Bucket#mfa_delete}
   */
-  readonly mfaDelete?: boolean;
+  readonly mfaDelete?: cdktf.TerraformBoolean;
 }
 
 function s3BucketVersioningToTerraform(struct?: S3BucketVersioning): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    enabled: cdktf.booleanToTerraform(struct!.enabled),
-    mfa_delete: cdktf.booleanToTerraform(struct!.mfaDelete),
+    enabled: struct!.enabled.toTerraform(),
+    mfa_delete: struct!.mfaDelete.toTerraform(),
   }
 }
 
@@ -2038,28 +2008,28 @@ export interface S3BucketWebsite {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#error_document S3Bucket#error_document}
   */
-  readonly errorDocument?: string;
+  readonly errorDocument?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#index_document S3Bucket#index_document}
   */
-  readonly indexDocument?: string;
+  readonly indexDocument?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#redirect_all_requests_to S3Bucket#redirect_all_requests_to}
   */
-  readonly redirectAllRequestsTo?: string;
+  readonly redirectAllRequestsTo?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#routing_rules S3Bucket#routing_rules}
   */
-  readonly routingRules?: string;
+  readonly routingRules?: cdktf.TerraformString;
 }
 
 function s3BucketWebsiteToTerraform(struct?: S3BucketWebsite): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    error_document: cdktf.stringToTerraform(struct!.errorDocument),
-    index_document: cdktf.stringToTerraform(struct!.indexDocument),
-    redirect_all_requests_to: cdktf.stringToTerraform(struct!.redirectAllRequestsTo),
-    routing_rules: cdktf.stringToTerraform(struct!.routingRules),
+    error_document: struct!.errorDocument.toTerraform(),
+    index_document: struct!.indexDocument.toTerraform(),
+    redirect_all_requests_to: struct!.redirectAllRequestsTo.toTerraform(),
+    routing_rules: struct!.routingRules.toTerraform(),
   }
 }
 
@@ -2091,27 +2061,31 @@ export class S3Bucket extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._accelerationStatus = config.accelerationStatus;
-    this._acl = config.acl;
-    this._bucket = config.bucket;
-    this._bucketPrefix = config.bucketPrefix;
-    this._forceDestroy = config.forceDestroy;
-    this._hostedZoneId = config.hostedZoneId;
-    this._policy = config.policy;
-    this._region = config.region;
-    this._requestPayer = config.requestPayer;
-    this._tags = config.tags;
-    this._websiteDomain = config.websiteDomain;
-    this._websiteEndpoint = config.websiteEndpoint;
-    this._corsRule = config.corsRule;
-    this._grant = config.grant;
-    this._lifecycleRule = config.lifecycleRule;
-    this._logging = config.logging;
-    this._objectLockConfiguration = config.objectLockConfiguration;
-    this._replicationConfiguration = config.replicationConfiguration;
-    this._serverSideEncryptionConfiguration = config.serverSideEncryptionConfiguration;
-    this._versioning = config.versioning;
-    this._website = config.website;
+    this.putAccelerationStatus(config.accelerationStatus ?? new cdktf.TerraformStringAttribute(this, 'acceleration_status', undefined));
+    this.putAcl(config.acl ?? new cdktf.TerraformStringAttribute(this, 'acl', undefined));
+    this._arn = new cdktf.TerraformStringAttribute(this, 'arn', undefined)
+    this.putBucket(config.bucket ?? new cdktf.TerraformStringAttribute(this, 'bucket', undefined));
+    this._bucketDomainName = new cdktf.TerraformStringAttribute(this, 'bucket_domain_name', undefined)
+    this.putBucketPrefix(config.bucketPrefix ?? new cdktf.TerraformStringAttribute(this, 'bucket_prefix', undefined));
+    this._bucketRegionalDomainName = new cdktf.TerraformStringAttribute(this, 'bucket_regional_domain_name', undefined)
+    this.putForceDestroy(config.forceDestroy ?? new cdktf.TerraformBooleanAttribute(this, 'force_destroy', undefined));
+    this.putHostedZoneId(config.hostedZoneId ?? new cdktf.TerraformStringAttribute(this, 'hosted_zone_id', undefined));
+    this._id = new cdktf.TerraformStringAttribute(this, 'id', undefined)
+    this.putPolicy(config.policy ?? new cdktf.TerraformStringAttribute(this, 'policy', undefined));
+    this.putRegion(config.region ?? new cdktf.TerraformStringAttribute(this, 'region', undefined));
+    this.putRequestPayer(config.requestPayer ?? new cdktf.TerraformStringAttribute(this, 'request_payer', undefined));
+    this.putTags(config.tags ?? new cdktf.TerraformStringMapAttribute(this, 'tags', undefined));
+    this.putWebsiteDomain(config.websiteDomain ?? new cdktf.TerraformStringAttribute(this, 'website_domain', undefined));
+    this.putWebsiteEndpoint(config.websiteEndpoint ?? new cdktf.TerraformStringAttribute(this, 'website_endpoint', undefined));
+    this.putCorsRule(config.corsRule ?? new TerraformS3BucketCorsRuleListAttribute(this, 'cors_rule', undefined));
+    this.putGrant(config.grant ?? new TerraformS3BucketGrantSetAttribute(this, 'grant', undefined));
+    this.putLifecycleRule(config.lifecycleRule ?? new TerraformS3BucketLifecycleRuleListAttribute(this, 'lifecycle_rule', undefined));
+    this.putLogging(config.logging ?? new TerraformS3BucketLoggingSetAttribute(this, 'logging', undefined));
+    this.putObjectLockConfiguration(config.objectLockConfiguration ?? new TerraformS3BucketObjectLockConfigurationListAttribute(this, 'object_lock_configuration', undefined));
+    this.putReplicationConfiguration(config.replicationConfiguration ?? new TerraformS3BucketReplicationConfigurationListAttribute(this, 'replication_configuration', undefined));
+    this.putServerSideEncryptionConfiguration(config.serverSideEncryptionConfiguration ?? new TerraformS3BucketServerSideEncryptionConfigurationListAttribute(this, 'server_side_encryption_configuration', undefined));
+    this.putVersioning(config.versioning ?? new TerraformS3BucketVersioningListAttribute(this, 'versioning', undefined));
+    this.putWebsite(config.website ?? new TerraformS3BucketWebsiteListAttribute(this, 'website', undefined));
   }
 
   // ==========
@@ -2119,359 +2093,321 @@ export class S3Bucket extends cdktf.TerraformResource {
   // ==========
 
   // acceleration_status - computed: true, optional: true, required: false
-  private _accelerationStatus?: string;
+  private _accelerationStatus!: cdktf.TerraformStringAttribute;
   public get accelerationStatus() {
-    return this.getStringAttribute('acceleration_status');
+    return this._accelerationStatus;
   }
-  public set accelerationStatus(value: string) {
-    this._accelerationStatus = value;
-  }
-  public resetAccelerationStatus() {
-    this._accelerationStatus = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get accelerationStatusInput() {
-    return this._accelerationStatus
+  public putAccelerationStatus(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._accelerationStatus.reset();
+    }
+    else {
+      this._accelerationStatus = cdktf.TerraformStringAttribute.create(this, 'acceleration_status', value);
+    }
   }
 
   // acl - computed: false, optional: true, required: false
-  private _acl?: string;
+  private _acl!: cdktf.TerraformStringAttribute;
   public get acl() {
-    return this.getStringAttribute('acl');
+    return this._acl;
   }
-  public set acl(value: string ) {
-    this._acl = value;
-  }
-  public resetAcl() {
-    this._acl = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get aclInput() {
-    return this._acl
+  public putAcl(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._acl.reset();
+    }
+    else {
+      this._acl = cdktf.TerraformStringAttribute.create(this, 'acl', value);
+    }
   }
 
   // arn - computed: true, optional: true, required: false
+  private _arn: cdktf.TerraformStringAttribute;
   public get arn() {
-    return this.getStringAttribute('arn');
+    return this._arn;
   }
 
   // bucket - computed: true, optional: true, required: false
-  private _bucket?: string;
+  private _bucket!: cdktf.TerraformStringAttribute;
   public get bucket() {
-    return this.getStringAttribute('bucket');
+    return this._bucket;
   }
-  public set bucket(value: string) {
-    this._bucket = value;
-  }
-  public resetBucket() {
-    this._bucket = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get bucketInput() {
-    return this._bucket
+  public putBucket(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._bucket.reset();
+    }
+    else {
+      this._bucket = cdktf.TerraformStringAttribute.create(this, 'bucket', value);
+    }
   }
 
   // bucket_domain_name - computed: true, optional: false, required: false
+  private _bucketDomainName: cdktf.TerraformStringAttribute;
   public get bucketDomainName() {
-    return this.getStringAttribute('bucket_domain_name');
+    return this._bucketDomainName;
   }
 
   // bucket_prefix - computed: false, optional: true, required: false
-  private _bucketPrefix?: string;
+  private _bucketPrefix!: cdktf.TerraformStringAttribute;
   public get bucketPrefix() {
-    return this.getStringAttribute('bucket_prefix');
+    return this._bucketPrefix;
   }
-  public set bucketPrefix(value: string ) {
-    this._bucketPrefix = value;
-  }
-  public resetBucketPrefix() {
-    this._bucketPrefix = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get bucketPrefixInput() {
-    return this._bucketPrefix
+  public putBucketPrefix(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._bucketPrefix.reset();
+    }
+    else {
+      this._bucketPrefix = cdktf.TerraformStringAttribute.create(this, 'bucket_prefix', value);
+    }
   }
 
   // bucket_regional_domain_name - computed: true, optional: false, required: false
+  private _bucketRegionalDomainName: cdktf.TerraformStringAttribute;
   public get bucketRegionalDomainName() {
-    return this.getStringAttribute('bucket_regional_domain_name');
+    return this._bucketRegionalDomainName;
   }
 
   // force_destroy - computed: false, optional: true, required: false
-  private _forceDestroy?: boolean;
+  private _forceDestroy!: cdktf.TerraformBooleanAttribute;
   public get forceDestroy() {
-    return this.getBooleanAttribute('force_destroy');
+    return this._forceDestroy;
   }
-  public set forceDestroy(value: boolean ) {
-    this._forceDestroy = value;
-  }
-  public resetForceDestroy() {
-    this._forceDestroy = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get forceDestroyInput() {
-    return this._forceDestroy
+  public putForceDestroy(value: cdktf.TerraformBoolean | undefined) {
+    if (value === undefined) {
+      this._forceDestroy.reset();
+    }
+    else {
+      this._forceDestroy = cdktf.TerraformBooleanAttribute.create(this, 'force_destroy', value);
+    }
   }
 
   // hosted_zone_id - computed: true, optional: true, required: false
-  private _hostedZoneId?: string;
+  private _hostedZoneId!: cdktf.TerraformStringAttribute;
   public get hostedZoneId() {
-    return this.getStringAttribute('hosted_zone_id');
+    return this._hostedZoneId;
   }
-  public set hostedZoneId(value: string) {
-    this._hostedZoneId = value;
-  }
-  public resetHostedZoneId() {
-    this._hostedZoneId = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get hostedZoneIdInput() {
-    return this._hostedZoneId
+  public putHostedZoneId(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._hostedZoneId.reset();
+    }
+    else {
+      this._hostedZoneId = cdktf.TerraformStringAttribute.create(this, 'hosted_zone_id', value);
+    }
   }
 
   // id - computed: true, optional: true, required: false
+  private _id: cdktf.TerraformStringAttribute;
   public get id() {
-    return this.getStringAttribute('id');
+    return this._id;
   }
 
   // policy - computed: false, optional: true, required: false
-  private _policy?: string;
+  private _policy!: cdktf.TerraformStringAttribute;
   public get policy() {
-    return this.getStringAttribute('policy');
+    return this._policy;
   }
-  public set policy(value: string ) {
-    this._policy = value;
-  }
-  public resetPolicy() {
-    this._policy = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get policyInput() {
-    return this._policy
+  public putPolicy(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._policy.reset();
+    }
+    else {
+      this._policy = cdktf.TerraformStringAttribute.create(this, 'policy', value);
+    }
   }
 
   // region - computed: true, optional: true, required: false
-  private _region?: string;
+  private _region!: cdktf.TerraformStringAttribute;
   public get region() {
-    return this.getStringAttribute('region');
+    return this._region;
   }
-  public set region(value: string) {
-    this._region = value;
-  }
-  public resetRegion() {
-    this._region = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get regionInput() {
-    return this._region
+  public putRegion(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._region.reset();
+    }
+    else {
+      this._region = cdktf.TerraformStringAttribute.create(this, 'region', value);
+    }
   }
 
   // request_payer - computed: true, optional: true, required: false
-  private _requestPayer?: string;
+  private _requestPayer!: cdktf.TerraformStringAttribute;
   public get requestPayer() {
-    return this.getStringAttribute('request_payer');
+    return this._requestPayer;
   }
-  public set requestPayer(value: string) {
-    this._requestPayer = value;
-  }
-  public resetRequestPayer() {
-    this._requestPayer = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get requestPayerInput() {
-    return this._requestPayer
+  public putRequestPayer(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._requestPayer.reset();
+    }
+    else {
+      this._requestPayer = cdktf.TerraformStringAttribute.create(this, 'request_payer', value);
+    }
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string };
+  private _tags!: cdktf.TerraformStringMapAttribute;
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this._tags;
   }
-  public set tags(value: { [key: string]: string } ) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get tagsInput() {
-    return this._tags
+  public putTags(value: cdktf.TerraformStringMap | undefined) {
+    if (value === undefined) {
+      this._tags.reset();
+    }
+    else {
+      this._tags = cdktf.TerraformStringMapAttribute.create(this, 'tags', value);
+    }
   }
 
   // website_domain - computed: true, optional: true, required: false
-  private _websiteDomain?: string;
+  private _websiteDomain!: cdktf.TerraformStringAttribute;
   public get websiteDomain() {
-    return this.getStringAttribute('website_domain');
+    return this._websiteDomain;
   }
-  public set websiteDomain(value: string) {
-    this._websiteDomain = value;
-  }
-  public resetWebsiteDomain() {
-    this._websiteDomain = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get websiteDomainInput() {
-    return this._websiteDomain
+  public putWebsiteDomain(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._websiteDomain.reset();
+    }
+    else {
+      this._websiteDomain = cdktf.TerraformStringAttribute.create(this, 'website_domain', value);
+    }
   }
 
   // website_endpoint - computed: true, optional: true, required: false
-  private _websiteEndpoint?: string;
+  private _websiteEndpoint!: cdktf.TerraformStringAttribute;
   public get websiteEndpoint() {
-    return this.getStringAttribute('website_endpoint');
+    return this._websiteEndpoint;
   }
-  public set websiteEndpoint(value: string) {
-    this._websiteEndpoint = value;
-  }
-  public resetWebsiteEndpoint() {
-    this._websiteEndpoint = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get websiteEndpointInput() {
-    return this._websiteEndpoint
+  public putWebsiteEndpoint(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._websiteEndpoint.reset();
+    }
+    else {
+      this._websiteEndpoint = cdktf.TerraformStringAttribute.create(this, 'website_endpoint', value);
+    }
   }
 
   // cors_rule - computed: false, optional: true, required: false
-  private _corsRule?: S3BucketCorsRule[];
+  private _corsRule!: TerraformS3BucketCorsRuleListAttribute;
   public get corsRule() {
-    return this.interpolationForAttribute('cors_rule') as any;
+    return this._corsRule;
   }
-  public set corsRule(value: S3BucketCorsRule[] ) {
-    this._corsRule = value;
-  }
-  public resetCorsRule() {
-    this._corsRule = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get corsRuleInput() {
-    return this._corsRule
+  public putCorsRule(value: TerraformS3BucketCorsRuleList | undefined) {
+    if (value === undefined) {
+      this._corsRule.reset();
+    }
+    else {
+      this._corsRule = TerraformS3BucketCorsRuleListAttribute.create(this, 'cors_rule', value);
+    }
   }
 
   // grant - computed: false, optional: true, required: false
-  private _grant?: S3BucketGrant[];
+  private _grant!: TerraformS3BucketGrantSetAttribute;
   public get grant() {
-    return this.interpolationForAttribute('grant') as any;
+    return this._grant;
   }
-  public set grant(value: S3BucketGrant[] ) {
-    this._grant = value;
-  }
-  public resetGrant() {
-    this._grant = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get grantInput() {
-    return this._grant
+  public putGrant(value: TerraformS3BucketGrantSet | undefined) {
+    if (value === undefined) {
+      this._grant.reset();
+    }
+    else {
+      this._grant = TerraformS3BucketGrantSetAttribute.create(this, 'grant', value);
+    }
   }
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule?: S3BucketLifecycleRule[];
+  private _lifecycleRule!: TerraformS3BucketLifecycleRuleListAttribute;
   public get lifecycleRule() {
-    return this.interpolationForAttribute('lifecycle_rule') as any;
+    return this._lifecycleRule;
   }
-  public set lifecycleRule(value: S3BucketLifecycleRule[] ) {
-    this._lifecycleRule = value;
-  }
-  public resetLifecycleRule() {
-    this._lifecycleRule = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get lifecycleRuleInput() {
-    return this._lifecycleRule
+  public putLifecycleRule(value: TerraformS3BucketLifecycleRuleList | undefined) {
+    if (value === undefined) {
+      this._lifecycleRule.reset();
+    }
+    else {
+      this._lifecycleRule = TerraformS3BucketLifecycleRuleListAttribute.create(this, 'lifecycle_rule', value);
+    }
   }
 
   // logging - computed: false, optional: true, required: false
-  private _logging?: S3BucketLogging[];
+  private _logging!: TerraformS3BucketLoggingSetAttribute;
   public get logging() {
-    return this.interpolationForAttribute('logging') as any;
+    return this._logging;
   }
-  public set logging(value: S3BucketLogging[] ) {
-    this._logging = value;
-  }
-  public resetLogging() {
-    this._logging = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get loggingInput() {
-    return this._logging
+  public putLogging(value: TerraformS3BucketLoggingSet | undefined) {
+    if (value === undefined) {
+      this._logging.reset();
+    }
+    else {
+      this._logging = TerraformS3BucketLoggingSetAttribute.create(this, 'logging', value);
+    }
   }
 
   // object_lock_configuration - computed: false, optional: true, required: false
-  private _objectLockConfiguration?: S3BucketObjectLockConfiguration[];
+  private _objectLockConfiguration!: TerraformS3BucketObjectLockConfigurationListAttribute;
   public get objectLockConfiguration() {
-    return this.interpolationForAttribute('object_lock_configuration') as any;
+    return this._objectLockConfiguration;
   }
-  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] ) {
-    this._objectLockConfiguration = value;
-  }
-  public resetObjectLockConfiguration() {
-    this._objectLockConfiguration = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get objectLockConfigurationInput() {
-    return this._objectLockConfiguration
+  public putObjectLockConfiguration(value: TerraformS3BucketObjectLockConfigurationList | undefined) {
+    if (value === undefined) {
+      this._objectLockConfiguration.reset();
+    }
+    else {
+      this._objectLockConfiguration = TerraformS3BucketObjectLockConfigurationListAttribute.create(this, 'object_lock_configuration', value);
+    }
   }
 
   // replication_configuration - computed: false, optional: true, required: false
-  private _replicationConfiguration?: S3BucketReplicationConfiguration[];
+  private _replicationConfiguration!: TerraformS3BucketReplicationConfigurationListAttribute;
   public get replicationConfiguration() {
-    return this.interpolationForAttribute('replication_configuration') as any;
+    return this._replicationConfiguration;
   }
-  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] ) {
-    this._replicationConfiguration = value;
-  }
-  public resetReplicationConfiguration() {
-    this._replicationConfiguration = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get replicationConfigurationInput() {
-    return this._replicationConfiguration
+  public putReplicationConfiguration(value: TerraformS3BucketReplicationConfigurationList | undefined) {
+    if (value === undefined) {
+      this._replicationConfiguration.reset();
+    }
+    else {
+      this._replicationConfiguration = TerraformS3BucketReplicationConfigurationListAttribute.create(this, 'replication_configuration', value);
+    }
   }
 
   // server_side_encryption_configuration - computed: false, optional: true, required: false
-  private _serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
+  private _serverSideEncryptionConfiguration!: TerraformS3BucketServerSideEncryptionConfigurationListAttribute;
   public get serverSideEncryptionConfiguration() {
-    return this.interpolationForAttribute('server_side_encryption_configuration') as any;
+    return this._serverSideEncryptionConfiguration;
   }
-  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] ) {
-    this._serverSideEncryptionConfiguration = value;
-  }
-  public resetServerSideEncryptionConfiguration() {
-    this._serverSideEncryptionConfiguration = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get serverSideEncryptionConfigurationInput() {
-    return this._serverSideEncryptionConfiguration
+  public putServerSideEncryptionConfiguration(value: TerraformS3BucketServerSideEncryptionConfigurationList | undefined) {
+    if (value === undefined) {
+      this._serverSideEncryptionConfiguration.reset();
+    }
+    else {
+      this._serverSideEncryptionConfiguration = TerraformS3BucketServerSideEncryptionConfigurationListAttribute.create(this, 'server_side_encryption_configuration', value);
+    }
   }
 
   // versioning - computed: false, optional: true, required: false
-  private _versioning?: S3BucketVersioning[];
+  private _versioning!: TerraformS3BucketVersioningListAttribute;
   public get versioning() {
-    return this.interpolationForAttribute('versioning') as any;
+    return this._versioning;
   }
-  public set versioning(value: S3BucketVersioning[] ) {
-    this._versioning = value;
-  }
-  public resetVersioning() {
-    this._versioning = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get versioningInput() {
-    return this._versioning
+  public putVersioning(value: TerraformS3BucketVersioningList | undefined) {
+    if (value === undefined) {
+      this._versioning.reset();
+    }
+    else {
+      this._versioning = TerraformS3BucketVersioningListAttribute.create(this, 'versioning', value);
+    }
   }
 
   // website - computed: false, optional: true, required: false
-  private _website?: S3BucketWebsite[];
+  private _website!: TerraformS3BucketWebsiteListAttribute;
   public get website() {
-    return this.interpolationForAttribute('website') as any;
+    return this._website;
   }
-  public set website(value: S3BucketWebsite[] ) {
-    this._website = value;
-  }
-  public resetWebsite() {
-    this._website = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get websiteInput() {
-    return this._website
+  public putWebsite(value: TerraformS3BucketWebsiteList | undefined) {
+    if (value === undefined) {
+      this._website.reset();
+    }
+    else {
+      this._website = TerraformS3BucketWebsiteListAttribute.create(this, 'website', value);
+    }
   }
 
   // =========
@@ -2480,27 +2416,27 @@ export class S3Bucket extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      acceleration_status: cdktf.stringToTerraform(this._accelerationStatus),
-      acl: cdktf.stringToTerraform(this._acl),
-      bucket: cdktf.stringToTerraform(this._bucket),
-      bucket_prefix: cdktf.stringToTerraform(this._bucketPrefix),
-      force_destroy: cdktf.booleanToTerraform(this._forceDestroy),
-      hosted_zone_id: cdktf.stringToTerraform(this._hostedZoneId),
-      policy: cdktf.stringToTerraform(this._policy),
-      region: cdktf.stringToTerraform(this._region),
-      request_payer: cdktf.stringToTerraform(this._requestPayer),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
-      website_domain: cdktf.stringToTerraform(this._websiteDomain),
-      website_endpoint: cdktf.stringToTerraform(this._websiteEndpoint),
-      cors_rule: cdktf.listMapper(s3BucketCorsRuleToTerraform)(this._corsRule),
-      grant: cdktf.listMapper(s3BucketGrantToTerraform)(this._grant),
-      lifecycle_rule: cdktf.listMapper(s3BucketLifecycleRuleToTerraform)(this._lifecycleRule),
-      logging: cdktf.listMapper(s3BucketLoggingToTerraform)(this._logging),
-      object_lock_configuration: cdktf.listMapper(s3BucketObjectLockConfigurationToTerraform)(this._objectLockConfiguration),
-      replication_configuration: cdktf.listMapper(s3BucketReplicationConfigurationToTerraform)(this._replicationConfiguration),
-      server_side_encryption_configuration: cdktf.listMapper(s3BucketServerSideEncryptionConfigurationToTerraform)(this._serverSideEncryptionConfiguration),
-      versioning: cdktf.listMapper(s3BucketVersioningToTerraform)(this._versioning),
-      website: cdktf.listMapper(s3BucketWebsiteToTerraform)(this._website),
+      acceleration_status: this._accelerationStatus.toTerraform(),
+      acl: this._acl.toTerraform(),
+      bucket: this._bucket.toTerraform(),
+      bucket_prefix: this._bucketPrefix.toTerraform(),
+      force_destroy: this._forceDestroy.toTerraform(),
+      hosted_zone_id: this._hostedZoneId.toTerraform(),
+      policy: this._policy.toTerraform(),
+      region: this._region.toTerraform(),
+      request_payer: this._requestPayer.toTerraform(),
+      tags: this._tags.toTerraform(),
+      website_domain: this._websiteDomain.toTerraform(),
+      website_endpoint: this._websiteEndpoint.toTerraform(),
+      cors_rule: this._corsRule.toTerraform(),
+      grant: this._grant.toTerraform(),
+      lifecycle_rule: this._lifecycleRule.toTerraform(),
+      logging: this._logging.toTerraform(),
+      object_lock_configuration: this._objectLockConfiguration.toTerraform(),
+      replication_configuration: this._replicationConfiguration.toTerraform(),
+      server_side_encryption_configuration: this._serverSideEncryptionConfiguration.toTerraform(),
+      versioning: this._versioning.toTerraform(),
+      website: this._website.toTerraform(),
     };
   }
 }
@@ -2520,93 +2456,93 @@ export interface SecurityGroupConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#description SecurityGroup#description}
   */
-  readonly description?: string;
+  readonly description?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#egress SecurityGroup#egress}
   */
-  readonly egress?: SecurityGroupEgress[];
+  readonly egress?: TerraformSecurityGroupEgressSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#ingress SecurityGroup#ingress}
   */
-  readonly ingress?: SecurityGroupIngress[];
+  readonly ingress?: TerraformSecurityGroupIngressSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#name SecurityGroup#name}
   */
-  readonly name?: string;
+  readonly name?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#name_prefix SecurityGroup#name_prefix}
   */
-  readonly namePrefix?: string;
+  readonly namePrefix?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#revoke_rules_on_delete SecurityGroup#revoke_rules_on_delete}
   */
-  readonly revokeRulesOnDelete?: boolean;
+  readonly revokeRulesOnDelete?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#tags SecurityGroup#tags}
   */
-  readonly tags?: { [key: string]: string };
+  readonly tags?: cdktf.TerraformStringMap;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#vpc_id SecurityGroup#vpc_id}
   */
-  readonly vpcId?: string;
+  readonly vpcId?: cdktf.TerraformString;
   /**
   * timeouts block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#timeouts SecurityGroup#timeouts}
   */
-  readonly timeouts?: SecurityGroupTimeouts;
+  readonly timeouts?: TerraformSecurityGroupTimeouts;
 }
 export interface SecurityGroupEgress {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#cidr_blocks SecurityGroup#cidr_blocks}
   */
-  readonly cidrBlocks?: string[];
+  readonly cidrBlocks?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#description SecurityGroup#description}
   */
-  readonly description?: string;
+  readonly description?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#from_port SecurityGroup#from_port}
   */
-  readonly fromPort?: number;
+  readonly fromPort?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#ipv6_cidr_blocks SecurityGroup#ipv6_cidr_blocks}
   */
-  readonly ipv6CidrBlocks?: string[];
+  readonly ipv6CidrBlocks?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#prefix_list_ids SecurityGroup#prefix_list_ids}
   */
-  readonly prefixListIds?: string[];
+  readonly prefixListIds?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#protocol SecurityGroup#protocol}
   */
-  readonly protocol?: string;
+  readonly protocol?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#security_groups SecurityGroup#security_groups}
   */
-  readonly securityGroups?: string[];
+  readonly securityGroups?: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#self SecurityGroup#self}
   */
-  readonly selfAttribute?: boolean;
+  readonly selfAttribute?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#to_port SecurityGroup#to_port}
   */
-  readonly toPort?: number;
+  readonly toPort?: cdktf.TerraformNumber;
 }
 
 function securityGroupEgressToTerraform(struct?: SecurityGroupEgress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
-    description: struct!.description === undefined ? null : cdktf.stringToTerraform(struct!.description),
-    from_port: struct!.fromPort === undefined ? null : cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
-    protocol: struct!.protocol === undefined ? null : cdktf.stringToTerraform(struct!.protocol),
-    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
-    self: struct!.selfAttribute === undefined ? null : cdktf.booleanToTerraform(struct!.selfAttribute),
-    to_port: struct!.toPort === undefined ? null : cdktf.numberToTerraform(struct!.toPort),
+    cidr_blocks: struct!.cidrBlocks.toTerraform(),
+    description: struct!.description.toTerraform(),
+    from_port: struct!.fromPort.toTerraform(),
+    ipv6_cidr_blocks: struct!.ipv6CidrBlocks.toTerraform(),
+    prefix_list_ids: struct!.prefixListIds.toTerraform(),
+    protocol: struct!.protocol.toTerraform(),
+    security_groups: struct!.securityGroups.toTerraform(),
+    self: struct!.selfAttribute.toTerraform(),
+    to_port: struct!.toPort.toTerraform(),
   }
 }
 
@@ -2614,53 +2550,53 @@ export interface SecurityGroupIngress {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#cidr_blocks SecurityGroup#cidr_blocks}
   */
-  readonly cidrBlocks?: string[];
+  readonly cidrBlocks?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#description SecurityGroup#description}
   */
-  readonly description?: string;
+  readonly description?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#from_port SecurityGroup#from_port}
   */
-  readonly fromPort?: number;
+  readonly fromPort?: cdktf.TerraformNumber;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#ipv6_cidr_blocks SecurityGroup#ipv6_cidr_blocks}
   */
-  readonly ipv6CidrBlocks?: string[];
+  readonly ipv6CidrBlocks?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#prefix_list_ids SecurityGroup#prefix_list_ids}
   */
-  readonly prefixListIds?: string[];
+  readonly prefixListIds?: cdktf.TerraformStringList;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#protocol SecurityGroup#protocol}
   */
-  readonly protocol?: string;
+  readonly protocol?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#security_groups SecurityGroup#security_groups}
   */
-  readonly securityGroups?: string[];
+  readonly securityGroups?: cdktf.TerraformStringSet;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#self SecurityGroup#self}
   */
-  readonly selfAttribute?: boolean;
+  readonly selfAttribute?: cdktf.TerraformBoolean;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#to_port SecurityGroup#to_port}
   */
-  readonly toPort?: number;
+  readonly toPort?: cdktf.TerraformNumber;
 }
 
 function securityGroupIngressToTerraform(struct?: SecurityGroupIngress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
-    description: struct!.description === undefined ? null : cdktf.stringToTerraform(struct!.description),
-    from_port: struct!.fromPort === undefined ? null : cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
-    protocol: struct!.protocol === undefined ? null : cdktf.stringToTerraform(struct!.protocol),
-    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
-    self: struct!.selfAttribute === undefined ? null : cdktf.booleanToTerraform(struct!.selfAttribute),
-    to_port: struct!.toPort === undefined ? null : cdktf.numberToTerraform(struct!.toPort),
+    cidr_blocks: struct!.cidrBlocks.toTerraform(),
+    description: struct!.description.toTerraform(),
+    from_port: struct!.fromPort.toTerraform(),
+    ipv6_cidr_blocks: struct!.ipv6CidrBlocks.toTerraform(),
+    prefix_list_ids: struct!.prefixListIds.toTerraform(),
+    protocol: struct!.protocol.toTerraform(),
+    security_groups: struct!.securityGroups.toTerraform(),
+    self: struct!.selfAttribute.toTerraform(),
+    to_port: struct!.toPort.toTerraform(),
   }
 }
 
@@ -2668,18 +2604,18 @@ export interface SecurityGroupTimeouts {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#create SecurityGroup#create}
   */
-  readonly create?: string;
+  readonly create?: cdktf.TerraformString;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group.html#delete SecurityGroup#delete}
   */
-  readonly delete?: string;
+  readonly delete?: cdktf.TerraformString;
 }
 
 function securityGroupTimeoutsToTerraform(struct?: SecurityGroupTimeouts): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
-    create: cdktf.stringToTerraform(struct!.create),
-    delete: cdktf.stringToTerraform(struct!.delete),
+    create: struct!.create.toTerraform(),
+    delete: struct!.delete.toTerraform(),
   }
 }
 
@@ -2711,15 +2647,18 @@ export class SecurityGroup extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._description = config.description;
-    this._egress = config.egress;
-    this._ingress = config.ingress;
-    this._name = config.name;
-    this._namePrefix = config.namePrefix;
-    this._revokeRulesOnDelete = config.revokeRulesOnDelete;
-    this._tags = config.tags;
-    this._vpcId = config.vpcId;
-    this._timeouts = config.timeouts;
+    this._arn = new cdktf.TerraformStringAttribute(this, 'arn', undefined)
+    this.putDescription(config.description ?? new cdktf.TerraformStringAttribute(this, 'description', undefined));
+    this.putEgress(config.egress ?? new TerraformSecurityGroupEgressSetAttribute(this, 'egress', undefined));
+    this._id = new cdktf.TerraformStringAttribute(this, 'id', undefined)
+    this.putIngress(config.ingress ?? new TerraformSecurityGroupIngressSetAttribute(this, 'ingress', undefined));
+    this.putName(config.name ?? new cdktf.TerraformStringAttribute(this, 'name', undefined));
+    this.putNamePrefix(config.namePrefix ?? new cdktf.TerraformStringAttribute(this, 'name_prefix', undefined));
+    this._ownerId = new cdktf.TerraformStringAttribute(this, 'owner_id', undefined)
+    this.putRevokeRulesOnDelete(config.revokeRulesOnDelete ?? new cdktf.TerraformBooleanAttribute(this, 'revoke_rules_on_delete', undefined));
+    this.putTags(config.tags ?? new cdktf.TerraformStringMapAttribute(this, 'tags', undefined));
+    this.putVpcId(config.vpcId ?? new cdktf.TerraformStringAttribute(this, 'vpc_id', undefined));
+    this.putTimeouts(config.timeouts ?? new TerraformSecurityGroupTimeoutsAttribute(this, 'timeouts', undefined));
   }
 
   // ==========
@@ -2727,162 +2666,147 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // ==========
 
   // arn - computed: true, optional: false, required: false
+  private _arn: cdktf.TerraformStringAttribute;
   public get arn() {
-    return this.getStringAttribute('arn');
+    return this._arn;
   }
 
   // description - computed: false, optional: true, required: false
-  private _description?: string;
+  private _description!: cdktf.TerraformStringAttribute;
   public get description() {
-    return this.getStringAttribute('description');
+    return this._description;
   }
-  public set description(value: string ) {
-    this._description = value;
-  }
-  public resetDescription() {
-    this._description = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get descriptionInput() {
-    return this._description
+  public putDescription(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._description.reset();
+    }
+    else {
+      this._description = cdktf.TerraformStringAttribute.create(this, 'description', value);
+    }
   }
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: SecurityGroupEgress[]
-  public get egress(): SecurityGroupEgress[] {
-    return this.interpolationForAttribute('egress') as any; // Getting the computed value is not yet implemented
+  private _egress!: TerraformSecurityGroupEgressSetAttribute;
+  public get egress() {
+    return this._egress;
   }
-  public set egress(value: SecurityGroupEgress[]) {
-    this._egress = value;
-  }
-  public resetEgress() {
-    this._egress = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get egressInput() {
-    return this._egress
+  public putEgress(value: TerraformSecurityGroupEgressSet | undefined) {
+    if (value === undefined) {
+      this._egress.reset();
+    }
+    else {
+      this._egress = TerraformSecurityGroupEgressSetAttribute.create(this, 'egress', value);
+    }
   }
 
   // id - computed: true, optional: true, required: false
+  private _id: cdktf.TerraformStringAttribute;
   public get id() {
-    return this.getStringAttribute('id');
+    return this._id;
   }
 
   // ingress - computed: true, optional: true, required: false
-  private _ingress?: SecurityGroupIngress[]
-  public get ingress(): SecurityGroupIngress[] {
-    return this.interpolationForAttribute('ingress') as any; // Getting the computed value is not yet implemented
+  private _ingress!: TerraformSecurityGroupIngressSetAttribute;
+  public get ingress() {
+    return this._ingress;
   }
-  public set ingress(value: SecurityGroupIngress[]) {
-    this._ingress = value;
-  }
-  public resetIngress() {
-    this._ingress = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get ingressInput() {
-    return this._ingress
+  public putIngress(value: TerraformSecurityGroupIngressSet | undefined) {
+    if (value === undefined) {
+      this._ingress.reset();
+    }
+    else {
+      this._ingress = TerraformSecurityGroupIngressSetAttribute.create(this, 'ingress', value);
+    }
   }
 
   // name - computed: true, optional: true, required: false
-  private _name?: string;
+  private _name!: cdktf.TerraformStringAttribute;
   public get name() {
-    return this.getStringAttribute('name');
+    return this._name;
   }
-  public set name(value: string) {
-    this._name = value;
-  }
-  public resetName() {
-    this._name = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get nameInput() {
-    return this._name
+  public putName(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._name.reset();
+    }
+    else {
+      this._name = cdktf.TerraformStringAttribute.create(this, 'name', value);
+    }
   }
 
   // name_prefix - computed: false, optional: true, required: false
-  private _namePrefix?: string;
+  private _namePrefix!: cdktf.TerraformStringAttribute;
   public get namePrefix() {
-    return this.getStringAttribute('name_prefix');
+    return this._namePrefix;
   }
-  public set namePrefix(value: string ) {
-    this._namePrefix = value;
-  }
-  public resetNamePrefix() {
-    this._namePrefix = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get namePrefixInput() {
-    return this._namePrefix
+  public putNamePrefix(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._namePrefix.reset();
+    }
+    else {
+      this._namePrefix = cdktf.TerraformStringAttribute.create(this, 'name_prefix', value);
+    }
   }
 
   // owner_id - computed: true, optional: false, required: false
+  private _ownerId: cdktf.TerraformStringAttribute;
   public get ownerId() {
-    return this.getStringAttribute('owner_id');
+    return this._ownerId;
   }
 
   // revoke_rules_on_delete - computed: false, optional: true, required: false
-  private _revokeRulesOnDelete?: boolean;
+  private _revokeRulesOnDelete!: cdktf.TerraformBooleanAttribute;
   public get revokeRulesOnDelete() {
-    return this.getBooleanAttribute('revoke_rules_on_delete');
+    return this._revokeRulesOnDelete;
   }
-  public set revokeRulesOnDelete(value: boolean ) {
-    this._revokeRulesOnDelete = value;
-  }
-  public resetRevokeRulesOnDelete() {
-    this._revokeRulesOnDelete = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get revokeRulesOnDeleteInput() {
-    return this._revokeRulesOnDelete
+  public putRevokeRulesOnDelete(value: cdktf.TerraformBoolean | undefined) {
+    if (value === undefined) {
+      this._revokeRulesOnDelete.reset();
+    }
+    else {
+      this._revokeRulesOnDelete = cdktf.TerraformBooleanAttribute.create(this, 'revoke_rules_on_delete', value);
+    }
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string };
+  private _tags!: cdktf.TerraformStringMapAttribute;
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this._tags;
   }
-  public set tags(value: { [key: string]: string } ) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get tagsInput() {
-    return this._tags
+  public putTags(value: cdktf.TerraformStringMap | undefined) {
+    if (value === undefined) {
+      this._tags.reset();
+    }
+    else {
+      this._tags = cdktf.TerraformStringMapAttribute.create(this, 'tags', value);
+    }
   }
 
   // vpc_id - computed: true, optional: true, required: false
-  private _vpcId?: string;
+  private _vpcId!: cdktf.TerraformStringAttribute;
   public get vpcId() {
-    return this.getStringAttribute('vpc_id');
+    return this._vpcId;
   }
-  public set vpcId(value: string) {
-    this._vpcId = value;
-  }
-  public resetVpcId() {
-    this._vpcId = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get vpcIdInput() {
-    return this._vpcId
+  public putVpcId(value: cdktf.TerraformString | undefined) {
+    if (value === undefined) {
+      this._vpcId.reset();
+    }
+    else {
+      this._vpcId = cdktf.TerraformStringAttribute.create(this, 'vpc_id', value);
+    }
   }
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts?: SecurityGroupTimeouts;
+  private _timeouts!: TerraformSecurityGroupTimeoutsAttribute;
   public get timeouts() {
-    return this.interpolationForAttribute('timeouts') as any;
+    return this._timeouts;
   }
-  public set timeouts(value: SecurityGroupTimeouts ) {
-    this._timeouts = value;
-  }
-  public resetTimeouts() {
-    this._timeouts = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get timeoutsInput() {
-    return this._timeouts
+  public putTimeouts(value: TerraformSecurityGroupTimeouts | undefined) {
+    if (value === undefined) {
+      this._timeouts.reset();
+    }
+    else {
+      this._timeouts = TerraformSecurityGroupTimeoutsAttribute.create(this, 'timeouts', value);
+    }
   }
 
   // =========
@@ -2891,15 +2815,15 @@ export class SecurityGroup extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      description: cdktf.stringToTerraform(this._description),
-      egress: cdktf.listMapper(securityGroupEgressToTerraform)(this._egress),
-      ingress: cdktf.listMapper(securityGroupIngressToTerraform)(this._ingress),
-      name: cdktf.stringToTerraform(this._name),
-      name_prefix: cdktf.stringToTerraform(this._namePrefix),
-      revoke_rules_on_delete: cdktf.booleanToTerraform(this._revokeRulesOnDelete),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
-      vpc_id: cdktf.stringToTerraform(this._vpcId),
-      timeouts: securityGroupTimeoutsToTerraform(this._timeouts),
+      description: this._description.toTerraform(),
+      egress: this._egress.toTerraform(),
+      ingress: this._ingress.toTerraform(),
+      name: this._name.toTerraform(),
+      name_prefix: this._namePrefix.toTerraform(),
+      revoke_rules_on_delete: this._revokeRulesOnDelete.toTerraform(),
+      tags: this._tags.toTerraform(),
+      vpc_id: this._vpcId.toTerraform(),
+      timeouts: this._timeouts.toTerraform(),
     };
   }
 }

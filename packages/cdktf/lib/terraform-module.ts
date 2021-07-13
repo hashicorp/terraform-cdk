@@ -3,7 +3,6 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { Token } from "./tokens";
 import * as path from "path";
 
 export interface TerraformModuleOptions {
@@ -48,11 +47,11 @@ export abstract class TerraformModule
   }
 
   public interpolationForOutput(moduleOutput: string) {
-    return `\${module.${this.friendlyUniqueId}.${moduleOutput}}` as any;
+    return `\${module.${this.friendlyUniqueId}.${moduleOutput}}`;
   }
 
   public get fqn(): string {
-    return Token.asString(`module.${this.friendlyUniqueId}`);
+    return `module.${this.friendlyUniqueId}`;
   }
 
   public get providers() {

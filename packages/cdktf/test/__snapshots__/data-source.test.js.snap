@@ -85,7 +85,7 @@ exports[`with boolean map 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.boolean_map[\\\\\\"id\\\\\\"]}\\",
+        \\"name\\": \\"\${data.test_data_source.test.boolean_map.id}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test-data-source/test-resource\\",
@@ -157,7 +157,7 @@ exports[`with number map 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.number_map[\\\\\\"id\\\\\\"]}\\",
+        \\"name\\": \\"\${data.test_data_source.test.number_map.id}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test-data-source/test-resource\\",
@@ -193,7 +193,7 @@ exports[`with string map 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.string_map[\\\\\\"id\\\\\\"]}\\",
+        \\"name\\": \\"\${data.test_data_source.test.string_map.id}\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"test-data-source/test-resource\\",

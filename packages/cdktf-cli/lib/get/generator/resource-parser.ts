@@ -91,7 +91,8 @@ class Parser {
 
   private renderAttributeType(
     scope: Scope[],
-    attributeType: AttributeType
+    attributeType: AttributeType,
+    parentKind: string | undefined = undefined
   ): AttributeTypeModel {
     const parent = scope[scope.length - 1];
     const level = scope.length;
@@ -123,12 +124,11 @@ class Parser {
             level,
           });
         case "dynamic":
-          return new AttributeTypeModel("any", {
+          return new AttributeTypeModel("dynamic", {
             isComputed,
             isOptional,
             isRequired,
             level,
-            isMap: true,
           });
         default:
           throw new Error(`invalid primitive type ${attributeType}`);
@@ -143,8 +143,13 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        const attrType = this.renderAttributeType(scope, type as AttributeType);
-        attrType.isList = true;
+        const attrType = this.renderAttributeType(
+          scope,
+          type as AttributeType,
+          kind
+        );
+        attrType.isList = kind === "list";
+        attrType.isSet = kind === "set";
         attrType.isComputed = isComputed;
         attrType.isOptional = isOptional;
         attrType.isRequired = isRequired;
@@ -155,7 +160,8 @@ class Parser {
       if (kind === "map") {
         const valueType = this.renderAttributeType(
           scope,
-          type as AttributeType
+          type as AttributeType,
+          kind
         );
         valueType.isMap = true;
         valueType.isComputed = isComputed;
@@ -171,8 +177,12 @@ class Parser {
         for (const [name, type] of Object.entries(objAttributes)) {
           attributes[name] = { type };
         }
-        const struct = this.addAnonymousStruct(scope, attributes);
-        const model = new AttributeTypeModel(struct.name, {
+        const [struct, structName] = this.addAnonymousStruct(
+          scope,
+          attributes,
+          parentKind
+        );
+        const model = new AttributeTypeModel(structName, {
           struct,
           isComputed,
           isOptional,
@@ -192,8 +202,6 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
-      if (parentType.inBlockType && att.computed && !!att.optional === false)
-        continue;
       const type = this.renderAttributeType(
         [
           parentType,
@@ -239,7 +247,7 @@ class Parser {
         }),
         blockType.block
       );
-      const blockStruct = this.addStruct(
+      const [blockStruct] = this.addStruct(
         [
           parentType,
           new Scope({
@@ -248,7 +256,8 @@ class Parser {
             isProvider: parentType.isProvider,
           }),
         ],
-        blockAttributes
+        blockAttributes,
+        blockType.nesting_mode
       );
 
       // define the attribute
@@ -322,9 +331,10 @@ class Parser {
             terraformFullName: parent.fullName(terraformName),
             type: new AttributeTypeModel(struct.name, {
               struct,
-              isList: true,
+              isList: blockType.nesting_mode === "list",
               isOptional: optional,
               isRequired: required,
+              isSet: blockType.nesting_mode === "set",
             }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
@@ -338,7 +348,8 @@ class Parser {
   }
   private addAnonymousStruct(
     scope: Scope[],
-    attrs: { [name: string]: Attribute }
+    attrs: { [name: string]: Attribute },
+    parentKind: string | undefined
   ) {
     const attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
@@ -376,19 +387,90 @@ class Parser {
       );
     }
 
-    return this.addStruct(scope, attributes);
+    return this.addStruct(scope, attributes, parentKind ?? "object");
   }
 
-  private addStruct(scope: Scope[], attributes: AttributeModel[]) {
+  private addStruct(
+    scope: Scope[],
+    attributes: AttributeModel[],
+    structContainer: string
+  ): [Struct, string] {
     const name = uniqueClassName(
       toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
     );
     const parent = scope[scope.length - 1];
     const isClass = parent.isComputed && !parent.isOptional;
-    const isAnonymous = true;
-    const s = new Struct(name, attributes, isClass, isAnonymous);
-    this.structs.push(s);
-    return s;
+    let struct: Struct | undefined = undefined;
+    if (!isClass) {
+      struct = new Struct(name, attributes);
+      this.structs.push(struct);
+    }
+
+    const attributeStruct = new Struct(
+      `Terraform${name}Attribute`,
+      attributes,
+      true,
+      name,
+      isClass
+    );
+    this.structs.push(attributeStruct);
+
+    switch (structContainer) {
+      case "map":
+        this.structs.push(
+          new Struct(
+            `Terraform${name}MapAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "Map"
+          )
+        );
+        break;
+      case "list":
+        this.structs.push(
+          new Struct(
+            `Terraform${name}ListAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "List"
+          )
+        );
+        break;
+      case "set":
+        this.structs.push(
+          new Struct(
+            `Terraform${name}SetAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "Set"
+          )
+        );
+
+        //because we generate a toList function
+        this.structs.push(
+          new Struct(
+            `Terraform${name}ListAttribute`,
+            [],
+            true,
+            name,
+            isClass,
+            "List"
+          )
+        );
+        break;
+    }
+
+    if (!struct) {
+      struct = attributeStruct;
+    }
+
+    return [struct, name];
   }
 }
 

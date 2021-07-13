@@ -57,11 +57,7 @@ export class ResourceEmitter {
 
   private emitResourceAttributes(resource: ResourceModel) {
     for (const att of resource.attributes) {
-      this.attributesEmitter.emit(
-        att,
-        this.attributesEmitter.needsResetEscape(att, resource.attributes),
-        this.attributesEmitter.needsInputEscape(att, resource.attributes)
-      );
+      this.attributesEmitter.emit(att);
     }
   }
 
@@ -91,8 +87,8 @@ export class ResourceEmitter {
       : this.emitResourceSuper(resource);
 
     // initialize config properties
-    for (const att of resource.configStruct.assignableAttributes) {
-      this.code.line(`this.${att.storageName} = config.${att.name};`);
+    for (const att of resource.configStruct.attributes) {
+      this.attributesEmitter.emitInitializer(att);
     }
 
     this.code.closeBlock();

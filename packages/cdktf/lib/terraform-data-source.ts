@@ -1,5 +1,4 @@
 import { Construct } from "constructs";
-import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import {
@@ -38,28 +37,8 @@ export class TerraformDataSource
     this.lifecycle = config.lifecycle;
   }
 
-  public getStringAttribute(terraformAttribute: string) {
-    return Token.asString(this.interpolationForAttribute(terraformAttribute));
-  }
-
-  public getNumberAttribute(terraformAttribute: string) {
-    return Token.asNumber(this.interpolationForAttribute(terraformAttribute));
-  }
-
-  public getListAttribute(terraformAttribute: string) {
-    return Token.asList(this.interpolationForAttribute(terraformAttribute));
-  }
-
-  public getBooleanAttribute(terraformAttribute: string) {
-    return Token.asString(
-      this.interpolationForAttribute(terraformAttribute)
-    ) as any as boolean;
-  }
-
   public get fqn(): string {
-    return Token.asString(
-      `data.${this.terraformResourceType}.${this.friendlyUniqueId}`
-    );
+    return `data.${this.terraformResourceType}.${this.friendlyUniqueId}`;
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
@@ -95,9 +74,5 @@ export class TerraformDataSource
         },
       },
     };
-  }
-
-  public interpolationForAttribute(terraformAttribute: string) {
-    return `\${data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
   }
 }
