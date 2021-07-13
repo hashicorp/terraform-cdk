@@ -147,6 +147,9 @@ export class TerraformStack extends Construct {
       version: this.cdktfVersion,
       stackName: Node.of(this).id,
       backend: "local", // overwritten by backend implementations if used
+      ...(Object.keys(this.rawOverrides)
+        ? { overrides: { stack: this.rawOverrides } }
+        : {}),
     };
 
     const elements = terraformElements(this);

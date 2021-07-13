@@ -6,7 +6,10 @@ exports[`minimal configuration 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"provider\\": {
@@ -25,7 +28,10 @@ exports[`with alias 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"provider\\": {
@@ -48,7 +54,10 @@ exports[`with generator metadata 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {

@@ -31,6 +31,9 @@ export abstract class TerraformBackend extends TerraformElement {
   public toMetadata(): any {
     return {
       backend: this.name,
+      ...(Object.keys(this.rawOverrides)
+        ? { overrides: { backend: this.rawOverrides } }
+        : {}),
     };
   }
 }

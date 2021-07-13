@@ -6,7 +6,10 @@ exports[`dependent data source 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"resource\\": {
@@ -46,7 +49,10 @@ exports[`minimal configuration 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"data\\": {
@@ -70,7 +76,10 @@ exports[`with boolean map 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"data\\": {
@@ -107,7 +116,10 @@ exports[`with complex computed list 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"data\\": {
@@ -144,7 +156,10 @@ exports[`with number map 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"data\\": {
@@ -181,7 +196,10 @@ exports[`with string map 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"data\\": {

@@ -8,6 +8,18 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
       \\"stackName\\": \\"MyStack\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
+        \\"stack\\": {
+          \\"terraform\\": {
+            \\"backend\\": {
+              \\"remote\\": {
+                \\"organization\\": \\"test\\",
+                \\"workspaces\\": {
+                  \\"name\\": \\"test\\"
+                }
+              }
+            }
+          }
+        },
         \\"aws_topic\\": [
           \\"//\\",
           \\"prop2\\",
@@ -103,7 +115,10 @@ exports[`stack synthesis no flags 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"MyStack\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"provider\\": {

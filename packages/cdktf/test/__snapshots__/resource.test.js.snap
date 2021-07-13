@@ -6,7 +6,10 @@ exports[`dependent resource 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"data\\": {
@@ -46,7 +49,10 @@ exports[`do not change capitalization of arbritary nested types 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"resource\\": {
@@ -74,7 +80,10 @@ exports[`do not change capitalization of tags 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"resource\\": {
@@ -102,7 +111,10 @@ exports[`minimal configuration 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"resource\\": {
@@ -127,7 +139,10 @@ exports[`provider setter 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"provider\\": {
@@ -160,7 +175,10 @@ exports[`serialize list interpolation 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"resource\\": {
@@ -196,7 +214,10 @@ exports[`with complex computed list 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"resource\\": {
@@ -231,7 +252,10 @@ exports[`with provider alias 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"provider\\": {

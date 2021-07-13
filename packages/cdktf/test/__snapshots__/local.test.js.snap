@@ -6,7 +6,10 @@ exports[`function local 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"locals\\": {
@@ -21,7 +24,10 @@ exports[`local reference 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"locals\\": {
@@ -49,7 +55,10 @@ exports[`multiple locals 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"locals\\": {
@@ -65,7 +74,10 @@ exports[`object local 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"locals\\": {
@@ -83,7 +95,10 @@ exports[`string local 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"locals\\": {
