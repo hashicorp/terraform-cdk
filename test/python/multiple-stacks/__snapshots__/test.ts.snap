@@ -5,7 +5,25 @@ exports[`python full integration test synth synth generates JSON for both stacks
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-simple-one\\"
+      \\"stackName\\": \\"python-simple-one\\",
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {
+          \\"terraform\\": {
+            \\"backend\\": {
+              \\"remote\\": {
+                \\"organization\\": \\"test\\",
+                \\"workspaces\\": {
+                  \\"name\\": \\"test\\"
+                }
+              }
+            }
+          }
+        },
+        \\"aws_sns_topic\\": [
+          \\"display_name\\"
+        ]
+      }
     }
   },
   \\"terraform\\": {
@@ -52,7 +70,25 @@ exports[`python full integration test synth synth generates JSON for both stacks
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-simple-two\\"
+      \\"stackName\\": \\"python-simple-two\\",
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {
+          \\"terraform\\": {
+            \\"backend\\": {
+              \\"remote\\": {
+                \\"organization\\": \\"test\\",
+                \\"workspaces\\": {
+                  \\"name\\": \\"test\\"
+                }
+              }
+            }
+          }
+        },
+        \\"aws_sns_topic\\": [
+          \\"display_name\\"
+        ]
+      }
     }
   },
   \\"terraform\\": {

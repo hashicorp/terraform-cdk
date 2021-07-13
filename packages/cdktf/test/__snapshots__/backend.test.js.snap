@@ -5,7 +5,11 @@ exports[`artifactory backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"artifactory\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -27,7 +31,11 @@ exports[`azurerm backend access key 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -48,7 +56,11 @@ exports[`azurerm backend cli/sp 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -73,7 +85,11 @@ exports[`azurerm backend msi 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -97,7 +113,11 @@ exports[`azurerm backend sas 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"azurerm\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -118,7 +138,11 @@ exports[`consul backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"consul\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -146,7 +170,11 @@ exports[`cos backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"cos\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -171,7 +199,11 @@ exports[`etcd backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"etcd\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -192,7 +224,11 @@ exports[`etcdv3 backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"etcdv3\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -221,7 +257,11 @@ exports[`gcs backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"gcs\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -243,7 +283,11 @@ exports[`http backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"http\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -272,7 +316,14 @@ exports[`local backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {},
+        \\"backend\\": {
+          \\"workspace_dir\\": \\"local_workspace\\"
+        }
+      }
     }
   },
   \\"terraform\\": {
@@ -291,7 +342,11 @@ exports[`manta backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"manta\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -316,7 +371,11 @@ exports[`oss backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"oss\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -354,7 +413,11 @@ exports[`pg backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"pg\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -374,7 +437,11 @@ exports[`remote backend multi ws 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"remote\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -397,7 +464,11 @@ exports[`remote backend single ws 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"remote\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -419,7 +490,11 @@ exports[`s3 backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"s3\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {
@@ -462,7 +537,11 @@ exports[`swift backend 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\"
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"swift\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"terraform\\": {

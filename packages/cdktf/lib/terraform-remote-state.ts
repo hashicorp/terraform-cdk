@@ -71,4 +71,15 @@ export abstract class TerraformRemoteState extends TerraformElement {
       },
     };
   }
+  public toMetadata(): any {
+    if (!Object.keys(this.rawOverrides).length) {
+      return {};
+    }
+
+    return {
+      overrides: {
+        terraform_remote_state: Object.keys(this.rawOverrides),
+      },
+    };
+  }
 }

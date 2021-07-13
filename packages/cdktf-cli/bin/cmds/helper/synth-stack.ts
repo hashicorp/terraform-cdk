@@ -79,7 +79,6 @@ Command output on stderr:
 
     // end performance timer
     const endTime = performance.now();
-    await this.synthTelemetry(command, endTime - startTime);
 
     const stacks: SynthesizedStack[] = [];
     const manifest = JSON.parse(
@@ -99,6 +98,8 @@ Command output on stderr:
       });
     }
 
+    await this.synthTelemetry(command, endTime - startTime, stacks);
+
     if (stacks.length === 0) {
       console.error("ERROR: No Terraform code synthesized.");
     }
@@ -117,14 +118,21 @@ Command output on stderr:
 
   public static async synthTelemetry(
     command: string,
-    totalTime: number
+    totalTime: number,
+    stacks: SynthesizedStack[]
   ): Promise<void> {
     const reportParams: ReportParams = {
       command: "synth",
       product: "cdktf",
       version: versionNumber(),
       dateTime: new Date(),
-      payload: { command: command, totalTime: totalTime },
+      payload: {
+        command: command,
+        totalTime: totalTime,
+        stackMetadata: stacks.map(
+          (stack) => JSON.parse(stack.content)["//"].metadata
+        ),
+      },
     };
 
     await ReportRequest(reportParams);

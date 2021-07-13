@@ -95,4 +95,16 @@ export abstract class TerraformModule
       },
     };
   }
+
+  public toMetadata(): any {
+    if (!Object.keys(this.rawOverrides).length) {
+      return {};
+    }
+
+    return {
+      overrides: {
+        [`module.${this.source}`]: Object.keys(this.rawOverrides),
+      },
+    };
+  }
 }

@@ -46,4 +46,15 @@ export class TerraformLocal extends TerraformElement {
       },
     };
   }
+  public toMetadata(): any {
+    if (!Object.keys(this.rawOverrides).length) {
+      return {};
+    }
+
+    return {
+      overrides: {
+        local: Object.keys(this.rawOverrides),
+      },
+    };
+  }
 }

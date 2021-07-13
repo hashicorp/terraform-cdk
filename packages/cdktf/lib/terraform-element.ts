@@ -31,6 +31,10 @@ export class TerraformElement extends Construct {
     return {};
   }
 
+  public toMetadata(): any {
+    return {};
+  }
+
   public get friendlyUniqueId() {
     if (this._logicalIdOverride) {
       return this._logicalIdOverride;

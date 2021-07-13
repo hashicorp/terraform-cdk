@@ -13,7 +13,11 @@ exports[`full integration test synth 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"stack\\"
+      \\"stackName\\": \\"stack\\",
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"stack\\": {}
+      }
     }
   },
   \\"output\\": {
