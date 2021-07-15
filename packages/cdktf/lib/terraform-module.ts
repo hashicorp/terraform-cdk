@@ -82,7 +82,6 @@ export abstract class TerraformModule
             };
           }
         }),
-        // eslint-disable-next-line @typescript-eslint/camelcase
         depends_on: this.dependsOn,
       },
       this.rawOverrides

@@ -23,7 +23,7 @@ export interface Account {
 export interface OrganizationData {
   id: string;
   type: string;
-  attributes: {};
+  attributes: Record<string, unknown>;
 }
 
 export interface Organization {

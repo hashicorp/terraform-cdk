@@ -3,7 +3,7 @@ import { Text, Box, Static } from "ink";
 import Spinner from "ink-spinner";
 import { PlannedResource } from "./models/terraform";
 import { PlanElement } from "./components";
-import { useTerraform, Status, useTerraformState } from "./terraform-context";
+import { Status, useTerraformState, useRunDiff } from "./terraform-context";
 
 interface DiffConfig {
   targetDir: string;
@@ -95,14 +95,12 @@ export const Diff = ({
   targetStack,
   synthCommand,
 }: DiffConfig): React.ReactElement => {
-  const { plan } = useTerraform({
+  const { status, currentStack, errors } = useRunDiff({
     targetDir,
     targetStack,
     synthCommand,
     isSpeculative: true,
   });
-
-  const { status, currentStack, errors } = plan();
 
   const isPlanning: boolean = status != Status.PLANNED;
   const statusText =

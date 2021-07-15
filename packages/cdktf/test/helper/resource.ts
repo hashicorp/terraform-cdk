@@ -41,7 +41,7 @@ export class TestResource extends TerraformResource {
       name: this.name,
       names: this.names,
       tags: this.tags,
-      nested_type: this.nestedType, // eslint-disable-line @typescript-eslint/camelcase
+      nested_type: this.nestedType,
     };
   }
 }

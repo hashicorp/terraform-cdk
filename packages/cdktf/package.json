@@ -67,8 +67,8 @@
       "@typescript-eslint/no-explicit-any": 0,
       "@typescript-eslint/explicit-function-return-type": 0,
       "@typescript-eslint/no-use-before-define": 0,
-      "@typescript-eslint/interface-name-prefix": 0,
       "@typescript-eslint/no-empty-interface": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
       "no-sequences": "error"
     },
     "ignorePatterns": [
@@ -81,10 +81,10 @@
   "devDependencies": {
     "@types/jest": "^25.1.2",
     "@types/node": "^14.0.26",
-    "@typescript-eslint/eslint-plugin": "^2.20.0",
-    "@typescript-eslint/parser": "^2.20.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
     "constructs": "^3.3.75",
-    "eslint": "^6.8.0",
+    "eslint": "^7.29.0",
     "jsii": "^1.29.0",
     "jsii-pacmak": "^1.29.0",
     "jest": "^26.6.3",
