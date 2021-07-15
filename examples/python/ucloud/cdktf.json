@@ -1,0 +1,6 @@
+{
+  "language": "python",
+  "app": "pipenv run python main.py",
+  "terraformProviders": ["ucloud/ucloud@~> 1.29.0"],
+  "codeMakerOutput": "imports"
+}
