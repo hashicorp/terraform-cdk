@@ -49,7 +49,7 @@ export function hashMapper(elementMapper: Mapper): Mapper {
  */
 export function canInspect(x: any) {
   // Don't inspect IResolvable
-  if (x && 'resolve' in x) return false;
+  if (x && "resolve" in x) return false;
 
   // Note: using weak equality on purpose, we also want to catch undefined
   return x != null;
