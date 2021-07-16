@@ -303,6 +303,7 @@ function resource(
   const expressions = [
     ...asExpression(resource, key, config, nodeIds, getReference(graph, id)),
   ];
+  const varName = variableName(resource, key);
 
   if (for_each) {
     const references = extractReferencesFromExpression(for_each, nodeIds, [
@@ -310,7 +311,7 @@ function resource(
     ]);
     expressions.push(
       addOverrideExpression(
-        variableName(resource, id),
+        varName,
         "for_each",
         referencesToAst(for_each, references)
       )
@@ -323,7 +324,7 @@ function resource(
     ]);
     expressions.push(
       addOverrideExpression(
-        variableName(resource, id),
+        varName,
         "count",
         referencesToAst(count, references)
       )
@@ -336,7 +337,7 @@ function resource(
     ...extractDynamicBlocks(config).map(
       ({ path, for_each, content, scopedVar }) => {
         return addOverrideExpression(
-          variableName(resource, id),
+          varName,
           path.substring(1), // The path starts with a dot that we don't want
           valueToTs(
             {

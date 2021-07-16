@@ -15,6 +15,47 @@ const users = \`\\\\\${\${members.fqn} + \${admins.fqn}}\`;
 "
 `;
 
+exports[`convert complex for each loops configuration 1`] = `
+"const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
+  domainName: \\"example.com\\",
+  validationMethod: \\"DNS\\",
+});
+const dataAwsRoute53Zone = new aws.Route53Zone(this, \\"example\\", {
+  name: \\"example.com\\",
+  privateZone: false,
+});
+const awsRoute53RecordExample = new aws.Route53Record(this, \\"example\\", {
+  allowOverwrite: true,
+  name: \\"\${each.value.name}\\",
+  records: [\\"\${each.value.record}\\"],
+  ttl: 60,
+  type: \\"\${each.value.type}\\",
+  zoneId: dataAwsRoute53Zone.example.zoneId,
+});
+awsRoute53RecordExample.addOverride(
+  \\"for_each\\",
+  \`\\\\\${{
+          for dvo in \${awsAcmCertificateExample.domainValidationOptions} : dvo.domain_name => {
+            name   = dvo.resource_record_name
+            record = dvo.resource_record_value
+            type   = dvo.resource_record_type
+          }
+        }}\`
+);
+const awsAcmCertificateValidationExample = new aws.AcmCertificateValidation(
+  this,
+  \\"example\\",
+  {
+    certificateArn: awsAcmCertificateExample.arn,
+    validationRecordFqdns: \`\\\\\${[for record in \${awsRoute53RecordExample.fqn} : record.fqdn]}\`,
+  }
+);
+new aws.LbListener(this, \\"example\\", {
+  certificateArn: awsAcmCertificateValidationExample.certificateArn,
+});
+"
+`;
+
 exports[`convert complex resource configuration 1`] = `
 "new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
   aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
@@ -165,7 +206,7 @@ new aws.IamUser(this, \\"lb\\", {
     tagKey: \\"tag-value\\",
   },
 });
-awsIamUserAwsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.fqn})}\`);
+awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.fqn})}\`);
 "
 `;
 
@@ -208,19 +249,16 @@ new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
   name: \\"tf-test-name\\",
   solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
 });
-awsElasticBeanstalkEnvironmentAwsElasticBeanstalkEnvironmentTfenvtest.addOverride(
-  \\"setting\\",
-  {
-    for_each: settings.fqn,
-    content: [
-      {
-        name: '\${setting.value[\\"name\\"]}',
-        namespace: namespace.fqn,
-        value: '\${setting.value[\\"value\\"]}',
-      },
-    ],
-  }
-);
+awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
+  for_each: settings.fqn,
+  content: [
+    {
+      name: '\${setting.value[\\"name\\"]}',
+      namespace: namespace.fqn,
+      value: '\${setting.value[\\"value\\"]}',
+    },
+  ],
+});
 "
 `;
 
@@ -240,17 +278,14 @@ const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"\${each.key}\\",
 });
-awsS3BucketAwsS3BucketExamplebucket.addOverride(
-  \\"for_each\\",
-  \`\\\\\${toset(\${buckets.fqn}.*)}\`
-);
+awsS3BucketExamplebucket.addOverride(\\"for_each\\", \`\\\\\${toset(\${buckets.fqn}.*)}\`);
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: \\"\${each.key}\\",
   key: \\"someobject\\",
   kmsKeyId: awsKmsKeyExamplekms.arn,
   source: \\"index.html\\",
 });
-awsS3BucketObjectAwsS3BucketObjectExamplebucketObject.addOverride(
+awsS3BucketObjectExamplebucketObject.addOverride(
   \\"for_each\\",
   \`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`
 );
@@ -287,7 +322,7 @@ new aws.IamUser(this, \\"lb\\", {
     tagKey: \\"tag-value\\",
   },
 });
-awsIamUserAwsIamUserLb.addOverride(\\"for_each\\", users.fqn);
+awsIamUserLb.addOverride(\\"for_each\\", users.fqn);
 "
 `;
 
