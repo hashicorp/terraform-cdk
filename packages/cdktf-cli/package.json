@@ -28,6 +28,7 @@
   "license": "MPL-2.0",
   "dependencies": {
     "@cdktf/hcl2json": "0.0.0",
+    "@cdktf/hcl2cdk": "0.0.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
     "@skorfmann/terraform-cloud": "^1.10.1",
     "@types/node": "^14.0.26",
