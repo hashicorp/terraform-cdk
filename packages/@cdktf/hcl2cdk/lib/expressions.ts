@@ -208,3 +208,87 @@ export function referencesToAst(
 
   return t.templateLiteral(quasis, expressions);
 }
+
+export type DynamicBlock = {
+  path: string;
+  for_each: any;
+  content: any;
+  scopedVar: string;
+};
+export const extractDynamicBlocks = (
+  config: any,
+  path = ""
+): DynamicBlock[] => {
+  if (typeof config !== "object") {
+    return [];
+  }
+
+  if (Array.isArray(config)) {
+    return config.reduce(
+      (carry, item, index) => [
+        ...carry,
+        ...extractDynamicBlocks(item, `${path}.${index}`),
+      ],
+      []
+    );
+  }
+
+  if (config["dynamic"]) {
+    const scopedVar = Object.keys(config["dynamic"])[0];
+    const { for_each, content } = config["dynamic"][scopedVar][0];
+
+    return [
+      {
+        path: `${path}.${scopedVar}`,
+        for_each,
+        content,
+        scopedVar,
+      },
+    ];
+  }
+
+  return Object.entries(config).reduce((carry, [key, value]) => {
+    return [...carry, ...extractDynamicBlocks(value as any, `${path}.${key}`)];
+  }, [] as DynamicBlock[]);
+};
+
+export function findUsedReferences(
+  nodeIds: string[],
+  item: unknown,
+  references: Reference[] = []
+): Reference[] {
+  if (Array.isArray(item)) {
+    return [
+      ...references,
+      ...item.reduce(
+        (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
+        []
+      ),
+    ];
+  }
+
+  if (typeof item === "object") {
+    if (item && "dynamic" in item) {
+      const dyn = (item as any)["dynamic"];
+      const { for_each, ...others } = dyn;
+      const dynamicRef = Object.keys(others)[0];
+      return [
+        ...references,
+        ...findUsedReferences([...nodeIds, dynamicRef], dyn),
+      ];
+    }
+    return [
+      ...references,
+      ...Object.values(item as Record<string, any>).reduce(
+        (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
+        []
+      ),
+    ];
+  }
+
+  if (typeof item === "string") {
+    const extractedRefs = extractReferencesFromExpression(item, nodeIds, []);
+    return [...references, ...extractedRefs];
+  }
+  return references;
+}
