@@ -4,7 +4,15 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import { pascalCase, camelCase } from "change-case";
-import { schema, Output, Variable, Provider, Module, Resource } from "./schema";
+import {
+  schema,
+  Output,
+  Variable,
+  Provider,
+  Module,
+  Resource,
+  TerraformConfig,
+} from "./schema";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
 import {
@@ -480,6 +488,42 @@ export async function convertToTypescript(filename: string, hcl: string) {
     ...forEachNamespaced(plan.data, addNamespacedEdges, "data"),
   }).forEach((cb) => cb(graph));
 
+  function backendToExpression(tf: TerraformConfig["backend"]): t.Statement[] {
+    return Object.entries(tf).reduce(
+      (carry, [type, [config]]) => [
+        ...carry,
+        t.expressionStatement(
+          t.newExpression(
+            t.memberExpression(
+              t.identifier("cdktf"),
+              t.identifier(pascalCase(`${type}Backend`))
+            ),
+            [
+              t.objectExpression(
+                Object.entries(config).reduce(
+                  (arr, [property, value]) => [
+                    ...arr,
+                    t.objectProperty(
+                      t.identifier(property),
+                      valueToTs(value, nodeIds)
+                    ),
+                  ],
+                  [] as t.ObjectProperty[]
+                )
+              ),
+            ]
+          )
+        ),
+      ],
+      [] as t.Statement[]
+    );
+  }
+
+  const backendExpressions = plan.terraform?.reduce(
+    (carry, terraform) => [...carry, ...backendToExpression(terraform.backend)],
+    [] as t.Statement[]
+  );
+
   const expressions: t.Statement[] = [];
   let nodesToVisit = [...nodeIds];
 
@@ -503,6 +547,10 @@ export async function convertToTypescript(filename: string, hcl: string) {
       }
     });
   }
+
+  const cdktfImport = template(
+    `import * as cdktf from "cdktf"`
+  )() as t.Statement;
 
   const providerImports = Object.keys(plan.provider || {}).map(
     (providerName) =>
@@ -531,9 +579,15 @@ export async function convertToTypescript(filename: string, hcl: string) {
   }
 
   return {
-    all: gen([...providerImports, ...moduleImports, ...expressions]),
-    imports: gen([...providerImports, ...moduleImports]),
-    code: gen(expressions),
+    all: gen([
+      cdktfImport,
+      ...providerImports,
+      ...moduleImports,
+      ...((backendExpressions || []) as any),
+      ...expressions,
+    ]),
+    imports: gen([cdktfImport, ...providerImports, ...moduleImports]),
+    code: gen([...((backendExpressions || []) as any), ...expressions]),
   };
 }
 

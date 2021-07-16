@@ -659,6 +659,31 @@ describe("convert", () => {
               
       `,
     ],
+    [
+      "local backend",
+      `
+      terraform {
+        backend "local" {
+          path = "relative/path/to/terraform.tfstate"
+        }
+      }     
+      `,
+    ],
+    [
+      "remote backend",
+      `
+      terraform {
+        backend "remote" {
+          hostname = "app.terraform.io"
+          organization = "company"
+      
+          workspaces {
+            name = "my-app-prod"
+          }
+        }
+      }     
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(`file.hcl`, hcl, {
       language: "typescript",

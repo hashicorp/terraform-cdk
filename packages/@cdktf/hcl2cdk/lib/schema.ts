@@ -30,8 +30,14 @@ const resourceConfig = z.array(z.record(z.any()));
 export type Resource = z.infer<typeof resourceConfig>;
 export type Data = Resource;
 
+const terraformConfig = z.object({
+  backend: z.record(z.array(z.record(z.any()))),
+});
+export type TerraformConfig = z.infer<typeof terraformConfig>;
+
 export const schema = z
   .object({
+    terraform: z.array(terraformConfig),
     locals: z.array(z.record(z.any())),
     variable: z.record(variableConfig),
     output: z.record(outputConfig),

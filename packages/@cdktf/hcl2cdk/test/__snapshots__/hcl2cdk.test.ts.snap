@@ -9,14 +9,16 @@ exports[`convert Cross-Language Support supports python 1`] = `Promise {}`;
 exports[`convert Cross-Language Support supports typescript 1`] = `Promise {}`;
 
 exports[`convert arithmetics configuration 1`] = `
-"const admins = new TerraformVariable(this, \\"admins\\", {});
+"import * as cdktf from \\"cdktf\\";
+const admins = new TerraformVariable(this, \\"admins\\", {});
 const members = new TerraformVariable(this, \\"members\\", {});
 const users = \`\\\\\${\${members.fqn} + \${admins.fqn}}\`;
 "
 `;
 
 exports[`convert complex for each loops configuration 1`] = `
-"const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
+"import * as cdktf from \\"cdktf\\";
+const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
   domainName: \\"example.com\\",
   validationMethod: \\"DNS\\",
 });
@@ -57,7 +59,8 @@ new aws.LbListener(this, \\"example\\", {
 `;
 
 exports[`convert complex resource configuration 1`] = `
-"new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
+"import * as cdktf from \\"cdktf\\";
+new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
   aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
   comment: \\"Some comment\\",
   defaultCacheBehavior: [
@@ -180,7 +183,8 @@ exports[`convert complex resource configuration 1`] = `
 `;
 
 exports[`convert conditionals configuration 1`] = `
-"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"import * as cdktf from \\"cdktf\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
@@ -198,7 +202,8 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert count loops configuration 1`] = `
-"const users = new TerraformVariable(this, \\"users\\", {});
+"import * as cdktf from \\"cdktf\\";
+const users = new TerraformVariable(this, \\"users\\", {});
 new aws.IamUser(this, \\"lb\\", {
   name: \`\\\\\${element(\${users.fqn}, count.index)}\`,
   path: \\"/system/\\",
@@ -211,7 +216,8 @@ awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.fqn})}\`);
 `;
 
 exports[`convert data references configuration 1`] = `
-"const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
+"import * as cdktf from \\"cdktf\\";
+const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 const dataAwsS3Bucket = new aws.S3Bucket(this, \\"examplebucket\\", {
@@ -227,7 +233,8 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert double references configuration 1`] = `
-"const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
+"import * as cdktf from \\"cdktf\\";
+const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
@@ -241,7 +248,8 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 `;
 
 exports[`convert dynamic blocks configuration 1`] = `
-"const namespace = new TerraformVariable(this, \\"namespace\\", {});
+"import * as cdktf from \\"cdktf\\";
+const namespace = new TerraformVariable(this, \\"namespace\\", {});
 const settings = new TerraformVariable(this, \\"settings\\", {});
 new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
   application: \\"best-app\\",
@@ -263,13 +271,15 @@ awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
 `;
 
 exports[`convert empty provider configuration 1`] = `
-"import * as docker from \\"./.gen/docker\\";
+"import * as cdktf from \\"cdktf\\";
+import * as docker from \\"./.gen/docker\\";
 new docker.DockerProvider(this, \\"docker\\", {});
 "
 `;
 
 exports[`convert for each on list using splat configuration 1`] = `
-"const buckets = new TerraformVariable(this, \\"buckets\\", {});
+"import * as cdktf from \\"cdktf\\";
+const buckets = new TerraformVariable(this, \\"buckets\\", {});
 const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
@@ -293,7 +303,8 @@ awsS3BucketObjectExamplebucketObject.addOverride(
 `;
 
 exports[`convert for expression 1 configuration 1`] = `
-"const users = new TerraformVariable(this, \\"users\\", {});
+"import * as cdktf from \\"cdktf\\";
+const users = new TerraformVariable(this, \\"users\\", {});
 const adminUsers = \`\\\\\${{
             for name, user in \${users.fqn} : name => user
             if user.is_admin
@@ -306,7 +317,8 @@ const regularUsers = \`\\\\\${{
 `;
 
 exports[`convert for expression 2 configuration 1`] = `
-"const users = new TerraformVariable(this, \\"users\\", {});
+"import * as cdktf from \\"cdktf\\";
+const users = new TerraformVariable(this, \\"users\\", {});
 const usersByRole = \`\\\\\${{
             for name, user in \${users.fqn} : user.role => name...
           }}\`;
@@ -314,7 +326,8 @@ const usersByRole = \`\\\\\${{
 `;
 
 exports[`convert for_each loops configuration 1`] = `
-"const users = new TerraformVariable(this, \\"users\\", {});
+"import * as cdktf from \\"cdktf\\";
+const users = new TerraformVariable(this, \\"users\\", {});
 new aws.IamUser(this, \\"lb\\", {
   name: \\"\${each.key}\\",
   path: \\"/system/\\",
@@ -327,7 +340,8 @@ awsIamUserLb.addOverride(\\"for_each\\", users.fqn);
 `;
 
 exports[`convert list access through [] configuration 1`] = `
-"const settings = new TerraformVariable(this, \\"settings\\", {});
+"import * as cdktf from \\"cdktf\\";
+const settings = new TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \`\\\\\${\${settings.fqn}[0][\\"bucket_name\\"]}\`,
@@ -335,14 +349,24 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 "
 `;
 
+exports[`convert local backend configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.LocalBackend({
+  path: \\"relative/path/to/terraform.tfstate\\",
+});
+"
+`;
+
 exports[`convert local module configuration 1`] = `
-"import * as AwsVpc from \\"./.gen/aws_vpc\\";
+"import * as cdktf from \\"cdktf\\";
+import * as AwsVpc from \\"./.gen/aws_vpc\\";
 new AwsVpc(this, \\"aws_vpc\\", {});
 "
 `;
 
 exports[`convert locals configuration 1`] = `
-"const howMany = 42;
+"import * as cdktf from \\"cdktf\\";
+const howMany = 42;
 const isItGreat = true;
 const owner = \\"Community Team\\";
 const serviceName = \\"forum\\";
@@ -350,7 +374,8 @@ const serviceName = \\"forum\\";
 `;
 
 exports[`convert locals references configuration 1`] = `
-"const bucketName = \\"foo\\";
+"import * as cdktf from \\"cdktf\\";
+const bucketName = \\"foo\\";
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: bucketName.fqn,
@@ -359,7 +384,8 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 `;
 
 exports[`convert modules configuration 1`] = `
-"import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
+"import * as cdktf from \\"cdktf\\";
+import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
 new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
   azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
   cidr: \\"10.0.0.0/16\\",
@@ -377,7 +403,8 @@ new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
 `;
 
 exports[`convert multiple blocks configuration 1`] = `
-"new aws.SecurityGroup(this, \\"allow_tls\\", {
+"import * as cdktf from \\"cdktf\\";
+new aws.SecurityGroup(this, \\"allow_tls\\", {
   description: \\"Allow TLS inbound traffic\\",
   egress: [
     {
@@ -416,7 +443,8 @@ exports[`convert multiple blocks configuration 1`] = `
 `;
 
 exports[`convert multiple locals blocks configuration 1`] = `
-"const owner = \\"Community Team\\";
+"import * as cdktf from \\"cdktf\\";
+const owner = \\"Community Team\\";
 const serviceName = \\"forum\\";
 const howMany = 42;
 const isItGreat = true;
@@ -424,7 +452,8 @@ const isItGreat = true;
 `;
 
 exports[`convert multiple outputs configuration 1`] = `
-"new TerraformOutput(this, \\"first_cidr_out\\", {
+"import * as cdktf from \\"cdktf\\";
+new TerraformOutput(this, \\"first_cidr_out\\", {
   value: \\"first\\",
 });
 new TerraformOutput(this, \\"second_cidr_out\\", {
@@ -434,14 +463,16 @@ new TerraformOutput(this, \\"second_cidr_out\\", {
 `;
 
 exports[`convert output configuration 1`] = `
-"new TerraformOutput(this, \\"cidr_out\\", {
+"import * as cdktf from \\"cdktf\\";
+new TerraformOutput(this, \\"cidr_out\\", {
   value: \\"test\\",
 });
 "
 `;
 
 exports[`convert output withdescription configuration 1`] = `
-"new TerraformOutput(this, \\"cidr_out\\", {
+"import * as cdktf from \\"cdktf\\";
+new TerraformOutput(this, \\"cidr_out\\", {
   value: \\"test\\",
   description: \\"Best output\\",
   sensitive: true,
@@ -450,7 +481,8 @@ exports[`convert output withdescription configuration 1`] = `
 `;
 
 exports[`convert property access through [] configuration 1`] = `
-"const settings = new TerraformVariable(this, \\"settings\\", {});
+"import * as cdktf from \\"cdktf\\";
+const settings = new TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \`\\\\\${\${settings.fqn}[\\"bucket_name\\"]}\`,
@@ -459,7 +491,8 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 `;
 
 exports[`convert provider alias configuration 1`] = `
-"import * as aws from \\"./.gen/aws\\";
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/aws\\";
 import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
 new aws.AwsProvider(this, \\"aws\\", {
   region: \\"us-east-1\\",
@@ -484,7 +517,8 @@ awsInstanceFoo.addOverride(\\"provider\\", awsWest.fqn);
 `;
 
 exports[`convert provider with complex config configuration 1`] = `
-"import * as aws from \\"./.gen/aws\\";
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/aws\\";
 new aws.AwsProvider(this, \\"aws\\", {
   accessKey: \\"mock_access_key\\",
   endpoints: [
@@ -502,7 +536,8 @@ new aws.AwsProvider(this, \\"aws\\", {
 `;
 
 exports[`convert referenced modules configuration 1`] = `
-"import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
+"import * as cdktf from \\"cdktf\\";
+import * as TerraformAwsModulesVpcAws from \\"./.gen/terraform-aws-modules/vpc/aws\\";
 const vpc = new TerraformAwsModulesVpcAws(this, \\"vpc\\", {
   azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
   cidr: \\"10.0.0.0/16\\",
@@ -522,8 +557,23 @@ new TerraformOutput(this, \\"subnet_ids\\", {
 "
 `;
 
+exports[`convert remote backend configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.RemoteBackend({
+  hostname: \\"app.terraform.io\\",
+  organization: \\"company\\",
+  workspaces: [
+    {
+      name: \\"my-app-prod\\",
+    },
+  ],
+});
+"
+`;
+
 exports[`convert resource references configuration 1`] = `
-"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"import * as cdktf from \\"cdktf\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
@@ -541,7 +591,8 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert resource references with HCL functions configuration 1`] = `
-"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"import * as cdktf from \\"cdktf\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
@@ -559,7 +610,8 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert sensitive output configuration 1`] = `
-"new TerraformOutput(this, \\"cidr_out\\", {
+"import * as cdktf from \\"cdktf\\";
+new TerraformOutput(this, \\"cidr_out\\", {
   value: \\"test\\",
   sensitive: true,
 });
@@ -567,26 +619,30 @@ exports[`convert sensitive output configuration 1`] = `
 `;
 
 exports[`convert simple data source configuration 1`] = `
-"new aws.Subnet(this, \\"selected\\", {
+"import * as cdktf from \\"cdktf\\";
+new aws.Subnet(this, \\"selected\\", {
   id: \\"subnet_id\\",
 });
 "
 `;
 
 exports[`convert simple resource configuration 1`] = `
-"new aws.Vpc(this, \\"example\\", {
+"import * as cdktf from \\"cdktf\\";
+new aws.Vpc(this, \\"example\\", {
   cidrBlock: \\"10.0.0.0/16\\",
 });
 "
 `;
 
 exports[`convert variable configuration 1`] = `
-"new TerraformVariable(this, \\"weekday\\", {});
+"import * as cdktf from \\"cdktf\\";
+new TerraformVariable(this, \\"weekday\\", {});
 "
 `;
 
 exports[`convert variable references configuration 1`] = `
-"const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
+"import * as cdktf from \\"cdktf\\";
+const bucketName = new TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
@@ -597,7 +653,8 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 `;
 
 exports[`convert variable with default configuration 1`] = `
-"new TerraformVariable(this, \\"availability_zone_names\\", {
+"import * as cdktf from \\"cdktf\\";
+new TerraformVariable(this, \\"availability_zone_names\\", {
   default: [\\"us-west-1a\\"],
   description: \\"What AMI to use to create an instance\\",
 });
