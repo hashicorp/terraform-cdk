@@ -269,25 +269,30 @@ export async function convert(
   };
 }
 
+export function getProjectTerraformFiles(importPath: string) {
+  const absPath = path.resolve(importPath);
+  const fileContents = glob
+    .sync("./*.tf", { cwd: absPath })
+    .map((p) => fs.readFileSync(path.resolve(absPath, p), "utf8"));
+
+  return fileContents.join("\n");
+}
+
 export async function convertProject(
-  importPath: string,
+  combinedHcl: string,
   targetPath: string,
   { language }: ConvertOptions
 ) {
   if (language !== "typescript") {
     throw new Error("Unsupported language used: " + language);
   }
-  const absPath = path.resolve(importPath);
-  const fileContents = glob
-    .sync("./*.tf", { cwd: absPath })
-    .map((p) => fs.readFileSync(path.resolve(absPath, p), "utf8"));
 
   const {
     imports,
     code,
     providers,
     modules: tfModules,
-  } = await convert("combined.tf", fileContents.join("\n"), {
+  } = await convert("combined.tf", combinedHcl, {
     language,
   });
 
