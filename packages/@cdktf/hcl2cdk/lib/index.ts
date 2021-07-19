@@ -186,6 +186,31 @@ export async function convertToTypescript(filename: string, hcl: string) {
     });
   }
 
+  // In Terraform one can implicitly define the provider by using it
+  const providerRequirements = Object.keys(plan.provider || {}).reduce(
+    (carry, req) => ({ ...carry, [req]: "*" }),
+    {} as Record<string, string>
+  );
+  plan.terraform?.forEach(({ required_providers }) =>
+    (required_providers || []).forEach((providerBlock) =>
+      Object.values(providerBlock).forEach(
+        ({ source, version }) => (providerRequirements[source] = version)
+      )
+    )
+  );
+
+  const moduleRequirements =
+    Object.values(plan.module || {}).reduce(
+      (carry, moduleBlock) => [
+        ...carry,
+        ...moduleBlock.reduce(
+          (arr, { source }) => [...arr, source],
+          [] as string[]
+        ),
+      ],
+      [] as string[]
+    ) || [];
+
   const cdktfImports = plan.terraform?.some(
     (tf) => Object.keys(tf.backend || {}).length > 0
   )
@@ -205,32 +230,10 @@ export async function convertToTypescript(filename: string, hcl: string) {
       ...moduleImports(plan.module),
     ]),
     code: gen([...((backendExpressions || []) as any), ...expressions]),
-    providers:
-      plan.terraform?.reduce(
-        (carry, { required_providers }) => [
-          ...carry,
-          ...(required_providers || []).reduce(
-            (arr, providerBlock) => [
-              ...arr,
-              ...Object.values(providerBlock).map(
-                ({ source, version }) => `${source}@~> ${version}`
-              ),
-            ],
-            [] as string[]
-          ),
-        ],
-        [] as string[]
-      ) || [],
-    modules: Object.values(plan.module || {}).reduce(
-      (carry, moduleBlock) => [
-        ...carry,
-        ...moduleBlock.reduce(
-          (arr, { source }) => [...arr, source],
-          [] as string[]
-        ),
-      ],
-      [] as string[]
+    providers: Object.entries(providerRequirements).map(([source, version]) =>
+      version === "*" ? source : `${source}@~> ${version}`
     ),
+    modules: moduleRequirements,
   };
 }
 
@@ -304,11 +307,19 @@ export async function convertProject(
     "// define resources here",
     code
   );
-  fs.writeFileSync(mainFilePath, outputMainFile, "utf8");
+  fs.writeFileSync(
+    mainFilePath,
+    prettier.format(outputMainFile, { parser: "babel" }),
+    "utf8"
+  );
 
   const cdktfPath = path.resolve(targetPath, "cdktf.json");
   const cdktfJson = require(cdktfPath);
   cdktfJson.terraformProviders = providers;
   cdktfJson.terraformModules = tfModules;
-  fs.writeFileSync(cdktfPath, JSON.stringify(cdktfJson, null, 2), "utf8");
+  fs.writeFileSync(
+    cdktfPath,
+    prettier.format(JSON.stringify(cdktfJson), { parser: "json" }),
+    "utf8"
+  );
 }

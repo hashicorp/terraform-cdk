@@ -1,18 +1,7 @@
 import yargs from "yargs";
-import * as fs from "fs-extra";
-import * as path from "path";
 import { terraformCheck } from "./terraform-check";
 import { displayVersionMessage } from "./version-check";
-import { checkForEmptyDirectory, runInit } from "./helper/init";
-
-const templatesDir = path.join(__dirname, "..", "..", "templates");
-const availableTemplates = fs
-  .readdirSync(templatesDir)
-  .filter((x) => !x.startsWith("."));
-const templates: string[] = [];
-for (const template of availableTemplates) {
-  templates.push(template);
-}
+import { checkForEmptyDirectory, runInit, templates } from "./helper/init";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require("../../package.json");

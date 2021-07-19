@@ -15,11 +15,11 @@ import { Errors } from "../../../lib/errors";
 
 const chalkColour = new chalk.Instance();
 
-const templatesDir = path.join(__dirname, "..", "..", "templates");
+const templatesDir = path.join(__dirname, "..", "..", "..", "templates");
 const availableTemplates = fs
   .readdirSync(templatesDir)
   .filter((x) => !x.startsWith("."));
-const templates: string[] = [];
+export const templates: string[] = [];
 for (const template of availableTemplates) {
   templates.push(template);
 }
@@ -47,8 +47,9 @@ type Options = {
   projectDescription?: string;
   cdktfVersion?: string;
   dist?: string;
+  destination: string;
 };
-export async function runInit(argv: Options = {}) {
+export async function runInit(argv: Options = { destination: "." }) {
   let token = "";
   if (!argv.local) {
     // We ask the user to login to Terraform Cloud and set a token
@@ -103,7 +104,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     .map(([key, value]) => `"${key}": "${value}"`)
     .join(`,\n`);
 
-  await sscaff(templateInfo.Path, ".", {
+  await sscaff(templateInfo.Path, argv.destination, {
     ...deps,
     ...projectInfo,
     futureFlags,
