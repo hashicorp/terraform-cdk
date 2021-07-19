@@ -141,7 +141,14 @@ export function resource(
   const { for_each, count, ...config } = item[0];
 
   const expressions = [
-    ...asExpression(resource, key, config, nodeIds, getReference(graph, id)),
+    ...asExpression(
+      resource,
+      key,
+      config,
+      nodeIds,
+      false,
+      getReference(graph, id)
+    ),
   ];
   const varName = variableName(resource, key);
 
@@ -198,6 +205,7 @@ function asExpression(
   name: string,
   config: any,
   nodeIds: string[],
+  isModule: boolean,
   reference?: Reference
 ) {
   const isNamespacedImport = !type.includes("./") && type.includes(".");
@@ -205,6 +213,11 @@ function asExpression(
     ? t.memberExpression(
         t.identifier(type.split(".")[0]), // e.g. aws
         t.identifier(pascalCase(type.split(".")[1])) // e.g. NatGateway
+      )
+    : isModule
+    ? t.memberExpression(
+        t.identifier(pascalCase(type)),
+        t.identifier(pascalCase(type))
       )
     : t.identifier(pascalCase(type));
 
@@ -262,7 +275,8 @@ export function output(
       description,
       sensitive,
     },
-    nodeIds
+    nodeIds,
+    false
   );
 }
 
@@ -281,6 +295,7 @@ export function variable(
     key,
     props,
     nodeIds,
+    false,
     getReference(graph, id)
   );
 }
@@ -306,10 +321,17 @@ export function modules(
   item: Module,
   graph: DirectedGraph
 ) {
-  const [{ source, ...props }] = item;
+  const [{ source, version, ...props }] = item;
   const nodeIds = graph.nodes();
 
-  return asExpression(source, key, props, nodeIds, getReference(graph, id));
+  return asExpression(
+    source,
+    key,
+    props,
+    nodeIds,
+    true,
+    getReference(graph, id)
+  );
 }
 
 export function provider(
@@ -325,7 +347,8 @@ export function provider(
     `${key}.${pascalCase(key + "Provider")}`,
     key,
     props,
-    nodeIds
+    nodeIds,
+    false
   );
 }
 
@@ -339,7 +362,7 @@ export const providerImports = (
   Object.keys(provider || {}).map(
     (providerName) =>
       template(
-        `import * as ${providerName} from "./.gen/${providerName.replace(
+        `import * as ${providerName} from "./.gen/providers/${providerName.replace(
           "./",
           ""
         )}"`
@@ -350,9 +373,8 @@ export const moduleImports = (modules: Record<string, Module> | undefined) =>
   Object.values(modules || {}).map(
     ([{ source }]) =>
       template(
-        `import * as ${pascalCase(source)} from "./.gen/${source.replace(
-          "./",
-          ""
-        )}"`
+        `import * as ${pascalCase(
+          source
+        )} from "./.gen/modules/${source.replace("./", "")}"`
       )() as t.Statement
   );
