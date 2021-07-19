@@ -72,7 +72,9 @@ yargs
     },
   })
   .fail((_message, error) => {
-    console.error(error.stack);
+    if (error) {
+      console.error(error.stack);
+    }
 
     terraformVersion.then((tfVersion) => {
       console.error(`
