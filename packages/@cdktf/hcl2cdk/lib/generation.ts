@@ -1,8 +1,8 @@
 import template from "@babel/template";
 import * as t from "@babel/types";
-import { pascalCase, camelCase } from "change-case";
 import { DirectedGraph } from "graphology";
 
+import { camelCase, pascalCase } from "./utils";
 import {
   Resource,
   TerraformConfig,
@@ -84,7 +84,7 @@ export function backendToExpression(
   tf: TerraformConfig["backend"],
   nodeIds: string[]
 ): t.Statement[] {
-  return Object.entries(tf).reduce(
+  return Object.entries(tf || {}).reduce(
     (carry, [type, [config]]) => [
       ...carry,
       t.expressionStatement(

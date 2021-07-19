@@ -1,5 +1,5 @@
 import * as t from "@babel/types";
-import { camelCase } from "change-case";
+import { camelCase } from "./utils";
 
 export type Reference = {
   start: number;
