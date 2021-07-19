@@ -219,7 +219,7 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 const dataAwsS3Bucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName.fqn,
+  bucket: \`\\\\\${\${bucketName.fqn}}\`,
 });
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: dataAwsS3Bucket.examplebucket.arn,
@@ -236,9 +236,9 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName.fqn,
+  bucket: \`\\\\\${\${bucketName.fqn}}\`,
   tags: {
-    tagKey: bucketName.fqn,
+    tagKey: \`\\\\\${\${bucketName.fqn}}\`,
   },
 });
 "
@@ -255,11 +255,11 @@ new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
   solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
 });
 awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
-  for_each: settings.fqn,
+  for_each: \`\\\\\${\${settings.fqn}}\`,
   content: [
     {
       name: '\${setting.value[\\"name\\"]}',
-      namespace: namespace.fqn,
+      namespace: \`\\\\\${\${namespace.fqn}}\`,
       value: '\${setting.value[\\"value\\"]}',
     },
   ],
@@ -331,7 +331,7 @@ new aws.IamUser(this, \\"lb\\", {
     tagKey: \\"tag-value\\",
   },
 });
-awsIamUserLb.addOverride(\\"for_each\\", users.fqn);
+awsIamUserLb.addOverride(\\"for_each\\", \`\\\\\${\${users.fqn}}\`);
 "
 `;
 
@@ -371,7 +371,7 @@ exports[`convert locals references configuration 1`] = `
 "const bucketName = \\"foo\\";
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName.fqn,
+  bucket: \`\\\\\${\${bucketName.fqn}}\`,
 });
 "
 `;
@@ -516,12 +516,12 @@ new aws.AwsProvider(this, \\"aws\\", {
 const terraformAwsModulesVpcAwsVpc =
   new TerraformAwsModulesVpcAws.TerraformAwsModulesVpcAws(this, \\"vpc\\", {});
 terraformAwsModulesVpcAwsVpc.addOverride(\\"providers\\", {
-  aws: awsWest.fqn,
+  aws: \`\\\\\${\${awsWest.fqn}}\`,
 });
 const awsInstanceFoo = new aws.Instance(this, \\"foo\\", {
   foo: \\"bar\\",
 });
-awsInstanceFoo.addOverride(\\"provider\\", awsWest.fqn);
+awsInstanceFoo.addOverride(\\"provider\\", \`\\\\\${\${awsWest.fqn}}\`);
 "
 `;
 
@@ -655,7 +655,7 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName.fqn,
+  bucket: \`\\\\\${\${bucketName.fqn}}\`,
 });
 "
 `;

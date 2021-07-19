@@ -124,7 +124,8 @@ export function extractReferencesFromExpression(
       // If the following character is
       input.substr(end + 1, 1) === "*" || // a * (splat) we need to use the FQN
       input.substr(end, 1) === "[" || // a property access
-      isThereANumericAccessor; // a numeric access
+      isThereANumericAccessor || // a numeric access
+      fullReference.split(".").length < 3;
 
     const ref: Reference = {
       start,
@@ -172,7 +173,7 @@ export function referenceToAst(ref: Reference) {
     variableReference as t.Expression
   );
 
-  if (ref.useFqn || selector.length === 0) {
+  if (ref.useFqn) {
     return t.memberExpression(accessor, t.identifier("fqn"));
   } else {
     return accessor;

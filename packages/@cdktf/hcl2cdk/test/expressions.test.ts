@@ -44,7 +44,7 @@ describe("expressions", () => {
       expect(extractReferencesFromExpression("${var.input}", nodeIds)).toEqual([
         {
           referencee: { id: "var.input", full: "var.input" },
-          useFqn: false,
+          useFqn: true,
           start: 2,
           end: 11,
         },
@@ -230,7 +230,7 @@ describe("expressions", () => {
             id: "aws_s3_bucket.examplebucket",
             full: "aws_s3_bucket.examplebucket",
           },
-          useFqn: false,
+          useFqn: true,
           start: 10,
           end: 37,
         },
@@ -265,7 +265,7 @@ describe("expressions", () => {
       ).toEqual([
         {
           referencee: { id: "var.users", full: "var.users" },
-          useFqn: false,
+          useFqn: true,
           start: 22,
           end: 31,
         },
