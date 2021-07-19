@@ -8,6 +8,9 @@ import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
 import { findUsedReferences } from "./expressions";
 import { cdktfImport, providerImports, moduleImports } from "./generation";
+import * as path from "path";
+import * as glob from "glob";
+import * as fs from "fs";
 import {
   backendToExpression,
   provider,
@@ -183,20 +186,51 @@ export async function convertToTypescript(filename: string, hcl: string) {
     });
   }
 
+  const cdktfImports = plan.terraform?.some(
+    (tf) => Object.keys(tf.backend || {}).length > 0
+  )
+    ? [cdktfImport]
+    : ([] as t.Statement[]);
   return {
     all: gen([
-      cdktfImport,
+      ...cdktfImports,
       ...providerImports(plan.provider),
       ...moduleImports(plan.module),
       ...((backendExpressions || []) as any),
       ...expressions,
     ]),
     imports: gen([
-      cdktfImport,
+      ...cdktfImports,
       ...providerImports(plan.provider),
       ...moduleImports(plan.module),
     ]),
     code: gen([...((backendExpressions || []) as any), ...expressions]),
+    providers:
+      plan.terraform?.reduce(
+        (carry, { required_providers }) => [
+          ...carry,
+          ...(required_providers || []).reduce(
+            (arr, providerBlock) => [
+              ...arr,
+              ...Object.values(providerBlock).map(
+                ({ source, version }) => `${source}@~> ${version}`
+              ),
+            ],
+            [] as string[]
+          ),
+        ],
+        [] as string[]
+      ) || [],
+    modules: Object.values(plan.module || {}).reduce(
+      (carry, moduleBlock) => [
+        ...carry,
+        ...moduleBlock.reduce(
+          (arr, { source }) => [...arr, source],
+          [] as string[]
+        ),
+      ],
+      [] as string[]
+    ),
   };
 }
 
@@ -230,5 +264,46 @@ export async function convert(
     all: translater({ fileName, contents: tsCode.all }),
     imports: translater({ fileName, contents: tsCode.imports }),
     code: translater({ fileName, contents: tsCode.code }),
+    providers: tsCode.providers,
+    modules: tsCode.modules,
   };
+}
+
+export async function convertProject(
+  importPath: string,
+  targetPath: string,
+  { language }: ConvertOptions
+) {
+  if (language !== "typescript") {
+    throw new Error("Unsupported language used: " + language);
+  }
+  const absPath = path.resolve(importPath);
+  const fileContents = glob
+    .sync("./*.tf", { cwd: absPath })
+    .map((p) => fs.readFileSync(path.resolve(absPath, p), "utf8"));
+
+  const {
+    imports,
+    code,
+    providers,
+    modules: tfModules,
+  } = await convert("combined.tf", fileContents.join("\n"), {
+    language,
+  });
+
+  const mainFilePath = path.resolve(targetPath, "main.ts");
+  const inputMainFile = fs.readFileSync(mainFilePath, "utf8");
+  const importMainFile = [imports, inputMainFile].join("\n");
+
+  const outputMainFile = importMainFile.replace(
+    "// define resources here",
+    code
+  );
+  fs.writeFileSync(mainFilePath, outputMainFile, "utf8");
+
+  const cdktfPath = path.resolve(targetPath, "cdktf.json");
+  const cdktfJson = require(cdktfPath);
+  cdktfJson.terraformProviders = providers;
+  cdktfJson.terraformModules = tfModules;
+  fs.writeFileSync(cdktfPath, JSON.stringify(cdktfJson, null, 2), "utf8");
 }
