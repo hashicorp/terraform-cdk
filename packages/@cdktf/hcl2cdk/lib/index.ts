@@ -211,11 +211,11 @@ export async function convertToTypescript(filename: string, hcl: string) {
       [] as string[]
     ) || [];
 
-  const cdktfImports = plan.terraform?.some(
-    (tf) => Object.keys(tf.backend || {}).length > 0
-  )
-    ? [cdktfImport]
-    : ([] as t.Statement[]);
+  const cdktfImports =
+    plan.terraform?.some((tf) => Object.keys(tf.backend || {}).length > 0) ||
+    Object.keys({ ...plan.variable, ...plan.output }).length > 0
+      ? [cdktfImport]
+      : ([] as t.Statement[]);
   return {
     all: gen([
       ...cdktfImports,

@@ -681,7 +681,29 @@ describe("convert", () => {
             name = "my-app-prod"
           }
         }
-      }     
+      }
+      `,
+    ],
+    [
+      "numeric property access",
+      `
+      resource "google_compute_instance" "example" {
+        name          = "example"
+        machine_type  = "f1-micro"
+        zone          = "us-east1-b"
+
+        network_interface {
+          network = "default"
+
+          access_config {
+            // Ephemeral IP
+          }
+        }
+      }
+
+      output "public_ip" {
+        value = "\${google_compute_instance.example.network_interface.0.access_config.0.assigned_nat_ip}"
+      }
       `,
     ],
   ])("%s configuration", async (_name, hcl) => {

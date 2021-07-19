@@ -61,7 +61,13 @@ class Command implements yargs.CommandModule {
       })
       .showHelpOnFail(true);
 
-  public async handler({ language, destination, source, ...argv }: any) {
+  public async handler({
+    language,
+    destination,
+    source,
+    template = "typescript",
+    ...argv
+  }: any) {
     if (!source) {
       throw new Error(
         `Expected first positional argument to be the source terraform project`
@@ -84,7 +90,7 @@ class Command implements yargs.CommandModule {
 
     checkForEmptyDirectory(absolutePath);
 
-    await runInit({ ...argv, destination });
+    await runInit({ ...argv, destination, template });
 
     await convertProject(getProjectTerraformFiles(source), absolutePath, {
       language,

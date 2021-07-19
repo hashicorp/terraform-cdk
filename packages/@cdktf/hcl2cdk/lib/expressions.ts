@@ -104,14 +104,36 @@ export function extractReferencesFromExpression(
       return carry;
     }
 
-    const start = input.indexOf(spot);
-    const end = start + spot.length;
+    const spotParts = spot.split(".");
+    let isThereANumericAccessor = false;
+    const referenceSpotParts = spotParts.filter((part) => {
+      if (!Number.isNaN(parseInt(part, 10))) {
+        isThereANumericAccessor = true;
+        return false;
+      }
+
+      return !isThereANumericAccessor;
+    });
+    const fullReference = isThereANumericAccessor
+      ? referenceSpotParts.slice(0, 2).join(".")
+      : spot;
+    const start = input.indexOf(fullReference);
+    const end = start + fullReference.length;
+
+    const useFqn =
+      // If the following character is
+      input.substr(end + 1, 1) === "*" || // a * (splat) we need to use the FQN
+      input.substr(end, 1) === "[" || // a property access
+      isThereANumericAccessor; // a numeric access
 
     const ref: Reference = {
       start,
       end,
-      referencee: { id: corespondingNodeId, full: spot },
-      useFqn: input.substr(end + 1, 1) === "*" || input.substr(end, 1) === "[", // If the following character is a * (splat) we need to use the FQN
+      referencee: {
+        id: corespondingNodeId,
+        full: fullReference,
+      },
+      useFqn,
     };
     return [...carry, ref];
   }, [] as Reference[]);
@@ -174,7 +196,8 @@ export function referencesToAst(
   if (
     refAsts.length === 1 &&
     refAsts[0].ref.start === "${".length &&
-    refAsts[0].ref.end === input.length - "}".length
+    refAsts[0].ref.end === input.length - "}".length &&
+    !refAsts[0].ref.useFqn
   ) {
     return refAsts[0].ast;
   }

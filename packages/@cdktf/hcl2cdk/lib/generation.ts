@@ -268,7 +268,7 @@ export function output(
   const [{ value, description, sensitive }] = item;
 
   return asExpression(
-    "TerraformOutput",
+    "cdktf.TerraformOutput",
     key,
     {
       value,
@@ -291,7 +291,7 @@ export function variable(
   const nodeIds = graph.nodes();
 
   return asExpression(
-    "TerraformVariable",
+    "cdktf.TerraformVariable",
     key,
     props,
     nodeIds,

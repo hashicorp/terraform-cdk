@@ -152,6 +152,25 @@ describe("expressions", () => {
       ]);
     });
 
+    it("use fqn for numeric access", () => {
+      expect(
+        extractReferencesFromExpression(
+          "${aws_s3_bucket.examplebucket.network_interface.0.access_config.0.assigned_nat_ip}",
+          nodeIds
+        )
+      ).toEqual([
+        {
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket",
+          },
+          useFqn: true,
+          start: 2,
+          end: 29,
+        },
+      ]);
+    });
+
     it("detect splat reference within function", () => {
       expect(
         extractReferencesFromExpression(
