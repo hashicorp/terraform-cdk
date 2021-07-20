@@ -3,7 +3,7 @@ import * as fs from "fs-extra";
 import { https, http } from "follow-redirects";
 import * as os from "os";
 import * as path from "path";
-import { processLogger } from "./logging";
+import { processLoggerError, processLoggerDebug } from "./logging";
 
 export async function shell(
   program: string,
@@ -72,23 +72,23 @@ export const exec = async (
     const out = new Array<Buffer>();
     if (stdout !== undefined) {
       child.stdout?.on("data", (chunk: Buffer) => {
-        processLogger(chunk);
+        processLoggerDebug(chunk);
         stdout(chunk);
       });
     } else {
       child.stdout?.on("data", (chunk: Buffer) => {
-        processLogger(chunk);
+        processLoggerDebug(chunk);
         out.push(chunk);
       });
     }
     if (stderr !== undefined) {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
-        processLogger(chunk);
+        processLoggerError(chunk);
         stderr(chunk);
       });
     } else {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
-        processLogger(chunk);
+        processLoggerError(chunk);
         process.stderr.write(chunk);
       });
     }

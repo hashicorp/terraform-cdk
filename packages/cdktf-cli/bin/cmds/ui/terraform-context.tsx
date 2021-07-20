@@ -63,7 +63,7 @@ const parseJsonOutputLine = (
   try {
     json = JSON.parse(line);
   } catch {
-    logger.debug(`Could not parse line as JSON: ${line}`);
+    logger.trace(`Could not parse line as JSON: ${line}`);
     return;
   }
 
@@ -154,7 +154,7 @@ const parseTextOutputLine = (
   }
 };
 
-const parseOutput = (str: string): DeployingResource[] => {
+export const parseOutput = (str: string): DeployingResource[] => {
   const lines = stripAnsi(str.toString()).split("\n");
 
   const resources = lines.map((line) => {
@@ -556,7 +556,7 @@ const useRunOnce = <Fn extends (...args: any[]) => any>(
   }, []); // only run once on mount – ignore any changes to fn
 };
 
-const useRunWhen = <Fn extends (...args: any[]) => any>(
+export const useRunWhen = <Fn extends (...args: any[]) => any>(
   condition: boolean,
   fn: Fn,
   ...args: Parameters<Fn>

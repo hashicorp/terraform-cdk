@@ -73,7 +73,9 @@ export class TerraformCli implements Terraform {
         "-auto-approve",
         "-input=false",
         ...this.stateFileOption,
-        planFile,
+        // only appends planFile if not empty
+        // this allows deploying without a plan (as used in watch)
+        ...(planFile ? [planFile] : []),
       ],
       { cwd: this.workdir, env: process.env },
       stdout
