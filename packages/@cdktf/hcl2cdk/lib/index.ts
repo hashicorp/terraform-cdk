@@ -193,9 +193,14 @@ export async function convertToTypescript(filename: string, hcl: string) {
   );
   plan.terraform?.forEach(({ required_providers }) =>
     (required_providers || []).forEach((providerBlock) =>
-      Object.values(providerBlock).forEach(
-        ({ source, version }) => (providerRequirements[source] = version)
-      )
+      Object.values(providerBlock).forEach(({ source, version }) => {
+        // implicitly only the last part of the path is used (e.g. docker for kreuzwerker/docker)
+        const parts = source.split("/");
+        if (parts.length > 1) {
+          delete providerRequirements[parts.pop() || ""];
+        }
+        providerRequirements[source] = version;
+      })
     )
   );
 

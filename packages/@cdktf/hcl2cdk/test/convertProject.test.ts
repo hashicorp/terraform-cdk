@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import { execSync } from "child_process";
-import { convertProject } from "../lib";
+import { convertProject, getProjectTerraformFiles } from "../lib";
 
 const createFiles = (cwd: string, files: [string, string][]) => {
   files.forEach(([p, content]) => {
@@ -25,6 +25,7 @@ const createTSCdkProject = (cwd: string) =>
       "main.ts",
       `import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
+
 
 class MyStack extends TerraformStack {
     constructor(scope: Construct, name: string) {
@@ -193,7 +194,10 @@ describe("convertProject", () => {
 
     const previousPlan = getTerraformPlan(importPath);
     createTSCdkProject(targetPath);
-    await convertProject(importPath, targetPath, { language: "typescript" });
+
+    await convertProject(getProjectTerraformFiles(importPath), targetPath, {
+      language: "typescript",
+    });
 
     const currentPlan = getCdkPlan(targetPath);
 
