@@ -17,7 +17,7 @@ class Command implements yargs.CommandModule {
   public readonly builder = (args: yargs.Argv) =>
     args
       .example(
-        "cdktf import --dest=../cdktf-project ./",
+        "cdktf import ./ ../cdktf-project",
         "Takes the Terraform project in ./ and writes a CDKTF version in ../cdktf-project"
       )
 
