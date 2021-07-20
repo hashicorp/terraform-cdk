@@ -6,6 +6,7 @@ import * as glob from "glob";
 import * as fs from "fs";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
+import * as z from "zod";
 
 import { schema } from "./schema";
 import { findUsedReferences } from "./expressions";
@@ -23,11 +24,23 @@ import {
 
 export async function convertToTypescript(hcl: string) {
   // Get the JSON representation of the HCL
-  const json = await parse("terraform.tf", hcl);
+  let json: Record<string, unknown>;
+  try {
+    json = await parse("terraform.tf", hcl);
+  } catch (err) {
+    throw new Error(
+      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+convert%20%2F%20import&template=bug-report.md&title=`
+    );
+  }
 
   // Ensure the JSON representation matches the expected structure
-  // TODO: catch zod errors and throw user-facing errors
-  const plan = schema.parse(json);
+  let plan: z.infer<typeof schema>;
+  try {
+    plan = schema.parse(json);
+  } catch (err) {
+    throw new Error(`Error: HCL-JSON does not conform to schema. This is not expected, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+convert%20%2F%20import&template=bug-report.md&title=
+${err}`);
+  }
 
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
