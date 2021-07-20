@@ -25,9 +25,7 @@ describe("expressions", () => {
 
     it("finds no references in literals with functions", () => {
       expect(
-        extractReferencesFromExpression("${foo(nothingtobeseen)}", [
-          "var.input",
-        ])
+        extractReferencesFromExpression("${foo(nothingtobeseen)}", nodeIds)
       ).toEqual([]);
     });
 
@@ -44,7 +42,7 @@ describe("expressions", () => {
       expect(extractReferencesFromExpression("${var.input}", nodeIds)).toEqual([
         {
           referencee: { id: "var.input", full: "var.input" },
-          useFqn: true,
+          useFqn: false,
           start: 2,
           end: 11,
         },
@@ -265,7 +263,7 @@ describe("expressions", () => {
       ).toEqual([
         {
           referencee: { id: "var.users", full: "var.users" },
-          useFqn: true,
+          useFqn: false,
           start: 22,
           end: 31,
         },
