@@ -51,7 +51,7 @@ class Command implements yargs.CommandModule {
     await displayVersionMessage();
 
     const input = await readStreamAsString(process.stdin);
-    const { all: output } = await convert("stdin.hcl", input, {
+    const { all: output } = await convert(input, {
       language,
     });
 

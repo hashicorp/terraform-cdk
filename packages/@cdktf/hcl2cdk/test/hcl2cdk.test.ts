@@ -726,7 +726,7 @@ describe("convert", () => {
       `,
     ],
   ])("%s configuration", async (_name, hcl) => {
-    const { all } = await convert(`file.hcl`, hcl, {
+    const { all } = await convert(hcl, {
       language: "typescript",
     });
     expect(all).toMatchSnapshot();
@@ -754,7 +754,7 @@ describe("convert", () => {
       }
       `;
       expect(
-        convert(`file.hcl`, hcl, {
+        convert(hcl, {
           language: language as any,
         })
       ).toMatchSnapshot();

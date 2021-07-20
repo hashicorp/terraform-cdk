@@ -20,8 +20,7 @@ const hcl = `
     default     = ""
   }
 `(async () => {
-  // my-filename.tf isn't relevant for the functionality, just metadata
-  const ts = await convert("my-filename.tf", hcl, { language: "typescript" });
+  const ts = await convert(hcl, { language: "typescript" });
   console.log(ts.imports); // just the necessary imports
   console.log(ts.code); // just the constructs
   console.log(ts.all); // code with imports

@@ -21,11 +21,12 @@ import {
   resource,
 } from "./generation";
 
-export async function convertToTypescript(filename: string, hcl: string) {
+export async function convertToTypescript(hcl: string) {
   // Get the JSON representation of the HCL
-  const json = await parse(filename, hcl);
+  const json = await parse("terraform.tf", hcl);
 
   // Ensure the JSON representation matches the expected structure
+  // TODO: catch zod errors and throw user-facing errors
   const plan = schema.parse(json);
 
   // Get all items in the JSON as a map of id to function that generates the AST
@@ -209,17 +210,14 @@ type ConvertOptions = {
   language: keyof typeof translations;
 };
 
-export async function convert(
-  fileName: string,
-  hcl: string,
-  { language }: ConvertOptions
-) {
+export async function convert(hcl: string, { language }: ConvertOptions) {
+  const fileName = "terraform.tf";
   const translater = translations[language];
 
   if (!translater) {
     throw new Error("Unsupported language used: " + language);
   }
-  const tsCode = await convertToTypescript(fileName, hcl);
+  const tsCode = await convertToTypescript(hcl);
   return {
     all: translater({ fileName, contents: tsCode.all }),
     imports: translater({ fileName, contents: tsCode.imports }),
@@ -253,7 +251,7 @@ export async function convertProject(
     code,
     providers,
     modules: tfModules,
-  } = await convert("combined.tf", combinedHcl, {
+  } = await convert(combinedHcl, {
     language,
   });
   const importMainFile = [imports, inputMainFile].join("\n");
