@@ -357,13 +357,12 @@ Options:
   --log-level                 Which log level should be written. Only supported via setting the env
                               CDKTF_LOG_LEVEL                                                        [string]
   --language                      [choices: "typescript", "python", "csharp", "java"] [default: "typescript"]
-  --file, -f
   -h, --help                  Show help                                                             [boolean]
 ```
 
 Examples:
 
-- Convert a local file: `cat main.tf | cdktf convert -f imported.ts`
+- Convert a local file: `cat main.tf | cdktf convert > imported.ts`
 - Convert your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
 
 ### cdktf import

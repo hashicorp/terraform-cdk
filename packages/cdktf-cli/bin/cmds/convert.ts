@@ -31,35 +31,27 @@ class Command implements yargs.CommandModule {
         "Takes the HCL content of main.tf and converts it to Terraform CDK content and prints it"
       )
       .example(
-        "cat main.tf | cdktf convert -f imported.ts",
+        "cat main.tf | cdktf convert > imported.ts",
         "Takes the HCL content of main.tf and converts it to Terraform CDK content in imported.ts"
       )
       .example(
-        "cat main.tf | cdktf convert --language python -f imported.py",
+        "cat main.tf | cdktf convert --language python > imported.py",
         "Takes the HCL content of main.tf and converts it to Terraform CDK content in imported.ts"
       )
       .option("language", {
         choices: ["typescript", "python", "csharp", "java"],
         default: "typescript",
       })
-      .option("file", {
-        alias: "f",
-      })
       .showHelpOnFail(true);
 
-  public async handler({ language, file }: any) {
+  public async handler({ language }: any) {
     await displayVersionMessage();
 
     const input = await readStreamAsString(process.stdin);
     const { all: output } = await convert(input, {
       language,
     });
-
-    if (file) {
-      fs.writeFileSync(file, output, "utf-8");
-    } else {
-      console.log(output);
-    }
+    console.log(output);
   }
 }
 
