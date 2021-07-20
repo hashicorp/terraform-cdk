@@ -63,6 +63,10 @@ ${
 Command output on stderr:
 
 {dim ${indentString(e.stderr, 4)}}
+
+Command output on stdout:
+
+{dim ${indentString(e.stdout, 4)}}
 `
     : ""
 }`;
