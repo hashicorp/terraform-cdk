@@ -1,6 +1,8 @@
+import generate from "@babel/generator";
 import template from "@babel/template";
 import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
+import prettier from "prettier";
 
 import { camelCase, pascalCase } from "./utils";
 import {
@@ -383,3 +385,9 @@ export const moduleImports = (modules: Record<string, Module> | undefined) =>
         )} from "./.gen/modules/${source.replace("./", "")}"`
       )() as t.Statement
   );
+
+export function gen(statements: t.Statement[]) {
+  return prettier.format(generate(t.program(statements) as any).code, {
+    parser: "babel",
+  });
+}

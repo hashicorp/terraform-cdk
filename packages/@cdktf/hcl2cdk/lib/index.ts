@@ -1,16 +1,16 @@
 import { parse } from "@cdktf/hcl2json";
-import generate from "@babel/generator";
-
 import * as t from "@babel/types";
 import prettier from "prettier";
-import { schema } from "./schema";
-import { DirectedGraph } from "graphology";
-import * as rosetta from "jsii-rosetta";
-import { findUsedReferences } from "./expressions";
-import { cdktfImport, providerImports, moduleImports } from "./generation";
 import * as path from "path";
 import * as glob from "glob";
 import * as fs from "fs";
+import { DirectedGraph } from "graphology";
+import * as rosetta from "jsii-rosetta";
+
+import { schema } from "./schema";
+import { findUsedReferences } from "./expressions";
+import { cdktfImport, providerImports, moduleImports, gen } from "./generation";
+import { forEachProvider, forEachGlobal, forEachNamespaced } from "./iteration";
 import {
   backendToExpression,
   provider,
@@ -21,70 +21,16 @@ import {
   resource,
 } from "./generation";
 
-// locals, variables, and outputs are global key value maps
-function forEachGlobal<T, R>(
-  prefix: string,
-  record: Record<string, T> | undefined,
-  iterator: (key: string, id: string, value: T, graph: DirectedGraph) => R
-): Record<string, (graph: DirectedGraph) => R> {
-  return Object.entries(record || {}).reduce((carry, [key, item]) => {
-    const id = `${prefix}.${key}`;
-    return {
-      ...carry,
-      [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),
-    };
-  }, {});
-}
-
-function forEachProvider<T, R>(
-  record: Record<string, T[]> | undefined,
-  iterator: (key: string, id: string, value: T, graph: DirectedGraph) => R
-): Record<string, (graph: DirectedGraph) => R> {
-  return Object.entries(record || {}).reduce((carry, [key, items]) => {
-    return {
-      ...carry,
-      ...items.reduce((innerCarry, item: T & { alias?: string }) => {
-        const id = item.alias ? `${key}.${item.alias}` : key;
-        return {
-          ...innerCarry,
-          [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),
-        };
-      }, {}),
-    };
-  }, {});
-}
-
-// data and resource are namespaced key value maps
-function forEachNamespaced<T, R>(
-  record: Record<string, Record<string, T>> | undefined,
-  iterator: (
-    type: string,
-    key: string,
-    id: string,
-    value: T,
-    graph: DirectedGraph
-  ) => R,
-  prefix?: string
-): Record<string, (graph: DirectedGraph) => R> {
-  return Object.entries(record || {}).reduce(
-    (outerCarry, [type, items]) => ({
-      ...outerCarry,
-      ...Object.entries(items).reduce((innerCarry, [key, item]) => {
-        const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
-        return {
-          ...innerCarry,
-          [id]: (graph: DirectedGraph) => iterator(type, key, id, item, graph),
-        };
-      }, {} as Record<string, (graph: DirectedGraph) => R>),
-    }),
-    {} as Record<string, (graph: DirectedGraph) => R>
-  );
-}
-
 export async function convertToTypescript(filename: string, hcl: string) {
+  // Get the JSON representation of the HCL
   const json = await parse(filename, hcl);
+
+  // Ensure the JSON representation matches the expected structure
   const plan = schema.parse(json);
 
+  // Get all items in the JSON as a map of id to function that generates the AST
+  // We will use this to construct the nodes for a dependency graph
+  // We need to use a function here because the same node has different representation based on if it's referenced by another one
   const nodeMap = {
     ...forEachProvider(plan.provider, provider),
     ...forEachGlobal("var", plan.variable, variable),
@@ -103,12 +49,13 @@ export async function convertToTypescript(filename: string, hcl: string) {
   };
 
   const graph = new DirectedGraph();
-  // Add all nodes so we can detect if an edge is added for an unknown link
+  // Add all nodes to the dependency graph so we can detect if an edge is added for an unknown link
   Object.entries(nodeMap).forEach(([key, value]) =>
     graph.addNode(key, { code: value })
   );
-  const nodeIds = Object.keys(nodeMap);
 
+  // Finding references becomes easier of the to be referenced ids are already known
+  const nodeIds = Object.keys(nodeMap);
   function addEdges(id: string, value: unknown) {
     findUsedReferences(nodeIds, value).forEach((ref) => {
       if (
@@ -119,6 +66,9 @@ export async function convertToTypescript(filename: string, hcl: string) {
       }
     });
   }
+
+  // We recursively inspect each resource value to find references to other values
+  // We add these to a dependency graph so that the programming code has the right order
   function addGlobalEdges(_key: string, id: string, value: unknown) {
     addEdges(id, value);
   }
@@ -156,9 +106,12 @@ export async function convertToTypescript(filename: string, hcl: string) {
     [] as t.Statement[]
   );
 
+  // We traverse the dependency graph to get the unordered JSON nodes into an ordered array
+  // where no node is referenced before it's defined
+  // As we check that the nodes on both ends of an edge exist we can be sure
+  // that no infinite loop exists, there can be no stray dependency on a node
   const expressions: t.Statement[] = [];
   let nodesToVisit = [...nodeIds];
-
   while (nodesToVisit.length > 0) {
     graph.forEachNode((nodeId) => {
       if (!nodesToVisit.includes(nodeId)) {
@@ -180,13 +133,7 @@ export async function convertToTypescript(filename: string, hcl: string) {
     });
   }
 
-  function gen(statements: t.Statement[]) {
-    return prettier.format(generate(t.program(statements) as any).code, {
-      parser: "babel",
-    });
-  }
-
-  // In Terraform one can implicitly define the provider by using it
+  // In Terraform one can implicitly define the provider by using resources of that type
   const providerRequirements = Object.keys(plan.provider || {}).reduce(
     (carry, req) => ({ ...carry, [req]: "*" }),
     {} as Record<string, string>
@@ -204,6 +151,7 @@ export async function convertToTypescript(filename: string, hcl: string) {
     )
   );
 
+  // We collect all module sources
   const moduleRequirements =
     Object.values(plan.module || {}).reduce(
       (carry, moduleBlock) => [
@@ -216,11 +164,15 @@ export async function convertToTypescript(filename: string, hcl: string) {
       [] as string[]
     ) || [];
 
+  // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
+  // If none are used we don't want to leave a stray import
   const cdktfImports =
     plan.terraform?.some((tf) => Object.keys(tf.backend || {}).length > 0) ||
     Object.keys({ ...plan.variable, ...plan.output }).length > 0
       ? [cdktfImport]
       : ([] as t.Statement[]);
+
+  // We split up the generated code so that users can have more control over what to insert where
   return {
     all: gen([
       ...cdktfImports,
@@ -288,7 +240,8 @@ export function getProjectTerraformFiles(importPath: string) {
 
 export async function convertProject(
   combinedHcl: string,
-  targetPath: string,
+  inputMainFile: string,
+  inputCdktfJson: Record<string, unknown>,
   { language }: ConvertOptions
 ) {
   if (language !== "typescript") {
@@ -303,28 +256,18 @@ export async function convertProject(
   } = await convert("combined.tf", combinedHcl, {
     language,
   });
-
-  const mainFilePath = path.resolve(targetPath, "main.ts");
-  const inputMainFile = fs.readFileSync(mainFilePath, "utf8");
   const importMainFile = [imports, inputMainFile].join("\n");
-
   const outputMainFile = importMainFile.replace(
     "// define resources here",
     code
   );
-  fs.writeFileSync(
-    mainFilePath,
-    prettier.format(outputMainFile, { parser: "babel" }),
-    "utf8"
-  );
 
-  const cdktfPath = path.resolve(targetPath, "cdktf.json");
-  const cdktfJson = require(cdktfPath);
+  const cdktfJson = { ...inputCdktfJson };
   cdktfJson.terraformProviders = providers;
   cdktfJson.terraformModules = tfModules;
-  fs.writeFileSync(
-    cdktfPath,
-    prettier.format(JSON.stringify(cdktfJson), { parser: "json" }),
-    "utf8"
-  );
+
+  return {
+    code: prettier.format(outputMainFile, { parser: "babel" }),
+    cdktfJson: prettier.format(JSON.stringify(cdktfJson), { parser: "json" }),
+  };
 }

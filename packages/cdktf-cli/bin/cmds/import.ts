@@ -92,9 +92,19 @@ class Command implements yargs.CommandModule {
 
     await runInit({ ...argv, destination, template });
 
-    await convertProject(getProjectTerraformFiles(source), absolutePath, {
-      language,
-    });
+    const mainTs = fs.readFileSync(
+      path.resolve(absolutePath, "main.ts"),
+      "utf8"
+    );
+
+    await convertProject(
+      getProjectTerraformFiles(source),
+      mainTs,
+      require(path.resolve(absolutePath, "cdktf.json")),
+      {
+        language,
+      }
+    );
 
     execSync("npm run get", { cwd: absolutePath });
   }

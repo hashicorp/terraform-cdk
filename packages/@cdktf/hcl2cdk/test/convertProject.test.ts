@@ -194,10 +194,19 @@ describe("convertProject", () => {
 
     const previousPlan = getTerraformPlan(importPath);
     createTSCdkProject(targetPath);
+    const mainTs = fs.readFileSync(path.resolve(targetPath, "main.ts"), "utf8");
 
-    await convertProject(getProjectTerraformFiles(importPath), targetPath, {
-      language: "typescript",
-    });
+    const { code, cdktfJson } = await convertProject(
+      getProjectTerraformFiles(importPath),
+      mainTs,
+      require(path.resolve(targetPath, "cdktf.json")),
+      {
+        language: "typescript",
+      }
+    );
+
+    fs.writeFileSync(path.resolve(targetPath, "main.ts"), code, "utf8");
+    fs.writeFileSync(path.resolve(targetPath, "cdktf.json"), cdktfJson, "utf8");
 
     const currentPlan = getCdkPlan(targetPath);
 
