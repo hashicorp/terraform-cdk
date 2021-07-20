@@ -370,7 +370,7 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 
 exports[`convert local backend configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-new cdktf.LocalBackend({
+new cdktf.LocalBackend(this, {
   path: \\"relative/path/to/terraform.tfstate\\",
 });
 "
@@ -594,7 +594,7 @@ new cdktf.TerraformOutput(this, \\"subnet_ids\\", {
 
 exports[`convert remote backend configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-new cdktf.RemoteBackend({
+new cdktf.RemoteBackend(this, {
   hostname: \\"app.terraform.io\\",
   organization: \\"company\\",
   workspaces: [

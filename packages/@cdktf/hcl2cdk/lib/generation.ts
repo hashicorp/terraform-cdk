@@ -98,6 +98,7 @@ export function backendToExpression(
             t.identifier(pascalCase(`${type}Backend`))
           ),
           [
+            t.thisExpression(),
             t.objectExpression(
               Object.entries(config).reduce(
                 (arr, [property, value]) => [
