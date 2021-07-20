@@ -16,6 +16,26 @@ const users = \`\\\\\${\${members.value} + \${admins.value}}\`;
 "
 `;
 
+exports[`convert blocks should be arrays configuration 1`] = `
+"new google.ComputeAutoscaler(this, \\"example\\", {
+  autoscalingPolicy: [
+    {
+      cooldownPeriod: 60,
+      cpuUtilization: [
+        {
+          target: 0.5,
+        },
+      ],
+      maxReplicas: 8,
+      minReplicas: 2,
+    },
+  ],
+  name: \\"example-autoscaler\\",
+  zone: \\"us-east1-b\\",
+});
+"
+`;
+
 exports[`convert complex for each loops configuration 1`] = `
 "const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
   domainName: \\"example.com\\",

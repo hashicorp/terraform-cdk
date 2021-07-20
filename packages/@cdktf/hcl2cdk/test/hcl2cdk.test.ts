@@ -706,6 +706,25 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "blocks should be arrays",
+      `
+      resource "google_compute_autoscaler" "example" {
+        name   = "example-autoscaler"
+        zone   = "us-east1-b"
+      
+        autoscaling_policy = {
+          max_replicas    = 8
+          min_replicas    = 2
+          cooldown_period = 60
+      
+          cpu_utilization = {
+            target = 0.5
+          }
+        }
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(`file.hcl`, hcl, {
       language: "typescript",

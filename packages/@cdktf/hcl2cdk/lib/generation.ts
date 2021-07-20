@@ -72,7 +72,11 @@ export const valueToTs = (
 
             return t.objectProperty(
               t.stringLiteral(key !== "for_each" ? camelCase(key) : key),
-              valueToTs(value, nodeIds, scopedIds)
+              typeof value === "object" &&
+                !Array.isArray(value) &&
+                key !== "tags"
+                ? t.arrayExpression([valueToTs(value, nodeIds, scopedIds)])
+                : valueToTs(value, nodeIds, scopedIds)
             );
           })
       );
