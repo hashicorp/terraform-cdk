@@ -96,15 +96,7 @@ export async function convertToTypescript(filename: string, hcl: string) {
     ...forEachGlobal("module", plan.module, addGlobalEdges),
     ...forEachNamespaced(plan.resource, addNamespacedEdges),
     ...forEachNamespaced(plan.data, addNamespacedEdges, "data"),
-  }).forEach((cb) => cb(graph));
-
-  const backendExpressions = plan.terraform?.reduce(
-    (carry, terraform) => [
-      ...carry,
-      ...backendToExpression(terraform.backend, nodeIds),
-    ],
-    [] as t.Statement[]
-  );
+  }).forEach((addEdgesToGraph) => addEdgesToGraph(graph));
 
   // We traverse the dependency graph to get the unordered JSON nodes into an ordered array
   // where no node is referenced before it's defined
@@ -132,6 +124,14 @@ export async function convertToTypescript(filename: string, hcl: string) {
       }
     });
   }
+
+  const backendExpressions = plan.terraform?.reduce(
+    (carry, terraform) => [
+      ...carry,
+      ...backendToExpression(terraform.backend, nodeIds),
+    ],
+    [] as t.Statement[]
+  );
 
   // In Terraform one can implicitly define the provider by using resources of that type
   const providerRequirements = Object.keys(plan.provider || {}).reduce(
