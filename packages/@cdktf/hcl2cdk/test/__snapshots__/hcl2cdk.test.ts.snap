@@ -41,7 +41,7 @@ exports[`convert complex for each loops configuration 1`] = `
   domainName: \\"example.com\\",
   validationMethod: \\"DNS\\",
 });
-const dataAwsRoute53Zone = new aws.Route53Zone(this, \\"example\\", {
+const awsRoute53ZoneExample = new aws.Route53Zone(this, \\"example\\", {
   name: \\"example.com\\",
   privateZone: false,
 });
@@ -237,7 +237,7 @@ exports[`convert data references configuration 1`] = `
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
-const dataAwsS3Bucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: bucketName.value,
 });
@@ -268,12 +268,13 @@ exports[`convert dynamic blocks configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const namespace = new cdktf.TerraformVariable(this, \\"namespace\\", {});
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
-new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
-  application: \\"best-app\\",
-  setting: [],
-  name: \\"tf-test-name\\",
-  solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
-});
+const awsElasticBeanstalkEnvironmentTfenvtest =
+  new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
+    application: \\"best-app\\",
+    setting: [],
+    name: \\"tf-test-name\\",
+    solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
+  });
 awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
   for_each: settings.value,
   content: [

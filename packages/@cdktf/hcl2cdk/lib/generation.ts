@@ -146,6 +146,7 @@ export function resource(
   const resource = `${provider}.${name.join("_")}`;
 
   const { for_each, count, ...config } = item[0];
+  const dynBlocks = extractDynamicBlocks(config);
 
   const expressions = [
     ...asExpression(
@@ -154,7 +155,16 @@ export function resource(
       config,
       nodeIds,
       false,
-      getReference(graph, id)
+      getReference(graph, id) || dynBlocks.length
+        ? {
+            start: 0,
+            end: 0,
+            referencee: {
+              id: `${type}.${key}`,
+              full: `${type}.${key}`,
+            },
+          }
+        : undefined
     ),
   ];
   const varName = variableName(resource, key);
@@ -188,22 +198,21 @@ export function resource(
   // Check for dynamic blocks
   return [
     ...expressions,
-    ...extractDynamicBlocks(config).map(
-      ({ path, for_each, content, scopedVar }) => {
-        return addOverrideExpression(
-          varName,
-          path.substring(1), // The path starts with a dot that we don't want
-          valueToTs(
-            {
-              for_each,
-              content,
-            },
-            nodeIds,
-            [scopedVar]
-          )
-        ) as any;
-      }
-    ),
+    // TODO: fix var name bug
+    ...dynBlocks.map(({ path, for_each, content, scopedVar }) => {
+      return addOverrideExpression(
+        varName,
+        path.substring(1), // The path starts with a dot that we don't want
+        valueToTs(
+          {
+            for_each,
+            content,
+          },
+          nodeIds,
+          [scopedVar]
+        )
+      ) as any;
+    }),
   ];
 }
 
