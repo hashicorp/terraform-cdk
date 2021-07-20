@@ -12,6 +12,8 @@ import { FUTURE_FLAGS } from "cdktf/lib/features";
 import { downloadFile, HttpError } from "../../../lib/util";
 import { logFileName, logger } from "../../../lib/logging";
 import { Errors } from "../../../lib/errors";
+import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2cdk";
+import { execSync } from "child_process";
 
 const chalkColour = new chalk.Instance();
 
@@ -48,8 +50,10 @@ type Options = {
   cdktfVersion?: string;
   dist?: string;
   destination: string;
+  fromTerraformProject?: string;
 };
-export async function runInit(argv: Options = { destination: "." }) {
+export async function runInit(argv: Options) {
+  const destination = argv.destination || ".";
   let token = "";
   if (!argv.local) {
     // We ask the user to login to Terraform Cloud and set a token
@@ -104,11 +108,43 @@ This means that your Terraform state file will be stored locally on disk in a fi
     .map(([key, value]) => `"${key}": "${value}"`)
     .join(`,\n`);
 
-  await sscaff(templateInfo.Path, argv.destination, {
+  await sscaff(templateInfo.Path, destination, {
     ...deps,
     ...projectInfo,
     futureFlags,
   });
+
+  if (argv.fromTerraformProject) {
+    if (argv.template === "typescript") {
+      const mainTs = fs.readFileSync(
+        path.resolve(destination, "main.ts"),
+        "utf8"
+      );
+
+      const combinedTfFile = getProjectTerraformFiles(
+        path.resolve(process.cwd(), argv.fromTerraformProject)
+      );
+      const { code, cdktfJson } = await convertProject(
+        combinedTfFile,
+        mainTs,
+        require(path.resolve(destination, "cdktf.json")),
+        {
+          language: "typescript",
+        }
+      );
+      fs.writeFileSync(path.resolve(destination, "main.ts"), code, "utf8");
+      fs.writeFileSync(
+        path.resolve(destination, "cdktf.json"),
+        cdktfJson,
+        "utf8"
+      );
+      execSync("npm run get", { cwd: destination });
+    } else {
+      console.error(
+        `The --from-terraform-project flag is only support with the typescript template. The command will continue and ignore the flag.`
+      );
+    }
+  }
 
   if (templateInfo.cleanupTemporaryFiles) {
     await templateInfo.cleanupTemporaryFiles();

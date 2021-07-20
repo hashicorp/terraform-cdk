@@ -66,7 +66,6 @@ If running in automated environments, the dynamic CLI output rendering can be fo
     - [cdktf destroy](#cdktf-destroy)
     - [cdktf login](#cdktf-login)
     - [cdktf convert](#cdktf-convert)
-    - [cdktf import](#cdktf-import)
 
 ### cdktf get
 
@@ -127,16 +126,25 @@ cdktf init [OPTIONS]
 Create a new cdktf project from a template.
 
 Options:
-  --version              Show version number                                                                                                                                  [boolean]
-  --disable-logging      Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                 [boolean] [default: true]
-  --log-level            Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                 [string]
-  --template             The template name to be used to create a new project.                                                               [string] [choices: "python", "typescript", "java", "csharp", "go"]
-  --project-name         The name of the project.                                                                                                                              [string]
-  --project-description  The description of the project.                                                                                                                       [string]
-  --dist                 Install dependencies from a "dist" directory (for development)                                                                                        [string]
-  --local                Use local remote state storage for generated Terraform.                                                                             [boolean] [default: false]
-  --cdktf-version        The cdktf version to use while creating a new project.                                                                             [string] [default: "0.0.0"]
-  -h, --help             Show help                                                                                                                                            [boolean]
+  --version                   Show version number                                                         [boolean]
+  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.
+                                                                                          [boolean] [default: true]
+  --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is
+                              configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                         [boolean] [default: false]
+  --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL
+                                                                                                           [string]
+  --template                  The template to be used to create a new project. Either URL to zip file or one of the
+                              built-in templates: ["csharp", "go", "java", "python", "python-pip", "typescript"]
+                                                                                                           [string]
+  --project-name              The name of the project.                                                     [string]
+  --project-description       The description of the project.                                              [string]
+  --dist                      Install dependencies from a "dist" directory (for development)               [string]
+  --local                     Use local state storage for generated Terraform.           [boolean] [default: false]
+  --cdktf-version             The cdktf version to use while creating a new project.    [string] [default: "0.0.0"]
+  --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the
+                              .tf files in the path                                                        [string]
+  -h, --help                  Show help                                                                   [boolean]
 ```
 
 Examples:
@@ -151,6 +159,12 @@ Create a new Python project and use a specific version of the `cdktf` package.
 
 ```bash
 $ cdktf init --template="python" --cdktf-version="0.0.1"
+```
+
+Create a new Typescript project from an existing Terraform codebase (no other template is currently supported)
+
+```bash
+$ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
 ```
 
 ### cdktf synth
@@ -364,42 +378,3 @@ Examples:
 
 - Convert a local file: `cat main.tf | cdktf convert > imported.ts`
 - Convert your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
-
-### cdktf import
-
-Converts a Terraform project into a CDK for Terraform project.
-
-```
-cdktf import [OPTIONS] <source> <destination>
-
-Takes the Terraform project and converts it to a CDKTF version
-
-Positionals:
-  source       Terraform Project to transform to CDK                                               [required]
-  destination  Path to where the project should be created                                         [required]
-
-Options:
-  --version                   Show version number                                                   [boolean]
-  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.
-                                                                                    [boolean] [default: true]
-  --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin
-                              cache is configured differently. Supported using the env
-                              CDKTF_DISABLE_PLUGIN_CACHE_ENV.                      [boolean] [default: false]
-  --log-level                 Which log level should be written. Only supported via setting the env
-                              CDKTF_LOG_LEVEL                                                        [string]
-  --language                                                  [choices: "typescript"] [default: "typescript"]
-  --template                  The template to be used to create a new project. Either URL to zip file or one
-                              of the built-in templates: ["csharp", "go", "java", "python", "python-pip",
-                              "typescript"]                                                          [string]
-  --project-name              The name of the project.                                               [string]
-  --project-description       The description of the project.                                        [string]
-  --dist                      Install dependencies from a "dist" directory (for development)         [string]
-  --local                     Use local state storage for generated Terraform.     [boolean] [default: false]
-  --cdktf-version             The cdktf version to use while creating a new project.
-                                                                                  [string] [default: "0.0.0"]
-  -h, --help                  Show help                                                             [boolean]
-```
-
-Examples:
-
-`cdktf import ./existing-terraform-project ./new-cdktf-project-folder`

@@ -40,6 +40,10 @@ class Command implements yargs.CommandModule {
         desc: "The cdktf version to use while creating a new project.",
         default: pkg.version,
       })
+      .option("from-terraform-project", {
+        type: "string",
+        desc: "Use a terraform project as the basis, CDK constructs will be generated based on the .tf files in the path",
+      })
       .strict();
 
   public async handler(argv: any) {

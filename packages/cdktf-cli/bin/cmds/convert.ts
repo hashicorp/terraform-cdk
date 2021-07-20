@@ -1,6 +1,5 @@
 import yargs from "yargs";
 import { convert } from "@cdktf/hcl2cdk";
-import * as fs from "fs";
 import { displayVersionMessage } from "./version-check";
 
 function readStreamAsString(stream: typeof process.stdin): Promise<string> {
