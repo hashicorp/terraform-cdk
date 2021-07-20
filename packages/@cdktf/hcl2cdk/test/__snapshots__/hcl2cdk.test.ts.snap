@@ -12,7 +12,7 @@ exports[`convert arithmetics configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const admins = new cdktf.TerraformVariable(this, \\"admins\\", {});
 const members = new cdktf.TerraformVariable(this, \\"members\\", {});
-const users = \`\\\\\${\${members} + \${admins}}\`;
+const users = \`\\\\\${\${members.value} + \${admins.value}}\`;
 "
 `;
 
@@ -202,13 +202,13 @@ exports[`convert count loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 new aws.IamUser(this, \\"lb\\", {
-  name: \`\\\\\${element(\${users}, count.index)}\`,
+  name: \`\\\\\${element(\${users.value}, count.index)}\`,
   path: \\"/system/\\",
   tags: {
     tagKey: \\"tag-value\\",
   },
 });
-awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users})}\`);
+awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.value})}\`);
 "
 `;
 
@@ -219,7 +219,7 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 const dataAwsS3Bucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName,
+  bucket: bucketName.value,
 });
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: dataAwsS3Bucket.examplebucket.arn,
@@ -236,9 +236,9 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName,
+  bucket: bucketName.value,
   tags: {
-    tagKey: bucketName,
+    tagKey: bucketName.value,
   },
 });
 "
@@ -255,11 +255,11 @@ new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
   solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
 });
 awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
-  for_each: settings,
+  for_each: settings.value,
   content: [
     {
       name: '\${setting.value[\\"name\\"]}',
-      namespace: namespace,
+      namespace: namespace.value,
       value: '\${setting.value[\\"value\\"]}',
     },
   ],
@@ -284,7 +284,10 @@ const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"\${each.key}\\",
 });
-awsS3BucketExamplebucket.addOverride(\\"for_each\\", \`\\\\\${toset(\${buckets}.*)}\`);
+awsS3BucketExamplebucket.addOverride(
+  \\"for_each\\",
+  \`\\\\\${toset(\${buckets.value}.*)}\`
+);
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   bucket: \\"\${each.key}\\",
   key: \\"someobject\\",
@@ -302,11 +305,11 @@ exports[`convert for expression 1 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const adminUsers = \`\\\\\${{
-            for name, user in \${users} : name => user
+            for name, user in \${users.value} : name => user
             if user.is_admin
           }}\`;
 const regularUsers = \`\\\\\${{
-            for name, user in \${users} : name => user
+            for name, user in \${users.value} : name => user
             if !user.is_admin
           }}\`;
 "
@@ -316,7 +319,7 @@ exports[`convert for expression 2 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const usersByRole = \`\\\\\${{
-            for name, user in \${users} : user.role => name...
+            for name, user in \${users.value} : user.role => name...
           }}\`;
 "
 `;
@@ -331,7 +334,7 @@ new aws.IamUser(this, \\"lb\\", {
     tagKey: \\"tag-value\\",
   },
 });
-awsIamUserLb.addOverride(\\"for_each\\", users);
+awsIamUserLb.addOverride(\\"for_each\\", users.value);
 "
 `;
 
@@ -340,7 +343,7 @@ exports[`convert list access through [] configuration 1`] = `
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: \`\\\\\${\${settings}[0][\\"bucket_name\\"]}\`,
+  bucket: \`\\\\\${\${settings.value}[0][\\"bucket_name\\"]}\`,
 });
 "
 `;
@@ -498,7 +501,7 @@ exports[`convert property access through [] configuration 1`] = `
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: \`\\\\\${\${settings}[\\"bucket_name\\"]}\`,
+  bucket: \`\\\\\${\${settings.value}[\\"bucket_name\\"]}\`,
 });
 "
 `;
@@ -655,7 +658,7 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName,
+  bucket: bucketName.value,
 });
 "
 `;

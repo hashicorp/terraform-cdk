@@ -6,6 +6,7 @@ export type Reference = {
   end: number;
   referencee: { id: string; full: string }; // identifier for resource
   useFqn?: boolean;
+  isVariable?: boolean;
 };
 
 const PROPERTY_ACCESS_REGEX = /\[.*\]/;
@@ -120,9 +121,10 @@ export function extractReferencesFromExpression(
     const start = input.indexOf(fullReference);
     const end = start + fullReference.length;
 
+    const isVariable = spot.startsWith("var.");
     const useFqn =
       // Can not use FQN on vars
-      !spot.startsWith("var.") &&
+      !isVariable &&
       // If the following character is
       (input.substr(end + 1, 1) === "*" || // a * (splat) we need to use the FQN
         input.substr(end, 1) === "[" || // a property access
@@ -137,6 +139,7 @@ export function extractReferencesFromExpression(
         full: fullReference,
       },
       useFqn,
+      isVariable,
     };
     return [...carry, ref];
   }, [] as Reference[]);
@@ -177,9 +180,12 @@ export function referenceToAst(ref: Reference) {
 
   if (ref.useFqn) {
     return t.memberExpression(accessor, t.identifier("fqn"));
-  } else {
-    return accessor;
   }
+
+  if (ref.isVariable) {
+    return t.memberExpression(accessor, t.identifier("value"));
+  }
+  return accessor;
 }
 
 export function referencesToAst(
