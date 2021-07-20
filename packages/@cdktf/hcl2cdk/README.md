@@ -4,11 +4,11 @@ Uses `@cdktf/hcl2json` to transform HCL configuration to CDK constructs.
 
 ## Usage
 
-```
+```sh
 yarn install @cdktf/hcl2cdktf
 ```
 
-### Parse HCL strings
+### Covert HCL strings to Constructs
 
 ```ts
 import { convert } from "@cdktf/hcl2cdktf";
@@ -36,17 +36,18 @@ new TerraformVariable(this, "imageId", {
 });
 ```
 
-`@cdktf/hcl2cdktf` does not handle imports
+### Convert a project
 
-### Parse an entire directory
-
-```js
-import { convertFiles } from "@cdktf/hcl2json";
+```ts
+import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2json";
 
 (async () => {
-  const json = await convertFiles("/your/terraform/code");
-  console.log(json);
+  await convertProject(
+    getProjectTerraformFiles("/path/to/terraform/project"),
+    "/path/to/cdktf-init/project",
+    { language: "typescript" } // currently only TS is supported
+  );
 })();
-
-// => Unified JSON representation of all *.tf and *.tf.json files in the given directory
 ```
+
+This transforms your Terraform project into a CDK for Terraform project, besides the resource naming the output of `terraform plan` and `cdktf plan` should be the same.
