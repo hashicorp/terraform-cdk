@@ -1,5 +1,5 @@
 import * as t from "@babel/types";
-import { camelCase } from "./utils";
+import { camelCase, pascalCase } from "./utils";
 
 export type Reference = {
   start: number;
@@ -156,7 +156,9 @@ export function extractReferencesFromExpression(
 }
 
 export function referenceToVariableName(ref: Reference): string {
-  const [resource, name] = ref.referencee.full.split(".");
+  const parts = ref.referencee.full.split(".");
+  const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
+  const name = parts[0] === "data" ? parts[2] : parts[1];
   return variableName(resource, name);
 }
 
@@ -174,12 +176,41 @@ export function variableName(resource: string, name: string): string {
   return proposedName;
 }
 
+export function constructAst(type: string, isModule: boolean) {
+  if (isModule) {
+    return t.memberExpression(
+      t.identifier(pascalCase(type)),
+      t.identifier(pascalCase(type))
+    );
+  }
+
+  // resources or data sources
+  if (!type.includes("./") && type.includes(".")) {
+    const parts = type.split(".");
+    if (parts[0] === "data") {
+      return t.memberExpression(
+        t.identifier(parts[1]), // e.g. aws
+        t.identifier(pascalCase(`data_${parts[1]}_${parts[2]}`)) // e.g. NatGateway
+      );
+    }
+    return t.memberExpression(
+      t.identifier(parts[0]), // e.g. aws
+      t.identifier(pascalCase(parts[1])) // e.g. NatGateway
+    );
+  }
+  return t.identifier(pascalCase(type));
+}
+
 export function referenceToAst(ref: Reference) {
   const [resource, _name, ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
     camelCase(referenceToVariableName(ref))
   );
+
+  if (resource === "data") {
+    selector.shift(); // remove the data part so that the name is not used in the selector
+  }
 
   const accessor = selector.reduce(
     (carry, member, index) =>

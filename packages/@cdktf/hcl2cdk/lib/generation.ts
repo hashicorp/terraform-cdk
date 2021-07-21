@@ -20,6 +20,7 @@ import {
   variableName,
   referenceToVariableName,
   extractDynamicBlocks,
+  constructAst,
 } from "./expressions";
 
 function getReference(graph: DirectedGraph, id: string) {
@@ -224,28 +225,16 @@ function asExpression(
   isModule: boolean,
   reference?: Reference
 ) {
-  const isNamespacedImport = !type.includes("./") && type.includes(".");
-  const subject = isNamespacedImport
-    ? t.memberExpression(
-        t.identifier(type.split(".")[0]), // e.g. aws
-        t.identifier(pascalCase(type.split(".")[1])) // e.g. NatGateway
-      )
-    : isModule
-    ? t.memberExpression(
-        t.identifier(pascalCase(type)),
-        t.identifier(pascalCase(type))
-      )
-    : t.identifier(pascalCase(type));
-
   const { provider, providers, ...otherOptions } = config;
 
-  const expression = t.newExpression(subject, [
+  const expression = t.newExpression(constructAst(type, isModule), [
     t.thisExpression(),
     t.stringLiteral(name),
     valueToTs(otherOptions, nodeIds),
   ]);
 
   const statements = [];
+  console.log("as expr");
   const varName = reference
     ? referenceToVariableName(reference)
     : variableName(type, name);

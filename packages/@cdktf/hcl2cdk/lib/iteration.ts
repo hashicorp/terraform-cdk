@@ -49,10 +49,12 @@ export function forEachNamespaced<T, R>(
     (outerCarry, [type, items]) => ({
       ...outerCarry,
       ...Object.entries(items).reduce((innerCarry, [key, item]) => {
+        const prefixedType = prefix ? `${prefix}.${type}` : type;
         const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
         return {
           ...innerCarry,
-          [id]: (graph: DirectedGraph) => iterator(type, key, id, item, graph),
+          [id]: (graph: DirectedGraph) =>
+            iterator(prefixedType, key, id, item, graph),
         };
       }, {} as Record<string, (graph: DirectedGraph) => R>),
     }),

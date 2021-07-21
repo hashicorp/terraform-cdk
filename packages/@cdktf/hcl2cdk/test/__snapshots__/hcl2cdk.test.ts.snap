@@ -41,7 +41,7 @@ exports[`convert complex for each loops configuration 1`] = `
   domainName: \\"example.com\\",
   validationMethod: \\"DNS\\",
 });
-const awsRoute53ZoneExample = new aws.Route53Zone(this, \\"example\\", {
+const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(this, \\"example\\", {
   name: \\"example.com\\",
   privateZone: false,
 });
@@ -51,7 +51,7 @@ const awsRoute53RecordExample = new aws.Route53Record(this, \\"example\\", {
   records: [\\"\${each.value.record}\\"],
   ttl: 60,
   type: \\"\${each.value.type}\\",
-  zoneId: dataAwsRoute53Zone.example.zoneId,
+  zoneId: dataAwsRoute53ZoneExample.zoneId,
 });
 awsRoute53RecordExample.addOverride(
   \\"for_each\\",
@@ -237,12 +237,16 @@ exports[`convert data references configuration 1`] = `
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
-const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
-  acl: \\"private\\",
-  bucket: bucketName.value,
-});
+const dataAwsS3BucketExamplebucket = new aws.DataAwsS3Bucket(
+  this,
+  \\"examplebucket\\",
+  {
+    acl: \\"private\\",
+    bucket: bucketName.value,
+  }
+);
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
-  bucket: dataAwsS3Bucket.examplebucket.arn,
+  bucket: dataAwsS3BucketExamplebucket.arn,
   key: \\"someobject\\",
   source: \\"index.html\\",
 });
@@ -665,7 +669,7 @@ new cdktf.TerraformOutput(this, \\"cidr_out\\", {
 `;
 
 exports[`convert simple data source configuration 1`] = `
-"new aws.Subnet(this, \\"selected\\", {
+"new aws.DataAwsSubnet(this, \\"selected\\", {
   id: \\"subnet_id\\",
 });
 "
