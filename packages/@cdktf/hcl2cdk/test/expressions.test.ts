@@ -303,6 +303,42 @@ describe("expressions", () => {
         },
       ]);
     });
+
+    it("finds references within functions that use arrays and comments", () => {
+      expect(
+        extractReferencesFromExpression(
+          `\${compact([
+            # The example "bucket"
+            aws_s3_bucket.examplebucket,
+        
+            # The "Learn" single page application. This is not configured in all environments.
+            var.input,
+          ])}`,
+          nodeIds
+        )
+      ).toEqual([
+        {
+          referencee: {
+            id: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket",
+          },
+          useFqn: true,
+          isVariable: false,
+          start: 59,
+          end: 86,
+        },
+        {
+          referencee: {
+            id: "var.input",
+            full: "var.input",
+          },
+          useFqn: false,
+          isVariable: true,
+          start: 204,
+          end: 213,
+        },
+      ]);
+    });
   });
 
   describe("#referenceToAst", () => {

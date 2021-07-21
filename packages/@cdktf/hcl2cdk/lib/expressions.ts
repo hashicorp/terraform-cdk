@@ -37,6 +37,16 @@ export function extractReferencesFromExpression(
       expressionString.indexOf(":")
     );
   }
+  const lines = expressionString
+    .split("\n")
+    .map((line) => {
+      const commentStart = line.indexOf("#");
+      const lineWithoutComment =
+        commentStart !== -1 ? line.substring(0, commentStart - 1) : line;
+
+      return lineWithoutComment.trim();
+    })
+    .filter((line) => line !== "");
 
   const delimiters = [
     "(",
@@ -58,7 +68,7 @@ export function extractReferencesFromExpression(
     "?",
   ];
 
-  let possibleVariableSpots = [expressionString];
+  let possibleVariableSpots = lines;
 
   delimiters.forEach((delimiter) => {
     possibleVariableSpots = possibleVariableSpots.reduce(
@@ -95,7 +105,7 @@ export function extractReferencesFromExpression(
 
     if (!corespondingNodeId) {
       throw new Error(
-        `Found a reference that is unknown: ${input} was not found in ${JSON.stringify(
+        `Found a reference that is unknown: ${input} has reference "${spot}". The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}`
       );
