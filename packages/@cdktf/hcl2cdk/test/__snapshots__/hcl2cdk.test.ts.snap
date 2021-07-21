@@ -385,6 +385,40 @@ awsIamUserLb.addOverride(\\"for_each\\", users.value);
 "
 `;
 
+exports[`convert for_each with var usage configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as azuread from \\"./.gen/providers/azuread\\";
+const azureAdDomainName = new cdktf.TerraformVariable(
+  this,
+  \\"azure_ad_domain_name\\",
+  {
+    description: \\"domain\\",
+  }
+);
+const oneSetOfUsers = new cdktf.TerraformVariable(this, \\"one_set_of_users\\", {
+  description: \\"users\\",
+});
+const otherSetOfUsers = new cdktf.TerraformVariable(
+  this,
+  \\"other_set_of_users\\",
+  {
+    description: \\"users\\",
+  }
+);
+const azureadUserAzureUsers = new azuread.User(this, \\"azure_users\\", {
+  displayName: \\"\${each.key}\\",
+  userPrincipalName: \`\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\`,
+});
+azureadUserAzureUsers.addOverride(
+  \\"for_each\\",
+  \`\\\\\${merge(
+          \${oneSetOfUsers.value},
+          \${otherSetOfUsers.value},
+        )}\`
+);
+"
+`;
+
 exports[`convert list access through [] configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";

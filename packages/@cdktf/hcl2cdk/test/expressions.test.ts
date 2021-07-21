@@ -1,5 +1,6 @@
 import generate from "@babel/generator";
 import * as t from "@babel/types";
+import { referencesToAst } from "../lib/expressions";
 import {
   extractReferencesFromExpression,
   referenceToAst,
@@ -339,6 +340,36 @@ describe("expressions", () => {
         },
       ]);
     });
+
+    it("finds references for same referencees", () => {
+      expect(
+        extractReferencesFromExpression(
+          `\${var.input == "test" ? "azure-ad-int" : "azure-ad-\${var.input}"}`,
+          nodeIds
+        )
+      ).toEqual([
+        {
+          referencee: {
+            id: "var.input",
+            full: "var.input",
+          },
+          useFqn: false,
+          isVariable: true,
+          start: 2,
+          end: 11,
+        },
+        {
+          referencee: {
+            id: "var.input",
+            full: "var.input",
+          },
+          useFqn: false,
+          isVariable: true,
+          start: 53,
+          end: 62,
+        },
+      ]);
+    });
   });
 
   describe("#referenceToAst", () => {
@@ -361,6 +392,29 @@ describe("expressions", () => {
           ]) as any
         ).code
       ).toMatchInlineSnapshot(`"awsKmsKeyKey.deletionWindowInDays;"`);
+    });
+  });
+
+  describe("#referencesToAst", () => {
+    it("nested terraform expressions without space", () => {
+      const expr = `\${\${each.value}\${var.azure_ad_domain_name}}"`;
+      expect(
+        generate(
+          t.program([
+            t.expressionStatement(
+              referencesToAst(
+                expr,
+                extractReferencesFromExpression(expr, [
+                  "var.azure_ad_domain_name",
+                ]),
+                []
+              )
+            ),
+          ]) as any
+        ).code
+      ).toMatchInlineSnapshot(
+        `"\`\\\\\${\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}}\\"\`;"`
+      );
     });
   });
 });

@@ -10,6 +10,7 @@ export type Reference = {
 };
 
 const PROPERTY_ACCESS_REGEX = /\[.*\]/;
+const DOLLAR_REGEX = /\$/g;
 
 export function extractReferencesFromExpression(
   input: string,
@@ -66,6 +67,9 @@ export function extractReferencesFromExpression(
     "&&",
     "||",
     "?",
+    // There can be nested terraform expression strings
+    "${",
+    "}",
   ];
 
   let possibleVariableSpots = lines;
@@ -128,7 +132,11 @@ export function extractReferencesFromExpression(
     const fullReference = isThereANumericAccessor
       ? referenceSpotParts.slice(0, 2).join(".")
       : spot;
-    const start = input.indexOf(fullReference);
+
+    // we know we are at closer to the end than the last reference we found
+    // this helps us find duplicate referencees
+    const position = carry.length ? carry[carry.length - 1].end : 0;
+    const start = input.indexOf(fullReference, position);
     const end = start + fullReference.length;
 
     const isVariable = spot.startsWith("var.");
@@ -270,7 +278,7 @@ export function referencesToAst(
     if (ref.start !== lastEnd) {
       quasis.push(
         t.templateElement({
-          raw: input.substring(lastEnd, ref.start).replace("$", "\\$"),
+          raw: input.substring(lastEnd, ref.start).replace(DOLLAR_REGEX, "\\$"),
         })
       );
     }

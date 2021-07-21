@@ -764,6 +764,29 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "for_each with var usage",
+      `
+      variable "one_set_of_users" {
+        description = "users"
+      }
+      variable "other_set_of_users" {
+        description = "users"
+      }
+      variable "azure_ad_domain_name" {
+        description = "domain"
+      }
+      resource "azuread_user" "azure_users" {
+        for_each = merge(
+          var.one_set_of_users,
+          var.other_set_of_users,
+        )
+      
+        user_principal_name = "\${each.value}\${var.azure_ad_domain_name}"
+        display_name        = each.key
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",
