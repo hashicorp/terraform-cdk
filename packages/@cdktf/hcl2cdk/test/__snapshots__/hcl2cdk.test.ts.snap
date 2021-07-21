@@ -567,6 +567,18 @@ new aws.AwsProvider(this, \\"aws\\", {
 "
 `;
 
+exports[`convert provider with var reference configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as auth0 from \\"./.gen/providers/auth0\\";
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
+  description: \\"A domain\\",
+});
+new auth0.Auth0Provider(this, \\"auth0\\", {
+  domain: domain.value,
+});
+"
+`;
+
 exports[`convert referenced modules configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as TerraformAwsModulesVpcAws from \\"./.gen/modules/terraform-aws-modules/vpc/aws\\";

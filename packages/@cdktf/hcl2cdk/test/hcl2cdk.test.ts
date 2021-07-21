@@ -725,6 +725,17 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "provider with var reference",
+      `
+      variable "domain" {
+        description = "A domain"
+      }
+      provider "auth0" {
+        domain = var.domain
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",

@@ -23,7 +23,7 @@ export function forEachProvider<T, R>(
     return {
       ...carry,
       ...items.reduce((innerCarry, item: T & { alias?: string }) => {
-        const id = item.alias ? `${key}.${item.alias}` : key;
+        const id = item.alias ? `${key}.${item.alias}` : `${key}`;
         return {
           ...innerCarry,
           [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),

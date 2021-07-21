@@ -32,6 +32,7 @@ export type Data = Resource;
 
 const terraformConfig = z
   .object({
+    required_version: z.string(),
     required_providers: z.array(
       z.record(z.object({ source: z.string(), version: z.string() }))
     ),

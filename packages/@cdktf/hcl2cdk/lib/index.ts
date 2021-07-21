@@ -76,6 +76,14 @@ ${err}`);
         !graph.hasDirectedEdge(ref.referencee.id, id) &&
         graph.hasNode(ref.referencee.id) // in case the referencee is a dynamic variable
       ) {
+        if (!graph.hasNode(id)) {
+          throw new Error(
+            `The dependency graph is expected to link from ${
+              ref.referencee.id
+            } to ${id} but ${id} does not exist. 
+            These nodes exist: ${graph.nodes().join("\n")}`
+          );
+        }
         graph.addDirectedEdge(ref.referencee.id, id, { ref });
       }
     });
@@ -85,6 +93,9 @@ ${err}`);
   // We add these to a dependency graph so that the programming code has the right order
   function addGlobalEdges(_key: string, id: string, value: unknown) {
     addEdges(id, value);
+  }
+  function addProviderEdges(key: string, _id: string, value: unknown) {
+    addEdges(key, value);
   }
   function addNamespacedEdges(
     _type: string,
@@ -96,7 +107,7 @@ ${err}`);
   }
 
   Object.values({
-    ...forEachGlobal("providers", plan.provider, addGlobalEdges),
+    ...forEachGlobal("providers", plan.provider, addProviderEdges),
     ...forEachGlobal("var", plan.variable, addGlobalEdges),
     // locals are a special case
     ...forEachGlobal(
