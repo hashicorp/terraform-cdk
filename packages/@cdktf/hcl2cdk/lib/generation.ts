@@ -148,6 +148,17 @@ export function resource(
 
   const { for_each, count, ...config } = item[0];
   const dynBlocks = extractDynamicBlocks(config);
+  const overrideReference =
+    dynBlocks.length || count || for_each
+      ? {
+          start: 0,
+          end: 0,
+          referencee: {
+            id: `${type}.${key}`,
+            full: `${type}.${key}`,
+          },
+        }
+      : undefined;
 
   const expressions = [
     ...asExpression(
@@ -156,16 +167,7 @@ export function resource(
       config,
       nodeIds,
       false,
-      getReference(graph, id) || dynBlocks.length
-        ? {
-            start: 0,
-            end: 0,
-            referencee: {
-              id: `${type}.${key}`,
-              full: `${type}.${key}`,
-            },
-          }
-        : undefined
+      getReference(graph, id) || overrideReference
     ),
   ];
   const varName = variableName(resource, key);
@@ -234,7 +236,6 @@ function asExpression(
   ]);
 
   const statements = [];
-  console.log("as expr");
   const varName = reference
     ? referenceToVariableName(reference)
     : variableName(type, name);

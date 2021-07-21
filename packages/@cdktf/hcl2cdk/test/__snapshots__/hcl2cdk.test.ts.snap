@@ -221,7 +221,7 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 exports[`convert count loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
-new aws.IamUser(this, \\"lb\\", {
+const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
   name: \`\\\\\${element(\${users.value}, count.index)}\`,
   path: \\"/system/\\",
   tags: {
@@ -313,12 +313,16 @@ awsS3BucketExamplebucket.addOverride(
   \\"for_each\\",
   \`\\\\\${toset(\${buckets.value}.*)}\`
 );
-new aws.S3BucketObject(this, \\"examplebucket_object\\", {
-  bucket: \\"\${each.key}\\",
-  key: \\"someobject\\",
-  kmsKeyId: awsKmsKeyExamplekms.arn,
-  source: \\"index.html\\",
-});
+const awsS3BucketObjectExamplebucketObject = new aws.S3BucketObject(
+  this,
+  \\"examplebucket_object\\",
+  {
+    bucket: \\"\${each.key}\\",
+    key: \\"someobject\\",
+    kmsKeyId: awsKmsKeyExamplekms.arn,
+    source: \\"index.html\\",
+  }
+);
 awsS3BucketObjectExamplebucketObject.addOverride(
   \\"for_each\\",
   \`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`
@@ -352,7 +356,7 @@ const usersByRole = \`\\\\\${{
 exports[`convert for_each loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
-new aws.IamUser(this, \\"lb\\", {
+const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
   name: \\"\${each.key}\\",
   path: \\"/system/\\",
   tags: {
