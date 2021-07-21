@@ -736,6 +736,14 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "data local_file",
+      `
+      data "local_file" "_01_please_verify" {
+        filename = "./email_templates/01_please_verify/template.html"
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",

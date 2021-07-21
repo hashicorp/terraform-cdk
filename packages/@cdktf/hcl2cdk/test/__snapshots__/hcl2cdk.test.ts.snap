@@ -17,7 +17,8 @@ const users = \`\\\\\${\${members.value} + \${admins.value}}\`;
 `;
 
 exports[`convert blocks should be arrays configuration 1`] = `
-"new google.ComputeAutoscaler(this, \\"example\\", {
+"import * as google from \\"./.gen/providers/google\\";
+new google.ComputeAutoscaler(this, \\"example\\", {
   autoscalingPolicy: [
     {
       cooldownPeriod: 60,
@@ -37,7 +38,8 @@ exports[`convert blocks should be arrays configuration 1`] = `
 `;
 
 exports[`convert complex for each loops configuration 1`] = `
-"const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
   domainName: \\"example.com\\",
   validationMethod: \\"DNS\\",
 });
@@ -78,7 +80,8 @@ new aws.LbListener(this, \\"example\\", {
 `;
 
 exports[`convert complex resource configuration 1`] = `
-"new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
   aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
   comment: \\"Some comment\\",
   defaultCacheBehavior: [
@@ -201,7 +204,8 @@ exports[`convert complex resource configuration 1`] = `
 `;
 
 exports[`convert conditionals configuration 1`] = `
-"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
@@ -220,6 +224,7 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 
 exports[`convert count loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
   name: \`\\\\\${element(\${users.value}, count.index)}\`,
@@ -232,8 +237,17 @@ awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.value})}\`);
 "
 `;
 
+exports[`convert data local_file configuration 1`] = `
+"import * as local from \\"./.gen/providers/local\\";
+new local.DataLocalFile(this, \\"_01_please_verify\\", {
+  filename: \\"./email_templates/01_please_verify/template.html\\",
+});
+"
+`;
+
 exports[`convert data references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
@@ -255,6 +269,7 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 
 exports[`convert double references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
@@ -270,6 +285,7 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 
 exports[`convert dynamic blocks configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const namespace = new cdktf.TerraformVariable(this, \\"namespace\\", {});
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 const awsElasticBeanstalkEnvironmentTfenvtest =
@@ -300,6 +316,7 @@ new docker.DockerProvider(this, \\"docker\\", {});
 
 exports[`convert for each on list using splat configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const buckets = new cdktf.TerraformVariable(this, \\"buckets\\", {});
 const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
@@ -355,6 +372,7 @@ const usersByRole = \`\\\\\${{
 
 exports[`convert for_each loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
   name: \\"\${each.key}\\",
@@ -369,6 +387,7 @@ awsIamUserLb.addOverride(\\"for_each\\", users.value);
 
 exports[`convert list access through [] configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
@@ -400,7 +419,8 @@ const serviceName = \\"forum\\";
 `;
 
 exports[`convert locals references configuration 1`] = `
-"const bucketName = \\"foo\\";
+"import * as aws from \\"./.gen/providers/aws\\";
+const bucketName = \\"foo\\";
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \`\\\\\${\${bucketName.fqn}}\`,
@@ -427,7 +447,8 @@ new TerraformAwsModulesVpcAws.TerraformAwsModulesVpcAws(this, \\"vpc\\", {
 `;
 
 exports[`convert multiple blocks configuration 1`] = `
-"new aws.SecurityGroup(this, \\"allow_tls\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.SecurityGroup(this, \\"allow_tls\\", {
   description: \\"Allow TLS inbound traffic\\",
   egress: [
     {
@@ -486,6 +507,7 @@ new cdktf.TerraformOutput(this, \\"second_cidr_out\\", {
 
 exports[`convert numeric property access configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as google from \\"./.gen/providers/google\\";
 const googleComputeInstanceExample = new google.ComputeInstance(
   this,
   \\"example\\",
@@ -527,6 +549,7 @@ new cdktf.TerraformOutput(this, \\"cidr_out\\", {
 
 exports[`convert property access through [] configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
@@ -628,7 +651,8 @@ new cdktf.RemoteBackend(this, {
 `;
 
 exports[`convert resource references configuration 1`] = `
-"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
@@ -646,7 +670,8 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 `;
 
 exports[`convert resource references with HCL functions configuration 1`] = `
-"const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
 });
@@ -673,14 +698,16 @@ new cdktf.TerraformOutput(this, \\"cidr_out\\", {
 `;
 
 exports[`convert simple data source configuration 1`] = `
-"new aws.DataAwsSubnet(this, \\"selected\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.DataAwsSubnet(this, \\"selected\\", {
   id: \\"subnet_id\\",
 });
 "
 `;
 
 exports[`convert simple resource configuration 1`] = `
-"new aws.Vpc(this, \\"example\\", {
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.Vpc(this, \\"example\\", {
   cidrBlock: \\"10.0.0.0/16\\",
 });
 "
@@ -694,6 +721,7 @@ new cdktf.TerraformVariable(this, \\"weekday\\", {});
 
 exports[`convert variable references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });

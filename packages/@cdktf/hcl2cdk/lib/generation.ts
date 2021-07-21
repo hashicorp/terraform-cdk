@@ -362,10 +362,8 @@ export const cdktfImport = template(
   `import * as cdktf from "cdktf"`
 )() as t.Statement;
 
-export const providerImports = (
-  provider: Record<string, Provider> | undefined
-) =>
-  Object.keys(provider || {}).map(
+export const providerImports = (providers: string[]) =>
+  providers.map(
     (providerName) =>
       template(
         `import * as ${providerName} from "./.gen/providers/${providerName.replace(

@@ -159,7 +159,14 @@ ${err}`);
   );
 
   // In Terraform one can implicitly define the provider by using resources of that type
-  const providerRequirements = Object.keys(plan.provider || {}).reduce(
+  const explicitProviders = Object.keys(plan.provider || {});
+  const implicitProviders = Object.keys({ ...plan.resource, ...plan.data }).map(
+    (type) => type.split("_")[0]
+  );
+
+  const providerRequirements = Array.from(
+    new Set([...explicitProviders, ...implicitProviders])
+  ).reduce(
     (carry, req) => ({ ...carry, [req]: "*" }),
     {} as Record<string, string>
   );
@@ -201,14 +208,14 @@ ${err}`);
   return {
     all: gen([
       ...cdktfImports,
-      ...providerImports(plan.provider),
+      ...providerImports(Object.keys(providerRequirements)),
       ...moduleImports(plan.module),
       ...((backendExpressions || []) as any),
       ...expressions,
     ]),
     imports: gen([
       ...cdktfImports,
-      ...providerImports(plan.provider),
+      ...providerImports(Object.keys(providerRequirements)),
       ...moduleImports(plan.module),
     ]),
     code: gen([...((backendExpressions || []) as any), ...expressions]),
