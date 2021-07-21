@@ -650,6 +650,18 @@ new cdktf.RemoteBackend(this, {
 "
 `;
 
+exports[`convert required namespaced provider configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as auth0 from \\"./.gen/providers/auth0\\";
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
+  description: \\"A domain\\",
+});
+new auth0.Auth0Provider(this, \\"auth0\\", {
+  domain: domain.value,
+});
+"
+`;
+
 exports[`convert resource references configuration 1`] = `
 "import * as aws from \\"./.gen/providers/aws\\";
 const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {

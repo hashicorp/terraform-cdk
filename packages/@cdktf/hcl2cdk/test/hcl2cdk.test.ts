@@ -744,6 +744,26 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "required namespaced provider",
+      `
+      variable "domain" {
+        description = "A domain"
+      }
+      provider "auth0" {
+        domain = var.domain
+      }
+      
+      terraform {
+        required_providers {
+          auth0 = {
+            source  = "alexkappa/auth0"
+            version = "0.19.0"
+          }
+        }
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",

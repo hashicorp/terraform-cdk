@@ -363,15 +363,13 @@ export const cdktfImport = template(
 )() as t.Statement;
 
 export const providerImports = (providers: string[]) =>
-  providers.map(
-    (providerName) =>
-      template(
-        `import * as ${providerName} from "./.gen/providers/${providerName.replace(
-          "./",
-          ""
-        )}"`
-      )() as t.Statement
-  );
+  providers.map((providerName) => {
+    const parts = providerName.split("/");
+    const name = parts.length > 1 ? parts[1] : parts[0];
+    return template(
+      `import * as ${name} from "./.gen/providers/${name.replace("./", "")}"`
+    )() as t.Statement;
+  });
 
 export const moduleImports = (modules: Record<string, Module> | undefined) =>
   Object.values(modules || {}).map(
