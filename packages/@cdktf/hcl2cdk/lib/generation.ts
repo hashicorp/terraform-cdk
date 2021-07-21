@@ -62,8 +62,11 @@ export const valueToTs = (
 
       return t.objectExpression(
         Object.entries(item)
-          .filter(([_key, value]) => value !== undefined)
           .map(([key, value]) => {
+            if (key === "lifecycle" || value === undefined) {
+              return undefined;
+            }
+
             if (key === "dynamic") {
               const { for_each, ...others } = value as any;
               const dynamicRef = Object.keys(others)[0];
@@ -82,6 +85,7 @@ export const valueToTs = (
                 : valueToTs(value, nodeIds, scopedIds)
             );
           })
+          .filter((expr) => expr !== undefined) as t.ObjectProperty[]
       );
   }
   throw new Error("Unsupported type " + item);
@@ -227,7 +231,7 @@ function asExpression(
   isModule: boolean,
   reference?: Reference
 ) {
-  const { provider, providers, ...otherOptions } = config;
+  const { provider, providers, lifecycle, ...otherOptions } = config;
 
   const expression = t.newExpression(constructAst(type, isModule), [
     t.thisExpression(),
@@ -240,7 +244,7 @@ function asExpression(
     ? referenceToVariableName(reference)
     : variableName(type, name);
 
-  if (reference || providers || provider) {
+  if (reference || providers || provider || lifecycle) {
     statements.push(
       t.variableDeclaration("const", [
         t.variableDeclarator(t.identifier(varName), expression),
@@ -258,6 +262,12 @@ function asExpression(
   if (providers) {
     statements.push(
       addOverrideExpression(varName, "providers", valueToTs(providers, nodeIds))
+    );
+  }
+
+  if (lifecycle) {
+    statements.push(
+      addOverrideExpression(varName, "lifecycle", valueToTs(lifecycle, nodeIds))
     );
   }
 
