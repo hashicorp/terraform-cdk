@@ -161,11 +161,17 @@ export function referenceToVariableName(ref: Reference): string {
 }
 
 export function variableName(resource: string, name: string): string {
-  return camelCase(
+  const proposedName = camelCase(
     ["var", "local", "module"].includes(resource)
       ? name
       : [resource, name].join("_")
   );
+
+  if (!Number.isNaN(parseInt(proposedName[0], 10))) {
+    return `d${proposedName}`;
+  }
+
+  return proposedName;
 }
 
 export function referenceToAst(ref: Reference) {
