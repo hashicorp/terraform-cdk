@@ -228,7 +228,7 @@ ${err}`);
     ]),
     code: gen([...((backendExpressions || []) as any), ...expressions]),
     providers: Object.entries(providerRequirements).map(([source, version]) =>
-      version === "*" ? source : `${source}@~> ${version}`
+      version === "*" ? source : `${source}@${version}`
     ),
     modules: moduleRequirements,
     // We track some usage data to make it easier to understand what is used
