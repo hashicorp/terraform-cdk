@@ -86,8 +86,9 @@ export function extractReferencesFromExpression(
       !spot.includes(".") || // just a literal
       spot.startsWith(".") || // dangling property access
       spot.endsWith("...") || // spread (likely in for loop)
-      spot.startsWith("count.") || // special count variable
-      spot.startsWith("each.") // special each variable
+      spot.startsWith("count.") || // count variable
+      spot.startsWith("each.") || // each variable
+      spot.startsWith("path.module") // path variable
     ) {
       return carry;
     }
