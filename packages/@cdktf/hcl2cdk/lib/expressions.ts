@@ -108,11 +108,14 @@ export function extractReferencesFromExpression(
     });
 
     if (!corespondingNodeId) {
-      throw new Error(
+      // This is most likely a false positive, so we just ignore it
+      // We include the log below to help debugging
+      console.error(
         `Found a reference that is unknown: ${input} has reference "${spot}". The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}`
       );
+      return carry;
     }
 
     if (scopedIds.includes(corespondingNodeId)) {
