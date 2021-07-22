@@ -70,7 +70,7 @@ Command output on stdout:
 `
     : ""
 }`;
-      await this.synthErrorTelemetry(command, e.message, e.stderr, e.stdout);
+      await this.synthErrorTelemetry(command);
       console.error(errorOutput);
       process.exit(1);
     }
@@ -135,18 +135,13 @@ Command output on stdout:
     await ReportRequest(reportParams);
   }
 
-  public static async synthErrorTelemetry(
-    command: string,
-    error: string,
-    stderr: string,
-    stdout: string
-  ) {
+  public static async synthErrorTelemetry(command: string) {
     const reportParams: ReportParams = {
       command: "synth",
       product: "cdktf",
       version: versionNumber(),
       dateTime: new Date(),
-      payload: { command, error, stderr, stdout },
+      payload: { command, error: true },
     };
 
     await ReportRequest(reportParams);
