@@ -57,7 +57,6 @@ export function extractReferencesFromExpression(
     PROPERTY_ACCESS_REGEX,
     " ",
     "!",
-    "-",
     "*",
     "/",
     "%",
