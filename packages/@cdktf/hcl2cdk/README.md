@@ -62,3 +62,11 @@ When working with typed languages the converter can run into problems where the 
   booleanProperty: `\${${shouldBeTrue.value} ? true : false}`;
 }
 ```
+
+### Providers guessed can be not functional
+
+If you HCL includes providers that are not mentioned under `required_providers` we infer the name, e.g. if you use the `datadog_dashboard` resource we infer the provider `datadog` which is right, but the namespace is missing, for DataDog it would be `datadog/datadog`. Instead we will try to use `hashicorp/datadog` and fail because this provider is not known to the registry.
+
+### Local Modules and Files
+
+We don't move modules or files for you, if you reference local modules you have to move them so that the relative paths are correct. If you want to make use of files you need to wrap them in a [`TerraformAsset`](../../docs/working-with-cdk-for-terraform/terraform-assets.md) before using them.
