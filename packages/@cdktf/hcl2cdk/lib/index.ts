@@ -11,7 +11,12 @@ import * as z from "zod";
 import { schema } from "./schema";
 import { findUsedReferences } from "./expressions";
 import { cdktfImport, providerImports, moduleImports, gen } from "./generation";
-import { forEachProvider, forEachGlobal, forEachNamespaced } from "./iteration";
+import {
+  forEachProvider,
+  forEachGlobal,
+  forEachNamespaced,
+  resourceStats,
+} from "./iteration";
 import {
   backendToExpression,
   provider,
@@ -223,6 +228,14 @@ ${err}`);
       version === "*" ? source : `${source}@~> ${version}`
     ),
     modules: moduleRequirements,
+    // We track some usage data to make it easier to understand what is used
+    stats: {
+      numberOfModules: moduleRequirements.length,
+      numberOfProviders: Object.keys(providerRequirements).length,
+      resources: resourceStats(plan.resource || {}),
+      data: resourceStats(plan.data || {}),
+      convertedLines: hcl.split("\n").length,
+    },
   };
 }
 
@@ -250,11 +263,11 @@ export async function convert(hcl: string, { language }: ConvertOptions) {
   }
   const tsCode = await convertToTypescript(hcl);
   return {
+    ...tsCode,
     all: translater({ fileName, contents: tsCode.all }),
     imports: translater({ fileName, contents: tsCode.imports }),
     code: translater({ fileName, contents: tsCode.code }),
-    providers: tsCode.providers,
-    modules: tsCode.modules,
+    stats: { ...tsCode.stats, language },
   };
 }
 
@@ -282,6 +295,7 @@ export async function convertProject(
     code,
     providers,
     modules: tfModules,
+    stats,
   } = await convert(combinedHcl, {
     language,
   });
@@ -298,5 +312,6 @@ export async function convertProject(
   return {
     code: prettier.format(outputMainFile, { parser: "babel" }),
     cdktfJson: prettier.format(JSON.stringify(cdktfJson), { parser: "json" }),
+    stats,
   };
 }

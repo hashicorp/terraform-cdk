@@ -1,6 +1,7 @@
 import yargs from "yargs";
 import { convert } from "@cdktf/hcl2cdk";
 import { displayVersionMessage } from "./version-check";
+import { sendTelemetry } from "../../lib/checkpoint";
 
 function readStreamAsString(stream: typeof process.stdin): Promise<string> {
   return new Promise((ok, ko) => {
@@ -47,9 +48,18 @@ class Command implements yargs.CommandModule {
     await displayVersionMessage();
 
     const input = await readStreamAsString(process.stdin);
-    const { all: output } = await convert(input, {
-      language,
-    });
+    let output;
+    try {
+      const { all, stats } = await convert(input, {
+        language,
+      });
+      output = all;
+      await sendTelemetry("convert", { ...stats, error: false });
+    } catch (err) {
+      await sendTelemetry("convert", { error: true });
+      throw err;
+    }
+
     console.log(output);
   }
 }

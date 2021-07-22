@@ -14,6 +14,7 @@ import { logFileName, logger } from "../../../lib/logging";
 import { Errors } from "../../../lib/errors";
 import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2cdk";
 import { execSync } from "child_process";
+import { sendTelemetry } from "../../../lib/checkpoint";
 
 const chalkColour = new chalk.Instance();
 
@@ -53,6 +54,7 @@ type Options = {
   fromTerraformProject?: string;
 };
 export async function runInit(argv: Options) {
+  const telemetryData: Record<string, unknown> = {};
   const destination = argv.destination || ".";
   let token = "";
   if (!argv.local) {
@@ -74,6 +76,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
   // Gather information about the template and the project
   const templateInfo = await getTemplate(template);
+  telemetryData.template = templateInfo.Name;
 
   const projectInfo: any = await gatherInfo(
     token,
@@ -85,6 +88,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
   // Check if token is set so we can set up Terraform Cloud workspace
   // only set with the '--local' option is specified the user.
   if (token != "") {
+    telemetryData.isRemote = token;
     console.log(
       chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
     );
@@ -124,7 +128,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
       const combinedTfFile = getProjectTerraformFiles(
         path.resolve(process.cwd(), argv.fromTerraformProject)
       );
-      const { code, cdktfJson } = await convertProject(
+      const { code, cdktfJson, stats } = await convertProject(
         combinedTfFile,
         mainTs,
         require(path.resolve(destination, "cdktf.json")),
@@ -132,12 +136,16 @@ This means that your Terraform state file will be stored locally on disk in a fi
           language: "typescript",
         }
       );
+
       fs.writeFileSync(path.resolve(destination, "main.ts"), code, "utf8");
       fs.writeFileSync(
         path.resolve(destination, "cdktf.json"),
         cdktfJson,
         "utf8"
       );
+
+      telemetryData.conversionStats = stats;
+
       execSync("npm run get", { cwd: destination });
     } else {
       console.error(
@@ -149,6 +157,8 @@ This means that your Terraform state file will be stored locally on disk in a fi
   if (templateInfo.cleanupTemporaryFiles) {
     await templateInfo.cleanupTemporaryFiles();
   }
+
+  await sendTelemetry("init", telemetryData);
 }
 
 async function determineDeps(

@@ -1,4 +1,5 @@
 import { DirectedGraph } from "graphology";
+import { providers as telemetryAllowedProviders } from "./telemetryAllowList.json";
 
 // locals, variables, and outputs are global key value maps
 export function forEachGlobal<T, R>(
@@ -60,4 +61,21 @@ export function forEachNamespaced<T, R>(
     }),
     {} as Record<string, (graph: DirectedGraph) => R>
   );
+}
+
+export function resourceStats(obj: Record<string, Record<string, unknown>>) {
+  return Object.entries(obj).reduce((carry, [key, value]) => {
+    const [provider, ...resourceParts] = key.split("_");
+    const shouldBeTracked = telemetryAllowedProviders.includes(provider);
+    const providerKey = shouldBeTracked ? provider : "other";
+    const resourceName = shouldBeTracked ? resourceParts.join("_") : "other";
+
+    return {
+      ...carry,
+      [providerKey]: {
+        ...(carry[providerKey] || {}),
+        [resourceName]: Object.keys(value).length,
+      },
+    };
+  }, {} as Record<string, Record<string, number>>);
 }

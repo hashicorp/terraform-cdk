@@ -1,0 +1,24 @@
+{
+    "providers": [
+        "aws",
+        "datadog",
+        "pagerduty",
+        "azurerm",
+        "google",
+        "docker",
+        "random",
+        "kubernetes",
+        "null",
+        "vault",
+        "github",
+        "azuread",
+        "archive",
+        "google-beta",
+        "kubectl",
+        "cloudflare",
+        "signalfx",
+        "openstack",
+        "external",
+        "template"
+    ]
+}
