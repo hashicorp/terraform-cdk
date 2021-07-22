@@ -194,7 +194,11 @@ describe("convert", () => {
           owner        = "Community Team"
           is_it_great  = true
           how_many     = 42
-        }`,
+        }
+        output "combined-so-it-does-not-get-removed" {
+          value = "\${local.service_name},\${local.owner},\${local.is_it_great},\${local.how_many}"
+        }
+        `,
     ],
     [
       "multiple locals blocks",
@@ -207,6 +211,10 @@ describe("convert", () => {
         locals {
           is_it_great  = true
           how_many     = 42
+        }
+        
+        output "combined-so-it-does-not-get-removed" {
+          value = "\${local.service_name},\${local.owner},\${local.is_it_great},\${local.how_many}"
         }`,
     ],
     [
@@ -347,8 +355,8 @@ describe("convert", () => {
           type = number
         }
         
-        locals {
-          users = var.members + var.admins
+        output "arithmetics" {
+          value = var.members + var.admins
         }`,
     ],
     [
@@ -389,7 +397,12 @@ describe("convert", () => {
             for name, user in var.users : name => user
             if !user.is_admin
           }
-        }`,
+        }
+        
+        output "combined-so-it-does-not-get-removed" {
+          value = "\${local.admin_users},\${local.regular_users}"
+        }
+        `,
     ],
     [
       "for expression 2",
@@ -404,6 +417,10 @@ describe("convert", () => {
           users_by_role = {
             for name, user in var.users : user.role => name...
           }
+        }
+        
+        output "so-it-does-not-get-removed" {
+          value = local.users_by_role
         }`,
     ],
     [

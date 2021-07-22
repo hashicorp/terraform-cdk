@@ -12,7 +12,9 @@ exports[`convert arithmetics configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const admins = new cdktf.TerraformVariable(this, \\"admins\\", {});
 const members = new cdktf.TerraformVariable(this, \\"members\\", {});
-const users = \`\\\\\${\${members.value} + \${admins.value}}\`;
+new cdktf.TerraformOutput(this, \\"arithmetics\\", {
+  value: \`\\\\\${\${members.value} + \${admins.value}}\`,
+});
 "
 `;
 
@@ -358,6 +360,9 @@ const regularUsers = \`\\\\\${{
             for name, user in \${users.value} : name => user
             if !user.is_admin
           }}\`;
+new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+  value: \`\\\\\${\${adminUsers}},\\\\\${\${regularUsers}}\`,
+});
 "
 `;
 
@@ -367,6 +372,9 @@ const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const usersByRole = \`\\\\\${{
             for name, user in \${users.value} : user.role => name...
           }}\`;
+new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
+  value: usersByRole,
+});
 "
 `;
 
@@ -445,10 +453,14 @@ new AwsVpc.AwsVpc(this, \\"aws_vpc\\", {});
 `;
 
 exports[`convert locals configuration 1`] = `
-"const howMany = 42;
+"import * as cdktf from \\"cdktf\\";
+const howMany = 42;
 const isItGreat = true;
 const owner = \\"Community Team\\";
 const serviceName = \\"forum\\";
+new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+});
 "
 `;
 
@@ -457,7 +469,7 @@ exports[`convert locals references configuration 1`] = `
 const bucketName = \\"foo\\";
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: \`\\\\\${\${bucketName.fqn}}\`,
+  bucket: bucketName,
 });
 "
 `;
@@ -521,10 +533,14 @@ new aws.SecurityGroup(this, \\"allow_tls\\", {
 `;
 
 exports[`convert multiple locals blocks configuration 1`] = `
-"const owner = \\"Community Team\\";
+"import * as cdktf from \\"cdktf\\";
+const owner = \\"Community Team\\";
 const serviceName = \\"forum\\";
 const howMany = 42;
 const isItGreat = true;
+new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+});
 "
 `;
 

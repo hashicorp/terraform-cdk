@@ -14,6 +14,7 @@ const nodeIds = [
   "aws_s3_bucket.otherbucket",
   "var.users",
   "aws_kms_key.key",
+  "local.service_name",
 ];
 
 describe("expressions", () => {
@@ -84,6 +85,23 @@ describe("expressions", () => {
           isVariable: false,
           start: 2,
           end: 38,
+        },
+      ]);
+    });
+
+    it("finds plain local reference", () => {
+      expect(
+        extractReferencesFromExpression("${local.service_name}", nodeIds)
+      ).toEqual([
+        {
+          referencee: {
+            id: "local.service_name",
+            full: "local.service_name",
+          },
+          useFqn: false,
+          isVariable: false,
+          start: 2,
+          end: 20,
         },
       ]);
     });

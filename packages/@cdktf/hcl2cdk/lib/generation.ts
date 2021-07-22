@@ -318,11 +318,14 @@ export function variable(
 
 export function local(
   key: string,
-  _id: string,
+  id: string,
   item: any,
   graph: DirectedGraph
 ) {
   const nodeIds = graph.nodes();
+  if (!getReference(graph, id)) {
+    return [];
+  }
   return t.variableDeclaration("const", [
     t.variableDeclarator(
       t.identifier(camelCase(key)),
@@ -357,7 +360,7 @@ export function provider(
   graph: DirectedGraph
 ) {
   const nodeIds = graph.nodes();
-  const props = item;
+  const { version, ...props } = item;
 
   return asExpression(
     `${key}.${pascalCase(key + "Provider")}`,

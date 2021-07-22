@@ -143,6 +143,8 @@ export function extractReferencesFromExpression(
     const useFqn =
       // Can not use FQN on vars
       !isVariable &&
+      // Can not use FQN on locals
+      !spot.startsWith("local.") &&
       // If the following character is
       (input.substr(end + 1, 1) === "*" || // a * (splat) we need to use the FQN
         input.substr(end, 1) === "[" || // a property access
