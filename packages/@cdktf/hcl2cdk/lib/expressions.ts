@@ -343,41 +343,31 @@ export const extractDynamicBlocks = (
 
 export function findUsedReferences(
   nodeIds: string[],
-  item: unknown,
-  references: Reference[] = []
+  item: unknown
 ): Reference[] {
-  if (Array.isArray(item)) {
-    return [
-      ...references,
-      ...item.reduce(
-        (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
-        []
-      ),
-    ];
-  }
-
-  if (typeof item === "object") {
-    if (item && "dynamic" in item) {
-      const dyn = (item as any)["dynamic"];
-      const { for_each, ...others } = dyn;
-      const dynamicRef = Object.keys(others)[0];
-      return [
-        ...references,
-        ...findUsedReferences([...nodeIds, dynamicRef], dyn),
-      ];
-    }
-    return [
-      ...references,
-      ...Object.values(item as Record<string, any>).reduce(
-        (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
-        []
-      ),
-    ];
-  }
-
   if (typeof item === "string") {
-    const extractedRefs = extractReferencesFromExpression(item, nodeIds, []);
-    return [...references, ...extractedRefs];
+    return extractReferencesFromExpression(item, nodeIds, []);
   }
-  return references;
+
+  if (typeof item !== "object" || item === null || item === undefined) {
+    return [];
+  }
+
+  if (Array.isArray(item)) {
+    return item.reduce(
+      (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
+      []
+    );
+  }
+
+  if (item && "dynamic" in item) {
+    const dyn = (item as any)["dynamic"];
+    const { for_each, ...others } = dyn;
+    const dynamicRef = Object.keys(others)[0];
+    return findUsedReferences([...nodeIds, dynamicRef], dyn);
+  }
+  return Object.values(item as Record<string, any>).reduce(
+    (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
+    []
+  );
 }

@@ -54,6 +54,10 @@ export const valueToTs = (
     case "number":
       return t.numericLiteral(item);
     case "object":
+      if (item === undefined || item === null) {
+        return t.nullLiteral();
+      }
+
       if (Array.isArray(item)) {
         return t.arrayExpression(
           item.map((i) => valueToTs(i, nodeIds, scopedIds))
