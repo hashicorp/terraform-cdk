@@ -378,6 +378,17 @@ new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
 "
 `;
 
+exports[`convert for expression 3 configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as datadog from \\"./.gen/providers/datadog\\";
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+new datadog.Monitor(this, \\"hard_query\\", {
+  name: \\"queries are hard\\",
+  query: \`\\\\\${join(\\" && \\", [for o in \${users.value} : \\"!(!\\\\\${o.id})\\"])}\`,
+});
+"
+`;
+
 exports[`convert for_each loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";

@@ -424,6 +424,20 @@ describe("convert", () => {
         }`,
     ],
     [
+      "for expression 3",
+      `
+        variable "users" {
+          type = list(object({
+            id = string
+          }))
+        }
+        
+        resource "datadog_monitor" "hard_query" {
+          name = "queries are hard"
+          query = join(" && ", [for o in var.users : "!(!\${o.id})"])
+        }`,
+    ],
+    [
       "resource references with HCL functions",
       `
         resource "aws_kms_key" "examplekms" {

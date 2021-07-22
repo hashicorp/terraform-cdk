@@ -291,7 +291,14 @@ export function referencesToAst(
 
   // trailing quasi
   quasis.push(
-    t.templateElement({ raw: input.substring(lastEnd, input.length) }, true)
+    t.templateElement(
+      {
+        raw: input
+          .substring(lastEnd, input.length)
+          .replace(DOLLAR_REGEX, "\\$"),
+      },
+      true
+    )
   );
 
   return t.templateLiteral(quasis, expressions);
