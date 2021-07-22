@@ -134,7 +134,10 @@ ${err}`);
   // that no infinite loop exists, there can be no stray dependency on a node
   const expressions: t.Statement[] = [];
   let nodesToVisit = [...nodeIds];
-  while (nodesToVisit.length > 0) {
+  // This ensures we detect cycles and don't end up in an endless loop
+  let nodesVisitedThisIteration = 0;
+  do {
+    nodesVisitedThisIteration = 0;
     graph.forEachNode((nodeId) => {
       if (!nodesToVisit.includes(nodeId)) {
         return;
@@ -146,14 +149,15 @@ ${err}`);
 
       if (unresolvedDependencies.length === 0) {
         nodesToVisit = nodesToVisit.filter((id) => nodeId !== id);
-        const list = graph.getNodeAttribute(nodeId, "code")(graph);
+        nodesVisitedThisIteration = nodesVisitedThisIteration + 1;
 
+        const list = graph.getNodeAttribute(nodeId, "code")(graph);
         (Array.isArray(list) ? list : [list]).forEach((item) =>
           expressions.push(item)
         );
       }
     });
-  }
+  } while (nodesToVisit.length > 0 && nodesVisitedThisIteration != 0);
 
   const backendExpressions = plan.terraform?.reduce(
     (carry, terraform) => [
