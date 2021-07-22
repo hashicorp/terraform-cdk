@@ -458,8 +458,9 @@ new cdktf.LocalBackend(this, {
 `;
 
 exports[`convert local module configuration 1`] = `
-"import * as AwsVpc from \\"./.gen/modules/aws_vpc\\";
-new AwsVpc.AwsVpc(this, \\"aws_vpc\\", {});
+"new TerraformHclModule.TerraformHclModule(this, \\"aws_vpc\\", {
+  source: \\"./aws_vpc\\",
+});
 "
 `;
 

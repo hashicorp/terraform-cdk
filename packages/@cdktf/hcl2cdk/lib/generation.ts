@@ -351,6 +351,18 @@ export function modules(
   const [{ source, version, ...props }] = item;
   const nodeIds = graph.nodes();
 
+  // local module
+  if (source.startsWith(".")) {
+    return asExpression(
+      "TerraformHclModule",
+      key,
+      { ...props, source },
+      nodeIds,
+      true,
+      getReference(graph, id)
+    );
+  }
+
   return asExpression(
     source,
     key,
@@ -393,14 +405,14 @@ export const providerImports = (providers: string[]) =>
   });
 
 export const moduleImports = (modules: Record<string, Module> | undefined) =>
-  Object.values(modules || {}).map(
-    ([{ source }]) =>
-      template(
-        `import * as ${pascalCase(
-          source
-        )} from "./.gen/modules/${source.replace("./", "")}"`
-      )() as t.Statement
-  );
+  Object.values(modules || {})
+    .filter(([{ source }]) => !source.startsWith("."))
+    .map(
+      ([{ source }]) =>
+        template(
+          `import * as ${pascalCase(source)} from "./.gen/modules/${source}"`
+        )() as t.Statement
+    );
 
 export function gen(statements: t.Statement[]) {
   return prettier.format(generate(t.program(statements) as any).code, {
