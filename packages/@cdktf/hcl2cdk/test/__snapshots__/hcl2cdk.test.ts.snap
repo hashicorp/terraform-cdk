@@ -786,12 +786,6 @@ new aws.Vpc(this, \\"example\\", {
 "
 `;
 
-exports[`convert variable configuration 1`] = `
-"import * as cdktf from \\"cdktf\\";
-new cdktf.TerraformVariable(this, \\"weekday\\", {});
-"
-`;
-
 exports[`convert variable references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
@@ -801,15 +795,6 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: bucketName.value,
-});
-"
-`;
-
-exports[`convert variable with default configuration 1`] = `
-"import * as cdktf from \\"cdktf\\";
-new cdktf.TerraformVariable(this, \\"availability_zone_names\\", {
-  default: [\\"us-west-1a\\"],
-  description: \\"What AMI to use to create an instance\\",
 });
 "
 `;

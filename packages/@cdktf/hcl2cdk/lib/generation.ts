@@ -310,6 +310,10 @@ export function variable(
   const [{ type, ...props }] = item;
   const nodeIds = graph.nodes();
 
+  if (!getReference(graph, id)) {
+    return [];
+  }
+
   return asExpression(
     "cdktf.TerraformVariable",
     key,

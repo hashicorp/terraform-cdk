@@ -36,16 +36,6 @@ describe("convert", () => {
             value = "second"
         }`,
     ],
-    ["variable", `variable "weekday" {}`],
-    [
-      "variable with default",
-      `
-        variable "availability_zone_names" {
-            type    = list(string)
-            default = ["us-west-1a"]
-            description = "What AMI to use to create an instance"
-        }`,
-    ],
     ["empty provider", `provider "docker" {}`],
     [
       "provider with complex config",
