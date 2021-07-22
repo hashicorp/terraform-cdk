@@ -50,3 +50,15 @@ import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2json";
 ```
 
 This transforms your Terraform project into a CDK for Terraform project, besides the resource naming the output of `terraform plan` and `cdktf plan` should be the same.
+
+## Known Limitations
+
+### Terraform Expressions are of the wrong TS/Java/C# type
+
+When working with typed languages the converter can run into problems where the Terraform Expression evaluates to a certain type but it's encoded in a string. Therefore the type checker of the language detects a type mismatch, resulting in an compilation error. These problems need to be manually solved by adding a typecast. One example would be:
+
+```ts
+{
+  booleanProperty: `\${${shouldBeTrue.value} ? true : false}`;
+}
+```

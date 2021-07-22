@@ -161,7 +161,7 @@ Create a new Python project and use a specific version of the `cdktf` package.
 $ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
-Create a new Typescript project from an existing Terraform codebase (no other template is currently supported)
+Create a new Typescript project from an existing Terraform codebase. Please be aware that only Typescript is currently supported and that there are [some known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
@@ -378,3 +378,5 @@ Examples:
 
 - Convert a local file: `cat main.tf | cdktf convert > imported.ts`
 - Convert your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
+
+There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
