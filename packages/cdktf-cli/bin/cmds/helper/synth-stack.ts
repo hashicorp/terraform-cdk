@@ -4,9 +4,8 @@ import * as path from "path";
 import * as chalk from "chalk";
 import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
-import { ReportRequest, ReportParams } from "../../../lib/checkpoint";
+import { sendTelemetry } from "../../../lib/checkpoint";
 import { performance } from "perf_hooks";
-import { versionNumber } from "../version-check";
 
 const chalkColour = new chalk.Instance();
 
@@ -127,15 +126,7 @@ ${
     command: string,
     totalTime: number
   ): Promise<void> {
-    const reportParams: ReportParams = {
-      command: "synth",
-      product: "cdktf",
-      version: versionNumber(),
-      dateTime: new Date(),
-      payload: { command: command, totalTime: totalTime },
-    };
-
-    await ReportRequest(reportParams);
+    await sendTelemetry("synth", { command: command, totalTime: totalTime });
   }
 
   public static async synthErrorTelemetry(command: string) {
