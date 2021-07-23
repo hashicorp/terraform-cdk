@@ -134,15 +134,14 @@ class Parser {
         default:
           throw Errors.Internal(
             "get",
-            `invalid primitive type ${attributeType}`,
-            {}
+            `invalid primitive type ${attributeType}`
           );
       }
     }
 
     if (Array.isArray(attributeType)) {
       if (attributeType.length !== 2) {
-        throw Errors.Internal("get", `unexpected array`, {});
+        throw Errors.Internal("get", `unexpected array`);
       }
 
       const [kind, type] = attributeType;
@@ -188,7 +187,7 @@ class Parser {
       }
     }
 
-    throw Errors.Internal("get", `unknown type ${attributeType}`, {});
+    throw Errors.Internal("get", `unknown type ${attributeType}`);
   }
 
   public renderAttributesForBlock(parentType: Scope, block: Block) {

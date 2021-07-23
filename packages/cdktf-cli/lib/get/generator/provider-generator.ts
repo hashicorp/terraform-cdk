@@ -26,7 +26,7 @@ const isMatching = (
     const [hostname, scope, provider] = elements;
 
     if (!hostname || !scope || !provider) {
-      throw Errors.Internal("get", `can't handle ${terraformSchemaName}`, {});
+      throw Errors.Internal("get", `can't handle ${terraformSchemaName}`);
     }
 
     return target.name === provider;
@@ -115,7 +115,7 @@ export class TerraformProviderGenerator {
           isMatching(p, fqpn)
         );
         if (!constraint) {
-          throw Errors.Internal("get", `can't handle ${fqpn}`, {});
+          throw Errors.Internal("get", `can't handle ${fqpn}`);
         }
         providerResource.providerVersionConstraint = constraint.version;
         providerResource.terraformProviderSource = constraint.source;
