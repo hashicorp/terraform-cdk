@@ -20,8 +20,6 @@ describe("full integration test synth", () => {
       fail("Expected synth to fail but no error was thrown");
     } catch (e) {
       expect(e.code).toBe(1);
-      console.log("TEST RECEIVED ERR", e.stderr.toString());
-      console.log("jest fails with:");
       const errorString = e.stderr.toString();
       expect(errorString).toContain(
         `cdktf encountered an error while synthesizing`
