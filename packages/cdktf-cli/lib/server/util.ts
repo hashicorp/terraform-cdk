@@ -1,7 +1,7 @@
 import parseGitignore from "parse-gitignore";
 import * as path from "path";
 import { promises as fs } from "fs";
-import { WatchState } from "./WatchClient";
+import { WatchErrorOrigin, WatchState } from "./WatchClient";
 import {
   DeployingResourceApplyState,
   PlannedResourceAction,
@@ -36,6 +36,12 @@ export type GraphQLWatchState = {
       | "ERROR";
     changedAt: number;
   }>;
+  error?: {
+    message: string;
+    recoverable: boolean;
+    origin: WatchErrorOrigin | "SERVER";
+    timestamp: number;
+  };
 };
 
 export function mapWatchState(state: WatchState): GraphQLWatchState {
@@ -53,6 +59,12 @@ export function mapWatchState(state: WatchState): GraphQLWatchState {
       deployState: deployingResourceApplyStateReverseMap[r.applyState],
       changedAt: r.changedAt,
     })),
+    error: state.error ? {
+        message: state.error.message,
+        origin: state.error.origin,
+        recoverable: state.error.recoverable,
+        timestamp: state.error.timestamp,
+    } : undefined
   };
 }
 

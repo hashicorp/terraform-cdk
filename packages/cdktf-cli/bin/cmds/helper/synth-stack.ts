@@ -25,7 +25,8 @@ interface ManifestJson {
 export class SynthStack {
   public static async synth(
     command: string,
-    outdir: string
+    outdir: string,
+    graceful = false // will not exit the process but rethrow the error instead
   ): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
@@ -67,20 +68,28 @@ Command output on stderr:
 }
 ${
   e.stdout
-    ? `Command output on stdout:
+    ? chalkColour`
+Command output on stdout:
 
-{dim ${indentString(e.stdout, 4)}}`
+{dim ${indentString(e.stdout, 4)}}
+`
     : ""
 }`;
       await this.synthErrorTelemetry(command);
+      if (graceful) {
+        e.errorOutput = errorOutput;
+        throw e;
+      }
       console.error(errorOutput);
       process.exit(1);
     }
 
     if (!(await fs.pathExists(path.join(outdir, Manifest.fileName)))) {
-      console.error(
-        `ERROR: synthesis failed, app expected to create "${outdir}/${Manifest.fileName}"`
-      );
+      const errorMessage = `ERROR: synthesis failed, app expected to create "${outdir}/${Manifest.fileName}"`;
+      if (graceful) {
+        throw new Error(errorMessage);
+      }
+      console.error(errorMessage);
       process.exit(1);
     }
 

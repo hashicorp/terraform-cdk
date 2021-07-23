@@ -4,23 +4,8 @@ import { Watch } from "./ui/watch";
 import { readConfigSync } from "../../lib/config";
 import { renderInk } from "./render-ink";
 import * as chalk from "chalk";
-import fetch from "cross-fetch";
-import { default as WebSocket } from "ws";
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  ApolloProvider,
-  split,
-  from,
-} from "@apollo/client";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { WebSocketLink } from "@apollo/client/link/ws";
-import { onError } from "@apollo/client/link/error";
 import { displayVersionMessage } from "./version-check";
-import { startServer } from "../../lib/server";
-import { logger } from "../../lib/logging";
-import { SubscriptionClient } from "subscriptions-transport-ws";
+import { GraphQLServerProvider } from "../../lib/client/react";
 
 const chalkColour = new chalk.Instance();
 
@@ -71,63 +56,10 @@ class Command implements yargs.CommandModule {
       process.exit(1);
     }
 
-    // TODO: extract into separate file, maybe even inside a React Provider that sets this up
-    // and then renders the ApolloProvider, maybe in lib/client/react.ts ?
-    const port = await startServer();
-    const webSocketUri = `ws://localhost:${port}/graphql`;
-
-    const wsClient = new SubscriptionClient(
-      webSocketUri,
-      {
-        reconnect: true,
-        connectionCallback: error => logger.debug(error || 'CONNECTED to GraphqlEndpoint'),
-      },
-      WebSocket,
-    );
-    wsClient.onError(event => {
-      throw new Error(`Internal Error: Could not connect to GraphQL server ${event.message}`);
-    })
-
-    const wsLink = new WebSocketLink(wsClient);
-    const httpLink = new HttpLink({
-      uri: `http://localhost:${port}/graphql`,
-      fetch,
-    });
-
-    // Log any GraphQL errors or network error that occurred
-    const errorLink = onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors)
-        graphQLErrors.map(({ message, locations, path }) =>
-          console.log(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-          )
-        );
-      if (networkError) console.log(`[Network error]: ${networkError}`);
-    });
-
-    const networkLink = split(
-      ({ query }) => {
-        const definition = getMainDefinition(query);
-        return (
-          definition.kind === "OperationDefinition" &&
-          definition.operation === "subscription"
-        );
-      },
-      wsLink,
-      httpLink
-    );
-
-    const client = new ApolloClient({
-      link: from([errorLink, networkLink]),
-      cache: new InMemoryCache(),
-    });
-
     await renderInk(
-      // Apollo TypeScript types require us to have children in props
-      // eslint-disable-next-line react/no-children-prop
       React.createElement(
-        ApolloProvider,
-        { client, children: null },
+        GraphQLServerProvider,
+        undefined,
         React.createElement(Watch, {
           targetDir: outdir,
           targetStack: stack,

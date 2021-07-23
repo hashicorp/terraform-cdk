@@ -2,24 +2,34 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Text, Box, Static, Spacer } from "ink";
 import { Props as TextProps } from "ink/build/components/Text";
 import Spinner from "ink-spinner";
+import stripAnsi from "strip-ansi";
 import useStdoutDimensions from "ink-use-stdout-dimensions";
 import { gql, useSubscription } from "@apollo/client";
 import { GraphQLWatchState } from "../../../lib/server/util";
 import format from "date-fns/format";
+import { logger } from "../../../lib/logging";
 
 const StatusBox = ({
   status,
   stackName,
+  error,
 }: {
   status: string;
   stackName?: string;
+  error?: GraphQLWatchState["error"];
 }) => {
+  const [didDeployAlready, setDidDeployAlready] = useState(false);
+  useEffect(() => {
+    if (status === "DEPLOYING" && !didDeployAlready) setDidDeployAlready(true);
+  }, [didDeployAlready, status]);
+
   let statusText = <Text>{status}</Text>;
   const stack = stackName ? <Text color="blueBright">{stackName}</Text> : null;
   switch (status) {
     case "IDLE":
       statusText = (
         <Text>
+          {didDeployAlready && !error && "Deployment done. "}
           Watching {stack}
           {stack && " "}for changes
         </Text>
@@ -165,6 +175,23 @@ const DeployedResources = ({
   );
 };
 
+const ErrorComponent = ({
+  error,
+}: {
+  error: NonNullable<GraphQLWatchState["error"]>;
+}) => {
+  if (!error.recoverable) {
+    throw new Error(`${error.origin}: ${error.message}`);
+  }
+  logger.debug(JSON.stringify(Buffer.from(stripAnsi(error.message))));
+
+  return (
+    <Text color="redBright">
+      {error.origin}: {stripAnsi(error.message)}
+    </Text>
+  );
+};
+
 interface WatchConfig {
   targetDir: string;
   targetStack?: string;
@@ -197,6 +224,11 @@ const WATCH = gql`
         deployState
         changedAt
       }
+      error {
+        message
+        recoverable
+        origin
+      }
     }
   }
 `;
@@ -207,7 +239,7 @@ export const Watch = ({
   synthCommand,
   autoApprove,
 }: WatchConfig): React.ReactElement => {
-  const { loading, error, data } = useSubscription(WATCH, {
+  const { error, data } = useSubscription(WATCH, {
     variables: {
       dir: targetDir,
       stack: targetStack,
@@ -220,28 +252,24 @@ export const Watch = ({
     data?.watch.stacks.find((_: any, idx: number) => idx === 0)?.name;
   const status = data?.watch.status || "CONNECTING";
 
+  if (error) console.error("uncaught error ", error);
+
   // TODO: display error if an error happened
-  // TODO: display resources while deploying
+  
 
   return (
     <>
       <DeployedResources resources={data?.watch.resources} />
+      {data?.watch.error && <ErrorComponent error={data.watch.error} />}
       <Box flexDirection="column">
         {status === "DEPLOYING" && (
           <DeployingResources resources={data?.watch.resources} />
         )}
-        <StatusBox status={status} stackName={watchedStackName} />
-        {/* <Box>
-        <Text> */}
-        {/* <Newline />
-          <Text>{loading && "(loading)"}</Text>
-          <Newline />
-          <Text>error: {JSON.stringify(error)}</Text>
-          <Newline />
-          <Text>data: {JSON.stringify(data)}</Text>
-          <Newline /> */}
-        {/* </Text> */}
-        {/* </Box> */}
+        <StatusBox
+          status={status}
+          stackName={watchedStackName}
+          error={data?.watch.error}
+        />
       </Box>
     </>
   );

@@ -70,6 +70,7 @@ export const exec = async (
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
     const out = new Array<Buffer>();
+    const err = new Array<string | Uint8Array>();
     if (stdout !== undefined) {
       child.stdout?.on("data", (chunk: Buffer) => {
         processLoggerDebug(chunk);
@@ -90,12 +91,15 @@ export const exec = async (
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
         processLoggerError(chunk);
         process.stderr.write(chunk);
+        err.push(chunk);
       });
     }
     child.once("error", (err: any) => ko(err));
     child.once("close", (code: number) => {
       if (code !== 0) {
-        return ko(new Error(`non-zero exit code ${code}`));
+        const error = new Error(`non-zero exit code ${code}`);
+        (error as any).stderr = err.map((chunk) => chunk.toString()).join("");
+        return ko(error);
       }
       return ok(Buffer.concat(out).toString("utf-8"));
     });

@@ -39,6 +39,22 @@ type WatchStateStatus =
   | "PLANNING"
   | "DEPLOYING";
 
+export type WatchErrorOrigin = WatchStateStatus;
+
+class RecoverableError extends Error {
+  constructor(message: string, public origin: WatchErrorOrigin) {
+    super(message);
+    // Set the prototype explicitly. See https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    Object.setPrototypeOf(this, RecoverableError.prototype);
+  }
+}
+
+type WatchError = {
+  message: string;
+  origin: WatchErrorOrigin;
+  recoverable: boolean;
+  timestamp: number;
+};
 export interface WatchState {
   status: WatchStateStatus;
   stacks: Stack[];
@@ -46,6 +62,7 @@ export interface WatchState {
     TimestampedDeployingResource["id"],
     TimestampedDeployingResource
   >;
+  error?: WatchError;
 }
 
 export type SubscriptionHandler = (state: WatchState) => void | Promise<void>;
@@ -59,7 +76,8 @@ export class WatchClient {
 
   private subscribers = new Set<SubscriptionHandler>();
   private running = false;
-  private actionQueue: Action[] = ["SYNTH", "INIT"];
+  private needsInit = true;
+  private actionQueue: Action[] = [];
   private readonly state: DeepReadonly<WatchState> = {
     status: "IDLE",
     stacks: [],
@@ -100,38 +118,64 @@ export class WatchClient {
   }
 
   private async runSynth() {
-    this.updateState({ status: "SYNTHESIZING" });
-    const stacks = (
-      await SynthStack.synth(this.synthCommand, this.targetDir)
-    ).map<Stack>((stack) => {
-      return {
-        ...stack,
-        json: JSON.parse(stack.content) as TerraformJson,
-      };
-    });
-    this.updateState({ stacks });
+    this.updateState({ status: "SYNTHESIZING", error: undefined });
+    try {
+      const stacks = (
+        await SynthStack.synth(this.synthCommand, this.targetDir, true)
+      ).map<Stack>((stack) => {
+        return {
+          ...stack,
+          json: JSON.parse(stack.content) as TerraformJson,
+        };
+      });
+      this.updateState({
+        stacks,
+      });
+      if (this.needsInit) await this.queueAction("INIT");
+    } catch (e) {
+      throw new RecoverableError(e.errorOutput || e.message, "SYNTHESIZING");
+    }
   }
 
   private async runInit() {
     this.updateState({ status: "INITIALIZING" });
     const terraform = await this.getTerraform();
     await terraform.init();
+    this.needsInit = false;
   }
 
   private async runDeploy() {
     this.updateState({ status: "DEPLOYING" });
     const terraform = await this.getTerraform();
 
-    if (terraform instanceof TerraformCloud) {
-      // plan for Terraform Cloud remote execution also uploads the Terraform code
-      const { planFile } = await terraform.plan(false); // false = deploy
-      await terraform.deploy(planFile, this.handleTerraformOutput.bind(this));
-    } else {
-      // skip the plan to save time ⏱
-      const NO_PLAN_FILE = "";
-      await terraform.deploy(
-        NO_PLAN_FILE,
-        this.handleTerraformOutput.bind(this)
+    // remove previous errors
+    // we do this here as deploy will update the state already while
+    // in progress and we don't want to see the error while successful
+    // things already start to happen
+    this.updateState({
+      error: undefined,
+    });
+    try {
+      if (terraform instanceof TerraformCloud) {
+        // plan for Terraform Cloud remote execution also uploads the Terraform code
+        const { planFile } = await terraform.plan(false); // false = deploy
+        await terraform.deploy(planFile, this.handleTerraformOutput.bind(this));
+      } else {
+        // skip the plan to save time ⏱
+        const NO_PLAN_FILE = "";
+        await terraform.deploy(
+          NO_PLAN_FILE,
+          this.handleTerraformOutput.bind(this)
+        );
+      }
+    } catch (e) {
+      // When new providers where added or the stack name might've
+      // been changed (when using just a single stack) we need to
+      // re-init Terraform. We'll do this proactively on any error.
+      this.needsInit = true;
+      throw new RecoverableError(
+        `${e.message}${e.stderr ? `\n${e.stderr}` : ""}`,
+        "DEPLOYING"
       );
     }
   }
@@ -152,29 +196,32 @@ export class WatchClient {
   private async getTargetStack(): Promise<Stack> {
     const { stacks } = this.state;
     if (stacks.length === 0) {
-      throw new Error(
-        "Internal Error: cannot run deploy when there are no stacks"
+      throw new RecoverableError(
+        "Cannot determine target stack when there are no stacks",
+        this.state.status
       );
     }
     let stack: Stack | undefined = stacks[0];
     if (this.targetStack) {
       stack = stacks.find((s) => s.name === this.targetStack);
       if (!stack) {
-        throw new Error(
+        throw new RecoverableError(
           `Could not find stack ${this.targetStack}. Found ${stacks
             .map((s) => s.name)
-            .join(", ")}`
+            .join(", ")}`,
+          this.state.status
         );
       }
     } else if (stacks.length > 1) {
-      throw new Error(
-        "Found more than one stack, please specify which stack to watch"
+      throw new RecoverableError(
+        "Found more than one stack, please specify which stack to watch using --stack",
+        this.state.status
       );
     }
     return stack;
   }
 
-  // todo: cache instance as long as backend does not change
+  // todo: optimization: cache instance as long as backend does not change
   private async getTerraform(): Promise<Terraform> {
     const stack = await this.getTargetStack();
     if (stack.json.terraform?.backend?.remote) {
@@ -183,7 +230,11 @@ export class WatchClient {
         stack.json.terraform?.backend?.remote
       );
       if (await terraformCloud.isRemoteWorkspace()) {
-        return terraformCloud;
+        throw new RecoverableError(
+          "Using Terraform Cloud in Remote Execution Mode is not yet supported for cdktf watch",
+          this.state.status
+        );
+        // return terraformCloud;
       }
     }
     return new TerraformCli(stack);
@@ -193,33 +244,30 @@ export class WatchClient {
     this.running = true;
 
     const gitignored = await readGitignore(process.cwd());
-    console.log({ gitignored });
 
-    // if input files change -> queue a synth to be run
+    // If input files change we queue a synth to be run
     this.sourceFileWatcher = chokidar.watch(".", {
-      ignored: [
-        ...gitignored,
-        // "node_modules/**",
-        // ".gen",
-        // "cdktf.out",
-        // "*.d.ts",
-        // "*.js",
-        // "terraform.demo-cdktf-ts-docker.tfstate",
-      ],
+      ignored: gitignored,
       cwd: process.cwd(),
     });
-    this.sourceFileWatcher.on("change", () => this.queueAction("SYNTH"));
+    this.sourceFileWatcher.on("change", (path) => {
+      console.log(`synth - path changed: ${path}`);
+      this.queueAction("SYNTH");
+    });
 
-    // if out dir files change -> queue a deploy to be run
+    // If out dir files change we queue a deploy to be run
     // TODO: only watch stack.workingDirectory (as soon as stack is known)
-    this.outDirWatcher = chokidar.watch("./cdktf.out", {
+    // or: filter files for being related to the stack we're after, which might be easier
+    this.outDirWatcher = chokidar.watch(this.targetDir, {
       ignored: ["**/.terraform", "**/.terraform.lock.hcl", "*/*/*/plan"],
     });
-    this.outDirWatcher.on("change", () => this.queueAction("DEPLOY"));
+    this.outDirWatcher.on("change", (path) => {
+      console.log(`outdir - path changed: ${path}`);
+      this.queueAction("DEPLOY");
+    });
 
-    // Queue initial actions
+    // Queue initial synth to get things started
     await this.queueAction("SYNTH");
-    await this.queueAction("INIT");
 
     this.startHandlingActions();
   }
@@ -232,11 +280,10 @@ export class WatchClient {
   }
 
   private async startHandlingActions() {
-    try {
-      while (this.isRunning()) {
-        const nextAction: Action | undefined = this.actionQueue.shift();
-        if (nextAction) console.log({ nextAction });
-
+    while (this.isRunning()) {
+      const nextAction: Action | undefined = this.actionQueue.shift();
+      if (nextAction) console.log({ nextAction });
+      try {
         switch (nextAction) {
           case "SYNTH": {
             await this.runSynth();
@@ -261,15 +308,25 @@ export class WatchClient {
           }
           default: {
             console.warn(
-              `warning: received unknown action ${nextAction} skipping`
+              `warning: received unknown action ${nextAction} - ignoring it`
             );
             break;
           }
         }
+      } catch (e) {
+        if (e instanceof RecoverableError) {
+          this.updateState({
+            error: {
+              message: e.message,
+              recoverable: true,
+              origin: e.origin,
+              timestamp: Date.now(),
+            },
+          });
+        } else {
+          throw e;
+        }
       }
-    } catch (e) {
-      console.error(e);
-      process.exit(1);
     }
   }
 

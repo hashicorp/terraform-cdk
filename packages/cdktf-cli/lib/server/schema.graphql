@@ -11,23 +11,23 @@ input WatchInput {
 }
 
 enum PlannedResourceAction {
-  CREATE,
-  UPDATE,
-  DELETE,
-  READ,
-  NO_OP,
+  CREATE
+  UPDATE
+  DELETE
+  READ
+  NO_OP
 }
 
 enum DeployingResourceDeployState {
-  WAITING,
-  UPDATING,
-  UPDATED,
-  CREATING,
-  CREATED,
-  DESTROYING,
-  DESTROYED,
-  SUCCESS,
-  ERROR,
+  WAITING
+  UPDATING
+  UPDATED
+  CREATING
+  CREATED
+  DESTROYING
+  DESTROYED
+  SUCCESS
+  ERROR
 }
 
 type DeployingResource {
@@ -38,11 +38,19 @@ type DeployingResource {
 }
 
 enum STATUS {
- IDLE,
- SYNTHESIZING,
- INITIALIZING,
- PLANNING,
- DEPLOYING,
+  IDLE
+  SYNTHESIZING
+  INITIALIZING
+  PLANNING
+  DEPLOYING
+}
+
+enum ERROR_ORIGIN {
+  SYNTHESIZING
+  INITIALIZING
+  PLANNING
+  DEPLOYING
+  SERVER
 }
 
 type Stack {
@@ -52,13 +60,20 @@ type Stack {
   workingDirectory: String!
 }
 
+type Error {
+  message: String!
+  recoverable: Boolean!
+  origin: ERROR_ORIGIN!
+  timestamp: Float! # TODO: change this to custom date scalar
+}
+
 type WatchState {
   status: STATUS!
   stacks: [Stack]!
   resources: [DeployingResource]!
+  error: Error
 }
 
 type Subscription {
   watch(inputs: WatchInput): WatchState
 }
-

@@ -9,7 +9,7 @@ import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { PubSub } from "graphql-subscriptions";
 import path from "path";
 import { WatchClient, WatchState } from "./WatchClient";
-import { mapWatchState } from "./util";
+import { GraphQLWatchState, mapWatchState } from "./util";
 
 type WatchInputs = {
   targetDir: string;
@@ -39,25 +39,44 @@ async function startApolloServer() {
           _parent: undefined,
           args: { inputs: WatchInputs }
         ) => {
+          // create this here so that events with errors published
+          // while startup reach the client
+          const iterator = pubsub.asyncIterator([WATCH_EVENT]);
+
           if (watchClient && (await watchClient.isRunning())) {
             console.warn(
               "There is already a watch running, you will receive the updates from that run but no new one is started."
             );
           } else {
-            watchClient = new WatchClient(args.inputs);
+            try {
+              watchClient = new WatchClient(args.inputs);
 
-            // TODO: subscribe returns an unsubscribe function but that connect reliably
-            // be used with PubSub – that lib is recommended by Apollo docs but seems to
-            // be unmaintained, maybe ditch it? see https://github.com/apollographql/graphql-subscriptions/issues/240#issuecomment-767568596
-            watchClient.subscribe((state: WatchState) =>
-              pubsub.publish(WATCH_EVENT, {
-                watch: mapWatchState(state),
-              })
-            );
-            watchClient.start();
+              // TODO: subscribe returns an unsubscribe function but that connect reliably
+              // be used with PubSub – that lib is recommended by Apollo docs but seems to
+              // be unmaintained, maybe ditch it? see https://github.com/apollographql/graphql-subscriptions/issues/240#issuecomment-767568596
+              watchClient.subscribe((state: WatchState) =>
+                pubsub.publish(WATCH_EVENT, {
+                  watch: mapWatchState(state),
+                })
+              );
+              watchClient.start();
+            } catch (e) {
+              const state: GraphQLWatchState = {
+                resources: [],
+                stacks: [],
+                status: "IDLE",
+                error: {
+                  origin: "SERVER",
+                  message: "",
+                  timestamp: Date.now(),
+                  recoverable: false,
+                },
+              };
+              pubsub.publish(WATCH_EVENT, state);
+            }
           }
 
-          return pubsub.asyncIterator([WATCH_EVENT]);
+          return iterator;
         },
       },
     },
