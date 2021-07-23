@@ -67,12 +67,18 @@ async function startApolloServer() {
                 status: "IDLE",
                 error: {
                   origin: "SERVER",
-                  message: "",
+                  message: e.message,
                   timestamp: Date.now(),
                   recoverable: false,
                 },
               };
-              pubsub.publish(WATCH_EVENT, state);
+              // TODO: get rid if this hack somehow.
+              // this has to be done because the client won't receive this
+              // error if it is published before the iterator has been returned
+              setTimeout(
+                () => pubsub.publish(WATCH_EVENT, { watch: state }),
+                1000
+              );
             }
           }
 
