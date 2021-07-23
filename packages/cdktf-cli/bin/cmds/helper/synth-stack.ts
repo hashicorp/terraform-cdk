@@ -130,14 +130,6 @@ ${
   }
 
   public static async synthErrorTelemetry(command: string) {
-    const reportParams: ReportParams = {
-      command: "synth",
-      product: "cdktf",
-      version: versionNumber(),
-      dateTime: new Date(),
-      payload: { command, error: true },
-    };
-
-    await ReportRequest(reportParams);
+    await sendTelemetry("synth", { command, error: true });
   }
 }

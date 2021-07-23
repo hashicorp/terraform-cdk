@@ -22,7 +22,7 @@ export interface ReportParams {
 }
 
 async function post(url: string, data: string) {
-  return new Promise<any>((ok, ko) => {
+  return new Promise<void>((ok, ko) => {
     const req = https.request(
       format(url),
       {
