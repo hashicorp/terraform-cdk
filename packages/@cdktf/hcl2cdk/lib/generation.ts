@@ -4,6 +4,7 @@ import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
 
+import { TerraformResourceBlock } from "./types";
 import { camelCase, pascalCase } from "./utils";
 import {
   Resource,
@@ -38,7 +39,7 @@ function getReference(graph: DirectedGraph, id: string) {
 }
 
 export const valueToTs = (
-  item: any,
+  item: TerraformResourceBlock,
   nodeIds: string[],
   scopedIds: string[] = []
 ): t.Expression => {
@@ -222,7 +223,7 @@ export function resource(
           nodeIds,
           [scopedVar]
         )
-      ) as any;
+      );
     }),
   ];
 }
@@ -230,12 +231,12 @@ export function resource(
 function asExpression(
   type: string,
   name: string,
-  config: any,
+  config: TerraformResourceBlock,
   nodeIds: string[],
   isModule: boolean,
   reference?: Reference
 ) {
-  const { provider, providers, lifecycle, ...otherOptions } = config;
+  const { provider, providers, lifecycle, ...otherOptions } = config as any;
 
   const expression = t.newExpression(constructAst(type, isModule), [
     t.thisExpression(),
@@ -327,7 +328,7 @@ export function variable(
 export function local(
   key: string,
   id: string,
-  item: any,
+  item: TerraformResourceBlock,
   graph: DirectedGraph
 ) {
   const nodeIds = graph.nodes();

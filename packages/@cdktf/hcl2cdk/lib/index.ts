@@ -11,6 +11,7 @@ import * as z from "zod";
 import { schema } from "./schema";
 import { findUsedReferences } from "./expressions";
 import { cdktfImport, providerImports, moduleImports, gen } from "./generation";
+import { TerraformResourceBlock } from "./types";
 import {
   forEachProvider,
   forEachGlobal,
@@ -75,7 +76,7 @@ ${err}`);
 
   // Finding references becomes easier of the to be referenced ids are already known
   const nodeIds = Object.keys(nodeMap);
-  function addEdges(id: string, value: unknown) {
+  function addEdges(id: string, value: TerraformResourceBlock) {
     findUsedReferences(nodeIds, value).forEach((ref) => {
       if (
         !graph.hasDirectedEdge(ref.referencee.id, id) &&
@@ -96,17 +97,25 @@ ${err}`);
 
   // We recursively inspect each resource value to find references to other values
   // We add these to a dependency graph so that the programming code has the right order
-  function addGlobalEdges(_key: string, id: string, value: unknown) {
+  function addGlobalEdges(
+    _key: string,
+    id: string,
+    value: TerraformResourceBlock
+  ) {
     addEdges(id, value);
   }
-  function addProviderEdges(key: string, _id: string, value: unknown) {
+  function addProviderEdges(
+    key: string,
+    _id: string,
+    value: TerraformResourceBlock
+  ) {
     addEdges(key, value);
   }
   function addNamespacedEdges(
     _type: string,
     _key: string,
     id: string,
-    value: unknown
+    value: TerraformResourceBlock
   ) {
     addEdges(id, value);
   }

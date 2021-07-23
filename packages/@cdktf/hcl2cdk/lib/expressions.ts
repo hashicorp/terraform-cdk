@@ -1,5 +1,6 @@
 import * as t from "@babel/types";
 import { camelCase, pascalCase } from "./utils";
+import { TerraformResourceBlock } from "./types";
 
 export type Reference = {
   start: number;
@@ -311,15 +312,19 @@ export function referencesToAst(
 
 export type DynamicBlock = {
   path: string;
-  for_each: any;
-  content: any;
+  for_each: string;
+  content: TerraformResourceBlock;
   scopedVar: string;
 };
 export const extractDynamicBlocks = (
-  config: any,
+  config: TerraformResourceBlock,
   path = ""
 ): DynamicBlock[] => {
   if (typeof config !== "object") {
+    return [];
+  }
+
+  if (!config) {
     return [];
   }
 
@@ -333,9 +338,10 @@ export const extractDynamicBlocks = (
     );
   }
 
-  if (config["dynamic"]) {
-    const scopedVar = Object.keys(config["dynamic"])[0];
-    const { for_each, content } = config["dynamic"][scopedVar][0];
+  if ("dynamic" in config) {
+    const dynamic = (config as any).dynamic;
+    const scopedVar = Object.keys(dynamic)[0];
+    const { for_each, content } = dynamic[scopedVar][0];
 
     return [
       {
@@ -354,7 +360,7 @@ export const extractDynamicBlocks = (
 
 export function findUsedReferences(
   nodeIds: string[],
-  item: unknown
+  item: TerraformResourceBlock
 ): Reference[] {
   if (typeof item === "string") {
     return extractReferencesFromExpression(item, nodeIds, []);
