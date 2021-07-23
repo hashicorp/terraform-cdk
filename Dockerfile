@@ -1,4 +1,4 @@
-FROM docker.mirror.hashicorp.services/jsii/superchain
+FROM docker.mirror.hashicorp.services/jsii/superchain:node14
 
 RUN yum install -y unzip jq && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
 
