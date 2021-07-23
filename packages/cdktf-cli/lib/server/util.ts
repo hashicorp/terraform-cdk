@@ -59,12 +59,14 @@ export function mapWatchState(state: WatchState): GraphQLWatchState {
       deployState: deployingResourceApplyStateReverseMap[r.applyState],
       changedAt: r.changedAt,
     })),
-    error: state.error ? {
-        message: state.error.message,
-        origin: state.error.origin,
-        recoverable: state.error.recoverable,
-        timestamp: state.error.timestamp,
-    } : undefined
+    error: state.error
+      ? {
+          message: state.error.message,
+          origin: state.error.origin,
+          recoverable: state.error.recoverable,
+          timestamp: state.error.timestamp,
+        }
+      : undefined,
   };
 }
 

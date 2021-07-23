@@ -255,7 +255,6 @@ export const Watch = ({
   if (error) console.error("uncaught error ", error);
 
   // TODO: display error if an error happened
-  
 
   return (
     <>

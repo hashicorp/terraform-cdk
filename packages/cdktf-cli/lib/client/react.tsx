@@ -25,7 +25,11 @@ const useAsyncEffect = (fun: () => Promise<void>, deps: Array<any>) => {
   }, deps);
 };
 
-export const GraphQLServerProvider = ({ children }: { children: ReactNode }) => {
+export const GraphQLServerProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const [client, setClient] = useState<
     ApolloClient<NormalizedCacheObject> | undefined
   >();
