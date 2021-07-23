@@ -57,6 +57,11 @@ const awsRoute53RecordExample = new aws.Route53Record(this, \\"example\\", {
   type: \\"\${each.value.type}\\",
   zoneId: dataAwsRoute53ZoneExample.zoneId,
 });
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
 awsRoute53RecordExample.addOverride(
   \\"for_each\\",
   \`\\\\\${{
@@ -235,6 +240,11 @@ const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
     tagKey: \\"tag-value\\",
   },
 });
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
 awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.value})}\`);
 "
 `;
@@ -297,6 +307,11 @@ const awsElasticBeanstalkEnvironmentTfenvtest =
     name: \\"tf-test-name\\",
     solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
   });
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
 awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
   for_each: settings.value,
   content: [
@@ -328,6 +343,11 @@ const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: \\"\${each.key}\\",
 });
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
 awsS3BucketExamplebucket.addOverride(
   \\"for_each\\",
   \`\\\\\${toset(\${buckets.value}.*)}\`
@@ -342,6 +362,11 @@ const awsS3BucketObjectExamplebucketObject = new aws.S3BucketObject(
     source: \\"index.html\\",
   }
 );
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
 awsS3BucketObjectExamplebucketObject.addOverride(
   \\"for_each\\",
   \`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`
@@ -400,6 +425,11 @@ const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
     tagKey: \\"tag-value\\",
   },
 });
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
 awsIamUserLb.addOverride(\\"for_each\\", users.value);
 "
 `;
@@ -428,6 +458,11 @@ const azureadUserAzureUsers = new azuread.User(this, \\"azure_users\\", {
   displayName: \\"\${each.key}\\",
   userPrincipalName: \`\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\`,
 });
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
 azureadUserAzureUsers.addOverride(
   \\"for_each\\",
   \`\\\\\${merge(

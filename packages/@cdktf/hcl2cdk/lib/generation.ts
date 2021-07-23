@@ -134,14 +134,21 @@ export function backendToExpression(
 function addOverrideExpression(
   variable: string,
   path: string,
-  value: t.Expression
+  value: t.Expression,
+  explanatoryComment?: string
 ) {
-  return t.expressionStatement(
+  const ast = t.expressionStatement(
     t.callExpression(
       t.memberExpression(t.identifier(variable), t.identifier("addOverride")),
       [t.stringLiteral(path), value]
     )
   );
+
+  if (explanatoryComment) {
+    t.addComment(ast, "leading", explanatoryComment);
+  }
+
+  return ast;
 }
 
 export function resource(
@@ -181,6 +188,10 @@ export function resource(
   ];
   const varName = variableName(resource, key);
 
+  const loopComment = `In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.`;
   if (for_each) {
     const references = extractReferencesFromExpression(for_each, nodeIds, [
       "each",
@@ -189,7 +200,8 @@ export function resource(
       addOverrideExpression(
         varName,
         "for_each",
-        referencesToAst(for_each, references)
+        referencesToAst(for_each, references),
+        loopComment
       )
     );
   }
@@ -202,7 +214,8 @@ export function resource(
       addOverrideExpression(
         varName,
         "count",
-        referencesToAst(count, references)
+        referencesToAst(count, references),
+        loopComment
       )
     );
   }
@@ -210,7 +223,6 @@ export function resource(
   // Check for dynamic blocks
   return [
     ...expressions,
-    // TODO: fix var name bug
     ...dynBlocks.map(({ path, for_each, content, scopedVar }) => {
       return addOverrideExpression(
         varName,
@@ -222,7 +234,8 @@ export function resource(
           },
           nodeIds,
           [scopedVar]
-        )
+        ),
+        loopComment
       );
     }),
   ];
