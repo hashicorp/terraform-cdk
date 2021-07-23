@@ -52,8 +52,13 @@ export class TestDriver {
         });
       });
     } catch (e) {
-      console.log(e.stdout.toString());
-      console.error(e.stderr.toString());
+      if (e.stdout) {
+        console.log(e.stdout.toString());
+      }
+      if (e.stderr) {
+        console.error(e.stderr.toString());
+      }
+
       throw e;
     }
   }

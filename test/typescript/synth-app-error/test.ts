@@ -20,11 +20,15 @@ describe("full integration test synth", () => {
       fail("Expected synth to fail but no error was thrown");
     } catch (e) {
       expect(e.code).toBe(1);
-      expect(e.stderr.toString())
-        .toContain(`cdktf encountered an error while synthesizing
+      const errorString = e.stderr.toString();
+      expect(errorString).toContain(
+        `cdktf encountered an error while synthesizing`
+      );
 
-Synth command: npm run --silent compile && node thisFileDoesNotExist.js
-Error:         non-zero exit code 1`);
+      expect(errorString).toContain(
+        `Synth command: npm run --silent compile && node thisFileDoesNotExist.js`
+      );
+      expect(errorString).toContain(`Error:         non-zero exit code 1`);
     }
   });
 });
