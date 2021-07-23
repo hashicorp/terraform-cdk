@@ -113,7 +113,8 @@ export function extractReferencesFromExpression(
       console.error(
         `Found a reference that is unknown: ${input} has reference "${spot}". The id was not found in ${JSON.stringify(
           nodeIds
-        )} with temporary values ${JSON.stringify(scopedIds)}`
+        )} with temporary values ${JSON.stringify(scopedIds)}.
+        Please leave a comment at https://github.com/hashicorp/terraform-cdk/issues/842 if you run into this issue.`
       );
       return carry;
     }
