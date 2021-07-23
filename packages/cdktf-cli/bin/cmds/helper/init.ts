@@ -128,24 +128,27 @@ This means that your Terraform state file will be stored locally on disk in a fi
       const combinedTfFile = getProjectTerraformFiles(
         path.resolve(process.cwd(), argv.fromTerraformProject)
       );
-      const { code, cdktfJson, stats } = await convertProject(
-        combinedTfFile,
-        mainTs,
-        require(path.resolve(destination, "cdktf.json")),
-        {
-          language: "typescript",
-        }
-      );
+      try {
+        const { code, cdktfJson, stats } = await convertProject(
+          combinedTfFile,
+          mainTs,
+          require(path.resolve(destination, "cdktf.json")),
+          {
+            language: "typescript",
+          }
+        );
 
-      fs.writeFileSync(path.resolve(destination, "main.ts"), code, "utf8");
-      fs.writeFileSync(
-        path.resolve(destination, "cdktf.json"),
-        cdktfJson,
-        "utf8"
-      );
+        fs.writeFileSync(path.resolve(destination, "main.ts"), code, "utf8");
+        fs.writeFileSync(
+          path.resolve(destination, "cdktf.json"),
+          cdktfJson,
+          "utf8"
+        );
 
-      telemetryData.conversionStats = stats;
-
+        telemetryData.conversionStats = stats;
+      } catch (err) {
+        throw Errors.Internal("init", err, { fromTerraformProject: true });
+      }
       execSync("npm run get", { cwd: destination });
     } else {
       console.error(
