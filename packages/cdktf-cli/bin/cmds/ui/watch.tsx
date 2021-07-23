@@ -7,7 +7,6 @@ import useStdoutDimensions from "ink-use-stdout-dimensions";
 import { gql, useSubscription } from "@apollo/client";
 import { GraphQLWatchState } from "../../../lib/server/util";
 import format from "date-fns/format";
-import { logger } from "../../../lib/logging";
 
 const StatusBox = ({
   status,
@@ -183,8 +182,6 @@ const ErrorComponent = ({
   if (!error.recoverable) {
     throw new Error(`${error.origin}: ${error.message}`);
   }
-  logger.debug(JSON.stringify(Buffer.from(stripAnsi(error.message))));
-
   return (
     <Text color="redBright">
       {error.origin}: {stripAnsi(error.message)}
@@ -253,7 +250,6 @@ export const Watch = ({
   const status = data?.watch.status || "CONNECTING";
 
   if (error) console.error("uncaught error ", error);
-
   // TODO: display error if an error happened
 
   return (

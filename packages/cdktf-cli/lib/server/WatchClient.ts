@@ -14,6 +14,7 @@ import { TerraformCloud } from "../../bin/cmds/ui/models/terraform-cloud";
 import { parseOutput } from "../../bin/cmds/ui/terraform-context";
 import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
 import { readGitignore } from "./util";
+import { hashPath } from "cdktf/lib/private/fs";
 
 interface WatchClientOptions {
   targetDir: string;
@@ -78,6 +79,7 @@ export class WatchClient {
   private running = false;
   private needsInit = true;
   private actionQueue: Action[] = [];
+  private lastTargetStackHash?: string;
   private readonly state: DeepReadonly<WatchState> = {
     status: "IDLE",
     stacks: [],
@@ -145,6 +147,16 @@ export class WatchClient {
   }
 
   private async runDeploy() {
+    const { workingDirectory, name } = await this.getTargetStack();
+    console.log({ workingDirectory });
+    const newTargetStackHash = hashPath(workingDirectory);
+    if (this.lastTargetStackHash === newTargetStackHash) {
+      console.log(`skipping deploy because hash ("${this.lastTargetStackHash}") of target stack "${name}" did not change for working directory ${workingDirectory}`);
+      return;
+    } else {
+      console.log(`continuing deploy because new hash ("${newTargetStackHash}") of working directory "${workingDirectory}" differs from previous hash "${this.lastTargetStackHash}"`);
+    }
+
     this.updateState({ status: "DEPLOYING" });
     const terraform = await this.getTerraform();
 
@@ -168,6 +180,8 @@ export class WatchClient {
           this.handleTerraformOutput.bind(this)
         );
       }
+      // deployment was successful -> update hash
+      this.lastTargetStackHash = newTargetStackHash;
     } catch (e) {
       // When new providers where added or the stack name might've
       // been changed (when using just a single stack) we need to

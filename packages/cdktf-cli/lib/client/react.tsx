@@ -48,7 +48,8 @@ export const GraphQLServerProvider = ({
     );
     wsClient.onError((event) => {
       throw new Error(
-        `Internal Error: Could not connect to GraphQL server ${event.message}`
+        `Watch could not connect to spawned GraphQL server which handles watching of files and deploying changes: ${event.message}
+More debug info can be found in cdktf.log. Enable logging by setting the environment variable CDKTF_DISABLE_LOGGING to false`
       );
     });
 
