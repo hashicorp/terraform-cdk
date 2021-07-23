@@ -51,7 +51,7 @@ class Command implements yargs.CommandModule {
 
     if (!autoApprove) {
       console.error(
-        chalkColour`{redBright ERROR: The watch command currently always automatically deploys and approves changes. Please add the --auto-approve flag to confirm you understand this behaviour.}`
+        chalkColour`{redBright ERROR: The watch command currently always automatically deploys and approves changes. To make this behaviour explicit the --auto-approve flag must be set}`
       );
       process.exit(1);
     }
