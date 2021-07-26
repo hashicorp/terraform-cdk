@@ -8,7 +8,7 @@ Uses `@cdktf/hcl2cdk` to transform HCL configuration to CDK constructs.
 yarn install @cdktf/hcl2cdk
 ```
 
-### Covert HCL strings to Constructs
+### Convert HCL strings to Constructs
 
 ```ts
 import { convert } from "@cdktf/hcl2cdk";
