@@ -332,7 +332,7 @@ export async function convertProject(
 
   return {
     code: prettier.format(outputMainFile, { parser: "babel" }),
-    cdktfJson: prettier.format(JSON.stringify(cdktfJson), { parser: "json" }),
+    cdktfJson,
     stats,
   };
 }
