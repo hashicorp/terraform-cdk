@@ -60,7 +60,12 @@ When working with typed languages the converter can run into problems where the 
 
 ```ts
 {
-  booleanProperty: `\${${shouldBeTrue.value} ? true : false}`;
+  // Typescript expects a boolean here, but a string is passed
+  booleanProperty:
+    ( // This Terraform expression evaluates to a boolean as required by the property
+      `\${${shouldBeTrue.value} ? true : false}`
+      as boolean // We need to cast the type so that Typescript understand the right type is being passed
+    );
 }
 ```
 
