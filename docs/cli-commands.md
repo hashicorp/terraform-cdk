@@ -345,7 +345,7 @@ $ cdktf login
 
 ### cdktf convert
 
-This command converts Terraform configuration written in HCL to CDK configuration that does the same in the language of your choice.
+This command converts Terraform configuration written in HCL to CDK configuration that does the same in the language of your choice. The convert functionality only covers Terraform 1.0, everything below is not guaranteed to be working. There is also functionality not covered for Terraform 1.0, please see [the known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
 
 ```
 cdktf convert [OPTIONS]
