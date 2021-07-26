@@ -17,22 +17,23 @@ $ cdktf --help
 Help output:
 
 ```
-cdktf [command]
-
 Commands:
-  cdktf deploy [OPTIONS]   Deploy the given stack
-  cdktf destroy [OPTIONS]  Destroy the given stack
-  cdktf diff [OPTIONS]     Perform a diff (terraform plan) for the given stack
-  cdktf get [OPTIONS]      Generate CDK Constructs for Terraform providers and modules.
-  cdktf init [OPTIONS]     Create a new cdktf project from a template.
-  cdktf login              Retrieves an API token to connect to Terraform Cloud.
-  cdktf synth [OPTIONS]    Synthesizes Terraform code for the given app in a directory.                                                                                                    [aliases: synthesize]
+  cdktf convert [OPTIONS]          Converts a single file of HCL configuration to Terraform CDK. Takes the file to be converted on stdin.
+  cdktf deploy [stack] [OPTIONS]   Deploy the given stack                                                                                                                                                   [aliases: apply]
+  cdktf destroy [stack] [OPTIONS]  Destroy the given stack
+  cdktf diff [stack] [OPTIONS]     Perform a diff (terraform plan) for the given stack                                                                                                                       [aliases: plan]
+  cdktf get [OPTIONS]              Generate CDK Constructs for Terraform providers and modules.
+  cdktf init [OPTIONS]             Create a new cdktf project from a template.
+  cdktf list [OPTIONS]             List stacks in app.
+  cdktf login                      Retrieves an API token to connect to Terraform Cloud.
+  cdktf synth [stack] [OPTIONS]    Synthesizes Terraform code for the given app in a directory.                                                                                                        [aliases: synthesize]
 
 Options:
-  --version          Show version number                                                                                                                                                               [boolean]
-  --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                              [boolean] [default: true]
-  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                              [string]
-  -h, --help         Show help                                                                                                                                                                         [boolean]
+  --version                   Show version number                                                                                                                                                                  [boolean]
+  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                                 [boolean] [default: true]
+  --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV. [boolean] [default: false]
+  --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                                 [string]
+  -h, --help                  Show help                                                                                                                                                                            [boolean]
 
 Options can be specified via environment variables with the "CDKTF_" prefix (e.g. "CDKTF_OUTPUT")
 ```
@@ -43,13 +44,19 @@ If running in automated environments, the dynamic CLI output rendering can be fo
 
 ## Available commands
 
-- [get](#cdktf-get)
-- [init](#cdktf-init)
-- [synth](#cdktf-synth)
-- [diff](#cdktf-diff)
-- [deploy](#cdktf-deploy)
-- [destroy](#cdktf-destroy)
-- [login](#cdktf-login)
+- [cdktf-cli](#cdktf-cli)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [CI environment](#ci-environment)
+  - [Available commands](#available-commands)
+    - [cdktf get](#cdktf-get)
+    - [cdktf init](#cdktf-init)
+    - [cdktf synth](#cdktf-synth)
+    - [cdktf diff](#cdktf-diff)
+    - [cdktf deploy](#cdktf-deploy)
+    - [cdktf destroy](#cdktf-destroy)
+    - [cdktf login](#cdktf-login)
+    - [cdktf convert](#cdktf-convert)
 
 ### cdktf get
 
@@ -110,16 +117,25 @@ cdktf init [OPTIONS]
 Create a new cdktf project from a template.
 
 Options:
-  --version              Show version number                                                                                                                                  [boolean]
-  --disable-logging      Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                 [boolean] [default: true]
-  --log-level            Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                 [string]
-  --template             The template name to be used to create a new project.                                                               [string] [choices: "python", "typescript", "java", "csharp", "go"]
-  --project-name         The name of the project.                                                                                                                              [string]
-  --project-description  The description of the project.                                                                                                                       [string]
-  --dist                 Install dependencies from a "dist" directory (for development)                                                                                        [string]
-  --local                Use local remote state storage for generated Terraform.                                                                             [boolean] [default: false]
-  --cdktf-version        The cdktf version to use while creating a new project.                                                                             [string] [default: "0.0.0"]
-  -h, --help             Show help                                                                                                                                            [boolean]
+  --version                   Show version number                                                         [boolean]
+  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.
+                                                                                          [boolean] [default: true]
+  --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is
+                              configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                         [boolean] [default: false]
+  --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL
+                                                                                                           [string]
+  --template                  The template to be used to create a new project. Either URL to zip file or one of the
+                              built-in templates: ["csharp", "go", "java", "python", "python-pip", "typescript"]
+                                                                                                           [string]
+  --project-name              The name of the project.                                                     [string]
+  --project-description       The description of the project.                                              [string]
+  --dist                      Install dependencies from a "dist" directory (for development)               [string]
+  --local                     Use local state storage for generated Terraform.           [boolean] [default: false]
+  --cdktf-version             The cdktf version to use while creating a new project.    [string] [default: "0.0.0"]
+  --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the
+                              .tf files in the path                                                        [string]
+  -h, --help                  Show help                                                                   [boolean]
 ```
 
 Examples:
@@ -134,6 +150,12 @@ Create a new Python project and use a specific version of the `cdktf` package.
 
 ```bash
 $ cdktf init --template="python" --cdktf-version="0.0.1"
+```
+
+Create a new Typescript project from an existing Terraform codebase. Please be aware that only Typescript is currently supported and that there are [some known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
+
+```bash
+$ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
 ```
 
 ### cdktf synth
@@ -320,3 +342,32 @@ Fetch an API token from Terraform Cloud.
 ```bash
 $ cdktf login
 ```
+
+### cdktf convert
+
+This command converts Terraform configuration written in HCL to CDK configuration that does the same in the language of your choice. The convert functionality only covers Terraform 1.0, everything below is not guaranteed to be working. There is also functionality not covered for Terraform 1.0, please see [the known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
+
+```
+cdktf convert [OPTIONS]
+
+Converts a single file of HCL configuration to Terraform CDK. Takes the file to be converted on stdin.
+
+Options:
+  --version                   Show version number                                                   [boolean]
+  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.
+                                                                                    [boolean] [default: true]
+  --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin
+                              cache is configured differently. Supported using the env
+                              CDKTF_DISABLE_PLUGIN_CACHE_ENV.                      [boolean] [default: false]
+  --log-level                 Which log level should be written. Only supported via setting the env
+                              CDKTF_LOG_LEVEL                                                        [string]
+  --language                      [choices: "typescript", "python", "csharp", "java"] [default: "typescript"]
+  -h, --help                  Show help                                                             [boolean]
+```
+
+Examples:
+
+- Convert a local file: `cat main.tf | cdktf convert > imported.ts`
+- Convert HCL in your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
+
+There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).

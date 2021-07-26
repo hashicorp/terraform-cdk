@@ -3,6 +3,7 @@ import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
 import { processLogger } from "./logging";
+import { versionNumber } from "../bin/cmds/version-check";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
@@ -21,7 +22,7 @@ export interface ReportParams {
 }
 
 async function post(url: string, data: string) {
-  return new Promise<any>((ok, ko) => {
+  return new Promise<void>((ok, ko) => {
     const req = https.request(
       format(url),
       {
@@ -53,6 +54,22 @@ async function post(url: string, data: string) {
     req.end();
     req.on("error", (err) => ko(err));
   });
+}
+
+export async function sendTelemetry(
+  command: string,
+  payload: Record<string, any>
+) {
+  const reportParams: ReportParams = {
+    command,
+    product: "cdktf",
+    version: versionNumber(),
+    dateTime: new Date(),
+    language: payload.language,
+    payload,
+  };
+
+  await ReportRequest(reportParams);
 }
 
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {

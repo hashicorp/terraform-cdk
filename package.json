@@ -20,7 +20,7 @@
     "examples:integration:go": "test/run-against-dist tools/build-examples-sequential.sh go",
     "pretest": "prettier --check .",
     "test": "lerna run --scope cdktf* --scope @cdktf* test",
-    "watch": "lerna run --parallel  --stream  --scope cdktf* watch-preserve-output",
+    "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope cdktf* watch-preserve-output",
     "link-packages": "lerna exec --scope cdktf* --scope @cdktf* yarn link",
     "integration": "cd test && ./run-against-dist npx jest --runInBand",
     "integration:typescript": "cd test && ./run-against-dist npx jest --runInBand typescript",

@@ -1,0 +1,885 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`convert Cross-Language Support supports csharp 1`] = `Promise {}`;
+
+exports[`convert Cross-Language Support supports java 1`] = `Promise {}`;
+
+exports[`convert Cross-Language Support supports python 1`] = `Promise {}`;
+
+exports[`convert Cross-Language Support supports typescript 1`] = `Promise {}`;
+
+exports[`convert all module types configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as AppTerraformIoExampleCorpK8SClusterAzurerm from \\"./.gen/modules/app.terraform.io/example-corp/k8s-cluster/azurerm\\";
+import * as HashicorpConsulAws from \\"./.gen/modules/hashicorp/consul/aws\\";
+new cdktf.TerraformHclModule(this, \\"consul\\", {
+  source: \\"./consul\\",
+});
+new cdktf.TerraformHclModule(this, \\"consul-butbucket\\", {
+  source: \\"bitbucket.org/hashicorp/terraform-consul-aws\\",
+});
+new cdktf.TerraformHclModule(this, \\"consul-git\\", {
+  source: \\"git@github.com:hashicorp/example.git\\",
+});
+new cdktf.TerraformHclModule(this, \\"consul-github\\", {
+  source: \\"github.com/hashicorp/example\\",
+});
+new AppTerraformIoExampleCorpK8SClusterAzurerm.AppTerraformIoExampleCorpK8SClusterAzurerm(
+  this,
+  \\"consul-hosted-registry\\",
+  {}
+);
+new HashicorpConsulAws.HashicorpConsulAws(this, \\"consul-registry\\", {});
+new cdktf.TerraformHclModule(this, \\"storage\\", {
+  source: \\"git::ssh://username@example.com/storage.git\\",
+});
+new cdktf.TerraformHclModule(this, \\"vpc\\", {
+  source: \\"git::https://example.com/vpc.git\\",
+});
+"
+`;
+
+exports[`convert arithmetics configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+const admins = new cdktf.TerraformVariable(this, \\"admins\\", {});
+const members = new cdktf.TerraformVariable(this, \\"members\\", {});
+new cdktf.TerraformOutput(this, \\"arithmetics\\", {
+  value: \`\\\\\${\${members.value} + \${admins.value}}\`,
+});
+"
+`;
+
+exports[`convert blocks should be arrays configuration 1`] = `
+"import * as google from \\"./.gen/providers/google\\";
+new google.ComputeAutoscaler(this, \\"example\\", {
+  autoscalingPolicy: [
+    {
+      cooldownPeriod: 60,
+      cpuUtilization: [
+        {
+          target: 0.5,
+        },
+      ],
+      maxReplicas: 8,
+      minReplicas: 2,
+    },
+  ],
+  name: \\"example-autoscaler\\",
+  zone: \\"us-east1-b\\",
+});
+"
+`;
+
+exports[`convert complex for each loops configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
+  domainName: \\"example.com\\",
+  validationMethod: \\"DNS\\",
+});
+const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(this, \\"example\\", {
+  name: \\"example.com\\",
+  privateZone: false,
+});
+const awsRoute53RecordExample = new aws.Route53Record(this, \\"example\\", {
+  allowOverwrite: true,
+  name: \\"\${each.value.name}\\",
+  records: [\\"\${each.value.record}\\"],
+  ttl: 60,
+  type: \\"\${each.value.type}\\",
+  zoneId: dataAwsRoute53ZoneExample.zoneId,
+});
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
+awsRoute53RecordExample.addOverride(
+  \\"for_each\\",
+  \`\\\\\${{
+          for dvo in \${awsAcmCertificateExample.domainValidationOptions} : dvo.domain_name => {
+            name   = dvo.resource_record_name
+            record = dvo.resource_record_value
+            type   = dvo.resource_record_type
+          }
+        }}\`
+);
+const awsAcmCertificateValidationExample = new aws.AcmCertificateValidation(
+  this,
+  \\"example\\",
+  {
+    certificateArn: awsAcmCertificateExample.arn,
+    validationRecordFqdns: \`\\\\\${[for record in \${awsRoute53RecordExample.fqn} : record.fqdn]}\`,
+  }
+);
+new aws.LbListener(this, \\"example\\", {
+  certificateArn: awsAcmCertificateValidationExample.certificateArn,
+});
+"
+`;
+
+exports[`convert complex resource configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.CloudfrontDistribution(this, \\"s3_distribution\\", {
+  aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
+  comment: \\"Some comment\\",
+  defaultCacheBehavior: [
+    {
+      allowedMethods: [
+        \\"DELETE\\",
+        \\"GET\\",
+        \\"HEAD\\",
+        \\"OPTIONS\\",
+        \\"PATCH\\",
+        \\"POST\\",
+        \\"PUT\\",
+      ],
+      cachedMethods: [\\"GET\\", \\"HEAD\\"],
+      defaultTtl: 3600,
+      forwardedValues: [
+        {
+          cookies: [
+            {
+              forward: \\"none\\",
+            },
+          ],
+          queryString: false,
+        },
+      ],
+      maxTtl: 86400,
+      minTtl: 0,
+      targetOriginId: \\"local_s3_origin_id\\",
+      viewerProtocolPolicy: \\"allow-all\\",
+    },
+  ],
+  defaultRootObject: \\"index.html\\",
+  enabled: true,
+  isIpv6Enabled: true,
+  loggingConfig: [
+    {
+      bucket: \\"mylogs.s3.amazonaws.com\\",
+      includeCookies: false,
+      prefix: \\"myprefix\\",
+    },
+  ],
+  orderedCacheBehavior: [
+    {
+      allowedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      cachedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      compress: true,
+      defaultTtl: 86400,
+      forwardedValues: [
+        {
+          cookies: [
+            {
+              forward: \\"none\\",
+            },
+          ],
+          headers: [\\"Origin\\"],
+          queryString: false,
+        },
+      ],
+      maxTtl: 31536000,
+      minTtl: 0,
+      pathPattern: \\"/content/immutable/*\\",
+      targetOriginId: \\"local_s3_origin_id\\",
+      viewerProtocolPolicy: \\"redirect-to-https\\",
+    },
+    {
+      allowedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      cachedMethods: [\\"GET\\", \\"HEAD\\"],
+      compress: true,
+      defaultTtl: 3600,
+      forwardedValues: [
+        {
+          cookies: [
+            {
+              forward: \\"none\\",
+            },
+          ],
+          queryString: false,
+        },
+      ],
+      maxTtl: 86400,
+      minTtl: 0,
+      pathPattern: \\"/content/*\\",
+      targetOriginId: \\"local_s3_origin_id\\",
+      viewerProtocolPolicy: \\"redirect-to-https\\",
+    },
+  ],
+  origin: [
+    {
+      domainName: \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
+      originId: \\"local_s3_origin_id\\",
+      s3OriginConfig: [
+        {
+          originAccessIdentity:
+            \\"origin-access-identity/cloudfront/ABCDEFG1234567\\",
+        },
+      ],
+    },
+  ],
+  priceClass: \\"PriceClass_200\\",
+  restrictions: [
+    {
+      geoRestriction: [
+        {
+          locations: [\\"US\\", \\"CA\\", \\"GB\\", \\"DE\\"],
+          restrictionType: \\"whitelist\\",
+        },
+      ],
+    },
+  ],
+  tags: {
+    environment: \\"production\\",
+  },
+  viewerCertificate: [
+    {
+      cloudfrontDefaultCertificate: true,
+    },
+  ],
+});
+"
+`;
+
+exports[`convert conditionals configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: \`\\\\\${\${awsKmsKeyExamplekms.deletionWindowInDays} > 3 ? \${awsS3BucketExamplebucket.id} : []}\`,
+  key: \\"someobject\\",
+  kmsKeyId: awsKmsKeyExamplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert count loops configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
+  name: \`\\\\\${element(\${users.value}, count.index)}\`,
+  path: \\"/system/\\",
+  tags: {
+    tagKey: \\"tag-value\\",
+  },
+});
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
+awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.value})}\`);
+"
+`;
+
+exports[`convert data local_file configuration 1`] = `
+"import * as local from \\"./.gen/providers/local\\";
+new local.DataLocalFile(this, \\"_01_please_verify\\", {
+  filename: \\"./email_templates/01_please_verify/template.html\\",
+});
+"
+`;
+
+exports[`convert data references configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
+  default: \\"demo\\",
+});
+const dataAwsS3BucketExamplebucket = new aws.DataAwsS3Bucket(
+  this,
+  \\"examplebucket\\",
+  {
+    acl: \\"private\\",
+    bucket: bucketName.value,
+  }
+);
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: dataAwsS3BucketExamplebucket.arn,
+  key: \\"someobject\\",
+  source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert double references configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
+  default: \\"demo\\",
+});
+new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: bucketName.value,
+  tags: {
+    tagKey: bucketName.value,
+  },
+});
+"
+`;
+
+exports[`convert dynamic blocks configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const namespace = new cdktf.TerraformVariable(this, \\"namespace\\", {});
+const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
+const awsElasticBeanstalkEnvironmentTfenvtest =
+  new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
+    application: \\"best-app\\",
+    setting: [],
+    name: \\"tf-test-name\\",
+    solutionStackName: \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
+  });
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
+awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
+  for_each: settings.value,
+  content: [
+    {
+      name: '\${setting.value[\\"name\\"]}',
+      namespace: namespace.value,
+      value: '\${setting.value[\\"value\\"]}',
+    },
+  ],
+});
+"
+`;
+
+exports[`convert empty provider configuration 1`] = `
+"import * as docker from \\"./.gen/providers/docker\\";
+new docker.DockerProvider(this, \\"docker\\", {});
+"
+`;
+
+exports[`convert for each on list using splat configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const buckets = new cdktf.TerraformVariable(this, \\"buckets\\", {});
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"\${each.key}\\",
+});
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
+awsS3BucketExamplebucket.addOverride(
+  \\"for_each\\",
+  \`\\\\\${toset(\${buckets.value}.*)}\`
+);
+const awsS3BucketObjectExamplebucketObject = new aws.S3BucketObject(
+  this,
+  \\"examplebucket_object\\",
+  {
+    bucket: \\"\${each.key}\\",
+    key: \\"someobject\\",
+    kmsKeyId: awsKmsKeyExamplekms.arn,
+    source: \\"index.html\\",
+  }
+);
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
+awsS3BucketObjectExamplebucketObject.addOverride(
+  \\"for_each\\",
+  \`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`
+);
+"
+`;
+
+exports[`convert for expression 1 configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+const adminUsers = \`\\\\\${{
+            for name, user in \${users.value} : name => user
+            if user.is_admin
+          }}\`;
+const regularUsers = \`\\\\\${{
+            for name, user in \${users.value} : name => user
+            if !user.is_admin
+          }}\`;
+new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+  value: \`\\\\\${\${adminUsers}},\\\\\${\${regularUsers}}\`,
+});
+"
+`;
+
+exports[`convert for expression 2 configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+const usersByRole = \`\\\\\${{
+            for name, user in \${users.value} : user.role => name...
+          }}\`;
+new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
+  value: usersByRole,
+});
+"
+`;
+
+exports[`convert for expression 3 configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as datadog from \\"./.gen/providers/datadog\\";
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+new datadog.Monitor(this, \\"hard_query\\", {
+  name: \\"queries are hard\\",
+  query: \`\\\\\${join(\\" && \\", [for o in \${users.value} : \\"!(!\\\\\${o.id})\\"])}\`,
+});
+"
+`;
+
+exports[`convert for_each loops configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
+  name: \\"\${each.key}\\",
+  path: \\"/system/\\",
+  tags: {
+    tagKey: \\"tag-value\\",
+  },
+});
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
+awsIamUserLb.addOverride(\\"for_each\\", users.value);
+"
+`;
+
+exports[`convert for_each with var usage configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as azuread from \\"./.gen/providers/azuread\\";
+const azureAdDomainName = new cdktf.TerraformVariable(
+  this,
+  \\"azure_ad_domain_name\\",
+  {
+    description: \\"domain\\",
+  }
+);
+const oneSetOfUsers = new cdktf.TerraformVariable(this, \\"one_set_of_users\\", {
+  description: \\"users\\",
+});
+const otherSetOfUsers = new cdktf.TerraformVariable(
+  this,
+  \\"other_set_of_users\\",
+  {
+    description: \\"users\\",
+  }
+);
+const azureadUserAzureUsers = new azuread.User(this, \\"azure_users\\", {
+  displayName: \\"\${each.key}\\",
+  userPrincipalName: \`\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\`,
+});
+
+/*In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.*/
+azureadUserAzureUsers.addOverride(
+  \\"for_each\\",
+  \`\\\\\${merge(
+          \${oneSetOfUsers.value},
+          \${otherSetOfUsers.value},
+        )}\`
+);
+"
+`;
+
+exports[`convert list access through [] configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
+new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \`\\\\\${\${settings.value}[0][\\"bucket_name\\"]}\`,
+});
+"
+`;
+
+exports[`convert local backend configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.LocalBackend(this, {
+  path: \\"relative/path/to/terraform.tfstate\\",
+});
+"
+`;
+
+exports[`convert local module configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformHclModule(this, \\"aws_vpc\\", {
+  source: \\"./aws_vpc\\",
+});
+"
+`;
+
+exports[`convert locals configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+const howMany = 42;
+const isItGreat = true;
+const owner = \\"Community Team\\";
+const serviceName = \\"forum\\";
+new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+});
+"
+`;
+
+exports[`convert locals references configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+const bucketName = \\"foo\\";
+new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: bucketName,
+});
+"
+`;
+
+exports[`convert modules configuration 1`] = `
+"import * as TerraformAwsModulesVpcAws from \\"./.gen/modules/terraform-aws-modules/vpc/aws\\";
+new TerraformAwsModulesVpcAws.TerraformAwsModulesVpcAws(this, \\"vpc\\", {
+  azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+  cidr: \\"10.0.0.0/16\\",
+  enableNatGateway: true,
+  enableVpnGateway: true,
+  name: \\"my-vpc\\",
+  privateSubnets: [\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+  publicSubnets: [\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+  tags: {
+    environment: \\"dev\\",
+    terraform: \\"true\\",
+  },
+});
+"
+`;
+
+exports[`convert multiple blocks configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.SecurityGroup(this, \\"allow_tls\\", {
+  description: \\"Allow TLS inbound traffic\\",
+  egress: [
+    {
+      cidrBlocks: [\\"0.0.0.0/0\\"],
+      fromPort: 0,
+      ipv6CidrBlocks: [\\"::/0\\"],
+      protocol: \\"-1\\",
+      toPort: 0,
+    },
+  ],
+  ingress: [
+    {
+      description: \\"TLS from VPC\\",
+      fromPort: 443,
+      protocol: \\"tcp\\",
+      toPort: 443,
+    },
+    {
+      description: \\"TLS from VPC\\",
+      fromPort: 80,
+      protocol: \\"tcp\\",
+      toPort: 80,
+    },
+    {
+      fromPort: 8080,
+      protocol: \\"tcp\\",
+      toPort: 8080,
+    },
+  ],
+  name: \\"allow_tls\\",
+  tags: {
+    name: \\"allow_tls\\",
+  },
+});
+"
+`;
+
+exports[`convert multiple locals blocks configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+const owner = \\"Community Team\\";
+const serviceName = \\"forum\\";
+const howMany = 42;
+const isItGreat = true;
+new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+});
+"
+`;
+
+exports[`convert multiple outputs configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformOutput(this, \\"first_cidr_out\\", {
+  value: \\"first\\",
+});
+new cdktf.TerraformOutput(this, \\"second_cidr_out\\", {
+  value: \\"second\\",
+});
+"
+`;
+
+exports[`convert number output configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformOutput(this, \\"test\\", {
+  value: 42,
+});
+"
+`;
+
+exports[`convert numeric property access configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as google from \\"./.gen/providers/google\\";
+const googleComputeInstanceExample = new google.ComputeInstance(
+  this,
+  \\"example\\",
+  {
+    machineType: \\"f1-micro\\",
+    name: \\"example\\",
+    networkInterface: [
+      {
+        accessConfig: [{}],
+        network: \\"default\\",
+      },
+    ],
+    zone: \\"us-east1-b\\",
+  }
+);
+new cdktf.TerraformOutput(this, \\"public_ip\\", {
+  value: \`\\\\\${\${googleComputeInstanceExample.fqn}.network_interface.0.access_config.0.assigned_nat_ip}\`,
+});
+"
+`;
+
+exports[`convert output configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformOutput(this, \\"cidr_out\\", {
+  value: \\"test\\",
+});
+"
+`;
+
+exports[`convert output withdescription configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformOutput(this, \\"cidr_out\\", {
+  value: \\"test\\",
+  description: \\"Best output\\",
+  sensitive: true,
+});
+"
+`;
+
+exports[`convert property access through [] configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
+new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \`\\\\\${\${settings.value}[\\"bucket_name\\"]}\`,
+});
+"
+`;
+
+exports[`convert provider alias configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+import * as TerraformAwsModulesVpcAws from \\"./.gen/modules/terraform-aws-modules/vpc/aws\\";
+new aws.AwsProvider(this, \\"aws\\", {
+  region: \\"us-east-1\\",
+});
+new aws.AwsProvider(this, \\"aws\\", {
+  alias: \\"west\\",
+  region: \\"us-west-2\\",
+});
+const terraformAwsModulesVpcAwsVpc =
+  new TerraformAwsModulesVpcAws.TerraformAwsModulesVpcAws(this, \\"vpc\\", {});
+terraformAwsModulesVpcAwsVpc.addOverride(\\"providers\\", {
+  aws: \`\\\\\${\${awsWest.fqn}}\`,
+});
+const awsInstanceFoo = new aws.Instance(this, \\"foo\\", {
+  foo: \\"bar\\",
+});
+awsInstanceFoo.addOverride(\\"provider\\", \`\\\\\${\${awsWest.fqn}}\`);
+"
+`;
+
+exports[`convert provider with complex config configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.AwsProvider(this, \\"aws\\", {
+  accessKey: \\"mock_access_key\\",
+  endpoints: [
+    {
+      dynamodb: \\"http://localhost:8000\\",
+    },
+  ],
+  region: \\"us-east-1\\",
+  secretKey: \\"mock_secret_key\\",
+  skipCredentialsValidation: true,
+  skipMetadataApiCheck: true,
+  skipRequestingAccountId: true,
+});
+"
+`;
+
+exports[`convert provider with var reference configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as auth0 from \\"./.gen/providers/auth0\\";
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
+  description: \\"A domain\\",
+});
+new auth0.Auth0Provider(this, \\"auth0\\", {
+  domain: domain.value,
+});
+"
+`;
+
+exports[`convert referenced modules configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as TerraformAwsModulesVpcAws from \\"./.gen/modules/terraform-aws-modules/vpc/aws\\";
+const vpc = new TerraformAwsModulesVpcAws.TerraformAwsModulesVpcAws(
+  this,
+  \\"vpc\\",
+  {
+    azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+    cidr: \\"10.0.0.0/16\\",
+    enableNatGateway: true,
+    enableVpnGateway: true,
+    name: \\"my-vpc\\",
+    privateSubnets: [\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+    publicSubnets: [\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+    tags: {
+      environment: \\"dev\\",
+      terraform: \\"true\\",
+    },
+  }
+);
+new cdktf.TerraformOutput(this, \\"subnet_ids\\", {
+  value: vpc.publicSubnetsOutput,
+});
+"
+`;
+
+exports[`convert remote backend configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.RemoteBackend(this, {
+  hostname: \\"app.terraform.io\\",
+  organization: \\"company\\",
+  workspaces: [
+    {
+      name: \\"my-app-prod\\",
+    },
+  ],
+});
+"
+`;
+
+exports[`convert required namespaced provider configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as auth0 from \\"./.gen/providers/auth0\\";
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
+  description: \\"A domain\\",
+});
+new auth0.Auth0Provider(this, \\"auth0\\", {
+  domain: domain.value,
+});
+"
+`;
+
+exports[`convert resource references configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: awsS3BucketExamplebucket.id,
+  key: \\"someobject\\",
+  kmsKeyId: awsKmsKeyExamplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert resource references with HCL functions configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
+  deletionWindowInDays: 7,
+  description: \\"KMS key 1\\",
+});
+const awsS3BucketExamplebucket = new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: \\"examplebuckettftest\\",
+});
+new aws.S3BucketObject(this, \\"examplebucket_object\\", {
+  bucket: \`\\\\\${element(\${awsS3BucketExamplebucket.fqn}, 0).id}\`,
+  key: \\"someobject\\",
+  kmsKeyId: awsKmsKeyExamplekms.arn,
+  source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert sensitive output configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformOutput(this, \\"cidr_out\\", {
+  value: \\"test\\",
+  sensitive: true,
+});
+"
+`;
+
+exports[`convert simple data source configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.DataAwsSubnet(this, \\"selected\\", {
+  id: \\"subnet_id\\",
+});
+"
+`;
+
+exports[`convert simple resource configuration 1`] = `
+"import * as aws from \\"./.gen/providers/aws\\";
+new aws.Vpc(this, \\"example\\", {
+  cidrBlock: \\"10.0.0.0/16\\",
+});
+"
+`;
+
+exports[`convert terraform workspace configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformHclModule(this, \\"example\\", {
+  namePrefix: \\"app-\${terraform.workspace}\\",
+  source: \\"./my-module\\",
+});
+"
+`;
+
+exports[`convert variable references configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as aws from \\"./.gen/providers/aws\\";
+const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
+  default: \\"demo\\",
+});
+new aws.S3Bucket(this, \\"examplebucket\\", {
+  acl: \\"private\\",
+  bucket: bucketName.value,
+});
+"
+`;
