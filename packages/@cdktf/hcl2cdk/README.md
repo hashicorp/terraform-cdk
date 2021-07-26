@@ -1,17 +1,17 @@
-# HCL2CDK
+# @cdktf/hcl2cdk
 
-Uses `@cdktf/hcl2json` to transform HCL configuration to CDK constructs.
+Uses `@cdktf/hcl2cdk` to transform HCL configuration to CDK constructs.
 
 ## Usage
 
 ```sh
-yarn install @cdktf/hcl2cdktf
+yarn install @cdktf/hcl2cdk
 ```
 
 ### Covert HCL strings to Constructs
 
 ```ts
-import { convert } from "@cdktf/hcl2cdktf";
+import { convert } from "@cdktf/hcl2cdk";
 
 const hcl = `
   variable "name" {
