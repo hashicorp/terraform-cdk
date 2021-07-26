@@ -71,7 +71,8 @@ When working with typed languages the converter can run into problems where the 
 
 ### Providers guessed can be not functional
 
-If you HCL includes providers that are not mentioned under `required_providers` we infer the name, e.g. if you use the `datadog_dashboard` resource we infer the provider `datadog` which is right, but the namespace is missing, for DataDog it would be `datadog/datadog`. Instead we will try to use `hashicorp/datadog` and fail because this provider is not known to the registry.
+If your HCL includes providers that are not mentioned under `required_providers` we infer the name, e.g. if you use the `datadog_dashboard` resource we infer the provider `datadog` which is right, but the namespace is missing, for DataDog it would be `datadog/datadog`. Instead we will try to use `hashicorp/datadog` and fail because this provider is not known to the registry.
+Please see the [required providers docs](https://www.terraform.io/docs/language/providers/requirements.html#requiring-providers) for more information on how to specify providers.
 
 ### Local Modules and Files
 
