@@ -23,21 +23,21 @@ function readStreamAsString(stream: typeof process.stdin): Promise<string> {
 class Command implements yargs.CommandModule {
   public readonly command = "convert [OPTIONS]";
   public readonly describe =
-    "Converts a single file of HCL configuration to Terraform CDK. Takes the file to be converted on stdin.";
+    "Converts a single file of HCL configuration to CDK for Terraform. Takes the file to be converted on stdin.";
 
   public readonly builder = (args: yargs.Argv) =>
     args
       .example(
         "cat main.tf | cdktf convert",
-        "Takes the HCL content of main.tf and converts it to Terraform CDK content and prints it"
+        "Takes the HCL content of main.tf and converts it to CDK for Terraform content and prints it"
       )
       .example(
         "cat main.tf | cdktf convert > imported.ts",
-        "Takes the HCL content of main.tf and converts it to Terraform CDK content in imported.ts"
+        "Takes the HCL content of main.tf and converts it to CDK for Terraform content in imported.ts"
       )
       .example(
         "cat main.tf | cdktf convert --language python > imported.py",
-        "Takes the HCL content of main.tf and converts it to Terraform CDK content in imported.ts"
+        "Takes the HCL content of main.tf and converts it to CDK for Terraform content in imported.ts"
       )
       .option("language", {
         choices: ["typescript", "python", "csharp", "java"],
