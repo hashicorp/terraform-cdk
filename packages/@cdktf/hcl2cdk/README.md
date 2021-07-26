@@ -50,7 +50,7 @@ import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2json";
 })();
 ```
 
-This transforms your Terraform project into a CDK for Terraform project, besides the resource naming the output of `terraform plan` and `cdktf plan` should be the same.
+This transforms your Terraform project into a CDK for Terraform project, besides the resource naming within Terraform the deployed resources should not differ between `terraform plan` and `cdktf plan`.
 
 ## Known Limitations
 
