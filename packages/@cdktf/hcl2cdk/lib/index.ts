@@ -46,7 +46,7 @@ export async function convertToTypescript(hcl: string) {
   } catch (err) {
     throw new Error(`Error: HCL-JSON does not conform to schema. This is not expected, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+convert%20%2F%20import&template=bug-report.md&title=
 Please include this information:
-${(err as z.ZodError).errors}`);
+${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
   // Get all items in the JSON as a map of id to function that generates the AST

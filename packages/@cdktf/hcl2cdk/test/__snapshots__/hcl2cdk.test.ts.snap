@@ -634,6 +634,14 @@ new cdktf.TerraformOutput(this, \\"second_cidr_out\\", {
 "
 `;
 
+exports[`convert number output configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformOutput(this, \\"test\\", {
+  value: 42,
+});
+"
+`;
+
 exports[`convert numeric property access configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as google from \\"./.gen/providers/google\\";

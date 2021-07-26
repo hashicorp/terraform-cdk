@@ -848,6 +848,14 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "number output",
+      `
+      output "test" {
+        value = 42
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",

@@ -5,7 +5,7 @@ const tfObject = <T extends ZodRawShape>(config: T) =>
   z.array(z.object(config).partial());
 
 const outputConfig = tfObject({
-  value: z.string(),
+  value: z.any(),
   description: z.string().optional(),
   sensitive: z.boolean().optional(),
   depends_on: z.string().optional(),
