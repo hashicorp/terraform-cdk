@@ -368,6 +368,6 @@ Options:
 Examples:
 
 - Convert a local file: `cat main.tf | cdktf convert > imported.ts`
-- Convert your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
+- Convert HCL in your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
 
 There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
