@@ -206,7 +206,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   );
 
   // We collect all module sources
-  const moduleRequirements =
+  const moduleRequirements = (
     Object.values(plan.module || {}).reduce(
       (carry, moduleBlock) => [
         ...carry,
@@ -216,7 +216,8 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
         ),
       ],
       [] as string[]
-    ) || [];
+    ) || []
+  ).filter((source) => isRegistryModule(source));
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
