@@ -27,8 +27,9 @@ const hcl = `
 })();
 
 // =>
+import * as cdktf from "cdktf";
 
-new TerraformVariable(this, "imageId", {
+new cdktf.TerraformVariable(this, "imageId", {
   type: "string",
   default: "ami-abcde123",
   description: "What AMI to use to create an instance",
