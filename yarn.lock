@@ -5367,6 +5367,13 @@ is-utf8@^0.2.0:
   resolved "https://registry.yarnpkg.com/is-utf8/-/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
   integrity sha1-Sw2hRCEE0bM2NA6AeX6GXPOffXI=
 
+is-valid-domain@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/is-valid-domain/-/is-valid-domain-0.1.2.tgz#bd1b144716ca663df5996d62e2e7e45a971c7223"
+  integrity sha512-vm/9Ynw80MusgfSMffjGRuMhO8hjk5MOxLoFL7nYWvWXTPCxTGQtACiCwO055UqHICG8xP6hIvRXK1iwnuU9GA==
+  dependencies:
+    punycode "^2.1.1"
+
 is-weakmap@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/is-weakmap/-/is-weakmap-2.0.1.tgz#5008b59bdc43b698201d18f62b37b2ca243e8cf2"

@@ -817,6 +817,37 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "all module types",
+      `
+      module "consul" {
+        source = "./consul"
+      }
+      module "consul-registry" {
+        source = "hashicorp/consul/aws"
+        version = "0.1.0"
+      }
+      module "consul-hosted-registry" {
+        source = "app.terraform.io/example-corp/k8s-cluster/azurerm"
+        version = "1.1.0"
+      }
+      module "consul-github" {
+        source = "github.com/hashicorp/example"
+      }
+      module "consul-git" {
+        source = "git@github.com:hashicorp/example.git"
+      }
+      module "consul-butbucket" {
+        source = "bitbucket.org/hashicorp/terraform-consul-aws"
+      }
+      module "vpc" {
+        source = "git::https://example.com/vpc.git"
+      }
+      module "storage" {
+        source = "git::ssh://username@example.com/storage.git"
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",

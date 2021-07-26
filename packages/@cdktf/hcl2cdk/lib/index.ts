@@ -9,7 +9,7 @@ import * as rosetta from "jsii-rosetta";
 import * as z from "zod";
 
 import { schema } from "./schema";
-import { findUsedReferences } from "./expressions";
+import { findUsedReferences, isRegistryModule } from "./expressions";
 import { cdktfImport, providerImports, moduleImports, gen } from "./generation";
 import { TerraformResourceBlock } from "./types";
 import {
@@ -222,7 +222,10 @@ ${(err as z.ZodError).errors}`);
   // If none are used we don't want to leave a stray import
   const cdktfImports =
     plan.terraform?.some((tf) => Object.keys(tf.backend || {}).length > 0) ||
-    Object.keys({ ...plan.variable, ...plan.output }).length > 0
+    Object.keys({ ...plan.variable, ...plan.output }).length > 0 ||
+    Object.values(plan.module || {}).filter(
+      ([{ source }]) => !isRegistryModule(source)
+    ).length > 0
       ? [cdktfImport]
       : ([] as t.Statement[]);
 

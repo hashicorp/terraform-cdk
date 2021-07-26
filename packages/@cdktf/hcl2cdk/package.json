@@ -32,11 +32,12 @@
     "@babel/types": "^7.14.5",
     "@cdktf/hcl2json": "*",
     "camelcase": "^6.2.0",
-    "graphology-types": "^0.19.2",
+    "glob": "7.1.7",
     "graphology": "^0.20.0",
+    "graphology-types": "^0.19.2",
+    "is-valid-domain": "^0.1.2",
     "jsii-rosetta": "^1.30.0",
     "prettier": "^2.3.1",
-    "glob": "7.1.7",
     "zod": "^1.11.7"
   },
   "devDependencies": {

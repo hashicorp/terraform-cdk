@@ -22,6 +22,7 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
+  isRegistryModule,
 } from "./expressions";
 
 function getReference(graph: DirectedGraph, id: string) {
@@ -246,12 +247,12 @@ function asExpression(
   name: string,
   config: TerraformResourceBlock,
   nodeIds: string[],
-  isModule: boolean,
+  isModuleImport: boolean,
   reference?: Reference
 ) {
   const { provider, providers, lifecycle, ...otherOptions } = config as any;
 
-  const expression = t.newExpression(constructAst(type, isModule), [
+  const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
     t.stringLiteral(name),
     valueToTs(otherOptions, nodeIds),
@@ -365,12 +366,11 @@ export function modules(
   const [{ source, version, ...props }] = item;
   const nodeIds = graph.nodes();
 
-  // local module
-  if (source.startsWith(".")) {
+  if (isRegistryModule(source)) {
     return asExpression(
-      "TerraformHclModule",
+      source,
       key,
-      { ...props, source },
+      props,
       nodeIds,
       true,
       getReference(graph, id)
@@ -378,11 +378,11 @@ export function modules(
   }
 
   return asExpression(
-    source,
+    "cdktf.TerraformHclModule",
     key,
-    props,
+    { ...props, source },
     nodeIds,
-    true,
+    false,
     getReference(graph, id)
   );
 }
@@ -420,7 +420,7 @@ export const providerImports = (providers: string[]) =>
 
 export const moduleImports = (modules: Record<string, Module> | undefined) =>
   Object.values(modules || {})
-    .filter(([{ source }]) => !source.startsWith("."))
+    .filter(([{ source }]) => isRegistryModule(source))
     .map(
       ([{ source }]) =>
         template(

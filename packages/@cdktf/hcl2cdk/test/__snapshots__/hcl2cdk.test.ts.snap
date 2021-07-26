@@ -8,6 +8,37 @@ exports[`convert Cross-Language Support supports python 1`] = `Promise {}`;
 
 exports[`convert Cross-Language Support supports typescript 1`] = `Promise {}`;
 
+exports[`convert all module types configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as AppTerraformIoExampleCorpK8SClusterAzurerm from \\"./.gen/modules/app.terraform.io/example-corp/k8s-cluster/azurerm\\";
+import * as HashicorpConsulAws from \\"./.gen/modules/hashicorp/consul/aws\\";
+new cdktf.TerraformHclModule(this, \\"consul\\", {
+  source: \\"./consul\\",
+});
+new cdktf.TerraformHclModule(this, \\"consul-butbucket\\", {
+  source: \\"bitbucket.org/hashicorp/terraform-consul-aws\\",
+});
+new cdktf.TerraformHclModule(this, \\"consul-git\\", {
+  source: \\"git@github.com:hashicorp/example.git\\",
+});
+new cdktf.TerraformHclModule(this, \\"consul-github\\", {
+  source: \\"github.com/hashicorp/example\\",
+});
+new AppTerraformIoExampleCorpK8SClusterAzurerm.AppTerraformIoExampleCorpK8SClusterAzurerm(
+  this,
+  \\"consul-hosted-registry\\",
+  {}
+);
+new HashicorpConsulAws.HashicorpConsulAws(this, \\"consul-registry\\", {});
+new cdktf.TerraformHclModule(this, \\"storage\\", {
+  source: \\"git::ssh://username@example.com/storage.git\\",
+});
+new cdktf.TerraformHclModule(this, \\"vpc\\", {
+  source: \\"git::https://example.com/vpc.git\\",
+});
+"
+`;
+
 exports[`convert arithmetics configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 const admins = new cdktf.TerraformVariable(this, \\"admins\\", {});
@@ -493,7 +524,8 @@ new cdktf.LocalBackend(this, {
 `;
 
 exports[`convert local module configuration 1`] = `
-"new TerraformHclModule.TerraformHclModule(this, \\"aws_vpc\\", {
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformHclModule(this, \\"aws_vpc\\", {
   source: \\"./aws_vpc\\",
 });
 "
@@ -823,7 +855,8 @@ new aws.Vpc(this, \\"example\\", {
 `;
 
 exports[`convert terraform workspace configuration 1`] = `
-"new TerraformHclModule.TerraformHclModule(this, \\"example\\", {
+"import * as cdktf from \\"cdktf\\";
+new cdktf.TerraformHclModule(this, \\"example\\", {
   namePrefix: \\"app-\${terraform.workspace}\\",
   source: \\"./my-module\\",
 });
