@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import { execSync } from "child_process";
-import { convertProject, getProjectTerraformFiles } from "../lib";
+import { convertProject, getTerraformConfigFromDir } from "../lib";
 
 const createFiles = (cwd: string, files: [string, string][]) => {
   files.forEach(([p, content]) => {
@@ -197,7 +197,7 @@ describe("convertProject", () => {
     const mainTs = fs.readFileSync(path.resolve(targetPath, "main.ts"), "utf8");
 
     const { code, cdktfJson } = await convertProject(
-      getProjectTerraformFiles(importPath),
+      getTerraformConfigFromDir(importPath),
       mainTs,
       require(path.resolve(targetPath, "cdktf.json")),
       {

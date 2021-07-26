@@ -291,7 +291,7 @@ export async function convert(hcl: string, { language }: ConvertOptions) {
   };
 }
 
-export function getProjectTerraformFiles(importPath: string) {
+export function getTerraformConfigFromDir(importPath: string) {
   const absPath = path.resolve(importPath);
   const fileContents = glob
     .sync("./*.tf", { cwd: absPath })

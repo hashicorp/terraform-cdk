@@ -39,11 +39,11 @@ new cdktf.TerraformVariable(this, "imageId", {
 ### Convert a project
 
 ```ts
-import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2json";
+import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2json";
 
 (async () => {
   await convertProject(
-    getProjectTerraformFiles("/path/to/terraform/project"),
+    getTerraformConfigFromDir("/path/to/terraform/project"),
     "/path/to/cdktf-init/project",
     { language: "typescript" } // Currently we only support Typescript for project conversion
   );

@@ -12,7 +12,7 @@ import { FUTURE_FLAGS } from "cdktf/lib/features";
 import { downloadFile, HttpError } from "../../../lib/util";
 import { logFileName, logger } from "../../../lib/logging";
 import { Errors } from "../../../lib/errors";
-import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2cdk";
+import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2cdk";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
 
@@ -125,7 +125,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
         "utf8"
       );
 
-      const combinedTfFile = getProjectTerraformFiles(
+      const combinedTfFile = getTerraformConfigFromDir(
         path.resolve(process.cwd(), argv.fromTerraformProject)
       );
       try {
