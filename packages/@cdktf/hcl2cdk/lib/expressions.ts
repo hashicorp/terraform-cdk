@@ -184,9 +184,7 @@ export function referenceToVariableName(ref: Reference): string {
 
 export function variableName(resource: string, name: string): string {
   const proposedName = camelCase(
-    ["var", "local", "module"].includes(resource)
-      ? name
-      : [resource, name].join("_")
+    resource === "module" ? name : [resource, name].join("_")
   );
 
   if (!Number.isNaN(parseInt(proposedName[0], 10))) {

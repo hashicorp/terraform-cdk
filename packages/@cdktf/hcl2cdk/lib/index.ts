@@ -49,24 +49,28 @@ Please include this information:
 ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
+  // Each key in the scope needs to be unique, therefore we save them in a set
+  const scope = new Set<string>();
+
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
   // We need to use a function here because the same node has different representation based on if it's referenced by another one
   const nodeMap = {
-    ...forEachProvider(plan.provider, provider),
-    ...forEachGlobal("var", plan.variable, variable),
+    ...forEachProvider(scope, plan.provider, provider),
+    ...forEachGlobal(scope, "var", plan.variable, variable),
     // locals are a special case
     ...forEachGlobal(
+      scope,
       "local",
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
       local
     ),
-    ...forEachGlobal("out", plan.output, output),
-    ...forEachGlobal("module", plan.module, modules),
-    ...forEachNamespaced(plan.resource, resource),
-    ...forEachNamespaced(plan.data, resource, "data"),
+    ...forEachGlobal(scope, "out", plan.output, output),
+    ...forEachGlobal(scope, "module", plan.module, modules),
+    ...forEachNamespaced(scope, plan.resource, resource),
+    ...forEachNamespaced(scope, plan.data, resource, "data"),
   };
 
   const graph = new DirectedGraph();
@@ -99,6 +103,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   // We recursively inspect each resource value to find references to other values
   // We add these to a dependency graph so that the programming code has the right order
   function addGlobalEdges(
+    _scopeIdentifiers: Set<string>,
     _key: string,
     id: string,
     value: TerraformResourceBlock
@@ -106,6 +111,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     addEdges(id, value);
   }
   function addProviderEdges(
+    _scopeIdentifiers: Set<string>,
     key: string,
     _id: string,
     value: TerraformResourceBlock
@@ -113,6 +119,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     addEdges(key, value);
   }
   function addNamespacedEdges(
+    _scopeIdentifiers: Set<string>,
     _type: string,
     _key: string,
     id: string,
@@ -122,20 +129,21 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
   Object.values({
-    ...forEachGlobal("providers", plan.provider, addProviderEdges),
-    ...forEachGlobal("var", plan.variable, addGlobalEdges),
+    ...forEachGlobal(scope, "providers", plan.provider, addProviderEdges),
+    ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
     // locals are a special case
     ...forEachGlobal(
+      scope,
       "local",
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
       addGlobalEdges
     ),
-    ...forEachGlobal("out", plan.output, addGlobalEdges),
-    ...forEachGlobal("module", plan.module, addGlobalEdges),
-    ...forEachNamespaced(plan.resource, addNamespacedEdges),
-    ...forEachNamespaced(plan.data, addNamespacedEdges, "data"),
+    ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
+    ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
+    ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
+    ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
   }).forEach((addEdgesToGraph) => addEdgesToGraph(graph));
 
   // We traverse the dependency graph to get the unordered JSON nodes into an ordered array

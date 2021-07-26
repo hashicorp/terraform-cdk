@@ -5,7 +5,7 @@ import { DirectedGraph } from "graphology";
 import prettier from "prettier";
 
 import { TerraformResourceBlock } from "./types";
-import { camelCase, pascalCase } from "./utils";
+import { camelCase, pascalCase, uniqueId } from "./utils";
 import {
   Resource,
   TerraformConfig,
@@ -153,6 +153,7 @@ function addOverrideExpression(
 }
 
 export function resource(
+  scopeIdentifiers: Set<string>,
   type: string,
   key: string,
   id: string,
@@ -179,6 +180,7 @@ export function resource(
 
   const expressions = [
     ...asExpression(
+      scopeIdentifiers,
       resource,
       key,
       config,
@@ -243,6 +245,7 @@ you need to keep this like it is.`;
 }
 
 function asExpression(
+  scopeIdentifiers: Set<string>,
   type: string,
   name: string,
   config: TerraformResourceBlock,
@@ -254,7 +257,7 @@ function asExpression(
 
   const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
-    t.stringLiteral(name),
+    t.stringLiteral(uniqueId(scopeIdentifiers, name)),
     valueToTs(otherOptions, nodeIds),
   ]);
 
@@ -294,6 +297,7 @@ function asExpression(
 }
 
 export function output(
+  scopeIdentifiers: Set<string>,
   key: string,
   _id: string,
   item: Output,
@@ -303,6 +307,7 @@ export function output(
   const [{ value, description, sensitive }] = item;
 
   return asExpression(
+    scopeIdentifiers,
     "cdktf.TerraformOutput",
     key,
     {
@@ -316,6 +321,7 @@ export function output(
 }
 
 export function variable(
+  scopeIdentifiers: Set<string>,
   key: string,
   id: string,
   item: Variable,
@@ -330,6 +336,7 @@ export function variable(
   }
 
   return asExpression(
+    scopeIdentifiers,
     "cdktf.TerraformVariable",
     key,
     props,
@@ -340,6 +347,7 @@ export function variable(
 }
 
 export function local(
+  _scopeIdentifiers: Set<string>,
   key: string,
   id: string,
   item: TerraformResourceBlock,
@@ -351,13 +359,14 @@ export function local(
   }
   return t.variableDeclaration("const", [
     t.variableDeclarator(
-      t.identifier(camelCase(key)),
+      t.identifier(variableName("local", key)),
       valueToTs(item, nodeIds)
     ),
   ]);
 }
 
 export function modules(
+  scopeIdentifiers: Set<string>,
   key: string,
   id: string,
   item: Module,
@@ -368,6 +377,7 @@ export function modules(
 
   if (isRegistryModule(source)) {
     return asExpression(
+      scopeIdentifiers,
       source,
       key,
       props,
@@ -378,6 +388,7 @@ export function modules(
   }
 
   return asExpression(
+    scopeIdentifiers,
     "cdktf.TerraformHclModule",
     key,
     { ...props, source },
@@ -388,6 +399,7 @@ export function modules(
 }
 
 export function provider(
+  scopeIdentifiers: Set<string>,
   key: string,
   _id: string,
   item: Provider[0],
@@ -397,6 +409,7 @@ export function provider(
   const { version, ...props } = item;
 
   return asExpression(
+    scopeIdentifiers,
     `${key}.${pascalCase(key + "Provider")}`,
     key,
     props,
