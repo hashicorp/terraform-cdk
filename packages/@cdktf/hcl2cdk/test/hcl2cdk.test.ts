@@ -856,7 +856,7 @@ describe("convert", () => {
   });
 
   const targetLanguages = ["typescript", "python", "csharp", "java"];
-  describe.skip("Cross-Language Support", () => {
+  describe("Cross-Language Support", () => {
     it.each(targetLanguages)("supports %s", (language) => {
       const hcl = `
       resource "aws_kms_key" "examplekms" {
