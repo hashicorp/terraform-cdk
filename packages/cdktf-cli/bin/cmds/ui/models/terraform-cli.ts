@@ -63,7 +63,8 @@ export class TerraformCli implements Terraform {
 
   public async deploy(
     planFile: string,
-    stdout: (chunk: Buffer) => any
+    stdout: (chunk: Buffer) => any,
+    extraOptions: string[] = [],
   ): Promise<void> {
     await this.setUserAgent();
     await exec(
@@ -73,6 +74,7 @@ export class TerraformCli implements Terraform {
         "-auto-approve",
         "-input=false",
         ...this.stateFileOption,
+        ...extraOptions,
         // only appends planFile if not empty
         // this allows deploying without a plan (as used in watch)
         ...(planFile ? [planFile] : []),

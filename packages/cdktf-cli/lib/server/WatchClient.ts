@@ -172,12 +172,13 @@ export class WatchClient {
         // plan for Terraform Cloud remote execution also uploads the Terraform code
         const { planFile } = await terraform.plan(false); // false = deploy
         await terraform.deploy(planFile, this.handleTerraformOutput.bind(this));
-      } else {
-        // skip the plan to save time ⏱
+      } else if (terraform instanceof TerraformCli) {
+        // skip the plan and refreshing to save time ⏱
         const NO_PLAN_FILE = "";
         await terraform.deploy(
           NO_PLAN_FILE,
-          this.handleTerraformOutput.bind(this)
+          this.handleTerraformOutput.bind(this),
+          ["-refresh=false"],
         );
       }
       // deployment was successful -> update hash
