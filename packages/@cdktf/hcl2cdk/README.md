@@ -45,7 +45,7 @@ import { convertProject, getProjectTerraformFiles } from "@cdktf/hcl2json";
   await convertProject(
     getProjectTerraformFiles("/path/to/terraform/project"),
     "/path/to/cdktf-init/project",
-    { language: "typescript" } // currently only TS is supported
+    { language: "typescript" } // Currently we only support Typescript for project conversion
   );
 })();
 ```
