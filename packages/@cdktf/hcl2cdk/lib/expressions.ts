@@ -89,7 +89,11 @@ export function extractReferencesFromExpression(
       spot.endsWith("...") || // spread (likely in for loop)
       spot.startsWith("count.") || // count variable
       spot.startsWith("each.") || // each variable
-      spot.startsWith("path.module") // path variable
+      // https://www.terraform.io/docs/language/expressions/references.html#filesystem-and-workspace-info
+      spot.startsWith("path.module") ||
+      spot.startsWith("path.root") ||
+      spot.startsWith("path.cwd") ||
+      spot.startsWith("terraform.workspace")
     ) {
       return carry;
     }

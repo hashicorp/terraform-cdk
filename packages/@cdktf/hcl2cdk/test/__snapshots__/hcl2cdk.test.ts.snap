@@ -822,6 +822,14 @@ new aws.Vpc(this, \\"example\\", {
 "
 `;
 
+exports[`convert terraform workspace configuration 1`] = `
+"new TerraformHclModule.TerraformHclModule(this, \\"example\\", {
+  namePrefix: \\"app-\${terraform.workspace}\\",
+  source: \\"./my-module\\",
+});
+"
+`;
+
 exports[`convert variable references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";

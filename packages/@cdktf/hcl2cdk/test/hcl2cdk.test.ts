@@ -808,6 +808,15 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "terraform workspace",
+      `
+      module "example" {
+        source = "./my-module"
+        name_prefix = "app-\${terraform.workspace}"
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",
