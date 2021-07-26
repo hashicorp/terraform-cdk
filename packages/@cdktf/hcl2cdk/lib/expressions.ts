@@ -210,7 +210,7 @@ export function constructAst(type: string, isModuleImport: boolean) {
     if (parts[0] === "data") {
       return t.memberExpression(
         t.identifier(parts[1]), // e.g. aws
-        t.identifier(pascalCase(`data_${parts[1]}_${parts[2]}`)) // e.g. NatGateway
+        t.identifier(pascalCase(`data_${parts[1]}_${parts[2]}`)) // e.g. DataAwsNatGateway
       );
     }
     return t.memberExpression(
