@@ -18,7 +18,7 @@ export async function startServer(): Promise<{
   const subprocess = execa(`node`, [
     require.resolve(`./server.js`),
     String(port),
-  ]);
+  ], { env: process.env });
 
   subprocess.stderr?.on("data", (chunk) =>
     serverLogger.error(chunk.toString())

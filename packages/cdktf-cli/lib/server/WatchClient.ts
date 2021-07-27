@@ -17,6 +17,7 @@ import { readGitignore } from "./util";
 import { hashPath } from "cdktf/lib/private/fs";
 import { logger } from "../logging";
 
+
 interface WatchClientOptions {
   targetDir: string;
   synthCommand: string;
@@ -124,7 +125,7 @@ export class WatchClient {
     this.updateState({ status: "SYNTHESIZING", error: undefined });
     try {
       const stacks = (
-        await SynthStack.synth(this.synthCommand, this.targetDir, true)
+        await SynthStack.synth(this.synthCommand, this.targetDir, true, "watch")
       ).map<Stack>((stack) => {
         return {
           ...stack,

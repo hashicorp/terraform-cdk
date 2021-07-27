@@ -22,11 +22,14 @@ interface ManifestJson {
   stacks: StackManifest[];
 }
 
+type SynthOrigin = "watch";
+
 export class SynthStack {
   public static async synth(
     command: string,
     outdir: string,
-    graceful = false // will not exit the process but rethrow the error instead
+    graceful = false, // will not exit the process but rethrow the error instead
+    synthOrigin?: SynthOrigin
   ): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
@@ -75,7 +78,7 @@ Command output on stdout:
 `
     : ""
 }`;
-      await this.synthErrorTelemetry(command);
+      await this.synthErrorTelemetry(command, synthOrigin);
       if (graceful) {
         e.errorOutput = errorOutput;
         throw e;
@@ -95,7 +98,7 @@ Command output on stdout:
 
     // end performance timer
     const endTime = performance.now();
-    await this.synthTelemetry(command, endTime - startTime);
+    await this.synthTelemetry(command, endTime - startTime, synthOrigin);
 
     const stacks: SynthesizedStack[] = [];
     const manifest = JSON.parse(
@@ -133,12 +136,20 @@ Command output on stdout:
 
   public static async synthTelemetry(
     command: string,
-    totalTime: number
+    totalTime: number,
+    synthOrigin?: SynthOrigin
   ): Promise<void> {
-    await sendTelemetry("synth", { command: command, totalTime: totalTime });
+    await sendTelemetry("synth", {
+      command: command,
+      totalTime: totalTime,
+      synthOrigin,
+    });
   }
 
-  public static async synthErrorTelemetry(command: string) {
-    await sendTelemetry("synth", { command, error: true });
+  public static async synthErrorTelemetry(
+    command: string,
+    synthOrigin?: SynthOrigin
+  ) {
+    await sendTelemetry("synth", { command, error: true, synthOrigin });
   }
 }
