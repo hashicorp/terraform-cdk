@@ -16,7 +16,7 @@ import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
 import { readGitignore } from "./util";
 import { hashPath } from "cdktf/lib/private/fs";
 import { logger } from "../logging";
-
+import { sendTelemetry } from "../checkpoint";
 
 interface WatchClientOptions {
   targetDir: string;
@@ -262,8 +262,6 @@ export class WatchClient {
   }
 
   public async start() {
-    await new Promise((r) => setTimeout(r, 3000));
-    console.log("start!!!");
     this.running = true;
 
     let gitignored: string[] = [];
@@ -321,7 +319,8 @@ export class WatchClient {
 
     // Queue initial synth to get things started
     await this.queueAction("SYNTH");
-
+    await sendTelemetry("watch", { event: "start" });
+    
     this.startHandlingActions();
   }
 
