@@ -34,7 +34,7 @@ export const GraphQLServerProvider = ({
     ApolloClient<NormalizedCacheObject> | undefined
   >();
   useAsyncEffect(async () => {
-    const port = await startServer();
+    const { port } = await startServer();
     const webSocketUri = `ws://localhost:${port}/graphql`;
 
     const wsClient = new SubscriptionClient(

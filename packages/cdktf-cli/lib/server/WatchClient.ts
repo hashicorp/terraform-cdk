@@ -15,6 +15,7 @@ import { parseOutput } from "../../bin/cmds/ui/terraform-context";
 import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
 import { readGitignore } from "./util";
 import { hashPath } from "cdktf/lib/private/fs";
+import { logger } from "../logging";
 
 interface WatchClientOptions {
   targetDir: string;
@@ -29,7 +30,7 @@ type Stack = SynthesizedStack & {
   json: TerraformJson;
 };
 
-type TimestampedDeployingResource = DeployingResource & {
+export type TimestampedDeployingResource = DeployingResource & {
   changedAt: number;
 };
 
@@ -258,7 +259,21 @@ export class WatchClient {
   public async start() {
     this.running = true;
 
-    const gitignored = await readGitignore(process.cwd());
+    let gitignored: string[] = [];
+    try {
+      gitignored = await readGitignore(process.cwd());
+    } catch (e) {
+      logger.error(e);
+      this.updateState({
+        error: {
+          message: `Could not read .gitignore file in ${process.cwd()}. Watch requires it for knowing which files to watch. Error while reading file: ${e.message}`,
+          recoverable: false,
+          origin: 'IDLE',
+          timestamp: Date.now(),
+        },
+      });
+      return;
+    }
 
     // If input files change we queue a synth to be run
     this.sourceFileWatcher = chokidar.watch(".", {
@@ -287,7 +302,7 @@ export class WatchClient {
     this.startHandlingActions();
   }
 
-  private async queueAction(action: Action) {
+  public async queueAction(action: Action) {
     // only enqueue if not already enqueued anyway
     if (!this.actionQueue.includes(action)) this.actionQueue.push(action);
 

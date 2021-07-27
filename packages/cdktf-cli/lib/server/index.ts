@@ -7,8 +7,11 @@ import { logger, getLogger } from "../logging";
 
 const serverLogger = getLogger("cli-server");
 
-export async function startServer(): Promise<number> {
-  logger.info("Starting Server for CLI");
+export async function startServer(): Promise<{
+  port: number;
+  stop: () => Promise<void>;
+}> {
+  logger.debug("Starting Server for CLI");
 
   const port = await detectPort(40000);
 
@@ -58,5 +61,11 @@ export async function startServer(): Promise<number> {
     });
   });
 
-  return port;
+  const stop = () => {
+    subprocess.kill("SIGTERM", {
+      forceKillAfterTimeout: 2000,
+    });
+  };
+
+  return { port, stop };
 }
