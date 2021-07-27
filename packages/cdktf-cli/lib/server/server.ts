@@ -43,7 +43,7 @@ async function startApolloServer() {
           // while startup reach the client
           const iterator = pubsub.asyncIterator([WATCH_EVENT]);
 
-          if (watchClient && (await watchClient.isRunning())) {
+          if (watchClient && watchClient.isRunning()) {
             console.warn(
               "There is already a watch running, you will receive the updates from that run but no new one is started."
             );
@@ -59,7 +59,7 @@ async function startApolloServer() {
                   watch: mapWatchState(state),
                 })
               );
-              watchClient.start();
+              await watchClient.start();
             } catch (e) {
               const state: GraphQLWatchState = {
                 resources: [],

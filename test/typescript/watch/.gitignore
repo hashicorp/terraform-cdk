@@ -1,0 +1,9 @@
+.gen
+cdktf.out
+!tsconfig.json
+node_modules
+*.d.ts
+*.js
+.terraform
+cdktf.log
+*terraform.*.tfstate*

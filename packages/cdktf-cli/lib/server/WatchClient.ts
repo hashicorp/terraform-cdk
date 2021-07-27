@@ -134,7 +134,7 @@ export class WatchClient {
       this.updateState({
         stacks,
       });
-      if (this.needsInit) await this.queueAction("INIT");
+      if (this.needsInit) await this.queueAction("INIT", true);
     } catch (e) {
       throw new RecoverableError(e.errorOutput || e.message, "SYNTHESIZING");
     }
@@ -152,10 +152,14 @@ export class WatchClient {
     console.log({ workingDirectory });
     const newTargetStackHash = hashPath(workingDirectory);
     if (this.lastTargetStackHash === newTargetStackHash) {
-      console.log(`skipping deploy because hash ("${this.lastTargetStackHash}") of target stack "${name}" did not change for working directory ${workingDirectory}`);
+      console.log(
+        `skipping deploy because hash ("${this.lastTargetStackHash}") of target stack "${name}" did not change for working directory ${workingDirectory}`
+      );
       return;
     } else {
-      console.log(`continuing deploy because new hash ("${newTargetStackHash}") of working directory "${workingDirectory}" differs from previous hash "${this.lastTargetStackHash}"`);
+      console.log(
+        `continuing deploy because new hash ("${newTargetStackHash}") of working directory "${workingDirectory}" differs from previous hash "${this.lastTargetStackHash}"`
+      );
     }
 
     this.updateState({ status: "DEPLOYING" });
@@ -179,7 +183,7 @@ export class WatchClient {
         await terraform.deploy(
           NO_PLAN_FILE,
           this.handleTerraformOutput.bind(this),
-          ["-refresh=false"],
+          ["-refresh=false"]
         );
       }
       // deployment was successful -> update hash
@@ -257,6 +261,8 @@ export class WatchClient {
   }
 
   public async start() {
+    await new Promise((r) => setTimeout(r, 3000));
+    console.log("start!!!");
     this.running = true;
 
     let gitignored: string[] = [];
@@ -266,34 +272,50 @@ export class WatchClient {
       logger.error(e);
       this.updateState({
         error: {
-          message: `Could not read .gitignore file in ${process.cwd()}. Watch requires it for knowing which files to watch. Error while reading file: ${e.message}`,
+          message: `Could not read .gitignore file in ${process.cwd()}. Watch requires it for knowing which files to watch. Error while reading file: ${
+            e.message
+          }`,
           recoverable: false,
-          origin: 'IDLE',
+          origin: "IDLE",
           timestamp: Date.now(),
         },
       });
       return;
     }
+    console.log(`Read .gitignore file: ${gitignored}`);
 
     // If input files change we queue a synth to be run
     this.sourceFileWatcher = chokidar.watch(".", {
       ignored: gitignored,
       cwd: process.cwd(),
+      ignoreInitial: true,
     });
-    this.sourceFileWatcher.on("change", (path) => {
-      console.log(`synth - path changed: ${path}`);
-      this.queueAction("SYNTH");
+    this.sourceFileWatcher.on("ready", () =>
+      console.log("srcdir watcher ready")
+    );
+    ["change", "add"].forEach((event) => {
+      if (this.sourceFileWatcher)
+        this.sourceFileWatcher.on(event, (path) => {
+          console.log(`synth - path changed: ${event} ${path}`);
+          this.queueAction("SYNTH");
+        });
     });
 
     // If out dir files change we queue a deploy to be run
     // TODO: only watch stack.workingDirectory (as soon as stack is known)
     // or: filter files for being related to the stack we're after, which might be easier
     this.outDirWatcher = chokidar.watch(this.targetDir, {
-      ignored: ["**/.terraform", "**/.terraform.lock.hcl", "*/*/*/plan"],
+      ignored: ["**/.terraform/**", "**/.terraform.lock.hcl", "*/*/*/plan"],
+      cwd: process.cwd(),
+      ignoreInitial: true,
     });
-    this.outDirWatcher.on("change", (path) => {
-      console.log(`outdir - path changed: ${path}`);
-      this.queueAction("DEPLOY");
+    this.outDirWatcher.on("ready", () => console.log("outdir watcher ready"));
+    ["change", "add"].forEach((event) => {
+      if (this.outDirWatcher)
+        this.outDirWatcher.on(event, (path) => {
+          console.log(`outdir - path changed: ${event} ${path}`);
+          this.queueAction("DEPLOY");
+        });
     });
 
     // Queue initial synth to get things started
@@ -302,9 +324,13 @@ export class WatchClient {
     this.startHandlingActions();
   }
 
-  public async queueAction(action: Action) {
+  public async queueAction(action: Action, priority = false) {
     // only enqueue if not already enqueued anyway
-    if (!this.actionQueue.includes(action)) this.actionQueue.push(action);
+    if (!this.actionQueue.includes(action)) {
+      // priority = run next
+      if (priority) this.actionQueue.unshift(action);
+      else this.actionQueue.push(action);
+    }
 
     console.log(`currently queued actions: ${this.actionQueue.join(", ")}`);
   }
