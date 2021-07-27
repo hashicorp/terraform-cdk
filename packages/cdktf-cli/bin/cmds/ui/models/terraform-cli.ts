@@ -64,7 +64,7 @@ export class TerraformCli implements Terraform {
   public async deploy(
     planFile: string,
     stdout: (chunk: Buffer) => any,
-    extraOptions: string[] = [],
+    extraOptions: string[] = []
   ): Promise<void> {
     await this.setUserAgent();
     await exec(

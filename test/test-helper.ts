@@ -139,7 +139,7 @@ export class TestDriver {
 
   watch = () => {
     const child = ptySpawn("cdktf", ["watch", "--auto-approve"], {
-      name: 'xterm-color',
+      name: "xterm-color",
       env: this.env,
       cols: 80,
       rows: 60,

@@ -12,7 +12,7 @@ export class HelloTerra extends TerraformStack {
       {
         "local-exec": {
           command: `echo "hello deploy"`,
-        }
+        },
       },
     ]);
   }
