@@ -61,7 +61,7 @@ export async function startServer(): Promise<{
     });
   });
 
-  const stop = () => {
+  const stop = async () => {
     subprocess.kill("SIGTERM", {
       forceKillAfterTimeout: 2000,
     });
