@@ -260,3 +260,47 @@ new TestResource(stack, "resource", {
   name: module.getString("name"),
 });
 ```
+
+## Working with Module Outputs
+
+Outputs can be accessed with an `Output` suffix or in the case of python with an `_output`.
+
+### Typescript / Java / C# / Go
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack, TerraformOutput } from "cdktf";
+import MyLocalModule from "./.gen/modules/my-local-module";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    const localModule = new MyLocalModule(this, "local-module", {
+      ipAddress: "127.0.0.1",
+    });
+
+    new TerraformOutput(this, "dns-server", {
+      value: localModule.dnsServerOutput,
+    });
+  }
+}
+```
+
+### Python
+
+```python
+#!/usr/bin/env python
+
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput
+from imports.my_local_module import MyLocalModule
+
+
+class MyStack(TerraformStack):
+    def __init__(self, scope: Construct, ns: str):
+        super().__init__(scope, ns)
+
+        localModule = MyLocalModule(self, "local-module", ip_address='127.0.0.1')
+        TerraformOutput(self, "dns-server", value=localModule.dns_server_output)
+```
