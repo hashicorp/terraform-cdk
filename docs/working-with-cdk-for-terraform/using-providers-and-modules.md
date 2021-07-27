@@ -216,7 +216,29 @@ This behaviour can be disabled by setting `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to no
 
 For using modules on the terraform registry, see [cdktf.json](./cdktf-json.md).
 
-For using modules from other sources (local, github, etc), you can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
+For using modules from other sources (local, github, etc), you have two options:
+
+### Generated Module Bindings
+
+To get typed module bindings you first need to add the module in your `cdktf.json` file. For a local module it might look like this:
+
+```jsonc
+{
+  // ...
+  "terraformModules": [
+    {
+      "name": "my-local-module",
+      "source": "./path/to/local/terraform/module"
+    }
+  ]
+}
+```
+
+When you run `cdktf get` the module bindings are generated in the `./.gen` and can be used as `MyLocalModule`.
+
+### `TerraformHclModule`
+
+You can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
 
 TypeScript example:
 
