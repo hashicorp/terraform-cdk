@@ -13,13 +13,20 @@ export enum Language {
   GO = "go",
 }
 
+export interface TerraformDependencyConstraint {
+  readonly name: string; // name of the module / provider
+  readonly source?: string; // path / url / registry identifier for the module / provider
+  readonly version?: string; // version constraint (https://www.terraform.io/docs/language/providers/requirements.html#version-constraints)
+}
+type RequirementDefinition = string | TerraformDependencyConstraint;
+
 export interface Config {
   readonly app?: string; // The command to run in order to synthesize the code to Terraform compatible JSON
   readonly language?: Language; // Target language for building provider or module bindings. Currently supported: `typescript`, `python`, `java`, `csharp`, and `go`
   readonly output: string; // Default: 'cdktf.out'. Where the synthesized JSON should go. Also will be the working directory for Terraform operations
   readonly codeMakerOutput: string; // Default: '.gen'. Path where generated provider bindings will be rendered to.
-  readonly terraformProviders?: string[]; // Terraform Providers to build
-  readonly terraformModules?: string[]; // Terraform Modules to build
+  readonly terraformProviders?: RequirementDefinition[]; // Terraform Providers to build
+  readonly terraformModules?: RequirementDefinition[]; // Terraform Modules to build
 }
 ```
 
@@ -39,7 +46,28 @@ Community providers have to provide a fully qualified name, e.g. to define the D
 
 #### Modules
 
-Similar to 3rd Party providers, the full registry namespace should be provided. Please note that only modules from the registry are supported at this point.
+Similar to 3rd party providers, the full registry namespace should be provided. For local modules please use the object format:
+
+```jsonc
+{
+  // ...
+  "moduleRequirements": [
+    "terraform-aws-modules/vpc/aws@ ~> 3.2.0",
+    {
+      "name": "myLocalModule",
+      "source": "../my-modules/local-module"
+    }
+  ]
+}
+```
+
+#### Version Constraints
+
+In the string format the version can be omitted if you don't want to pin the version down.
+If you want to denote a version you can add a version constraint after the name, separated by an `@`, so `<provider|module>@<constraint>`.
+In the object format the constraint can be added under `version`.
+
+[The structure of a version constraint can be found here.](https://www.terraform.io/docs/language/expressions/version-constraints.html#version-constraint-syntax)
 
 ## Examples
 

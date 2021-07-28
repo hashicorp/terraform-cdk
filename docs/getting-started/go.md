@@ -158,7 +158,7 @@ You specify it in your local `cdktf.json` file, like this:
 ```
 
 Next you need to run `cdktf get` which generates provider-specific bindings.
-To save some time you can also use pre-built provider, please visit the ["Using Providers and Modules"-Guide](../working-with-cdk-for-terraform/using-providers-and-modules.md) for more on that topic.
+To save some time you can also use pre-built providers, please visit the ["Using Providers"-Guide](../working-with-cdk-for-terraform/using-providers.md) for more on that topic.
 
 ## Generating Go provider bindings
 
