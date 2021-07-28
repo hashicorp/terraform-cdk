@@ -77,12 +77,12 @@ export class TestDriver {
 
   copyFiles = (...fileNames) => {
     for (const fileName of fileNames) {
-      fs.copyFileSync(path.join(this.rootDir, fileName), fileName);
+      fse.copySync(path.join(this.rootDir, fileName), fileName);
     }
   };
 
   copyFile = (source, dest) => {
-    fs.copyFileSync(path.join(this.rootDir, source), dest);
+    fse.copySync(path.join(this.rootDir, source), dest);
   };
 
   stackDirectory = (stackName: string) => {
