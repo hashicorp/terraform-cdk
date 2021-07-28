@@ -14,6 +14,7 @@
     "jest": "^26.6.3",
     "jest-runner-groups": "^2.0.1",
     "node-pty": "0.10.0",
+    "strip-ansi": "^7.0.0",
     "ts-jest": "^26.5.1",
     "typescript": "^4.1.5"
   }

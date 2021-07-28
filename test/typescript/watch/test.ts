@@ -3,6 +3,7 @@
  */
 import { TestDriver } from "../../test-helper";
 import { IPty, IDisposable } from "node-pty";
+import stripAnsi from "strip-ansi";
 
 const onPosix = process.platform !== "win32" ? test : test.skip;
 
@@ -101,7 +102,7 @@ const screenOutput = (
         if (exit) {
           reject(new Error("exited before waitForLine finished"));
           clearTimeout(timeoutId);
-        } else if (line && check(line)) {
+        } else if (line && check(stripAnsi(line))) {
           subscriber = undefined; // unsubscribe
           resolve(line);
           clearTimeout(timeoutId);
