@@ -1,7 +1,5 @@
 # `cdktf watch` command
 
-todo: a bit about vision
-
 > ⚠️ Warning: The `watch` command is a new experimental command. **ONLY use in development environments**
 
 The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time.
@@ -26,6 +24,8 @@ An exemplary invocation of watch could be:
 cdktf watch --stack dev --auto-approve
 ```
 
+Please note that watch currently automatically deploys all changes and does not ask for confirmation!
+
 ### Troubleshooting
 
-todo: Debug flags
+To troubleshoot watch set the `CDKTF_LOG_LEVEL` environment variable to `all`. By supplying `CDKTF_DISABLE_LOGGING=false` the debug output will be directed to a `cdktf.log` file in your projects root directory. The log will contain information about detected file system changes and the actions they triggered.
