@@ -6,7 +6,7 @@ import { IPty, IDisposable } from "node-pty";
 
 const onPosix = process.platform !== "win32" ? test : test.skip;
 
-describe.skip("full watch integration test", () => {
+describe("full watch integration test", () => {
   let driver: TestDriver;
 
   beforeAll(async () => {
