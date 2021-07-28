@@ -77,6 +77,7 @@ const screenOutput = (
 
   disposables.push(
     pty.onData((line) => {
+      console.log({ line });
       // buffer until we get a new subscriber
       if (subscriber === undefined) lines.push(line);
       else subscriber(line, false);
