@@ -14,7 +14,7 @@ const config = readConfigSync();
 class Command implements yargs.CommandModule {
   public readonly command = "watch [stack] [OPTIONS]";
   public readonly describe =
-    "Watch for file changes and automatically trigger a deploy";
+    "[experimental] Watch for file changes and automatically trigger a deploy";
 
   public readonly builder = (args: yargs.Argv) =>
     args
