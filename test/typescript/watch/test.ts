@@ -13,8 +13,9 @@ describe("full watch integration test", () => {
 
   beforeAll(async () => {
     driver = new TestDriver(__dirname, {
-      // CDKTF_LOG_LEVEL: "all", // useful for debugging this testcase
-      CI: "false", // watch is supposed to be interactive
+      CDKTF_LOG_LEVEL: "all", // useful for debugging this testcase
+      CI: "", // watch is supposed to be interactive
+      GITHUB_ACTIONS: "", // overwrite this aswell
     });
     await driver.setupTypescriptProject();
     driver.copyFiles(".gitignore");
@@ -34,9 +35,10 @@ describe("full watch integration test", () => {
 
       childStopped = new Promise((resolve) => child.onExit(resolve));
 
-      let line = await waitForLine((line) =>
-        line.includes("Synthesizing hello-deploy")
-      );
+      let line = await waitForLine(
+        (line) => line.includes("Synthesizing hello-deploy"),
+        120_000
+      ); // longer timeout for start of watch
       expect(line).toContain("Synthesizing hello-deploy");
 
       line = await waitForLine((line) =>
@@ -98,8 +100,7 @@ const screenOutput = (
         if (exit) {
           reject(new Error("exited before waitForLine finished"));
           clearTimeout(timeoutId);
-        }
-        if (check(line)) {
+        } else if (line && check(line)) {
           subscriber = undefined; // unsubscribe
           resolve(line);
           clearTimeout(timeoutId);
