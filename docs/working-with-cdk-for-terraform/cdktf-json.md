@@ -61,6 +61,14 @@ Similar to 3rd party providers, the full registry namespace should be provided. 
 }
 ```
 
+#### Version Constraints
+
+In the string format the version can be omitted if you don't want to pin the version down.
+If you want to denote a version you can add a version constraint after the name, separated by an `@`, so `<provider|module>@<constraint>`.
+In the object format the constraint can be added under `version`.
+
+[The structure of a version constraint can be found here.](https://www.terraform.io/docs/language/expressions/version-constraints.html#version-constraint-syntax)
+
 ## Examples
 
 ### Minimal Configuration

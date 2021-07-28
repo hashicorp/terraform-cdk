@@ -68,7 +68,7 @@ vim cdktf.json
 ```
 
 In order to use another provider or module, edit the `cdktf.json` file and add the name of the provider.
-For example, to add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider to the project, edit the `cdktf.json` file and add the provider name to the `terraformProviders` array.
+For example, to add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider to the project, edit the `cdktf.json` file and add the provider name to the `terraformProviders` array. For details on the version constraint syntax and the alternative object syntax please see the [`cdktf.json` specification](./cdktf-json.md).
 
 ```json
 {
