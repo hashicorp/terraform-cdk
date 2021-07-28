@@ -64,7 +64,7 @@
     "open": "^7.0.4",
     "parse-gitignore": "^1.0.1",
     "react": "<17.0.0",
-    "semver": "^7.3.2",
+    "semver": "^7.3.5",
     "sscaff": "^1.2.0",
     "stream-buffers": "^3.0.2",
     "strip-ansi": "^6.0.0",
