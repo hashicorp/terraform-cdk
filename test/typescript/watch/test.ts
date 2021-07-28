@@ -3,7 +3,7 @@
  */
 import { TestDriver } from "../../test-helper";
 import { IPty, IDisposable } from "node-pty";
-import stripAnsi from "strip-ansi";
+import stripAnsi = require("strip-ansi");
 
 const onPosix = process.platform !== "win32" ? test : test.skip;
 
@@ -104,7 +104,7 @@ const screenOutput = (
           clearTimeout(timeoutId);
         } else if (line && check(stripAnsi(line))) {
           subscriber = undefined; // unsubscribe
-          resolve(line);
+          resolve(stripAnsi(line));
           clearTimeout(timeoutId);
         }
       };
