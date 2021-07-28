@@ -6,10 +6,7 @@ exports[`Go full integration test synth synth generates JSON 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"go-simple\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"resource\\": {

@@ -6,10 +6,7 @@ exports[`artifactory 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -35,10 +32,7 @@ exports[`azurerm 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -67,10 +61,7 @@ exports[`consul 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -102,10 +93,7 @@ exports[`cos 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -134,10 +122,7 @@ exports[`etcd 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -162,10 +147,7 @@ exports[`etcdv3 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -198,10 +180,7 @@ exports[`gcs 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -227,10 +206,7 @@ exports[`http 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -263,10 +239,7 @@ exports[`local 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -289,10 +262,7 @@ exports[`manta 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -321,10 +291,7 @@ exports[`oss 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -366,10 +333,7 @@ exports[`pg 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -393,10 +357,7 @@ exports[`remote 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -422,10 +383,7 @@ exports[`s3 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -472,10 +430,7 @@ exports[`s3 reference 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -511,10 +466,7 @@ exports[`s3 with options 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {
@@ -541,10 +493,7 @@ exports[`swift 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"data\\": {

@@ -8,18 +8,9 @@ exports[`python full integration test synth synth generates JSON for both stacks
       \\"stackName\\": \\"python-simple-one\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": {
-          \\"terraform\\": {
-            \\"backend\\": {
-              \\"remote\\": {
-                \\"organization\\": \\"test\\",
-                \\"workspaces\\": {
-                  \\"name\\": \\"test\\"
-                }
-              }
-            }
-          }
-        },
+        \\"stack\\": [
+          \\"terraform\\"
+        ],
         \\"aws_sns_topic\\": [
           \\"display_name\\"
         ]
@@ -73,18 +64,9 @@ exports[`python full integration test synth synth generates JSON for both stacks
       \\"stackName\\": \\"python-simple-two\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": {
-          \\"terraform\\": {
-            \\"backend\\": {
-              \\"remote\\": {
-                \\"organization\\": \\"test\\",
-                \\"workspaces\\": {
-                  \\"name\\": \\"test\\"
-                }
-              }
-            }
-          }
-        },
+        \\"stack\\": [
+          \\"terraform\\"
+        ],
         \\"aws_sns_topic\\": [
           \\"display_name\\"
         ]

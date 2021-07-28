@@ -8,7 +8,6 @@ exports[`full integration test synth 1`] = `
       \\"stackName\\": \\"first\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": {},
         \\"null_resource\\": [
           \\"provisioner\\"
         ]
@@ -45,7 +44,6 @@ exports[`full integration test synth 2`] = `
       \\"stackName\\": \\"second\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": {},
         \\"null_resource\\": [
           \\"provisioner\\"
         ]
@@ -82,7 +80,6 @@ exports[`full integration test synth with json output 1`] = `
       \\"stackName\\": \\"first\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": {},
         \\"null_resource\\": [
           \\"provisioner\\"
         ]

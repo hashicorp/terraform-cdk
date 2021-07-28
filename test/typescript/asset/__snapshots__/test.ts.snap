@@ -14,10 +14,7 @@ exports[`full integration test synth 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"stack\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": {}
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"output\\": {
