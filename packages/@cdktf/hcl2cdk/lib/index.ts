@@ -35,7 +35,7 @@ export async function convertToTypescript(hcl: string) {
     json = await parse("terraform.tf", hcl);
   } catch (err) {
     throw new Error(
-      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+convert&template=bug-report.md&title=`
+      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+feature%2Fconvert&template=bug-report.md&title=`
     );
   }
 
@@ -44,7 +44,7 @@ export async function convertToTypescript(hcl: string) {
   try {
     plan = schema.parse(json);
   } catch (err) {
-    throw new Error(`Error: HCL-JSON does not conform to schema. This is not expected, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+convert&template=bug-report.md&title=
+    throw new Error(`Error: HCL-JSON does not conform to schema. This is not expected, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+feature%2Fconvert&template=bug-report.md&title=
 Please include this information:
 ${JSON.stringify((err as z.ZodError).errors)}`);
   }
