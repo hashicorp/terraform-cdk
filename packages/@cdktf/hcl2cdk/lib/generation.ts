@@ -4,7 +4,7 @@ import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
 
-import { TerraformResourceBlock } from "./types";
+import { TerraformResourceBlock, Scope } from "./types";
 import { camelCase, pascalCase, uniqueId } from "./utils";
 import {
   Resource,
@@ -40,6 +40,7 @@ function getReference(graph: DirectedGraph, id: string) {
 }
 
 export const valueToTs = (
+  scope: Scope,
   item: TerraformResourceBlock,
   nodeIds: string[],
   scopedIds: string[] = []
@@ -47,6 +48,7 @@ export const valueToTs = (
   switch (typeof item) {
     case "string":
       return referencesToAst(
+        scope,
         item,
         extractReferencesFromExpression(item, nodeIds, scopedIds),
         scopedIds
@@ -62,7 +64,7 @@ export const valueToTs = (
 
       if (Array.isArray(item)) {
         return t.arrayExpression(
-          item.map((i) => valueToTs(i, nodeIds, scopedIds))
+          item.map((i) => valueToTs(scope, i, nodeIds, scopedIds))
         );
       }
 
@@ -87,8 +89,10 @@ export const valueToTs = (
               typeof value === "object" &&
                 !Array.isArray(value) &&
                 key !== "tags"
-                ? t.arrayExpression([valueToTs(value, nodeIds, scopedIds)])
-                : valueToTs(value, nodeIds, scopedIds)
+                ? t.arrayExpression([
+                    valueToTs(scope, value, nodeIds, scopedIds),
+                  ])
+                : valueToTs(scope, value, nodeIds, scopedIds)
             );
           })
           .filter((expr) => expr !== undefined) as t.ObjectProperty[]
@@ -98,6 +102,7 @@ export const valueToTs = (
 };
 
 export function backendToExpression(
+  scope: Scope,
   tf: TerraformConfig["backend"],
   nodeIds: string[]
 ): t.Statement[] {
@@ -118,7 +123,7 @@ export function backendToExpression(
                   ...arr,
                   t.objectProperty(
                     t.identifier(camelCase(property)),
-                    valueToTs(value, nodeIds)
+                    valueToTs(scope, value, nodeIds)
                   ),
                 ],
                 [] as t.ObjectProperty[]
@@ -153,7 +158,7 @@ function addOverrideExpression(
 }
 
 export function resource(
-  scopeIdentifiers: Set<string>,
+  scope: Scope,
   type: string,
   key: string,
   id: string,
@@ -180,7 +185,7 @@ export function resource(
 
   const expressions = [
     ...asExpression(
-      scopeIdentifiers,
+      scope,
       resource,
       key,
       config,
@@ -189,7 +194,7 @@ export function resource(
       getReference(graph, id) || overrideReference
     ),
   ];
-  const varName = variableName(resource, key);
+  const varName = variableName(scope, resource, key);
 
   const loopComment = `In most cases loops should be handled in the programming language context and 
 not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
@@ -203,7 +208,7 @@ you need to keep this like it is.`;
       addOverrideExpression(
         varName,
         "for_each",
-        referencesToAst(for_each, references),
+        referencesToAst(scope, for_each, references),
         loopComment
       )
     );
@@ -217,7 +222,7 @@ you need to keep this like it is.`;
       addOverrideExpression(
         varName,
         "count",
-        referencesToAst(count, references),
+        referencesToAst(scope, count, references),
         loopComment
       )
     );
@@ -231,6 +236,7 @@ you need to keep this like it is.`;
         varName,
         path.substring(1), // The path starts with a dot that we don't want
         valueToTs(
+          scope,
           {
             for_each,
             content,
@@ -245,7 +251,7 @@ you need to keep this like it is.`;
 }
 
 function asExpression(
-  scopeIdentifiers: Set<string>,
+  scope: Scope,
   type: string,
   name: string,
   config: TerraformResourceBlock,
@@ -257,14 +263,14 @@ function asExpression(
 
   const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
-    t.stringLiteral(uniqueId(scopeIdentifiers, name)),
-    valueToTs(otherOptions, nodeIds),
+    t.stringLiteral(uniqueId(scope.constructs, name)),
+    valueToTs(scope, otherOptions, nodeIds),
   ]);
 
   const statements = [];
   const varName = reference
-    ? referenceToVariableName(reference)
-    : variableName(type, name);
+    ? referenceToVariableName(scope, reference)
+    : variableName(scope, type, name);
 
   if (reference || providers || provider || lifecycle) {
     statements.push(
@@ -278,18 +284,30 @@ function asExpression(
 
   if (provider) {
     statements.push(
-      addOverrideExpression(varName, "provider", valueToTs(provider, nodeIds))
+      addOverrideExpression(
+        varName,
+        "provider",
+        valueToTs(scope, provider, nodeIds)
+      )
     );
   }
   if (providers) {
     statements.push(
-      addOverrideExpression(varName, "providers", valueToTs(providers, nodeIds))
+      addOverrideExpression(
+        varName,
+        "providers",
+        valueToTs(scope, providers, nodeIds)
+      )
     );
   }
 
   if (lifecycle) {
     statements.push(
-      addOverrideExpression(varName, "lifecycle", valueToTs(lifecycle, nodeIds))
+      addOverrideExpression(
+        varName,
+        "lifecycle",
+        valueToTs(scope, lifecycle, nodeIds)
+      )
     );
   }
 
@@ -297,7 +315,7 @@ function asExpression(
 }
 
 export function output(
-  scopeIdentifiers: Set<string>,
+  scope: Scope,
   key: string,
   _id: string,
   item: Output,
@@ -307,7 +325,7 @@ export function output(
   const [{ value, description, sensitive }] = item;
 
   return asExpression(
-    scopeIdentifiers,
+    scope,
     "cdktf.TerraformOutput",
     key,
     {
@@ -321,7 +339,7 @@ export function output(
 }
 
 export function variable(
-  scopeIdentifiers: Set<string>,
+  scope: Scope,
   key: string,
   id: string,
   item: Variable,
@@ -336,7 +354,7 @@ export function variable(
   }
 
   return asExpression(
-    scopeIdentifiers,
+    scope,
     "cdktf.TerraformVariable",
     key,
     props,
@@ -347,7 +365,7 @@ export function variable(
 }
 
 export function local(
-  _scopeIdentifiers: Set<string>,
+  scope: Scope,
   key: string,
   id: string,
   item: TerraformResourceBlock,
@@ -359,14 +377,14 @@ export function local(
   }
   return t.variableDeclaration("const", [
     t.variableDeclarator(
-      t.identifier(variableName("local", key)),
-      valueToTs(item, nodeIds)
+      t.identifier(variableName(scope, "local", key)),
+      valueToTs(scope, item, nodeIds)
     ),
   ]);
 }
 
 export function modules(
-  scopeIdentifiers: Set<string>,
+  scope: Scope,
   key: string,
   id: string,
   item: Module,
@@ -377,7 +395,7 @@ export function modules(
 
   if (isRegistryModule(source)) {
     return asExpression(
-      scopeIdentifiers,
+      scope,
       source,
       key,
       props,
@@ -388,7 +406,7 @@ export function modules(
   }
 
   return asExpression(
-    scopeIdentifiers,
+    scope,
     "cdktf.TerraformHclModule",
     key,
     { ...props, source },
@@ -399,7 +417,7 @@ export function modules(
 }
 
 export function provider(
-  scopeIdentifiers: Set<string>,
+  scope: Scope,
   key: string,
   _id: string,
   item: Provider[0],
@@ -409,7 +427,7 @@ export function provider(
   const { version, ...props } = item;
 
   return asExpression(
-    scopeIdentifiers,
+    scope,
     `${key}.${pascalCase(key + "Provider")}`,
     key,
     props,

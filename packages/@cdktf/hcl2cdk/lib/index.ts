@@ -11,7 +11,7 @@ import * as z from "zod";
 import { schema } from "./schema";
 import { findUsedReferences, isRegistryModule } from "./expressions";
 import { cdktfImport, providerImports, moduleImports, gen } from "./generation";
-import { TerraformResourceBlock } from "./types";
+import { TerraformResourceBlock, Scope } from "./types";
 import {
   forEachProvider,
   forEachGlobal,
@@ -50,27 +50,28 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
   // Each key in the scope needs to be unique, therefore we save them in a set
-  const scopeIdentifiers = new Set<string>();
+  // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
+  const scope: Scope = { constructs: new Set<string>(), variables: {} };
 
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
   // We need to use a function here because the same node has different representation based on if it's referenced by another one
   const nodeMap = {
-    ...forEachProvider(scopeIdentifiers, plan.provider, provider),
-    ...forEachGlobal(scopeIdentifiers, "var", plan.variable, variable),
+    ...forEachProvider(scope, plan.provider, provider),
+    ...forEachGlobal(scope, "var", plan.variable, variable),
     // locals are a special case
     ...forEachGlobal(
-      scopeIdentifiers,
+      scope,
       "local",
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
       local
     ),
-    ...forEachGlobal(scopeIdentifiers, "out", plan.output, output),
-    ...forEachGlobal(scopeIdentifiers, "module", plan.module, modules),
-    ...forEachNamespaced(scopeIdentifiers, plan.resource, resource),
-    ...forEachNamespaced(scopeIdentifiers, plan.data, resource, "data"),
+    ...forEachGlobal(scope, "out", plan.output, output),
+    ...forEachGlobal(scope, "module", plan.module, modules),
+    ...forEachNamespaced(scope, plan.resource, resource),
+    ...forEachNamespaced(scope, plan.data, resource, "data"),
   };
 
   const graph = new DirectedGraph();
@@ -103,7 +104,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   // We recursively inspect each resource value to find references to other values
   // We add these to a dependency graph so that the programming code has the right order
   function addGlobalEdges(
-    _scopeIdentifiers: Set<string>,
+    _scopeIdentifiers: Scope,
     _key: string,
     id: string,
     value: TerraformResourceBlock
@@ -111,7 +112,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     addEdges(id, value);
   }
   function addProviderEdges(
-    _scopeIdentifiers: Set<string>,
+    _scopeIdentifiers: Scope,
     key: string,
     _id: string,
     value: TerraformResourceBlock
@@ -119,7 +120,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     addEdges(key, value);
   }
   function addNamespacedEdges(
-    _scopeIdentifiers: Set<string>,
+    _scopeIdentifiers: Scope,
     _type: string,
     _key: string,
     id: string,
@@ -129,31 +130,21 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
   Object.values({
-    ...forEachGlobal(
-      scopeIdentifiers,
-      "providers",
-      plan.provider,
-      addProviderEdges
-    ),
-    ...forEachGlobal(scopeIdentifiers, "var", plan.variable, addGlobalEdges),
+    ...forEachGlobal(scope, "providers", plan.provider, addProviderEdges),
+    ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
     // locals are a special case
     ...forEachGlobal(
-      scopeIdentifiers,
+      scope,
       "local",
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
       addGlobalEdges
     ),
-    ...forEachGlobal(scopeIdentifiers, "out", plan.output, addGlobalEdges),
-    ...forEachGlobal(scopeIdentifiers, "module", plan.module, addGlobalEdges),
-    ...forEachNamespaced(scopeIdentifiers, plan.resource, addNamespacedEdges),
-    ...forEachNamespaced(
-      scopeIdentifiers,
-      plan.data,
-      addNamespacedEdges,
-      "data"
-    ),
+    ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
+    ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
+    ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
+    ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
   }).forEach((addEdgesToGraph) => addEdgesToGraph(graph));
 
   // We traverse the dependency graph to get the unordered JSON nodes into an ordered array
@@ -190,7 +181,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   const backendExpressions = plan.terraform?.reduce(
     (carry, terraform) => [
       ...carry,
-      ...backendToExpression(terraform.backend, nodeIds),
+      ...backendToExpression(scope, terraform.backend, nodeIds),
     ],
     [] as t.Statement[]
   );

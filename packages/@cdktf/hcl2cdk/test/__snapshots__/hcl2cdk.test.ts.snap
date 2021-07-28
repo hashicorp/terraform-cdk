@@ -41,10 +41,10 @@ new cdktf.TerraformHclModule(this, \\"vpc\\", {
 
 exports[`convert arithmetics configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-const varAdmins = new cdktf.TerraformVariable(this, \\"admins\\", {});
-const varMembers = new cdktf.TerraformVariable(this, \\"members\\", {});
+const admins = new cdktf.TerraformVariable(this, \\"admins\\", {});
+const members = new cdktf.TerraformVariable(this, \\"members\\", {});
 new cdktf.TerraformOutput(this, \\"arithmetics\\", {
-  value: \`\\\\\${\${varMembers.value} + \${varAdmins.value}}\`,
+  value: \`\\\\\${\${members.value} + \${admins.value}}\`,
 });
 "
 `;
@@ -267,9 +267,9 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 exports[`convert count loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varUsers = new cdktf.TerraformVariable(this, \\"users\\", {});
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
-  name: \`\\\\\${element(\${varUsers.value}, count.index)}\`,
+  name: \`\\\\\${element(\${users.value}, count.index)}\`,
   path: \\"/system/\\",
   tags: {
     tagKey: \\"tag-value\\",
@@ -280,7 +280,7 @@ const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
 not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
 you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
 you need to keep this like it is.*/
-awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${varUsers.value})}\`);
+awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.value})}\`);
 "
 `;
 
@@ -295,7 +295,7 @@ new local.DataLocalFile(this, \\"_01_please_verify\\", {
 exports[`convert data references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varBucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
+const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 const dataAwsS3BucketExamplebucket = new aws.DataAwsS3Bucket(
@@ -303,7 +303,7 @@ const dataAwsS3BucketExamplebucket = new aws.DataAwsS3Bucket(
   \\"examplebucket\\",
   {
     acl: \\"private\\",
-    bucket: varBucketName.value,
+    bucket: bucketName.value,
   }
 );
 new aws.S3BucketObject(this, \\"examplebucket_object\\", {
@@ -317,14 +317,14 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 exports[`convert double references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varBucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
+const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: varBucketName.value,
+  bucket: bucketName.value,
   tags: {
-    tagKey: varBucketName.value,
+    tagKey: bucketName.value,
   },
 });
 "
@@ -333,8 +333,8 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 exports[`convert dynamic blocks configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varNamespace = new cdktf.TerraformVariable(this, \\"namespace\\", {});
-const varSettings = new cdktf.TerraformVariable(this, \\"settings\\", {});
+const namespace = new cdktf.TerraformVariable(this, \\"namespace\\", {});
+const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 const awsElasticBeanstalkEnvironmentTfenvtest =
   new aws.ElasticBeanstalkEnvironment(this, \\"tfenvtest\\", {
     application: \\"best-app\\",
@@ -348,11 +348,11 @@ not inside of the Terraform context. If you are looping over something external,
 you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
 you need to keep this like it is.*/
 awsElasticBeanstalkEnvironmentTfenvtest.addOverride(\\"setting\\", {
-  for_each: varSettings.value,
+  for_each: settings.value,
   content: [
     {
       name: '\${setting.value[\\"name\\"]}',
-      namespace: varNamespace.value,
+      namespace: namespace.value,
       value: '\${setting.value[\\"value\\"]}',
     },
   ],
@@ -369,7 +369,7 @@ new docker.DockerProvider(this, \\"docker\\", {});
 exports[`convert for each on list using splat configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varBuckets = new cdktf.TerraformVariable(this, \\"buckets\\", {});
+const buckets = new cdktf.TerraformVariable(this, \\"buckets\\", {});
 const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
   description: \\"KMS key 1\\",
@@ -385,7 +385,7 @@ you should consider using a for loop. If you are looping over something only kno
 you need to keep this like it is.*/
 awsS3BucketExamplebucket.addOverride(
   \\"for_each\\",
-  \`\\\\\${toset(\${varBuckets.value}.*)}\`
+  \`\\\\\${toset(\${buckets.value}.*)}\`
 );
 const awsS3BucketObjectExamplebucketObject = new aws.S3BucketObject(
   this,
@@ -411,29 +411,29 @@ awsS3BucketObjectExamplebucketObject.addOverride(
 
 exports[`convert for expression 1 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-const varUsers = new cdktf.TerraformVariable(this, \\"users\\", {});
-const localAdminUsers = \`\\\\\${{
-            for name, user in \${varUsers.value} : name => user
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+const adminUsers = \`\\\\\${{
+            for name, user in \${users.value} : name => user
             if user.is_admin
           }}\`;
-const localRegularUsers = \`\\\\\${{
-            for name, user in \${varUsers.value} : name => user
+const regularUsers = \`\\\\\${{
+            for name, user in \${users.value} : name => user
             if !user.is_admin
           }}\`;
 new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-  value: \`\\\\\${\${localAdminUsers}},\\\\\${\${localRegularUsers}}\`,
+  value: \`\\\\\${\${adminUsers}},\\\\\${\${regularUsers}}\`,
 });
 "
 `;
 
 exports[`convert for expression 2 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-const varUsers = new cdktf.TerraformVariable(this, \\"users\\", {});
-const localUsersByRole = \`\\\\\${{
-            for name, user in \${varUsers.value} : user.role => name...
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
+const usersByRole = \`\\\\\${{
+            for name, user in \${users.value} : user.role => name...
           }}\`;
 new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
-  value: localUsersByRole,
+  value: usersByRole,
 });
 "
 `;
@@ -441,10 +441,10 @@ new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
 exports[`convert for expression 3 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as datadog from \\"./.gen/providers/datadog\\";
-const varUsers = new cdktf.TerraformVariable(this, \\"users\\", {});
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 new datadog.Monitor(this, \\"hard_query\\", {
   name: \\"queries are hard\\",
-  query: \`\\\\\${join(\\" && \\", [for o in \${varUsers.value} : \\"!(!\\\\\${o.id})\\"])}\`,
+  query: \`\\\\\${join(\\" && \\", [for o in \${users.value} : \\"!(!\\\\\${o.id})\\"])}\`,
 });
 "
 `;
@@ -452,7 +452,7 @@ new datadog.Monitor(this, \\"hard_query\\", {
 exports[`convert for_each loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varUsers = new cdktf.TerraformVariable(this, \\"users\\", {});
+const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
   name: \\"\${each.key}\\",
   path: \\"/system/\\",
@@ -465,24 +465,24 @@ const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
 not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
 you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
 you need to keep this like it is.*/
-awsIamUserLb.addOverride(\\"for_each\\", varUsers.value);
+awsIamUserLb.addOverride(\\"for_each\\", users.value);
 "
 `;
 
 exports[`convert for_each with var usage configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as azuread from \\"./.gen/providers/azuread\\";
-const varAzureAdDomainName = new cdktf.TerraformVariable(
+const azureAdDomainName = new cdktf.TerraformVariable(
   this,
   \\"azure_ad_domain_name\\",
   {
     description: \\"domain\\",
   }
 );
-const varOneSetOfUsers = new cdktf.TerraformVariable(this, \\"one_set_of_users\\", {
+const oneSetOfUsers = new cdktf.TerraformVariable(this, \\"one_set_of_users\\", {
   description: \\"users\\",
 });
-const varOtherSetOfUsers = new cdktf.TerraformVariable(
+const otherSetOfUsers = new cdktf.TerraformVariable(
   this,
   \\"other_set_of_users\\",
   {
@@ -491,7 +491,7 @@ const varOtherSetOfUsers = new cdktf.TerraformVariable(
 );
 const azureadUserAzureUsers = new azuread.User(this, \\"azure_users\\", {
   displayName: \\"\${each.key}\\",
-  userPrincipalName: \`\\\\\${each.value}\\\\\${\${varAzureAdDomainName.value}}\`,
+  userPrincipalName: \`\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\`,
 });
 
 /*In most cases loops should be handled in the programming language context and 
@@ -501,8 +501,8 @@ you need to keep this like it is.*/
 azureadUserAzureUsers.addOverride(
   \\"for_each\\",
   \`\\\\\${merge(
-          \${varOneSetOfUsers.value},
-          \${varOtherSetOfUsers.value},
+          \${oneSetOfUsers.value},
+          \${otherSetOfUsers.value},
         )}\`
 );
 "
@@ -511,10 +511,10 @@ azureadUserAzureUsers.addOverride(
 exports[`convert list access through [] configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varSettings = new cdktf.TerraformVariable(this, \\"settings\\", {});
+const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: \`\\\\\${\${varSettings.value}[0][\\"bucket_name\\"]}\`,
+  bucket: \`\\\\\${\${settings.value}[0][\\"bucket_name\\"]}\`,
 });
 "
 `;
@@ -537,22 +537,22 @@ new cdktf.TerraformHclModule(this, \\"aws_vpc\\", {
 
 exports[`convert locals configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-const localHowMany = 42;
-const localIsItGreat = true;
-const localOwner = \\"Community Team\\";
-const localServiceName = \\"forum\\";
+const howMany = 42;
+const isItGreat = true;
+const owner = \\"Community Team\\";
+const serviceName = \\"forum\\";
 new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-  value: \`\\\\\${\${localServiceName}},\\\\\${\${localOwner}},\\\\\${\${localIsItGreat}},\\\\\${\${localHowMany}}\`,
+  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
 });
 "
 `;
 
 exports[`convert locals references configuration 1`] = `
 "import * as aws from \\"./.gen/providers/aws\\";
-const localBucketName = \\"foo\\";
+const bucketName = \\"foo\\";
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: localBucketName,
+  bucket: bucketName,
 });
 "
 `;
@@ -617,12 +617,12 @@ new aws.SecurityGroup(this, \\"allow_tls\\", {
 
 exports[`convert multiple locals blocks configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-const localOwner = \\"Community Team\\";
-const localServiceName = \\"forum\\";
-const localHowMany = 42;
-const localIsItGreat = true;
+const owner = \\"Community Team\\";
+const serviceName = \\"forum\\";
+const howMany = 42;
+const isItGreat = true;
 new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-  value: \`\\\\\${\${localServiceName}},\\\\\${\${localOwner}},\\\\\${\${localIsItGreat}},\\\\\${\${localHowMany}}\`,
+  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
 });
 "
 `;
@@ -691,10 +691,10 @@ new cdktf.TerraformOutput(this, \\"cidr_out\\", {
 exports[`convert property access through [] configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varSettings = new cdktf.TerraformVariable(this, \\"settings\\", {});
+const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: \`\\\\\${\${varSettings.value}[\\"bucket_name\\"]}\`,
+  bucket: \`\\\\\${\${settings.value}[\\"bucket_name\\"]}\`,
 });
 "
 `;
@@ -742,11 +742,11 @@ new aws.AwsProvider(this, \\"aws\\", {
 exports[`convert provider with var reference configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as auth0 from \\"./.gen/providers/auth0\\";
-const varDomain = new cdktf.TerraformVariable(this, \\"domain\\", {
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
   description: \\"A domain\\",
 });
 new auth0.Auth0Provider(this, \\"auth0\\", {
-  domain: varDomain.value,
+  domain: domain.value,
 });
 "
 `;
@@ -795,11 +795,11 @@ new cdktf.RemoteBackend(this, {
 exports[`convert required namespaced provider configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as auth0 from \\"./.gen/providers/auth0\\";
-const varDomain = new cdktf.TerraformVariable(this, \\"domain\\", {
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
   description: \\"A domain\\",
 });
 new auth0.Auth0Provider(this, \\"auth0\\", {
-  domain: varDomain.value,
+  domain: domain.value,
 });
 "
 `;
@@ -844,8 +844,8 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 
 exports[`convert same name local, var, out configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
-const varTest = new cdktf.TerraformVariable(this, \\"test\\", {});
-const localTest = \`\\\\\${\${varTest.value}} + 1\`;
+const test = new cdktf.TerraformVariable(this, \\"test\\", {});
+const localTest = \`\\\\\${\${test.value}} + 1\`;
 new cdktf.TerraformOutput(this, \\"test_1\\", {
   value: localTest,
 });
@@ -889,12 +889,12 @@ new cdktf.TerraformHclModule(this, \\"example\\", {
 exports[`convert variable references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
-const varBucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
+const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: varBucketName.value,
+  bucket: bucketName.value,
 });
 "
 `;
