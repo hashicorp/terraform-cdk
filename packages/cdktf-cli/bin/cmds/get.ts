@@ -8,6 +8,7 @@ import { Language, LANGUAGES } from "../../lib/get/constructs-maker";
 import { Get } from "./ui/get";
 import { renderInk } from "./render-ink";
 import { displayVersionMessage } from "./version-check";
+import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const config = readConfigSync();
 
@@ -40,6 +41,7 @@ class Command implements yargs.CommandModule {
       });
 
   public async handler(argv: any) {
+    throwIfNotProjectDirectory("get");
     await displayVersionMessage();
     const args = argv as Arguments;
     const providers = config.terraformProviders ?? [];

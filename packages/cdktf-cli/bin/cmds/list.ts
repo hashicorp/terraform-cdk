@@ -4,6 +4,7 @@ import { List } from "./ui/list";
 import { readConfigSync } from "../../lib/config";
 import { renderInk } from "./render-ink";
 import { displayVersionMessage } from "./version-check";
+import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const config = readConfigSync();
 
@@ -26,6 +27,7 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
+    throwIfNotProjectDirectory("list");
     await displayVersionMessage();
     const command = argv.app;
     const outdir = argv.output;

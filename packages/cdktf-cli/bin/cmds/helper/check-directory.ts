@@ -1,0 +1,23 @@
+import * as path from "path";
+import { Errors } from "../../../lib/errors";
+export function isCdktfProjectDirectory(directory: string): boolean {
+  try {
+    const cdktfPath = path.join(directory, "cdktf.json");
+    const cdktf = require(cdktfPath);
+    return cdktf.language && cdktf.app;
+  } catch {
+    return false;
+  }
+}
+
+export function throwIfNotProjectDirectory(
+  command: string,
+  directory = process.cwd()
+): void {
+  if (!isCdktfProjectDirectory(directory)) {
+    throw Errors.Usage(
+      command,
+      `${directory} is not a cdktf project directory, no cdktf.json found or cdktf.json is missing language / app keys`
+    );
+  }
+}

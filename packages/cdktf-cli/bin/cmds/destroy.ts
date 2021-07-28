@@ -4,6 +4,7 @@ import { Destroy } from "./ui/destroy";
 import { readConfigSync } from "../../lib/config";
 import { renderInk } from "./render-ink";
 import { displayVersionMessage } from "./version-check";
+import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const config = readConfigSync();
 
@@ -38,6 +39,7 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
+    throwIfNotProjectDirectory("destroy");
     await displayVersionMessage();
     const command = argv.app;
     const outdir = argv.output;
