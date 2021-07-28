@@ -3,7 +3,7 @@ import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
 import { processLogger } from "./logging";
-import { versionNumber } from "../bin/cmds/version-check";
+import { versionNumber } from "../bin/cmds/helper/version-check";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 

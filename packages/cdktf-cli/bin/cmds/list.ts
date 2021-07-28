@@ -2,8 +2,8 @@ import yargs from "yargs";
 import React from "react";
 import { List } from "./ui/list";
 import { readConfigSync } from "../../lib/config";
-import { renderInk } from "./render-ink";
-import { displayVersionMessage } from "./version-check";
+import { renderInk } from "./helper/render-ink";
+import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const config = readConfigSync();

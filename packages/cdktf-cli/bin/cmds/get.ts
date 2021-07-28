@@ -6,8 +6,8 @@ import {
 } from "../../lib/config";
 import { Language, LANGUAGES } from "../../lib/get/constructs-maker";
 import { Get } from "./ui/get";
-import { renderInk } from "./render-ink";
-import { displayVersionMessage } from "./version-check";
+import { renderInk } from "./helper/render-ink";
+import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const config = readConfigSync();

@@ -2,9 +2,9 @@ import yargs from "yargs";
 import React from "react";
 import { Synth } from "./ui/synth";
 import { readConfigSync } from "../../lib/config";
-import { renderInk } from "./render-ink";
+import { renderInk } from "./helper/render-ink";
 import * as fs from "fs-extra";
-import { displayVersionMessage } from "./version-check";
+import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const config = readConfigSync();
