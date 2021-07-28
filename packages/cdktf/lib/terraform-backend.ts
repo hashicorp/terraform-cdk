@@ -32,7 +32,7 @@ export abstract class TerraformBackend extends TerraformElement {
     return {
       backend: this.name,
       ...(Object.keys(this.rawOverrides)
-        ? { overrides: { backend: this.rawOverrides } }
+        ? { overrides: { backend: Object.keys(this.rawOverrides) } }
         : {}),
     };
   }
