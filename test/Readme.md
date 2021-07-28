@@ -8,7 +8,7 @@ Tests are written in Typescript and Jest and can simulate user activity.
 ## Running Tests
 
 You can either run individual tests by executing their entrypoint directly (e.g.
-`npx jest --runInBand typescript/synth-app/test.ts`) or run all tests by executing `npx jest --runInBand`.
+`npx jest typescript/synth-app/test.ts`) or run all tests by executing `npx jest`.
 
 Tests assume the `cdktf` CLI is installed and in the PATH, and will use the same
 version of the `cdktf` module (this is the behavior of `cdktf init`).
@@ -20,7 +20,7 @@ $ yarn install
 $ yarn build
 $ yarn run package # creates "dist/"
 $ cd test
-$ ./run-against-dist npx jest --runInBand
+$ ./run-against-dist npx jest
 ```
 
 ## Writing Tests
