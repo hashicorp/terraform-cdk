@@ -15,10 +15,11 @@ export async function startServer(): Promise<{
 
   const port = await detectPort(40000);
 
-  const subprocess = execa(`node`, [
-    require.resolve(`./server.js`),
-    String(port),
-  ], { env: process.env });
+  const subprocess = execa(
+    `node`,
+    [require.resolve(`./server.js`), String(port)],
+    { env: process.env }
+  );
 
   subprocess.stderr?.on("data", (chunk) =>
     serverLogger.error(chunk.toString())

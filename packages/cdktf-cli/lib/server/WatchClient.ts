@@ -320,7 +320,7 @@ export class WatchClient {
     // Queue initial synth to get things started
     await this.queueAction("SYNTH");
     await sendTelemetry("watch", { event: "start" });
-    
+
     this.startHandlingActions();
   }
 
