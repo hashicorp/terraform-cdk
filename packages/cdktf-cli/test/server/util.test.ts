@@ -11,7 +11,7 @@ import { mkdtemp } from "../../lib/util";
 import { promises as fs } from "fs";
 import path from "path";
 
-const defaultTimestamp = new Date(2021, 1, 1, 12, 12, 30).getTime();
+const defaultTimestamp = 1627476017438;
 
 describe("util", () => {
   describe("readGitignore", () => {
@@ -100,30 +100,30 @@ node_modules
             "message": "Error",
             "origin": "SYNTHESIZING",
             "recoverable": true,
-            "timestamp": 1612177950000,
+            "timestamp": 1627476017438,
           },
           "resources": Array [
             Object {
               "action": "CREATE",
-              "changedAt": 1612177950000,
+              "changedAt": 1627476017438,
               "deployState": "CREATING",
               "id": "resource_1",
             },
             Object {
               "action": "UPDATE",
-              "changedAt": 1612177950000,
+              "changedAt": 1627476017438,
               "deployState": "UPDATING",
               "id": "resource_2",
             },
             Object {
               "action": "DELETE",
-              "changedAt": 1612177950000,
+              "changedAt": 1627476017438,
               "deployState": "DESTROYED",
               "id": "resource_3",
             },
             Object {
               "action": "READ",
-              "changedAt": 1612177950000,
+              "changedAt": 1627476017438,
               "deployState": "WAITING",
               "id": "resource_4",
             },
