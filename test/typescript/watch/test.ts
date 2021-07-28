@@ -8,6 +8,8 @@ const onPosix = process.platform !== "win32" ? test : test.skip;
 
 describe("full watch integration test", () => {
   let driver: TestDriver;
+  let child: IPty;
+  let childStopped: Promise<any> | undefined;
 
   beforeAll(async () => {
     driver = new TestDriver(__dirname, {
@@ -18,14 +20,19 @@ describe("full watch integration test", () => {
     driver.copyFiles(".gitignore");
   });
 
+  afterAll(async () => {
+    child.kill();
+    await childStopped;
+  });
+
   onPosix(
     "synthesizes and deploys",
     async () => {
-      const child = driver.watch();
+      child = driver.watch();
 
       const { waitForLine } = screenOutput(child);
 
-      const childStopped = new Promise((resolve) => child.onExit(resolve));
+      childStopped = new Promise((resolve) => child.onExit(resolve));
 
       let line = await waitForLine((line) =>
         line.includes("Synthesizing hello-deploy")
@@ -46,11 +53,8 @@ describe("full watch integration test", () => {
       expect(line).toContain(
         "Deployment done. Watching hello-deploy for changes"
       );
-
-      child.kill();
-      await childStopped;
     },
-    60_000
+    240_000
   );
 });
 
@@ -86,7 +90,7 @@ const screenOutput = (
 
   const waitForLine = async (
     check: (line: string) => boolean,
-    timeout = 10000
+    timeout = 30_000
   ): Promise<string> => {
     return new Promise((resolve, reject) => {
       let timeoutId: NodeJS.Timeout; // timeout must be cancelled to allow Jest to terminate
