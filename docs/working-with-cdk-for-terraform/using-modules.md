@@ -1,11 +1,11 @@
-# Using Modules
+# Using Terraform Modules
 
-## Installing Modules
+## Installing Terraform Modules
 
-For using modules on the terraform registry, see [cdktf.json](./cdktf-json.md).
-For using modules from other sources (local, github, etc), you have two options:
+For using Terraform modules on the Terraform Registry, see [cdktf.json](./cdktf-json.md).
+For using Terraform modules from other sources (local, Github, etc), you have two options:
 
-### Generated Module Bindings
+### Generated Terraform Module Bindings
 
 To get typed module bindings you first need to add the module in your `cdktf.json` file. For a local module it might look like this:
 
@@ -15,7 +15,7 @@ To get typed module bindings you first need to add the module in your `cdktf.jso
   "terraformModules": [
     {
       "name": "my-local-module",
-      "source": "./path/to/local/terraform/module"
+      "source": "./path/to/local/terraform/module" // relative to cdktf.json file
     }
   ]
 }
@@ -50,7 +50,7 @@ new TestResource(stack, "resource", {
 
 ## Working with Module Outputs
 
-### Modules with bindings
+### Terraform Modules with generated bindings
 
 Outputs can be accessed with an `Output` suffix or in the case of python with an `_output`.
 The return type of the outputs is always string, because the output returns an HCL expression representing the underlying Terraform resource.

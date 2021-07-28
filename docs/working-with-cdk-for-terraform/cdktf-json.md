@@ -46,7 +46,7 @@ Community providers have to provide a fully qualified name, e.g. to define the D
 
 #### Modules
 
-Similar to 3rd Party providers, the full registry namespace should be provided. For local modules please use the object format:
+Similar to 3rd party providers, the full registry namespace should be provided. For local modules please use the object format:
 
 ```jsonc
 {

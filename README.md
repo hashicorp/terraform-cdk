@@ -100,7 +100,7 @@ Choose a language:
 ## Documentation
 
 - Install and run a quick start tutorial at [HashiCorp Learn](https://learn.hashicorp.com/terraform/cdktf/cdktf-install)
-- Learn how to use any [module](./docs/working-with-cdk-for-terraform/using-modules.md) and [provider](./docs/working-with-cdk-for-terraform/using-providers.md) with the CDK for Terraform. You can find all modules and providers in the [Terraform Registry](https://registry.terraform.io/).
+- Learn how to use any Terraform [module](./docs/working-with-cdk-for-terraform/using-modules.md) and [provider](./docs/working-with-cdk-for-terraform/using-providers.md) with the CDK for Terraform. You can find all modules and providers in the [Terraform Registry](https://registry.terraform.io/).
 - Explore the CDK for Terraform [CLI](./docs/cli-commands.md).
 - Defining Terraform [outputs](./docs/working-with-cdk-for-terraform/terraform-outputs.md).
 - Using Terraform [remote backend](./docs/working-with-cdk-for-terraform/remote-backend.md).
