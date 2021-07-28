@@ -14,7 +14,7 @@ describe("full watch integration test", () => {
 
   beforeAll(async () => {
     driver = new TestDriver(__dirname, {
-      CDKTF_LOG_LEVEL: "all", // useful for debugging this testcase
+      // CDKTF_LOG_LEVEL: "all", // useful for debugging this testcase
       CI: "", // watch is supposed to be interactive
       GITHUB_ACTIONS: "", // overwrite this aswell
     });
@@ -78,7 +78,6 @@ const screenOutput = (
 
   disposables.push(
     pty.onData((line) => {
-      console.log({ line });
       // buffer until we get a new subscriber
       if (subscriber === undefined) lines.push(line);
       else subscriber(line, false);
