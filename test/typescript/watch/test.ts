@@ -4,6 +4,8 @@
 import { TestDriver } from "../../test-helper";
 import { IPty, IDisposable } from "node-pty";
 
+const onPosix = process.platform !== "win32" ? test : test.skip;
+
 describe("full watch integration test", () => {
   let driver: TestDriver;
 
@@ -16,34 +18,40 @@ describe("full watch integration test", () => {
     driver.copyFiles(".gitignore");
   });
 
-  test("synthesizes and deploys", async () => {
-    const child = driver.watch();
+  onPosix(
+    "synthesizes and deploys",
+    async () => {
+      const child = driver.watch();
 
-    const { waitForLine } = screenOutput(child);
+      const { waitForLine } = screenOutput(child);
 
-    const childStopped = new Promise((resolve) => child.onExit(resolve));
+      const childStopped = new Promise((resolve) => child.onExit(resolve));
 
-    let line = await waitForLine((line) =>
-      line.includes("Synthesizing hello-deploy")
-    );
-    expect(line).toContain("Synthesizing hello-deploy");
+      let line = await waitForLine((line) =>
+        line.includes("Synthesizing hello-deploy")
+      );
+      expect(line).toContain("Synthesizing hello-deploy");
 
-    line = await waitForLine((line) => line.includes("Deploying hello-deploy"));
-    expect(line).toContain("Deploying hello-deploy");
+      line = await waitForLine((line) =>
+        line.includes("Deploying hello-deploy")
+      );
+      expect(line).toContain("Deploying hello-deploy");
 
-    line = await waitForLine((line) => line.includes("+ null_resource.test"));
-    expect(line).toContain("+ null_resource.test");
+      line = await waitForLine((line) => line.includes("+ null_resource.test"));
+      expect(line).toContain("+ null_resource.test");
 
-    line = await waitForLine((line) =>
-      line.includes("Deployment done. Watching hello-deploy for changes")
-    );
-    expect(line).toContain(
-      "Deployment done. Watching hello-deploy for changes"
-    );
+      line = await waitForLine((line) =>
+        line.includes("Deployment done. Watching hello-deploy for changes")
+      );
+      expect(line).toContain(
+        "Deployment done. Watching hello-deploy for changes"
+      );
 
-    child.kill();
-    await childStopped;
-  }, 60_000);
+      child.kill();
+      await childStopped;
+    },
+    60_000
+  );
 });
 
 const screenOutput = (
