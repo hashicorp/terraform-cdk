@@ -329,7 +329,7 @@ async function getTemplate(templateName: string): Promise<Template> {
       {
         type: "list",
         name: "template",
-        message: "What template you want to use?",
+        message: "What template do you want to use?",
         choices: options,
       },
     ]);
@@ -340,8 +340,16 @@ async function getTemplate(templateName: string): Promise<Template> {
           name: "templateName",
           message:
             "Please enter an URL pointing to the template zip file you want to use:",
+          validate: (value: string) => {
+            if (value === "") {
+              return "Url can not be empty";
+            } else {
+              return true;
+            }
+          },
         },
       ]);
+
       templateName = remoteTemplateName;
     } else {
       templateName = selection;
