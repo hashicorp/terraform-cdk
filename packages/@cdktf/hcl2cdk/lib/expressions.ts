@@ -1,4 +1,5 @@
 import * as t from "@babel/types";
+import reservedWords from "reserved-words";
 import { camelCase, pascalCase } from "./utils";
 import { TerraformResourceBlock, Scope } from "./types";
 import isValidDomain from "is-valid-domain";
@@ -183,11 +184,15 @@ export function referenceToVariableName(scope: Scope, ref: Reference): string {
 }
 
 function validVarName(name: string) {
+  if (reservedWords.check(name)) {
+    return `${name}Var`;
+  }
+
   if (!Number.isNaN(parseInt(name[0], 10))) {
     return `d${name}`;
-  } else {
-    return name;
   }
+
+  return name;
 }
 
 export function variableName(
