@@ -159,7 +159,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
       }
     } else {
       console.error(
-        `The --from-terraform-project flag is only support with the typescript template. The command will continue and ignore the flag.`
+        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
       );
     }
   }
