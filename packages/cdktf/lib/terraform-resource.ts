@@ -127,6 +127,18 @@ export class TerraformResource
     };
   }
 
+  public toMetadata(): any {
+    if (!Object.keys(this.rawOverrides).length) {
+      return {};
+    }
+
+    return {
+      overrides: {
+        [this.terraformResourceType]: Object.keys(this.rawOverrides),
+      },
+    };
+  }
+
   public interpolationForAttribute(terraformAttribute: string) {
     return `\${${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
   }

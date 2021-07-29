@@ -56,4 +56,15 @@ export class TerraformOutput extends TerraformElement {
       },
     };
   }
+  public toMetadata(): any {
+    if (!Object.keys(this.rawOverrides).length) {
+      return {};
+    }
+
+    return {
+      overrides: {
+        output: Object.keys(this.rawOverrides),
+      },
+    };
+  }
 }
