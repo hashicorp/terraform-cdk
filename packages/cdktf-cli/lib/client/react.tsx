@@ -63,7 +63,7 @@ More debug info can be found in cdktf.log. Enable logging by setting the environ
     const errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path }) =>
-          console.log(
+          logger.error(
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
           )
         );

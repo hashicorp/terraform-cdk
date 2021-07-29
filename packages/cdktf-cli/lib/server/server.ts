@@ -23,8 +23,6 @@ const WATCH_EVENT = "WATCH";
 
 const PORT = process.argv[2];
 
-console.log("server started with cwd:", process.cwd());
-
 let watchClient: WatchClient | undefined;
 
 async function startApolloServer() {
@@ -51,7 +49,7 @@ async function startApolloServer() {
             try {
               watchClient = new WatchClient(args.inputs);
 
-              // TODO: subscribe returns an unsubscribe function but that connect reliably
+              // subscribe returns an unsubscribe function but that connect reliably
               // be used with PubSub – that lib is recommended by Apollo docs but seems to
               // be unmaintained, maybe ditch it? see https://github.com/apollographql/graphql-subscriptions/issues/240#issuecomment-767568596
               watchClient.subscribe((state: WatchState) =>
@@ -72,7 +70,7 @@ async function startApolloServer() {
                   recoverable: false,
                 },
               };
-              // TODO: get rid if this hack somehow.
+              // we should get rid if this hack somehow.
               // this has to be done because the client won't receive this
               // error if it is published before the iterator has been returned
               setTimeout(

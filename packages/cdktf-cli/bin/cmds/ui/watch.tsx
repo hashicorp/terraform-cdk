@@ -47,16 +47,23 @@ const StatusBox = ({
       statusText = <Text>Connecting</Text>;
       break;
   }
+
+  if (status === "IDLE") {
+    return (
+      <Box>
+        {/* empty Text is somehow needed for showing/hiding
+         Spinner component when status changes */}
+        <Text></Text>
+        <Box>{statusText}</Box>
+      </Box>
+    );
+  }
   return (
     <Box>
-      {status === "IDLE" ? (
-        <Text></Text>
-      ) : (
-        <Text color="green">
-          <Spinner type="dots" />
-        </Text>
-      )}
-      <Box paddingLeft={status === "IDLE" ? undefined : 1}>{statusText}</Box>
+      <Text color="green">
+        <Spinner type="dots" />
+      </Text>
+      <Box paddingLeft={1}>{statusText}</Box>
     </Box>
   );
 };
@@ -250,7 +257,6 @@ export const Watch = ({
   const status = data?.watch.status || "CONNECTING";
 
   if (error) console.error("uncaught error ", error);
-  // TODO: display error if an error happened
 
   return (
     <>

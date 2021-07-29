@@ -150,7 +150,7 @@ export class WatchClient {
 
   private async runDeploy() {
     const { workingDirectory, name } = await this.getTargetStack();
-    console.log({ workingDirectory });
+    console.log(`Running deploy in workingDirectory ${workingDirectory}`);
     const newTargetStackHash = hashPath(workingDirectory);
     if (this.lastTargetStackHash === newTargetStackHash) {
       console.log(
@@ -222,9 +222,8 @@ export class WatchClient {
         this.state.status
       );
     }
-    let stack: Stack | undefined = stacks[0];
     if (this.targetStack) {
-      stack = stacks.find((s) => s.name === this.targetStack);
+      const stack = stacks.find((s) => s.name === this.targetStack);
       if (!stack) {
         throw new RecoverableError(
           `Could not find stack ${this.targetStack}. Found ${stacks
@@ -233,13 +232,14 @@ export class WatchClient {
           this.state.status
         );
       }
+      return stack;
     } else if (stacks.length > 1) {
       throw new RecoverableError(
         "Found more than one stack, please specify which stack to watch using --stack",
         this.state.status
       );
     }
-    return stack;
+    return stacks[0];
   }
 
   // todo: optimization: cache instance as long as backend does not change
@@ -301,8 +301,8 @@ export class WatchClient {
     });
 
     // If out dir files change we queue a deploy to be run
-    // TODO: only watch stack.workingDirectory (as soon as stack is known)
-    // or: filter files for being related to the stack we're after, which might be easier
+    // The runDeploy() method will check if files of the
+    // currently watched stack changed
     this.outDirWatcher = chokidar.watch(this.targetDir, {
       ignored: ["**/.terraform/**", "**/.terraform.lock.hcl", "*/*/*/plan"],
       cwd: process.cwd(),
@@ -338,7 +338,7 @@ export class WatchClient {
   private async startHandlingActions() {
     while (this.isRunning()) {
       const nextAction: Action | undefined = this.actionQueue.shift();
-      if (nextAction) console.log({ nextAction });
+      if (nextAction) console.log(`Handling next action: ${nextAction}`);
       try {
         switch (nextAction) {
           case "SYNTH": {
