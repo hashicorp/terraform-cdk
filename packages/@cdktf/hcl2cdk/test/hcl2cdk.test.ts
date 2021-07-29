@@ -697,6 +697,7 @@ describe("convert", () => {
         backend "remote" {
           hostname = "app.terraform.io"
           organization = "company"
+          path_to_state = "terraform.tfstate"
       
           workspaces {
             name = "my-app-prod"
