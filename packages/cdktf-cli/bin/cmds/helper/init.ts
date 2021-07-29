@@ -145,10 +145,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
           "utf8"
         );
 
-        const { terraformModules, terraformProviders } = cdktfJson as {
-          terraformModules: string[];
-          terraformProviders: string[];
-        };
+        const { terraformModules, terraformProviders } = cdktfJson;
         if (terraformModules.length + terraformProviders.length > 0) {
           execSync("npm run get", { cwd: destination });
         }

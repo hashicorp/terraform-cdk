@@ -301,10 +301,14 @@ export function getTerraformConfigFromDir(importPath: string) {
   return fileContents.join("\n");
 }
 
+type CdktfJson = Record<string, unknown> & {
+  terraformProviders: any[];
+  terraformModules: any[];
+};
 export async function convertProject(
   combinedHcl: string,
   inputMainFile: string,
-  inputCdktfJson: Record<string, unknown>,
+  inputCdktfJson: CdktfJson,
   { language }: ConvertOptions
 ) {
   if (language !== "typescript") {
