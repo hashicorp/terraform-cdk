@@ -141,18 +141,22 @@ This means that your Terraform state file will be stored locally on disk in a fi
         fs.writeFileSync(path.resolve(destination, "main.ts"), code, "utf8");
         fs.writeFileSync(
           path.resolve(destination, "cdktf.json"),
-          cdktfJson,
+          JSON.stringify(cdktfJson, null, 2),
           "utf8"
         );
+
+        const { terraformModules, terraformProviders } = cdktfJson;
+        if (terraformModules.length + terraformProviders.length > 0) {
+          execSync("npm run get", { cwd: destination });
+        }
 
         telemetryData.conversionStats = stats;
       } catch (err) {
         throw Errors.Internal("init", err, { fromTerraformProject: true });
       }
-      execSync("npm run get", { cwd: destination });
     } else {
       console.error(
-        `The --from-terraform-project flag is only support with the typescript template. The command will continue and ignore the flag.`
+        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
       );
     }
   }

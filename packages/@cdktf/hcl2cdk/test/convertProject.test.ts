@@ -206,7 +206,11 @@ describe("convertProject", () => {
     );
 
     fs.writeFileSync(path.resolve(targetPath, "main.ts"), code, "utf8");
-    fs.writeFileSync(path.resolve(targetPath, "cdktf.json"), cdktfJson, "utf8");
+    fs.writeFileSync(
+      path.resolve(targetPath, "cdktf.json"),
+      JSON.stringify(cdktfJson),
+      "utf8"
+    );
 
     const currentPlan = getCdkPlan(targetPath);
 
