@@ -286,9 +286,9 @@ exports[`local backend 1`] = `
       \\"stackName\\": \\"test\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"backend\\": {
-          \\"workspace_dir\\": \\"local_workspace\\"
-        }
+        \\"backend\\": [
+          \\"workspace_dir\\"
+        ]
       }
     }
   },
