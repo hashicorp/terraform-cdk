@@ -248,19 +248,19 @@ async function gatherInfo(
   const currentDirectory = path.basename(process.cwd());
   const projectDescriptionDefault =
     "A simple getting started project for cdktf.";
-  const questions = [
-    ...(!projectName
-      ? [{ name: "projectName", default: currentDirectory }]
-      : []),
-    ...(!projectDescription
-      ? [
-          {
-            name: "projectDescription",
-            default: projectDescriptionDefault,
-          },
-        ]
-      : []),
-  ];
+  const questions = [];
+  if (!projectName) {
+    questions.push({
+      name: "projectName",
+      default: currentDirectory,
+    });
+  }
+  if (!projectDescription) {
+    questions.push({
+      name: "projectDescription",
+      default: projectDescriptionDefault,
+    });
+  }
 
   const answers: {
     projectName?: string;
