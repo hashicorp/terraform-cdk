@@ -1,6 +1,6 @@
 import * as fs from "fs-extra";
 import * as chalk from "chalk";
-import * as readlineSync from "readline-sync";
+import * as inquirer from "inquirer";
 import extract from "extract-zip";
 import { TerraformLogin } from "../helper/terraform-login";
 
@@ -249,33 +249,31 @@ async function gatherInfo(
   projectName?: string,
   projectDescription?: string
 ): Promise<Project> {
-  if (!projectName && !projectDescription) {
-    console.log(chalkColour`\nWe will now set up the project. Please enter the details for your project.
-If you want to exit, press {magenta ^C}.
-`);
-  }
-
+  const currentDirectory = path.basename(process.cwd());
+  const projectDescriptionDefault =
+    "A simple getting started project for cdktf.";
+  const questions = [];
   if (!projectName) {
-    // Current working directory
-    const currentDirectory = path.basename(process.cwd());
-    projectName = readlineSync.question(
-      chalkColour`{greenBright Project Name:} (default: '${currentDirectory}') `,
-      { defaultInput: currentDirectory }
-    );
+    questions.push({
+      name: "projectName",
+      default: currentDirectory,
+    });
+  }
+  if (!projectDescription) {
+    questions.push({
+      name: "projectDescription",
+      default: projectDescriptionDefault,
+    });
   }
 
-  if (!projectDescription) {
-    const projectDescriptionDefault =
-      "A simple getting started project for cdktf.";
-    projectDescription = readlineSync.question(
-      chalkColour`{greenBright Project Description:} (default: '${projectDescriptionDefault}') `,
-      { defaultInput: projectDescriptionDefault }
-    );
-  }
+  const answers: {
+    projectName?: string;
+    projectDescription?: string;
+  } = questions.length > 0 ? await inquirer.prompt(questions) : {};
 
   const project: Project = {
-    Name: projectName,
-    Description: projectDescription,
+    Name: projectName || answers.projectName || "",
+    Description: projectDescription || answers.projectDescription || "",
     OrganizationName: "",
     WorkspaceName: "",
   };
@@ -295,23 +293,27 @@ If you want to exit, press {magenta ^C}.
     }
 
     // todo: add validation for the organization name and workspace. add error handling
-    const organizationSelect = readlineSync.keyInSelect(
-      organizationOptions,
-      chalkColour`{blueBright Terraform Cloud Organization Name:} `
-    );
-    if (organizationSelect == -1) {
-      process.exit(0);
-    }
+    const { organization: organizationSelect } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "organization",
+        message: "Terraform Cloud Organization Name",
+        choices: organizationOptions,
+      },
+    ]);
 
     console.log(
       chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`
     );
 
-    const workspaceName = readlineSync.question(
-      chalkColour`{blueBright Terraform Cloud Workspace Name:} (default: '${templateName}') `,
-      { defaultInput: templateName }
-    );
-    project.OrganizationName = organizationOptions[organizationSelect];
+    const { workspace: workspaceName } = await inquirer.prompt([
+      {
+        name: "workspace",
+        message: "Terraform Cloud Workspace Name",
+        default: templateName,
+      },
+    ]);
+    project.OrganizationName = organizationSelect;
     project.WorkspaceName = workspaceName;
   }
 
@@ -327,23 +329,34 @@ async function getTemplate(templateName: string): Promise<Template> {
     const templateOptionRemote = "<remote zip file>";
     const options = [...templates, templateOptionRemote];
     // Prompt for template
-    const selection = readlineSync.keyInSelect(
-      options,
-      chalkColour`{whiteBright What template you want to use?}`
-    );
-    if (selection == -1) {
-      process.exit(0);
-    }
-    if (selection === options.indexOf(templateOptionRemote)) {
-      templateName = readlineSync.question(
-        "Please enter an URL pointing to the template zip file you want to use: "
-      );
-      if (templateName == "") {
-        console.log("No URL was given (received empty string). Aborted.");
-        process.exit(1);
-      }
+    const { template: selection } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "template",
+        message: "What template do you want to use?",
+        choices: options,
+      },
+    ]);
+
+    if (selection === templateOptionRemote) {
+      const { templateName: remoteTemplateName } = await inquirer.prompt([
+        {
+          name: "templateName",
+          message:
+            "Please enter an URL pointing to the template zip file you want to use:",
+          validate: (value: string) => {
+            if (value === "") {
+              return "Url can not be empty";
+            } else {
+              return true;
+            }
+          },
+        },
+      ]);
+
+      templateName = remoteTemplateName;
     } else {
-      templateName = options[selection];
+      templateName = selection;
       console.log(
         chalkColour`\n{whiteBright Initializing a project using the {greenBright ${templateName}} template.}`
       );

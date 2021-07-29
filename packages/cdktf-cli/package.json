@@ -27,8 +27,8 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@cdktf/hcl2json": "0.0.0",
     "@cdktf/hcl2cdk": "0.0.0",
+    "@cdktf/hcl2json": "0.0.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
     "@skorfmann/terraform-cloud": "^1.10.1",
     "@types/node": "^14.0.26",
@@ -43,11 +43,11 @@
     "indent-string": "^4.0.0",
     "ink": "^3.0.8",
     "ink-spinner": "^4.0.1",
+    "inquirer": "^8.1.2",
     "jsii-srcmak": "^0.1.272",
     "log4js": "^6.3.0",
     "open": "^7.0.4",
     "react": "<17.0.0",
-    "readline-sync": "^1.4.10",
     "semver": "^7.3.2",
     "sscaff": "^1.2.0",
     "stream-buffers": "^3.0.2",
@@ -82,7 +82,12 @@
       "@typescript-eslint/no-var-requires": 0,
       "react/no-unescaped-entities": 0,
       "no-sequences": "error",
-      "no-irregular-whitespace": ["error", { "skipTemplates": true }]
+      "no-irregular-whitespace": [
+        "error",
+        {
+          "skipTemplates": true
+        }
+      ]
     },
     "ignorePatterns": [
       "node_modules",
@@ -96,11 +101,11 @@
     "@types/fs-extra": "^8.1.0",
     "@types/ink": "^2.0.3",
     "@types/ink-spinner": "^3.0.0",
+    "@types/inquirer": "^7.3.3",
     "@types/jest": "^25.1.2",
     "@types/json-schema": "^7.0.4",
     "@types/nock": "^11.1.0",
     "@types/react": "^16.9.35",
-    "@types/readline-sync": "^1.4.3",
     "@types/semver": "^7.1.0",
     "@types/stream-buffers": "^3.0.3",
     "@types/uuid": "^8.3.0",
