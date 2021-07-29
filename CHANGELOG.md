@@ -1,3 +1,57 @@
+## 0.5.0 (July 29, 2021)
+
+**New Features**
+
+- feat(cli): implement hcl2cdk [\#796](https://github.com/hashicorp/terraform-cdk/pull/796)
+- feat(cli): add cdktf `watch` command [\#817](https://github.com/hashicorp/terraform-cdk/pull/817)
+
+**Documentation**
+
+- chore(docs): link docker integration example [\#789](https://github.com/hashicorp/terraform-cdk/pull/789)
+- chore(docs): add google cloud kubernetes example [\#742](https://github.com/hashicorp/terraform-cdk/pull/742)
+- chore(docs): python example for gcp cloud function [\#776](https://github.com/hashicorp/terraform-cdk/pull/776)
+- chore(docs): Add serverless application guide [\#786](https://github.com/hashicorp/terraform-cdk/pull/786)
+- chore(docs): link to serverless e2e example [\#795](https://github.com/hashicorp/terraform-cdk/pull/795)
+- chore(docs): add examples for ucloud provider (ts/python/java/c#/go) [\#790](https://github.com/hashicorp/terraform-cdk/pull/790)
+- chore(docs): add azure python link [\#773](https://github.com/hashicorp/terraform-cdk/pull/773)
+- chore(docs): Enhance readme with Terraform Platform Illustration [\#778](https://github.com/hashicorp/terraform-cdk/pull/778)
+- chore(docs): Add Project Maturity section to README [\#797](https://github.com/hashicorp/terraform-cdk/pull/797)
+- chore(docs): Add callouts to Learn tutorials [\#767](https://github.com/hashicorp/terraform-cdk/pull/767)
+- chore(docs): Create BUGPROCESS.md [\#815](https://github.com/hashicorp/terraform-cdk/pull/815)
+- refactor(docs): clarify that we support all providers and modules [\#783](https://github.com/hashicorp/terraform-cdk/pull/783)
+- fix(docs): remove Csharp readme in Python for #745 [\#820](https://github.com/hashicorp/terraform-cdk/pull/820)
+- fix(docs): add mandatory cdktf get step [\#784](https://github.com/hashicorp/terraform-cdk/pull/784)
+- fix(docs): document module generation [\#848](https://github.com/hashicorp/terraform-cdk/pull/848)
+
+**Fixed Bugs**
+
+- fix(cli): throw explicit error when commands are invoked outside of a cdktf project [\#854](https://github.com/hashicorp/terraform-cdk/pull/854)
+- fix(cli): dont compile cdktf output directory [\#754](https://github.com/hashicorp/terraform-cdk/pull/754)
+- fix(cli): dont upload .terraform folders [\#758](https://github.com/hashicorp/terraform-cdk/pull/758)
+- fix(cli): polish user interaction by switching libraries [\#850](https://github.com/hashicorp/terraform-cdk/pull/850)
+- fix(cli): update hint for tfstate file [\#756](https://github.com/hashicorp/terraform-cdk/pull/756)
+- fix(cli): parse JSON output [\#774](https://github.com/hashicorp/terraform-cdk/pull/774)
+- fix(hcl2cdk): exclude non-registry modules from the cdktf.json [\#847](https://github.com/hashicorp/terraform-cdk/pull/847)
+- fix(hcl2cdk): adjust link for label renaming [\#852](https://github.com/hashicorp/terraform-cdk/pull/852)
+- fix(hcl2cdk): only run get conditionally [\#846](https://github.com/hashicorp/terraform-cdk/pull/846)
+- fix(hcl2cdk): camelCase backend properties [\#862](https://github.com/hashicorp/terraform-cdk/pull/862)
+- fix(hcl2cdk): suffix variables and locals [\#845](https://github.com/hashicorp/terraform-cdk/pull/845)
+- fix(tests): make less assumptions about environment in config.test.ts [\#832](https://github.com/hashicorp/terraform-cdk/pull/832)
+- fix(lib): Add in new optional AWS route attributes [\#821](https://github.com/hashicorp/terraform-cdk/pull/821)
+
+**Chores**
+
+- chore(deps): use nodejs v14 version of aws jsii/superchain image [\#843](https://github.com/hashicorp/terraform-cdk/pull/843)
+- chore(deps): add gcc and gcc-c++ to Dockerfile required for node-gyp [\#849](https://github.com/hashicorp/terraform-cdk/pull/849)
+- chore(deps): Upgrade eslint to v7 [\#819](https://github.com/hashicorp/terraform-cdk/pull/819)
+- chore(deps): bump ws from 7.4.2 to 7.4.6 [\#747](https://github.com/hashicorp/terraform-cdk/pull/747)
+- chore(deps): bump y18n from 4.0.0 to 4.0.3 [\#777](https://github.com/hashicorp/terraform-cdk/pull/777)
+- chore(cli): send telemetry on errors [\#829](https://github.com/hashicorp/terraform-cdk/pull/829)
+- chore(cli): lint tsx files and clean up React Hooks code [\#818](https://github.com/hashicorp/terraform-cdk/pull/818)
+- chore(cli): add prettier [\#793](https://github.com/hashicorp/terraform-cdk/pull/793)
+- chore(lib): track overrides and backend types in stack [\#830](https://github.com/hashicorp/terraform-cdk/pull/830)
+- chore(tests): Provide global PR workflow status [\#781](https://github.com/hashicorp/terraform-cdk/pull/781)
+
 ## 0.4.1 (June 7, 2021)
 
 **Fixed Bugs**
