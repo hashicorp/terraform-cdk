@@ -70,8 +70,10 @@ const StatusBox = ({
 
 const DeployedResource = ({
   resource,
+  columns,
 }: {
   resource: GraphQLWatchState["resources"][number];
+  columns: number;
 }) => {
   let color: TextProps["color"] | undefined = undefined;
   let icon: string | React.ReactNode = " ";
@@ -108,8 +110,6 @@ const DeployedResource = ({
       break;
   }
 
-  const [columns] = useStdoutDimensions();
-
   return (
     <Box width={columns}>
       <Text color={color}>
@@ -131,8 +131,10 @@ const resourceIsInProgress = (
 
 const DeployingResources = ({
   resources,
+  columns,
 }: {
   resources?: GraphQLWatchState["resources"];
+  columns: number;
 }) => {
   const inProgressResources = useMemo(
     () => resources?.filter(resourceIsInProgress) || [],
@@ -140,9 +142,9 @@ const DeployingResources = ({
   );
 
   return (
-    <Box>
+    <Box flexDirection="column">
       {inProgressResources.map((r) => (
-        <DeployedResource key={r.id} resource={r} />
+        <DeployedResource key={r.id} columns={columns} resource={r} />
       ))}
     </Box>
   );
@@ -150,8 +152,10 @@ const DeployingResources = ({
 
 const DeployedResources = ({
   resources,
+  columns,
 }: {
   resources?: GraphQLWatchState["resources"];
+  columns: number;
 }) => {
   const [finishedResourcesHistory, setFinishedResourcesHistory] = useState<
     GraphQLWatchState["resources"]
@@ -176,7 +180,7 @@ const DeployedResources = ({
 
   return (
     <Static items={finishedResourcesHistory}>
-      {(r) => <DeployedResource key={r.id} resource={r} />}
+      {(r) => <DeployedResource key={r.id} resource={r} columns={columns} />}
     </Static>
   );
 };
@@ -243,6 +247,7 @@ export const Watch = ({
   synthCommand,
   autoApprove,
 }: WatchConfig): React.ReactElement => {
+  const [columns] = useStdoutDimensions();
   const { error, data } = useSubscription(WATCH, {
     variables: {
       dir: targetDir,
@@ -260,11 +265,14 @@ export const Watch = ({
 
   return (
     <>
-      <DeployedResources resources={data?.watch.resources} />
+      <DeployedResources resources={data?.watch.resources} columns={columns} />
       {data?.watch.error && <ErrorComponent error={data.watch.error} />}
       <Box flexDirection="column">
         {status === "DEPLOYING" && (
-          <DeployingResources resources={data?.watch.resources} />
+          <DeployingResources
+            resources={data?.watch.resources}
+            columns={columns}
+          />
         )}
         <StatusBox
           status={status}
