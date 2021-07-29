@@ -117,7 +117,7 @@ export function backendToExpression(
                 (arr, [property, value]) => [
                   ...arr,
                   t.objectProperty(
-                    t.identifier(property),
+                    t.identifier(camelCase(property)),
                     valueToTs(value, nodeIds)
                   ),
                 ],

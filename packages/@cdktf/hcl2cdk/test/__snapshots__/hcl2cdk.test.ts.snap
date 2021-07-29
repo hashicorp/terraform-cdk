@@ -778,6 +778,7 @@ exports[`convert remote backend configuration 1`] = `
 new cdktf.RemoteBackend(this, {
   hostname: \\"app.terraform.io\\",
   organization: \\"company\\",
+  pathToState: \\"terraform.tfstate\\",
   workspaces: [
     {
       name: \\"my-app-prod\\",
