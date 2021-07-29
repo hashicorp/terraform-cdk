@@ -104,7 +104,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   // We recursively inspect each resource value to find references to other values
   // We add these to a dependency graph so that the programming code has the right order
   function addGlobalEdges(
-    _scopeIdentifiers: Scope,
+    _scope: Scope,
     _key: string,
     id: string,
     value: TerraformResourceBlock
@@ -112,7 +112,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     addEdges(id, value);
   }
   function addProviderEdges(
-    _scopeIdentifiers: Scope,
+    _scope: Scope,
     key: string,
     _id: string,
     value: TerraformResourceBlock
@@ -120,7 +120,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     addEdges(key, value);
   }
   function addNamespacedEdges(
-    _scopeIdentifiers: Scope,
+    _scope: Scope,
     _type: string,
     _key: string,
     id: string,
