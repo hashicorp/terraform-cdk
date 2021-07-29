@@ -22,10 +22,14 @@ interface ManifestJson {
   stacks: StackManifest[];
 }
 
+type SynthOrigin = "watch";
+
 export class SynthStack {
   public static async synth(
     command: string,
-    outdir: string
+    outdir: string,
+    graceful = false, // will not exit the process but rethrow the error instead
+    synthOrigin?: SynthOrigin
   ): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
@@ -67,26 +71,34 @@ Command output on stderr:
 }
 ${
   e.stdout
-    ? `Command output on stdout:
+    ? chalkColour`
+Command output on stdout:
 
-{dim ${indentString(e.stdout, 4)}}`
+{dim ${indentString(e.stdout, 4)}}
+`
     : ""
 }`;
-      await this.synthErrorTelemetry(command);
+      await this.synthErrorTelemetry(command, synthOrigin);
+      if (graceful) {
+        e.errorOutput = errorOutput;
+        throw e;
+      }
       console.error(errorOutput);
       process.exit(1);
     }
 
     if (!(await fs.pathExists(path.join(outdir, Manifest.fileName)))) {
-      console.error(
-        `ERROR: synthesis failed, app expected to create "${outdir}/${Manifest.fileName}"`
-      );
+      const errorMessage = `ERROR: synthesis failed, app expected to create "${outdir}/${Manifest.fileName}"`;
+      if (graceful) {
+        throw new Error(errorMessage);
+      }
+      console.error(errorMessage);
       process.exit(1);
     }
 
     // end performance timer
     const endTime = performance.now();
-    await this.synthTelemetry(command, endTime - startTime);
+    await this.synthTelemetry(command, endTime - startTime, synthOrigin);
 
     const stacks: SynthesizedStack[] = [];
     const manifest = JSON.parse(
@@ -124,12 +136,20 @@ ${
 
   public static async synthTelemetry(
     command: string,
-    totalTime: number
+    totalTime: number,
+    synthOrigin?: SynthOrigin
   ): Promise<void> {
-    await sendTelemetry("synth", { command: command, totalTime: totalTime });
+    await sendTelemetry("synth", {
+      command: command,
+      totalTime: totalTime,
+      synthOrigin,
+    });
   }
 
-  public static async synthErrorTelemetry(command: string) {
-    await sendTelemetry("synth", { command, error: true });
+  public static async synthErrorTelemetry(
+    command: string,
+    synthOrigin?: SynthOrigin
+  ) {
+    await sendTelemetry("synth", { command, error: true, synthOrigin });
   }
 }

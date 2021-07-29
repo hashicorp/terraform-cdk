@@ -2,7 +2,7 @@ import https = require("https");
 import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
-import { processLogger } from "./logging";
+import { processLoggerError } from "./logging";
 import { versionNumber } from "../bin/cmds/helper/version-check";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
@@ -100,6 +100,6 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
     await post(`${BASE_URL}telemetry/${reportParams.product}`, postData);
   } catch (e) {
     // Log errors writing to checkpoint
-    processLogger(e.message);
+    processLoggerError(e.message);
   }
 }

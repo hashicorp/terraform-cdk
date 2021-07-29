@@ -12,8 +12,17 @@ if (process.env.CDKTF_DISABLE_LOGGING === "false") {
   });
 }
 
-const processLogger = (chunk: Buffer | string | Uint8Array) => {
+const processLoggerDebug = (chunk: Buffer | string | Uint8Array) => {
   logger.debug(chunk.toString());
 };
+const processLoggerError = (chunk: Buffer | string | Uint8Array) => {
+  logger.error(chunk.toString());
+};
 
-export { logger, getLogger, processLogger, logFileName };
+export {
+  logger,
+  getLogger,
+  processLoggerDebug,
+  processLoggerError,
+  logFileName,
+};
