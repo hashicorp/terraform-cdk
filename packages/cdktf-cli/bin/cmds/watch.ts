@@ -2,10 +2,11 @@ import * as yargs from "yargs";
 import React from "react";
 import { Watch } from "./ui/watch";
 import { readConfigSync } from "../../lib/config";
-import { renderInk } from "./render-ink";
+import { renderInk } from "./helper/render-ink";
 import * as chalk from "chalk";
-import { displayVersionMessage } from "./version-check";
+import { displayVersionMessage } from "./helper/version-check";
 import { GraphQLServerProvider } from "../../lib/client/react";
+import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const chalkColour = new chalk.Instance();
 
@@ -43,6 +44,7 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
+    throwIfNotProjectDirectory("watch");
     await displayVersionMessage();
     const command = argv.app;
     const outdir = argv.output;
