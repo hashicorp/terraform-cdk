@@ -211,3 +211,32 @@ In the next major version of the
 CDKTF we will either remove the
 legacy behavior or flip the logic for all these features and then
 reset the `FEATURE_FLAGS` map for the next cycle.
+
+## Releasing
+
+(this section is work in progress, but contains useful information)
+
+### Steps
+
+1. Create a new branch (e.g. `prepare-release-0.5.0`)
+2. Update the version in the root `package.json`
+3. Update the [CHANGELOG](./CHANGELOG.md)
+4. Create a PR to merge the new branch into `main`
+5. Merge the PR
+6. A new release will be build and published because the version changed
+
+### Helper for creating the changelog
+
+```javascript
+// fill this with a list of prs
+const prs = [767, ... ]
+const json = JSON.parse(require("child_process").execSync('gh pr list --state merged --json number,title --limit 200').toString()) // just a high enough limit
+const map = json.reduce((map, pr) => ({ ...map, [pr.number]: pr.title }), {});
+const lines = prs.map(num => {
+    if (map[num]) return `- ${map[num]} [\\#${num}](https://github.com/hashicorp/terraform-cdk/pull/${num})`
+    else throw new Error(`no json data for PR #${num}`)
+});
+console.log(lines.join('\n'));
+```
+
+To get a list of commits since the last release you can e.g. visit a link like this: `https://github.com/hashicorp/terraform-cdk/compare/v0.4.1...main`. You'll find the PR numbers there as links. This should probably be automated at some point – at best using existing tooling for this :)
