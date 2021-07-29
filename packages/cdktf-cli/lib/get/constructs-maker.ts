@@ -11,7 +11,7 @@ import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
-import { versionNumber } from "../../bin/cmds/version-check";
+import { versionNumber } from "../../bin/cmds/helper/version-check";
 import { ReportParams, ReportRequest } from "../checkpoint";
 import { Errors } from "../errors";
 

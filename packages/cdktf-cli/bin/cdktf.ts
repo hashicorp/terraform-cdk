@@ -6,7 +6,7 @@ import * as path from "path";
 import * as os from "os";
 import * as fs from "fs-extra";
 import { terraformVersion } from "./cmds/helper/terraform";
-import { DISPLAY_VERSION } from "./cmds/version-check";
+import { DISPLAY_VERSION } from "./cmds/helper/version-check";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
