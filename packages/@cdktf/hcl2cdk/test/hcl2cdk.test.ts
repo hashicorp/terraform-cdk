@@ -857,6 +857,20 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "same name local, var, out",
+      `
+      variable "test" {
+        type    = string
+      }
+      locals {
+        test = "\${var.test} + 1"
+      }
+      output "test" {
+        value = "\${local.test}"
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",

@@ -1,24 +1,39 @@
 import { DirectedGraph } from "graphology";
 import { providers as telemetryAllowedProviders } from "./telemetryAllowList.json";
+import { Scope } from "./types";
 
 // locals, variables, and outputs are global key value maps
 export function forEachGlobal<T, R>(
+  scope: Scope,
   prefix: string,
   record: Record<string, T> | undefined,
-  iterator: (key: string, id: string, value: T, graph: DirectedGraph) => R
+  iterator: (
+    scope: Scope,
+    key: string,
+    id: string,
+    value: T,
+    graph: DirectedGraph
+  ) => R
 ): Record<string, (graph: DirectedGraph) => R> {
   return Object.entries(record || {}).reduce((carry, [key, item]) => {
     const id = `${prefix}.${key}`;
     return {
       ...carry,
-      [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),
+      [id]: (graph: DirectedGraph) => iterator(scope, key, id, item, graph),
     };
   }, {});
 }
 
 export function forEachProvider<T, R>(
+  scope: Scope,
   record: Record<string, T[]> | undefined,
-  iterator: (key: string, id: string, value: T, graph: DirectedGraph) => R
+  iterator: (
+    scope: Scope,
+    key: string,
+    id: string,
+    value: T,
+    graph: DirectedGraph
+  ) => R
 ): Record<string, (graph: DirectedGraph) => R> {
   return Object.entries(record || {}).reduce((carry, [key, items]) => {
     return {
@@ -27,7 +42,7 @@ export function forEachProvider<T, R>(
         const id = item.alias ? `${key}.${item.alias}` : `${key}`;
         return {
           ...innerCarry,
-          [id]: (graph: DirectedGraph) => iterator(key, id, item, graph),
+          [id]: (graph: DirectedGraph) => iterator(scope, key, id, item, graph),
         };
       }, {}),
     };
@@ -36,8 +51,10 @@ export function forEachProvider<T, R>(
 
 // data and resource are namespaced key value maps
 export function forEachNamespaced<T, R>(
+  scope: Scope,
   record: Record<string, Record<string, T>> | undefined,
   iterator: (
+    scope: Scope,
     type: string,
     key: string,
     id: string,
@@ -55,7 +72,7 @@ export function forEachNamespaced<T, R>(
         return {
           ...innerCarry,
           [id]: (graph: DirectedGraph) =>
-            iterator(prefixedType, key, id, item, graph),
+            iterator(scope, prefixedType, key, id, item, graph),
         };
       }, {} as Record<string, (graph: DirectedGraph) => R>),
     }),

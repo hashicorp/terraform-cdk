@@ -76,11 +76,15 @@ const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
   domainName: \\"example.com\\",
   validationMethod: \\"DNS\\",
 });
-const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(this, \\"example\\", {
-  name: \\"example.com\\",
-  privateZone: false,
-});
-const awsRoute53RecordExample = new aws.Route53Record(this, \\"example\\", {
+const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(
+  this,
+  \\"example_1\\",
+  {
+    name: \\"example.com\\",
+    privateZone: false,
+  }
+);
+const awsRoute53RecordExample = new aws.Route53Record(this, \\"example_2\\", {
   allowOverwrite: true,
   name: \\"\${each.value.name}\\",
   records: [\\"\${each.value.record}\\"],
@@ -105,13 +109,13 @@ awsRoute53RecordExample.addOverride(
 );
 const awsAcmCertificateValidationExample = new aws.AcmCertificateValidation(
   this,
-  \\"example\\",
+  \\"example_3\\",
   {
     certificateArn: awsAcmCertificateExample.arn,
     validationRecordFqdns: \`\\\\\${[for record in \${awsRoute53RecordExample.fqn} : record.fqdn]}\`,
   }
 );
-new aws.LbListener(this, \\"example\\", {
+new aws.LbListener(this, \\"example_4\\", {
   certificateArn: awsAcmCertificateValidationExample.certificateArn,
 });
 "
@@ -701,7 +705,7 @@ import * as TerraformAwsModulesVpcAws from \\"./.gen/modules/terraform-aws-modul
 new aws.AwsProvider(this, \\"aws\\", {
   region: \\"us-east-1\\",
 });
-new aws.AwsProvider(this, \\"aws\\", {
+new aws.AwsProvider(this, \\"aws_1\\", {
   alias: \\"west\\",
   region: \\"us-west-2\\",
 });
@@ -834,6 +838,16 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
   key: \\"someobject\\",
   kmsKeyId: awsKmsKeyExamplekms.arn,
   source: \\"index.html\\",
+});
+"
+`;
+
+exports[`convert same name local, var, out configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+const test = new cdktf.TerraformVariable(this, \\"test\\", {});
+const localTest = \`\\\\\${\${test.value}} + 1\`;
+new cdktf.TerraformOutput(this, \\"test_1\\", {
+  value: localTest,
 });
 "
 `;
