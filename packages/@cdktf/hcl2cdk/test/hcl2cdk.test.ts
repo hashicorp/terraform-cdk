@@ -871,6 +871,22 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "aliased duplicate provider with var reference",
+      `
+      variable "domain" {
+        description = "A domain"
+      }
+      provider "auth0" {
+        domain = var.domain
+      }
+      provider "auth0" {
+        alias = "private_auth0"
+        domain = var.domain
+        private = true
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",

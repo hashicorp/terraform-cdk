@@ -116,11 +116,11 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   }
   function addProviderEdges(
     _scope: Scope,
-    key: string,
-    _id: string,
+    _key: string,
+    id: string,
     value: TerraformResourceBlock
   ) {
-    addEdges(key, value);
+    addEdges(id, value);
   }
   function addNamespacedEdges(
     _scope: Scope,
@@ -133,7 +133,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
   Object.values({
-    ...forEachGlobal(scope, "providers", plan.provider, addProviderEdges),
+    ...forEachProvider(scope, plan.provider, addProviderEdges),
     ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
     // locals are a special case
     ...forEachGlobal(
