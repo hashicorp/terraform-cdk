@@ -134,16 +134,16 @@ Generated Terraform code in the output directory: cdktf.out
 ```
 
 This command will generate a directory called `cdktf.out`. This directory contains the Terraform JSON configuration for
-your application.
+your application. The Terraform config for your stack `hello-terraform` will be in `cdktf.out/stacks/hello-terraform`.
 
 ```bash
-cd cdktf.out
+cd cdktf.out/stacks/hello-terraform
 ```
 
 Terraform AWS provider and Instance expressed as Terraform JSON configuration.
 
 ```json
-cat cdktf.out/cdk.tf.json
+cat cdk.tf.json
 {
   "terraform": {
     "required_providers": {
