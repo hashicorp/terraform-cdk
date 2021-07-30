@@ -43,7 +43,7 @@ cdktf deploy
 Alternately, you can run Terraform commands to apply your configuration.
 
 ```bash
-cd cdktf.out
+cd cdktf.out/stacks/your-stack
 terraform init
 terraform plan
 terraform apply

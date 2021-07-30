@@ -62,7 +62,7 @@ The above command will create a folder called `cdktf.out` that contains all Terr
 Run Terraform commands
 
 ```bash
-cd cdktf.out
+cd cdktf.out/stacks/python-docker
 terraform init
 terraform plan
 terraform apply

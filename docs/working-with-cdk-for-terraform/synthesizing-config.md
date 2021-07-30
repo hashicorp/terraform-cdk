@@ -43,14 +43,14 @@ Generated Terraform code in the output directory: cdktf.out
 ```
 
 This command will generate a directory called `cdktf.out`. This directory contains the Terraform JSON configuration for
-application.
+application. The Terraform config for your stack `hello-terraform` will be in `cdktf.out/stacks/hello-terraform`.
 
 ## Deploy Workflow Using Terraform CLI
 
 Use the Terraform CLI commands to provision infrastructure resources.
 
 ```bash
-cd cdktf.out
+cd cdktf.out/stacks/hello-terraform
 ```
 
 Terraform plan
