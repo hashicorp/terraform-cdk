@@ -2,5 +2,8 @@
 *.js
 node_modules
 cdktf.out
-terraform.tfstate*
-!tsconfig.json
+cdktf.log
+*terraform.*.tfstate*
+.gen
+.terraform
+tsconfig.tsbuildinfo
