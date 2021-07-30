@@ -2,8 +2,8 @@
 *.js
 node_modules
 cdktf.out
-terraform.tfstate*
+cdktf.log
+*terraform.*.tfstate*
 .gen
 .terraform
-google.json
-!tsconfig.json
+tsconfig.tsbuildinfo

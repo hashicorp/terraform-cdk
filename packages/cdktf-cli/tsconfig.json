@@ -24,6 +24,7 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2018",
+    "incremental": true,
     "esModuleInterop": true
   },
   "files": [
