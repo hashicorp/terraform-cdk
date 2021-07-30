@@ -79,17 +79,9 @@ cdktf synth
 
 The above command will create a folder called `cdktf.out` that contains all Terraform JSON configuration that was generated.
 
-Run Terraform commands
+Run cdktf-cli commands
 
 ```bash
-cd cdktf.out/stacks/python-azure
-terraform init
-terraform plan
-terraform apply
-```
-
-or
-
-```bash
+cdktf diff
 cdktf deploy
 ```
