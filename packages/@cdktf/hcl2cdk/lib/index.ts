@@ -10,7 +10,19 @@ import * as z from "zod";
 
 import { schema } from "./schema";
 import { findUsedReferences, isRegistryModule } from "./expressions";
-import { cdktfImport, providerImports, moduleImports, gen } from "./generation";
+import {
+  backendToExpression,
+  cdktfImport,
+  gen,
+  local,
+  moduleImports,
+  modules,
+  output,
+  provider,
+  providerImports,
+  resource,
+  variable,
+} from "./generation";
 import { TerraformResourceBlock, Scope } from "./types";
 import {
   forEachProvider,
@@ -18,15 +30,6 @@ import {
   forEachNamespaced,
   resourceStats,
 } from "./iteration";
-import {
-  backendToExpression,
-  provider,
-  variable,
-  local,
-  output,
-  modules,
-  resource,
-} from "./generation";
 
 export async function convertToTypescript(hcl: string) {
   // Get the JSON representation of the HCL
@@ -238,6 +241,15 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     ).length > 0
       ? [cdktfImport]
       : ([] as t.Statement[]);
+
+  if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
+    expressions[0] = t.addComment(
+      expressions[0],
+      "leading",
+      `Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md`
+    );
+  }
 
   // We split up the generated code so that users can have more control over what to insert where
   return {
