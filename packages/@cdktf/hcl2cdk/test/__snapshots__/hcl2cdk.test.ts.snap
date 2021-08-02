@@ -8,6 +8,26 @@ exports[`convert Cross-Language Support supports python 1`] = `Promise {}`;
 
 exports[`convert Cross-Language Support supports typescript 1`] = `Promise {}`;
 
+exports[`convert aliased duplicate provider with var reference configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as auth0 from \\"./.gen/providers/auth0\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
+  description: \\"A domain\\",
+});
+new auth0.Auth0Provider(this, \\"auth0\\", {
+  domain: domain.value,
+});
+new auth0.Auth0Provider(this, \\"auth0_2\\", {
+  alias: \\"private_auth0\\",
+  domain: domain.value,
+  private: true,
+});
+"
+`;
+
 exports[`convert all module types configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as AppTerraformIoExampleCorpK8SClusterAzurerm from \\"./.gen/modules/app.terraform.io/example-corp/k8s-cluster/azurerm\\";
