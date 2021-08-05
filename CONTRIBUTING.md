@@ -257,33 +257,38 @@ Here's an example script for the `0.5` upgrade. It assumes that the provider rep
 ```js
 #!/usr/bin/env node
 
-const path = require('path')
-const ps = require('child_process');
+const path = require("path");
+const ps = require("child_process");
 
 // Please check the projects at https://cdk.tf/provider to ensure all the projects are up to date.
 const directories = [
-  'cdktf-provider-aws',
-  'cdktf-provider-azurerm',
-  'cdktf-provider-docker',
-  'cdktf-provider-github',
-  'cdktf-provider-google',
-  'cdktf-provider-kubernetes',
-  'cdktf-provider-null',
-  'cdktf-provider-external',
-  `cdktf-provider-datadog`
-]
+  "cdktf-provider-aws",
+  "cdktf-provider-azurerm",
+  "cdktf-provider-docker",
+  "cdktf-provider-github",
+  "cdktf-provider-google",
+  "cdktf-provider-kubernetes",
+  "cdktf-provider-null",
+  "cdktf-provider-external",
+  `cdktf-provider-datadog`,
+];
 
 directories.forEach((directory) => {
-  const [scope, namespace, provider] = directory.split('-');
+  const [scope, namespace, provider] = directory.split("-");
 
-  console.log(`running in ${directory} - https://cdk.tf/${namespace}/${provider}`)
+  console.log(
+    `running in ${directory} - https://cdk.tf/${namespace}/${provider}`
+  );
 
-  const workingDir = path.join(__dirname, directory)
-  const prepareScript = `git reset --hard && git clean -fdx && git checkout master && git up`
+  const workingDir = path.join(__dirname, directory);
+  const prepareScript = `git reset --hard && git clean -fdx && git checkout master && git up`;
   const script = `
     git checkout -b upgrade-cdktf-0.5 && yarn add --dev @cdktf/provider-project@latest && npx projen && git commit -am "BREAKING CHANGE: Bump cdktf dependency to 0.5 \n\n See https://github.com/hashicorp/terraform-cdk/pull/857" && yarn fetch && yarn compile && yarn docgen && yarn run commit && git push --set-upstream origin upgrade-cdktf-0.5
-  `
-  ps.execSync(prepareScript, { cwd: workingDir, stdio: [null, null, null] })
-  ps.execSync(script, { cwd: workingDir, stdio: ['inherit', 'inherit', 'inherit'] })
-})
+  `;
+  ps.execSync(prepareScript, { cwd: workingDir, stdio: [null, null, null] });
+  ps.execSync(script, {
+    cwd: workingDir,
+    stdio: ["inherit", "inherit", "inherit"],
+  });
+});
 ```
