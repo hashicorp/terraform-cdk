@@ -25,6 +25,7 @@ export interface Config {
   readonly language?: Language; // Target language for building provider or module bindings. Currently supported: `typescript`, `python`, `java`, `csharp`, and `go`
   readonly output: string; // Default: 'cdktf.out'. Where the synthesized JSON should go. Also will be the working directory for Terraform operations
   readonly codeMakerOutput: string; // Default: '.gen'. Path where generated provider bindings will be rendered to.
+  readonly projectId: string; // Default: generated UUID. Unique identifier for the project used to differenciate projects
   readonly terraformProviders?: RequirementDefinition[]; // Terraform Providers to build
   readonly terraformModules?: RequirementDefinition[]; // Terraform Modules to build
 }

@@ -2,8 +2,11 @@ import https = require("https");
 import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
+import { machineIdSync } from "node-machine-id";
+import ciDetect from "@npmcli/ci-detect";
 import { logger, processLoggerError } from "./logging";
 import { versionNumber } from "../bin/cmds/helper/version-check";
+import * as path from "path";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
@@ -19,6 +22,9 @@ export interface ReportParams {
   version?: string;
   command?: string;
   language?: string;
+  userId?: string;
+  ci?: string;
+  projectId?: string;
 }
 
 async function post(url: string, data: string) {
@@ -76,6 +82,15 @@ export async function sendTelemetry(
   }
 }
 
+function getProjectId(projectPath = process.cwd()): string | undefined {
+  try {
+    const { projectId } = require(path.resolve(projectPath, "cdktf.json"));
+    return projectId;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
   // we won't report when checkpoint is disabled.
   if (process.env.CHECKPOINT_DISABLE) {
@@ -98,7 +113,19 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
     reportParams.os = os.platform();
   }
 
+  const ci: string | false = ciDetect();
+  if (!reportParams.userId && !ci) {
+    reportParams.userId = machineIdSync();
+  }
+
+  if (ci) {
+    reportParams.ci = ci;
+  }
+
+  reportParams.projectId = reportParams.projectId || getProjectId();
+
   const postData = JSON.stringify(reportParams);
+  console.log("SENDING TELEMETRY", postData);
 
   try {
     await post(`${BASE_URL}telemetry/${reportParams.product}`, postData);

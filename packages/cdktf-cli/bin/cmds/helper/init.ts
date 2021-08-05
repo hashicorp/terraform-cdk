@@ -15,6 +15,7 @@ import { Errors } from "../../../lib/errors";
 import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2cdk";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
+import { v4 as uuid } from "uuid";
 
 const chalkColour = new chalk.Instance();
 
@@ -78,12 +79,14 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const templateInfo = await getTemplate(template);
   telemetryData.template = templateInfo.Name;
 
-  const projectInfo: any = await gatherInfo(
+  const projectInfo: Project = await gatherInfo(
     token,
     templateInfo.Name,
     argv.projectName,
     argv.projectDescription
   );
+  const projectId = uuid();
+  telemetryData.projectId = projectId;
 
   // Check if token is set so we can set up Terraform Cloud workspace
   // only set with the '--local' option is specified the user.
@@ -116,6 +119,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     ...deps,
     ...projectInfo,
     futureFlags,
+    projectId,
   });
 
   if (argv.fromTerraformProject) {

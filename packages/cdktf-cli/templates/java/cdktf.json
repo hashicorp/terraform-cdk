@@ -1,6 +1,7 @@
 {
   "language": "java",
   "app": "mvn -e -q compile exec:java",
+  "projectId": "{{projectId}}",
   "terraformProviders": [],
   "terraformModules": [],
   "context": {
