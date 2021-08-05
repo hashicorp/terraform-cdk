@@ -37,7 +37,10 @@ export class Testing {
    * Returns the Terraform synthesized JSON.
    */
   public static synth(stack: TerraformStack) {
-    return JSON.stringify(stack.toTerraform(), null, 2);
+    const tfConfig = stack.toTerraform();
+    stack.validateTerraform(tfConfig);
+
+    return JSON.stringify(tfConfig, null, 2);
   }
 
   /* istanbul ignore next */

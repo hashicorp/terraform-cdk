@@ -95,6 +95,7 @@ test("complex providers", () => {
 test("reference module", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
     source: "./foo",
@@ -109,6 +110,7 @@ test("reference module", () => {
 test("reference module list", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
     source: "./foo",
@@ -153,6 +155,7 @@ test("add provider", () => {
 test("depend on module", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
     source: "./foo",

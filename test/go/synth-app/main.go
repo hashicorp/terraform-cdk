@@ -10,6 +10,8 @@ import (
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
+	random.NewRandomProvider(stack, jsii.String("provider"), &random.RandomProviderConfig{})
+
 	random.NewPet(stack, jsii.String("pet"), &random.PetConfig{Prefix: jsii.String("my")})
 
 	return stack

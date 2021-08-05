@@ -16,6 +16,7 @@ test("stack synthesis merges all elements into a single output", () => {
 
   new TestProvider(stack, "test-provider", {
     accessKey: "foo",
+    type: "aws",
   });
 
   new MyResource(stack, "Resource1", {
@@ -63,6 +64,7 @@ test("stack synthesis no flags", () => {
 
   new TestProvider(stack, "test-provider", {
     accessKey: "foo",
+    type: "aws",
   });
 
   new MyResource(stack, "Resource1", {
@@ -79,6 +81,19 @@ test("stack synthesis no flags", () => {
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("stack validation fails with no provider", () => {
+  const app = Testing.stubVersion(new App({ stackTraces: false }));
+  const stack = new TerraformStack(app, "MyStack");
+
+  new MyResource(stack, "Resource1", {
+    terraformResourceType: "aws_bucket",
+  });
+
+  expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
+    `"Validation failed: Could not find provider initialization for provider aws. Please initialize the provider(s) as AwsProvider in the Stack MyStack"`
+  );
 });
 
 class MyModule extends TerraformModule {

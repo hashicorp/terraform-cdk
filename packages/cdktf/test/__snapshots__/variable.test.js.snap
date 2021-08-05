@@ -149,6 +149,11 @@ exports[`reference 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"string\\"
