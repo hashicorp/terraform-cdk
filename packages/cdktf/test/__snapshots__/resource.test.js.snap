@@ -121,6 +121,36 @@ exports[`minimal configuration 1`] = `
 }"
 `;
 
+exports[`numeric attributes 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"foo\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  },
+  \\"output\\": {
+    \\"combined-string-number\\": {
+      \\"value\\": \\"\${test_resource.resource.string_value} / 23.324 / \${test_resource.resource.numeric_value} / 42\\"
+    }
+  }
+}"
+`;
+
 exports[`provider setter 1`] = `
 "{
   \\"//\\": {

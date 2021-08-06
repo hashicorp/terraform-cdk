@@ -24,6 +24,11 @@ const LIST_TOKEN_REGEX = new RegExp(
   "g"
 );
 
+const NUMBER_TOKEN_REGEX = new RegExp(
+  "[-|\\d|.\\+]+(e[-|\\d|.|e|E|\\+]+)",
+  "g"
+);
+
 /**
  * A string with markers in it that can be resolved to external values
  */
@@ -42,12 +47,25 @@ export class TokenString {
     return new TokenString(s, LIST_TOKEN_REGEX);
   }
 
-  constructor(private readonly str: string, private readonly re: RegExp) {}
+  /**
+   * Returns a `TokenString` for this string that handles encoded numbers
+   */
+  public static forNumbers(s: string) {
+    return new TokenString(s, NUMBER_TOKEN_REGEX, 0);
+  }
+
+  constructor(
+    private readonly str: string,
+    private readonly re: RegExp,
+    private readonly regexMatchIndex: number = 1
+  ) {}
 
   /**
    * Split string on markers, substituting markers with Tokens
    */
-  public split(lookup: (id: string) => IResolvable): TokenizedStringFragments {
+  public split(
+    lookup: (id: string) => IResolvable | undefined
+  ): TokenizedStringFragments {
     const ret = new TokenizedStringFragments();
 
     let rest = 0;
@@ -58,7 +76,12 @@ export class TokenString {
         ret.addLiteral(this.str.substring(rest, m.index));
       }
 
-      ret.addToken(lookup(m[1]));
+      const token = lookup(m[this.regexMatchIndex]);
+      if (token) {
+        ret.addToken(token);
+      } else {
+        ret.addLiteral(this.str.substring(m.index, this.re.lastIndex));
+      }
 
       rest = this.re.lastIndex;
       m = this.re.exec(this.str);
