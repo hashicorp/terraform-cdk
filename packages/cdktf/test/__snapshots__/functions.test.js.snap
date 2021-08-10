@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`combined functions 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"variable\\": {
+    \\"index\\": {
+      \\"type\\": \\"number\\"
+    },
+    \\"list\\": {
+      \\"type\\": \\"list(object({\\\\n      internal = number\\\\n      external = number\\\\n      protocol = string\\\\n    }))\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"try(lookup(element(\${var.list},\${var.index}),internal,waaat),timestamp(),uuid())\\"
+    }
+  }
+}"
+`;
+
+exports[`dynamic values 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test-var\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"abs(\${var.test-var})\\"
+    }
+  }
+}"
+`;
+
+exports[`mixed string spreads values 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test-var\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"format(There are %d out of %d lights are on in %s,\${var.test-var},4,Hamburg)\\"
+    }
+  }
+}"
+`;
+
+exports[`spreaded mixed values 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test-var\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"max(10,\${var.test-var},200)\\"
+    }
+  }
+}"
+`;
+
+exports[`spreaded token value 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"variable\\": {
+    \\"test-var\\": {
+      \\"type\\": \\"list(number)\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"max(\${var.test-var})\\"
+    }
+  }
+}"
+`;
+
+exports[`static values 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"abs(-42)\\"
+    }
+  }
+}"
+`;
+
+exports[`string values 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"parseInt(-210,10)\\"
+    }
+  }
+}"
+`;
