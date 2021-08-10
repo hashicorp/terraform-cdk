@@ -65,14 +65,20 @@ export class TerraformAsset extends Resource {
     }
   }
 
+  private get namedFolder(): string {
+    return path.posix.join(
+      ASSETS_DIRECTORY,
+      this.stack.getLogicalId(Node.of(this))
+    );
+  }
+
   /**
    * The path relative to the root of the terraform directory in posix format
    * Use this property to reference the asset
    */
   public get path(): string {
     return path.posix.join(
-      ASSETS_DIRECTORY,
-      this.stack.getLogicalId(Node.of(this)), // readable name
+      this.namedFolder, // readable name
       this.assetHash, // hash depending on content so that path changes if content changes
       this.type === AssetType.DIRECTORY ? "" : this.fileName
     );
@@ -93,13 +99,19 @@ export class TerraformAsset extends Resource {
   protected onSynthesize(session: ISynthesisSession) {
     const manifest = session.manifest as Manifest;
     const stackManifest = manifest.forStack(this.stack);
-
-    const targetPath = path.join(
+    const basePath = path.join(
       session.outdir,
       stackManifest.synthesizedStackPath,
-      "..",
-      this.path
+      ".."
     );
+
+    // Cleanup existing assets
+    const previousVersionsFolder = path.join(basePath, this.namedFolder);
+    if (fs.existsSync(previousVersionsFolder)) {
+      fs.rmdirSync(previousVersionsFolder, { recursive: true });
+    }
+
+    const targetPath = path.join(basePath, this.path);
 
     if (this.type === AssetType.DIRECTORY) {
       fs.mkdirSync(targetPath, { recursive: true });
