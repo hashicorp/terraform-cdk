@@ -1,5 +1,6 @@
 import { TemplateServer } from "./template-server";
 import { spawn } from "child_process";
+import { spawn as ptySpawn } from "node-pty";
 
 const { execSync } = require("child_process");
 const os = require("os");
@@ -134,6 +135,17 @@ export class TestDriver {
       `cdktf destroy ${stackName ? stackName : ""} --auto-approve`,
       { env: this.env }
     ).toString();
+  };
+
+  watch = () => {
+    const child = ptySpawn("cdktf", ["watch", "--auto-approve"], {
+      name: "xterm-color",
+      env: this.env,
+      cols: 80,
+      rows: 60,
+      cwd: this.workingDirectory,
+    });
+    return child;
   };
 
   setupTypescriptProject = async () => {

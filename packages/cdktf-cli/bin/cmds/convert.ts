@@ -1,6 +1,6 @@
 import yargs from "yargs";
 import { convert } from "@cdktf/hcl2cdk";
-import { displayVersionMessage } from "./version-check";
+import { displayVersionMessage } from "./helper/version-check";
 import { sendTelemetry } from "../../lib/checkpoint";
 import { Errors } from "../../lib/errors";
 

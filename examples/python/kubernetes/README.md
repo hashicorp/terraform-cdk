@@ -34,17 +34,9 @@ cdktf synth
 
 The above command will create a folder called `cdktf.out` that contains all Terraform JSON configuration that was generated.
 
-Next, deploy your Terraform configuration.
+Run cdktf-cli commands
 
 ```bash
+cdktf diff
 cdktf deploy
-```
-
-Alternately, you can run Terraform commands to apply your configuration.
-
-```bash
-cd cdktf.out
-terraform init
-terraform plan
-terraform apply
 ```

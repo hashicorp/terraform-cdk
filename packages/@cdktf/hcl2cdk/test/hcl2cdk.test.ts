@@ -697,6 +697,7 @@ describe("convert", () => {
         backend "remote" {
           hostname = "app.terraform.io"
           organization = "company"
+          path_to_state = "terraform.tfstate"
       
           workspaces {
             name = "my-app-prod"
@@ -853,6 +854,36 @@ describe("convert", () => {
       `
       output "test" {
         value = 42
+      }
+      `,
+    ],
+    [
+      "same name local, var, out",
+      `
+      variable "test" {
+        type    = string
+      }
+      locals {
+        test = "\${var.test} + 1"
+      }
+      output "test" {
+        value = "\${local.test}"
+      }
+      `,
+    ],
+    [
+      "aliased duplicate provider with var reference",
+      `
+      variable "domain" {
+        description = "A domain"
+      }
+      provider "auth0" {
+        domain = var.domain
+      }
+      provider "auth0" {
+        alias = "private_auth0"
+        domain = var.domain
+        private = true
       }
       `,
     ],

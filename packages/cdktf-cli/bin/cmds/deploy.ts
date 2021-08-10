@@ -2,8 +2,9 @@ import * as yargs from "yargs";
 import React from "react";
 import { Deploy } from "./ui/deploy";
 import { readConfigSync } from "../../lib/config";
-import { renderInk } from "./render-ink";
-import { displayVersionMessage } from "./version-check";
+import { renderInk } from "./helper/render-ink";
+import { displayVersionMessage } from "./helper/version-check";
+import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const config = readConfigSync();
 
@@ -39,6 +40,7 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
+    throwIfNotProjectDirectory("deploy");
     await displayVersionMessage();
     const command = argv.app;
     const outdir = argv.output;

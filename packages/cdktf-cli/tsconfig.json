@@ -24,6 +24,7 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2018",
+    "incremental": true,
     "esModuleInterop": true
   },
   "files": [
@@ -31,7 +32,7 @@
   ],
   "include": [
     "**/*.ts",
-    "test/ui/deploy.test.tsx",
+    "test/ui/deploy.test.tsx"
   ],
   "exclude": [
     "node_modules",

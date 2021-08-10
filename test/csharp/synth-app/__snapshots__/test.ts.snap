@@ -5,7 +5,13 @@ exports[`csharp full integration test synth synth generates JSON 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"csharp-simple\\"
+      \\"stackName\\": \\"csharp-simple\\",
+      \\"backend\\": \\"local\\",
+      \\"overrides\\": {
+        \\"aws_sns_topic\\": [
+          \\"display_name\\"
+        ]
+      }
     }
   },
   \\"terraform\\": {

@@ -10,23 +10,26 @@ import * as z from "zod";
 
 import { schema } from "./schema";
 import { findUsedReferences, isRegistryModule } from "./expressions";
-import { cdktfImport, providerImports, moduleImports, gen } from "./generation";
-import { TerraformResourceBlock } from "./types";
+import {
+  backendToExpression,
+  cdktfImport,
+  gen,
+  local,
+  moduleImports,
+  modules,
+  output,
+  provider,
+  providerImports,
+  resource,
+  variable,
+} from "./generation";
+import { TerraformResourceBlock, Scope } from "./types";
 import {
   forEachProvider,
   forEachGlobal,
   forEachNamespaced,
   resourceStats,
 } from "./iteration";
-import {
-  backendToExpression,
-  provider,
-  variable,
-  local,
-  output,
-  modules,
-  resource,
-} from "./generation";
 
 export async function convertToTypescript(hcl: string) {
   // Get the JSON representation of the HCL
@@ -49,24 +52,29 @@ Please include this information:
 ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
+  // Each key in the scope needs to be unique, therefore we save them in a set
+  // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
+  const scope: Scope = { constructs: new Set<string>(), variables: {} };
+
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
   // We need to use a function here because the same node has different representation based on if it's referenced by another one
   const nodeMap = {
-    ...forEachProvider(plan.provider, provider),
-    ...forEachGlobal("var", plan.variable, variable),
+    ...forEachProvider(scope, plan.provider, provider),
+    ...forEachGlobal(scope, "var", plan.variable, variable),
     // locals are a special case
     ...forEachGlobal(
+      scope,
       "local",
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
       local
     ),
-    ...forEachGlobal("out", plan.output, output),
-    ...forEachGlobal("module", plan.module, modules),
-    ...forEachNamespaced(plan.resource, resource),
-    ...forEachNamespaced(plan.data, resource, "data"),
+    ...forEachGlobal(scope, "out", plan.output, output),
+    ...forEachGlobal(scope, "module", plan.module, modules),
+    ...forEachNamespaced(scope, plan.resource, resource),
+    ...forEachNamespaced(scope, plan.data, resource, "data"),
   };
 
   const graph = new DirectedGraph();
@@ -99,6 +107,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   // We recursively inspect each resource value to find references to other values
   // We add these to a dependency graph so that the programming code has the right order
   function addGlobalEdges(
+    _scope: Scope,
     _key: string,
     id: string,
     value: TerraformResourceBlock
@@ -106,13 +115,15 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     addEdges(id, value);
   }
   function addProviderEdges(
-    key: string,
-    _id: string,
+    _scope: Scope,
+    _key: string,
+    id: string,
     value: TerraformResourceBlock
   ) {
-    addEdges(key, value);
+    addEdges(id, value);
   }
   function addNamespacedEdges(
+    _scope: Scope,
     _type: string,
     _key: string,
     id: string,
@@ -122,20 +133,21 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
   Object.values({
-    ...forEachGlobal("providers", plan.provider, addProviderEdges),
-    ...forEachGlobal("var", plan.variable, addGlobalEdges),
+    ...forEachProvider(scope, plan.provider, addProviderEdges),
+    ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
     // locals are a special case
     ...forEachGlobal(
+      scope,
       "local",
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
       addGlobalEdges
     ),
-    ...forEachGlobal("out", plan.output, addGlobalEdges),
-    ...forEachGlobal("module", plan.module, addGlobalEdges),
-    ...forEachNamespaced(plan.resource, addNamespacedEdges),
-    ...forEachNamespaced(plan.data, addNamespacedEdges, "data"),
+    ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
+    ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
+    ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
+    ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
   }).forEach((addEdgesToGraph) => addEdgesToGraph(graph));
 
   // We traverse the dependency graph to get the unordered JSON nodes into an ordered array
@@ -172,7 +184,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   const backendExpressions = plan.terraform?.reduce(
     (carry, terraform) => [
       ...carry,
-      ...backendToExpression(terraform.backend, nodeIds),
+      ...backendToExpression(scope, terraform.backend, nodeIds),
     ],
     [] as t.Statement[]
   );
@@ -229,6 +241,15 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     ).length > 0
       ? [cdktfImport]
       : ([] as t.Statement[]);
+
+  if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
+    expressions[0] = t.addComment(
+      expressions[0],
+      "leading",
+      `Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md`
+    );
+  }
 
   // We split up the generated code so that users can have more control over what to insert where
   return {
@@ -301,10 +322,14 @@ export function getTerraformConfigFromDir(importPath: string) {
   return fileContents.join("\n");
 }
 
+type CdktfJson = Record<string, unknown> & {
+  terraformProviders: any[];
+  terraformModules: any[];
+};
 export async function convertProject(
   combinedHcl: string,
   inputMainFile: string,
-  inputCdktfJson: Record<string, unknown>,
+  inputCdktfJson: CdktfJson,
   { language }: ConvertOptions
 ) {
   if (language !== "typescript") {
@@ -332,7 +357,7 @@ export async function convertProject(
 
   return {
     code: prettier.format(outputMainFile, { parser: "babel" }),
-    cdktfJson: prettier.format(JSON.stringify(cdktfJson), { parser: "json" }),
+    cdktfJson,
     stats,
   };
 }

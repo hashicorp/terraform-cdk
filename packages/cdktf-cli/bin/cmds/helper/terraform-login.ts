@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import * as readlineSync from "readline-sync";
+import * as inquirer from "inquirer";
 import * as open from "open";
 import * as chalk from "chalk";
 
@@ -21,7 +21,7 @@ export interface TerraformCredentialsFile {
 }
 
 export class TerraformLogin {
-  public askToContinue(): boolean {
+  public async askToContinue(): Promise<boolean> {
     // Describe the command
     console.log(chalkColour`{greenBright Welcome to CDK for Terraform!}
 
@@ -37,11 +37,16 @@ the following file for use by subsequent Terraform commands:
 
     let isLogin = false;
 
-    const c = readlineSync.question(
-      chalkColour`{whiteBright Do you want to continue with Terraform Cloud remote state management (yes/no)?} `,
-      { defaultInput: "yes" }
-    );
-    if (c == "yes" || c == "y" || c == "\n") {
+    const { tfCloud } = await inquirer.prompt([
+      {
+        name: "tfCloud",
+        type: "confirm",
+        message:
+          "Do you want to continue with Terraform Cloud remote state management?",
+      },
+    ]);
+
+    if (tfCloud) {
       isLogin = true;
       this.openBrowser();
     }
@@ -57,10 +62,14 @@ the following file for use by subsequent Terraform commands:
   }
 
   public async askForToken() {
-    return readlineSync.question(
-      chalkColour`Token for {bold app.terraform.io}: 🔑 `,
-      { hideEchoBack: true, mask: "" }
-    );
+    const { token } = await inquirer.prompt([
+      {
+        name: "token",
+        message: "Token for app.terraform.io 🔑",
+        type: "password",
+      },
+    ]);
+    return token;
   }
 
   public async saveTerraformCredentials(token: string) {
@@ -105,7 +114,7 @@ the following file for use by subsequent Terraform commands:
     const checkToken = await this.checkIfTerraformCredentialsExist();
     // user login if not already
     if (!checkToken) {
-      const shouldContinue = this.askToContinue();
+      const shouldContinue = await this.askToContinue();
       if (shouldContinue) {
         const token = await this.askForToken();
         if (token == "") {

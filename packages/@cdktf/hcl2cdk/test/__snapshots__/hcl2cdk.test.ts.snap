@@ -8,6 +8,26 @@ exports[`convert Cross-Language Support supports python 1`] = `Promise {}`;
 
 exports[`convert Cross-Language Support supports typescript 1`] = `Promise {}`;
 
+exports[`convert aliased duplicate provider with var reference configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as auth0 from \\"./.gen/providers/auth0\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
+const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
+  description: \\"A domain\\",
+});
+new auth0.Auth0Provider(this, \\"auth0\\", {
+  domain: domain.value,
+});
+new auth0.Auth0Provider(this, \\"auth0_2\\", {
+  alias: \\"private_auth0\\",
+  domain: domain.value,
+  private: true,
+});
+"
+`;
+
 exports[`convert all module types configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as AppTerraformIoExampleCorpK8SClusterAzurerm from \\"./.gen/modules/app.terraform.io/example-corp/k8s-cluster/azurerm\\";
@@ -41,6 +61,9 @@ new cdktf.TerraformHclModule(this, \\"vpc\\", {
 
 exports[`convert arithmetics configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const admins = new cdktf.TerraformVariable(this, \\"admins\\", {});
 const members = new cdktf.TerraformVariable(this, \\"members\\", {});
 new cdktf.TerraformOutput(this, \\"arithmetics\\", {
@@ -76,11 +99,15 @@ const awsAcmCertificateExample = new aws.AcmCertificate(this, \\"example\\", {
   domainName: \\"example.com\\",
   validationMethod: \\"DNS\\",
 });
-const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(this, \\"example\\", {
-  name: \\"example.com\\",
-  privateZone: false,
-});
-const awsRoute53RecordExample = new aws.Route53Record(this, \\"example\\", {
+const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(
+  this,
+  \\"example_1\\",
+  {
+    name: \\"example.com\\",
+    privateZone: false,
+  }
+);
+const awsRoute53RecordExample = new aws.Route53Record(this, \\"example_2\\", {
   allowOverwrite: true,
   name: \\"\${each.value.name}\\",
   records: [\\"\${each.value.record}\\"],
@@ -105,13 +132,13 @@ awsRoute53RecordExample.addOverride(
 );
 const awsAcmCertificateValidationExample = new aws.AcmCertificateValidation(
   this,
-  \\"example\\",
+  \\"example_3\\",
   {
     certificateArn: awsAcmCertificateExample.arn,
     validationRecordFqdns: \`\\\\\${[for record in \${awsRoute53RecordExample.fqn} : record.fqdn]}\`,
   }
 );
-new aws.LbListener(this, \\"example\\", {
+new aws.LbListener(this, \\"example_4\\", {
   certificateArn: awsAcmCertificateValidationExample.certificateArn,
 });
 "
@@ -263,6 +290,9 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 exports[`convert count loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
   name: \`\\\\\${element(\${users.value}, count.index)}\`,
@@ -291,6 +321,9 @@ new local.DataLocalFile(this, \\"_01_please_verify\\", {
 exports[`convert data references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
@@ -313,6 +346,9 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 exports[`convert double references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });
@@ -329,6 +365,9 @@ new aws.S3Bucket(this, \\"examplebucket\\", {
 exports[`convert dynamic blocks configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const namespace = new cdktf.TerraformVariable(this, \\"namespace\\", {});
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 const awsElasticBeanstalkEnvironmentTfenvtest =
@@ -365,6 +404,9 @@ new docker.DockerProvider(this, \\"docker\\", {});
 exports[`convert for each on list using splat configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const buckets = new cdktf.TerraformVariable(this, \\"buckets\\", {});
 const awsKmsKeyExamplekms = new aws.KmsKey(this, \\"examplekms\\", {
   deletionWindowInDays: 7,
@@ -407,6 +449,9 @@ awsS3BucketObjectExamplebucketObject.addOverride(
 
 exports[`convert for expression 1 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const adminUsers = \`\\\\\${{
             for name, user in \${users.value} : name => user
@@ -424,6 +469,9 @@ new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
 
 exports[`convert for expression 2 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const usersByRole = \`\\\\\${{
             for name, user in \${users.value} : user.role => name...
@@ -437,6 +485,9 @@ new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
 exports[`convert for expression 3 configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as datadog from \\"./.gen/providers/datadog\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 new datadog.Monitor(this, \\"hard_query\\", {
   name: \\"queries are hard\\",
@@ -448,6 +499,9 @@ new datadog.Monitor(this, \\"hard_query\\", {
 exports[`convert for_each loops configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const awsIamUserLb = new aws.IamUser(this, \\"lb\\", {
   name: \\"\${each.key}\\",
@@ -468,6 +522,9 @@ awsIamUserLb.addOverride(\\"for_each\\", users.value);
 exports[`convert for_each with var usage configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as azuread from \\"./.gen/providers/azuread\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const azureAdDomainName = new cdktf.TerraformVariable(
   this,
   \\"azure_ad_domain_name\\",
@@ -507,6 +564,9 @@ azureadUserAzureUsers.addOverride(
 exports[`convert list access through [] configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
@@ -687,6 +747,9 @@ new cdktf.TerraformOutput(this, \\"cidr_out\\", {
 exports[`convert property access through [] configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
 new aws.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
@@ -701,7 +764,7 @@ import * as TerraformAwsModulesVpcAws from \\"./.gen/modules/terraform-aws-modul
 new aws.AwsProvider(this, \\"aws\\", {
   region: \\"us-east-1\\",
 });
-new aws.AwsProvider(this, \\"aws\\", {
+new aws.AwsProvider(this, \\"aws_1\\", {
   alias: \\"west\\",
   region: \\"us-west-2\\",
 });
@@ -738,6 +801,9 @@ new aws.AwsProvider(this, \\"aws\\", {
 exports[`convert provider with var reference configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as auth0 from \\"./.gen/providers/auth0\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
   description: \\"A domain\\",
 });
@@ -778,6 +844,7 @@ exports[`convert remote backend configuration 1`] = `
 new cdktf.RemoteBackend(this, {
   hostname: \\"app.terraform.io\\",
   organization: \\"company\\",
+  pathToState: \\"terraform.tfstate\\",
   workspaces: [
     {
       name: \\"my-app-prod\\",
@@ -790,6 +857,9 @@ new cdktf.RemoteBackend(this, {
 exports[`convert required namespaced provider configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as auth0 from \\"./.gen/providers/auth0\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
   description: \\"A domain\\",
 });
@@ -837,6 +907,19 @@ new aws.S3BucketObject(this, \\"examplebucket_object\\", {
 "
 `;
 
+exports[`convert same name local, var, out configuration 1`] = `
+"import * as cdktf from \\"cdktf\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
+const test = new cdktf.TerraformVariable(this, \\"test\\", {});
+const localTest = \`\\\\\${\${test.value}} + 1\`;
+new cdktf.TerraformOutput(this, \\"test_1\\", {
+  value: localTest,
+});
+"
+`;
+
 exports[`convert sensitive output configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 new cdktf.TerraformOutput(this, \\"cidr_out\\", {
@@ -874,6 +957,9 @@ new cdktf.TerraformHclModule(this, \\"example\\", {
 exports[`convert variable references configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as aws from \\"./.gen/providers/aws\\";
+
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
   default: \\"demo\\",
 });

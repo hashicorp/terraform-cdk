@@ -2,8 +2,8 @@ import yargs from "yargs";
 import { TerraformLogin } from "./helper/terraform-login";
 import * as terraformCloudClient from "./helper/terraform-cloud-client";
 import * as chalk from "chalk";
-import { terraformCheck } from "./terraform-check";
-import { displayVersionMessage } from "./version-check";
+import { terraformCheck } from "./helper/terraform-check";
+import { displayVersionMessage } from "./helper/version-check";
 
 const chalkColour = new chalk.Instance();
 

@@ -1,6 +1,7 @@
 import * as t from "@babel/types";
+import reservedWords from "reserved-words";
 import { camelCase, pascalCase } from "./utils";
-import { TerraformResourceBlock } from "./types";
+import { TerraformResourceBlock, Scope } from "./types";
 import isValidDomain from "is-valid-domain";
 
 export type Reference = {
@@ -175,25 +176,50 @@ export function extractReferencesFromExpression(
   }, [] as Reference[]);
 }
 
-export function referenceToVariableName(ref: Reference): string {
+export function referenceToVariableName(scope: Scope, ref: Reference): string {
   const parts = ref.referencee.full.split(".");
   const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
   const name = parts[0] === "data" ? parts[2] : parts[1];
-  return variableName(resource, name);
+  return variableName(scope, resource, name);
 }
 
-export function variableName(resource: string, name: string): string {
-  const proposedName = camelCase(
-    ["var", "local", "module"].includes(resource)
-      ? name
-      : [resource, name].join("_")
-  );
-
-  if (!Number.isNaN(parseInt(proposedName[0], 10))) {
-    return `d${proposedName}`;
+function validVarName(name: string) {
+  if (reservedWords.check(name)) {
+    return `${name}Var`;
   }
 
-  return proposedName;
+  if (!Number.isNaN(parseInt(name[0], 10))) {
+    return `d${name}`;
+  }
+
+  return name;
+}
+
+export function variableName(
+  scope: Scope,
+  resource: string,
+  name: string
+): string {
+  // name collision, we need to prefix the name
+  if (scope.variables[name]) {
+    if (resource === scope.variables[name].resource) {
+      return scope.variables[name].variableName;
+    }
+
+    // we only cache one per name
+    return validVarName(camelCase([resource, name].join("_")));
+  }
+
+  const variableName = validVarName(
+    camelCase(
+      ["var", "local", "module"].includes(resource)
+        ? name
+        : [resource, name].join("_")
+    )
+  );
+
+  scope.variables[name] = { variableName, resource };
+  return variableName;
 }
 
 export function constructAst(type: string, isModuleImport: boolean) {
@@ -221,11 +247,11 @@ export function constructAst(type: string, isModuleImport: boolean) {
   return t.identifier(pascalCase(type));
 }
 
-export function referenceToAst(ref: Reference) {
+export function referenceToAst(scope: Scope, ref: Reference) {
   const [resource, _name, ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
-    camelCase(referenceToVariableName(ref))
+    camelCase(referenceToVariableName(scope, ref))
   );
 
   if (resource === "data") {
@@ -256,6 +282,7 @@ export function referenceToAst(ref: Reference) {
 }
 
 export function referencesToAst(
+  scope: Scope,
   input: string,
   refs: Reference[],
   scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
@@ -267,7 +294,7 @@ export function referencesToAst(
   const refAsts = refs
     .sort((a, b) => a.start - b.start)
     .filter((ref) => !scopedIds.includes(ref.referencee.id))
-    .map((ref) => ({ ref, ast: referenceToAst(ref) }));
+    .map((ref) => ({ ref, ast: referenceToAst(scope, ref) }));
 
   if (
     refAsts.length === 1 &&

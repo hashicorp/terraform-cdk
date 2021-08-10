@@ -211,3 +211,84 @@ In the next major version of the
 CDKTF we will either remove the
 legacy behavior or flip the logic for all these features and then
 reset the `FEATURE_FLAGS` map for the next cycle.
+
+## Releasing
+
+(this section is work in progress, but contains useful information)
+
+### Steps
+
+#### Terraform CDK
+
+1. Create a new branch (e.g. `prepare-release-0.5.0`)
+2. Update the version in the root `package.json`
+3. Update the [CHANGELOG](./CHANGELOG.md)
+4. Create a PR to merge the new branch into `main`
+5. Merge the PR
+6. A new release will be build and published because the version changed
+
+### Helper for creating the changelog
+
+```javascript
+// fill this with a list of prs
+const prs = [767, ... ]
+const json = JSON.parse(require("child_process").execSync('gh pr list --state merged --json number,title --limit 200').toString()) // just a high enough limit
+const map = json.reduce((map, pr) => ({ ...map, [pr.number]: pr.title }), {});
+const lines = prs.map(num => {
+    if (map[num]) return `- ${map[num]} [\\#${num}](https://github.com/hashicorp/terraform-cdk/pull/${num})`
+    else throw new Error(`no json data for PR #${num}`)
+});
+console.log(lines.join('\n'));
+```
+
+To get a list of commits since the last release you can e.g. visit a link like this: `https://github.com/hashicorp/terraform-cdk/compare/v0.4.1...main`. You'll find the PR numbers there as links. This should probably be automated at some point – at best using existing tooling for this :)
+
+#### Prebuilt Providers
+
+We have a bunch of prebuilt providers which are depending on the current minor version of `cdktf`, e.g. `~> 0.5`.
+
+Right now the upgrade is a rather manual process. However, we're aiming to improve this.
+
+1. Update the [provider project](https://github.com/terraform-cdk-providers/cdktf-provider-project) and change the [cdktf version](https://github.com/terraform-cdk-providers/cdktf-provider-project/blob/90d8c1a873437904060b2ec51d8fe607d7170828/src/cdktf-config.ts#L16) with a pull request. Make sure the title of the PR starts with `BREAKING CHANGE:`, which will bump the version accordingly when the PR is merged. The release process after merging the PR is fully automated
+2. Once the `provider project` package got published, the actual providers can be upgraded as well.
+
+Here's an example script for the `0.5` upgrade. It assumes that the provider repositories were checked out locally relative to the script.
+
+```js
+#!/usr/bin/env node
+
+const path = require("path");
+const ps = require("child_process");
+
+// Please check the projects at https://cdk.tf/provider to ensure all the projects are up to date.
+const directories = [
+  "cdktf-provider-aws",
+  "cdktf-provider-azurerm",
+  "cdktf-provider-docker",
+  "cdktf-provider-github",
+  "cdktf-provider-google",
+  "cdktf-provider-kubernetes",
+  "cdktf-provider-null",
+  "cdktf-provider-external",
+  `cdktf-provider-datadog`,
+];
+
+directories.forEach((directory) => {
+  const [scope, namespace, provider] = directory.split("-");
+
+  console.log(
+    `running in ${directory} - https://cdk.tf/${namespace}/${provider}`
+  );
+
+  const workingDir = path.join(__dirname, directory);
+  const prepareScript = `git reset --hard && git clean -fdx && git checkout master && git up`;
+  const script = `
+    git checkout -b upgrade-cdktf-0.5 && yarn add --dev @cdktf/provider-project@latest && npx projen && git commit -am "BREAKING CHANGE: Bump cdktf dependency to 0.5 \n\n See https://github.com/hashicorp/terraform-cdk/pull/857" && yarn fetch && yarn compile && yarn docgen && yarn run commit && git push --set-upstream origin upgrade-cdktf-0.5
+  `;
+  ps.execSync(prepareScript, { cwd: workingDir, stdio: [null, null, null] });
+  ps.execSync(script, {
+    cwd: workingDir,
+    stdio: ["inherit", "inherit", "inherit"],
+  });
+});
+```

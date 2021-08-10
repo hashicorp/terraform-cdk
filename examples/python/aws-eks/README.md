@@ -51,11 +51,9 @@ Compile and generate Terraform configuration
 
 The above command will create a folder called `cdktf.out` that contains all Terraform JSON configuration that was generated.
 
-Run Terraform commands
+Run cdktf-cli commands
 
 ```bash
-cd cdktf.out
-terraform init
-terraform plan
-terraform apply
+cdktf diff
+cdktf deploy
 ```

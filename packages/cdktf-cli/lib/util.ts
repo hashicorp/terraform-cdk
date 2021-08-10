@@ -3,7 +3,7 @@ import * as fs from "fs-extra";
 import { https, http } from "follow-redirects";
 import * as os from "os";
 import * as path from "path";
-import { processLogger } from "./logging";
+import { processLoggerError, processLoggerDebug } from "./logging";
 
 export async function shell(
   program: string,
@@ -70,32 +70,36 @@ export const exec = async (
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
     const out = new Array<Buffer>();
+    const err = new Array<string | Uint8Array>();
     if (stdout !== undefined) {
       child.stdout?.on("data", (chunk: Buffer) => {
-        processLogger(chunk);
+        processLoggerDebug(chunk);
         stdout(chunk);
       });
     } else {
       child.stdout?.on("data", (chunk: Buffer) => {
-        processLogger(chunk);
+        processLoggerDebug(chunk);
         out.push(chunk);
       });
     }
     if (stderr !== undefined) {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
-        processLogger(chunk);
+        processLoggerError(chunk);
         stderr(chunk);
       });
     } else {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
-        processLogger(chunk);
+        processLoggerError(chunk);
         process.stderr.write(chunk);
+        err.push(chunk);
       });
     }
     child.once("error", (err: any) => ko(err));
     child.once("close", (code: number) => {
       if (code !== 0) {
-        return ko(new Error(`non-zero exit code ${code}`));
+        const error = new Error(`non-zero exit code ${code}`);
+        (error as any).stderr = err.map((chunk) => chunk.toString()).join("");
+        return ko(error);
       }
       return ok(Buffer.concat(out).toString("utf-8"));
     });

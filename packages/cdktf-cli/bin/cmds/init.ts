@@ -1,6 +1,6 @@
 import yargs from "yargs";
-import { terraformCheck } from "./terraform-check";
-import { displayVersionMessage } from "./version-check";
+import { terraformCheck } from "./helper/terraform-check";
+import { displayVersionMessage } from "./helper/version-check";
 import { checkForEmptyDirectory, runInit, templates } from "./helper/init";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

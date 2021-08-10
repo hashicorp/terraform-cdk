@@ -211,3 +211,12 @@ When using the `cdktf` cli commands, it'll automatically set the process env `TF
 Last but not least, when using multiple stacks within one application, provider caching is a basic prerequisite.
 
 This behaviour can be disabled by setting `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to non null value, e.g. `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. This might be desired, when a different cache directory is configured via a `.terraformrc` configuration file.
+
+## Using a Local Provider
+
+Terraform supports using local providers. For CDK for Terrform being able to generate the type bindings from these providers, Terraform itself has to find these providers. There are two ways to achieve this:
+
+- [Implied Local Mirrors](https://www.terraform.io/docs/cli/config/config-file.html#implied-local-mirror-directories)
+- [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
+
+Once configured properly, these providers can be referenced in the `cdktf.json` config file as any other provider in the Terraform registry.

@@ -1,0 +1,80 @@
+type Query {
+  hello: String
+  hallo: String
+}
+
+input WatchInput {
+  targetDir: String!
+  targetStack: String
+  synthCommand: String!
+  autoApprove: Boolean
+}
+
+enum PlannedResourceAction {
+  CREATE
+  UPDATE
+  DELETE
+  READ
+  NO_OP
+}
+
+enum DeployingResourceDeployState {
+  WAITING
+  UPDATING
+  UPDATED
+  CREATING
+  CREATED
+  DESTROYING
+  DESTROYED
+  SUCCESS
+  ERROR
+}
+
+type DeployingResource {
+  id: String!
+  action: PlannedResourceAction!
+  deployState: DeployingResourceDeployState!
+  changedAt: Float! # TODO: change this to custom date scalar
+}
+
+enum STATUS {
+  IDLE
+  SYNTHESIZING
+  INITIALIZING
+  PLANNING
+  DEPLOYING
+}
+
+enum ERROR_ORIGIN {
+  IDLE
+  SYNTHESIZING
+  INITIALIZING
+  PLANNING
+  DEPLOYING
+  SERVER
+}
+
+type Stack {
+  name: String!
+  constructPath: String!
+  synthesizedStackPath: String!
+  workingDirectory: String!
+}
+
+type Error {
+  message: String!
+  recoverable: Boolean!
+  origin: ERROR_ORIGIN!
+  timestamp: Float! # TODO: change this to custom date scalar
+}
+
+type WatchState {
+  status: STATUS!
+  stacks: [Stack]!
+  resources: [DeployingResource]!
+  error: Error
+}
+
+type Subscription {
+  watch(inputs: WatchInput): WatchState
+}

@@ -13,3 +13,6 @@ new Instance(this, "hello", {
   instanceType: "t2.micro",
 });
 ```
+
+Variables are useful when the synthesised JSON is used with Terraform, e.g. when running inside [Terraform Cloud](https://www.terraform.io/cloud).
+In general it's preferred to leverage the CDK and use your languages APIs to consume the data you would normally pass through Terraform variables. You read from disk (synchronously) or from the environment variables like you would in any normal program.

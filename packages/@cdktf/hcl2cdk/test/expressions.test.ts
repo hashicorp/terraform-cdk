@@ -1,6 +1,7 @@
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 import { referencesToAst } from "../lib/expressions";
+import { Scope } from "../lib/types";
 import {
   extractReferencesFromExpression,
   referenceToAst,
@@ -392,11 +393,12 @@ describe("expressions", () => {
 
   describe("#referenceToAst", () => {
     it("property access", () => {
+      const scope: Scope = { constructs: new Set<string>(), variables: {} };
       expect(
         generate(
           t.program([
             t.expressionStatement(
-              referenceToAst({
+              referenceToAst(scope, {
                 start: 0,
                 end: 0,
                 useFqn: false,
@@ -415,12 +417,14 @@ describe("expressions", () => {
 
   describe("#referencesToAst", () => {
     it("nested terraform expressions without space", () => {
+      const scope: Scope = { constructs: new Set<string>(), variables: {} };
       const expr = `\${\${each.value}\${var.azure_ad_domain_name}}"`;
       expect(
         generate(
           t.program([
             t.expressionStatement(
               referencesToAst(
+                scope,
                 expr,
                 extractReferencesFromExpression(expr, [
                   "var.azure_ad_domain_name",
