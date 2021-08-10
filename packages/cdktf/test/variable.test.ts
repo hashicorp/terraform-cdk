@@ -141,3 +141,17 @@ test("sensitive variable", () => {
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test("variable with variable default", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const a = new TerraformVariable(stack, "test-variable", {
+    type: "string",
+  });
+  new TerraformVariable(stack, "other-variable", {
+    default: a.value,
+    type: "string",
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
