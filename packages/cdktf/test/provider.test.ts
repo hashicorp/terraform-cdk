@@ -1,6 +1,7 @@
 import { Testing, TerraformStack, TerraformProvider } from "../lib";
 import { Construct } from "constructs";
 import { TestProvider } from "./helper/provider";
+import { TerraformVariable } from "../lib/terraform-variable";
 
 test("minimal configuration", () => {
   const app = Testing.app();
@@ -46,5 +47,20 @@ test("with generator metadata", () => {
 
   new MetadataTestProvider(stack, "test");
 
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("token resolution", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const variable = new TerraformVariable(stack, "access-key", {
+    sensitive: true,
+    type: "string",
+  });
+
+  new TestProvider(stack, "test", {
+    accessKey: variable.value,
+  });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

@@ -1,5 +1,6 @@
 import { Testing, TerraformStack, TerraformOutput } from "../lib";
 import { TestResource } from "./helper";
+import { TerraformVariable } from "../lib/terraform-variable";
 
 test("number output", () => {
   const app = Testing.app();
@@ -84,6 +85,19 @@ test("dependent output", () => {
   new TerraformOutput(stack, "test-output", {
     value: 1,
     dependsOn: [resource],
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("variable output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const variable = new TerraformVariable(stack, "test-variable", {});
+
+  new TerraformOutput(stack, "test-output", {
+    value: variable.value,
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();
