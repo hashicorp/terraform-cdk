@@ -1,12 +1,12 @@
 import { Tokenization } from "../tokens/token";
-import { Lazy } from "../tokens/lazy";
+import { Expression, call } from "../tfExpression";
 
 // We use branding here to ensure we internally only handle validated values
 // this allows us to catch usage errors before terraform does in some cases
 type TFValue = any & { __type: "tfvalue" };
 type TFValueValidator = (value: any) => TFValue;
 
-type ExecutableTfFuncction = (...args: any[]) => any;
+type ExecutableTfFunction = (...args: any[]) => Expression;
 
 export function anyValue(value: any): any {
   return value;
@@ -58,7 +58,7 @@ export function listOf(type: TFValueValidator): TFValueValidator {
 export function terraformFunction(
   name: string,
   argValidators: TFValueValidator | TFValueValidator[]
-): ExecutableTfFuncction {
+): ExecutableTfFunction {
   return (...args: any[]) => {
     if (Array.isArray(argValidators)) {
       if (args.length !== argValidators.length) {
@@ -70,14 +70,10 @@ export function terraformFunction(
         argValidators[i](arg)
       );
 
-      return Lazy.stringValue({
-        produce: () => `${name}(${validatedArgs.join(",")})`,
-      });
+      return call(name, validatedArgs);
     } else {
       // Used for spreadable arguments
-      return Lazy.stringValue({
-        produce: () => `${name}(${argValidators(argValidators(args))})`,
-      });
+      return call(name, argValidators(args));
     }
   };
 }

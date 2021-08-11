@@ -1,5 +1,6 @@
 import { Token } from "./tokens";
 import { ITerraformResource } from "./terraform-resource";
+import { Expression } from "./tfExpression";
 
 abstract class ComplexComputedAttribute {
   constructor(
@@ -27,7 +28,7 @@ abstract class ComplexComputedAttribute {
 
   protected abstract interpolationForAttribute(
     terraformAttribute: string
-  ): string;
+  ): Expression;
 }
 
 export class StringMap {
