@@ -44,6 +44,22 @@ export class TestResource extends TerraformResource {
       nested_type: this.nestedType,
     };
   }
+
+  public get stringValue() {
+    return this.getStringAttribute("string_value");
+  }
+
+  public get numericValue() {
+    return this.getNumberAttribute("numeric_value");
+  }
+
+  public get listValue() {
+    return this.getListAttribute("list_value");
+  }
+
+  public get anyList() {
+    return this.interpolationForAttribute("any_list") as any;
+  }
 }
 
 export class OtherTestResource extends TerraformResource {
