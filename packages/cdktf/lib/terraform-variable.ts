@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { Token } from "./tokens";
+import { ref } from "./tfExpression";
 
 export abstract class VariableType {
   public static readonly STRING = "string";
@@ -116,7 +117,7 @@ export class TerraformVariable extends TerraformElement {
   }
 
   private interpolation(): any {
-    return `\${var.${this.friendlyUniqueId}}`;
+    return ref(`var.${this.friendlyUniqueId}`);
   }
 
   public synthesizeAttributes(): { [key: string]: any } {

@@ -43,7 +43,7 @@ export abstract class TerraformRemoteState extends TerraformElement {
 
   private interpolationForAttribute(terraformAttribute: string): Expression {
     return ref(
-      `\${data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}}`
+      `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`
     );
   }
 

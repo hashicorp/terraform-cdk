@@ -51,7 +51,7 @@ export function listOf(type: TFValueValidator): TFValueValidator {
       }
     });
 
-    return value.join(",");
+    return value;
   };
 }
 

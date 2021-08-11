@@ -19,7 +19,7 @@ exports[`combined functions 1`] = `
   },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": \\"try(lookup(element(\${var.list},\${var.index}),internal,waaat),timestamp(),uuid())\\"
+      \\"value\\": \\"\${try(lookup(element(var.list, var.index), \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")\, timestamp(), uuid())}\\"
     }
   }
 }"
@@ -41,7 +41,7 @@ exports[`dynamic values 1`] = `
   },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": \\"abs(\${var.test-var})\\"
+      \\"value\\": \\"\${abs(var.test-var)}\\"
     }
   }
 }"
@@ -63,7 +63,7 @@ exports[`mixed string spreads values 1`] = `
   },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": \\"format(There are %d out of %d lights are on in %s,\${var.test-var},4,Hamburg)\\"
+      \\"value\\": \\"\${format(\\\\\\"There are %d out of %d lights are on in %s\\\\\\", var.test-var, 4, \\\\\\"Hamburg\\\\\\")}\\"
     }
   }
 }"
@@ -85,7 +85,7 @@ exports[`spreaded mixed values 1`] = `
   },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": \\"max(10,\${var.test-var},200)\\"
+      \\"value\\": \\"\${max(10, var.test-var, 200)}\\"
     }
   }
 }"
@@ -107,7 +107,7 @@ exports[`spreaded token value 1`] = `
   },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": \\"max(\${var.test-var})\\"
+      \\"value\\": \\"\${max(var.test-var)}\\"
     }
   }
 }"
@@ -124,7 +124,7 @@ exports[`static values 1`] = `
   },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": \\"abs(-42)\\"
+      \\"value\\": \\"\${abs(-42)}\\"
     }
   }
 }"
@@ -141,7 +141,7 @@ exports[`string values 1`] = `
   },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": \\"parseInt(-210,10)\\"
+      \\"value\\": \\"\${parseInt(\\\\\\"-210\\\\\\", 10)}\\"
     }
   }
 }"
