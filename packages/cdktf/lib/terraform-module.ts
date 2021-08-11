@@ -59,11 +59,14 @@ export abstract class TerraformModule
     return this._providers;
   }
 
-  public addProvider(provider: TerraformProvider | TerraformModuleProvider) {
+  public addProvider(
+    provider: TerraformProvider | TerraformModuleProvider
+  ): this {
     if (!this._providers) {
       this._providers = [];
     }
     this._providers.push(provider);
+    return this;
   }
 
   public toTerraform(): any {
