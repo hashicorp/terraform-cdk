@@ -1,0 +1,10 @@
+{
+  "language": "python",
+  "app": "poetry run python main.py",
+  "terraformProviders": [],
+  "terraformModules": [],
+  "codeMakerOutput": "imports",
+  "context": {
+    {{futureFlags}}
+  }
+}

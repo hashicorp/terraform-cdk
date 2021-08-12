@@ -126,7 +126,8 @@ Options:
   --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL
                                                                                                            [string]
   --template                  The template to be used to create a new project. Either URL to zip file or one of the
-                              built-in templates: ["csharp", "go", "java", "python", "python-pip", "typescript"]
+                              built-in templates: ["csharp", "go", "java", "python", "python-pip", "python-poetry",
+                              "typescript"]
                                                                                                            [string]
   --project-name              The name of the project.                                                     [string]
   --project-description       The description of the project.                                              [string]

@@ -31,11 +31,13 @@ mkdir hello-terraform
 cd hello-terraform
 ```
 
-There are two Python templates available that you can choose from.
-The `python` template uses `Pipenv` for package management wheras the
-`python-pip` template just uses `pip` with a simple `requirements.txt` file.
+There are three Python templates available that you can choose from:
 
-Here's how to choose between the two
+- `python` template uses `Pipenv` for package management
+- `python-pip` template uses `pip` with a simple `requirements.txt` file
+- `python-poetry` template uses `Poetry` for package management
+
+Here's how to choose between the three
 
 ### pipenv
 
@@ -43,6 +45,14 @@ Note: Make sure [Pipenv](https://pipenv.pypa.io/en/latest/install/#installing-pi
 
 ```bash
 cdktf init --template="python" --local
+```
+
+### poetry
+
+Note: Make sure [Poetry](https://pipenv.pypa.io/en/latest/install/#installing-pipenv/) is installed.
+
+```bash
+cdktf init --template="python-poetry" --local
 ```
 
 ### pip
