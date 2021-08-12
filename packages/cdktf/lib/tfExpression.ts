@@ -2,11 +2,11 @@ import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
 import { Tokenization } from "./tokens";
 
-export class TFExpression extends Intrinsic {
+class TFExpression extends Intrinsic {
   public isInnerTerraformExpression = false;
 }
 
-export class Reference extends TFExpression {
+class Reference extends TFExpression {
   constructor(private identifier: string) {
     super(identifier);
   }
@@ -17,11 +17,11 @@ export class Reference extends TFExpression {
       : `\${${this.identifier}}`;
   }
 }
-export function ref(identifier: string): Reference {
-  return new Reference(identifier);
+export function ref(identifier: string) {
+  return new Reference(identifier) as any;
 }
 
-export class FunctionCall extends TFExpression {
+class FunctionCall extends TFExpression {
   constructor(private name: string, private args: Expression[]) {
     super({ name, args });
 
@@ -46,8 +46,8 @@ export class FunctionCall extends TFExpression {
     return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
   }
 }
-export function call(name: string, args: Expression[]): FunctionCall {
-  return new FunctionCall(name, args);
+export function call(name: string, args: Expression[]) {
+  return new FunctionCall(name, args) as any;
 }
 
 export type Expression =

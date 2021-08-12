@@ -4,7 +4,7 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { ref, Expression } from "./tfExpression";
+import { ref } from "./tfExpression";
 
 export interface ITerraformResource {
   readonly terraformResourceType: string;
@@ -16,7 +16,7 @@ export interface ITerraformResource {
   provider?: TerraformProvider;
   lifecycle?: TerraformResourceLifecycle;
 
-  interpolationForAttribute(terraformAttribute: string): Expression;
+  interpolationForAttribute(terraformAttribute: string): any;
 }
 
 export interface TerraformResourceLifecycle {
