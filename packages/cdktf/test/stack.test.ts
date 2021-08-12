@@ -91,9 +91,11 @@ test("stack validation fails with no provider", () => {
     terraformResourceType: "aws_bucket",
   });
 
-  expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
-    `"Validation failed: Could not find provider initialization for provider aws. Please initialize the provider(s) as AwsProvider in the Stack MyStack"`
-  );
+  expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(`
+    "1 Error found in stack:
+
+    MyStack: Could not find provider initialization for provider aws. Please initialize the provider(s) as AwsProvider"
+  `);
 });
 
 class MyModule extends TerraformModule {

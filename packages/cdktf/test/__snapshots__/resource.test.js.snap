@@ -150,6 +150,11 @@ exports[`numeric attributes 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"resource\\": {
