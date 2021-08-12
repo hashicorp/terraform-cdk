@@ -8,7 +8,7 @@ import { Numeric } from "./functions/numeric";
 import { String } from "./functions/string";
 import { Type } from "./functions/type";
 
-export const Fn = {
+export {
   Collection,
   Crypto,
   DateTime,
@@ -19,3 +19,15 @@ export const Fn = {
   String,
   Type,
 };
+
+export class Fn {
+  public static collection = Collection;
+  public static crypto = Crypto;
+  public static dateTime = DateTime;
+  public static encoding = Encoding;
+  public static filesystem = Filesystem;
+  public static network = Network;
+  public static numeric = Numeric;
+  public static string = String;
+  public static type = Type;
+}

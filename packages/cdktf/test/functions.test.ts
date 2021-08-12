@@ -6,7 +6,7 @@ test("static values", () => {
   const stack = new TerraformStack(app, "test");
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.Numeric.abs(-42),
+    value: Fn.numeric.abs(-42),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -20,7 +20,7 @@ test("dynamic values", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.Numeric.abs(variable.value),
+    value: Fn.numeric.abs(variable.value),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -34,7 +34,7 @@ test("spreaded mixed values", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.Numeric.max(10, variable.value, 200),
+    value: Fn.numeric.max(10, variable.value, 200),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -48,7 +48,7 @@ test("spreaded token value", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.Numeric.max(variable.value),
+    value: Fn.numeric.max(variable.value),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -58,7 +58,7 @@ test("string values", () => {
   const stack = new TerraformStack(app, "test");
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.Numeric.parseInt("-210", 10),
+    value: Fn.numeric.parseInt("-210", 10),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -72,7 +72,7 @@ test("mixed string spreads values", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.String.format(
+    value: Fn.string.format(
       "There are %d out of %d lights are on in %s",
       variable.value,
       4,
@@ -99,14 +99,14 @@ test("combined functions", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.Type.try(
-      Fn.Collection.lookup(
-        Fn.Collection.element(list.value, index.value),
+    value: Fn.type.try(
+      Fn.collection.lookup(
+        Fn.collection.element(list.value, index.value),
         "internal",
         "waaat"
       ),
-      Fn.DateTime.timestamp(),
-      Fn.Crypto.uuid()
+      Fn.dateTime.timestamp(),
+      Fn.crypto.uuid()
     ),
   });
 
