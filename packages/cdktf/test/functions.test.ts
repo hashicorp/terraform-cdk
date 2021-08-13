@@ -72,7 +72,7 @@ test("mixed string spreads values", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.string.format(
+    value: Fn.str.format(
       "There are %d out of %d lights are on in %s",
       variable.value,
       4,
