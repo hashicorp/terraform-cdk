@@ -371,3 +371,5 @@ export async function convertProject(
     stats,
   };
 }
+
+export { isRegistryModule };

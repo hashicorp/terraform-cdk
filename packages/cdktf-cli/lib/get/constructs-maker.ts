@@ -51,7 +51,7 @@ export abstract class ConstructsMakerTarget {
     public readonly targetLanguage: Language
   ) {
     if (this.constraint instanceof TerraformModuleConstraint) {
-      this.fileName = `${this.typesPath(this.constraint.fqn)}.ts`;
+      this.fileName = `${this.typesPath(this.constraint.fqn.replace(/[-.]/g, "_"))}.ts`;
     } else {
       this.fileName = `${this.typesPath(this.constraint.name)}.ts`;
     }
@@ -88,15 +88,11 @@ export abstract class ConstructsMakerTarget {
     return this.constraint.namespace;
   }
 
-  public get moduleKey() {
-    return this.fqn.replace(/\//gi, "_");
-  }
-
   public abstract get srcMakName(): string;
   public abstract get isModule(): boolean;
   public abstract get isProvider(): boolean;
   public abstract get trackingPayload(): Record<string, any>;
-  protected abstract get simplifiedName(): string;
+  public abstract get simplifiedName(): string;
 
   protected abstract typesPath(name: string): string;
 }
@@ -115,12 +111,13 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   public get srcMakName(): string {
     switch (this.targetLanguage) {
       case Language.PYTHON:
+        return this.fqn.replace(/[-/.]/g, "_");
       case Language.GO:
-        return this.simplifiedName;
+        return this.name;
       case Language.JAVA:
       case Language.CSHARP:
       default:
-        return this.constraint.fqn;
+        return this.simplifiedName;
     }
   }
 
@@ -137,7 +134,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
     return `modules/${name}`;
   }
 
-  protected get simplifiedName(): string {
+  public get simplifiedName(): string {
     return this.fqn.replace(/\//gi, ".").replace(/-/gi, "_");
   }
 }
@@ -187,7 +184,7 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
     return this.constraint.name === "null";
   }
 
-  protected get simplifiedName(): string {
+  public get simplifiedName(): string {
     return this.name.replace(/\//gi, ".").replace(/-/gi, "_");
   }
 }
@@ -216,7 +213,7 @@ export class ConstructsMaker {
       (target) => target instanceof ConstructsMakerModuleTarget
     ) as ConstructsMakerModuleTarget[];
     for (const target of moduleTargets) {
-      target.spec = schema.moduleSchema[target.moduleKey];
+      target.spec = schema.moduleSchema[target.simplifiedName];
     }
 
     const providerTargets: ConstructsMakerProviderTarget[] =
@@ -260,7 +257,7 @@ export class ConstructsMaker {
             deps: deps.map((dep) =>
               path.dirname(require.resolve(`${dep}/package.json`))
             ),
-            moduleKey: target.moduleKey,
+            moduleKey: target.simplifiedName,
           };
 
           // used for testing.

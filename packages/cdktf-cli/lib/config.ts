@@ -3,29 +3,12 @@ import * as path from "path";
 import { Language } from "./get/constructs-maker";
 import { env } from "process";
 import { CONTEXT_ENV } from "cdktf";
+import { isRegistryModule } from "@cdktf/hcl2cdk"
 
 const CONFIG_FILE = "cdktf.json";
 const DEFAULTS = {
   output: "cdktf.out",
   codeMakerOutput: ".gen",
-};
-
-const parseDependencyConstraint = (item: string) => {
-  const [fqn, version] = item.split("@");
-  const nameParts = fqn.split("/");
-  const name = nameParts.pop();
-  const namespace = nameParts.pop();
-  if (!name) {
-    throw new Error(`Provider name should be properly set in ${item}`);
-  }
-
-  return {
-    name,
-    source: fqn,
-    version,
-    fqn,
-    namespace,
-  };
 };
 
 function isPresent(input: any[] | undefined): boolean {
@@ -50,23 +33,101 @@ export class TerraformModuleConstraint
 
   constructor(item: TerraformDependencyConstraint | string) {
     if (typeof item === "string") {
-      const parsed = parseDependencyConstraint(item);
+      const parsed = this.parseDependencyConstraint(item);
       this.name = parsed.name;
       this.source = parsed.source;
       this.fqn = parsed.fqn;
       this.version = parsed.version;
     } else {
-      if (item.source.startsWith("./") || item.source.startsWith("../")) {
-        this.source = item.source;
-        this.localSource = `file://${path.join(process.cwd(), item.source)}`;
-      } else {
-        this.source = item.source;
-      }
+      this.source = item.source;
       this.name = item.name;
       this.fqn = item.name;
       this.version = item.version;
     }
+
+    const localMatch = this.getLocalMatch(this.source);
+    if (localMatch) {
+      this.localSource = `file://${path.join(process.cwd(), this.source)}`;
+    }
   }
+
+  private getLocalMatch(source: string): RegExpMatchArray | null {
+    return source.match(/^(\.\/|\.\.\/|\.\\\\|\.\.\\\\)(.*)/);
+  }
+
+  private parseDependencyConstraint(item: string): TerraformDependencyConstraint {
+    const localMatch = this.getLocalMatch(item);
+    if (localMatch) {
+      const fqn = localMatch[2];
+      const nameParts = fqn.split("/");
+      const name = nameParts.pop() ?? fqn;
+      const namespace = nameParts.pop();
+
+      return {
+        name,
+        fqn,
+        source: item,
+        namespace
+      };
+    }
+
+    if (isRegistryModule(item)) {
+      const [source, version] = item.split("@");
+      const moduleParts = source.split("//");
+      const nameParts = moduleParts[0].split("/");
+      nameParts.pop(); // last part is the provider
+      const name = nameParts.pop() ?? source;
+      const namespace = nameParts.pop();
+
+      return {
+        name,
+        source,
+        version,
+        namespace,
+        fqn: source
+      }
+    }
+
+    let fqn = ''; // going to build this back up from parts
+    let toProcess = item; // process one part at a time
+    const prefixMatch = toProcess.match(/([a-zA-Z0-9]*)::(.*)/);
+    if (prefixMatch) {
+      const prefix = prefixMatch[1];
+      fqn += `${prefix}/`; // technically prefix needs to be maintained for uniqueness
+      toProcess = prefixMatch[2];
+    }
+
+    const protocolMatch = toProcess.match(/([a-zA-Z]*):\/\/(.*)/);
+    if (protocolMatch) {
+      const protocol = protocolMatch[1];
+      fqn += `${protocol}/`; // technically protocol needs to be maintained for uniqueness
+      toProcess = protocolMatch[2];
+    }
+
+    const credentialMatch = toProcess.match(/(.*)@(.*):(.*)/);
+    if (credentialMatch) {
+      const username = credentialMatch[1];
+      const domain = credentialMatch[2];
+      fqn += `${username}/${domain}/`; // really make sure we are unique
+      toProcess = credentialMatch[3];
+    }
+
+    const [source, version] = item.split("@");
+    const nameParts = fqn.split("/");
+    const name = nameParts.pop();
+    const namespace = nameParts.pop();
+    if (!name) {
+      throw new Error(`Module name should be properly set in ${item}`);
+    }
+  
+    return {
+      name,
+      source,
+      version,
+      fqn,
+      namespace,
+    };
+  };
 }
 
 export class TerraformProviderConstraint
@@ -80,7 +141,7 @@ export class TerraformProviderConstraint
 
   constructor(item: TerraformDependencyConstraint | string) {
     if (typeof item === "string") {
-      const parsed = parseDependencyConstraint(item);
+      const parsed = this.parseDependencyConstraint(item);
       this.name = parsed.name;
       this.fqn = parsed.fqn;
       this.source = parsed.fqn;
@@ -94,6 +155,24 @@ export class TerraformProviderConstraint
       this.namespace = item.namespace;
     }
   }
+
+  private parseDependencyConstraint(item: string): TerraformDependencyConstraint {
+    const [fqn, version] = item.split("@");
+    const nameParts = fqn.split("/");
+    const name = nameParts.pop();
+    const namespace = nameParts.pop();
+    if (!name) {
+      throw new Error(`Provider name should be properly set in ${item}`);
+    }
+  
+    return {
+      name,
+      source: fqn,
+      version,
+      fqn,
+      namespace,
+    };
+  };
 }
 
 export interface Config {
