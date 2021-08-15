@@ -19,13 +19,13 @@ export { String } from "./functions/string";
 export { Type } from "./functions/type";
 
 export class Fn {
-  public static collection = Collection
-  public static crypto = Crypto
-  public static dateTime = DateTime
-  public static encoding = Encoding
-  public static filesystem = Filesystem
-  public static network = Network
-  public static numeric = Numeric
-  public static str = String
-  public static type = Type
+  public static collection = Collection;
+  public static crypto = Crypto;
+  public static dateTime = DateTime;
+  public static encoding = Encoding;
+  public static filesystem = Filesystem;
+  public static network = Network;
+  public static numeric = Numeric;
+  public static str = String;
+  public static type = Type;
 }

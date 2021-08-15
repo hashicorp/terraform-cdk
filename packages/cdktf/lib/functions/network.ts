@@ -12,16 +12,20 @@ export class Network {
    * @param {string} prefix
    * @param {number} hostnum
    */
-  public staticcidrhost = terraformFunction("cidrhost", [
-    stringValue,
-    numericValue,
-  ]);
+  public staticcidrhost(prefix: string, hostnum: number) {
+    return terraformFunction("cidrhost", [stringValue, numericValue])(
+      prefix,
+      hostnum
+    );
+  }
 
   /**
    * {@link https://www.terraform.io/docs/language/functions/cidrnetmask.html cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address.
    * @param {string} prefix
    */
-  public staticcidrnetmask = terraformFunction("cidrnetmask", [stringValue]);
+  public staticcidrnetmask(prefix: string) {
+    return terraformFunction("cidrnetmask", [stringValue])(prefix);
+  }
 
   /**
    * {@link https://www.terraform.io/docs/language/functions/cidrsubnet.html cidrsubnet} calculates a subnet address within given IP network address prefix.
@@ -29,17 +33,23 @@ export class Network {
    * @param {number} newbits
    * @param {number} netnum
    */
-  public staticcidrsubnet = terraformFunction("cidrsubnet", [
-    stringValue,
-    numericValue,
-    numericValue,
-  ]);
+  public staticcidrsubnet(prefix: string, newbits: number, netnum: number) {
+    return terraformFunction("cidrsubnet", [
+      stringValue,
+      numericValue,
+      numericValue,
+    ])(prefix, newbits, netnum);
+  }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/cidrsubnets.html cidrsubnets} calculates a subnet address within given IP network address prefix.
+   * {@link https://www.terraform.io/docs/language/functions/cidrsubnets.html cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.
    * @param {string} prefix
-   * @param {number} newbits
-   * @param {number} netnum
+   * @param {...number} newbits
    */
-  public staticcidrsubnets = terraformFunction("cidrsubnets", listOf(anyValue));
+  public staticcidrsubnets(prefix: string, ...newbits: number[]) {
+    return terraformFunction("cidrsubnets", listOf(anyValue))(
+      prefix,
+      ...newbits
+    );
+  }
 }

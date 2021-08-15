@@ -112,6 +112,6 @@ export class TerraformDataSource
   public interpolationForAttribute(terraformAttribute: string) {
     return ref(
       `data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}`
-    );
+    ) as any;
   }
 }

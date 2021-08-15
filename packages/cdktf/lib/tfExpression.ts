@@ -2,7 +2,7 @@ import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
 import { Tokenization } from "./tokens";
 
-class TFExpression extends Intrinsic {
+class TFExpression extends Intrinsic implements IResolvable {
   public isInnerTerraformExpression = false;
 }
 
@@ -18,7 +18,7 @@ class Reference extends TFExpression {
   }
 }
 export function ref(identifier: string) {
-  return new Reference(identifier) as any;
+  return new Reference(identifier) as IResolvable;
 }
 
 class FunctionCall extends TFExpression {
@@ -47,7 +47,7 @@ class FunctionCall extends TFExpression {
   }
 }
 export function call(name: string, args: Expression[]) {
-  return new FunctionCall(name, args) as any;
+  return new FunctionCall(name, args) as IResolvable;
 }
 
 export type Expression =

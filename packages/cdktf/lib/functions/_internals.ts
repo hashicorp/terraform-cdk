@@ -1,12 +1,13 @@
 import { Tokenization } from "../tokens/token";
-import { Expression, call } from "../tfExpression";
+import { call } from "../tfExpression";
+import { IResolvable } from "../tokens/resolvable";
 
 // We use branding here to ensure we internally only handle validated values
 // this allows us to catch usage errors before terraform does in some cases
 type TFValue = any & { __type: "tfvalue" };
 type TFValueValidator = (value: any) => TFValue;
 
-type ExecutableTfFunction = (...args: any[]) => Expression;
+type ExecutableTfFunction = (...args: any[]) => IResolvable;
 
 export function anyValue(value: any): any {
   return value;
