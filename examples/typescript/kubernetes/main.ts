@@ -26,7 +26,7 @@ class KubeStack extends TerraformStack {
       metadata: [
         {
           name: app,
-          namespace: exampleNamespace.metadata[0].name,
+          namespace: exampleNamespace.metadataInput[0].name,
           labels: {
             app,
           },
