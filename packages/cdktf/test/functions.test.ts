@@ -6,7 +6,7 @@ test("static values", () => {
   const stack = new TerraformStack(app, "test");
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.numeric.abs(-42),
+    value: Fn.abs(-42),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -20,7 +20,7 @@ test("dynamic values", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.numeric.abs(variable.value),
+    value: Fn.abs(variable.value),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -34,7 +34,7 @@ test("spreaded mixed values", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.numeric.max(10, variable.value, 200),
+    value: Fn.max(10, variable.value, 200),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -48,7 +48,7 @@ test("spreaded token value", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.numeric.max(variable.value),
+    value: Fn.max(variable.value),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -58,7 +58,7 @@ test("string values", () => {
   const stack = new TerraformStack(app, "test");
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.numeric.parseInt("-210", 10),
+    value: Fn.parseInt("-210", 10),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -72,7 +72,7 @@ test("mixed string spreads values", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.str.format(
+    value: Fn.format(
       "There are %d out of %d lights are on in %s",
       variable.value,
       4,
@@ -99,14 +99,10 @@ test("combined functions", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.type.try(
-      Fn.collection.lookup(
-        Fn.collection.element(list.value, index.value),
-        "internal",
-        "waaat"
-      ),
-      Fn.dateTime.timestamp(),
-      Fn.crypto.uuid()
+    value: Fn.try(
+      Fn.lookup(Fn.element(list.value, index.value), "internal", "waaat"),
+      Fn.timestamp(),
+      Fn.uuid()
     ),
   });
 
