@@ -109,12 +109,30 @@ export function resolve(obj: any, options: IResolveOptions): any {
   // string - potentially replace all stringified Tokens
   //
   if (typeof obj === "string") {
-    const str = TokenString.forString(obj);
-    if (str.test()) {
-      const fragments = str.split(tokenMap.lookupToken.bind(tokenMap));
-      return options.resolver.resolveString(fragments, makeContext()[0]);
+    let str: string = obj;
+
+    const tokenStr = TokenString.forString(str);
+    if (tokenStr.test()) {
+      const fragments = tokenStr.split(tokenMap.lookupToken.bind(tokenMap));
+      str = options.resolver.resolveString(fragments, makeContext()[0]);
     }
-    return obj;
+
+    // replace concatenated token numbers
+    const tokenNumberStr = TokenString.forNumbers(str);
+    if (tokenNumberStr.test()) {
+      const fragments = tokenNumberStr.split((id) => {
+        return TokenMap.instance().lookupNumberToken(parseFloat(id));
+      });
+
+      str = fragments
+        .mapTokens({
+          mapToken: (resolvable: IResolvable) =>
+            makeContext()[0].resolve(resolvable),
+        })
+        .join(new StringConcat());
+    }
+
+    return str;
   }
 
   //

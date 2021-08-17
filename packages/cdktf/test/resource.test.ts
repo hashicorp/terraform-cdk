@@ -1,6 +1,7 @@
 import { Testing, TerraformStack } from "../lib";
 import { TestProvider, TestResource, OtherTestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
+import { TerraformOutput } from "../lib/terraform-output";
 
 test("minimal configuration", () => {
   const app = Testing.app();
@@ -127,6 +128,21 @@ test("dependent resource", () => {
   new TestResource(stack, "resource", {
     name: "foo",
     dependsOn: [dataSource],
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("numeric attributes", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const foo = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "combined-string-number", {
+    value: `${foo.stringValue} / 23.324 / ${foo.numericValue} / 42`,
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();

@@ -19,6 +19,31 @@ exports[`minimal configuration 1`] = `
 }"
 `;
 
+exports[`token resolution 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"variable\\": {
+    \\"access-key\\": {
+      \\"type\\": \\"string\\",
+      \\"sensitive\\": true
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"\${var.access-key}\\"
+      }
+    ]
+  }
+}"
+`;
+
 exports[`with alias 1`] = `
 "{
   \\"//\\": {

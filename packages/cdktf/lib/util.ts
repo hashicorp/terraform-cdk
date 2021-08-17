@@ -1,3 +1,4 @@
+import { Tokenization } from "./tokens/token";
 /**
  * Merges `source` into `target`, overriding any existing values.
  * `undefined` will cause a value to be deleted.
@@ -62,6 +63,9 @@ export function snakeCase(str: string): string {
 }
 
 export function keysToSnakeCase(object: any): any {
+  if (Tokenization.isResolvable(object)) {
+    return object;
+  }
   if (Array.isArray(object)) {
     return object.map((e: any) => {
       return typeof e === "object" ? keysToSnakeCase(e) : e;
