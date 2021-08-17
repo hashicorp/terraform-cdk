@@ -39,9 +39,7 @@ exports[`python terraform functions test synth synth generates JSON 1`] = `
   },
   \\"output\\": {
     \\"computed\\": {
-      \\"value\\": {
-        \\"jsii_byref\\": \\"Object@10006\\"
-      }
+      \\"value\\": \\"\${cidrsubnet(element(merge(\\\\\\"\${module.CustomVpc.public_subnets_cidr_blocks}\\\\\\", \\\\\\"\${module.CustomVpc.public_subnets_ipv6_cidr_blocks}\\\\\\"), 3), 4, 2)}\\"
     }
   }
 }"
