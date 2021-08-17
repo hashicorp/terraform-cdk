@@ -9,7 +9,7 @@ import * as fs from "fs-extra";
     format: "cjs",
     minify: true,
     platform: "node",
-    external: ["@cdktf/hcl2json", "cdktf"],
+    external: ["@cdktf/hcl2json", "cdktf", "constructs"],
     tsconfig: "tsconfig.json",
   });
 
