@@ -28,7 +28,15 @@ if (semver.lt(process.version, "10.12.0")) {
 }
 
 yargs
-  .commandDir("cmds")
+  .command(require("./cmds/init"))
+  .command(require("./cmds/convert"))
+  .command(require("./cmds/deploy"))
+  .command(require("./cmds/destroy"))
+  .command(require("./cmds/diff"))
+  .command(require("./cmds/list"))
+  .command(require("./cmds/login"))
+  .command(require("./cmds/synth"))
+  .command(require("./cmds/watch"))
   .recommendCommands()
   .wrap(yargs.terminalWidth())
   .showHelpOnFail(false)
