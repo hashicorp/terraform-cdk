@@ -1,16 +1,16 @@
 const esbuild = require("esbuild");
+import * as fs from 'fs-extra';
 
 (async () => {
-  const output = await esbuild.build({
+  await esbuild.build({
     entryPoints: [
       "./bin/cdktf.ts"
     ],
     bundle: true,
-    outdir: './dist',
+    outdir: './bin-dist',
     format: 'cjs',
-    minify: false,
+    minify: true,
     platform: 'node',
-    metafile: true,
     external: [
       '@cdktf/hcl2json',
       'cdktf',
@@ -18,5 +18,5 @@ const esbuild = require("esbuild");
     tsconfig: 'tsconfig.json'
   });
 
-  console.log({output});
+  fs.copySync('./bin/cdktf', './bin-dist/cdktf');
 })();

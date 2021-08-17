@@ -3,6 +3,8 @@
 !*.d.ts
 !*.js
 
+bin
+lib
 test
 
 dist

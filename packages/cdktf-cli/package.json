@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "description": "CDK for Terraform CLI",
   "bin": {
-    "cdktf": "bin/cdktf"
+    "cdktf": "bin-dist/cdktf"
   },
   "scripts": {
     "build": "tsc",
+    "postbuild": "node build.js",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --ext .ts,.tsx",

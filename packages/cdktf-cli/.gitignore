@@ -1,3 +1,4 @@
 !tsconfig.json
 .yalc
 yalc.lock
+bin-dist
