@@ -4,7 +4,7 @@ import detectPort from "detect-port";
 import fetch from "cross-fetch";
 import execa from "execa";
 import { logger, getLogger } from "../logging";
-import * as path from 'path';
+import * as path from "path";
 
 const serverLogger = getLogger("cli-server");
 
