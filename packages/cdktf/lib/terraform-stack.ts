@@ -153,7 +153,8 @@ export class TerraformStack extends Construct {
         ? { overrides: { stack: Object.keys(this.rawOverrides) } }
         : {}),
     };
-    const elements = terraformElements(this, []);
+
+    const elements = terraformElements(this);
 
     const metadatas = elements.map((e) => resolve(this, e.toMetadata()));
     for (const meta of metadatas) {
