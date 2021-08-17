@@ -18,7 +18,7 @@ import { sendTelemetry } from "../../../lib/checkpoint";
 
 const chalkColour = new chalk.Instance();
 
-const templatesDir = path.join(__dirname, "..", "..", "..", "templates");
+const templatesDir = path.join(__dirname, "..", "templates");
 const availableTemplates = fs
   .readdirSync(templatesDir)
   .filter((x) => !x.startsWith("."));
