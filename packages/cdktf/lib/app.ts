@@ -23,6 +23,13 @@ export interface AppOptions {
    * @default - no additional context
    */
   readonly context?: { [key: string]: any };
+
+  /**
+   * Whether to skip the validation during synthesis of the app
+   *
+   * @default - false
+   */
+    readonly skipValidation?: boolean;
 }
 
 /**
@@ -40,6 +47,11 @@ export class App extends Construct {
   public readonly targetStackId: string | undefined;
 
   /**
+   * Whether to skip the validation during synthesis of the app
+   */
+   public readonly skipValidation?: boolean;
+
+  /**
    * Defines an app
    * @param options configuration options
    */
@@ -47,6 +59,7 @@ export class App extends Construct {
     super(undefined as any, "");
     this.outdir = process.env.CDKTF_OUTDIR ?? options.outdir ?? "cdktf.out";
     this.targetStackId = process.env.CDKTF_TARGET_STACK_ID;
+    this.skipValidation = options.skipValidation;
 
     this.loadContext(options.context);
 
@@ -68,8 +81,10 @@ export class App extends Construct {
 
     const manifest = new Manifest(version, this.outdir);
 
+    console.log(this.skipValidation)
     Node.of(this).synthesize({
       outdir: this.outdir,
+      skipValidation: this.skipValidation,
       sessionContext: {
         manifest,
       },

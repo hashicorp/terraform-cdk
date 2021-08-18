@@ -105,21 +105,16 @@ test("stack validation returns error when provider is missing", () => {
   ]);
 });
 
-test("stack synth throws error when provider is missing", () => {
+test("stack validation returns no error when provider is not set", () => {
   const app = Testing.stubVersion(new App({ stackTraces: false }));
   const stack = new TerraformStack(app, "MyStack");
 
   new MyResource(stack, "Resource1", {
     terraformResourceType: "aws_bucket",
-    terraformGeneratorMetadata: {
-      providerName: "test-provider",
-    },
   });
 
-  expect(() => Testing.fullSynth(stack)).toThrowErrorMatchingInlineSnapshot(`
-    "Validation failed with the following errors:
-      [MyStack] Found resources without a matching povider. Please make sure to add the following providers to your stack test-provider"
-  `);
+  const errors = Node.of(stack).validate();
+  expect(errors).toEqual([]);
 });
 
 class MyModule extends TerraformModule {
