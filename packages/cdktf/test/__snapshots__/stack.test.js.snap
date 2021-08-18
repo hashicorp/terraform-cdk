@@ -21,7 +21,7 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
     }
   },
   \\"provider\\": {
-    \\"test\\": [
+    \\"aws\\": [
       {
         \\"access_key\\": \\"foo\\"
       }
@@ -110,7 +110,7 @@ exports[`stack synthesis no flags 1`] = `
     }
   },
   \\"provider\\": {
-    \\"test\\": [
+    \\"aws\\": [
       {
         \\"access_key\\": \\"foo\\"
       }

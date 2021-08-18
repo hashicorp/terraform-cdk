@@ -3,7 +3,8 @@ import { Construct } from "constructs";
 
 export interface TestProviderConfig {
   alias?: string;
-  accessKey: string;
+  accessKey?: string;
+  type?: string;
 }
 
 export enum TestProviderMetadata {
@@ -11,11 +12,11 @@ export enum TestProviderMetadata {
 }
 
 export class TestProvider extends TerraformProvider {
-  public accessKey: string;
+  public accessKey?: string;
 
   constructor(scope: Construct, id: string, config: TestProviderConfig) {
     super(scope, id, {
-      terraformResourceType: TestProviderMetadata.TYPE,
+      terraformResourceType: config.type || TestProviderMetadata.TYPE,
     });
 
     this.alias = config.alias;
