@@ -1,4 +1,3 @@
-import { Node } from "constructs";
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
@@ -22,12 +21,12 @@ export class Testing {
   }
 
   public static stubVersion(app: App): App {
-    Node.of(app).setContext("cdktfVersion", "stubbed");
+    app.node.setContext("cdktfVersion", "stubbed");
     return app;
   }
 
   public static enableFutureFlags(app: App): App {
-    const node = Node.of(app);
+    const node = app.node;
     Object.entries(FUTURE_FLAGS).forEach(([key, value]) =>
       node.setContext(key, value)
     );
@@ -38,6 +37,12 @@ export class Testing {
    * Returns the Terraform synthesized JSON.
    */
   public static synth(stack: TerraformStack) {
+    const errors = stack.node.validate();
+    if (errors.length > 0) {
+      throw new Error(`${errors.length} Error found in stack:
+
+${stack}: ${errors.join("\n")}`);
+    }
     const tfConfig = stack.toTerraform();
 
     return JSON.stringify(tfConfig, null, 2);
@@ -48,11 +53,9 @@ export class Testing {
 
     const manifest = new Manifest("stubbed", outdir);
 
-    Node.of(stack).synthesize({
+    stack.synthesizer.synthesize({
       outdir,
-      sessionContext: {
-        manifest,
-      },
+      manifest,
     });
 
     manifest.writeToFile();

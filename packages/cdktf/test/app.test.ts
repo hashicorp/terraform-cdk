@@ -5,7 +5,7 @@ import {
   TerraformResource,
   Testing,
 } from "../lib";
-import { Node } from "constructs";
+
 import { version } from "../package.json";
 import fs = require("fs");
 import path = require("path");
@@ -17,7 +17,7 @@ test("context can be passed through CDKTF_CONTEXT", () => {
     key2: "val2",
   });
   const prog = new App();
-  const node = Node.of(prog);
+  const node = prog.node;
   expect(node.tryGetContext("key1")).toEqual("val1");
   expect(node.tryGetContext("key2")).toEqual("val2");
 });
@@ -33,14 +33,14 @@ test("context can be passed through CDKTF_CONTEXT", () => {
       key2: "val4",
     },
   });
-  const node = Node.of(prog);
+  const node = prog.node;
   expect(node.tryGetContext("key1")).toEqual("val1");
   expect(node.tryGetContext("key2")).toEqual("val2");
 });
 
 test("ckdtfVersion is accessible in context", () => {
   const prog = new App();
-  const node = Node.of(prog);
+  const node = prog.node;
   expect(node.tryGetContext("cdktfVersion")).toEqual(version);
 });
 

@@ -32,6 +32,7 @@ test("get stack manifest", () => {
 
   expect(stackManifest).toMatchInlineSnapshot(`
     Object {
+      "annotations": Array [],
       "constructPath": "this-is-a-stack",
       "name": "this-is-a-stack",
       "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
@@ -58,7 +59,8 @@ test("write manifest", () => {
           \\"name\\": \\"this-is-a-stack\\",
           \\"constructPath\\": \\"this-is-a-stack\\",
           \\"workingDirectory\\": \\"stacks/this-is-a-stack\\",
-          \\"synthesizedStackPath\\": \\"stacks/this-is-a-stack/cdk.tf.json\\"
+          \\"synthesizedStackPath\\": \\"stacks/this-is-a-stack/cdk.tf.json\\",
+          \\"annotations\\": []
         }
       }
     }"

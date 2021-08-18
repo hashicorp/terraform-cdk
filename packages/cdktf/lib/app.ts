@@ -1,7 +1,9 @@
-import { Construct, Node, ConstructMetadata } from "constructs";
+import { Construct } from "constructs";
 import * as fs from "fs";
 import { version } from "../package.json";
 import { Manifest } from "./manifest";
+import { ISynthesisSession } from "./synthesize";
+import { TerraformStack } from "./terraform-stack";
 
 export const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
 export interface AppOptions {
@@ -46,6 +48,8 @@ export class App extends Construct {
    */
   public readonly targetStackId: string | undefined;
 
+  public readonly manifest: Manifest;
+
   /**
    * Whether to skip the validation during synthesis of the app
    */
@@ -63,37 +67,43 @@ export class App extends Construct {
 
     this.loadContext(options.context);
 
-    const node = Node.of(this);
-    if (options.stackTraces === false) {
-      node.setContext(ConstructMetadata.DISABLE_STACK_TRACE_IN_METADATA, true);
-    }
+    const node = this.node;
+    // FIXME: this is done differently now (https://github.com/aws/aws-cdk-rfcs/blob/master/text/0192-remove-constructs-compat.md#05-metadata-traces-stack-traces-no-longer-attached-to-metadata-by-default)
+    // if (options.stackTraces === false) {
+    //   node.setContext(ConstructMetadata.DISABLE_STACK_TRACE_IN_METADATA, true);
+    // }
 
     node.setContext("cdktfVersion", version);
+
+    if (!fs.existsSync(this.outdir)) {
+      fs.mkdirSync(this.outdir);
+    }
+    this.manifest = new Manifest(version, this.outdir);
   }
 
   /**
    * Synthesizes all resources to the output directory
    */
   public synth(): void {
-    if (!fs.existsSync(this.outdir)) {
-      fs.mkdirSync(this.outdir);
-    }
-
-    const manifest = new Manifest(version, this.outdir);
-
-    Node.of(this).synthesize({
+    const session: ISynthesisSession = {
       outdir: this.outdir,
       skipValidation: this.skipValidation,
-      sessionContext: {
-        manifest,
-      },
-    });
+      manifest: this.manifest,
+    };
+    // TODO: add support for Aspects and apply them here (constructs v10 does not contain Aspect anymore, instead aws-cdk now contains Aspects)
 
-    manifest.writeToFile();
+    const stacks = this.node
+      .findAll()
+      .filter<TerraformStack>(
+        (c): c is TerraformStack => c instanceof TerraformStack
+      );
+    stacks.forEach((stack) => stack.synthesizer.synthesize(session));
+
+    this.manifest.writeToFile();
   }
 
   private loadContext(defaults: { [key: string]: string } = {}) {
-    const node = Node.of(this);
+    const node = this.node;
 
     // prime with defaults passed through constructor
     for (const [k, v] of Object.entries(defaults)) {

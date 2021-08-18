@@ -1,4 +1,3 @@
-import { Node } from "constructs";
 import * as path from "path";
 import * as fs from "fs";
 import { TerraformStack } from "./terraform-stack";
@@ -23,7 +22,7 @@ export class Manifest {
   }
 
   public forStack(stack: TerraformStack): StackManifest {
-    const node = Node.of(stack);
+    const node = stack.node;
     const manifest = {
       name: node.id,
       constructPath: node.path,

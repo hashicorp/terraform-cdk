@@ -1,4 +1,4 @@
-import { Construct, Node } from "constructs";
+import { Construct } from "constructs";
 import { TerraformStack } from "./terraform-stack";
 
 export interface TerraformElementMetadata {
@@ -19,13 +19,14 @@ export class TerraformElement extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.constructNode.addMetadata("stacktrace", "trace");
+    this.node.addMetadata("stacktrace", "trace");
     this.cdktfStack = TerraformStack.of(this);
   }
 
-  public get constructNode(): Node {
-    return Node.of(this);
-  }
+  // FIXME: we need an override or similar for properties named "node"
+  // public get constructNode(): Node {
+  //   return this.node;
+  // }
 
   public toTerraform(): any {
     return {};
@@ -80,11 +81,10 @@ export class TerraformElement extends Construct {
   protected get constructNodeMetadata(): { [key: string]: any } {
     return {
       metadata: {
-        path: this.constructNode.path,
+        path: this.node.path,
         uniqueId: this.friendlyUniqueId,
-        stackTrace: this.constructNode.metadata.find(
-          (e) => e.type === "stacktrace"
-        )?.trace,
+        stackTrace: this.node.metadata.find((e) => e.type === "stacktrace")
+          ?.trace,
       } as TerraformElementMetadata,
     };
   }
