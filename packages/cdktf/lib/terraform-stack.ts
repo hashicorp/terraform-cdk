@@ -13,7 +13,7 @@ import { makeUniqueId } from "./private/unique";
 import { Manifest } from "./manifest";
 
 const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
-import { ValidateProviderPresence } from './validations'
+import { ValidateProviderPresence } from "./validations";
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -30,7 +30,7 @@ export class TerraformStack extends Construct {
 
     this.cdktfVersion = Node.of(this).tryGetContext("cdktfVersion");
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
-    const node = Node.of(this)
+    const node = Node.of(this);
     node.addValidation(new ValidateProviderPresence(this));
   }
 

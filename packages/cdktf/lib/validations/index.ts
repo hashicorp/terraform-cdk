@@ -1,1 +1,1 @@
-export * from './validate-provider-presence'
+export * from "./validate-provider-presence";

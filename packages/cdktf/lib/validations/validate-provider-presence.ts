@@ -1,6 +1,6 @@
 import { IConstruct, IValidation, Node } from "constructs";
 import { TerraformProvider } from "../terraform-provider";
-import { TerraformResource } from '../terraform-resource';
+import { TerraformResource } from "../terraform-resource";
 import { TerraformDataSource } from "../terraform-data-source";
 
 export class ValidateProviderPresence implements IValidation {
@@ -10,9 +10,12 @@ export class ValidateProviderPresence implements IValidation {
   constructor(protected host: IConstruct) {}
 
   public check(node: IConstruct) {
-    if (node instanceof TerraformResource || node instanceof TerraformDataSource) {
+    if (
+      node instanceof TerraformResource ||
+      node instanceof TerraformDataSource
+    ) {
       if (node.terraformGeneratorMetadata) {
-        this.providerNames.add(node.terraformGeneratorMetadata.providerName)
+        this.providerNames.add(node.terraformGeneratorMetadata.providerName);
       }
     }
 
@@ -26,16 +29,22 @@ export class ValidateProviderPresence implements IValidation {
   }
 
   public validate() {
-    this.check(this.host)
+    this.check(this.host);
 
     const missingProviders = Array.from(this.providerNames).filter((name) => {
-      return !this.foundProviders.some((p) => p.terraformGeneratorMetadata?.providerName === name);
-    })
+      return !this.foundProviders.some(
+        (p) => p.terraformGeneratorMetadata?.providerName === name
+      );
+    });
 
     if (missingProviders.length === 0) {
-      return []
+      return [];
     } else {
-      return [`Found resources without a matching povider. Please make sure to add the following providers to your stack ${missingProviders.join(', ')}`]
+      return [
+        `Found resources without a matching povider. Please make sure to add the following providers to your stack ${missingProviders.join(
+          ", "
+        )}`,
+      ];
     }
   }
 }
