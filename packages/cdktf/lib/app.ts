@@ -29,7 +29,7 @@ export interface AppOptions {
    *
    * @default - false
    */
-    readonly skipValidation?: boolean;
+  readonly skipValidation?: boolean;
 }
 
 /**
@@ -49,7 +49,7 @@ export class App extends Construct {
   /**
    * Whether to skip the validation during synthesis of the app
    */
-   public readonly skipValidation?: boolean;
+  public readonly skipValidation?: boolean;
 
   /**
    * Defines an app
@@ -81,7 +81,6 @@ export class App extends Construct {
 
     const manifest = new Manifest(version, this.outdir);
 
-    console.log(this.skipValidation)
     Node.of(this).synthesize({
       outdir: this.outdir,
       skipValidation: this.skipValidation,

@@ -1,10 +1,15 @@
-import { CONTEXT_ENV, App, TerraformStack, TerraformResource, Testing } from "../lib";
+import {
+  CONTEXT_ENV,
+  App,
+  TerraformStack,
+  TerraformResource,
+  Testing,
+} from "../lib";
 import { Node } from "constructs";
 import { version } from "../package.json";
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
-
 
 test("context can be passed through CDKTF_CONTEXT", () => {
   process.env[CONTEXT_ENV] = JSON.stringify({
@@ -42,7 +47,9 @@ test("ckdtfVersion is accessible in context", () => {
 test("app synth does not throw error when validatons are disabled", () => {
   // creat tmp dir
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  const app = Testing.stubVersion(new App({ stackTraces: false, outdir, skipValidation: true }));
+  const app = Testing.stubVersion(
+    new App({ stackTraces: false, outdir, skipValidation: true })
+  );
   const stack = new TerraformStack(app, "MyStack");
 
   new MyResource(stack, "Resource1", {
@@ -74,7 +81,4 @@ test("app synth throws error when provider is missing", () => {
   `);
 });
 
-
-class MyResource extends TerraformResource {
-}
-
+class MyResource extends TerraformResource {}

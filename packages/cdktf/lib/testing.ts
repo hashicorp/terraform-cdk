@@ -46,7 +46,7 @@ export class Testing {
   public static fullSynth(stack: TerraformStack): string {
     const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
 
-    const manifest = new Manifest('stubbed', outdir);
+    const manifest = new Manifest("stubbed", outdir);
 
     Node.of(stack).synthesize({
       outdir,
@@ -57,7 +57,7 @@ export class Testing {
 
     manifest.writeToFile();
 
-    return outdir
+    return outdir;
   }
 
   /* istanbul ignore next */
