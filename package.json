@@ -18,7 +18,7 @@
     "examples:integration:python": "test/run-against-dist tools/build-examples.sh python",
     "examples:integration:typescript": "test/run-against-dist tools/build-examples-sequential.sh typescript",
     "examples:integration:go": "test/run-against-dist tools/build-examples-sequential.sh go",
-    "pretest": "prettier --check .",
+    "lint": "prettier --check .",
     "test": "lerna run --scope cdktf* --scope @cdktf* test",
     "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope cdktf* watch-preserve-output",
     "link-packages": "lerna exec --scope cdktf* --scope @cdktf* yarn link",
