@@ -18,6 +18,7 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 		Zone:    jsii.String("us-west1"),
 		Project: jsii.String("dschmidt-cdk-test"),
 	})
+	local.NewLocalProvider(stack, jsii.String("local"), &local.LocalProviderConfig{})
 
 	sa := google.NewServiceAccount(stack, jsii.String("sa"), &google.ServiceAccountConfig{
 		AccountId:   jsii.String("cluster-admin"),

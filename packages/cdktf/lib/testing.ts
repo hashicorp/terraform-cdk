@@ -37,7 +37,15 @@ export class Testing {
    * Returns the Terraform synthesized JSON.
    */
   public static synth(stack: TerraformStack) {
-    return JSON.stringify(stack.toTerraform(), null, 2);
+    const errors = Node.of(stack).validate();
+    if (errors.length > 0) {
+      throw new Error(`${errors.length} Error found in stack:
+
+${errors.map((err) => `${err.source}: ${err.message}`).join("\n")}`);
+    }
+    const tfConfig = stack.toTerraform();
+
+    return JSON.stringify(tfConfig, null, 2);
   }
 
   /* istanbul ignore next */

@@ -5,6 +5,7 @@ import {
   VariableType,
 } from "../lib";
 import { TestResource } from "./helper";
+import { TestProvider } from "./helper/provider";
 
 test("string type", () => {
   const app = Testing.app();
@@ -121,6 +122,7 @@ test("reference", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
+  new TestProvider(stack, "provider", {});
   const variable = new TerraformVariable(stack, "test-variable", {
     type: "string",
   });
