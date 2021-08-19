@@ -99,7 +99,7 @@ test("stack validation returns error when provider is missing", () => {
 
   expect(errors).toEqual([
     expect.objectContaining({
-      message: `Found resources without a matching povider. Please make sure to add the following providers to your stack test-provider`,
+      message: `Found resources without a matching povider. Please make sure to add the following providers to your stack: test-provider`,
       source: stack,
     }),
   ]);
