@@ -23,11 +23,6 @@ export class TerraformElement extends Construct {
     this.cdktfStack = TerraformStack.of(this);
   }
 
-  // FIXME: we need an override or similar for properties named "node"
-  // public get constructNode(): Node {
-  //   return this.node;
-  // }
-
   public toTerraform(): any {
     return {};
   }

@@ -25,6 +25,7 @@ export const terraformCheck = async (): Promise<void> => {
       constructPath: "",
       content: "",
       synthesizedStackPath: "",
+      annotations: [],
     };
 
     const terraform = new TerraformCli(fakeStack);

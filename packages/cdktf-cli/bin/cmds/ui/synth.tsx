@@ -20,6 +20,7 @@ interface SynthConfig extends CommonSynthConfig {
 const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
   const { currentStack, stacks } = useTerraformState();
 
+  // FIXME: print stack annotations and fail if one is of level ERROR
   return (
     <>
       {jsonOutput ? (
@@ -27,10 +28,13 @@ const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
           <Text>{currentStack.content}</Text>
         </Box>
       ) : (
-        <Text>
-          Generated Terraform code for the stacks:{" "}
-          {stacks?.map((s) => s.name).join(", ")}
-        </Text>
+        <>
+          <Text>
+            Generated Terraform code for the stacks:{" "}
+            {stacks?.map((s) => s.name).join(", ")}
+          </Text>
+          <Text>{JSON.stringify(stacks)}</Text>
+        </>
       )}
     </>
   );

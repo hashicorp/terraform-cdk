@@ -1,7 +1,13 @@
-import { Construct } from "constructs";
+import { Construct, IConstruct, MetadataEntry } from "constructs";
 import * as fs from "fs";
 import { version } from "../package.json";
-import { Manifest } from "./manifest";
+import {
+  AnnotationMetadataEntryType,
+  Annotations,
+  DISABLE_STACK_TRACE_IN_METADATA,
+} from "./annotations";
+import { Aspects, IAspect } from "./aspect";
+import { Manifest, StackAnnotation } from "./manifest";
 import { ISynthesisSession } from "./synthesize";
 import { TerraformStack } from "./terraform-stack";
 
@@ -68,10 +74,9 @@ export class App extends Construct {
     this.loadContext(options.context);
 
     const node = this.node;
-    // FIXME: this is done differently now (https://github.com/aws/aws-cdk-rfcs/blob/master/text/0192-remove-constructs-compat.md#05-metadata-traces-stack-traces-no-longer-attached-to-metadata-by-default)
-    // if (options.stackTraces === false) {
-    //   node.setContext(ConstructMetadata.DISABLE_STACK_TRACE_IN_METADATA, true);
-    // }
+    if (options.stackTraces === false) {
+      node.setContext(DISABLE_STACK_TRACE_IN_METADATA, true);
+    }
 
     node.setContext("cdktfVersion", version);
 
@@ -90,13 +95,36 @@ export class App extends Construct {
       skipValidation: this.skipValidation,
       manifest: this.manifest,
     };
-    // TODO: add support for Aspects and apply them here (constructs v10 does not contain Aspect anymore, instead aws-cdk now contains Aspects)
+
+    invokeAspects(this);
 
     const stacks = this.node
       .findAll()
       .filter<TerraformStack>(
         (c): c is TerraformStack => c instanceof TerraformStack
       );
+
+    stacks.forEach((stack) => {
+      const annotations = stack.node
+        .findAll()
+        .map((node) => ({
+          node,
+          metadatas: node.node.metadata.filter(isAnnotationMetadata),
+        }))
+        .map<StackAnnotation[]>(({ node, metadatas }) =>
+          metadatas.map((metadata) => ({
+            constructPath: node.node.path,
+            level: metadata.type as AnnotationMetadataEntryType,
+            message: metadata.data,
+            stacktrace: metadata.trace,
+          }))
+        )
+        .reduce((list, metadatas) => [...list, ...metadatas], []); // Array.flat()
+
+      // it is readonly but this is the place where we are allowed to write to it
+      (this.manifest.forStack(stack).annotations as any) = annotations;
+    });
+
     stacks.forEach((stack) => stack.synthesizer.synthesize(session));
 
     this.manifest.writeToFile();
@@ -118,4 +146,60 @@ export class App extends Construct {
       node.setContext(k, v);
     }
   }
+}
+
+/**
+ * Invoke aspects on the given construct tree.
+ *
+ * originally from https://github.com/aws/aws-cdk/blob/dcae3eead0dbf9acb1ed80ba95bb104c64cb1bd7/packages/@aws-cdk/core/lib/private/synthesis.ts#L99-L137
+ */
+function invokeAspects(root: IConstruct) {
+  const invokedByPath: { [nodePath: string]: IAspect[] } = {};
+
+  let nestedAspectWarning = false;
+  recurse(root, []);
+
+  function recurse(construct: IConstruct, inheritedAspects: IAspect[]) {
+    const node = construct.node;
+    const aspects = Aspects.of(construct);
+    const allAspectsHere = [...(inheritedAspects ?? []), ...aspects.all];
+    const nodeAspectsCount = aspects.all.length;
+    for (const aspect of allAspectsHere) {
+      let invoked = invokedByPath[node.path];
+      if (!invoked) {
+        invoked = invokedByPath[node.path] = [];
+      }
+
+      if (invoked.includes(aspect)) {
+        continue;
+      }
+
+      aspect.visit(construct);
+
+      // if an aspect was added to the node while invoking another aspect it will not be invoked, emit a warning
+      // the `nestedAspectWarning` flag is used to prevent the warning from being emitted for every child
+      if (!nestedAspectWarning && nodeAspectsCount !== aspects.all.length) {
+        Annotations.of(construct).addWarning(
+          "We detected an Aspect was added via another Aspect, and will not be applied"
+        );
+        nestedAspectWarning = true;
+      }
+
+      // mark as invoked for this node
+      invoked.push(aspect);
+    }
+
+    for (const child of construct.node.children) {
+      recurse(child, allAspectsHere);
+    }
+  }
+}
+
+const annotationMetadataEntryTypes = [
+  AnnotationMetadataEntryType.INFO,
+  AnnotationMetadataEntryType.WARN,
+  AnnotationMetadataEntryType.ERROR,
+] as string[];
+function isAnnotationMetadata(metadata: MetadataEntry): boolean {
+  return annotationMetadataEntryTypes.includes(metadata.type);
 }

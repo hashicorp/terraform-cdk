@@ -300,6 +300,7 @@ export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig>
       constructPath: "",
       content: "",
       name: "",
+      annotations: [],
       synthesizedStackPath: "",
       workingDirectory: "",
     };

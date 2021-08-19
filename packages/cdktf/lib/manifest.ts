@@ -1,12 +1,20 @@
 import * as path from "path";
 import * as fs from "fs";
 import { TerraformStack } from "./terraform-stack";
+import { AnnotationMetadataEntryType } from "./annotations";
 
+export interface StackAnnotation {
+  readonly constructPath: string;
+  readonly level: AnnotationMetadataEntryType;
+  readonly message: string;
+  readonly stacktrace?: string[];
+}
 export interface StackManifest {
   readonly name: string;
   readonly constructPath: string;
   readonly synthesizedStackPath: string;
   readonly workingDirectory: string;
+  readonly annotations: StackAnnotation[];
 }
 
 export class Manifest {
@@ -14,7 +22,7 @@ export class Manifest {
   public static readonly stacksFolder = "stacks";
   public static readonly stackFileName = "cdk.tf.json";
 
-  public readonly stacks: StackManifest[] = [];
+  public readonly stacks: Record<StackManifest["name"], StackManifest> = {};
 
   constructor(public readonly version: string, public readonly outdir: string) {
     const stacksPath = path.join(this.outdir, Manifest.stacksFolder);
@@ -23,8 +31,14 @@ export class Manifest {
 
   public forStack(stack: TerraformStack): StackManifest {
     const node = stack.node;
-    const manifest = {
-      name: node.id,
+    const name = node.id;
+
+    if (this.stacks[name]) {
+      return this.stacks[name];
+    }
+
+    const manifest: StackManifest = {
+      name,
       constructPath: node.path,
       workingDirectory: path.join(Manifest.stacksFolder, node.id),
       synthesizedStackPath: path.join(
@@ -32,8 +46,9 @@ export class Manifest {
         node.id,
         Manifest.stackFileName
       ),
+      annotations: [], // will be replaced later when processed in App
     };
-    this.stacks.push(manifest);
+    this.stacks[name] = manifest;
 
     return manifest;
   }
@@ -41,13 +56,7 @@ export class Manifest {
   public buildManifest(): any {
     return {
       version: this.version,
-      stacks: this.stacks.reduce(
-        (newObject: Record<string, StackManifest>, stack: StackManifest) => {
-          newObject[stack.name] = stack;
-          return newObject;
-        },
-        {}
-      ),
+      stacks: this.stacks,
     };
   }
 
