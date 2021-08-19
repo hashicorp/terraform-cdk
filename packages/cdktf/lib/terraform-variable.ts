@@ -3,6 +3,7 @@ import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { Token } from "./tokens";
 import { ref } from "./tfExpression";
+import { IResolvable } from "./tokens/resolvable";
 
 export abstract class VariableType {
   public static readonly STRING = "string";
@@ -116,7 +117,7 @@ export class TerraformVariable extends TerraformElement {
     return Token.asAny(this.interpolation());
   }
 
-  private interpolation(): any {
+  private interpolation(): IResolvable {
     return ref(`var.${this.friendlyUniqueId}`);
   }
 

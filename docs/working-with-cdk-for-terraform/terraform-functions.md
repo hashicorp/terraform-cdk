@@ -8,11 +8,7 @@ import { Fn } from "cdktf";
 new vpc() = new VPC(this, "vpc", {});
 new LoadBalancer(this, "lb", {
   name: "main-lb",
-  subnet: Fn.Network.cidrsubnet(
-    Fn.Collection.element(vpc.listOfSubnets, 0),
-    4,
-    2
-  ),
+  subnet: Fn.cidrsubnet(Fn.element(vpc.listOfSubnets, 0), 4, 2),
 });
 ```
 

@@ -73,6 +73,14 @@ function asList(value: IResolvable) {
   return TokenMap.instance().registerList(value);
 }
 
+function asBoolean(value: IResolvable) {
+  return asAny(value) as boolean;
+}
+
+function asAny(value: IResolvable) {
+  return asString(value) as any;
+}
+
 function terraformFunction(
   name: string,
   argValidators: TFValueValidator | TFValueValidator[]
@@ -98,7 +106,7 @@ export class Fn {
    * @param {Array} values
    */
   public static alltrue(values: any[]) {
-    return terraformFunction("alltrue", [listOf(anyValue)])(values);
+    return asBoolean(terraformFunction("alltrue", [listOf(anyValue)])(values));
   }
 
   /**
@@ -106,7 +114,7 @@ export class Fn {
    * @param {Array} value
    */
   public static anytrue(value: any[]) {
-    return terraformFunction("anytrue", [listOf(anyValue)])(value);
+    return asBoolean(terraformFunction("anytrue", [listOf(anyValue)])(value));
   }
 
   /**
@@ -135,15 +143,17 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/coalescelist.html coalescelist} takes any number of list arguments and returns the first one that isn't empty.
    * @param Array} value - Arguments are passed in an array
    */
-  public static coalescelist(value: any[]) {
-    return terraformFunction("coalescelist", listOf(anyValue))(...value);
+  public static coalescelist(value: any[][]) {
+    return asList(
+      terraformFunction("coalescelist", listOf(anyValue))(...value)
+    );
   }
 
   /**
    * {@link https://www.terraform.io/docs/language/functions/compact.html compact} takes a list of strings and returns a new list with any empty string elements removed.
    * @param {Array} value
    */
-  public static compact(value: any[]) {
+  public static compact(value: string[]) {
     return asList(terraformFunction("compact", [listOf(anyValue)])(value));
   }
 
@@ -151,7 +161,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/concat.html concat} takes two or more lists and combines them into a single list.
    * @param {Array} value
    */
-  public static concat(value: any[]) {
+  public static concat(value: any[][]) {
     return asList(terraformFunction("concat", listOf(anyValue))(...value));
   }
 
@@ -160,10 +170,9 @@ export class Fn {
    * @param {Array} list
    * @param {any} value
    */
-  public static contains(list: any[] | string, value: any) {
-    return terraformFunction("contains", [listOf(anyValue), anyValue])(
-      list,
-      value
+  public static contains(list: any[], value: any) {
+    return asBoolean(
+      terraformFunction("contains", [listOf(anyValue), anyValue])(list, value)
     );
   }
 
@@ -171,7 +180,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/distinct.html distinct} takes a list and returns a new list with any duplicate elements removed.
    * @param {Array} list
    */
-  public static distinct(list: any[] | string | IResolvable) {
+  public static distinct(list: any[]) {
     return asList(terraformFunction("distinct", [listOf(anyValue)])(list));
   }
 
@@ -184,9 +193,11 @@ export class Fn {
     list: any[] | string | IResolvable,
     index: number | IResolvable
   ) {
-    return terraformFunction("element", [listOf(anyValue), numericValue])(
-      list,
-      index
+    return asAny(
+      terraformFunction("element", [listOf(anyValue), numericValue])(
+        list,
+        index
+      )
     );
   }
 
@@ -204,9 +215,8 @@ export class Fn {
    * @param {any} value
    */
   public static index(list: any[] | string, value: any) {
-    return terraformFunction("index", [listOf(anyValue), anyValue])(
-      list,
-      value
+    return asNumber(
+      terraformFunction("index", [listOf(anyValue), anyValue])(list, value)
     );
   }
 
@@ -233,10 +243,12 @@ export class Fn {
    * @param {any} defaultValue
    */
   public static lookup(value: any, key: any, defaultValue: any) {
-    return terraformFunction("lookup", [anyValue, anyValue, anyValue])(
-      value,
-      key,
-      defaultValue
+    return asAny(
+      terraformFunction("lookup", [anyValue, anyValue, anyValue])(
+        value,
+        key,
+        defaultValue
+      )
     );
   }
 
@@ -273,7 +285,7 @@ export class Fn {
    * @param {Array} list
    */
   public static one(list: any[] | string) {
-    return terraformFunction("one", [listOf(anyValue)])(list);
+    return asAny(terraformFunction("one", [listOf(anyValue)])(list));
   }
 
   /**
@@ -384,7 +396,7 @@ export class Fn {
    * @param {Object} value
    */
   public static transpose(value: any) {
-    return terraformFunction("transpose", [mapValue])(value);
+    return asAny(terraformFunction("transpose", [mapValue])(value));
   }
 
   /**
@@ -401,7 +413,7 @@ export class Fn {
    * @param {Array} valueslist
    */
   public static zipmap(keyslist: any[], valueslist: any[]) {
-    return terraformFunction("zipmap", [mapValue])(keyslist, valueslist);
+    return asAny(terraformFunction("zipmap", [mapValue])(keyslist, valueslist));
   }
 
   /**
@@ -632,7 +644,7 @@ export class Fn {
    * @param {string} value
    */
   public static jsondecode(value: string | IResolvable) {
-    return terraformFunction("jsondecode", [stringValue])(value);
+    return asAny(terraformFunction("jsondecode", [stringValue])(value));
   }
 
   /**
@@ -690,7 +702,7 @@ export class Fn {
    * @param {string} value
    */
   public static yamldecode(value: string | IResolvable) {
-    return terraformFunction("yamldecode", [stringValue])(value);
+    return asAny(terraformFunction("yamldecode", [stringValue])(value));
   }
 
   /**
@@ -746,7 +758,7 @@ export class Fn {
    * @param {string} value
    */
   public static fileexists(value: string | IResolvable) {
-    return terraformFunction("fileexists", [stringValue])(value);
+    return asBoolean(terraformFunction("fileexists", [stringValue])(value));
   }
 
   /**
@@ -1144,7 +1156,7 @@ export class Fn {
    * @param {any} expression
    */
   public static can(expression: any) {
-    return terraformFunction("can", [anyValue])(expression);
+    return asBoolean(terraformFunction("can", [anyValue])(expression));
   }
 
   /**
@@ -1152,7 +1164,7 @@ export class Fn {
    * @param {any} expression
    */
   public static nonsensitive(expression: any) {
-    return terraformFunction("nonsensitive", [anyValue])(expression);
+    return asAny(terraformFunction("nonsensitive", [anyValue])(expression));
   }
 
   /**
@@ -1160,7 +1172,7 @@ export class Fn {
    * @param {any} expression
    */
   public static sensitive(expression: any) {
-    return terraformFunction("sensitive", [anyValue])(expression);
+    return asAny(terraformFunction("sensitive", [anyValue])(expression));
   }
 
   /**
@@ -1168,7 +1180,7 @@ export class Fn {
    * @param {any} expression
    */
   public static tobool(expression: any) {
-    return terraformFunction("tobool", [anyValue])(expression);
+    return asBoolean(terraformFunction("tobool", [anyValue])(expression));
   }
 
   /**
@@ -1184,7 +1196,7 @@ export class Fn {
    * @param {any} expression
    */
   public static tomap(expression: any) {
-    return terraformFunction("tomap", [anyValue])(expression);
+    return asAny(terraformFunction("tomap", [anyValue])(expression));
   }
 
   /**
@@ -1200,7 +1212,7 @@ export class Fn {
    * @param {any} expression
    */
   public static toset(expression: any) {
-    return terraformFunction("toset", [anyValue])(expression);
+    return asAny(terraformFunction("toset", [anyValue])(expression));
   }
 
   /**
@@ -1216,6 +1228,6 @@ export class Fn {
    * @param {Array} expression
    */
   public static try(expression: any[]) {
-    return terraformFunction("try", listOf(anyValue))(...expression);
+    return asAny(terraformFunction("try", listOf(anyValue))(...expression));
   }
 }

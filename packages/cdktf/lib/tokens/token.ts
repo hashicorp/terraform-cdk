@@ -101,7 +101,8 @@ export class Tokenization {
       return [x];
     }
     if (typeof x === "string") {
-      return Tokenization.reverseString(x).tokens;
+      const reversedString = Tokenization.reverseString(x);
+      return [...reversedString.tokens, ...reversedString.intrinsic];
     }
     if (Array.isArray(x)) {
       const reversedList = Tokenization.reverseList(x);

@@ -321,7 +321,7 @@ test("complex example", () => {
   `);
 });
 
-test.only("interpolation within string ", () => {
+test("interpolation within string ", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
@@ -350,6 +350,45 @@ test.only("interpolation within string ", () => {
       \\"output\\": {
         \\"test-output\\": {
           \\"value\\": \\"\${cidrsubnet(\\\\\\"172.16.0.0/\${var.test-var}\\\\\\", 2, 3)}\\"
+        }
+      }
+    }"
+  `);
+});
+
+test("functions with object inputs", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const variable = new TerraformVariable(stack, "test-var", {
+    type: `number`,
+  });
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.lookup(
+      { var: variable.value, stat: 4, internal: true, yes: "no" },
+      "internal",
+      "waaat"
+    ),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"version\\": \\"stubbed\\",
+          \\"stackName\\": \\"test\\",
+          \\"backend\\": \\"local\\"
+        }
+      },
+      \\"variable\\": {
+        \\"test-var\\": {
+          \\"type\\": \\"number\\"
+        }
+      },
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${lookup({var = var.test-var, stat = 4, internal = true, yes = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
         }
       }
     }"
