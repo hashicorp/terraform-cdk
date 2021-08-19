@@ -45,7 +45,6 @@ test("ckdtfVersion is accessible in context", () => {
 });
 
 test("app synth does not throw error when validatons are disabled", () => {
-  // creat tmp dir
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(
     new App({ stackTraces: false, outdir, skipValidation: true })
@@ -63,7 +62,6 @@ test("app synth does not throw error when validatons are disabled", () => {
 });
 
 test("app synth throws error when provider is missing", () => {
-  // creat tmp dir
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
   const stack = new TerraformStack(app, "MyStack");
@@ -77,7 +75,7 @@ test("app synth throws error when provider is missing", () => {
 
   expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
     "Validation failed with the following errors:
-      [MyStack] Found resources without a matching povider. Please make sure to add the following providers to your stack test-provider"
+      [MyStack] Found resources without a matching povider. Please make sure to add the following providers to your stack: test-provider"
   `);
 });
 
