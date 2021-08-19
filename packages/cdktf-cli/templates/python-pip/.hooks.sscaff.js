@@ -32,7 +32,11 @@ exports.post = options => {
   }
 
   writeFileSync('requirements.txt', pypi_cdktf, 'utf-8');
-  execSync('pip3 install --user -r requirements.txt', { stdio: 'inherit' });
+  let installArgs = '';
+  if (!process.env.VIRTUAL_ENV) {
+    installArgs += '--user'
+  }
+  execSync(`pip3 install ${installArgs} -r requirements.txt`, { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
   console.log(readFileSync('./help', 'utf-8'));
