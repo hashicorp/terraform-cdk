@@ -94,7 +94,7 @@ export class Token {
  */
 export class Tokenization {
   /**
-   * Reverse any value into a Resolvable, if possible
+   * Reverse any value into Resolvables, if possible
    */
   public static reverse(x: any): IResolvable[] {
     if (Tokenization.isResolvable(x)) {
