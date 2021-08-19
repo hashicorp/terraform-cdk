@@ -103,8 +103,7 @@
     "camelcase": "^6.2.0"
   },
   "bundledDependencies": [
-    "archiver",
-    "camelcase"
+    "archiver"
   ],
   "stability": "experimental",
   "peerDependencies": {
