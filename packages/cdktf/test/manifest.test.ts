@@ -1,4 +1,4 @@
-import { TerraformStack, Manifest, App, Annotations } from "../lib";
+import { TerraformStack, Manifest, App, Annotations, Testing } from "../lib";
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
@@ -70,7 +70,7 @@ test("write manifest", () => {
 test("manifest contains annotations after synth", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
 
-  const app = new App({ outdir, stackTraces: false });
+  const app = Testing.stubVersion(new App({ outdir, stackTraces: false }));
   const stack = new TerraformStack(app, "this-is-a-stack");
   Annotations.of(stack).addInfo("an info");
   Annotations.of(stack).addWarning("a warning");
@@ -81,7 +81,7 @@ test("manifest contains annotations after synth", () => {
   expect(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString())
     .toMatchInlineSnapshot(`
     "{
-      \\"version\\": \\"0.0.0\\",
+      \\"version\\": \\"stubbed\\",
       \\"stacks\\": {
         \\"this-is-a-stack\\": {
           \\"name\\": \\"this-is-a-stack\\",

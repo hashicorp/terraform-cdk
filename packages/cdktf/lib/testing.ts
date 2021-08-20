@@ -22,6 +22,7 @@ export class Testing {
 
   public static stubVersion(app: App): App {
     app.node.setContext("cdktfVersion", "stubbed");
+    (app.manifest.version as string) = "stubbed";
     return app;
   }
 
