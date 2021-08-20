@@ -2,8 +2,6 @@ import { Construct, IConstruct, ISynthesisSession, Node } from "constructs";
 import { resolve } from "./_tokens";
 import * as fs from "fs";
 import * as path from "path";
-import camelcase = require("camelcase"); // ES module interop
-
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { TerraformProvider } from "./terraform-provider";
@@ -15,9 +13,7 @@ import { makeUniqueId } from "./private/unique";
 import { Manifest } from "./manifest";
 
 const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
-
-const pascalCase = (str: string) =>
-  camelcase(str.replace(/[-/]/g, "_"), { pascalCase: true });
+import { ValidateProviderPresence } from "./validations";
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -33,41 +29,9 @@ export class TerraformStack extends Construct {
     super(scope, id);
 
     this.cdktfVersion = Node.of(this).tryGetContext("cdktfVersion");
-    Node.of(this).addValidation({
-      validate: () => {
-        const errors = [];
-        const tfConfig = this.toTerraform();
-
-        // validate provider has been initialized
-        const requiredProviders = [
-          ...new Set(
-            Object.keys({ ...tfConfig?.resource, ...tfConfig?.data }).map(
-              (providerName) => providerName.split("_")[0]
-            )
-          ),
-        ];
-
-        const providers = Object.keys(tfConfig?.provider || {});
-
-        const uninitializedProviders = requiredProviders.filter(
-          (reqProvider) =>
-            !providers.includes(reqProvider) && reqProvider !== "terraform" // e.g. terraform_remote_state
-        );
-
-        if (uninitializedProviders.length > 0) {
-          errors.push(
-            `Could not find provider initialization for provider ${uninitializedProviders.join(
-              " & "
-            )}. Please initialize the provider(s) as ${uninitializedProviders
-              .map((p) => pascalCase(p + "Provider"))
-              .join(", ")}`
-          );
-        }
-        return errors;
-      },
-    });
-
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
+    const node = Node.of(this);
+    node.addValidation(new ValidateProviderPresence(this));
   }
 
   public static isStack(x: any): x is TerraformStack {
@@ -210,13 +174,6 @@ export class TerraformStack extends Construct {
   }
 
   protected onSynthesize(session: ISynthesisSession) {
-    const errors = Node.of(this).validate();
-    if (errors.length > 0) {
-      throw new Error(`${errors.length} Error found in stack:
-
-${errors.map((err) => `${err.source}: ${err.message}`).join("\n")}`);
-    }
-
     const manifest = session.manifest as Manifest;
     const stackManifest = manifest.forStack(this);
 

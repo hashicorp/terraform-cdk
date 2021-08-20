@@ -97,6 +97,12 @@ Choose a language:
 - [google cloud kubernetes engine + kubernetes](./examples/go/google)
 - [ucloud](./examples/go/ucloud)
 
+## Community Templates (for `cdktf init`)
+
+> The following [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) are maintained by the community and can be used to setup a CDK for Terraform project instead of the built-in ones.
+
+- [python-poetry](https://github.com/johnfraney/cdktf-remote-template-python-poetry) (by [@johnfraney](https://github.com/johnfraney))
+
 ## Documentation
 
 - Install and run a quick start tutorial at [HashiCorp Learn](https://learn.hashicorp.com/terraform/cdktf/cdktf-install)
