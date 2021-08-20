@@ -25,6 +25,7 @@ test("Diff", async () => {
     name: "testing",
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
+    annotations: [],
   };
 
   const initialState: DeployState = {
@@ -60,6 +61,7 @@ test("Diff no Changes", async () => {
     name: "testing",
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
+    annotations: [],
   };
 
   const initialState: DeployState = {
@@ -93,6 +95,7 @@ test("Diff with Cloud URL", async () => {
     name: "testing",
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
+    annotations: [],
   };
 
   const initialState: DeployState = {
@@ -139,6 +142,7 @@ test("Diff Multiple Resources", async () => {
     name: "testing",
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
+    annotations: [],
   };
 
   const initialState: DeployState = {
