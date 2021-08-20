@@ -104,6 +104,7 @@ export class App extends Construct {
         (c): c is TerraformStack => c instanceof TerraformStack
       );
 
+    // collect Annotations into Manifest
     stacks.forEach((stack) => {
       const annotations = stack.node
         .findAll()

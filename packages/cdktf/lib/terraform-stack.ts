@@ -1,7 +1,5 @@
 import { Construct, IConstruct, Node } from "constructs";
 import { resolve } from "./_tokens";
-import * as fs from "fs";
-import * as path from "path";
 
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";

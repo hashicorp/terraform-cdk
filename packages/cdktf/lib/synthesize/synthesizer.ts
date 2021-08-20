@@ -7,11 +7,16 @@ export class StackSynthesizer implements IStackSynthesizer {
   constructor(protected stack: TerraformStack) {}
 
   synthesize(session: ISynthesisSession) {
-    const errors = this.stack.node.validate();
-    if (errors.length > 0) {
-      throw new Error(`${errors.length} Error found in stack:
-
-${this.stack}: ${errors.join("\n")}`);
+    if (!session.skipValidation) {
+      const errors = this.stack.node.validate();
+      if (errors.length > 0) {
+        const errorList = errors
+          .map((e) => `[${this.stack.node.path}] ${e}`)
+          .join("\n  ");
+        throw new Error(
+          `Validation failed with the following errors:\n  ${errorList}`
+        );
+      }
     }
 
     const manifest = session.manifest;
