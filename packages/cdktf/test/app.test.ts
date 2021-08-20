@@ -10,6 +10,8 @@ import { version } from "../package.json";
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
+import { Aspects } from "../lib/aspect";
+import { IConstruct } from "constructs";
 
 test("context can be passed through CDKTF_CONTEXT", () => {
   process.env[CONTEXT_ENV] = JSON.stringify({
@@ -76,6 +78,56 @@ test("app synth throws error when provider is missing", () => {
   expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
     "Validation failed with the following errors:
       [MyStack] Found resources without a matching povider. Please make sure to add the following providers to your stack: test-provider"
+  `);
+});
+
+test("app synth executes Aspects", () => {
+  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+  const app = Testing.stubVersion(
+    new App({ stackTraces: false, outdir, skipValidation: true })
+  );
+  const stack = new TerraformStack(app, "MyStack");
+
+  const AppAspect = { visit: jest.fn() };
+  const StackAspect = { visit: jest.fn() };
+  const ResourceAspect = {
+    visit: jest.fn().mockImplementation((resource: IConstruct) => {
+      const inferredStack = TerraformStack.of(resource);
+      new MyResource(inferredStack, "Resource2", {
+        terraformResourceType: "aws_bucket",
+        terraformGeneratorMetadata: {
+          providerName: "test-provider",
+        },
+      });
+    }),
+  };
+
+  const resource = new MyResource(stack, "Resource1", {
+    terraformResourceType: "aws_bucket",
+    terraformGeneratorMetadata: {
+      providerName: "test-provider",
+    },
+  });
+
+  Aspects.of(app).add(AppAspect);
+  Aspects.of(stack).add(StackAspect);
+  Aspects.of(resource).add(ResourceAspect);
+
+  expect(() => app.synth()).not.toThrow();
+
+  expect(AppAspect.visit).toHaveBeenNthCalledWith(1, app);
+  expect(AppAspect.visit).toHaveBeenNthCalledWith(2, stack);
+  expect(AppAspect.visit).toHaveBeenNthCalledWith(3, resource);
+  expect(StackAspect.visit).toHaveBeenNthCalledWith(1, stack);
+  expect(StackAspect.visit).toHaveBeenNthCalledWith(2, resource);
+  expect(ResourceAspect.visit).toHaveBeenCalledWith(resource);
+
+  expect(Testing.renderConstructTree(app)).toMatchInlineSnapshot(`
+    "App
+    └── MyStack (TerraformStack)
+        ├── Resource1 (MyResource)
+        └── Resource2 (MyResource)
+    "
   `);
 });
 
