@@ -5,6 +5,7 @@ import { App } from "../lib";
 import { TerraformStack } from "./terraform-stack";
 import { Manifest } from "./manifest";
 import { FUTURE_FLAGS } from "./features";
+import { IConstruct } from "constructs";
 
 /**
  * Testing utilities for cdktf applications.
@@ -56,6 +57,33 @@ export class Testing {
     manifest.writeToFile();
 
     return outdir;
+  }
+
+  public static renderConstructTree(construct: IConstruct): string {
+    return render(construct, 0, false);
+
+    function render(
+      construct: IConstruct,
+      level: number,
+      isLast: boolean
+    ): string {
+      let prefix = "";
+      if (level > 0) {
+        const spaces = " ".repeat((level - 1) * 4);
+        const symbol = isLast ? "└" : "├";
+        prefix = `${spaces}${symbol}── `;
+      }
+      const name =
+        construct instanceof App
+          ? "App"
+          : `${construct.node.id} (${construct.constructor.name})`;
+      return `${prefix}${name}\n${construct.node.children
+        .map((child, idx, arr) => {
+          const isLast = idx === arr.length - 1;
+          return render(child, level + 1, isLast);
+        })
+        .join("")}`;
+    }
   }
 
   /* istanbul ignore next */
