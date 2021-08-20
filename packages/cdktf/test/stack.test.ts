@@ -6,6 +6,7 @@ import {
   TerraformOutput,
 } from "cdktf/lib";
 import { TerraformModule } from "cdktf/lib/terraform-module";
+import { Node } from "constructs";
 import { TestProvider } from "./helper";
 
 test("stack synthesis merges all elements into a single output", () => {
@@ -16,6 +17,7 @@ test("stack synthesis merges all elements into a single output", () => {
 
   new TestProvider(stack, "test-provider", {
     accessKey: "foo",
+    type: "aws",
   });
 
   new MyResource(stack, "Resource1", {
@@ -63,6 +65,7 @@ test("stack synthesis no flags", () => {
 
   new TestProvider(stack, "test-provider", {
     accessKey: "foo",
+    type: "aws",
   });
 
   new MyResource(stack, "Resource1", {
@@ -79,6 +82,39 @@ test("stack synthesis no flags", () => {
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("stack validation returns error when provider is missing", () => {
+  const app = Testing.stubVersion(new App({ stackTraces: false }));
+  const stack = new TerraformStack(app, "MyStack");
+
+  new MyResource(stack, "Resource1", {
+    terraformResourceType: "aws_bucket",
+    terraformGeneratorMetadata: {
+      providerName: "test-provider",
+    },
+  });
+
+  const errors = Node.of(stack).validate();
+
+  expect(errors).toEqual([
+    expect.objectContaining({
+      message: `Found resources without a matching povider. Please make sure to add the following providers to your stack: test-provider`,
+      source: stack,
+    }),
+  ]);
+});
+
+test("stack validation returns no error when provider is not set", () => {
+  const app = Testing.stubVersion(new App({ stackTraces: false }));
+  const stack = new TerraformStack(app, "MyStack");
+
+  new MyResource(stack, "Resource1", {
+    terraformResourceType: "aws_bucket",
+  });
+
+  const errors = Node.of(stack).validate();
+  expect(errors).toEqual([]);
 });
 
 class MyModule extends TerraformModule {

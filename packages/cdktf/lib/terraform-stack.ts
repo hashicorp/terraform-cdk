@@ -13,6 +13,7 @@ import { makeUniqueId } from "./private/unique";
 import { Manifest } from "./manifest";
 
 const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
+import { ValidateProviderPresence } from "./validations";
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -28,8 +29,9 @@ export class TerraformStack extends Construct {
     super(scope, id);
 
     this.cdktfVersion = Node.of(this).tryGetContext("cdktfVersion");
-
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
+    const node = Node.of(this);
+    node.addValidation(new ValidateProviderPresence(this));
   }
 
   public static isStack(x: any): x is TerraformStack {
@@ -181,9 +183,11 @@ export class TerraformStack extends Construct {
     );
     if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
 
+    const tfConfig = this.toTerraform();
+
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
-      JSON.stringify(this.toTerraform(), undefined, 2)
+      JSON.stringify(tfConfig, undefined, 2)
     );
   }
 }

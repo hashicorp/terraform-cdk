@@ -14,6 +14,19 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
       }
     }
   },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"version\\": \\"undefined\\",
+        \\"source\\": \\"null\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"null\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"null_resource\\": {
       \\"hello-deploy_test-Foo_Bar_186E52EA\\": {
@@ -50,6 +63,19 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
       }
     }
   },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"version\\": \\"undefined\\",
+        \\"source\\": \\"null\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"null\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"null_resource\\": {
       \\"testFooBar\\": {
@@ -85,6 +111,19 @@ exports[`full integration test without features 1`] = `
         ]
       }
     }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"version\\": \\"undefined\\",
+        \\"source\\": \\"null\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"null\\": [
+      {}
+    ]
   },
   \\"resource\\": {
     \\"null_resource\\": {

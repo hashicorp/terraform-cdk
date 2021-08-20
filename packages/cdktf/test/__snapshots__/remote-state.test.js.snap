@@ -433,6 +433,11 @@ exports[`s3 reference 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {

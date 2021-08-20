@@ -1,5 +1,5 @@
 import { Testing, TerraformStack, TerraformOutput } from "../lib";
-import { TestResource } from "./helper";
+import { TestResource, TestProvider } from "./helper";
 import { TerraformVariable } from "../lib/terraform-variable";
 
 test("number output", () => {
@@ -78,6 +78,7 @@ test("dependent output", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
+  new TestProvider(stack, "provider", {});
   const resource = new TestResource(stack, "weird-long-running-resource", {
     name: "foo",
   });
