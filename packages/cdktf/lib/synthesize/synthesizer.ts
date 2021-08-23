@@ -8,7 +8,16 @@ import { Aspects, IAspect } from "../aspect";
 import { StackAnnotation } from "../manifest";
 
 export class StackSynthesizer implements IStackSynthesizer {
-  constructor(protected stack: TerraformStack) {}
+  /**
+   * @param stack the stack to synthesize
+   * @param continueOnErrorAnnotations if set to true, `synthesize()` will not throw an error
+   * if it encounters an error Annotation. However, it will still add all errors to the manifest
+   * file. The cdktf-cli uses this flag to print the errors itself.
+   */
+  constructor(
+    protected stack: TerraformStack,
+    private continueOnErrorAnnotations = false
+  ) {}
 
   synthesize(session: ISynthesisSession) {
     invokeAspects(this.stack);
@@ -51,6 +60,19 @@ export class StackSynthesizer implements IStackSynthesizer {
 
     // it is readonly but this is the place where we are allowed to write to it
     (session.manifest.forStack(this.stack).annotations as any) = annotations;
+
+    // abort if one or more error annotations have been encountered
+    if (
+      !this.continueOnErrorAnnotations &&
+      annotations.some(isErrorAnnotation)
+    ) {
+      throw new Error(
+        `Encountered Annotations with level "ERROR":\n${annotations
+          .filter(isErrorAnnotation)
+          .map((a) => `[${a.constructPath}] ${a.message}`)
+          .join("\n")}`
+      );
+    }
 
     const manifest = session.manifest;
     const stackManifest = manifest.forStack(this.stack);
@@ -125,4 +147,8 @@ const annotationMetadataEntryTypes = [
 
 function isAnnotationMetadata(metadata: MetadataEntry): boolean {
   return annotationMetadataEntryTypes.includes(metadata.type);
+}
+
+function isErrorAnnotation(annotation: StackAnnotation): boolean {
+  return annotation.level === AnnotationMetadataEntryType.ERROR;
 }

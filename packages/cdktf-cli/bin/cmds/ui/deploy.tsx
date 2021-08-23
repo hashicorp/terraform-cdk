@@ -193,8 +193,6 @@ export const Deploy = ({
     autoApprove,
   });
 
-  // FIXME: print synth annotations
-
   const planStages = [
     Status.INITIALIZING,
     Status.PLANNING,

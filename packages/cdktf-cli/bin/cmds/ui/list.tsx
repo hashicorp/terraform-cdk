@@ -14,8 +14,6 @@ export const List = ({
 }: ListConfig): React.ReactElement => {
   const { status, errors, stacks } = useRunSynth({ targetDir, synthCommand });
 
-  // FIXME: print synth annotations
-
   const isSynthesizing: boolean = status != Status.SYNTHESIZED;
   const statusText = `${status}...`;
 

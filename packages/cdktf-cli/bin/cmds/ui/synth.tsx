@@ -20,7 +20,6 @@ interface SynthConfig extends CommonSynthConfig {
 const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
   const { currentStack, stacks } = useTerraformState();
 
-  // FIXME: exit with error code 1 if errors occured in synth
   return (
     <>
       {jsonOutput ? (

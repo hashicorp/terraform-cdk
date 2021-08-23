@@ -53,6 +53,7 @@ export class SynthStack {
         env: {
           ...process.env,
           CDKTF_OUTDIR: outdir,
+          CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
         },
       });
     } catch (e) {

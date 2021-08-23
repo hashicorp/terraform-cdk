@@ -138,8 +138,6 @@ export const Destroy = ({
     autoApprove,
   });
 
-  // FIXME: print synth annotations
-
   const planStages = [
     Status.INITIALIZING,
     Status.PLANNING,
