@@ -67,46 +67,52 @@ test("write manifest", () => {
   `);
 });
 
-test("manifest contains annotations after synth", () => {
-  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+describe("manifest annotations", () => {
+  beforeAll(
+    () => (process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS = "true")
+  );
+  afterAll(() => delete process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS);
 
-  const app = Testing.stubVersion(new App({ outdir, stackTraces: false }));
-  const stack = new TerraformStack(app, "this-is-a-stack");
-  Annotations.of(stack).addInfo("an info");
-  Annotations.of(stack).addWarning("a warning");
-  Annotations.of(stack).addError("an error");
+  test("exist after synth", () => {
+    const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+    const app = Testing.stubVersion(new App({ outdir, stackTraces: false }));
+    const stack = new TerraformStack(app, "this-is-a-stack");
+    Annotations.of(stack).addInfo("an info");
+    Annotations.of(stack).addWarning("a warning");
+    Annotations.of(stack).addError("an error");
 
-  app.synth();
+    app.synth();
 
-  expect(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString())
-    .toMatchInlineSnapshot(`
-    "{
-      \\"version\\": \\"stubbed\\",
-      \\"stacks\\": {
-        \\"this-is-a-stack\\": {
-          \\"name\\": \\"this-is-a-stack\\",
-          \\"constructPath\\": \\"this-is-a-stack\\",
-          \\"workingDirectory\\": \\"stacks/this-is-a-stack\\",
-          \\"synthesizedStackPath\\": \\"stacks/this-is-a-stack/cdk.tf.json\\",
-          \\"annotations\\": [
-            {
-              \\"constructPath\\": \\"this-is-a-stack\\",
-              \\"level\\": \\"@cdktf/info\\",
-              \\"message\\": \\"an info\\"
-            },
-            {
-              \\"constructPath\\": \\"this-is-a-stack\\",
-              \\"level\\": \\"@cdktf/warn\\",
-              \\"message\\": \\"a warning\\"
-            },
-            {
-              \\"constructPath\\": \\"this-is-a-stack\\",
-              \\"level\\": \\"@cdktf/error\\",
-              \\"message\\": \\"an error\\"
-            }
-          ]
+    expect(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString())
+      .toMatchInlineSnapshot(`
+      "{
+        \\"version\\": \\"stubbed\\",
+        \\"stacks\\": {
+          \\"this-is-a-stack\\": {
+            \\"name\\": \\"this-is-a-stack\\",
+            \\"constructPath\\": \\"this-is-a-stack\\",
+            \\"workingDirectory\\": \\"stacks/this-is-a-stack\\",
+            \\"synthesizedStackPath\\": \\"stacks/this-is-a-stack/cdk.tf.json\\",
+            \\"annotations\\": [
+              {
+                \\"constructPath\\": \\"this-is-a-stack\\",
+                \\"level\\": \\"@cdktf/info\\",
+                \\"message\\": \\"an info\\"
+              },
+              {
+                \\"constructPath\\": \\"this-is-a-stack\\",
+                \\"level\\": \\"@cdktf/warn\\",
+                \\"message\\": \\"a warning\\"
+              },
+              {
+                \\"constructPath\\": \\"this-is-a-stack\\",
+                \\"level\\": \\"@cdktf/error\\",
+                \\"message\\": \\"an error\\"
+              }
+            ]
+          }
         }
-      }
-    }"
-  `);
+      }"
+    `);
+  });
 });

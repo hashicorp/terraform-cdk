@@ -15,9 +15,6 @@ import { StackSynthesizer } from "./synthesize/synthesizer";
 const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
 
-const CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS =
-  process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS !== undefined;
-
 export interface TerraformStackMetadata {
   readonly stackName: string;
   readonly version: string;
@@ -35,7 +32,7 @@ export class TerraformStack extends Construct {
     this.cdktfVersion = this.node.tryGetContext("cdktfVersion");
     this.synthesizer = new StackSynthesizer(
       this,
-      CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS
+      process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS !== undefined
     );
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
     this.node.addValidation(new ValidateProviderPresence(this));
