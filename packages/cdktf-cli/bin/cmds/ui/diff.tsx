@@ -102,6 +102,8 @@ export const Diff = ({
     isSpeculative: true,
   });
 
+  // FIXME: print synth annotations
+
   const isPlanning: boolean = status != Status.PLANNED;
   const statusText =
     currentStack.name === "" ? (

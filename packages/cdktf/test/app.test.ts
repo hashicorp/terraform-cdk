@@ -88,7 +88,6 @@ test("app synth executes Aspects", () => {
   );
   const stack = new TerraformStack(app, "MyStack");
 
-  const AppAspect = { visit: jest.fn() };
   const StackAspect = { visit: jest.fn() };
   const ResourceAspect = {
     visit: jest.fn().mockImplementation((resource: IConstruct) => {
@@ -109,15 +108,11 @@ test("app synth executes Aspects", () => {
     },
   });
 
-  Aspects.of(app).add(AppAspect);
   Aspects.of(stack).add(StackAspect);
   Aspects.of(resource).add(ResourceAspect);
 
   expect(() => app.synth()).not.toThrow();
 
-  expect(AppAspect.visit).toHaveBeenNthCalledWith(1, app);
-  expect(AppAspect.visit).toHaveBeenNthCalledWith(2, stack);
-  expect(AppAspect.visit).toHaveBeenNthCalledWith(3, resource);
   expect(StackAspect.visit).toHaveBeenNthCalledWith(1, stack);
   expect(StackAspect.visit).toHaveBeenNthCalledWith(2, resource);
   expect(ResourceAspect.visit).toHaveBeenCalledWith(resource);
