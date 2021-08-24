@@ -92,7 +92,7 @@ export abstract class ConstructsMakerTarget {
   public abstract get isModule(): boolean;
   public abstract get isProvider(): boolean;
   public abstract get trackingPayload(): Record<string, any>;
-  public abstract get simplifiedName(): string;
+  protected abstract get simplifiedName(): string;
 
   protected abstract typesPath(name: string): string;
 }
@@ -134,7 +134,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
     return `modules/${name}`;
   }
 
-  public get simplifiedName(): string {
+  protected get simplifiedName(): string {
     return (
       this.namespace?.replace(/\//gi, ".").replace(/-/gi, "_") ?? this.name
     );
@@ -186,7 +186,7 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
     return this.constraint.name === "null";
   }
 
-  public get simplifiedName(): string {
+  protected get simplifiedName(): string {
     return this.name.replace(/\//gi, ".").replace(/-/gi, "_");
   }
 }
@@ -259,7 +259,7 @@ export class ConstructsMaker {
             deps: deps.map((dep) =>
               path.dirname(require.resolve(`${dep}/package.json`))
             ),
-            moduleKey: target.fqn,
+            moduleKey: target.fqn.replace(/\//gi, "_"),
           };
 
           // used for testing.
