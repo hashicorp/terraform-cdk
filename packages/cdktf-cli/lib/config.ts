@@ -73,9 +73,9 @@ export class TerraformModuleConstraint
       };
     }
 
-    if (isRegistryModule(item)) {
-      const [source, version] = item.split("@");
-      const moduleParts = source.split("//");
+    const [source, version] = item.split("@");
+    let moduleParts = source.split("//");
+    if (isRegistryModule(moduleParts[0])) {
       const nameParts = moduleParts[0].split("/");
       const provider = nameParts.pop(); // last part is the provider
       let name = nameParts.pop() ?? source;
@@ -136,7 +136,7 @@ export class TerraformModuleConstraint
     // strip off any types
     toProcess = toProcess.replace(/\.git|\.hg|\.zip/, "");
 
-    const moduleParts = toProcess.split("//");
+    moduleParts = toProcess.split("//");
     const nameParts = moduleParts[0].split("/");
     let name = nameParts.pop();
     let namespace = nameParts.pop();
