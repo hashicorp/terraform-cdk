@@ -135,7 +135,9 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   }
 
   public get simplifiedName(): string {
-    return this.namespace?.replace(/\//gi, ".").replace(/-/gi, "_") ?? this.name;
+    return (
+      this.namespace?.replace(/\//gi, ".").replace(/-/gi, "_") ?? this.name
+    );
   }
 }
 

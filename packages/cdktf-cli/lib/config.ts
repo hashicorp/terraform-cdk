@@ -3,7 +3,7 @@ import * as path from "path";
 import { Language } from "./get/constructs-maker";
 import { env } from "process";
 import { CONTEXT_ENV } from "cdktf";
-import { isRegistryModule } from "@cdktf/hcl2cdk"
+import { isRegistryModule } from "@cdktf/hcl2cdk";
 
 const CONFIG_FILE = "cdktf.json";
 const DEFAULTS = {
@@ -55,7 +55,9 @@ export class TerraformModuleConstraint
     return source.match(/^(\.\/|\.\.\/|\.\\\\|\.\.\\\\)(.*)/);
   }
 
-  private parseDependencyConstraint(item: string): TerraformDependencyConstraint {
+  private parseDependencyConstraint(
+    item: string
+  ): TerraformDependencyConstraint {
     const localMatch = this.getLocalMatch(item);
     if (localMatch) {
       const fqn = localMatch[2];
@@ -67,7 +69,7 @@ export class TerraformModuleConstraint
         name,
         fqn,
         source: item,
-        namespace
+        namespace,
       };
     }
 
@@ -82,7 +84,7 @@ export class TerraformModuleConstraint
       if (moduleParts.length > 1) {
         const moduleNameParts = moduleParts[1].split("/");
         const moduleName = moduleNameParts.pop();
-        namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`
+        namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`;
         name = moduleName ?? name;
       }
 
@@ -91,8 +93,8 @@ export class TerraformModuleConstraint
         source,
         version,
         namespace,
-        fqn: source.replace("//", "/")
-      }
+        fqn: source.replace("//", "/"),
+      };
     }
 
     let toProcess = item; // process one part at a time
@@ -145,7 +147,7 @@ export class TerraformModuleConstraint
     if (moduleParts.length > 1) {
       const moduleNameParts = moduleParts[1].split("/");
       const moduleName = moduleNameParts.pop();
-      namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`
+      namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`;
       name = moduleName ?? name;
     }
 
@@ -155,7 +157,7 @@ export class TerraformModuleConstraint
       fqn: toProcess.replace("//", "/"),
       namespace,
     };
-  };
+  }
 }
 
 export class TerraformProviderConstraint
@@ -184,7 +186,9 @@ export class TerraformProviderConstraint
     }
   }
 
-  private parseDependencyConstraint(item: string): TerraformDependencyConstraint {
+  private parseDependencyConstraint(
+    item: string
+  ): TerraformDependencyConstraint {
     const [fqn, version] = item.split("@");
     const nameParts = fqn.split("/");
     const name = nameParts.pop();
@@ -192,7 +196,7 @@ export class TerraformProviderConstraint
     if (!name) {
       throw new Error(`Provider name should be properly set in ${item}`);
     }
-  
+
     return {
       name,
       source: fqn,
@@ -200,7 +204,7 @@ export class TerraformProviderConstraint
       fqn,
       namespace,
     };
-  };
+  }
 }
 
 export interface Config {
