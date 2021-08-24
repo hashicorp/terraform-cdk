@@ -27,12 +27,10 @@ const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
           <Text>{currentStack.content}</Text>
         </Box>
       ) : (
-        <>
-          <Text>
-            Generated Terraform code for the stacks:{" "}
-            {stacks?.map((s) => s.name).join(", ")}
-          </Text>
-        </>
+        <Text>
+          Generated Terraform code for the stacks:{" "}
+          {stacks?.map((s) => s.name).join(", ")}
+        </Text>
       )}
     </>
   );
