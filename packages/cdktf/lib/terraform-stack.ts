@@ -12,7 +12,7 @@ import {
 import { makeUniqueId } from "./private/unique";
 import { Manifest } from "./manifest";
 
-const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
+const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
 
 export interface TerraformStackMetadata {
