@@ -1,10 +1,10 @@
 import { Construct } from "constructs";
 import * as fs from "fs";
 import * as path from "path";
-import { App } from "./app";
-import { Manifest } from "./manifest";
 import { copySync, archiveSync, hashPath } from "./private/fs";
 import { Resource } from "./resource";
+import { ISynthesisSession } from "./synthesize";
+import { addCustomSynthesis } from "./synthesize/synthesizer";
 
 export interface TerraformAssetConfig {
   // absolute path to the file or folder configured
@@ -65,11 +65,9 @@ export class TerraformAsset extends Resource {
       );
     }
 
-    if (this.stack.node.root instanceof App) {
-      this.copyAsset(this.stack.node.root.manifest);
-    } else {
-      throw new Error("Could not copy asset because no root app was found");
-    }
+    addCustomSynthesis(this, {
+      onSynthesize: this._onSynthesize.bind(this),
+    });
   }
 
   private get namedFolder(): string {
@@ -103,10 +101,10 @@ export class TerraformAsset extends Resource {
     }
   }
 
-  protected copyAsset(manifest: Manifest) {
-    const stackManifest = manifest.forStack(this.stack);
+  private _onSynthesize(session: ISynthesisSession) {
+    const stackManifest = session.manifest.forStack(this.stack);
     const basePath = path.join(
-      manifest.outdir,
+      session.manifest.outdir,
       stackManifest.synthesizedStackPath,
       ".."
     );
