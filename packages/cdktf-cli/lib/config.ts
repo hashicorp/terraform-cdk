@@ -30,6 +30,7 @@ export class TerraformModuleConstraint
   public readonly localSource?: string;
   public readonly fqn: string;
   public readonly version?: string;
+  public readonly namespace?: string;
 
   constructor(item: TerraformDependencyConstraint | string) {
     if (typeof item === "string") {
@@ -38,11 +39,13 @@ export class TerraformModuleConstraint
       this.source = parsed.source;
       this.fqn = parsed.fqn;
       this.version = parsed.version;
+      this.namespace = parsed.namespace;
     } else {
       this.source = item.source;
       this.name = item.name;
       this.fqn = item.name;
       this.version = item.version;
+      this.namespace = item.namespace;
     }
 
     const localMatch = this.getLocalMatch(this.source);

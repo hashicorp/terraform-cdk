@@ -113,7 +113,8 @@ describe("parseConfig", () => {
           "terraformModules": Array [
             TerraformModuleConstraint {
               "fqn": "terraform-aws-modules/vpc/aws",
-              "name": "aws",
+              "name": "vpc",
+              "namespace": "terraform-aws-modules/aws",
               "source": "terraform-aws-modules/vpc/aws",
               "version": "2.39.0",
             },
@@ -151,8 +152,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "terraform-aws-modules/iam/aws//modules/iam-account",
+              "fqn": "terraform-aws-modules/iam/aws/modules/iam-account",
               "name": "iam-account",
+              "namespace": "terraform-aws-modules/aws/iam/modules",
               "source": "terraform-aws-modules/iam/aws//modules/iam-account",
               "version": "3.12.0",
             },
@@ -182,6 +184,7 @@ describe("parseConfig", () => {
             TerraformModuleConstraint {
               "fqn": "customAWSVpc",
               "name": "customAWSVpc",
+              "namespace": undefined,
               "source": "https://github.com/terraform-aws-modules/terraform-aws-vpc",
               "version": "~> v2.0",
             },
@@ -211,13 +214,15 @@ describe("parseConfig", () => {
           "terraformModules": Array [
             TerraformModuleConstraint {
               "fqn": "terraform-aws-modules/vpc/aws",
-              "name": "aws",
+              "name": "vpc",
+              "namespace": "terraform-aws-modules/aws",
               "source": "terraform-aws-modules/vpc/aws",
               "version": "2.39.0",
             },
             TerraformModuleConstraint {
               "fqn": "customAWSVpc",
               "name": "customAWSVpc",
+              "namespace": undefined,
               "source": "https://github.com/terraform-aws-modules/terraform-aws-vpc",
               "version": "~> v2.0",
             },

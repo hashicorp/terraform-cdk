@@ -51,7 +51,10 @@ export abstract class ConstructsMakerTarget {
     public readonly targetLanguage: Language
   ) {
     if (this.constraint instanceof TerraformModuleConstraint) {
-      this.fileName = `${this.typesPath(this.constraint.name)}.ts`;
+      const fullName = this.constraint.namespace
+        ? `${this.constraint.namespace}/${this.constraint.name}`
+        : this.constraint.name;
+      this.fileName = `${this.typesPath(fullName)}.ts`;
     } else {
       this.fileName = `${this.typesPath(this.constraint.name)}.ts`;
     }
