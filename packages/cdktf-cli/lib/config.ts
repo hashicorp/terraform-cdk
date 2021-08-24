@@ -75,56 +75,84 @@ export class TerraformModuleConstraint
       const [source, version] = item.split("@");
       const moduleParts = source.split("//");
       const nameParts = moduleParts[0].split("/");
-      nameParts.pop(); // last part is the provider
-      const name = nameParts.pop() ?? source;
-      const namespace = nameParts.pop();
+      const provider = nameParts.pop(); // last part is the provider
+      let name = nameParts.pop() ?? source;
+      let namespace = `${nameParts.pop()}/${provider}`;
+
+      if (moduleParts.length > 1) {
+        const moduleNameParts = moduleParts[1].split("/");
+        const moduleName = moduleNameParts.pop();
+        namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`
+        name = moduleName ?? name;
+      }
 
       return {
         name,
         source,
         version,
         namespace,
-        fqn: source
+        fqn: source.replace("//", "/")
       }
     }
 
-    let fqn = ''; // going to build this back up from parts
     let toProcess = item; // process one part at a time
+
+    // strip off any prefix
     const prefixMatch = toProcess.match(/([a-zA-Z0-9]*)::(.*)/);
     if (prefixMatch) {
-      const prefix = prefixMatch[1];
-      fqn += `${prefix}/`; // technically prefix needs to be maintained for uniqueness
       toProcess = prefixMatch[2];
     }
 
+    // strip off any protocl
     const protocolMatch = toProcess.match(/([a-zA-Z]*):\/\/(.*)/);
     if (protocolMatch) {
-      const protocol = protocolMatch[1];
-      fqn += `${protocol}/`; // technically protocol needs to be maintained for uniqueness
       toProcess = protocolMatch[2];
     }
 
-    const credentialMatch = toProcess.match(/(.*)@(.*):(.*)/);
-    if (credentialMatch) {
-      const username = credentialMatch[1];
-      const domain = credentialMatch[2];
-      fqn += `${username}/${domain}/`; // really make sure we are unique
-      toProcess = credentialMatch[3];
+    // anything before last ':' won't contribute
+    const colonParts = toProcess.split(":");
+    toProcess = colonParts.pop() ?? toProcess;
+
+    // strip off any port
+    const portMatch = toProcess.match(/[\d]*(.*)/);
+    if (portMatch) {
+      toProcess = portMatch[1];
     }
 
-    const [source, version] = item.split("@");
-    const nameParts = fqn.split("/");
-    const name = nameParts.pop();
-    const namespace = nameParts.pop();
+    // strip off any hostname
+    const hostMatch = toProcess.match(/.*\..*\/(.*)/);
+    if (hostMatch) {
+      toProcess = hostMatch[1];
+    }
+
+    // strip off any arguments
+    const argumentMatch = toProcess.match(/(.*)\?.*/);
+    if (argumentMatch) {
+      toProcess = argumentMatch[1];
+    }
+
+    // strip off any types
+    toProcess = toProcess.replace(/\.git|\.hg|\.zip/, "");
+
+    const moduleParts = toProcess.split("//");
+    const nameParts = moduleParts[0].split("/");
+    let name = nameParts.pop();
+    let namespace = nameParts.pop();
     if (!name) {
       throw new Error(`Module name should be properly set in ${item}`);
     }
-  
+
+    if (moduleParts.length > 1) {
+      const moduleNameParts = moduleParts[1].split("/");
+      const moduleName = moduleNameParts.pop();
+      namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`
+      name = moduleName ?? name;
+    }
+
     return {
       name,
-      source,
-      version,
-      fqn,
+      source: item,
+      fqn: toProcess.replace("//", "/"),
       namespace,
     };
   };

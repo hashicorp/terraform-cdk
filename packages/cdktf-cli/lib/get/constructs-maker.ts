@@ -51,7 +51,7 @@ export abstract class ConstructsMakerTarget {
     public readonly targetLanguage: Language
   ) {
     if (this.constraint instanceof TerraformModuleConstraint) {
-      this.fileName = `${this.typesPath(this.constraint.fqn.replace(/[-.]/g, "_"))}.ts`;
+      this.fileName = `${this.typesPath(this.constraint.name)}.ts`;
     } else {
       this.fileName = `${this.typesPath(this.constraint.name)}.ts`;
     }
@@ -111,7 +111,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   public get srcMakName(): string {
     switch (this.targetLanguage) {
       case Language.PYTHON:
-        return this.fqn.replace(/[-/.]/g, "_");
+        return this.name.replace(/[-/.]/g, "_");
       case Language.GO:
         return this.name;
       case Language.JAVA:
@@ -124,7 +124,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   public get trackingPayload() {
     return {
       name: this.name,
-      fullName: this.source,
+      fullName: this.fqn,
       version: this.version,
       type: "module",
     };
@@ -135,7 +135,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   }
 
   public get simplifiedName(): string {
-    return this.fqn.replace(/\//gi, ".").replace(/-/gi, "_");
+    return this.namespace?.replace(/\//gi, ".").replace(/-/gi, "_") ?? this.name;
   }
 }
 
@@ -213,7 +213,7 @@ export class ConstructsMaker {
       (target) => target instanceof ConstructsMakerModuleTarget
     ) as ConstructsMakerModuleTarget[];
     for (const target of moduleTargets) {
-      target.spec = schema.moduleSchema[target.simplifiedName];
+      target.spec = schema.moduleSchema[target.fqn];
     }
 
     const providerTargets: ConstructsMakerProviderTarget[] =
@@ -257,7 +257,7 @@ export class ConstructsMaker {
             deps: deps.map((dep) =>
               path.dirname(require.resolve(`${dep}/package.json`))
             ),
-            moduleKey: target.simplifiedName,
+            moduleKey: target.fqn,
           };
 
           // used for testing.
