@@ -88,6 +88,10 @@ export abstract class ConstructsMakerTarget {
     return this.constraint.namespace;
   }
 
+  public get moduleKey() {
+    return this.fqn.replace(/\//gi, "_");
+  }
+
   public abstract get srcMakName(): string;
   public abstract get isModule(): boolean;
   public abstract get isProvider(): boolean;
@@ -215,7 +219,7 @@ export class ConstructsMaker {
       (target) => target instanceof ConstructsMakerModuleTarget
     ) as ConstructsMakerModuleTarget[];
     for (const target of moduleTargets) {
-      target.spec = schema.moduleSchema[target.fqn];
+      target.spec = schema.moduleSchema[target.moduleKey];
     }
 
     const providerTargets: ConstructsMakerProviderTarget[] =
@@ -259,7 +263,7 @@ export class ConstructsMaker {
             deps: deps.map((dep) =>
               path.dirname(require.resolve(`${dep}/package.json`))
             ),
-            moduleKey: target.fqn.replace(/\//gi, "_"),
+            moduleKey: target.moduleKey,
           };
 
           // used for testing.
