@@ -248,7 +248,7 @@ export function constructAst(type: string, isModuleImport: boolean) {
 }
 
 export function referenceToAst(scope: Scope, ref: Reference) {
-  const [resource, _name, ...selector] = ref.referencee.full.split(".");
+  const [resource, , ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
     camelCase(referenceToVariableName(scope, ref))
