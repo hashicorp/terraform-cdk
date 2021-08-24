@@ -3,7 +3,7 @@ import * as fs from "fs";
 import { TerraformStack } from "../terraform-stack";
 import { IStackSynthesizer, ISynthesisSession } from "./types";
 import { AnnotationMetadataEntryType, Annotations } from "../annotations";
-import { IConstruct, MetadataEntry } from "constructs";
+import { ConstructOrder, IConstruct, MetadataEntry } from "constructs";
 import { Aspects, IAspect } from "../aspect";
 import { StackAnnotation } from "../manifest";
 
@@ -41,6 +41,20 @@ export class StackSynthesizer implements IStackSynthesizer {
       }
     }
 
+    const manifest = session.manifest;
+    const stackManifest = manifest.forStack(this.stack);
+
+    const workingDirectory = path.join(
+      session.outdir,
+      stackManifest.workingDirectory
+    );
+    if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
+
+    // call custom synthesis on child nodes (leafs first)
+    this.stack.node
+      .findAll(ConstructOrder.POSTORDER)
+      .forEach((node) => getCustomSynthesis(node)?.onSynthesize(session));
+
     // collect Annotations into Manifest
     const annotations = this.stack.node
       .findAll()
@@ -59,7 +73,7 @@ export class StackSynthesizer implements IStackSynthesizer {
       .reduce((list, metadatas) => [...list, ...metadatas], []); // Array.flat()
 
     // it is readonly but this is the place where we are allowed to write to it
-    (session.manifest.forStack(this.stack).annotations as any) = annotations;
+    (stackManifest.annotations as any) = annotations;
 
     // abort if one or more error annotations have been encountered
     if (
@@ -73,15 +87,6 @@ export class StackSynthesizer implements IStackSynthesizer {
           .join("\n")}`
       );
     }
-
-    const manifest = session.manifest;
-    const stackManifest = manifest.forStack(this.stack);
-
-    const workingDirectory = path.join(
-      session.outdir,
-      stackManifest.workingDirectory
-    );
-    if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
 
     const tfConfig = this.stack.toTerraform();
 
@@ -151,4 +156,36 @@ function isAnnotationMetadata(metadata: MetadataEntry): boolean {
 
 function isErrorAnnotation(annotation: StackAnnotation): boolean {
   return annotation.level === AnnotationMetadataEntryType.ERROR;
+}
+
+// originally from https://github.com/aws/aws-cdk/blob/dcae3eead0dbf9acb1ed80ba95bb104c64cb1bd7/packages/%40aws-cdk/core/lib/private/synthesis.ts#L52
+const CUSTOM_SYNTHESIS_SYM = Symbol.for("cdktf/customSynthesis");
+
+/**
+ * Interface for constructs that want to do something custom during synthesis
+ *
+ * This feature is intended for use by the CDKTF only; 3rd party
+ * library authors and CDK users should not use this function.
+ */
+export interface ICustomSynthesis {
+  /**
+   * Called when the construct is synthesized
+   */
+  onSynthesize(session: ISynthesisSession): void;
+}
+
+export function addCustomSynthesis(
+  construct: IConstruct,
+  synthesis: ICustomSynthesis
+): void {
+  Object.defineProperty(construct, CUSTOM_SYNTHESIS_SYM, {
+    value: synthesis,
+    enumerable: false,
+  });
+}
+
+function getCustomSynthesis(
+  construct: IConstruct
+): ICustomSynthesis | undefined {
+  return (construct as any)[CUSTOM_SYNTHESIS_SYM];
 }
