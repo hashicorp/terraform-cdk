@@ -939,7 +939,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get aliases() {
     return this.getListAttribute('aliases');
   }
-  public set aliases(value: string[] ) {
+  public set aliases(value: string[]) {
     this._aliases = value;
   }
   public resetAliases() {
@@ -965,7 +965,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get comment() {
     return this.getStringAttribute('comment');
   }
-  public set comment(value: string ) {
+  public set comment(value: string) {
     this._comment = value;
   }
   public resetComment() {
@@ -981,7 +981,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get defaultRootObject() {
     return this.getStringAttribute('default_root_object');
   }
-  public set defaultRootObject(value: string ) {
+  public set defaultRootObject(value: string) {
     this._defaultRootObject = value;
   }
   public resetDefaultRootObject() {
@@ -1025,7 +1025,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get httpVersion() {
     return this.getStringAttribute('http_version');
   }
-  public set httpVersion(value: string ) {
+  public set httpVersion(value: string) {
     this._httpVersion = value;
   }
   public resetHttpVersion() {
@@ -1051,7 +1051,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get isIpv6Enabled() {
     return this.getBooleanAttribute('is_ipv6_enabled');
   }
-  public set isIpv6Enabled(value: boolean ) {
+  public set isIpv6Enabled(value: boolean) {
     this._isIpv6Enabled = value;
   }
   public resetIsIpv6Enabled() {
@@ -1072,7 +1072,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get priceClass() {
     return this.getStringAttribute('price_class');
   }
-  public set priceClass(value: string ) {
+  public set priceClass(value: string) {
     this._priceClass = value;
   }
   public resetPriceClass() {
@@ -1088,7 +1088,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get retainOnDelete() {
     return this.getBooleanAttribute('retain_on_delete');
   }
-  public set retainOnDelete(value: boolean ) {
+  public set retainOnDelete(value: boolean) {
     this._retainOnDelete = value;
   }
   public resetRetainOnDelete() {
@@ -1109,7 +1109,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } ) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -1125,7 +1125,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get waitForDeployment() {
     return this.getBooleanAttribute('wait_for_deployment');
   }
-  public set waitForDeployment(value: boolean ) {
+  public set waitForDeployment(value: boolean) {
     this._waitForDeployment = value;
   }
   public resetWaitForDeployment() {
@@ -1141,7 +1141,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get webAclId() {
     return this.getStringAttribute('web_acl_id');
   }
-  public set webAclId(value: string ) {
+  public set webAclId(value: string) {
     this._webAclId = value;
   }
   public resetWebAclId() {
@@ -1157,7 +1157,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get cacheBehavior() {
     return this.interpolationForAttribute('cache_behavior') as any;
   }
-  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] ) {
+  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[]) {
     this._cacheBehavior = value;
   }
   public resetCacheBehavior() {
@@ -1173,7 +1173,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get customErrorResponse() {
     return this.interpolationForAttribute('custom_error_response') as any;
   }
-  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] ) {
+  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[]) {
     this._customErrorResponse = value;
   }
   public resetCustomErrorResponse() {
@@ -1202,7 +1202,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get loggingConfig() {
     return this.interpolationForAttribute('logging_config') as any;
   }
-  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] ) {
+  public set loggingConfig(value: CloudfrontDistributionLoggingConfig[]) {
     this._loggingConfig = value;
   }
   public resetLoggingConfig() {
@@ -1218,7 +1218,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get orderedCacheBehavior() {
     return this.interpolationForAttribute('ordered_cache_behavior') as any;
   }
-  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] ) {
+  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[]) {
     this._orderedCacheBehavior = value;
   }
   public resetOrderedCacheBehavior() {
@@ -1247,7 +1247,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get originGroup() {
     return this.interpolationForAttribute('origin_group') as any;
   }
-  public set originGroup(value: CloudfrontDistributionOriginGroup[] ) {
+  public set originGroup(value: CloudfrontDistributionOriginGroup[]) {
     this._originGroup = value;
   }
   public resetOriginGroup() {
@@ -2154,7 +2154,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get acl() {
     return this.getStringAttribute('acl');
   }
-  public set acl(value: string ) {
+  public set acl(value: string) {
     this._acl = value;
   }
   public resetAcl() {
@@ -2196,7 +2196,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get bucketPrefix() {
     return this.getStringAttribute('bucket_prefix');
   }
-  public set bucketPrefix(value: string ) {
+  public set bucketPrefix(value: string) {
     this._bucketPrefix = value;
   }
   public resetBucketPrefix() {
@@ -2217,7 +2217,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get forceDestroy() {
     return this.getBooleanAttribute('force_destroy');
   }
-  public set forceDestroy(value: boolean ) {
+  public set forceDestroy(value: boolean) {
     this._forceDestroy = value;
   }
   public resetForceDestroy() {
@@ -2254,7 +2254,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get policy() {
     return this.getStringAttribute('policy');
   }
-  public set policy(value: string ) {
+  public set policy(value: string) {
     this._policy = value;
   }
   public resetPolicy() {
@@ -2302,7 +2302,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } ) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -2350,7 +2350,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get corsRule() {
     return this.interpolationForAttribute('cors_rule') as any;
   }
-  public set corsRule(value: S3BucketCorsRule[] ) {
+  public set corsRule(value: S3BucketCorsRule[]) {
     this._corsRule = value;
   }
   public resetCorsRule() {
@@ -2366,7 +2366,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get grant() {
     return this.interpolationForAttribute('grant') as any;
   }
-  public set grant(value: S3BucketGrant[] ) {
+  public set grant(value: S3BucketGrant[]) {
     this._grant = value;
   }
   public resetGrant() {
@@ -2382,7 +2382,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get lifecycleRule() {
     return this.interpolationForAttribute('lifecycle_rule') as any;
   }
-  public set lifecycleRule(value: S3BucketLifecycleRule[] ) {
+  public set lifecycleRule(value: S3BucketLifecycleRule[]) {
     this._lifecycleRule = value;
   }
   public resetLifecycleRule() {
@@ -2398,7 +2398,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get logging() {
     return this.interpolationForAttribute('logging') as any;
   }
-  public set logging(value: S3BucketLogging[] ) {
+  public set logging(value: S3BucketLogging[]) {
     this._logging = value;
   }
   public resetLogging() {
@@ -2414,7 +2414,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get objectLockConfiguration() {
     return this.interpolationForAttribute('object_lock_configuration') as any;
   }
-  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] ) {
+  public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[]) {
     this._objectLockConfiguration = value;
   }
   public resetObjectLockConfiguration() {
@@ -2430,7 +2430,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get replicationConfiguration() {
     return this.interpolationForAttribute('replication_configuration') as any;
   }
-  public set replicationConfiguration(value: S3BucketReplicationConfiguration[] ) {
+  public set replicationConfiguration(value: S3BucketReplicationConfiguration[]) {
     this._replicationConfiguration = value;
   }
   public resetReplicationConfiguration() {
@@ -2446,7 +2446,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get serverSideEncryptionConfiguration() {
     return this.interpolationForAttribute('server_side_encryption_configuration') as any;
   }
-  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] ) {
+  public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[]) {
     this._serverSideEncryptionConfiguration = value;
   }
   public resetServerSideEncryptionConfiguration() {
@@ -2462,7 +2462,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get versioning() {
     return this.interpolationForAttribute('versioning') as any;
   }
-  public set versioning(value: S3BucketVersioning[] ) {
+  public set versioning(value: S3BucketVersioning[]) {
     this._versioning = value;
   }
   public resetVersioning() {
@@ -2478,7 +2478,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get website() {
     return this.interpolationForAttribute('website') as any;
   }
-  public set website(value: S3BucketWebsite[] ) {
+  public set website(value: S3BucketWebsite[]) {
     this._website = value;
   }
   public resetWebsite() {
@@ -2756,7 +2756,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get description() {
     return this.getStringAttribute('description');
   }
-  public set description(value: string ) {
+  public set description(value: string) {
     this._description = value;
   }
   public resetDescription() {
@@ -2768,9 +2768,9 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: SecurityGroupEgress[]
-  public get egress(): SecurityGroupEgress[] {
-    return this.interpolationForAttribute('egress') as any; // Getting the computed value is not yet implemented
+  private _egress?: SecurityGroupEgress[];
+  public get egress() {
+    return this.interpolationForAttribute('egress') as any;
   }
   public set egress(value: SecurityGroupEgress[]) {
     this._egress = value;
@@ -2789,9 +2789,9 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // ingress - computed: true, optional: true, required: false
-  private _ingress?: SecurityGroupIngress[]
-  public get ingress(): SecurityGroupIngress[] {
-    return this.interpolationForAttribute('ingress') as any; // Getting the computed value is not yet implemented
+  private _ingress?: SecurityGroupIngress[];
+  public get ingress() {
+    return this.interpolationForAttribute('ingress') as any;
   }
   public set ingress(value: SecurityGroupIngress[]) {
     this._ingress = value;
@@ -2825,7 +2825,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get namePrefix() {
     return this.getStringAttribute('name_prefix');
   }
-  public set namePrefix(value: string ) {
+  public set namePrefix(value: string) {
     this._namePrefix = value;
   }
   public resetNamePrefix() {
@@ -2846,7 +2846,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get revokeRulesOnDelete() {
     return this.getBooleanAttribute('revoke_rules_on_delete');
   }
-  public set revokeRulesOnDelete(value: boolean ) {
+  public set revokeRulesOnDelete(value: boolean) {
     this._revokeRulesOnDelete = value;
   }
   public resetRevokeRulesOnDelete() {
@@ -2862,7 +2862,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } ) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -2894,7 +2894,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get timeouts() {
     return this.interpolationForAttribute('timeouts') as any;
   }
-  public set timeouts(value: SecurityGroupTimeouts ) {
+  public set timeouts(value: SecurityGroupTimeouts) {
     this._timeouts = value;
   }
   public resetTimeouts() {
