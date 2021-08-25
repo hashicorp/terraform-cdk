@@ -91,7 +91,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
   // Check if token is set so we can set up Terraform Cloud workspace
   // only set with the '--local' option is specified the user.
   if (token != "") {
-    telemetryData.isRemote = token;
+    telemetryData.isRemote = Boolean(token);
     console.log(
       chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
     );
