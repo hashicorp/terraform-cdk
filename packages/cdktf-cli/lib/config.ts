@@ -103,13 +103,13 @@ export class TerraformModuleConstraint
     let toProcess = item; // process one part at a time
 
     // strip off any prefix
-    const prefixMatch = toProcess.match(/([a-zA-Z0-9]*)::(.*)/);
+    const prefixMatch = toProcess.match(/^([a-zA-Z0-9]*)::(.*)/);
     if (prefixMatch) {
       toProcess = prefixMatch[2];
     }
 
     // strip off any protocl
-    const protocolMatch = toProcess.match(/([a-zA-Z]*):\/\/(.*)/);
+    const protocolMatch = toProcess.match(/^([a-zA-Z]*):\/\/(.*)/);
     if (protocolMatch) {
       toProcess = protocolMatch[2];
     }
@@ -119,13 +119,13 @@ export class TerraformModuleConstraint
     toProcess = colonParts.pop() ?? toProcess;
 
     // strip off any port
-    const portMatch = toProcess.match(/[\d]*(.*)/);
+    const portMatch = toProcess.match(/^[\d]*(.*)/);
     if (portMatch) {
       toProcess = portMatch[1];
     }
 
     // strip off any hostname
-    const hostMatch = toProcess.match(/.*\..*\/(.*)/);
+    const hostMatch = toProcess.match(/.*\.[^/]*\/(.*)/);
     if (hostMatch) {
       toProcess = hostMatch[1];
     }
@@ -150,7 +150,11 @@ export class TerraformModuleConstraint
     if (moduleParts.length > 1) {
       const moduleNameParts = moduleParts[1].split("/");
       const moduleName = moduleNameParts.pop();
-      namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`;
+      if (namespace) {
+        namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`;
+      } else {
+        namespace = `${name}/${moduleNameParts.join("/")}`;
+      }
       name = moduleName ?? name;
     }
 

@@ -315,9 +315,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "example",
+              "fqn": "hashicorp/example",
               "name": "example",
-              "namespace": undefined,
+              "namespace": "hashicorp",
               "source": "github.com/hashicorp/example",
               "version": undefined,
             },
@@ -361,9 +361,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "terraform-consul-aws",
+              "fqn": "hashicorp/terraform-consul-aws",
               "name": "terraform-consul-aws",
-              "namespace": undefined,
+              "namespace": "hashicorp",
               "source": "bitbucket.org/hashicorp/terraform-consul-aws",
               "version": undefined,
             },
@@ -432,9 +432,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "main-vpc",
+              "fqn": "infra/main-vpc",
               "name": "main-vpc",
-              "namespace": undefined,
+              "namespace": "infra",
               "source": "git::https://example.com/infra/main-vpc.git?ref=v1.2.0",
               "version": undefined,
             },
@@ -572,9 +572,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "vpc",
+              "fqn": "examplecorp-terraform-modules/vpc",
               "name": "vpc",
-              "namespace": undefined,
+              "namespace": "examplecorp-terraform-modules",
               "source": "s3::https://s3-eu-west-1.amazonaws.com/examplecorp-terraform-modules/vpc.zip",
               "version": undefined,
             },
@@ -597,9 +597,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "foomodule",
+              "fqn": "storage/v1/modules/foomodule",
               "name": "foomodule",
-              "namespace": undefined,
+              "namespace": "modules",
               "source": "gcs::https://www.googleapis.com/storage/v1/modules/foomodule.zip",
               "version": undefined,
             },
@@ -643,9 +643,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "vpc",
+              "fqn": "/modules/vpc",
               "name": "vpc",
-              "namespace": undefined,
+              "namespace": "modules",
               "source": "git::https://example.com/network.git//modules/vpc",
               "version": undefined,
             },
@@ -668,9 +668,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "vpc",
+              "fqn": "/modules/vpc",
               "name": "vpc",
-              "namespace": undefined,
+              "namespace": "modules",
               "source": "https://example.com/network-module.zip//modules/vpc",
               "version": undefined,
             },
@@ -693,9 +693,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "vpc",
+              "fqn": "/modules/vpc",
               "name": "vpc",
-              "namespace": undefined,
+              "namespace": "modules",
               "source": "s3::https://s3-eu-west-1.amazonaws.com/examplecorp-terraform-modules/network.zip//modules/vpc",
               "version": undefined,
             },
@@ -718,9 +718,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "vpc",
+              "fqn": "/modules/vpc",
               "name": "vpc",
-              "namespace": undefined,
+              "namespace": "modules",
               "source": "git::https://example.com/network.git//modules/vpc?ref=v1.2.0",
               "version": undefined,
             },
