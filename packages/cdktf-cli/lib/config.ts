@@ -125,7 +125,7 @@ export class TerraformModuleConstraint
     }
 
     // strip off any hostname
-    const hostMatch = toProcess.match(/.*\.[^/]*\/(.*)/);
+    const hostMatch = toProcess.match(/[^/]*\.[^/]*\/(.*)/);
     if (hostMatch) {
       toProcess = hostMatch[1];
     }

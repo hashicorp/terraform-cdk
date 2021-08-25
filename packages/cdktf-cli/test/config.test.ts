@@ -643,9 +643,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "/modules/vpc",
+              "fqn": "network/modules/vpc",
               "name": "vpc",
-              "namespace": "modules",
+              "namespace": "network/modules",
               "source": "git::https://example.com/network.git//modules/vpc",
               "version": undefined,
             },
@@ -668,9 +668,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "/modules/vpc",
+              "fqn": "network-module/modules/vpc",
               "name": "vpc",
-              "namespace": "modules",
+              "namespace": "network-module/modules",
               "source": "https://example.com/network-module.zip//modules/vpc",
               "version": undefined,
             },
@@ -693,9 +693,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "/modules/vpc",
+              "fqn": "examplecorp-terraform-modules/network/modules/vpc",
               "name": "vpc",
-              "namespace": "modules",
+              "namespace": "examplecorp-terraform-modules/network/modules",
               "source": "s3::https://s3-eu-west-1.amazonaws.com/examplecorp-terraform-modules/network.zip//modules/vpc",
               "version": undefined,
             },
@@ -718,9 +718,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "/modules/vpc",
+              "fqn": "network/modules/vpc",
               "name": "vpc",
-              "namespace": "modules",
+              "namespace": "network/modules",
               "source": "git::https://example.com/network.git//modules/vpc?ref=v1.2.0",
               "version": undefined,
             },
@@ -743,9 +743,9 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "0.14.1",
-              "name": "0.14.1",
-              "namespace": undefined,
+              "fqn": "cloudposse/terraform-null-label",
+              "name": "terraform-null-label",
+              "namespace": "cloudposse",
               "source": "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1",
               "version": undefined,
             },
