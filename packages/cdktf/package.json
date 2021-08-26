@@ -91,12 +91,6 @@
     "json-schema-to-typescript": "^8.0.1",
     "typescript": "^3.9.7"
   },
-  "jest": {
-    "collectCoverage": true,
-    "moduleFileExtensions": [
-      "js"
-    ]
-  },
   "dependencies": {
     "archiver": "5.3.0"
   },
