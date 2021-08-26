@@ -63,7 +63,7 @@ app.synth();`,
         },
         "dependencies": {
           "cdktf": "*",
-          "constructs": "^3.3.75"
+          "constructs": "^10.0.5"
         },
         "devDependencies": {
           "@types/node": "^14.0.26",

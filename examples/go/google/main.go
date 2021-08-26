@@ -1,7 +1,7 @@
 package main
 
 import (
-	constructs "github.com/aws/constructs-go/constructs/v3"
+	constructs "github.com/aws/constructs-go/constructs/v10"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
 	jsii "github.com/aws/jsii-runtime-go"
