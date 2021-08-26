@@ -7,6 +7,7 @@ import * as fs from "fs-extra";
     bundle: true,
     outdir: "./bin-dist",
     format: "cjs",
+    target: "node12",
     minify: true,
     platform: "node",
     external: ["@cdktf/hcl2json", "cdktf", "constructs"],
