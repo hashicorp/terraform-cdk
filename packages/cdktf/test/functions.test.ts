@@ -241,7 +241,7 @@ test("combined functions", () => {
   `);
 });
 
-test("function with infinite number of args", () => {
+test("function with varadic args", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
