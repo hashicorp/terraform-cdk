@@ -2,7 +2,8 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { Token } from "./tokens";
 import { deepMerge, keysToSnakeCase } from "./util";
-import { Expression, ref } from "./tfExpression";
+import { ref } from "./tfExpression";
+import { IResolvable } from "./tokens/resolvable";
 
 export interface DataTerraformRemoteStateConfig {
   readonly workspace?: string;
@@ -41,7 +42,7 @@ export abstract class TerraformRemoteState extends TerraformElement {
     return Token.asAny(this.interpolationForAttribute(output));
   }
 
-  private interpolationForAttribute(terraformAttribute: string): Expression {
+  private interpolationForAttribute(terraformAttribute: string): IResolvable {
     return ref(
       `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`
     );
