@@ -20,4 +20,4 @@ To explore the functionality either check out the [Terraform Documentation](http
 
 ## When not to use
 
-- For inputs since it's easier to use the programming language you use
+- For inputs not tied to Terraform (e.g. Environment variables / Local Files) since it's easier to use the programming language you use
