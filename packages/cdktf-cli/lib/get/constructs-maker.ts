@@ -117,12 +117,11 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
 
   public get srcMakName(): string {
     switch (this.targetLanguage) {
-      case Language.PYTHON:
-        return this.name.replace(/[-/.]/g, "_");
       case Language.GO:
         return this.name;
       case Language.JAVA:
       case Language.CSHARP:
+      case Language.PYTHON:
       default:
         return this.simplifiedName;
     }
