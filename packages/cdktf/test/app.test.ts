@@ -38,7 +38,7 @@ test("context can be passed through CDKTF_CONTEXT", () => {
   expect(node.tryGetContext("key2")).toEqual("val2");
 });
 
-test("ckdtfVersion is accessible in context", () => {
+test("cdktfVersion is accessible in context", () => {
   const prog = new App();
   const node = Node.of(prog);
   expect(node.tryGetContext("cdktfVersion")).toEqual(version);
