@@ -1,5 +1,6 @@
 import { Testing, TerraformStack, TerraformLocal } from "../lib";
 import { TestResource } from "./helper";
+import { TestProvider } from "./helper/provider";
 
 test("string local", () => {
   const app = Testing.app();
@@ -38,6 +39,7 @@ test("object local", () => {
 test("local reference", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "test", {});
 
   const resourceName = new TerraformLocal(
     stack,

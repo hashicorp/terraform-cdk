@@ -1,7 +1,6 @@
-import { Construct, IConstruct, ISynthesisSession, Node } from "constructs";
+import { Construct, IConstruct, Node } from "constructs";
 import { resolve } from "./_tokens";
-import * as fs from "fs";
-import * as path from "path";
+
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { TerraformProvider } from "./terraform-provider";
@@ -10,9 +9,11 @@ import {
   ALLOW_SEP_CHARS_IN_LOGICAL_IDS,
 } from "./features";
 import { makeUniqueId } from "./private/unique";
-import { Manifest } from "./manifest";
+import { IStackSynthesizer } from "./synthesize/types";
+import { StackSynthesizer } from "./synthesize/synthesizer";
 
-const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
+const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
+import { ValidateProviderPresence } from "./validations";
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -23,13 +24,18 @@ export interface TerraformStackMetadata {
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
+  public synthesizer: IStackSynthesizer;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.cdktfVersion = Node.of(this).tryGetContext("cdktfVersion");
-
+    this.cdktfVersion = this.node.tryGetContext("cdktfVersion");
+    this.synthesizer = new StackSynthesizer(
+      this,
+      process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS !== undefined
+    );
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
+    this.node.addValidation(new ValidateProviderPresence(this));
   }
 
   public static isStack(x: any): x is TerraformStack {
@@ -44,13 +50,11 @@ export class TerraformStack extends Construct {
         return c;
       }
 
-      const node = Node.of(c);
+      const node = c.node;
 
       if (!node.scope) {
         throw new Error(
-          `No stack could be identified for the construct at path '${
-            Node.of(construct).path
-          }'`
+          `No stack could be identified for the construct at path '${construct.node.path}'`
         );
       }
 
@@ -98,9 +102,7 @@ export class TerraformStack extends Construct {
    */
   protected allocateLogicalId(tfElement: TerraformElement | Node): string {
     const node =
-      tfElement instanceof TerraformElement
-        ? tfElement.constructNode
-        : tfElement;
+      tfElement instanceof TerraformElement ? tfElement.node : tfElement;
     const stack =
       tfElement instanceof TerraformElement ? tfElement.cdktfStack : this;
 
@@ -111,9 +113,7 @@ export class TerraformStack extends Construct {
       stackIndex = 0;
     }
 
-    const components = node.scopes
-      .slice(stackIndex + 1)
-      .map((c) => Node.of(c).id);
+    const components = node.scopes.slice(stackIndex + 1).map((c) => c.node.id);
     return components.length > 0
       ? makeUniqueId(
           components,
@@ -130,7 +130,7 @@ export class TerraformStack extends Construct {
         providers.push(node);
       }
 
-      for (const child of Node.of(node).children) {
+      for (const child of node.node.children) {
         visit(child);
       }
     };
@@ -145,7 +145,7 @@ export class TerraformStack extends Construct {
 
     const metadata: TerraformStackMetadata = {
       version: this.cdktfVersion,
-      stackName: Node.of(this).id,
+      stackName: this.node.id,
       backend: "local", // overwritten by backend implementations if used
       ...(Object.keys(this.rawOverrides).length > 0
         ? { overrides: { stack: Object.keys(this.rawOverrides) } }
@@ -170,22 +170,6 @@ export class TerraformStack extends Construct {
 
     return resolve(this, tf);
   }
-
-  protected onSynthesize(session: ISynthesisSession) {
-    const manifest = session.manifest as Manifest;
-    const stackManifest = manifest.forStack(this);
-
-    const workingDirectory = path.join(
-      session.outdir,
-      stackManifest.workingDirectory
-    );
-    if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
-
-    fs.writeFileSync(
-      path.join(session.outdir, stackManifest.synthesizedStackPath),
-      JSON.stringify(this.toTerraform(), undefined, 2)
-    );
-  }
 }
 
 function terraformElements(
@@ -196,7 +180,7 @@ function terraformElements(
     into.push(node);
   }
 
-  for (const child of Node.of(node).children) {
+  for (const child of node.node.children) {
     // Don't recurse into a substack
     if (TerraformStack.isStack(child)) {
       continue;

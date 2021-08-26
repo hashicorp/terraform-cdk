@@ -5,11 +5,15 @@ import {
   S3Backend,
   DataTerraformRemoteStateS3,
 } from "cdktf";
-import { DataAwsS3BucketObject } from "./.gen/providers/aws";
+import { AwsProvider, DataAwsS3BucketObject } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
+
+    new AwsProvider(this, "aws", {
+      region: "eu-central-1",
+    });
 
     // Only one backend is supported by Terraform
 

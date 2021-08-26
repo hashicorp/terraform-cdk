@@ -214,7 +214,7 @@ export class WatchClient {
     }
   }
 
-  private async getTargetStack(): Promise<Stack> {
+  private async getTargetStack(): Promise<DeepReadonly<Stack>> {
     const { stacks } = this.state;
     if (stacks.length === 0) {
       throw new RecoverableError(
@@ -247,7 +247,7 @@ export class WatchClient {
     const stack = await this.getTargetStack();
     if (stack.json.terraform?.backend?.remote) {
       const terraformCloud = new TerraformCloud(
-        stack,
+        stack as Stack,
         stack.json.terraform?.backend?.remote
       );
       if (await terraformCloud.isRemoteWorkspace()) {
@@ -258,7 +258,7 @@ export class WatchClient {
         // return terraformCloud;
       }
     }
-    return new TerraformCli(stack);
+    return new TerraformCli(stack as Stack);
   }
 
   public async start() {

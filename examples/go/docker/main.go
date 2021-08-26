@@ -19,7 +19,7 @@ package main
 import (
 	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker"
 
-	"github.com/aws/constructs-go/constructs/v3"
+	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 )

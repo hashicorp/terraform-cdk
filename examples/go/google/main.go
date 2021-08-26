@@ -1,7 +1,7 @@
 package main
 
 import (
-	constructs "github.com/aws/constructs-go/constructs/v3"
+	constructs "github.com/aws/constructs-go/constructs/v10"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
 	jsii "github.com/aws/jsii-runtime-go"
@@ -18,6 +18,7 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 		Zone:    jsii.String("us-west1"),
 		Project: jsii.String("dschmidt-cdk-test"),
 	})
+	local.NewLocalProvider(stack, jsii.String("local"), &local.LocalProviderConfig{})
 
 	sa := google.NewServiceAccount(stack, jsii.String("sa"), &google.ServiceAccountConfig{
 		AccountId:   jsii.String("cluster-admin"),

@@ -1,6 +1,7 @@
 import { Testing, TerraformStack } from "../lib";
 import * as b from "../lib/backends";
 import { TestResource } from "./helper";
+import { TestProvider } from "./helper/provider";
 
 test("local", () => {
   const app = Testing.app();
@@ -288,6 +289,8 @@ test("s3 with options", () => {
 test("s3 reference", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
 
   const remoteState = new b.DataTerraformRemoteStateS3(stack, "remote", {
     bucket: "mybucket",
