@@ -54,7 +54,9 @@ class FunctionCall extends TFExpression {
 
     // String literal
     if (numberOfTokens === 0) {
-      return `"${resolvedArg}"`;
+      return resolvedArg.startsWith('"') && resolvedArg.endsWith('"')
+        ? resolvedArg
+        : `"${resolvedArg}"`;
     }
 
     // Only a token reference

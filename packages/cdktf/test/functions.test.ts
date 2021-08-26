@@ -1,5 +1,6 @@
 import { Testing, TerraformStack, TerraformOutput, Fn } from "../lib";
 import { TerraformVariable } from "../lib/terraform-variable";
+import { TerraformLocal } from "../lib/terraform-local";
 
 test("static values", () => {
   const app = Testing.app();
@@ -389,6 +390,92 @@ test("functions with object inputs", () => {
       \\"output\\": {
         \\"test-output\\": {
           \\"value\\": \\"\${lookup({var = var.test-var, stat = 4, internal = true, yes = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
+        }
+      }
+    }"
+  `);
+});
+
+test("quoted primitives in list", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.join(", ", ["world", "hello"]),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"version\\": \\"stubbed\\",
+          \\"stackName\\": \\"test\\",
+          \\"backend\\": \\"local\\"
+        }
+      },
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${join(\\\\\\", \\\\\\", [\\\\\\"world\\\\\\", \\\\\\"hello\\\\\\"])}\\"
+        }
+      }
+    }"
+  `);
+});
+
+test("quoted primitives, unquoted functions", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.join(", ", [Fn.join(" ", Fn.reverse(["world", "hello"]))]),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"version\\": \\"stubbed\\",
+          \\"stackName\\": \\"test\\",
+          \\"backend\\": \\"local\\"
+        }
+      },
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${join(\\\\\\", \\\\\\", [join(\\\\\\" \\\\\\", reverse([\\\\\\"world\\\\\\", \\\\\\"hello\\\\\\"]))])}\\"
+        }
+      }
+    }"
+  `);
+});
+
+test("terraform local", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const local = new TerraformLocal(stack, "list", ["world", "hello"]);
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.reverse(local.asList),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"version\\": \\"stubbed\\",
+          \\"stackName\\": \\"test\\",
+          \\"backend\\": \\"local\\"
+        }
+      },
+      \\"locals\\": {
+        \\"list\\": [
+          \\"world\\",
+          \\"hello\\"
+        ]
+      },
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${reverse(local.list)}\\"
         }
       }
     }"

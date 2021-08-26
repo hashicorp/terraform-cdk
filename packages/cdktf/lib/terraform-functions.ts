@@ -2,6 +2,7 @@ import { Tokenization } from "./tokens/token";
 import { call } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { TokenMap } from "./tokens/private/token-map";
+import { TokenString } from "./tokens/private/encoding";
 
 // We use branding here to ensure we internally only handle validated values
 // this allows us to catch usage errors before terraform does in some cases
@@ -43,21 +44,33 @@ function listOf(type: TFValueValidator): TFValueValidator {
       return value;
     }
 
-    value.forEach((item, i) => {
+    return value.map((item, i) => {
       if (Tokenization.isResolvable(item)) {
-        return;
+        return item;
+      }
+
+      if (TokenString.forListToken(item).test()) {
+        return item;
+      }
+
+      if (typeof item === "string") {
+        const tokenList = Tokenization.reverseString(item);
+        const numberOfTokens =
+          tokenList.tokens.length + tokenList.intrinsic.length;
+        if (numberOfTokens === 1 && tokenList.literals.length === 0) {
+          return item;
+        }
       }
 
       try {
         type(item);
+        return typeof item === "string" ? `"${item}"` : item;
       } catch (error) {
         throw new Error(
           `Element in list ${value} at position ${i} is not of the right type: ${error}`
         );
       }
     });
-
-    return value;
   };
 }
 
@@ -92,8 +105,10 @@ function terraformFunction(
           `${name} takes ${argValidators.length} arguments, but ${args.length} were provided`
         );
       }
-      args.forEach((arg, i) => argValidators[i](arg));
-      return call(name, args);
+      return call(
+        name,
+        args.map((arg, i) => argValidators[i](arg))
+      );
     } else {
       return call(name, argValidators(args));
     }
@@ -308,7 +323,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/reverse.html reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.
    * @param {Array} values
    */
-  public static reverse(values: any[] | string) {
+  public static reverse(values: any[]) {
     return asList(terraformFunction("reverse", [listOf(anyValue)])(values));
   }
 
@@ -991,7 +1006,7 @@ export class Fn {
    */
   public static join(
     separator: string | IResolvable,
-    value: string | IResolvable[]
+    value: (string | IResolvable)[]
   ) {
     return asString(
       terraformFunction("join", [stringValue, listOf(anyValue)])(
