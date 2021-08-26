@@ -12,7 +12,7 @@ import { makeUniqueId } from "./private/unique";
 import { IStackSynthesizer } from "./synthesize/types";
 import { StackSynthesizer } from "./synthesize/synthesizer";
 
-const STACK_SYMBOL = Symbol.for("ckdtf/TerraformStack");
+const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
 
 export interface TerraformStackMetadata {
