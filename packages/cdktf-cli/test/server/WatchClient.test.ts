@@ -87,6 +87,7 @@ describe("WatchClient", () => {
               synthesizedStackPath: "B",
               workingDirectory: "C",
               content: "null",
+              annotations: [],
             },
           ];
         });
@@ -118,6 +119,7 @@ describe("WatchClient", () => {
               synthesizedStackPath: "B",
               workingDirectory: "C",
               content: "null",
+              annotations: [],
             },
             {
               name: "StackB",
@@ -125,6 +127,7 @@ describe("WatchClient", () => {
               synthesizedStackPath: "B",
               workingDirectory: "C",
               content: "null",
+              annotations: [],
             },
           ];
         });
@@ -156,6 +159,7 @@ describe("WatchClient", () => {
               // will be hashed by deploy but not compared, so just a valid dir is needed
               workingDirectory: __dirname,
               content: JSON.stringify({ terraform: {} } as TerraformJson),
+              annotations: [],
             },
           ];
         });

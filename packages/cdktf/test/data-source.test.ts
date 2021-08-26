@@ -1,10 +1,12 @@
 import { TerraformStack, Testing, Token } from "../lib";
 import { TestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
+import { TestProvider } from "./helper/provider";
 
 test("minimal configuration", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
 
   new TestDataSource(stack, "test", {
     name: "foo",
@@ -15,6 +17,7 @@ test("minimal configuration", () => {
 test("with complex computed list", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test-data-source");
+  new TestProvider(stack, "provider", {});
 
   const dataSource = new TestDataSource(stack, "test", {
     name: "foo",
@@ -29,6 +32,7 @@ test("with complex computed list", () => {
 test("with string map", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test-data-source");
+  new TestProvider(stack, "provider", {});
 
   const dataSource = new TestDataSource(stack, "test", {
     name: "foo",
@@ -43,6 +47,7 @@ test("with string map", () => {
 test("with number map", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test-data-source");
+  new TestProvider(stack, "provider", {});
 
   const dataSource = new TestDataSource(stack, "test", {
     name: "foo",
@@ -57,6 +62,7 @@ test("with number map", () => {
 test("with boolean map", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test-data-source");
+  new TestProvider(stack, "provider", {});
 
   const dataSource = new TestDataSource(stack, "test", {
     name: "foo",
@@ -71,6 +77,7 @@ test("with boolean map", () => {
 test("dependent data source", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
 
   const resource = new TestResource(stack, "resource", {
     name: "foo",

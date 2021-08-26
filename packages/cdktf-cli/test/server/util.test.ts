@@ -84,6 +84,7 @@ node_modules
               "//": { metadata: { stackName: "StackA", version: "1" } },
               resource: {},
             },
+            annotations: [],
           },
         ],
         error: {

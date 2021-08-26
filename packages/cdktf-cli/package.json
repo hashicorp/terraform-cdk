@@ -30,7 +30,7 @@
   "dependencies": {
     "@cdktf/hcl2json": "0.0.0",
     "cdktf": "0.0.0",
-    "constructs": "^3.3.75"
+    "constructs": "^10.0.0"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

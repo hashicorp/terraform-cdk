@@ -4,7 +4,7 @@ import (
 	eks "github.com/hashicorp/terraform-cdk/examples/go/aws/generated/aws_eks_module"
 	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws"
 
-	"github.com/aws/constructs-go/constructs/v3"
+	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 )

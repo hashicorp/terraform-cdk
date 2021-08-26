@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/aws/constructs-go/constructs/v3"
+	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 	"github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud"

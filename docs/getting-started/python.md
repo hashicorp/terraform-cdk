@@ -31,7 +31,7 @@ mkdir hello-terraform
 cd hello-terraform
 ```
 
-There are two Python templates available that you can choose from.
+There are two built-in Python templates available that you can choose from.
 The `python` template uses `Pipenv` for package management wheras the
 `python-pip` template just uses `pip` with a simple `requirements.txt` file.
 

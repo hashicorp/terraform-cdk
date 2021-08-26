@@ -27,6 +27,7 @@ test("Destroy", async () => {
     name: "testing",
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
+    annotations: [],
   };
 
   const initialState: DeployState = {
@@ -68,6 +69,7 @@ test("Apply Multiple Resources", async () => {
     name: "hellodiff",
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
+    annotations: [],
   };
 
   const initialState: DeployState = {
