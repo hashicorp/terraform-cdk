@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { Token } from "./tokens";
+import { ref } from "./tfExpression";
 
 export class TerraformLocal extends TerraformElement {
   private _expression: any;
@@ -16,27 +17,27 @@ export class TerraformLocal extends TerraformElement {
   }
 
   public get expression() {
-    return Token.asAny(this.interpolation());
+    return Token.asAny(ref(this.interpolation()));
   }
 
   public get asString(): string {
-    return Token.asString(this.interpolation());
+    return Token.asString(ref(this.interpolation()));
   }
 
   public get asNumber(): number {
-    return Token.asNumber(this.interpolation());
+    return Token.asNumber(ref(this.interpolation()));
   }
 
   public get asList(): string[] {
-    return Token.asList(this.interpolation());
+    return Token.asList(ref(this.interpolation()));
   }
 
   public get asBoolean(): boolean {
-    return Token.asString(this.interpolation()) as any as boolean;
+    return Token.asString(ref(this.interpolation())) as any as boolean;
   }
 
   private interpolation(): any {
-    return `\${local.${this.friendlyUniqueId}}`;
+    return `local.${this.friendlyUniqueId}`;
   }
 
   public toTerraform(): any {
