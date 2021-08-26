@@ -236,23 +236,12 @@ describe("parseConfig", () => {
         terraformModules: ["./consul"],
       };
 
-      expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
-          "checkCodeMakerOutput": true,
-          "codeMakerOutput": ".gen",
-          "output": "cdktf.out",
-          "terraformModules": Array [
-            TerraformModuleConstraint {
-              "fqn": "consul",
-              "localSource": "file:///workspaces/terraform-cdk/packages/cdktf-cli/consul",
-              "name": "consul",
-              "namespace": undefined,
-              "source": "./consul",
-              "version": undefined,
-            },
-          ],
-        }
-      `);
+      const parsed: any = parseConfig(JSON.stringify(input));
+      expect(parsed.terraformModules[0].localSource).toMatch(
+        "/packages/cdktf-cli/consul"
+      );
+
+      expect(parsed.terraformModules[0].name).toMatch("consul");
     });
 
     it("parses registry", async () => {
