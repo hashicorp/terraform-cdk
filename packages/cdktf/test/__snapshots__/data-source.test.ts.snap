@@ -9,6 +9,11 @@ exports[`dependent data source 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"resource\\": {
@@ -49,6 +54,11 @@ exports[`minimal configuration 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"data\\": {
     \\"test_data_source\\": {
       \\"test\\": {
@@ -72,6 +82,11 @@ exports[`with boolean map 1`] = `
       \\"stackName\\": \\"test-data-source\\",
       \\"backend\\": \\"local\\"
     }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
   },
   \\"data\\": {
     \\"test_data_source\\": {
@@ -110,6 +125,11 @@ exports[`with complex computed list 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"data\\": {
     \\"test_data_source\\": {
       \\"test\\": {
@@ -147,6 +167,11 @@ exports[`with number map 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"data\\": {
     \\"test_data_source\\": {
       \\"test\\": {
@@ -183,6 +208,11 @@ exports[`with string map 1`] = `
       \\"stackName\\": \\"test-data-source\\",
       \\"backend\\": \\"local\\"
     }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
   },
   \\"data\\": {
     \\"test_data_source\\": {

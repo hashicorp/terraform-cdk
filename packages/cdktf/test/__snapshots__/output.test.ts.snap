@@ -26,6 +26,11 @@ exports[`dependent output 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"weird-long-running-resource\\": {
@@ -154,6 +159,23 @@ exports[`string output 1`] = `
   \\"output\\": {
     \\"test-output\\": {
       \\"value\\": \\"1\\"
+    }
+  }
+}"
+`;
+
+exports[`variable output 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${var.test-variable}\\"
     }
   }
 }"

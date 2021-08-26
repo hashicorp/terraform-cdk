@@ -83,26 +83,22 @@
     "@types/node": "^14.0.26",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
-    "constructs": "^3.3.75",
+    "constructs": "^10.0.0",
     "eslint": "^7.29.0",
+    "jest": "^26.6.3",
     "jsii": "^1.29.0",
     "jsii-pacmak": "^1.29.0",
-    "jest": "^26.6.3",
     "json-schema-to-typescript": "^8.0.1",
     "typescript": "^3.9.7"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "moduleFileExtensions": [
-      "js"
-    ]
   },
   "dependencies": {
     "archiver": "5.3.0"
   },
-  "bundledDependencies": ["archiver"],
+  "bundledDependencies": [
+    "archiver"
+  ],
   "stability": "experimental",
   "peerDependencies": {
-    "constructs": "^3.3.75"
+    "constructs": "^10.0.0"
   }
 }

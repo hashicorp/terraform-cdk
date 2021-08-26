@@ -1,10 +1,11 @@
-import { Node } from "constructs";
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
 import { App } from "../lib";
 import { TerraformStack } from "./terraform-stack";
+import { Manifest } from "./manifest";
 import { FUTURE_FLAGS } from "./features";
+import { IConstruct } from "constructs";
 
 /**
  * Testing utilities for cdktf applications.
@@ -21,12 +22,13 @@ export class Testing {
   }
 
   public static stubVersion(app: App): App {
-    Node.of(app).setContext("cdktfVersion", "stubbed");
+    app.node.setContext("cdktfVersion", "stubbed");
+    (app.manifest.version as string) = "stubbed";
     return app;
   }
 
   public static enableFutureFlags(app: App): App {
-    const node = Node.of(app);
+    const node = app.node;
     Object.entries(FUTURE_FLAGS).forEach(([key, value]) =>
       node.setContext(key, value)
     );
@@ -37,7 +39,51 @@ export class Testing {
    * Returns the Terraform synthesized JSON.
    */
   public static synth(stack: TerraformStack) {
-    return JSON.stringify(stack.toTerraform(), null, 2);
+    const tfConfig = stack.toTerraform();
+
+    return JSON.stringify(tfConfig, null, 2);
+  }
+
+  public static fullSynth(stack: TerraformStack): string {
+    const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+
+    const manifest = new Manifest("stubbed", outdir);
+
+    stack.synthesizer.synthesize({
+      outdir,
+      manifest,
+    });
+
+    manifest.writeToFile();
+
+    return outdir;
+  }
+
+  public static renderConstructTree(construct: IConstruct): string {
+    return render(construct, 0, false);
+
+    function render(
+      construct: IConstruct,
+      level: number,
+      isLast: boolean
+    ): string {
+      let prefix = "";
+      if (level > 0) {
+        const spaces = " ".repeat((level - 1) * 4);
+        const symbol = isLast ? "└" : "├";
+        prefix = `${spaces}${symbol}── `;
+      }
+      const name =
+        construct instanceof App
+          ? "App"
+          : `${construct.node.id} (${construct.constructor.name})`;
+      return `${prefix}${name}\n${construct.node.children
+        .map((child, idx, arr) => {
+          const isLast = idx === arr.length - 1;
+          return render(child, level + 1, isLast);
+        })
+        .join("")}`;
+    }
   }
 
   /* istanbul ignore next */

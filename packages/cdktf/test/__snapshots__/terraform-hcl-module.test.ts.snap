@@ -94,6 +94,11 @@ exports[`depend on module 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"module\\": {
     \\"test\\": {
       \\"source\\": \\"../foo\\",
@@ -263,6 +268,11 @@ exports[`reference module 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"module\\": {
     \\"test\\": {
       \\"source\\": \\"../foo\\",
@@ -298,6 +308,11 @@ exports[`reference module list 1`] = `
       \\"stackName\\": \\"test\\",
       \\"backend\\": \\"local\\"
     }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
   },
   \\"module\\": {
     \\"test\\": {

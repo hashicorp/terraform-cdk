@@ -16,6 +16,7 @@ const localExecution = process.env.TF_EXECUTE_LOCAL === "true";
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+    new NullProvider.NullProvider(this, "null", {});
 
     const nullResouce = new NullProvider.Resource(this, "test", {});
 

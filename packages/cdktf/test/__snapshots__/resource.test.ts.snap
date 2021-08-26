@@ -9,6 +9,11 @@ exports[`dependent resource 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"data\\": {
     \\"test_data_source\\": {
       \\"data_source\\": {
@@ -49,6 +54,11 @@ exports[`do not change capitalization of arbritary nested types 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test\\": {
@@ -76,6 +86,11 @@ exports[`do not change capitalization of tags 1`] = `
       \\"stackName\\": \\"tests\\",
       \\"backend\\": \\"local\\"
     }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
   },
   \\"resource\\": {
     \\"test_resource\\": {
@@ -105,6 +120,11 @@ exports[`minimal configuration 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test\\": {
@@ -116,6 +136,41 @@ exports[`minimal configuration 1`] = `
           }
         }
       }
+    }
+  }
+}"
+`;
+
+exports[`numeric attributes 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"foo\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  },
+  \\"output\\": {
+    \\"combined-string-number\\": {
+      \\"value\\": \\"\${test_resource.resource.string_value} / 23.324 / \${test_resource.resource.numeric_value} / 42\\"
     }
   }
 }"
@@ -163,6 +218,14 @@ exports[`serialize list interpolation 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ],
+    \\"other\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test\\": {
@@ -198,6 +261,14 @@ exports[`with complex computed list 1`] = `
       \\"stackName\\": \\"tests\\",
       \\"backend\\": \\"local\\"
     }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ],
+    \\"other\\": [
+      {}
+    ]
   },
   \\"resource\\": {
     \\"other_test_resource\\": {

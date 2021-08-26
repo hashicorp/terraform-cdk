@@ -1,10 +1,12 @@
 import { Testing, TerraformStack } from "../lib";
 import { TestProvider, TestResource, OtherTestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
+import { TerraformOutput } from "../lib/terraform-output";
 
 test("minimal configuration", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
 
   new TestResource(stack, "test", {
     name: "foo",
@@ -64,6 +66,10 @@ test("resource fqn", () => {
 test("serialize list interpolation", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "tests");
+  new TestProvider(stack, "provider", {});
+  new TestProvider(stack, "other_provider", {
+    type: "other",
+  });
 
   const resource = new TestResource(stack, "test", {
     name: "bar",
@@ -78,6 +84,10 @@ test("serialize list interpolation", () => {
 test("with complex computed list", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "tests");
+  new TestProvider(stack, "provider", {});
+  new TestProvider(stack, "other_provider", {
+    type: "other",
+  });
 
   const otherResource = new OtherTestResource(stack, "othertest", {});
 
@@ -91,6 +101,7 @@ test("with complex computed list", () => {
 test("do not change capitalization of tags", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "tests");
+  new TestProvider(stack, "provider", {});
 
   new TestResource(stack, "test", {
     name: "bar",
@@ -105,6 +116,7 @@ test("do not change capitalization of tags", () => {
 test("do not change capitalization of arbritary nested types", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "tests");
+  new TestProvider(stack, "provider", {});
 
   new TestResource(stack, "test", {
     name: "bar",
@@ -119,6 +131,7 @@ test("do not change capitalization of arbritary nested types", () => {
 test("dependent resource", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
 
   const dataSource = new TestDataSource(stack, "data_source", {
     name: "foo",
@@ -127,6 +140,22 @@ test("dependent resource", () => {
   new TestResource(stack, "resource", {
     name: "foo",
     dependsOn: [dataSource],
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("numeric attributes", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const foo = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "combined-string-number", {
+    value: `${foo.stringValue} / 23.324 / ${foo.numericValue} / 42`,
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();

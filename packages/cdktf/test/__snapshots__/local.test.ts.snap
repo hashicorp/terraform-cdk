@@ -24,6 +24,11 @@ exports[`local reference 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"locals\\": {
     \\"resource_name\\": \\"my_resource\\"
   },

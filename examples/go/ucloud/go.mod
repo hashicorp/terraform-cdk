@@ -3,7 +3,7 @@ module github.com/hashicorp/terraform-cdk/examples/go/ucloud
 go 1.16
 
 require (
-	github.com/aws/constructs-go/constructs/v3 v3.3.75
+	github.com/aws/constructs-go/constructs/v10 v10.0.5
 	github.com/aws/jsii-runtime-go v1.30.0
 	github.com/hashicorp/terraform-cdk-go/cdktf v0.0.0
 )

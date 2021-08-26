@@ -5,6 +5,7 @@ import {
   VariableType,
 } from "../lib";
 import { TestResource } from "./helper";
+import { TestProvider } from "./helper/provider";
 
 test("string type", () => {
   const app = Testing.app();
@@ -121,6 +122,7 @@ test("reference", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
+  new TestProvider(stack, "provider", {});
   const variable = new TerraformVariable(stack, "test-variable", {
     type: "string",
   });
@@ -138,6 +140,20 @@ test("sensitive variable", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "string",
     sensitive: true,
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("variable with variable default", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const a = new TerraformVariable(stack, "test-variable", {
+    type: "string",
+  });
+  new TerraformVariable(stack, "other-variable", {
+    default: a.value,
+    type: "string",
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

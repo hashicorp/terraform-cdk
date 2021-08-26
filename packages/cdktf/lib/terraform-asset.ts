@@ -1,9 +1,10 @@
-import { Construct, ISynthesisSession, Node } from "constructs";
+import { Construct } from "constructs";
 import * as fs from "fs";
 import * as path from "path";
-import { Manifest } from "./manifest";
 import { copySync, archiveSync, hashPath } from "./private/fs";
 import { Resource } from "./resource";
+import { ISynthesisSession } from "./synthesize";
+import { addCustomSynthesis } from "./synthesize/synthesizer";
 
 export interface TerraformAssetConfig {
   // absolute path to the file or folder configured
@@ -63,6 +64,17 @@ export class TerraformAsset extends Resource {
         `TerraformAsset ${id} expects path to be a file, a directory was passed: '${config.path}'`
       );
     }
+
+    addCustomSynthesis(this, {
+      onSynthesize: this._onSynthesize.bind(this),
+    });
+  }
+
+  private get namedFolder(): string {
+    return path.posix.join(
+      ASSETS_DIRECTORY,
+      this.stack.getLogicalId(this.node)
+    );
   }
 
   /**
@@ -71,8 +83,8 @@ export class TerraformAsset extends Resource {
    */
   public get path(): string {
     return path.posix.join(
-      ASSETS_DIRECTORY,
-      this.stack.getLogicalId(Node.of(this)), // needed to get a human friendly, unique segment in the path
+      this.namedFolder, // readable name
+      this.assetHash, // hash depending on content so that path changes if content changes
       this.type === AssetType.DIRECTORY ? "" : this.fileName
     );
   }
@@ -89,16 +101,21 @@ export class TerraformAsset extends Resource {
     }
   }
 
-  protected onSynthesize(session: ISynthesisSession) {
-    const manifest = session.manifest as Manifest;
-    const stackManifest = manifest.forStack(this.stack);
-
-    const targetPath = path.join(
-      session.outdir,
+  private _onSynthesize(session: ISynthesisSession) {
+    const stackManifest = session.manifest.forStack(this.stack);
+    const basePath = path.join(
+      session.manifest.outdir,
       stackManifest.synthesizedStackPath,
-      "..",
-      this.path
+      ".."
     );
+
+    // Cleanup existing assets
+    const previousVersionsFolder = path.join(basePath, this.namedFolder);
+    if (fs.existsSync(previousVersionsFolder)) {
+      fs.rmdirSync(previousVersionsFolder, { recursive: true });
+    }
+
+    const targetPath = path.join(basePath, this.path);
 
     if (this.type === AssetType.DIRECTORY) {
       fs.mkdirSync(targetPath, { recursive: true });
