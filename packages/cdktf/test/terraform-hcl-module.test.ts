@@ -56,11 +56,16 @@ test("multiple providers", () => {
     alias: "provider2",
   });
 
-  new TerraformHclModule(stack, "test", {
-    source: "./foo",
-    providers: [provider1, provider2],
-  });
-  expect(Testing.synth(stack)).toMatchSnapshot();
+  try {
+    new TerraformHclModule(stack, "test", {
+      source: "./foo",
+      providers: [provider1, provider2],
+    });
+  } catch (e) {
+    expect(e.message).toMatch(
+      /Error: Multiple providers can't have the same alias/
+    );
+  }
 });
 
 test("complex providers", () => {
