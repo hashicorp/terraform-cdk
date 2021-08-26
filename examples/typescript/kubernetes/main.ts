@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
+import { App, TerraformStack, Fn } from "cdktf";
 import {
   KubernetesProvider,
   Namespace,
@@ -26,7 +26,11 @@ class KubeStack extends TerraformStack {
       metadata: [
         {
           name: app,
-          namespace: exampleNamespace.metadataInput[0].name,
+          namespace: Fn.lookup(
+            Fn.element(exampleNamespace.metadata, 0),
+            "name",
+            "default"
+          ),
           labels: {
             app,
           },
