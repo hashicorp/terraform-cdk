@@ -5,7 +5,7 @@ import {
   GoogleProvider,
   DataGoogleIamPolicy,
   CloudRunServiceIamPolicy,
-} from "./.gen/providers/google";
+} from "@cdktf/provider-google";
 import * as path from "path";
 import * as fs from "fs";
 

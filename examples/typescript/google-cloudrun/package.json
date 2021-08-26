@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "get": "cdktf get",
-    "build": "yarn get && tsc",
+    "build": "tsc",
     "synth": "cdktf synth",
     "compile": "tsc --pretty",
     "watch": "tsc -w",
@@ -19,6 +19,7 @@
     "node": ">=10.12"
   },
   "dependencies": {
+    "@cdktf/provider-google": "^0.3.7",
     "cdktf": "0.0.0",
     "constructs": "^10.0.5"
   },
