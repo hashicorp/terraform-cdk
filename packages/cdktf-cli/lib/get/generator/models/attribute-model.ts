@@ -73,6 +73,8 @@ export class AttributeModel {
       return this._name.replace("get", "fetch");
     // `equals` is a prohibited name in jsii
     if (this._name === "equals") return "equalTo";
+    // `node` is already used by the Constructs base class
+    if (this._name === "node") return "nodeAttribute";
     return this._name;
   }
 

@@ -1,3 +1,21 @@
+## Unreleased Changes
+
+**Breaking Changes**
+
+### Constructs upgrade (`v3` to `v10`)
+
+The `constructs` package serves as the base for all building blocks of the CDKs (e.g. CDK for Terraform, AWS CDK and cdk8s). Recently the `constructs` package was lifted to v10 with a few but major changes. The reason behind those was to make it future proof and stable across different CDKs. In this process the API surface area of the `constructs` base package was reduced and some functionality has been moved directly to the AWS CDK instead. For more information and the underlying motivation for the changes to the `constructs` library refer to the [Removal of Construct Compatibility Layer RFC](https://github.com/aws/aws-cdk-rfcs/blob/master/text/0192-remove-constructs-compat.md).
+
+#### Moved functionality
+
+- `Aspects` are now part of `cdktf` as they've been removed from `constructs`. If you use them, you need to change your import statement to import them from the `cdktf` package. The api also has changed a bit. The new way to register `Aspects` is `Aspects.of(construct).add(aspect)` instead of `construct.node.applyAspect(aspect)`.
+- The `construct.node.addInfo()`, `construct.node.addWarning()` and `construct.node.Error()` methods are now available under the `Annotations.of(construct)` API: e.g. `Annotations.of(construct).addWarning('my warning')`. `Annotations` are a part of the `cdktf` base library.
+
+#### Removed functionality
+
+- `construct.onPrepare` / `construct.prepare()` has been removed. Instead you can use `Aspects`: `Aspects.of(this).add({ visit: () => this.prepare() });`.
+- `onSynthesize` has been removed. If you find yourself needing support for it, please file a new issue on this repo and describe your use-case.
+
 ## 0.5.0 (July 29, 2021)
 
 **New Features**
