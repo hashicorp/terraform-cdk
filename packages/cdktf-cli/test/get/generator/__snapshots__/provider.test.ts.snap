@@ -30,7 +30,7 @@ from the 'Security & Credentials' section of the AWS console.
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#insecure AwsProvider#insecure}
   */
-  readonly insecure?: boolean;
+  readonly insecure?: boolean | cdktf.IResolvable;
   /**
   * The maximum number of times an AWS API request is
 being executed. If the API request still fails, an error is
@@ -61,7 +61,7 @@ use virtual hosted bucket addressing when possible
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#s3_force_path_style AwsProvider#s3_force_path_style}
   */
-  readonly s3ForcePathStyle?: boolean;
+  readonly s3ForcePathStyle?: boolean | cdktf.IResolvable;
   /**
   * The secret key for API operations. You can retrieve this
 from the 'Security & Credentials' section of the AWS console.
@@ -81,29 +81,29 @@ this defaults to ~/.aws/credentials.
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#skip_credentials_validation AwsProvider#skip_credentials_validation}
   */
-  readonly skipCredentialsValidation?: boolean;
+  readonly skipCredentialsValidation?: boolean | cdktf.IResolvable;
   /**
   * Skip getting the supported EC2 platforms. Used by users that don't have ec2:DescribeAccountAttributes permissions.
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#skip_get_ec2_platforms AwsProvider#skip_get_ec2_platforms}
   */
-  readonly skipGetEc2Platforms?: boolean;
+  readonly skipGetEc2Platforms?: boolean | cdktf.IResolvable;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#skip_metadata_api_check AwsProvider#skip_metadata_api_check}
   */
-  readonly skipMetadataApiCheck?: boolean;
+  readonly skipMetadataApiCheck?: boolean | cdktf.IResolvable;
   /**
   * Skip static validation of region name. Used by users of alternative AWS-like APIs or users w/ access to regions that are not public (yet).
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#skip_region_validation AwsProvider#skip_region_validation}
   */
-  readonly skipRegionValidation?: boolean;
+  readonly skipRegionValidation?: boolean | cdktf.IResolvable;
   /**
   * Skip requesting the account ID. Used for AWS API implementations that do not have IAM/STS API and/or metadata API.
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#skip_requesting_account_id AwsProvider#skip_requesting_account_id}
   */
-  readonly skipRequestingAccountId?: boolean;
+  readonly skipRequestingAccountId?: boolean | cdktf.IResolvable;
   /**
   * session token. A session token is only required if you are
 using temporary security credentials.
@@ -1256,11 +1256,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // insecure - computed: false, optional: true, required: false
-  private _insecure?: boolean;
+  private _insecure?: boolean | cdktf.IResolvable;
   public get insecure() {
     return this._insecure;
   }
-  public set insecure(value: boolean  | undefined) {
+  public set insecure(value: boolean | cdktf.IResolvable  | undefined) {
     this._insecure = value;
   }
   public resetInsecure() {
@@ -1317,11 +1317,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // s3_force_path_style - computed: false, optional: true, required: false
-  private _s3ForcePathStyle?: boolean;
+  private _s3ForcePathStyle?: boolean | cdktf.IResolvable;
   public get s3ForcePathStyle() {
     return this._s3ForcePathStyle;
   }
-  public set s3ForcePathStyle(value: boolean  | undefined) {
+  public set s3ForcePathStyle(value: boolean | cdktf.IResolvable  | undefined) {
     this._s3ForcePathStyle = value;
   }
   public resetS3ForcePathStyle() {
@@ -1365,11 +1365,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // skip_credentials_validation - computed: false, optional: true, required: false
-  private _skipCredentialsValidation?: boolean;
+  private _skipCredentialsValidation?: boolean | cdktf.IResolvable;
   public get skipCredentialsValidation() {
     return this._skipCredentialsValidation;
   }
-  public set skipCredentialsValidation(value: boolean  | undefined) {
+  public set skipCredentialsValidation(value: boolean | cdktf.IResolvable  | undefined) {
     this._skipCredentialsValidation = value;
   }
   public resetSkipCredentialsValidation() {
@@ -1381,11 +1381,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // skip_get_ec2_platforms - computed: false, optional: true, required: false
-  private _skipGetEc2Platforms?: boolean;
+  private _skipGetEc2Platforms?: boolean | cdktf.IResolvable;
   public get skipGetEc2Platforms() {
     return this._skipGetEc2Platforms;
   }
-  public set skipGetEc2Platforms(value: boolean  | undefined) {
+  public set skipGetEc2Platforms(value: boolean | cdktf.IResolvable  | undefined) {
     this._skipGetEc2Platforms = value;
   }
   public resetSkipGetEc2Platforms() {
@@ -1397,11 +1397,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // skip_metadata_api_check - computed: false, optional: true, required: false
-  private _skipMetadataApiCheck?: boolean;
+  private _skipMetadataApiCheck?: boolean | cdktf.IResolvable;
   public get skipMetadataApiCheck() {
     return this._skipMetadataApiCheck;
   }
-  public set skipMetadataApiCheck(value: boolean  | undefined) {
+  public set skipMetadataApiCheck(value: boolean | cdktf.IResolvable  | undefined) {
     this._skipMetadataApiCheck = value;
   }
   public resetSkipMetadataApiCheck() {
@@ -1413,11 +1413,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // skip_region_validation - computed: false, optional: true, required: false
-  private _skipRegionValidation?: boolean;
+  private _skipRegionValidation?: boolean | cdktf.IResolvable;
   public get skipRegionValidation() {
     return this._skipRegionValidation;
   }
-  public set skipRegionValidation(value: boolean  | undefined) {
+  public set skipRegionValidation(value: boolean | cdktf.IResolvable  | undefined) {
     this._skipRegionValidation = value;
   }
   public resetSkipRegionValidation() {
@@ -1429,11 +1429,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // skip_requesting_account_id - computed: false, optional: true, required: false
-  private _skipRequestingAccountId?: boolean;
+  private _skipRequestingAccountId?: boolean | cdktf.IResolvable;
   public get skipRequestingAccountId() {
     return this._skipRequestingAccountId;
   }
-  public set skipRequestingAccountId(value: boolean  | undefined) {
+  public set skipRequestingAccountId(value: boolean | cdktf.IResolvable  | undefined) {
     this._skipRequestingAccountId = value;
   }
   public resetSkipRequestingAccountId() {

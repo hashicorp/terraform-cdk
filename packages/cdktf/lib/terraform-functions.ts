@@ -11,6 +11,7 @@ type TFValueValidator = (value: any) => TFValue;
 
 type ExecutableTfFunction = (...args: any[]) => IResolvable;
 
+// Validators
 function anyValue(value: any): any {
   return value;
 }
@@ -74,6 +75,7 @@ function listOf(type: TFValueValidator): TFValueValidator {
   };
 }
 
+// Tokenization
 function asString(value: IResolvable) {
   return TokenMap.instance().registerString(value);
 }
@@ -87,7 +89,7 @@ function asList(value: IResolvable) {
 }
 
 function asBoolean(value: IResolvable) {
-  return asAny(value) as boolean;
+  return value; // Booleans can not be represented as a token
 }
 
 function asAny(value: IResolvable) {

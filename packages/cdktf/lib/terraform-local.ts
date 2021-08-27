@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { Token } from "./tokens";
 import { ref } from "./tfExpression";
+import { IResolvable } from "./tokens/resolvable";
 
 export class TerraformLocal extends TerraformElement {
   private _expression: any;
@@ -32,8 +33,8 @@ export class TerraformLocal extends TerraformElement {
     return Token.asList(ref(this.interpolation()));
   }
 
-  public get asBoolean(): boolean {
-    return Token.asString(ref(this.interpolation())) as any as boolean;
+  public get asBoolean(): IResolvable {
+    return ref(this.interpolation());
   }
 
   private interpolation(): any {
