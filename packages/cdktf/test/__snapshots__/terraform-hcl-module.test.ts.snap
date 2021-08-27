@@ -181,6 +181,45 @@ exports[`minimal configuration 1`] = `
 }"
 `;
 
+exports[`multiple providers 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"key\\"
+      }
+    ],
+    \\"differentType\\": [
+      {
+        \\"access_key\\": \\"key\\"
+      }
+    ]
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"../foo\\",
+      \\"providers\\": {
+        \\"test\\": \\"test\\",
+        \\"differentType\\": \\"differentType\\"
+      },
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`pass variables 1`] = `
 "{
   \\"//\\": {

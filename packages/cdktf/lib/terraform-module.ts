@@ -112,23 +112,22 @@ export abstract class TerraformModule
   }
 
   private validateIfProvidersHaveUniqueKeys(): void {
-    const unique = [
-      ...new Set(
-        this._providers?.map((p) => {
-          if (p instanceof TerraformProvider) {
-            return p.terraformResourceType;
-          } else {
-            return `${p.provider.terraformResourceType}.${p.moduleAlias}`;
-          }
-        })
-      ),
-    ];
+    const moduleAliases = this._providers?.map((p) => {
+      if (p instanceof TerraformProvider) {
+        return p.terraformResourceType;
+      } else {
+        return `${p.provider.terraformResourceType}.${p.moduleAlias}`;
+      }
+    });
 
-    if (
-      this._providers !== undefined &&
-      unique.length !== this._providers?.length
-    ) {
-      throw new Error(`Error: Multiple providers can't have the same alias`);
-    }
+    const uniqueModuleAliases = new Set();
+    moduleAliases?.forEach((alias) => {
+      if (uniqueModuleAliases.has(alias)) {
+        throw new Error(
+          `Error: Multiple providers have the same alias: "${alias}"`
+        );
+      }
+      uniqueModuleAliases.add(alias);
+    });
   }
 }

@@ -48,6 +48,26 @@ test("multiple providers", () => {
 
   const provider1 = new TestProvider(stack, "provider1", {
     accessKey: "key",
+  });
+
+  const provider2 = new TestProvider(stack, "provider2", {
+    accessKey: "key",
+    type: "differentType",
+  });
+
+  new TerraformHclModule(stack, "test", {
+    source: "./foo",
+    providers: [provider1, provider2],
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("multiple providers can't have the same module alias", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const provider1 = new TestProvider(stack, "provider1", {
+    accessKey: "key",
     alias: "provider1",
   });
 
@@ -63,7 +83,7 @@ test("multiple providers", () => {
     });
   } catch (e) {
     expect(e.message).toMatch(
-      /Error: Multiple providers can't have the same alias/
+      /Error: Multiple providers have the same alias: "test"/
     );
   }
 });
