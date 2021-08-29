@@ -24,6 +24,7 @@ import {
   extractDynamicBlocks,
   constructAst,
 } from "./expressions";
+import { TerraformModuleConstraint } from "./terraform-module-constraint";
 
 function getReference(graph: DirectedGraph, id: string) {
   const neighbors = graph.outNeighbors(id);
@@ -455,26 +456,15 @@ export function modules(
   const [{ source, version, ...props }] = item;
   const nodeIds = graph.nodes();
 
-  if (isRegistryModule(source)) {
-    return asExpression(
-      scope,
-      source,
-      key,
-      props,
-      nodeIds,
-      true,
-      false,
-      getReference(graph, id)
-    );
-  }
+  const moduleConstraint = new TerraformModuleConstraint(source);
 
   return asExpression(
     scope,
-    "cdktf.TerraformHclModule",
+    moduleConstraint.className,
     key,
-    { ...props, source },
+    props,
     nodeIds,
-    false,
+    true,
     false,
     getReference(graph, id)
   );
@@ -515,14 +505,12 @@ export const providerImports = (providers: string[]) =>
   });
 
 export const moduleImports = (modules: Record<string, Module> | undefined) =>
-  Object.values(modules || {})
-    .filter(([{ source }]) => isRegistryModule(source))
-    .map(
-      ([{ source }]) =>
-        template(
-          `import * as ${pascalCase(source)} from "./.gen/modules/${source}"`
-        )() as t.Statement
-    );
+  Object.values(modules || {}).map(([module]) => {
+    const moduleConstraint = new TerraformModuleConstraint(module.source);
+    return template(
+      `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
+    )() as t.Statement;
+  });
 
 export function gen(statements: t.Statement[]) {
   return prettier.format(generate(t.program(statements) as any).code, {
