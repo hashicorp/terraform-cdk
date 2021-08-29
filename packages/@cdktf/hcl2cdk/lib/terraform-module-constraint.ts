@@ -1,6 +1,7 @@
 import * as path from "path";
 import { isRegistryModule } from "./expressions";
 import { TerraformDependencyConstraint } from "./terraform-dependency-constraint";
+import { pascalCase } from "./utils";
 
 export class TerraformModuleConstraint
   implements TerraformDependencyConstraint
@@ -32,6 +33,14 @@ export class TerraformModuleConstraint
     if (localMatch) {
       this.localSource = `file://${path.join(process.cwd(), this.source)}`;
     }
+  }
+
+  public get className() {
+    return pascalCase(this.name.replace(/[-/.]/g, "_"));
+  }
+
+  public get fileName() {
+    return this.namespace ? `${this.namespace}/${this.name}` : this.name;
   }
 
   private getLocalMatch(source: string): RegExpMatchArray | null {
