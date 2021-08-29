@@ -4,9 +4,9 @@ import { CodeMaker } from "codemaker";
 import { mkdtemp } from "../util";
 import * as srcmak from "jsii-srcmak";
 import {
-  TerraformModuleConstraint,
   TerraformDependencyConstraint,
-} from "../config";
+  TerraformModuleConstraint,
+} from "@cdktf/hcl2cdk";
 import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";

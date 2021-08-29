@@ -1,9 +1,7 @@
 import yargs from "yargs";
 import React from "react";
-import {
-  readConfigSync,
-  TerraformDependencyConstraint,
-} from "../../lib/config";
+import { readConfigSync } from "../../lib/config";
+import { TerraformDependencyConstraint } from "@cdktf/hcl2cdk";
 import { Language, LANGUAGES } from "../../lib/get/constructs-maker";
 import { Get } from "./ui/get";
 import { renderInk } from "./helper/render-ink";

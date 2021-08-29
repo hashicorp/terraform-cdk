@@ -372,4 +372,5 @@ export async function convertProject(
   };
 }
 
-export { isRegistryModule };
+export * from "./terraform-dependency-constraint";
+export * from "./terraform-module-constraint";

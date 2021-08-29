@@ -7,7 +7,7 @@ import {
   ConstructsMaker,
   GetOptions,
 } from "../../../lib/get/constructs-maker";
-import { TerraformDependencyConstraint } from "../../../lib/config";
+import { TerraformDependencyConstraint } from "@cdktf/hcl2cdk";
 
 enum Status {
   STARTING = "starting",

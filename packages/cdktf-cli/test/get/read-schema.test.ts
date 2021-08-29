@@ -4,10 +4,8 @@ import {
   ConstructsMakerProviderTarget,
   Language,
 } from "../../lib/get/constructs-maker";
-import {
-  TerraformModuleConstraint,
-  TerraformProviderConstraint,
-} from "../../lib/config";
+import { TerraformProviderConstraint } from "../../lib/config";
+import { TerraformModuleConstraint } from "@cdktf/hcl2cdk";
 
 expect.addSnapshotSerializer({
   test: (value) => {

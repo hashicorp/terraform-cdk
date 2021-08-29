@@ -5,7 +5,7 @@ import * as path from "path";
 import {
   TerraformDependencyConstraint,
   TerraformModuleConstraint,
-} from "../../lib/config";
+} from "@cdktf/hcl2cdk";
 
 export function expectImportMatchSnapshot(
   constraint: TerraformDependencyConstraint

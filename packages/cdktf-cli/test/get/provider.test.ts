@@ -1,8 +1,6 @@
 import { expectImportMatchSnapshot } from "./util";
-import {
-  TerraformDependencyConstraint,
-  TerraformProviderConstraint,
-} from "../../lib/config";
+import { TerraformProviderConstraint } from "../../lib/config";
+import { TerraformDependencyConstraint } from "@cdktf/hcl2cdk";
 
 const getProvider = (constraint: TerraformDependencyConstraint) =>
   expectImportMatchSnapshot(constraint);
