@@ -96,11 +96,13 @@ class Parser {
     scope: Scope[],
     attributeType: AttributeType | AttributeNestedType
   ): AttributeTypeModel {
+    console.log("renderAttributeType", scope, attributeType);
+
     const parent = scope[scope.length - 1];
     const level = scope.length;
     const isComputed = !!scope.find((e) => e.isComputed === true);
-    const isOptional = parent.isOptional;
-    const isRequired = parent.isRequired;
+    const isOptional = parent.isOptional; // FIXME: adjust var depending on attributeType
+    const isRequired = parent.isRequired; // FIXME: adjust var depending on attributeType
 
     if (typeof attributeType === "string") {
       switch (attributeType) {
@@ -227,6 +229,7 @@ class Parser {
 
   public renderAttributesForBlock(parentType: Scope, block: Block) {
     const attributes = new Array<AttributeModel>();
+    console.log(block);
 
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
