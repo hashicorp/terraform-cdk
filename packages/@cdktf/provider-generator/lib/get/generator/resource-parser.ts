@@ -1,9 +1,11 @@
 import { toCamelCase, toPascalCase, toSnakeCase } from "codemaker";
 import {
   Attribute,
+  AttributeNestedType,
   AttributeType,
   Block,
   BlockType,
+  isAttributesNestedType,
   Schema,
 } from "./provider-schema";
 import {
@@ -99,13 +101,15 @@ class Parser {
 
   private renderAttributeType(
     scope: Scope[],
-    attributeType: AttributeType
+    attributeType: AttributeType | AttributeNestedType
   ): AttributeTypeModel {
+    console.log("renderAttributeType", scope, attributeType);
+
     const parent = scope[scope.length - 1];
     const level = scope.length;
     const isComputed = !!scope.find((e) => e.isComputed === true);
-    const isOptional = parent.isOptional;
-    const isRequired = parent.isRequired;
+    const isOptional = parent.isOptional; // FIXME: adjust var depending on attributeType
+    const isRequired = parent.isRequired; // FIXME: adjust var depending on attributeType
 
     if (typeof attributeType === "string") {
       switch (attributeType) {
@@ -192,11 +196,26 @@ class Parser {
       }
     }
 
-    throw new Error(`unknown type ${attributeType}`);
+    if (isAttributesNestedType(attributeType)) {
+      // FIXME: handle
+      console.log("encountered nested_type");
+      switch (attributeType.nesting_mode) {
+        case "invalid":
+        case "group":
+          throw new Error(); //FIXME: write error msg
+        case "list":
+        case "map":
+        case "set":
+        case "single":
+      }
+    }
+
+    throw new Error(`unknown type ${JSON.stringify(attributeType)}`);
   }
 
   public renderAttributesForBlock(parentType: Scope, block: Block) {
     const attributes = new Array<AttributeModel>();
+    console.log(block);
 
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
@@ -213,7 +232,7 @@ class Parser {
             isRequired: !!att.required,
           }),
         ],
-        att.type
+        att.type || att.nested_type
       );
       const name = toCamelCase(terraformAttributeName);
 
@@ -379,7 +398,7 @@ class Parser {
                 isRequired: required,
               }),
             ],
-            att.type
+            att.type || att.nested_type
           ),
           provider: parent.isProvider,
           required: required,
