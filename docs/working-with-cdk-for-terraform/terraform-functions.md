@@ -12,7 +12,7 @@ new LoadBalancer(this, "lb", {
 });
 ```
 
-To explore the functionality either check out the [Terraform Documentation](https://www.terraform.io/docs/language/functions/index.html) or use your editor autocompletion on the `Fn` object.
+To explore the functionality either check out the [Terraform Documentation](https://www.terraform.io/docs/language/functions/index.html) or use your editor autocompletion on the `Fn` object. The functions can handle normal and [token](./tokens.md) values and will return either tokenized values or `IResolvable`s.
 
 ## When to use
 
