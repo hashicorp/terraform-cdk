@@ -64,7 +64,10 @@ export const Output = ({ output }: OutputConfig): React.ReactElement => {
       {Object.keys(output).map((key) => (
         <Box key={key}>
           <Text>
-            {key} = {sanitize(output[key].value)}
+            {key} ={" "}
+            {output[key].sensitive
+              ? "<sensitive>"
+              : sanitize(output[key].value)}
           </Text>
         </Box>
       ))}
