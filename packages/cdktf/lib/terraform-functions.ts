@@ -207,7 +207,7 @@ export class Fn {
    * @param {number} index
    */
   public static element(
-    list: any[] | string | IResolvable,
+    list: any[] | IResolvable,
     index: number | IResolvable
   ) {
     return asAny(
@@ -222,7 +222,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/flatten.html flatten} takes a list and replaces any elements that are lists with a flattened sequence of the list contents.
    * @param {Array} list
    */
-  public static flatten(list: any[] | string) {
+  public static flatten(list: any[] | IResolvable) {
     return asList(terraformFunction("flatten", [listOf(anyValue)])(list));
   }
 
@@ -231,7 +231,7 @@ export class Fn {
    * @param {Array} list
    * @param {any} value
    */
-  public static index(list: any[] | string, value: any) {
+  public static index(list: any[] | IResolvable, value: any) {
     return asNumber(
       terraformFunction("index", [listOf(anyValue), anyValue])(list, value)
     );
@@ -241,7 +241,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/keys.html keys} takes a map and returns a list containing the keys from that map.
    * @param {Object} map
    */
-  public static keys(map: any) {
+  public static keys(map: Record<string, any> | IResolvable) {
     return asList(terraformFunction("keys", [mapValue])(map));
   }
 
