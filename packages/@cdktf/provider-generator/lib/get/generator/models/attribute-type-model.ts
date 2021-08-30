@@ -30,6 +30,7 @@ export class AttributeTypeModel {
   public isMap: boolean;
   public struct?: Struct;
   public level?: number;
+  // FIXME: do we need an isNested here? maybe for creating different outcomes for the TF JSON?
 
   constructor(private _type: string, options: AttributeTypeModelOptions) {
     this.isList = !!options.isList;

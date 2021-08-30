@@ -8,7 +8,11 @@ import { convertFiles } from "@cdktf/hcl2json";
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
 export interface ProviderSchema {
-  format_version: "1.0";
+  /*
+  0.1 is e.g. returned by Terraform 0.14
+  0.2 is e.g. returned by Terraform 1.0 (0.2 added support for nested_type / plugin protocol v6)
+  */
+  format_version: "0.1" | "0.2";
   provider_schemas?: { [type: string]: Provider };
 }
 
@@ -23,14 +27,54 @@ export interface Schema {
   block: Block;
 }
 
-export interface Attribute {
-  type: AttributeType;
+type AttributeNestedTypeNesting =
+  | "invalid"
+  | "single"
+  | "list"
+  | "set"
+  | "map"
+  | "group";
+
+/**
+ * In tfplugin6.0.proto this as called Object to avoid
+ * collisions with the native JavaScript Object we call it
+ * AttributeNestedType here
+ */
+export interface AttributeNestedType {
+  attributes: { [name: string]: Attribute };
+  nesting_mode: AttributeNestedTypeNesting;
+  min_items: number;
+  max_items: number;
+}
+
+// Duck typing style helper
+export function isAttributesNestedType(type: any): type is AttributeNestedType {
+  return (
+    typeof type.nesting_mode === "string" && typeof type.attributes === "object"
+  );
+}
+
+interface BaseAttribute {
+  type?: AttributeType;
+  nested_type?: AttributeNestedType;
   description?: string;
   required?: boolean;
   optional?: boolean;
   computed?: boolean;
   sensitive?: boolean;
 }
+
+interface NestedTypeAttribute extends BaseAttribute {
+  type?: never;
+  nested_type: AttributeNestedType;
+}
+interface TypedAttribute extends BaseAttribute {
+  type: AttributeType;
+  nested_type?: never;
+}
+
+// to support either type or nested_type being set
+export type Attribute = NestedTypeAttribute | TypedAttribute;
 
 export type AttributeType =
   | "string"
@@ -226,7 +270,7 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
       };
     }
   }
-  let providerSchema: ProviderSchema = { format_version: "1.0" };
+  let providerSchema: ProviderSchema = { format_version: "0.1" };
   let moduleSchema: Record<string, ModuleSchema> = {};
 
   await withTempDir("fetchSchema", async () => {
