@@ -120,6 +120,7 @@ Choose a language:
 - Handling breaking changes with [feature flags](./docs/working-with-cdk-for-terraform/feature-flags.md).
 - Writing own [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) for init.
 - Using [assets](./docs/working-with-cdk-for-terraform/terraform-assets.md) to transfer files into the Terraform context.
+- Learn how to write [tests](./docs/working-with-cdk-for-terraform/testing.md).
 
 <a name="maturity"></a>
 

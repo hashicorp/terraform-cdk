@@ -8,6 +8,10 @@ export interface IResource extends IConstruct {
   readonly stack: TerraformStack;
 }
 
+export interface IResourceConstructor<T extends IResource> {
+  new (scope: Construct, id: string, ...args: any[]): T;
+}
+
 /**
  * A construct which represents a resource.
  */

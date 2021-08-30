@@ -1,7 +1,7 @@
 const { execSync } = require('child_process');
 const { readFileSync, writeFileSync } = require('fs');
 
-const constructs_version = require('../../package.json').dependencies.constructs;
+const constructs_version = "3.3.139" || require('../../package.json').dependencies.constructs;
 
 exports.post = ctx => {
   // Terraform Cloud configuration settings if the organization name and workspace is set.
@@ -14,7 +14,7 @@ exports.post = ctx => {
   if (!npm_cdktf) { throw new Error(`missing context "npm_cdktf"`); }
 
   installDeps([npm_cdktf, `constructs@${constructs_version}`]);
-  installDeps(['@types/node', 'typescript'], true);
+  installDeps(['@types/node', 'typescript', 'jest', '@types/jest'], true);
 
   console.log(readFileSync('./help', 'utf-8'));
 };

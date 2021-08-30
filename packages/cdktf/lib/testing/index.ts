@@ -1,11 +1,16 @@
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
-import { App } from "../lib";
-import { TerraformStack } from "./terraform-stack";
-import { Manifest } from "./manifest";
-import { FUTURE_FLAGS } from "./features";
-import { IConstruct } from "constructs";
+import { App } from "../../lib";
+import { TerraformStack } from "../terraform-stack";
+import { Manifest } from "../manifest";
+import { FUTURE_FLAGS } from "../features";
+import { IConstruct, Construct } from "constructs";
+import { setupJest } from "./adapters/jest";
+
+export interface IScopeCallback {
+  (scope: Construct): void;
+}
 
 /**
  * Testing utilities for cdktf applications.
@@ -35,13 +40,44 @@ export class Testing {
     return app;
   }
 
+  public static synthScope(fn: IScopeCallback) {
+    const stack = new TerraformStack(Testing.app(), "stack");
+    fn(stack);
+    return Testing.synth(stack);
+  }
+
   /**
    * Returns the Terraform synthesized JSON.
    */
   public static synth(stack: TerraformStack) {
     const tfConfig = stack.toTerraform();
 
-    return JSON.stringify(tfConfig, null, 2);
+    function removeMetadata(item: any): any {
+      if (typeof item === "object") {
+        if (Array.isArray(item)) {
+          return item.map(removeMetadata);
+        }
+
+        const cleanedItem = Object.entries(item)
+          // order alphabetically
+          .sort(([a], [b]) => a.localeCompare(b))
+          .reduce(
+            (acc, [key, value]) => ({ ...acc, [key]: removeMetadata(value) }),
+            {}
+          );
+
+        // Remove metadata
+        delete (cleanedItem as any)["//"];
+        return cleanedItem;
+      }
+
+      return item;
+    }
+    const cleaned = removeMetadata(tfConfig);
+
+    // Clean up the references & names
+
+    return JSON.stringify(cleaned, null, 2);
   }
 
   public static fullSynth(stack: TerraformStack): string {
@@ -84,6 +120,10 @@ export class Testing {
         })
         .join("")}`;
     }
+  }
+
+  public static setupJest() {
+    setupJest();
   }
 
   /* istanbul ignore next */
