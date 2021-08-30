@@ -18,9 +18,12 @@ describe("remote templates", () => {
       ".npmrc",
       "cdktf.json",
       "help",
+      "jest.config.js",
       "main.ts",
       "package.json",
+      "setup.js",
       "tsconfig.json",
+      "__tests__",
     ]);
   });
 

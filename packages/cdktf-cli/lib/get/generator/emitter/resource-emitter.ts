@@ -20,6 +20,9 @@ export class ResourceEmitter {
       `export class ${resource.className} extends cdktf.${resource.parentClassName}`
     );
 
+    this.emitHeader("STATIC PROPERTIES");
+    this.emitStaticProperties(resource);
+
     this.emitHeader("INITIALIZER");
     this.emitInitializer(resource);
 
@@ -38,6 +41,12 @@ export class ResourceEmitter {
     this.code.line("// " + "=".repeat(title.length));
     this.code.line(`// ${title}`);
     this.code.line("// " + "=".repeat(title.length));
+  }
+
+  private emitStaticProperties(resource: ResourceModel) {
+    this.code.line(
+      `public static readonly tfResourceType: string = "${resource.terraformResourceType}";`
+    );
   }
 
   private emitResourceSynthesis(resource: ResourceModel) {

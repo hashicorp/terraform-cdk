@@ -2,11 +2,11 @@
 
 exports[`dependent resource 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"data_source\\": {
+        \\"name\\": \\"foo\\"
+      }
     }
   },
   \\"provider\\": {
@@ -14,31 +14,20 @@ exports[`dependent resource 1`] = `
       {}
     ]
   },
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"data_source\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/data_source\\",
-            \\"uniqueId\\": \\"data_source\\"
-          }
-        }
-      }
-    }
-  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"resource\\": {
-        \\"name\\": \\"foo\\",
         \\"depends_on\\": [
           \\"data.test_data_source.data_source\\"
         ],
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/resource\\",
-            \\"uniqueId\\": \\"resource\\"
-          }
-        }
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -47,13 +36,6 @@ exports[`dependent resource 1`] = `
 
 exports[`do not change capitalization of arbritary nested types 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
     \\"test\\": [
       {}
@@ -65,13 +47,14 @@ exports[`do not change capitalization of arbritary nested types 1`] = `
         \\"name\\": \\"bar\\",
         \\"nested_type\\": {
           \\"Tag\\": \\"isDowncased\\"
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
         }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -80,13 +63,6 @@ exports[`do not change capitalization of arbritary nested types 1`] = `
 
 exports[`do not change capitalization of tags 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
     \\"test\\": [
       {}
@@ -98,13 +74,14 @@ exports[`do not change capitalization of tags 1`] = `
         \\"name\\": \\"bar\\",
         \\"tags\\": {
           \\"Tag\\": \\"isWorking\\"
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
         }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -113,13 +90,6 @@ exports[`do not change capitalization of tags 1`] = `
 
 exports[`minimal configuration 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
     \\"test\\": [
       {}
@@ -128,13 +98,14 @@ exports[`minimal configuration 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test\\": {
-        \\"name\\": \\"foo\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -143,11 +114,9 @@ exports[`minimal configuration 1`] = `
 
 exports[`numeric attributes 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+  \\"output\\": {
+    \\"combined-string-number\\": {
+      \\"value\\": \\"\${test_resource.resource.string_value} / 23.324 / \${test_resource.resource.numeric_value} / 42\\"
     }
   },
   \\"provider\\": {
@@ -158,19 +127,15 @@ exports[`numeric attributes 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"resource\\": {
-        \\"name\\": \\"foo\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/resource\\",
-            \\"uniqueId\\": \\"resource\\"
-          }
-        }
+        \\"name\\": \\"foo\\"
       }
     }
   },
-  \\"output\\": {
-    \\"combined-string-number\\": {
-      \\"value\\": \\"\${test_resource.resource.string_value} / 23.324 / \${test_resource.resource.numeric_value} / 42\\"
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
     }
   }
 }"
@@ -178,13 +143,6 @@ exports[`numeric attributes 1`] = `
 
 exports[`provider setter 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
     \\"test\\": [
       {
@@ -196,13 +154,14 @@ exports[`provider setter 1`] = `
     \\"test_resource\\": {
       \\"test\\": {
         \\"name\\": \\"bar\\",
-        \\"provider\\": \\"test\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        \\"provider\\": \\"test\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -211,42 +170,32 @@ exports[`provider setter 1`] = `
 
 exports[`serialize list interpolation 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
-    \\"test\\": [
+    \\"other\\": [
       {}
     ],
-    \\"other\\": [
+    \\"test\\": [
       {}
     ]
   },
   \\"resource\\": {
+    \\"other_test_resource\\": {
+      \\"othertest\\": {}
+    },
     \\"test_resource\\": {
       \\"test\\": {
         \\"name\\": \\"bar\\",
-        \\"names\\": \\"\${other_test_resource.othertest.names}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        \\"names\\": \\"\${other_test_resource.othertest.names}\\"
       }
-    },
-    \\"other_test_resource\\": {
-      \\"othertest\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"tests/othertest\\",
-            \\"uniqueId\\": \\"othertest\\"
-          }
-        }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"other\\": {
+        \\"version\\": \\"~> 2.0\\"
+      },
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -255,41 +204,31 @@ exports[`serialize list interpolation 1`] = `
 
 exports[`with complex computed list 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"tests\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
-    \\"test\\": [
+    \\"other\\": [
       {}
     ],
-    \\"other\\": [
+    \\"test\\": [
       {}
     ]
   },
   \\"resource\\": {
     \\"other_test_resource\\": {
-      \\"othertest\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"tests/othertest\\",
-            \\"uniqueId\\": \\"othertest\\"
-          }
-        }
-      }
+      \\"othertest\\": {}
     },
     \\"test_resource\\": {
       \\"test\\": {
-        \\"name\\": \\"\${other_test_resource.othertest.complex_computed_list.0.id}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"tests/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        \\"name\\": \\"\${other_test_resource.othertest.complex_computed_list.0.id}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"other\\": {
+        \\"version\\": \\"~> 2.0\\"
+      },
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -298,13 +237,6 @@ exports[`with complex computed list 1`] = `
 
 exports[`with provider alias 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
     \\"test\\": [
       {
@@ -320,13 +252,14 @@ exports[`with provider alias 1`] = `
     \\"test_resource\\": {
       \\"test\\": {
         \\"name\\": \\"bar\\",
-        \\"provider\\": \\"test.foo\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        \\"provider\\": \\"test.foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }

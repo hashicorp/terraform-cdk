@@ -876,6 +876,11 @@ function cloudfrontDistributionViewerCertificateToTerraform(struct?: CloudfrontD
 */
 export class CloudfrontDistribution extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_cloudfront_distribution\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -1331,6 +1336,11 @@ export interface FmsAdminAccountConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html aws_fms_admin_account}
 */
 export class FmsAdminAccount extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_fms_admin_account\\";
 
   // ===========
   // INITIALIZER
@@ -2069,6 +2079,11 @@ function s3BucketWebsiteToTerraform(struct?: S3BucketWebsite): any {
 */
 export class S3Bucket extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_s3_bucket\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -2688,6 +2703,11 @@ function securityGroupTimeoutsToTerraform(struct?: SecurityGroupTimeouts): any {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/security_group.html aws_security_group}
 */
 export class SecurityGroup extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_security_group\\";
 
   // ===========
   // INITIALIZER
