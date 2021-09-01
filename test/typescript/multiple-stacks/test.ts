@@ -69,6 +69,21 @@ describe("full integration test", () => {
     `);
   });
 
+  // completions for stacks relies on a manifest.json being present
+  // so this test must be run after something that synthesizes and
+  // thus writes a Manifest (like e.g. cdktf list)
+  test("shell completions complete stacks", async () => {
+    const { stdout, stderr } = await driver.exec("cdktf", [
+      "--get-yargs-completions",
+      "cdktf",
+      "diff",
+    ]);
+
+    expect(stdout).toContain('first:target stack "first"');
+    expect(stdout).toContain('second:target stack "second"');
+    expect(stderr).toEqual("");
+  });
+
   test("deploy", () => {
     expect(driver.deploy("first")).toMatchInlineSnapshot(`
       "Deploying Stack: first
