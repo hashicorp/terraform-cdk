@@ -16,7 +16,7 @@ export class TestDriver {
     this.env = Object.assign({ CI: 1 }, process.env, addToEnv);
   }
 
-  private async exec(
+  public async exec(
     command: string,
     args: string[] = []
   ): Promise<{ stdout: string; stderr: string }> {
