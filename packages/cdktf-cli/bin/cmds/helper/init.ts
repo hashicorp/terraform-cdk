@@ -178,11 +178,7 @@ async function determineDeps(
     const ret = {
       npm_cdktf: path.resolve(dist, "js", `cdktf@${version}.jsii.tgz`),
       npm_cdktf_cli: path.resolve(dist, "js", `cdktf-cli-${version}.tgz`),
-      pypi_cdktf: path.resolve(
-        dist,
-        "python",
-        `cdktf-${pythonVersion}-py3-none-any.whl`
-      ),
+      pypi_cdktf: path.resolve(dist, "python", `cdktf-${pythonVersion}.tar.gz`),
       mvn_cdktf: path.resolve(
         dist,
         "java",
