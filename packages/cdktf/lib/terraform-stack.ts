@@ -14,6 +14,8 @@ import { StackSynthesizer } from "./synthesize/synthesizer";
 
 const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
+import { App } from "./app";
+import { TerraformBackend } from "./terraform-backend";
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -53,8 +55,20 @@ export class TerraformStack extends Construct {
       const node = c.node;
 
       if (!node.scope) {
+        let hint = "";
+        if (
+          construct.node.scope === c &&
+          c instanceof App &&
+          construct instanceof TerraformBackend
+        ) {
+          // the scope of the originally passed construct equals the construct c
+          // which has no scope (i.e. has no parent construct) and c is an App
+          // and our construct is a Backend
+          hint = `. You seem to have passed your root App as scope to a TerraformBackend construct. Pass a stack as scope to your backend instead.`;
+        }
+
         throw new Error(
-          `No stack could be identified for the construct at path '${construct.node.path}'`
+          `No stack could be identified for the construct at path '${construct.node.path}'${hint}`
         );
       }
 
