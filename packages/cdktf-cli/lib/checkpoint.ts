@@ -7,10 +7,16 @@ import ciDetect from "@npmcli/ci-detect";
 import { logger, processLoggerError } from "./logging";
 import { versionNumber } from "../bin/cmds/helper/version-check";
 import * as path from "path";
+import * as crypto from "crypto";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
 const VALID_STATUS_CODES = [200, 201];
+
+const salt = "cdktf-telemetry-salt";
+function withStaticSalt(value: string) {
+  return crypto.scryptSync(value, salt, 32).toString();
+}
 
 export interface ReportParams {
   dateTime?: Date;
@@ -115,7 +121,7 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
 
   const ci: string | false = ciDetect();
   if (!reportParams.userId && !ci) {
-    reportParams.userId = machineIdSync();
+    reportParams.userId = withStaticSalt(machineIdSync());
   }
 
   if (ci) {
