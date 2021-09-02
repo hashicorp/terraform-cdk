@@ -37,6 +37,7 @@ export abstract class TerraformModule
     }
     this.version = options.version;
     this._providers = options.providers;
+    this.validateIfProvidersHaveUniqueKeys();
     if (Array.isArray(options.dependsOn)) {
       this.dependsOn = options.dependsOn.map((dependency) => dependency.fqn);
     }
@@ -64,6 +65,7 @@ export abstract class TerraformModule
       this._providers = [];
     }
     this._providers.push(provider);
+    this.validateIfProvidersHaveUniqueKeys();
   }
 
   public toTerraform(): any {
@@ -72,16 +74,17 @@ export abstract class TerraformModule
         ...this.synthesizeAttributes(),
         source: this.source,
         version: this.version,
-        providers: this.providers?.map((p) => {
+        providers: this._providers?.reduce((a, p) => {
           if (p instanceof TerraformProvider) {
-            return { [p.terraformResourceType]: p.fqn };
+            return { ...a, [p.terraformResourceType]: p.fqn };
           } else {
             return {
+              ...a,
               [`${p.provider.terraformResourceType}.${p.moduleAlias}`]:
                 p.provider.fqn,
             };
           }
-        }),
+        }, {}),
         depends_on: this.dependsOn,
       },
       this.rawOverrides
@@ -106,5 +109,25 @@ export abstract class TerraformModule
         [`module.${this.source}`]: Object.keys(this.rawOverrides),
       },
     };
+  }
+
+  private validateIfProvidersHaveUniqueKeys(): void {
+    const moduleAliases = this._providers?.map((p) => {
+      if (p instanceof TerraformProvider) {
+        return p.terraformResourceType;
+      } else {
+        return `${p.provider.terraformResourceType}.${p.moduleAlias}`;
+      }
+    });
+
+    const uniqueModuleAliases = new Set();
+    moduleAliases?.forEach((alias) => {
+      if (uniqueModuleAliases.has(alias)) {
+        throw new Error(
+          `Error: Multiple providers have the same alias: "${alias}"`
+        );
+      }
+      uniqueModuleAliases.add(alias);
+    });
   }
 }
