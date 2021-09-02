@@ -47,10 +47,14 @@ export interface AttributeNestedType {
   max_items: number;
 }
 
-// Duck typing style helper
-export function isAttributesNestedType(type: any): type is AttributeNestedType {
+export function isAttributeNestedType(
+  type: AttributeType | AttributeNestedType
+): type is AttributeNestedType {
   return (
-    typeof type.nesting_mode === "string" && typeof type.attributes === "object"
+    typeof type === "object" &&
+    !Array.isArray(type) &&
+    typeof type.nesting_mode === "string" &&
+    typeof type.attributes === "object"
   );
 }
 
@@ -76,6 +80,15 @@ interface TypedAttribute extends BaseAttribute {
 // to support either type or nested_type being set
 export type Attribute = NestedTypeAttribute | TypedAttribute;
 
+export function isNestedTypeAttribute(
+  att: Attribute
+): att is NestedTypeAttribute {
+  return (
+    typeof att.nested_type !== "undefined" &&
+    isAttributeNestedType(att.nested_type)
+  );
+}
+
 export type AttributeType =
   | "string"
   | "bool"
@@ -86,7 +99,7 @@ export type AttributeType =
   | ["list", AttributeType]
   | ["object", { [attribute: string]: AttributeType }];
 
-export type BlockType =
+export type BlockType =  // FIXME: use such a type for NestedType Attributes as well?
   | {
       nesting_mode: "single" | "map";
       block: Block;
