@@ -1,12 +1,13 @@
 import { Testing, TerraformStack, TerraformHclModule } from "../lib";
 import { TestProvider, TestResource } from "./helper";
+import * as path from "path";
 
 test("minimal configuration", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
   new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
@@ -16,7 +17,7 @@ test("pass variables", () => {
   const stack = new TerraformStack(app, "test");
 
   new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
     variables: {
       param1: "name",
       param2: 1,
@@ -36,7 +37,7 @@ test("simple provider", () => {
   });
 
   new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
     providers: [provider],
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
@@ -56,7 +57,7 @@ test("multiple providers", () => {
   });
 
   new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
     providers: [provider1, provider2],
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
@@ -78,7 +79,7 @@ test("multiple providers can't have the same module alias", () => {
 
   try {
     new TerraformHclModule(stack, "test", {
-      source: "./foo",
+      source: path.resolve(__dirname, "./fixtures/hcl-module/"),
       providers: [provider1, provider2],
     });
   } catch (e) {
@@ -103,7 +104,7 @@ test("complex providers", () => {
   });
 
   new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
     providers: [
       { provider: provider1, moduleAlias: "src" },
       { provider: provider2, moduleAlias: "dst" },
@@ -123,7 +124,7 @@ test("reference module", () => {
   new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
   });
 
   new TestResource(stack, "resource", {
@@ -138,7 +139,7 @@ test("reference module list", () => {
   new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
   });
 
   const resource = new TestResource(stack, "resource", {
@@ -154,7 +155,7 @@ test("set variable", () => {
   const stack = new TerraformStack(app, "test");
 
   const module = new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
   });
 
   module.set("param1", "value1");
@@ -166,7 +167,7 @@ test("add provider", () => {
   const stack = new TerraformStack(app, "test");
 
   const module = new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
   });
 
   const provider = new TestProvider(stack, "provider", {
@@ -183,7 +184,7 @@ test("depend on module", () => {
   new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
   });
 
   new TestResource(stack, "resource", {
@@ -198,11 +199,11 @@ test("depend on other module", () => {
   const stack = new TerraformStack(app, "test");
 
   const module1 = new TerraformHclModule(stack, "test_1", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
   });
 
   new TerraformHclModule(stack, "test_2", {
-    source: "./foo",
+    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
     dependsOn: [module1],
   });
 

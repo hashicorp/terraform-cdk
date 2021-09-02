@@ -5,6 +5,7 @@ exports[`generate multiple aws modules 1`] = `
 // terraform-aws-modules/vpc/aws
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
+import * as path from 'path';
 export interface TerraformAwsModulesVpcAwsOptions {
   /**
    * A policy to attach to the endpoint that controls access to the service. Defaults to full access
@@ -2130,7 +2131,7 @@ export class TerraformAwsModulesVpcAws extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, options: TerraformAwsModulesVpcAwsOptions = {}) {
     super(scope, id, {
-      source: 'terraform-aws-modules/vpc/aws',
+      source: path.resolve('..', 'terraform-aws-modules/vpc/aws'),
       version: '2.78.0',
     });
     this.accessAnalyzerEndpointPolicy = options.accessAnalyzerEndpointPolicy;
@@ -6339,6 +6340,7 @@ exports[`generate multiple aws modules 2`] = `
 // terraform-aws-modules/rds-aurora/aws
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
+import * as path from 'path';
 export interface TerraformAwsModulesRdsAuroraAwsOptions {
   /**
    * Determines whether major engine upgrades are allowed when changing engine version
@@ -6676,7 +6678,7 @@ export class TerraformAwsModulesRdsAuroraAws extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, options: TerraformAwsModulesRdsAuroraAwsOptions = {}) {
     super(scope, id, {
-      source: 'terraform-aws-modules/rds-aurora/aws',
+      source: path.resolve('..', 'terraform-aws-modules/rds-aurora/aws'),
       version: '4.1.0',
     });
     this.allowMajorVersionUpgrade = options.allowMajorVersionUpgrade;
@@ -7261,6 +7263,7 @@ exports[`generate some modules 1`] = `
 // terraform-aws-modules/eks/aws
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
+import * as path from 'path';
 export interface TerraformAwsModulesEksAwsOptions {
   /**
    * Whether to attach the module managed cluster autoscaling iam policy to the default worker IAM role. This requires \`manage_worker_autoscaling_policy = true\`
@@ -7498,7 +7501,7 @@ export class TerraformAwsModulesEksAws extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, options: TerraformAwsModulesEksAwsOptions) {
     super(scope, id, {
-      source: 'terraform-aws-modules/eks/aws',
+      source: path.resolve('..', 'terraform-aws-modules/eks/aws'),
       version: '7.0.1',
     });
     this.attachWorkerAutoscalingPolicy = options.attachWorkerAutoscalingPolicy;
@@ -7938,6 +7941,7 @@ exports[`no module outputs 1`] = `
 // ./module
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
+import * as path from 'path';
 export interface ModuleOptions {
   /**
    * Flag to optionally disable usage of this module.
@@ -7949,7 +7953,7 @@ export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, options: ModuleOptions = {}) {
     super(scope, id, {
-      source: './module',
+      source: path.resolve('..', './module'),
     });
     this.enabled = options.enabled;
   }
@@ -7971,13 +7975,14 @@ exports[`no newline 1`] = `
 // ./module
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
+import * as path from 'path';
 export interface ModuleOptions {
 }
 export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, options: ModuleOptions = {}) {
     super(scope, id, {
-      source: './module',
+      source: path.resolve('..', './module'),
     });
   }
   protected synthesizeAttributes() {
@@ -7992,6 +7997,7 @@ exports[`typeless variables 1`] = `
 // ./module
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
+import * as path from 'path';
 export interface ModuleOptions {
   /**
    * My example var without type set, but with default
@@ -8007,7 +8013,7 @@ export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, options: ModuleOptions) {
     super(scope, id, {
-      source: './module',
+      source: path.resolve('..', './module'),
     });
     this.myDefaultTypevar = options.myDefaultTypevar;
     this.myTypelessVar = options.myTypelessVar;

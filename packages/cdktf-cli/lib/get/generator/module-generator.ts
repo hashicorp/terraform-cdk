@@ -30,6 +30,7 @@ export class ModuleGenerator {
 
     this.code.line(`import { TerraformModule } from 'cdktf';`);
     this.code.line(`import { Construct } from 'constructs';`);
+    this.code.line(`import * as path from 'path';`);
 
     const baseName = this.code.toPascalCase(target.fqn.replace(/[-/]/g, "_"));
     const optionsType = `${baseName}Options`;
@@ -61,7 +62,7 @@ export class ModuleGenerator {
       `public constructor(scope: Construct, id: string, options: ${optionsType}${allOptional}) {`
     );
     this.code.open(`super(scope, id, {`);
-    this.code.line(`source: '${target.source}',`);
+    this.code.line(`source: path.resolve('..', '${target.source}'),`);
     if (target.version) {
       this.code.line(`version: '${target.version}',`);
     }

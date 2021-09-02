@@ -11,10 +11,12 @@ exports[`add provider 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\",
-      \\"providers\\": {
-        \\"test\\": \\"test.provider1\\"
-      },
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
+      \\"providers\\": [
+        {
+          \\"test\\": \\"test.provider1\\"
+        }
+      ],
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -63,11 +65,15 @@ exports[`complex providers 1`] = `
         \\"id1\\",
         \\"id2\\"
       ],
-      \\"source\\": \\"../foo\\",
-      \\"providers\\": {
-        \\"test.src\\": \\"test.provider1\\",
-        \\"test.dst\\": \\"test.provider2\\"
-      },
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
+      \\"providers\\": [
+        {
+          \\"test.src\\": \\"test.provider1\\"
+        },
+        {
+          \\"test.dst\\": \\"test.provider2\\"
+        }
+      ],
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -95,7 +101,7 @@ exports[`depend on module 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -134,7 +140,7 @@ exports[`depend on other module 1`] = `
   },
   \\"module\\": {
     \\"test_1\\": {
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test_1/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test_1\\",
@@ -143,7 +149,7 @@ exports[`depend on other module 1`] = `
       }
     },
     \\"test_2\\": {
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test_2/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"depends_on\\": [
         \\"module.test_1\\"
       ],
@@ -169,7 +175,7 @@ exports[`minimal configuration 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -204,11 +210,15 @@ exports[`multiple providers 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\",
-      \\"providers\\": {
-        \\"test\\": \\"test\\",
-        \\"differentType\\": \\"differentType\\"
-      },
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
+      \\"providers\\": [
+        {
+          \\"test\\": \\"test\\"
+        },
+        {
+          \\"differentType\\": \\"differentType\\"
+        }
+      ],
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -237,7 +247,7 @@ exports[`pass variables 1`] = `
         \\"id1\\",
         \\"id2\\"
       ],
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -265,7 +275,7 @@ exports[`reference module 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -306,7 +316,7 @@ exports[`reference module list 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -344,7 +354,7 @@ exports[`set variable 1`] = `
   \\"module\\": {
     \\"test\\": {
       \\"param1\\": \\"value1\\",
-      \\"source\\": \\"../foo\\",
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -375,10 +385,12 @@ exports[`simple provider 1`] = `
   },
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\",
-      \\"providers\\": {
-        \\"test\\": \\"test.provider1\\"
-      },
+      \\"source\\": \\"assets/local-module-test/C30646806733B2F8686E5AA5CEEE195D\\",
+      \\"providers\\": [
+        {
+          \\"test\\": \\"test.provider1\\"
+        }
+      ],
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
