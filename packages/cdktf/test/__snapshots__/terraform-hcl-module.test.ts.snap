@@ -12,11 +12,9 @@ exports[`add provider 1`] = `
   \\"module\\": {
     \\"test\\": {
       \\"source\\": \\"../foo\\",
-      \\"providers\\": [
-        {
-          \\"test\\": \\"test.provider1\\"
-        }
-      ],
+      \\"providers\\": {
+        \\"test\\": \\"test.provider1\\"
+      },
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -66,14 +64,10 @@ exports[`complex providers 1`] = `
         \\"id2\\"
       ],
       \\"source\\": \\"../foo\\",
-      \\"providers\\": [
-        {
-          \\"test.src\\": \\"test.provider1\\"
-        },
-        {
-          \\"test.dst\\": \\"test.provider2\\"
-        }
-      ],
+      \\"providers\\": {
+        \\"test.src\\": \\"test.provider1\\",
+        \\"test.dst\\": \\"test.provider2\\"
+      },
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -199,26 +193,22 @@ exports[`multiple providers 1`] = `
   \\"provider\\": {
     \\"test\\": [
       {
-        \\"access_key\\": \\"key\\",
-        \\"alias\\": \\"provider1\\"
-      },
+        \\"access_key\\": \\"key\\"
+      }
+    ],
+    \\"differentType\\": [
       {
-        \\"access_key\\": \\"key\\",
-        \\"alias\\": \\"provider2\\"
+        \\"access_key\\": \\"key\\"
       }
     ]
   },
   \\"module\\": {
     \\"test\\": {
       \\"source\\": \\"../foo\\",
-      \\"providers\\": [
-        {
-          \\"test\\": \\"test.provider1\\"
-        },
-        {
-          \\"test\\": \\"test.provider2\\"
-        }
-      ],
+      \\"providers\\": {
+        \\"test\\": \\"test\\",
+        \\"differentType\\": \\"differentType\\"
+      },
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
@@ -386,11 +376,9 @@ exports[`simple provider 1`] = `
   \\"module\\": {
     \\"test\\": {
       \\"source\\": \\"../foo\\",
-      \\"providers\\": [
-        {
-          \\"test\\": \\"test.provider1\\"
-        }
-      ],
+      \\"providers\\": {
+        \\"test\\": \\"test.provider1\\"
+      },
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"test/test\\",
