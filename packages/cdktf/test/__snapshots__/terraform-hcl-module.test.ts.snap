@@ -2,12 +2,25 @@
 
 exports[`add provider 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
   \\"module\\": {
     \\"test\\": {
+      \\"source\\": \\"../../../foo\\",
       \\"providers\\": {
         \\"test\\": \\"test.provider1\\"
       },
-      \\"source\\": \\"../foo\\"
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
     }
   },
   \\"provider\\": {
@@ -17,32 +30,17 @@ exports[`add provider 1`] = `
         \\"alias\\": \\"provider1\\"
       }
     ]
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
-      }
-    }
   }
 }"
 `;
 
 exports[`complex providers 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"param1\\": \\"name\\",
-      \\"param2\\": 1,
-      \\"param3\\": [
-        \\"id1\\",
-        \\"id2\\"
-      ],
-      \\"providers\\": {
-        \\"test.dst\\": \\"test.provider2\\",
-        \\"test.src\\": \\"test.provider1\\"
-      },
-      \\"source\\": \\"../foo\\"
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"provider\\": {
@@ -57,112 +55,6 @@ exports[`complex providers 1`] = `
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
-      }
-    }
-  }
-}"
-`;
-
-exports[`depend on module 1`] = `
-"{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"../foo\\"
-    }
-  },
-  \\"provider\\": {
-    \\"test\\": [
-      {}
-    ]
-  },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"resource\\": {
-        \\"depends_on\\": [
-          \\"module.test\\"
-        ],
-        \\"name\\": \\"foo\\"
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
-      }
-    }
-  }
-}"
-`;
-
-exports[`depend on other module 1`] = `
-"{
-  \\"module\\": {
-    \\"test_1\\": {
-      \\"source\\": \\"../foo\\"
-    },
-    \\"test_2\\": {
-      \\"depends_on\\": [
-        \\"module.test_1\\"
-      ],
-      \\"source\\": \\"../foo\\"
-    }
-  }
-}"
-`;
-
-exports[`minimal configuration 1`] = `
-"{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"../foo\\"
-    }
-  }
-}"
-`;
-
-exports[`multiple providers 1`] = `
-"{
-  \\"module\\": {
-    \\"test\\": {
-      \\"providers\\": {
-        \\"differentType\\": \\"differentType\\",
-        \\"test\\": \\"test\\"
-      },
-      \\"source\\": \\"../foo\\"
-    }
-  },
-  \\"provider\\": {
-    \\"differentType\\": [
-      {
-        \\"access_key\\": \\"key\\"
-      }
-    ],
-    \\"test\\": [
-      {
-        \\"access_key\\": \\"key\\"
-      }
-    ]
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"differentType\\": {
-        \\"version\\": \\"~> 2.0\\"
-      },
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
-      }
-    }
-  }
-}"
-`;
-
-exports[`pass variables 1`] = `
-"{
   \\"module\\": {
     \\"test\\": {
       \\"param1\\": \\"name\\",
@@ -171,17 +63,29 @@ exports[`pass variables 1`] = `
         \\"id1\\",
         \\"id2\\"
       ],
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\",
+      \\"providers\\": {
+        \\"test.src\\": \\"test.provider1\\",
+        \\"test.dst\\": \\"test.provider2\\"
+      },
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
     }
   }
 }"
 `;
 
-exports[`reference module 1`] = `
+exports[`depend on module 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"../foo\\"
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"provider\\": {
@@ -189,17 +93,197 @@ exports[`reference module 1`] = `
       {}
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"resource\\": {
-        \\"name\\": \\"\${module.test.name}\\"
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"foo\\",
+        \\"depends_on\\": [
+          \\"module.test\\"
+        ],
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`depend on other module 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"module\\": {
+    \\"test_1\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test_1\\",
+          \\"uniqueId\\": \\"test_1\\"
+        }
+      }
+    },
+    \\"test_2\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"depends_on\\": [
+        \\"module.test_1\\"
+      ],
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test_2\\",
+          \\"uniqueId\\": \\"test_2\\"
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`minimal configuration 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`multiple providers 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"key\\"
+      }
+    ],
+    \\"differentType\\": [
+      {
+        \\"access_key\\": \\"key\\"
+      }
+    ]
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"providers\\": {
+        \\"test\\": \\"test\\",
+        \\"differentType\\": \\"differentType\\"
+      },
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`pass variables 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"param1\\": \\"name\\",
+      \\"param2\\": 1,
+      \\"param3\\": [
+        \\"id1\\",
+        \\"id2\\"
+      ],
+      \\"source\\": \\"../../../foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`reference module 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"\${module.test.name}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
       }
     }
   }
@@ -208,9 +292,11 @@ exports[`reference module 1`] = `
 
 exports[`reference module list 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"../foo\\"
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"provider\\": {
@@ -218,18 +304,28 @@ exports[`reference module list 1`] = `
       {}
     ]
   },
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
+    }
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"resource\\": {
         \\"name\\": \\"test\\",
-        \\"names\\": \\"\${module.test.names}\\"
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+        \\"names\\": \\"\${module.test.names}\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"test/resource\\",
+            \\"uniqueId\\": \\"resource\\"
+          }
+        }
       }
     }
   }
@@ -238,10 +334,23 @@ exports[`reference module list 1`] = `
 
 exports[`set variable 1`] = `
 "{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
   \\"module\\": {
     \\"test\\": {
       \\"param1\\": \\"value1\\",
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
+      }
     }
   }
 }"
@@ -249,12 +358,11 @@ exports[`set variable 1`] = `
 
 exports[`simple provider 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"providers\\": {
-        \\"test\\": \\"test.provider1\\"
-      },
-      \\"source\\": \\"../foo\\"
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"test\\",
+      \\"backend\\": \\"local\\"
     }
   },
   \\"provider\\": {
@@ -265,10 +373,17 @@ exports[`simple provider 1`] = `
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"../../../foo\\",
+      \\"providers\\": {
+        \\"test\\": \\"test.provider1\\"
+      },
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"test/test\\",
+          \\"uniqueId\\": \\"test\\"
+        }
       }
     }
   }
