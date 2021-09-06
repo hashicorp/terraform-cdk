@@ -25,6 +25,11 @@ export interface BooleanListConfig extends cdktf.TerraformMetaArguments {
 */
 export class BooleanList extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_boolean_list\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -122,6 +127,11 @@ export interface BooleanMapConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html aws_boolean_map}
 */
 export class BooleanMap extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_boolean_map\\";
 
   // ===========
   // INITIALIZER
@@ -268,6 +278,11 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
 */
 export class ComputedComplex extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_computed_complex\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -348,6 +363,11 @@ export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html aws_computed_complex_nested}
 */
 export class ComputedComplexNested extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_computed_complex_nested\\";
 
   // ===========
   // INITIALIZER
@@ -430,6 +450,11 @@ function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedCo
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html aws_block_type_nested_computed_list}
 */
 export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_block_type_nested_computed_list\\";
 
   // ===========
   // INITIALIZER
@@ -564,6 +589,11 @@ function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalCompl
 */
 export class ComputedOptionalComplex extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_computed_optional_complex\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -680,6 +710,11 @@ function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlo
 */
 export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_deeply_nested_block_types\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -754,6 +789,11 @@ export interface IgnoredAttributesConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html aws_ignored_attributes}
 */
 export class IgnoredAttributes extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_ignored_attributes\\";
 
   // ===========
   // INITIALIZER
@@ -833,6 +873,11 @@ export interface IncompatibleAttributeNamesConfig extends cdktf.TerraformMetaArg
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html aws_incompatible_attribute_names}
 */
 export class IncompatibleAttributeNames extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_incompatible_attribute_names\\";
 
   // ===========
   // INITIALIZER
@@ -939,6 +984,11 @@ export interface ListOfStringMapConfig extends cdktf.TerraformMetaArguments {
 */
 export class ListOfStringMap extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_list_of_string_map\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -1008,6 +1058,11 @@ export interface NumberListConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_list.html aws_number_list}
 */
 export class NumberList extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_number_list\\";
 
   // ===========
   // INITIALIZER
@@ -1106,6 +1161,11 @@ export interface NumberMapConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_map.html aws_number_map}
 */
 export class NumberMap extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_number_map\\";
 
   // ===========
   // INITIALIZER
@@ -1216,6 +1276,11 @@ export interface PrimitiveBooleanConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html aws_primitive_boolean}
 */
 export class PrimitiveBoolean extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_primitive_boolean\\";
 
   // ===========
   // INITIALIZER
@@ -1342,6 +1407,11 @@ export interface PrimitiveDynamicConfig extends cdktf.TerraformMetaArguments {
 */
 export class PrimitiveDynamic extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_primitive_dynamic\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -1467,6 +1537,11 @@ export interface PrimitiveNumberConfig extends cdktf.TerraformMetaArguments {
 */
 export class PrimitiveNumber extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_primitive_number\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -1591,6 +1666,11 @@ export interface PrimitiveStringConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html aws_primitive_string}
 */
 export class PrimitiveString extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_primitive_string\\";
 
   // ===========
   // INITIALIZER
@@ -1720,6 +1800,11 @@ export interface NameConflictConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html aws_name_conflict}
 */
 export class NameConflict extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_name_conflict\\";
 
   // ===========
   // INITIALIZER
@@ -1890,6 +1975,11 @@ function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeou
 */
 export class BlockTypeSetList extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_block_type_set_list\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -2003,6 +2093,11 @@ function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts): a
 */
 export class SingleBlockType extends cdktf.TerraformResource {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_single_block_type\\";
+
   // ===========
   // INITIALIZER
   // ===========
@@ -2089,6 +2184,11 @@ export interface StringListConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_list.html aws_string_list}
 */
 export class StringList extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_string_list\\";
 
   // ===========
   // INITIALIZER
@@ -2210,6 +2310,11 @@ export interface StringMapConfig extends cdktf.TerraformMetaArguments {
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_map.html aws_string_map}
 */
 export class StringMap extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws_string_map\\";
 
   // ===========
   // INITIALIZER
