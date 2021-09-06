@@ -12,19 +12,21 @@ describe("remote templates", () => {
     const driver = new TestDriver(__dirname);
     await driver.setupRemoteTemplateProject();
     const files = await fs.readdir(driver.workingDirectory);
-    expect(files).toEqual([
-      ".gen",
-      ".gitignore",
-      ".npmrc",
-      "cdktf.json",
-      "help",
-      "jest.config.js",
-      "main.ts",
-      "package.json",
-      "setup.js",
-      "tsconfig.json",
-      "__tests__",
-    ]);
+    expect(files).toEqual(
+      expect.arrayContaining([
+        ".gen",
+        ".gitignore",
+        ".npmrc",
+        "cdktf.json",
+        "help",
+        "jest.config.js",
+        "main.ts",
+        "package.json",
+        "setup.js",
+        "tsconfig.json",
+        "__tests__",
+      ])
+    );
   });
 
   test("handles invalid url", async () => {
