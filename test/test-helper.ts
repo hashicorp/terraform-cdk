@@ -208,3 +208,6 @@ export class TestDriver {
     }
   };
 }
+
+export const onWindows = process.platform === "win32" ? it : it.skip;
+export const onPosix = process.platform !== "win32" ? it : it.skip;
