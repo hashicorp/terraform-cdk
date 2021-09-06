@@ -20,13 +20,15 @@ import { Image, Container } from "../.gen/providers/docker";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from cdktf.Resource
 
 describe("Unit testing using assertions", () => {
-  it("should contain a resource", () => {
+  it("should contain a container", () => {
     expect(
       Testing.synthScope((scope) => {
         new MyApplicationsAbstraction(scope, "my-app", {});
       })
     ).toHaveResource(Container);
+  });
 
+  it("should use an ubuntu image", () => {
     expect(
       Testing.synthScope((scope) => {
         new MyApplicationsAbstraction(scope, "my-app", {});
@@ -80,7 +82,7 @@ describe("Checking validity", () => {
     const app = new MyApplicationsAbstraction(stack, "my-app", {});
     app.addEndpoint("127.0.0.1"); // This could be a method your class exposes
 
-    // We need to do a full synth to validate the terraform configuratoin
+    // We need to do a full synth to validate the terraform configuration
     expect(Testing.fullSynth(app)).toBeValidTerraform();
   });
 
@@ -91,7 +93,7 @@ describe("Checking validity", () => {
     const app = new MyApplicationsAbstraction(stack, "my-app", {});
     app.addEndpoint("127.0.0.1"); // This could be a method your class exposes
 
-    // We need to do a full synth to plan the terraform configuratoin
+    // We need to do a full synth to plan the terraform configuration
     expect(Testing.fullSynth(app)).toPlanSuccessfully();
   });
 });
