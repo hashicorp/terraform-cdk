@@ -15,5 +15,5 @@ describe("startServer", () => {
     stop = opts.stop;
     const res = await fetch(`http://localhost:${opts.port}/up`);
     expect(res.status).toBe(200);
-  });
+  }, 30_000);
 });

@@ -203,11 +203,11 @@ class Parser {
               .join(",")}`
           );
         case "list":
-        case "map": {
-          isList = true;
+        case "set": {
+          isList = true; // FIXME: check required / optional based on min_items
           break;
         }
-        case "set":
+        case "map":
           isMap = true;
           break;
         case "single":
@@ -385,10 +385,10 @@ class Parser {
     const attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
     for (const [terraformName, att] of Object.entries(attrs)) {
-      // nested types support this on attribute level
-      const computed = parent.isNestedType
-        ? !!att.computed
-        : !!parent.isComputed;
+      // nested types support computed, optional and required on attribute level
+      // if parent is computed, child always is computed as well
+      const computed =
+        !!parent.isComputed || (parent.isNestedType && !!att.computed);
       const optional = parent.isNestedType
         ? !!att.optional
         : !!parent.isOptional;

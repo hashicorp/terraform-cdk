@@ -77,6 +77,8 @@ export class AttributeModel {
     if (this._name === "node") return "nodeAttribute";
     // `tfResourceType` is already used by resources to distinguish between different resource types
     if (this._name === "tfResourceType") return `${this._name}Attribute`;
+    // FIXME: this is only temporary and will not work when this attribute is actually used.
+    if (this._name === "provider") return "providerAttribute";
     return this._name;
   }
 

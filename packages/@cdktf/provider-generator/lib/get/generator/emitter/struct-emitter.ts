@@ -65,12 +65,22 @@ export class StructEmitter {
       );
     }
     this.code.closeBlock();
+
+    // This currently emits the functions for all structs of type class
+    // To silence errors about unused functions all toTerraform functions
+    // are exported for now. We might want to improve the control flow
+    // here in way to determine which structs need really this function
+    // and which don't.
+    // TODO: only do this if the parent of this struct needs it to be exported because any parent might expose it
+    if (!(struct instanceof ConfigStruct)) {
+      this.emitToTerraformFuction(struct);
+    }
   }
 
   private emitToTerraformFuction(struct: Struct) {
     this.code.line();
     this.code.openBlock(
-      `function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${
+      `export function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${
         struct.name
       }): any`
     );

@@ -273,6 +273,22 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
   }
 }
 
+export function computedComplexEgressToTerraform(struct?: ComputedComplexEgress): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    description: cdktf.stringToTerraform(struct!.description),
+    from_port: cdktf.numberToTerraform(struct!.fromPort),
+    ipv6_cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    protocol: cdktf.stringToTerraform(struct!.protocol),
+    security_groups: cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    self: cdktf.booleanToTerraform(struct!.selfAttribute),
+    to_port: cdktf.numberToTerraform(struct!.toPort),
+  }
+}
+
+
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex.html aws_computed_complex}
 */
@@ -346,6 +362,14 @@ export class ComputedComplexNestedResourcesAutoscalingGroups extends cdktf.Compl
     return this.getStringAttribute('name');
   }
 }
+
+export function computedComplexNestedResourcesAutoscalingGroupsToTerraform(struct?: ComputedComplexNestedResourcesAutoscalingGroups): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    name: cdktf.stringToTerraform(struct!.name),
+  }
+}
+
 export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
 
   // autoscaling_groups - computed: true, optional: false, required: false
@@ -358,6 +382,15 @@ export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
     return this.getStringAttribute('remote_access_security_group_id');
   }
 }
+
+export function computedComplexNestedResourcesToTerraform(struct?: ComputedComplexNestedResources): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    autoscaling_groups: cdktf.listMapper(computedComplexNestedResourcesAutoscalingGroupsToTerraform)(struct!.autoscalingGroups),
+    remote_access_security_group_id: cdktf.stringToTerraform(struct!.remoteAccessSecurityGroupId),
+  }
+}
+
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html aws_computed_complex_nested}
@@ -438,7 +471,7 @@ export interface BlockTypeNestedComputedListInputs {
   readonly namePrefix: string;
 }
 
-function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
+export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     name_prefix: cdktf.stringToTerraform(struct!.namePrefix),
@@ -568,7 +601,7 @@ export interface ComputedOptionalComplexEgress {
   readonly toPort?: number;
 }
 
-function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
+export function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
@@ -676,7 +709,7 @@ export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   readonly date?: string;
 }
 
-function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
+export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     date: cdktf.stringToTerraform(struct!.date),
@@ -696,7 +729,7 @@ export interface DeeplyNestedBlockTypesLifecycleRule {
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration[];
 }
 
-function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
+export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
@@ -1948,7 +1981,7 @@ export interface BlockTypeSetListTimeoutsSet {
   readonly create?: string;
 }
 
-function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
+export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     create: cdktf.stringToTerraform(struct!.create),
@@ -1962,7 +1995,7 @@ export interface BlockTypeSetListTimeoutsList {
   readonly create?: string;
 }
 
-function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
+export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     create: cdktf.stringToTerraform(struct!.create),
@@ -2080,7 +2113,7 @@ export interface SingleBlockTypeTimeouts {
   readonly create?: string;
 }
 
-function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts): any {
+export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     create: cdktf.stringToTerraform(struct!.create),

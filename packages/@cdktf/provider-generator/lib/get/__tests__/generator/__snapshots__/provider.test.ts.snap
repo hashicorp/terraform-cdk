@@ -163,7 +163,7 @@ export interface AwsProviderAssumeRole {
   readonly sessionName?: string;
 }
 
-function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole): any {
+export function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     external_id: cdktf.stringToTerraform(struct!.externalId),
@@ -986,7 +986,7 @@ export interface AwsProviderEndpoints {
   readonly xray?: string;
 }
 
-function awsProviderEndpointsToTerraform(struct?: AwsProviderEndpoints): any {
+export function awsProviderEndpointsToTerraform(struct?: AwsProviderEndpoints): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     accessanalyzer: cdktf.stringToTerraform(struct!.accessanalyzer),
@@ -1142,7 +1142,7 @@ export interface AwsProviderIgnoreTags {
   readonly keys?: string[];
 }
 
-function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
+export function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
     key_prefixes: cdktf.listMapper(cdktf.stringToTerraform)(struct!.keyPrefixes),
