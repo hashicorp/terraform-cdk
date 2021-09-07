@@ -3,10 +3,7 @@
 //
 // @group typescript
 //
-import { TestDriver } from "../../test-helper";
-
-const onWindows = process.platform === "win32" ? it : it.skip;
-const onPosix = process.platform !== "win32" ? it : it.skip;
+import { TestDriver, onPosix } from "../../test-helper";
 
 describe("full integration test", () => {
   let driver: TestDriver;
