@@ -9,6 +9,7 @@ export * from "./terraform-output";
 export * from "./complex-computed-list";
 export * from "./resource";
 export * from "./testing";
+export * as testingMatchers from "./testing/matchers";
 export * from "./app";
 export * from "./terraform-backend";
 export * from "./backends";

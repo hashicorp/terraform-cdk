@@ -1156,6 +1156,11 @@ function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
 */
 export class AwsProvider extends cdktf.TerraformProvider {
 
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"aws\\";
+
   // ===========
   // INITIALIZER
   // ===========

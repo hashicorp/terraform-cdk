@@ -2,13 +2,6 @@
 
 exports[`boolean output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
       \\"value\\": true
@@ -19,11 +12,12 @@ exports[`boolean output 1`] = `
 
 exports[`dependent output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"depends_on\\": [
+        \\"\${test_resource.weird-long-running-resource}\\"
+      ],
+      \\"value\\": 1
     }
   },
   \\"provider\\": {
@@ -34,22 +28,15 @@ exports[`dependent output 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"weird-long-running-resource\\": {
-        \\"name\\": \\"foo\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/weird-long-running-resource\\",
-            \\"uniqueId\\": \\"weird-long-running-resource\\"
-          }
-        }
+        \\"name\\": \\"foo\\"
       }
     }
   },
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": 1,
-      \\"depends_on\\": [
-        \\"\${test_resource.weird-long-running-resource}\\"
-      ]
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
     }
   }
 }"
@@ -57,17 +44,10 @@ exports[`dependent output 1`] = `
 
 exports[`description output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": 1,
-      \\"description\\": \\"test-description\\"
+      \\"description\\": \\"test-description\\",
+      \\"value\\": 1
     }
   }
 }"
@@ -75,13 +55,6 @@ exports[`description output 1`] = `
 
 exports[`list output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
       \\"value\\": [
@@ -95,13 +68,6 @@ exports[`list output 1`] = `
 
 exports[`map output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
       \\"value\\": {
@@ -114,13 +80,6 @@ exports[`map output 1`] = `
 
 exports[`number output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
       \\"value\\": 1
@@ -131,17 +90,10 @@ exports[`number output 1`] = `
 
 exports[`sensitive output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
-      \\"value\\": 1,
-      \\"sensitive\\": true
+      \\"sensitive\\": true,
+      \\"value\\": 1
     }
   }
 }"
@@ -149,13 +101,6 @@ exports[`sensitive output 1`] = `
 
 exports[`string output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
       \\"value\\": \\"1\\"
@@ -166,13 +111,6 @@ exports[`string output 1`] = `
 
 exports[`variable output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"output\\": {
     \\"test-output\\": {
       \\"value\\": \\"\${var.test-variable}\\"
