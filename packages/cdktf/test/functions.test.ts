@@ -11,13 +11,6 @@ test("static values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
-        }
-      },
       \\"output\\": {
         \\"test-output\\": {
           \\"value\\": \\"\${abs(-42)}\\"
@@ -40,21 +33,14 @@ test("dynamic values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${abs(var.test-var)}\\"
         }
       },
       \\"variable\\": {
         \\"test-var\\": {
           \\"type\\": \\"number\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${abs(var.test-var)}\\"
         }
       }
     }"
@@ -74,21 +60,14 @@ test("spreaded mixed values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${max(10, var.test-var, 200)}\\"
         }
       },
       \\"variable\\": {
         \\"test-var\\": {
           \\"type\\": \\"number\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${max(10, var.test-var, 200)}\\"
         }
       }
     }"
@@ -108,21 +87,14 @@ test("spreaded token value", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${max(var.test-var)}\\"
         }
       },
       \\"variable\\": {
         \\"test-var\\": {
           \\"type\\": \\"list(number)\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${max(var.test-var)}\\"
         }
       }
     }"
@@ -138,13 +110,6 @@ test("string values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
-        }
-      },
       \\"output\\": {
         \\"test-output\\": {
           \\"value\\": \\"\${parseInt(\\\\\\"-210\\\\\\", 10)}\\"
@@ -171,21 +136,14 @@ test("mixed string spreads values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${format(\\\\\\"There are %d out of %d lights are on in %s\\\\\\", var.test-var, 4, \\\\\\"Hamburg\\\\\\")}\\"
         }
       },
       \\"variable\\": {
         \\"test-var\\": {
           \\"type\\": \\"number\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${format(\\\\\\"There are %d out of %d lights are on in %s\\\\\\", var.test-var, 4, \\\\\\"Hamburg\\\\\\")}\\"
         }
       }
     }"
@@ -218,11 +176,9 @@ test("combined functions", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${try(lookup(element(var.list, var.index), \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\"), timestamp(), uuid())}\\"
         }
       },
       \\"variable\\": {
@@ -231,11 +187,6 @@ test("combined functions", () => {
         },
         \\"list\\": {
           \\"type\\": \\"list(object({\\\\n      internal = number\\\\n      external = number\\\\n      protocol = string\\\\n    }))\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${try(lookup(element(var.list, var.index), \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\"), timestamp(), uuid())}\\"
         }
       }
     }"
@@ -256,21 +207,14 @@ test("function with varadic args", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${merge(var.test-var, [1, 2, 3])}\\"
         }
       },
       \\"variable\\": {
         \\"test-var\\": {
           \\"type\\": \\"list(number)\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${merge(var.test-var, [1, 2, 3])}\\"
         }
       }
     }"
@@ -298,11 +242,9 @@ test("complex example", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${cidrsubnet(element(merge(var.test-var1, var.test-var2), 3), 4, 2)}\\"
         }
       },
       \\"variable\\": {
@@ -311,11 +253,6 @@ test("complex example", () => {
         },
         \\"test-var2\\": {
           \\"type\\": \\"list(number)\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${cidrsubnet(element(merge(var.test-var1, var.test-var2), 3), 4, 2)}\\"
         }
       }
     }"
@@ -336,21 +273,14 @@ test("interpolation within string ", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${cidrsubnet(\\\\\\"172.16.0.0/\${var.test-var}\\\\\\", 2, 3)}\\"
         }
       },
       \\"variable\\": {
         \\"test-var\\": {
           \\"type\\": \\"number\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${cidrsubnet(\\\\\\"172.16.0.0/\${var.test-var}\\\\\\", 2, 3)}\\"
         }
       }
     }"
@@ -375,21 +305,14 @@ test("functions with object inputs", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${lookup({var = var.test-var, stat = 4, internal = true, yes = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
         }
       },
       \\"variable\\": {
         \\"test-var\\": {
           \\"type\\": \\"number\\"
-        }
-      },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${lookup({var = var.test-var, stat = 4, internal = true, yes = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
         }
       }
     }"
@@ -406,13 +329,6 @@ test("quoted primitives in list", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
-        }
-      },
       \\"output\\": {
         \\"test-output\\": {
           \\"value\\": \\"\${join(\\\\\\", \\\\\\", [\\\\\\"world\\\\\\", \\\\\\"hello\\\\\\"])}\\"
@@ -432,13 +348,6 @@ test("quoted primitives, unquoted functions", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
-        }
-      },
       \\"output\\": {
         \\"test-output\\": {
           \\"value\\": \\"\${join(\\\\\\", \\\\\\", [join(\\\\\\" \\\\\\", reverse([\\\\\\"world\\\\\\", \\\\\\"hello\\\\\\"]))])}\\"
@@ -460,13 +369,6 @@ test("terraform local", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"version\\": \\"stubbed\\",
-          \\"stackName\\": \\"test\\",
-          \\"backend\\": \\"local\\"
-        }
-      },
       \\"locals\\": {
         \\"list\\": [
           \\"world\\",
