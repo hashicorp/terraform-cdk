@@ -29,7 +29,7 @@ class KubeStack extends TerraformStack {
           namespace: Fn.lookup(
             Fn.element(exampleNamespace.metadata, 0),
             "name",
-            "default"
+            "default" // falls back to the `default` kubernetes namespace if no name was set
           ),
           labels: {
             app,
