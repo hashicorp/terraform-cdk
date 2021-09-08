@@ -56,12 +56,11 @@ describe("full integration test", () => {
     `);
   });
 
-  // onWindows() - disabled temporarily
-  it.skip("list windows", () => {
+  onWindows("list windows", () => {
     expect(driver.list()).toMatchInlineSnapshot(`
       "Stack name                      Path
-      first                           cdktf.out\\stacks\\first
-      second                          cdktf.out\\stacks\\second
+      first                           cdktf.out\\\\stacks\\\\first
+      second                          cdktf.out\\\\stacks\\\\second
       "
     `);
   });
