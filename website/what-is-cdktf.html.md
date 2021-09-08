@@ -13,8 +13,8 @@ programming languages to define and provision cloud infrastructure through Terra
 
 At a high level, you will:
 
-1. **Create an Application:** Install CDKTF and use one of our templates to create a project with the required structure.
-2. **Define Infrastructure:** Use your chosen language to define the infrastructure you want to provision on one or more providers. CDKTF automatically extracts the schema from providers and modules, so it can prompt you for required configuration and provide autocompletion in your Integrated Development Environment (IDE).
+1. **Create an Application:** Use one of our templates to create a project with the required structure.
+2. **Define Infrastructure:** Use your chosen language to define the infrastructure you want to provision on one or more providers. CDK for Terraform automatically extracts the schema from providers and modules, so it can prompt you for required configuration and provide autocompletion in your Integrated Development Environment (IDE).
 3. **Deploy**: Use the CLI to synthesize your code into a Terraform configuration file or provision infrastructure directly from CDKTF. CDKTF translates your code into JSON configuration files that Terraform can use to provision infrastructure. This process follows the traditional Terraform workflow that allows you to review and approve planned changes.
 
 ![terraform platform](terraform-platform.png)
@@ -32,6 +32,11 @@ While you can use CDKTF with Terraform Cloud and Terraform Enterprise, it is not
 ## When to use CDKTF
 insert content about when folks should use this instead of HCL... link to HCL interoperability page.
 
+## Get Started
+
+- [Install CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf)and learn the basics on HashiCorp Learn.
+- TO DO add links to concepts pages
+- TO DO add links to examples page
 
 
 
