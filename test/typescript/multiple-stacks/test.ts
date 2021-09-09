@@ -3,7 +3,7 @@
 //
 // @group typescript
 //
-import { TestDriver, onPosix } from "../../test-helper";
+import { TestDriver, onPosix, onWindows } from "../../test-helper";
 
 describe("full integration test", () => {
   let driver: TestDriver;
