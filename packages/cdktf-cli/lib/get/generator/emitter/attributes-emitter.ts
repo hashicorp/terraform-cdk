@@ -4,9 +4,9 @@ import { downcaseFirst } from "../../../util";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
 
 type GetterType =
-  | { _type: "plain" }
+  | { _type: "getter" }
   | {
-      _type: "args";
+      _type: "function";
       args: string;
       returnType?: string;
       returnStatement: string;
@@ -25,7 +25,7 @@ export class AttributesEmitter {
     const hasInputMethod = isStored;
     const hasSetter = isStored;
 
-    let getterType: GetterType = { _type: "plain" };
+    let getterType: GetterType = { _type: "getter" };
 
     if (
       // Complex Computed List Map
@@ -36,7 +36,7 @@ export class AttributesEmitter {
       att.type.isMap
     ) {
       getterType = {
-        _type: "args",
+        _type: "function",
         args: "index: string, key: string",
         returnType: this.determineMapType(att),
         returnStatement: `new ${att.type.name}(this, \`${att.terraformName}.\${index}\`).lookup(key)`,
@@ -49,7 +49,7 @@ export class AttributesEmitter {
       att.type.isList
     ) {
       getterType = {
-        _type: "args",
+        _type: "function",
         args: "index: string",
         returnStatement: `new ${att.type.name}(this, '${att.terraformName}', index)`,
       };
@@ -61,7 +61,7 @@ export class AttributesEmitter {
       att.type.isMap
     ) {
       getterType = {
-        _type: "args",
+        _type: "function",
         args: "key: string",
         returnType: this.determineMapType(att),
         returnStatement: `new ${att.type.name}(this, '${att.terraformName}').lookup(key)`,
@@ -75,24 +75,29 @@ export class AttributesEmitter {
         };`
       );
     }
-    if (getterType._type === "plain") {
-      this.code.openBlock(`public get ${att.name}()`);
-      this.code.line(`return ${this.determineGetAttCall(att)};`);
-      this.code.closeBlock();
-    } else {
-      this.code.openBlock(
-        `public ${att.name}(${getterType.args})${
-          getterType.returnType ? ": " + getterType.returnType : ""
-        }`
-      );
-      this.code.line(`return ${getterType.returnStatement};`);
-      this.code.closeBlock();
+
+    switch (getterType._type) {
+      case "getter":
+        this.code.openBlock(`public get ${att.name}()`);
+        this.code.line(`return ${this.determineGetAttCall(att)};`);
+        this.code.closeBlock();
+        break;
+
+      case "function":
+        this.code.openBlock(
+          `public ${att.name}(${getterType.args}): ${
+            getterType.returnType || att.type.name
+          }`
+        );
+        this.code.line(`return ${getterType.returnStatement};`);
+        this.code.closeBlock();
+        break;
     }
 
     if (hasSetter) {
       this.code.openBlock(
         `public set ${att.name}(value: ${att.type.name}${
-          att.isProvider && att.isOptional ? " | undefined" : ""
+          hasResetMethod ? " | undefined" : ""
         })`
       );
       this.code.line(`this.${att.storageName} = value;`);
