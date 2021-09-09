@@ -62,13 +62,13 @@ app.synth();`,
           "node": ">=10.12"
         },
         "dependencies": {
-          "cdktf": "*",
+          "cdktf": "next",
           "constructs": "^10.0.5"
         },
         "devDependencies": {
           "@types/node": "^14.0.26",
           "typescript": "^3.9.7",
-          "cdktf-cli": "*"
+          "cdktf-cli": "next"
         }
       }`,
     ],
