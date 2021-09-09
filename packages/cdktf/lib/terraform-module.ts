@@ -35,7 +35,7 @@ export abstract class TerraformModule
       this.source = path.join("./", options.source);
     } else {
       if (options.source.startsWith("./") || options.source.startsWith("../")) {
-        this.source = path.join("..", options.source);
+        this.source = path.join("../../..", options.source);
       } else {
         this.source = options.source;
       }
