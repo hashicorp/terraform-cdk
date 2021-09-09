@@ -82,6 +82,32 @@ export class TokenizedStringFragments {
   }
 
   /**
+   * Return all literals from this string
+   */
+  public get literals(): IResolvable[] {
+    const ret = new Array<IResolvable>();
+    for (const f of this.fragments) {
+      if (f.type === "literal") {
+        ret.push(f.lit);
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Return all intrinsic fragments from this string
+   */
+  public get intrinsic(): IResolvable[] {
+    const ret = new Array<IResolvable>();
+    for (const f of this.fragments) {
+      if (f.type === "intrinsic") {
+        ret.push(f.value);
+      }
+    }
+    return ret;
+  }
+
+  /**
    * Apply a transformation function to all tokens in the string
    */
   public mapTokens(mapper: ITokenMapper): TokenizedStringFragments {

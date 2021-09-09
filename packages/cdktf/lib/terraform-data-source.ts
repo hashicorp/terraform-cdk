@@ -10,6 +10,7 @@ import {
 } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
+import { ref } from "./tfExpression";
 
 export class TerraformDataSource
   extends TerraformElement
@@ -51,9 +52,7 @@ export class TerraformDataSource
   }
 
   public getBooleanAttribute(terraformAttribute: string) {
-    return Token.asString(
-      this.interpolationForAttribute(terraformAttribute)
-    ) as any as boolean;
+    return this.interpolationForAttribute(terraformAttribute);
   }
 
   public get fqn(): string {
@@ -109,6 +108,8 @@ export class TerraformDataSource
   }
 
   public interpolationForAttribute(terraformAttribute: string) {
-    return `\${data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}}`;
+    return ref(
+      `data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}`
+    );
   }
 }

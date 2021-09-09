@@ -17,7 +17,7 @@ HashiCorp Terraform.
 
 ## Overview
 
-CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules](./docs/working-with-cdk-for-terraform/using-modules.md) and [providers](./docs/working-with-cdk-for-terraform/using-providers.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
+CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules](./docs/working-with-cdk-for-terraform/using-modules.md), [providers](./docs/working-with-cdk-for-terraform/using-providers.md), and [functions](./docs/working-with-cdk-for-terraform/terraform-functions.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
 
 The CDK for Terraform project includes two packages:
 
@@ -114,6 +114,7 @@ Choose a language:
 - Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
 - Using Terraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
 - Using Terraform [variables](./docs/working-with-cdk-for-terraform/terraform-variables.md).
+- Using Terraform [functions](./docs/working-with-cdk-for-terraform/terraform-functions.md)
 - Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
 - Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 - Defining Terraform [locals](./docs/working-with-cdk-for-terraform/terraform-locals.md).

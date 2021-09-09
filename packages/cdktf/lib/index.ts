@@ -24,3 +24,5 @@ export * from "./terraform-asset";
 export * from "./synthesize";
 export * from "./annotations";
 export * from "./aspect";
+export * from "./terraform-functions";
+export * from "./tfExpression";
