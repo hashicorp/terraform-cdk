@@ -11,6 +11,16 @@ test("minimal configuration", () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
+test("minimal configuration for assets", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformHclModule(stack, "test", {
+    source: "assets/foo",
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
 test("pass variables", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");

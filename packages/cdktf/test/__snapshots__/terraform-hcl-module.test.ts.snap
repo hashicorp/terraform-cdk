@@ -125,6 +125,16 @@ exports[`minimal configuration 1`] = `
 }"
 `;
 
+exports[`minimal configuration for assets 1`] = `
+"{
+  \\"module\\": {
+    \\"test\\": {
+      \\"source\\": \\"./assets/foo\\"
+    }
+  }
+}"
+`;
+
 exports[`multiple providers 1`] = `
 "{
   \\"module\\": {

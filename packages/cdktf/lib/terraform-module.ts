@@ -31,8 +31,8 @@ export abstract class TerraformModule
     super(scope, id);
 
     // If the path came from Assets approach
-    if (options.source.includes("assets")) {
-      this.source = options.source;
+    if (options.source.startsWith("assets")) {
+      this.source = path.join("./", options.source);
     } else {
       if (options.source.startsWith("./") || options.source.startsWith("../")) {
         this.source = path.join("..", options.source);
@@ -40,7 +40,7 @@ export abstract class TerraformModule
         this.source = options.source;
       }
     }
-    
+
     this.version = options.version;
     this._providers = options.providers;
     this.validateIfProvidersHaveUniqueKeys();
