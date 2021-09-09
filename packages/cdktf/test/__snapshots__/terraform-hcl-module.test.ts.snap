@@ -7,7 +7,7 @@ exports[`add provider 1`] = `
       \\"providers\\": {
         \\"test\\": \\"test.provider1\\"
       },
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\"
     }
   },
   \\"provider\\": {
@@ -42,7 +42,7 @@ exports[`complex providers 1`] = `
         \\"test.dst\\": \\"test.provider2\\",
         \\"test.src\\": \\"test.provider1\\"
       },
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\"
     }
   },
   \\"provider\\": {
@@ -71,7 +71,7 @@ exports[`depend on module 1`] = `
 "{
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\"
     }
   },
   \\"provider\\": {
@@ -109,7 +109,7 @@ exports[`depend on other module 1`] = `
       \\"depends_on\\": [
         \\"module.test_1\\"
       ],
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\"
     }
   }
 }"
@@ -119,7 +119,7 @@ exports[`minimal configuration 1`] = `
 "{
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\"
     }
   }
 }"
@@ -143,7 +143,7 @@ exports[`multiple providers 1`] = `
         \\"differentType\\": \\"differentType\\",
         \\"test\\": \\"test\\"
       },
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\"
     }
   },
   \\"provider\\": {
@@ -251,7 +251,7 @@ exports[`set variable 1`] = `
   \\"module\\": {
     \\"test\\": {
       \\"param1\\": \\"value1\\",
-      \\"source\\": \\"../foo\\"
+      \\"source\\": \\"../../../foo\\"
     }
   }
 }"
