@@ -1210,7 +1210,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // access_key - computed: false, optional: true, required: false
   private _accessKey?: string;
   public get accessKey() {
-    return this._accessKey;
+    return this._accessKey
   }
   public set accessKey(value: string | undefined) {
     this._accessKey = value;
@@ -1226,7 +1226,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // allowed_account_ids - computed: false, optional: true, required: false
   private _allowedAccountIds?: string[];
   public get allowedAccountIds() {
-    return this._allowedAccountIds;
+    return this._allowedAccountIds
   }
   public set allowedAccountIds(value: string[] | undefined) {
     this._allowedAccountIds = value;
@@ -1242,7 +1242,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // forbidden_account_ids - computed: false, optional: true, required: false
   private _forbiddenAccountIds?: string[];
   public get forbiddenAccountIds() {
-    return this._forbiddenAccountIds;
+    return this._forbiddenAccountIds
   }
   public set forbiddenAccountIds(value: string[] | undefined) {
     this._forbiddenAccountIds = value;
@@ -1258,7 +1258,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // insecure - computed: false, optional: true, required: false
   private _insecure?: boolean;
   public get insecure() {
-    return this._insecure;
+    return this._insecure
   }
   public set insecure(value: boolean | undefined) {
     this._insecure = value;
@@ -1274,7 +1274,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // max_retries - computed: false, optional: true, required: false
   private _maxRetries?: number;
   public get maxRetries() {
-    return this._maxRetries;
+    return this._maxRetries
   }
   public set maxRetries(value: number | undefined) {
     this._maxRetries = value;
@@ -1290,7 +1290,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // profile - computed: false, optional: true, required: false
   private _profile?: string;
   public get profile() {
-    return this._profile;
+    return this._profile
   }
   public set profile(value: string | undefined) {
     this._profile = value;
@@ -1306,7 +1306,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // region - computed: false, optional: false, required: true
   private _region: string;
   public get region() {
-    return this._region;
+    return this._region
   }
   public set region(value: string) {
     this._region = value;
@@ -1319,7 +1319,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // s3_force_path_style - computed: false, optional: true, required: false
   private _s3ForcePathStyle?: boolean;
   public get s3ForcePathStyle() {
-    return this._s3ForcePathStyle;
+    return this._s3ForcePathStyle
   }
   public set s3ForcePathStyle(value: boolean | undefined) {
     this._s3ForcePathStyle = value;
@@ -1335,7 +1335,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // secret_key - computed: false, optional: true, required: false
   private _secretKey?: string;
   public get secretKey() {
-    return this._secretKey;
+    return this._secretKey
   }
   public set secretKey(value: string | undefined) {
     this._secretKey = value;
@@ -1351,7 +1351,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // shared_credentials_file - computed: false, optional: true, required: false
   private _sharedCredentialsFile?: string;
   public get sharedCredentialsFile() {
-    return this._sharedCredentialsFile;
+    return this._sharedCredentialsFile
   }
   public set sharedCredentialsFile(value: string | undefined) {
     this._sharedCredentialsFile = value;
@@ -1367,7 +1367,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // skip_credentials_validation - computed: false, optional: true, required: false
   private _skipCredentialsValidation?: boolean;
   public get skipCredentialsValidation() {
-    return this._skipCredentialsValidation;
+    return this._skipCredentialsValidation
   }
   public set skipCredentialsValidation(value: boolean | undefined) {
     this._skipCredentialsValidation = value;
@@ -1383,7 +1383,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // skip_get_ec2_platforms - computed: false, optional: true, required: false
   private _skipGetEc2Platforms?: boolean;
   public get skipGetEc2Platforms() {
-    return this._skipGetEc2Platforms;
+    return this._skipGetEc2Platforms
   }
   public set skipGetEc2Platforms(value: boolean | undefined) {
     this._skipGetEc2Platforms = value;
@@ -1399,7 +1399,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // skip_metadata_api_check - computed: false, optional: true, required: false
   private _skipMetadataApiCheck?: boolean;
   public get skipMetadataApiCheck() {
-    return this._skipMetadataApiCheck;
+    return this._skipMetadataApiCheck
   }
   public set skipMetadataApiCheck(value: boolean | undefined) {
     this._skipMetadataApiCheck = value;
@@ -1415,7 +1415,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // skip_region_validation - computed: false, optional: true, required: false
   private _skipRegionValidation?: boolean;
   public get skipRegionValidation() {
-    return this._skipRegionValidation;
+    return this._skipRegionValidation
   }
   public set skipRegionValidation(value: boolean | undefined) {
     this._skipRegionValidation = value;
@@ -1431,7 +1431,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // skip_requesting_account_id - computed: false, optional: true, required: false
   private _skipRequestingAccountId?: boolean;
   public get skipRequestingAccountId() {
-    return this._skipRequestingAccountId;
+    return this._skipRequestingAccountId
   }
   public set skipRequestingAccountId(value: boolean | undefined) {
     this._skipRequestingAccountId = value;
@@ -1447,7 +1447,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // token - computed: false, optional: true, required: false
   private _token?: string;
   public get token() {
-    return this._token;
+    return this._token
   }
   public set token(value: string | undefined) {
     this._token = value;
@@ -1463,7 +1463,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // alias - computed: false, optional: true, required: false
   private _alias?: string;
   public get alias() {
-    return this._alias;
+    return this._alias
   }
   public set alias(value: string | undefined) {
     this._alias = value;
@@ -1479,7 +1479,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // assume_role - computed: false, optional: true, required: false
   private _assumeRole?: AwsProviderAssumeRole[];
   public get assumeRole() {
-    return this._assumeRole;
+    return this._assumeRole
   }
   public set assumeRole(value: AwsProviderAssumeRole[] | undefined) {
     this._assumeRole = value;
@@ -1495,7 +1495,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // endpoints - computed: false, optional: true, required: false
   private _endpoints?: AwsProviderEndpoints[];
   public get endpoints() {
-    return this._endpoints;
+    return this._endpoints
   }
   public set endpoints(value: AwsProviderEndpoints[] | undefined) {
     this._endpoints = value;
@@ -1511,7 +1511,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // ignore_tags - computed: false, optional: true, required: false
   private _ignoreTags?: AwsProviderIgnoreTags[];
   public get ignoreTags() {
-    return this._ignoreTags;
+    return this._ignoreTags
   }
   public set ignoreTags(value: AwsProviderIgnoreTags[] | undefined) {
     this._ignoreTags = value;

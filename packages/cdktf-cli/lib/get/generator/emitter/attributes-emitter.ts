@@ -79,7 +79,7 @@ export class AttributesEmitter {
     switch (getterType._type) {
       case "getter":
         this.code.openBlock(`public get ${att.name}()`);
-        this.code.line(`return ${this.determineGetAttCall(att)};`);
+        this.code.line(`return ${this.determineGetAttCall(att)}`);
         this.code.closeBlock();
         break;
 
@@ -129,23 +129,23 @@ export class AttributesEmitter {
 
     const type = att.type;
     if (type.isString) {
-      return `this.getStringAttribute('${att.terraformName}')`;
+      return `this.getStringAttribute('${att.terraformName}');`;
     }
     if (type.isStringList) {
-      return `this.getListAttribute('${att.terraformName}')`;
+      return `this.getListAttribute('${att.terraformName}');`;
     }
     if (type.isNumber) {
-      return `this.getNumberAttribute('${att.terraformName}')`;
+      return `this.getNumberAttribute('${att.terraformName}');`;
     }
     if (type.isBoolean) {
-      return `this.getBooleanAttribute('${att.terraformName}')`;
+      return `this.getBooleanAttribute('${att.terraformName}');`;
     }
     if (process.env.DEBUG) {
       console.error(
         `The attribute ${JSON.stringify(att)} isn't implemented yet`
       );
     }
-    return `this.interpolationForAttribute('${att.terraformName}') as any`;
+    return `this.interpolationForAttribute('${att.terraformName}') as any; // Accessing complex computed properties is not yet implemented`;
   }
 
   public determineMapType(att: AttributeModel): string {

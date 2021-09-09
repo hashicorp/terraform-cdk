@@ -63,7 +63,7 @@ export class BooleanList extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: boolean[];
   public get fooRequired() {
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.interpolationForAttribute('foo_required') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooRequired(value: boolean[]) {
     this._fooRequired = value;
@@ -76,7 +76,7 @@ export class BooleanList extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: boolean[];
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooOptional(value: boolean[] | undefined) {
     this._fooOptional = value;
@@ -171,7 +171,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: boolean };
   public get fooComputedOptional() {
-    return this.interpolationForAttribute('foo_computed_optional') as any;
+    return this.interpolationForAttribute('foo_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooComputedOptional(value: { [key: string]: boolean } | undefined) {
     this._fooComputedOptional = value;
@@ -187,7 +187,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: boolean };
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooOptional(value: { [key: string]: boolean } | undefined) {
     this._fooOptional = value;
@@ -350,7 +350,7 @@ export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
 
   // autoscaling_groups - computed: true, optional: false, required: false
   public get autoscalingGroups() {
-    return this.interpolationForAttribute('autoscaling_groups') as any;
+    return this.interpolationForAttribute('autoscaling_groups') as any; // Accessing complex computed properties is not yet implemented
   }
 
   // remote_access_security_group_id - computed: true, optional: false, required: false
@@ -509,7 +509,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // inputs - computed: false, optional: true, required: false
   private _inputs?: BlockTypeNestedComputedListInputs[];
   public get inputs() {
-    return this.interpolationForAttribute('inputs') as any;
+    return this.interpolationForAttribute('inputs') as any; // Accessing complex computed properties is not yet implemented
   }
   public set inputs(value: BlockTypeNestedComputedListInputs[] | undefined) {
     this._inputs = value;
@@ -647,7 +647,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // egress - computed: true, optional: true, required: false
   private _egress?: ComputedOptionalComplexEgress[];
   public get egress() {
-    return this.interpolationForAttribute('egress') as any;
+    return this.interpolationForAttribute('egress') as any; // Accessing complex computed properties is not yet implemented
   }
   public set egress(value: ComputedOptionalComplexEgress[] | undefined) {
     this._egress = value;
@@ -768,7 +768,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // lifecycle_rule - computed: false, optional: true, required: false
   private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
   public get lifecycleRule() {
-    return this.interpolationForAttribute('lifecycle_rule') as any;
+    return this.interpolationForAttribute('lifecycle_rule') as any; // Accessing complex computed properties is not yet implemented
   }
   public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] | undefined) {
     this._lifecycleRule = value;
@@ -1118,7 +1118,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: number[];
   public get fooRequired() {
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.interpolationForAttribute('foo_required') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooRequired(value: number[]) {
     this._fooRequired = value;
@@ -1131,7 +1131,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: number[];
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooOptional(value: number[] | undefined) {
     this._fooOptional = value;
@@ -1226,7 +1226,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: number };
   public get fooComputedOptional() {
-    return this.interpolationForAttribute('foo_computed_optional') as any;
+    return this.interpolationForAttribute('foo_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooComputedOptional(value: { [key: string]: number } | undefined) {
     this._fooComputedOptional = value;
@@ -1242,7 +1242,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: number };
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooOptional(value: { [key: string]: number } | undefined) {
     this._fooOptional = value;
@@ -1472,7 +1472,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: any };
   public get fooComputedOptional() {
-    return this.interpolationForAttribute('foo_computed_optional') as any;
+    return this.interpolationForAttribute('foo_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooComputedOptional(value: { [key: string]: any } | undefined) {
     this._fooComputedOptional = value;
@@ -1488,7 +1488,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: any };
   public get fooOptional() {
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooOptional(value: { [key: string]: any } | undefined) {
     this._fooOptional = value;
@@ -1504,7 +1504,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired: { [key: string]: any };
   public get fooRequired() {
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.interpolationForAttribute('foo_required') as any; // Accessing complex computed properties is not yet implemented
   }
   public set fooRequired(value: { [key: string]: any }) {
     this._fooRequired = value;
@@ -2034,7 +2034,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // timeouts_set - computed: false, optional: true, required: false
   private _timeoutsSet?: BlockTypeSetListTimeoutsSet[];
   public get timeoutsSet() {
-    return this.interpolationForAttribute('timeouts_set') as any;
+    return this.interpolationForAttribute('timeouts_set') as any; // Accessing complex computed properties is not yet implemented
   }
   public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | undefined) {
     this._timeoutsSet = value;
@@ -2050,7 +2050,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // timeouts_list - computed: false, optional: true, required: false
   private _timeoutsList?: BlockTypeSetListTimeoutsList[];
   public get timeoutsList() {
-    return this.interpolationForAttribute('timeouts_list') as any;
+    return this.interpolationForAttribute('timeouts_list') as any; // Accessing complex computed properties is not yet implemented
   }
   public set timeoutsList(value: BlockTypeSetListTimeoutsList[] | undefined) {
     this._timeoutsList = value;
@@ -2151,7 +2151,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // timeouts - computed: false, optional: true, required: false
   private _timeouts?: SingleBlockTypeTimeouts;
   public get timeouts() {
-    return this.interpolationForAttribute('timeouts') as any;
+    return this.interpolationForAttribute('timeouts') as any; // Accessing complex computed properties is not yet implemented
   }
   public set timeouts(value: SingleBlockTypeTimeouts | undefined) {
     this._timeouts = value;
@@ -2375,7 +2375,7 @@ export class StringMap extends cdktf.TerraformResource {
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
   private _subjectAlternativeNamesComputedOptional?: { [key: string]: string };
   public get subjectAlternativeNamesComputedOptional() {
-    return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any;
+    return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | undefined) {
     this._subjectAlternativeNamesComputedOptional = value;
@@ -2391,7 +2391,7 @@ export class StringMap extends cdktf.TerraformResource {
   // subject_alternative_names_optional - computed: false, optional: true, required: false
   private _subjectAlternativeNamesOptional?: { [key: string]: string };
   public get subjectAlternativeNamesOptional() {
-    return this.interpolationForAttribute('subject_alternative_names_optional') as any;
+    return this.interpolationForAttribute('subject_alternative_names_optional') as any; // Accessing complex computed properties is not yet implemented
   }
   public set subjectAlternativeNamesOptional(value: { [key: string]: string } | undefined) {
     this._subjectAlternativeNamesOptional = value;

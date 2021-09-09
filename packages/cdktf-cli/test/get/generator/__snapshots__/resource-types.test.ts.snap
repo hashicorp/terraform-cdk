@@ -1107,7 +1107,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
   public set tags(value: { [key: string]: string } | undefined) {
     this._tags = value;
@@ -1155,7 +1155,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // cache_behavior - computed: false, optional: true, required: false
   private _cacheBehavior?: CloudfrontDistributionCacheBehavior[];
   public get cacheBehavior() {
-    return this.interpolationForAttribute('cache_behavior') as any;
+    return this.interpolationForAttribute('cache_behavior') as any; // Accessing complex computed properties is not yet implemented
   }
   public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] | undefined) {
     this._cacheBehavior = value;
@@ -1171,7 +1171,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // custom_error_response - computed: false, optional: true, required: false
   private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[];
   public get customErrorResponse() {
-    return this.interpolationForAttribute('custom_error_response') as any;
+    return this.interpolationForAttribute('custom_error_response') as any; // Accessing complex computed properties is not yet implemented
   }
   public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | undefined) {
     this._customErrorResponse = value;
@@ -1187,7 +1187,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // default_cache_behavior - computed: false, optional: false, required: true
   private _defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior[];
   public get defaultCacheBehavior() {
-    return this.interpolationForAttribute('default_cache_behavior') as any;
+    return this.interpolationForAttribute('default_cache_behavior') as any; // Accessing complex computed properties is not yet implemented
   }
   public set defaultCacheBehavior(value: CloudfrontDistributionDefaultCacheBehavior[]) {
     this._defaultCacheBehavior = value;
@@ -1200,7 +1200,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // logging_config - computed: false, optional: true, required: false
   private _loggingConfig?: CloudfrontDistributionLoggingConfig[];
   public get loggingConfig() {
-    return this.interpolationForAttribute('logging_config') as any;
+    return this.interpolationForAttribute('logging_config') as any; // Accessing complex computed properties is not yet implemented
   }
   public set loggingConfig(value: CloudfrontDistributionLoggingConfig[] | undefined) {
     this._loggingConfig = value;
@@ -1216,7 +1216,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // ordered_cache_behavior - computed: false, optional: true, required: false
   private _orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[];
   public get orderedCacheBehavior() {
-    return this.interpolationForAttribute('ordered_cache_behavior') as any;
+    return this.interpolationForAttribute('ordered_cache_behavior') as any; // Accessing complex computed properties is not yet implemented
   }
   public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] | undefined) {
     this._orderedCacheBehavior = value;
@@ -1232,7 +1232,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // origin - computed: false, optional: false, required: true
   private _origin: CloudfrontDistributionOrigin[];
   public get origin() {
-    return this.interpolationForAttribute('origin') as any;
+    return this.interpolationForAttribute('origin') as any; // Accessing complex computed properties is not yet implemented
   }
   public set origin(value: CloudfrontDistributionOrigin[]) {
     this._origin = value;
@@ -1245,7 +1245,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // origin_group - computed: false, optional: true, required: false
   private _originGroup?: CloudfrontDistributionOriginGroup[];
   public get originGroup() {
-    return this.interpolationForAttribute('origin_group') as any;
+    return this.interpolationForAttribute('origin_group') as any; // Accessing complex computed properties is not yet implemented
   }
   public set originGroup(value: CloudfrontDistributionOriginGroup[] | undefined) {
     this._originGroup = value;
@@ -1261,7 +1261,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // restrictions - computed: false, optional: false, required: true
   private _restrictions: CloudfrontDistributionRestrictions[];
   public get restrictions() {
-    return this.interpolationForAttribute('restrictions') as any;
+    return this.interpolationForAttribute('restrictions') as any; // Accessing complex computed properties is not yet implemented
   }
   public set restrictions(value: CloudfrontDistributionRestrictions[]) {
     this._restrictions = value;
@@ -1274,7 +1274,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // viewer_certificate - computed: false, optional: false, required: true
   private _viewerCertificate: CloudfrontDistributionViewerCertificate[];
   public get viewerCertificate() {
-    return this.interpolationForAttribute('viewer_certificate') as any;
+    return this.interpolationForAttribute('viewer_certificate') as any; // Accessing complex computed properties is not yet implemented
   }
   public set viewerCertificate(value: CloudfrontDistributionViewerCertificate[]) {
     this._viewerCertificate = value;
@@ -2300,7 +2300,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
   public set tags(value: { [key: string]: string } | undefined) {
     this._tags = value;
@@ -2348,7 +2348,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // cors_rule - computed: false, optional: true, required: false
   private _corsRule?: S3BucketCorsRule[];
   public get corsRule() {
-    return this.interpolationForAttribute('cors_rule') as any;
+    return this.interpolationForAttribute('cors_rule') as any; // Accessing complex computed properties is not yet implemented
   }
   public set corsRule(value: S3BucketCorsRule[] | undefined) {
     this._corsRule = value;
@@ -2364,7 +2364,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // grant - computed: false, optional: true, required: false
   private _grant?: S3BucketGrant[];
   public get grant() {
-    return this.interpolationForAttribute('grant') as any;
+    return this.interpolationForAttribute('grant') as any; // Accessing complex computed properties is not yet implemented
   }
   public set grant(value: S3BucketGrant[] | undefined) {
     this._grant = value;
@@ -2380,7 +2380,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // lifecycle_rule - computed: false, optional: true, required: false
   private _lifecycleRule?: S3BucketLifecycleRule[];
   public get lifecycleRule() {
-    return this.interpolationForAttribute('lifecycle_rule') as any;
+    return this.interpolationForAttribute('lifecycle_rule') as any; // Accessing complex computed properties is not yet implemented
   }
   public set lifecycleRule(value: S3BucketLifecycleRule[] | undefined) {
     this._lifecycleRule = value;
@@ -2396,7 +2396,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // logging - computed: false, optional: true, required: false
   private _logging?: S3BucketLogging[];
   public get logging() {
-    return this.interpolationForAttribute('logging') as any;
+    return this.interpolationForAttribute('logging') as any; // Accessing complex computed properties is not yet implemented
   }
   public set logging(value: S3BucketLogging[] | undefined) {
     this._logging = value;
@@ -2412,7 +2412,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // object_lock_configuration - computed: false, optional: true, required: false
   private _objectLockConfiguration?: S3BucketObjectLockConfiguration[];
   public get objectLockConfiguration() {
-    return this.interpolationForAttribute('object_lock_configuration') as any;
+    return this.interpolationForAttribute('object_lock_configuration') as any; // Accessing complex computed properties is not yet implemented
   }
   public set objectLockConfiguration(value: S3BucketObjectLockConfiguration[] | undefined) {
     this._objectLockConfiguration = value;
@@ -2428,7 +2428,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // replication_configuration - computed: false, optional: true, required: false
   private _replicationConfiguration?: S3BucketReplicationConfiguration[];
   public get replicationConfiguration() {
-    return this.interpolationForAttribute('replication_configuration') as any;
+    return this.interpolationForAttribute('replication_configuration') as any; // Accessing complex computed properties is not yet implemented
   }
   public set replicationConfiguration(value: S3BucketReplicationConfiguration[] | undefined) {
     this._replicationConfiguration = value;
@@ -2444,7 +2444,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // server_side_encryption_configuration - computed: false, optional: true, required: false
   private _serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration[];
   public get serverSideEncryptionConfiguration() {
-    return this.interpolationForAttribute('server_side_encryption_configuration') as any;
+    return this.interpolationForAttribute('server_side_encryption_configuration') as any; // Accessing complex computed properties is not yet implemented
   }
   public set serverSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration[] | undefined) {
     this._serverSideEncryptionConfiguration = value;
@@ -2460,7 +2460,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // versioning - computed: false, optional: true, required: false
   private _versioning?: S3BucketVersioning[];
   public get versioning() {
-    return this.interpolationForAttribute('versioning') as any;
+    return this.interpolationForAttribute('versioning') as any; // Accessing complex computed properties is not yet implemented
   }
   public set versioning(value: S3BucketVersioning[] | undefined) {
     this._versioning = value;
@@ -2476,7 +2476,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // website - computed: false, optional: true, required: false
   private _website?: S3BucketWebsite[];
   public get website() {
-    return this.interpolationForAttribute('website') as any;
+    return this.interpolationForAttribute('website') as any; // Accessing complex computed properties is not yet implemented
   }
   public set website(value: S3BucketWebsite[] | undefined) {
     this._website = value;
@@ -2770,7 +2770,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // egress - computed: true, optional: true, required: false
   private _egress?: SecurityGroupEgress[];
   public get egress() {
-    return this.interpolationForAttribute('egress') as any;
+    return this.interpolationForAttribute('egress') as any; // Accessing complex computed properties is not yet implemented
   }
   public set egress(value: SecurityGroupEgress[] | undefined) {
     this._egress = value;
@@ -2791,7 +2791,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // ingress - computed: true, optional: true, required: false
   private _ingress?: SecurityGroupIngress[];
   public get ingress() {
-    return this.interpolationForAttribute('ingress') as any;
+    return this.interpolationForAttribute('ingress') as any; // Accessing complex computed properties is not yet implemented
   }
   public set ingress(value: SecurityGroupIngress[] | undefined) {
     this._ingress = value;
@@ -2860,7 +2860,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
   public set tags(value: { [key: string]: string } | undefined) {
     this._tags = value;
@@ -2892,7 +2892,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // timeouts - computed: false, optional: true, required: false
   private _timeouts?: SecurityGroupTimeouts;
   public get timeouts() {
-    return this.interpolationForAttribute('timeouts') as any;
+    return this.interpolationForAttribute('timeouts') as any; // Accessing complex computed properties is not yet implemented
   }
   public set timeouts(value: SecurityGroupTimeouts | undefined) {
     this._timeouts = value;

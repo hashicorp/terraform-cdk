@@ -247,7 +247,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
-    return this.interpolationForAttribute('tags') as any;
+    return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
   public set tags(value: { [key: string]: string } | undefined) {
     this._tags = value;
@@ -284,7 +284,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // options - computed: false, optional: true, required: false
   private _options?: AcmCertificateOptions[];
   public get options() {
-    return this.interpolationForAttribute('options') as any;
+    return this.interpolationForAttribute('options') as any; // Accessing complex computed properties is not yet implemented
   }
   public set options(value: AcmCertificateOptions[] | undefined) {
     this._options = value;
