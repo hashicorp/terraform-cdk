@@ -30,11 +30,17 @@ export abstract class TerraformModule
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id);
 
-    if (options.source.startsWith("./") || options.source.startsWith("../")) {
-      this.source = path.join("..", options.source);
-    } else {
+    // If the path came from Assets approach
+    if (options.source.includes("assets")) {
       this.source = options.source;
+    } else {
+      if (options.source.startsWith("./") || options.source.startsWith("../")) {
+        this.source = path.join("..", options.source);
+      } else {
+        this.source = options.source;
+      }
     }
+    
     this.version = options.version;
     this._providers = options.providers;
     this.validateIfProvidersHaveUniqueKeys();
