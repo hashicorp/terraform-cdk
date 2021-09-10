@@ -1,7 +1,7 @@
 ---
 layout: "docs"
-page_title: "Template CDKTF docs"
-sidebar_current: "docs-home"
+page_title: "Assets"
+sidebar_current: "cdktf"
 description: "TODO: describe me"
 ---
 
