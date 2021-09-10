@@ -2,7 +2,7 @@ import https = require("https");
 import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
-import { processLoggerError } from "./logging";
+import { logger, processLoggerError } from "./logging";
 import { versionNumber } from "../bin/cmds/helper/version-check";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
@@ -69,7 +69,11 @@ export async function sendTelemetry(
     payload,
   };
 
-  await ReportRequest(reportParams);
+  try {
+    await ReportRequest(reportParams);
+  } catch (err) {
+    logger.error(`Could not send telemetry data: ${err}`);
+  }
 }
 
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
