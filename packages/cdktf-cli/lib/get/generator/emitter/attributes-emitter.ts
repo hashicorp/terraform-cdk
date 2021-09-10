@@ -124,7 +124,7 @@ export class AttributesEmitter {
 
   public determineGetAttCall(att: AttributeModel): string {
     if (att.isProvider) {
-      return `this.${att.storageName}`;
+      return `this.${att.storageName};`;
     }
 
     const type = att.type;
