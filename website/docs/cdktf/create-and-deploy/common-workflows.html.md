@@ -1,6 +1,6 @@
 ---
 layout: "docs"
-page_title: "Common Workflows - CDKTF by HashiCorp"
+page_title: "Common Workflows"
 sidebar_current: "cdktf"
 description: "TODO: describe me"
 ---
