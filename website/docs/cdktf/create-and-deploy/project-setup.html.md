@@ -58,9 +58,9 @@ Use the typescript template and add a flag on init to convert from an existing H
 ..show example
 
 
-## Configuration
+## Configure Project
 
-### Global 
+### Global Configuration
 
 One option to provide global configuration is the app context, which can be accessed in any construct within the app.
 
@@ -97,7 +97,7 @@ app.synth();
 
 
 
-### Stacks
+### Stack Configuration 
 
 A stack represents a collection of infrastructure that will be synthesized as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
 
@@ -210,3 +210,44 @@ Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651)
 
 Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` in the project root folder was used. With version `>= 0.3` the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
 
+
+#### Escape Hatch
+
+For anything on the top-level `terraform` block that is not natively implemented, use the **stack escape hatch** to define a configuration. For example,
+define remote backend using the `addOverride` method in TypeScript.
+
+~> **Important**: Escape hatches **must not** have empty arguments or objects, as they will be
+removed from the synthesized JSON configuration.
+
+
+```typescript
+stack.addOverride("terraform.backend", {
+  remote: {
+    organization: "test",
+    workspaces: {
+      name: "test",
+    },
+  },
+});
+```
+
+This will synthesize a Terraform configuration with the remote backend included in
+the `terraform` block.
+
+```json
+{
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
+    },
+    "backend": {
+      "remote": {
+        "organization": "test",
+        "workspaces": {
+          "name": "test"
+        }
+      }
+    }
+  }
+}
+```
