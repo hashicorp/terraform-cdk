@@ -1,7 +1,7 @@
 import { Token } from "./tokens";
 import { ITerraformResource } from "./terraform-resource";
 
-abstract class ComplexComputedAttribute {
+abstract class ComplexComputedAttribute implements ITerraformResource {
   constructor(
     protected terraformResource: ITerraformResource,
     protected terraformAttribute: string
@@ -25,9 +25,11 @@ abstract class ComplexComputedAttribute {
     ) as any as boolean;
   }
 
-  protected abstract interpolationForAttribute(
-    terraformAttribute: string
-  ): string;
+  public abstract interpolationForAttribute(terraformAttribute: string): string;
+
+  terraformResourceType = "TODO";
+  fqn = "todo";
+  friendlyUniqueId = "todo";
 }
 
 export class StringMap {
@@ -84,7 +86,7 @@ export class ComplexComputedList extends ComplexComputedAttribute {
     super(terraformResource, terraformAttribute);
   }
 
-  protected interpolationForAttribute(property: string) {
+  public interpolationForAttribute(property: string) {
     return this.terraformResource.interpolationForAttribute(
       `${this.terraformAttribute}.${this.complexComputedListIndex}.${property}`
     );

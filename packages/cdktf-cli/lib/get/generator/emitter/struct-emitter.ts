@@ -57,7 +57,7 @@ export class StructEmitter {
 
   private emitClass(struct: Struct) {
     this.code.openBlock(
-      `export class ${struct.name} extends cdktf.ComplexComputedList`
+      `export class ${struct.name}${struct.extends}${struct.implements}`
     );
     for (const att of struct.attributes) {
       this.attributesEmitter.emit(

@@ -5,7 +5,8 @@ export class Struct {
     public readonly name: string,
     public readonly attributes: AttributeModel[],
     public readonly isClass = false,
-    public readonly isComputed = false
+    public readonly isComputed = false,
+    private readonly implementsInterface?: string | undefined
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
@@ -49,8 +50,18 @@ export class Struct {
   }
 
   public get extends(): string {
+    if (this.isClass) {
+      return " extends cdktf.ComplexComputedList";
+    }
+
     return this.isComputed
       ? ` extends ${this.name.replace("Computed", "")}`
+      : "";
+  }
+
+  public get implements(): string {
+    return this.implementsInterface
+      ? ` implements ${this.implementsInterface}`
       : "";
   }
 }

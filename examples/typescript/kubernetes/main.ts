@@ -1,5 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
+import { Ingress } from "./.gen/providers/kubernetes/ingress";
 import {
   KubernetesProvider,
   Namespace,
@@ -26,7 +27,7 @@ class KubeStack extends TerraformStack {
       metadata: [
         {
           name: app,
-          namespace: exampleNamespace.metadata[0].name,
+          namespace: exampleNamespace.metadata("0").name,
           labels: {
             app,
           },
@@ -88,10 +89,20 @@ class KubeStack extends TerraformStack {
       ],
     });
 
+    const ingress = new Ingress(this, "s", {
+      metadata: [
+        {
+          name: app,
+        },
+      ],
+      spec: [],
+    });
+
     new Service(this, "nginx-service", {
       metadata: [
         {
           name: app,
+          namespace: ingress.metadata("0").uid,
         },
       ],
       spec: [

@@ -12,6 +12,7 @@ export interface AttributeModelOptions {
   getAttCall?: string;
   provider: boolean;
   required: boolean;
+  hasComputedStruct: boolean;
 }
 
 export class AttributeModel {
@@ -25,6 +26,7 @@ export class AttributeModel {
   private _description?: string;
   public provider: boolean;
   public required: boolean;
+  public hasComputedStruct: boolean;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -37,6 +39,7 @@ export class AttributeModel {
     this._description = options.description;
     this.provider = options.provider;
     this.required = options.required;
+    this.hasComputedStruct = options.hasComputedStruct;
   }
 
   public get typeDefinition() {

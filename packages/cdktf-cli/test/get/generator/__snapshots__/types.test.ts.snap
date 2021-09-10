@@ -173,15 +173,14 @@ export class BooleanMap extends cdktf.TerraformResource {
   public get fooComputedOptional() {
     return this.interpolationForAttribute('foo_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set fooComputedOptional(value: { [key: string]: boolean } | undefined) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
     return this._fooComputedOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooComputedOptional(value: { [key: string]: boolean }) {
+    return this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -189,15 +188,14 @@ export class BooleanMap extends cdktf.TerraformResource {
   public get fooOptional() {
     return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set fooOptional(value: { [key: string]: boolean } | undefined) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
     return this._fooOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooOptional(value: { [key: string]: boolean }) {
+    return this._fooOptional = value;
   }
 
   // =========
@@ -466,6 +464,38 @@ export interface BlockTypeNestedComputedListInputsComputed extends BlockTypeNest
   */
   readonly streamNames: string[];
 }
+export class BlockTypeNestedComputedListInputsComputedImpl extends cdktf.ComplexComputedList implements BlockTypeNestedComputedListInputsComputed {
+
+  // id - computed: true, optional: false, required: false
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // name_prefix - computed: false, optional: false, required: true
+  private _namePrefix: string;
+  public get namePrefix() {
+    return this.getStringAttribute('name_prefix');
+  }
+  // Temporarily expose input value. Use with caution.
+  public get namePrefixInput() {
+    return this._namePrefix
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putnamePrefix(value: string) {
+    return this._namePrefix = value;
+  }
+
+  // starting_position_configuration - computed: true, optional: false, required: false
+  public startingPositionConfiguration(index: string): BlockTypeNestedComputedListInputsStartingPositionConfiguration {
+    return new BlockTypeNestedComputedListInputsStartingPositionConfiguration(this, 'starting_position_configuration', index);
+  }
+
+  // stream_names - computed: true, optional: false, required: false
+  public get streamNames() {
+    return this.getListAttribute('stream_names');
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html aws_block_type_nested_computed_list}
@@ -508,18 +538,17 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
 
   // inputs - computed: false, optional: true, required: false
   private _inputs?: BlockTypeNestedComputedListInputs[];
-  public get inputs() {
-    return this.interpolationForAttribute('inputs') as any; // Accessing complex computed properties is not yet implemented
-  }
-  public set inputs(value: BlockTypeNestedComputedListInputs[] | undefined) {
-    this._inputs = value;
-  }
-  public resetInputs() {
-    this._inputs = undefined;
+  public inputs(index: string): BlockTypeNestedComputedListInputsComputed {
+    return new BlockTypeNestedComputedListInputsComputedImpl(this, 'inputs', index);
   }
   // Temporarily expose input value. Use with caution.
   public get inputsInput() {
     return this._inputs
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putinputs(value: BlockTypeNestedComputedListInputs[]) {
+    return this._inputs = value;
   }
 
   // =========
@@ -1228,15 +1257,14 @@ export class NumberMap extends cdktf.TerraformResource {
   public get fooComputedOptional() {
     return this.interpolationForAttribute('foo_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set fooComputedOptional(value: { [key: string]: number } | undefined) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
     return this._fooComputedOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooComputedOptional(value: { [key: string]: number }) {
+    return this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -1244,15 +1272,14 @@ export class NumberMap extends cdktf.TerraformResource {
   public get fooOptional() {
     return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set fooOptional(value: { [key: string]: number } | undefined) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
     return this._fooOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooOptional(value: { [key: string]: number }) {
+    return this._fooOptional = value;
   }
 
   // =========
@@ -1344,15 +1371,14 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   public get fooComputedOptional() {
     return this.getBooleanAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: boolean | undefined) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
     return this._fooComputedOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooComputedOptional(value: boolean) {
+    return this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -1360,15 +1386,14 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional');
   }
-  public set fooOptional(value: boolean | undefined) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
     return this._fooOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooOptional(value: boolean) {
+    return this._fooOptional = value;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1376,12 +1401,14 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   public get fooRequired() {
     return this.getBooleanAttribute('foo_required');
   }
-  public set fooRequired(value: boolean) {
-    this._fooRequired = value;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
     return this._fooRequired
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooRequired(value: boolean) {
+    return this._fooRequired = value;
   }
 
   // =========
@@ -1474,15 +1501,14 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   public get fooComputedOptional() {
     return this.interpolationForAttribute('foo_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set fooComputedOptional(value: { [key: string]: any } | undefined) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
     return this._fooComputedOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooComputedOptional(value: { [key: string]: any }) {
+    return this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -1490,15 +1516,14 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   public get fooOptional() {
     return this.interpolationForAttribute('foo_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set fooOptional(value: { [key: string]: any } | undefined) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
     return this._fooOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooOptional(value: { [key: string]: any }) {
+    return this._fooOptional = value;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1506,12 +1531,14 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   public get fooRequired() {
     return this.interpolationForAttribute('foo_required') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set fooRequired(value: { [key: string]: any }) {
-    this._fooRequired = value;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
     return this._fooRequired
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooRequired(value: { [key: string]: any }) {
+    return this._fooRequired = value;
   }
 
   // =========
@@ -1604,15 +1631,14 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   public get fooComputedOptional() {
     return this.getNumberAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: number | undefined) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
     return this._fooComputedOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooComputedOptional(value: number) {
+    return this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -1620,15 +1646,14 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   public get fooOptional() {
     return this.getNumberAttribute('foo_optional');
   }
-  public set fooOptional(value: number | undefined) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
     return this._fooOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooOptional(value: number) {
+    return this._fooOptional = value;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1636,12 +1661,14 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   public get fooRequired() {
     return this.getNumberAttribute('foo_required');
   }
-  public set fooRequired(value: number) {
-    this._fooRequired = value;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
     return this._fooRequired
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooRequired(value: number) {
+    return this._fooRequired = value;
   }
 
   // =========
@@ -1734,15 +1761,14 @@ export class PrimitiveString extends cdktf.TerraformResource {
   public get fooComputedOptional() {
     return this.getStringAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: string | undefined) {
-    this._fooComputedOptional = value;
-  }
-  public resetFooComputedOptional() {
-    this._fooComputedOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
     return this._fooComputedOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooComputedOptional(value: string) {
+    return this._fooComputedOptional = value;
   }
 
   // foo_optional - computed: false, optional: true, required: false
@@ -1750,15 +1776,14 @@ export class PrimitiveString extends cdktf.TerraformResource {
   public get fooOptional() {
     return this.getStringAttribute('foo_optional');
   }
-  public set fooOptional(value: string | undefined) {
-    this._fooOptional = value;
-  }
-  public resetFooOptional() {
-    this._fooOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
     return this._fooOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooOptional(value: string) {
+    return this._fooOptional = value;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1766,12 +1791,14 @@ export class PrimitiveString extends cdktf.TerraformResource {
   public get fooRequired() {
     return this.getStringAttribute('foo_required');
   }
-  public set fooRequired(value: string) {
-    this._fooRequired = value;
-  }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
     return this._fooRequired
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putfooRequired(value: string) {
+    return this._fooRequired = value;
   }
 
   // =========
@@ -2268,12 +2295,14 @@ export class StringList extends cdktf.TerraformResource {
   public get subjectAlternativeNamesRequired() {
     return this.getListAttribute('subject_alternative_names_required');
   }
-  public set subjectAlternativeNamesRequired(value: string[]) {
-    this._subjectAlternativeNamesRequired = value;
-  }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesRequiredInput() {
     return this._subjectAlternativeNamesRequired
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putsubjectAlternativeNamesRequired(value: string[]) {
+    return this._subjectAlternativeNamesRequired = value;
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
@@ -2281,15 +2310,14 @@ export class StringList extends cdktf.TerraformResource {
   public get subjectAlternativeNamesOptional() {
     return this.getListAttribute('subject_alternative_names_optional');
   }
-  public set subjectAlternativeNamesOptional(value: string[] | undefined) {
-    this._subjectAlternativeNamesOptional = value;
-  }
-  public resetSubjectAlternativeNamesOptional() {
-    this._subjectAlternativeNamesOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalInput() {
     return this._subjectAlternativeNamesOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putsubjectAlternativeNamesOptional(value: string[]) {
+    return this._subjectAlternativeNamesOptional = value;
   }
 
   // =========
@@ -2377,15 +2405,14 @@ export class StringMap extends cdktf.TerraformResource {
   public get subjectAlternativeNamesComputedOptional() {
     return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | undefined) {
-    this._subjectAlternativeNamesComputedOptional = value;
-  }
-  public resetSubjectAlternativeNamesComputedOptional() {
-    this._subjectAlternativeNamesComputedOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesComputedOptionalInput() {
     return this._subjectAlternativeNamesComputedOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putsubjectAlternativeNamesComputedOptional(value: { [key: string]: string }) {
+    return this._subjectAlternativeNamesComputedOptional = value;
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
@@ -2393,15 +2420,14 @@ export class StringMap extends cdktf.TerraformResource {
   public get subjectAlternativeNamesOptional() {
     return this.interpolationForAttribute('subject_alternative_names_optional') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | undefined) {
-    this._subjectAlternativeNamesOptional = value;
-  }
-  public resetSubjectAlternativeNamesOptional() {
-    this._subjectAlternativeNamesOptional = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalInput() {
     return this._subjectAlternativeNamesOptional
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putsubjectAlternativeNamesOptional(value: { [key: string]: string }) {
+    return this._subjectAlternativeNamesOptional = value;
   }
 
   // =========

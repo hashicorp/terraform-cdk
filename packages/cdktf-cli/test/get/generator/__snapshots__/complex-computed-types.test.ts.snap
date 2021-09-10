@@ -143,15 +143,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get certificateAuthorityArn() {
     return this.getStringAttribute('certificate_authority_arn');
   }
-  public set certificateAuthorityArn(value: string | undefined) {
-    this._certificateAuthorityArn = value;
-  }
-  public resetCertificateAuthorityArn() {
-    this._certificateAuthorityArn = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get certificateAuthorityArnInput() {
     return this._certificateAuthorityArn
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putcertificateAuthorityArn(value: string) {
+    return this._certificateAuthorityArn = value;
   }
 
   // certificate_body - computed: false, optional: true, required: false
@@ -159,15 +158,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get certificateBody() {
     return this.getStringAttribute('certificate_body');
   }
-  public set certificateBody(value: string | undefined) {
-    this._certificateBody = value;
-  }
-  public resetCertificateBody() {
-    this._certificateBody = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get certificateBodyInput() {
     return this._certificateBody
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putcertificateBody(value: string) {
+    return this._certificateBody = value;
   }
 
   // certificate_chain - computed: false, optional: true, required: false
@@ -175,15 +173,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get certificateChain() {
     return this.getStringAttribute('certificate_chain');
   }
-  public set certificateChain(value: string | undefined) {
-    this._certificateChain = value;
-  }
-  public resetCertificateChain() {
-    this._certificateChain = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get certificateChainInput() {
     return this._certificateChain
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putcertificateChain(value: string) {
+    return this._certificateChain = value;
   }
 
   // domain_name - computed: true, optional: true, required: false
@@ -191,15 +188,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get domainName() {
     return this.getStringAttribute('domain_name');
   }
-  public set domainName(value: string | undefined) {
-    this._domainName = value;
-  }
-  public resetDomainName() {
-    this._domainName = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get domainNameInput() {
     return this._domainName
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putdomainName(value: string) {
+    return this._domainName = value;
   }
 
   // domain_validation_options - computed: true, optional: false, required: false
@@ -217,15 +213,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get privateKey() {
     return this.getStringAttribute('private_key');
   }
-  public set privateKey(value: string | undefined) {
-    this._privateKey = value;
-  }
-  public resetPrivateKey() {
-    this._privateKey = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get privateKeyInput() {
     return this._privateKey
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putprivateKey(value: string) {
+    return this._privateKey = value;
   }
 
   // subject_alternative_names - computed: true, optional: true, required: false
@@ -233,15 +228,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get subjectAlternativeNames() {
     return this.getListAttribute('subject_alternative_names');
   }
-  public set subjectAlternativeNames(value: string[] | undefined) {
-    this._subjectAlternativeNames = value;
-  }
-  public resetSubjectAlternativeNames() {
-    this._subjectAlternativeNames = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesInput() {
     return this._subjectAlternativeNames
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putsubjectAlternativeNames(value: string[]) {
+    return this._subjectAlternativeNames = value;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -249,15 +243,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set tags(value: { [key: string]: string } | undefined) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
     return this._tags
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public puttags(value: { [key: string]: string }) {
+    return this._tags = value;
   }
 
   // validation_emails - computed: true, optional: false, required: false
@@ -270,15 +263,14 @@ export class AcmCertificate extends cdktf.TerraformResource {
   public get validationMethod() {
     return this.getStringAttribute('validation_method');
   }
-  public set validationMethod(value: string | undefined) {
-    this._validationMethod = value;
-  }
-  public resetValidationMethod() {
-    this._validationMethod = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get validationMethodInput() {
     return this._validationMethod
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putvalidationMethod(value: string) {
+    return this._validationMethod = value;
   }
 
   // options - computed: false, optional: true, required: false

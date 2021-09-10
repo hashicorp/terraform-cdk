@@ -939,15 +939,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get aliases() {
     return this.getListAttribute('aliases');
   }
-  public set aliases(value: string[] | undefined) {
-    this._aliases = value;
-  }
-  public resetAliases() {
-    this._aliases = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get aliasesInput() {
     return this._aliases
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putaliases(value: string[]) {
+    return this._aliases = value;
   }
 
   // arn - computed: true, optional: false, required: false
@@ -965,15 +964,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get comment() {
     return this.getStringAttribute('comment');
   }
-  public set comment(value: string | undefined) {
-    this._comment = value;
-  }
-  public resetComment() {
-    this._comment = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get commentInput() {
     return this._comment
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putcomment(value: string) {
+    return this._comment = value;
   }
 
   // default_root_object - computed: false, optional: true, required: false
@@ -981,15 +979,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get defaultRootObject() {
     return this.getStringAttribute('default_root_object');
   }
-  public set defaultRootObject(value: string | undefined) {
-    this._defaultRootObject = value;
-  }
-  public resetDefaultRootObject() {
-    this._defaultRootObject = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get defaultRootObjectInput() {
     return this._defaultRootObject
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putdefaultRootObject(value: string) {
+    return this._defaultRootObject = value;
   }
 
   // domain_name - computed: true, optional: false, required: false
@@ -1002,12 +999,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get enabled() {
     return this.getBooleanAttribute('enabled');
   }
-  public set enabled(value: boolean) {
-    this._enabled = value;
-  }
   // Temporarily expose input value. Use with caution.
   public get enabledInput() {
     return this._enabled
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putenabled(value: boolean) {
+    return this._enabled = value;
   }
 
   // etag - computed: true, optional: false, required: false
@@ -1025,15 +1024,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get httpVersion() {
     return this.getStringAttribute('http_version');
   }
-  public set httpVersion(value: string | undefined) {
-    this._httpVersion = value;
-  }
-  public resetHttpVersion() {
-    this._httpVersion = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get httpVersionInput() {
     return this._httpVersion
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public puthttpVersion(value: string) {
+    return this._httpVersion = value;
   }
 
   // id - computed: true, optional: true, required: false
@@ -1051,15 +1049,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get isIpv6Enabled() {
     return this.getBooleanAttribute('is_ipv6_enabled');
   }
-  public set isIpv6Enabled(value: boolean | undefined) {
-    this._isIpv6Enabled = value;
-  }
-  public resetIsIpv6Enabled() {
-    this._isIpv6Enabled = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get isIpv6EnabledInput() {
     return this._isIpv6Enabled
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putisIpv6Enabled(value: boolean) {
+    return this._isIpv6Enabled = value;
   }
 
   // last_modified_time - computed: true, optional: false, required: false
@@ -1072,15 +1069,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get priceClass() {
     return this.getStringAttribute('price_class');
   }
-  public set priceClass(value: string | undefined) {
-    this._priceClass = value;
-  }
-  public resetPriceClass() {
-    this._priceClass = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get priceClassInput() {
     return this._priceClass
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putpriceClass(value: string) {
+    return this._priceClass = value;
   }
 
   // retain_on_delete - computed: false, optional: true, required: false
@@ -1088,15 +1084,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get retainOnDelete() {
     return this.getBooleanAttribute('retain_on_delete');
   }
-  public set retainOnDelete(value: boolean | undefined) {
-    this._retainOnDelete = value;
-  }
-  public resetRetainOnDelete() {
-    this._retainOnDelete = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get retainOnDeleteInput() {
     return this._retainOnDelete
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putretainOnDelete(value: boolean) {
+    return this._retainOnDelete = value;
   }
 
   // status - computed: true, optional: false, required: false
@@ -1109,15 +1104,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set tags(value: { [key: string]: string } | undefined) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
     return this._tags
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public puttags(value: { [key: string]: string }) {
+    return this._tags = value;
   }
 
   // wait_for_deployment - computed: false, optional: true, required: false
@@ -1125,15 +1119,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get waitForDeployment() {
     return this.getBooleanAttribute('wait_for_deployment');
   }
-  public set waitForDeployment(value: boolean | undefined) {
-    this._waitForDeployment = value;
-  }
-  public resetWaitForDeployment() {
-    this._waitForDeployment = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get waitForDeploymentInput() {
     return this._waitForDeployment
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putwaitForDeployment(value: boolean) {
+    return this._waitForDeployment = value;
   }
 
   // web_acl_id - computed: false, optional: true, required: false
@@ -1141,15 +1134,14 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   public get webAclId() {
     return this.getStringAttribute('web_acl_id');
   }
-  public set webAclId(value: string | undefined) {
-    this._webAclId = value;
-  }
-  public resetWebAclId() {
-    this._webAclId = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get webAclIdInput() {
     return this._webAclId
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putwebAclId(value: string) {
+    return this._webAclId = value;
   }
 
   // cache_behavior - computed: false, optional: true, required: false
@@ -2196,15 +2188,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get bucketPrefix() {
     return this.getStringAttribute('bucket_prefix');
   }
-  public set bucketPrefix(value: string | undefined) {
-    this._bucketPrefix = value;
-  }
-  public resetBucketPrefix() {
-    this._bucketPrefix = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get bucketPrefixInput() {
     return this._bucketPrefix
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putbucketPrefix(value: string) {
+    return this._bucketPrefix = value;
   }
 
   // bucket_regional_domain_name - computed: true, optional: false, required: false
@@ -2217,15 +2208,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get forceDestroy() {
     return this.getBooleanAttribute('force_destroy');
   }
-  public set forceDestroy(value: boolean | undefined) {
-    this._forceDestroy = value;
-  }
-  public resetForceDestroy() {
-    this._forceDestroy = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get forceDestroyInput() {
     return this._forceDestroy
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putforceDestroy(value: boolean) {
+    return this._forceDestroy = value;
   }
 
   // hosted_zone_id - computed: true, optional: true, required: false
@@ -2233,15 +2223,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get hostedZoneId() {
     return this.getStringAttribute('hosted_zone_id');
   }
-  public set hostedZoneId(value: string | undefined) {
-    this._hostedZoneId = value;
-  }
-  public resetHostedZoneId() {
-    this._hostedZoneId = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get hostedZoneIdInput() {
     return this._hostedZoneId
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public puthostedZoneId(value: string) {
+    return this._hostedZoneId = value;
   }
 
   // id - computed: true, optional: true, required: false
@@ -2254,15 +2243,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get policy() {
     return this.getStringAttribute('policy');
   }
-  public set policy(value: string | undefined) {
-    this._policy = value;
-  }
-  public resetPolicy() {
-    this._policy = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get policyInput() {
     return this._policy
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putpolicy(value: string) {
+    return this._policy = value;
   }
 
   // region - computed: true, optional: true, required: false
@@ -2270,15 +2258,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get region() {
     return this.getStringAttribute('region');
   }
-  public set region(value: string | undefined) {
-    this._region = value;
-  }
-  public resetRegion() {
-    this._region = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get regionInput() {
     return this._region
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putregion(value: string) {
+    return this._region = value;
   }
 
   // request_payer - computed: true, optional: true, required: false
@@ -2286,15 +2273,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get requestPayer() {
     return this.getStringAttribute('request_payer');
   }
-  public set requestPayer(value: string | undefined) {
-    this._requestPayer = value;
-  }
-  public resetRequestPayer() {
-    this._requestPayer = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get requestPayerInput() {
     return this._requestPayer
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putrequestPayer(value: string) {
+    return this._requestPayer = value;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -2302,15 +2288,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set tags(value: { [key: string]: string } | undefined) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
     return this._tags
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public puttags(value: { [key: string]: string }) {
+    return this._tags = value;
   }
 
   // website_domain - computed: true, optional: true, required: false
@@ -2318,15 +2303,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get websiteDomain() {
     return this.getStringAttribute('website_domain');
   }
-  public set websiteDomain(value: string | undefined) {
-    this._websiteDomain = value;
-  }
-  public resetWebsiteDomain() {
-    this._websiteDomain = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get websiteDomainInput() {
     return this._websiteDomain
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putwebsiteDomain(value: string) {
+    return this._websiteDomain = value;
   }
 
   // website_endpoint - computed: true, optional: true, required: false
@@ -2334,15 +2318,14 @@ export class S3Bucket extends cdktf.TerraformResource {
   public get websiteEndpoint() {
     return this.getStringAttribute('website_endpoint');
   }
-  public set websiteEndpoint(value: string | undefined) {
-    this._websiteEndpoint = value;
-  }
-  public resetWebsiteEndpoint() {
-    this._websiteEndpoint = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get websiteEndpointInput() {
     return this._websiteEndpoint
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putwebsiteEndpoint(value: string) {
+    return this._websiteEndpoint = value;
   }
 
   // cors_rule - computed: false, optional: true, required: false
@@ -2756,31 +2739,29 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get description() {
     return this.getStringAttribute('description');
   }
-  public set description(value: string | undefined) {
-    this._description = value;
-  }
-  public resetDescription() {
-    this._description = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get descriptionInput() {
     return this._description
   }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putdescription(value: string) {
+    return this._description = value;
+  }
 
   // egress - computed: true, optional: true, required: false
   private _egress?: SecurityGroupEgress[];
-  public get egress() {
-    return this.interpolationForAttribute('egress') as any; // Accessing complex computed properties is not yet implemented
-  }
-  public set egress(value: SecurityGroupEgress[] | undefined) {
-    this._egress = value;
-  }
-  public resetEgress() {
-    this._egress = undefined;
+  public egress(index: string): SecurityGroupEgressComputed {
+    return new SecurityGroupEgressComputedImpl(this, 'egress', index);
   }
   // Temporarily expose input value. Use with caution.
   public get egressInput() {
     return this._egress
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putegress(value: SecurityGroupEgress[]) {
+    return this._egress = value;
   }
 
   // id - computed: true, optional: true, required: false
@@ -2790,18 +2771,17 @@ export class SecurityGroup extends cdktf.TerraformResource {
 
   // ingress - computed: true, optional: true, required: false
   private _ingress?: SecurityGroupIngress[];
-  public get ingress() {
-    return this.interpolationForAttribute('ingress') as any; // Accessing complex computed properties is not yet implemented
-  }
-  public set ingress(value: SecurityGroupIngress[] | undefined) {
-    this._ingress = value;
-  }
-  public resetIngress() {
-    this._ingress = undefined;
+  public ingress(index: string): SecurityGroupIngressComputed {
+    return new SecurityGroupIngressComputedImpl(this, 'ingress', index);
   }
   // Temporarily expose input value. Use with caution.
   public get ingressInput() {
     return this._ingress
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putingress(value: SecurityGroupIngress[]) {
+    return this._ingress = value;
   }
 
   // name - computed: true, optional: true, required: false
@@ -2809,15 +2789,14 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get name() {
     return this.getStringAttribute('name');
   }
-  public set name(value: string | undefined) {
-    this._name = value;
-  }
-  public resetName() {
-    this._name = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get nameInput() {
     return this._name
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putname(value: string) {
+    return this._name = value;
   }
 
   // name_prefix - computed: false, optional: true, required: false
@@ -2825,15 +2804,14 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get namePrefix() {
     return this.getStringAttribute('name_prefix');
   }
-  public set namePrefix(value: string | undefined) {
-    this._namePrefix = value;
-  }
-  public resetNamePrefix() {
-    this._namePrefix = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get namePrefixInput() {
     return this._namePrefix
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putnamePrefix(value: string) {
+    return this._namePrefix = value;
   }
 
   // owner_id - computed: true, optional: false, required: false
@@ -2846,15 +2824,14 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get revokeRulesOnDelete() {
     return this.getBooleanAttribute('revoke_rules_on_delete');
   }
-  public set revokeRulesOnDelete(value: boolean | undefined) {
-    this._revokeRulesOnDelete = value;
-  }
-  public resetRevokeRulesOnDelete() {
-    this._revokeRulesOnDelete = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get revokeRulesOnDeleteInput() {
     return this._revokeRulesOnDelete
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putrevokeRulesOnDelete(value: boolean) {
+    return this._revokeRulesOnDelete = value;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -2862,15 +2839,14 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get tags() {
     return this.interpolationForAttribute('tags') as any; // Accessing complex computed properties is not yet implemented
   }
-  public set tags(value: { [key: string]: string } | undefined) {
-    this._tags = value;
-  }
-  public resetTags() {
-    this._tags = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
     return this._tags
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public puttags(value: { [key: string]: string }) {
+    return this._tags = value;
   }
 
   // vpc_id - computed: true, optional: true, required: false
@@ -2878,15 +2854,14 @@ export class SecurityGroup extends cdktf.TerraformResource {
   public get vpcId() {
     return this.getStringAttribute('vpc_id');
   }
-  public set vpcId(value: string | undefined) {
-    this._vpcId = value;
-  }
-  public resetVpcId() {
-    this._vpcId = undefined;
-  }
   // Temporarily expose input value. Use with caution.
   public get vpcIdInput() {
     return this._vpcId
+  }
+  // This complex field has computed values in it, therefore you can not set it
+  // Because of the structural difference you can only set the value through this method
+  public putvpcId(value: string) {
+    return this._vpcId = value;
   }
 
   // timeouts - computed: false, optional: true, required: false

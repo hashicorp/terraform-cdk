@@ -5,6 +5,7 @@ export interface ScopeProps {
   readonly isOptional?: boolean;
   readonly isRequired?: boolean;
   readonly inBlockType?: boolean;
+  readonly isList?: boolean;
   readonly parent?: Scope;
 }
 

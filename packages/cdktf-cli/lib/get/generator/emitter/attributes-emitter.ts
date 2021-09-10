@@ -21,9 +21,18 @@ export class AttributesEmitter {
     );
 
     const isStored = att.isAssignable && !att.isConfigIgnored;
-    const hasResetMethod = isStored && !att.isRequired;
+    const hasResetMethod =
+      isStored && !att.isRequired && !att.hasComputedStruct;
     const hasInputMethod = isStored;
-    const hasSetter = isStored;
+    const hasSetter = isStored && !att.hasComputedStruct;
+    const hasPutMethod = isStored && att.hasComputedStruct; // TODO: rethink as enum?
+
+    // if (
+    //   att.terraformFullName ===
+    //   "kubernetes.data_kubernetes_persistent_volume_claim.spec"
+    // ) {
+    //   console.log(att);
+    // }
 
     let getterType: GetterType = { _type: "getter" };
 
@@ -40,6 +49,13 @@ export class AttributesEmitter {
         args: "index: string, key: string",
         returnType: this.determineMapType(att),
         returnStatement: `new ${att.type.name}(this, \`${att.terraformName}.\${index}\`).lookup(key)`,
+      };
+    } else if (att.hasComputedStruct && att.type.struct?.name) {
+      getterType = {
+        _type: "function",
+        args: "index: string",
+        returnType: `${att.type.struct.name}Computed`,
+        returnStatement: `new ${att.type.struct.name}ComputedImpl(this, '${att.terraformName}', index)`,
       };
     } else if (
       // Complex Computed List
@@ -120,6 +136,23 @@ export class AttributesEmitter {
       this.code.line(`return this.${att.storageName}`);
       this.code.closeBlock();
     }
+
+    if (hasPutMethod) {
+      this.code.line(
+        `// This complex field has computed values in it, therefore you can not set it`
+      );
+      this.code.line(
+        `// Because of the structural difference you can only set the value through this method`
+      );
+
+      this.code.openBlock(
+        `public put${att.name}(value: ${att.type.name}${
+          hasResetMethod ? " | undefined" : ""
+        })`
+      );
+      this.code.line(`return this.${att.storageName} = value;`);
+      this.code.closeBlock();
+    }
   }
 
   public determineGetAttCall(att: AttributeModel): string {
@@ -140,6 +173,18 @@ export class AttributesEmitter {
     if (type.isBoolean) {
       return `this.getBooleanAttribute('${att.terraformName}');`;
     }
+
+    if (
+      att.terraformName === "metadata" &&
+      type.struct?.name === "IngressMetadata"
+    ) {
+      console.log(att); // TODO: look if we can change the parser to present a matching attribute
+    }
+
+    if (att.hasComputedStruct && att.type.struct?.name) {
+      return `new ${att.type.struct.name}ComputedImpl();`;
+    }
+
     if (process.env.DEBUG) {
       console.error(
         `The attribute ${JSON.stringify(att)} isn't implemented yet`

@@ -196,20 +196,18 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
-      const type = this.renderAttributeType(
-        [
-          parentType,
-          new Scope({
-            name: terraformAttributeName,
-            parent: parentType,
-            isProvider: parentType.isProvider,
-            isComputed: !!att.computed,
-            isOptional: !!att.optional,
-            isRequired: !!att.required,
-          }),
-        ],
-        att.type
-      );
+      const scope = [
+        parentType,
+        new Scope({
+          name: terraformAttributeName,
+          parent: parentType,
+          isProvider: parentType.isProvider,
+          isComputed: !!att.computed,
+          isOptional: !!att.optional,
+          isRequired: !!att.required,
+        }),
+      ];
+      const type = this.renderAttributeType(scope, att.type);
       const name = toCamelCase(terraformAttributeName);
 
       attributes.push(
@@ -220,6 +218,7 @@ class Parser {
           storageName: `_${name}`,
           computed: !!att.computed,
           optional: !!att.optional,
+          hasComputedStruct: this.needsComputedStruct(scope, attributes),
           terraformName: terraformAttributeName,
           type,
           provider: parentType.isProvider,
@@ -241,15 +240,17 @@ class Parser {
         }),
         blockType.block
       );
-      const blockStruct = this.addStruct(
-        [
-          parentType,
-          new Scope({
-            name: blockTypeName,
-            parent: parentType,
-            isProvider: parentType.isProvider,
-          }),
-        ],
+      const scope = [
+        parentType,
+        new Scope({
+          name: blockTypeName,
+          parent: parentType,
+          isProvider: parentType.isProvider,
+        }),
+      ];
+      const blockStruct = this.addStruct(scope, blockAttributes);
+      const hasComputedStruct = this.needsComputedStruct(
+        scope,
         blockAttributes
       );
 
@@ -260,7 +261,8 @@ class Parser {
           blockType,
           blockStruct,
           parentType.isProvider,
-          parentType
+          parentType,
+          hasComputedStruct
         )
       );
     }
@@ -272,7 +274,8 @@ class Parser {
       blockType: BlockType,
       struct: Struct,
       isProvider: boolean,
-      parent: Scope
+      parent: Scope,
+      hasComputedStruct: boolean
     ): AttributeModel {
       const name = toCamelCase(terraformName);
       let optional: boolean;
@@ -285,6 +288,7 @@ class Parser {
             name,
             terraformName,
             terraformFullName: parent.fullName(terraformName),
+            hasComputedStruct,
             type: new AttributeTypeModel(struct.name, {
               struct,
               isOptional: optional,
@@ -303,6 +307,7 @@ class Parser {
             name,
             terraformName,
             terraformFullName: parent.fullName(terraformName),
+            hasComputedStruct,
             type: new AttributeTypeModel(struct.name, { struct, isMap: true }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
@@ -322,6 +327,7 @@ class Parser {
             name,
             terraformName: terraformName,
             terraformFullName: parent.fullName(terraformName),
+            hasComputedStruct,
             type: new AttributeTypeModel(struct.name, {
               struct,
               isList: true,
@@ -355,6 +361,7 @@ class Parser {
           storageName: `_${name}`,
           computed: computed,
           description: att.description,
+          hasComputedStruct: this.needsComputedStruct(scope, attributes),
           optional: optional,
           terraformName,
           terraformFullName: parent.fullName(terraformName),
@@ -381,19 +388,33 @@ class Parser {
     return this.addStruct(scope, attributes);
   }
 
+  private needsComputedStruct(scope: Scope[], attributes: AttributeModel[]) {
+    const parent = scope[scope.length - 1];
+    const isClass = parent.isComputed && !parent.isOptional;
+
+    return (
+      !isClass &&
+      attributes.some((at) => at.computed && !at.isOptional && !at.isRequired)
+    );
+  }
+
   private addStruct(scope: Scope[], attributes: AttributeModel[]) {
     const name = uniqueClassName(
       toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
     );
+
+    if (name === "DataKubernetesPersistentVolumeClaimSpec") {
+      console.log(
+        "addStructCalled",
+        this.needsComputedStruct(scope, attributes)
+      );
+    }
     const parent = scope[scope.length - 1];
     const isClass = parent.isComputed && !parent.isOptional;
     const s = new Struct(name, attributes, isClass, false);
     this.structs.push(s);
 
-    if (
-      !isClass &&
-      attributes.some((at) => at.computed && !at.isOptional && !at.isRequired)
-    ) {
+    if (this.needsComputedStruct(scope, attributes)) {
       const computedStruct = new Struct(
         `${name}Computed`,
         attributes,
@@ -401,6 +422,19 @@ class Parser {
         true
       );
       this.structs.push(computedStruct);
+
+      const computedStructImpl = new Struct(
+        `${name}ComputedImpl`,
+        attributes,
+        true,
+        true,
+        `${name}Computed`
+      );
+      this.structs.push(computedStructImpl);
+
+      if (name === "DataKubernetesPersistentVolumeClaimSpec") {
+        console.log(computedStruct, computedStructImpl);
+      }
     }
 
     return s;
