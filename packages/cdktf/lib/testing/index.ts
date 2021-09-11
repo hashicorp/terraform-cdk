@@ -7,6 +7,7 @@ import { Manifest } from "../manifest";
 import { FUTURE_FLAGS } from "../features";
 import { IConstruct, Construct } from "constructs";
 import { setupJest } from "./adapters/jest";
+import { matchers, IMatchers } from "./matchers";
 
 export interface IScopeCallback {
   (scope: Construct): void;
@@ -122,6 +123,10 @@ export class Testing {
 
   public static setupJest() {
     setupJest();
+  }
+
+  public static get matchers(): IMatchers {
+    return matchers;
   }
 
   /* istanbul ignore next */

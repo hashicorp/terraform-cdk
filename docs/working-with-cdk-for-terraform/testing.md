@@ -108,13 +108,13 @@ You can import the object `testingMatchers` / `testing_matchers` (for Python) an
 This is how it might look like in python, please be aware that this is untested code:
 
 ```py
-from cdktf import testing, testing_matchers
+from cdktf import Testing
 from . import MyStack, MyResource
 from imports.aws import SnsTopic
 
 def test_my_resource_has_sns_topic():
-    synthesized = testing.synthScope(lambda scope: MyResource(scope, "my-resource", "my-param"))
-    assertion = testing_matchers.toHaveResourceWithProperties(synthesized, SnsTopic)
+    synthesized = Testing.synthScope(lambda scope: MyResource(scope, "my-resource", "my-param"))
+    assertion = Testing.matchers.toHaveResourceWithProperties(synthesized, SnsTopic)
     assert assertion.pass
 ```
 

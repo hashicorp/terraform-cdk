@@ -15,6 +15,23 @@ export type SynthesizedStack = {
 };
 export type MatcherReturn = { message: () => string; pass: boolean };
 
+export interface IMatchers {
+  toHaveDataSourceWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties?: Record<string, any>
+  ): MatcherReturn;
+
+  toHaveResourceWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties?: Record<string, any>
+  ): MatcherReturn;
+
+  toBeValidTerraform(received: string): MatcherReturn;
+  toPlanSuccessfully(received: string): MatcherReturn;
+}
+
 function assertElementWithProperties(
   type: keyof SynthesizedStack,
   received: string,
@@ -187,3 +204,10 @@ export function toPlanSuccessfully(received: string): MatcherReturn {
     };
   }
 }
+
+export const matchers: IMatchers = {
+  toHaveDataSourceWithProperties,
+  toHaveResourceWithProperties,
+  toBeValidTerraform,
+  toPlanSuccessfully,
+};
