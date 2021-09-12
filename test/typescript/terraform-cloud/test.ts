@@ -11,7 +11,7 @@ import { TerraformCloud } from "@skorfmann/terraform-cloud";
 import * as crypto from "crypto";
 const { TERRAFORM_CLOUD_TOKEN, GITHUB_RUN_NUMBER, TERRAFORM_VERSION } =
   process.env;
-const withAuth = TERRAFORM_CLOUD_TOKEN ? onPosix : onPosix.skip;
+const withAuth = TERRAFORM_CLOUD_TOKEN ? onPosix : it.skip;
 
 if (!TERRAFORM_CLOUD_TOKEN) {
   console.log("TERRAFORM_CLOUD_TOKEN is undefined, skipping authed tests");
