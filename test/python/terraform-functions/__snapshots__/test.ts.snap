@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`python terraform functions test synth synth generates JSON 1`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"version\\": \\"stubbed\\",
+      \\"stackName\\": \\"python-simple\\",
+      \\"backend\\": \\"local\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\",
+        \\"source\\": \\"aws\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"region\\": \\"eu-central-1\\"
+      }
+    ]
+  },
+  \\"module\\": {
+    \\"CustomVpc\\": {
+      \\"name\\": \\"custom-vpc\\",
+      \\"source\\": \\"terraform-aws-modules/vpc/aws\\",
+      \\"version\\": \\"2.77.0\\",
+      \\"//\\": {
+        \\"metadata\\": {
+          \\"path\\": \\"python-simple/CustomVpc\\",
+          \\"uniqueId\\": \\"CustomVpc\\"
+        }
+      }
+    }
+  },
+  \\"output\\": {
+    \\"computed\\": {
+      \\"value\\": \\"\${cidrsubnet(element(merge(module.CustomVpc.public_subnets_cidr_blocks, module.CustomVpc.public_subnets_ipv6_cidr_blocks), 3), 4, 2)}\\"
+    }
+  }
+}"
+`;

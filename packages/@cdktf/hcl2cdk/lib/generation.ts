@@ -215,17 +215,28 @@ you need to keep this like it is.`;
   }
 
   if (count) {
-    const references = extractReferencesFromExpression(count, nodeIds, [
-      "count",
-    ]);
-    expressions.push(
-      addOverrideExpression(
-        varName,
+    if (typeof count === "number") {
+      expressions.push(
+        addOverrideExpression(
+          varName,
+          "count",
+          valueToTs(scope, count, nodeIds),
+          loopComment
+        )
+      );
+    } else {
+      const references = extractReferencesFromExpression(count, nodeIds, [
         "count",
-        referencesToAst(scope, count, references),
-        loopComment
-      )
-    );
+      ]);
+      expressions.push(
+        addOverrideExpression(
+          varName,
+          "count",
+          referencesToAst(scope, count, references),
+          loopComment
+        )
+      );
+    }
   }
 
   // Check for dynamic blocks
