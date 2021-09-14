@@ -80,7 +80,7 @@ Afterwards run `mvn install` to update the depedencies and `cdktf get` to re-gen
 
 ## Upgrading a CSharp CDKTF project
 
-To upgrade a Java CDKTF project, adjust the versions in the `*.csproj` file of your project.
+To upgrade a C# CDKTF project, adjust the versions in the `*.csproj` file of your project.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -95,7 +95,7 @@ Afterwards run `dotnet restore` to update the depedencies and `cdktf get` to re-
 
 ## Upgrading a Golang CDKTF project
 
-To upgrade a Java CDKTF project, adjust the versions in the `go.mod` file of your project.
+To upgrade a Golang CDKTF project, adjust the versions in the `go.mod` file of your project.
 
 ```
 require github.com/aws/constructs-go/constructs/v10 v10.0.5
