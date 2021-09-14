@@ -5,31 +5,23 @@ import { snakeCase } from "../util";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
-export interface TerraformConstructor {
-  new (...args: any[]): any;
-  readonly tfResourceType: string;
-}
+// TerraformConstructor is a class with a static property `tfResourceType`
+export type TerraformConstructor = any;
 export type SynthesizedStack = {
   resource: Record<string, any>;
   data: Record<string, any>;
 };
-export type MatcherReturn = { message: () => string; pass: boolean };
 
-export interface IMatchers {
-  toHaveDataSourceWithProperties(
-    received: string,
-    resourceType: TerraformConstructor,
-    properties?: Record<string, any>
-  ): MatcherReturn;
+export class MatcherReturn {
+  constructor(public readonly pass: boolean, public readonly message: string) {}
+}
 
-  toHaveResourceWithProperties(
-    received: string,
-    resourceType: TerraformConstructor,
-    properties?: Record<string, any>
-  ): MatcherReturn;
-
-  toBeValidTerraform(received: string): MatcherReturn;
-  toPlanSuccessfully(received: string): MatcherReturn;
+export type JestMatcherReturn = { message: () => string; pass: boolean };
+export function matcherReturnToJest(ret: MatcherReturn): JestMatcherReturn {
+  return {
+    message: () => ret.message,
+    pass: ret.pass,
+  };
 }
 
 function assertElementWithProperties(
@@ -37,7 +29,7 @@ function assertElementWithProperties(
   received: string,
   itemType: TerraformConstructor,
   properties: Record<string, any> = {}
-) {
+): MatcherReturn {
   let stack: SynthesizedStack;
   try {
     stack = JSON.parse(received) as SynthesizedStack;
@@ -64,150 +56,143 @@ function assertElementWithProperties(
   });
 
   if (pass) {
-    return {
+    return new MatcherReturn(
       pass,
-      message: () =>
-        `Expected ${
-          itemType.tfResourceType
-        } not to be present in synthesised stack with properties ${JSON.stringify(
-          properties
-        )}`,
-    };
+      `Expected ${
+        itemType.tfResourceType
+      } not to be present in synthesised stack with properties ${JSON.stringify(
+        properties
+      )}`
+    );
   } else {
-    return {
-      message: () =>
-        `Expected ${
-          itemType.tfResourceType
-        } to be present in synthesised stack with properties ${JSON.stringify(
-          properties
-        )}`,
+    return new MatcherReturn(
       pass,
-    };
-  }
-}
-
-export function toHaveDataSourceWithProperties(
-  received: string,
-  resourceType: TerraformConstructor,
-  properties: Record<string, any> = {}
-): MatcherReturn {
-  return assertElementWithProperties(
-    "data",
-    received,
-    resourceType,
-    properties
-  );
-}
-
-export function toHaveResourceWithProperties(
-  received: string,
-  resourceType: TerraformConstructor,
-  properties: Record<string, any> = {}
-): MatcherReturn {
-  return assertElementWithProperties(
-    "resource",
-    received,
-    resourceType,
-    properties
-  );
-}
-
-export function toBeValidTerraform(received: string): MatcherReturn {
-  try {
-    if (!fs.statSync(received).isDirectory()) {
-      throw new Error("Path is not a directory");
-    }
-  } catch (e) {
-    return {
-      message: () => `Expected subject to be a terraform directory: ${e}`,
-      pass: false,
-    };
-  }
-
-  try {
-    const manifest = JSON.parse(
-      fs.readFileSync(path.resolve(received, "manifest.json"), "utf8")
+      `Expected ${
+        itemType.tfResourceType
+      } to be present in synthesised stack with properties ${JSON.stringify(
+        properties
+      )}`
     );
+  }
+}
 
-    const stacks = Object.entries(manifest.stacks);
+export class Matchers {
+  public static toHaveDataSourceWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ): MatcherReturn {
+    return assertElementWithProperties(
+      "data",
+      received,
+      resourceType,
+      properties
+    );
+  }
 
-    stacks.forEach(([name, stack]) => {
-      const opts = {
-        cwd: path.resolve(received, (stack as any).workingDirectory),
-        env: process.env,
-        stdio: "pipe",
-      } as any;
-      execSync(`${terraformBinaryName} init`, opts);
-      const out = execSync(`${terraformBinaryName} validate -json`, opts);
+  public static toHaveResourceWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ): MatcherReturn {
+    return assertElementWithProperties(
+      "resource",
+      received,
+      resourceType,
+      properties
+    );
+  }
 
-      const result = JSON.parse(out.toString());
-      if (!result.valid) {
-        throw new Error(
-          `Found ${
-            result.error_count
-          } Errors in stack ${name}: ${result.diagnostics.join("\n")}`
-        );
+  public static toBeValidTerraform(received: string): MatcherReturn {
+    try {
+      if (!fs.statSync(received).isDirectory()) {
+        throw new Error("Path is not a directory");
       }
-    });
-
-    return {
-      pass: true,
-      message: () => `Expected subject not to be a valid terraform stack`,
-    };
-  } catch (e) {
-    return {
-      pass: false,
-      message: () => `Expected subject to be a valid terraform stack: ${e}`,
-    };
-  }
-}
-
-export function toPlanSuccessfully(received: string): MatcherReturn {
-  try {
-    if (!fs.statSync(received).isDirectory()) {
-      throw new Error("Path is not a directory");
+    } catch (e) {
+      return new MatcherReturn(
+        false,
+        `Expected subject to be a terraform directory: ${e}`
+      );
     }
-  } catch (e) {
-    return {
-      message: () => `Expected subject to be a terraform directory: ${e}`,
-      pass: false,
-    };
+
+    try {
+      const manifest = JSON.parse(
+        fs.readFileSync(path.resolve(received, "manifest.json"), "utf8")
+      );
+
+      const stacks = Object.entries(manifest.stacks);
+
+      stacks.forEach(([name, stack]) => {
+        const opts = {
+          cwd: path.resolve(received, (stack as any).workingDirectory),
+          env: process.env,
+          stdio: "pipe",
+        } as any;
+        execSync(`${terraformBinaryName} init`, opts);
+        const out = execSync(`${terraformBinaryName} validate -json`, opts);
+
+        const result = JSON.parse(out.toString());
+        if (!result.valid) {
+          throw new Error(
+            `Found ${
+              result.error_count
+            } Errors in stack ${name}: ${result.diagnostics.join("\n")}`
+          );
+        }
+      });
+
+      return new MatcherReturn(
+        true,
+        `Expected subject not to be a valid terraform stack`
+      );
+    } catch (e) {
+      return new MatcherReturn(
+        false,
+        `Expected subject to be a valid terraform stack: ${e}`
+      );
+    }
   }
 
-  try {
-    const manifest = JSON.parse(
-      fs.readFileSync(path.resolve(received, "manifest.json"), "utf8")
-    );
+  public static toPlanSuccessfully(received: string): MatcherReturn {
+    try {
+      if (!fs.statSync(received).isDirectory()) {
+        throw new Error("Path is not a directory");
+      }
+    } catch (e) {
+      return new MatcherReturn(
+        false,
+        `Expected subject to be a terraform directory: ${e}`
+      );
+    }
 
-    const stacks = Object.entries(manifest.stacks);
+    try {
+      const manifest = JSON.parse(
+        fs.readFileSync(path.resolve(received, "manifest.json"), "utf8")
+      );
 
-    stacks.forEach(([, stack]) => {
-      const opts = {
-        cwd: path.resolve(received, (stack as any).workingDirectory),
-        env: process.env,
-        stdio: "ignore",
-      } as any;
-      execSync(`${terraformBinaryName} init`, opts);
+      const stacks = Object.entries(manifest.stacks);
 
-      // Throws on a non-zero exit code
-      execSync(`${terraformBinaryName} plan -input=false `, opts);
-    });
+      stacks.forEach(([, stack]) => {
+        const opts = {
+          cwd: path.resolve(received, (stack as any).workingDirectory),
+          env: process.env,
+          stdio: "ignore",
+        } as any;
+        execSync(`${terraformBinaryName} init`, opts);
 
-    return {
-      pass: true,
-      message: () => `Expected subject not to plan successfully`,
-    };
-  } catch (e) {
-    return {
-      pass: false,
-      message: () => `Expected subject to plan successfully: ${e}`,
-    };
+        // Throws on a non-zero exit code
+        execSync(`${terraformBinaryName} plan -input=false`, opts);
+      });
+
+      return new MatcherReturn(
+        true,
+        `Expected subject not to plan successfully`
+      );
+    } catch (e) {
+      return new MatcherReturn(
+        false,
+        `Expected subject to plan successfully: ${e}`
+      );
+    }
   }
 }
-
-export const matchers: IMatchers = {
-  toHaveDataSourceWithProperties,
-  toHaveResourceWithProperties,
-  toBeValidTerraform,
-  toPlanSuccessfully,
-};

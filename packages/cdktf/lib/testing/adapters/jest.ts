@@ -1,12 +1,8 @@
 import {
-  toHaveDataSourceWithProperties,
-  toBeValidTerraform,
-  toPlanSuccessfully,
-} from "../matchers";
-import {
-  MatcherReturn,
-  toHaveResourceWithProperties,
+  Matchers,
   TerraformConstructor,
+  JestMatcherReturn,
+  matcherReturnToJest,
 } from "../matchers";
 
 /* eslint-disable */
@@ -32,7 +28,9 @@ declare global {
 }
 
 type JestExpect = {
-  extend: (matchers: Record<string, (...args: any[]) => MatcherReturn>) => void;
+  extend: (
+    matchers: Record<string, (...args: any[]) => JestMatcherReturn>
+  ) => void;
 };
 
 export function setupJest() {
@@ -47,17 +45,21 @@ export function setupJest() {
       received: string,
       resourceConstructor: TerraformConstructor
     ) {
-      return toHaveResourceWithProperties(received, resourceConstructor, {});
+      return matcherReturnToJest(
+        Matchers.toHaveResourceWithProperties(received, resourceConstructor, {})
+      );
     },
     toHaveResourceWithProperties(
       received: string,
       resourceConstructor: TerraformConstructor,
       properties: Record<string, any>
     ) {
-      return toHaveResourceWithProperties(
-        received,
-        resourceConstructor,
-        properties
+      return matcherReturnToJest(
+        Matchers.toHaveResourceWithProperties(
+          received,
+          resourceConstructor,
+          properties
+        )
       );
     },
 
@@ -65,10 +67,12 @@ export function setupJest() {
       received: string,
       dataSourceConstructor: TerraformConstructor
     ) {
-      return toHaveDataSourceWithProperties(
-        received,
-        dataSourceConstructor,
-        {}
+      return matcherReturnToJest(
+        Matchers.toHaveDataSourceWithProperties(
+          received,
+          dataSourceConstructor,
+          {}
+        )
       );
     },
     toHaveDataSourceWithProperties(
@@ -76,18 +80,20 @@ export function setupJest() {
       dataSourceConstructor: TerraformConstructor,
       properties: Record<string, any>
     ) {
-      return toHaveDataSourceWithProperties(
-        received,
-        dataSourceConstructor,
-        properties
+      return matcherReturnToJest(
+        Matchers.toHaveDataSourceWithProperties(
+          received,
+          dataSourceConstructor,
+          properties
+        )
       );
     },
 
     toBeValidTerraform(received: string) {
-      return toBeValidTerraform(received);
+      return matcherReturnToJest(Matchers.toBeValidTerraform(received));
     },
     toPlanSuccessfully(received: string) {
-      return toPlanSuccessfully(received);
+      return matcherReturnToJest(Matchers.toPlanSuccessfully(received));
     },
   });
 }

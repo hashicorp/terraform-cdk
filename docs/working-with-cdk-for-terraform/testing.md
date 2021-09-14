@@ -108,12 +108,15 @@ You can import the object `testingMatchers` / `testing_matchers` (for Python) an
 This is how it might look like in python, please be aware that this is untested code:
 
 ```py
-from cdktf import Testing
+from cdktf import Testing, TerraformStack
 from . import MyStack, MyResource
 from imports.aws import SnsTopic
 
 def test_my_resource_has_sns_topic():
-    synthesized = Testing.synthScope(lambda scope: MyResource(scope, "my-resource", "my-param"))
+    app = Testing.app()
+    stack = TerraformStack(app, "testing")
+    resource = MyResource(stack, "my-resource", "my-param")
+    synthesized = Testing.synth(resource)
     assertion = Testing.matchers.toHaveResourceWithProperties(synthesized, SnsTopic)
     assert assertion.pass
 ```

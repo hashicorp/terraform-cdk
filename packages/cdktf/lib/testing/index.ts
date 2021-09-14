@@ -7,7 +7,8 @@ import { Manifest } from "../manifest";
 import { FUTURE_FLAGS } from "../features";
 import { IConstruct, Construct } from "constructs";
 import { setupJest } from "./adapters/jest";
-import { matchers, IMatchers } from "./matchers";
+import { Matchers } from "./matchers";
+export { Matchers, MatcherReturn, TerraformConstructor } from "./matchers";
 
 export interface IScopeCallback {
   (scope: Construct): void;
@@ -125,8 +126,8 @@ export class Testing {
     setupJest();
   }
 
-  public static get matchers(): IMatchers {
-    return matchers;
+  public static get matchers(): Matchers {
+    return Matchers;
   }
 
   /* istanbul ignore next */

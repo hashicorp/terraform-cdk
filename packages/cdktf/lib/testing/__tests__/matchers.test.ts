@@ -1,16 +1,11 @@
+import * as fs from "fs";
+import * as path from "path";
 import { Testing } from "../index";
 import { TestResource, DockerImage } from "../../../test/helper/resource";
-import {
-  toBeValidTerraform,
-  toHaveResourceWithProperties,
-  toPlanSuccessfully,
-} from "../matchers";
+import { Matchers } from "../matchers";
 import { TestDataSource } from "../../../test/helper/data-source";
 import { TerraformStack } from "../../terraform-stack";
 import { DockerProvider } from "../../../test/helper/provider";
-import * as fs from "fs";
-import * as path from "path";
-import { toHaveDataSourceWithProperties } from "../matchers";
 
 function corruptSynthesizedStack(stackPath: string) {
   const manifest = JSON.parse(
@@ -38,22 +33,25 @@ describe("matchers", () => {
     });
 
     it("should pass with no properties", () => {
-      const res = toHaveResourceWithProperties(synthesizedStack, TestResource);
+      const res = Matchers.toHaveResourceWithProperties(
+        synthesizedStack,
+        TestResource
+      );
 
       expect(res.pass).toBeTruthy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected test_resource not to be present in synthesised stack with properties {}"`
       );
     });
 
     it("should fail with wrong resouce", () => {
-      const res = toHaveResourceWithProperties(
+      const res = Matchers.toHaveResourceWithProperties(
         synthesizedStack,
         TestDataSource
       );
 
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected test_data_source to be present in synthesised stack with properties {}"`
       );
     });
@@ -69,7 +67,7 @@ describe("matchers", () => {
     });
 
     it("should not find resources", () => {
-      const res = toHaveDataSourceWithProperties(
+      const res = Matchers.toHaveDataSourceWithProperties(
         synthesizedStack,
         TestResource
       );
@@ -78,7 +76,7 @@ describe("matchers", () => {
     });
 
     it("should find data sources", () => {
-      const res = toHaveDataSourceWithProperties(
+      const res = Matchers.toHaveDataSourceWithProperties(
         synthesizedStack,
         TestDataSource,
         { name: "data" }
@@ -90,9 +88,9 @@ describe("matchers", () => {
 
   describe("toBeValidTerraform", () => {
     it("fails if anything but a path is passed", () => {
-      const res = toBeValidTerraform("not a path");
+      const res = Matchers.toBeValidTerraform("not a path");
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`
       );
     });
@@ -104,9 +102,9 @@ describe("matchers", () => {
       new DockerProvider(stack, "provider", {});
       new DockerImage(stack, "test", { name: "test" });
 
-      const res = toBeValidTerraform(Testing.fullSynth(stack));
+      const res = Matchers.toBeValidTerraform(Testing.fullSynth(stack));
       expect(res.pass).toBeTruthy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject not to be a valid terraform stack"`
       );
     });
@@ -120,9 +118,9 @@ describe("matchers", () => {
       const result = Testing.fullSynth(stack);
       corruptSynthesizedStack(result);
 
-      const res = toBeValidTerraform(result);
+      const res = Matchers.toBeValidTerraform(result);
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toEqual(
+      expect(res.message).toEqual(
         expect.stringContaining(
           "Expected subject to be a valid terraform stack"
         )
@@ -132,9 +130,9 @@ describe("matchers", () => {
 
   describe("toPlanSuccessfully", () => {
     it("fails if anything but a path is passed", () => {
-      const res = toPlanSuccessfully("not a path");
+      const res = Matchers.toPlanSuccessfully("not a path");
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`
       );
     });
@@ -146,11 +144,11 @@ describe("matchers", () => {
       new DockerProvider(stack, "provider", {});
       new DockerImage(stack, "test", { name: "test" });
 
-      const res = toPlanSuccessfully(Testing.fullSynth(stack));
-      expect(res.pass).toBeTruthy();
-      expect(res.message()).toMatchInlineSnapshot(
+      const res = Matchers.toPlanSuccessfully(Testing.fullSynth(stack));
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject not to plan successfully"`
       );
+      expect(res.pass).toBeTruthy();
     });
 
     it("fails if the terraform config passed is invalid", () => {
@@ -163,9 +161,9 @@ describe("matchers", () => {
       const result = Testing.fullSynth(stack);
       corruptSynthesizedStack(result);
 
-      const res = toPlanSuccessfully(result);
+      const res = Matchers.toPlanSuccessfully(result);
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toEqual(
+      expect(res.message).toEqual(
         expect.stringContaining("Expected subject to plan successfully")
       );
     });
