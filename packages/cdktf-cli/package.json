@@ -62,7 +62,6 @@
     "jsii-srcmak": "^0.1.272",
     "lodash.isequal": "^4.5.0",
     "log4js": "^6.3.0",
-    "node-machine-id": "^1.1.12",
     "open": "^7.0.4",
     "parse-gitignore": "^1.0.1",
     "react": "<17.0.0",
