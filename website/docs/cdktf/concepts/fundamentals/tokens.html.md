@@ -7,26 +7,25 @@ description: "Tokens allow CDK for Terraform to resolve programming language typ
 
 # Tokens
 
-[Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) resolve programming language types to Terraform language syntax.
+[Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
+are strings representing values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
 
-CDK for Terraform maps the language types to Terraform 0.12's rich types, such as lists and maps. As a result, some attributes specified using the CDK for Terraform may not map to the string value of
+CDK for Terraform maps programming language types to Terraform 0.12's rich types, such as lists and maps. As a result, some attributes specified using CDK for Terraform may not map to the string value of
 `<output name>Output`. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
-to cast them to the correct attribute type. 
+to cast them to the correct attribute type.
+
 
 -> The [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) contains more in-depth information about tokens.
 
+
+
 ## Use Tokens
 
-You may need to use Tokens for:
+You may need to use Tokens to resolve programming types to Terraform language syntax for:
 
 - [Module outputs](/fundamentals/modules.html) for boolean, string, lists, maps, and other complex types
 - Resource attributes (such as `id`)
 - Terraform outputs based on resource attributes
-
-
-Tokens represent values that can only be resolved at a later time in the lifecycle of synthesis.
-
-**TODO** please provide a one-sentence example to explain what we mean by "a later time in the lifecycle of synthesis"
 
 
 ### Example

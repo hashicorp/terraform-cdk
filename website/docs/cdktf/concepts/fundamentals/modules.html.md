@@ -64,19 +64,6 @@ Module [output values](/fundamentals/outputs.html) return results to the calling
 for Terraform enables the use of interpolated module outputs as inputs to other modules or resources with an output `get` method
 for each output.
 
-This TypeScript example uses `vpcIdOutput` to pass the AWS VPC identifier from the `vpc` module to an AWS EKS cluster .
-
-```typescript
-const vpc = new Vpc(this, "my-vpc", {
-  name: vpcName,
-});
-
-new Eks(this, "EksModule", {
-  clusterName: "my-kubernetes-cluster",
-  vpcId: vpc.vpcIdOutput,
-});
-```
-
 ### Terraform Modules with generated bindings
 
 Outputs can be accessed with an `Output` suffix or in the case of python with an `_output`.
