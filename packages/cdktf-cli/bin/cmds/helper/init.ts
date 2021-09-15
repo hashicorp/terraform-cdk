@@ -12,7 +12,11 @@ import { FUTURE_FLAGS } from "cdktf/lib/features";
 import { downloadFile, HttpError } from "../../../lib/util";
 import { logFileName, logger } from "../../../lib/logging";
 import { Errors } from "../../../lib/errors";
-import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2cdk";
+import {
+  convertProject,
+  getTerraformConfigFromDir,
+  isLocalModule,
+} from "@cdktf/hcl2cdk";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
 import { v4 as uuid } from "uuid";
@@ -129,9 +133,10 @@ This means that your Terraform state file will be stored locally on disk in a fi
         "utf8"
       );
 
-      const combinedTfFile = getTerraformConfigFromDir(
-        path.resolve(process.cwd(), argv.fromTerraformProject)
-      );
+      const importPath = path.resolve(process.cwd(), argv.fromTerraformProject);
+
+      const combinedTfFile = getTerraformConfigFromDir(importPath);
+
       try {
         const { code, cdktfJson, stats } = await convertProject(
           combinedTfFile,
@@ -150,6 +155,11 @@ This means that your Terraform state file will be stored locally on disk in a fi
         );
 
         const { terraformModules, terraformProviders } = cdktfJson;
+
+        if (terraformModules.length > 0) {
+          copyLocalModules(terraformModules, importPath, destination);
+        }
+
         if (terraformModules.length + terraformProviders.length > 0) {
           execSync("npm run get", { cwd: destination });
         }
@@ -170,6 +180,20 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 
   await sendTelemetry("init", telemetryData);
+}
+
+function copyLocalModules(
+  modules: any[],
+  sourcePath: string,
+  destination: string
+) {
+  modules
+    .filter((m) => isLocalModule(m))
+    .map((m) =>
+      fs.copySync(path.resolve(sourcePath, m), path.resolve(destination, m), {
+        recursive: true,
+      })
+    );
 }
 
 async function determineDeps(
