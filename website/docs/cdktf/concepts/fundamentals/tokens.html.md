@@ -8,25 +8,24 @@ description: "Tokens allow CDK for Terraform to resolve programming language typ
 # Tokens
 
 [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
-are strings representing values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
+represent values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
 
-CDK for Terraform maps programming language types to Terraform 0.12's rich types, such as lists and maps. As a result, some attributes specified using CDK for Terraform may not map to the string value of
-`<output name>Output`. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
-to cast them to the correct attribute type.
-
+Some attributes specified using CDK for Terraform may not directly map to the values required for Terraform configurations. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
+to cast these attributes to the correct Terraform language syntax.
 
 -> The [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) contains more in-depth information about tokens.
 
-
-
 ## Use Tokens
 
-You may need to use Tokens to resolve programming types to Terraform language syntax for:
+You may need to use Tokens for:
 
 - [Module outputs](/fundamentals/modules.html) for boolean, string, lists, maps, and other complex types
 - Resource attributes (such as `id`)
 - Terraform outputs based on resource attributes
 
+**TODO:** Should we say something about how you can encode tokens as different types where needed and link back to the AWS docs?
+
+**TODO**: Explain how folks will know when they need to use tokens. Will folks see an error when something isn't translating properly into Terraform language syntax?
 
 ### Example
 
@@ -61,4 +60,3 @@ Later in synthesis, the CDK for Terraform will resolve the token to `${module.<m
   }
 }
 ```
-
