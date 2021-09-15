@@ -80,4 +80,8 @@ If you use a Github repository for your template, you can create URLs to your re
 
 -> **Note:** You can only specify urls to zip archives, so only url based authentication mechanisms are supported. If you need support for private packages, please [file an issue](https://github.com/hashicorp/terraform-cdk/issues/new?labels=enhancement%2C+new&template=feature-request.md).
 
+## Use Remote Templates
+
 **TODO**: How do users actually use these generated URLs to use remote templates? Do they put the URL in when they run `init`?
+
+The following [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) are maintained by the community and can be used to setup a CDK for Terraform project.

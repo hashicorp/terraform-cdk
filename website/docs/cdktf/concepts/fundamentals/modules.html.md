@@ -59,6 +59,24 @@ new TestResource(stack, "resource", {
 
 ## Working with Module Outputs
 
+A [Terraform module](https://www.terraform.io/docs/modules/index.html) defines multiple resources intended to be used together.
+Module [output values](/fundamentals/outputs.html) return results to the calling module, which it can then use to populate arguments elsewhere. The CDK
+for Terraform enables the use of interpolated module outputs as inputs to other modules or resources with an output `get` method
+for each output.
+
+This TypeScript example uses `vpcIdOutput` to pass the AWS VPC identifier from the `vpc` module to an AWS EKS cluster .
+
+```typescript
+const vpc = new Vpc(this, "my-vpc", {
+  name: vpcName,
+});
+
+new Eks(this, "EksModule", {
+  clusterName: "my-kubernetes-cluster",
+  vpcId: vpc.vpcIdOutput,
+});
+```
+
 ### Terraform Modules with generated bindings
 
 Outputs can be accessed with an `Output` suffix or in the case of python with an `_output`.

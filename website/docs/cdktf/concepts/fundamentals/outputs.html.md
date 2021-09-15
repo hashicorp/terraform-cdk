@@ -11,9 +11,12 @@ You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0
 
 ## When to use outputs
 
-TODO: Can we get some recommendations about when folks should use Terraform outputs vs. when they can just use what's available in their programming language? 
+TODO: Can we get some recommendations about when folks should use Terraform outputs vs. when they can just use what's available in their programming language?
 
-Outputs are also necessary to share data from a child module to the root module.
+You should use outputs when you want to share data from a child module to the root module. ADD MORE.
+
+-> You may need to use [tokens](/fundamentals/tokens.html) to convert your programming language types to the appropriate types for a Terraform configuration.
+
 
 ## Define Outputs
 

@@ -2,58 +2,38 @@
 layout: "docs"
 page_title: "Tokens"
 sidebar_current: "cdktf"
-description: "TODO: describe me"
+description: "Tokens allow CDK for Terraform to resolve programming language types to Terraform language syntax."
 ---
 
 # Tokens
 
-Use tokens to enable the CDK for Terraform to resolve programming language types to Terraform language syntax, including:
+[Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) resolve programming language types to Terraform language syntax.
 
-- Module outputs
+CDK for Terraform maps the language types to Terraform 0.12's rich types, such as lists and maps. As a result, some attributes specified using the CDK for Terraform may not map to the string value of
+`<output name>Output`. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
+to cast them to the correct attribute type. 
+
+-> The [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) contains more in-depth information about tokens.
+
+## Use Tokens
+
+You may need to use Tokens for:
+
+- [Module outputs](/fundamentals/modules.html) for boolean, string, lists, maps, and other complex types
 - Resource attributes (such as `id`)
 - Terraform outputs based on resource attributes
 
-A [Terraform module](https://www.terraform.io/docs/modules/index.html) defines multiple resources intended to be used together.
-Module output values return results to the calling module, which it can then use to populate arguments elsewhere. The CDK
-for Terraform enables the use of interpolated module outputs as inputs to other modules or resources with an output `get` method
-for each output.
 
-In TypeScript, the module output with the AWS VPC identifier from the `vpc` module gets passed to an AWS EKS cluster by
-using `vpcIdOutput`.
+Tokens represent values that can only be resolved at a later time in the lifecycle of synthesis.
 
-```typescript
-const vpc = new Vpc(this, "my-vpc", {
-  name: vpcName,
-});
+**TODO** please provide a one-sentence example to explain what we mean by "a later time in the lifecycle of synthesis"
 
-new Eks(this, "EksModule", {
-  clusterName: "my-kubernetes-cluster",
-  vpcId: vpc.vpcIdOutput,
-});
-```
 
-The `<output name>Output` synthesizes to `${module.<module id>.<output name>}`.
+### Example
 
-```json
-{
-  "module": {
-    "helloterraEksModule5DDB67AE": {
-      "cluster_name": "my-kubernetes-cluster",
-      "vpc_id": "${module.helloterraMyVpc62D94C17.vpc_id}"
-    }
-  }
-}
-```
+An EKS module requires a _list_ of subnet ids in order to create a cluster. The VPC module outputs a list of subnets.
 
-CDK for Terraform maps the language types to Terraform 0.12's rich types, such as lists and maps.
-As a result, some attributes specified using the CDK for Terraform may not map to the string value of
-`<output name>Output`. To correct this, use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
-to cast it to the correct attribute type. Tokens represent values that can only be resolved at a later time
-in the lifecycle of synthesis.
-
-For example, the EKS module requires a _list_ of subnet ids in order to create
-a cluster. The VPC module outputs a list of subnets. To pass the subnet id list to the EKS module,
-we use `publicSubnetsOutput` to retrieve the list from the VPC. However, the `subnets` attribute
+To pass the subnet id list to the EKS module, you can use `publicSubnetsOutput` to retrieve the list from the VPC. However, the `subnets` attribute
 requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast the interpolated module
 output as a list of strings.
 
@@ -83,5 +63,3 @@ Later in synthesis, the CDK for Terraform will resolve the token to `${module.<m
 }
 ```
 
-Tokens can be used for interpolating module outputs for boolean, string, lists, maps, and other complex type attributes.
-For more information on Tokens, see [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html).
