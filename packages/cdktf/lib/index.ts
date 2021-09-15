@@ -1,3 +1,6 @@
+import { validateEnvironment } from "./validateEnvironment";
+validateEnvironment();
+
 export * from "./tokens";
 export * from "./terraform-stack";
 export * from "./terraform-element";
