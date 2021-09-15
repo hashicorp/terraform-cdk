@@ -2,8 +2,11 @@ import https = require("https");
 import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
+import ciDetect from "@npmcli/ci-detect";
 import { logger, processLoggerError } from "./logging";
 import { versionNumber } from "../bin/cmds/helper/version-check";
+import * as path from "path";
+import * as fs from "fs-extra";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
@@ -19,6 +22,9 @@ export interface ReportParams {
   version?: string;
   command?: string;
   language?: string;
+  userId?: string;
+  ci?: string;
+  projectId?: string;
 }
 
 async function post(url: string, data: string) {
@@ -76,6 +82,54 @@ export async function sendTelemetry(
   }
 }
 
+function getId(
+  filePath: string,
+  key: string,
+  explanatoryComment?: string
+): string {
+  // If the file doesn't exist, we don't have an ID. So we create a file with the ID for next time
+  const _uuid = uuidv4();
+  const _idFile = {} as Record<string, string>;
+  if (explanatoryComment) {
+    _idFile["//"] = explanatoryComment.replaceAll("\n", " ");
+  }
+  _idFile[key] = _uuid;
+
+  let jsonFile;
+  try {
+    jsonFile = require(filePath);
+  } catch {
+    fs.writeFileSync(filePath, JSON.stringify(_idFile, null, 2));
+    return _uuid;
+  }
+
+  if (jsonFile[key]) {
+    return jsonFile[key];
+  } else {
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify({ ...jsonFile, [key]: _uuid }, null, 2)
+    );
+    return _uuid;
+  }
+}
+
+function getProjectId(projectPath = process.cwd()): string {
+  return getId(path.resolve(projectPath, "cdktf.json"), "projectId");
+}
+
+function getUserId(): string {
+  return getId(
+    path.resolve(os.homedir(), ".cdktf", "config.json"),
+    "userId",
+    `This signature is a randomly generated UUID used to anonymously differentiate users in telemetry data order to inform product direction. 
+This signature is random, it is not based on any personally identifiable information. 
+To create a new signature, you can simply delete this file at any time.
+See https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/telemetry.md for more
+information on how to disable it.`
+  );
+}
+
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
   // we won't report when checkpoint is disabled.
   if (process.env.CHECKPOINT_DISABLE) {
@@ -97,6 +151,17 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
   if (!reportParams.os) {
     reportParams.os = os.platform();
   }
+
+  const ci: string | false = ciDetect();
+  if (!reportParams.userId && !ci) {
+    reportParams.userId = getUserId();
+  }
+
+  if (ci) {
+    reportParams.ci = ci;
+  }
+
+  reportParams.projectId = reportParams.projectId || getProjectId();
 
   const postData = JSON.stringify(reportParams);
 

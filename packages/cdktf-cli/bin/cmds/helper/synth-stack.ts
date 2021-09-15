@@ -79,7 +79,7 @@ Command output on stdout:
 `
     : ""
 }`;
-      await this.synthErrorTelemetry(command, synthOrigin);
+      await this.synthErrorTelemetry(synthOrigin);
       if (graceful) {
         e.errorOutput = errorOutput;
         throw e;
@@ -118,12 +118,7 @@ Command output on stdout:
       });
     }
 
-    await this.synthTelemetry(
-      command,
-      endTime - startTime,
-      stacks,
-      synthOrigin
-    );
+    await this.synthTelemetry(endTime - startTime, stacks, synthOrigin);
 
     if (stacks.length === 0) {
       console.error("ERROR: No Terraform code synthesized.");
@@ -142,13 +137,11 @@ Command output on stdout:
   }
 
   public static async synthTelemetry(
-    command: string,
     totalTime: number,
     stacks: SynthesizedStack[],
     synthOrigin?: SynthOrigin
   ): Promise<void> {
     await sendTelemetry("synth", {
-      command: command,
       totalTime: totalTime,
       synthOrigin,
       stackMetadata: stacks.map(
@@ -157,10 +150,7 @@ Command output on stdout:
     });
   }
 
-  public static async synthErrorTelemetry(
-    command: string,
-    synthOrigin?: SynthOrigin
-  ) {
-    await sendTelemetry("synth", { command, error: true, synthOrigin });
+  public static async synthErrorTelemetry(synthOrigin?: SynthOrigin) {
+    await sendTelemetry("synth", { error: true, synthOrigin });
   }
 }
