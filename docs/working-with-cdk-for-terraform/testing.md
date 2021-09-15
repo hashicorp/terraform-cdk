@@ -1,10 +1,10 @@
 # Testing CDK Applications
 
 Testing your application can give you faster feedback cycles and guard you against unwanted changes.
-Currently testing in Typescript with jest is best supported, see [Writing your own adapter](#own-adapter) to see how you can wire in your favorite test framework.
 
 ## Unit Tests
 
+Unit testing is currently only supported for Typescript with jest.
 We generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing project, please [follow their guide](https://jestjs.io/docs/getting-started). Once done you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
 
 ```js
@@ -97,25 +97,6 @@ describe("Checking validity", () => {
     expect(Testing.fullSynth(app)).toPlanSuccessfully();
   });
 });
-```
-
-## Writing your own adapter <a name="own-adapter"></a>
-
-There are so many great test runners across all our supported languages that it's next to impossible to support them all.
-To enable you to use the testing framework of your choice we export the matchers so that you can use them in the context of your framework.
-You can import the object `testingMatchers` / `testing_matchers` (for Python) and use the matchers (e.g. `toPlanSuccessfully` / `to_plan_successfully`) directly as functions.
-
-This is how it might look like in python, please be aware that this is untested code:
-
-```py
-from cdktf import testing, testing_matchers
-from . import MyStack, MyResource
-from imports.aws import SnsTopic
-
-def test_my_resource_has_sns_topic():
-    synthesized = testing.synthScope(lambda scope: MyResource(scope, "my-resource", "my-param"))
-    assertion = testing_matchers.toHaveResourceWithProperties(synthesized, SnsTopic)
-    assert assertion.pass
 ```
 
 ## Integration Testing
