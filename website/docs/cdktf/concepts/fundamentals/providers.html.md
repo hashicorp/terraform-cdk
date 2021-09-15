@@ -7,17 +7,17 @@ description: "TODO: describe me"
 
 # Providers
 
-A provider is any external API that has a plugin for Terraform. Provider plugins expose an implementation for a specific service, such as the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
-or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs), acting as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
+A provider is any external API that has a plugin for Terraform. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
+or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
-CDK for Terraform allows you to use both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your chosen programming language.
+CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your chosen programming language.
 
 
 ## Prebuilt Providers
 
-We offer several popular providers as prebuilt packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) has a complete list, but available providers include:
+We offer several popular providers as prebuilt packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
 
 - [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
 - [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
@@ -64,7 +64,7 @@ new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
-The project also has the [cdktf.json](./cdktf-json.md) file that defines what providers and modules are being used by the project. You can add the name of any additional providers you want to use to this file:
+The project also has the [cdktf.json](./cdktf-json.md) file that defines what providers and modules are being used by the project.
 
 
 ```bash
@@ -95,7 +95,7 @@ For example, to add [DNS Simple](https://www.terraform.io/docs/providers/dnsimpl
 
 ### Generate Classes
 
-Go to the working directory and run `cdktf get` to create the appropriate TypeScript classes automatically.
+Go to the working directory and run `cdktf get` to create the appropriate TypeScript classes for the provider automatically.
 
 ```bash
 cdktf get
@@ -225,7 +225,7 @@ Caching prevents CDK for Terraform from re-downloading providers between each CL
 
 ### Caching Directory
 
-Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$HOME/.terraform.d/plugin-cache` if it is not already set to something else.  See the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache) docs for more details.
+Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$HOME/.terraform.d/plugin-cache` if it is not already set to something else.  See the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache) for more details.
 
  To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
@@ -236,5 +236,5 @@ Terraform supports using local providers. Terraform has to find these providers 
 - [Implied Local Mirrors](https://www.terraform.io/docs/cli/config/config-file.html#implied-local-mirror-directories)
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
-Once configured properly, you can reference these providers in the `cdktf.json` config file the same way that you reference providers in the Terraform registry.
+Once configured properly, you can reference these providers in the `cdktf.json` config file the same way that you reference providers in the Terraform Registry.
 
