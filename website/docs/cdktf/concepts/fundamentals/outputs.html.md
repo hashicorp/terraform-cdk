@@ -7,7 +7,13 @@ description: "Outputs allow you export structured data about resources. Learn to
 
 # Outputs
 
-[Outputs](https://www.terraform.io/docs/configuration-0-11/outputs.html) allow you to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other configurations and workspaces. Outputs are also necessary to share data from a child module to the root module.
+You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0-11/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html).
+
+## When to use outputs
+
+TODO: Can we get some recommendations about when folks should use Terraform outputs vs. when they can just use what's available in their programming language? 
+
+Outputs are also necessary to share data from a child module to the root module.
 
 ## Define Outputs
 
