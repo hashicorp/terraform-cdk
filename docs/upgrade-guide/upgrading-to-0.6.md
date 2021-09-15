@@ -170,7 +170,7 @@ class MyConstruct extends Construct {
 
 ### `onSynthesize` has been removed
 
-Should you find yourself needing support for this, please file a [new issue](https://cdk.tf/feature) on this repo and describe your use-case.
+Should you need support for this, please file a [new issue](https://cdk.tf/feature) on this repo and describe your use-case.
 
 ## Further support
 
