@@ -2,13 +2,14 @@
 layout: "docs"
 page_title: "Outputs"
 sidebar_current: "cdktf"
-description: "TODO: describe me"
+description: "Outputs allow you export structured data about resources. Learn to define them in CDK for Terraform."
 ---
 
 # Outputs
 
-A [Terraform output](https://www.terraform.io/docs/configuration-0-11/outputs.html) defines a value that is shown to the user
-when a Terraform apply finishes.
+[Outputs](https://www.terraform.io/docs/configuration-0-11/outputs.html) allow you to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other configurations and workspaces. Outputs are also necessary to share data from a child module to the root module.
+
+## Define Outputs
 
 In TypeScript, a Terraform output for an AWS instance public IP can be expressed by `TerraformOutput`.
 
@@ -32,3 +33,5 @@ The `TerraformOutput` synthesizes to the following:
     }
 }
 ```
+
+TODO: Can we add a block that shows what this looks like when printed for the user? Does it look different when it's printed when we deploy through CDKTF vs. when we synthesize and run the configuration from Terraform?
