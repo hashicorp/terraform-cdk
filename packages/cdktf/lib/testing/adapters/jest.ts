@@ -13,7 +13,7 @@ import {
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toHaveResource(TerraformConstructor: string): R;
+      toHaveResource(resourceConstructor: TerraformConstructor): R;
       toHaveResourceWithProperties(
         resourceConstructor: TerraformConstructor,
         properties: Record<string, any>
