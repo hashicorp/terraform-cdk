@@ -925,6 +925,23 @@ new cdktf.RemoteBackend(this, {
 "
 `;
 
+exports[`convert remote state configuration 1`] = `
+"new terraform.DataTerraformRemoteState(this, \\"vpc\\", {
+  backend: \\"remote\\",
+  config: [
+    {
+      organization: \\"hashicorp\\",
+      workspaces: [
+        {
+          name: \\"vpc-prod\\",
+        },
+      ],
+    },
+  ],
+});
+"
+`;
+
 exports[`convert required namespaced provider configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 

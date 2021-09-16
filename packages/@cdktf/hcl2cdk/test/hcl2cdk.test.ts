@@ -902,6 +902,21 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "remote state",
+      `
+      data "terraform_remote_state" "vpc" {
+        backend = "remote"
+
+        config = {
+          organization = "hashicorp"
+          workspaces = {
+            name = "vpc-prod"
+          }
+        }
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",
