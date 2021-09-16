@@ -383,3 +383,27 @@ test("terraform local", () => {
     }"
   `);
 });
+
+test("undefined and null", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const local = new TerraformLocal(stack, "value", "hello world");
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.coalesce([null, local.asString, undefined, 42, false]),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"locals\\": {
+        \\"value\\": \\"hello world\\"
+      },
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${coalesce(local.value, 42, false)}\\"
+        }
+      }
+    }"
+  `);
+});
