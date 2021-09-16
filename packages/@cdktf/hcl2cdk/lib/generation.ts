@@ -187,7 +187,8 @@ export function resource(
 ): t.Statement[] {
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
-  const resource = `${provider}.${name.join("_")}`;
+  const resource =
+    provider === "terraform" ? name.join("_") : `${provider}.${name.join("_")}`;
 
   const { for_each, count, ...config } = item[0];
   const dynBlocks = extractDynamicBlocks(config);
