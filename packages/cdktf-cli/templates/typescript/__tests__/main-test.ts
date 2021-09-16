@@ -1,4 +1,4 @@
-import "cdktf/lib/testing/adapters/jest"; // Load expect autocomplete
+import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
 // import { Testing } from "cdktf";
 
 describe("My CDKTF Application", () => {
