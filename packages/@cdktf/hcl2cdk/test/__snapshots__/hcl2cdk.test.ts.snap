@@ -926,7 +926,7 @@ new cdktf.RemoteBackend(this, {
 `;
 
 exports[`convert remote state configuration 1`] = `
-"new terraform.DataTerraformRemoteState(this, \\"vpc\\", {
+"new cdktf.DataTerraformRemoteState(this, \\"vpc\\", {
   backend: \\"remote\\",
   config: [
     {

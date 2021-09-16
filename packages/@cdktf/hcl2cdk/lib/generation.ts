@@ -188,7 +188,9 @@ export function resource(
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
   const resource =
-    provider === "terraform" ? name.join("_") : `${provider}.${name.join("_")}`;
+    provider === "data.terraform"
+      ? `cdktf.data_terraform_${name.join("_")}`
+      : `${provider}.${name.join("_")}`;
 
   const { for_each, count, ...config } = item[0];
   const dynBlocks = extractDynamicBlocks(config);
