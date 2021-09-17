@@ -23,14 +23,11 @@ const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
 new auth0.Auth0Provider(this, \\"auth0\\", {
   domain: domain.value,
 });
-const auth0Auth0ProviderAuth0 = new auth0.Auth0Provider(this, \\"auth0_2\\", {
+new auth0.Auth0Provider(this, \\"auth0_2\\", {
   alias: \\"private_auth0\\",
   domain: domain.value,
   private: true,
 });
-
-/*This allows the Terraform resource name to match the original*/
-auth0Auth0ProviderAuth0.overrideLogicalId(\\"auth0\\");
 "
 `;
 
@@ -833,13 +830,10 @@ import * as TerraformAwsModulesVpcAws from \\"./.gen/modules/terraform-aws-modul
 new aws.AwsProvider(this, \\"aws\\", {
   region: \\"us-east-1\\",
 });
-const awsAwsProviderAws = new aws.AwsProvider(this, \\"aws_1\\", {
+new aws.AwsProvider(this, \\"aws_1\\", {
   alias: \\"west\\",
   region: \\"us-west-2\\",
 });
-
-/*This allows the Terraform resource name to match the original*/
-awsAwsProviderAws.overrideLogicalId(\\"aws\\");
 const terraformAwsModulesVpcAwsVpc =
   new TerraformAwsModulesVpcAws.TerraformAwsModulesVpcAws(this, \\"vpc\\", {});
 terraformAwsModulesVpcAwsVpc.addOverride(\\"providers\\", {

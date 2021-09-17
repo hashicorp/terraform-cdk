@@ -211,6 +211,7 @@ export function resource(
       config,
       nodeIds,
       false,
+      false,
       getReference(graph, id) || overrideReference
     ),
   ];
@@ -288,12 +289,13 @@ function asExpression(
   config: TerraformResourceBlock,
   nodeIds: string[],
   isModuleImport: boolean,
+  isProvider: boolean,
   reference?: Reference
 ) {
   const { provider, providers, lifecycle, ...otherOptions } = config as any;
 
   const constructId = uniqueId(scope.constructs, name);
-  const overrideId = constructId !== name;
+  const overrideId = !isProvider && constructId !== name;
 
   const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
@@ -372,6 +374,7 @@ export function output(
       sensitive,
     },
     nodeIds,
+    false,
     false
   );
 }
@@ -397,6 +400,7 @@ export function variable(
     key,
     props,
     nodeIds,
+    false,
     false,
     getReference(graph, id)
   );
@@ -439,6 +443,7 @@ export function modules(
       props,
       nodeIds,
       true,
+      false,
       getReference(graph, id)
     );
   }
@@ -449,6 +454,7 @@ export function modules(
     key,
     { ...props, source },
     nodeIds,
+    false,
     false,
     getReference(graph, id)
   );
@@ -470,7 +476,8 @@ export function provider(
     key,
     props,
     nodeIds,
-    false
+    false,
+    true
   );
 }
 
