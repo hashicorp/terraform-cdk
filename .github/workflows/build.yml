@@ -97,25 +97,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Download dist
         uses: actions/download-artifact@v2
         with:
           name: dist
           path: dist
-      - name: installing dependencies
-        run: yarn install
       - name: integration tests
-        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
+        run: cd test && yarn && ./run-against-dist npx jest ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
@@ -133,9 +121,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -152,10 +137,8 @@ jobs:
         with:
           name: dist
           path: dist
-      - name: installing dependencies
-        run: yarn install
       - name: integration tests
-        run: cd test && ./run-against-dist.bat "npx jest ${env:TEST_TARGET}"
+        run: cd test && yarn && ./run-against-dist.bat "npx jest ${env:TEST_TARGET}"
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
