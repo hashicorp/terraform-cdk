@@ -157,6 +157,26 @@ function addOverrideExpression(
   return ast;
 }
 
+function addOverrideLogicalIdExpression(variable: string, logicalId: string) {
+  const ast = t.expressionStatement(
+    t.callExpression(
+      t.memberExpression(
+        t.identifier(variable),
+        t.identifier("overrideLogicalId")
+      ),
+      [t.stringLiteral(logicalId)]
+    )
+  );
+
+  t.addComment(
+    ast,
+    "leading",
+    "This allows the Terraform resource name to match the original"
+  );
+
+  return ast;
+}
+
 export function resource(
   scope: Scope,
   type: string,
@@ -272,9 +292,12 @@ function asExpression(
 ) {
   const { provider, providers, lifecycle, ...otherOptions } = config as any;
 
+  const constructId = uniqueId(scope.constructs, name);
+  const overrideId = constructId !== name;
+
   const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
-    t.stringLiteral(uniqueId(scope.constructs, name)),
+    t.stringLiteral(constructId),
     valueToTs(scope, otherOptions, nodeIds),
   ]);
 
@@ -283,7 +306,7 @@ function asExpression(
     ? referenceToVariableName(scope, reference)
     : variableName(scope, type, name);
 
-  if (reference || providers || provider || lifecycle) {
+  if (reference || providers || provider || lifecycle || overrideId) {
     statements.push(
       t.variableDeclaration("const", [
         t.variableDeclarator(t.identifier(varName), expression),
@@ -320,6 +343,10 @@ function asExpression(
         valueToTs(scope, lifecycle, nodeIds)
       )
     );
+  }
+
+  if (overrideId) {
+    statements.push(addOverrideLogicalIdExpression(varName, name));
   }
 
   return statements;
