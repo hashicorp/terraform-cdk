@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.build-test-matrix.outputs.examples)}}
+      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -109,7 +109,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.build-test-matrix.outputs.examples)}}
+      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
