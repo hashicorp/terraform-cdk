@@ -6,12 +6,25 @@ on:
       - "docs/**"
 
 jobs:
-  build:
+  build-example-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      examples: ${{ steps.set-example.outputs.examples }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - id: set-examples
+        run: |
+          examples=$(npx lerna list --scope "@examples/*")
+          echo "::set-output name=examples::$examples"
+
+  examples:
+    needs: build-example-matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
         terraform: ["0.15.4"]
-        target: ["python", "csharp", "java", "typescript", "go"]
+        target: ${{fromJSON(needs.build-example-matrix.outputs.examples)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -34,7 +47,7 @@ jobs:
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: examples integration tests
-        run: yarn examples:integration:${TEST_TARGET}
+        run: test/run-against-dist tools/build-examples.sh ${TEST_TARGET}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           TEST_TARGET: "${{ matrix.target }}"
