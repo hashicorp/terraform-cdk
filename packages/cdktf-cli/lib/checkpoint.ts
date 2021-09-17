@@ -91,7 +91,7 @@ function getId(
   const _uuid = uuidv4();
   const _idFile = {} as Record<string, string>;
   if (explanatoryComment) {
-    _idFile["//"] = explanatoryComment.replaceAll("\n", " ");
+    _idFile["//"] = explanatoryComment.replace(/\n/g, " ");
   }
   _idFile[key] = _uuid;
 

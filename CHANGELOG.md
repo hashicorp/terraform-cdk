@@ -1,3 +1,9 @@
+## 0.6.1 (September 16, 2021)
+
+**Fixed Bugs**
+
+- fix(lib): Fix testing setup [\#1027](https://github.com/hashicorp/terraform-cdk/pull/1027)
+
 ## 0.6.0 (September 15, 2021)
 
 **Breaking Changes**
