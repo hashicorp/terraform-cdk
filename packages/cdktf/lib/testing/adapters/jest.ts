@@ -20,11 +20,10 @@ declare global {
       ): R;
 
       toHaveDataSource(dataSourceConstructor: TerraformConstructor): R;
-      toHaveResourceWithProperties(
-        resourceConstructor: TerraformConstructor,
+      toHaveDataSourceWithProperties(
+        dataSourceConstructor: TerraformConstructor,
         properties: Record<string, any>
       ): R;
-
       toBeValidTerraform(): R;
       toPlanSuccessfully(): R;
     }
