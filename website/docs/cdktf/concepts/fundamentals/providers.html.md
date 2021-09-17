@@ -35,7 +35,7 @@ npm install @cdktf/provider-aws
 
 ## Import Providers
 
-CDK for Terraform allows you to import Terraform [providers](https://www.terraform.io/docs/providers/index.html) and [modules](https://www.terraform.io/docs/modules/index.html) to your project.
+CDK for Terraform lets you import Terraform [providers](https://www.terraform.io/docs/providers/index.html) and [modules](https://www.terraform.io/docs/modules/index.html) to your project.
 
 For example, this TypeScript example project has a `main.ts` file that defines AWS resources:
 
@@ -64,7 +64,7 @@ new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
-The project also has the [cdktf.json](./cdktf-json.md) file that defines what providers and modules are being used by the project.
+The project also has the `cdktf.json` file that defines what providers and modules are being used by the project.
 
 
 ```bash
@@ -82,7 +82,7 @@ vim cdktf.json
 ### Add Provider to `cdktf.json`
 
 To use a new provider, first add it to the "terraformProviders" array in `cdktf.json`.
-For example, to add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:  
+For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:  
 
 ```json
 {
@@ -91,7 +91,7 @@ For example, to add [DNS Simple](https://www.terraform.io/docs/providers/dnsimpl
   "terraformProviders": ["aws@~> 2.0", "dnsimple"]
 }
 ```
--> **Note**: For details on the version constraint syntax and the alternative object syntax please see the [`cdktf.json` specification](./cdktf-json.md).
+-> **Note**: -> **Note**: The [`cdktf.json` specification](/docs/cdktf/cli-reference/configuration.html) contains syntax requirements for specifying a provider version.
 
 ### Generate Classes
 
@@ -231,7 +231,7 @@ Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$H
 
 ## Use a Local Provider
 
-Terraform supports using local providers. Terraform has to find these providers to enable CDK for Terrform to generate the appropriate type bindings. You can achieve this in two ways:
+Terraform supports using local providers. Terraform has to find these providers to enable CDK for Terraform to generate the appropriate type bindings. You can achieve this in two ways:
 
 - [Implied Local Mirrors](https://www.terraform.io/docs/cli/config/config-file.html#implied-local-mirror-directories)
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
