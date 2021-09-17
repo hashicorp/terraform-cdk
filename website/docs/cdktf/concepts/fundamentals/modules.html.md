@@ -64,7 +64,7 @@ For local modules, use the object format:
 }
 ```
 
--> **Note**: The [`cdktf.json` specification](../../../cli-reference/configuration.html) contains syntax requirements for specifying a module version.
+-> **Note**: The [`cdktf.json` specification](../../../cdktf/cli-reference/configuration.html) contains syntax requirements for specifying a module version.
 
 
 ### Generate Module Bindings
