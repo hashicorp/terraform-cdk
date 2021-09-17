@@ -35,7 +35,7 @@ npm install @cdktf/provider-aws
 
 ## Import Providers
 
-CDK for Terraform lets you import Terraform [providers](https://www.terraform.io/docs/providers/index.html) and [modules](https://www.terraform.io/docs/modules/index.html) to your project.
+CDK for Terraform lets you import Terraform [providers](https://www.terraform.io/docs/providers/index.html) to your project.
 
 For example, this TypeScript example project has a `main.ts` file that defines AWS resources:
 
@@ -62,21 +62,6 @@ class MyStack extends TerraformStack {
 const app = new App();
 new MyStack(app, "hello-terraform");
 app.synth();
-```
-
-The project also has the `cdktf.json` file that defines what providers and modules are being used by the project.
-
-
-```bash
-vim cdktf.json
-```
-
-```json
-{
-  "language": "typescript",
-  "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0"]
-}
 ```
 
 ### Add Provider to `cdktf.json`

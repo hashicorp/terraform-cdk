@@ -21,23 +21,6 @@ CDKTF lets you use modules from the [Terraform Registry](https://registry.terraf
 **TODO**: Please add an example similar to the one that's currently on the providers.html page
 ```
 
-The project also has the `cdktf.json` file that defines what providers and modules are being used by the project.
-
-**TODO**: Please show an example.
-
-```bash
-vim cdktf.json
-```
-
-```json
-{
-  "language": "typescript",
-  "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0"],
-  "terraformModules": [TBD],
-}
-```
-
 ### Add Module to `cdktf.json`
 
 To use a new module, first add it to the "terraformModules" array in `cdktf.json`.
