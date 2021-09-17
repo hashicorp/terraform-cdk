@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
       - id: set-examples
         run: |
-          examples=$(npx lerna list --scope "@examples/*" | jq  -R -s -c 'split("\n") | map(select(length > 0))')
+          examples=$(npx lerna list --scope "@examples/*" | jq  -R -s -c 'split("\n") | map(select(length > 0)) | { target: values, terraform: ["0.15.4"]}')
           echo $examples
           echo "::set-output name=examples::$examples"
 
@@ -23,9 +23,7 @@ jobs:
     needs: build-example-matrix
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        terraform: ["0.15.4"]
-        target: ${{fromJSON(needs.build-example-matrix.outputs.examples)}}
+      matrix: ${{fromJSON(needs.build-example-matrix.outputs.examples)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
