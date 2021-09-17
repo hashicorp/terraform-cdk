@@ -142,7 +142,7 @@ jobs:
           name: dist
           path: dist
       - name: install test dependencies
-        run: cd test && yarn --link-duplicates
+        run: cd test && yarn
       - name: integration tests
         run: cd test && ./run-against-dist.bat "npx jest ${env:TEST_TARGET}"
         env:
