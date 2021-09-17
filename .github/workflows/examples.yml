@@ -27,7 +27,6 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
-      TF_PLUGIN_CACHE_DIR: "/root/.terraform.d/plugin-cache"
       CHECKPOINT_DISABLE: "1"
     steps:
       - uses: actions/checkout@v2
@@ -41,10 +40,6 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: create bundle
         run: yarn package
-      - name: bootstrap plugin cache
-        run: yum install -y jq && yarn bootstrap-plugin-cache
-        env:
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: examples integration tests
         run: test/run-against-dist tools/build-examples.sh ${TEST_TARGET}
         env:
