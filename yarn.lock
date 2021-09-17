@@ -2034,14 +2034,6 @@
     axios "^0.21.1"
     camelcase-keys "^6.2.2"
 
-"@skorfmann/terraform-cloud@^1.9.1":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.9.1.tgz#6fbdf6846efd6fdeb3405126cc91cd7d5c846eff"
-  integrity sha512-R28bedoGjAmDiEYHu2cmeVd3R6vxq6anQQlGCpdjk5oqnSiROFFm8dzywvMon4/9C+CErhgY7fr76NVErS/U2w==
-  dependencies:
-    axios "^0.21.1"
-    camelcase-keys "^6.2.2"
-
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -2977,7 +2969,7 @@ archiver-utils@^2.1.0:
     normalize-path "^3.0.0"
     readable-stream "^2.0.0"
 
-archiver@5.3.0, archiver@^5.3.0:
+archiver@5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/archiver/-/archiver-5.3.0.tgz#dd3e097624481741df626267564f7dd8640a45ba"
   integrity sha512-iUw+oDwK0fgNpvveEsdQ0Ase6IIKztBJU2U0E9MzszMfmVVUyv1QJhS2ITW9ZCqx8dktAxVAjWWkKehuZE8OPg==
@@ -7033,11 +7025,6 @@ jest-resolve@^27.1.0:
     resolve "^1.20.0"
     slash "^3.0.0"
 
-jest-runner-groups@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/jest-runner-groups/-/jest-runner-groups-2.0.1.tgz#a4d2c102e3e1a37aa9899d5452a13fc5b7e4b531"
-  integrity sha512-MDTgnYnFhtaJ+zSdLRBdYL5AFZ6tno1mbx2FW233OejH3U3lojQbxgrpfjypmYELMdOvgHS7n65jQ4Q2sFrEGw==
-
 jest-runner@^26.6.3:
   version "26.6.3"
   resolved "https://registry.yarnpkg.com/jest-runner/-/jest-runner-26.6.3.tgz#2d1fed3d46e10f233fd1dbd3bfaa3fe8924be159"
@@ -7893,7 +7880,7 @@ lodash.union@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.union/-/lodash.union-4.6.0.tgz#48bb5088409f16f1821666641c44dd1aaae3cd88"
   integrity sha1-SLtQiECfFvGCFmZkHETdGqrjzYg=
 
-lodash@4.x, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
+lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -8400,11 +8387,6 @@ mz@^2.7.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-nan@^2.14.0:
-  version "2.14.2"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
-  integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
-
 nanomatch@^1.2.9:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
@@ -8534,13 +8516,6 @@ node-notifier@^8.0.0:
     shellwords "^0.1.1"
     uuid "^8.3.0"
     which "^2.0.2"
-
-node-pty@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/node-pty/-/node-pty-0.10.0.tgz#c98d23967b076b35c9fb216c542a04d0b5db4821"
-  integrity sha512-Q65ookKbjhqWUYKmtZ6iPn0nnqNdzpm3YJOBmzwWJde/TrenBxK9FgqGGtSW0Wjz4YsR1grQF4a7RS5nBwuW9A==
-  dependencies:
-    nan "^2.14.0"
 
 node-releases@^1.1.75:
   version "1.1.75"
@@ -10887,22 +10862,6 @@ ts-jest@^26.4.4:
     semver "7.x"
     yargs-parser "20.x"
 
-ts-jest@^26.5.1:
-  version "26.5.3"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.3.tgz#a6ee00ba547be3b09877550df40a1465d0295554"
-  integrity sha512-nBiiFGNvtujdLryU7MiMQh1iPmnZ/QvOskBbD2kURiI1MwqvxlxNnaAB/z9TbslMqCsSbu5BXvSSQPc5tvHGeA==
-  dependencies:
-    bs-logger "0.x"
-    buffer-from "1.x"
-    fast-json-stable-stringify "2.x"
-    jest-util "^26.1.0"
-    json5 "2.x"
-    lodash "4.x"
-    make-error "1.x"
-    mkdirp "1.x"
-    semver "7.x"
-    yargs-parser "20.x"
-
 ts-tiny-invariant@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/ts-tiny-invariant/-/ts-tiny-invariant-0.0.3.tgz#6f51c153c285a7839bb59b1e5a2721fcb25a5e39"
@@ -11060,11 +11019,6 @@ typescript@^3.9.7:
   version "3.9.7"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
-
-typescript@^4.1.5:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.3.tgz#39062d8019912d43726298f09493d598048c1ce3"
-  integrity sha512-qOcYwxaByStAWrBf4x0fibwZvMRG+r4cQoTjbPtUlrWjBHbmCAww1i448U0GJ+3cNNEtebDteo/cHOR3xJ4wEw==
 
 typescript@^4.2.2:
   version "4.2.2"
