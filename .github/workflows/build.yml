@@ -76,9 +76,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: installing test dependencies
+        run: |
+          cd test && yarn install
       - id: build-test-matrix
         run: |
-          yarn
           tests=$(cd test && npx jest --listTests | jq  -R -s --arg cwd "$(pwd)/" -c 'split("\n") | map(select(length > 0)) | map(sub($cwd; "")) | { target: values, terraform: ["0.14.11", "0.15.4"]}')
           echo $tests
           echo "::set-output name=tests::$tests"
@@ -102,8 +104,10 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: install test dependencies
+        run: cd test && yarn
       - name: integration tests
-        run: cd test && yarn && ./run-against-dist npx jest ${TEST_TARGET}
+        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
@@ -137,8 +141,10 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: install test dependencies
+        run: cd test && yarn
       - name: integration tests
-        run: cd test && yarn && ./run-against-dist.bat "npx jest ${env:TEST_TARGET}"
+        run: cd test && ./run-against-dist.bat "npx jest ${env:TEST_TARGET}"
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
