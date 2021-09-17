@@ -16,6 +16,7 @@ jobs:
       - id: set-examples
         run: |
           examples=$(npx lerna list --scope "@examples/*" | jq  -R -s -c 'split("\n") | map(select(length > 0))')
+          echo $examples
           echo "::set-output name=examples::$examples"
 
   examples:
