@@ -43,8 +43,10 @@ jobs:
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
 
-  build-packages:
+  prepare-integration-tests:
     runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.build-test-matrix.outputs.tests }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -74,16 +76,7 @@ jobs:
         with:
           name: dist
           path: dist
-
-  build-test-matrix:
-    needs: build-packages
-    runs-on: ubuntu-latest
-    outputs:
-      tests: ${{ steps.set-tests.outputs.tests }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - id: set-tests
+      - id: build-test-matrix
         run: |
           yarn
           tests=$(npx jest --listTests | jq  -R -s --arg cwd "$(pwd)/" -c 'split("\n") | map(select(length > 0)) | map(sub($cwd; "")) | { target: values, terraform: ["0.14.11", "0.15.4"]}')
@@ -91,11 +84,11 @@ jobs:
           echo "::set-output name=tests::$tests"
 
   linux_integration:
-    needs: build-test-matrix
+    needs: prepare-integration-tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -129,11 +122,11 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
 
   windows_integration:
-    needs: build-test-matrix
+    needs: prepare-integration-tests
     runs-on: windows-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
