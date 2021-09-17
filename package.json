@@ -18,9 +18,10 @@
     "examples:integration:python": "test/run-against-dist tools/build-examples.sh python",
     "examples:integration:typescript": "test/run-against-dist tools/build-examples-sequential.sh typescript",
     "examples:integration:go": "test/run-against-dist tools/build-examples-sequential.sh go",
-    "pretest": "prettier --check .",
+    "pretest": "yarn lint:workspace && prettier --check .",
     "test": "lerna run --scope cdktf* --scope @cdktf/* test",
     "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope cdktf* watch-preserve-output",
+    "lint:workspace": "eslint .",
     "link-packages": "lerna exec --scope cdktf* --scope @cdktf/* yarn link",
     "integration": "cd test && ./run-against-dist npx jest --runInBand",
     "integration:typescript": "cd test && ./run-against-dist npx jest --runInBand typescript",
@@ -66,9 +67,36 @@
     "husky": ">=6",
     "lerna": "^4.0.0",
     "lint-staged": ">=10",
-    "prettier": "^2.3.1"
+    "prettier": "^2.3.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-monorepo": "^0.3.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "eslint": "^7.29.0"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,css,md}": "prettier --write"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "monorepo"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "rules": {
+      "monorepo/no-relative-import": "error"
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "dist",
+      "coverage",
+      "*.d.ts",
+      "*.js"
+    ]
   }
 }
