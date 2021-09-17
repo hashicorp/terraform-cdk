@@ -917,6 +917,26 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "remote state types",
+      `
+      data "terraform_remote_state" "etcdv3" {
+        backend = "etcdv3"
+
+        config = {
+          prefix = "terraform-state/"
+        }
+      }
+
+      data "terraform_remote_state" "s3" {
+        backend = "s3"
+
+        config = {
+          bucket = "mybucket"
+        }
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",
