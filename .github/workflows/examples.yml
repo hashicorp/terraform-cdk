@@ -9,7 +9,7 @@ jobs:
   build-example-matrix:
     runs-on: ubuntu-latest
     outputs:
-      examples: ${{ steps.set-example.outputs.examples }}
+      examples: ${{ steps.set-examples.outputs.examples }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
