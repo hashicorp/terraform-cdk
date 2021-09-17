@@ -15,7 +15,7 @@ CDK for Terraform (CDKTF) lets you specify existing public or private modules in
 
 ## Install Modules
 
-CDKTF lets you use both public modules (on the [Terraform Registry](https://registry.terraform.io/)) and private modules in your application. For example, this TypeScript project has a `main.ts` file that defines AWS resources and uses the XX module:
+CDKTF lets you use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub local, etc. in your application. For example, this TypeScript project has a `main.ts` file that defines AWS resources and uses the XX module:
 
 ```typescript
 **TODO**: Please add an example similar to the one that's currently on the providers.html page
@@ -40,7 +40,7 @@ vim cdktf.json
 
 ### Add Module to `cdktf.json`
 
-First add the module to the "terraformModules" array in `cdktf.json`.
+To use a new module, first add it to the "terraformModules" array in `cdktf.json`.
 
 To add a module from the Terraform Registry or a private registry, provide a fully qualified name `registry-namespace/module-name` :
 
@@ -67,39 +67,15 @@ For local modules, use the object format:
 -> **Note**: The [`cdktf.json` specification](/docs/cdktf/cli-reference/configuration.html) contains syntax requirements for specifying a module version.
 
 
+### Generate Module Bindings
 
-### From Other Sources
+Go to the working directory and run `cdktf get` to create the appropriate module bindings in the `./.gen` directory automatically. You can then use them in your application.
 
-For using Terraform modules from other sources (local, Github, etc), you have two options:
-
-#### Generated Terraform Module Bindings
-
-Run `cdktf get` the module bindings are generated in the `./.gen` and can be used as `MyLocalModule`.
-
-#### `TerraformHclModule`
-
-You can make use of `TerraformHclModule`. This doesn't have type safe inputs/outputs, but allows for creating any terraform module.
-
-TypeScript example:
-
-```typescript
-const provider = new TestProvider(stack, "provider", {
-  accessKey: "key",
-  alias: "provider1",
-});
-
-const module = new TerraformHclModule(stack, "test", {
-  source: "./foo",
-  variables: {
-    param1: "value1",
-  },
-  providers: [provider],
-});
-
-new TestResource(stack, "resource", {
-  name: module.getString("name"),
-});
 ```
+TODO: Please provide an example of using a module in an application
+```
+
+
 
 ## Work with Module Outputs
 
@@ -164,4 +140,40 @@ class MyStack(TerraformStack):
 
         localModule = MyLocalModule(self, "local-module", ip_address='127.0.0.1')
         TerraformOutput(self, "dns-server", value=localModule.dns_server_output)
+```
+
+
+## Create Modules
+
+**TODO**: Is this another way that folks can get/use existing modules, or is it a way for them to create their own modules from inside a CDKTF App? I copyedited assuming that this was the latter, but please fix if I'm wrong.
+
+Use `TerraformHclModule` to create Terraform modules using your chosen programming language. Once you create the module, you can reference it throughout the rest of your configuration.
+
+-> **Note**: This doesn't have type safe inputs/outputs.
+
+
+**TODO**: Can we explain what happens to these when the code gets synthesized? Does this create this configuration in a separate directory?
+
+
+TypeScript example:
+
+**TODO**: Please make this into a real-world example, rather than using "test" and "foo".
+
+```typescript
+const provider = new TestProvider(stack, "provider", {
+  accessKey: "key",
+  alias: "provider1",
+});
+
+const module = new TerraformHclModule(stack, "test", {
+  source: "./foo",
+  variables: {
+    param1: "value1",
+  },
+  providers: [provider],
+});
+
+new TestResource(stack, "resource", {
+  name: module.getString("name"),
+});
 ```
