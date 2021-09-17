@@ -23,6 +23,7 @@ jobs:
     needs: build-example-matrix
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix: ${{fromJSON(needs.build-example-matrix.outputs.examples)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
