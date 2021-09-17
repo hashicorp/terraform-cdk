@@ -66,6 +66,26 @@ describe("Unit testing using snapshots", () => {
 });
 ```
 
+Besides `Testing.synthScope()` there is also `Testing.renderConstructTree()` which does not synthesize anything but prints a tree of the structure of your constructs. This can be used to assert an exact structure (without looking at the parameters inside).
+
+```ts
+import { Testing } from "cdktf";
+import MyApp from "../app"; // could be your root cdktf.App
+
+describe("Unit testing using snapshots", () => {
+  it("Tests a constructs tree structure", () => {
+    const app = new MyApp();
+    expect(Testing.renderConstructTree(app)).toMatchInlineSnapshot(`
+        "App
+        └── MyStack (TerraformStack)
+            ├── Resource1 (MyResource)
+            └── Resource2 (MyResource)
+        "
+      `);
+  });
+});
+```
+
 ### Integration with Terraform
 
 When using [overrides](./escape-hatch.md) it can happen that you produce invalid Terraform configuration.
