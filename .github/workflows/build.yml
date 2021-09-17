@@ -142,10 +142,8 @@ jobs:
           terraform_wrapper: false
           terraform_version: ${{ matrix.terraform }}
       - name: Install pipenv
-        if: startsWith(${{ matrix.target }}, "python/")
         run: pip install pipenv
       - name: Install Go
-        if: startsWith(${{ matrix.target }}, "go/")
         uses: actions/setup-go@v2
         with:
           go-version: 1.16.x
