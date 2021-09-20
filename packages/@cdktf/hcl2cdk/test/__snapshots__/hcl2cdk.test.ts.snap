@@ -115,7 +115,7 @@ const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(
   }
 );
 
-/*This allows the Terraform resource name to match the original*/
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
 dataAwsRoute53ZoneExample.overrideLogicalId(\\"example\\");
 const awsRoute53RecordExample = new aws.Route53Record(this, \\"example_2\\", {
   allowOverwrite: true,
@@ -126,7 +126,7 @@ const awsRoute53RecordExample = new aws.Route53Record(this, \\"example_2\\", {
   zoneId: dataAwsRoute53ZoneExample.zoneId,
 });
 
-/*This allows the Terraform resource name to match the original*/
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
 awsRoute53RecordExample.overrideLogicalId(\\"example\\");
 
 /*In most cases loops should be handled in the programming language context and 
@@ -152,13 +152,13 @@ const awsAcmCertificateValidationExample = new aws.AcmCertificateValidation(
   }
 );
 
-/*This allows the Terraform resource name to match the original*/
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
 awsAcmCertificateValidationExample.overrideLogicalId(\\"example\\");
 const awsLbListenerExample = new aws.LbListener(this, \\"example_4\\", {
   certificateArn: awsAcmCertificateValidationExample.certificateArn,
 });
 
-/*This allows the Terraform resource name to match the original*/
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
 awsLbListenerExample.overrideLogicalId(\\"example\\");
 "
 `;
@@ -996,7 +996,7 @@ const cdktfTerraformOutputTest = new cdktf.TerraformOutput(this, \\"test_1\\", {
   value: localTest,
 });
 
-/*This allows the Terraform resource name to match the original*/
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
 cdktfTerraformOutputTest.overrideLogicalId(\\"test\\");
 "
 `;
