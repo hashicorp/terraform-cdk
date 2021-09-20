@@ -7,4 +7,4 @@ global.beforeAll = function beforeAllWithDefaultTimeout(setup, timeout = DEFAULT
     return originalBeforeAll(setup, timeout);
 };
 
-jest.retryTimes(3)
+jest.retryTimes(1)
