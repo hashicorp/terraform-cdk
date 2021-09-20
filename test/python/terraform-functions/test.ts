@@ -1,8 +1,3 @@
-/**
- *
- * @group python
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("python terraform functions test synth", () => {

@@ -1,6 +1,3 @@
-/**
- * Testing a full cycle of cdktf watch
- */
 import { TestDriver } from "../../test-helper";
 import { IPty, IDisposable } from "node-pty";
 import stripAnsi = require("strip-ansi");

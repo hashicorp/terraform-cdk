@@ -1,8 +1,3 @@
-/**
- *
- * @group python
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("python full integration test synth", () => {

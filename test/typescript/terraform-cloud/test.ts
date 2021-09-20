@@ -1,11 +1,3 @@
-/**
- * Testing interaction with Terraform Cloud
- *
- * @group typescript
- * @group terraform-cloud
- * @group asset
- */
-
 import { TestDriver, onPosix } from "../../test-helper";
 import { TerraformCloud } from "@skorfmann/terraform-cloud";
 import * as crypto from "crypto";
