@@ -1,10 +1,11 @@
 {
-  "name": "@deactivated-examples/typescript-backends-remote",
+  "//": "This example test is disabled via the 'private' attribute since it needs credentials (I assume at least)",
+  "name": "@examples/typescript-backends-remote",
+  "private": true,
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
-  "private": true,
   "scripts": {
     "get": "cdktf get",
     "build": "yarn get && tsc",

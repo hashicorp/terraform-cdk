@@ -4,7 +4,6 @@
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
-  "private": true,
   "scripts": {
     "get": "cdktf get",
     "build": "yarn get && tsc",

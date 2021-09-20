@@ -1,17 +1,26 @@
 #!/usr/bin/env python
-from cdktf import App, Fn, TerraformOutput, TerraformStack, Testing
 from constructs import Construct
-from imports.aws import AwsProvider
-from imports.terraform_aws_modules.vpc.aws import TerraformAwsModulesVpcAws
-
+from cdktf import App, TerraformStack, Testing, TerraformOutput, Fn
+from imports.null import NullProvider, Resource
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
         super().__init__(scope, ns)
 
-        AwsProvider(self, 'Aws', region='eu-central-1')
-        modules = TerraformAwsModulesVpcAws(self, 'CustomVpc', name='custom-vpc')
-        TerraformOutput(self, "computed", value=Fn.cidrsubnet(Fn.element(Fn.merge([modules.public_subnets_cidr_blocks_output, modules.public_subnets_ipv6_cidr_blocks_output]), 3), 4, 2))
+        NullProvider(self, "null")
+        resource = Resource(self, "null-resource")
+
+        resource.add_override('triggers', { 'cluster_instance_ids': 'foo' })
+
+        self.add_override('terraform.backend', {
+            'remote': {
+                'organization': 'test',
+                'workspaces': {
+                    'name': 'test'
+                }
+            }
+        })
+        TerraformOutput(self, "computed", value=Fn.element(Fn.merge([{ "id": resource.id }, { "value": "123" }]), 1))
 
 app = Testing.stub_version(App(stack_traces=False))
 MyStack(app, "python-simple")

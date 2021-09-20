@@ -6,37 +6,29 @@ exports[`java full integration synth generates JSON 1`] = `
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"java-simple\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"aws_sns_topic\\": [
-          \\"display_name\\"
-        ]
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"terraform\\": {
     \\"required_providers\\": {
-      \\"aws\\": {
-        \\"version\\": \\"~> 2.0\\",
-        \\"source\\": \\"aws\\"
+      \\"null\\": {
+        \\"version\\": \\"~> 3.1.0\\",
+        \\"source\\": \\"hashicorp/null\\"
       }
     }
   },
   \\"provider\\": {
-    \\"aws\\": [
-      {
-        \\"region\\": \\"eu-central-1\\"
-      }
+    \\"null\\": [
+      {}
     ]
   },
   \\"resource\\": {
-    \\"aws_sns_topic\\": {
-      \\"Topic\\": {
-        \\"display_name\\": \\"my-first-sns-topic\\",
+    \\"null_resource\\": {
+      \\"NullResource\\": {
         \\"//\\": {
           \\"metadata\\": {
-            \\"path\\": \\"java-simple/Topic\\",
-            \\"uniqueId\\": \\"Topic\\"
+            \\"path\\": \\"java-simple/NullResource\\",
+            \\"uniqueId\\": \\"NullResource\\"
           }
         }
       }
