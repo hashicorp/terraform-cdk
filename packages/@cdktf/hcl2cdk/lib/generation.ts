@@ -171,7 +171,7 @@ function addOverrideLogicalIdExpression(variable: string, logicalId: string) {
   t.addComment(
     ast,
     "leading",
-    "This allows the Terraform resource name to match the original"
+    "This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match."
   );
 
   return ast;
