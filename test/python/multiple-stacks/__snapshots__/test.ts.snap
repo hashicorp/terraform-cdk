@@ -6,48 +6,29 @@ exports[`python full integration test synth synth generates JSON for both stacks
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"python-simple-one\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": [
-          \\"terraform\\"
-        ],
-        \\"aws_sns_topic\\": [
-          \\"display_name\\"
-        ]
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"terraform\\": {
     \\"required_providers\\": {
-      \\"aws\\": {
-        \\"version\\": \\"~> 2.0\\",
-        \\"source\\": \\"aws\\"
-      }
-    },
-    \\"backend\\": {
-      \\"remote\\": {
-        \\"organization\\": \\"test\\",
-        \\"workspaces\\": {
-          \\"name\\": \\"test\\"
-        }
+      \\"null\\": {
+        \\"version\\": \\"~> 3.1.0\\",
+        \\"source\\": \\"hashicorp/null\\"
       }
     }
   },
   \\"provider\\": {
-    \\"aws\\": [
-      {
-        \\"region\\": \\"eu-central-1\\"
-      }
+    \\"null\\": [
+      {}
     ]
   },
   \\"resource\\": {
-    \\"aws_sns_topic\\": {
-      \\"Topic\\": {
-        \\"display_name\\": \\"my-first-sns-topic\\",
+    \\"null_resource\\": {
+      \\"nullresource\\": {
         \\"//\\": {
           \\"metadata\\": {
-            \\"path\\": \\"python-simple-one/Topic\\",
-            \\"uniqueId\\": \\"Topic\\"
+            \\"path\\": \\"python-simple-one/null-resource\\",
+            \\"uniqueId\\": \\"nullresource\\"
           }
         }
       }
@@ -62,48 +43,29 @@ exports[`python full integration test synth synth generates JSON for both stacks
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
       \\"stackName\\": \\"python-simple-two\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": [
-          \\"terraform\\"
-        ],
-        \\"aws_sns_topic\\": [
-          \\"display_name\\"
-        ]
-      }
+      \\"backend\\": \\"local\\"
     }
   },
   \\"terraform\\": {
     \\"required_providers\\": {
-      \\"aws\\": {
-        \\"version\\": \\"~> 2.0\\",
-        \\"source\\": \\"aws\\"
-      }
-    },
-    \\"backend\\": {
-      \\"remote\\": {
-        \\"organization\\": \\"test\\",
-        \\"workspaces\\": {
-          \\"name\\": \\"test\\"
-        }
+      \\"null\\": {
+        \\"version\\": \\"~> 3.1.0\\",
+        \\"source\\": \\"hashicorp/null\\"
       }
     }
   },
   \\"provider\\": {
-    \\"aws\\": [
-      {
-        \\"region\\": \\"eu-central-1\\"
-      }
+    \\"null\\": [
+      {}
     ]
   },
   \\"resource\\": {
-    \\"aws_sns_topic\\": {
-      \\"Topic\\": {
-        \\"display_name\\": \\"my-first-sns-topic\\",
+    \\"null_resource\\": {
+      \\"nullresource\\": {
         \\"//\\": {
           \\"metadata\\": {
-            \\"path\\": \\"python-simple-two/Topic\\",
-            \\"uniqueId\\": \\"Topic\\"
+            \\"path\\": \\"python-simple-two/null-resource\\",
+            \\"uniqueId\\": \\"nullresource\\"
           }
         }
       }
