@@ -5,7 +5,7 @@ Testing your application can give you faster feedback cycles and guard you again
 ## Unit Tests
 
 Unit testing is currently only supported for Typescript with jest.
-We generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing project, please [follow their guide](https://jestjs.io/docs/getting-started). Once done you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
+We generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing project, please [follow their guide](https://jestjs.io/docs/getting-started). Once done you need to add these lines in a [setup file after env](https://jestjs.io/docs/configuration#setupfilesafterenv-array) (you can configure this via the `setupFilesAfterEnv` key in your jest configuration, it takes an array of file paths as input):
 
 ```js
 const cdktf = require("cdktf");
@@ -18,6 +18,7 @@ cdktf.Testing.setupJest();
 import { Testing } from "cdktf";
 import { Image, Container } from "../.gen/providers/docker";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from cdktf.Resource
+import "cdktf/lib/testing/adapters/jest"; // This is needed to get Typescript types for the new matchers
 
 describe("Unit testing using assertions", () => {
   it("should contain a container", () => {
@@ -53,6 +54,7 @@ Snapshot tests are a very useful tool whenever you want to make sure your infras
 import { Testing } from "cdktf";
 import { Image, Container } from "../.gen/providers/docker";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from cdktf.Resource
+import "cdktf/lib/testing/adapters/jest"; // This is needed to get Typescript types for the new matchers
 
 describe("Unit testing using snapshots", () => {
   it("Tests a custom abstraction", () => {
