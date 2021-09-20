@@ -33,16 +33,7 @@ $ yarn build
 
 ## Examples
 
-We have a few top level script commands which are executed with Lerna to make the handling of examples easier:
-
-```
-yarn examples:reinstall // -> reinstall dependencies in Python examples
-yarn examples:build // -> fetch providers for examples and build them
-yarn examples:synth // -> synth all examples
-yarn examples:integration // -> run all of the above
-```
-
-For this work, each example needs a `package.json` with at least a minmal config like this:
+We run the examples as part of our integration tests for each Pull Request. To support this, each example needs a `package.json` with at least a minmal config like this:
 
 ```json
 {
@@ -57,7 +48,7 @@ For this work, each example needs a `package.json` with at least a minmal config
 }
 ```
 
-Lerna is filtering for the `@examples/` prefix in the `name` field.
+If the example shouldn't be run as part of the build pipeline, a `"private": true` entry can be added to `package.json`. Please make sure to add the ignore reason as JSON comment to `package.json` (e.g. `"//": "This example takes ages to build").
 
 ## Development
 
