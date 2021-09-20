@@ -1,3 +1,19 @@
+## 0.6.2 (September 17, 2021)
+
+**Fixed Bugs**
+
+- fix(cli): replaceAll not available in node v14 [\#1036](https://github.com/hashicorp/terraform-cdk/pull/1036)
+- fix(cli): fix import path for Manifest (was relative) [\#1037](https://github.com/hashicorp/terraform-cdk/pull/1037)
+
+**Chores**
+
+- chore: lint monorepo for relative imports between packages [\#1040](https://github.com/hashicorp/terraform-cdk/pull/1040)
+- chore: remove duplicated jest interface members [\#1042](https://github.com/hashicorp/terraform-cdk/pull/1042)
+
+**Documentation**
+
+- feat(docs): add docs for `Testing.renderConstructTree()` [\#1029](https://github.com/hashicorp/terraform-cdk/pull/1029)
+
 ## 0.6.1 (September 16, 2021)
 
 **Fixed Bugs**
