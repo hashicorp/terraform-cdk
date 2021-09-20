@@ -113,6 +113,18 @@ jobs:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
 
+  linux_integration_result:
+    needs: linux_integration
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+
+    steps:
+      - name: hello
+        run: echo "hello"
+
   windows_integration:
     needs: prepare-integration-tests
     runs-on: windows-latest
