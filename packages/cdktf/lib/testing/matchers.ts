@@ -15,86 +15,182 @@ export type SynthesizedStack = {
 };
 export type MatcherReturn = { message: () => string; pass: boolean };
 
-function assertElementWithProperties(
-  type: keyof SynthesizedStack,
-  received: string,
-  itemType: TerraformConstructor,
-  properties: Record<string, any> = {}
+// All expected properties are matched and considered equal if
+// There can be more properties in the received object than in the expected object while still returning true
+export function asymetricDeepEqualIgnoringObjectCasing(
+  expected: unknown,
+  received: unknown
+): boolean {
+  switch (typeof expected) {
+    case "object":
+      if (Array.isArray(expected)) {
+        return (
+          Array.isArray(received) &&
+          expected.length === received.length &&
+          expected.every(
+            (item, index) =>
+              asymetricDeepEqualIgnoringObjectCasing(item, received[index]) // recursively compare arrays
+          )
+        );
+      }
+      if (expected === null && received === null) {
+        return true;
+      }
+      if (expected === undefined && received === undefined) {
+        return true;
+      }
+      if (expected === null || received === null) {
+        return false;
+      }
+
+      // recursively compare objects and allow snake case as well as camel case
+      return Object.keys(expected as Record<string, unknown>).every((key) => {
+        if ((received as any)[key] !== undefined) {
+          return asymetricDeepEqualIgnoringObjectCasing(
+            (expected as any)[key],
+            (received as any)[key]
+          );
+        }
+
+        if ((received as any)[snakeCase(key)] !== undefined) {
+          return asymetricDeepEqualIgnoringObjectCasing(
+            (expected as any)[key],
+            (received as any)[snakeCase(key)]
+          );
+        }
+
+        return false;
+      });
+    default:
+      return expected === received;
+  }
+}
+const defaultPassEvaluation = (
+  items: any,
+  assertedProperties: Record<string, any>
+) => {
+  return Object.values(items).some((item: any) =>
+    asymetricDeepEqualIgnoringObjectCasing(assertedProperties, item)
+  );
+};
+
+function isAsymmetric(obj: any) {
+  return !!obj && typeof obj === "object" && "asymmetricMatch" in obj;
+}
+// You can use expect.Anything(), expect.ObjectContaining, etc in jest, this makes it nicer to read
+// when we print error mesages
+function jestAsymetricMatcherStringifyReplacer(_key: string, value: any) {
+  return isAsymmetric(value) ? `expect.${value.toString()}` : value;
+}
+function getAssertElementWithProperties(
+  // We have the evaluation function configurable so we can make use of the specific testing frameworks capabilities
+  // This makes the resulting tests more native to the testing framework
+  customPassEvaluation?: (
+    items: any[], // configurations of the requested type
+    assertedProperties: Record<string, any>
+  ) => boolean
 ) {
-  let stack: SynthesizedStack;
-  try {
-    stack = JSON.parse(received) as SynthesizedStack;
-  } catch (e) {
-    throw new Error(`invalid JSON string passed: ${received}`);
-  }
-
-  if (!(type in stack)) {
-    throw new Error(`Type ${type} not found in stack`);
-  }
-
-  const items = Object.entries(stack[type] || {});
-
-  const pass = items.some(([type, values]) => {
-    if (type !== itemType.tfResourceType) {
-      return false;
+  const passEvaluation = customPassEvaluation || defaultPassEvaluation;
+  return function getAssertElementWithProperties(
+    type: keyof SynthesizedStack,
+    received: string,
+    itemType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ) {
+    let stack: SynthesizedStack;
+    try {
+      stack = JSON.parse(received) as SynthesizedStack;
+    } catch (e) {
+      throw new Error(`invalid JSON string passed: ${received}`);
     }
 
-    return Object.values(values).some((item: any) => {
-      return Object.entries(properties).every(([key, value]) => {
-        return item[key] === value || item[snakeCase(key)] === value;
-      });
-    });
-  });
+    if (!(type in stack)) {
+      throw new Error(`Type ${type} not found in stack`);
+    }
 
-  if (pass) {
-    return {
-      pass,
-      message: () =>
-        `Expected ${
-          itemType.tfResourceType
-        } not to be present in synthesised stack with properties ${JSON.stringify(
-          properties
-        )}`,
-    };
-  } else {
-    return {
-      message: () =>
-        `Expected ${
-          itemType.tfResourceType
-        } to be present in synthesised stack with properties ${JSON.stringify(
-          properties
-        )}`,
-      pass,
-    };
-  }
+    const items =
+      Object.values(
+        Object.entries(stack[type] || {}) // for all data/resource entries
+          .find(
+            // find the object with a matching name
+            ([type, _values]) => type === itemType.tfResourceType
+          )?.[1] || {} // get all items of that type (encoded as a record of name -> config)
+      ) || []; // get a list of all configs of that type
+    const pass = passEvaluation(items, properties);
+
+    if (pass) {
+      return {
+        pass,
+        message: () =>
+          `Expected no ${
+            itemType.tfResourceType
+          } with properties ${JSON.stringify(
+            properties,
+            jestAsymetricMatcherStringifyReplacer
+          )} to be present in synthesised stack.
+Found ${items.length === 0 ? "no" : items.length} ${
+            itemType.tfResourceType
+          } resources instead${
+            items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
+          }`,
+      };
+    } else {
+      return {
+        message: () =>
+          `Expected ${itemType.tfResourceType} with properties ${JSON.stringify(
+            properties,
+            jestAsymetricMatcherStringifyReplacer
+          )} to be present in synthesised stack.
+Found ${items.length === 0 ? "no" : items.length} ${
+            itemType.tfResourceType
+          } resources instead${
+            items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
+          }`,
+        pass,
+      };
+    }
+  };
 }
 
-export function toHaveDataSourceWithProperties(
-  received: string,
-  resourceType: TerraformConstructor,
-  properties: Record<string, any> = {}
-): MatcherReturn {
-  return assertElementWithProperties(
-    "data",
-    received,
-    resourceType,
-    properties
-  );
+export function getToHaveDataSourceWithProperties(
+  customPassEvaluation?: (
+    items: any,
+    assertedProperties: Record<string, any>
+  ) => boolean
+) {
+  return function toHaveDataSourceWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ): MatcherReturn {
+    return getAssertElementWithProperties(customPassEvaluation)(
+      "data",
+      received,
+      resourceType,
+      properties
+    );
+  };
 }
 
-export function toHaveResourceWithProperties(
-  received: string,
-  resourceType: TerraformConstructor,
-  properties: Record<string, any> = {}
-): MatcherReturn {
-  return assertElementWithProperties(
-    "resource",
-    received,
-    resourceType,
-    properties
-  );
+export function getToHaveResourceWithProperties(
+  customPassEvaluation?: (
+    items: any,
+    assertedProperties: Record<string, any>
+  ) => boolean
+) {
+  return function toHaveResourceWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ): MatcherReturn {
+    return getAssertElementWithProperties(customPassEvaluation)(
+      "resource",
+      received,
+      resourceType,
+      properties
+    );
+  };
 }
-
 export function toBeValidTerraform(received: string): MatcherReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
