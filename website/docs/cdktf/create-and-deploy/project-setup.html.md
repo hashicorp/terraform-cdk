@@ -7,13 +7,19 @@ description: "Learn how to build a CDKTF application from a template, project st
 
 # Project Setup
 
-
 ## Project Templates
 
-TODO: Explain the following:
-- What is a Template?
-- List Built-In Templates
-- Mention you can also make your own remote Templates (link to remote templates page)
+A project template is the blueprint for your new cdktf project. It's used to generate a fully functional starting point where you can start to define infrastructure in your preferred language right away.
+
+The `cdktf-cli` ships with a pre-defined template for each programming language which is supported. Right now this is:
+
+- Typescript
+- Python
+- C#
+- Java
+- Go
+
+If you have the need to customize templates, the `cdktf-cli` can leverage [remote templates](./remote-templates).
 
 ## Initialize project
 
@@ -21,51 +27,70 @@ Use `init` with a template and one or more flags to automatically create and sca
 
 ### Use Locally
 
-Some explanation here..
+When initialized with the `--local` flag, the scaffoled project is pre-configured to use [Terraform state](https://www.terraform.io/docs/language/state/index.html) with a [local backend](https://www.terraform.io/docs/language/settings/backends/local.html)
+
+All terraform operations will happen on your local machine.
 
 ```
 $ cdktf init --template=typescript --local
 ```
 
 ### Use with Terraform Cloud
+
 - If you don't pass the local flag:
   - If you have run Terraform Login in the past, we will use your stored TFC credentials
   - If you have no TFC credentials, we will ask you whether you want to login
 
+The scaffoled project will be configured to use [Terraform state](https://www.terraform.io/docs/language/state/index.html) with a [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html).
+
+Where the Terraform operations will happen depends on the configuration of the Terraform Cloud Workspace settings. If the workspace was created as part of the `cdktf init` command, the Terraform operations will be run locally by default. The Terraform Cloud workspace an be configured to use remote operations instead.
+
+```
+$ cdktf init --template=typescript
+```
+
 #### Terraform Cloud VCS Integration
 
-Terraform Cloud supports [connecting to VCS providers](https://www.terraform.io/docs/cloud/vcs/index.html). To use the VCS integration, commit the generated Terraform config (the `cdktf.out` directory) alongside your code so Terraform Cloud can use it to deploy your infrastructure. On the General Settings page of your Terraform Cloud Workspace [set the Terraform Working Directory](https://www.terraform.io/docs/cloud/workspaces/settings.html#terraform-working-directory) to the output directory of the stack you want to deploy. So for example use `cdktf.out/stacks/dev` if your stack is named `dev`.
+Terraform Cloud supports [connecting to VCS providers](https://www.terraform.io/docs/cloud/vcs/index.html).
+
+To use the VCS integration, commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code so Terraform Cloud can use it to deploy your infrastructure. On the General Settings page of your Terraform Cloud Workspace [set the Terraform Working Directory](https://www.terraform.io/docs/cloud/workspaces/settings.html#terraform-working-directory) to the output directory of the stack you want to deploy. So for example use `cdktf.out/stacks/dev` if your stack is named `dev`.
+
+Note: Be aware, that the synthesized Terraform config might contain credentials or other sensitive data which was provided as input for the `cdktf` application.
 
 #### External CI service
 
-If you prefer to keep the generated artefacts out of your repository, use any CI (Continuous Integration) service to build and deploy them instead. The CDK for Terraform CLI supports deploying to Terraform Cloud using either the local or remote execution mode. For more information on how runs work in Terraform Cloud, see [Terraform Runs and Remote Operations](https://www.terraform.io/docs/cloud/run/index.html).  
+If you prefer to keep the generated artefacts out of your repository, use any CI (Continuous Integration) service to build and deploy them instead. The CDK for Terraform CLI supports deploying to Terraform Cloud using either the local or remote execution mode. For more information on how runs work in Terraform Cloud, see [Terraform Runs and Remote Operations](https://www.terraform.io/docs/cloud/run/index.html).
 In your CI steps use the `cdktf-cli` commands to synthesize your code and deploy your infrastructure:
 
 ```
 cdktf deploy --auto-approve
 ```
 
-
 ## Project Structure
 
 TO DO: Explain how CDKTF projects are structured - What files there are in a project with links to places to find out more information
 
+TO DO: This largely depends on the type of project - Do we really want to list all them here? There are getting started guides which would probably be more appriate https://github.com/hashicorp/terraform-cdk/tree/main/docs/getting-started (sebastian)
+
+The only really relevant file for a user is [cdktf.json](../concepts/fundamentals/cdktf-json.md). This file is used as config file for the cli
 
 ## Convert Existing HCL project
 
 Use the typescript template and add a flag on init to convert from an existing HCL project to TypeScript.
 
-..show example
-
+```
+$ cdktf init --template=typescript --from-terraform-project /path/to/my/tf-hcl-project
+```
 
 ## Configure Project
 
 ### Global Configuration
 
+TODO: This is a rather advanced concept, wouldn't put it here (sebastian)
+
 One option to provide global configuration is the app context, which can be accessed in any construct within the app.
 
 TODO: Explain what I'm actually looking at below and what I would do to actually configure something....
-
 
 ```typescript
 import { Construct } from "constructs";
@@ -84,7 +109,7 @@ class MyStack extends TerraformStack {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
       tags: {
-        myConfig: this.constructNode.getContext("myConfig"),
+        myConfig: this.node.getContext("myConfig"),
       },
     });
   }
@@ -95,9 +120,7 @@ new MyStack(app, "hello-cdktf");
 app.synth();
 ```
 
-
-
-### Stack Configuration 
+### Stack Configuration
 
 A stack represents a collection of infrastructure that will be synthesized as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
 
@@ -198,18 +221,15 @@ Currently, all Terraform operations are limited to a single stack. That means yo
 
 Omitting the target stack by running a plain `cdktf deploy` will result in error. This will change in future versions, where support for targeting all or a subset of stacks will be added. Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) when you're interested in this feature.
 
-
 ##### Cross Stack References
 
 Referencing resources from another stack is not yet supported automatically. It can be achieved manually by using Outputs and the Remote State data source.
 
 Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) when you're interested in this feature.
 
-
 ##### Migration from `<= 0.2`
 
 Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` in the project root folder was used. With version `>= 0.3` the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
-
 
 #### Escape Hatch
 
@@ -218,7 +238,6 @@ define remote backend using the `addOverride` method in TypeScript.
 
 ~> **Important**: Escape hatches **must not** have empty arguments or objects, as they will be
 removed from the synthesized JSON configuration.
-
 
 ```typescript
 stack.addOverride("terraform.backend", {
