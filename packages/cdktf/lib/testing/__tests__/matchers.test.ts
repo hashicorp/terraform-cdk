@@ -2,15 +2,16 @@ import { Testing } from "../index";
 import { TestResource, DockerImage } from "../../../test/helper/resource";
 import {
   toBeValidTerraform,
-  toHaveResourceWithProperties,
+  getToHaveResourceWithProperties,
   toPlanSuccessfully,
+  getToHaveDataSourceWithProperties,
+  asymetricDeepEqualIgnoringObjectCasing,
 } from "../matchers";
 import { TestDataSource } from "../../../test/helper/data-source";
 import { TerraformStack } from "../../terraform-stack";
 import { DockerProvider } from "../../../test/helper/provider";
 import * as fs from "fs";
 import * as path from "path";
-import { toHaveDataSourceWithProperties } from "../matchers";
 
 function corruptSynthesizedStack(stackPath: string) {
   const manifest = JSON.parse(
@@ -28,12 +29,96 @@ function corruptSynthesizedStack(stackPath: string) {
   );
 }
 
+describe("deepEqualIgnoringObjectCasing", () => {
+  it("should compare simple items", () => {
+    expect(asymetricDeepEqualIgnoringObjectCasing(1, 1)).toBe(true);
+    expect(asymetricDeepEqualIgnoringObjectCasing("1", "1")).toBe(true);
+    expect(asymetricDeepEqualIgnoringObjectCasing(true, true)).toBe(true);
+    expect(asymetricDeepEqualIgnoringObjectCasing(false, false)).toBe(true);
+    expect(asymetricDeepEqualIgnoringObjectCasing(null, null)).toBe(true);
+    expect(asymetricDeepEqualIgnoringObjectCasing(undefined, undefined)).toBe(
+      true
+    );
+    expect(asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 3])).toBe(
+      true
+    );
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing({ a: 1, b: 2 }, { a: 1, b: 2 })
+    ).toBe(true);
+
+    expect(asymetricDeepEqualIgnoringObjectCasing(1, 2)).toBe(false);
+  });
+
+  it("should compare arrays", () => {
+    expect(asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 3])).toBe(
+      true
+    );
+
+    expect(asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 4])).toBe(
+      false
+    );
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 3, 4])
+    ).toBe(false);
+  });
+
+  it("should compare objects", () => {
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing({ a: 1, b: 2 }, { a: 1, b: 2 })
+    ).toBe(true);
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing(
+        { a: { c: 3 }, b: 2 },
+        { a: { c: 3 }, b: 2 }
+      )
+    ).toBe(true);
+
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing(
+        { a: 3, b: 2 },
+        { a: { c: 3 }, b: 2 }
+      )
+    ).toBe(false);
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing(
+        { a: { c: 3 }, b: 2 },
+        { a: 3, b: 2 }
+      )
+    ).toBe(false);
+  });
+
+  it("should ignore case when comparing object keys", () => {
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing(
+        { a: 1, fooBar: 2 },
+        { a: 1, foo_bar: 2 }
+      )
+    ).toBe(true);
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing(
+        { a: { fooBar: 2 } },
+        { a: { foo_bar: 2 } }
+      )
+    ).toBe(true);
+  });
+
+  it("should ignore keys not present in expectation", () => {
+    expect(
+      asymetricDeepEqualIgnoringObjectCasing(
+        { a: { fooBar: 2 } },
+        { a: { foo_bar: 2 }, b: 3 }
+      )
+    ).toBe(true);
+  });
+});
+
 describe("matchers", () => {
+  const toHaveResourceWithProperties = getToHaveResourceWithProperties();
   describe("toHaveResourceWithProperties", () => {
     let synthesizedStack: string;
     beforeEach(() => {
       synthesizedStack = Testing.synthScope((scope) => {
-        new TestResource(scope, "test", { name: "test" });
+        new TestResource(scope, "test", { name: "test", tags: { foo: "bar" } });
       });
     });
 
@@ -41,9 +126,18 @@ describe("matchers", () => {
       const res = toHaveResourceWithProperties(synthesizedStack, TestResource);
 
       expect(res.pass).toBeTruthy();
-      expect(res.message()).toMatchInlineSnapshot(
-        `"Expected test_resource not to be present in synthesised stack with properties {}"`
-      );
+      expect(res.message()).toMatchInlineSnapshot(`
+        "Expected no test_resource with properties {} to be present in synthesised stack.
+        Found 1 test_resource resources instead:
+        [
+          {
+            \\"name\\": \\"test\\",
+            \\"tags\\": {
+              \\"foo\\": \\"bar\\"
+            }
+          }
+        ]"
+      `);
     });
 
     it("should fail with wrong resouce", () => {
@@ -53,13 +147,23 @@ describe("matchers", () => {
       );
 
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toMatchInlineSnapshot(
-        `"Expected test_data_source to be present in synthesised stack with properties {}"`
-      );
+      expect(res.message()).toMatchInlineSnapshot(`
+        "Expected test_data_source with properties {} to be present in synthesised stack.
+        Found no test_data_source resources instead"
+      `);
+    });
+
+    it("should work on nested elements", () => {
+      const res = toHaveResourceWithProperties(synthesizedStack, TestResource, {
+        tags: { foo: "bar" },
+      });
+
+      expect(res.pass).toBeTruthy();
     });
   });
 
   describe("toHaveDataSourceWithProperties", () => {
+    const toHaveDataSourceWithProperties = getToHaveDataSourceWithProperties();
     let synthesizedStack: any;
     beforeEach(() => {
       synthesizedStack = Testing.synthScope((scope) => {

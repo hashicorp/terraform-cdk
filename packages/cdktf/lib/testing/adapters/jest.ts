@@ -1,11 +1,11 @@
 import {
-  toHaveDataSourceWithProperties,
+  getToHaveDataSourceWithProperties,
   toBeValidTerraform,
   toPlanSuccessfully,
 } from "../matchers";
 import {
   MatcherReturn,
-  toHaveResourceWithProperties,
+  getToHaveResourceWithProperties,
   TerraformConstructor,
 } from "../matchers";
 
@@ -34,6 +34,29 @@ type JestExpect = {
   extend: (matchers: Record<string, (...args: any[]) => MatcherReturn>) => void;
 };
 
+// Jest supports asymetric matchers (https://github.com/facebook/jest/blob/main/packages/expect/src/asymmetricMatchers.ts)
+// These matchers are great in expressing partial equality in a deeply nested way
+// As we want to support more than one testing framework we can not use them everywhere
+function jestPassEvaluation(
+  items: any[],
+  assertedProperties: Record<string, any>
+): boolean {
+  if (Object.entries(assertedProperties).length === 0) {
+    return items.length > 0;
+  } else {
+    if ((global as any).expect) {
+      const expect = (global as any).expect;
+      return expect
+        .arrayContaining([expect.objectContaining(assertedProperties)])
+        .asymmetricMatch(items);
+    } else {
+      throw new Error(
+        "expect is not defined, jest was not propely instantiated"
+      );
+    }
+  }
+}
+
 export function setupJest() {
   if (!("expect" in global)) {
     throw new Error("setupJest called, but expect is not globally accessible");
@@ -46,14 +69,18 @@ export function setupJest() {
       received: string,
       resourceConstructor: TerraformConstructor
     ) {
-      return toHaveResourceWithProperties(received, resourceConstructor, {});
+      return getToHaveResourceWithProperties(jestPassEvaluation)(
+        received,
+        resourceConstructor,
+        {}
+      );
     },
     toHaveResourceWithProperties(
       received: string,
       resourceConstructor: TerraformConstructor,
       properties: Record<string, any>
     ) {
-      return toHaveResourceWithProperties(
+      return getToHaveResourceWithProperties(jestPassEvaluation)(
         received,
         resourceConstructor,
         properties
@@ -64,7 +91,7 @@ export function setupJest() {
       received: string,
       dataSourceConstructor: TerraformConstructor
     ) {
-      return toHaveDataSourceWithProperties(
+      return getToHaveDataSourceWithProperties(jestPassEvaluation)(
         received,
         dataSourceConstructor,
         {}
@@ -75,7 +102,7 @@ export function setupJest() {
       dataSourceConstructor: TerraformConstructor,
       properties: Record<string, any>
     ) {
-      return toHaveDataSourceWithProperties(
+      return getToHaveDataSourceWithProperties(jestPassEvaluation)(
         received,
         dataSourceConstructor,
         properties
