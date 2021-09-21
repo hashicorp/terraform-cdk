@@ -1,9 +1,3 @@
-/**
- * Testing interaction with Terraform Cloud
- *
- * @group typescript
- */
-
 import { TestDriver } from "../../test-helper";
 
 // Since chalk auto-detects the capabilities, colored output is

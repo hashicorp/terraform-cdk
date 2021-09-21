@@ -1,9 +1,3 @@
-/**
- * Testing a full cycle of diff, deploy and destroy
- *
- * @group typescript
- */
-
 import { TestDriver } from "../../test-helper";
 import * as fs from "fs";
 import * as path from "path";

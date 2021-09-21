@@ -1,9 +1,3 @@
-/**
- *
- * @group python
- * @group asset
- */
-
 import { TestDriver } from "../../test-helper";
 import * as fs from "fs";
 import * as path from "path";

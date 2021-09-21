@@ -1,9 +1,3 @@
-/**
- * Testing synthing typescript to json
- *
- * @group typescript
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("full integration test synth", () => {
