@@ -11,6 +11,8 @@ jobs:
   prepare-release:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.build-test-matrix.outputs.tests }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:

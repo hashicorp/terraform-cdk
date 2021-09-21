@@ -46,6 +46,20 @@ In the example above we use `Testing.synthScope` to test a part of the applicati
 - `toHaveDataSource`: Checks if a certain data source exists
 - `toHaveDataSourceWithProperties`: Checks if a certain data source exists with all properties passed
 
+Since we are using jest you can also use asymetric matchers like [`expect.anything()`](https://jestjs.io/docs/expect#expectanything), [`expect.arrayContaining([...])`](https://jestjs.io/docs/expect#expectarraycontainingarray), and [`expect.objectContaining({...})`](https://jestjs.io/docs/expect#expectobjectcontainingobject):
+
+```ts
+expect(synthesized).toHaveResourceWithProperties(aws.S3Bucket, {
+  bucketPrefix: `sls-example-frontend-test`,
+  website: [
+    expect.objectContaining({
+      indexDocument: "index.html",
+      errorDocument: "index.html",
+    }),
+  ],
+});
+```
+
 ### Snapshot Testing
 
 Snapshot tests are a very useful tool whenever you want to make sure your infrastructure does not change unexpectedly. You can read more about them in the [Jest docs](https://jestjs.io/docs/snapshot-testing).
