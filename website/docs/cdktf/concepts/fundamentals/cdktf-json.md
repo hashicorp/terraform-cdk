@@ -1,6 +1,13 @@
-# cdktf.json Configuration File
+---
+layout: "docs"
+page_title: "Configuration"
+sidebar_current: "cdktf"
+description: "Learn how to build a CDKTF application from a template, project structure, and configuration. "
+---
 
-With the `cdktf.json` in your project root directory you can configure the behaviour of the Terraform CDK CLI:
+# Configuration
+
+The `cdktf.json` file lets you configure the behavior of the CDK for Terraform CLI and define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) you want to use. Installing CDK for Terraform with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html) generates a basic `cdktf.json` file in your root directory that you can customize for your application.
 
 ## Specification
 
@@ -30,51 +37,9 @@ export interface Config {
   readonly terraformModules?: RequirementDefinition[]; // Terraform Modules to build
 }
 ```
+## Minimal Configuration
 
-### Terraform Providers and Modules
-
-The [following specifications](https://www.terraform.io/docs/configuration/provider-requirements.html#requiring-providers) schema should be followed for providers and modules
-
-[source](https://www.terraform.io/docs/configuration/provider-requirements.html#source-addresses)@[version](https://www.terraform.io/docs/configuration/provider-requirements.html#version-constraints)
-
-#### For HashiCorp maintained providers
-
-Official HashiCorp [maintained providers](https://registry.terraform.io/browse/providers?tier=official) (e.g. `aws`, `google` or `azurerm`) can be specified in a short version like this: `"aws@~> 2.0"`
-
-#### 3rd Party Providers
-
-Community providers have to provide a fully qualified name, e.g. to define the Docker provider: `terraform-providers/docker@~> 2.0`
-
-#### Modules
-
-Similar to 3rd party providers, the full registry namespace should be provided. For local modules please use the object format:
-
-```jsonc
-{
-  // ...
-  "moduleRequirements": [
-    "terraform-aws-modules/vpc/aws@ ~> 3.2.0",
-    {
-      "name": "myLocalModule",
-      "source": "../my-modules/local-module"
-    }
-  ]
-}
-```
-
-#### Version Constraints
-
-In the string format the version can be omitted if you don't want to pin the version down.
-If you want to denote a version you can add a version constraint after the name, separated by an `@`, so `<provider|module>@<constraint>`.
-In the object format the constraint can be added under `version`.
-
-[The structure of a version constraint can be found here.](https://www.terraform.io/docs/language/expressions/version-constraints.html#version-constraint-syntax)
-
-## Examples
-
-### Minimal Configuration
-
-A minimal configuration would define `app` only. This is useful, when planning to use [prebuilt providers](https://github.com/terraform-cdk-providers) and therefore no provider or modules bindings should be generated.
+The most basic configuration only defines `app`. This is useful when you plan to use [prebuilt providers](/docs/cdktf/concepts/fundamentals/providers.html) and you don't need to generate any provider or module bindings.
 
 ```json
 {
@@ -82,9 +47,53 @@ A minimal configuration would define `app` only. This is useful, when planning t
 }
 ```
 
-### Changing Code Output Directories
 
-This will synthesize JSON into `my-workdir` and all Terraform operations - such as `deploy` or `destroy` - will be performed in this directory.
+## Declare Providers and Modules
+
+You must declare all of the providers and modules you want to use in your `cdktf.json` file. The [schema](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses) for both providers and modules in CDK for Terraform consists of a name, a [source](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses), and a [version constraint](https://www.terraform.io/docs/language/providers/requirements.html#version-constraints).
+
+You can declare providers and modules using either JSON or a string with the format `source@ ~> version` .  
+
+
+### Provider Source
+
+- **HashiCorp providers**: You can specify official HashiCorp [maintained providers](https://registry.terraform.io/browse/providers?tier=official) by their name on the Terraform Registry. For example, you can use `aws` to declare the official [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest): `aws@ ~> 2.0`
+
+- **Community providers**: You must provide the fully-qualified name. The fully-qualified name is available on the provider's registry page. For example, to define the [DataDog provider](https://registry.terraform.io/providers/DataDog/datadog/latest): `DataDog/datadog@ ~> 3.4.0`
+
+### Module Source
+
+- For modules on the Terraform Registry, provide the the full registry namespace. For example, to define the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest): `terraform-aws-modules/vpc/aws@ ~> 3.2.0`.
+
+- For local modules please use the object format:
+TODO Please explain why.
+
+  ```jsonc
+  {
+    // ...
+    "moduleRequirements": [
+      {
+        "name": "myLocalModule",
+        "source": "../my-modules/local-module"
+      }
+    ]
+  }
+  ```
+
+### Version Constraint
+
+When you declare providers and modules in the string format, add the [version constraint](https://www.terraform.io/docs/language/expressions/version-constraints.html#version-constraint-syntax) after the provider or module name separated by an `@`. For example, so `provider|module@ ~> version`. You can also omit the version constraint if you do not want to specify a particular version. When you omit the version constraint, CDK for Terraform downloads and uses the latest version.
+
+When you declare providers in JSON, add the constraint in the `version` property. TODO Please provide an example of this in object format.
+
+
+## Examples
+
+### Changing the Output Directory
+
+Defining `output` changes the directory where `cdktf` will put your generated Terraform configuration file. All Terraform operations will be performed from this directory.
+
+The example below synthesizes the JSON Terraform configuration into `my-workdir`:
 
 ```json
 {
@@ -119,7 +128,7 @@ With this `terraformModules` configuration, a `cdktf get` will build the latest 
 
 ### Building Providers & Modules
 
-This combines examples above, a `cdktf get` will build both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
+This combines examples above. A `cdktf get` will build both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
 
 ```json
 {
@@ -153,7 +162,7 @@ It's possible to build multiple providers or modules as well.
 
 ### Building Providers in Custom Directory
 
-This will generate the `aws` provider bindings in the folder `./imports`. This is used in the Python template, to make it easier to reference the generated classes.
+This generates the `aws` provider bindings in the folder `./imports`. This is used in the Python template to make it easier to reference the generated classes.
 
 ```json
 {
