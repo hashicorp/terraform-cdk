@@ -85,27 +85,31 @@ export async function sendTelemetry(
 function getId(
   filePath: string,
   key: string,
+  forceCreation = false,
   explanatoryComment?: string
 ): string {
-  // If the file doesn't exist, we don't have an ID. So we create a file with the ID for next time
-  const _uuid = uuidv4();
-  const _idFile = {} as Record<string, string>;
-  if (explanatoryComment) {
-    _idFile["//"] = explanatoryComment.replace(/\n/g, " ");
-  }
-  _idFile[key] = _uuid;
+  const _uuid = uuidv4(); // create a new UUID in case we don't find one
 
   let jsonFile;
   try {
-    jsonFile = require(filePath);
+    jsonFile = require(filePath); // we found the file
   } catch {
-    fs.writeFileSync(filePath, JSON.stringify(_idFile, null, 2));
+    // we found no file, create one if we're forcing a creation
+    if (forceCreation) {
+      const _idFile = {} as Record<string, string>; // compose JSON id file in case we don't find one
+      if (explanatoryComment) {
+        _idFile["//"] = explanatoryComment.replace(/\n/g, " ");
+      }
+      _idFile[key] = _uuid;
+      fs.writeFileSync(filePath, JSON.stringify(_idFile, null, 2));
+    }
     return _uuid;
   }
 
   if (jsonFile[key]) {
-    return jsonFile[key];
+    return jsonFile[key]; // we found an id
   } else {
+    // we found no id, we add it to the file for future use
     fs.writeFileSync(
       filePath,
       JSON.stringify({ ...jsonFile, [key]: _uuid }, null, 2)
@@ -122,6 +126,7 @@ function getUserId(): string {
   return getId(
     path.resolve(os.homedir(), ".cdktf", "config.json"),
     "userId",
+    true,
     `This signature is a randomly generated UUID used to anonymously differentiate users in telemetry data order to inform product direction. 
 This signature is random, it is not based on any personally identifiable information. 
 To create a new signature, you can simply delete this file at any time.
