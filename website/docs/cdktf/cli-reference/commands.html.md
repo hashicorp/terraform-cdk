@@ -120,7 +120,7 @@ This command deploys a given application.
 $ cdktf deploy --help
 ```
 
-Help output:
+**Help Output**
 
 ```
 cdktf deploy [OPTIONS]
