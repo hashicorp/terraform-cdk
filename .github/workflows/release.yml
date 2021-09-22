@@ -78,6 +78,7 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
+      - uses: actions/checkout@v2
       - name: Download build artifacts
         uses: actions/download-artifact@v1
         with:
