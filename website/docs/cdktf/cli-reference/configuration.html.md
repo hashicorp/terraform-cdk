@@ -65,4 +65,3 @@ If running in automated environments, the dynamic CLI output rendering can be fo
 You can configure the behavior of the Terraform CDK CLI by adding a `cdktf.json` file in your project root directory.
 
 TODO: Add link to cdktf.json page
-
