@@ -79,6 +79,9 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
       - name: Download build artifacts
         uses: actions/download-artifact@v1
         with:
