@@ -30,9 +30,13 @@ You can use every Terraform provider and module available on the [Terraform Regi
 
 ## When to use CDK for Terraform
 
-CDK for Terraform should be used when users have a strong preference for a procedural language, or when the ability to create abstractions using Constructs is needed to help manage complexity. Users who are already familiar with HCL and do not need these capabilities should continue using HCL Terraform. This choice can be made team-by-team and project-by-project, because CDK for Terraform [interoperates with existing Terraform providers and modules](./concepts/interoperability-workflows.html)
+CDKTF offers many benefits, but it is not the right choice for every project. You should consider using CDKTF when:
 
-**TODO:** Insert content about when folks should use this instead of HCL... link to HCL interoperability page.
+-  You have a strong preference or need to use a procedural language to define infrastructure.
+- You need to create abstractions to help manage complexity. TO DO - example here
+- You are comfortable being an early adopter and do not require commercial support.
+
+You can make this choice or each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](./concepts/interoperability-workflows.html).
 
 ## Project Maturity
 
