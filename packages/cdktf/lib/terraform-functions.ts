@@ -1043,7 +1043,7 @@ export class Fn {
   }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/split.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
+   * {@link https://www.terraform.io/docs/language/functions/replace.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
    * @param {string} value
    * @param {string} substring
    * @param {string} replacement

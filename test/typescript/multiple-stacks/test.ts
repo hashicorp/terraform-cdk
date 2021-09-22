@@ -1,8 +1,3 @@
-//
-// Testing a full cycle of diff, deploy and destroy
-//
-// @group typescript
-//
 import { TestDriver, onPosix, onWindows } from "../../test-helper";
 
 describe("full integration test", () => {

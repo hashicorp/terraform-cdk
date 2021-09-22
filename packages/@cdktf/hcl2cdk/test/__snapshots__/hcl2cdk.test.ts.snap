@@ -114,6 +114,9 @@ const dataAwsRoute53ZoneExample = new aws.DataAwsRoute53Zone(
     privateZone: false,
   }
 );
+
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+dataAwsRoute53ZoneExample.overrideLogicalId(\\"example\\");
 const awsRoute53RecordExample = new aws.Route53Record(this, \\"example_2\\", {
   allowOverwrite: true,
   name: \\"\${each.value.name}\\",
@@ -122,6 +125,9 @@ const awsRoute53RecordExample = new aws.Route53Record(this, \\"example_2\\", {
   type: \\"\${each.value.type}\\",
   zoneId: dataAwsRoute53ZoneExample.zoneId,
 });
+
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+awsRoute53RecordExample.overrideLogicalId(\\"example\\");
 
 /*In most cases loops should be handled in the programming language context and 
 not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
@@ -145,9 +151,15 @@ const awsAcmCertificateValidationExample = new aws.AcmCertificateValidation(
     validationRecordFqdns: \`\\\\\${[for record in \${awsRoute53RecordExample.fqn} : record.fqdn]}\`,
   }
 );
-new aws.LbListener(this, \\"example_4\\", {
+
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+awsAcmCertificateValidationExample.overrideLogicalId(\\"example\\");
+const awsLbListenerExample = new aws.LbListener(this, \\"example_4\\", {
   certificateArn: awsAcmCertificateValidationExample.certificateArn,
 });
+
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+awsLbListenerExample.overrideLogicalId(\\"example\\");
 "
 `;
 
@@ -913,6 +925,43 @@ new cdktf.RemoteBackend(this, {
 "
 `;
 
+exports[`convert remote state configuration 1`] = `
+"new cdktf.DataTerraformRemoteState(this, \\"vpc\\", {
+  backend: \\"remote\\",
+  config: [
+    {
+      organization: \\"hashicorp\\",
+      workspaces: [
+        {
+          name: \\"vpc-prod\\",
+        },
+      ],
+    },
+  ],
+});
+"
+`;
+
+exports[`convert remote state types configuration 1`] = `
+"new cdktf.DataTerraformRemoteStateEtcdV3(this, \\"etcdv3\\", {
+  backend: \\"etcdv3\\",
+  config: [
+    {
+      prefix: \\"terraform-state/\\",
+    },
+  ],
+});
+new cdktf.DataTerraformRemoteStateS3(this, \\"s3\\", {
+  backend: \\"s3\\",
+  config: [
+    {
+      bucket: \\"mybucket\\",
+    },
+  ],
+});
+"
+`;
+
 exports[`convert required namespaced provider configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 
@@ -980,9 +1029,12 @@ exports[`convert same name local, var, out configuration 1`] = `
 You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md*/
 const test = new cdktf.TerraformVariable(this, \\"test\\", {});
 const localTest = \`\\\\\${\${test.value}} + 1\`;
-new cdktf.TerraformOutput(this, \\"test_1\\", {
+const cdktfTerraformOutputTest = new cdktf.TerraformOutput(this, \\"test_1\\", {
   value: localTest,
 });
+
+/*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+cdktfTerraformOutputTest.overrideLogicalId(\\"test\\");
 "
 `;
 
