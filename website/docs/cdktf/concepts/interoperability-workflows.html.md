@@ -1,19 +1,24 @@
 ---
 layout: "docs"
-page_title: "HCL & CDK for Terraform Interoperability"
-sidebar_current: "docs-home"
-description: "HCL and CDK for Terraform can interoperate"
+page_title: "HCL Interoperability"
+sidebar_current: "cdktf"
+description: "Learn how you can use configurations written in HCL and configurations written in CDK for Terraform together."
 ---
 
-## HCL & CDK for Terraform Interoperability
+# HCL Interoperability
 
-CDK for Terraform and HCL Terraform use the same underlying Terraform providers, and CDK for Terraform can use existing HCL Terraform modules. Similarly, CDK for Terraform can generate modules that can be used by HCL Terraform users: both are fully interoperable. The [providers documentation](./fundementals/providers.html) and [modules documentation](./fundementals.modules.html.md) describe how to use existing Terraform providers and modules with CDK for Terraform.
+Terraform requires infrastructure configuration files written in either [HashiCorp Configuration Language (HCL)](https://www.terraform.io/docs/language/syntax/configuration.html) or JSON syntax. CDK for Terraform (CDKTF) works by translating configurations defined in a declarative programming language to JSON configuration files for Terraform.
 
-A project written in CDK for Terraform can be used as a module from HCL. Conversely, a module written in HCL can be used in CDK for Terraform.
+CDKTF may not be the right choice for every team and project within your organization. For example, some teams may already be very familiar with Terraform and have created HCL modules, providers, etc. To provide flexibility, CDKTF applications are interoperable with Terraform projects written in HCL. Specifically:
+- CDKTF applications can use all existing Terraform [providers ](./fundementals/providers.html) and HCL [modules](./fundementals.modules.html.md).
+- CDKTF can generate modules that HCL Terraform projects can use in their configurations.
 
-### Using CDK for Terraform modules from HCL
+This page shows how you can interoperate HCL and CDK for Terraform configuration.
 
-The example below shows a simple TypeScript CDK for Terraform example that uses the `hashicorp/random` provider to generate a random name.
+
+## CDKTF to HCL
+
+The example below is a TypeScript CDK for Terraform application that uses the `hashicorp/random` provider to generate a random name.
 
 ```typescript
 import { Construct } from "constructs";
@@ -46,7 +51,9 @@ new MyStack(app, "random-pet-module");
 app.synth();
 ```
 
-To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdk.tf.json` file out to the module folder where you want to use it. It can be referenced like any other HCL Terraform module, as below:
+To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdktf.json` file out to the module directory in your HCL project.
+
+Once the `cdktf.json` file is transferred, you can reference the pet name module as you would any other HCL Terraform module:
 
 ```terraform
 terraform {
@@ -68,10 +75,6 @@ output "name" {
 }
 ```
 
-### Using a Terraform module with CDK for Terraform
+## HCL to CDKTF
 
-The [modules documentation](./fundementals.modules.html.md) describes how to use existing Terraform modules in CDK for Terraform projects.
-
-## Convert existing HCL
-
-Existing HCL can be automatically converted to CDK for Terraform languages using the [`cdktf convert`](../cli-reference/commands.html#convert) command.
+Use the [`cdktf convert`](../cli-reference/commands.html#convert) command to automatically translate existing HCL into a preferred CDK for Terraform language. The [modules documentation](./fundementals.modules.html.md) shows how to use existing Terraform modules in CDK for Terraform projects.
