@@ -11,7 +11,6 @@ This page describes the steps and options for creating a new CDK for Terraform (
 
 > **Hands On**: Check out our [CDK for Terraform Quick Start Demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and language-specific [Get Started Guides](https://learn.hashicorp.com/collections/terraform/cdktf) on HashiCorp Learn.
 
-
 ## Initialize project
 
 Using `init` with a project template automatically creates and scaffolds a new CDKTF project for your chosen programming language.
@@ -19,11 +18,12 @@ Templates generate a "Hello World" application where you can start to define inf
 
 The `cdktf-cli` has built-in templates for supported programming languages, or you can use a custom-built [remote template](/docs/cdktf/create-and-deploy/remote-templates.html).
 
-``` bash
+```bash
 $ cdktf init --template="templateName"
 ```
 
 Use these template names for our built-in templates:
+
 - `typescript`
 - `python`
 - `c#`
@@ -43,7 +43,6 @@ $ cdktf init --template="typescript" --local
 If you initialize a project without passing the `--local` flag, we will use your stored [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html) credentials. If you have no stored Terraform cloud credentials, CDKTF asks if you want to login.
 
 The scaffolded project is configured to use [Terraform state](https://www.terraform.io/docs/language/state/index.html) with a [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html). Where the Terraform operations will happen depends on the configuration of the Terraform Cloud Workspace settings. If the workspace was created as part of the `cdktf init` command, the Terraform operations will be run locally by default. The Terraform Cloud workspace an be configured to use remote operations instead.
-
 
 #### Terraform Cloud VCS Integration
 
@@ -65,8 +64,9 @@ cdktf deploy --auto-approve
 ## Project Structure
 
 TO DO: Can you just tell us what basic files/directories will get generated as part of a template and briefly explain them? Then I think we can:
+
 - Link users to the Examples page we're making so they can check out more complex structures
-- Link users to the cdktf.json page, which will now be a part of this section :-) 
+- Link users to the cdktf.json page, which will now be a part of this section :-)
 
 ## Convert Existing HCL project
 
@@ -75,4 +75,3 @@ Use the typescript template and add a flag on init to convert from an existing H
 ```
 $ cdktf init --template=typescript --from-terraform-project /path/to/my/tf-hcl-project
 ```
-

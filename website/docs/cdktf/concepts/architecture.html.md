@@ -14,5 +14,3 @@ When you use CDKTF, you create an **application** that uses CDKTF libraries to c
 ## Applications
 
 CDK for Terraform apps are structured as a tree of [constructs](https://github.com/aws/constructs). The classes `App`, `TerraformStack`, `TerraformResource` and `Resource` are all deriving from `Construct` and are therefore represented as a node in the application tree, where the `App` node is the root.
-
-

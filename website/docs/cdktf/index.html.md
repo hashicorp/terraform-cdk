@@ -15,7 +15,6 @@ We currently support TypeScript, Python, Java, C#, and Go (experimental).
 
 ![terraform platform](terraform-platform.png)
 
-
 ## How does CDK for Terraform work?
 
 CDK for Terraform leverages concepts and libraries from the [AWS Cloud Development Kit](https://aws.amazon.com/cdk/) to translate your code into infrastructure configuration files for Terraform.
@@ -38,10 +37,8 @@ CDK for Terraform is under active development, and we are iterating fast to impr
 
 While you can use CDKTF with Terraform Cloud and Terraform Enterprise, it is not eligible for commercial support and we do not officially recommend it for production use cases. Some early-adopters are already using CDK for Terraform in production, and we are working with them to validate and improve workflows.
 
-
 ## Get Started
 
 - [Install CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and set up your first project on HashiCorp Learn.
 - Learn about [CDKTF application architecture](/docs/cdktf/concepts/architecture.html)
 - Learn how to use key CDKTF concepts like [providers](/docs/cdktf/concepts/fundamentals/providers.html), [modules](/docs/cdktf/concepts/fundamentals/modules.html), and [resources](/docs/cdktf/concepts/fundamentals/resources.html) to define infrastructure
-

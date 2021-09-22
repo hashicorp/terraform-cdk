@@ -45,7 +45,6 @@ new MyStack(app, "hello-cdktf");
 app.synth();
 ```
 
-
 ### Single Stack
 
 The following example will synthesize a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`

@@ -8,6 +8,7 @@ description: "Resources to help you learn CDK for Terraform, including example p
 # Examples
 
 ## Tutorials
+
 Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform Configurations](https://learn.hashicorp.com/collections/terraform/cdktf)
 
 ## Example Projects

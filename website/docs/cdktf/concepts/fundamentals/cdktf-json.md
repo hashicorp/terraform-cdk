@@ -37,6 +37,7 @@ export interface Config {
   readonly terraformModules?: RequirementDefinition[]; // Terraform Modules to build
 }
 ```
+
 ## Minimal Configuration
 
 The most basic configuration only defines `app`. This is useful when you plan to use [prebuilt providers](/docs/cdktf/concepts/fundamentals/providers.html) and you don't need to generate any provider or module bindings.
@@ -47,13 +48,11 @@ The most basic configuration only defines `app`. This is useful when you plan to
 }
 ```
 
-
 ## Declare Providers and Modules
 
 You must declare all of the providers and modules you want to use in your `cdktf.json` file. The [schema](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses) for both providers and modules in CDK for Terraform consists of a name, a [source](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses), and a [version constraint](https://www.terraform.io/docs/language/providers/requirements.html#version-constraints).
 
-You can declare providers and modules using either JSON or a string with the format `source@ ~> version` .  
-
+You can declare providers and modules using either JSON or a string with the format `source@ ~> version` .
 
 ### Provider Source
 
@@ -66,7 +65,7 @@ You can declare providers and modules using either JSON or a string with the for
 - For modules on the Terraform Registry, provide the the full registry namespace. For example, to define the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest): `terraform-aws-modules/vpc/aws@ ~> 3.2.0`.
 
 - For local modules please use the object format:
-TODO Please explain why.
+  TODO Please explain why.
 
   ```jsonc
   {
@@ -85,7 +84,6 @@ TODO Please explain why.
 When you declare providers and modules in the string format, add the [version constraint](https://www.terraform.io/docs/language/expressions/version-constraints.html#version-constraint-syntax) after the provider or module name separated by an `@`. For example, so `provider|module@ ~> version`. You can also omit the version constraint if you do not want to specify a particular version. When you omit the version constraint, CDK for Terraform downloads and uses the latest version.
 
 When you declare providers in JSON, add the constraint in the `version` property. TODO Please provide an example of this in object format.
-
 
 ## Examples
 

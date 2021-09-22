@@ -39,16 +39,15 @@ For local modules, use the object format:
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": ["aws@~> 2.0"],
   "terraformModules": [
-      {
-        "name": "my-local-module",
-        "source": "./path/to/local/terraform/module" // relative to cdktf.json file
-      }
-    ],
+    {
+      "name": "my-local-module",
+      "source": "./path/to/local/terraform/module" // relative to cdktf.json file
+    }
+  ]
 }
 ```
 
 -> **Note**: The [`cdktf.json` specification](../../../cdktf/cli-reference/configuration.html) contains syntax requirements for specifying a module version.
-
 
 ### Generate Module Bindings
 
@@ -57,8 +56,6 @@ Go to the working directory and run `cdktf get` to create the appropriate module
 ```
 TODO: Please provide an example of using a module in an application
 ```
-
-
 
 ## Work with Module Outputs
 
@@ -125,7 +122,6 @@ class MyStack(TerraformStack):
         TerraformOutput(self, "dns-server", value=localModule.dns_server_output)
 ```
 
-
 ## Create Modules
 
 **TODO**: Is this another way that folks can get/use existing modules, or is it a way for them to create their own modules from inside a CDKTF App? I copyedited assuming that this was the latter, but please fix if I'm wrong.
@@ -134,9 +130,7 @@ Use `TerraformHclModule` to create Terraform modules using your chosen programmi
 
 -> **Note**: This doesn't have type safe inputs/outputs.
 
-
 **TODO**: Can we explain what happens to these when the code gets synthesized? Does this create this configuration in a separate directory?
-
 
 TypeScript example:
 

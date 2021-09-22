@@ -18,7 +18,6 @@ description: "Use the CLI to initialize a new project, deploy your CDKTF app, ge
 - [synth](/docs/cdktf/cli-reference/commands.html#synth)
 - [watch](/docs/cdktf/cli-reference/commands.html#watch)
 
-
 ## completion
 
 Outputs a script that can be used to setup auto completion for bash or zsh.
@@ -101,7 +100,6 @@ Examples:
 - Convert HCL in your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
 
 There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
-
 
 ## deploy
 
@@ -214,6 +212,7 @@ $ cdktf diff
 ```
 
 ## get
+
 This command downloads the providers and modules for an application and
 generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers
 and modules.
@@ -311,6 +310,7 @@ Create a new Typescript project from an existing Terraform codebase. Please be a
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
 ```
+
 ## login
 
 This command helps login to Terraform Cloud by fetching a Terraform Cloud API token.
@@ -415,4 +415,3 @@ Please note that watch currently automatically deploys all changes and does not 
 ### Troubleshoot
 
 To troubleshoot watch, set the `CDKTF_LOG_LEVEL` environment variable to `all`. By supplying `CDKTF_DISABLE_LOGGING=false` the debug output will be directed to a `cdktf.log` file in your projects root directory. The log will contain information about detected file system changes and the actions they triggered.
-
