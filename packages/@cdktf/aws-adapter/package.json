@@ -1,0 +1,48 @@
+{
+  "name": "@cdktf/aws-adapter",
+  "version": "0.0.0",
+  "description": "Use AWS CDK constructs in CDKTF projects",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "test": "jest",
+    "jest-watch": "jest --watch",
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/aws-adapter"
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "aws-cdk-lib": "^2.0.0-rc.17",
+    "cdktf": "0.0.0",
+    "cdktf-cli": "^0.6.3",
+    "change-case": "^4.1.1",
+    "codemaker": "^1.34.0",
+    "constructs": "^10.0.0",
+    "debug": "^4.3.2",
+    "fs-extra": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.7",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^14.0.0",
+    "jest": "^27.2.1",
+    "typescript": "^4.3.5",
+    "ts-jest": "^27.0.5",
+    "@cdktf/hcl2json": "0.0.0"
+  }
+}
