@@ -6,7 +6,7 @@ on:
       - "docs/**"
 
 jobs:
-  prepare-unit-tests:
+  build-tf-matrix:
     runs-on: ubuntu-latest
     outputs:
       versions: ${{ steps.build-tf-versions.outputs.versions }}
@@ -20,11 +20,11 @@ jobs:
           echo "::set-output name=versions::$tfVersions"
 
   unit-tests:
-    needs: prepare-unit-tests
+    needs: build-tf-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-unit-tests.outputs.versions)}}
+      matrix: ${{fromJSON(needs.build-tf-matrix.outputs.versions)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
