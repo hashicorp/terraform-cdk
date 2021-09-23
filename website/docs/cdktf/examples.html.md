@@ -17,14 +17,14 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 
 |Example | Description |
 | ------------| -----------|
-|[aws-ecs-docker-and-static-frontend](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript) | A backend service in a Docker container with a static frontend running on AWS. Walk through AWS setup and configuring the backend to run against a Postgres Database.|
-|[aws-lambda-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-example) | An end-to-end example  for a serverless web application hosted on AWS. |
-| [aws-prebuilt](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-prebuilt) | An application that uses the prebuilt AWS provider to create a DynamoDB table. |
-|[aws-multiple-stacks](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-multiple-stacks) | An application that uses Stacks to pass different settings into the development, staging, and production environments. |
+|[aws-ecs-docker-and-static-frontend](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript) | Uses a backend service in a Docker container with a static frontend running in Amazon Web Services (AWS). Walk through AWS setup and configuring the backend to run against a Postgres Database.|
+|[aws-lambda-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-example) | An end-to-end example for a serverless web application hosted on AWS.|
+| [aws-prebuilt](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-prebuilt) | Uses the prebuilt AWS provider to create a DynamoDB table. |
+|[aws-multiple-stacks](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-multiple-stacks) | Uses Stacks to pass different settings into the development, staging, and production environments. |
 |[aws-cloudfront-proxy](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-cloudfront-proxy) | TBD - one line about what the app does. |
-|[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure) | An application to provision a Virtual Network with the Azure provider. |
+|[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure) | Provisions a Virtual Network on Microsoft Azure. |
 |[azure-app-service](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure-app-service) | TBD - one line about what the app does. |
-| [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/docker) | An application that starts a Docker container with an Nginx server. |
+| [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/docker) | Starts a Docker container with an NGINX server. |
 |[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google) | TBD - one line about what the app does. |
 |[google-cloudrun](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google-cloudrun) | TBD - one line about what the app does.|
 |[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/kubernetes) | TBD - one line about what the app does. |
@@ -36,19 +36,21 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 
 |Example | Description |
 | -------| -----------|
-|[azurerm](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/azurerm)| A simple application that specifies Azure Resource Manager ([azurerm](https://www.terraform.io/docs/language/settings/backends/azurerm.html)) as the backend. |
-|[gcs](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/gcs)| A simple application that specifies Google Cloud Storage ([gcs](https://www.terraform.io/docs/language/settings/backends/gcs.html)) as the backend. |
-|[remote](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/remote) | A simple application that specifies a [remote](https://www.terraform.io/docs/language/settings/backends/remote.html) backend. You can use remote backends to run operations in Terraform Cloud.|
-|[s3](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/s3) | A simple application that specifies Amazon S3 ([s3](https://www.terraform.io/docs/language/settings/backends/s3.html)) as the backend.
+|[azurerm](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/azurerm)| Specifies Azure Resource Manager ([azurerm](https://www.terraform.io/docs/language/settings/backends/azurerm.html)) as the backend. |
+|[gcs](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/gcs)| Specifies Google Cloud Storage ([gcs](https://www.terraform.io/docs/language/settings/backends/gcs.html)) as the backend. |
+|[remote](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/remote) | Specifies a [remote](https://www.terraform.io/docs/language/settings/backends/remote.html) backend. You can use remote backends to run operations in Terraform Cloud.|
+|[s3](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/s3) | Specifies Amazon S3 ([s3](https://www.terraform.io/docs/language/settings/backends/s3.html)) as the backend.
 
 ### Python
 
-- [aws](./examples/python/aws)
-- [aws-eks](./examples/python/aws-eks)
-- [azure](./examples/python/azure)
-- [docker](./examples/python/docker)
-- [kubernetes](./examples/python/kubernetes)
-- [ucloud](./examples/python/ucloud)
+|Example | Description |
+| ------| ----------- |
+| [aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/python/aws) | Provisions an AWS Virtual Private Cloud (VPC).
+|[aws-eks](https://github.com/hashicorp/terraform-cdk/tree/main/examples/python/aws-eks) | Provisions an EKS cluster on an AWS Virtual Private Cloud. |
+|[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/python/azure) | Provisions a Virtual Network on Microsoft Azure. |
+| [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/python/docker) | Starts a Docker container with an NGINX server. |
+| [kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/python/kubernetes) | Schedules and exposes a NGINX deployment on a Kubernetes cluster. |
+|[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/python/ucloud) | Provisions a Linux base image on UCloud. |
 
 ### Java
 
