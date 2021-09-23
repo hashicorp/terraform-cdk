@@ -8,7 +8,7 @@ description: |-
 
 # Telemetry
 
-CDK for Terraform CLI interacts with a HashiCorp service called [Checkpoint](https://checkpoint.hashicorp.com) to report project metrics such as cdktf version, project language, provider name, platform name, and other details that help guide the project maintainers with feature and roadmap decisions. All HashiCorp projects, including Terraform Core, use Checkpoint. Read more about project metrics [here](https://github.com/hashicorp/terraform-cdk/issues/325).
+CDK for Terraform CLI interacts with a HashiCorp service called [Checkpoint](https://checkpoint.hashicorp.com) to report project metrics such as cdktf version, project language, provider name, platform name, and other details that help guide the project maintainers with feature and roadmap decisions. All HashiCorp projects, including Terraform Core, use Checkpoint. Read more about project metrics [in this issue](https://github.com/hashicorp/terraform-cdk/issues/325).
 
 Starting with CDK for Terraform 0.6, this information includes a random UUID that uniquely identifies the machine, and new projects will have a project-specific UUID added to the cdktf.json file. The purpose of these UUIDs is to help team understand how the tool is used in order to help us prioritize features. The code that interacts with Checkpoint is part of CDK for Terraform CLI and can be read [here](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf-cli/lib/checkpoint.ts).
 
