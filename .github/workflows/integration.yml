@@ -1,4 +1,4 @@
-name: Build
+name: Integration Tests
 on:
   pull_request:
     paths-ignore:

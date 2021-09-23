@@ -1,4 +1,4 @@
-name: Build
+name: Unit Tests
 on:
   pull_request:
     paths-ignore:
@@ -16,9 +16,8 @@ jobs:
       - uses: actions/checkout@v2
       - id: build-tf-versions
         run: |
-          tfVersions=$(cat .terraform.versions.json | jq -r '.tested | { terraform: . }')
-          echo $tfVersions
-          echo "::set-output name=versions::$tfVersions"
+          versions=$(cat .terraform.versions.json | jq -r '.tested | { terraform: . }')
+          echo "::set-output name=versions::$versions"
 
   unit-tests:
     needs: build-tf-matrix
