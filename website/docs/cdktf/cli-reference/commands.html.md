@@ -314,7 +314,7 @@ Create a new Python project and use a specific version of the `cdktf` package.
 $ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
-Create a new Typescript project from an existing Terraform codebase. Currently, only Typescript is supported, and there are [some known limitations](to do link to these when in the docs).
+Create a new Typescript project from an existing Terraform codebase. Currently, you can only use the `--from-terraform-project` flag with TypeScript, and there are [some known limitations](to do link to these when in the docs).
 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
@@ -396,9 +396,9 @@ $ cdktf synth --json
 
 ## watch
 
-~> **Warning:** The `watch` command is experimental. You should only use it in development environments.
+~> **Warning:** The `watch` command is experimental, so you should only use it in development environments. It also automatically deploys all changes without asking for confirmation.
 
-The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time and automatically deploys changes without asking for confirmation.
+The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time.
 
 Watch reads your root `.gitignore` file to determine which files trigger a `synth` and it uses the `outdir` of your `cdktf.json` (or the default `cdktf.out`) to do so for a deploy. It will generate a checksum of the subdirectory containing the Terraform code for your stack to skip deploys if the synthesized Terraform config did not change.
 
