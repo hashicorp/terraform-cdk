@@ -88,6 +88,6 @@ Mozilla Pocket is a widely used application for managing reading lists that is b
 
 In order to re-use components, Pocket's codebase is separated out into a [set of reusable modules](https://github.com/Pocket/terraform-modules/tree/main/src/pocket). These are then used from CDK code in the [recommendation-api codebase](https://github.com/Pocket/recommendation-api/tree/main/.aws). The recommended reading order is to:
 
-1. Read [`Pocket/recommendation-api/.aws/src/main.ts`](https://github.com/Pocket/recommendation-api/blob/main/.aws/src/main.ts)
-2. Look at the constructs used that are defined in the [`Pocket/terraform-modules`](https://github.com/Pocket/terraform-modules/tree/main/src/pocket) repository, such as [`PocketALBApplication`](https://github.com/Pocket/terraform-modules/blob/main/src/pocket/PocketALBApplication.ts)
-3. Look at the ["base" constructs](https://github.com/Pocket/terraform-modules/tree/main/src/base), which are are used in the higher-level constructs in the previous step
+1. Read [`Pocket/recommendation-api/.aws/src/main.ts`](https://github.com/Pocket/recommendation-api/blob/main/.aws/src/main.ts).
+2. Look at the constructs used that are defined in the [`Pocket/terraform-modules`](https://github.com/Pocket/terraform-modules/tree/main/src/pocket) repository, such as [`PocketALBApplication`](https://github.com/Pocket/terraform-modules/blob/main/src/pocket/PocketALBApplication.ts).
+3. Look at the ["base" constructs](https://github.com/Pocket/terraform-modules/tree/main/src/base), which are are used in the higher-level constructs in the previous step.
