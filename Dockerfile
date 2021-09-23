@@ -9,8 +9,6 @@ ENV TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
     # MAVEN_OPTS is set in jsii/superchain with -Xmx512m. This isn't enough memory for provider generation.
     MAVEN_OPTS="-Xms256m -Xmx3G"
 
-ADD .terraform.versions.json /
-
 # Install Terraform
 RUN for VERSION in ${AVAILABLE_TERRAFORM_VERSIONS}; do curl -LOk https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip && \
     mkdir -p /usr/local/bin/tf/versions/${VERSION} && \
