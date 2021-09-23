@@ -1,9 +1,3 @@
-/**
- * Testing interaction with Terraform Cloud
- *
- * @group typescript
- */
-
 import { TestDriver, onWindows, onPosix } from "../../test-helper";
 import * as fs from "fs-extra";
 import * as path from "path";

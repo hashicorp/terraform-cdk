@@ -1,8 +1,3 @@
-/**
- *
- * @group java
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("java full integration", () => {

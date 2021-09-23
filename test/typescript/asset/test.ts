@@ -1,9 +1,3 @@
-/**
- * Testing synthing typescript to json
- *
- * @group typescript
- * @group asset
- */
 import { TestDriver } from "../../test-helper";
 import * as path from "path";
 import * as fs from "fs";

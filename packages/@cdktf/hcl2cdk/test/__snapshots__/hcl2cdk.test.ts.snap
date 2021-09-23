@@ -925,6 +925,43 @@ new cdktf.RemoteBackend(this, {
 "
 `;
 
+exports[`convert remote state configuration 1`] = `
+"new cdktf.DataTerraformRemoteState(this, \\"vpc\\", {
+  backend: \\"remote\\",
+  config: [
+    {
+      organization: \\"hashicorp\\",
+      workspaces: [
+        {
+          name: \\"vpc-prod\\",
+        },
+      ],
+    },
+  ],
+});
+"
+`;
+
+exports[`convert remote state types configuration 1`] = `
+"new cdktf.DataTerraformRemoteStateEtcdV3(this, \\"etcdv3\\", {
+  backend: \\"etcdv3\\",
+  config: [
+    {
+      prefix: \\"terraform-state/\\",
+    },
+  ],
+});
+new cdktf.DataTerraformRemoteStateS3(this, \\"s3\\", {
+  backend: \\"s3\\",
+  config: [
+    {
+      bucket: \\"mybucket\\",
+    },
+  ],
+});
+"
+`;
+
 exports[`convert required namespaced provider configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 

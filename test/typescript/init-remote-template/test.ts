@@ -1,9 +1,3 @@
-/**
- * Testing interaction remote templates
- *
- * @group typescript
- */
-
 import { TestDriver } from "../../test-helper";
 const fs = require("fs").promises;
 

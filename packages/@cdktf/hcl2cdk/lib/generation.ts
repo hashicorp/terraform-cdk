@@ -177,6 +177,23 @@ function addOverrideLogicalIdExpression(variable: string, logicalId: string) {
   return ast;
 }
 
+function getRemoteStateType(item: Resource) {
+  const backendRecord = item.find((val) => val.backend);
+  if (backendRecord) {
+    const backend = backendRecord.backend;
+    switch (backend) {
+      case "remote":
+        return "";
+      case "etcdv3":
+        return "_etcd_v3";
+      default:
+        return `_${backend}`;
+    }
+  } else {
+    return "";
+  }
+}
+
 export function resource(
   scope: Scope,
   type: string,
@@ -187,7 +204,10 @@ export function resource(
 ): t.Statement[] {
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
-  const resource = `${provider}.${name.join("_")}`;
+  const resource =
+    provider === "data.terraform"
+      ? `cdktf.data_terraform_${name.join("_")}${getRemoteStateType(item)}`
+      : `${provider}.${name.join("_")}`;
 
   const { for_each, count, ...config } = item[0];
   const dynBlocks = extractDynamicBlocks(config);

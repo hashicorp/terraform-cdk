@@ -45,33 +45,35 @@ function listOf(type: TFValueValidator): TFValueValidator {
       return value;
     }
 
-    return value.map((item, i) => {
-      if (Tokenization.isResolvable(item)) {
-        return item;
-      }
-
-      if (TokenString.forListToken(item).test()) {
-        return item;
-      }
-
-      if (typeof item === "string") {
-        const tokenList = Tokenization.reverseString(item);
-        const numberOfTokens =
-          tokenList.tokens.length + tokenList.intrinsic.length;
-        if (numberOfTokens === 1 && tokenList.literals.length === 0) {
+    return value
+      .filter((item) => item !== undefined && item !== null)
+      .map((item, i) => {
+        if (Tokenization.isResolvable(item)) {
           return item;
         }
-      }
 
-      try {
-        type(item);
-        return typeof item === "string" ? `"${item}"` : item;
-      } catch (error) {
-        throw new Error(
-          `Element in list ${value} at position ${i} is not of the right type: ${error}`
-        );
-      }
-    });
+        if (TokenString.forListToken(item).test()) {
+          return item;
+        }
+
+        if (typeof item === "string") {
+          const tokenList = Tokenization.reverseString(item);
+          const numberOfTokens =
+            tokenList.tokens.length + tokenList.intrinsic.length;
+          if (numberOfTokens === 1 && tokenList.literals.length === 0) {
+            return item;
+          }
+        }
+
+        try {
+          type(item);
+          return typeof item === "string" ? `"${item}"` : item;
+        } catch (error) {
+          throw new Error(
+            `Element in list ${value} at position ${i} is not of the right type: ${error}`
+          );
+        }
+      });
   };
 }
 
@@ -1041,7 +1043,7 @@ export class Fn {
   }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/split.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
+   * {@link https://www.terraform.io/docs/language/functions/replace.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
    * @param {string} value
    * @param {string} substring
    * @param {string} replacement
