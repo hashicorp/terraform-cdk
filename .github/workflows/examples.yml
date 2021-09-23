@@ -16,7 +16,7 @@ jobs:
       - id: set-examples
         run: |
           tfDefault=$(cat .terraform.versions.json | jq -r '.default')
-          examples=$(npx lerna list --scope "@examples/*" | jq  -R -s -c --arg tfDefault="${tfDefault}" 'split("\n") | map(select(length > 0)) | { target: values, terraform: [$tfDefault]}')
+          examples=$(npx lerna list --scope "@examples/*" | jq  -R -s -c --arg tfDefault "${tfDefault}" 'split("\n") | map(select(length > 0)) | { target: values, terraform: [$tfDefault]}')
           echo $examples
           echo "::set-output name=examples::$examples"
 
