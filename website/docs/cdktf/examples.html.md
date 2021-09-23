@@ -13,6 +13,8 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 
 ## Example Projects
 
+-> **Note**: You can find more information about all of the providers in the examples below on the [Terraform Registry](https://registry.terraform.io/).
+
 ### Typescript
 
 |Example | Description |
@@ -76,10 +78,12 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 
 > Please note: Support for Golang is at an experimental state. In the CDK for Terraform and in the [upstream library JSII](https://aws.github.io/jsii/user-guides/lib-author/configuration/targets/go/) which powers the support for the supported languages.
 
-- [docker](./examples/go/docker)
-- [aws](./examples/go/aws) ⚠️ _High memory usage: the provider generation currently needs ~6 GB of memory. Hence the maximum for Node.js is [currently set to 8GB](https://github.com/hashicorp/terraform-cdk/blob/11d2e783d1fe94e50abd116ba73689c02590a391/packages/cdktf-cli/lib/get/constructs-maker.ts#L279)_
-- [google cloud kubernetes engine + kubernetes](./examples/go/google)
-- [ucloud](./examples/go/ucloud)
+|Example | Description |
+| ------ | ----------- |
+|[docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/docker) | Starts a Docker container with an NGINX server. |
+|[aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/aws) | Provisions an EKS cluster on an AWS Virtual Private Cloud. **High memory usage:** The provider generation currently needs ~6 GB of memory, so the maximum for Node.js is [currently set to 8GB](https://github.com/hashicorp/terraform-cdk/blob/11d2e783d1fe94e50abd116ba73689c02590a391/packages/cdktf-cli/lib/get/constructs-maker.ts#L279). |
+|[google cloud kubernetes engine + kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/google) | TBD - A line about what the app does. |
+|[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/ucloud) | Provisions a Linux base image on UCloud. |
 
 ## Youtube Playlist
 
