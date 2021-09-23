@@ -15,19 +15,21 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 
 ### Typescript
 
-- [aws-ecs-docker-and-static-frontend](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript)
-- [aws-lambda-end-to-end](./docs/full-guide/serverless-application-typescript.md)
-- [aws-prebuilt](./examples/typescript/aws-prebuilt)
-- [aws-multiple-stacks](./examples/typescript/aws-multiple-stacks)
-- [aws-cloudfront-proxy](./examples/typescript/aws-cloudfront-proxy)
-- [azure](./examples/typescript/azure)
-- [azure-app-service](./examples/typescript/azure-app-service)
-- [docker](./examples/typescript/docker)
-- [google](./examples/typescript/google)
-- [google-cloudrun](./examples/typescript/google-cloudrun)
-- [kubernetes](./examples/typescript/kubernetes)
-- [ucloud](./examples/typescript/ucloud)
-- [vault](./examples/typescript/vault)
+|Example | Description |
+| ------------| -----------|
+|[aws-ecs-docker-and-static-frontend](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript) | A backend service in a Docker container with a static frontend running on AWS. Walk through AWS setup and configuring the backend to run against a Postgres Database.|
+|[aws-lambda-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-example) | An end-to-end example  for a serverless web application hosted on AWS. |
+| [aws-prebuilt](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-prebuilt) | An application that uses the prebuilt AWS provider to create a DynamoDB table. |
+|[aws-multiple-stacks](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-multiple-stacks) | An application that uses Stacks to pass different settings into the development, staging, and production environments. |
+|[aws-cloudfront-proxy](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-cloudfront-proxy) | TBD - one line about what the app does. |
+|[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure) | An application to provision a Virtual Network with the Azure provider. |
+|[azure-app-service](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure-app-service) | TBD - one line about what the app does. |
+| [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/docker) | An application that starts a Docker container with an Nginx server. |
+|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google) | TBD - one line about what the app does. |
+|[google-cloudrun](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google-cloudrun) | TBD - one line about what the app does.|
+|[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/kubernetes) | TBD - one line about what the app does. |
+|[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/ucloud) | TBD - one line about what the app does. |
+|[vault](./examples/typescript/vault) | TBD - one line about what the app does. |
 
 #### Backends
 
