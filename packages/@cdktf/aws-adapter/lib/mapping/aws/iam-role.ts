@@ -1,5 +1,5 @@
 import { registerMapping } from "../index";
-import { IamRole } from "../../../.gen/providers/aws";
+import { IamRole } from "@cdktf/provider-aws";
 import { createGuessingResourceMapper } from "../helper";
 
 registerMapping("AWS::IAM::Role", {

@@ -4,7 +4,7 @@ import {
   CloudwatchEventRuleConfig,
   CloudwatchEventTarget,
   CloudwatchEventTargetConfig,
-} from "../../../.gen/providers/aws";
+} from "@cdktf/provider-aws";
 import { createGuessingResourceMapper } from "../helper";
 
 // TODO: types for CloudFormation Resources? would be really nice.

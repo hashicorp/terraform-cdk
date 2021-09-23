@@ -2,13 +2,15 @@
 
 import { Construct, Node } from "constructs";
 import { Stack, CfnElement } from "aws-cdk-lib";
-import { TerraformResource, Lazy, Aspects, TerraformLocal } from "cdktf";
+import { TerraformResource, Lazy, Aspects } from "cdktf";
 import { CloudFormationResource, CloudFormationTemplate } from "./cfn";
 import { findMapping, Mapping } from "./mapping";
 
-import { DataAwsPartition } from "../.gen/providers/aws/data-aws-partition";
-import { DataAwsRegion } from "../.gen/providers/aws/data-aws-region";
-import { DataAwsCallerIdentity } from "../.gen/providers/aws/data-aws-caller-identity";
+import {
+  DataAwsCallerIdentity,
+  DataAwsRegion,
+  DataAwsPartition,
+} from "@cdktf/provider-aws";
 
 export class AwsTerraformAdapter extends Stack {
   constructor(scope: Construct, id: string) {

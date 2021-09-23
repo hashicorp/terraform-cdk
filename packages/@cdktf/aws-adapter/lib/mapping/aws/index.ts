@@ -1,11 +1,7 @@
 import { paramCase } from "change-case";
 import * as fs from "fs";
 import path = require("path");
-import {
-  S3Bucket,
-  S3BucketConfig,
-  S3BucketWebsite,
-} from "../../../.gen/providers/aws/s3-bucket";
+import { S3Bucket, S3BucketConfig, S3BucketWebsite } from "@cdktf/provider-aws";
 import { registerMapping } from "../index";
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] };

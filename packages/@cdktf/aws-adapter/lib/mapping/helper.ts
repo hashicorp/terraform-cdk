@@ -3,6 +3,7 @@ import { camelCase } from "camel-case";
 
 import { ResourceMapper } from "../mapping";
 import { TerraformResource } from "cdktf";
+import { Construct } from "constructs";
 
 const debug = createDebug("tf-aws-adapter:mapper:debug");
 const trace = createDebug("tf-aws-adapter:mapper:trace");
@@ -62,7 +63,11 @@ export function createGuessingResourceMapper<T extends TerraformResource>(
   Resource: Class<T>,
   propMappings: PropertyMappings = {}
 ): ResourceMapper<T> {
-  const mapper: ResourceMapper<T> = (scope, id, props) => {
+  const mapper: ResourceMapper<T> = (
+    scope: Construct,
+    id: string,
+    props: any
+  ) => {
     const mappedProps: { [tfAttributeName: string]: any } = {};
 
     // TODO: extract this prop mapping code to be able to reuse it when writing custom mappers?

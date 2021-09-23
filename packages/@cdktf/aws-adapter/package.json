@@ -27,6 +27,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
+    "@cdktf/provider-aws": "^2.0.11",
     "aws-cdk-lib": "^2.0.0-rc.17",
     "cdktf": "0.0.0",
     "cdktf-cli": "^0.6.3",

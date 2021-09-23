@@ -2,7 +2,7 @@
 import { TerraformResource } from "cdktf";
 import { Construct } from "constructs";
 
-type ResourceMapper<T extends TerraformResource> = (
+export type ResourceMapper<T extends TerraformResource> = (
   scope: Construct,
   id: string,
   props: any

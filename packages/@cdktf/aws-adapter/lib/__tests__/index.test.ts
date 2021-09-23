@@ -3,7 +3,7 @@ import { Aspects, Testing } from "cdktf";
 import "cdktf/lib/testing/adapters/jest";
 import { AwsTerraformAdapter } from "../aws-adapter";
 import * as awscc from "../../.gen/providers/awscc";
-import * as aws from "../../.gen/providers/aws";
+import * as aws from "@cdktf/provider-aws";
 
 describe("test", () => {
   it("test", () => {

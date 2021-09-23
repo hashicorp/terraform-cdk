@@ -2,7 +2,7 @@
 
 import { createGuessingResourceMapper } from "../helper";
 import { registerMapping } from "../index";
-import { LambdaPermission } from "../../../.gen/providers/aws";
+import { LambdaPermission } from "@cdktf/provider-aws";
 
 registerMapping("AWS::Lambda::Permission", {
   resource: createGuessingResourceMapper(LambdaPermission),
