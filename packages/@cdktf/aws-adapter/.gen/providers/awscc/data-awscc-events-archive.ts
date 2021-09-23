@@ -1,0 +1,109 @@
+// https://www.terraform.io/docs/providers/awscc/d/events_archive.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface DataAwsccEventsArchiveConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Uniquely identifies the resource.
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/awscc/d/events_archive.html#id DataAwsccEventsArchive#id}
+  */
+  readonly id: string;
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/awscc/d/events_archive.html awscc_events_archive}
+*/
+export class DataAwsccEventsArchive extends cdktf.TerraformDataSource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = "awscc_events_archive";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/awscc/d/events_archive.html awscc_events_archive} Data Source
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options DataAwsccEventsArchiveConfig
+  */
+  public constructor(scope: Construct, id: string, config: DataAwsccEventsArchiveConfig) {
+    super(scope, id, {
+      terraformResourceType: 'awscc_events_archive',
+      terraformGeneratorMetadata: {
+        providerName: 'awscc'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._id = config.id;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // archive_name - computed: true, optional: false, required: false
+  public get archiveName() {
+    return this.getStringAttribute('archive_name');
+  }
+
+  // arn - computed: true, optional: false, required: false
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // description - computed: true, optional: false, required: false
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+
+  // event_pattern - computed: true, optional: false, required: false
+  public eventPattern(key: string): string {
+    return new cdktf.StringMap(this, 'event_pattern').lookup(key);
+  }
+
+  // id - computed: false, optional: false, required: true
+  private _id: string;
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id
+  }
+
+  // retention_days - computed: true, optional: false, required: false
+  public get retentionDays() {
+    return this.getNumberAttribute('retention_days');
+  }
+
+  // source_arn - computed: true, optional: false, required: false
+  public get sourceArn() {
+    return this.getStringAttribute('source_arn');
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      id: cdktf.stringToTerraform(this._id),
+    };
+  }
+}

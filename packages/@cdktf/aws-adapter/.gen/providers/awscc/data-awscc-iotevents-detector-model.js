@@ -1,0 +1,2948 @@
+"use strict";
+// https://www.terraform.io/docs/providers/awscc/d/iotevents_detector_model.html
+// generated from terraform resource schema
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActions = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqs = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSns = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariableToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariable = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambda = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublish = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWiseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWise = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestampToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestamp = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEvents = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehoseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehose = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDb = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2ToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2 = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2PayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2Payload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimer = void 0;
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSns = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariableToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariable = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambda = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublish = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWiseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWise = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestampToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestamp = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEvents = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehoseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehose = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDb = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2ToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2 = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2PayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2Payload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnter = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEvents = void 0;
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariableToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariable = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambda = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublish = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWiseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWise = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestampToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestamp = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEvents = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehoseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehose = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDb = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2ToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2 = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2PayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2Payload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExit = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEvents = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActions = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqs = void 0;
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariableToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariable = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambda = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublish = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWiseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWise = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValueToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValue = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestampToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestamp = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEvents = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehoseToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehose = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDb = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2ToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2 = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2PayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2Payload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimerToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimer = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEvents = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActions = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqs = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSns = void 0;
+exports.DataAwsccIoteventsDetectorModel = exports.dataAwsccIoteventsDetectorModelTagsToTerraform = exports.DataAwsccIoteventsDetectorModelTags = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinition = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStates = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInput = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEvents = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActions = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqs = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayload = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSns = exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayloadToTerraform = exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayload = void 0;
+const cdktf = require("cdktf");
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2Payload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2Payload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2Payload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2PayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2PayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2PayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2 extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2 = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2ToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2PayloadToTerraform(struct.payload),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2ToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2ToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDb extends cdktf.ComplexComputedList {
+    // hash_key_field - computed: true, optional: false, required: false
+    get hashKeyField() {
+        return this.getStringAttribute('hash_key_field');
+    }
+    // hash_key_type - computed: true, optional: false, required: false
+    get hashKeyType() {
+        return this.getStringAttribute('hash_key_type');
+    }
+    // hash_key_value - computed: true, optional: false, required: false
+    get hashKeyValue() {
+        return this.getStringAttribute('hash_key_value');
+    }
+    // operation - computed: true, optional: false, required: false
+    get operation() {
+        return this.getStringAttribute('operation');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // payload_field - computed: true, optional: false, required: false
+    get payloadField() {
+        return this.getStringAttribute('payload_field');
+    }
+    // range_key_field - computed: true, optional: false, required: false
+    get rangeKeyField() {
+        return this.getStringAttribute('range_key_field');
+    }
+    // range_key_type - computed: true, optional: false, required: false
+    get rangeKeyType() {
+        return this.getStringAttribute('range_key_type');
+    }
+    // range_key_value - computed: true, optional: false, required: false
+    get rangeKeyValue() {
+        return this.getStringAttribute('range_key_value');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDb = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDb;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        hash_key_field: cdktf.stringToTerraform(struct.hashKeyField),
+        hash_key_type: cdktf.stringToTerraform(struct.hashKeyType),
+        hash_key_value: cdktf.stringToTerraform(struct.hashKeyValue),
+        operation: cdktf.stringToTerraform(struct.operation),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbPayloadToTerraform(struct.payload),
+        payload_field: cdktf.stringToTerraform(struct.payloadField),
+        range_key_field: cdktf.stringToTerraform(struct.rangeKeyField),
+        range_key_type: cdktf.stringToTerraform(struct.rangeKeyType),
+        range_key_value: cdktf.stringToTerraform(struct.rangeKeyValue),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehose extends cdktf.ComplexComputedList {
+    // delivery_stream_name - computed: true, optional: false, required: false
+    get deliveryStreamName() {
+        return this.getStringAttribute('delivery_stream_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // separator - computed: true, optional: false, required: false
+    get separator() {
+        return this.getStringAttribute('separator');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehose = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehose;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehoseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        delivery_stream_name: cdktf.stringToTerraform(struct.deliveryStreamName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehosePayloadToTerraform(struct.payload),
+        separator: cdktf.stringToTerraform(struct.separator),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehoseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehoseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEvents extends cdktf.ComplexComputedList {
+    // input_name - computed: true, optional: false, required: false
+    get inputName() {
+        return this.getStringAttribute('input_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        input_name: cdktf.stringToTerraform(struct.inputName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestamp extends cdktf.ComplexComputedList {
+    // offset_in_nanos - computed: true, optional: false, required: false
+    get offsetInNanos() {
+        return this.getStringAttribute('offset_in_nanos');
+    }
+    // time_in_seconds - computed: true, optional: false, required: false
+    get timeInSeconds() {
+        return this.getStringAttribute('time_in_seconds');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestamp = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestamp;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        offset_in_nanos: cdktf.stringToTerraform(struct.offsetInNanos),
+        time_in_seconds: cdktf.stringToTerraform(struct.timeInSeconds),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestampToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestampToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValue extends cdktf.ComplexComputedList {
+    // boolean_value - computed: true, optional: false, required: false
+    get booleanValue() {
+        return this.getStringAttribute('boolean_value');
+    }
+    // double_value - computed: true, optional: false, required: false
+    get doubleValue() {
+        return this.getStringAttribute('double_value');
+    }
+    // integer_value - computed: true, optional: false, required: false
+    get integerValue() {
+        return this.getStringAttribute('integer_value');
+    }
+    // string_value - computed: true, optional: false, required: false
+    get stringValue() {
+        return this.getStringAttribute('string_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        boolean_value: cdktf.stringToTerraform(struct.booleanValue),
+        double_value: cdktf.stringToTerraform(struct.doubleValue),
+        integer_value: cdktf.stringToTerraform(struct.integerValue),
+        string_value: cdktf.stringToTerraform(struct.stringValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValue extends cdktf.ComplexComputedList {
+    // quality - computed: true, optional: false, required: false
+    get quality() {
+        return this.getStringAttribute('quality');
+    }
+    // timestamp - computed: true, optional: false, required: false
+    get timestamp() {
+        return this.interpolationForAttribute('timestamp');
+    }
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.interpolationForAttribute('value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        quality: cdktf.stringToTerraform(struct.quality),
+        timestamp: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct.timestamp),
+        value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueValueToTerraform(struct.value),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWise extends cdktf.ComplexComputedList {
+    // asset_id - computed: true, optional: false, required: false
+    get assetId() {
+        return this.getStringAttribute('asset_id');
+    }
+    // entry_id - computed: true, optional: false, required: false
+    get entryId() {
+        return this.getStringAttribute('entry_id');
+    }
+    // property_alias - computed: true, optional: false, required: false
+    get propertyAlias() {
+        return this.getStringAttribute('property_alias');
+    }
+    // property_id - computed: true, optional: false, required: false
+    get propertyId() {
+        return this.getStringAttribute('property_id');
+    }
+    // property_value - computed: true, optional: false, required: false
+    get propertyValue() {
+        return this.interpolationForAttribute('property_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWise = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWise;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWiseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        asset_id: cdktf.stringToTerraform(struct.assetId),
+        entry_id: cdktf.stringToTerraform(struct.entryId),
+        property_alias: cdktf.stringToTerraform(struct.propertyAlias),
+        property_id: cdktf.stringToTerraform(struct.propertyId),
+        property_value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWisePropertyValueToTerraform(struct.propertyValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWiseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWiseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublish extends cdktf.ComplexComputedList {
+    // mqtt_topic - computed: true, optional: false, required: false
+    get mqttTopic() {
+        return this.getStringAttribute('mqtt_topic');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublish = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublish;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        mqtt_topic: cdktf.stringToTerraform(struct.mqttTopic),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambda extends cdktf.ComplexComputedList {
+    // function_arn - computed: true, optional: false, required: false
+    get functionArn() {
+        return this.getStringAttribute('function_arn');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambda = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambda;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        function_arn: cdktf.stringToTerraform(struct.functionArn),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimer extends cdktf.ComplexComputedList {
+    // duration_expression - computed: true, optional: false, required: false
+    get durationExpression() {
+        return this.getStringAttribute('duration_expression');
+    }
+    // seconds - computed: true, optional: false, required: false
+    get seconds() {
+        return this.getNumberAttribute('seconds');
+    }
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        duration_expression: cdktf.stringToTerraform(struct.durationExpression),
+        seconds: cdktf.numberToTerraform(struct.seconds),
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariable extends cdktf.ComplexComputedList {
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.getStringAttribute('value');
+    }
+    // variable_name - computed: true, optional: false, required: false
+    get variableName() {
+        return this.getStringAttribute('variable_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariable = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariable;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariableToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        value: cdktf.stringToTerraform(struct.value),
+        variable_name: cdktf.stringToTerraform(struct.variableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariableToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariableToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSns extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // target_arn - computed: true, optional: false, required: false
+    get targetArn() {
+        return this.getStringAttribute('target_arn');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSns = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSns;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsPayloadToTerraform(struct.payload),
+        target_arn: cdktf.stringToTerraform(struct.targetArn),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqs extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // queue_url - computed: true, optional: false, required: false
+    get queueUrl() {
+        return this.getStringAttribute('queue_url');
+    }
+    // use_base_64 - computed: true, optional: false, required: false
+    get useBase64() {
+        return this.getBooleanAttribute('use_base_64');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqs = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqs;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsPayloadToTerraform(struct.payload),
+        queue_url: cdktf.stringToTerraform(struct.queueUrl),
+        use_base_64: cdktf.booleanToTerraform(struct.useBase64),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActions extends cdktf.ComplexComputedList {
+    // clear_timer - computed: true, optional: false, required: false
+    get clearTimer() {
+        return this.interpolationForAttribute('clear_timer');
+    }
+    // dynamo_d_bv_2 - computed: true, optional: false, required: false
+    get dynamoDBv2() {
+        return this.interpolationForAttribute('dynamo_d_bv_2');
+    }
+    // dynamo_db - computed: true, optional: false, required: false
+    get dynamoDb() {
+        return this.interpolationForAttribute('dynamo_db');
+    }
+    // firehose - computed: true, optional: false, required: false
+    get firehose() {
+        return this.interpolationForAttribute('firehose');
+    }
+    // iot_events - computed: true, optional: false, required: false
+    get iotEvents() {
+        return this.interpolationForAttribute('iot_events');
+    }
+    // iot_site_wise - computed: true, optional: false, required: false
+    get iotSiteWise() {
+        return this.interpolationForAttribute('iot_site_wise');
+    }
+    // iot_topic_publish - computed: true, optional: false, required: false
+    get iotTopicPublish() {
+        return this.interpolationForAttribute('iot_topic_publish');
+    }
+    // lambda - computed: true, optional: false, required: false
+    get lambda() {
+        return this.interpolationForAttribute('lambda');
+    }
+    // reset_timer - computed: true, optional: false, required: false
+    get resetTimer() {
+        return this.interpolationForAttribute('reset_timer');
+    }
+    // set_timer - computed: true, optional: false, required: false
+    get setTimer() {
+        return this.interpolationForAttribute('set_timer');
+    }
+    // set_variable - computed: true, optional: false, required: false
+    get setVariable() {
+        return this.interpolationForAttribute('set_variable');
+    }
+    // sns - computed: true, optional: false, required: false
+    get sns() {
+        return this.interpolationForAttribute('sns');
+    }
+    // sqs - computed: true, optional: false, required: false
+    get sqs() {
+        return this.interpolationForAttribute('sqs');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActions = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActions;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        clear_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsClearTimerToTerraform(struct.clearTimer),
+        dynamo_d_bv_2: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDBv2ToTerraform(struct.dynamoDBv2),
+        dynamo_db: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsDynamoDbToTerraform(struct.dynamoDb),
+        firehose: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsFirehoseToTerraform(struct.firehose),
+        iot_events: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotEventsToTerraform(struct.iotEvents),
+        iot_site_wise: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotSiteWiseToTerraform(struct.iotSiteWise),
+        iot_topic_publish: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsIotTopicPublishToTerraform(struct.iotTopicPublish),
+        lambda: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsLambdaToTerraform(struct.lambda),
+        reset_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsResetTimerToTerraform(struct.resetTimer),
+        set_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetTimerToTerraform(struct.setTimer),
+        set_variable: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSetVariableToTerraform(struct.setVariable),
+        sns: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSnsToTerraform(struct.sns),
+        sqs: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsSqsToTerraform(struct.sqs),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEvents extends cdktf.ComplexComputedList {
+    // actions - computed: true, optional: false, required: false
+    get actions() {
+        return this.interpolationForAttribute('actions');
+    }
+    // condition - computed: true, optional: false, required: false
+    get condition() {
+        return this.getStringAttribute('condition');
+    }
+    // event_name - computed: true, optional: false, required: false
+    get eventName() {
+        return this.getStringAttribute('event_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        actions: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsActionsToTerraform)(struct.actions),
+        condition: cdktf.stringToTerraform(struct.condition),
+        event_name: cdktf.stringToTerraform(struct.eventName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnter extends cdktf.ComplexComputedList {
+    // events - computed: true, optional: false, required: false
+    get events() {
+        return this.interpolationForAttribute('events');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnter = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnter;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        events: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterEventsToTerraform)(struct.events),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2Payload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2Payload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2Payload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2PayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2PayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2PayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2 extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2 = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2ToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2PayloadToTerraform(struct.payload),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2ToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2ToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDb extends cdktf.ComplexComputedList {
+    // hash_key_field - computed: true, optional: false, required: false
+    get hashKeyField() {
+        return this.getStringAttribute('hash_key_field');
+    }
+    // hash_key_type - computed: true, optional: false, required: false
+    get hashKeyType() {
+        return this.getStringAttribute('hash_key_type');
+    }
+    // hash_key_value - computed: true, optional: false, required: false
+    get hashKeyValue() {
+        return this.getStringAttribute('hash_key_value');
+    }
+    // operation - computed: true, optional: false, required: false
+    get operation() {
+        return this.getStringAttribute('operation');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // payload_field - computed: true, optional: false, required: false
+    get payloadField() {
+        return this.getStringAttribute('payload_field');
+    }
+    // range_key_field - computed: true, optional: false, required: false
+    get rangeKeyField() {
+        return this.getStringAttribute('range_key_field');
+    }
+    // range_key_type - computed: true, optional: false, required: false
+    get rangeKeyType() {
+        return this.getStringAttribute('range_key_type');
+    }
+    // range_key_value - computed: true, optional: false, required: false
+    get rangeKeyValue() {
+        return this.getStringAttribute('range_key_value');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDb = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDb;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        hash_key_field: cdktf.stringToTerraform(struct.hashKeyField),
+        hash_key_type: cdktf.stringToTerraform(struct.hashKeyType),
+        hash_key_value: cdktf.stringToTerraform(struct.hashKeyValue),
+        operation: cdktf.stringToTerraform(struct.operation),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbPayloadToTerraform(struct.payload),
+        payload_field: cdktf.stringToTerraform(struct.payloadField),
+        range_key_field: cdktf.stringToTerraform(struct.rangeKeyField),
+        range_key_type: cdktf.stringToTerraform(struct.rangeKeyType),
+        range_key_value: cdktf.stringToTerraform(struct.rangeKeyValue),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehose extends cdktf.ComplexComputedList {
+    // delivery_stream_name - computed: true, optional: false, required: false
+    get deliveryStreamName() {
+        return this.getStringAttribute('delivery_stream_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // separator - computed: true, optional: false, required: false
+    get separator() {
+        return this.getStringAttribute('separator');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehose = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehose;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehoseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        delivery_stream_name: cdktf.stringToTerraform(struct.deliveryStreamName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehosePayloadToTerraform(struct.payload),
+        separator: cdktf.stringToTerraform(struct.separator),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehoseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehoseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEvents extends cdktf.ComplexComputedList {
+    // input_name - computed: true, optional: false, required: false
+    get inputName() {
+        return this.getStringAttribute('input_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        input_name: cdktf.stringToTerraform(struct.inputName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestamp extends cdktf.ComplexComputedList {
+    // offset_in_nanos - computed: true, optional: false, required: false
+    get offsetInNanos() {
+        return this.getStringAttribute('offset_in_nanos');
+    }
+    // time_in_seconds - computed: true, optional: false, required: false
+    get timeInSeconds() {
+        return this.getStringAttribute('time_in_seconds');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestamp = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestamp;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        offset_in_nanos: cdktf.stringToTerraform(struct.offsetInNanos),
+        time_in_seconds: cdktf.stringToTerraform(struct.timeInSeconds),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestampToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestampToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValue extends cdktf.ComplexComputedList {
+    // boolean_value - computed: true, optional: false, required: false
+    get booleanValue() {
+        return this.getStringAttribute('boolean_value');
+    }
+    // double_value - computed: true, optional: false, required: false
+    get doubleValue() {
+        return this.getStringAttribute('double_value');
+    }
+    // integer_value - computed: true, optional: false, required: false
+    get integerValue() {
+        return this.getStringAttribute('integer_value');
+    }
+    // string_value - computed: true, optional: false, required: false
+    get stringValue() {
+        return this.getStringAttribute('string_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        boolean_value: cdktf.stringToTerraform(struct.booleanValue),
+        double_value: cdktf.stringToTerraform(struct.doubleValue),
+        integer_value: cdktf.stringToTerraform(struct.integerValue),
+        string_value: cdktf.stringToTerraform(struct.stringValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValue extends cdktf.ComplexComputedList {
+    // quality - computed: true, optional: false, required: false
+    get quality() {
+        return this.getStringAttribute('quality');
+    }
+    // timestamp - computed: true, optional: false, required: false
+    get timestamp() {
+        return this.interpolationForAttribute('timestamp');
+    }
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.interpolationForAttribute('value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        quality: cdktf.stringToTerraform(struct.quality),
+        timestamp: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct.timestamp),
+        value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueValueToTerraform(struct.value),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWise extends cdktf.ComplexComputedList {
+    // asset_id - computed: true, optional: false, required: false
+    get assetId() {
+        return this.getStringAttribute('asset_id');
+    }
+    // entry_id - computed: true, optional: false, required: false
+    get entryId() {
+        return this.getStringAttribute('entry_id');
+    }
+    // property_alias - computed: true, optional: false, required: false
+    get propertyAlias() {
+        return this.getStringAttribute('property_alias');
+    }
+    // property_id - computed: true, optional: false, required: false
+    get propertyId() {
+        return this.getStringAttribute('property_id');
+    }
+    // property_value - computed: true, optional: false, required: false
+    get propertyValue() {
+        return this.interpolationForAttribute('property_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWise = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWise;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWiseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        asset_id: cdktf.stringToTerraform(struct.assetId),
+        entry_id: cdktf.stringToTerraform(struct.entryId),
+        property_alias: cdktf.stringToTerraform(struct.propertyAlias),
+        property_id: cdktf.stringToTerraform(struct.propertyId),
+        property_value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWisePropertyValueToTerraform(struct.propertyValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWiseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWiseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublish extends cdktf.ComplexComputedList {
+    // mqtt_topic - computed: true, optional: false, required: false
+    get mqttTopic() {
+        return this.getStringAttribute('mqtt_topic');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublish = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublish;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        mqtt_topic: cdktf.stringToTerraform(struct.mqttTopic),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambda extends cdktf.ComplexComputedList {
+    // function_arn - computed: true, optional: false, required: false
+    get functionArn() {
+        return this.getStringAttribute('function_arn');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambda = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambda;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        function_arn: cdktf.stringToTerraform(struct.functionArn),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimer extends cdktf.ComplexComputedList {
+    // duration_expression - computed: true, optional: false, required: false
+    get durationExpression() {
+        return this.getStringAttribute('duration_expression');
+    }
+    // seconds - computed: true, optional: false, required: false
+    get seconds() {
+        return this.getNumberAttribute('seconds');
+    }
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        duration_expression: cdktf.stringToTerraform(struct.durationExpression),
+        seconds: cdktf.numberToTerraform(struct.seconds),
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariable extends cdktf.ComplexComputedList {
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.getStringAttribute('value');
+    }
+    // variable_name - computed: true, optional: false, required: false
+    get variableName() {
+        return this.getStringAttribute('variable_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariable = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariable;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariableToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        value: cdktf.stringToTerraform(struct.value),
+        variable_name: cdktf.stringToTerraform(struct.variableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariableToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariableToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSns extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // target_arn - computed: true, optional: false, required: false
+    get targetArn() {
+        return this.getStringAttribute('target_arn');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSns = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSns;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsPayloadToTerraform(struct.payload),
+        target_arn: cdktf.stringToTerraform(struct.targetArn),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqs extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // queue_url - computed: true, optional: false, required: false
+    get queueUrl() {
+        return this.getStringAttribute('queue_url');
+    }
+    // use_base_64 - computed: true, optional: false, required: false
+    get useBase64() {
+        return this.getBooleanAttribute('use_base_64');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqs = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqs;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsPayloadToTerraform(struct.payload),
+        queue_url: cdktf.stringToTerraform(struct.queueUrl),
+        use_base_64: cdktf.booleanToTerraform(struct.useBase64),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActions extends cdktf.ComplexComputedList {
+    // clear_timer - computed: true, optional: false, required: false
+    get clearTimer() {
+        return this.interpolationForAttribute('clear_timer');
+    }
+    // dynamo_d_bv_2 - computed: true, optional: false, required: false
+    get dynamoDBv2() {
+        return this.interpolationForAttribute('dynamo_d_bv_2');
+    }
+    // dynamo_db - computed: true, optional: false, required: false
+    get dynamoDb() {
+        return this.interpolationForAttribute('dynamo_db');
+    }
+    // firehose - computed: true, optional: false, required: false
+    get firehose() {
+        return this.interpolationForAttribute('firehose');
+    }
+    // iot_events - computed: true, optional: false, required: false
+    get iotEvents() {
+        return this.interpolationForAttribute('iot_events');
+    }
+    // iot_site_wise - computed: true, optional: false, required: false
+    get iotSiteWise() {
+        return this.interpolationForAttribute('iot_site_wise');
+    }
+    // iot_topic_publish - computed: true, optional: false, required: false
+    get iotTopicPublish() {
+        return this.interpolationForAttribute('iot_topic_publish');
+    }
+    // lambda - computed: true, optional: false, required: false
+    get lambda() {
+        return this.interpolationForAttribute('lambda');
+    }
+    // reset_timer - computed: true, optional: false, required: false
+    get resetTimer() {
+        return this.interpolationForAttribute('reset_timer');
+    }
+    // set_timer - computed: true, optional: false, required: false
+    get setTimer() {
+        return this.interpolationForAttribute('set_timer');
+    }
+    // set_variable - computed: true, optional: false, required: false
+    get setVariable() {
+        return this.interpolationForAttribute('set_variable');
+    }
+    // sns - computed: true, optional: false, required: false
+    get sns() {
+        return this.interpolationForAttribute('sns');
+    }
+    // sqs - computed: true, optional: false, required: false
+    get sqs() {
+        return this.interpolationForAttribute('sqs');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActions = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActions;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        clear_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsClearTimerToTerraform(struct.clearTimer),
+        dynamo_d_bv_2: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDBv2ToTerraform(struct.dynamoDBv2),
+        dynamo_db: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsDynamoDbToTerraform(struct.dynamoDb),
+        firehose: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsFirehoseToTerraform(struct.firehose),
+        iot_events: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotEventsToTerraform(struct.iotEvents),
+        iot_site_wise: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotSiteWiseToTerraform(struct.iotSiteWise),
+        iot_topic_publish: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsIotTopicPublishToTerraform(struct.iotTopicPublish),
+        lambda: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsLambdaToTerraform(struct.lambda),
+        reset_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsResetTimerToTerraform(struct.resetTimer),
+        set_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetTimerToTerraform(struct.setTimer),
+        set_variable: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSetVariableToTerraform(struct.setVariable),
+        sns: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSnsToTerraform(struct.sns),
+        sqs: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsSqsToTerraform(struct.sqs),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEvents extends cdktf.ComplexComputedList {
+    // actions - computed: true, optional: false, required: false
+    get actions() {
+        return this.interpolationForAttribute('actions');
+    }
+    // condition - computed: true, optional: false, required: false
+    get condition() {
+        return this.getStringAttribute('condition');
+    }
+    // event_name - computed: true, optional: false, required: false
+    get eventName() {
+        return this.getStringAttribute('event_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        actions: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsActionsToTerraform)(struct.actions),
+        condition: cdktf.stringToTerraform(struct.condition),
+        event_name: cdktf.stringToTerraform(struct.eventName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExit extends cdktf.ComplexComputedList {
+    // events - computed: true, optional: false, required: false
+    get events() {
+        return this.interpolationForAttribute('events');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExit = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExit;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        events: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitEventsToTerraform)(struct.events),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2Payload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2Payload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2Payload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2PayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2PayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2PayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2 extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2 = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2ToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2PayloadToTerraform(struct.payload),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2ToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2ToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDb extends cdktf.ComplexComputedList {
+    // hash_key_field - computed: true, optional: false, required: false
+    get hashKeyField() {
+        return this.getStringAttribute('hash_key_field');
+    }
+    // hash_key_type - computed: true, optional: false, required: false
+    get hashKeyType() {
+        return this.getStringAttribute('hash_key_type');
+    }
+    // hash_key_value - computed: true, optional: false, required: false
+    get hashKeyValue() {
+        return this.getStringAttribute('hash_key_value');
+    }
+    // operation - computed: true, optional: false, required: false
+    get operation() {
+        return this.getStringAttribute('operation');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // payload_field - computed: true, optional: false, required: false
+    get payloadField() {
+        return this.getStringAttribute('payload_field');
+    }
+    // range_key_field - computed: true, optional: false, required: false
+    get rangeKeyField() {
+        return this.getStringAttribute('range_key_field');
+    }
+    // range_key_type - computed: true, optional: false, required: false
+    get rangeKeyType() {
+        return this.getStringAttribute('range_key_type');
+    }
+    // range_key_value - computed: true, optional: false, required: false
+    get rangeKeyValue() {
+        return this.getStringAttribute('range_key_value');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDb = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDb;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        hash_key_field: cdktf.stringToTerraform(struct.hashKeyField),
+        hash_key_type: cdktf.stringToTerraform(struct.hashKeyType),
+        hash_key_value: cdktf.stringToTerraform(struct.hashKeyValue),
+        operation: cdktf.stringToTerraform(struct.operation),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbPayloadToTerraform(struct.payload),
+        payload_field: cdktf.stringToTerraform(struct.payloadField),
+        range_key_field: cdktf.stringToTerraform(struct.rangeKeyField),
+        range_key_type: cdktf.stringToTerraform(struct.rangeKeyType),
+        range_key_value: cdktf.stringToTerraform(struct.rangeKeyValue),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehose extends cdktf.ComplexComputedList {
+    // delivery_stream_name - computed: true, optional: false, required: false
+    get deliveryStreamName() {
+        return this.getStringAttribute('delivery_stream_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // separator - computed: true, optional: false, required: false
+    get separator() {
+        return this.getStringAttribute('separator');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehose = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehose;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehoseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        delivery_stream_name: cdktf.stringToTerraform(struct.deliveryStreamName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehosePayloadToTerraform(struct.payload),
+        separator: cdktf.stringToTerraform(struct.separator),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehoseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehoseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEvents extends cdktf.ComplexComputedList {
+    // input_name - computed: true, optional: false, required: false
+    get inputName() {
+        return this.getStringAttribute('input_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        input_name: cdktf.stringToTerraform(struct.inputName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestamp extends cdktf.ComplexComputedList {
+    // offset_in_nanos - computed: true, optional: false, required: false
+    get offsetInNanos() {
+        return this.getStringAttribute('offset_in_nanos');
+    }
+    // time_in_seconds - computed: true, optional: false, required: false
+    get timeInSeconds() {
+        return this.getStringAttribute('time_in_seconds');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestamp = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestamp;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        offset_in_nanos: cdktf.stringToTerraform(struct.offsetInNanos),
+        time_in_seconds: cdktf.stringToTerraform(struct.timeInSeconds),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestampToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestampToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValue extends cdktf.ComplexComputedList {
+    // boolean_value - computed: true, optional: false, required: false
+    get booleanValue() {
+        return this.getStringAttribute('boolean_value');
+    }
+    // double_value - computed: true, optional: false, required: false
+    get doubleValue() {
+        return this.getStringAttribute('double_value');
+    }
+    // integer_value - computed: true, optional: false, required: false
+    get integerValue() {
+        return this.getStringAttribute('integer_value');
+    }
+    // string_value - computed: true, optional: false, required: false
+    get stringValue() {
+        return this.getStringAttribute('string_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        boolean_value: cdktf.stringToTerraform(struct.booleanValue),
+        double_value: cdktf.stringToTerraform(struct.doubleValue),
+        integer_value: cdktf.stringToTerraform(struct.integerValue),
+        string_value: cdktf.stringToTerraform(struct.stringValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValue extends cdktf.ComplexComputedList {
+    // quality - computed: true, optional: false, required: false
+    get quality() {
+        return this.getStringAttribute('quality');
+    }
+    // timestamp - computed: true, optional: false, required: false
+    get timestamp() {
+        return this.interpolationForAttribute('timestamp');
+    }
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.interpolationForAttribute('value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        quality: cdktf.stringToTerraform(struct.quality),
+        timestamp: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct.timestamp),
+        value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueValueToTerraform(struct.value),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWise extends cdktf.ComplexComputedList {
+    // asset_id - computed: true, optional: false, required: false
+    get assetId() {
+        return this.getStringAttribute('asset_id');
+    }
+    // entry_id - computed: true, optional: false, required: false
+    get entryId() {
+        return this.getStringAttribute('entry_id');
+    }
+    // property_alias - computed: true, optional: false, required: false
+    get propertyAlias() {
+        return this.getStringAttribute('property_alias');
+    }
+    // property_id - computed: true, optional: false, required: false
+    get propertyId() {
+        return this.getStringAttribute('property_id');
+    }
+    // property_value - computed: true, optional: false, required: false
+    get propertyValue() {
+        return this.interpolationForAttribute('property_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWise = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWise;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWiseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        asset_id: cdktf.stringToTerraform(struct.assetId),
+        entry_id: cdktf.stringToTerraform(struct.entryId),
+        property_alias: cdktf.stringToTerraform(struct.propertyAlias),
+        property_id: cdktf.stringToTerraform(struct.propertyId),
+        property_value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWisePropertyValueToTerraform(struct.propertyValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWiseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWiseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublish extends cdktf.ComplexComputedList {
+    // mqtt_topic - computed: true, optional: false, required: false
+    get mqttTopic() {
+        return this.getStringAttribute('mqtt_topic');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublish = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublish;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        mqtt_topic: cdktf.stringToTerraform(struct.mqttTopic),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambda extends cdktf.ComplexComputedList {
+    // function_arn - computed: true, optional: false, required: false
+    get functionArn() {
+        return this.getStringAttribute('function_arn');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambda = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambda;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        function_arn: cdktf.stringToTerraform(struct.functionArn),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimer extends cdktf.ComplexComputedList {
+    // duration_expression - computed: true, optional: false, required: false
+    get durationExpression() {
+        return this.getStringAttribute('duration_expression');
+    }
+    // seconds - computed: true, optional: false, required: false
+    get seconds() {
+        return this.getNumberAttribute('seconds');
+    }
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        duration_expression: cdktf.stringToTerraform(struct.durationExpression),
+        seconds: cdktf.numberToTerraform(struct.seconds),
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariable extends cdktf.ComplexComputedList {
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.getStringAttribute('value');
+    }
+    // variable_name - computed: true, optional: false, required: false
+    get variableName() {
+        return this.getStringAttribute('variable_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariable = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariable;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariableToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        value: cdktf.stringToTerraform(struct.value),
+        variable_name: cdktf.stringToTerraform(struct.variableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariableToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariableToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSns extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // target_arn - computed: true, optional: false, required: false
+    get targetArn() {
+        return this.getStringAttribute('target_arn');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSns = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSns;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsPayloadToTerraform(struct.payload),
+        target_arn: cdktf.stringToTerraform(struct.targetArn),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqs extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // queue_url - computed: true, optional: false, required: false
+    get queueUrl() {
+        return this.getStringAttribute('queue_url');
+    }
+    // use_base_64 - computed: true, optional: false, required: false
+    get useBase64() {
+        return this.getBooleanAttribute('use_base_64');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqs = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqs;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsPayloadToTerraform(struct.payload),
+        queue_url: cdktf.stringToTerraform(struct.queueUrl),
+        use_base_64: cdktf.booleanToTerraform(struct.useBase64),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActions extends cdktf.ComplexComputedList {
+    // clear_timer - computed: true, optional: false, required: false
+    get clearTimer() {
+        return this.interpolationForAttribute('clear_timer');
+    }
+    // dynamo_d_bv_2 - computed: true, optional: false, required: false
+    get dynamoDBv2() {
+        return this.interpolationForAttribute('dynamo_d_bv_2');
+    }
+    // dynamo_db - computed: true, optional: false, required: false
+    get dynamoDb() {
+        return this.interpolationForAttribute('dynamo_db');
+    }
+    // firehose - computed: true, optional: false, required: false
+    get firehose() {
+        return this.interpolationForAttribute('firehose');
+    }
+    // iot_events - computed: true, optional: false, required: false
+    get iotEvents() {
+        return this.interpolationForAttribute('iot_events');
+    }
+    // iot_site_wise - computed: true, optional: false, required: false
+    get iotSiteWise() {
+        return this.interpolationForAttribute('iot_site_wise');
+    }
+    // iot_topic_publish - computed: true, optional: false, required: false
+    get iotTopicPublish() {
+        return this.interpolationForAttribute('iot_topic_publish');
+    }
+    // lambda - computed: true, optional: false, required: false
+    get lambda() {
+        return this.interpolationForAttribute('lambda');
+    }
+    // reset_timer - computed: true, optional: false, required: false
+    get resetTimer() {
+        return this.interpolationForAttribute('reset_timer');
+    }
+    // set_timer - computed: true, optional: false, required: false
+    get setTimer() {
+        return this.interpolationForAttribute('set_timer');
+    }
+    // set_variable - computed: true, optional: false, required: false
+    get setVariable() {
+        return this.interpolationForAttribute('set_variable');
+    }
+    // sns - computed: true, optional: false, required: false
+    get sns() {
+        return this.interpolationForAttribute('sns');
+    }
+    // sqs - computed: true, optional: false, required: false
+    get sqs() {
+        return this.interpolationForAttribute('sqs');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActions = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActions;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        clear_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsClearTimerToTerraform(struct.clearTimer),
+        dynamo_d_bv_2: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDBv2ToTerraform(struct.dynamoDBv2),
+        dynamo_db: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsDynamoDbToTerraform(struct.dynamoDb),
+        firehose: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsFirehoseToTerraform(struct.firehose),
+        iot_events: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotEventsToTerraform(struct.iotEvents),
+        iot_site_wise: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotSiteWiseToTerraform(struct.iotSiteWise),
+        iot_topic_publish: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsIotTopicPublishToTerraform(struct.iotTopicPublish),
+        lambda: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsLambdaToTerraform(struct.lambda),
+        reset_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsResetTimerToTerraform(struct.resetTimer),
+        set_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetTimerToTerraform(struct.setTimer),
+        set_variable: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSetVariableToTerraform(struct.setVariable),
+        sns: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSnsToTerraform(struct.sns),
+        sqs: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsSqsToTerraform(struct.sqs),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEvents extends cdktf.ComplexComputedList {
+    // actions - computed: true, optional: false, required: false
+    get actions() {
+        return this.interpolationForAttribute('actions');
+    }
+    // condition - computed: true, optional: false, required: false
+    get condition() {
+        return this.getStringAttribute('condition');
+    }
+    // event_name - computed: true, optional: false, required: false
+    get eventName() {
+        return this.getStringAttribute('event_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        actions: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsActionsToTerraform)(struct.actions),
+        condition: cdktf.stringToTerraform(struct.condition),
+        event_name: cdktf.stringToTerraform(struct.eventName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2Payload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2Payload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2Payload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2PayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2PayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2PayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2 extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2 = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2ToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2PayloadToTerraform(struct.payload),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2ToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2ToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDb extends cdktf.ComplexComputedList {
+    // hash_key_field - computed: true, optional: false, required: false
+    get hashKeyField() {
+        return this.getStringAttribute('hash_key_field');
+    }
+    // hash_key_type - computed: true, optional: false, required: false
+    get hashKeyType() {
+        return this.getStringAttribute('hash_key_type');
+    }
+    // hash_key_value - computed: true, optional: false, required: false
+    get hashKeyValue() {
+        return this.getStringAttribute('hash_key_value');
+    }
+    // operation - computed: true, optional: false, required: false
+    get operation() {
+        return this.getStringAttribute('operation');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // payload_field - computed: true, optional: false, required: false
+    get payloadField() {
+        return this.getStringAttribute('payload_field');
+    }
+    // range_key_field - computed: true, optional: false, required: false
+    get rangeKeyField() {
+        return this.getStringAttribute('range_key_field');
+    }
+    // range_key_type - computed: true, optional: false, required: false
+    get rangeKeyType() {
+        return this.getStringAttribute('range_key_type');
+    }
+    // range_key_value - computed: true, optional: false, required: false
+    get rangeKeyValue() {
+        return this.getStringAttribute('range_key_value');
+    }
+    // table_name - computed: true, optional: false, required: false
+    get tableName() {
+        return this.getStringAttribute('table_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDb = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDb;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        hash_key_field: cdktf.stringToTerraform(struct.hashKeyField),
+        hash_key_type: cdktf.stringToTerraform(struct.hashKeyType),
+        hash_key_value: cdktf.stringToTerraform(struct.hashKeyValue),
+        operation: cdktf.stringToTerraform(struct.operation),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbPayloadToTerraform(struct.payload),
+        payload_field: cdktf.stringToTerraform(struct.payloadField),
+        range_key_field: cdktf.stringToTerraform(struct.rangeKeyField),
+        range_key_type: cdktf.stringToTerraform(struct.rangeKeyType),
+        range_key_value: cdktf.stringToTerraform(struct.rangeKeyValue),
+        table_name: cdktf.stringToTerraform(struct.tableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehose extends cdktf.ComplexComputedList {
+    // delivery_stream_name - computed: true, optional: false, required: false
+    get deliveryStreamName() {
+        return this.getStringAttribute('delivery_stream_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // separator - computed: true, optional: false, required: false
+    get separator() {
+        return this.getStringAttribute('separator');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehose = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehose;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehoseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        delivery_stream_name: cdktf.stringToTerraform(struct.deliveryStreamName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehosePayloadToTerraform(struct.payload),
+        separator: cdktf.stringToTerraform(struct.separator),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehoseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehoseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEvents extends cdktf.ComplexComputedList {
+    // input_name - computed: true, optional: false, required: false
+    get inputName() {
+        return this.getStringAttribute('input_name');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        input_name: cdktf.stringToTerraform(struct.inputName),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestamp extends cdktf.ComplexComputedList {
+    // offset_in_nanos - computed: true, optional: false, required: false
+    get offsetInNanos() {
+        return this.getStringAttribute('offset_in_nanos');
+    }
+    // time_in_seconds - computed: true, optional: false, required: false
+    get timeInSeconds() {
+        return this.getStringAttribute('time_in_seconds');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestamp = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestamp;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        offset_in_nanos: cdktf.stringToTerraform(struct.offsetInNanos),
+        time_in_seconds: cdktf.stringToTerraform(struct.timeInSeconds),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestampToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestampToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValue extends cdktf.ComplexComputedList {
+    // boolean_value - computed: true, optional: false, required: false
+    get booleanValue() {
+        return this.getStringAttribute('boolean_value');
+    }
+    // double_value - computed: true, optional: false, required: false
+    get doubleValue() {
+        return this.getStringAttribute('double_value');
+    }
+    // integer_value - computed: true, optional: false, required: false
+    get integerValue() {
+        return this.getStringAttribute('integer_value');
+    }
+    // string_value - computed: true, optional: false, required: false
+    get stringValue() {
+        return this.getStringAttribute('string_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        boolean_value: cdktf.stringToTerraform(struct.booleanValue),
+        double_value: cdktf.stringToTerraform(struct.doubleValue),
+        integer_value: cdktf.stringToTerraform(struct.integerValue),
+        string_value: cdktf.stringToTerraform(struct.stringValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValue extends cdktf.ComplexComputedList {
+    // quality - computed: true, optional: false, required: false
+    get quality() {
+        return this.getStringAttribute('quality');
+    }
+    // timestamp - computed: true, optional: false, required: false
+    get timestamp() {
+        return this.interpolationForAttribute('timestamp');
+    }
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.interpolationForAttribute('value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValue = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValue;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        quality: cdktf.stringToTerraform(struct.quality),
+        timestamp: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueTimestampToTerraform(struct.timestamp),
+        value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueValueToTerraform(struct.value),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWise extends cdktf.ComplexComputedList {
+    // asset_id - computed: true, optional: false, required: false
+    get assetId() {
+        return this.getStringAttribute('asset_id');
+    }
+    // entry_id - computed: true, optional: false, required: false
+    get entryId() {
+        return this.getStringAttribute('entry_id');
+    }
+    // property_alias - computed: true, optional: false, required: false
+    get propertyAlias() {
+        return this.getStringAttribute('property_alias');
+    }
+    // property_id - computed: true, optional: false, required: false
+    get propertyId() {
+        return this.getStringAttribute('property_id');
+    }
+    // property_value - computed: true, optional: false, required: false
+    get propertyValue() {
+        return this.interpolationForAttribute('property_value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWise = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWise;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWiseToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        asset_id: cdktf.stringToTerraform(struct.assetId),
+        entry_id: cdktf.stringToTerraform(struct.entryId),
+        property_alias: cdktf.stringToTerraform(struct.propertyAlias),
+        property_id: cdktf.stringToTerraform(struct.propertyId),
+        property_value: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWisePropertyValueToTerraform(struct.propertyValue),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWiseToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWiseToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublish extends cdktf.ComplexComputedList {
+    // mqtt_topic - computed: true, optional: false, required: false
+    get mqttTopic() {
+        return this.getStringAttribute('mqtt_topic');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublish = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublish;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        mqtt_topic: cdktf.stringToTerraform(struct.mqttTopic),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambda extends cdktf.ComplexComputedList {
+    // function_arn - computed: true, optional: false, required: false
+    get functionArn() {
+        return this.getStringAttribute('function_arn');
+    }
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambda = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambda;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        function_arn: cdktf.stringToTerraform(struct.functionArn),
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaPayloadToTerraform(struct.payload),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimer extends cdktf.ComplexComputedList {
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimer extends cdktf.ComplexComputedList {
+    // duration_expression - computed: true, optional: false, required: false
+    get durationExpression() {
+        return this.getStringAttribute('duration_expression');
+    }
+    // seconds - computed: true, optional: false, required: false
+    get seconds() {
+        return this.getNumberAttribute('seconds');
+    }
+    // timer_name - computed: true, optional: false, required: false
+    get timerName() {
+        return this.getStringAttribute('timer_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimer = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimer;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimerToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        duration_expression: cdktf.stringToTerraform(struct.durationExpression),
+        seconds: cdktf.numberToTerraform(struct.seconds),
+        timer_name: cdktf.stringToTerraform(struct.timerName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimerToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimerToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariable extends cdktf.ComplexComputedList {
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.getStringAttribute('value');
+    }
+    // variable_name - computed: true, optional: false, required: false
+    get variableName() {
+        return this.getStringAttribute('variable_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariable = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariable;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariableToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        value: cdktf.stringToTerraform(struct.value),
+        variable_name: cdktf.stringToTerraform(struct.variableName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariableToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariableToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSns extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // target_arn - computed: true, optional: false, required: false
+    get targetArn() {
+        return this.getStringAttribute('target_arn');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSns = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSns;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsPayloadToTerraform(struct.payload),
+        target_arn: cdktf.stringToTerraform(struct.targetArn),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayload extends cdktf.ComplexComputedList {
+    // content_expression - computed: true, optional: false, required: false
+    get contentExpression() {
+        return this.getStringAttribute('content_expression');
+    }
+    // type - computed: true, optional: false, required: false
+    get type() {
+        return this.getStringAttribute('type');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayload = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayload;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayloadToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        content_expression: cdktf.stringToTerraform(struct.contentExpression),
+        type: cdktf.stringToTerraform(struct.type),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayloadToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayloadToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqs extends cdktf.ComplexComputedList {
+    // payload - computed: true, optional: false, required: false
+    get payload() {
+        return this.interpolationForAttribute('payload');
+    }
+    // queue_url - computed: true, optional: false, required: false
+    get queueUrl() {
+        return this.getStringAttribute('queue_url');
+    }
+    // use_base_64 - computed: true, optional: false, required: false
+    get useBase64() {
+        return this.getBooleanAttribute('use_base_64');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqs = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqs;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        payload: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsPayloadToTerraform(struct.payload),
+        queue_url: cdktf.stringToTerraform(struct.queueUrl),
+        use_base_64: cdktf.booleanToTerraform(struct.useBase64),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActions extends cdktf.ComplexComputedList {
+    // clear_timer - computed: true, optional: false, required: false
+    get clearTimer() {
+        return this.interpolationForAttribute('clear_timer');
+    }
+    // dynamo_d_bv_2 - computed: true, optional: false, required: false
+    get dynamoDBv2() {
+        return this.interpolationForAttribute('dynamo_d_bv_2');
+    }
+    // dynamo_db - computed: true, optional: false, required: false
+    get dynamoDb() {
+        return this.interpolationForAttribute('dynamo_db');
+    }
+    // firehose - computed: true, optional: false, required: false
+    get firehose() {
+        return this.interpolationForAttribute('firehose');
+    }
+    // iot_events - computed: true, optional: false, required: false
+    get iotEvents() {
+        return this.interpolationForAttribute('iot_events');
+    }
+    // iot_site_wise - computed: true, optional: false, required: false
+    get iotSiteWise() {
+        return this.interpolationForAttribute('iot_site_wise');
+    }
+    // iot_topic_publish - computed: true, optional: false, required: false
+    get iotTopicPublish() {
+        return this.interpolationForAttribute('iot_topic_publish');
+    }
+    // lambda - computed: true, optional: false, required: false
+    get lambda() {
+        return this.interpolationForAttribute('lambda');
+    }
+    // reset_timer - computed: true, optional: false, required: false
+    get resetTimer() {
+        return this.interpolationForAttribute('reset_timer');
+    }
+    // set_timer - computed: true, optional: false, required: false
+    get setTimer() {
+        return this.interpolationForAttribute('set_timer');
+    }
+    // set_variable - computed: true, optional: false, required: false
+    get setVariable() {
+        return this.interpolationForAttribute('set_variable');
+    }
+    // sns - computed: true, optional: false, required: false
+    get sns() {
+        return this.interpolationForAttribute('sns');
+    }
+    // sqs - computed: true, optional: false, required: false
+    get sqs() {
+        return this.interpolationForAttribute('sqs');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActions = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActions;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        clear_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsClearTimerToTerraform(struct.clearTimer),
+        dynamo_d_bv_2: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDBv2ToTerraform(struct.dynamoDBv2),
+        dynamo_db: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsDynamoDbToTerraform(struct.dynamoDb),
+        firehose: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsFirehoseToTerraform(struct.firehose),
+        iot_events: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotEventsToTerraform(struct.iotEvents),
+        iot_site_wise: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotSiteWiseToTerraform(struct.iotSiteWise),
+        iot_topic_publish: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsIotTopicPublishToTerraform(struct.iotTopicPublish),
+        lambda: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsLambdaToTerraform(struct.lambda),
+        reset_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsResetTimerToTerraform(struct.resetTimer),
+        set_timer: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetTimerToTerraform(struct.setTimer),
+        set_variable: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSetVariableToTerraform(struct.setVariable),
+        sns: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSnsToTerraform(struct.sns),
+        sqs: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsSqsToTerraform(struct.sqs),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEvents extends cdktf.ComplexComputedList {
+    // actions - computed: true, optional: false, required: false
+    get actions() {
+        return this.interpolationForAttribute('actions');
+    }
+    // condition - computed: true, optional: false, required: false
+    get condition() {
+        return this.getStringAttribute('condition');
+    }
+    // event_name - computed: true, optional: false, required: false
+    get eventName() {
+        return this.getStringAttribute('event_name');
+    }
+    // next_state - computed: true, optional: false, required: false
+    get nextState() {
+        return this.getStringAttribute('next_state');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEvents = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEvents;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        actions: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsActionsToTerraform)(struct.actions),
+        condition: cdktf.stringToTerraform(struct.condition),
+        event_name: cdktf.stringToTerraform(struct.eventName),
+        next_state: cdktf.stringToTerraform(struct.nextState),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInput extends cdktf.ComplexComputedList {
+    // events - computed: true, optional: false, required: false
+    get events() {
+        return this.interpolationForAttribute('events');
+    }
+    // transition_events - computed: true, optional: false, required: false
+    get transitionEvents() {
+        return this.interpolationForAttribute('transition_events');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInput = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInput;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        events: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputEventsToTerraform)(struct.events),
+        transition_events: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputTransitionEventsToTerraform)(struct.transitionEvents),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinitionStates extends cdktf.ComplexComputedList {
+    // on_enter - computed: true, optional: false, required: false
+    get onEnter() {
+        return this.interpolationForAttribute('on_enter');
+    }
+    // on_exit - computed: true, optional: false, required: false
+    get onExit() {
+        return this.interpolationForAttribute('on_exit');
+    }
+    // on_input - computed: true, optional: false, required: false
+    get onInput() {
+        return this.interpolationForAttribute('on_input');
+    }
+    // state_name - computed: true, optional: false, required: false
+    get stateName() {
+        return this.getStringAttribute('state_name');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinitionStates = DataAwsccIoteventsDetectorModelDetectorModelDefinitionStates;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        on_enter: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnEnterToTerraform(struct.onEnter),
+        on_exit: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnExitToTerraform(struct.onExit),
+        on_input: dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesOnInputToTerraform(struct.onInput),
+        state_name: cdktf.stringToTerraform(struct.stateName),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesToTerraform;
+class DataAwsccIoteventsDetectorModelDetectorModelDefinition extends cdktf.ComplexComputedList {
+    // initial_state_name - computed: true, optional: false, required: false
+    get initialStateName() {
+        return this.getStringAttribute('initial_state_name');
+    }
+    // states - computed: true, optional: false, required: false
+    get states() {
+        return this.interpolationForAttribute('states');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelDetectorModelDefinition = DataAwsccIoteventsDetectorModelDetectorModelDefinition;
+function dataAwsccIoteventsDetectorModelDetectorModelDefinitionToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        initial_state_name: cdktf.stringToTerraform(struct.initialStateName),
+        states: cdktf.listMapper(dataAwsccIoteventsDetectorModelDetectorModelDefinitionStatesToTerraform)(struct.states),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelDetectorModelDefinitionToTerraform = dataAwsccIoteventsDetectorModelDetectorModelDefinitionToTerraform;
+class DataAwsccIoteventsDetectorModelTags extends cdktf.ComplexComputedList {
+    // key - computed: true, optional: false, required: false
+    get key() {
+        return this.getStringAttribute('key');
+    }
+    // value - computed: true, optional: false, required: false
+    get value() {
+        return this.getStringAttribute('value');
+    }
+}
+exports.DataAwsccIoteventsDetectorModelTags = DataAwsccIoteventsDetectorModelTags;
+function dataAwsccIoteventsDetectorModelTagsToTerraform(struct) {
+    if (!cdktf.canInspect(struct)) {
+        return struct;
+    }
+    return {
+        key: cdktf.stringToTerraform(struct.key),
+        value: cdktf.stringToTerraform(struct.value),
+    };
+}
+exports.dataAwsccIoteventsDetectorModelTagsToTerraform = dataAwsccIoteventsDetectorModelTagsToTerraform;
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/awscc/d/iotevents_detector_model.html awscc_iotevents_detector_model}
+*/
+class DataAwsccIoteventsDetectorModel extends cdktf.TerraformDataSource {
+    // ===========
+    // INITIALIZER
+    // ===========
+    /**
+    * Create a new {@link https://www.terraform.io/docs/providers/awscc/d/iotevents_detector_model.html awscc_iotevents_detector_model} Data Source
+    *
+    * @param scope The scope in which to define this construct
+    * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+    * @param options DataAwsccIoteventsDetectorModelConfig
+    */
+    constructor(scope, id, config) {
+        super(scope, id, {
+            terraformResourceType: 'awscc_iotevents_detector_model',
+            terraformGeneratorMetadata: {
+                providerName: 'awscc'
+            },
+            provider: config.provider,
+            dependsOn: config.dependsOn,
+            count: config.count,
+            lifecycle: config.lifecycle
+        });
+        this._id = config.id;
+    }
+    // ==========
+    // ATTRIBUTES
+    // ==========
+    // detector_model_definition - computed: true, optional: false, required: false
+    get detectorModelDefinition() {
+        return this.interpolationForAttribute('detector_model_definition');
+    }
+    // detector_model_description - computed: true, optional: false, required: false
+    get detectorModelDescription() {
+        return this.getStringAttribute('detector_model_description');
+    }
+    // detector_model_name - computed: true, optional: false, required: false
+    get detectorModelName() {
+        return this.getStringAttribute('detector_model_name');
+    }
+    // evaluation_method - computed: true, optional: false, required: false
+    get evaluationMethod() {
+        return this.getStringAttribute('evaluation_method');
+    }
+    get id() {
+        return this.getStringAttribute('id');
+    }
+    set id(value) {
+        this._id = value;
+    }
+    // Temporarily expose input value. Use with caution.
+    get idInput() {
+        return this._id;
+    }
+    // key - computed: true, optional: false, required: false
+    get key() {
+        return this.getStringAttribute('key');
+    }
+    // role_arn - computed: true, optional: false, required: false
+    get roleArn() {
+        return this.getStringAttribute('role_arn');
+    }
+    // tags - computed: true, optional: false, required: false
+    get tags() {
+        return this.interpolationForAttribute('tags');
+    }
+    // =========
+    // SYNTHESIS
+    // =========
+    synthesizeAttributes() {
+        return {
+            id: cdktf.stringToTerraform(this._id),
+        };
+    }
+}
+exports.DataAwsccIoteventsDetectorModel = DataAwsccIoteventsDetectorModel;
+// =================
+// STATIC PROPERTIES
+// =================
+DataAwsccIoteventsDetectorModel.tfResourceType = "awscc_iotevents_detector_model";
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGF0YS1hd3NjYy1pb3RldmVudHMtZGV0ZWN0b3ItbW9kZWwuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJkYXRhLWF3c2NjLWlvdGV2ZW50cy1kZXRlY3Rvci1tb2RlbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUEsZ0ZBQWdGO0FBQ2hGLDJDQUEyQzs7Ozs7OztBQUczQywrQkFBK0I7QUFZL0IsTUFBYSwwRkFBMkYsU0FBUSxLQUFLLENBQUMsbUJBQW1CO0lBRXZJLGdFQUFnRTtJQUNoRSxJQUFXLFNBQVM7UUFDbEIsT0FBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsWUFBWSxDQUFDLENBQUM7SUFDL0MsQ0FBQztDQUNGO0FBTkQsZ01BTUM7QUFFRCxTQUFnQixxR0FBcUcsQ0FBQyxNQUFtRztJQUN2TixJQUFJLENBQUMsS0FBSyxDQUFDLFVBQVUsQ0FBQyxNQUFNLENBQUMsRUFBRTtRQUFFLE9BQU8sTUFBTSxDQUFDO0tBQUU7SUFDakQsT0FBTztRQUNMLFVBQVUsRUFBRSxLQUFLLENBQUMsaUJBQWlCLENBQUMsTUFBTyxDQUFDLFNBQVMsQ0FBQztLQUN2RCxDQUFBO0FBQ0gsQ0FBQztBQUxELHNOQUtDO0FBRUQsTUFBYSxpR0FBa0csU0FBUSxLQUFLLENBQUMsbUJBQW1CO0lBRTlJLHdFQUF3RTtJQUN4RSxJQUFXLGlCQUFpQjtRQUMxQixPQUFPLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxvQkFBb0IsQ0FBQyxDQUFDO0lBQ3ZELENBQUM7SUFFRCwwREFBMEQ7SUFDMUQsSUFBVyxJQUFJO1FBQ2IsT0FBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsTUFBTSxDQUFDLENBQUM7SUFDekMsQ0FBQztDQUNGO0FBWEQsOE1BV0M7QUFFRCxTQUFnQiw0R0FBNEcsQ0FBQyxNQUEwRztJQUNyTyxJQUFJLENBQUMsS0FBSyxDQUFDLFVBQVUsQ0FBQyxNQUFNLENBQUMsRUFBRTtRQUFFLE9BQU8sTUFBTSxDQUFDO0tBQUU7SUFDakQsT0FBTztRQUNM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QUMsTUFBTSxDQUFRLENBQUM7SUFDdkQsQ0FBQztJQUVELFlBQVk7SUFDWixZQUFZO0lBQ1osWUFBWTtJQUVGLG9CQUFvQjtRQUM1QixPQUFPO1lBQ0wsRUFBRSxFQUFFLEtBQUssQ0FBQyxpQkFBaUIsQ0FBQyxJQUFJLENBQUMsR0FBRyxDQUFDO1NBQ3RDLENBQUM7SUFDSixDQUFDOztBQTVGSCwwRUE2RkM7QUEzRkMsb0JBQW9CO0FBQ3BCLG9CQUFvQjtBQUNwQixvQkFBb0I7QUFDRyw4Q0FBYyxHQUFXLGdDQUFnQyxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLy8gaHR0cHM6Ly93d3cudGVycmFmb3JtLmlvL2RvY3MvcHJvdmlkZXJzL2F3c2NjL2QvaW90ZXZlbnRzX2RldGVjdG9yX21vZGVsLmh0bWxcbi8vIGdlbmVyYXRlZCBmcm9tIHRlcnJhZm9ybSByZXNvdXJjZSBzY2hlbWFcblxuaW1wb3J0IHsgQ29uc3RydWN0IH0gZnJvbSAnY29uc3RydWN0cyc7XG5pbXBvcnQgKiBhcyBjZGt0ZiBmcm9tICdjZGt0Zic7XG5cbi8vIENvbmZpZ3VyYXRpb25cblxuZXhwb3J0IGludGVyZmFjZSBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsQ29uZmlnIGV4dGVuZHMgY2RrdGYuVGVycmFmb3JtTWV0YUFyZ3VtZW50cyB7XG4gIC8qKlxuICAqIFVuaXF1ZWx5IGlkZW50aWZpZXMgdGhlIHJlc291cmNlLlxuICAqIFxuICAqIERvY3MgYXQgVGVycmFmb3JtIFJlZ2lzdHJ5OiB7QGxpbmsgaHR0cHM6Ly93d3cudGVycmFmb3JtLmlvL2RvY3MvcHJvdmlkZXJzL2F3c2NjL2QvaW90ZXZlbnRzX2RldGVjdG9yX21vZGVsLmh0bWwjaWQgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbCNpZH1cbiAgKi9cbiAgcmVhZG9ubHkgaWQ6IHN0cmluZztcbn1cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0NsZWFyVGltZXIgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyB0aW1lcl9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGltZXJOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGltZXJfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0NsZWFyVGltZXJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0NsZWFyVGltZXIpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgdGltZXJfbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50aW1lck5hbWUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyUGF5bG9hZCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBjb250ZW50X2V4cHJlc3Npb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuY29udGVudEV4cHJlc3Npb24pLFxuICAgIHR5cGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudHlwZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zRHluYW1vREJ2MiBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyB0YWJsZV9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGFibGVOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGFibGVfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjIpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgdGFibGVfbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50YWJsZU5hbWUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0R5bmFtb0RiUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNEeW5hbW9EYlBheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0R5bmFtb0RiUGF5bG9hZCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBjb250ZW50X2V4cHJlc3Npb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuY29udGVudEV4cHJlc3Npb24pLFxuICAgIHR5cGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudHlwZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zRHluYW1vRGIgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBoYXNoX2tleV9maWVsZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGhhc2hLZXlGaWVsZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2hhc2hfa2V5X2ZpZWxkJyk7XG4gIH1cblxuICAvLyBoYXNoX2tleV90eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaGFzaEtleVR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdoYXNoX2tleV90eXBlJyk7XG4gIH1cblxuICAvLyBoYXNoX2tleV92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGhhc2hLZXlWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2hhc2hfa2V5X3ZhbHVlJyk7XG4gIH1cblxuICAvLyBvcGVyYXRpb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBvcGVyYXRpb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdvcGVyYXRpb24nKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBwYXlsb2FkX2ZpZWxkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZEZpZWxkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncGF5bG9hZF9maWVsZCcpO1xuICB9XG5cbiAgLy8gcmFuZ2Vfa2V5X2ZpZWxkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmFuZ2VLZXlGaWVsZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3JhbmdlX2tleV9maWVsZCcpO1xuICB9XG5cbiAgLy8gcmFuZ2Vfa2V5X3R5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCByYW5nZUtleVR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdyYW5nZV9rZXlfdHlwZScpO1xuICB9XG5cbiAgLy8gcmFuZ2Vfa2V5X3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmFuZ2VLZXlWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3JhbmdlX2tleV92YWx1ZScpO1xuICB9XG5cbiAgLy8gdGFibGVfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRhYmxlTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RhYmxlX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNEeW5hbW9EYlRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zRHluYW1vRGIpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgaGFzaF9rZXlfZmllbGQ6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuaGFzaEtleUZpZWxkKSxcbiAgICBoYXNoX2tleV90eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmhhc2hLZXlUeXBlKSxcbiAgICBoYXNoX2tleV92YWx1ZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5oYXNoS2V5VmFsdWUpLFxuICAgIG9wZXJhdGlvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5vcGVyYXRpb24pLFxuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zRHluYW1vRGJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICBwYXlsb2FkX2ZpZWxkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnBheWxvYWRGaWVsZCksXG4gICAgcmFuZ2Vfa2V5X2ZpZWxkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnJhbmdlS2V5RmllbGQpLFxuICAgIHJhbmdlX2tleV90eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnJhbmdlS2V5VHlwZSksXG4gICAgcmFuZ2Vfa2V5X3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnJhbmdlS2V5VmFsdWUpLFxuICAgIHRhYmxlX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGFibGVOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNGaXJlaG9zZVBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zRmlyZWhvc2VQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNGaXJlaG9zZVBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0ZpcmVob3NlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gZGVsaXZlcnlfc3RyZWFtX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBkZWxpdmVyeVN0cmVhbU5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdkZWxpdmVyeV9zdHJlYW1fbmFtZScpO1xuICB9XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNlcGFyYXRvciAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNlcGFyYXRvcigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3NlcGFyYXRvcicpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0ZpcmVob3NlVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNGaXJlaG9zZSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBkZWxpdmVyeV9zdHJlYW1fbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5kZWxpdmVyeVN0cmVhbU5hbWUpLFxuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zRmlyZWhvc2VQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICBzZXBhcmF0b3I6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuc2VwYXJhdG9yKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RFdmVudHNQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdEV2ZW50c1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdEV2ZW50c1BheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdEV2ZW50cyBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGlucHV0X25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpbnB1dE5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdpbnB1dF9uYW1lJyk7XG4gIH1cblxuICAvLyBwYXlsb2FkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZCgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwYXlsb2FkJykgYXMgYW55O1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdEV2ZW50c1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90RXZlbnRzKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGlucHV0X25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuaW5wdXROYW1lKSxcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdEV2ZW50c1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3QhLnBheWxvYWQpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVRpbWVzdGFtcCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIG9mZnNldF9pbl9uYW5vcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IG9mZnNldEluTmFub3MoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdvZmZzZXRfaW5fbmFub3MnKTtcbiAgfVxuXG4gIC8vIHRpbWVfaW5fc2Vjb25kcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRpbWVJblNlY29uZHMoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0aW1lX2luX3NlY29uZHMnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUaW1lc3RhbXBUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVRpbWVzdGFtcCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBvZmZzZXRfaW5fbmFub3M6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEub2Zmc2V0SW5OYW5vcyksXG4gICAgdGltZV9pbl9zZWNvbmRzOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRpbWVJblNlY29uZHMpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVZhbHVlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gYm9vbGVhbl92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGJvb2xlYW5WYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2Jvb2xlYW5fdmFsdWUnKTtcbiAgfVxuXG4gIC8vIGRvdWJsZV92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGRvdWJsZVZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZG91YmxlX3ZhbHVlJyk7XG4gIH1cblxuICAvLyBpbnRlZ2VyX3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW50ZWdlclZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnaW50ZWdlcl92YWx1ZScpO1xuICB9XG5cbiAgLy8gc3RyaW5nX3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc3RyaW5nVmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdzdHJpbmdfdmFsdWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVWYWx1ZVRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVmFsdWUpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgYm9vbGVhbl92YWx1ZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5ib29sZWFuVmFsdWUpLFxuICAgIGRvdWJsZV92YWx1ZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5kb3VibGVWYWx1ZSksXG4gICAgaW50ZWdlcl92YWx1ZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5pbnRlZ2VyVmFsdWUpLFxuICAgIHN0cmluZ192YWx1ZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5zdHJpbmdWYWx1ZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcXVhbGl0eSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHF1YWxpdHkoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdxdWFsaXR5Jyk7XG4gIH1cblxuICAvLyB0aW1lc3RhbXAgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lc3RhbXAoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgndGltZXN0YW1wJykgYXMgYW55O1xuICB9XG5cbiAgLy8gdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB2YWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCd2YWx1ZScpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBxdWFsaXR5OiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnF1YWxpdHkpLFxuICAgIHRpbWVzdGFtcDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUaW1lc3RhbXBUb1RlcnJhZm9ybShzdHJ1Y3QhLnRpbWVzdGFtcCksXG4gICAgdmFsdWU6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVmFsdWVUb1RlcnJhZm9ybShzdHJ1Y3QhLnZhbHVlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGFzc2V0X2lkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgYXNzZXRJZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2Fzc2V0X2lkJyk7XG4gIH1cblxuICAvLyBlbnRyeV9pZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGVudHJ5SWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdlbnRyeV9pZCcpO1xuICB9XG5cbiAgLy8gcHJvcGVydHlfYWxpYXMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwcm9wZXJ0eUFsaWFzKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncHJvcGVydHlfYWxpYXMnKTtcbiAgfVxuXG4gIC8vIHByb3BlcnR5X2lkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcHJvcGVydHlJZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3Byb3BlcnR5X2lkJyk7XG4gIH1cblxuICAvLyBwcm9wZXJ0eV92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHByb3BlcnR5VmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncHJvcGVydHlfdmFsdWUnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGFzc2V0X2lkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmFzc2V0SWQpLFxuICAgIGVudHJ5X2lkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmVudHJ5SWQpLFxuICAgIHByb3BlcnR5X2FsaWFzOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnByb3BlcnR5QWxpYXMpLFxuICAgIHByb3BlcnR5X2lkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnByb3BlcnR5SWQpLFxuICAgIHByb3BlcnR5X3ZhbHVlOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVRvVGVycmFmb3JtKHN0cnVjdCEucHJvcGVydHlWYWx1ZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2ggZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBtcXR0X3RvcGljIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgbXF0dFRvcGljKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnbXF0dF90b3BpYycpO1xuICB9XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0lvdFRvcGljUHVibGlzaCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBtcXR0X3RvcGljOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLm1xdHRUb3BpYyksXG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNMYW1iZGFQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0xhbWJkYVBheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0xhbWJkYVBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0xhbWJkYSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGZ1bmN0aW9uX2FybiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGZ1bmN0aW9uQXJuKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZnVuY3Rpb25fYXJuJyk7XG4gIH1cblxuICAvLyBwYXlsb2FkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZCgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwYXlsb2FkJykgYXMgYW55O1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0xhbWJkYVRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zTGFtYmRhKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGZ1bmN0aW9uX2FybjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5mdW5jdGlvbkFybiksXG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNMYW1iZGFQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNSZXNldFRpbWVyIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gdGltZXJfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRpbWVyTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RpbWVyX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNSZXNldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNSZXNldFRpbWVyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHRpbWVyX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZXJOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNTZXRUaW1lciBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGR1cmF0aW9uX2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBkdXJhdGlvbkV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdkdXJhdGlvbl9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyBzZWNvbmRzIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc2Vjb25kcygpIHtcbiAgICByZXR1cm4gdGhpcy5nZXROdW1iZXJBdHRyaWJ1dGUoJ3NlY29uZHMnKTtcbiAgfVxuXG4gIC8vIHRpbWVyX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lck5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0aW1lcl9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU2V0VGltZXJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc1NldFRpbWVyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGR1cmF0aW9uX2V4cHJlc3Npb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZHVyYXRpb25FeHByZXNzaW9uKSxcbiAgICBzZWNvbmRzOiBjZGt0Zi5udW1iZXJUb1RlcnJhZm9ybShzdHJ1Y3QhLnNlY29uZHMpLFxuICAgIHRpbWVyX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZXJOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNTZXRWYXJpYWJsZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd2YWx1ZScpO1xuICB9XG5cbiAgLy8gdmFyaWFibGVfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHZhcmlhYmxlTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3ZhcmlhYmxlX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNTZXRWYXJpYWJsZVRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU2V0VmFyaWFibGUpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudmFsdWUpLFxuICAgIHZhcmlhYmxlX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudmFyaWFibGVOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNTbnNQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc1Nuc1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc1Nuc1BheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc1NucyBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyB0YXJnZXRfYXJuIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGFyZ2V0QXJuKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGFyZ2V0X2FybicpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc1Nuc1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU25zKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU25zUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgdGFyZ2V0X2FybjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50YXJnZXRBcm4pLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc1Nxc1BheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU3FzUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU3FzUGF5bG9hZCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBjb250ZW50X2V4cHJlc3Npb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuY29udGVudEV4cHJlc3Npb24pLFxuICAgIHR5cGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudHlwZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU3FzIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHF1ZXVlX3VybCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHF1ZXVlVXJsKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncXVldWVfdXJsJyk7XG4gIH1cblxuICAvLyB1c2VfYmFzZV82NCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHVzZUJhc2U2NCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRCb29sZWFuQXR0cmlidXRlKCd1c2VfYmFzZV82NCcpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc1Nxc1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU3FzKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU3FzUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgcXVldWVfdXJsOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnF1ZXVlVXJsKSxcbiAgICB1c2VfYmFzZV82NDogY2RrdGYuYm9vbGVhblRvVGVycmFmb3JtKHN0cnVjdCEudXNlQmFzZTY0KSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnMgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjbGVhcl90aW1lciAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNsZWFyVGltZXIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnY2xlYXJfdGltZXInKSBhcyBhbnk7XG4gIH1cblxuICAvLyBkeW5hbW9fZF9idl8yIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZHluYW1vREJ2MigpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdkeW5hbW9fZF9idl8yJykgYXMgYW55O1xuICB9XG5cbiAgLy8gZHluYW1vX2RiIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZHluYW1vRGIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnZHluYW1vX2RiJykgYXMgYW55O1xuICB9XG5cbiAgLy8gZmlyZWhvc2UgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBmaXJlaG9zZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdmaXJlaG9zZScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGlvdF9ldmVudHMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpb3RFdmVudHMoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnaW90X2V2ZW50cycpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGlvdF9zaXRlX3dpc2UgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpb3RTaXRlV2lzZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdpb3Rfc2l0ZV93aXNlJykgYXMgYW55O1xuICB9XG5cbiAgLy8gaW90X3RvcGljX3B1Ymxpc2ggLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpb3RUb3BpY1B1Ymxpc2goKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnaW90X3RvcGljX3B1Ymxpc2gnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBsYW1iZGEgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBsYW1iZGEoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnbGFtYmRhJykgYXMgYW55O1xuICB9XG5cbiAgLy8gcmVzZXRfdGltZXIgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCByZXNldFRpbWVyKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3Jlc2V0X3RpbWVyJykgYXMgYW55O1xuICB9XG5cbiAgLy8gc2V0X3RpbWVyIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc2V0VGltZXIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnc2V0X3RpbWVyJykgYXMgYW55O1xuICB9XG5cbiAgLy8gc2V0X3ZhcmlhYmxlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc2V0VmFyaWFibGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnc2V0X3ZhcmlhYmxlJykgYXMgYW55O1xuICB9XG5cbiAgLy8gc25zIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc25zKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3NucycpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNxcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNxcygpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdzcXMnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnMpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY2xlYXJfdGltZXI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zQ2xlYXJUaW1lclRvVGVycmFmb3JtKHN0cnVjdCEuY2xlYXJUaW1lciksXG4gICAgZHluYW1vX2RfYnZfMjogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyVG9UZXJyYWZvcm0oc3RydWN0IS5keW5hbW9EQnYyKSxcbiAgICBkeW5hbW9fZGI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zRHluYW1vRGJUb1RlcnJhZm9ybShzdHJ1Y3QhLmR5bmFtb0RiKSxcbiAgICBmaXJlaG9zZTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNGaXJlaG9zZVRvVGVycmFmb3JtKHN0cnVjdCEuZmlyZWhvc2UpLFxuICAgIGlvdF9ldmVudHM6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90RXZlbnRzVG9UZXJyYWZvcm0oc3RydWN0IS5pb3RFdmVudHMpLFxuICAgIGlvdF9zaXRlX3dpc2U6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VUb1RlcnJhZm9ybShzdHJ1Y3QhLmlvdFNpdGVXaXNlKSxcbiAgICBpb3RfdG9waWNfcHVibGlzaDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hUb1RlcnJhZm9ybShzdHJ1Y3QhLmlvdFRvcGljUHVibGlzaCksXG4gICAgbGFtYmRhOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzQWN0aW9uc0xhbWJkYVRvVGVycmFmb3JtKHN0cnVjdCEubGFtYmRhKSxcbiAgICByZXNldF90aW1lcjogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNSZXNldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0IS5yZXNldFRpbWVyKSxcbiAgICBzZXRfdGltZXI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU2V0VGltZXJUb1RlcnJhZm9ybShzdHJ1Y3QhLnNldFRpbWVyKSxcbiAgICBzZXRfdmFyaWFibGU6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU2V0VmFyaWFibGVUb1RlcnJhZm9ybShzdHJ1Y3QhLnNldFZhcmlhYmxlKSxcbiAgICBzbnM6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zU25zVG9UZXJyYWZvcm0oc3RydWN0IS5zbnMpLFxuICAgIHNxczogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50c0FjdGlvbnNTcXNUb1RlcnJhZm9ybShzdHJ1Y3QhLnNxcyksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHMgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBhY3Rpb25zIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgYWN0aW9ucygpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdhY3Rpb25zJykgYXMgYW55O1xuICB9XG5cbiAgLy8gY29uZGl0aW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29uZGl0aW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29uZGl0aW9uJyk7XG4gIH1cblxuICAvLyBldmVudF9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZXZlbnROYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZXZlbnRfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyRXZlbnRzVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlckV2ZW50cyk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBhY3Rpb25zOiBjZGt0Zi5saXN0TWFwcGVyKGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNBY3Rpb25zVG9UZXJyYWZvcm0pKHN0cnVjdCEuYWN0aW9ucyksXG4gICAgY29uZGl0aW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbmRpdGlvbiksXG4gICAgZXZlbnRfbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5ldmVudE5hbWUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkVudGVyIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gZXZlbnRzIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZXZlbnRzKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2V2ZW50cycpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FbnRlclRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXIpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgZXZlbnRzOiBjZGt0Zi5saXN0TWFwcGVyKGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJFdmVudHNUb1RlcnJhZm9ybSkoc3RydWN0IS5ldmVudHMpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zQ2xlYXJUaW1lciBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHRpbWVyX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lck5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0aW1lcl9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNDbGVhclRpbWVyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0NsZWFyVGltZXIpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgdGltZXJfbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50aW1lck5hbWUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zRHluYW1vREJ2MlBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyUGF5bG9hZCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBjb250ZW50X2V4cHJlc3Npb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuY29udGVudEV4cHJlc3Npb24pLFxuICAgIHR5cGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudHlwZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHRhYmxlX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0YWJsZU5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0YWJsZV9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0R5bmFtb0RCdjIpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICB0YWJsZV9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRhYmxlTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EYlBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EYlBheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zRHluYW1vRGJQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0R5bmFtb0RiIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gaGFzaF9rZXlfZmllbGQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBoYXNoS2V5RmllbGQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdoYXNoX2tleV9maWVsZCcpO1xuICB9XG5cbiAgLy8gaGFzaF9rZXlfdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGhhc2hLZXlUeXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnaGFzaF9rZXlfdHlwZScpO1xuICB9XG5cbiAgLy8gaGFzaF9rZXlfdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBoYXNoS2V5VmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdoYXNoX2tleV92YWx1ZScpO1xuICB9XG5cbiAgLy8gb3BlcmF0aW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgb3BlcmF0aW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnb3BlcmF0aW9uJyk7XG4gIH1cblxuICAvLyBwYXlsb2FkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZCgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwYXlsb2FkJykgYXMgYW55O1xuICB9XG5cbiAgLy8gcGF5bG9hZF9maWVsZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWRGaWVsZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3BheWxvYWRfZmllbGQnKTtcbiAgfVxuXG4gIC8vIHJhbmdlX2tleV9maWVsZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHJhbmdlS2V5RmllbGQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdyYW5nZV9rZXlfZmllbGQnKTtcbiAgfVxuXG4gIC8vIHJhbmdlX2tleV90eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmFuZ2VLZXlUeXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncmFuZ2Vfa2V5X3R5cGUnKTtcbiAgfVxuXG4gIC8vIHJhbmdlX2tleV92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHJhbmdlS2V5VmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdyYW5nZV9rZXlfdmFsdWUnKTtcbiAgfVxuXG4gIC8vIHRhYmxlX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0YWJsZU5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0YWJsZV9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EYlRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNEeW5hbW9EYik6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBoYXNoX2tleV9maWVsZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5oYXNoS2V5RmllbGQpLFxuICAgIGhhc2hfa2V5X3R5cGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuaGFzaEtleVR5cGUpLFxuICAgIGhhc2hfa2V5X3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmhhc2hLZXlWYWx1ZSksXG4gICAgb3BlcmF0aW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLm9wZXJhdGlvbiksXG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0R5bmFtb0RiUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgcGF5bG9hZF9maWVsZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkRmllbGQpLFxuICAgIHJhbmdlX2tleV9maWVsZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5yYW5nZUtleUZpZWxkKSxcbiAgICByYW5nZV9rZXlfdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5yYW5nZUtleVR5cGUpLFxuICAgIHJhbmdlX2tleV92YWx1ZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5yYW5nZUtleVZhbHVlKSxcbiAgICB0YWJsZV9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRhYmxlTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNGaXJlaG9zZVBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNGaXJlaG9zZVBheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zRmlyZWhvc2VQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0ZpcmVob3NlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gZGVsaXZlcnlfc3RyZWFtX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBkZWxpdmVyeVN0cmVhbU5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdkZWxpdmVyeV9zdHJlYW1fbmFtZScpO1xuICB9XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNlcGFyYXRvciAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNlcGFyYXRvcigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3NlcGFyYXRvcicpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zRmlyZWhvc2VUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zRmlyZWhvc2UpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgZGVsaXZlcnlfc3RyZWFtX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZGVsaXZlcnlTdHJlYW1OYW1lKSxcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zRmlyZWhvc2VQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICBzZXBhcmF0b3I6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuc2VwYXJhdG9yKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdEV2ZW50c1BheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RFdmVudHNQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdEV2ZW50c1BheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90RXZlbnRzIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gaW5wdXRfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGlucHV0TmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2lucHV0X25hbWUnKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RFdmVudHNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90RXZlbnRzKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGlucHV0X25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuaW5wdXROYW1lKSxcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90RXZlbnRzUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUaW1lc3RhbXAgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBvZmZzZXRfaW5fbmFub3MgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBvZmZzZXRJbk5hbm9zKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnb2Zmc2V0X2luX25hbm9zJyk7XG4gIH1cblxuICAvLyB0aW1lX2luX3NlY29uZHMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lSW5TZWNvbmRzKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGltZV9pbl9zZWNvbmRzJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUaW1lc3RhbXBUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVGltZXN0YW1wKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIG9mZnNldF9pbl9uYW5vczogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5vZmZzZXRJbk5hbm9zKSxcbiAgICB0aW1lX2luX3NlY29uZHM6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZUluU2Vjb25kcyksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVWYWx1ZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGJvb2xlYW5fdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBib29sZWFuVmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdib29sZWFuX3ZhbHVlJyk7XG4gIH1cblxuICAvLyBkb3VibGVfdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBkb3VibGVWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2RvdWJsZV92YWx1ZScpO1xuICB9XG5cbiAgLy8gaW50ZWdlcl92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGludGVnZXJWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2ludGVnZXJfdmFsdWUnKTtcbiAgfVxuXG4gIC8vIHN0cmluZ192YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHN0cmluZ1ZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnc3RyaW5nX3ZhbHVlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVWYWx1ZVRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVWYWx1ZSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBib29sZWFuX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmJvb2xlYW5WYWx1ZSksXG4gICAgZG91YmxlX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmRvdWJsZVZhbHVlKSxcbiAgICBpbnRlZ2VyX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmludGVnZXJWYWx1ZSksXG4gICAgc3RyaW5nX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnN0cmluZ1ZhbHVlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHF1YWxpdHkgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBxdWFsaXR5KCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncXVhbGl0eScpO1xuICB9XG5cbiAgLy8gdGltZXN0YW1wIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGltZXN0YW1wKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3RpbWVzdGFtcCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgndmFsdWUnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHF1YWxpdHk6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEucXVhbGl0eSksXG4gICAgdGltZXN0YW1wOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVGltZXN0YW1wVG9UZXJyYWZvcm0oc3RydWN0IS50aW1lc3RhbXApLFxuICAgIHZhbHVlOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVmFsdWVUb1RlcnJhZm9ybShzdHJ1Y3QhLnZhbHVlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gYXNzZXRfaWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBhc3NldElkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnYXNzZXRfaWQnKTtcbiAgfVxuXG4gIC8vIGVudHJ5X2lkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZW50cnlJZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2VudHJ5X2lkJyk7XG4gIH1cblxuICAvLyBwcm9wZXJ0eV9hbGlhcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHByb3BlcnR5QWxpYXMoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdwcm9wZXJ0eV9hbGlhcycpO1xuICB9XG5cbiAgLy8gcHJvcGVydHlfaWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwcm9wZXJ0eUlkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncHJvcGVydHlfaWQnKTtcbiAgfVxuXG4gIC8vIHByb3BlcnR5X3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcHJvcGVydHlWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwcm9wZXJ0eV92YWx1ZScpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGFzc2V0X2lkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmFzc2V0SWQpLFxuICAgIGVudHJ5X2lkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmVudHJ5SWQpLFxuICAgIHByb3BlcnR5X2FsaWFzOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnByb3BlcnR5QWxpYXMpLFxuICAgIHByb3BlcnR5X2lkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnByb3BlcnR5SWQpLFxuICAgIHByb3BlcnR5X3ZhbHVlOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVG9UZXJyYWZvcm0oc3RydWN0IS5wcm9wZXJ0eVZhbHVlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdFRvcGljUHVibGlzaFBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdFRvcGljUHVibGlzaFBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gbXF0dF90b3BpYyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IG1xdHRUb3BpYygpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ21xdHRfdG9waWMnKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIG1xdHRfdG9waWM6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEubXF0dFRvcGljKSxcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNMYW1iZGFQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zTGFtYmRhUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNMYW1iZGFQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0xhbWJkYSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGZ1bmN0aW9uX2FybiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGZ1bmN0aW9uQXJuKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZnVuY3Rpb25fYXJuJyk7XG4gIH1cblxuICAvLyBwYXlsb2FkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZCgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwYXlsb2FkJykgYXMgYW55O1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zTGFtYmRhVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0xhbWJkYSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBmdW5jdGlvbl9hcm46IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZnVuY3Rpb25Bcm4pLFxuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNMYW1iZGFQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1Jlc2V0VGltZXIgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyB0aW1lcl9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGltZXJOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGltZXJfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zUmVzZXRUaW1lclRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNSZXNldFRpbWVyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHRpbWVyX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZXJOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1NldFRpbWVyIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gZHVyYXRpb25fZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGR1cmF0aW9uRXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2R1cmF0aW9uX2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHNlY29uZHMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBzZWNvbmRzKCkge1xuICAgIHJldHVybiB0aGlzLmdldE51bWJlckF0dHJpYnV0ZSgnc2Vjb25kcycpO1xuICB9XG5cbiAgLy8gdGltZXJfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRpbWVyTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RpbWVyX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1NldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1NldFRpbWVyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGR1cmF0aW9uX2V4cHJlc3Npb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZHVyYXRpb25FeHByZXNzaW9uKSxcbiAgICBzZWNvbmRzOiBjZGt0Zi5udW1iZXJUb1RlcnJhZm9ybShzdHJ1Y3QhLnNlY29uZHMpLFxuICAgIHRpbWVyX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZXJOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1NldFZhcmlhYmxlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB2YWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3ZhbHVlJyk7XG4gIH1cblxuICAvLyB2YXJpYWJsZV9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdmFyaWFibGVOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndmFyaWFibGVfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zU2V0VmFyaWFibGVUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zU2V0VmFyaWFibGUpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudmFsdWUpLFxuICAgIHZhcmlhYmxlX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudmFyaWFibGVOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1Nuc1BheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTbnNQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1Nuc1BheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zU25zIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHRhcmdldF9hcm4gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0YXJnZXRBcm4oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0YXJnZXRfYXJuJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTbnNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zU25zKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTbnNQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICB0YXJnZXRfYXJuOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRhcmdldEFybiksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTcXNQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zU3FzUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTcXNQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1NxcyBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBxdWV1ZV91cmwgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBxdWV1ZVVybCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3F1ZXVlX3VybCcpO1xuICB9XG5cbiAgLy8gdXNlX2Jhc2VfNjQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB1c2VCYXNlNjQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0Qm9vbGVhbkF0dHJpYnV0ZSgndXNlX2Jhc2VfNjQnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1Nxc1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTcXMpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1Nxc1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3QhLnBheWxvYWQpLFxuICAgIHF1ZXVlX3VybDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5xdWV1ZVVybCksXG4gICAgdXNlX2Jhc2VfNjQ6IGNka3RmLmJvb2xlYW5Ub1RlcnJhZm9ybShzdHJ1Y3QhLnVzZUJhc2U2NCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnMgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjbGVhcl90aW1lciAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNsZWFyVGltZXIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnY2xlYXJfdGltZXInKSBhcyBhbnk7XG4gIH1cblxuICAvLyBkeW5hbW9fZF9idl8yIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZHluYW1vREJ2MigpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdkeW5hbW9fZF9idl8yJykgYXMgYW55O1xuICB9XG5cbiAgLy8gZHluYW1vX2RiIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZHluYW1vRGIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnZHluYW1vX2RiJykgYXMgYW55O1xuICB9XG5cbiAgLy8gZmlyZWhvc2UgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBmaXJlaG9zZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdmaXJlaG9zZScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGlvdF9ldmVudHMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpb3RFdmVudHMoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnaW90X2V2ZW50cycpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGlvdF9zaXRlX3dpc2UgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpb3RTaXRlV2lzZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdpb3Rfc2l0ZV93aXNlJykgYXMgYW55O1xuICB9XG5cbiAgLy8gaW90X3RvcGljX3B1Ymxpc2ggLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpb3RUb3BpY1B1Ymxpc2goKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnaW90X3RvcGljX3B1Ymxpc2gnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBsYW1iZGEgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBsYW1iZGEoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnbGFtYmRhJykgYXMgYW55O1xuICB9XG5cbiAgLy8gcmVzZXRfdGltZXIgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCByZXNldFRpbWVyKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3Jlc2V0X3RpbWVyJykgYXMgYW55O1xuICB9XG5cbiAgLy8gc2V0X3RpbWVyIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc2V0VGltZXIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnc2V0X3RpbWVyJykgYXMgYW55O1xuICB9XG5cbiAgLy8gc2V0X3ZhcmlhYmxlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc2V0VmFyaWFibGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnc2V0X3ZhcmlhYmxlJykgYXMgYW55O1xuICB9XG5cbiAgLy8gc25zIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc25zKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3NucycpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNxcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNxcygpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdzcXMnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNsZWFyX3RpbWVyOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zQ2xlYXJUaW1lclRvVGVycmFmb3JtKHN0cnVjdCEuY2xlYXJUaW1lciksXG4gICAgZHluYW1vX2RfYnZfMjogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJUb1RlcnJhZm9ybShzdHJ1Y3QhLmR5bmFtb0RCdjIpLFxuICAgIGR5bmFtb19kYjogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0R5bmFtb0RiVG9UZXJyYWZvcm0oc3RydWN0IS5keW5hbW9EYiksXG4gICAgZmlyZWhvc2U6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNGaXJlaG9zZVRvVGVycmFmb3JtKHN0cnVjdCEuZmlyZWhvc2UpLFxuICAgIGlvdF9ldmVudHM6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RFdmVudHNUb1RlcnJhZm9ybShzdHJ1Y3QhLmlvdEV2ZW50cyksXG4gICAgaW90X3NpdGVfd2lzZTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlVG9UZXJyYWZvcm0oc3RydWN0IS5pb3RTaXRlV2lzZSksXG4gICAgaW90X3RvcGljX3B1Ymxpc2g6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hUb1RlcnJhZm9ybShzdHJ1Y3QhLmlvdFRvcGljUHVibGlzaCksXG4gICAgbGFtYmRhOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zTGFtYmRhVG9UZXJyYWZvcm0oc3RydWN0IS5sYW1iZGEpLFxuICAgIHJlc2V0X3RpbWVyOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zUmVzZXRUaW1lclRvVGVycmFmb3JtKHN0cnVjdCEucmVzZXRUaW1lciksXG4gICAgc2V0X3RpbWVyOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbkV4aXRFdmVudHNBY3Rpb25zU2V0VGltZXJUb1RlcnJhZm9ybShzdHJ1Y3QhLnNldFRpbWVyKSxcbiAgICBzZXRfdmFyaWFibGU6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTZXRWYXJpYWJsZVRvVGVycmFmb3JtKHN0cnVjdCEuc2V0VmFyaWFibGUpLFxuICAgIHNuczogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzQWN0aW9uc1Nuc1RvVGVycmFmb3JtKHN0cnVjdCEuc25zKSxcbiAgICBzcXM6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNTcXNUb1RlcnJhZm9ybShzdHJ1Y3QhLnNxcyksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50cyBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGFjdGlvbnMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBhY3Rpb25zKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2FjdGlvbnMnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBjb25kaXRpb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb25kaXRpb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb25kaXRpb24nKTtcbiAgfVxuXG4gIC8vIGV2ZW50X25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBldmVudE5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdldmVudF9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50cyk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBhY3Rpb25zOiBjZGt0Zi5saXN0TWFwcGVyKGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdEV2ZW50c0FjdGlvbnNUb1RlcnJhZm9ybSkoc3RydWN0IS5hY3Rpb25zKSxcbiAgICBjb25kaXRpb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuY29uZGl0aW9uKSxcbiAgICBldmVudF9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmV2ZW50TmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGV2ZW50cyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGV2ZW50cygpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdldmVudHMnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBldmVudHM6IGNka3RmLmxpc3RNYXBwZXIoZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25FeGl0RXZlbnRzVG9UZXJyYWZvcm0pKHN0cnVjdCEuZXZlbnRzKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNDbGVhclRpbWVyIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gdGltZXJfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRpbWVyTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RpbWVyX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNDbGVhclRpbWVyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNDbGVhclRpbWVyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHRpbWVyX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZXJOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRHluYW1vREJ2MlBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0R5bmFtb0RCdjIgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBwYXlsb2FkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZCgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwYXlsb2FkJykgYXMgYW55O1xuICB9XG5cbiAgLy8gdGFibGVfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRhYmxlTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RhYmxlX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRHluYW1vREJ2MlBheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3QhLnBheWxvYWQpLFxuICAgIHRhYmxlX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGFibGVOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNEeW5hbW9EYlBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRHluYW1vRGJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNEeW5hbW9EYlBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0R5bmFtb0RiIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gaGFzaF9rZXlfZmllbGQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBoYXNoS2V5RmllbGQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdoYXNoX2tleV9maWVsZCcpO1xuICB9XG5cbiAgLy8gaGFzaF9rZXlfdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGhhc2hLZXlUeXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnaGFzaF9rZXlfdHlwZScpO1xuICB9XG5cbiAgLy8gaGFzaF9rZXlfdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBoYXNoS2V5VmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdoYXNoX2tleV92YWx1ZScpO1xuICB9XG5cbiAgLy8gb3BlcmF0aW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgb3BlcmF0aW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnb3BlcmF0aW9uJyk7XG4gIH1cblxuICAvLyBwYXlsb2FkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZCgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwYXlsb2FkJykgYXMgYW55O1xuICB9XG5cbiAgLy8gcGF5bG9hZF9maWVsZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWRGaWVsZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3BheWxvYWRfZmllbGQnKTtcbiAgfVxuXG4gIC8vIHJhbmdlX2tleV9maWVsZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHJhbmdlS2V5RmllbGQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdyYW5nZV9rZXlfZmllbGQnKTtcbiAgfVxuXG4gIC8vIHJhbmdlX2tleV90eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmFuZ2VLZXlUeXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncmFuZ2Vfa2V5X3R5cGUnKTtcbiAgfVxuXG4gIC8vIHJhbmdlX2tleV92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHJhbmdlS2V5VmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdyYW5nZV9rZXlfdmFsdWUnKTtcbiAgfVxuXG4gIC8vIHRhYmxlX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0YWJsZU5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0YWJsZV9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRHluYW1vRGJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0R5bmFtb0RiKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGhhc2hfa2V5X2ZpZWxkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmhhc2hLZXlGaWVsZCksXG4gICAgaGFzaF9rZXlfdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5oYXNoS2V5VHlwZSksXG4gICAgaGFzaF9rZXlfdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuaGFzaEtleVZhbHVlKSxcbiAgICBvcGVyYXRpb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEub3BlcmF0aW9uKSxcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0R5bmFtb0RiUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgcGF5bG9hZF9maWVsZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkRmllbGQpLFxuICAgIHJhbmdlX2tleV9maWVsZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5yYW5nZUtleUZpZWxkKSxcbiAgICByYW5nZV9rZXlfdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5yYW5nZUtleVR5cGUpLFxuICAgIHJhbmdlX2tleV92YWx1ZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5yYW5nZUtleVZhbHVlKSxcbiAgICB0YWJsZV9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRhYmxlTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRmlyZWhvc2VQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0ZpcmVob3NlUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRmlyZWhvc2VQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNGaXJlaG9zZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGRlbGl2ZXJ5X3N0cmVhbV9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZGVsaXZlcnlTdHJlYW1OYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZGVsaXZlcnlfc3RyZWFtX25hbWUnKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBzZXBhcmF0b3IgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBzZXBhcmF0b3IoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdzZXBhcmF0b3InKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNGaXJlaG9zZVRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRmlyZWhvc2UpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgZGVsaXZlcnlfc3RyZWFtX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZGVsaXZlcnlTdHJlYW1OYW1lKSxcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0ZpcmVob3NlUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgc2VwYXJhdG9yOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnNlcGFyYXRvciksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90RXZlbnRzUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RFdmVudHNQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RFdmVudHNQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RFdmVudHMgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBpbnB1dF9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW5wdXROYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnaW5wdXRfbmFtZScpO1xuICB9XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RFdmVudHNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdEV2ZW50cyk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBpbnB1dF9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmlucHV0TmFtZSksXG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RFdmVudHNQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUaW1lc3RhbXAgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBvZmZzZXRfaW5fbmFub3MgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBvZmZzZXRJbk5hbm9zKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnb2Zmc2V0X2luX25hbm9zJyk7XG4gIH1cblxuICAvLyB0aW1lX2luX3NlY29uZHMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lSW5TZWNvbmRzKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGltZV9pbl9zZWNvbmRzJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVGltZXN0YW1wVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUaW1lc3RhbXApOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgb2Zmc2V0X2luX25hbm9zOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLm9mZnNldEluTmFub3MpLFxuICAgIHRpbWVfaW5fc2Vjb25kczogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50aW1lSW5TZWNvbmRzKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVWYWx1ZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGJvb2xlYW5fdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBib29sZWFuVmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdib29sZWFuX3ZhbHVlJyk7XG4gIH1cblxuICAvLyBkb3VibGVfdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBkb3VibGVWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2RvdWJsZV92YWx1ZScpO1xuICB9XG5cbiAgLy8gaW50ZWdlcl92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGludGVnZXJWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2ludGVnZXJfdmFsdWUnKTtcbiAgfVxuXG4gIC8vIHN0cmluZ192YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHN0cmluZ1ZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnc3RyaW5nX3ZhbHVlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVmFsdWVUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVZhbHVlKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGJvb2xlYW5fdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuYm9vbGVhblZhbHVlKSxcbiAgICBkb3VibGVfdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZG91YmxlVmFsdWUpLFxuICAgIGludGVnZXJfdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuaW50ZWdlclZhbHVlKSxcbiAgICBzdHJpbmdfdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuc3RyaW5nVmFsdWUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHF1YWxpdHkgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBxdWFsaXR5KCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncXVhbGl0eScpO1xuICB9XG5cbiAgLy8gdGltZXN0YW1wIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGltZXN0YW1wKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3RpbWVzdGFtcCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgndmFsdWUnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWUpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgcXVhbGl0eTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5xdWFsaXR5KSxcbiAgICB0aW1lc3RhbXA6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVGltZXN0YW1wVG9UZXJyYWZvcm0oc3RydWN0IS50aW1lc3RhbXApLFxuICAgIHZhbHVlOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVZhbHVlVG9UZXJyYWZvcm0oc3RydWN0IS52YWx1ZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90U2l0ZVdpc2UgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBhc3NldF9pZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGFzc2V0SWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdhc3NldF9pZCcpO1xuICB9XG5cbiAgLy8gZW50cnlfaWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBlbnRyeUlkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZW50cnlfaWQnKTtcbiAgfVxuXG4gIC8vIHByb3BlcnR5X2FsaWFzIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcHJvcGVydHlBbGlhcygpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3Byb3BlcnR5X2FsaWFzJyk7XG4gIH1cblxuICAvLyBwcm9wZXJ0eV9pZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHByb3BlcnR5SWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdwcm9wZXJ0eV9pZCcpO1xuICB9XG5cbiAgLy8gcHJvcGVydHlfdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwcm9wZXJ0eVZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3Byb3BlcnR5X3ZhbHVlJykgYXMgYW55O1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBhc3NldF9pZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5hc3NldElkKSxcbiAgICBlbnRyeV9pZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5lbnRyeUlkKSxcbiAgICBwcm9wZXJ0eV9hbGlhczogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5wcm9wZXJ0eUFsaWFzKSxcbiAgICBwcm9wZXJ0eV9pZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5wcm9wZXJ0eUlkKSxcbiAgICBwcm9wZXJ0eV92YWx1ZTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUb1RlcnJhZm9ybShzdHJ1Y3QhLnByb3BlcnR5VmFsdWUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdFRvcGljUHVibGlzaFBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoUGF5bG9hZCk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBjb250ZW50X2V4cHJlc3Npb246IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuY29udGVudEV4cHJlc3Npb24pLFxuICAgIHR5cGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudHlwZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gbXF0dF90b3BpYyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IG1xdHRUb3BpYygpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ21xdHRfdG9waWMnKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2gpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgbXF0dF90b3BpYzogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5tcXR0VG9waWMpLFxuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zTGFtYmRhUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNMYW1iZGFQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNMYW1iZGFQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNMYW1iZGEgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBmdW5jdGlvbl9hcm4gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBmdW5jdGlvbkFybigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2Z1bmN0aW9uX2FybicpO1xuICB9XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNMYW1iZGFUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0xhbWJkYSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBmdW5jdGlvbl9hcm46IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZnVuY3Rpb25Bcm4pLFxuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zTGFtYmRhUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zUmVzZXRUaW1lciBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHRpbWVyX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lck5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0aW1lcl9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zUmVzZXRUaW1lclRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zUmVzZXRUaW1lcik6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICB0aW1lcl9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRpbWVyTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zU2V0VGltZXIgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBkdXJhdGlvbl9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZHVyYXRpb25FeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZHVyYXRpb25fZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gc2Vjb25kcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNlY29uZHMoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0TnVtYmVyQXR0cmlidXRlKCdzZWNvbmRzJyk7XG4gIH1cblxuICAvLyB0aW1lcl9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGltZXJOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGltZXJfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1NldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNTZXRUaW1lcik6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBkdXJhdGlvbl9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmR1cmF0aW9uRXhwcmVzc2lvbiksXG4gICAgc2Vjb25kczogY2RrdGYubnVtYmVyVG9UZXJyYWZvcm0oc3RydWN0IS5zZWNvbmRzKSxcbiAgICB0aW1lcl9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRpbWVyTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zU2V0VmFyaWFibGUgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyB2YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndmFsdWUnKTtcbiAgfVxuXG4gIC8vIHZhcmlhYmxlX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB2YXJpYWJsZU5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd2YXJpYWJsZV9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zU2V0VmFyaWFibGVUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1NldFZhcmlhYmxlKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnZhbHVlKSxcbiAgICB2YXJpYWJsZV9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnZhcmlhYmxlTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zU25zUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNTbnNQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNTbnNQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNTbnMgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBwYXlsb2FkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZCgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwYXlsb2FkJykgYXMgYW55O1xuICB9XG5cbiAgLy8gdGFyZ2V0X2FybiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRhcmdldEFybigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RhcmdldF9hcm4nKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNTbnNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1Nucyk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1Nuc1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3QhLnBheWxvYWQpLFxuICAgIHRhcmdldF9hcm46IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGFyZ2V0QXJuKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNTcXNQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1Nxc1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1Nxc1BheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1NxcyBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBxdWV1ZV91cmwgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBxdWV1ZVVybCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3F1ZXVlX3VybCcpO1xuICB9XG5cbiAgLy8gdXNlX2Jhc2VfNjQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB1c2VCYXNlNjQoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0Qm9vbGVhbkF0dHJpYnV0ZSgndXNlX2Jhc2VfNjQnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNTcXNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1Nxcyk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1Nxc1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3QhLnBheWxvYWQpLFxuICAgIHF1ZXVlX3VybDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5xdWV1ZVVybCksXG4gICAgdXNlX2Jhc2VfNjQ6IGNka3RmLmJvb2xlYW5Ub1RlcnJhZm9ybShzdHJ1Y3QhLnVzZUJhc2U2NCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY2xlYXJfdGltZXIgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjbGVhclRpbWVyKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2NsZWFyX3RpbWVyJykgYXMgYW55O1xuICB9XG5cbiAgLy8gZHluYW1vX2RfYnZfMiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGR5bmFtb0RCdjIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnZHluYW1vX2RfYnZfMicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGR5bmFtb19kYiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGR5bmFtb0RiKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2R5bmFtb19kYicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGZpcmVob3NlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZmlyZWhvc2UoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnZmlyZWhvc2UnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBpb3RfZXZlbnRzIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW90RXZlbnRzKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2lvdF9ldmVudHMnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBpb3Rfc2l0ZV93aXNlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW90U2l0ZVdpc2UoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnaW90X3NpdGVfd2lzZScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGlvdF90b3BpY19wdWJsaXNoIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW90VG9waWNQdWJsaXNoKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2lvdF90b3BpY19wdWJsaXNoJykgYXMgYW55O1xuICB9XG5cbiAgLy8gbGFtYmRhIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgbGFtYmRhKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2xhbWJkYScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHJlc2V0X3RpbWVyIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmVzZXRUaW1lcigpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdyZXNldF90aW1lcicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNldF90aW1lciAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNldFRpbWVyKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3NldF90aW1lcicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNldF92YXJpYWJsZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNldFZhcmlhYmxlKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3NldF92YXJpYWJsZScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNucyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNucygpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdzbnMnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBzcXMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBzcXMoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnc3FzJykgYXMgYW55O1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNsZWFyX3RpbWVyOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0NsZWFyVGltZXJUb1RlcnJhZm9ybShzdHJ1Y3QhLmNsZWFyVGltZXIpLFxuICAgIGR5bmFtb19kX2J2XzI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRHluYW1vREJ2MlRvVGVycmFmb3JtKHN0cnVjdCEuZHluYW1vREJ2MiksXG4gICAgZHluYW1vX2RiOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0R5bmFtb0RiVG9UZXJyYWZvcm0oc3RydWN0IS5keW5hbW9EYiksXG4gICAgZmlyZWhvc2U6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zRmlyZWhvc2VUb1RlcnJhZm9ybShzdHJ1Y3QhLmZpcmVob3NlKSxcbiAgICBpb3RfZXZlbnRzOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdEV2ZW50c1RvVGVycmFmb3JtKHN0cnVjdCEuaW90RXZlbnRzKSxcbiAgICBpb3Rfc2l0ZV93aXNlOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlVG9UZXJyYWZvcm0oc3RydWN0IS5pb3RTaXRlV2lzZSksXG4gICAgaW90X3RvcGljX3B1Ymxpc2g6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoVG9UZXJyYWZvcm0oc3RydWN0IS5pb3RUb3BpY1B1Ymxpc2gpLFxuICAgIGxhbWJkYTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c0FjdGlvbnNMYW1iZGFUb1RlcnJhZm9ybShzdHJ1Y3QhLmxhbWJkYSksXG4gICAgcmVzZXRfdGltZXI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zUmVzZXRUaW1lclRvVGVycmFmb3JtKHN0cnVjdCEucmVzZXRUaW1lciksXG4gICAgc2V0X3RpbWVyOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1NldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0IS5zZXRUaW1lciksXG4gICAgc2V0X3ZhcmlhYmxlOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1NldFZhcmlhYmxlVG9UZXJyYWZvcm0oc3RydWN0IS5zZXRWYXJpYWJsZSksXG4gICAgc25zOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1Nuc1RvVGVycmFmb3JtKHN0cnVjdCEuc25zKSxcbiAgICBzcXM6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHNBY3Rpb25zU3FzVG9UZXJyYWZvcm0oc3RydWN0IS5zcXMpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gYWN0aW9ucyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGFjdGlvbnMoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnYWN0aW9ucycpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGNvbmRpdGlvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbmRpdGlvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbmRpdGlvbicpO1xuICB9XG5cbiAgLy8gZXZlbnRfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGV2ZW50TmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2V2ZW50X25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dEV2ZW50c1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRFdmVudHMpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgYWN0aW9uczogY2RrdGYubGlzdE1hcHBlcihkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzQWN0aW9uc1RvVGVycmFmb3JtKShzdHJ1Y3QhLmFjdGlvbnMpLFxuICAgIGNvbmRpdGlvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb25kaXRpb24pLFxuICAgIGV2ZW50X25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuZXZlbnROYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zQ2xlYXJUaW1lciBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIHRpbWVyX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lck5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0aW1lcl9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0NsZWFyVGltZXJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNDbGVhclRpbWVyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHRpbWVyX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZXJOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vREJ2MlBheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vREJ2MlBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHRhYmxlX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0YWJsZU5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0YWJsZV9uYW1lJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNEeW5hbW9EQnYyKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICB0YWJsZV9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRhYmxlTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0R5bmFtb0RiUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vRGJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vRGJQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vRGIgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBoYXNoX2tleV9maWVsZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGhhc2hLZXlGaWVsZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2hhc2hfa2V5X2ZpZWxkJyk7XG4gIH1cblxuICAvLyBoYXNoX2tleV90eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaGFzaEtleVR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdoYXNoX2tleV90eXBlJyk7XG4gIH1cblxuICAvLyBoYXNoX2tleV92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGhhc2hLZXlWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2hhc2hfa2V5X3ZhbHVlJyk7XG4gIH1cblxuICAvLyBvcGVyYXRpb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBvcGVyYXRpb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdvcGVyYXRpb24nKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBwYXlsb2FkX2ZpZWxkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcGF5bG9hZEZpZWxkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncGF5bG9hZF9maWVsZCcpO1xuICB9XG5cbiAgLy8gcmFuZ2Vfa2V5X2ZpZWxkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmFuZ2VLZXlGaWVsZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3JhbmdlX2tleV9maWVsZCcpO1xuICB9XG5cbiAgLy8gcmFuZ2Vfa2V5X3R5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCByYW5nZUtleVR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdyYW5nZV9rZXlfdHlwZScpO1xuICB9XG5cbiAgLy8gcmFuZ2Vfa2V5X3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmFuZ2VLZXlWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3JhbmdlX2tleV92YWx1ZScpO1xuICB9XG5cbiAgLy8gdGFibGVfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRhYmxlTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RhYmxlX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vRGJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNEeW5hbW9EYik6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBoYXNoX2tleV9maWVsZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5oYXNoS2V5RmllbGQpLFxuICAgIGhhc2hfa2V5X3R5cGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEuaGFzaEtleVR5cGUpLFxuICAgIGhhc2hfa2V5X3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmhhc2hLZXlWYWx1ZSksXG4gICAgb3BlcmF0aW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLm9wZXJhdGlvbiksXG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vRGJQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICBwYXlsb2FkX2ZpZWxkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnBheWxvYWRGaWVsZCksXG4gICAgcmFuZ2Vfa2V5X2ZpZWxkOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnJhbmdlS2V5RmllbGQpLFxuICAgIHJhbmdlX2tleV90eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnJhbmdlS2V5VHlwZSksXG4gICAgcmFuZ2Vfa2V5X3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnJhbmdlS2V5VmFsdWUpLFxuICAgIHRhYmxlX25hbWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGFibGVOYW1lKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRmlyZWhvc2VQYXlsb2FkIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY29udGVudF9leHByZXNzaW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgY29udGVudEV4cHJlc3Npb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb250ZW50X2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHR5cGUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0eXBlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndHlwZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNGaXJlaG9zZVBheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNGaXJlaG9zZVBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNGaXJlaG9zZSBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGRlbGl2ZXJ5X3N0cmVhbV9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZGVsaXZlcnlTdHJlYW1OYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZGVsaXZlcnlfc3RyZWFtX25hbWUnKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBzZXBhcmF0b3IgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBzZXBhcmF0b3IoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdzZXBhcmF0b3InKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRmlyZWhvc2VUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNGaXJlaG9zZSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBkZWxpdmVyeV9zdHJlYW1fbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5kZWxpdmVyeVN0cmVhbU5hbWUpLFxuICAgIHBheWxvYWQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0ZpcmVob3NlUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgc2VwYXJhdG9yOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnNlcGFyYXRvciksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdEV2ZW50c1BheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdEV2ZW50c1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNJb3RFdmVudHNQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90RXZlbnRzIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gaW5wdXRfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGlucHV0TmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2lucHV0X25hbWUnKTtcbiAgfVxuXG4gIC8vIHBheWxvYWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwYXlsb2FkKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3BheWxvYWQnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdEV2ZW50c1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdEV2ZW50cyk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBpbnB1dF9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmlucHV0TmFtZSksXG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90RXZlbnRzUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVRpbWVzdGFtcCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIG9mZnNldF9pbl9uYW5vcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IG9mZnNldEluTmFub3MoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdvZmZzZXRfaW5fbmFub3MnKTtcbiAgfVxuXG4gIC8vIHRpbWVfaW5fc2Vjb25kcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRpbWVJblNlY29uZHMoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0aW1lX2luX3NlY29uZHMnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVGltZXN0YW1wVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVGltZXN0YW1wKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIG9mZnNldF9pbl9uYW5vczogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5vZmZzZXRJbk5hbm9zKSxcbiAgICB0aW1lX2luX3NlY29uZHM6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudGltZUluU2Vjb25kcyksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVZhbHVlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gYm9vbGVhbl92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGJvb2xlYW5WYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2Jvb2xlYW5fdmFsdWUnKTtcbiAgfVxuXG4gIC8vIGRvdWJsZV92YWx1ZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGRvdWJsZVZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZG91YmxlX3ZhbHVlJyk7XG4gIH1cblxuICAvLyBpbnRlZ2VyX3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW50ZWdlclZhbHVlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnaW50ZWdlcl92YWx1ZScpO1xuICB9XG5cbiAgLy8gc3RyaW5nX3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc3RyaW5nVmFsdWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdzdHJpbmdfdmFsdWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVmFsdWVUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVWYWx1ZSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBib29sZWFuX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmJvb2xlYW5WYWx1ZSksXG4gICAgZG91YmxlX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmRvdWJsZVZhbHVlKSxcbiAgICBpbnRlZ2VyX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmludGVnZXJWYWx1ZSksXG4gICAgc3RyaW5nX3ZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnN0cmluZ1ZhbHVlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcXVhbGl0eSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHF1YWxpdHkoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdxdWFsaXR5Jyk7XG4gIH1cblxuICAvLyB0aW1lc3RhbXAgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0aW1lc3RhbXAoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgndGltZXN0YW1wJykgYXMgYW55O1xuICB9XG5cbiAgLy8gdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB2YWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCd2YWx1ZScpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHF1YWxpdHk6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEucXVhbGl0eSksXG4gICAgdGltZXN0YW1wOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZVByb3BlcnR5VmFsdWVUaW1lc3RhbXBUb1RlcnJhZm9ybShzdHJ1Y3QhLnRpbWVzdGFtcCksXG4gICAgdmFsdWU6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlUHJvcGVydHlWYWx1ZVZhbHVlVG9UZXJyYWZvcm0oc3RydWN0IS52YWx1ZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdFNpdGVXaXNlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gYXNzZXRfaWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBhc3NldElkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnYXNzZXRfaWQnKTtcbiAgfVxuXG4gIC8vIGVudHJ5X2lkIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZW50cnlJZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2VudHJ5X2lkJyk7XG4gIH1cblxuICAvLyBwcm9wZXJ0eV9hbGlhcyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHByb3BlcnR5QWxpYXMoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdwcm9wZXJ0eV9hbGlhcycpO1xuICB9XG5cbiAgLy8gcHJvcGVydHlfaWQgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBwcm9wZXJ0eUlkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncHJvcGVydHlfaWQnKTtcbiAgfVxuXG4gIC8vIHByb3BlcnR5X3ZhbHVlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcHJvcGVydHlWYWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdwcm9wZXJ0eV92YWx1ZScpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNJb3RTaXRlV2lzZSk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBhc3NldF9pZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5hc3NldElkKSxcbiAgICBlbnRyeV9pZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5lbnRyeUlkKSxcbiAgICBwcm9wZXJ0eV9hbGlhczogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5wcm9wZXJ0eUFsaWFzKSxcbiAgICBwcm9wZXJ0eV9pZDogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5wcm9wZXJ0eUlkKSxcbiAgICBwcm9wZXJ0eV92YWx1ZTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VQcm9wZXJ0eVZhbHVlVG9UZXJyYWZvcm0oc3RydWN0IS5wcm9wZXJ0eVZhbHVlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0lvdFRvcGljUHVibGlzaFBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2ggZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBtcXR0X3RvcGljIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgbXF0dFRvcGljKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnbXF0dF90b3BpYycpO1xuICB9XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIG1xdHRfdG9waWM6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEubXF0dFRvcGljKSxcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNJb3RUb3BpY1B1Ymxpc2hQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zTGFtYmRhUGF5bG9hZCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGNvbnRlbnRfZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGNvbnRlbnRFeHByZXNzaW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnY29udGVudF9leHByZXNzaW9uJyk7XG4gIH1cblxuICAvLyB0eXBlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdHlwZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3R5cGUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zTGFtYmRhUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0xhbWJkYVBheWxvYWQpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY29udGVudF9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbnRlbnRFeHByZXNzaW9uKSxcbiAgICB0eXBlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnR5cGUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNMYW1iZGEgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBmdW5jdGlvbl9hcm4gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBmdW5jdGlvbkFybigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2Z1bmN0aW9uX2FybicpO1xuICB9XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zTGFtYmRhVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zTGFtYmRhKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGZ1bmN0aW9uX2FybjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5mdW5jdGlvbkFybiksXG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zTGFtYmRhUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1Jlc2V0VGltZXIgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyB0aW1lcl9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdGltZXJOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndGltZXJfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNSZXNldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zUmVzZXRUaW1lcik6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICB0aW1lcl9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRpbWVyTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1NldFRpbWVyIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gZHVyYXRpb25fZXhwcmVzc2lvbiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGR1cmF0aW9uRXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2R1cmF0aW9uX2V4cHJlc3Npb24nKTtcbiAgfVxuXG4gIC8vIHNlY29uZHMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBzZWNvbmRzKCkge1xuICAgIHJldHVybiB0aGlzLmdldE51bWJlckF0dHJpYnV0ZSgnc2Vjb25kcycpO1xuICB9XG5cbiAgLy8gdGltZXJfbmFtZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRpbWVyTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3RpbWVyX25hbWUnKTtcbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zU2V0VGltZXJUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTZXRUaW1lcik6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBkdXJhdGlvbl9leHByZXNzaW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmR1cmF0aW9uRXhwcmVzc2lvbiksXG4gICAgc2Vjb25kczogY2RrdGYubnVtYmVyVG9UZXJyYWZvcm0oc3RydWN0IS5zZWNvbmRzKSxcbiAgICB0aW1lcl9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRpbWVyTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1NldFZhcmlhYmxlIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB2YWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3ZhbHVlJyk7XG4gIH1cblxuICAvLyB2YXJpYWJsZV9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgdmFyaWFibGVOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgndmFyaWFibGVfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTZXRWYXJpYWJsZVRvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1NldFZhcmlhYmxlKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIHZhbHVlOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnZhbHVlKSxcbiAgICB2YXJpYWJsZV9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnZhcmlhYmxlTmFtZSksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1Nuc1BheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1Nuc1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTbnNQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zU25zIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHRhcmdldF9hcm4gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB0YXJnZXRBcm4oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0YXJnZXRfYXJuJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1Nuc1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1Nucyk6IGFueSB7XG4gIGlmICghY2RrdGYuY2FuSW5zcGVjdChzdHJ1Y3QpKSB7IHJldHVybiBzdHJ1Y3Q7IH1cbiAgcmV0dXJuIHtcbiAgICBwYXlsb2FkOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTbnNQYXlsb2FkVG9UZXJyYWZvcm0oc3RydWN0IS5wYXlsb2FkKSxcbiAgICB0YXJnZXRfYXJuOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnRhcmdldEFybiksXG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1Nxc1BheWxvYWQgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBjb250ZW50X2V4cHJlc3Npb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb250ZW50RXhwcmVzc2lvbigpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2NvbnRlbnRfZXhwcmVzc2lvbicpO1xuICB9XG5cbiAgLy8gdHlwZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHR5cGUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCd0eXBlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1Nxc1BheWxvYWRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTcXNQYXlsb2FkKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGNvbnRlbnRfZXhwcmVzc2lvbjogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5jb250ZW50RXhwcmVzc2lvbiksXG4gICAgdHlwZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS50eXBlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zU3FzIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gcGF5bG9hZCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHBheWxvYWQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgncGF5bG9hZCcpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHF1ZXVlX3VybCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHF1ZXVlVXJsKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgncXVldWVfdXJsJyk7XG4gIH1cblxuICAvLyB1c2VfYmFzZV82NCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHVzZUJhc2U2NCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRCb29sZWFuQXR0cmlidXRlKCd1c2VfYmFzZV82NCcpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTcXNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTcXMpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgcGF5bG9hZDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zU3FzUGF5bG9hZFRvVGVycmFmb3JtKHN0cnVjdCEucGF5bG9hZCksXG4gICAgcXVldWVfdXJsOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLnF1ZXVlVXJsKSxcbiAgICB1c2VfYmFzZV82NDogY2RrdGYuYm9vbGVhblRvVGVycmFmb3JtKHN0cnVjdCEudXNlQmFzZTY0KSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zIGV4dGVuZHMgY2RrdGYuQ29tcGxleENvbXB1dGVkTGlzdCB7XG5cbiAgLy8gY2xlYXJfdGltZXIgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjbGVhclRpbWVyKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2NsZWFyX3RpbWVyJykgYXMgYW55O1xuICB9XG5cbiAgLy8gZHluYW1vX2RfYnZfMiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGR5bmFtb0RCdjIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnZHluYW1vX2RfYnZfMicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGR5bmFtb19kYiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGR5bmFtb0RiKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2R5bmFtb19kYicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGZpcmVob3NlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZmlyZWhvc2UoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnZmlyZWhvc2UnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBpb3RfZXZlbnRzIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW90RXZlbnRzKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2lvdF9ldmVudHMnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBpb3Rfc2l0ZV93aXNlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW90U2l0ZVdpc2UoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnaW90X3NpdGVfd2lzZScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGlvdF90b3BpY19wdWJsaXNoIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgaW90VG9waWNQdWJsaXNoKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2lvdF90b3BpY19wdWJsaXNoJykgYXMgYW55O1xuICB9XG5cbiAgLy8gbGFtYmRhIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgbGFtYmRhKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2xhbWJkYScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHJlc2V0X3RpbWVyIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgcmVzZXRUaW1lcigpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdyZXNldF90aW1lcicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNldF90aW1lciAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNldFRpbWVyKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3NldF90aW1lcicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNldF92YXJpYWJsZSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNldFZhcmlhYmxlKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ3NldF92YXJpYWJsZScpIGFzIGFueTtcbiAgfVxuXG4gIC8vIHNucyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHNucygpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdzbnMnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBzcXMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBzcXMoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnc3FzJykgYXMgYW55O1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnMpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgY2xlYXJfdGltZXI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0NsZWFyVGltZXJUb1RlcnJhZm9ybShzdHJ1Y3QhLmNsZWFyVGltZXIpLFxuICAgIGR5bmFtb19kX2J2XzI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc0R5bmFtb0RCdjJUb1RlcnJhZm9ybShzdHJ1Y3QhLmR5bmFtb0RCdjIpLFxuICAgIGR5bmFtb19kYjogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRHluYW1vRGJUb1RlcnJhZm9ybShzdHJ1Y3QhLmR5bmFtb0RiKSxcbiAgICBmaXJlaG9zZTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zRmlyZWhvc2VUb1RlcnJhZm9ybShzdHJ1Y3QhLmZpcmVob3NlKSxcbiAgICBpb3RfZXZlbnRzOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNJb3RFdmVudHNUb1RlcnJhZm9ybShzdHJ1Y3QhLmlvdEV2ZW50cyksXG4gICAgaW90X3NpdGVfd2lzZTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90U2l0ZVdpc2VUb1RlcnJhZm9ybShzdHJ1Y3QhLmlvdFNpdGVXaXNlKSxcbiAgICBpb3RfdG9waWNfcHVibGlzaDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zSW90VG9waWNQdWJsaXNoVG9UZXJyYWZvcm0oc3RydWN0IS5pb3RUb3BpY1B1Ymxpc2gpLFxuICAgIGxhbWJkYTogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zTGFtYmRhVG9UZXJyYWZvcm0oc3RydWN0IS5sYW1iZGEpLFxuICAgIHJlc2V0X3RpbWVyOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNSZXNldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0IS5yZXNldFRpbWVyKSxcbiAgICBzZXRfdGltZXI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzQWN0aW9uc1NldFRpbWVyVG9UZXJyYWZvcm0oc3RydWN0IS5zZXRUaW1lciksXG4gICAgc2V0X3ZhcmlhYmxlOiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c0FjdGlvbnNTZXRWYXJpYWJsZVRvVGVycmFmb3JtKHN0cnVjdCEuc2V0VmFyaWFibGUpLFxuICAgIHNuczogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zU25zVG9UZXJyYWZvcm0oc3RydWN0IS5zbnMpLFxuICAgIHNxczogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zU3FzVG9UZXJyYWZvcm0oc3RydWN0IS5zcXMpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50cyBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGFjdGlvbnMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBhY3Rpb25zKCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ2FjdGlvbnMnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBjb25kaXRpb24gLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBjb25kaXRpb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdjb25kaXRpb24nKTtcbiAgfVxuXG4gIC8vIGV2ZW50X25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBldmVudE5hbWUoKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdldmVudF9uYW1lJyk7XG4gIH1cblxuICAvLyBuZXh0X3N0YXRlIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgbmV4dFN0YXRlKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnbmV4dF9zdGF0ZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c1RvVGVycmFmb3JtKHN0cnVjdD86IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUcmFuc2l0aW9uRXZlbnRzKTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGFjdGlvbnM6IGNka3RmLmxpc3RNYXBwZXIoZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRyYW5zaXRpb25FdmVudHNBY3Rpb25zVG9UZXJyYWZvcm0pKHN0cnVjdCEuYWN0aW9ucyksXG4gICAgY29uZGl0aW9uOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmNvbmRpdGlvbiksXG4gICAgZXZlbnRfbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5ldmVudE5hbWUpLFxuICAgIG5leHRfc3RhdGU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEubmV4dFN0YXRlKSxcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dCBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGV2ZW50cyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGV2ZW50cygpIHtcbiAgICByZXR1cm4gdGhpcy5pbnRlcnBvbGF0aW9uRm9yQXR0cmlidXRlKCdldmVudHMnKSBhcyBhbnk7XG4gIH1cblxuICAvLyB0cmFuc2l0aW9uX2V2ZW50cyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRyYW5zaXRpb25FdmVudHMoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgndHJhbnNpdGlvbl9ldmVudHMnKSBhcyBhbnk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uSW5wdXRUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0KTogYW55IHtcbiAgaWYgKCFjZGt0Zi5jYW5JbnNwZWN0KHN0cnVjdCkpIHsgcmV0dXJuIHN0cnVjdDsgfVxuICByZXR1cm4ge1xuICAgIGV2ZW50czogY2RrdGYubGlzdE1hcHBlcihkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0RXZlbnRzVG9UZXJyYWZvcm0pKHN0cnVjdCEuZXZlbnRzKSxcbiAgICB0cmFuc2l0aW9uX2V2ZW50czogY2RrdGYubGlzdE1hcHBlcihkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNPbklucHV0VHJhbnNpdGlvbkV2ZW50c1RvVGVycmFmb3JtKShzdHJ1Y3QhLnRyYW5zaXRpb25FdmVudHMpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXMgZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBvbl9lbnRlciAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IG9uRW50ZXIoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnb25fZW50ZXInKSBhcyBhbnk7XG4gIH1cblxuICAvLyBvbl9leGl0IC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgb25FeGl0KCkge1xuICAgIHJldHVybiB0aGlzLmludGVycG9sYXRpb25Gb3JBdHRyaWJ1dGUoJ29uX2V4aXQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBvbl9pbnB1dCAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IG9uSW5wdXQoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnb25faW5wdXQnKSBhcyBhbnk7XG4gIH1cblxuICAvLyBzdGF0ZV9uYW1lIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgc3RhdGVOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnc3RhdGVfbmFtZScpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNUb1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXMpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgb25fZW50ZXI6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRW50ZXJUb1RlcnJhZm9ybShzdHJ1Y3QhLm9uRW50ZXIpLFxuICAgIG9uX2V4aXQ6IGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxEZXRlY3Rvck1vZGVsRGVmaW5pdGlvblN0YXRlc09uRXhpdFRvVGVycmFmb3JtKHN0cnVjdCEub25FeGl0KSxcbiAgICBvbl9pbnB1dDogZGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbERldGVjdG9yTW9kZWxEZWZpbml0aW9uU3RhdGVzT25JbnB1dFRvVGVycmFmb3JtKHN0cnVjdCEub25JbnB1dCksXG4gICAgc3RhdGVfbmFtZTogY2RrdGYuc3RyaW5nVG9UZXJyYWZvcm0oc3RydWN0IS5zdGF0ZU5hbWUpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb24gZXh0ZW5kcyBjZGt0Zi5Db21wbGV4Q29tcHV0ZWRMaXN0IHtcblxuICAvLyBpbml0aWFsX3N0YXRlX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBpbml0aWFsU3RhdGVOYW1lKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnaW5pdGlhbF9zdGF0ZV9uYW1lJyk7XG4gIH1cblxuICAvLyBzdGF0ZXMgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBzdGF0ZXMoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnc3RhdGVzJykgYXMgYW55O1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25Ub1RlcnJhZm9ybShzdHJ1Y3Q/OiBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb24pOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAgaW5pdGlhbF9zdGF0ZV9uYW1lOiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmluaXRpYWxTdGF0ZU5hbWUpLFxuICAgIHN0YXRlczogY2RrdGYubGlzdE1hcHBlcihkYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsRGV0ZWN0b3JNb2RlbERlZmluaXRpb25TdGF0ZXNUb1RlcnJhZm9ybSkoc3RydWN0IS5zdGF0ZXMpLFxuICB9XG59XG5cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsVGFncyBleHRlbmRzIGNka3RmLkNvbXBsZXhDb21wdXRlZExpc3Qge1xuXG4gIC8vIGtleSAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IGtleSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2tleScpO1xuICB9XG5cbiAgLy8gdmFsdWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCB2YWx1ZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ3ZhbHVlJyk7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGRhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxUYWdzVG9UZXJyYWZvcm0oc3RydWN0PzogRGF0YUF3c2NjSW90ZXZlbnRzRGV0ZWN0b3JNb2RlbFRhZ3MpOiBhbnkge1xuICBpZiAoIWNka3RmLmNhbkluc3BlY3Qoc3RydWN0KSkgeyByZXR1cm4gc3RydWN0OyB9XG4gIHJldHVybiB7XG4gICAga2V5OiBjZGt0Zi5zdHJpbmdUb1RlcnJhZm9ybShzdHJ1Y3QhLmtleSksXG4gICAgdmFsdWU6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHN0cnVjdCEudmFsdWUpLFxuICB9XG59XG5cblxuLyoqXG4qIFJlcHJlc2VudHMgYSB7QGxpbmsgaHR0cHM6Ly93d3cudGVycmFmb3JtLmlvL2RvY3MvcHJvdmlkZXJzL2F3c2NjL2QvaW90ZXZlbnRzX2RldGVjdG9yX21vZGVsLmh0bWwgYXdzY2NfaW90ZXZlbnRzX2RldGVjdG9yX21vZGVsfVxuKi9cbmV4cG9ydCBjbGFzcyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsIGV4dGVuZHMgY2RrdGYuVGVycmFmb3JtRGF0YVNvdXJjZSB7XG5cbiAgLy8gPT09PT09PT09PT09PT09PT1cbiAgLy8gU1RBVElDIFBST1BFUlRJRVNcbiAgLy8gPT09PT09PT09PT09PT09PT1cbiAgcHVibGljIHN0YXRpYyByZWFkb25seSB0ZlJlc291cmNlVHlwZTogc3RyaW5nID0gXCJhd3NjY19pb3RldmVudHNfZGV0ZWN0b3JfbW9kZWxcIjtcblxuICAvLyA9PT09PT09PT09PVxuICAvLyBJTklUSUFMSVpFUlxuICAvLyA9PT09PT09PT09PVxuXG4gIC8qKlxuICAqIENyZWF0ZSBhIG5ldyB7QGxpbmsgaHR0cHM6Ly93d3cudGVycmFmb3JtLmlvL2RvY3MvcHJvdmlkZXJzL2F3c2NjL2QvaW90ZXZlbnRzX2RldGVjdG9yX21vZGVsLmh0bWwgYXdzY2NfaW90ZXZlbnRzX2RldGVjdG9yX21vZGVsfSBEYXRhIFNvdXJjZVxuICAqXG4gICogQHBhcmFtIHNjb3BlIFRoZSBzY29wZSBpbiB3aGljaCB0byBkZWZpbmUgdGhpcyBjb25zdHJ1Y3RcbiAgKiBAcGFyYW0gaWQgVGhlIHNjb3BlZCBjb25zdHJ1Y3QgSUQuIE11c3QgYmUgdW5pcXVlIGFtb25nc3Qgc2libGluZ3MgaW4gdGhlIHNhbWUgc2NvcGVcbiAgKiBAcGFyYW0gb3B0aW9ucyBEYXRhQXdzY2NJb3RldmVudHNEZXRlY3Rvck1vZGVsQ29uZmlnXG4gICovXG4gIHB1YmxpYyBjb25zdHJ1Y3RvcihzY29wZTogQ29uc3RydWN0LCBpZDogc3RyaW5nLCBjb25maWc6IERhdGFBd3NjY0lvdGV2ZW50c0RldGVjdG9yTW9kZWxDb25maWcpIHtcbiAgICBzdXBlcihzY29wZSwgaWQsIHtcbiAgICAgIHRlcnJhZm9ybVJlc291cmNlVHlwZTogJ2F3c2NjX2lvdGV2ZW50c19kZXRlY3Rvcl9tb2RlbCcsXG4gICAgICB0ZXJyYWZvcm1HZW5lcmF0b3JNZXRhZGF0YToge1xuICAgICAgICBwcm92aWRlck5hbWU6ICdhd3NjYydcbiAgICAgIH0sXG4gICAgICBwcm92aWRlcjogY29uZmlnLnByb3ZpZGVyLFxuICAgICAgZGVwZW5kc09uOiBjb25maWcuZGVwZW5kc09uLFxuICAgICAgY291bnQ6IGNvbmZpZy5jb3VudCxcbiAgICAgIGxpZmVjeWNsZTogY29uZmlnLmxpZmVjeWNsZVxuICAgIH0pO1xuICAgIHRoaXMuX2lkID0gY29uZmlnLmlkO1xuICB9XG5cbiAgLy8gPT09PT09PT09PVxuICAvLyBBVFRSSUJVVEVTXG4gIC8vID09PT09PT09PT1cblxuICAvLyBkZXRlY3Rvcl9tb2RlbF9kZWZpbml0aW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZGV0ZWN0b3JNb2RlbERlZmluaXRpb24oKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgnZGV0ZWN0b3JfbW9kZWxfZGVmaW5pdGlvbicpIGFzIGFueTtcbiAgfVxuXG4gIC8vIGRldGVjdG9yX21vZGVsX2Rlc2NyaXB0aW9uIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZGV0ZWN0b3JNb2RlbERlc2NyaXB0aW9uKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnZGV0ZWN0b3JfbW9kZWxfZGVzY3JpcHRpb24nKTtcbiAgfVxuXG4gIC8vIGRldGVjdG9yX21vZGVsX25hbWUgLSBjb21wdXRlZDogdHJ1ZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogZmFsc2VcbiAgcHVibGljIGdldCBkZXRlY3Rvck1vZGVsTmFtZSgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2RldGVjdG9yX21vZGVsX25hbWUnKTtcbiAgfVxuXG4gIC8vIGV2YWx1YXRpb25fbWV0aG9kIC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQgZXZhbHVhdGlvbk1ldGhvZCgpIHtcbiAgICByZXR1cm4gdGhpcy5nZXRTdHJpbmdBdHRyaWJ1dGUoJ2V2YWx1YXRpb25fbWV0aG9kJyk7XG4gIH1cblxuICAvLyBpZCAtIGNvbXB1dGVkOiBmYWxzZSwgb3B0aW9uYWw6IGZhbHNlLCByZXF1aXJlZDogdHJ1ZVxuICBwcml2YXRlIF9pZDogc3RyaW5nO1xuICBwdWJsaWMgZ2V0IGlkKCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgnaWQnKTtcbiAgfVxuICBwdWJsaWMgc2V0IGlkKHZhbHVlOiBzdHJpbmcpIHtcbiAgICB0aGlzLl9pZCA9IHZhbHVlO1xuICB9XG4gIC8vIFRlbXBvcmFyaWx5IGV4cG9zZSBpbnB1dCB2YWx1ZS4gVXNlIHdpdGggY2F1dGlvbi5cbiAgcHVibGljIGdldCBpZElucHV0KCkge1xuICAgIHJldHVybiB0aGlzLl9pZFxuICB9XG5cbiAgLy8ga2V5IC0gY29tcHV0ZWQ6IHRydWUsIG9wdGlvbmFsOiBmYWxzZSwgcmVxdWlyZWQ6IGZhbHNlXG4gIHB1YmxpYyBnZXQga2V5KCkge1xuICAgIHJldHVybiB0aGlzLmdldFN0cmluZ0F0dHJpYnV0ZSgna2V5Jyk7XG4gIH1cblxuICAvLyByb2xlX2FybiAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHJvbGVBcm4oKSB7XG4gICAgcmV0dXJuIHRoaXMuZ2V0U3RyaW5nQXR0cmlidXRlKCdyb2xlX2FybicpO1xuICB9XG5cbiAgLy8gdGFncyAtIGNvbXB1dGVkOiB0cnVlLCBvcHRpb25hbDogZmFsc2UsIHJlcXVpcmVkOiBmYWxzZVxuICBwdWJsaWMgZ2V0IHRhZ3MoKSB7XG4gICAgcmV0dXJuIHRoaXMuaW50ZXJwb2xhdGlvbkZvckF0dHJpYnV0ZSgndGFncycpIGFzIGFueTtcbiAgfVxuXG4gIC8vID09PT09PT09PVxuICAvLyBTWU5USEVTSVNcbiAgLy8gPT09PT09PT09XG5cbiAgcHJvdGVjdGVkIHN5bnRoZXNpemVBdHRyaWJ1dGVzKCk6IHsgW25hbWU6IHN0cmluZ106IGFueSB9IHtcbiAgICByZXR1cm4ge1xuICAgICAgaWQ6IGNka3RmLnN0cmluZ1RvVGVycmFmb3JtKHRoaXMuX2lkKSxcbiAgICB9O1xuICB9XG59XG4iXX0=
