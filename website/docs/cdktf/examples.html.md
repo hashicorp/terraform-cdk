@@ -32,11 +32,14 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 |[vault](./examples/typescript/vault) | TBD - one line about what the app does. |
 
 #### Backends
+Each CDK for Terraform project can specify a [backend](https://www.terraform.io/docs/language/settings/backends/index.html) that defines where and how Terraform operations are performed, where Terraform [state snapshots](https://www.terraform.io/docs/language/state/index.html) are stored, etc.
 
-- [azurerm](./examples/typescript/backends/azurerm)
-- [gcs](./examples/typescript/backends/gcs)
-- [remote](./examples/typescript/backends/remote)
-- [s3](./examples/typescript/backends/s3)
+|Example | Description |
+| -------| -----------|
+|[azurerm](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/azurerm)| A simple application that specifies Azure Resource Manager ([azurerm](https://www.terraform.io/docs/language/settings/backends/azurerm.html)) as the backend. |
+|[gcs](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/gcs)| A simple application that specifies Google Cloud Storage ([gcs](https://www.terraform.io/docs/language/settings/backends/gcs.html)) as the backend. |
+|[remote](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/remote) | A simple application that specifies a [remote](https://www.terraform.io/docs/language/settings/backends/remote.html) backend. You can use remote backends to run operations in Terraform Cloud.|
+|[s3](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/s3) | A simple application that specifies Amazon S3 ([s3](https://www.terraform.io/docs/language/settings/backends/s3.html)) as the backend.
 
 ### Python
 
