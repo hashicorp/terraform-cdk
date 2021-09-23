@@ -42,6 +42,4 @@ jobs:
           tags: hashicorp/jsii-terraform:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          build-args:
-            - DEFAULT_TERRAFORM_VERSION=${{ steps.tf-versions.outputs.default }}
-            - AVAILABLE_TERRAFORM_VERSIONS=${{ steps.tf-versions.outputs.available }}
+          build-args: DEFAULT_TERRAFORM_VERSION=${{ steps.tf-versions.outputs.default }} AVAILABLE_TERRAFORM_VERSIONS=${{ steps.tf-versions.outputs.available }}
