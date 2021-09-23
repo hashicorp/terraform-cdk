@@ -31,7 +31,7 @@ You can use every Terraform provider and module available on the [Terraform Regi
 
 CDKTF offers many benefits, but it is not the right choice for every project. You should consider using CDKTF when:
 
--  You have a strong preference or need to use a procedural language to define infrastructure.
+- You have a strong preference or need to use a procedural language to define infrastructure.
 - You need to create abstractions to help manage complexity. For example, you want to create [constructs](./concepts/fundamentals/constructs.html) to INSERT HERE
 - You are comfortable doing your own troubleshooting and do not require commercial support.
 
