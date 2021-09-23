@@ -9,7 +9,7 @@ jobs:
   prepare-unit-tests:
     runs-on: ubuntu-latest
     outputs:
-      tf-versions: ${{ steps.build-tf-versions.outputs.tests }}
+      tf-versions: ${{ steps.build-tf-versions.outputs.tf-versions }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
