@@ -9,7 +9,7 @@ jobs:
   prepare-unit-tests:
     runs-on: ubuntu-latest
     outputs:
-      tf-versions: ${{ steps.build-tf-versions.outputs.tf-versions }}
+      versions: ${{ steps.build-tf-versions.outputs.versions }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -17,14 +17,14 @@ jobs:
       - id: build-tf-versions
         run: |
           tfVersions=$(cat .terraform.versions.json | jq -r '.tested | { terraform: . }')
-          echo "::set-output name=tf-versions::$tfVersions"
+          echo "::set-output name=versions::$tfVersions"
 
   unit-tests:
-    runs-on: ubuntu-latest
     needs: prepare-unit-tests
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-unit-tests.outputs.tf-versions)}}
+      matrix: ${{fromJSON(needs.prepare-unit-tests.outputs.versions)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
