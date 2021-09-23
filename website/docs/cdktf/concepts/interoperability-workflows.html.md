@@ -2,7 +2,7 @@
 layout: "docs"
 page_title: "HCL Interoperability"
 sidebar_current: "cdktf"
-description: "Learn how you can use configurations written in HCL and configurations written in CDK for Terraform together."
+description: "Use configurations written in HCL and configurations written in CDK for Terraform together to define and provision infrastructure."
 ---
 
 # HCL Interoperability
