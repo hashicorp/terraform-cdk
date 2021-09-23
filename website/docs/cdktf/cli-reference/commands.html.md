@@ -413,7 +413,7 @@ Before using `watch` you should:
 
 ### Run
 
-An exemplary invocation of watch could be:
+An example use case for watch could be:
 
 TODO please provide an explanation of what these flags do!
 
