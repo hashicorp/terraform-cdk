@@ -80,7 +80,7 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 [0.5: Convert and watch command demos](https://www.youtube.com/watch?v=4caW8WJM4h4&t=1s)
 [0.6: Snapshot testing](https://www.youtube.com/watch?v=9Is4QJT2664)
 
-Constributors interested in extending the `cdktf convert` command may be interested in the [convert deep dive](https://www.youtube.com/watch?v=rSn4-Ki5nho). This is not needed to use it.
+If you're interested in extending the `cdktf convert` command, you may be interested in the [convert deep dive](https://www.youtube.com/watch?v=rSn4-Ki5nho). You do not need to watch this video to use the `convert` command successfully.
 
 ## Pocket public codebase
 
