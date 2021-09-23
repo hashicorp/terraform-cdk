@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - id: build-tf-versions
         run: |
-          versions=$(cat .terraform.versions.json | jq -r '.tested | { terraform: . }')
+          versions=$(cat .terraform.versions.json | jq '.tested | { terraform: . }')
           echo "::set-output name=versions::$versions"
 
   unit-tests:
