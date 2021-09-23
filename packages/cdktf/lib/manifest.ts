@@ -17,7 +17,12 @@ export interface StackManifest {
   readonly annotations: StackAnnotation[];
 }
 
-export class Manifest {
+export interface IManifest {
+  readonly stacks: Record<StackManifest["name"], StackManifest>;
+  readonly version: string;
+}
+
+export class Manifest implements IManifest {
   public static readonly fileName = "manifest.json";
   public static readonly stacksFolder = "stacks";
   public static readonly stackFileName = "cdk.tf.json";
@@ -53,7 +58,7 @@ export class Manifest {
     return manifest;
   }
 
-  public buildManifest(): any {
+  public buildManifest(): IManifest {
     return {
       version: this.version,
       stacks: this.stacks,

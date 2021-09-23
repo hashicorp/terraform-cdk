@@ -15,6 +15,7 @@ import { Errors } from "../../../lib/errors";
 import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2cdk";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
+import { v4 as uuid } from "uuid";
 
 const chalkColour = new chalk.Instance();
 
@@ -78,17 +79,19 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const templateInfo = await getTemplate(template);
   telemetryData.template = templateInfo.Name;
 
-  const projectInfo: any = await gatherInfo(
+  const projectInfo: Project = await gatherInfo(
     token,
     templateInfo.Name,
     argv.projectName,
     argv.projectDescription
   );
+  const projectId = uuid();
+  telemetryData.projectId = projectId;
 
   // Check if token is set so we can set up Terraform Cloud workspace
   // only set with the '--local' option is specified the user.
   if (token != "") {
-    telemetryData.isRemote = token;
+    telemetryData.isRemote = Boolean(token);
     console.log(
       chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
     );
@@ -116,6 +119,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     ...deps,
     ...projectInfo,
     futureFlags,
+    projectId,
   });
 
   if (argv.fromTerraformProject) {
@@ -178,11 +182,7 @@ async function determineDeps(
     const ret = {
       npm_cdktf: path.resolve(dist, "js", `cdktf@${version}.jsii.tgz`),
       npm_cdktf_cli: path.resolve(dist, "js", `cdktf-cli-${version}.tgz`),
-      pypi_cdktf: path.resolve(
-        dist,
-        "python",
-        `cdktf-${pythonVersion}-py3-none-any.whl`
-      ),
+      pypi_cdktf: path.resolve(dist, "python", `cdktf-${pythonVersion}.tar.gz`),
       mvn_cdktf: path.resolve(
         dist,
         "java",

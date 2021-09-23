@@ -4,6 +4,8 @@ import { https, http } from "follow-redirects";
 import * as os from "os";
 import * as path from "path";
 import { processLoggerError, processLoggerDebug } from "./logging";
+import { IManifest, Manifest } from "cdktf/lib/manifest";
+import { readConfigSync } from "./config";
 
 export async function shell(
   program: string,
@@ -115,6 +117,12 @@ export async function readCDKTFVersion(outputDir: string): Promise<string> {
   }
 
   return "";
+}
+
+export async function readCDKTFManifest(): Promise<IManifest> {
+  const { output } = readConfigSync();
+  const json = await fs.readFile(path.join(output, Manifest.fileName));
+  return JSON.parse(json.toString()) as IManifest;
 }
 
 /**

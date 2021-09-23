@@ -9,8 +9,10 @@
     "synth": "cdktf synth"
   },
   "devDependencies": {
+    "@types/jest": "27.0.1",
     "@types/node": "^14.0.26",
     "cdktf-cli": "0.0.0",
+    "jest": "27.1.0",
     "typescript": "^3.9.7"
   },
   "dependencies": {
