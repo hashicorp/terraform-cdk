@@ -84,7 +84,7 @@ Constributors interested in extending the `cdktf convert` command may be interes
 
 ## Pocket public codebase
 
-Mozilla Pocket is a widely used application for managing reading lists that's built into the Firefox browser. Like many Mozilla projects, Pocket is open source, and the CDK for Terraform codebase that they use to manage infrastructure for their recommendation API is also public and open source. Pocket's codebase provides a great example of how to lay out a CDK for Terraform project.
+Mozilla Pocket is a widely used application for managing reading lists that is built into the Firefox browser. Like many Mozilla projects, Pocket is open source, and the CDK for Terraform codebase that Pocket uses to manage infrastructure for the recommendation API is also public and open source. Pocket's codebase provides a great example of how to lay out a CDK for Terraform project.
 
 In order to re-use components, Pocket's codebase is separated out into a [set of reusable modules](https://github.com/Pocket/terraform-modules/tree/main/src/pocket). These are then used from CDK code in the [recommendation-api codebase](https://github.com/Pocket/recommendation-api/tree/main/.aws). The recommended reading order is to:
 
