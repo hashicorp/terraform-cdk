@@ -2,3 +2,12 @@
 **/*.js.map
 tsconfig.tsbuildinfo
 !tsconfig.json
+*.d.ts
+*.js
+cdktf.out
+cdktf.log
+.terraform
+coverage
+!lib/awscc_schemas/schemas.js
+!jest.config.js
+!setup.js
