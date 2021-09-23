@@ -17,6 +17,7 @@ jobs:
       - id: build-tf-versions
         run: |
           tfVersions=$(cat .terraform.versions.json | jq -r '.tested | { terraform: . }')
+          echo $tfVersions
           echo "::set-output name=versions::$tfVersions"
 
   unit-tests:
