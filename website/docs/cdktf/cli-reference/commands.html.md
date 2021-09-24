@@ -424,11 +424,6 @@ cdktf watch --stack dev --auto-approve
 
 ### Troubleshoot
 
-<<<<<<< HEAD
-To troubleshoot watch, set the `CDKTF_LOG_LEVEL` environment variable to `all`. By supplying `CDKTF_DISABLE_LOGGING=false` the debug output will be directed to a `cdktf.log` file in your projects root directory. The log will contain information about detected file system changes and the actions they triggered.
-=======
 Set the `CDKTF_LOG_LEVEL` environment variable to `all` and set `CDKTF_DISABLE_LOGGING` to `false`.
 
 The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
-
-> > > > > > > @{-1}
