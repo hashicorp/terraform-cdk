@@ -7,7 +7,15 @@ description: "TBD"
 
 TBD Intro
 
-# Variables and outputs
+# Variables and Outputs
+
+Terraform configurations are written in either HashiCorp Configuration Language (HCL) syntax or JSON. Because neither of these is a programming language, Terraform has has developed ways to enable users to request and publish named values. These are:
+
+- [**Input Variables:**](#input-variables) These are like function arguments.
+- [**Local Values**](#local-values): These are like a function's temporary local variables.
+- [**Output Values**](#output-values): These are like function return values.
+
+You may need to occasionally use these elements in your CDKTF application instead of passing data through the conventions available in your preferred programming language.  
 
 ## Input Variables
 
@@ -15,12 +23,12 @@ You can define [Terraform variables](https://www.terraform.io/docs/configuration
 
 ### When to use Input Variables
 
-Variables are useful when you plan to synthesize your CDK for Terraform application into a JSON configuration file for Terraform. For example, when you are planning to store configurations and run Terraform inside [Terraform Cloud](https://www.terraform.io/cloud).
+Variables are useful when you plan to synthesize your CDKTF application into a JSON configuration file for Terraform. For example, when you are planning to store configurations and run Terraform inside [Terraform Cloud](https://www.terraform.io/cloud).
 
 If you plan to use CDK for Terraform to manage your infrastructure, then we recommend using your language's APIs to consume the data you would normally pass through Terraform variables. You can read from disk (synchronously) or from the environment variables, just as you would in any normal program.
 
 
-### Define Variables
+### Define Input Variables
 
 TODO: Can we get a description of what is happening here?
 
@@ -39,11 +47,15 @@ new Instance(this, "hello", {
 TODO: When this gets synthesized, can we tell users what's going to happen? Is it automatically going to create the `tfvars` file?
 
 
-## Locals
+## Local Values
 
 A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) assigns a name to an expression to allow repeated usage. They can be thought of similar to a local variable, and as such, can often be replaced by one.
 
-### Define Locals
+### When to Use Local values
+
+TODO: Write something here.
+
+### Define Local Values
 
 In TypeScript, a Terraform local is expressed by `TerraformLocal`.
 
@@ -82,7 +94,7 @@ The `TerraformLocal` synthesizes to the following:
 
 You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0-11/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html).
 
-### When to use Outputs
+### When to use Output Values
 
 Outputs are useful to make any value of a Terraform Resource or Data Source available for further consumption. This might be just you wanting to get the URL of the server which was just provisioned. But it's also very handy to allow data sharing between `TerraformStacks`. This applies in particular to data which is depending on the provisioned resources and therefore not known at compile time.
 
@@ -166,6 +178,7 @@ Output: random-pet = choice-haddock
 ```
 
 Since these are plain Terraform outputs, these can be used in the same fashion as Terraform outputs (thinking about Terraform Cloud / TFE but also all the other possible backends)
+
 
 ### Define & Reference Outputs via Remote State
 
