@@ -11,36 +11,151 @@ You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0
 
 ## When to use outputs
 
-TODO: Can we get some recommendations about when folks should use Terraform outputs vs. when they can just use what's available in their programming language?
+Outputs are useful to make any value of a Terraform Resource or Data Source available for further consumption. This might be just you wanting to get the URL of the server which was just provisioned. But it's also very handy to allow data sharing between `TerraformStacks`. This applies in particular to data which is depending on the provisioned resources and therefore not known at compile time.
 
-You should use outputs when you want to share data from a child module to the root module. ADD MORE.
+For values which are known at compile time (like static inputs such as user or domain names), it's usually recommended to supply this data as direct inputs to the stacks.
 
--> You may need to use [tokens](/fundamentals/tokens.html) to convert your programming language types to the appropriate types for a Terraform configuration.
+```ts
+import { Construct } from "constructs";
+import { App, TerraformStack, TerraformOutput } from "cdktf";
 
+export interface MyStackProps {
+  readonly myDomain: string;
+}
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, name: string, props: MyStackProps) {
+    super(scope, name);
+
+    const { myDomain } = props;
+
+    new TerraformOutput(this, "my-domain", {
+      value: myDomain,
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "cdktf-producer", {
+  myDomain: "example.com",
+});
+app.synth();
+```
 
 ## Define Outputs
 
-In TypeScript, a Terraform output for an AWS instance public IP can be expressed by `TerraformOutput`.
+In TypeScript, a Terraform output for a Pet resource of the Randome provider can be expressed by `TerraformOutput`.
 
 ```typescript
-const instance = new Instance(this, "hello", {
-  ami: "ami-abcde123",
-  instanceType: "t2.micro",
-});
+import * as random from "@cdktf/provider-random";
 
-new TerraformOutput(this, "public_ip", {
-  value: instance.publicIp,
-});
+import { Construct } from "constructs";
+import { App, TerraformStack, TerraformOutput } from "cdktf";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    new random.RandomProvider(this, "random", {});
+    const pet = new random.Pet(this, "pet", {});
+
+    new TerraformOutput(this, "random-pet", {
+      value: pet.id,
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "cdktf-demo");
+app.synth();
 ```
 
 The `TerraformOutput` synthesizes to the following:
 
 ```json
 "output": {
-    "examplesimplepublicipE5F943EE": {
-      "value": "${aws_instance.examplesimpleHelloF6D4983C.public_ip}"
-    }
+  "random-pet": {
+    "value": "${random_pet.pet.id}"
+  }
 }
 ```
 
-TODO: Can we add a block that shows what this looks like when printed for the user? Does it look different when it's printed when we deploy through CDKTF vs. when we synthesize and run the configuration from Terraform?
+When deployed via `cdktf deploy`, you'll see an output like the following:
+
+```
+Deploying Stack: cdktf-demo
+Resources
+ ✔ RANDOM_PET           pet                 random_pet.pet
+
+Summary: 1 created, 0 updated, 0 destroyed.
+
+Output: random-pet = choice-haddock
+```
+
+Since these are plain Terraform outputs, these can be used in the same fashion as Terraform outputs (thinking about Terraform Cloud / TFE but also all the other possible backends)
+
+## Define & Reference Outputs via Remote State
+
+A common use case for outputs is data sharing between stacks. In particular for data, which is not known at compile time.
+
+```ts
+import * as random from "@cdktf/provider-random";
+
+import { Construct } from "constructs";
+import {
+  App,
+  TerraformStack,
+  TerraformOutput,
+  RemoteBackend,
+  DataTerraformRemoteState,
+} from "cdktf";
+
+class Producer extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    new RemoteBackend(this, {
+      organization: "hashicorp",
+      workspaces: {
+        name: "producer",
+      },
+    });
+
+    new random.RandomProvider(this, "random", {});
+    const pet = new random.Pet(this, "pet", {});
+
+    new TerraformOutput(this, "random-pet", {
+      value: pet.id,
+    });
+  }
+}
+
+class Consumer extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    new RemoteBackend(this, {
+      organization: "hashicorp",
+      workspaces: {
+        name: "consumer",
+      },
+    });
+
+    const remoteState = new DataTerraformRemoteState(this, "remote-pet", {
+      organization: "hashicorp",
+      workspaces: {
+        name: "producer",
+      },
+    });
+
+    new TerraformOutput(this, "random-remote-pet", {
+      value: remoteState.getString("id"),
+    });
+  }
+}
+
+const app = new App();
+new Producer(app, "cdktf-producer");
+new Consumer(app, "cdktf-consumer");
+app.synth();
+```
