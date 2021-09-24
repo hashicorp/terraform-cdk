@@ -2,13 +2,6 @@
 
 exports[`any type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"any\\"
@@ -19,13 +12,6 @@ exports[`any type 1`] = `
 
 exports[`bool type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"bool\\"
@@ -36,13 +22,6 @@ exports[`bool type 1`] = `
 
 exports[`collection type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"list(string)\\"
@@ -53,13 +32,6 @@ exports[`collection type 1`] = `
 
 exports[`default value 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"default\\": \\"my-val\\"
@@ -70,13 +42,6 @@ exports[`default value 1`] = `
 
 exports[`description 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"description\\": \\"A Test Variable\\"
@@ -87,13 +52,6 @@ exports[`description 1`] = `
 
 exports[`map collection type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"map(bool)\\"
@@ -104,13 +62,6 @@ exports[`map collection type 1`] = `
 
 exports[`number type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"number\\"
@@ -121,13 +72,6 @@ exports[`number type 1`] = `
 
 exports[`object type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"default\\": {
@@ -142,34 +86,28 @@ exports[`object type 1`] = `
 
 exports[`reference 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"provider\\": {
     \\"test\\": [
       {}
     ]
   },
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"string\\"
-    }
-  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${var.test-variable}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/test-resource\\",
-            \\"uniqueId\\": \\"test-resource\\"
-          }
-        }
+        \\"name\\": \\"\${var.test-variable}\\"
       }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"test-variable\\": {
+      \\"type\\": \\"string\\"
     }
   }
 }"
@@ -177,17 +115,10 @@ exports[`reference 1`] = `
 
 exports[`sensitive variable 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
-      \\"type\\": \\"string\\",
-      \\"sensitive\\": true
+      \\"sensitive\\": true,
+      \\"type\\": \\"string\\"
     }
   }
 }"
@@ -195,13 +126,6 @@ exports[`sensitive variable 1`] = `
 
 exports[`set collection type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"set(number)\\"
@@ -212,13 +136,6 @@ exports[`set collection type 1`] = `
 
 exports[`string type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"string\\"
@@ -229,13 +146,6 @@ exports[`string type 1`] = `
 
 exports[`tuple type 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
     \\"test-variable\\": {
       \\"type\\": \\"tuple(bool, list(number))\\"
@@ -246,19 +156,12 @@ exports[`tuple type 1`] = `
 
 exports[`variable with variable default 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"string\\"
-    },
     \\"other-variable\\": {
       \\"default\\": \\"\${var.test-variable}\\",
+      \\"type\\": \\"string\\"
+    },
+    \\"test-variable\\": {
       \\"type\\": \\"string\\"
     }
   }

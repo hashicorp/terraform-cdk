@@ -1,5 +1,5 @@
 using System;
-using aws;
+using Providers.Null;
 using Constructs;
 using HashiCorp.Cdktf;
 
@@ -9,14 +9,8 @@ namespace MyCompany.MyApp
     {
         public MyApp(Construct scope, string id) : base(scope, id)
         {
-            new AwsProvider(this, "Aws", new AwsProviderConfig {
-                Region = "eu-central-1"
-            });
-
-            SnsTopic topic = new SnsTopic(this, "Topic", new SnsTopicConfig {
-                DisplayName = "overwritten"
-            });
-            topic.AddOverride("display_name", "my-first-sns-topic");
+            new NullProvider(this, "Null");
+            Providers.Null.Resource resource = new Providers.Null.Resource(this, "null", new Providers.Null.ResourceConfig {});
         }
 
         public static void Main(string[] args)

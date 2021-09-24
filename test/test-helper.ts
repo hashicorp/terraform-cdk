@@ -167,7 +167,7 @@ export class TestDriver {
     await this.init("csharp");
     this.copyFiles("Main.cs", "cdktf.json");
     await this.get();
-    execSync("dotnet add reference .gen/aws/aws.csproj", {
+    execSync("dotnet add reference .gen/Providers.Null/Providers.Null.csproj", {
       stdio: "inherit",
       env: this.env,
     });
@@ -208,3 +208,6 @@ export class TestDriver {
     }
   };
 }
+
+export const onWindows = process.platform === "win32" ? it : it.skip;
+export const onPosix = process.platform !== "win32" ? it : it.skip;

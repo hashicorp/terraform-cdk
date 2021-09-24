@@ -2,22 +2,16 @@
 
 exports[`stack synthesis merges all elements into a single output 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"MyStack\\",
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"stack\\": [
-          \\"terraform\\"
-        ],
-        \\"aws_topic\\": [
-          \\"//\\",
-          \\"prop2\\",
-          \\"prop3\\",
-          \\"provisioner\\"
-        ]
-      }
+  \\"module\\": {
+    \\"EksModule\\": {
+      \\"cluster_name\\": \\"my_cluster_name\\",
+      \\"source\\": \\"terraform-aws-modules/eks/aws\\",
+      \\"version\\": \\"7.0.1\\"
+    }
+  },
+  \\"output\\": {
+    \\"eks_version\\": {
+      \\"value\\": \\"7.0.1\\"
     }
   },
   \\"provider\\": {
@@ -36,12 +30,6 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
         \\"prop3\\": {
           \\"name\\": \\"should be overwritten in resource 2\\",
           \\"value\\": 5678
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"MyStack/Resource1\\",
-            \\"uniqueId\\": \\"Resource1\\"
-          }
         }
       }
     },
@@ -53,12 +41,6 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
           \\"name\\": \\"test\\",
           \\"value\\": 5678
         },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"MyStack/Resource2\\",
-            \\"uniqueId\\": \\"Resource2\\"
-          }
-        },
         \\"provisioner\\": [
           {
             \\"local-exec\\": {
@@ -69,24 +51,6 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
       }
     }
   },
-  \\"module\\": {
-    \\"EksModule\\": {
-      \\"cluster_name\\": \\"my_cluster_name\\",
-      \\"source\\": \\"terraform-aws-modules/eks/aws\\",
-      \\"version\\": \\"7.0.1\\",
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"MyStack/EksModule\\",
-          \\"uniqueId\\": \\"EksModule\\"
-        }
-      }
-    }
-  },
-  \\"output\\": {
-    \\"eks_version\\": {
-      \\"value\\": \\"7.0.1\\"
-    }
-  },
   \\"terraform\\": {
     \\"backend\\": {
       \\"remote\\": {
@@ -95,6 +59,11 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
           \\"name\\": \\"test\\"
         }
       }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
     }
   }
 }"
@@ -102,11 +71,16 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
 
 exports[`stack synthesis no flags 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"MyStack\\",
-      \\"backend\\": \\"local\\"
+  \\"module\\": {
+    \\"MyStack_EksModule_1F7A8254\\": {
+      \\"cluster_name\\": \\"my_cluster_name\\",
+      \\"source\\": \\"terraform-aws-modules/eks/aws\\",
+      \\"version\\": \\"7.0.1\\"
+    }
+  },
+  \\"output\\": {
+    \\"MyStack_eksversion_FB719174\\": {
+      \\"value\\": \\"7.0.1\\"
     }
   },
   \\"provider\\": {
@@ -125,32 +99,15 @@ exports[`stack synthesis no flags 1`] = `
         \\"prop3\\": {
           \\"name\\": \\"should be overwritten in resource 2\\",
           \\"value\\": 5678
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"MyStack/Resource1\\",
-            \\"uniqueId\\": \\"MyStack_Resource1_1D44B20C\\"
-          }
         }
       }
     }
   },
-  \\"module\\": {
-    \\"MyStack_EksModule_1F7A8254\\": {
-      \\"cluster_name\\": \\"my_cluster_name\\",
-      \\"source\\": \\"terraform-aws-modules/eks/aws\\",
-      \\"version\\": \\"7.0.1\\",
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"MyStack/EksModule\\",
-          \\"uniqueId\\": \\"MyStack_EksModule_1F7A8254\\"
-        }
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
-    }
-  },
-  \\"output\\": {
-    \\"MyStack_eksversion_FB719174\\": {
-      \\"value\\": \\"7.0.1\\"
     }
   }
 }"

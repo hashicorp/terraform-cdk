@@ -11,17 +11,17 @@ exports[`python full integration test synth synth generates JSON 1`] = `
         \\"stack\\": [
           \\"terraform\\"
         ],
-        \\"aws_sns_topic\\": [
-          \\"display_name\\"
+        \\"null_resource\\": [
+          \\"triggers\\"
         ]
       }
     }
   },
   \\"terraform\\": {
     \\"required_providers\\": {
-      \\"aws\\": {
-        \\"version\\": \\"~> 2.0\\",
-        \\"source\\": \\"aws\\"
+      \\"null\\": {
+        \\"version\\": \\"~> 3.1.0\\",
+        \\"source\\": \\"hashicorp/null\\"
       }
     },
     \\"backend\\": {
@@ -34,33 +34,20 @@ exports[`python full integration test synth synth generates JSON 1`] = `
     }
   },
   \\"provider\\": {
-    \\"aws\\": [
-      {
-        \\"region\\": \\"eu-central-1\\"
-      }
+    \\"null\\": [
+      {}
     ]
   },
-  \\"module\\": {
-    \\"CustomVpc\\": {
-      \\"name\\": \\"custom-vpc\\",
-      \\"source\\": \\"terraform-aws-modules/vpc/aws\\",
-      \\"version\\": \\"2.77.0\\",
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"python-simple/CustomVpc\\",
-          \\"uniqueId\\": \\"CustomVpc\\"
-        }
-      }
-    }
-  },
   \\"resource\\": {
-    \\"aws_sns_topic\\": {
-      \\"Topic\\": {
-        \\"display_name\\": \\"my-first-sns-topic\\",
+    \\"null_resource\\": {
+      \\"nullresource\\": {
+        \\"triggers\\": {
+          \\"cluster_instance_ids\\": \\"foo\\"
+        },
         \\"//\\": {
           \\"metadata\\": {
-            \\"path\\": \\"python-simple/Topic\\",
-            \\"uniqueId\\": \\"Topic\\"
+            \\"path\\": \\"python-simple/null-resource\\",
+            \\"uniqueId\\": \\"nullresource\\"
           }
         }
       }

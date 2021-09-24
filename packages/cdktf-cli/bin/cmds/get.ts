@@ -9,6 +9,7 @@ import { Get } from "./ui/get";
 import { renderInk } from "./helper/render-ink";
 import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
+import { checkEnvironment } from "./helper/check-environment";
 
 const config = readConfigSync();
 
@@ -43,6 +44,7 @@ class Command implements yargs.CommandModule {
   public async handler(argv: any) {
     throwIfNotProjectDirectory("get");
     await displayVersionMessage();
+    await checkEnvironment("get");
     const args = argv as Arguments;
     const providers = config.terraformProviders ?? [];
     const modules = config.terraformModules ?? [];

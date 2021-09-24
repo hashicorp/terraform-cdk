@@ -1,9 +1,3 @@
-/**
- * Testing interaction with Terraform Cloud
- *
- * @group typescript
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("full integration test", () => {

@@ -5,6 +5,7 @@ import {
 } from "../../lib";
 import { Construct } from "constructs";
 import { TestProviderMetadata } from "./provider";
+import { stringToTerraform } from "../../lib/runtime";
 
 export interface TestResourceConfig extends TerraformMetaArguments {
   name: string;
@@ -13,6 +14,7 @@ export interface TestResourceConfig extends TerraformMetaArguments {
 }
 
 export class TestResource extends TerraformResource {
+  public static readonly tfResourceType: string = "test_resource";
   public name: string;
   public names?: string[];
   public tags?: { [key: string]: string };
@@ -93,5 +95,26 @@ export class OtherTestResource extends TerraformResource {
 class TestComplexComputedList extends ComplexComputedList {
   public get id() {
     return this.getStringAttribute("id");
+  }
+}
+
+// Generated Docker image to test real-world scenarios
+export class DockerImage extends TerraformResource {
+  private _name: string;
+  public constructor(scope: Construct, id: string, config: { name: string }) {
+    super(scope, id, {
+      terraformResourceType: "docker_image",
+      terraformGeneratorMetadata: {
+        providerName: "docker",
+      },
+    });
+
+    this._name = config.name;
+  }
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      name: stringToTerraform(this._name),
+    };
   }
 }
