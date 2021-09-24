@@ -50,7 +50,9 @@ The most basic configuration only defines `app`. This is useful when you plan to
 
 ## Declare Providers and Modules
 
-You must declare all of the providers and modules you want to use in your `cdktf.json` file. The [schema](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses) for both providers and modules in CDK for Terraform consists of a name, a [source](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses), and a [version constraint](https://www.terraform.io/docs/language/providers/requirements.html#version-constraints).
+While we have a selection of pre-built providers (link), there are cases where you want to generate the type bindings for providers yourself (e.g. when a provider is not present as pre built provider, or a specific provider version is required for some reason). Modules always have to be built via `cdktf get` and thefore have to be present in the `cdktf.json`.
+
+You must declare all of the providers and modules you want to generate code bindings for in your `cdktf.json` file. The [schema](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses) for both providers and modules in CDK for Terraform consists of a name, a [source](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses), and a [version constraint](https://www.terraform.io/docs/language/providers/requirements.html#version-constraints).
 
 You can declare providers and modules using either JSON or a string with the format `source@ ~> version` .
 
