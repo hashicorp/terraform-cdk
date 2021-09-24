@@ -1,6 +1,7 @@
 {
   "language": "python",
   "app": "python3 ./main.py",
+  "projectId": "{{projectId}}",
   "terraformProviders": [],
   "terraformModules": [],
   "codeMakerOutput": "imports",

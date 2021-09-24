@@ -6,6 +6,7 @@ import { renderInk } from "./helper/render-ink";
 import * as fs from "fs-extra";
 import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
+import { checkEnvironment } from "./helper/check-environment";
 
 const config = readConfigSync();
 
@@ -41,6 +42,7 @@ class Command implements yargs.CommandModule {
   public async handler(argv: any) {
     throwIfNotProjectDirectory("synth");
     await displayVersionMessage();
+    await checkEnvironment("synth");
     const command = argv.app;
     const outdir = argv.output;
     const jsonOutput = argv.json;

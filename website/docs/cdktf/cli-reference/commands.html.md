@@ -7,6 +7,8 @@ description: "Use the CLI to initialize a new project, deploy your CDKTF app, ge
 
 # CLI Commands
 
+The CDK for Terraform CLI has the following commands:
+
 - [completion](/docs/cdktf/cli-reference/commands.html#completion)
 - [convert](/docs/cdktf/cli-reference/commands.html#convert)
 - [deploy](/docs/cdktf/cli-reference/commands.html#deploy)
@@ -20,7 +22,7 @@ description: "Use the CLI to initialize a new project, deploy your CDKTF app, ge
 
 ## completion
 
-Outputs a script that can be used to setup auto completion for bash or zsh.
+This command outputs a script that you can use to set up autocompletion for bash or zsh.
 
 ```
 > cdktf completion
@@ -47,7 +49,7 @@ compdef _cdktf_yargs_completions cdktf
 
 ```
 
-The output also contains the installation instructions. So for example for Max OSX they are:
+The output also contains the installation instructions. For example, here are the instructions for Mac OSX:
 
 ```
 cdktf completion >> ~/.zsh_profile on OSX.
@@ -55,7 +57,7 @@ cdktf completion >> ~/.zsh_profile on OSX.
 cdktf completion >> ~/.zshrc
 ```
 
-After configuring auto completion and reloading your shell (e.g. running `source ~/.zshrc`, `source ~/.zsh_profile` or opening a new terminal window) you should be able to auto complete `cdktf` commands by pressing the `<TAB>` key (you might need to enter a space after `cdktf`):
+After you configure auto completion, reload your shell by running `source ~/.zshrc`, `source ~/.zsh_profile` or opening a new terminal window. You can now autocomplete `cdktf` commands by pressing the `<TAB>` key. You may need to enter a space after `cdktf` for autocomplete to take effect.
 
 ```
 > cdktf <TAB>
@@ -74,7 +76,9 @@ watch       -- [experimental] Watch for file changes and automatically trigger a
 
 ## convert
 
-This command converts Terraform configuration written in HCL to CDK configuration that does the same in the language of your choice. The convert functionality only covers Terraform 1.0, everything below is not guaranteed to be working. There is also functionality not covered for Terraform 1.0, please see [the known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
+This command converts Terraform configuration written in HCL to the equivalent configuration in your preferred language.
+
+->**Note**: The `convert` command is only functional for Terraform 1.0 and above. There are also [known limitations](TODO UPDATE LINK when the convert readme is in the new docs structure).
 
 ```
 cdktf convert [OPTIONS]
@@ -94,12 +98,19 @@ Options:
   -h, --help                  Show help                                                             [boolean]
 ```
 
-Examples:
+**Examples**
 
-- Convert a local file: `cat main.tf | cdktf convert > imported.ts`
-- Convert HCL in your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
+Convert a local file.
 
-There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
+```bash
+cat main.tf | cdktf convert > imported.ts`
+```
+
+Convert HCL in your clipboard to Python on OSX.
+
+```bash
+pbpaste | cdktf convert --language python | pbcopy
+```
 
 ## deploy
 
@@ -109,7 +120,7 @@ This command deploys a given application.
 $ cdktf deploy --help
 ```
 
-Help output:
+**Help Output**
 
 ```
 cdktf deploy [OPTIONS]
@@ -126,15 +137,15 @@ Options:
   -h, --help         Show help                                                                                                                                                     [boolean]
 ```
 
-Examples:
+**Examples**
 
-Deploy a given application.
+Deploy an application.
 
 ```bash
 $ cdktf deploy
 ```
 
-Deploy a given application with auto approval of the diff (Terraform plan).
+Deploy an application with automatic approval of the diff (Terraform plan).
 
 ```bash
 $ cdktf deploy --auto-approve
@@ -165,15 +176,15 @@ Options:
   -h, --help         Show help                                                                                                                                                     [boolean]
 ```
 
-Examples:
+**Examples**
 
-Destroy a given application.
+Destroy an application.
 
 ```bash
 $ cdktf destroy
 ```
 
-Destroy a given application with auto approval of the diff (Terraform plan).
+Destroy an application with automatic approval of the diff (Terraform plan).
 
 ```bash
 $ cdktf destroy --auto-approve
@@ -214,14 +225,13 @@ $ cdktf diff
 ## get
 
 This command downloads the providers and modules for an application and
-generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers
-and modules.
+generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers and modules.
 
 ```bash
 $ cdktf get --help
 ```
 
-Help output:
+**Help Output**
 
 ```
 cdktf get [OPTIONS]
@@ -237,9 +247,9 @@ Options:
   -h, --help         Show help                                                                                                                      [boolean]
 ```
 
-Examples:
+**Examples**
 
-Download providers and modules defined in the `cdktf.json` configuration file.
+Download the providers and modules defined in the `cdktf.json` configuration file.
 
 ```bash
 $ cat cdktf.json
@@ -262,7 +272,7 @@ This command creates a new CDK for Terraform project using a template.
 $ cdktf init --help
 ```
 
-Help output:
+**Help Output**
 
 ```
 cdktf init [OPTIONS]
@@ -291,7 +301,7 @@ Options:
   -h, --help                  Show help                                                                   [boolean]
 ```
 
-Examples:
+**Examples**
 
 Create a new Typescript project.
 
@@ -305,7 +315,7 @@ Create a new Python project and use a specific version of the `cdktf` package.
 $ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
-Create a new Typescript project from an existing Terraform codebase. Please be aware that only Typescript is currently supported and that there are [some known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
+Create a new Typescript project from an existing Terraform codebase. Currently, only Typescript is supported, and there are [some known limitations](to do link to these when in the docs).
 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
@@ -313,13 +323,13 @@ $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform
 
 ## login
 
-This command helps login to Terraform Cloud by fetching a Terraform Cloud API token.
+This command helps log in to Terraform Cloud by fetching a Terraform Cloud API token.
 
 ```bash
 $ cdktf login --help
 ```
 
-Help output:
+**Help Output**
 
 ```
 cdktf login
@@ -333,7 +343,7 @@ Options:
   -h, --help         Show help                                                                                                                                                     [boolean]
 ```
 
-Examples:
+**Examples**
 
 Fetch an API token from Terraform Cloud.
 
@@ -349,7 +359,7 @@ This command synthesizes Terraform configuration for an application.
 $ cdktf synth --help
 ```
 
-Help output:
+**Help Output**
 
 ```
 cdktf synth [OPTIONS]
@@ -358,7 +368,7 @@ Synthesizes Terraform code for the given app in a directory.
 
 Options:
   --version          Show version number                                                                                                                                           [boolean]
-  --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                          [boolean] [default: true]
+  --disable-logging  Don't write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                          [boolean] [default: true]
   --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
   --app, -a          Command to use in order to execute cdktf app
   --output, -o       Output directory                                                                                                                                 [default: "cdktf.out"]
@@ -366,9 +376,9 @@ Options:
   -h, --help         Show help                                                                                                                                                     [boolean]
 ```
 
-Examples:
+**Examples**
 
-Synthesize code for a given application.
+Synthesize code for an application.
 
 ```bash
 $ cdktf synth
@@ -380,7 +390,7 @@ Synthesize code when providing a custom command to execute and an output directo
 $ cdktf synth --app="npm compile && node main.js" --output="dirname"
 ```
 
-Synthesize code for a given application and output the Terraform JSON configuration.
+Synthesize code for an application and output the Terraform JSON configuration.
 
 ```bash
 $ cdktf synth --json
@@ -388,30 +398,37 @@ $ cdktf synth --json
 
 ## watch
 
-~> **Warning:** The `watch` command is experimental. You should use it in development environments.
+~> **Warning:** The `watch` command is experimental. You should only use it in development environments.
 
-The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time.
+The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time and automatically deploys changes without asking for confirmation.
 
 Watch reads your root `.gitignore` file to determine which files trigger a `synth` and it uses the `outdir` of your `cdktf.json` (or the default `cdktf.out`) to do so for a deploy. It will generate a checksum of the subdirectory containing the Terraform code for your stack to skip deploys if the synthesized Terraform config did not change.
 
-### Checking your root `.gitignore`
+### Prerequisites
 
-Your root `.gitignore` needs to contain all files that are generated by a synth and a deploy. If that is not the case the watch will trigger itself and continuously try to deploy. Although Git supports nesting `.gitignore` files, the watch command currently only reads the root `.gitignore` file.
+Before using `watch` you should:
 
-### Checking your environment
+- **Check your root `.gitignore` file.** Your root `.gitignore` must contain all files that are generated by `synth` and `deploy`. If that is not the case, the `watch` command will trigger itself and continuously try to deploy. Although Git supports nesting `.gitignore` files, the `watch` command currently only reads the root `.gitignore` file.
 
-Watch should only be used for development environments. It is best to make sure that the terminal you're running watch in has no access keys that allow the cdktf-cli to deploy to your production environment.
+- **Check your environment.** The `watch` command should only be used for development environments. We recommend making sure that the terminal where you want to run `watch` has no access keys that allow the `cdktf-cli` to deploy to your production environment.
 
-### Running watch
+### Run
 
 An exemplary invocation of watch could be:
+
+TODO please provide an explanation of what these flags do!
 
 ```
 cdktf watch --stack dev --auto-approve
 ```
 
-Please note that watch currently automatically deploys all changes and does not ask for confirmation!
-
 ### Troubleshoot
 
+<<<<<<< HEAD
 To troubleshoot watch, set the `CDKTF_LOG_LEVEL` environment variable to `all`. By supplying `CDKTF_DISABLE_LOGGING=false` the debug output will be directed to a `cdktf.log` file in your projects root directory. The log will contain information about detected file system changes and the actions they triggered.
+=======
+Set the `CDKTF_LOG_LEVEL` environment variable to `all` and set `CDKTF_DISABLE_LOGGING` to `false`.
+
+The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
+
+> > > > > > > @{-1}

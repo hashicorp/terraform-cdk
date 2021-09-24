@@ -538,6 +538,21 @@ describe("convert", () => {
         }`,
     ],
     [
+      "simple count",
+      `
+      resource "aws_instance" "multiple_servers" {
+        count = 4
+      
+        ami           = "ami-0c2b8ca1dad447f8a"
+        instance_type = "t2.micro"
+      
+        tags = {
+          Name = "Server \${count.index}"
+        }
+      }
+      `,
+    ],
+    [
       "dynamic blocks",
       `
         variable "settings" {
@@ -884,6 +899,41 @@ describe("convert", () => {
         alias = "private_auth0"
         domain = var.domain
         private = true
+      }
+      `,
+    ],
+    [
+      "remote state",
+      `
+      data "terraform_remote_state" "vpc" {
+        backend = "remote"
+
+        config = {
+          organization = "hashicorp"
+          workspaces = {
+            name = "vpc-prod"
+          }
+        }
+      }
+      `,
+    ],
+    [
+      "remote state types",
+      `
+      data "terraform_remote_state" "etcdv3" {
+        backend = "etcdv3"
+
+        config = {
+          prefix = "terraform-state/"
+        }
+      }
+
+      data "terraform_remote_state" "s3" {
+        backend = "s3"
+
+        config = {
+          bucket = "mybucket"
+        }
       }
       `,
     ],

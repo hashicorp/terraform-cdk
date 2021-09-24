@@ -72,8 +72,24 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 
 ## Youtube Playlist
 
-TODO Add information here with a link.
+- Watch the CDK for Terraform engineering team build a simple end to end serverless application in an [end to end livestream](https://www.youtube.com/watch?v=Ey0SW0c6p8c)
+- [Getting Started with CDK for Terraform and Python](https://www.youtube.com/watch?v=Ee2qh-pEC5k&t=258s), by Charles mcLaughlin of ShopStyle
+- [Extending constructs of the CDK for Terraform](https://www.youtube.com/watch?v=cfU-WOGdNqA)
 
-## Pocket public codebase?
+### Release demos
 
-TODO Describe what this is and add a link :-)
+[0.4: Go support, Asset construct, Terraform Cloud integration](https://www.youtube.com/watch?v=TTfFAIeSqgo). Includes a [GKE demo](https://youtu.be/TTfFAIeSqgo?t=1573).
+[0.5: Convert and watch command demos](https://www.youtube.com/watch?v=4caW8WJM4h4&t=1s)
+[0.6: Snapshot testing](https://www.youtube.com/watch?v=9Is4QJT2664)
+
+If you're interested in extending the `cdktf convert` command, you may be interested in the [convert deep dive](https://www.youtube.com/watch?v=rSn4-Ki5nho). You do not need to watch this video to use the `convert` command successfully.
+
+## Pocket public codebase
+
+Mozilla Pocket is a widely used application for managing reading lists that is built into the Firefox browser. Like many Mozilla projects, Pocket is open source, and the CDK for Terraform codebase that Pocket uses to manage infrastructure for the recommendation API is also public and open source. Pocket's codebase provides a great example of how to lay out a CDK for Terraform project.
+
+In order to re-use components, Pocket's codebase is separated out into a [set of reusable modules](https://github.com/Pocket/terraform-modules/tree/main/src/pocket). These are then used from CDK for Terraform code in the [recommendation-api codebase](https://github.com/Pocket/recommendation-api/tree/main/.aws). The recommended reading order is to:
+
+1. Read [`Pocket/recommendation-api/.aws/src/main.ts`](https://github.com/Pocket/recommendation-api/blob/main/.aws/src/main.ts).
+2. Look at the constructs used that are defined in the [`Pocket/terraform-modules`](https://github.com/Pocket/terraform-modules/tree/main/src/pocket) repository, such as [`PocketALBApplication`](https://github.com/Pocket/terraform-modules/blob/main/src/pocket/PocketALBApplication.ts).
+3. Look at the ["base" constructs](https://github.com/Pocket/terraform-modules/tree/main/src/base), which are are used in the higher-level constructs in the previous step.
