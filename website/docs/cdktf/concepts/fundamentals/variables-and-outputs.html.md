@@ -5,8 +5,6 @@ sidebar_current: "cdktf"
 description: "TBD"
 ---
 
-TBD Intro
-
 # Variables and Outputs
 
 Terraform configurations are written in either HashiCorp Configuration Language (HCL) syntax or JSON. Because neither of these is a programming language, Terraform has has developed ways to enable users to request and publish named values. These are:
