@@ -7,14 +7,14 @@ description: "Learn how to build a CDKTF application from a template, project st
 
 # Project Setup
 
-This page describes the steps and options for creating a new CDK for Terraform (CDKTF) project, including creating from a project template, basic project structure, and converting an existing HCL project.
+There are several ways to create a new CDK for Terraform (CDKTF) project, including creating a new application from a pre-built or custom template, or converting an existing HCL project. When you create a new project, you also have the option of storing Terraform state locally, or using Terraform Cloud. This page discusses these setup options in more detail. 
 
-> **Hands On**: Check out our [CDK for Terraform Quick Start Demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and language-specific [Get Started Guides](https://learn.hashicorp.com/collections/terraform/cdktf) on HashiCorp Learn.
+> **Hands On**: Check out our [CDK for Terraform Quick Start Demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and language-specific [Get Started Tutorials](https://learn.hashicorp.com/collections/terraform/cdktf) on HashiCorp Learn.
 
-## Initialize project
+## Initialize Project from a Template
 
-Using `init` with a project template automatically creates and scaffolds a new CDKTF project for your chosen programming language.
-Templates generate a "Hello World" application where you can start to define infrastructure right away.
+Use `init` with a project template to automatically create and scaffold a new CDKTF project for your chosen programming language.
+Templates generate a new application with the file structure needed for you to start to define infrastructure right away.
 
 The `cdktf-cli` has built-in templates for supported programming languages, or you can use a custom-built [remote template](/docs/cdktf/create-and-deploy/remote-templates.html).
 
@@ -22,60 +22,51 @@ The `cdktf-cli` has built-in templates for supported programming languages, or y
 $ cdktf init --template="templateName"
 ```
 
-Use these template names for our built-in templates:
+Use these template names for the available pre-built templates:
 
 - `typescript`
 - `python`
 - `c#`
 - `java`
-- `go`
+- `go` (experimental)
 
-### Use Locally
+### Use a Local Backend
 
-Add the `--local` flag to created a scaffolded project that is pre-configured to use [Terraform state](https://www.terraform.io/docs/language/state/index.html) with a [local backend](https://www.terraform.io/docs/language/settings/backends/local.html). This means all terraform operations will happen on your local machine.
+Your application needs somewhere to store [Terraform state](https://www.terraform.io/docs/language/state/index.html). To store state on your local filesystem, add the `--local` flag to created a scaffolded project that is pre-configured to use a [local backend](https://www.terraform.io/docs/language/settings/backends/local.html). This means all terraform operations will happen on your local machine.
 
 ```
 $ cdktf init --template="typescript" --local
 ```
 
-### Use with Terraform Cloud
+### Use Terraform Cloud as a Remote Backend
 
-If you initialize a project without passing the `--local` flag, we will use your stored [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html) credentials. If you have no stored Terraform cloud credentials, CDKTF asks if you want to login.
+If you don't want to store Terraform state locally, you can configure your app to use Terraform Cloud as a remote backend. Initialize a project without passing the `--local` flag, to prompt CDKTF to use your stored [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html) credentials to create a new workspace for storing state. If you have no stored Terraform Cloud credentials, CDKTF will ask you to login.
 
-The scaffolded project is configured to use [Terraform state](https://www.terraform.io/docs/language/state/index.html) with a [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html). Where the Terraform operations will happen depends on the configuration of the Terraform Cloud Workspace settings. If the workspace was created as part of the `cdktf init` command, the Terraform operations will be run locally by default. The Terraform Cloud workspace an be configured to use remote operations instead.
+The new scaffolded project is configured to use Terraform state with a [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html). Where the Terraform operations will happen depends on the configuration of the Terraform Cloud Workspace settings. When created as part of the `cdktf init` command, the Terraform operations will be run locally by default. The Terraform Cloud workspace an be configured to use remote operations instead (see below).
 
 #### Terraform Cloud VCS Integration
 
-Terraform Cloud supports [connecting to VCS providers](https://www.terraform.io/docs/cloud/vcs/index.html).
+Terraform Cloud supports [connecting to VCS providers](https://www.terraform.io/docs/cloud/vcs/index.html). To use the VCS integration, commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code, so that Terraform Cloud can use it to deploy your infrastructure. On the General Settings page of your Terraform Cloud Workspace [set the Terraform Working Directory](https://www.terraform.io/docs/cloud/workspaces/settings.html#terraform-working-directory) to the output directory of the stack you want to deploy. So for example use `cdktf.out/stacks/dev` if your stack is named `dev` (please refer to the [Stacks documentation](/docs/cdktf/stacks.html) for more information on how you can use stacks to separate the state management for multiple environments within an application).
 
-To use the VCS integration, commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code so Terraform Cloud can use it to deploy your infrastructure. On the General Settings page of your Terraform Cloud Workspace [set the Terraform Working Directory](https://www.terraform.io/docs/cloud/workspaces/settings.html#terraform-working-directory) to the output directory of the stack you want to deploy. So for example use `cdktf.out/stacks/dev` if your stack is named `dev`.
-
-~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data which was provided as input for the `cdktf` application.
+~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data which was provided as input for the `cdktf` application. 
 
 #### External CI service
 
 If you prefer to keep the generated artifacts out of your repository, use any CI (Continuous Integration) service to build and deploy them instead. The CDK for Terraform CLI supports deploying to Terraform Cloud using either the local or remote execution mode. For more information on how runs work in Terraform Cloud, see [Terraform Runs and Remote Operations](https://www.terraform.io/docs/cloud/run/index.html).
+
 In your CI steps use the `cdktf-cli` commands to synthesize your code and deploy your infrastructure:
 
 ```
 cdktf deploy --auto-approve
 ```
 
-## Project Structure
+## Project Configuration
 
-The project structure depends on the language which is being used. Please follow the language specific getting starting guides:
-
-- Typescript
-- Python
-- C#
-- Java
-- Go
-
-One file which is common accross all supported languages, is the `cdktf.json` configuration file. It can be used to define providers and modules (link to providers & modules section) which should be added to the project and supply custom configuration settings to the application. Please have a look at the full documentation over here (link)
+Installing CDK for Terraform with a built-in template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Please refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail.
 
 ## Convert Existing HCL project
 
-Use the typescript template and add a flag on init to convert from an existing HCL project to TypeScript.
+If you are creating a new project using the `typescript` template, you have the option to create the project from an existing HCL project. To convert an existing HCL project into Typescript, add the `--from-terraform-project` to the `init` command: 
 
 ```
 $ cdktf init --template=typescript --from-terraform-project /path/to/my/tf-hcl-project
@@ -152,4 +143,4 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
-You can find the full documentation for the `cdktf convert` functionality over here (link)
+The ability to initialize a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template, but you can use the `cdktf convert` command to convert individual HCL files to another programming language. Please refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information. 
