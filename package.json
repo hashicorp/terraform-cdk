@@ -38,6 +38,7 @@
     "packages": [
       "packages/*",
       "packages/@cdktf/*",
+      "packages/@cdktf/aws-adapter/examples/*",
       "examples/*",
       "examples/python/*",
       "examples/typescript/*",

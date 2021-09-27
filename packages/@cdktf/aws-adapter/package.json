@@ -14,7 +14,8 @@
     "test": "jest",
     "jest-watch": "jest --watch",
     "package": "./package.sh",
-    "dist-clean": "rm -rf dist"
+    "dist-clean": "rm -rf dist",
+    "test:examples": "lerna run --scope @cdktf/aws-adapter-example-* test"
   },
   "repository": {
     "type": "git",
