@@ -1,15 +1,98 @@
 ---
 layout: "docs"
-page_title: "Outputs"
+page_title: "Variables and Outputs"
 sidebar_current: "cdktf"
-description: "Outputs allow you export structured data about resources. Learn to define them in CDK for Terraform."
+description: "TBD"
 ---
 
-# Outputs
+# Variables and Outputs
+
+Terraform configurations are written in either HashiCorp Configuration Language (HCL) syntax or JSON. Because neither of these is a programming language, Terraform has has developed ways to enable users to request and publish named values. These are:
+
+- [**Input Variables:**](#input-variables) These are like function arguments.
+- [**Local Values**](#local-values): These are like a function's temporary local variables.
+- [**Output Values**](#output-values): These are like function return values.
+
+You may need to occasionally use these elements in your CDKTF application instead of passing data through the conventions available in your preferred programming language.  
+
+## Input Variables
+
+You can define [Terraform variables](https://www.terraform.io/docs/configuration/variables.html) as input parameters to customize stacks and [modules](/fundamentals/modules.html). For example, rather than hardcoding the number and type of AWS EC2 instances to provision, you can define a variable that lets users change these parameters based on their needs.
+
+### When to use Input Variables
+
+Variables are useful when you plan to synthesize your CDKTF application into a JSON configuration file for Terraform. For example, when you are planning to store configurations and run Terraform inside [Terraform Cloud](https://www.terraform.io/cloud).
+
+If you plan to use CDK for Terraform to manage your infrastructure, then we recommend using your language's APIs to consume the data you would normally pass through Terraform variables. You can read from disk (synchronously) or from the environment variables, just as you would in any normal program.
+
+
+### Define Input Variables
+
+TODO: Can we get a description of what is happening here?
+
+```typescript
+const imageId = new TerraformVariable(this, "imageId", {
+  type: "string",
+  default: "ami-abcde123",
+  description: "What AMI to use to create an instance",
+});
+new Instance(this, "hello", {
+  ami: imageId.value,
+  instanceType: "t2.micro",
+});
+```
+
+TODO: When this gets synthesized, can we tell users what's going to happen? Is it automatically going to create the `tfvars` file?
+
+
+## Local Values
+
+A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) assigns a name to an expression to allow repeated usage. They can be thought of similar to a local variable, and as such, can often be replaced by one.
+
+### When to Use Local values
+
+TODO: Write something here.
+
+### Define Local Values
+
+In TypeScript, a Terraform local is expressed by `TerraformLocal`.
+
+```typescript
+const commonTags = new TerraformLocal(this, "common_tags", {
+  Service: "service_name",
+  Owner: "owner",
+});
+
+new Instance(this, "example", {
+  tags: commonTags.expression,
+});
+```
+
+The `TerraformLocal` synthesizes to the following:
+
+```json
+"locals": {
+    "common_tags": {
+      "Service": "service_name",
+      "Owner": "owner"
+    }
+}
+...
+"resource": {
+  "aws_instance": {
+    "example": {
+      "tags": "${local.common_tags}"
+    }
+  }
+}
+```
+
+
+## Outputs
 
 You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0-11/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html).
 
-## When to use outputs
+### When to use Output Values
 
 Outputs are useful to make any value of a Terraform Resource or Data Source available for further consumption. This might be just you wanting to get the URL of the server which was just provisioned. But it's also very handy to allow data sharing between `TerraformStacks`. This applies in particular to data which is depending on the provisioned resources and therefore not known at compile time.
 
@@ -42,7 +125,7 @@ new MyStack(app, "cdktf-producer", {
 app.synth();
 ```
 
-## Define Outputs
+### Define Outputs
 
 In TypeScript, a Terraform output for a Pet resource of the Randome provider can be expressed by `TerraformOutput`.
 
@@ -94,7 +177,8 @@ Output: random-pet = choice-haddock
 
 Since these are plain Terraform outputs, these can be used in the same fashion as Terraform outputs (thinking about Terraform Cloud / TFE but also all the other possible backends)
 
-## Define & Reference Outputs via Remote State
+
+### Define & Reference Outputs via Remote State
 
 A common use case for outputs is data sharing between stacks. In particular for data, which is not known at compile time.
 
