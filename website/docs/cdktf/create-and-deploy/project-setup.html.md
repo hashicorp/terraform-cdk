@@ -2,7 +2,7 @@
 layout: "docs"
 page_title: "Project Setup"
 sidebar_current: "cdktf"
-description: "Learn how to build a CDKTF application from a template, project structure, and configuration. "
+description: "Build a CDKTF application from a template or existing HCL project, and configure storage for Terraform state."
 ---
 
 # Project Setup
@@ -16,7 +16,7 @@ There are several ways to create a new CDK for Terraform (CDKTF) project, includ
 Use `init` with a project template to automatically create and scaffold a new CDKTF project for your chosen programming language.
 Templates generate a new application with the file structure needed for you to start to define infrastructure right away.
 
-The `cdktf-cli` has built-in templates for supported programming languages, or you can use a custom-built [remote template](/docs/cdktf/create-and-deploy/remote-templates.html).
+The `cdktf-cli` has pre-built templates for supported programming languages, or you can use a custom-built [remote template](/docs/cdktf/create-and-deploy/remote-templates.html).
 
 ```bash
 $ cdktf init --template="templateName"
@@ -62,7 +62,7 @@ cdktf deploy --auto-approve
 
 ## Project Configuration
 
-Installing CDK for Terraform with a built-in template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Please refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail.
+Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Please refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail.
 
 ## Convert Existing HCL project
 

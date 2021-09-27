@@ -2,12 +2,13 @@
 layout: "docs"
 page_title: "Configuration"
 sidebar_current: "cdktf"
-description: "Learn how to build a CDKTF application from a template, project structure, and configuration. "
+description: "Use the cdktf.json file to customize configuration settings and define the providers and modules to use with your application."
 ---
 
-# Configuration
+# Configuration File
 
-The `cdktf.json` file lets you configure the behavior of the CDK for Terraform CLI and define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) you want to use. Installing CDK for Terraform with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html) generates a basic `cdktf.json` file in your root directory that you can customize for your application.
+The `cdktf.json` file is where you can supply custom configuration settings for your application, and define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that you want to use. When you initialize a new CDK for Terraform project with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html), the template will generate a basic `cdktf.json` file in your root directory that you can customize for your application (for more information on initializing a new project, please refer to the [Project Setup documentation](/docs/cdktf/create-and-deploy/project-setup.html). 
+
 
 ## Specification
 
@@ -40,7 +41,7 @@ export interface Config {
 
 ## Minimal Configuration
 
-The most basic configuration only defines `app`. This is useful when you plan to use [prebuilt providers](/docs/cdktf/concepts/fundamentals/providers.html) and you don't need to generate any provider or module bindings.
+The most basic configuration only defines `app`. This is useful when you plan to use [pre-built providers](/docs/cdktf/concepts/fundamentals/providers.html) and you don't need to generate any provider or module bindings.
 
 ```json
 {
@@ -50,9 +51,9 @@ The most basic configuration only defines `app`. This is useful when you plan to
 
 ## Declare Providers and Modules
 
-While we have a selection of pre-built providers (link), there are cases where you want to generate the type bindings for providers yourself (e.g. when a provider is not present as pre built provider, or a specific provider version is required for some reason). Modules always have to be built via `cdktf get` and thefore have to be present in the `cdktf.json`.
+You must declare all of the providers and modules you want to generate code bindings for in your `cdktf.json` file. Modules and providers become available to your application after they are built from the `cdktf.json` file when you run `cdktf get`. Modules always have to be built via `cdktf get` and thefore must be defined in the `cdktf.json` file. While we have a selection of pre-built [providers](/docs/cdktf/concepts/fundamentals/providers.html) available, there are cases where you may want to generate the type bindings for providers yourself (for example, when a provider is not available as pre-built provider, or a specific provider version is required). 
 
-You must declare all of the providers and modules you want to generate code bindings for in your `cdktf.json` file. The [schema](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses) for both providers and modules in CDK for Terraform consists of a name, a [source](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses), and a [version constraint](https://www.terraform.io/docs/language/providers/requirements.html#version-constraints).
+The [schema](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses) for both providers and modules in CDK for Terraform consists of a name, a [source](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses), and a [version constraint](https://www.terraform.io/docs/language/providers/requirements.html#version-constraints).
 
 You can declare providers and modules using either JSON or a string with the format `source@ ~> version` .
 
@@ -83,11 +84,12 @@ You can declare providers and modules using either JSON or a string with the for
 
 ### Version Constraint
 
-When you declare providers and modules in the string format, add the [version constraint](https://www.terraform.io/docs/language/expressions/version-constraints.html#version-constraint-syntax) after the provider or module name separated by an `@`. For example, so `provider|module@ ~> version`. You can also omit the version constraint if you do not want to specify a particular version. When you omit the version constraint, CDK for Terraform downloads and uses the latest version.
+When you declare providers and modules in the string format, add the [version constraint](https://www.terraform.io/docs/language/expressions/version-constraints.html#version-constraint-syntax) after the provider or module name separated by an `@`. For example, so `provider|module@ ~> version`. The version constraint is optional; when you omit the version constraint, CDK for Terraform will download and use the latest version.
 
-When you declare providers in JSON, add the constraint in the `version` property. TODO Please provide an example of this in object format.
+When you declare providers in JSON, add the constraint in the `version` property. 
+*TODO Please provide an example of this in object format.*
 
-## Examples
+## Configuration Examples
 
 ### Changing the Output Directory
 
@@ -104,7 +106,7 @@ The example below synthesizes the JSON Terraform configuration into `my-workdir`
 
 ### Building Providers
 
-With this `terraformProviders` configuration, a `cdktf get` will build the latest AWS provider within the 2.X version range. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput`, see other examples below.
+With the `terraformProviders` configuration below, a `cdktf get` will build the latest AWS provider within the 2.X version range. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput`, see other examples below.
 
 ```json
 {
@@ -128,7 +130,7 @@ With this `terraformModules` configuration, a `cdktf get` will build the latest 
 
 ### Building Providers & Modules
 
-This combines examples above. A `cdktf get` will build both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
+This combines the two examples above. A `cdktf get` will build both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
 
 ```json
 {
