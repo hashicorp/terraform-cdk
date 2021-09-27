@@ -7,7 +7,7 @@ description: "Resources to help you contribute to the codebase, submit issues, a
 
 # Community
 
-CDK for Terraform is a rapidly-growing project and the development team would love your feedback and direct contributions to help guide the project.
+CDK for Terraform is under active development, and we would love your feedback and direct contributions to help guide the project.
 
 ## Questions & Issues
 If you have questions, the HashiCorp [Discuss](https://discuss.hashicorp.com/) platform using the [terraform-cdk](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/) category is the best place for general discussion. If you run into issues or have ideas for improvements, please file a [bug](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title=) or request a new [feature](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=). Please let us know if you'd like to talk - we are very interested in seeing how people use CDK for Terraform in practice.
