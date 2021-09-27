@@ -1,12 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import {
-  CloudfrontDistribution,
-  AcmCertificate,
-  Route53Record,
-  AcmCertificateValidation,
-  AwsProvider,
-} from "./.gen/providers/aws";
+import { Cloudfront, Acm, Route53, AwsProvider } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -25,18 +19,18 @@ class MyStack extends TerraformStack {
       alias: "route53",
     });
 
-    const cert = new AcmCertificate(this, "cert", {
+    const cert = new Acm.Certificate(this, "cert", {
       domainName,
       validationMethod: "DNS",
       provider,
     });
 
-    // const zone = new DataAwsRoute53Zone(this, 'zone', {
+    // const zone = new Data.Route53Zone(this, 'zone', {
     //   name: 'example.com.',
     //   privateZone: false
     // })
 
-    const record = new Route53Record(this, "CertValidationRecord", {
+    const record = new Route53.Record(this, "CertValidationRecord", {
       name: cert.domainValidationOptions("0").resourceRecordName,
       type: cert.domainValidationOptions("0").resourceRecordType,
       records: [cert.domainValidationOptions("0").resourceRecordValue],
@@ -46,13 +40,13 @@ class MyStack extends TerraformStack {
       allowOverwrite: true,
     });
 
-    new AcmCertificateValidation(this, "certvalidation", {
+    new Acm.CertificateValidation(this, "certvalidation", {
       certificateArn: cert.arn,
       validationRecordFqdns: [record.fqdn],
       provider,
     });
 
-    const distribution = new CloudfrontDistribution(this, "cloudfront", {
+    const distribution = new Cloudfront.Distribution(this, "cloudfront", {
       enabled: true,
       isIpv6Enabled: true,
 
@@ -131,7 +125,7 @@ class MyStack extends TerraformStack {
       ],
     });
 
-    new Route53Record(this, "distribution_domain", {
+    new Route53.Record(this, "distribution_domain", {
       name: domainName,
       type: "A",
       // zoneId: zone.zoneId,

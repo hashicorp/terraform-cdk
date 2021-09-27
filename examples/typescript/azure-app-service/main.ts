@@ -1,10 +1,9 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
 import {
-  AppService,
-  AppServicePlan,
+  App as AzApp,
   AzurermProvider,
-  ResourceGroup,
+  Resource,
 } from "./.gen/providers/azurerm";
 
 class MyStack extends TerraformStack {
@@ -18,12 +17,12 @@ class MyStack extends TerraformStack {
       features: [{}],
     });
 
-    const rg = new ResourceGroup(this, "cdktf-rg", {
+    const rg = new Resource.GroupA(this, "cdktf-rg", {
       name: "demo2020",
       location: "westeurope",
     });
 
-    const asp = new AppServicePlan(this, "cdktf-asp", {
+    const asp = new AzApp.ServicePlan(this, "cdktf-asp", {
       kind: "Linux",
       reserved: true,
       resourceGroupName: rg.name,
@@ -33,7 +32,7 @@ class MyStack extends TerraformStack {
       dependsOn: [rg],
     });
 
-    const appsvc = new AppService(this, "docker-cdktf", {
+    const appsvc = new AzApp.Service(this, "docker-cdktf", {
       name: "cdktfdemoneil",
       appServicePlanId: `${asp.id}`,
       location: rg.location,

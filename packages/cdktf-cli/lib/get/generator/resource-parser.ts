@@ -25,7 +25,14 @@ const uniqueClassName = (className: string): string => {
   return className;
 };
 
+function splitFirstResourceParts(str: string): string[] {
+  const [start, ...end] = str.split("_");
+  const rest = end.join("_");
+  return [start, rest];
+}
+
 class Parser {
+  constructor(private readonly split = false) {}
   private structs = new Array<Struct>();
 
   public resourceFrom(
@@ -35,6 +42,19 @@ class Parser {
     terraformSchemaType: string
   ): ResourceModel {
     let baseName = type;
+    let subDirectory = "";
+    if (terraformSchemaType === "data_source") {
+      baseName = baseName.replace("data_", "");
+      subDirectory += `/data`;
+    }
+
+    baseName = baseName.replace(`${provider}_`, "");
+
+    if (this.split && baseName.includes("_")) {
+      const [start, rest] = splitFirstResourceParts(baseName);
+      baseName = rest;
+      subDirectory += `/${start}`;
+    }
     if (baseName.startsWith(`${provider}_`)) {
       baseName = baseName.substr(provider.length + 1);
     }
@@ -61,7 +81,10 @@ class Parser {
       baseName === "index"
         ? "index-resource.ts"
         : `${toSnakeCase(baseName).replace(/_/g, "-")}.ts`;
-    const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
+
+    const filePath = `providers/${toSnakeCase(
+      provider
+    )}${subDirectory}/${fileName}`;
     const attributes = this.renderAttributesForBlock(
       new Scope({
         name: baseName,
@@ -397,13 +420,15 @@ class Parser {
 }
 
 export class ResourceParser {
+  public split = false;
+
   public parse(
     provider: string,
     type: string,
     schema: Schema,
     terraformType: string
   ): ResourceModel {
-    const parser = new Parser();
+    const parser = new Parser(this.split);
     const resource = parser.resourceFrom(provider, type, schema, terraformType);
     return resource;
   }
