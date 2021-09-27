@@ -3,5 +3,6 @@
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": [
     "google@~> 3.74.0"
-  ]
+  ],
+  "projectId": "91a06a0c-7278-4243-91b3-50bf31ac10b5"
 }

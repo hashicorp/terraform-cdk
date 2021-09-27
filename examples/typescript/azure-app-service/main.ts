@@ -6,6 +6,8 @@ import {
   Resource,
 } from "./.gen/providers/azurerm";
 
+const { ServicePlan, Service } = AzApp;
+
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
@@ -22,7 +24,7 @@ class MyStack extends TerraformStack {
       location: "westeurope",
     });
 
-    const asp = new AzApp.ServicePlan(this, "cdktf-asp", {
+    const asp = new ServicePlan(this, "cdktf-asp", {
       kind: "Linux",
       reserved: true,
       resourceGroupName: rg.name,
@@ -32,7 +34,7 @@ class MyStack extends TerraformStack {
       dependsOn: [rg],
     });
 
-    const appsvc = new AzApp.Service(this, "docker-cdktf", {
+    const appsvc = new Service(this, "docker-cdktf", {
       name: "cdktfdemoneil",
       appServicePlanId: `${asp.id}`,
       location: rg.location,

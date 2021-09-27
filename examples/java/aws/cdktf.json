@@ -1,5 +1,8 @@
 {
   "language": "java",
   "app": "mvn -e -q compile exec:java",
-  "terraformProviders": ["aws@~> 2.0"]
+  "terraformProviders": [
+    "aws@~> 2.0"
+  ],
+  "projectId": "75403390-a9cd-451a-a2d5-a52aa770ee96"
 }

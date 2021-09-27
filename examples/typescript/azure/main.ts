@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AzurermProvider, VirtualNetwork } from "./.gen/providers/azurerm";
+import { AzurermProvider, Virtual } from "./.gen/providers/azurerm";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -10,7 +10,7 @@ class MyStack extends TerraformStack {
       features: [{}],
     });
 
-    new VirtualNetwork(this, "TfVnet", {
+    new Virtual.Network(this, "TfVnet", {
       location: "uksouth",
       addressSpace: ["10.0.0.0/24"],
       name: "TerraformVNet",

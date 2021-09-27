@@ -1,10 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import {
-  GoogleProvider,
-  ComputeNetwork,
-  ComputeInstance,
-} from "./.gen/providers/google";
+import { GoogleProvider, Compute } from "./.gen/providers/google";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -24,11 +20,11 @@ class MyStack extends TerraformStack {
       credentials,
     });
 
-    const network = new ComputeNetwork(this, "Network", {
+    const network = new Compute.Network(this, "Network", {
       name: "cdktf-network",
     });
 
-    new ComputeInstance(this, "ComputeInstance", {
+    new Compute.Instance(this, "ComputeInstance", {
       name: "cdktf-instance",
       machineType: "f1-micro",
       bootDisk: [

@@ -1,11 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import {
-  CloudRunService,
-  GoogleProvider,
-  DataGoogleIamPolicy,
-  CloudRunServiceIamPolicy,
-} from "./.gen/providers/google";
+import { Cloud, GoogleProvider, Data } from "./.gen/providers/google";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -30,7 +25,7 @@ class MyStack extends TerraformStack {
       credentials,
     });
 
-    const cloudrunsvcapp = new CloudRunService(this, "GcpCDKCloudrunsvc", {
+    const cloudrunsvcapp = new Cloud.RunService(this, "GcpCDKCloudrunsvc", {
       location: local,
       name: "gcpcdktfcloudrunsvc2020",
       template: [
@@ -48,7 +43,7 @@ class MyStack extends TerraformStack {
       ],
     });
 
-    const policy_data = new DataGoogleIamPolicy(this, "datanoauth", {
+    const policy_data = new Data.Iam.Policy(this, "datanoauth", {
       binding: [
         {
           role: "roles/run.invoker",
@@ -57,7 +52,7 @@ class MyStack extends TerraformStack {
       ],
     });
 
-    new CloudRunServiceIamPolicy(this, "runsvciampolicy", {
+    new Cloud.RunServiceIamPolicy(this, "runsvciampolicy", {
       location: local,
       project: cloudrunsvcapp.project,
       service: cloudrunsvcapp.name,

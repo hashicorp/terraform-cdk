@@ -33,8 +33,11 @@ const isMatching = (
   }
 };
 
-function titleCase(value: string) {
-  return value[0].toUpperCase() + value.slice(1);
+function namespaceExportName(value: string) {
+  if (value === "default") {
+    return "_default";
+  }
+  return value;
 }
 
 export interface ProviderConstraints {
@@ -166,7 +169,7 @@ export class TerraformProviderGenerator {
 
     for (const submodule of Object.keys(subModuleExports)) {
       this.code.line(
-        `export * as ${titleCase(submodule)} from './${submodule}';`
+        `export * as ${namespaceExportName(submodule)} from './${submodule}';`
       );
     }
     for (const file of starExports) {
