@@ -15,13 +15,17 @@ import {
   AttributeModel,
 } from "./models";
 
-const classNames: string[] = [];
+// . equals global scope, every other key is a submodule that has it's own scope
+// As Data attributes have nested
+const classNamesScopes: Record<string, string[]> = {};
 
-const uniqueClassName = (className: string): string => {
+const uniqueClassName = (className: string, scope: string): string => {
+  const classNames = classNamesScopes[scope] || [];
   if (classNames.includes(className)) {
     className = `${className}A`;
   }
   classNames.push(className);
+  classNamesScopes[scope] = classNames;
   return className;
 };
 
@@ -74,9 +78,12 @@ class Parser {
       };
     }
 
-    const className = uniqueClassName(toPascalCase(baseName));
+    const className = uniqueClassName(toPascalCase(baseName), subDirectory);
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
-    const configStructName = uniqueClassName(`${className}Config`);
+    const configStructName = uniqueClassName(
+      `${className}Config`,
+      subDirectory
+    );
     const fileName =
       baseName === "index"
         ? "index-resource.ts"
@@ -93,7 +100,8 @@ class Parser {
           ? undefined
           : new Scope({ name: provider, isProvider: true }),
       }),
-      schema.block
+      schema.block,
+      subDirectory
     );
 
     const resourceModel = new ResourceModel({
@@ -115,7 +123,8 @@ class Parser {
 
   private renderAttributeType(
     scope: Scope[],
-    attributeType: AttributeType
+    attributeType: AttributeType,
+    classNameScope: string
   ): AttributeTypeModel {
     const parent = scope[scope.length - 1];
     const level = scope.length;
@@ -170,7 +179,11 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        const attrType = this.renderAttributeType(scope, type as AttributeType);
+        const attrType = this.renderAttributeType(
+          scope,
+          type as AttributeType,
+          classNameScope
+        );
         attrType.isList = true;
         attrType.isComputed = isComputed;
         attrType.isOptional = isOptional;
@@ -182,7 +195,8 @@ class Parser {
       if (kind === "map") {
         const valueType = this.renderAttributeType(
           scope,
-          type as AttributeType
+          type as AttributeType,
+          classNameScope
         );
         valueType.isMap = true;
         valueType.isComputed = isComputed;
@@ -198,7 +212,11 @@ class Parser {
         for (const [name, type] of Object.entries(objAttributes)) {
           attributes[name] = { type };
         }
-        const struct = this.addAnonymousStruct(scope, attributes);
+        const struct = this.addAnonymousStruct(
+          scope,
+          attributes,
+          classNameScope
+        );
         const model = new AttributeTypeModel(struct.name, {
           struct,
           isComputed,
@@ -213,7 +231,11 @@ class Parser {
     throw Errors.Internal("get", `unknown type ${attributeType}`);
   }
 
-  public renderAttributesForBlock(parentType: Scope, block: Block) {
+  public renderAttributesForBlock(
+    parentType: Scope,
+    block: Block,
+    classNameScope: string
+  ) {
     const attributes = new Array<AttributeModel>();
 
     for (const [terraformAttributeName, att] of Object.entries(
@@ -233,7 +255,8 @@ class Parser {
             isRequired: !!att.required,
           }),
         ],
-        att.type
+        att.type,
+        classNameScope
       );
       const name = toCamelCase(terraformAttributeName);
 
@@ -264,7 +287,8 @@ class Parser {
           isProvider: parentType.isProvider,
           inBlockType: true,
         }),
-        blockType.block
+        blockType.block,
+        classNameScope
       );
       const blockStruct = this.addStruct(
         [
@@ -275,7 +299,8 @@ class Parser {
             isProvider: parentType.isProvider,
           }),
         ],
-        blockAttributes
+        blockAttributes,
+        classNameScope
       );
 
       // define the attribute
@@ -365,7 +390,8 @@ class Parser {
   }
   private addAnonymousStruct(
     scope: Scope[],
-    attrs: { [name: string]: Attribute }
+    attrs: { [name: string]: Attribute },
+    classNameScope: string
   ) {
     const attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
@@ -395,7 +421,8 @@ class Parser {
                 isRequired: required,
               }),
             ],
-            att.type
+            att.type,
+            classNameScope
           ),
           provider: parent.isProvider,
           required: required,
@@ -403,12 +430,17 @@ class Parser {
       );
     }
 
-    return this.addStruct(scope, attributes);
+    return this.addStruct(scope, attributes, classNameScope);
   }
 
-  private addStruct(scope: Scope[], attributes: AttributeModel[]) {
+  private addStruct(
+    scope: Scope[],
+    attributes: AttributeModel[],
+    classNameScope: string
+  ) {
     const name = uniqueClassName(
-      toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
+      toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_")),
+      classNameScope
     );
     const parent = scope[scope.length - 1];
     const isClass = parent.isComputed && !parent.isOptional;
