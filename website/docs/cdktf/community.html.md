@@ -18,5 +18,4 @@ The CDK for Terraform project is very open to community contributions. The easie
 If you're interested in contributing code, please look at the [CONTRIBUTING.md](./CONTRIBUTING.md) guide. Before you file a large pull request, please file a feature request to tell us what you're interested in building. We're happy to work with you on the design to make sure we can review and accept your PR quickly.
 
 ## Roadmap
-CDK for Terraform is released on a monthly cadence. To see what's planned next, look at [GitHub milestones](https://github.com/hashicorp/terraform-cdk/milestones). Typically, releases beyond the next are planned tentatively. Issues labeled `committed` will land in the planned release, and all others are implicitly stretch goals, and may shift to a future release if they don't get done in time for the release. 
-
+CDK for Terraform is released on a monthly cadence. The [GitHub milestones] (https://github.com/hashicorp/terraform-cdk/milestones) for the project show what is planned for the next release and tentatively planned for subsequent releases. Issues labeled `committed` will land in the planned release, and all others are implicitly stretch goals that may shift to a future release as needed. 
