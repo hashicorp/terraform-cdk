@@ -3,8 +3,7 @@ import * as fs from "fs";
 import path = require("path");
 import { S3Bucket, S3BucketConfig, S3BucketWebsite } from "@cdktf/provider-aws";
 import { registerMapping } from "../index";
-
-type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+import { Writeable } from "../../type-utils";
 
 // load all other files in this directory
 fs.readdirSync(__dirname).forEach((file) => {

@@ -4,6 +4,7 @@ import * as awscc from "../../../.gen/providers/awscc";
 import { awsccNameMap } from "../../awscc_schemas/awscc-name-map";
 import { TerraformResource } from "cdktf";
 import { convertCloudFormationPropertyToCDKTFAttribute } from "./util";
+import { Writeable } from "../../type-utils";
 
 const debug = createDebug("tf-aws-adapter:awscc:debug");
 const trace = createDebug("tf-aws-adapter:awscc:trace");
@@ -28,19 +29,31 @@ const overrides: {
       },
     },
   },
-  // "AWS::Lambda::Function": {
-  //   props: {
-  //     beforeMapping: (props: { code: any }) => {
-  //       if (props.code) {
-  //         if (typeof props.code?.ZipFile !== 'string') {
-  //           throw new Error('AWS::Lambda::Function > Code currently only supports ZipFile')
-  //         }
-  //         props.code = props.code.ZipFile;
-  //       }
+  "AWS::Lambda::Function": {
+    props: {
+      // beforeMapping: (props: { code: any }) => {
+      //   if (props.code) {
+      //     if (typeof props.code?.ZipFile !== 'string') {
+      //       throw new Error('AWS::Lambda::Function > Code currently only supports ZipFile')
+      //     }
+      //     props.code = props.code.ZipFile;
+      //   }
 
-  //     }
-  //   }
-  // }
+      // }
+      afterMapping: (cdktfProps: Writeable<awscc.LambdaFunctionConfig>) => {
+        // these are defaults that are currently not part of the schema and thus needed to be specified manually:
+        // https://github.com/hashicorp/terraform-provider-awscc/blob/main/internal/service/cloudformation/schemas/AWS_Lambda_Function.json
+        cdktfProps.fileSystemConfigs = cdktfProps.fileSystemConfigs ?? [];
+        cdktfProps.memorySize = cdktfProps.memorySize ?? 128;
+        cdktfProps.tracingConfig = cdktfProps.tracingConfig ?? {
+          mode: "PassThrough",
+        };
+        if (cdktfProps.code.zipFile) {
+          cdktfProps.packageType = "Zip";
+        }
+      },
+    },
+  },
 };
 
 const resources = Object.entries(awscc)
@@ -75,7 +88,6 @@ Object.entries(awsccNameMap).forEach(([tfName, cfnName]) => {
         Object.entries(props).forEach(([cfnAttribute, value]) => {
           const tfAttr =
             convertCloudFormationPropertyToCDKTFAttribute(cfnAttribute);
-          // FIXME: also convert properties of values (recursively!)
 
           function convertObjectKeys(value: any): any {
             if (typeof value === "object" && value !== null) {
@@ -91,10 +103,9 @@ Object.entries(awsccNameMap).forEach(([tfName, cfnName]) => {
 
           convertedProps[tfAttr] = convertObjectKeys(value);
           delete props[cfnAttribute];
-          // TODO: allow overrides
         });
 
-        override?.props?.afterMapping?.(props);
+        override?.props?.afterMapping?.(convertedProps);
 
         debug(
           `converted props for awscc Resource ${
@@ -105,7 +116,7 @@ Object.entries(awsccNameMap).forEach(([tfName, cfnName]) => {
         return new Resource(scope, id, convertedProps) as TerraformResource;
       },
       attributes: {
-        Arn: (res: any) => res.arn, // TODO: this can fail, catch inside of function? we could check for undefined first
+        Arn: (res: any) => res.arn, // TODO: this can fail, catch inside of function? we could check for undefined first and print a nice err msg for the user
         Ref: (res: any) => res.id, // TODO: this can fail too
         ...override?.attributes,
       },

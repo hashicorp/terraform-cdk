@@ -67,7 +67,7 @@ class TerraformHost extends Construct {
     logicalId: string,
     resource: CloudFormationResource
   ): TerraformResource {
-    console.log(JSON.stringify(resource, null, 2));
+    // TODO: add debug log console.log(JSON.stringify(resource, null, 2));
     const m = findMapping(resource.Type);
     if (!m) {
       throw new Error(`no mapping for ${resource.Type}`);

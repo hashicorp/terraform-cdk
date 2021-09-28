@@ -14,7 +14,7 @@ export function convertCloudFormationPropertyToCDKTFAttribute(
 ): string {
   const tfAttribute =
     convertCloudFormationPropertyToTFAttribute(cfnAttributeName);
-  // TODO: toCamelCase // from codemaker
+
   const cdktfAttribute = toCamelCase(tfAttribute);
 
   const tmp = new AttributeModel({
@@ -35,7 +35,8 @@ export function convertCloudFormationPropertyToCDKTFAttribute(
   return conflictFreeCdktfAttribute;
 }
 
-// reimplementation of naming.go
+// reimplementation of naming.go from terraform-provider-awscc
+// TODO: use WebAssembly to reuse naming.go
 export function convertCloudFormationPropertyToTFAttribute(
   cfnAttributeName: string
 ): string {

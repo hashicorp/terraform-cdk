@@ -31,5 +31,5 @@ export function registerMapping<T extends TerraformResource>(
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------
 // load mappings
-require("./aws");
 require("./awscc");
+require("./aws");

@@ -33,8 +33,7 @@ export class CronLambdaStack extends TerraformStack {
     // Run 6:00 PM UTC every Monday through Friday
     // See https://docs.aws.amazon.com/lambda/latest/dg/tutorial-scheduled-events-schedule-expressions.html
     const rule = new aws_events.Rule(awsAdapter, "rule", {
-      // schedule: aws_events.Schedule.expression("cron(0 18 ? * MON-FRI *)"),
-      schedule: aws_events.Schedule.rate(Duration.minutes(5)),
+      schedule: aws_events.Schedule.expression("cron(0 18 ? * MON-FRI *)"),
     });
 
     rule.addTarget(new aws_events_targets.LambdaFunction(lambdaFn));

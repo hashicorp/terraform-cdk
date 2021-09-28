@@ -63,10 +63,16 @@ describe("typescript-cron-lambda", () => {
         \\"code\\": {
           \\"zip_file\\": \\"def main(event, context):\\\\n    print(\\\\\\"I'm running!\\\\\\")\\"
         },
+        \\"file_system_configs\\": [],
         \\"handler\\": \\"index.main\\",
+        \\"memory_size\\": 128,
+        \\"package_type\\": \\"Zip\\",
         \\"role\\": \\"\${aws_iam_role.adapter_lambdaServiceRole494E4CA6_7D4D29EC.arn}\\",
         \\"runtime\\": \\"python3.6\\",
-        \\"timeout\\": 300
+        \\"timeout\\": 300,
+        \\"tracing_config\\": {
+          \\"mode\\": \\"PassThrough\\"
+        }
       }
     }
   },
