@@ -32,7 +32,7 @@ Use these template names for the available pre-built templates:
 
 ### Use a Local Backend
 
-Your application needs somewhere to store [Terraform state](https://www.terraform.io/docs/language/state/index.html). To store state on your local filesystem, add the `--local` flag to created a scaffolded project that is pre-configured to use a [local backend](https://www.terraform.io/docs/language/settings/backends/local.html). This means all terraform operations will happen on your local machine.
+Your application needs somewhere to store [Terraform state](https://www.terraform.io/docs/language/state/index.html). Add the `--local` flag to created a scaffolded project that is pre-configured to use a [local backend](https://www.terraform.io/docs/language/settings/backends/local.html). This means all terraform operations will happen on your local machine.
 
 ```
 $ cdktf init --template="typescript" --local
