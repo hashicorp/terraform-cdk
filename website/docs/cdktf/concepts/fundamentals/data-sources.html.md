@@ -2,7 +2,7 @@
 layout: "docs"
 page_title: "Data Sources in CDK for Terraform"
 sidebar_current: "cdktf"
-description: "Data sources allow Terraform to use external data, function output, and data from other configurations. Learn to use them in CDK for Terraform applications."
+description: "Use data sources to allow Terraform to use external data, function output, and data from other configurations."
 ---
 
 # Data Sources
