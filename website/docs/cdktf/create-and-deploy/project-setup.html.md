@@ -62,7 +62,7 @@ cdktf deploy --auto-approve
 
 ## Project Configuration
 
-Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Please refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail.
+Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail.
 
 ## Convert Existing HCL project
 
