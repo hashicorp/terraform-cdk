@@ -7,7 +7,7 @@ description: "Build a CDKTF application from a template or existing HCL project,
 
 # Project Setup
 
-There are several ways to create a new CDK for Terraform (CDKTF) project, including creating a new application from a pre-built or custom template, or converting an existing HCL project. When you create a new project, you also have the option of storing Terraform state locally, or using Terraform Cloud. This page discusses these setup options in more detail.
+There are several ways to create a new CDK for Terraform (CDKTF) project, including creating a new application from a pre-built or custom template, or converting an existing HCL project. When you create a new project, you have the option of storing Terraform state locally, or using Terraform Cloud. This page discusses these setup options in more detail.
 
 > **Hands On**: Check out our [CDK for Terraform Quick Start Demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and language-specific [Get Started Tutorials](https://learn.hashicorp.com/collections/terraform/cdktf) on HashiCorp Learn.
 
@@ -48,7 +48,7 @@ The new scaffolded project is configured to use Terraform state with a [remote b
 
 Terraform Cloud supports [connecting to VCS providers](https://www.terraform.io/docs/cloud/vcs/index.html). To use the VCS integration, commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code, so that Terraform Cloud can use it to deploy your infrastructure. On the General Settings page of your Terraform Cloud workspace [set the Terraform working directory](https://www.terraform.io/docs/cloud/workspaces/settings.html#terraform-working-directory) to the output directory of the stack you want to deploy. So for example, use `cdktf.out/stacks/dev` if your stack is named `dev`. Refer to the [Stacks documentation](./stacks.html) for more information about using stacks to separate the state management for multiple environments in an application.
 
-~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data which was provided as input for the `cdktf` application.
+~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data that was provided as input for the `cdktf` application.
 
 #### External CI service
 
@@ -143,4 +143,4 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
-The ability to initialize a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template, but you can use the `cdktf convert` command to convert individual HCL files to another programming language. Please refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
+The ability to initialize a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template, but you can use the `cdktf convert` command to convert individual HCL files to another programming language. Refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
