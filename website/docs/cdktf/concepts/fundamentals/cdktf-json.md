@@ -7,7 +7,7 @@ description: "Use the cdktf.json file to customize configuration settings and de
 
 # Configuration File
 
-The `cdktf.json` file is where you can supply custom configuration settings for your application, and define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that you want to use. When you initialize a new CDK for Terraform project with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html), the template will generate a basic `cdktf.json` file in your root directory that you can customize for your application (for more information on initializing a new project, please refer to the [Project Setup documentation](/docs/cdktf/create-and-deploy/project-setup.html).
+The `cdktf.json` file is where you can supply custom configuration settings for your application, and define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that you want to use. When you initialize a new CDK for Terraform project with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html), the template will generate a basic `cdktf.json` file in your root directory that you can customize for your application. Refer to the [Project Setup documentation](/docs/cdktf/create-and-deploy/project-setup.html) for more information about initializing a new project.
 
 ## Specification
 
@@ -50,7 +50,7 @@ The most basic configuration only defines `app`. This is useful when you plan to
 
 ## Declare Providers and Modules
 
-You must declare all of the providers and modules you want to generate code bindings for in your `cdktf.json` file. Modules and providers become available to your application after they are built from the `cdktf.json` file when you run `cdktf get`. Modules always have to be built via `cdktf get` and thefore must be defined in the `cdktf.json` file. While we have a selection of pre-built [providers](/docs/cdktf/concepts/fundamentals/providers.html) available, there are cases where you may want to generate the type bindings for providers yourself (for example, when a provider is not available as pre-built provider, or a specific provider version is required).
+You must declare all of the providers and modules that require code bindings in your `cdktf.json` file. CDKTF generates these code bindings from `cdktf.json` when you run `cdktf get`. We have a selection of pre-built [providers](/docs/cdktf/concepts/fundamentals/providers.html) available, but you may occasionally want to re-generate the code bindings for those providers yourself. For example, you may need a different version of that provider than the pre-built package. We do not provide pre-built modules, so you must always declare them in your `cdktf.json` file.
 
 The [schema](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses) for both providers and modules in CDK for Terraform consists of a name, a [source](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses), and a [version constraint](https://www.terraform.io/docs/language/providers/requirements.html#version-constraints).
 
