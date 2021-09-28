@@ -42,7 +42,7 @@ $ cdktf init --template="typescript" --local
 
 If you don't want to store Terraform state locally, you can configure your app to use Terraform Cloud as a remote backend. Initialize a project without passing the `--local` flag, to prompt CDKTF to use your stored [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html) credentials to create a new workspace for storing state. If you have no stored Terraform Cloud credentials, CDKTF will ask you to login.
 
-The new scaffolded project is configured to use Terraform state with a [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html). Where the Terraform operations will happen depends on the configuration of the Terraform Cloud Workspace settings. When created as part of the `cdktf init` command, the Terraform operations will be run locally by default. The Terraform Cloud workspace an be configured to use remote operations instead (see below).
+The new scaffolded project is configured to use Terraform state with a [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html). Where the Terraform operations will happen depends on the configuration of the Terraform Cloud Workspace settings. When you create the workspace as part of the `cdktf init` command, Terraform operations will be run locally by default. You can configure the Terraform Cloud workspace to use remote operations instead (see below).
 
 #### Terraform Cloud VCS Integration
 
