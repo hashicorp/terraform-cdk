@@ -19,7 +19,7 @@ In your CDK for Terraform Application, you will use your preferred programming l
 
 ## Providers
 
-You can use both local providers and providers from the [Terraform Registry](https://registry.terraform.io/) in your application. TODO add something about code bindings.  The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your preferred programming language.
+You can use both local providers and providers from the Terraform Registry in your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/docs/cdktf/create-and-deploy/configuration.html). This allows you to define resources for that provider in your preferred programming language.
 
 ### Pre-built Providers
 
@@ -230,14 +230,41 @@ Terraform supports using local providers. Terraform has to find these providers 
 Once configured properly, you can reference these providers in the `cdktf.json` config file the same way that you reference providers in the Terraform Registry.
 
 
-
 ## Resources
 
-TODO: Define what resources are in infrastructure and how you use them
+Resources are the most important element when defining infrastructure in CDKTF applications. Each resource describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components such as DNS records.
 
-TODO: Add something about how to define resources.
+### Define resources
 
-TODO: Add something about how to import existing resources.
+Resource definitions and properties vary depending on the type of resource and the provider. Consult your provider's documentation for a full list of available resources and their configuration options.
+
+The TypeScript example below defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
+
+``` typescript
+export class HelloTerra extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "eu-central-1",
+    });
+
+    const region = new DataAwsRegion(this, "region");
+
+    const table = new DynamodbTable(this, "Hello", {
+      name: `my-first-table-${region.name}`,
+      hashKey: "temp",
+      attribute: [{ name: "id", type: "S" }],
+      billingMode: "PAY_PER_REQUEST",
+    });
+
+```
+
+The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language. Add something about how to define resources.
+
+### Import Existing Resources
+
+TODO: Add something about how you import existing resources. Please also provide an example :-)
 
 
 ### Escape Hatch
