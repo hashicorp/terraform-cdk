@@ -7,30 +7,12 @@ description: "Providers allow Terraform to communicate with external APIs. Learn
 
 # Providers
 
-A [provider](https://www.terraform.io/docs/language/providers/index.html) is any external API that has a plugin for Terraform. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
+A [provider](https://www.terraform.io/docs/language/providers/index.html) is Terraform plugin that allows users to manage an external API. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
 or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
-CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your preferred programming language.
-
-## Pre-built Providers
-
-We offer several popular providers as pre-built packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
-
-- [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
-- [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
-- [Azure Provider](https://github.com/terraform-cdk-providers/cdktf-provider-azurerm)
-- [Kubernetes Provider](https://github.com/terraform-cdk-providers/cdktf-provider-kubernetes)
-- [Docker Provider](https://github.com/terraform-cdk-providers/cdktf-provider-docker)
-- [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
-- [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
-
-These are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. For example, here is how to install the AWS provider in TypeScript / Node:
-
-```
-npm install @cdktf/provider-aws
-```
+CDK for Terraform allows you to use both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The provider class generation process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your preferred programming language.
 
 ## Import Providers
 
@@ -90,6 +72,26 @@ cdktf get
 ```bash
 Generated typescript constructs in the output directory: .gen
 ```
+
+## Pre-built Providers
+
+Building provider classes can take as long as several minutes for providers with very large schemas, so we offer several popular providers as pre-built packages as an alternative to generating them yourself with the process above. The [Terraform CDK Providers](https://github.com/hashicorp?q=cdktf-provider) page has a complete list, but available providers include:
+
+- [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
+- [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
+- [Azure Provider](https://github.com/terraform-cdk-providers/cdktf-provider-azurerm)
+- [Kubernetes Provider](https://github.com/terraform-cdk-providers/cdktf-provider-kubernetes)
+- [Docker Provider](https://github.com/terraform-cdk-providers/cdktf-provider-docker)
+- [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
+- [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
+
+These are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. For example, here is how to install the AWS provider in TypeScript / Node:
+
+```
+npm install @cdktf/provider-aws
+```
+
+The use of pre-built providers is a completely optional performance optimization.
 
 ### Import Classes
 
