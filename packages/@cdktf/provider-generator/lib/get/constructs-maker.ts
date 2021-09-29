@@ -316,7 +316,8 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
           } else {
             // increase memory to allow generating large providers (i.e. aws for Go)
             // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
-            process.env.NODE_OPTIONS = "--max-old-space-size=10240";
+            process.env.NODE_OPTIONS =
+              "--max-old-space-size=10240 --stack-size=1968"; // FIXME: detect & print note for --stack-size option as well
           }
 
           await srcmak.srcmak(staging, opts);
