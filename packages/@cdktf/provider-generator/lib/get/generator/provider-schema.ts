@@ -27,13 +27,7 @@ export interface Schema {
   block: Block;
 }
 
-type AttributeNestedTypeNesting =
-  | "invalid"
-  | "single"
-  | "list"
-  | "set"
-  | "map"
-  | "group";
+type AttributeNestedTypeNesting = "invalid" | "single" | "list" | "set" | "map";
 
 /**
  * In tfplugin6.0.proto this as called Object to avoid
