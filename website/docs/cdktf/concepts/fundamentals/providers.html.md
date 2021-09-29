@@ -21,7 +21,7 @@ In your CDK for Terraform Application, you will use your preferred programming l
 
 You can use both local providers and providers from the Terraform Registry in your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/docs/cdktf/create-and-deploy/configuration.html). This allows you to define resources for that provider in your preferred programming language.
 
-### Pre-built Providers
+### Install Pre-built Providers
 
 We offer several popular providers as pre-built packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
 
