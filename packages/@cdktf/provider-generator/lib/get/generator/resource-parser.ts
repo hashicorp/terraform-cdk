@@ -190,18 +190,6 @@ class Parser {
       let isList = undefined;
       let isMap = undefined;
       switch (attributeType.nesting_mode) {
-        case "invalid":
-          throw new Error(
-            `nested_type with nesting_mode "invalid" not supported (attribute scope: ${scope
-              .map((s) => s.fullName)
-              .join(",")}`
-          );
-        case "group":
-          throw new Error(
-            `nested_type with nesting_mode "group" not supported yet (attribute scope: ${scope
-              .map((s) => s.fullName)
-              .join(",")}`
-          );
         case "list":
         case "set": {
           isList = true; // FIXME: check required / optional based on min_items
@@ -211,6 +199,16 @@ class Parser {
           isMap = true;
           break;
         case "single":
+          break;
+        default: {
+          throw new Error(
+            `nested_type with nesting_mode "${
+              attributeType.nesting_mode
+            }" not supported (attribute scope: ${scope
+              .map((s) => s.fullName)
+              .join(",")}`
+          );
+        }
       }
       const struct = this.addAnonymousStruct(scope, attributeType.attributes); // FIXME: don't make anonymous?
       const model = new AttributeTypeModel(struct.name, {
