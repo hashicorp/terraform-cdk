@@ -1,0 +1,73 @@
+{
+  "format_version": "0.2",
+  "provider_schemas": {
+    "test": {
+      "resource_schemas": {
+        "nested_types_resource": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "name": {
+                "type": "string",
+                "description": "name of the resource",
+                "description_kind": "plain",
+                "optional": true,
+                "computed": true
+              },
+              "archive_rules": {
+                "nested_type": {
+                  "attributes": {
+                    "filter": {
+                      "nested_type": {
+                        "attributes": {
+                          "eq": {
+                            "type": [
+                              "list",
+                              "string"
+                            ],
+                            "description_kind": "plain",
+                            "optional": true
+                          },
+                          "exists": {
+                            "type": "bool",
+                            "description_kind": "plain",
+                            "optional": true
+                          },
+                          "property": {
+                            "type": "string",
+                            "description_kind": "plain",
+                            "required": true
+                          }
+                        },
+                        "nesting_mode": "list"
+                      },
+                      "description_kind": "plain",
+                      "required": true
+                    },
+                    "rule_name": {
+                      "type": "string",
+                      "description": "The archive rule name",
+                      "description_kind": "plain",
+                      "required": true
+                    }
+                  },
+                  "nesting_mode": "list"
+                },
+                "description_kind": "plain",
+                "optional": true
+              },
+              "id": {
+                "type": "string",
+                "description": "id of the resource",
+                "description_kind": "plain",
+                "computed": true
+              }
+            },
+            "description": "The nested_types_resource is an example that uses nested_type instead of type",
+            "description_kind": "plain"
+          }
+        }
+      }
+    }
+  }
+}
