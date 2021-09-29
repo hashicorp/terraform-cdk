@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/eks"
 	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws"
+	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws/ec2"
 
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -16,7 +17,7 @@ func NewExampleCdktfGoAwsStack(scope constructs.Construct, id string) cdktf.Terr
 		Region: jsii.String("us-east-1"),
 	})
 
-	aws.NewInstance(stack, jsii.String("Hello"), &aws.InstanceConfig{
+	ec2.NewInstance(stack, jsii.String("Hello"), &ec2.InstanceConfig{
 		Ami:          jsii.String("ami-2757f631"),
 		InstanceType: jsii.String("t2.micro"),
 		Tags: &map[string]*string{

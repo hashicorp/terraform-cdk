@@ -77,30 +77,39 @@ export class TerraformProviderGenerator {
       throw Errors.Internal("get", `can't handle ${fqpn}`, { fqpn });
     }
 
-    const files: string[] = [];
+    const resourceModels: ResourceModel[] = [];
     for (const [type, resource] of Object.entries(
       provider.resource_schemas || []
     )) {
-      files.push(
-        this.emitResourceFile(
-          this.resourceParser.parse(name, type, resource, "resource")
-        )
+      resourceModels.push(
+        this.resourceParser.parse(name, type, resource, "resource")
       );
     }
-
     for (const [type, resource] of Object.entries(
       provider.data_source_schemas || []
     )) {
-      files.push(
-        this.emitResourceFile(
-          this.resourceParser.parse(
-            name,
-            `data_${type}`,
-            resource,
-            "data_source"
-          )
-        )
+      resourceModels.push(
+        this.resourceParser.parse(name, `data_${type}`, resource, "data_source")
       );
+    }
+
+    type NamespaceName = string;
+    const namespacedResources: Record<NamespaceName, ResourceModel[]> = {};
+    const files: string[] = [];
+    resourceModels.forEach((resourceModel) => {
+      if (resourceModel.namespace) {
+        const namespace = resourceModel.namespace.name;
+        if (!namespacedResources[namespace]) {
+          namespacedResources[namespace] = [];
+        }
+        namespacedResources[namespace].push(resourceModel);
+      } else {
+        files.push(this.emitResourceFile(resourceModel));
+      }
+    });
+
+    for (const [namespace, resources] of Object.entries(namespacedResources)) {
+      files.push(this.emitNamespacedResourceFile(namespace, resources));
     }
 
     if (provider.provider) {
@@ -150,6 +159,48 @@ export class TerraformProviderGenerator {
     this.code.closeFile(resource.filePath);
 
     return resource.filePath;
+  }
+
+  private emitNamespacedResourceFile(
+    namespace: string,
+    resources: ResourceModel[]
+  ) {
+    const ns = resources[0].namespace;
+    const comment = ns?.comment;
+    const name = ns?.name || "";
+    const baseFilePath = resources[0].filePath
+      .split("/")
+      .slice(0, -1)
+      .join("/");
+    const filePath = `${baseFilePath}/${name}.ts`;
+
+    // TODO: find better file path
+    const importStatements = [
+      ...new Set( // make list unique
+        resources.reduce(
+          (carry, resource) => [...carry, ...resource.importStatements],
+          [] as string[]
+        )
+      ),
+    ];
+    this.code.openFile(filePath);
+    this.code.line(`// generated from terraform resource schema`);
+    this.code.line();
+    importStatements.forEach((statement) => this.code.line(statement));
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* ${comment}`);
+    this.code.line(`*/`);
+    this.code.openBlock(`export namespace ${namespace}`);
+
+    for (const resource of resources) {
+      this.structEmitter.emit(resource);
+      this.resourceEmitter.emit(resource);
+    }
+
+    this.code.closeBlock(); // namespace
+    this.code.closeFile(filePath);
+    return filePath;
   }
 
   private emitFileHeader(resource: ResourceModel) {

@@ -1,4 +1,8 @@
 import { toSnakeCase } from "codemaker";
+import {
+  ResourceNamespace,
+  getResourceNamespace,
+} from "../constants/provider-namespaces";
 import { Schema } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
@@ -18,14 +22,14 @@ interface ResourceModelOptions {
 }
 
 export class ResourceModel {
-  public terraformType: string;
   public className: string;
+  public filePath: string;
+  public terraformType: string;
   public baseName: string;
   public provider: string;
   public providerVersionConstraint?: string;
   public terraformProviderSource?: string;
   public fileName: string;
-  public filePath: string;
   public attributes: AttributeModel[];
   public schema: Schema;
   private _structs: Struct[];
@@ -34,14 +38,14 @@ export class ResourceModel {
   private configStructName: string;
 
   constructor(options: ResourceModelOptions) {
-    this.terraformType = options.terraformType;
     this.className = options.className;
+    this.filePath = options.filePath;
+    this.terraformType = options.terraformType;
     this.baseName = options.baseName;
     this.attributes = options.attributes;
     this.schema = options.schema;
     this.provider = options.provider;
     this.fileName = options.fileName;
-    this.filePath = options.filePath;
     this._structs = options.structs;
     this.terraformSchemaType = options.terraformSchemaType;
     this.configStructName = options.configStructName;
@@ -81,6 +85,10 @@ export class ResourceModel {
 
   public get isProvider(): boolean {
     return this.terraformSchemaType === "provider";
+  }
+
+  public get namespace(): ResourceNamespace | undefined {
+    return getResourceNamespace(this.provider, this.baseName);
   }
 
   public get isDataSource(): boolean {

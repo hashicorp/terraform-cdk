@@ -3,7 +3,7 @@ package com.example.cdktf.modules;
 import com.example.cdktf.common.BaseApplicationModule;
 import com.hashicorp.cdktf.App;
 import imports.aws.AwsProvider;
-import imports.aws.SecretsmanagerSecret;
+import imports.aws.secrets_manager.SecretsmanagerSecret;
 import software.constructs.Construct;
 
 public class ModuleA extends BaseApplicationModule {

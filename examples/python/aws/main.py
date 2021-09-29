@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import SnsTopic, AwsProvider
+from imports.aws import AwsProvider
+from imports.aws.sns import SnsTopic
 from imports.terraform_aws_modules.aws import Vpc
 
 
