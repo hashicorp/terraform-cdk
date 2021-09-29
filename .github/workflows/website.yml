@@ -1,4 +1,4 @@
-name: Docs
+name: Website
 on:
   - pull_request
 
