@@ -9,7 +9,7 @@ description: "TODO: describe me"
 
 Terraform stores [state](https://www.terraform.io/docs/language/state/index.html) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](https://www.terraform.io/docs/backends/types/remote.html) to store state remotely.
 
-You can configure your remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), one of CDK for Terraform's [supported backends](#supported-backends), or a custom location.
+You can configure your remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), another Terraform (CDKTF) [supported backend](#supported-backends), or a custom location.
 
 
 ## When to Use Remote Backends
@@ -88,7 +88,7 @@ $ terraform init
 
 ## Migrate Local State Storage to Remote
 
-After you define your remote backend, you need to actually move the Terraform state file to the CDK for Terraform output directory.  
+After you define your remote backend, you need to move the Terraform state file to the CDK for Terraform output directory.  
 
 Consider this example project called `hello-terraform` that is using local storage to store the Terraform state.
 
