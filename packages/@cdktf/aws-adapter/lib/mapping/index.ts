@@ -29,7 +29,6 @@ export function registerMapping<T extends TerraformResource>(
   mapping[resourceType] = map;
 }
 
-// -----------------------------------------------------------------------------------------------------------------------------------------------
 // load mappings
 require("./awscc");
 require("./aws");

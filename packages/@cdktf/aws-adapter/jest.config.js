@@ -9,6 +9,7 @@ module.exports = {
   setupFilesAfterEnv: ["./setupJest.js"],
   // collectCoverage: true,
   testMatch: ["**/*.test.ts"],
+  testPathIgnorePatterns: ["/node_modules/", "<rootDir>/examples"],
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },

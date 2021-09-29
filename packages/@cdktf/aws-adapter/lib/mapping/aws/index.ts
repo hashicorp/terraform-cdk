@@ -12,24 +12,6 @@ fs.readdirSync(__dirname).forEach((file) => {
   }
 });
 
-// registerMapping("AWS::KMS::Key", {
-//     resource: (scope, id, props) => {
-//       const policy = props.KeyPolicy;
-//       delete props.KeyPolicy;
-//       const desc = props.Description;
-//       delete props.Description;
-
-//       return new KmsKey(scope, id, {
-//         policy: JSON.stringify(policy),
-//         description: desc,
-//       });
-//     },
-//     attributes: {
-//       Ref: (key: KmsKey) => key.arn,
-//       Arn: (key: KmsKey) => key.arn,
-//     },
-//   });
-
 registerMapping("AWS::S3::Bucket", {
   resource: (scope, id, props) => {
     const config: Writeable<S3BucketConfig> = {};

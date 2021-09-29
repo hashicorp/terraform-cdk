@@ -5,9 +5,8 @@ import { AwsTerraformAdapter } from "../aws-adapter";
 import * as awscc from "../../.gen/providers/awscc";
 import * as aws from "@cdktf/provider-aws";
 
-describe("test", () => {
-  it("test", () => {
-    console.log("pass");
+describe("lambda function", () => {
+  it("should synthesize", () => {
     const res = Testing.synthScope((scope) => {
       const awsAdapter = new AwsTerraformAdapter(scope, "adapter");
 
@@ -46,10 +45,16 @@ describe("test", () => {
         \\"code\\": {
           \\"zip_file\\": \\"def main(event, context):    \\\\nprint(\\\\\\"I'm running!\\\\\\")\\"
         },
+        \\"file_system_configs\\": [],
         \\"handler\\": \\"index.main\\",
+        \\"memory_size\\": 128,
+        \\"package_type\\": \\"Zip\\",
         \\"role\\": \\"\${aws_iam_role.adapter_lambdaServiceRole494E4CA6_7D4D29EC.arn}\\",
         \\"runtime\\": \\"python3.6\\",
-        \\"timeout\\": 300
+        \\"timeout\\": 300,
+        \\"tracing_config\\": {
+          \\"mode\\": \\"PassThrough\\"
+        }
       }
     }
   }

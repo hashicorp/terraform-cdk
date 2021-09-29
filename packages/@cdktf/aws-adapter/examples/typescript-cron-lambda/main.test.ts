@@ -8,6 +8,7 @@ describe("typescript-cron-lambda", () => {
 
     // Aspects are currently not invoked via Testing.synth / Testing.synthScope
     // This makes sure the AWS Adapter converts all constructs to cdktf
+    // TODO: link to GH issue for this shortcoming
     Aspects.of(stack).all.forEach((aspect) => aspect.visit(stack));
 
     const synthResult = Testing.synth(stack);

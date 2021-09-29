@@ -1,8 +1,8 @@
 // originally from https://github.com/skorfmann/cfn2tf/blob/6ff9f366462b270229b7415f68c13a7bea28c144/aws-adapter.ts
 
-import { Construct, Node } from "constructs";
+import { Construct } from "constructs";
 import { Stack, CfnElement } from "aws-cdk-lib";
-import { TerraformResource, Lazy, Aspects } from "cdktf";
+import { TerraformResource, Lazy, Aspects, Fn } from "cdktf";
 import { CloudFormationResource, CloudFormationTemplate } from "./cfn";
 import { findMapping, Mapping } from "./mapping";
 
@@ -34,6 +34,7 @@ class TerraformHost extends Construct {
   private awsRegion?: DataAwsRegion;
   private awsCallerIdentity?: DataAwsCallerIdentity;
 
+  // TODO: expose this via some method?
   private readonly mappingForLogicalId: {
     [logicalId: string]: {
       resourceType: string;
@@ -124,7 +125,7 @@ class TerraformHost extends Construct {
   }
 
   private resolveAtt(logicalId: string, attribute: string) {
-    const child = Node.of(this).tryFindChild(logicalId) as TerraformResource;
+    const child = this.node.tryFindChild(logicalId) as TerraformResource;
     if (!child) {
       throw new Error(
         `unable to resolve a "Ref" to a resource with the logical ID ${logicalId}`
@@ -177,6 +178,7 @@ class TerraformHost extends Construct {
   }
 
   private resolveIntrinsic(fn: string, params: any) {
+    // FIXME: expose a way to add/override handling here for users facing problems
     switch (fn) {
       case "Fn::GetAtt": {
         return Lazy.stringValue({
@@ -188,11 +190,27 @@ class TerraformHost extends Construct {
         const [delim, strings] = params;
         return (strings as string[])
           .map((x) => this.processIntrinsics(x))
-          .join(delim);
+          .join(delim); // TODO: use TF Fn.join?
+      }
+
+      case "Fn::Select": {
+        const [index, rawList] = params;
+        const list = this.processIntrinsics(rawList);
+        return Fn.element(list, this.processIntrinsics(index));
+      }
+
+      case "Fn::GetAZs": {
+        // TODO: implement
+
+        return null;
       }
 
       default:
-        throw new Error(`unsupported intrinsic function ${fn}`);
+        throw new Error(
+          `unsupported intrinsic function ${fn} (params: ${JSON.stringify(
+            params
+          )})`
+        );
     }
   }
 }
