@@ -2,7 +2,7 @@
 layout: "docs"
 page_title: "Providers and Resources"
 sidebar_current: "cdktf"
-description: "Providers allow Terraform to communicate with external APIs. Learn to define providers in a CDK for Terraform application."
+description: "Providers allow Terraform to communicate with external APIs. Learn to define providers and resources in a CDK for Terraform application."
 ---
 
 # Providers and Resources
