@@ -60,10 +60,8 @@ Options can be specified via environment variables with the "CDKTF_" prefix (e.g
 
 If running in automated environments, the dynamic CLI output rendering can be forced to be static with the `CI` environment variable set to a true value.
 
-
 ## Configuration
 
 You can configure the behavior of the Terraform CDK CLI by adding a `cdktf.json` file in your project root directory.
 
 TODO: Add link to cdktf.json page
-

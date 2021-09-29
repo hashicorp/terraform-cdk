@@ -4,6 +4,7 @@ on:
     paths-ignore:
       - "**.md"
       - "docs/**"
+      - "website/**"
 
 jobs:
   build-example-matrix:

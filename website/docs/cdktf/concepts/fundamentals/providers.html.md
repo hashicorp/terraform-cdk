@@ -12,12 +12,11 @@ or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/c
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
-CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your chosen programming language.
+CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your preferred programming language.
 
+## Pre-built Providers
 
-## Prebuilt Providers
-
-We offer several popular providers as prebuilt packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
+We offer several popular providers as pre-built packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
 
 - [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
 - [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
@@ -66,8 +65,8 @@ app.synth();
 
 ### Add Provider to `cdktf.json`
 
-To use a new provider, first add it to the "terraformProviders" array in `cdktf.json`.
-For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:  
+To use a new provider, first add it to the "terraformProviders" array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration.html).
+For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:
 
 ```json
 {
@@ -76,6 +75,7 @@ For example, this is how you could add [DNS Simple](https://www.terraform.io/doc
   "terraformProviders": ["aws@~> 2.0", "dnsimple"]
 }
 ```
+
 -> **Note**: -> **Note**: The [`cdktf.json` specification](/docs/cdktf/cli-reference/configuration.html) contains syntax requirements for specifying a provider version.
 
 ### Generate Classes
@@ -206,13 +206,13 @@ cdktf synth --json
 
 ## Provider Caching
 
-Caching prevents CDK for Terraform from re-downloading providers between each CLI command.  It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple stacks within one application.
+Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple stacks within one application.
 
 ### Caching Directory
 
-Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$HOME/.terraform.d/plugin-cache` if it is not already set to something else.  See the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache) for more details.
+Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$HOME/.terraform.d/plugin-cache` if it is not already set to something else. See the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache) for more details.
 
- To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
+To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
 ## Use a Local Provider
 
@@ -222,4 +222,3 @@ Terraform supports using local providers. Terraform has to find these providers 
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
 Once configured properly, you can reference these providers in the `cdktf.json` config file the same way that you reference providers in the Terraform Registry.
-
