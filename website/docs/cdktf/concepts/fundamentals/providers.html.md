@@ -14,7 +14,7 @@ or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/c
 
 Terraform uses providers to provision [resources](https://www.terraform.io/docs/language/resources/index.html), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
 
-In your CDK for Terraform Application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more providers. This page provides details about how to use providers and resources in your application and how to use [escape hatches](#escape-hatch) to change resource behavior when necessary.
+In your CDK for Terraform (CDKTF) application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more providers. This page provides details about how to use providers and resources in your application and how to use [escape hatches](#escape-hatch) to change resource behavior when necessary.
 
 
 ## Providers
