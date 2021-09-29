@@ -17,8 +17,7 @@ TODO: Please explain how these are different from input variables and when we wo
 
 ## Define Data Sources
 
-TODO: Please provide more detail. It looks like to define a Data Source, you have to first import the data from the place where it lives (in this case the AWS provider), prefixing the name with "Data".  then you can use use it?
-
+TODO: Please provide more detail. It looks like to define a Data Source, you have to first import the data from the place where it lives (in this case the AWS provider), prefixing the name with "Data". then you can use use it?
 
 In the TypeScript example below, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 

@@ -17,7 +17,6 @@ You should use outputs when you want to share data from a child module to the ro
 
 -> You may need to use [tokens](/fundamentals/tokens.html) to convert your programming language types to the appropriate types for a Terraform configuration.
 
-
 ## Define Outputs
 
 In TypeScript, a Terraform output for an AWS instance public IP can be expressed by `TerraformOutput`.
