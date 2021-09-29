@@ -12,11 +12,11 @@ or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/c
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
-CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your chosen programming language.
+CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your preferred programming language.
 
-## Prebuilt Providers
+## Pre-built Providers
 
-We offer several popular providers as prebuilt packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
+We offer several popular providers as pre-built packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
 
 - [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
 - [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
@@ -65,7 +65,7 @@ app.synth();
 
 ### Add Provider to `cdktf.json`
 
-To use a new provider, first add it to the "terraformProviders" array in `cdktf.json`.
+To use a new provider, first add it to the "terraformProviders" array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration.html).
 For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:
 
 ```json
