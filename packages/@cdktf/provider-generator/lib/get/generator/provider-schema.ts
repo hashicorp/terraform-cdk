@@ -99,7 +99,7 @@ export type AttributeType =
   | ["list", AttributeType]
   | ["object", { [attribute: string]: AttributeType }];
 
-export type BlockType =  // FIXME: use such a type for NestedType Attributes as well?
+export type BlockType =
   | {
       nesting_mode: "single" | "map";
       block: Block;

@@ -72,6 +72,17 @@ export namespace ACM {
       return this.getStringAttribute('resource_record_value');
     }
   }
+
+  export function acmCertificateDomainValidationOptionsToTerraform(struct?: AcmCertificateDomainValidationOptions): any {
+    if (!cdktf.canInspect(struct)) { return struct; }
+    return {
+      domain_name: cdktf.stringToTerraform(struct!.domainName),
+      resource_record_name: cdktf.stringToTerraform(struct!.resourceRecordName),
+      resource_record_type: cdktf.stringToTerraform(struct!.resourceRecordType),
+      resource_record_value: cdktf.stringToTerraform(struct!.resourceRecordValue),
+    }
+  }
+
   export interface AcmCertificateOptions {
     /**
     * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#certificate_transparency_logging_preference AcmCertificate#certificate_transparency_logging_preference}
@@ -79,7 +90,7 @@ export namespace ACM {
     readonly certificateTransparencyLoggingPreference?: string;
   }
 
-  function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptions): any {
+  export function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptions): any {
     if (!cdktf.canInspect(struct)) { return struct; }
     return {
       certificate_transparency_logging_preference: cdktf.stringToTerraform(struct!.certificateTransparencyLoggingPreference),
