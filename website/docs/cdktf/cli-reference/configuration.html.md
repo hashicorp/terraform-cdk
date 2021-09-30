@@ -2,22 +2,10 @@
 layout: "docs"
 page_title: "CLI Configuration"
 sidebar_current: "cdktf"
-description: "Learn to install and configure the CDKTF Command Line Interface."
+description: "Install and configure the CDKTF Command Line Interface."
 ---
 
 # CLI Configuration
-
-## Telemetry
-
-CDK for Terraform CLI ([cdktf-cli](../../packages/cdktf-cli)) interacts with a HashiCorp service called [Checkpoint](https://checkpoint.hashicorp.com)
-to report project metrics such as cdktf version, project language, provider name, platform name, and other details that help guide the project maintainers with
-feature and roadmap decisions. The code that interacts with Checkpoint is part of CDK for Terraform CLI and can be read [here](../../packages/cdktf-cli/lib/checkpoint.ts).
-
-All HashiCorp projects including Terraform that is used by CDK for Terraform use Checkpoint.
-Read more about project metrics [here](https://github.com/hashicorp/terraform-cdk/issues/325).
-
-The information that is sent to Checkpoint is anonymous and cannot be used to identify the user or host. The use of Checkpoint is completely optional
-and it can be disabled at any time by setting the `CHECKPOINT_DISABLE` environment variable to a non-empty value.
 
 ## Install
 
@@ -56,12 +44,22 @@ Options:
 Options can be specified via environment variables with the "CDKTF_" prefix (e.g. "CDKTF_OUTPUT")
 ```
 
-### CI environment
+### CI Environment
 
 If running in automated environments, the dynamic CLI output rendering can be forced to be static with the `CI` environment variable set to a true value.
 
-## Configuration
+## Configuration File
 
-You can configure the behavior of the Terraform CDK CLI by adding a `cdktf.json` file in your project root directory.
+You can configure the behavior of the Terraform CDK CLI by modifying the `cdktf.json` file in your project root directory. Refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail on how you can supply custom configuration settings for your application.
 
-TODO: Add link to cdktf.json page
+## Telemetry
+
+CDK for Terraform CLI ([cdktf-cli](../../packages/cdktf-cli)) interacts with a HashiCorp service called [Checkpoint](https://checkpoint.hashicorp.com)
+to report project metrics such as cdktf version, project language, provider name, platform name, and other details that help guide the project maintainers with
+feature and roadmap decisions. The code that interacts with Checkpoint is part of CDK for Terraform CLI and can be read [here](../../packages/cdktf-cli/lib/checkpoint.ts).
+
+All HashiCorp projects including Terraform that is used by CDK for Terraform use Checkpoint.
+Read more about project metrics [here](https://github.com/hashicorp/terraform-cdk/issues/325).
+
+The information that is sent to Checkpoint is anonymous and cannot be used to identify the user or host. The use of Checkpoint is completely optional
+and it can be disabled at any time by setting the `CHECKPOINT_DISABLE` environment variable to a non-empty value.
