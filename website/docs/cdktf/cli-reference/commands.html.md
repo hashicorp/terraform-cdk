@@ -402,8 +402,7 @@ The `watch` command watches a directory for changes and automatically synthesize
 
 Watch reads your root `.gitignore` file to determine which files trigger a `synth` and it uses the `outdir` of your `cdktf.json` (or the default `cdktf.out`) to do so for a deploy. It will generate a checksum of the subdirectory containing the Terraform code for your stack to skip deploys if the synthesized Terraform config did not change.
 
-
-### Prerequisites
+### Requirements
 
 Before using `watch` you should:
 
@@ -411,7 +410,11 @@ Before using `watch` you should:
 
 - **Check your environment.** The `watch` command should only be used for development environments. We recommend making sure that the terminal where you want to run `watch` has no access keys that allow the `cdktf-cli` to deploy to your production environment.
 
-### Run
+### Run watch
+
+```sh
+$ cdktf watch --help
+```
 
 **Help Output**
 
@@ -442,7 +445,7 @@ Run `watch` on the development stack (dev). The `--auto-approve` flag is current
 cdktf watch --stack dev --auto-approve
 ```
 
-### Troubleshoot
+### Troubleshoot watch
 
 Set the `CDKTF_LOG_LEVEL` environment variable to `all` and set `CDKTF_DISABLE_LOGGING` to `false`.
 
