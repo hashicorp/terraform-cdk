@@ -8,12 +8,14 @@ import {
   BooleanMap,
 } from "../../lib";
 import { TestProviderMetadata } from "./provider";
+import { stringToTerraform } from "../../lib/runtime";
 
 export interface TestDataSourceConfig extends TerraformMetaArguments {
   name: string;
 }
 
 export class TestDataSource extends TerraformDataSource {
+  public static readonly tfResourceType: string = "test_data_source";
   public name: string;
 
   constructor(scope: Construct, id: string, config: TestDataSourceConfig) {
@@ -48,7 +50,9 @@ export class TestDataSource extends TerraformDataSource {
   }
 
   protected synthesizeAttributes(): { [p: string]: any } {
-    return {};
+    return {
+      name: stringToTerraform(this.name),
+    };
   }
 }
 

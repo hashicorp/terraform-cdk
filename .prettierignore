@@ -6,3 +6,6 @@ packages/cdktf-cli/templates/*/cdktf.json
 *.json
 **/.jsii
 packages/*/coverage
+packages/**/.yalc
+packages/**/dist
+dist

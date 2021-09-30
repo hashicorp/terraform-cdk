@@ -6,3 +6,5 @@ let originalBeforeAll = global.beforeAll;
 global.beforeAll = function beforeAllWithDefaultTimeout(setup, timeout = DEFAULT_TIMEOUT) {
     return originalBeforeAll(setup, timeout);
 };
+
+jest.retryTimes(1)

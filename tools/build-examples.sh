@@ -9,7 +9,7 @@ export CI='1'
 
 BUILD_TARGET=$1
 
-npx lerna run --parallel --scope @examples/${BUILD_TARGET}* reinstall
-npx lerna run --parallel --scope @examples/${BUILD_TARGET}* build
-npx lerna run --parallel --scope @examples/${BUILD_TARGET}* synth
+npx lerna run --scope ${BUILD_TARGET}* reinstall
+npx lerna run --scope ${BUILD_TARGET}* build
+npx lerna run --scope ${BUILD_TARGET}* synth
 

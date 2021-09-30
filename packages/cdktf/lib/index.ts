@@ -1,3 +1,6 @@
+import { validateEnvironment } from "./validateEnvironment";
+validateEnvironment();
+
 export * from "./tokens";
 export * from "./terraform-stack";
 export * from "./terraform-element";
@@ -9,6 +12,7 @@ export * from "./terraform-output";
 export * from "./complex-computed-list";
 export * from "./resource";
 export * from "./testing";
+export * as testingMatchers from "./testing/matchers";
 export * from "./app";
 export * from "./terraform-backend";
 export * from "./backends";
@@ -23,3 +27,5 @@ export * from "./terraform-asset";
 export * from "./synthesize";
 export * from "./annotations";
 export * from "./aspect";
+export * from "./terraform-functions";
+export * from "./tfExpression";

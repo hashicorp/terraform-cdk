@@ -19,7 +19,9 @@ interface GoBridge {
 const jsRoot: Record<string, Function> = {};
 
 function sleep() {
-  return new Promise(global.setImmediate);
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
 }
 
 function goBridge(getBytes: Promise<Buffer>) {

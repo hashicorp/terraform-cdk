@@ -2,11 +2,14 @@
 
 exports[`dependent data source 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"data_source\\": {
+        \\"depends_on\\": [
+          \\"test_resource.resource\\"
+        ],
+        \\"name\\": \\"foo\\"
+      }
     }
   },
   \\"provider\\": {
@@ -17,28 +20,14 @@ exports[`dependent data source 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"resource\\": {
-        \\"name\\": \\"foo\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/resource\\",
-            \\"uniqueId\\": \\"resource\\"
-          }
-        }
+        \\"name\\": \\"foo\\"
       }
     }
   },
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"data_source\\": {
-        \\"depends_on\\": [
-          \\"test_resource.resource\\"
-        ],
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/data_source\\",
-            \\"uniqueId\\": \\"data_source\\"
-          }
-        }
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -47,11 +36,11 @@ exports[`dependent data source 1`] = `
 
 exports[`minimal configuration 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"test\\": {
+        \\"name\\": \\"foo\\"
+      }
     }
   },
   \\"provider\\": {
@@ -59,15 +48,10 @@ exports[`minimal configuration 1`] = `
       {}
     ]
   },
-  \\"data\\": {
-    \\"test_data_source\\": {
+  \\"terraform\\": {
+    \\"required_providers\\": {
       \\"test\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -76,11 +60,11 @@ exports[`minimal configuration 1`] = `
 
 exports[`with boolean map 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"test\\": {
+        \\"name\\": \\"foo\\"
+      }
     }
   },
   \\"provider\\": {
@@ -88,28 +72,17 @@ exports[`with boolean map 1`] = `
       {}
     ]
   },
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
-      }
-    }
-  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.boolean_map[\\\\\\"id\\\\\\"]}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test-resource\\",
-            \\"uniqueId\\": \\"test-resource\\"
-          }
-        }
+        \\"name\\": \\"\${data.test_data_source.test.boolean_map[\\\\\\"id\\\\\\"]}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -118,11 +91,11 @@ exports[`with boolean map 1`] = `
 
 exports[`with complex computed list 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"test\\": {
+        \\"name\\": \\"foo\\"
+      }
     }
   },
   \\"provider\\": {
@@ -130,28 +103,17 @@ exports[`with complex computed list 1`] = `
       {}
     ]
   },
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
-      }
-    }
-  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.complex_computed_list.0.id}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test-resource\\",
-            \\"uniqueId\\": \\"test-resource\\"
-          }
-        }
+        \\"name\\": \\"\${data.test_data_source.test.complex_computed_list.0.id}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -160,11 +122,11 @@ exports[`with complex computed list 1`] = `
 
 exports[`with number map 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"test\\": {
+        \\"name\\": \\"foo\\"
+      }
     }
   },
   \\"provider\\": {
@@ -172,28 +134,17 @@ exports[`with number map 1`] = `
       {}
     ]
   },
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
-      }
-    }
-  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.number_map[\\\\\\"id\\\\\\"]}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test-resource\\",
-            \\"uniqueId\\": \\"test-resource\\"
-          }
-        }
+        \\"name\\": \\"\${data.test_data_source.test.number_map[\\\\\\"id\\\\\\"]}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -202,11 +153,11 @@ exports[`with number map 1`] = `
 
 exports[`with string map 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test-data-source\\",
-      \\"backend\\": \\"local\\"
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"test\\": {
+        \\"name\\": \\"foo\\"
+      }
     }
   },
   \\"provider\\": {
@@ -214,28 +165,17 @@ exports[`with string map 1`] = `
       {}
     ]
   },
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
-      }
-    }
-  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.string_map[\\\\\\"id\\\\\\"]}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test-data-source/test-resource\\",
-            \\"uniqueId\\": \\"test-resource\\"
-          }
-        }
+        \\"name\\": \\"\${data.test_data_source.test.string_map[\\\\\\"id\\\\\\"]}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }

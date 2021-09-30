@@ -670,7 +670,7 @@ function printAnnotations(stacks: SynthesizedStack[]) {
   let encounteredAnnotationError = false;
 
   stacks.forEach((stack) =>
-    stack.annotations.forEach((annotation) => {
+    (stack.annotations || []).forEach((annotation) => {
       if (annotation.level === AnnotationMetadataEntryType.ERROR)
         encounteredAnnotationError = true;
 

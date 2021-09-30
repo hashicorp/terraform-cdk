@@ -191,9 +191,9 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
 
   // In Terraform one can implicitly define the provider by using resources of that type
   const explicitProviders = Object.keys(plan.provider || {});
-  const implicitProviders = Object.keys({ ...plan.resource, ...plan.data }).map(
-    (type) => type.split("_")[0]
-  );
+  const implicitProviders = Object.keys({ ...plan.resource, ...plan.data })
+    .filter((type) => type !== "terraform_remote_state")
+    .map((type) => type.split("_")[0]);
 
   const providerRequirements = Array.from(
     new Set([...explicitProviders, ...implicitProviders])
