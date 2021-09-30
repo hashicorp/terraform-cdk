@@ -413,9 +413,30 @@ Before using `watch` you should:
 
 ### Run
 
-An example use case for watch could be:
+**Help Output**
 
-TODO please provide an explanation of what these flags do!
+```
+cdktf watch [stack] [OPTIONS]
+
+[experimental] Watch for file changes and automatically trigger a deploy
+
+Positionals:
+  stack  Deploy stack which matches the given id only. Required when more than one stack is present in the app                                                                                                                                                                                                                                                      [string]
+
+Options:
+      --version                   Show version number                                                                                                                                                                                                                                                                                                              [boolean]
+      --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                                                                                                                                                                             [boolean] [default: true]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                                                                             [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                                                                                                                                                                             [string]
+  -a, --app                       Command to use in order to execute cdktf app                                                                                                                                                                                                                                                                                    [required]
+  -o, --output                    Output directory                                                                                                                                                                                                                                                                                         [required] [default: "cdktf.out"]
+      --auto-approve              Auto approve                                                                                                                                                                                                                                                                                                 [boolean] [default: false]
+  -h, --help                      Show help                
+```
+
+**Examples**
+
+Run `watch` on the development stack (dev). The `--auto-approve` flag is currently always required.
 
 ```
 cdktf watch --stack dev --auto-approve
