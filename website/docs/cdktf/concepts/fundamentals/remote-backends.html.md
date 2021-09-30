@@ -11,7 +11,6 @@ Terraform stores [state](https://www.terraform.io/docs/language/state/index.html
 
 You can configure your remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), another Terraform (CDKTF) [supported backend](#supported-backends), or a custom location.
 
-
 ## When to Use Remote Backends
 
 Consider using a remote backend when multiple individuals or teams need access to your infrastructure state data.
@@ -29,16 +28,16 @@ A `TerraformBackend` subclass like `RemoteBackend` below synthesizes to the requ
 
 TODO: We're passing in stack here. Is that the state file? Can you explain what that's doing?
 
-   ```typescript
-   const stack = new MyStack(app, "hello-terraform");
-   new RemoteBackend(stack, {
-     hostname: "app.terraform.io",
-     organization: "company",
-     workspaces: {
-       name: "my-app-prod",
-     },
-   });
-   ```
+```typescript
+const stack = new MyStack(app, "hello-terraform");
+new RemoteBackend(stack, {
+  hostname: "app.terraform.io",
+  organization: "company",
+  workspaces: {
+    name: "my-app-prod",
+  },
+});
+```
 
 ### Create a JSON File
 
@@ -88,7 +87,7 @@ $ terraform init
 
 ## Migrate Local State Storage to Remote
 
-After you define your remote backend, you need to move the Terraform state file to the CDK for Terraform output directory.  
+After you define your remote backend, you need to move the Terraform state file to the CDK for Terraform output directory.
 
 Consider this example project called `hello-terraform` that is using local storage to store the Terraform state.
 
