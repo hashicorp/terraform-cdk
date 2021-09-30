@@ -16,7 +16,6 @@ Terraform uses providers to provision [resources](https://www.terraform.io/docs/
 
 In your CDK for Terraform (CDKTF) application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more providers. This page provides details about how to use providers and resources in your application and how to use [escape hatches](#escape-hatch) to change resource behavior when necessary.
 
-
 ## Providers
 
 You can install pre-built providers, import providers from the Terraform Registry, or reference local providers to define resources for your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/docs/cdktf/create-and-deploy/configuration.html). This allows you to define resources for that provider in your preferred programming language.
@@ -73,7 +72,7 @@ app.synth();
 #### Add Provider to `cdktf.json`
 
 To use a new provider, first add it to the "terraformProviders" array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration.html).
-For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:  
+For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:
 
 ```json
 {
@@ -82,6 +81,7 @@ For example, this is how you could add [DNS Simple](https://www.terraform.io/doc
   "terraformProviders": ["aws@~> 2.0", "dnsimple"]
 }
 ```
+
 -> **Note**: -> **Note**: The [`cdktf.json` specification](/docs/cdktf/cli-reference/configuration.html) contains syntax requirements for specifying a provider version.
 
 #### Generate Classes
@@ -212,13 +212,13 @@ cdktf synth --json
 
 ### Provider Caching
 
-Caching prevents CDK for Terraform from re-downloading providers between each CLI command.  It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple stacks within one application.
+Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple stacks within one application.
 
 #### Caching Directory
 
-Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$HOME/.terraform.d/plugin-cache` if it is not already set to something else.  See the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache) for more details.
+Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$HOME/.terraform.d/plugin-cache` if it is not already set to something else. See the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache) for more details.
 
- To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
+To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
 ### Use a Local Provider
 
@@ -228,7 +228,6 @@ Terraform supports using local providers. Terraform has to find these providers 
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
 Once configured properly, you can reference these providers in the `cdktf.json` config file the same way that you reference providers in the Terraform Registry.
-
 
 ## Resources
 
@@ -240,7 +239,7 @@ Resource definitions and properties vary depending on the type of resource and t
 
 The TypeScript example below defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
 
-``` typescript
+```typescript
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -265,7 +264,6 @@ The [Examples](/docs/cdktf/examples.html) page contains multiple example project
 ### Import Existing Resources
 
 TODO: Add something about how you import existing resources. Please also provide an example :-)
-
 
 ### Escape Hatch
 
@@ -354,4 +352,3 @@ This will synthesize a Terraform configuration with the value overwritten.
   }
 }
 ```
-

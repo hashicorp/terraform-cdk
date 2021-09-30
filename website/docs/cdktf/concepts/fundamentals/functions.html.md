@@ -9,7 +9,6 @@ description: "Learn when to use built-in Terraform functions to transform or com
 
 Terraform provides a set of built-in functions that to transform and combine values within Terraform configurations. The [Terraform function documentation](https://www.terraform.io/docs/language/functions/index.html) contains a complete list. You can also use your editor autocompletion on the `Fn` object.
 
-
 ## Use Terraform functions
 
 We do not recommend using Terraform functions for inputs that are not tied to Terraform, such as environment variables, local files, etc. In those cases, it is easier and more efficient to do this using your chosen programming language.
@@ -29,5 +28,3 @@ new LoadBalancer(this, "lb", {
   subnet: Fn.cidrsubnet(Fn.element(vpc.listOfSubnets, 0), 4, 2),
 });
 ```
-
-

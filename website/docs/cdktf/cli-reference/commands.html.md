@@ -20,7 +20,6 @@ The CDK for Terraform CLI has the following commands:
 - [synth](/docs/cdktf/cli-reference/commands.html#synth)
 - [watch](/docs/cdktf/cli-reference/commands.html#watch)
 
-
 ## completion
 
 This command outputs a script that you can use to set up autocompletion for bash or zsh.
@@ -102,15 +101,16 @@ Options:
 **Examples**
 
 Convert a local file.
-``` bash
+
+```bash
 cat main.tf | cdktf convert > imported.ts`
 ```
 
 Convert HCL in your clipboard to Python on OSX.
-``` bash
+
+```bash
 pbpaste | cdktf convert --language python | pbcopy
 ```
-
 
 ## deploy
 
@@ -223,6 +223,7 @@ $ cdktf diff
 ```
 
 ## get
+
 This command downloads the providers and modules for an application and
 generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers and modules.
 
@@ -319,6 +320,7 @@ Create a new Typescript project from an existing Terraform codebase. Currently, 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
 ```
+
 ## login
 
 This command helps log in to Terraform Cloud by fetching a Terraform Cloud API token.
@@ -401,7 +403,6 @@ $ cdktf synth --json
 The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time and automatically deploys changes without asking for confirmation.
 
 Watch reads your root `.gitignore` file to determine which files trigger a `synth` and it uses the `outdir` of your `cdktf.json` (or the default `cdktf.out`) to do so for a deploy. It will generate a checksum of the subdirectory containing the Terraform code for your stack to skip deploys if the synthesized Terraform config did not change.
-
 
 ### Prerequisites
 
