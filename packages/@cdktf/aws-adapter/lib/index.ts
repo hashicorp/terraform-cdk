@@ -3,4 +3,4 @@
 // TODO: export everything that is required for jsii to work
 // TODO: setup jsii publishing for this package!
 
-export { AwsTerraformAdapter } from "./lib/aws-adapter";
+export { AwsTerraformAdapter } from "./aws-adapter";

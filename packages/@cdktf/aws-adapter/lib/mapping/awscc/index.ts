@@ -5,6 +5,7 @@ import { awsccNameMap } from "../../awscc_schemas/awscc-name-map";
 import { TerraformResource } from "cdktf";
 import { convertCloudFormationPropertyToCDKTFAttribute } from "./util";
 import { Writeable } from "../../type-utils";
+import { objectFromEntries } from "../../es2019";
 
 const debug = createDebug("tf-aws-adapter:awscc:debug");
 const trace = createDebug("tf-aws-adapter:awscc:trace");
@@ -24,7 +25,7 @@ const overrides: {
   "AWS::CloudFront::Distribution": {
     attributes: {
       Ref: (res: awscc.CloudfrontDistribution) => res.id,
-      Arn: (res: awscc.CloudfrontDistribution) => {
+      Arn: () => {
         throw new Error("Cloudfront Distributions have no Arn");
       },
     },
@@ -63,8 +64,12 @@ const resources = Object.entries(awscc)
       typeof (entry as any).tfResourceType === "string" &&
       (entry as any).tfResourceType !== "awscc" // exclude provider with name "awscc"
   )
-  .map(([_key, entry]) => [(entry as any).tfResourceType, entry]);
-const resourceMap = Object.fromEntries(resources);
+  .map(
+    ([_key, entry]) => [(entry as any).tfResourceType, entry as any] as const
+  );
+
+// next line equals: const resourceMap = Object.fromEntries(resources); (which did not work with JSII)
+const resourceMap = objectFromEntries(resources);
 
 Object.entries(awsccNameMap).forEach(([tfName, cfnName]) => {
   const Resource = resourceMap[tfName];

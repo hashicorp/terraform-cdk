@@ -8,7 +8,7 @@ import {
   CfnElement,
 } from "aws-cdk-lib";
 
-import { Aspects, ISynthesisSession } from "cdktf";
+import { Aspects } from "cdktf";
 import { addCustomSynthesis } from "cdktf/lib/synthesize/synthesizer"; // NOTE: these are internals
 
 // TODO: walk through this file, migrate todos and delete this afterwards
@@ -42,7 +42,7 @@ export class ObsoleteAwsTerraformAdapter extends Stack {
     console.log(JSON.stringify(fragments, null, 2));
   }
 
-  _onSynth(session: ISynthesisSession) {
+  _onSynth(/*session: ISynthesisSession*/) {
     console.log("AWS Adapter: custom synthesis");
     // TODO: find out if we need this at all.. I think we don't as we are going to
     // convert everything to CDKTF first and then every work will happen there

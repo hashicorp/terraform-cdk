@@ -2,15 +2,15 @@ import { aws_lambda, Duration } from "aws-cdk-lib";
 import { Aspects, Testing } from "cdktf";
 import "cdktf/lib/testing/adapters/jest";
 import { AwsTerraformAdapter } from "../aws-adapter";
-import * as awscc from "../../.gen/providers/awscc";
-import * as aws from "@cdktf/provider-aws";
+// import * as awscc from "../../.gen/providers/awscc";
+// import * as aws from "@cdktf/provider-aws";
 
 describe("lambda function", () => {
   it("should synthesize", () => {
     const res = Testing.synthScope((scope) => {
       const awsAdapter = new AwsTerraformAdapter(scope, "adapter");
 
-      const lambdaFn = new aws_lambda.Function(awsAdapter, "lambda", {
+      new aws_lambda.Function(awsAdapter, "lambda", {
         code: new aws_lambda.InlineCode(
           `def main(event, context):    \nprint("I'm running!")`
         ),

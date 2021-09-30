@@ -5,18 +5,19 @@ import {
   CloudwatchEventTarget,
   CloudwatchEventTargetConfig,
 } from "@cdktf/provider-aws";
-import { createGuessingResourceMapper } from "../helper";
 
 // TODO: types for CloudFormation Resources? would be really nice.
 
 registerMapping("AWS::Events::Rule", {
-  // resource: createGuessingResourceMapper(CloudwatchEventRule),
   resource: (scope, id, props) => {
     const ruleProps: CloudwatchEventRuleConfig = {
       name: props.Name,
-      isEnabled: props.State
-        ? { ENABLED: true, DISABLED: false }[props.State as string]
-        : undefined, // TODO: this might be a common case for the automapper to check for / or common pattern to build a utility for
+      isEnabled:
+        props.State === "ENABLED"
+          ? true
+          : props.State === "DISABLED"
+          ? false
+          : undefined, // TODO: this might be a common case for the automapper to check for / or common pattern to build a utility for
       description: props.Description,
       eventBusName: props.EventBusName,
       eventPattern: props.EventPattern,
@@ -33,7 +34,7 @@ registerMapping("AWS::Events::Rule", {
 
     const rule = new CloudwatchEventRule(scope, id, ruleProps);
 
-    const targets = (props.Targets || []).map((target: any, idx: number) => {
+    (props.Targets || []).map((target: any, idx: number) => {
       const targetProps: CloudwatchEventTargetConfig = {
         arn: target.Arn,
         rule: rule.id,

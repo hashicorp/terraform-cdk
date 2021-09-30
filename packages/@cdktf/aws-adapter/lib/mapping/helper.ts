@@ -4,6 +4,7 @@ import { camelCase } from "camel-case";
 import { ResourceMapper } from "../mapping";
 import { TerraformResource } from "cdktf";
 import { Construct } from "constructs";
+import { objectFromEntries } from "../es2019";
 
 const debug = createDebug("tf-aws-adapter:mapper:debug");
 const trace = createDebug("tf-aws-adapter:mapper:trace");
@@ -14,7 +15,7 @@ const isArrayOfObjects = (x: any): x is object[] =>
   Array.isArray(x) && x.length > 0 && isObject(x[0]);
 
 const autoMapObjectPropertyKeys = (obj: object): object =>
-  Object.fromEntries(
+  objectFromEntries(
     Object.entries(obj).map(([cfnKey, nestedValue]) => {
       const res = createAutoPropertyMapping(cfnKey)(nestedValue);
       return [res.tfAttributeName, res.value];
