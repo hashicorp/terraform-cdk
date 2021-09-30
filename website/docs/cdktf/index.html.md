@@ -8,8 +8,7 @@ description: |-
 
 # What is CDK for Terraform?
 
-Cloud Development Kit for Terraform (CDKTF) allows you to use familiar
-programming languages to define and provision infrastructure. This gives you access to the entire Terraform ecosystem without learning HashiCorp Configuration Language (HCL) and lets you leverage the power of your existing toolchain for testing, dependency management, etc.
+Cloud Development Kit for Terraform (CDKTF) allows you to use familiar programming languages to define and provision infrastructure. This gives you access to the entire Terraform ecosystem without learning HashiCorp Configuration Language (HCL) and lets you leverage the power of your existing toolchain for testing, dependency management, etc.
 
 We currently support TypeScript, Python, Java, C#, and Go (experimental).
 
@@ -29,15 +28,23 @@ You can use every Terraform provider and module available on the [Terraform Regi
 
 ## When to use CDK for Terraform
 
-CDK for Terraform should be used when users have a strong preference for a procedural language, or when the ability to create abstractions using Constructs is needed to help manage complexity. Users who are already familiar with HCL and do not need these capabilities should continue using HCL Terraform. This choice can be made team-by-team and project-by-project, because CDK for Terraform [interoperates with existing Terraform providers and modules](./concepts/interoperability-workflows.html)
+CDKTF offers many benefits, but it is not the right choice for every project. You should consider using CDKTF when:
 
-**TODO:** Insert content about when folks should use this instead of HCL... link to HCL interoperability page.
+- You have a strong preference or need to use a procedural language to define infrastructure.
+- You need to create abstractions to help manage complexity. For example, you want to create [constructs](./concepts/fundamentals/constructs.html) to model a reusable infrastructure pattern composed of multiple resources and convenience methods.
+- You are comfortable doing your own troubleshooting and do not require commercial support.
 
-## Project Maturity
+You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](./concepts/interoperability-workflows.html).
 
-CDK for Terraform is under active development, and we are iterating fast to improve the product. This means that each major release typically introduces breaking changes. As an early adopter, you may encounter bugs and may sometimes need to use HCL as a workaround. Our goal is to provide a user experience where this is an exceptional edge case, and we appreciate your feedback as the project progresses.
+## Project Maturity and Production Readiness
 
-While you can use CDKTF with Terraform Cloud and Terraform Enterprise, it is not eligible for commercial support and we do not officially recommend it for production use cases. Some early-adopters are already using CDK for Terraform in production, and we are working with them to validate and improve workflows.
+CDK for Terraform is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product.
+
+This tool can be used with Terraform Cloud and Terraform Enterprise, but is not eligible for commercial support, and is not officially recommended for production use cases. Like other HashiCorp pre-1.0 tools, some early-adopter users are already using CDK for Terraform in production, and we are working with those users to validate and improve workflows.
+
+Early adopters of CDK for Terraform should expect to encounter and work around bugs occasionally, may need to refactor their codebase with each major release, and will intermittently need to use HCL and understand how JSON Terraform configurations are generated, for example to use [overrides](https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/escape-hatch.md) to use Terraform functionality that cannot currently be expressed using CDK for Terraform. Our goal is to provide a user experience where this is an exceptional edge case. If you’re comfortable with this level of troubleshooting, we’re very interested in your feedback and practical experience. The [Community](./community.html) page explains how to ask questions, submit issues, and contribute to the project.
+
+These caveats apply to CDK for Terraform itself, which generates Terraform configurations. Generated Terraform configurations are applied using Terraform Core, a well established / mature tool to provision infrastructure.
 
 ## Get Started
 
