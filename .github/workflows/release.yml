@@ -6,11 +6,14 @@ on:
     paths-ignore:
       - "**.md"
       - "docs/**"
+      - "website/**"
 
 jobs:
-  build_artifact:
+  prepare-release:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.build-test-matrix.outputs.tests }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -30,15 +33,60 @@ jobs:
           yarn test
       - name: create bundle
         run: yarn package
-      - name: integration tests
-        run: yarn integration
-        env:
-          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
           name: dist
           path: dist
+      - name: installing test dependencies
+        run: |
+          cd test && yarn install
+      - id: build-test-matrix
+        run: |
+          ./tools/build-test-matrix.sh
+
+  integration-tests:
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJSON(needs.prepare-release.outputs.tests)}}
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: install test dependencies
+        run: cd test && yarn
+      - name: integration tests
+        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
+        env:
+          TEST_TARGET: ${{ matrix.target }}
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+
+  release_github:
+    name: Release to Github
+    needs:
+      - prepare-release
+      - integration-tests
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: Download build artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
       - name: Release to github
         run: yarn release-github
         env:
@@ -46,7 +94,9 @@ jobs:
 
   release_npm:
     name: Release to Github Packages NPM regitry
-    needs: build_artifact
+    needs:
+      - prepare-release
+      - integration-tests
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -62,7 +112,9 @@ jobs:
 
   release_pypi:
     name: Release to PyPi
-    needs: build_artifact
+    needs:
+      - prepare-release
+      - integration-tests
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -79,7 +131,9 @@ jobs:
 
   release_maven:
     name: Release to Maven
-    needs: build_artifact
+    needs:
+      - prepare-release
+      - integration-tests
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -100,7 +154,9 @@ jobs:
 
   release_nuget:
     name: Release to NuGet
-    needs: build_artifact
+    needs:
+      - prepare-release
+      - integration-tests
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -117,7 +173,9 @@ jobs:
 
   release_golang:
     name: Release Go to Github Repo
-    needs: build_artifact
+    needs:
+      - prepare-release
+      - integration-tests
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform

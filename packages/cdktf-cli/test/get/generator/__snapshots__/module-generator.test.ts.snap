@@ -5424,907 +5424,907 @@ export class TerraformAwsModulesVpcAws extends TerraformModule {
   public set workspacesEndpointSubnetIds(value: string[] | undefined) {
     this.inputs['workspaces_endpoint_subnet_ids'] = value;
   }
-  public get azsOutput(): string {
+  public get azsOutput() {
     return this.interpolationForOutput('azs')
   }
-  public get cgwArnsOutput(): string {
+  public get cgwArnsOutput() {
     return this.interpolationForOutput('cgw_arns')
   }
-  public get cgwIdsOutput(): string {
+  public get cgwIdsOutput() {
     return this.interpolationForOutput('cgw_ids')
   }
-  public get databaseInternetGatewayRouteIdOutput(): string {
+  public get databaseInternetGatewayRouteIdOutput() {
     return this.interpolationForOutput('database_internet_gateway_route_id')
   }
-  public get databaseIpv6EgressRouteIdOutput(): string {
+  public get databaseIpv6EgressRouteIdOutput() {
     return this.interpolationForOutput('database_ipv6_egress_route_id')
   }
-  public get databaseNatGatewayRouteIdsOutput(): string {
+  public get databaseNatGatewayRouteIdsOutput() {
     return this.interpolationForOutput('database_nat_gateway_route_ids')
   }
-  public get databaseNetworkAclArnOutput(): string {
+  public get databaseNetworkAclArnOutput() {
     return this.interpolationForOutput('database_network_acl_arn')
   }
-  public get databaseNetworkAclIdOutput(): string {
+  public get databaseNetworkAclIdOutput() {
     return this.interpolationForOutput('database_network_acl_id')
   }
-  public get databaseRouteTableAssociationIdsOutput(): string {
+  public get databaseRouteTableAssociationIdsOutput() {
     return this.interpolationForOutput('database_route_table_association_ids')
   }
-  public get databaseRouteTableIdsOutput(): string {
+  public get databaseRouteTableIdsOutput() {
     return this.interpolationForOutput('database_route_table_ids')
   }
-  public get databaseSubnetArnsOutput(): string {
+  public get databaseSubnetArnsOutput() {
     return this.interpolationForOutput('database_subnet_arns')
   }
-  public get databaseSubnetGroupOutput(): string {
+  public get databaseSubnetGroupOutput() {
     return this.interpolationForOutput('database_subnet_group')
   }
-  public get databaseSubnetGroupNameOutput(): string {
+  public get databaseSubnetGroupNameOutput() {
     return this.interpolationForOutput('database_subnet_group_name')
   }
-  public get databaseSubnetsOutput(): string {
+  public get databaseSubnetsOutput() {
     return this.interpolationForOutput('database_subnets')
   }
-  public get databaseSubnetsCidrBlocksOutput(): string {
+  public get databaseSubnetsCidrBlocksOutput() {
     return this.interpolationForOutput('database_subnets_cidr_blocks')
   }
-  public get databaseSubnetsIpv6CidrBlocksOutput(): string {
+  public get databaseSubnetsIpv6CidrBlocksOutput() {
     return this.interpolationForOutput('database_subnets_ipv6_cidr_blocks')
   }
-  public get defaultNetworkAclIdOutput(): string {
+  public get defaultNetworkAclIdOutput() {
     return this.interpolationForOutput('default_network_acl_id')
   }
-  public get defaultRouteTableIdOutput(): string {
+  public get defaultRouteTableIdOutput() {
     return this.interpolationForOutput('default_route_table_id')
   }
-  public get defaultSecurityGroupIdOutput(): string {
+  public get defaultSecurityGroupIdOutput() {
     return this.interpolationForOutput('default_security_group_id')
   }
-  public get defaultVpcArnOutput(): string {
+  public get defaultVpcArnOutput() {
     return this.interpolationForOutput('default_vpc_arn')
   }
-  public get defaultVpcCidrBlockOutput(): string {
+  public get defaultVpcCidrBlockOutput() {
     return this.interpolationForOutput('default_vpc_cidr_block')
   }
-  public get defaultVpcDefaultNetworkAclIdOutput(): string {
+  public get defaultVpcDefaultNetworkAclIdOutput() {
     return this.interpolationForOutput('default_vpc_default_network_acl_id')
   }
-  public get defaultVpcDefaultRouteTableIdOutput(): string {
+  public get defaultVpcDefaultRouteTableIdOutput() {
     return this.interpolationForOutput('default_vpc_default_route_table_id')
   }
-  public get defaultVpcDefaultSecurityGroupIdOutput(): string {
+  public get defaultVpcDefaultSecurityGroupIdOutput() {
     return this.interpolationForOutput('default_vpc_default_security_group_id')
   }
-  public get defaultVpcEnableDnsHostnamesOutput(): string {
+  public get defaultVpcEnableDnsHostnamesOutput() {
     return this.interpolationForOutput('default_vpc_enable_dns_hostnames')
   }
-  public get defaultVpcEnableDnsSupportOutput(): string {
+  public get defaultVpcEnableDnsSupportOutput() {
     return this.interpolationForOutput('default_vpc_enable_dns_support')
   }
-  public get defaultVpcIdOutput(): string {
+  public get defaultVpcIdOutput() {
     return this.interpolationForOutput('default_vpc_id')
   }
-  public get defaultVpcInstanceTenancyOutput(): string {
+  public get defaultVpcInstanceTenancyOutput() {
     return this.interpolationForOutput('default_vpc_instance_tenancy')
   }
-  public get defaultVpcMainRouteTableIdOutput(): string {
+  public get defaultVpcMainRouteTableIdOutput() {
     return this.interpolationForOutput('default_vpc_main_route_table_id')
   }
-  public get egressOnlyInternetGatewayIdOutput(): string {
+  public get egressOnlyInternetGatewayIdOutput() {
     return this.interpolationForOutput('egress_only_internet_gateway_id')
   }
-  public get elasticacheNetworkAclArnOutput(): string {
+  public get elasticacheNetworkAclArnOutput() {
     return this.interpolationForOutput('elasticache_network_acl_arn')
   }
-  public get elasticacheNetworkAclIdOutput(): string {
+  public get elasticacheNetworkAclIdOutput() {
     return this.interpolationForOutput('elasticache_network_acl_id')
   }
-  public get elasticacheRouteTableAssociationIdsOutput(): string {
+  public get elasticacheRouteTableAssociationIdsOutput() {
     return this.interpolationForOutput('elasticache_route_table_association_ids')
   }
-  public get elasticacheRouteTableIdsOutput(): string {
+  public get elasticacheRouteTableIdsOutput() {
     return this.interpolationForOutput('elasticache_route_table_ids')
   }
-  public get elasticacheSubnetArnsOutput(): string {
+  public get elasticacheSubnetArnsOutput() {
     return this.interpolationForOutput('elasticache_subnet_arns')
   }
-  public get elasticacheSubnetGroupOutput(): string {
+  public get elasticacheSubnetGroupOutput() {
     return this.interpolationForOutput('elasticache_subnet_group')
   }
-  public get elasticacheSubnetGroupNameOutput(): string {
+  public get elasticacheSubnetGroupNameOutput() {
     return this.interpolationForOutput('elasticache_subnet_group_name')
   }
-  public get elasticacheSubnetsOutput(): string {
+  public get elasticacheSubnetsOutput() {
     return this.interpolationForOutput('elasticache_subnets')
   }
-  public get elasticacheSubnetsCidrBlocksOutput(): string {
+  public get elasticacheSubnetsCidrBlocksOutput() {
     return this.interpolationForOutput('elasticache_subnets_cidr_blocks')
   }
-  public get elasticacheSubnetsIpv6CidrBlocksOutput(): string {
+  public get elasticacheSubnetsIpv6CidrBlocksOutput() {
     return this.interpolationForOutput('elasticache_subnets_ipv6_cidr_blocks')
   }
-  public get igwArnOutput(): string {
+  public get igwArnOutput() {
     return this.interpolationForOutput('igw_arn')
   }
-  public get igwIdOutput(): string {
+  public get igwIdOutput() {
     return this.interpolationForOutput('igw_id')
   }
-  public get intraNetworkAclArnOutput(): string {
+  public get intraNetworkAclArnOutput() {
     return this.interpolationForOutput('intra_network_acl_arn')
   }
-  public get intraNetworkAclIdOutput(): string {
+  public get intraNetworkAclIdOutput() {
     return this.interpolationForOutput('intra_network_acl_id')
   }
-  public get intraRouteTableAssociationIdsOutput(): string {
+  public get intraRouteTableAssociationIdsOutput() {
     return this.interpolationForOutput('intra_route_table_association_ids')
   }
-  public get intraRouteTableIdsOutput(): string {
+  public get intraRouteTableIdsOutput() {
     return this.interpolationForOutput('intra_route_table_ids')
   }
-  public get intraSubnetArnsOutput(): string {
+  public get intraSubnetArnsOutput() {
     return this.interpolationForOutput('intra_subnet_arns')
   }
-  public get intraSubnetsOutput(): string {
+  public get intraSubnetsOutput() {
     return this.interpolationForOutput('intra_subnets')
   }
-  public get intraSubnetsCidrBlocksOutput(): string {
+  public get intraSubnetsCidrBlocksOutput() {
     return this.interpolationForOutput('intra_subnets_cidr_blocks')
   }
-  public get intraSubnetsIpv6CidrBlocksOutput(): string {
+  public get intraSubnetsIpv6CidrBlocksOutput() {
     return this.interpolationForOutput('intra_subnets_ipv6_cidr_blocks')
   }
-  public get nameOutput(): string {
+  public get nameOutput() {
     return this.interpolationForOutput('name')
   }
-  public get natIdsOutput(): string {
+  public get natIdsOutput() {
     return this.interpolationForOutput('nat_ids')
   }
-  public get natPublicIpsOutput(): string {
+  public get natPublicIpsOutput() {
     return this.interpolationForOutput('nat_public_ips')
   }
-  public get natgwIdsOutput(): string {
+  public get natgwIdsOutput() {
     return this.interpolationForOutput('natgw_ids')
   }
-  public get outpostNetworkAclArnOutput(): string {
+  public get outpostNetworkAclArnOutput() {
     return this.interpolationForOutput('outpost_network_acl_arn')
   }
-  public get outpostNetworkAclIdOutput(): string {
+  public get outpostNetworkAclIdOutput() {
     return this.interpolationForOutput('outpost_network_acl_id')
   }
-  public get outpostSubnetArnsOutput(): string {
+  public get outpostSubnetArnsOutput() {
     return this.interpolationForOutput('outpost_subnet_arns')
   }
-  public get outpostSubnetsOutput(): string {
+  public get outpostSubnetsOutput() {
     return this.interpolationForOutput('outpost_subnets')
   }
-  public get outpostSubnetsCidrBlocksOutput(): string {
+  public get outpostSubnetsCidrBlocksOutput() {
     return this.interpolationForOutput('outpost_subnets_cidr_blocks')
   }
-  public get outpostSubnetsIpv6CidrBlocksOutput(): string {
+  public get outpostSubnetsIpv6CidrBlocksOutput() {
     return this.interpolationForOutput('outpost_subnets_ipv6_cidr_blocks')
   }
-  public get privateIpv6EgressRouteIdsOutput(): string {
+  public get privateIpv6EgressRouteIdsOutput() {
     return this.interpolationForOutput('private_ipv6_egress_route_ids')
   }
-  public get privateNatGatewayRouteIdsOutput(): string {
+  public get privateNatGatewayRouteIdsOutput() {
     return this.interpolationForOutput('private_nat_gateway_route_ids')
   }
-  public get privateNetworkAclArnOutput(): string {
+  public get privateNetworkAclArnOutput() {
     return this.interpolationForOutput('private_network_acl_arn')
   }
-  public get privateNetworkAclIdOutput(): string {
+  public get privateNetworkAclIdOutput() {
     return this.interpolationForOutput('private_network_acl_id')
   }
-  public get privateRouteTableAssociationIdsOutput(): string {
+  public get privateRouteTableAssociationIdsOutput() {
     return this.interpolationForOutput('private_route_table_association_ids')
   }
-  public get privateRouteTableIdsOutput(): string {
+  public get privateRouteTableIdsOutput() {
     return this.interpolationForOutput('private_route_table_ids')
   }
-  public get privateSubnetArnsOutput(): string {
+  public get privateSubnetArnsOutput() {
     return this.interpolationForOutput('private_subnet_arns')
   }
-  public get privateSubnetsOutput(): string {
+  public get privateSubnetsOutput() {
     return this.interpolationForOutput('private_subnets')
   }
-  public get privateSubnetsCidrBlocksOutput(): string {
+  public get privateSubnetsCidrBlocksOutput() {
     return this.interpolationForOutput('private_subnets_cidr_blocks')
   }
-  public get privateSubnetsIpv6CidrBlocksOutput(): string {
+  public get privateSubnetsIpv6CidrBlocksOutput() {
     return this.interpolationForOutput('private_subnets_ipv6_cidr_blocks')
   }
-  public get publicInternetGatewayIpv6RouteIdOutput(): string {
+  public get publicInternetGatewayIpv6RouteIdOutput() {
     return this.interpolationForOutput('public_internet_gateway_ipv6_route_id')
   }
-  public get publicInternetGatewayRouteIdOutput(): string {
+  public get publicInternetGatewayRouteIdOutput() {
     return this.interpolationForOutput('public_internet_gateway_route_id')
   }
-  public get publicNetworkAclArnOutput(): string {
+  public get publicNetworkAclArnOutput() {
     return this.interpolationForOutput('public_network_acl_arn')
   }
-  public get publicNetworkAclIdOutput(): string {
+  public get publicNetworkAclIdOutput() {
     return this.interpolationForOutput('public_network_acl_id')
   }
-  public get publicRouteTableAssociationIdsOutput(): string {
+  public get publicRouteTableAssociationIdsOutput() {
     return this.interpolationForOutput('public_route_table_association_ids')
   }
-  public get publicRouteTableIdsOutput(): string {
+  public get publicRouteTableIdsOutput() {
     return this.interpolationForOutput('public_route_table_ids')
   }
-  public get publicSubnetArnsOutput(): string {
+  public get publicSubnetArnsOutput() {
     return this.interpolationForOutput('public_subnet_arns')
   }
-  public get publicSubnetsOutput(): string {
+  public get publicSubnetsOutput() {
     return this.interpolationForOutput('public_subnets')
   }
-  public get publicSubnetsCidrBlocksOutput(): string {
+  public get publicSubnetsCidrBlocksOutput() {
     return this.interpolationForOutput('public_subnets_cidr_blocks')
   }
-  public get publicSubnetsIpv6CidrBlocksOutput(): string {
+  public get publicSubnetsIpv6CidrBlocksOutput() {
     return this.interpolationForOutput('public_subnets_ipv6_cidr_blocks')
   }
-  public get redshiftNetworkAclArnOutput(): string {
+  public get redshiftNetworkAclArnOutput() {
     return this.interpolationForOutput('redshift_network_acl_arn')
   }
-  public get redshiftNetworkAclIdOutput(): string {
+  public get redshiftNetworkAclIdOutput() {
     return this.interpolationForOutput('redshift_network_acl_id')
   }
-  public get redshiftPublicRouteTableAssociationIdsOutput(): string {
+  public get redshiftPublicRouteTableAssociationIdsOutput() {
     return this.interpolationForOutput('redshift_public_route_table_association_ids')
   }
-  public get redshiftRouteTableAssociationIdsOutput(): string {
+  public get redshiftRouteTableAssociationIdsOutput() {
     return this.interpolationForOutput('redshift_route_table_association_ids')
   }
-  public get redshiftRouteTableIdsOutput(): string {
+  public get redshiftRouteTableIdsOutput() {
     return this.interpolationForOutput('redshift_route_table_ids')
   }
-  public get redshiftSubnetArnsOutput(): string {
+  public get redshiftSubnetArnsOutput() {
     return this.interpolationForOutput('redshift_subnet_arns')
   }
-  public get redshiftSubnetGroupOutput(): string {
+  public get redshiftSubnetGroupOutput() {
     return this.interpolationForOutput('redshift_subnet_group')
   }
-  public get redshiftSubnetsOutput(): string {
+  public get redshiftSubnetsOutput() {
     return this.interpolationForOutput('redshift_subnets')
   }
-  public get redshiftSubnetsCidrBlocksOutput(): string {
+  public get redshiftSubnetsCidrBlocksOutput() {
     return this.interpolationForOutput('redshift_subnets_cidr_blocks')
   }
-  public get redshiftSubnetsIpv6CidrBlocksOutput(): string {
+  public get redshiftSubnetsIpv6CidrBlocksOutput() {
     return this.interpolationForOutput('redshift_subnets_ipv6_cidr_blocks')
   }
-  public get thisCustomerGatewayOutput(): string {
+  public get thisCustomerGatewayOutput() {
     return this.interpolationForOutput('this_customer_gateway')
   }
-  public get vgwArnOutput(): string {
+  public get vgwArnOutput() {
     return this.interpolationForOutput('vgw_arn')
   }
-  public get vgwIdOutput(): string {
+  public get vgwIdOutput() {
     return this.interpolationForOutput('vgw_id')
   }
-  public get vpcArnOutput(): string {
+  public get vpcArnOutput() {
     return this.interpolationForOutput('vpc_arn')
   }
-  public get vpcCidrBlockOutput(): string {
+  public get vpcCidrBlockOutput() {
     return this.interpolationForOutput('vpc_cidr_block')
   }
-  public get vpcEnableDnsHostnamesOutput(): string {
+  public get vpcEnableDnsHostnamesOutput() {
     return this.interpolationForOutput('vpc_enable_dns_hostnames')
   }
-  public get vpcEnableDnsSupportOutput(): string {
+  public get vpcEnableDnsSupportOutput() {
     return this.interpolationForOutput('vpc_enable_dns_support')
   }
-  public get vpcEndpointAccessAnalyzerDnsEntryOutput(): string {
+  public get vpcEndpointAccessAnalyzerDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_access_analyzer_dns_entry')
   }
-  public get vpcEndpointAccessAnalyzerIdOutput(): string {
+  public get vpcEndpointAccessAnalyzerIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_access_analyzer_id')
   }
-  public get vpcEndpointAccessAnalyzerNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointAccessAnalyzerNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_access_analyzer_network_interface_ids')
   }
-  public get vpcEndpointAcmPcaDnsEntryOutput(): string {
+  public get vpcEndpointAcmPcaDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_acm_pca_dns_entry')
   }
-  public get vpcEndpointAcmPcaIdOutput(): string {
+  public get vpcEndpointAcmPcaIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_acm_pca_id')
   }
-  public get vpcEndpointAcmPcaNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointAcmPcaNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_acm_pca_network_interface_ids')
   }
-  public get vpcEndpointApigwDnsEntryOutput(): string {
+  public get vpcEndpointApigwDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_apigw_dns_entry')
   }
-  public get vpcEndpointApigwIdOutput(): string {
+  public get vpcEndpointApigwIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_apigw_id')
   }
-  public get vpcEndpointApigwNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointApigwNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_apigw_network_interface_ids')
   }
-  public get vpcEndpointAppmeshEnvoyManagementDnsEntryOutput(): string {
+  public get vpcEndpointAppmeshEnvoyManagementDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_appmesh_envoy_management_dns_entry')
   }
-  public get vpcEndpointAppmeshEnvoyManagementIdOutput(): string {
+  public get vpcEndpointAppmeshEnvoyManagementIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_appmesh_envoy_management_id')
   }
-  public get vpcEndpointAppmeshEnvoyManagementNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointAppmeshEnvoyManagementNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_appmesh_envoy_management_network_interface_ids')
   }
-  public get vpcEndpointAppstreamApiDnsEntryOutput(): string {
+  public get vpcEndpointAppstreamApiDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_appstream_api_dns_entry')
   }
-  public get vpcEndpointAppstreamApiIdOutput(): string {
+  public get vpcEndpointAppstreamApiIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_appstream_api_id')
   }
-  public get vpcEndpointAppstreamApiNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointAppstreamApiNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_appstream_api_network_interface_ids')
   }
-  public get vpcEndpointAppstreamStreamingDnsEntryOutput(): string {
+  public get vpcEndpointAppstreamStreamingDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_appstream_streaming_dns_entry')
   }
-  public get vpcEndpointAppstreamStreamingIdOutput(): string {
+  public get vpcEndpointAppstreamStreamingIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_appstream_streaming_id')
   }
-  public get vpcEndpointAppstreamStreamingNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointAppstreamStreamingNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_appstream_streaming_network_interface_ids')
   }
-  public get vpcEndpointAthenaDnsEntryOutput(): string {
+  public get vpcEndpointAthenaDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_athena_dns_entry')
   }
-  public get vpcEndpointAthenaIdOutput(): string {
+  public get vpcEndpointAthenaIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_athena_id')
   }
-  public get vpcEndpointAthenaNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointAthenaNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_athena_network_interface_ids')
   }
-  public get vpcEndpointAutoScalingPlansDnsEntryOutput(): string {
+  public get vpcEndpointAutoScalingPlansDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_auto_scaling_plans_dns_entry')
   }
-  public get vpcEndpointAutoScalingPlansIdOutput(): string {
+  public get vpcEndpointAutoScalingPlansIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_auto_scaling_plans_id')
   }
-  public get vpcEndpointAutoScalingPlansNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointAutoScalingPlansNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_auto_scaling_plans_network_interface_ids')
   }
-  public get vpcEndpointCloudDirectoryDnsEntryOutput(): string {
+  public get vpcEndpointCloudDirectoryDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloud_directory_dns_entry')
   }
-  public get vpcEndpointCloudDirectoryIdOutput(): string {
+  public get vpcEndpointCloudDirectoryIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloud_directory_id')
   }
-  public get vpcEndpointCloudDirectoryNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCloudDirectoryNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloud_directory_network_interface_ids')
   }
-  public get vpcEndpointCloudformationDnsEntryOutput(): string {
+  public get vpcEndpointCloudformationDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloudformation_dns_entry')
   }
-  public get vpcEndpointCloudformationIdOutput(): string {
+  public get vpcEndpointCloudformationIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloudformation_id')
   }
-  public get vpcEndpointCloudformationNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCloudformationNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloudformation_network_interface_ids')
   }
-  public get vpcEndpointCloudtrailDnsEntryOutput(): string {
+  public get vpcEndpointCloudtrailDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloudtrail_dns_entry')
   }
-  public get vpcEndpointCloudtrailIdOutput(): string {
+  public get vpcEndpointCloudtrailIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloudtrail_id')
   }
-  public get vpcEndpointCloudtrailNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCloudtrailNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_cloudtrail_network_interface_ids')
   }
-  public get vpcEndpointCodeartifactApiDnsEntryOutput(): string {
+  public get vpcEndpointCodeartifactApiDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_codeartifact_api_dns_entry')
   }
-  public get vpcEndpointCodeartifactApiIdOutput(): string {
+  public get vpcEndpointCodeartifactApiIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_codeartifact_api_id')
   }
-  public get vpcEndpointCodeartifactApiNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCodeartifactApiNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_codeartifact_api_network_interface_ids')
   }
-  public get vpcEndpointCodeartifactRepositoriesDnsEntryOutput(): string {
+  public get vpcEndpointCodeartifactRepositoriesDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_codeartifact_repositories_dns_entry')
   }
-  public get vpcEndpointCodeartifactRepositoriesIdOutput(): string {
+  public get vpcEndpointCodeartifactRepositoriesIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_codeartifact_repositories_id')
   }
-  public get vpcEndpointCodeartifactRepositoriesNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCodeartifactRepositoriesNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_codeartifact_repositories_network_interface_ids')
   }
-  public get vpcEndpointCodebuildDnsEntryOutput(): string {
+  public get vpcEndpointCodebuildDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_codebuild_dns_entry')
   }
-  public get vpcEndpointCodebuildIdOutput(): string {
+  public get vpcEndpointCodebuildIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_codebuild_id')
   }
-  public get vpcEndpointCodebuildNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCodebuildNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_codebuild_network_interface_ids')
   }
-  public get vpcEndpointCodecommitDnsEntryOutput(): string {
+  public get vpcEndpointCodecommitDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_codecommit_dns_entry')
   }
-  public get vpcEndpointCodecommitIdOutput(): string {
+  public get vpcEndpointCodecommitIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_codecommit_id')
   }
-  public get vpcEndpointCodecommitNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCodecommitNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_codecommit_network_interface_ids')
   }
-  public get vpcEndpointCodepipelineDnsEntryOutput(): string {
+  public get vpcEndpointCodepipelineDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_codepipeline_dns_entry')
   }
-  public get vpcEndpointCodepipelineIdOutput(): string {
+  public get vpcEndpointCodepipelineIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_codepipeline_id')
   }
-  public get vpcEndpointCodepipelineNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointCodepipelineNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_codepipeline_network_interface_ids')
   }
-  public get vpcEndpointConfigDnsEntryOutput(): string {
+  public get vpcEndpointConfigDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_config_dns_entry')
   }
-  public get vpcEndpointConfigIdOutput(): string {
+  public get vpcEndpointConfigIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_config_id')
   }
-  public get vpcEndpointConfigNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointConfigNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_config_network_interface_ids')
   }
-  public get vpcEndpointDatasyncDnsEntryOutput(): string {
+  public get vpcEndpointDatasyncDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_datasync_dns_entry')
   }
-  public get vpcEndpointDatasyncIdOutput(): string {
+  public get vpcEndpointDatasyncIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_datasync_id')
   }
-  public get vpcEndpointDatasyncNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointDatasyncNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_datasync_network_interface_ids')
   }
-  public get vpcEndpointDmsDnsEntryOutput(): string {
+  public get vpcEndpointDmsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_dms_dns_entry')
   }
-  public get vpcEndpointDmsIdOutput(): string {
+  public get vpcEndpointDmsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_dms_id')
   }
-  public get vpcEndpointDmsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointDmsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_dms_network_interface_ids')
   }
-  public get vpcEndpointDynamodbIdOutput(): string {
+  public get vpcEndpointDynamodbIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_dynamodb_id')
   }
-  public get vpcEndpointDynamodbPlIdOutput(): string {
+  public get vpcEndpointDynamodbPlIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_dynamodb_pl_id')
   }
-  public get vpcEndpointEbsDnsEntryOutput(): string {
+  public get vpcEndpointEbsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ebs_dns_entry')
   }
-  public get vpcEndpointEbsIdOutput(): string {
+  public get vpcEndpointEbsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ebs_id')
   }
-  public get vpcEndpointEbsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEbsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ebs_network_interface_ids')
   }
-  public get vpcEndpointEc2AutoscalingDnsEntryOutput(): string {
+  public get vpcEndpointEc2AutoscalingDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2_autoscaling_dns_entry')
   }
-  public get vpcEndpointEc2AutoscalingIdOutput(): string {
+  public get vpcEndpointEc2AutoscalingIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2_autoscaling_id')
   }
-  public get vpcEndpointEc2AutoscalingNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEc2AutoscalingNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2_autoscaling_network_interface_ids')
   }
-  public get vpcEndpointEc2DnsEntryOutput(): string {
+  public get vpcEndpointEc2DnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2_dns_entry')
   }
-  public get vpcEndpointEc2IdOutput(): string {
+  public get vpcEndpointEc2IdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2_id')
   }
-  public get vpcEndpointEc2NetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEc2NetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2_network_interface_ids')
   }
-  public get vpcEndpointEc2MessagesDnsEntryOutput(): string {
+  public get vpcEndpointEc2MessagesDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2messages_dns_entry')
   }
-  public get vpcEndpointEc2MessagesIdOutput(): string {
+  public get vpcEndpointEc2MessagesIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2messages_id')
   }
-  public get vpcEndpointEc2MessagesNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEc2MessagesNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ec2messages_network_interface_ids')
   }
-  public get vpcEndpointEcrApiDnsEntryOutput(): string {
+  public get vpcEndpointEcrApiDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecr_api_dns_entry')
   }
-  public get vpcEndpointEcrApiIdOutput(): string {
+  public get vpcEndpointEcrApiIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecr_api_id')
   }
-  public get vpcEndpointEcrApiNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEcrApiNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecr_api_network_interface_ids')
   }
-  public get vpcEndpointEcrDkrDnsEntryOutput(): string {
+  public get vpcEndpointEcrDkrDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecr_dkr_dns_entry')
   }
-  public get vpcEndpointEcrDkrIdOutput(): string {
+  public get vpcEndpointEcrDkrIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecr_dkr_id')
   }
-  public get vpcEndpointEcrDkrNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEcrDkrNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecr_dkr_network_interface_ids')
   }
-  public get vpcEndpointEcsAgentDnsEntryOutput(): string {
+  public get vpcEndpointEcsAgentDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_agent_dns_entry')
   }
-  public get vpcEndpointEcsAgentIdOutput(): string {
+  public get vpcEndpointEcsAgentIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_agent_id')
   }
-  public get vpcEndpointEcsAgentNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEcsAgentNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_agent_network_interface_ids')
   }
-  public get vpcEndpointEcsDnsEntryOutput(): string {
+  public get vpcEndpointEcsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_dns_entry')
   }
-  public get vpcEndpointEcsIdOutput(): string {
+  public get vpcEndpointEcsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_id')
   }
-  public get vpcEndpointEcsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEcsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_network_interface_ids')
   }
-  public get vpcEndpointEcsTelemetryDnsEntryOutput(): string {
+  public get vpcEndpointEcsTelemetryDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_telemetry_dns_entry')
   }
-  public get vpcEndpointEcsTelemetryIdOutput(): string {
+  public get vpcEndpointEcsTelemetryIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_telemetry_id')
   }
-  public get vpcEndpointEcsTelemetryNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEcsTelemetryNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ecs_telemetry_network_interface_ids')
   }
-  public get vpcEndpointEfsDnsEntryOutput(): string {
+  public get vpcEndpointEfsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_efs_dns_entry')
   }
-  public get vpcEndpointEfsIdOutput(): string {
+  public get vpcEndpointEfsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_efs_id')
   }
-  public get vpcEndpointEfsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEfsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_efs_network_interface_ids')
   }
-  public get vpcEndpointElasticInferenceRuntimeDnsEntryOutput(): string {
+  public get vpcEndpointElasticInferenceRuntimeDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_elastic_inference_runtime_dns_entry')
   }
-  public get vpcEndpointElasticInferenceRuntimeIdOutput(): string {
+  public get vpcEndpointElasticInferenceRuntimeIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_elastic_inference_runtime_id')
   }
-  public get vpcEndpointElasticInferenceRuntimeNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointElasticInferenceRuntimeNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_elastic_inference_runtime_network_interface_ids')
   }
-  public get vpcEndpointElasticbeanstalkDnsEntryOutput(): string {
+  public get vpcEndpointElasticbeanstalkDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticbeanstalk_dns_entry')
   }
-  public get vpcEndpointElasticbeanstalkHealthDnsEntryOutput(): string {
+  public get vpcEndpointElasticbeanstalkHealthDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticbeanstalk_health_dns_entry')
   }
-  public get vpcEndpointElasticbeanstalkHealthIdOutput(): string {
+  public get vpcEndpointElasticbeanstalkHealthIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticbeanstalk_health_id')
   }
-  public get vpcEndpointElasticbeanstalkHealthNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointElasticbeanstalkHealthNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticbeanstalk_health_network_interface_ids')
   }
-  public get vpcEndpointElasticbeanstalkIdOutput(): string {
+  public get vpcEndpointElasticbeanstalkIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticbeanstalk_id')
   }
-  public get vpcEndpointElasticbeanstalkNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointElasticbeanstalkNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticbeanstalk_network_interface_ids')
   }
-  public get vpcEndpointElasticloadbalancingDnsEntryOutput(): string {
+  public get vpcEndpointElasticloadbalancingDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticloadbalancing_dns_entry')
   }
-  public get vpcEndpointElasticloadbalancingIdOutput(): string {
+  public get vpcEndpointElasticloadbalancingIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticloadbalancing_id')
   }
-  public get vpcEndpointElasticloadbalancingNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointElasticloadbalancingNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticloadbalancing_network_interface_ids')
   }
-  public get vpcEndpointElasticmapreduceDnsEntryOutput(): string {
+  public get vpcEndpointElasticmapreduceDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticmapreduce_dns_entry')
   }
-  public get vpcEndpointElasticmapreduceIdOutput(): string {
+  public get vpcEndpointElasticmapreduceIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticmapreduce_id')
   }
-  public get vpcEndpointElasticmapreduceNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointElasticmapreduceNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_elasticmapreduce_network_interface_ids')
   }
-  public get vpcEndpointEventsDnsEntryOutput(): string {
+  public get vpcEndpointEventsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_events_dns_entry')
   }
-  public get vpcEndpointEventsIdOutput(): string {
+  public get vpcEndpointEventsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_events_id')
   }
-  public get vpcEndpointEventsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointEventsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_events_network_interface_ids')
   }
-  public get vpcEndpointGitCodecommitDnsEntryOutput(): string {
+  public get vpcEndpointGitCodecommitDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_git_codecommit_dns_entry')
   }
-  public get vpcEndpointGitCodecommitIdOutput(): string {
+  public get vpcEndpointGitCodecommitIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_git_codecommit_id')
   }
-  public get vpcEndpointGitCodecommitNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointGitCodecommitNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_git_codecommit_network_interface_ids')
   }
-  public get vpcEndpointGlueDnsEntryOutput(): string {
+  public get vpcEndpointGlueDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_glue_dns_entry')
   }
-  public get vpcEndpointGlueIdOutput(): string {
+  public get vpcEndpointGlueIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_glue_id')
   }
-  public get vpcEndpointGlueNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointGlueNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_glue_network_interface_ids')
   }
-  public get vpcEndpointKinesisFirehoseDnsEntryOutput(): string {
+  public get vpcEndpointKinesisFirehoseDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_kinesis_firehose_dns_entry')
   }
-  public get vpcEndpointKinesisFirehoseIdOutput(): string {
+  public get vpcEndpointKinesisFirehoseIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_kinesis_firehose_id')
   }
-  public get vpcEndpointKinesisFirehoseNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointKinesisFirehoseNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_kinesis_firehose_network_interface_ids')
   }
-  public get vpcEndpointKinesisStreamsDnsEntryOutput(): string {
+  public get vpcEndpointKinesisStreamsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_kinesis_streams_dns_entry')
   }
-  public get vpcEndpointKinesisStreamsIdOutput(): string {
+  public get vpcEndpointKinesisStreamsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_kinesis_streams_id')
   }
-  public get vpcEndpointKinesisStreamsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointKinesisStreamsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_kinesis_streams_network_interface_ids')
   }
-  public get vpcEndpointKmsDnsEntryOutput(): string {
+  public get vpcEndpointKmsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_kms_dns_entry')
   }
-  public get vpcEndpointKmsIdOutput(): string {
+  public get vpcEndpointKmsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_kms_id')
   }
-  public get vpcEndpointKmsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointKmsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_kms_network_interface_ids')
   }
-  public get vpcEndpointLambdaDnsEntryOutput(): string {
+  public get vpcEndpointLambdaDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_lambda_dns_entry')
   }
-  public get vpcEndpointLambdaIdOutput(): string {
+  public get vpcEndpointLambdaIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_lambda_id')
   }
-  public get vpcEndpointLambdaNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointLambdaNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_lambda_network_interface_ids')
   }
-  public get vpcEndpointLogsDnsEntryOutput(): string {
+  public get vpcEndpointLogsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_logs_dns_entry')
   }
-  public get vpcEndpointLogsIdOutput(): string {
+  public get vpcEndpointLogsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_logs_id')
   }
-  public get vpcEndpointLogsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointLogsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_logs_network_interface_ids')
   }
-  public get vpcEndpointMonitoringDnsEntryOutput(): string {
+  public get vpcEndpointMonitoringDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_monitoring_dns_entry')
   }
-  public get vpcEndpointMonitoringIdOutput(): string {
+  public get vpcEndpointMonitoringIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_monitoring_id')
   }
-  public get vpcEndpointMonitoringNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointMonitoringNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_monitoring_network_interface_ids')
   }
-  public get vpcEndpointQldbSessionDnsEntryOutput(): string {
+  public get vpcEndpointQldbSessionDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_qldb_session_dns_entry')
   }
-  public get vpcEndpointQldbSessionIdOutput(): string {
+  public get vpcEndpointQldbSessionIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_qldb_session_id')
   }
-  public get vpcEndpointQldbSessionNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointQldbSessionNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_qldb_session_network_interface_ids')
   }
-  public get vpcEndpointRdsDnsEntryOutput(): string {
+  public get vpcEndpointRdsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_rds_dns_entry')
   }
-  public get vpcEndpointRdsIdOutput(): string {
+  public get vpcEndpointRdsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_rds_id')
   }
-  public get vpcEndpointRdsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointRdsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_rds_network_interface_ids')
   }
-  public get vpcEndpointRekognitionDnsEntryOutput(): string {
+  public get vpcEndpointRekognitionDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_rekognition_dns_entry')
   }
-  public get vpcEndpointRekognitionIdOutput(): string {
+  public get vpcEndpointRekognitionIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_rekognition_id')
   }
-  public get vpcEndpointRekognitionNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointRekognitionNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_rekognition_network_interface_ids')
   }
-  public get vpcEndpointS3IdOutput(): string {
+  public get vpcEndpointS3IdOutput() {
     return this.interpolationForOutput('vpc_endpoint_s3_id')
   }
-  public get vpcEndpointS3PlIdOutput(): string {
+  public get vpcEndpointS3PlIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_s3_pl_id')
   }
-  public get vpcEndpointSagemakerApiDnsEntryOutput(): string {
+  public get vpcEndpointSagemakerApiDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_sagemaker_api_dns_entry')
   }
-  public get vpcEndpointSagemakerApiIdOutput(): string {
+  public get vpcEndpointSagemakerApiIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_sagemaker_api_id')
   }
-  public get vpcEndpointSagemakerApiNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSagemakerApiNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_sagemaker_api_network_interface_ids')
   }
-  public get vpcEndpointSagemakerRuntimeDnsEntryOutput(): string {
+  public get vpcEndpointSagemakerRuntimeDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_sagemaker_runtime_dns_entry')
   }
-  public get vpcEndpointSagemakerRuntimeIdOutput(): string {
+  public get vpcEndpointSagemakerRuntimeIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_sagemaker_runtime_id')
   }
-  public get vpcEndpointSagemakerRuntimeNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSagemakerRuntimeNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_sagemaker_runtime_network_interface_ids')
   }
-  public get vpcEndpointSecretsmanagerDnsEntryOutput(): string {
+  public get vpcEndpointSecretsmanagerDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_secretsmanager_dns_entry')
   }
-  public get vpcEndpointSecretsmanagerIdOutput(): string {
+  public get vpcEndpointSecretsmanagerIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_secretsmanager_id')
   }
-  public get vpcEndpointSecretsmanagerNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSecretsmanagerNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_secretsmanager_network_interface_ids')
   }
-  public get vpcEndpointServicecatalogDnsEntryOutput(): string {
+  public get vpcEndpointServicecatalogDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_servicecatalog_dns_entry')
   }
-  public get vpcEndpointServicecatalogIdOutput(): string {
+  public get vpcEndpointServicecatalogIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_servicecatalog_id')
   }
-  public get vpcEndpointServicecatalogNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointServicecatalogNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_servicecatalog_network_interface_ids')
   }
-  public get vpcEndpointSesDnsEntryOutput(): string {
+  public get vpcEndpointSesDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ses_dns_entry')
   }
-  public get vpcEndpointSesIdOutput(): string {
+  public get vpcEndpointSesIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ses_id')
   }
-  public get vpcEndpointSesNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSesNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ses_network_interface_ids')
   }
-  public get vpcEndpointSmsDnsEntryOutput(): string {
+  public get vpcEndpointSmsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_sms_dns_entry')
   }
-  public get vpcEndpointSmsIdOutput(): string {
+  public get vpcEndpointSmsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_sms_id')
   }
-  public get vpcEndpointSmsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSmsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_sms_network_interface_ids')
   }
-  public get vpcEndpointSnsDnsEntryOutput(): string {
+  public get vpcEndpointSnsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_sns_dns_entry')
   }
-  public get vpcEndpointSnsIdOutput(): string {
+  public get vpcEndpointSnsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_sns_id')
   }
-  public get vpcEndpointSnsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSnsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_sns_network_interface_ids')
   }
-  public get vpcEndpointSqsDnsEntryOutput(): string {
+  public get vpcEndpointSqsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_sqs_dns_entry')
   }
-  public get vpcEndpointSqsIdOutput(): string {
+  public get vpcEndpointSqsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_sqs_id')
   }
-  public get vpcEndpointSqsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSqsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_sqs_network_interface_ids')
   }
-  public get vpcEndpointSsmDnsEntryOutput(): string {
+  public get vpcEndpointSsmDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ssm_dns_entry')
   }
-  public get vpcEndpointSsmIdOutput(): string {
+  public get vpcEndpointSsmIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ssm_id')
   }
-  public get vpcEndpointSsmNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSsmNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ssm_network_interface_ids')
   }
-  public get vpcEndpointSsmmessagesDnsEntryOutput(): string {
+  public get vpcEndpointSsmmessagesDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_ssmmessages_dns_entry')
   }
-  public get vpcEndpointSsmmessagesIdOutput(): string {
+  public get vpcEndpointSsmmessagesIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_ssmmessages_id')
   }
-  public get vpcEndpointSsmmessagesNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointSsmmessagesNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_ssmmessages_network_interface_ids')
   }
-  public get vpcEndpointStatesDnsEntryOutput(): string {
+  public get vpcEndpointStatesDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_states_dns_entry')
   }
-  public get vpcEndpointStatesIdOutput(): string {
+  public get vpcEndpointStatesIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_states_id')
   }
-  public get vpcEndpointStatesNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointStatesNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_states_network_interface_ids')
   }
-  public get vpcEndpointStoragegatewayDnsEntryOutput(): string {
+  public get vpcEndpointStoragegatewayDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_storagegateway_dns_entry')
   }
-  public get vpcEndpointStoragegatewayIdOutput(): string {
+  public get vpcEndpointStoragegatewayIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_storagegateway_id')
   }
-  public get vpcEndpointStoragegatewayNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointStoragegatewayNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_storagegateway_network_interface_ids')
   }
-  public get vpcEndpointStsDnsEntryOutput(): string {
+  public get vpcEndpointStsDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_sts_dns_entry')
   }
-  public get vpcEndpointStsIdOutput(): string {
+  public get vpcEndpointStsIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_sts_id')
   }
-  public get vpcEndpointStsNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointStsNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_sts_network_interface_ids')
   }
-  public get vpcEndpointTextractDnsEntryOutput(): string {
+  public get vpcEndpointTextractDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_textract_dns_entry')
   }
-  public get vpcEndpointTextractIdOutput(): string {
+  public get vpcEndpointTextractIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_textract_id')
   }
-  public get vpcEndpointTextractNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointTextractNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_textract_network_interface_ids')
   }
-  public get vpcEndpointTransferDnsEntryOutput(): string {
+  public get vpcEndpointTransferDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_transfer_dns_entry')
   }
-  public get vpcEndpointTransferIdOutput(): string {
+  public get vpcEndpointTransferIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_transfer_id')
   }
-  public get vpcEndpointTransferNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointTransferNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_transfer_network_interface_ids')
   }
-  public get vpcEndpointTransferserverDnsEntryOutput(): string {
+  public get vpcEndpointTransferserverDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_transferserver_dns_entry')
   }
-  public get vpcEndpointTransferserverIdOutput(): string {
+  public get vpcEndpointTransferserverIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_transferserver_id')
   }
-  public get vpcEndpointTransferserverNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointTransferserverNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_transferserver_network_interface_ids')
   }
-  public get vpcEndpointWorkspacesDnsEntryOutput(): string {
+  public get vpcEndpointWorkspacesDnsEntryOutput() {
     return this.interpolationForOutput('vpc_endpoint_workspaces_dns_entry')
   }
-  public get vpcEndpointWorkspacesIdOutput(): string {
+  public get vpcEndpointWorkspacesIdOutput() {
     return this.interpolationForOutput('vpc_endpoint_workspaces_id')
   }
-  public get vpcEndpointWorkspacesNetworkInterfaceIdsOutput(): string {
+  public get vpcEndpointWorkspacesNetworkInterfaceIdsOutput() {
     return this.interpolationForOutput('vpc_endpoint_workspaces_network_interface_ids')
   }
-  public get vpcFlowLogCloudwatchIamRoleArnOutput(): string {
+  public get vpcFlowLogCloudwatchIamRoleArnOutput() {
     return this.interpolationForOutput('vpc_flow_log_cloudwatch_iam_role_arn')
   }
-  public get vpcFlowLogDestinationArnOutput(): string {
+  public get vpcFlowLogDestinationArnOutput() {
     return this.interpolationForOutput('vpc_flow_log_destination_arn')
   }
-  public get vpcFlowLogDestinationTypeOutput(): string {
+  public get vpcFlowLogDestinationTypeOutput() {
     return this.interpolationForOutput('vpc_flow_log_destination_type')
   }
-  public get vpcFlowLogIdOutput(): string {
+  public get vpcFlowLogIdOutput() {
     return this.interpolationForOutput('vpc_flow_log_id')
   }
-  public get vpcIdOutput(): string {
+  public get vpcIdOutput() {
     return this.interpolationForOutput('vpc_id')
   }
-  public get vpcInstanceTenancyOutput(): string {
+  public get vpcInstanceTenancyOutput() {
     return this.interpolationForOutput('vpc_instance_tenancy')
   }
-  public get vpcIpv6AssociationIdOutput(): string {
+  public get vpcIpv6AssociationIdOutput() {
     return this.interpolationForOutput('vpc_ipv6_association_id')
   }
-  public get vpcIpv6CidrBlockOutput(): string {
+  public get vpcIpv6CidrBlockOutput() {
     return this.interpolationForOutput('vpc_ipv6_cidr_block')
   }
-  public get vpcMainRouteTableIdOutput(): string {
+  public get vpcMainRouteTableIdOutput() {
     return this.interpolationForOutput('vpc_main_route_table_id')
   }
-  public get vpcOwnerIdOutput(): string {
+  public get vpcOwnerIdOutput() {
     return this.interpolationForOutput('vpc_owner_id')
   }
-  public get vpcSecondaryCidrBlocksOutput(): string {
+  public get vpcSecondaryCidrBlocksOutput() {
     return this.interpolationForOutput('vpc_secondary_cidr_blocks')
   }
   protected synthesizeAttributes() {
@@ -7198,55 +7198,55 @@ export class TerraformAwsModulesRdsAuroraAws extends TerraformModule {
   public set vpcSecurityGroupIds(value: string[] | undefined) {
     this.inputs['vpc_security_group_ids'] = value;
   }
-  public get thisEnhancedMonitoringIamRoleArnOutput(): string {
+  public get thisEnhancedMonitoringIamRoleArnOutput() {
     return this.interpolationForOutput('this_enhanced_monitoring_iam_role_arn')
   }
-  public get thisEnhancedMonitoringIamRoleNameOutput(): string {
+  public get thisEnhancedMonitoringIamRoleNameOutput() {
     return this.interpolationForOutput('this_enhanced_monitoring_iam_role_name')
   }
-  public get thisEnhancedMonitoringIamRoleUniqueIdOutput(): string {
+  public get thisEnhancedMonitoringIamRoleUniqueIdOutput() {
     return this.interpolationForOutput('this_enhanced_monitoring_iam_role_unique_id')
   }
-  public get thisRdsClusterArnOutput(): string {
+  public get thisRdsClusterArnOutput() {
     return this.interpolationForOutput('this_rds_cluster_arn')
   }
-  public get thisRdsClusterDatabaseNameOutput(): string {
+  public get thisRdsClusterDatabaseNameOutput() {
     return this.interpolationForOutput('this_rds_cluster_database_name')
   }
-  public get thisRdsClusterEndpointOutput(): string {
+  public get thisRdsClusterEndpointOutput() {
     return this.interpolationForOutput('this_rds_cluster_endpoint')
   }
-  public get thisRdsClusterEngineVersionOutput(): string {
+  public get thisRdsClusterEngineVersionOutput() {
     return this.interpolationForOutput('this_rds_cluster_engine_version')
   }
-  public get thisRdsClusterHostedZoneIdOutput(): string {
+  public get thisRdsClusterHostedZoneIdOutput() {
     return this.interpolationForOutput('this_rds_cluster_hosted_zone_id')
   }
-  public get thisRdsClusterIdOutput(): string {
+  public get thisRdsClusterIdOutput() {
     return this.interpolationForOutput('this_rds_cluster_id')
   }
-  public get thisRdsClusterInstanceEndpointsOutput(): string {
+  public get thisRdsClusterInstanceEndpointsOutput() {
     return this.interpolationForOutput('this_rds_cluster_instance_endpoints')
   }
-  public get thisRdsClusterInstanceIdsOutput(): string {
+  public get thisRdsClusterInstanceIdsOutput() {
     return this.interpolationForOutput('this_rds_cluster_instance_ids')
   }
-  public get thisRdsClusterMasterPasswordOutput(): string {
+  public get thisRdsClusterMasterPasswordOutput() {
     return this.interpolationForOutput('this_rds_cluster_master_password')
   }
-  public get thisRdsClusterMasterUsernameOutput(): string {
+  public get thisRdsClusterMasterUsernameOutput() {
     return this.interpolationForOutput('this_rds_cluster_master_username')
   }
-  public get thisRdsClusterPortOutput(): string {
+  public get thisRdsClusterPortOutput() {
     return this.interpolationForOutput('this_rds_cluster_port')
   }
-  public get thisRdsClusterReaderEndpointOutput(): string {
+  public get thisRdsClusterReaderEndpointOutput() {
     return this.interpolationForOutput('this_rds_cluster_reader_endpoint')
   }
-  public get thisRdsClusterResourceIdOutput(): string {
+  public get thisRdsClusterResourceIdOutput() {
     return this.interpolationForOutput('this_rds_cluster_resource_id')
   }
-  public get thisSecurityGroupIdOutput(): string {
+  public get thisSecurityGroupIdOutput() {
     return this.interpolationForOutput('this_security_group_id')
   }
   protected synthesizeAttributes() {
@@ -7845,85 +7845,85 @@ export class TerraformAwsModulesEksAws extends TerraformModule {
   public set writeKubeconfig(value: boolean | undefined) {
     this.inputs['write_kubeconfig'] = value;
   }
-  public get cloudwatchLogGroupNameOutput(): string {
+  public get cloudwatchLogGroupNameOutput() {
     return this.interpolationForOutput('cloudwatch_log_group_name')
   }
-  public get clusterArnOutput(): string {
+  public get clusterArnOutput() {
     return this.interpolationForOutput('cluster_arn')
   }
-  public get clusterCertificateAuthorityDataOutput(): string {
+  public get clusterCertificateAuthorityDataOutput() {
     return this.interpolationForOutput('cluster_certificate_authority_data')
   }
-  public get clusterEndpointOutput(): string {
+  public get clusterEndpointOutput() {
     return this.interpolationForOutput('cluster_endpoint')
   }
-  public get clusterIamRoleArnOutput(): string {
+  public get clusterIamRoleArnOutput() {
     return this.interpolationForOutput('cluster_iam_role_arn')
   }
-  public get clusterIamRoleNameOutput(): string {
+  public get clusterIamRoleNameOutput() {
     return this.interpolationForOutput('cluster_iam_role_name')
   }
-  public get clusterIdOutput(): string {
+  public get clusterIdOutput() {
     return this.interpolationForOutput('cluster_id')
   }
-  public get clusterOidcIssuerUrlOutput(): string {
+  public get clusterOidcIssuerUrlOutput() {
     return this.interpolationForOutput('cluster_oidc_issuer_url')
   }
-  public get clusterSecurityGroupIdOutput(): string {
+  public get clusterSecurityGroupIdOutput() {
     return this.interpolationForOutput('cluster_security_group_id')
   }
-  public get clusterVersionOutput(): string {
+  public get clusterVersionOutput() {
     return this.interpolationForOutput('cluster_version')
   }
-  public get configMapAwsAuthOutput(): string {
+  public get configMapAwsAuthOutput() {
     return this.interpolationForOutput('config_map_aws_auth')
   }
-  public get kubeconfigOutput(): string {
+  public get kubeconfigOutput() {
     return this.interpolationForOutput('kubeconfig')
   }
-  public get kubeconfigFilenameOutput(): string {
+  public get kubeconfigFilenameOutput() {
     return this.interpolationForOutput('kubeconfig_filename')
   }
-  public get workerAutoscalingPolicyArnOutput(): string {
+  public get workerAutoscalingPolicyArnOutput() {
     return this.interpolationForOutput('worker_autoscaling_policy_arn')
   }
-  public get workerAutoscalingPolicyNameOutput(): string {
+  public get workerAutoscalingPolicyNameOutput() {
     return this.interpolationForOutput('worker_autoscaling_policy_name')
   }
-  public get workerIamInstanceProfileArnsOutput(): string {
+  public get workerIamInstanceProfileArnsOutput() {
     return this.interpolationForOutput('worker_iam_instance_profile_arns')
   }
-  public get workerIamInstanceProfileNamesOutput(): string {
+  public get workerIamInstanceProfileNamesOutput() {
     return this.interpolationForOutput('worker_iam_instance_profile_names')
   }
-  public get workerIamRoleArnOutput(): string {
+  public get workerIamRoleArnOutput() {
     return this.interpolationForOutput('worker_iam_role_arn')
   }
-  public get workerIamRoleNameOutput(): string {
+  public get workerIamRoleNameOutput() {
     return this.interpolationForOutput('worker_iam_role_name')
   }
-  public get workerSecurityGroupIdOutput(): string {
+  public get workerSecurityGroupIdOutput() {
     return this.interpolationForOutput('worker_security_group_id')
   }
-  public get workersAsgArnsOutput(): string {
+  public get workersAsgArnsOutput() {
     return this.interpolationForOutput('workers_asg_arns')
   }
-  public get workersAsgNamesOutput(): string {
+  public get workersAsgNamesOutput() {
     return this.interpolationForOutput('workers_asg_names')
   }
-  public get workersDefaultAmiIdOutput(): string {
+  public get workersDefaultAmiIdOutput() {
     return this.interpolationForOutput('workers_default_ami_id')
   }
-  public get workersLaunchTemplateArnsOutput(): string {
+  public get workersLaunchTemplateArnsOutput() {
     return this.interpolationForOutput('workers_launch_template_arns')
   }
-  public get workersLaunchTemplateIdsOutput(): string {
+  public get workersLaunchTemplateIdsOutput() {
     return this.interpolationForOutput('workers_launch_template_ids')
   }
-  public get workersLaunchTemplateLatestVersionsOutput(): string {
+  public get workersLaunchTemplateLatestVersionsOutput() {
     return this.interpolationForOutput('workers_launch_template_latest_versions')
   }
-  public get workersUserDataOutput(): string {
+  public get workersUserDataOutput() {
     return this.interpolationForOutput('workers_user_data')
   }
   protected synthesizeAttributes() {

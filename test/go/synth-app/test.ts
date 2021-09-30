@@ -1,8 +1,3 @@
-/**
- *
- * @group go
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("Go full integration test synth", () => {

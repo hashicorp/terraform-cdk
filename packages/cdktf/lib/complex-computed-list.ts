@@ -20,14 +20,10 @@ abstract class ComplexComputedAttribute {
   }
 
   public getBooleanAttribute(terraformAttribute: string) {
-    return Token.asString(
-      this.interpolationForAttribute(terraformAttribute)
-    ) as any as boolean;
+    return this.interpolationForAttribute(terraformAttribute);
   }
 
-  protected abstract interpolationForAttribute(
-    terraformAttribute: string
-  ): string;
+  protected abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 
 export class StringMap {

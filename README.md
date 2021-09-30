@@ -17,7 +17,7 @@ HashiCorp Terraform.
 
 ## Overview
 
-CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules](./docs/working-with-cdk-for-terraform/using-modules.md) and [providers](./docs/working-with-cdk-for-terraform/using-providers.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
+CDK for Terraform apps are written in one of the supported programming languages and can leverage the entire ecosystem of Terraform [modules](./docs/working-with-cdk-for-terraform/using-modules.md), [providers](./docs/working-with-cdk-for-terraform/using-providers.md), and [functions](./docs/working-with-cdk-for-terraform/terraform-functions.md). The application [synthesizes](./docs/working-with-cdk-for-terraform/synthesizing-config.md) Terraform configuration in JSON. Terraform or the CDK for Terraform can then be used to deploy the application.
 
 The CDK for Terraform project includes two packages:
 
@@ -114,12 +114,14 @@ Choose a language:
 - Using the CDK for Terraform [tokens](./docs/working-with-cdk-for-terraform/tokens.md).
 - Using Terraform [data sources](./docs/working-with-cdk-for-terraform/data-sources.md).
 - Using Terraform [variables](./docs/working-with-cdk-for-terraform/terraform-variables.md).
+- Using Terraform [functions](./docs/working-with-cdk-for-terraform/terraform-functions.md)
 - Synthesizing Terraform configuration using CDK for Terraform [synthesize](./docs/working-with-cdk-for-terraform/synthesizing-config.md) command.
 - Project [telemetry](./docs/working-with-cdk-for-terraform/telemetry.md).
 - Defining Terraform [locals](./docs/working-with-cdk-for-terraform/terraform-locals.md).
 - Handling breaking changes with [feature flags](./docs/working-with-cdk-for-terraform/feature-flags.md).
 - Writing own [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) for init.
 - Using [assets](./docs/working-with-cdk-for-terraform/terraform-assets.md) to transfer files into the Terraform context.
+- Learn how to write [tests](./docs/working-with-cdk-for-terraform/testing.md).
 
 <a name="maturity"></a>
 
@@ -141,7 +143,6 @@ CDK for Terraform is an early experimental project and the development team woul
 - Ask a question on the HashiCorp [Discuss](https://discuss.hashicorp.com/) using the [terraform-cdk](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/) category.
 - Report a [bug](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title=) or request a new [feature](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=).
 - Browse all [open issues](https://github.com/hashicorp/terraform-cdk/issues).
-- [Roadmap](https://github.com/orgs/hashicorp/projects/77).
 
 ## Building
 

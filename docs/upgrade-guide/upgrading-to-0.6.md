@@ -1,0 +1,177 @@
+# Upgrading to CDKTF version 0.6
+
+CDK for Terraform version 0.6 uses [`constructs`](https://github.com/aws/constructs) version 10. For most users upgrading the versions should be seamless. If you are using more advanced APIs from the `constructs` library, see the [Constructs API Changes](#constructs-api-changes) section.
+
+## Background
+
+Since version 0.6 the `cdktf` package depends on `constructs` v10 (formerly was v3). While that jump might look big, v10 is actually going to be the next major version after v3. The reason for this jump lies in the underlying intention: The `constructs` lib v10 is supposed to stay around for a while and is supposed to offer a very stable API.  
+To achieve this stability in the core functionality a lot has been removed from v10. For further background information you can read into the [PR for v10](https://github.com/aws/constructs/pull/263) or the AWS CDK RFC [Removal of Construct Compatibility Layer](https://github.com/aws/aws-cdk-rfcs/blob/master/text/0192-remove-constructs-compat.md).
+
+While using the v0.6 `cdktf-cli` to deploy stacks that are using an older version of `cdktf` and `constructs` should still work, we recommend upgrading the `cdktf` and `constructs` packages.
+
+## Pre-built providers
+
+All upcoming releases of the [pre-built providers](https://cdk.tf/prebuilt-providers) will depend on `constructs` v10. So we recommend to upgrade your project.
+If you cannot upgrade the `cdktf` version, you can switch to [generating provider bindings](https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/using-providers.md#importing-providers-and-modules) via `cdktf get`.
+
+## Upgrading a TypeScript / JavaScript CDKTF project
+
+To upgrade a TypeScript or JavaScript CDKTF project, adjust the versions in the `package.json` file of your project.
+
+```jsonc
+{
+  // ...
+  "dependencies": {
+    "cdktf": "^0.6.0",
+    "constructs": "^10.0.5"
+  }
+}
+```
+
+Afterwards run `npm install` to update the depedencies and `cdktf get` to re-generate the provider bindings if you don't only use pre-built providers.
+
+## Upgrading a Python CDKTF project
+
+### `pipenv` (`python`-template)
+
+To upgrade a Python CDKTF project using `pipenv`, adjust the versions in the `Pipfile` of your project.
+
+```toml
+[packages]
+cdktf = "~=0.6.0"
+```
+
+Afterwards run `pipenv install` to update the depedencies and `cdktf get` to re-generate the provider bindings if you don't only use pre-built providers.
+
+### Pip3 (`python-pip`-template)
+
+To upgrade a Python CDKTF project using `pip3`, adjust the versions in the `requirements.txt` of your project.
+
+```
+cdktf~=0.6.0
+```
+
+Afterwards run `pip3 install -r requirements.txt` to update the depedencies and `cdktf get` to re-generate the provider bindings if you don't only use pre-built providers.
+
+## Upgrading a Java CDKTF project
+
+To upgrade a Java CDKTF project, adjust the versions in the `pom.xml` file of your project.
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <dependencies>
+    <dependency>
+      <groupId>com.hashicorp</groupId>
+      <artifactId>cdktf</artifactId>
+      <version>0.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>software.constructs</groupId>
+      <artifactId>constructs</artifactId>
+      <version>10.0.5</version>
+    </dependency>
+  </dependencies>
+  <!-- ... -->
+</project>
+```
+
+Afterwards run `mvn install` to update the depedencies and `cdktf get` to re-generate the provider bindings if you don't only use pre-built providers.
+
+## Upgrading a CSharp CDKTF project
+
+To upgrade a C# CDKTF project, adjust the versions in the `*.csproj` file of your project.
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- ... -->
+  <ItemGroup>
+    <PackageReference Include="HashiCorp.Cdktf" Version="0.6.0" />
+  </ItemGroup>
+</Project>
+```
+
+Afterwards run `dotnet restore` to update the depedencies and `cdktf get` to re-generate the provider bindings if you don't only use pre-built providers.
+
+## Upgrading a Golang CDKTF project
+
+To upgrade a Golang CDKTF project, adjust the versions in the `go.mod` file of your project.
+
+```
+require github.com/aws/constructs-go/constructs/v10 v10.0.5
+require github.com/hashicorp/terraform-cdk-go/cdktf v0.6.0
+```
+
+Afterwards run `go get` to update the depedencies and `cdktf get` to re-generate the provider bindings if you don't only use pre-built providers.
+
+You also need to adjust all imports to refer to `constructs/v10` instead of `constructs/v3`.
+
+```
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+)
+```
+
+## Constructs API Changes
+
+### `Aspects` moved to `cdktf`
+
+`Aspects` are now part of `cdktf` as they've been removed from `constructs`. If you use them, you need to change your import statement to import them from the `cdktf` package. The API also has changed a bit:
+
+```typescript
+// to register Aspects, use
+import { Aspects } from "cdktf"; // new
+Aspects.of(construct).add(aspect);
+
+// instead of
+construct.node.applyAspect(aspect); // old
+```
+
+### `construct.node.addInfo()` / `addWarning()` / `addError()` moved to `Annotations`
+
+The aforementioned methods are now available via the `Annotations` API:
+
+```typescript
+// use
+import { Annotations } from "cdktf"; // new
+Annotations.of(construct).addInfo("hello");
+
+// instead of
+construct.node.addInfo("hello"); // old
+```
+
+Annotations will also be printed by the `cdktf-cli` after your stack was synthesized. One ore more `error` annotations will make the `synth` fail.
+
+### `onPrepare()` and `prepare()` have been removed
+
+```typescript
+// use
+import { Aspects } from "cdktf";
+class MyConstruct extends Construct {
+  constructor(scope: IConstruct, id: string) {
+    super(scope, id);
+
+    Aspects.of(this).add({
+      visit: (node: IConstruct) => {
+        // visit will also be called on any childs of this construct
+        if (node === this) console.log("some work");
+      },
+    });
+  }
+}
+
+// instead of
+class MyConstruct extends Construct {
+  onPrepare() {
+    console.log("some work");
+  }
+}
+```
+
+### `onSynthesize` has been removed
+
+Should you need support for this, please file a [new issue](https://cdk.tf/feature) on this repo and describe your use-case.
+
+## Further support
+
+If you encounter anything that is missing from this guide or not working as expected, please don't hesitate to file a [bug](https://cdk.tf/bug) so we can improve this guide. You can also post your question to HashiCorp [Discuss](https://discuss.hashicorp.com/) using the [terraform-cdk](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/) category.

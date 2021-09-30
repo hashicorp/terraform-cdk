@@ -2,23 +2,16 @@
 
 exports[`artifactory 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"artifactory\\",
         \\"config\\": {
-          \\"username\\": \\"SheldonCooper\\",
           \\"password\\": \\"AmyFarrahFowler\\",
-          \\"url\\": \\"https://custom.artifactoryonline.com/artifactory\\",
           \\"repo\\": \\"foo\\",
-          \\"subpath\\": \\"terraform-bar\\"
+          \\"subpath\\": \\"terraform-bar\\",
+          \\"url\\": \\"https://custom.artifactoryonline.com/artifactory\\",
+          \\"username\\": \\"SheldonCooper\\"
         }
       }
     }
@@ -28,26 +21,19 @@ exports[`artifactory 1`] = `
 
 exports[`azurerm 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"azurerm\\",
         \\"config\\": {
-          \\"resource_group_name\\": \\"StorageAccount-ResourceGroup\\",
-          \\"storage_account_name\\": \\"abcd1234\\",
-          \\"container_name\\": \\"tfstate\\",
-          \\"key\\": \\"prod.terraform.tfstate\\",
           \\"client_id\\": \\"ARM_CLIENT_ID\\",
           \\"client_secret\\": \\"ARM_CLIENT_SECRET\\",
+          \\"container_name\\": \\"tfstate\\",
           \\"endpoint\\": \\"ARM_ENDPOINT\\",
-          \\"environment\\": \\"public\\"
+          \\"environment\\": \\"public\\",
+          \\"key\\": \\"prod.terraform.tfstate\\",
+          \\"resource_group_name\\": \\"StorageAccount-ResourceGroup\\",
+          \\"storage_account_name\\": \\"abcd1234\\"
         }
       }
     }
@@ -57,29 +43,22 @@ exports[`azurerm 1`] = `
 
 exports[`consul 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"consul\\",
         \\"config\\": {
-          \\"address\\": \\"demo.consul.io\\",
-          \\"scheme\\": \\"https\\",
-          \\"path\\": \\"full/path\\",
           \\"access_token\\": \\"CONSUL_HTTP_TOKEN\\",
+          \\"address\\": \\"demo.consul.io\\",
           \\"ca_file\\": \\"CONSUL_CACERT\\",
           \\"cert_file\\": \\"CONSUL_CLIENT_CERT\\",
           \\"datacenter\\": \\"agent\\",
           \\"gzip\\": true,
           \\"http_auth\\": \\"CONSUL_HTTP_AUTH\\",
           \\"key_file\\": \\"CONSUL_CLIENT_KEY\\",
-          \\"lock\\": true
+          \\"lock\\": true,
+          \\"path\\": \\"full/path\\",
+          \\"scheme\\": \\"https\\"
         }
       }
     }
@@ -89,26 +68,19 @@ exports[`consul 1`] = `
 
 exports[`cos 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"cos\\",
         \\"config\\": {
-          \\"region\\": \\"ap-guangzhou\\",
-          \\"bucket\\": \\"bucket-for-terraform-state-1258798060\\",
-          \\"prefix\\": \\"terraform/state\\",
-          \\"secret_id\\": \\"TENCENTCLOUD_SECRET_ID\\",
-          \\"secret_key\\": \\"TENCENTCLOUD_SECRET_KEY\\",
           \\"acl\\": \\"private\\",
+          \\"bucket\\": \\"bucket-for-terraform-state-1258798060\\",
           \\"encrypt\\": true,
-          \\"key\\": \\"terraform.tfstate\\"
+          \\"key\\": \\"terraform.tfstate\\",
+          \\"prefix\\": \\"terraform/state\\",
+          \\"region\\": \\"ap-guangzhou\\",
+          \\"secret_id\\": \\"TENCENTCLOUD_SECRET_ID\\",
+          \\"secret_key\\": \\"TENCENTCLOUD_SECRET_KEY\\"
         }
       }
     }
@@ -118,22 +90,15 @@ exports[`cos 1`] = `
 
 exports[`etcd 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"etcd\\",
         \\"config\\": {
-          \\"path\\": \\"path/to/terraform.tfstate\\",
           \\"endpoints\\": \\"http://one:4001 http://two:4001\\",
-          \\"username\\": \\"the user\\",
-          \\"password\\": \\"the password\\"
+          \\"password\\": \\"the password\\",
+          \\"path\\": \\"path/to/terraform.tfstate\\",
+          \\"username\\": \\"the user\\"
         }
       }
     }
@@ -143,30 +108,23 @@ exports[`etcd 1`] = `
 
 exports[`etcdv3 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"etcdv3\\",
         \\"config\\": {
+          \\"cacert_path\\": \\"CA bundle\\",
+          \\"cert_path\\": \\"certificate\\",
           \\"endpoints\\": [
             \\"etcd-1:2379\\",
             \\"etcd-2:2379\\",
             \\"etcd-3:2379\\"
           ],
+          \\"key_path\\": \\"encoded key\\",
           \\"lock\\": true,
-          \\"prefix\\": \\"terraform-state/\\",
-          \\"username\\": \\"ETCDV3_USERNAME\\",
           \\"password\\": \\"ETCDV3_PASSWORD\\",
-          \\"cacert_path\\": \\"CA bundle\\",
-          \\"cert_path\\": \\"certificate\\",
-          \\"key_path\\": \\"encoded key\\"
+          \\"prefix\\": \\"terraform-state/\\",
+          \\"username\\": \\"ETCDV3_USERNAME\\"
         }
       }
     }
@@ -176,23 +134,16 @@ exports[`etcdv3 1`] = `
 
 exports[`gcs 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"gcs\\",
         \\"config\\": {
-          \\"bucket\\": \\"tf-state-prod\\",
-          \\"prefix\\": \\"terraform/state\\",
           \\"access_token\\": \\"Authorization: Bearer\\",
+          \\"bucket\\": \\"tf-state-prod\\",
           \\"credentials\\": \\"GOOGLE_BACKEND_CREDENTIALS\\",
-          \\"encryption_key\\": \\"GOOGLE_ENCRYPTION_KEY\\"
+          \\"encryption_key\\": \\"GOOGLE_ENCRYPTION_KEY\\",
+          \\"prefix\\": \\"terraform/state\\"
         }
       }
     }
@@ -202,13 +153,6 @@ exports[`gcs 1`] = `
 
 exports[`http 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
@@ -216,13 +160,13 @@ exports[`http 1`] = `
         \\"config\\": {
           \\"address\\": \\"http://myrest.api.com/foo\\",
           \\"lock_address\\": \\"http://myrest.api.com/foo\\",
-          \\"unlock_address\\": \\"http://myrest.api.com/foo\\",
           \\"lock_method\\": \\"LOCK\\",
           \\"password\\": \\"HTTP basic auth password\\",
           \\"retry_max\\": 2,
           \\"retry_wait_max\\": 30,
           \\"retry_wait_min\\": 1,
           \\"skip_cert_verification\\": false,
+          \\"unlock_address\\": \\"http://myrest.api.com/foo\\",
           \\"unlock_method\\": \\"UNLOCK\\",
           \\"update_method\\": \\"POST\\",
           \\"username\\": \\"HTTP basic auth user\\"
@@ -235,13 +179,6 @@ exports[`http 1`] = `
 
 exports[`local 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
@@ -258,26 +195,19 @@ exports[`local 1`] = `
 
 exports[`manta 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"manta\\",
         \\"config\\": {
-          \\"path\\": \\"random/path\\",
-          \\"object_name\\": \\"terraform.tfstate\\",
           \\"account\\": \\"SDC_ACCOUNT\\",
-          \\"user\\": \\"SDC_USER\\",
-          \\"url\\": \\"MANTA_URL\\",
-          \\"key_material\\": \\"SDC_KEY_MATERIAL\\",
+          \\"insecure_skip_tls_verify\\": false,
           \\"key_id\\": \\"SDC_KEY\\",
-          \\"insecure_skip_tls_verify\\": false
+          \\"key_material\\": \\"SDC_KEY_MATERIAL\\",
+          \\"object_name\\": \\"terraform.tfstate\\",
+          \\"path\\": \\"random/path\\",
+          \\"url\\": \\"MANTA_URL\\",
+          \\"user\\": \\"SDC_USER\\"
         }
       }
     }
@@ -287,39 +217,32 @@ exports[`manta 1`] = `
 
 exports[`oss 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"oss\\",
         \\"config\\": {
-          \\"bucket\\": \\"bucket-for-terraform-state\\",
-          \\"prefix\\": \\"path/mystate\\",
-          \\"key\\": \\"version-1.tfstate\\",
-          \\"region\\": \\"cn-beijing\\",
-          \\"tablestore_endpoint\\": \\"https://terraform-remote.cn-hangzhou.ots.aliyuncs.com\\",
-          \\"tablestore_table\\": \\"statelock\\",
           \\"access_key\\": \\"ALICLOUD_ACCESS_KEY\\",
-          \\"secret_key\\": \\"ALICLOUD_SECRET_KEY\\",
-          \\"security_token\\": \\"ALICLOUD_SECURITY_TOKEN\\",
-          \\"ecs_role_name\\": \\"RAM Role Name\\",
           \\"acl\\": \\"object acl\\",
           \\"assume_role\\": {
-            \\"role_arn\\": \\"ALICLOUD_ASSUME_ROLE_ARN\\",
             \\"policy\\": \\"restrictive policy\\",
-            \\"session_name\\": \\"ALICLOUD_ASSUME_ROLE_SESSION_NAME\\",
-            \\"session_expiration\\": 3600
+            \\"role_arn\\": \\"ALICLOUD_ASSUME_ROLE_ARN\\",
+            \\"session_expiration\\": 3600,
+            \\"session_name\\": \\"ALICLOUD_ASSUME_ROLE_SESSION_NAME\\"
           },
+          \\"bucket\\": \\"bucket-for-terraform-state\\",
+          \\"ecs_role_name\\": \\"RAM Role Name\\",
           \\"encrypt\\": true,
           \\"endpoint\\": \\"ALICLOUD_OSS_ENDPOINT\\",
+          \\"key\\": \\"version-1.tfstate\\",
+          \\"prefix\\": \\"path/mystate\\",
           \\"profile\\": \\"ALICLOUD_PROFILE\\",
-          \\"shared_credentials_file\\": \\"ALICLOUD_SHARED_CREDENTIALS_FILE\\"
+          \\"region\\": \\"cn-beijing\\",
+          \\"secret_key\\": \\"ALICLOUD_SECRET_KEY\\",
+          \\"security_token\\": \\"ALICLOUD_SECURITY_TOKEN\\",
+          \\"shared_credentials_file\\": \\"ALICLOUD_SHARED_CREDENTIALS_FILE\\",
+          \\"tablestore_endpoint\\": \\"https://terraform-remote.cn-hangzhou.ots.aliyuncs.com\\",
+          \\"tablestore_table\\": \\"statelock\\"
         }
       }
     }
@@ -329,13 +252,6 @@ exports[`oss 1`] = `
 
 exports[`pg 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
@@ -353,13 +269,6 @@ exports[`pg 1`] = `
 
 exports[`remote 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
@@ -379,44 +288,37 @@ exports[`remote 1`] = `
 
 exports[`s3 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"s3\\",
         \\"config\\": {
-          \\"bucket\\": \\"mybucket\\",
-          \\"key\\": \\"path/to/my/key\\",
-          \\"region\\": \\"us-east-1\\",
-          \\"endpoint\\": \\"AWS_S3_ENDPOINT\\",
-          \\"encrypt\\": true,
-          \\"acl\\": \\"Canned ACL\\",
           \\"access_key\\": \\"AWS_ACCESS_KEY_ID\\",
-          \\"secret_key\\": \\"AWS_SECRET_ACCESS_KEY\\",
-          \\"kms_key_id\\": \\"ARN of a KMS Key\\",
-          \\"dynamodb_table\\": \\"DynamoDB table\\",
-          \\"profile\\": \\"AWS_PROFILE\\",
-          \\"shared_credentials_file\\": \\"~/.aws/credentials\\",
-          \\"token\\": \\"AWS_SESSION_TOKEN\\",
-          \\"role_arn\\": \\"role to be assumed\\",
+          \\"acl\\": \\"Canned ACL\\",
           \\"assume_role_policy\\": \\"permissions for assuming role\\",
-          \\"external_id\\": \\"external ID\\",
-          \\"session_name\\": \\"role session name\\",
-          \\"workspace_key_prefix\\": \\"env:\\",
+          \\"bucket\\": \\"mybucket\\",
           \\"dynamodb_endpoint\\": \\"AWS_DYNAMODB_ENDPOINT\\",
-          \\"iam_endpoint\\": \\"AWS_IAM_ENDPOINT\\",
-          \\"sts_endpoint\\": \\"AWS_STS_ENDPOINT\\",
+          \\"dynamodb_table\\": \\"DynamoDB table\\",
+          \\"encrypt\\": true,
+          \\"endpoint\\": \\"AWS_S3_ENDPOINT\\",
+          \\"external_id\\": \\"external ID\\",
           \\"force_path_style\\": false,
+          \\"iam_endpoint\\": \\"AWS_IAM_ENDPOINT\\",
+          \\"key\\": \\"path/to/my/key\\",
+          \\"kms_key_id\\": \\"ARN of a KMS Key\\",
+          \\"max_retries\\": 5,
+          \\"profile\\": \\"AWS_PROFILE\\",
+          \\"region\\": \\"us-east-1\\",
+          \\"role_arn\\": \\"role to be assumed\\",
+          \\"secret_key\\": \\"AWS_SECRET_ACCESS_KEY\\",
+          \\"session_name\\": \\"role session name\\",
+          \\"shared_credentials_file\\": \\"~/.aws/credentials\\",
           \\"skip_credentials_validation\\": false,
           \\"skip_metadata_api_check\\": true,
           \\"sse_customer_key\\": \\"AWS_SSE_CUSTOMER_KEY\\",
-          \\"max_retries\\": 5
+          \\"sts_endpoint\\": \\"AWS_STS_ENDPOINT\\",
+          \\"token\\": \\"AWS_SESSION_TOKEN\\",
+          \\"workspace_key_prefix\\": \\"env:\\"
         }
       }
     }
@@ -426,18 +328,6 @@ exports[`s3 1`] = `
 
 exports[`s3 reference 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
-  \\"provider\\": {
-    \\"test\\": [
-      {}
-    ]
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
@@ -449,16 +339,22 @@ exports[`s3 reference 1`] = `
       }
     }
   },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test_resource\\": {
-        \\"name\\": \\"\${data.terraform_remote_state.remote.outputs.name}\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"test/test_resource\\",
-            \\"uniqueId\\": \\"test_resource\\"
-          }
-        }
+        \\"name\\": \\"\${data.terraform_remote_state.remote.outputs.name}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
       }
     }
   }
@@ -467,25 +363,18 @@ exports[`s3 reference 1`] = `
 
 exports[`s3 with options 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"s3\\",
-        \\"workspace\\": \\"my_workspace\\",
-        \\"defaults\\": {
-          \\"someProp\\": \\"some_value\\"
-        },
         \\"config\\": {
           \\"bucket\\": \\"mybucket\\",
           \\"key\\": \\"path/to/my/key\\"
-        }
+        },
+        \\"defaults\\": {
+          \\"someProp\\": \\"some_value\\"
+        },
+        \\"workspace\\": \\"my_workspace\\"
       }
     }
   }
@@ -494,45 +383,38 @@ exports[`s3 with options 1`] = `
 
 exports[`swift 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"test\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
   \\"data\\": {
     \\"terraform_remote_state\\": {
       \\"remote\\": {
         \\"backend\\": \\"swift\\",
         \\"config\\": {
-          \\"container\\": \\"terraform-state\\",
-          \\"archive_container\\": \\"terraform-state-archive\\",
-          \\"auth_url\\": \\"OS_AUTH_URL\\",
-          \\"cloud\\": \\"OS_CLOUD\\",
-          \\"state_name\\": \\"tfstate.tf\\",
-          \\"user_name\\": \\"OS_USERNAME\\",
-          \\"user_id\\": \\"OS_USER_ID\\",
-          \\"password\\": \\"OS_PASSWORD\\",
           \\"application_credential_id\\": \\"ID of app cred\\",
           \\"application_credential_name\\": \\"name of app cred\\",
           \\"application_credential_secret\\": \\"secret of app cred\\",
-          \\"token\\": \\"OS_AUTH_TOKEN\\",
-          \\"region_name\\": \\"OS_REGION_NAME\\",
-          \\"tenant_id\\": \\"OS_TENANT_ID\\",
-          \\"tenant_name\\": \\"OS_TENANT_NAME\\",
-          \\"domain_id\\": \\"OS_USER_DOMAIN_ID\\",
-          \\"domain_name\\": \\"OS_USER_DOMAIN_NAME\\",
-          \\"user_domain_name\\": \\"OS_USER_DOMAIN_NAME\\",
-          \\"user_domain_id\\": \\"OS_USER_DOMAIN_ID\\",
-          \\"project_domain_name\\": \\"OS_PROJECT_DOMAIN_NAME\\",
-          \\"project_domain_id\\": \\"OS_PROJECT_DOMAIN_ID\\",
-          \\"default_domain\\": \\"OS_DEFAULT_DOMAIN\\",
-          \\"insecure\\": true,
+          \\"archive_container\\": \\"terraform-state-archive\\",
+          \\"auth_url\\": \\"OS_AUTH_URL\\",
           \\"cacert_file\\": \\"OS_CACERT\\",
           \\"cert\\": \\"OS_CERT\\",
+          \\"cloud\\": \\"OS_CLOUD\\",
+          \\"container\\": \\"terraform-state\\",
+          \\"default_domain\\": \\"OS_DEFAULT_DOMAIN\\",
+          \\"domain_id\\": \\"OS_USER_DOMAIN_ID\\",
+          \\"domain_name\\": \\"OS_USER_DOMAIN_NAME\\",
+          \\"expire_after\\": \\"3d\\",
+          \\"insecure\\": true,
           \\"key\\": \\"OS_KEY\\",
-          \\"expire_after\\": \\"3d\\"
+          \\"password\\": \\"OS_PASSWORD\\",
+          \\"project_domain_id\\": \\"OS_PROJECT_DOMAIN_ID\\",
+          \\"project_domain_name\\": \\"OS_PROJECT_DOMAIN_NAME\\",
+          \\"region_name\\": \\"OS_REGION_NAME\\",
+          \\"state_name\\": \\"tfstate.tf\\",
+          \\"tenant_id\\": \\"OS_TENANT_ID\\",
+          \\"tenant_name\\": \\"OS_TENANT_NAME\\",
+          \\"token\\": \\"OS_AUTH_TOKEN\\",
+          \\"user_domain_id\\": \\"OS_USER_DOMAIN_ID\\",
+          \\"user_domain_name\\": \\"OS_USER_DOMAIN_NAME\\",
+          \\"user_id\\": \\"OS_USER_ID\\",
+          \\"user_name\\": \\"OS_USERNAME\\"
         }
       }
     }

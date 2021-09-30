@@ -1,15 +1,6 @@
-/**
- * Testing interaction with Terraform Cloud
- *
- * @group typescript
- */
-
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onWindows, onPosix } from "../../test-helper";
 import * as fs from "fs-extra";
 import * as path from "path";
-
-const onWindows = process.platform === "win32" ? it : it.skip;
-const onPosix = process.platform !== "win32" ? it : it.skip;
 
 describe("full integration test", () => {
   let driver: TestDriver;

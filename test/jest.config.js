@@ -10,6 +10,5 @@ module.exports = {
     "js",
     "ts"
   ],
-  runner: "groups",
   testTimeout: 300000
 }

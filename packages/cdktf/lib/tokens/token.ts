@@ -94,6 +94,28 @@ export class Token {
  */
 export class Tokenization {
   /**
+   * Reverse any value into Resolvables, if possible
+   */
+  public static reverse(x: any): IResolvable[] {
+    if (Tokenization.isResolvable(x)) {
+      return [x];
+    }
+    if (typeof x === "string") {
+      const reversedString = Tokenization.reverseString(x);
+      return [...reversedString.tokens, ...reversedString.intrinsic];
+    }
+    if (Array.isArray(x)) {
+      const reversedList = Tokenization.reverseList(x);
+      return reversedList ? [reversedList] : [];
+    }
+    if (typeof x === "number") {
+      const reversedNumber = Tokenization.reverseNumber(x);
+      return reversedNumber ? [reversedNumber] : [];
+    }
+    return [];
+  }
+
+  /**
    * Un-encode a string potentially containing encoded tokens
    */
   public static reverseString(s: string): TokenizedStringFragments {

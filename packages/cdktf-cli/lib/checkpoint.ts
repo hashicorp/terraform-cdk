@@ -2,8 +2,11 @@ import https = require("https");
 import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
-import { processLoggerError } from "./logging";
+import ciDetect from "@npmcli/ci-detect";
+import { logger, processLoggerError } from "./logging";
 import { versionNumber } from "../bin/cmds/helper/version-check";
+import * as path from "path";
+import * as fs from "fs-extra";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
@@ -19,6 +22,9 @@ export interface ReportParams {
   version?: string;
   command?: string;
   language?: string;
+  userId?: string;
+  ci?: string;
+  projectId?: string;
 }
 
 async function post(url: string, data: string) {
@@ -69,7 +75,65 @@ export async function sendTelemetry(
     payload,
   };
 
-  await ReportRequest(reportParams);
+  try {
+    await ReportRequest(reportParams);
+  } catch (err) {
+    logger.error(`Could not send telemetry data: ${err}`);
+  }
+}
+
+function getId(
+  filePath: string,
+  key: string,
+  forceCreation = false,
+  explanatoryComment?: string
+): string {
+  const _uuid = uuidv4(); // create a new UUID in case we don't find one
+
+  let jsonFile;
+  try {
+    jsonFile = require(filePath); // we found the file
+  } catch {
+    // we found no file, create one if we're forcing a creation
+    if (forceCreation) {
+      const _idFile = {} as Record<string, string>; // compose JSON id file in case we don't find one
+      if (explanatoryComment) {
+        _idFile["//"] = explanatoryComment.replace(/\n/g, " ");
+      }
+      _idFile[key] = _uuid;
+      fs.ensureDirSync(path.dirname(filePath));
+      fs.writeFileSync(filePath, JSON.stringify(_idFile, null, 2));
+    }
+    return _uuid;
+  }
+
+  if (jsonFile[key]) {
+    return jsonFile[key]; // we found an id
+  } else {
+    // we found no id, we add it to the file for future use
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify({ ...jsonFile, [key]: _uuid }, null, 2)
+    );
+    return _uuid;
+  }
+}
+
+function getProjectId(projectPath = process.cwd()): string {
+  return getId(path.resolve(projectPath, "cdktf.json"), "projectId");
+}
+
+function getUserId(): string {
+  return getId(
+    path.resolve(os.homedir(), ".cdktf", "config.json"),
+    "userId",
+    true,
+    `This signature is a randomly generated UUID used to anonymously differentiate users in telemetry data order to inform product direction. 
+This signature is random, it is not based on any personally identifiable information. 
+To create a new signature, you can simply delete this file at any time.
+See https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/telemetry.md for more
+information on how to disable it.`
+  );
 }
 
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
@@ -93,6 +157,17 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
   if (!reportParams.os) {
     reportParams.os = os.platform();
   }
+
+  const ci: string | false = ciDetect();
+  if (!reportParams.userId && !ci) {
+    reportParams.userId = getUserId();
+  }
+
+  if (ci) {
+    reportParams.ci = ci;
+  }
+
+  reportParams.projectId = reportParams.projectId || getProjectId();
 
   const postData = JSON.stringify(reportParams);
 
