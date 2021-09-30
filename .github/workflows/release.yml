@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - "**.md"
       - "docs/**"
+      - "website/**"
 
 jobs:
   prepare-release:
