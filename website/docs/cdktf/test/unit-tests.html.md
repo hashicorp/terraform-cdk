@@ -51,7 +51,7 @@ describe("Unit testing using assertions", () => {
 
 ### Snapshot Testing
 
-Snapshot tests are useful  when you want to make sure your infrastructure does not change unexpectedly. You can read more about them in the [Jest docs](https://jestjs.io/docs/snapshot-testing).
+Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. You can read more about them in the [Jest docs](https://jestjs.io/docs/snapshot-testing).
 
 ```ts
 import { Testing } from "cdktf";

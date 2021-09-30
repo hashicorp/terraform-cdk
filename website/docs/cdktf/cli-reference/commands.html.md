@@ -102,12 +102,13 @@ Options:
 
 Convert a local file.
 
-``` bash
+```bash
 cat main.tf | cdktf convert > imported.ts`
 ```
 
 Convert HCL in your clipboard to Python on OSX.
-``` bash
+
+```bash
 pbpaste | cdktf convert --language python | pbcopy
 ```
 
@@ -322,7 +323,6 @@ $ cdktf init --template="python" --cdktf-version="0.0.1"
 
 Create a new Typescript project from an existing Terraform codebase. Currently, you can only use the `--from-terraform-project` flag with TypeScript, and there are [some known limitations](to do link to these when in the docs).
 
-
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
 ```
@@ -404,7 +404,6 @@ $ cdktf synth --json
 
 ## watch
 
-
 ~> **Warning:** The `watch` command is experimental, so you should only use it in development environments. It also automatically deploys all changes without asking for confirmation.
 
 The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time and automatically deploys changes without asking for confirmation.
@@ -443,7 +442,7 @@ Options:
   -a, --app                       Command to use in order to execute cdktf app                                                                                                                                                                                                                                                                                    [required]
   -o, --output                    Output directory                                                                                                                                                                                                                                                                                         [required] [default: "cdktf.out"]
       --auto-approve              Auto approve                                                                                                                                                                                                                                                                                                 [boolean] [default: false]
-  -h, --help                      Show help                
+  -h, --help                      Show help
 ```
 
 **Examples**
@@ -461,6 +460,5 @@ cdktf watch --stack dev --auto-approve
 Set the `CDKTF_LOG_LEVEL` environment variable to `all` and set `CDKTF_DISABLE_LOGGING` to `false`.
 
 The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
-
 
 The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.

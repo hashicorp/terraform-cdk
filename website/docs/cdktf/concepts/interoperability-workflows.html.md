@@ -10,11 +10,11 @@ description: "Use configurations written in HCL and configurations written in CD
 Terraform requires infrastructure configuration files written in either [HashiCorp Configuration Language (HCL)](https://www.terraform.io/docs/language/syntax/configuration.html) or JSON syntax. CDK for Terraform (CDKTF) works by translating configurations defined in a declarative programming language to JSON configuration files for Terraform.
 
 CDKTF may not be the right choice for every team and project within your organization. For example, some teams may already be very familiar with Terraform and have created HCL modules, providers, etc. To provide flexibility, CDKTF applications are interoperable with Terraform projects written in HCL. Specifically:
+
 - CDKTF applications can use all existing Terraform [providers ](./fundementals/providers.html) and HCL [modules](./fundementals.modules.html.md).
 - CDKTF can generate modules that HCL Terraform projects can use in their configurations.
 
 This page shows how you can interoperate HCL and CDK for Terraform configuration.
-
 
 ## CDKTF to HCL
 
