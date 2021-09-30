@@ -7,8 +7,7 @@ description: "Providers allow Terraform to communicate with external APIs. Learn
 
 # Providers and Resources
 
-A [provider](https://www.terraform.io/docs/language/providers/index.html) is any external API that has a plugin for Terraform. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
-or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
+A [provider](https://www.terraform.io/docs/language/providers/index.html) is a Terraform plugin that allows users to manage an external API. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest) or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
@@ -19,24 +18,6 @@ In your CDK for Terraform (CDKTF) application, you will use your preferred progr
 ## Providers
 
 You can install pre-built providers, import providers from the Terraform Registry, or reference local providers to define resources for your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/docs/cdktf/create-and-deploy/configuration.html). This allows you to define resources for that provider in your preferred programming language.
-
-### Install Pre-built Providers
-
-We offer several popular providers as pre-built packages. The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available providers include:
-
-- [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
-- [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
-- [Azure Provider](https://github.com/terraform-cdk-providers/cdktf-provider-azurerm)
-- [Kubernetes Provider](https://github.com/terraform-cdk-providers/cdktf-provider-kubernetes)
-- [Docker Provider](https://github.com/terraform-cdk-providers/cdktf-provider-docker)
-- [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
-- [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
-
-These are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. For example, here is how to install the AWS provider in TypeScript / Node:
-
-```
-npm install @cdktf/provider-aws
-```
 
 ### Import Providers
 
@@ -208,6 +189,26 @@ cdktf synth --json
   }
 }
 
+```
+
+### Install Pre-built Providers
+
+It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. This is a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package.  
+
+The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available pre-built providers include:
+
+- [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
+- [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
+- [Azure Provider](https://github.com/terraform-cdk-providers/cdktf-provider-azurerm)
+- [Kubernetes Provider](https://github.com/terraform-cdk-providers/cdktf-provider-kubernetes)
+- [Docker Provider](https://github.com/terraform-cdk-providers/cdktf-provider-docker)
+- [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
+- [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
+
+These are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. For example, here is how to install the AWS provider in TypeScript / Node:
+
+```
+npm install @cdktf/provider-aws
 ```
 
 ### Provider Caching
