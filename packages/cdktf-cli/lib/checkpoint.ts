@@ -101,6 +101,7 @@ function getId(
         _idFile["//"] = explanatoryComment.replace(/\n/g, " ");
       }
       _idFile[key] = _uuid;
+      fs.ensureDirSync(path.dirname(filePath));
       fs.writeFileSync(filePath, JSON.stringify(_idFile, null, 2));
     }
     return _uuid;
