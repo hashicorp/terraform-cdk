@@ -1,11 +1,11 @@
 import * as fs from "fs";
-import { mkdtemp, withTempDir } from "../../lib/util";
-import { Language, ConstructsMaker } from "../../lib/get/constructs-maker";
+import { mkdtemp, withTempDir } from "../../util";
+import { Language, ConstructsMaker } from "../constructs-maker";
 import * as path from "path";
 import {
   TerraformDependencyConstraint,
   TerraformModuleConstraint,
-} from "../../lib/config";
+} from "../../config";
 
 export function expectImportMatchSnapshot(
   constraint: TerraformDependencyConstraint

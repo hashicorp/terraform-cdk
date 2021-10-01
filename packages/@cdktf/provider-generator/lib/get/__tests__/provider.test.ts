@@ -2,7 +2,7 @@ import { expectImportMatchSnapshot } from "./util";
 import {
   TerraformDependencyConstraint,
   TerraformProviderConstraint,
-} from "../../lib/config";
+} from "../../config";
 
 const getProvider = (constraint: TerraformDependencyConstraint) =>
   expectImportMatchSnapshot(constraint);

@@ -1,13 +1,13 @@
 import * as yargs from "yargs";
 import React from "react";
 import { Deploy } from "./ui/deploy";
-import { readConfigSync } from "../../lib/config";
+import { config as cfg } from "@cdktf/provider-generator";
 import { renderInk } from "./helper/render-ink";
 import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 import { checkEnvironment } from "./helper/check-environment";
 
-const config = readConfigSync();
+const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
   public readonly command = "deploy [stack] [OPTIONS]";

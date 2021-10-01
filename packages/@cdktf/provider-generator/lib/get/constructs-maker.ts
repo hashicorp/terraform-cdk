@@ -11,11 +11,6 @@ import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
-import { versionNumber } from "../../bin/cmds/helper/version-check";
-import { ReportParams, ReportRequest } from "../checkpoint";
-import { Errors } from "../errors";
-
-const VERSION = versionNumber();
 
 export enum Language {
   TYPESCRIPT = "typescript",
@@ -204,7 +199,8 @@ export class ConstructsMaker {
 
   constructor(
     private readonly options: GetOptions,
-    private readonly constraints: TerraformDependencyConstraint[]
+    private readonly constraints: TerraformDependencyConstraint[],
+    private readonly reportTelemetry: (params: any) => void = () => {}
   ) {
     this.codeMakerOutdir = path.resolve(this.options.codeMakerOutput);
     fs.mkdirpSync(this.codeMakerOutdir);
@@ -332,7 +328,10 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     for (const target of this.targets) {
-      await report(target);
+      await this.reportTelemetry({
+        payload: target.trackingPayload,
+        language: target.targetLanguage,
+      });
     }
   }
 
@@ -360,18 +359,6 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     return this.options.targetLanguage === Language.GO;
   }
 }
-
-const report = async (target: ConstructsMakerTarget): Promise<void> => {
-  const reportParams: ReportParams = {
-    command: "get",
-    product: "cdktf",
-    version: VERSION,
-    dateTime: new Date(),
-    payload: target.trackingPayload,
-    language: target.targetLanguage,
-  };
-  await ReportRequest(reportParams);
-};
 
 /**
  * searches for the closest `go.mod` file and returns the nested go module name for `dir`
@@ -403,10 +390,8 @@ export const determineGoModuleName = async (dir: string): Promise<string> => {
         const childdir = path.relative(currentDir, dir).replace(/\\/g, "/"); // replace '\' with '/' for windows paths
         return childdir.length > 0 ? `${match[1]}/${childdir}` : match[1];
       }
-      throw Errors.Internal(
-        "get",
-        `Could not determine the root Go module name. Found ${file} but failed to regex match the module name directive`,
-        { gomod }
+      throw new Error(
+        `Could not determine the root Go module name. Found ${file} but failed to regex match the module name directive`
       );
     }
     // go up one directory. As dirname('/') will return '/' we cancel the loop
@@ -415,9 +400,7 @@ export const determineGoModuleName = async (dir: string): Promise<string> => {
     currentDir = path.dirname(currentDir);
   } while (currentDir !== previousDir);
 
-  throw Errors.Usage(
-    "get",
-    `Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`,
-    {}
+  throw new Error(
+    `Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`
   );
 };

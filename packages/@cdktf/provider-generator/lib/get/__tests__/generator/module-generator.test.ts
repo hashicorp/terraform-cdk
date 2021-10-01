@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { ConstructsMaker, Language } from "../../../lib/get/constructs-maker";
-import { TerraformModuleConstraint } from "../../../lib/config";
+import { ConstructsMaker, Language } from "../../constructs-maker";
+import { TerraformModuleConstraint } from "../../../config";
 import { expectModuleToMatchSnapshot } from "../util";
 
 test("generate some modules", async () => {

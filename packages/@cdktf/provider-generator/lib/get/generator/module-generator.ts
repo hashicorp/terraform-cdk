@@ -1,6 +1,5 @@
 import { CodeMaker, toCamelCase } from "codemaker";
 import { ConstructsMakerModuleTarget } from "../constructs-maker";
-import { Errors } from "../../errors";
 
 export class ModuleGenerator {
   constructor(
@@ -18,9 +17,7 @@ export class ModuleGenerator {
     const spec = target.spec;
 
     if (!spec) {
-      throw Errors.Internal("get", `missing spec for ${target.fqn}`, {
-        targetName: target.fqn,
-      });
+      throw new Error(`missing spec for ${target.fqn}`);
     }
 
     this.code.openFile(target.fileName);
@@ -129,7 +126,7 @@ function parseType(type: string) {
     return complexType;
   }
 
-  throw Errors.Internal("get", `unknown type ${type}`, { type });
+  throw new Error(`unknown type ${type}`);
 }
 
 function parseComplexType(type: string): string | undefined {
@@ -153,5 +150,5 @@ function parseComplexType(type: string): string | undefined {
     return `{ [key: string]: ${parseType(innerType)} }`;
   }
 
-  throw Errors.Internal("get", `unexpected kind ${kind}`, { kind, type });
+  throw new Error(`unexpected kind ${kind}`);
 }

@@ -4,7 +4,6 @@ import { exec, withTempDir } from "../../util";
 import { ModuleSchema, Input } from "./module-schema";
 import { ConstructsMakerTarget } from "../constructs-maker";
 import { convertFiles } from "@cdktf/hcl2json";
-import { Errors } from "../../errors";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
@@ -155,10 +154,8 @@ const harvestModuleSchema = async (
   const result: Record<string, any> = {};
 
   if (!fs.existsSync(fileName)) {
-    throw Errors.Internal(
-      "get",
-      `Modules were not generated properly - couldn't find ${fileName}`,
-      { fileName }
+    throw new Error(
+      `Modules were not generated properly - couldn't find ${fileName}`
     );
   }
 
@@ -170,16 +167,14 @@ const harvestModuleSchema = async (
     const m = moduleIndex.Modules.find((other) => mod === other.Key);
 
     if (!m) {
-      throw Errors.Internal("get", `Couldn't find ${m}`, { mod });
+      throw new Error(`Couldn't find ${m}`);
     }
 
     const parsed = await convertFiles(path.join(workingDirectory, m.Dir));
 
     if (!parsed) {
-      throw Errors.Internal(
-        "get",
-        `Modules were not generated properly - couldn't parse ${m.Dir}`,
-        { mod }
+      throw new Error(
+        `Modules were not generated properly - couldn't parse ${m.Dir}`
       );
     }
 

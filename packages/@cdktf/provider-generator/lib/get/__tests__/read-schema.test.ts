@@ -1,13 +1,13 @@
-import { readSchema } from "../../lib/get/generator/provider-schema";
+import { readSchema } from "../generator/provider-schema";
 import {
   ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
   Language,
-} from "../../lib/get/constructs-maker";
+} from "../constructs-maker";
 import {
   TerraformModuleConstraint,
   TerraformProviderConstraint,
-} from "../../lib/config";
+} from "../../config";
 
 expect.addSnapshotSerializer({
   test: (value) => {

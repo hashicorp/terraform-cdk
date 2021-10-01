@@ -1,7 +1,7 @@
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
-import { determineGoModuleName } from "../../lib/get/constructs-maker";
+import { determineGoModuleName } from "../constructs-maker";
 
 describe("constructsMaker", () => {
   describe("determineGoModuleName", () => {

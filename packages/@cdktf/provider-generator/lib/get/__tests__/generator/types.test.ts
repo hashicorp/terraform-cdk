@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { TerraformProviderGenerator } from "../../../lib/get/generator/provider-generator";
+import { TerraformProviderGenerator } from "../../generator/provider-generator";
 import { CodeMaker } from "codemaker";
 
 test("computed optional complex attribute", async () => {
