@@ -5,7 +5,7 @@ exports[`generate multiple aws modules 1`] = `
 // terraform-aws-modules/vpc/aws
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
-export interface TerraformAwsModulesVpcAwsOptions {
+export interface VpcOptions {
   /**
    * A policy to attach to the endpoint that controls access to the service. Defaults to full access
    */
@@ -2126,9 +2126,9 @@ export interface TerraformAwsModulesVpcAwsOptions {
    */
   readonly workspacesEndpointSubnetIds?: string[];
 }
-export class TerraformAwsModulesVpcAws extends TerraformModule {
+export class Vpc extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
-  public constructor(scope: Construct, id: string, options: TerraformAwsModulesVpcAwsOptions = {}) {
+  public constructor(scope: Construct, id: string, options: VpcOptions = {}) {
     super(scope, id, {
       source: 'terraform-aws-modules/vpc/aws',
       version: '2.78.0',
@@ -6339,7 +6339,7 @@ exports[`generate multiple aws modules 2`] = `
 // terraform-aws-modules/rds-aurora/aws
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
-export interface TerraformAwsModulesRdsAuroraAwsOptions {
+export interface RdsAuroraOptions {
   /**
    * Determines whether major engine upgrades are allowed when changing engine version
    */
@@ -6672,9 +6672,9 @@ export interface TerraformAwsModulesRdsAuroraAwsOptions {
    */
   readonly vpcSecurityGroupIds?: string[];
 }
-export class TerraformAwsModulesRdsAuroraAws extends TerraformModule {
+export class RdsAurora extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
-  public constructor(scope: Construct, id: string, options: TerraformAwsModulesRdsAuroraAwsOptions = {}) {
+  public constructor(scope: Construct, id: string, options: RdsAuroraOptions = {}) {
     super(scope, id, {
       source: 'terraform-aws-modules/rds-aurora/aws',
       version: '4.1.0',
@@ -7261,7 +7261,7 @@ exports[`generate some modules 1`] = `
 // terraform-aws-modules/eks/aws
 import { TerraformModule } from 'cdktf';
 import { Construct } from 'constructs';
-export interface TerraformAwsModulesEksAwsOptions {
+export interface EksOptions {
   /**
    * Whether to attach the module managed cluster autoscaling iam policy to the default worker IAM role. This requires \`manage_worker_autoscaling_policy = true\`
    * @default true
@@ -7494,9 +7494,9 @@ export interface TerraformAwsModulesEksAwsOptions {
    */
   readonly writeKubeconfig?: boolean;
 }
-export class TerraformAwsModulesEksAws extends TerraformModule {
+export class Eks extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
-  public constructor(scope: Construct, id: string, options: TerraformAwsModulesEksAwsOptions) {
+  public constructor(scope: Construct, id: string, options: EksOptions) {
     super(scope, id, {
       source: 'terraform-aws-modules/eks/aws',
       version: '7.0.1',

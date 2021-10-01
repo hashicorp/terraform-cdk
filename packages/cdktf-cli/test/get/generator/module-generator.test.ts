@@ -22,7 +22,7 @@ test("generate some modules", async () => {
   await maker.generate();
 
   const output = fs.readFileSync(
-    path.join(workdir, "modules/terraform-aws-modules/eks/aws.ts"),
+    path.join(workdir, "modules/terraform-aws-modules/aws/eks.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -59,13 +59,13 @@ test("generate multiple aws modules", async () => {
   await maker.generate();
 
   const vpcOutput = fs.readFileSync(
-    path.join(workdir, "modules/terraform-aws-modules/vpc/aws.ts"),
+    path.join(workdir, "modules/terraform-aws-modules/aws/vpc.ts"),
     "utf-8"
   );
   expect(vpcOutput).toMatchSnapshot();
 
   const rdsOutput = fs.readFileSync(
-    path.join(workdir, "modules/terraform-aws-modules/rds-aurora/aws.ts"),
+    path.join(workdir, "modules/terraform-aws-modules/aws/rds-aurora.ts"),
     "utf-8"
   );
   expect(rdsOutput).toMatchSnapshot();

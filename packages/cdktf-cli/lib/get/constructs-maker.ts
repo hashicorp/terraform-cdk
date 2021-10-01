@@ -51,7 +51,10 @@ export abstract class ConstructsMakerTarget {
     public readonly targetLanguage: Language
   ) {
     if (this.constraint instanceof TerraformModuleConstraint) {
-      this.fileName = `${this.typesPath(this.constraint.fqn)}.ts`;
+      const fullName = this.constraint.namespace
+        ? `${this.constraint.namespace}/${this.constraint.name}`
+        : this.constraint.name;
+      this.fileName = `${this.typesPath(fullName)}.ts`;
     } else {
       this.fileName = `${this.typesPath(this.constraint.name)}.ts`;
     }
@@ -114,20 +117,20 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
 
   public get srcMakName(): string {
     switch (this.targetLanguage) {
-      case Language.PYTHON:
       case Language.GO:
-        return this.simplifiedName;
+        return this.name;
       case Language.JAVA:
       case Language.CSHARP:
+      case Language.PYTHON:
       default:
-        return this.constraint.fqn;
+        return this.simplifiedName;
     }
   }
 
   public get trackingPayload() {
     return {
       name: this.name,
-      fullName: this.source,
+      fullName: this.fqn,
       version: this.version,
       type: "module",
     };
@@ -138,7 +141,9 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   }
 
   protected get simplifiedName(): string {
-    return this.fqn.replace(/\//gi, ".").replace(/-/gi, "_");
+    return (
+      this.namespace?.replace(/\//gi, ".").replace(/-/gi, "_") ?? this.name
+    );
   }
 }
 

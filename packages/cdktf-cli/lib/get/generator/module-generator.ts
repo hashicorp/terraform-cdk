@@ -18,8 +18,8 @@ export class ModuleGenerator {
     const spec = target.spec;
 
     if (!spec) {
-      throw Errors.Internal("get", `missing spec for ${target.name}`, {
-        targetName: target.name,
+      throw Errors.Internal("get", `missing spec for ${target.fqn}`, {
+        targetName: target.fqn,
       });
     }
 
@@ -31,7 +31,7 @@ export class ModuleGenerator {
     this.code.line(`import { TerraformModule } from 'cdktf';`);
     this.code.line(`import { Construct } from 'constructs';`);
 
-    const baseName = this.code.toPascalCase(target.fqn.replace(/[-/]/g, "_"));
+    const baseName = this.code.toPascalCase(target.name.replace(/[-/.]/g, "_"));
     const optionsType = `${baseName}Options`;
 
     this.code.openBlock(`export interface ${optionsType}`);

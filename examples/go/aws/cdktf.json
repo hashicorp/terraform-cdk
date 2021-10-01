@@ -7,7 +7,7 @@
     ],
     "terraformModules": [
         {
-            "name": "aws-eks-module",
+            "name": "eks",
             "source": "terraform-aws-modules/eks/aws",
             "version": "~> 16.0"
         }

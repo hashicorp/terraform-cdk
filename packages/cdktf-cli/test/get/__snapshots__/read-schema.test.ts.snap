@@ -471,7 +471,7 @@ Object {
 exports[`readSchema generates a single module schema 1`] = `
 Object {
   "moduleSchema": Object {
-    "terraform-aws-modules_iam_aws__modules_iam-account": Object {
+    "terraform-aws-modules_iam_aws_modules_iam-account": Object {
       "inputs": Array [
         Object {
           "description": "AWS IAM account alias for this account",
@@ -557,7 +557,7 @@ Object {
           "type": "bool",
         },
       ],
-      "name": "terraform-aws-modules_iam_aws__modules_iam-account",
+      "name": "terraform-aws-modules_iam_aws_modules_iam-account",
       "outputs": Array [
         Object {
           "description": "The AWS Account ID number of the account that owns or contains the calling entity",
