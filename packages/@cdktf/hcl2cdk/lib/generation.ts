@@ -506,9 +506,9 @@ export const providerImports = (providers: string[]) =>
 export const moduleImports = (modules: Record<string, Module> | undefined) =>
   Object.values(modules || {}).map(([module]) => {
     const moduleConstraint = new TerraformModuleConstraint(module.source);
-    return template(
+    return template.ast(
       `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
-    )() as t.Statement;
+    ) as t.Statement;
   });
 
 export function gen(statements: t.Statement[]) {
