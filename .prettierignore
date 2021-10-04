@@ -1,8 +1,0 @@
-packages/cdktf-cli/templates/*/cdktf.json
-**/.gen
-**/cdktf.out
-*.js
-*.d.ts
-*.json
-**/.jsii
-packages/*/coverage

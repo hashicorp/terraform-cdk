@@ -12,7 +12,7 @@ or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/c
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
-CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your chosen programming language.
+CDK for Terraform allows you to import both local providers and providers from the [Terraform Registry](https://registry.terraform.io/). The import process extracts the provider's schema and converts it into classes that you can use in your CDKTF application. This allows you to define resources for that provider in your preferred programming language.
 
 ## Prebuilt Providers
 
