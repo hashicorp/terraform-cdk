@@ -20,7 +20,6 @@ staging=$(mktemp -d)
 cd ${staging}
 npm init -y > /dev/null
 npm install ${CDKTF_DIST}/js/*.tgz
-npm install cli-spinners@2.6.0 # workaround for #1113
 export PATH=${staging}/node_modules/.bin:$PATH
 
 # restore working directory
