@@ -5,11 +5,20 @@
 ## Usage
 
 ```sh
-yarn install @cdktf/hcl2cdk
+yarn install @cdktf/provider-generator
 ```
 
 ### Generate bindings
 
 ```ts
-
+const constructsMaker = new ConstructsMaker(
+  constructsOptions,
+  constraints,
+  (payload: { targetLanguage: string; trackingPayload: Record<string, any> }) =>
+    sendTelemetry("get", {
+      language: payload.targetLanguage,
+      ...payload.trackingPayload,
+    })
+);
+await constructsMaker.generate();
 ```

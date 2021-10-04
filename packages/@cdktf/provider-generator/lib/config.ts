@@ -3,7 +3,7 @@ import * as path from "path";
 import { Language } from "./get/constructs-maker";
 import { env } from "process";
 import { CONTEXT_ENV } from "cdktf";
-import { isRegistryModule } from "@cdktf/hcl2cdk";
+import { isRegistryModule } from "./get/module";
 
 const CONFIG_FILE = "cdktf.json";
 const DEFAULTS = {

@@ -3,6 +3,7 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
+import { isRegistryModule } from "@cdktf/provider-generator";
 
 import { TerraformResourceBlock, Scope } from "./types";
 import { camelCase, pascalCase, uniqueId } from "./utils";
@@ -22,7 +23,6 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  isRegistryModule,
 } from "./expressions";
 
 function getReference(graph: DirectedGraph, id: string) {

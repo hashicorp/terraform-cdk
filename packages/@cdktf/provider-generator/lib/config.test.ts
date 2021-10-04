@@ -238,7 +238,7 @@ describe("parseConfig", () => {
 
       const parsed: any = parseConfig(JSON.stringify(input));
       expect(parsed.terraformModules[0].localSource).toMatch(
-        "/packages/cdktf-cli/consul"
+        "/packages/@cdktf/provider-generator/consul"
       );
 
       expect(parsed.terraformModules[0].name).toMatch("consul");
