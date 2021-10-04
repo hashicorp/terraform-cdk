@@ -7,7 +7,7 @@ description: "Templates allow you to scaffold a new CDK for Terraform Project. L
 
 # Remote Templates
 
-When you set up a new project via `cdktf init`, you can supply one of the [built-in templates](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/templates) (e.g. `typescript` or `python`) or use a custom-built remote template. The template scaffolds a new CDK for Terraform project, creating the necessary directories and files.
+When you set up a new project via `cdktf init`, you can supply one of the [built-in templates](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/templates) (e.g. `typescript` or `python`) or use a custom-built remote template. Templates scaffold a new CDK for Terraform (CDKTF) project, creating the necessary directories and files.
 
 ## Create Remote Templates
 
@@ -15,8 +15,7 @@ A template is a directory that contains at least a `cdktf.json` file, which is r
 
 ### Substitutions
 
-A template can use substitutions for filenames and file content. To specify your own variables, use Hooks (see below).  
-In addition to the [built-in substitutions of](https://github.com/awslabs/node-sscaff#built-in-substitutions) `sccaff`, CDK for Terraform supplies variables that you can use in templates:
+A template can use substitutions for filenames and file content. To specify your own variables, use Hooks (details below).  In addition to the [built-in substitutions of](https://github.com/awslabs/node-sscaff#built-in-substitutions) `sccaff`, CDKTF supplies variables that you can use in templates.
 
 #### User Input
 
@@ -55,7 +54,7 @@ nuget_cdktf: string;
 
 Add `console.log()` statements to your hook functions. CDK for Terraform displays this log output when a user initializes a project from your template.
 
-You can also set the environment flag `CDKTF_LOG_LEVEL` to `debug` to see more debugging output.
+You can also set the environment variable `CDKTF_LOG_LEVEL` to `debug` to see more debugging output.
 
 **TODO**: Where can folks set the environment variable flag? Also, can we get a full description of what setting this flag gives us? Below, we only have one example but it would be better to give users a complete list of what setting this variable gives them;
 
