@@ -173,7 +173,6 @@ export class TerraformProviderGenerator {
       .join("/");
     const filePath = `${baseFilePath}/${name}.ts`;
 
-    // TODO: find better file path
     const importStatements = [
       ...new Set( // make list unique
         resources.reduce(
