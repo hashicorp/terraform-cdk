@@ -76,6 +76,9 @@
     "ws": "^7.5.3",
     "zod": "^1.11.7"
   },
+  "resolutions": {
+    "cli-spinners": "2.6.0"
+  },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
