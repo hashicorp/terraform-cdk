@@ -54,7 +54,8 @@
         "moduleName": "github.com/hashicorp/terraform-cdk-aws-adapter-go",
         "packageName": "awsadapter"
       }
-    }
+    },
+    "excludeTypescript": ["examples"]
   },
   "license": "MPL-2.0",
   "dependencies": {
@@ -69,8 +70,8 @@
     "@types/jest": "^27.0.2",
     "@types/node": "^14.0.0",
     "aws-cdk-lib": "^2.0.0-rc.17",
-    "@cdktf/provider-aws": "^2.0.11",
-    "cdktf": "0.6.3",
+    "@cdktf/provider-aws": "^0.0.0",
+    "cdktf": "0.0.0",
     "jest": "^27.2.1",
     "jsii": "^1.29.0",
     "jsii-pacmak": "^1.29.0",
@@ -82,8 +83,8 @@
   "peerDependencies": {
     "constructs": "^10.0.0",
     "aws-cdk-lib": "^2.0.0-rc.17",
-    "@cdktf/provider-aws": "^2.0.11",
-    "cdktf": "^0.6.3"
+    "@cdktf/provider-aws": "^0.0.0",
+    "cdktf": "^0.0.0"
   },
   "bundledDependencies": ["cdktf-cli",
     "change-case",

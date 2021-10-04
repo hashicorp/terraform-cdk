@@ -10,4 +10,6 @@ cdktf.log
 coverage
 !lib/awscc_schemas/schemas.js
 !jest.config.js
-!setup.js
+!setupJest.js
+.yalc
+yalc.lock

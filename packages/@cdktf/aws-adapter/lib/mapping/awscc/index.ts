@@ -49,7 +49,7 @@ const overrides: {
         cdktfProps.tracingConfig = cdktfProps.tracingConfig ?? {
           mode: "PassThrough",
         };
-        if (cdktfProps.code.zipFile) {
+        if (cdktfProps.code?.zipFile) {
           cdktfProps.packageType = "Zip";
         }
       },
