@@ -9,12 +9,14 @@ description: "TODO: describe me"
 
 > **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial on HashiCorp Learn. This tutorial guides you through using a `TerraformAsset` to archive a Lambda function, uploading the archive to an S3 bucket, then deploying the Lambda function.
 
-A Terraform Asset takes a file or directory outside of the CDK for Terraform context and moves it into it. Assets copy referenced files into the stacks context for further usage in other resources.
+In CDKTF v0.4+, asset constructs let you manage assets for resources that need them, such as template_file, S3 bucket objects, or Lambda function archive files. You can use Terraform Assets to move existing files or directories into your CDK for Terraform application so that you can use them in CDKTF resources.
 
-This is useful for:
+Assets are especially useful for:
 
 - Lambda functions for copying over previously generated zip files
 - S3 Content for deploying static local files
+
+TODO: Could you please explain what's going on in this example?
 
 ```typescript
 import * as path from "path";
