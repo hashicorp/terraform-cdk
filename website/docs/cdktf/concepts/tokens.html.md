@@ -23,10 +23,6 @@ You may need to use Tokens for:
 - Resource attributes (such as `id`)
 - Terraform outputs based on resource attributes
 
-**TODO:** Should we say something about how you can encode tokens as different types where needed and link back to the AWS docs?
-
-**TODO**: Explain how folks will know when they need to use tokens. Will folks see an error when something isn't translating properly into Terraform language syntax?
-
 ### Example
 
 An EKS module requires a _list_ of subnet ids in order to create a cluster. The VPC module outputs a list of subnets.
