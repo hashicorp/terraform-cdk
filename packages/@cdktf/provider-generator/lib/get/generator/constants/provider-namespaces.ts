@@ -5,7 +5,7 @@ export type ResourceNamespace = {
   additionalPrefix?: Prefix[];
 };
 
-// We need to order these so that the longest prefixes come first (e.g. acmpa before acm)
+// If the same prefix is used, the longest will take precedent over the others.
 const aws: Record<Prefix, ResourceNamespace> = {
   acmpa: {
     name: "ACMPCA",
@@ -599,13 +599,24 @@ export function getResourceNamespace(
     .replace(`${provider}_`, "")
     .replace(`data_`, "");
 
-  const namespace = Object.keys(resourceNamespaces).find(
-    (ns) =>
-      normalizedResource.startsWith(ns) ||
-      resourceNamespaces[ns].additionalPrefix?.some((prefix) =>
-        normalizedResource.startsWith(prefix)
-      )
-  );
+  const namespace = Object.keys(resourceNamespaces)
+    // we want the longest prefix to be first
+    .sort((a, b) => {
+      if (a.startsWith(b)) {
+        return -1;
+      }
+      if (b.startsWith(a)) {
+        return 1;
+      }
+      return a.localeCompare(b);
+    })
+    .find(
+      (ns) =>
+        normalizedResource.startsWith(ns) ||
+        resourceNamespaces[ns].additionalPrefix?.some((prefix) =>
+          normalizedResource.startsWith(prefix)
+        )
+    );
   if (!namespace) {
     return undefined;
   }
