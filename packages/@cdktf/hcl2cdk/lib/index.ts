@@ -1,4 +1,5 @@
 import { parse } from "@cdktf/hcl2json";
+import { isRegistryModule } from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
@@ -9,7 +10,7 @@ import * as rosetta from "jsii-rosetta";
 import * as z from "zod";
 
 import { schema } from "./schema";
-import { findUsedReferences, isRegistryModule } from "./expressions";
+import { findUsedReferences } from "./expressions";
 import {
   backendToExpression,
   cdktfImport,
