@@ -27,7 +27,7 @@ If you plan to use CDK for Terraform to manage your infrastructure, then we reco
 
 ### Define Input Variables
 
-TODO: Can we get a description of what is happening here?
+The following example demonstrates how a `TerraformVariable` can be used to provide inputs to resources.
 
 ```typescript
 const imageId = new TerraformVariable(this, "imageId", {
@@ -41,7 +41,9 @@ new Instance(this, "hello", {
 });
 ```
 
-TODO: When this gets synthesized, can we tell users what's going to happen? Is it automatically going to create the `tfvars` file?
+The values for variables have to be provided, exactly in the same way as variables in HCL. There are various ways to do this with Terraform, details can be found [here](https://www.terraform.io/docs/language/values/variables.html#variables-on-the-command-line)
+
+In the `cdktf-cli` we do support variable configuration via [environment variables](https://www.terraform.io/docs/language/values/variables.html#environment-variables) only at the moment.
 
 ## Local Values
 
@@ -49,7 +51,7 @@ A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) ass
 
 ### When to Use Local values
 
-TODO: Write something here.
+Local values are helpful for cases, where values need to be changed at Terraform run time using Terraform Functions. If the value is known upfront at synth time, it's usually makes sense to reach for native language features to modify values, such as strings, lists or numbers.
 
 ### Define Local Values
 
