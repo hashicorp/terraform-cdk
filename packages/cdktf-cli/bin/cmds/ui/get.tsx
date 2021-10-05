@@ -6,8 +6,9 @@ import {
   Language,
   ConstructsMaker,
   GetOptions,
-} from "../../../lib/get/constructs-maker";
-import { TerraformDependencyConstraint } from "../../../lib/config";
+  config,
+} from "@cdktf/provider-generator";
+import { sendTelemetry } from "../../../lib/checkpoint";
 
 enum Status {
   STARTING = "starting",
@@ -18,7 +19,7 @@ enum Status {
 interface GetConfig {
   codeMakerOutput: string;
   language: Language;
-  constraints: TerraformDependencyConstraint[];
+  constraints: config.TerraformDependencyConstraint[];
 }
 
 export const Get = ({
@@ -42,7 +43,15 @@ export const Get = ({
         await fs.remove(constructsOptions.codeMakerOutput);
         const constructsMaker = new ConstructsMaker(
           constructsOptions,
-          constraints
+          constraints,
+          (payload: {
+            targetLanguage: string;
+            trackingPayload: Record<string, any>;
+          }) =>
+            sendTelemetry("get", {
+              language: payload.targetLanguage,
+              ...payload.trackingPayload,
+            })
         );
         setCurrentStatus(Status.DOWNLOADING);
         await constructsMaker.generate();
