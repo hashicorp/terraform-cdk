@@ -224,10 +224,7 @@ export function variableName(
 
 export function constructAst(type: string, isModuleImport: boolean) {
   if (isModuleImport) {
-    return t.memberExpression(
-      t.identifier(pascalCase(type)),
-      t.identifier(pascalCase(type))
-    );
+    return t.memberExpression(t.identifier(type), t.identifier(type));
   }
 
   // resources or data sources
