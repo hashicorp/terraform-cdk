@@ -22,6 +22,11 @@ class Command implements yargs.CommandModule {
         desc: "Stack to output when using --json flag",
         type: "string",
       })
+      .option("disable-checking-code-maker-output", {
+        type: "boolean",
+        desc: "Disable checking `codeMakerOutput` existence.",
+        default: false,
+      })
       .option("app", {
         default: config.app,
         desc: "Command to use in order to execute cdktf app",
@@ -46,9 +51,11 @@ class Command implements yargs.CommandModule {
     const command = argv.app;
     const outdir = argv.output;
     const jsonOutput = argv.json;
+    const disableCheckingCodeMakerOutput = argv.disableCheckingCodeMakerOutput;
     const stack = argv.stack;
 
     if (
+      !disableCheckingCodeMakerOutput &&
       config.checkCodeMakerOutput &&
       !(await fs.pathExists(config.codeMakerOutput))
     ) {
