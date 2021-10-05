@@ -63,7 +63,7 @@ vim cdktf.json
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0"]
+  "terraformProviders": ["aws@~> 3.61"]
 }
 ```
 
@@ -74,7 +74,7 @@ For example, to add [DNS Simple](https://www.terraform.io/docs/providers/dnsimpl
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0", "dnsimple"]
+  "terraformProviders": ["aws@~> 3.61", "dnsimple"]
 }
 ```
 
@@ -147,7 +147,7 @@ cdktf synth --json
   },
   "terraform": {
     "required_providers": {
-      "aws": "~> 2.0",
+      "aws": "~> 3.61",
       "dnsimple": "undefined"
     }
   },

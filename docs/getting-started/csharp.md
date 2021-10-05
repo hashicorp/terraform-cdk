@@ -135,7 +135,7 @@ You specify it in your local `cdktf.json` file, like this:
   "app": "dotnet run -p MyTerraformStack.csproj",
   "terraformProviders": [
     // Terraform Providers with version constraint go here
-    "aws@~> 3.45"
+    "aws@~> 3.61"
   ],
   "terraformModules": [
     // Terraform Modules with version constraint go here
@@ -175,7 +175,7 @@ cat cdk.tf.json
 {
   "terraform": {
     "required_providers": {
-      "aws": "~> 2.0"
+      "aws": "~> 3.61"
     }
   },
   "provider": {

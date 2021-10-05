@@ -33,7 +33,7 @@ the `terraform` block.
 {
   "terraform": {
     "required_providers": {
-      "aws": "~> 2.0"
+      "aws": "~> 3.61"
     },
     "backend": {
       "remote": {

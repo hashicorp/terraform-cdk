@@ -26,7 +26,7 @@ describe("parseConfig", () => {
   describe("providers", () => {
     it("parses provider string", async () => {
       const input = {
-        terraformProviders: ["aws@~> 2.0"],
+        terraformProviders: ["aws@~> 3.61"],
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
@@ -40,7 +40,7 @@ describe("parseConfig", () => {
               "name": "aws",
               "namespace": undefined,
               "source": "aws",
-              "version": "~> 2.0",
+              "version": "~> 3.61",
             },
           ],
         }

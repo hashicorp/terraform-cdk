@@ -39,7 +39,7 @@ The [following specifications](https://www.terraform.io/docs/configuration/provi
 
 #### For HashiCorp maintained providers
 
-Official HashiCorp [maintained providers](https://registry.terraform.io/browse/providers?tier=official) (e.g. `aws`, `google` or `azurerm`) can be specified in a short version like this: `"aws@~> 2.0"`
+Official HashiCorp [maintained providers](https://registry.terraform.io/browse/providers?tier=official) (e.g. `aws`, `google` or `azurerm`) can be specified in a short version like this: `"aws@~> 3.61"`
 
 #### 3rd Party Providers
 
@@ -101,7 +101,7 @@ With this `terraformProviders` configuration, a `cdktf get` will build the lates
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0"]
+  "terraformProviders": ["aws@~> 3.61"]
 }
 ```
 
@@ -126,7 +126,7 @@ This combines examples above, a `cdktf get` will build both the AWS provider and
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
   "terraformModules": ["terraform-aws-modules/vpc/aws"],
-  "terraformProviders": ["aws@~> 2.0"]
+  "terraformProviders": ["aws@~> 3.61"]
 }
 ```
 
@@ -159,7 +159,7 @@ This will generate the `aws` provider bindings in the folder `./imports`. This i
 {
   "language": "python",
   "app": "pipenv run ./main.py",
-  "terraformProviders": ["aws@~> 2.0"],
+  "terraformProviders": ["aws@~> 3.61"],
   "codeMakerOutput": "imports"
 }
 ```

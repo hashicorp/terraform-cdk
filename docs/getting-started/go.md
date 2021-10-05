@@ -146,7 +146,7 @@ You specify it in your local `cdktf.json` file, like this:
   "app": "go run main.go",
   "terraformProviders": [
     // Terraform Providers with version constraint go here
-    "aws@~> 3.45"
+    "aws@~> 3.61"
   ],
   "terraformModules": [
     // Terraform Modules with version constraint go here

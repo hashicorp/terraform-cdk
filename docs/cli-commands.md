@@ -95,7 +95,7 @@ $ cat cdktf.json
 {
   "language": "typescript",
   "app": "node main.js",
-  "terraformProviders": ["aws@~> 2.0"]
+  "terraformProviders": ["aws@~> 3.61"]
 }
 ```
 
