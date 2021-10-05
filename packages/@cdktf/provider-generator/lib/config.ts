@@ -4,6 +4,7 @@ import { Language } from "./get/constructs-maker";
 import { env } from "process";
 import { CONTEXT_ENV } from "cdktf";
 import { isRegistryModule } from "./get/module";
+import { toPascalCase } from "codemaker";
 
 const CONFIG_FILE = "cdktf.json";
 const DEFAULTS = {
@@ -52,6 +53,14 @@ export class TerraformModuleConstraint
     if (localMatch) {
       this.localSource = `file://${path.join(process.cwd(), this.source)}`;
     }
+  }
+
+  public get className() {
+    return toPascalCase(this.name.replace(/[-/.]/g, "_"));
+  }
+
+  public get fileName() {
+    return this.namespace ? `${this.namespace}/${this.name}` : this.name;
   }
 
   private getLocalMatch(source: string): RegExpMatchArray | null {

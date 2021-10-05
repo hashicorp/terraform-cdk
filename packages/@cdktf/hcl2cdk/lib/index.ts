@@ -219,27 +219,26 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   );
 
   // We collect all module sources
-  const moduleRequirements = (
+  const moduleRequirements =
     Object.values(plan.module || {}).reduce(
       (carry, moduleBlock) => [
         ...carry,
         ...moduleBlock.reduce(
-          (arr, { source }) => [...arr, source],
+          (arr, { source, version }) => [
+            ...arr,
+            version ? `${source}@${version}` : source,
+          ],
           [] as string[]
         ),
       ],
       [] as string[]
-    ) || []
-  ).filter((source) => isRegistryModule(source));
+    ) || [];
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
   const cdktfImports =
     plan.terraform?.some((tf) => Object.keys(tf.backend || {}).length > 0) ||
-    Object.keys({ ...plan.variable, ...plan.output }).length > 0 ||
-    Object.values(plan.module || {}).filter(
-      ([{ source }]) => !isRegistryModule(source)
-    ).length > 0
+    Object.keys({ ...plan.variable, ...plan.output }).length > 0
       ? [cdktfImport]
       : ([] as t.Statement[]);
 
