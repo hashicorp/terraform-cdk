@@ -12,11 +12,8 @@ import { FUTURE_FLAGS } from "cdktf/lib/features";
 import { downloadFile, HttpError } from "../../../lib/util";
 import { logFileName, logger } from "../../../lib/logging";
 import { Errors } from "../../../lib/errors";
-import {
-  convertProject,
-  getTerraformConfigFromDir,
-  isLocalModule,
-} from "@cdktf/hcl2cdk";
+import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2cdk";
+import { isLocalModule } from "@cdktf/provider-generator";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
 import { v4 as uuid } from "uuid";
