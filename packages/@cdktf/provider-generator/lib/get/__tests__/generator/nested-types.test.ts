@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { TerraformProviderGenerator } from "../../../lib/get/generator/provider-generator";
 import { CodeMaker } from "codemaker";
+import { TerraformProviderGenerator } from "../../generator/provider-generator";
 
 test("generate a resource with nested types", async () => {
   const code = new CodeMaker();
