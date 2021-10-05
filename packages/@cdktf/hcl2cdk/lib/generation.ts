@@ -3,7 +3,6 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
-import { isRegistryModule } from "@cdktf/provider-generator";
 
 import { TerraformResourceBlock, Scope } from "./types";
 import { camelCase, pascalCase, uniqueId } from "./utils";
@@ -24,7 +23,7 @@ import {
   extractDynamicBlocks,
   constructAst,
 } from "./expressions";
-import { TerraformModuleConstraint } from "./terraform-module-constraint";
+import { TerraformModuleConstraint } from "@cdktf/provider-generator";
 
 function getReference(graph: DirectedGraph, id: string) {
   const neighbors = graph.outNeighbors(id);

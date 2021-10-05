@@ -150,9 +150,7 @@ function resources(plan: any) {
   }));
 }
 
-// TODO: re-enable after #1116 has been merged – this test case depends on cdktf-cli@next
-// which currently cannot be installed due to a bug upstream (see #1113)
-describe.skip("convertProject", () => {
+describe("convertProject", () => {
   it("has a similar plan", async () => {
     const { importPath, targetPath } = terraformProject([
       [
