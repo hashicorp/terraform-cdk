@@ -78,8 +78,6 @@ export function ref(identifier: string): IResolvable {
 }
 
 function markAsInner(arg: any) {
-  console.log("markAsInner", arg);
-
   if (arg instanceof TFExpression) {
     arg.isInnerTerraformExpression = true;
     return;
@@ -87,9 +85,7 @@ function markAsInner(arg: any) {
 
   // reverese tokens here and set inner tf expression flag
   Tokenization.reverse(arg).map((resolvable) => {
-    console.log(6543, resolvable);
     if (resolvable instanceof TFExpression) {
-      console.log(12345);
       resolvable.isInnerTerraformExpression = true;
     }
   });

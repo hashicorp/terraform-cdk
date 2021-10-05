@@ -252,7 +252,7 @@ class TerraformHost extends Construct {
         // https://www.terraform.io/docs/language/functions/cidrsubnets.html
         const [ipBlock, count, cidrBits] = this.processIntrinsics(params);
         const prefix = ipBlock;
-        // given count=4 bits=8 this will return [8, 8, 8, 8] to match the cidrsubnets interface
+        // given count=4 bits=8 this will return [8, 8, 8, 8] to match the Fn.cidrsubnets interface
         const newBits = `[for x in ${Fn.range(0, count)}: ${cidrBits}]`; // FIXME: make this an IResolvable and make sure this works
         return Fn.cidrsubnets(prefix, newBits as any);
       }
@@ -284,7 +284,7 @@ class TerraformHost extends Construct {
           resultString = Fn.replace(resultString, `\${${varName}}`, varValue);
         });
 
-        resultString = Fn.replace(resultString, "/($\\{!\\w+\\})/", "$1"); // TODO: test this regex in TF, does not seem to work yet :sweat_smile:
+        resultString = Fn.replace(resultString, "/($\\{!\\w+\\})/", "$1"); // TODO: test this regex in TF, does not seem to work yet 😅
 
         // TODO: replace ${!Literal} with ${Literal} (use some regex for it)
         // To write a dollar sign and curly braces (${}) literally, add an exclamation point (!) after the open curly brace, such as ${!Literal}. CloudFormation resolves this text as ${Literal}.
