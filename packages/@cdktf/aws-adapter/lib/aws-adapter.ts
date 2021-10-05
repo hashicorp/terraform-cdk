@@ -14,7 +14,6 @@ import {
   DataAwsAvailabilityZones,
   AwsProvider,
 } from "@cdktf/provider-aws";
-import { Provider } from "aws-cdk-lib/lib/custom-resources";
 
 export class AwsTerraformAdapter extends Stack {
   constructor(scope: Construct, id: string) {
@@ -37,9 +36,9 @@ class TerraformHost extends Construct {
   private awsPartition?: DataAwsPartition;
   private awsRegion?: DataAwsRegion;
   private awsCallerIdentity?: DataAwsCallerIdentity;
-  private awsAvailabilityZones: {
-    [region: string]: DataAwsAvailabilityZones;
-  } = {};
+  // private awsAvailabilityZones: {
+  //   [region: string]: DataAwsAvailabilityZones;
+  // } = {};
   private regionalAwsProviders: { [region: string]: AwsProvider } = {};
 
   // TODO: expose this via some method?
