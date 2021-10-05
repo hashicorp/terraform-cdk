@@ -31,6 +31,7 @@ jobs:
             hcl2json
             hcl2cdk
             provider-generator
+            aws-adapter
             tests
             examples
             readme
