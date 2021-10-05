@@ -30,6 +30,7 @@ jobs:
             cli
             hcl2json
             hcl2cdk
+            provider-generator
             tests
             examples
             readme
