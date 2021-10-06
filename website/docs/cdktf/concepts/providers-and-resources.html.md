@@ -260,7 +260,6 @@ export class HelloTerra extends TerraformStack {
 
 The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language.
 
-
 ### Escape Hatch
 
 Terraform provides [meta-arguments](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings.
