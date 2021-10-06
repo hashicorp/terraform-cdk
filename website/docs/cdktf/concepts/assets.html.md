@@ -16,7 +16,7 @@ Assets are especially useful for:
 - Lambda functions for copying over previously generated zip files
 - S3 Content for deploying static local files
 
-TODO: Could you please explain what's going on in this example?
+In the following example `TerraformAsset` is used to upload the contents of the specified directory to a S3 Bucket. The `TerraformAsset` is responsible for making sure the directory ends up in the correct output folder as a zip file. This zip file is then referenced by the `S3BucketObject`. The stack ouput directory in the `cdktf.out` folder is self contained and contains all assets referenced via `TerraformAsset`. This is important for workflows like in Terraform Cloud / Terraform Enterprise, where only the stack ouput folder is uploaded.
 
 ```typescript
 import * as path from "path";

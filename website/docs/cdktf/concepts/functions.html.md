@@ -11,20 +11,25 @@ Terraform provides a set of built-in functions that to transform and combine val
 
 ## Use Terraform functions
 
-We do not recommend using Terraform functions for inputs that are not tied to Terraform, such as environment variables, local files, etc. In those cases, it is easier and more efficient to do this using your chosen programming language.
-
-You should Terraform functions when you need to calculate new values based on runtime values (resource / module / data source outputs). **TODO** Explain why.
+Terraform functions are useful when you need to calculate new values based on Terraform runtime values (resource / module / data source outputs) which are not known at synth time. For inputs that are present at synth time, such as environment variables, local files, etc. In those cases, it is easier and more efficient to do this using your chosen programming language.
 
 Functions can handle normal and [token](./tokens.md) values and will return either tokenized values or `IResolvable`s.
 
-**TODO**: Can you please explain why this is a good example of when you should use a function and explain what's going on in this example?
+In the example below, a Data Source from the AWS Provider is used to fetch available Availability Zones of the given region. In the Terraform Output, the [element](https://www.terraform.io/docs/language/functions/element.html) function gets the first element from the list of names.
 
 ```ts
-import { Fn } from "cdktf";
+import { Fn, TerraformOutput } from "cdktf";
+import { DataAwsAvailabilityZones } from "@cdktf/provider-aws";
 
-new vpc() = new VPC(this, "vpc", {});
-new LoadBalancer(this, "lb", {
-  name: "main-lb",
-  subnet: Fn.cidrsubnet(Fn.element(vpc.listOfSubnets, 0), 4, 2),
+// ...
+
+const zones = new DataAwsAvailabilityZones(this, "zones", {
+  state: "available",
 });
+
+new TerraformOutput(this, "first-zone", {
+  value: Fn.element(zones.names, 0),
+});
+
+// ...
 ```

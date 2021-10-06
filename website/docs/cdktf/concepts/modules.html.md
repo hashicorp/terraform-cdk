@@ -15,10 +15,36 @@ CDK for Terraform (CDKTF) lets you specify existing public or private modules in
 
 ## Install Modules
 
-CDKTF lets you use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub local, etc. in your application. For example, this TypeScript project has a `main.ts` file that defines AWS resources and uses the XX module:
+CDKTF lets you use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub local, etc. in your application. For example, this TypeScript project has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest):
 
 ```typescript
-**TODO**: Please add an example similar to the one that's currently on the providers.html page
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, Instance } from "@cdktf/provider-aws";
+import { Vpc } from '.gen/modules/vpc';
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    new Vpc(this, 'MyVpc', {
+      name: 'my-vpc',
+      cidr: '10.0.0.0/16',
+      azs: ['us-west-2a', 'us-west-2b', 'us-west-2c'],
+      privateSubnets: ['10.0.1.0/24', '10.0.2.0/24', '10.0.3.0/24'],
+      publicSubnets: ['10.0.101.0/24', '10.0.102.0/24', '10.0.103.0/24'],
+      enableNatGateway: true
+    )
+  }
+}
+
+const app = new App();
+new MyStack(app, "hello-terraform");
+app.synth();
 ```
 
 ### Add Module to `cdktf.json`
@@ -27,8 +53,19 @@ To use a new module, first add it to the "terraformModules" array in `cdktf.json
 
 To add a module from the Terraform Registry or a private registry, provide a fully qualified name `registry-namespace/module-name` :
 
-```
-TODO: Please add an Example
+```json
+{
+  "language": "typescript",
+  "app": "npm run --silent compile && node main.js",
+  "terraformProviders": [],
+  "terraformModules": [
+    {
+      "name": "vpc",
+      "source": "terraform-aws-modules/vpc/aws",
+      "version": "~> 3.0"
+    }
+  ]
+}
 ```
 
 For local modules, use the object format:
@@ -37,11 +74,11 @@ For local modules, use the object format:
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0"],
+  "terraformProviders": [],
   "terraformModules": [
     {
       "name": "my-local-module",
-      "source": "./path/to/local/terraform/module" // relative to cdktf.json file
+      "source": "./path/to/local/terraform/module"
     }
   ]
 }
@@ -51,11 +88,7 @@ For local modules, use the object format:
 
 ### Generate Module Bindings
 
-Go to the working directory and run `cdktf get` to create the appropriate module bindings in the `./.gen` directory automatically. You can then use them in your application.
-
-```
-TODO: Please provide an example of using a module in an application
-```
+Go to the working directory and run `cdktf get` to create the appropriate module bindings in the `./.gen` directory automatically. You can then use them in your application as described above.
 
 ## Work with Module Outputs
 
@@ -76,9 +109,7 @@ When `TerraformOutput` is any other type than string you must add a typecast to 
 
 ### Examples
 
-Typescript / Java / C# / Go
-
-**TODO**: Please write a description of what is happening below.
+In the example below a local module is used and its output is referenced as a Terraform Output.
 
 ```typescript
 import { Construct } from "constructs";
@@ -103,7 +134,7 @@ class MyStack extends TerraformStack {
 
 Python
 
-**TODO**: Please write a description of what is happening below.
+In the example below a local module is used and its output is referenced as a Terraform Output.
 
 ```python
 #!/usr/bin/env python
@@ -124,33 +155,29 @@ class MyStack(TerraformStack):
 
 ## Create Modules
 
-**TODO**: Is this another way that folks can get/use existing modules, or is it a way for them to create their own modules from inside a CDKTF App? I copyedited assuming that this was the latter, but please fix if I'm wrong.
-
-Use `TerraformHclModule` to create Terraform modules using your chosen programming language. Once you create the module, you can reference it throughout the rest of your configuration.
+Generally, we'd encourage to generate type bindings for Terraform modules as described above. However, sometimes this might be not necessary. An alternative is, to use the `TerraformHclModule` class to reference any module that Terraform supports. Both variants of using modules, will synthesize to the same HCL configuration. The main distinction to the way described above is, that there are no types generated when using `TerraformHclModule`.
 
 -> **Note**: This doesn't have type safe inputs/outputs.
 
-**TODO**: Can we explain what happens to these when the code gets synthesized? Does this create this configuration in a separate directory?
-
 TypeScript example:
 
-**TODO**: Please make this into a real-world example, rather than using "test" and "foo".
-
 ```typescript
-const provider = new TestProvider(stack, "provider", {
-  accessKey: "key",
-  alias: "provider1",
+const provider = new AwsProvider(stack, "provider", {
+  region: "us-east-1",
 });
 
-const module = new TerraformHclModule(stack, "test", {
-  source: "./foo",
+const module = new TerraformHclModule(stack, "Vpc", {
+  source: "terraform-aws-modules/vpc/aws",
+  // variables takes any input - please consult the docs of the module
+  // to ensure the arguments are correct
   variables: {
-    param1: "value1",
+    name: "my-vpc",
+    cidr: "10.0.0.0/16",
+    azs: ["us-west-2a", "us-west-2b", "us-west-2c"],
+    privateSubnets: ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+    publicSubnets: ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+    enableNatGateway: true,
   },
   providers: [provider],
-});
-
-new TestResource(stack, "resource", {
-  name: module.getString("name"),
 });
 ```

@@ -11,13 +11,11 @@ description: "Use data sources to allow Terraform to use external data, function
 
 ## When to Use Data Sources
 
-TODO Please insert some text about when you'd want to use these vs. what's already available in your programming language.
-
-TODO: Please explain how these are different from input variables and when we would use this instead of an input variable.
+Data Sources are useful to reference data which is not known at synth time. If the data is rather static and known ahead of synth, it's recommended to create static references in your programming language of choice. [Terraform Variables] is another way to parameterize a CDK for Terraform application. That's particularily useful in scenarios where the cdktf ouput is treated as a deployable artifact and needs to be paramterized.
 
 ## Define Data Sources
 
-TODO: Please provide more detail. It looks like to define a Data Source, you have to first import the data from the place where it lives (in this case the AWS provider), prefixing the name with "Data". then you can use use it?
+Similar to Resources, Data Sources are part of a Terraform provider. Find more details about using [providers here](docs/working-with-cdk-for-terraform/using-providers.md). All classes representing Data Sources are prefixed with `Data`.
 
 In the TypeScript example below, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
@@ -39,7 +37,7 @@ export class HelloTerraform extends TerraformStack {
 
 The [`terraform_remote_state` data source](https://www.terraform.io/docs/language/state/remote-state-data.html) retrieves state data from a remote [Terraform backend](https://www.terraform.io/docs/backends/index.html). This allows you to use the root-level outputs of one or more Terraform configurations as input data for another configuration. For example, a core infrastructure team can handle building the core machines, networking, etc. and then expose some information to other teams that allows them to run their own infrastructure.
 
-In the TypeScript example below, TODO please explain what's going on here.
+In the TypeScript example below, the global `DataTerraformRemoteState` is used to reference a Terraform Output of another Terraform configuration. Learn more about using [Remote Backends here](website/docs/cdktf/concepts/remote-backends.html.md)
 
 ```typescript
 .....
