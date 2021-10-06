@@ -447,7 +447,7 @@ Options:
 
 **Examples**
 
-Run `watch` on the development stack (dev). The `--auto-approve` flag is currently always required and skips the explicit plan approval step
+Run `watch` on the development stack (dev). The `--auto-approve` flag skips the explicit plan approval step and is currently always required.
 
 ```
 cdktf watch dev --auto-approve
