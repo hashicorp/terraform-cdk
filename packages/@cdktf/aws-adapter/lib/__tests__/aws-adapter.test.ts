@@ -115,34 +115,52 @@ describe("AwsTerraformAdapter", () => {
     });
 
     it("should resolve Fn::GetAZs", () => {
-      fail("todo");
-      // FIXME:
       new StaticCfnConstruct(adapter, "cfn", {
         Resources: {
           subject: {
             Type: "Test::Resource",
             Properties: {
               Value: {
-                "Fn::Join": [
-                  ",",
-                  ["one", "two", { "Fn::GetAtt": ["another", "String"] }],
-                ],
+                "Fn::GetAZs": [],
+              },
+              Value2: {
+                "Fn::GetAZs": ["eu-central-1"],
               },
             },
-          },
-          another: {
-            Type: "Test::Resource",
-            Properties: {},
           },
         },
       });
       expect(synthWithAspects(stack)).toMatchInlineSnapshot(`
 "{
+  \\"data\\": {
+    \\"aws_availability_zones\\": {
+      \\"adapter_aws_azs_default_region_9CD033CD\\": {},
+      \\"adapter_aws_azs_eu_central_1_B40FEB09\\": {
+        \\"provider\\": \\"aws.eu_central_1\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"eu_central_1\\",
+        \\"region\\": \\"eu-central-1\\"
+      }
+    ]
+  },
   \\"resource\\": {
     \\"test\\": {
-      \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${join(\\\\\\",\\\\\\", [\\\\\\"one\\\\\\", \\\\\\"two\\\\\\", \${test.adapter_another_C86ABFE2.string}])}\\"
+        \\"value\\": \\"\${data.aws_availability_zones.adapter_aws_azs_default_region_9CD033CD.names}\\",
+        \\"value2\\": \\"\${data.aws_availability_zones.adapter_aws_azs_eu_central_1_B40FEB09.names}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"~> 3.0\\"
       }
     }
   }
@@ -217,7 +235,7 @@ describe("AwsTerraformAdapter", () => {
   `);
     });
 
-    it.only("should resolve Fn::FindInMap", () => {
+    it("should resolve Fn::FindInMap", () => {
       new StaticCfnConstruct(adapter, "cfn", {
         Resources: {
           subject: {
@@ -237,7 +255,7 @@ describe("AwsTerraformAdapter", () => {
             Properties: {},
           },
         },
-      });
+      }); // FIXME: this is not right yet
       expect(synthWithAspects(stack)).toMatchInlineSnapshot(`
 "{
   \\"resource\\": {
@@ -253,17 +271,16 @@ describe("AwsTerraformAdapter", () => {
     });
 
     it("should resolve Fn::Sub", () => {
-      fail("todo");
-      // FIXME:
+      // FIXME: update snapshot as soon as this works
       new StaticCfnConstruct(adapter, "cfn", {
         Resources: {
           subject: {
             Type: "Test::Resource",
             Properties: {
               Value: {
-                "Fn::Join": [
-                  ",",
-                  ["one", "two", { "Fn::GetAtt": ["another", "String"] }],
+                "Fn::Sub": [
+                  "this is the ${TEMPLATE} string. This will not be ${!REPLACED} but end up without the exclamation mark",
+                  { TEMPLATE: { "Fn::GetAtt": ["another", "String"] } },
                 ],
               },
             },
@@ -274,7 +291,18 @@ describe("AwsTerraformAdapter", () => {
           },
         },
       });
-      expect(synthWithAspects(stack)).toMatchInlineSnapshot();
+      expect(synthWithAspects(stack)).toMatchInlineSnapshot(`
+"{
+  \\"resource\\": {
+    \\"test\\": {
+      \\"adapter_another_C86ABFE2\\": {},
+      \\"adapter_subject_24E89D84\\": {
+        \\"value\\": \\"\${replace(replace(\\\\\\"this is the \${TEMPLATE} string. This will not be \${!REPLACED} but end up without the exclamation mark\\\\\\", \\\\\\"\${TEMPLATE}\\\\\\", \${test.adapter_another_C86ABFE2.string}), \\\\\\"/($\\\\\\\\{!\\\\\\\\w+\\\\\\\\})/\\\\\\", \\\\\\"$1\\\\\\")}\\"
+      }
+    }
+  }
+}"
+`);
     });
 
     it("should resolve Fn::Split", () => {
@@ -310,9 +338,11 @@ describe("AwsTerraformAdapter", () => {
   });
 });
 
-// Currently Testing.synth does not invoke Aspects, so we make sure this happens
-// this is not a correct (read complete) invocation of Aspects, but it invokes
-// the convertion of the AwsTerraformAdapter
+/**
+ * Currently `Testing.synth` does not invoke Aspects, so we make sure this happens
+ * this is not a correct (read complete) invocation of Aspects, but it invokes
+ * the convertion of the AwsTerraformAdapter
+ */
 function synthWithAspects(stack: TerraformStack) {
   Aspects.of(stack).all.forEach((aspect) => aspect.visit(stack));
 

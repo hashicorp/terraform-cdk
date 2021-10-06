@@ -36,7 +36,7 @@ describe("lambda function", () => {
       \\"adapter_lambdaServiceRole494E4CA6_7D4D29EC\\": {
         \\"assume_role_policy\\": \\"{\\\\\\"Statement\\\\\\":[{\\\\\\"Action\\\\\\":\\\\\\"sts:AssumeRole\\\\\\",\\\\\\"Effect\\\\\\":\\\\\\"Allow\\\\\\",\\\\\\"Principal\\\\\\":{\\\\\\"Service\\\\\\":\\\\\\"lambda.amazonaws.com\\\\\\"}}],\\\\\\"Version\\\\\\":\\\\\\"2012-10-17\\\\\\"}\\",
         \\"managed_policy_arns\\": [
-          \\"arn:\${data.aws_partition.adapter_aws-partition_5B16AD9D.partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole\\"
+          \\"\${join(\\\\\\"\\\\\\", [\\\\\\"arn:\\\\\\", data.aws_partition.adapter_aws-partition_5B16AD9D.partition, \\\\\\":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole\\\\\\"])}\\"
         ]
       }
     },

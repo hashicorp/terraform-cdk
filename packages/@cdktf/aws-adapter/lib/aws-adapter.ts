@@ -1,6 +1,7 @@
 // originally from https://github.com/skorfmann/cfn2tf/blob/6ff9f366462b270229b7415f68c13a7bea28c144/aws-adapter.ts
 
 import { Construct } from "constructs";
+import { toSnakeCase } from "codemaker";
 import { Stack, CfnElement, IResolvable } from "aws-cdk-lib";
 import { TerraformResource, Lazy, Aspects, Fn } from "cdktf";
 import { propertyAccess } from "cdktf/lib/tfExpression";
@@ -14,6 +15,10 @@ import {
   DataAwsAvailabilityZones,
   AwsProvider,
 } from "@cdktf/provider-aws";
+
+function toTerraformIdentifier(identifier: string) {
+  return toSnakeCase(identifier).replace(/-/g, "_");
+}
 
 export class AwsTerraformAdapter extends Stack {
   constructor(scope: Construct, id: string) {
@@ -36,9 +41,9 @@ class TerraformHost extends Construct {
   private awsPartition?: DataAwsPartition;
   private awsRegion?: DataAwsRegion;
   private awsCallerIdentity?: DataAwsCallerIdentity;
-  // private awsAvailabilityZones: {
-  //   [region: string]: DataAwsAvailabilityZones;
-  // } = {};
+  private awsAvailabilityZones: {
+    [region: string]: DataAwsAvailabilityZones;
+  } = {};
   private regionalAwsProviders: { [region: string]: AwsProvider } = {};
 
   // TODO: expose this via some method?
@@ -74,14 +79,35 @@ class TerraformHost extends Construct {
     if (!this.regionalAwsProviders[region]) {
       this.regionalAwsProviders[region] = new AwsProvider(
         this,
-        `aws_${region}`,
+        `aws_${toTerraformIdentifier(region)}`,
         {
           region,
-          alias: region,
+          alias: toTerraformIdentifier(region),
         }
       );
     }
     return this.regionalAwsProviders[region];
+  }
+
+  private getAvailabilityZones(region?: string): DataAwsAvailabilityZones {
+    const DEFAULT_REGION_KEY = "default_region";
+    if (!region) {
+      region = DEFAULT_REGION_KEY;
+    }
+
+    if (!this.awsAvailabilityZones[region]) {
+      this.awsAvailabilityZones[region] = new DataAwsAvailabilityZones(
+        this,
+        `aws_azs_${toTerraformIdentifier(region)}`,
+        {
+          provider:
+            region === DEFAULT_REGION_KEY
+              ? undefined
+              : this.getRegionalAwsProvider(region),
+        }
+      );
+    }
+    return this.awsAvailabilityZones[region];
   }
 
   private newTerraformResource(
@@ -90,6 +116,7 @@ class TerraformHost extends Construct {
     resource: CloudFormationResource
   ): TerraformResource {
     // TODO: add debug log console.log(JSON.stringify(resource, null, 2));
+    console.log(JSON.stringify(resource, null, 2));
     const m = findMapping(resource.Type);
     if (!m) {
       throw new Error(`no mapping for ${resource.Type}`);
@@ -228,18 +255,13 @@ class TerraformHost extends Construct {
       }
 
       case "Fn::GetAZs": {
+        let [region]: [string | undefined | "AWS::Region"] = params;
+
         // AWS::Region or undefined fall back to default region for the stack
-        const [region]: [string | undefined | "AWS::Region"] = params;
-
-        let provider: AwsProvider | undefined = undefined;
-        if (typeof region === "string" && region !== "AWS::Region") {
-          provider = this.getRegionalAwsProvider(region);
+        if (region === "AWS::Region") {
+          region = undefined;
         }
-
-        const zones = new DataAwsAvailabilityZones(this, "", {
-          provider,
-        });
-        return Fn.sort(zones.names);
+        return this.getAvailabilityZones(region).names;
       }
 
       case "Fn::Base64": {
@@ -273,22 +295,40 @@ class TerraformHost extends Construct {
       }
 
       case "Fn::Sub": {
-        const [string, replacementMap]: [string, object] = params;
+        const [rawString, replacementMap]: [string, object] = params;
 
-        let resultString: string | IResolvable = string;
+        let resultString: string | IResolvable = rawString.replace(
+          /\${/g,
+          "$$$${"
+        ); // escape ${} as $${} so Terraform does not interpolate it ($$ is needed to escape a single $)
+
         // replacementMap is an object
         Object.entries(replacementMap).map(([rawVarName, rawVarValue]) => {
-          const varName = this.processIntrinsics(rawVarName);
+          if (typeof rawVarName !== "string")
+            throw new Error(
+              `Only strings are supported as VarName in Sub function. Encountered ${JSON.stringify(
+                rawVarName
+              )} instead.`
+            );
+          const varName = rawVarName; // we use this as object key
           const varValue = this.processIntrinsics(rawVarValue);
 
-          resultString = Fn.replace(resultString, `\${${varName}}`, varValue);
+          resultString = Fn.replace(
+            resultString,
+            "$${" + varName + "}",
+            varValue
+          );
         });
 
-        resultString = Fn.replace(resultString, "/($\\{!\\w+\\})/", "$1"); // TODO: test this regex in TF, does not seem to work yet 😅
-
-        // TODO: replace ${!Literal} with ${Literal} (use some regex for it)
+        // replace ${!Literal} with ${Literal}
         // To write a dollar sign and curly braces (${}) literally, add an exclamation point (!) after the open curly brace, such as ${!Literal}. CloudFormation resolves this text as ${Literal}.
-        // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
+        // see: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
+        resultString = Fn.replace(
+          resultString,
+          "/\\\\$\\\\{!(\\\\w+)\\\\}/",
+          "$${$1}"
+        );
+        // in HCL: replace(local.template, "/\\$\\{!(\\w+)\\}/", "$${$1}")
 
         return resultString;
       }
