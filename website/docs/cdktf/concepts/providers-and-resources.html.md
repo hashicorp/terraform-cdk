@@ -193,7 +193,7 @@ cdktf synth --json
 
 ### Install Pre-built Providers
 
-It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. This is a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package.  
+It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. This is a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package.
 
 The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available pre-built providers include:
 
@@ -261,7 +261,6 @@ export class HelloTerra extends TerraformStack {
 ```
 
 The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language. Add something about how to define resources.
-
 
 ### Escape Hatch
 

@@ -15,7 +15,7 @@ A template is a directory that contains at least a `cdktf.json` file, which is r
 
 ### Substitutions
 
-A template can use substitutions for filenames and file content. To specify your own variables, use Hooks (details below).  In addition to the [built-in substitutions of](https://github.com/awslabs/node-sscaff#built-in-substitutions) `sccaff`, CDKTF supplies variables that you can use in templates.
+A template can use substitutions for filenames and file content. To specify your own variables, use Hooks (details below). In addition to the [built-in substitutions of](https://github.com/awslabs/node-sscaff#built-in-substitutions) `sccaff`, CDKTF supplies variables that you can use in templates.
 
 #### User Input
 
