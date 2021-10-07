@@ -25,7 +25,7 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 |[aws-multiple-stacks](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-multiple-stacks) | Uses Stacks to pass different settings into the development, staging, and production environments. |
 |[aws-cloudfront-proxy](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-cloudfront-proxy) | An example for how to use AWS Cloudfront as a SSL proxy server for any existing domain  |
 |[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure) | Provisions a Virtual Network on Microsoft Azure. |
-|[azure-app-service](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure-app-service) | TBD - one line about what the app does. |
+|[azure-app-service](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure-app-service) |  Uses the Azure App Service to deploy a Docker image. |
 | [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/docker) | Starts a Docker container with an NGINX server. |
 |[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider.  |
 |[google-cloudrun](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google-cloudrun) | Defines a Google Cloud Run service with a hello world container. |
