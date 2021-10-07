@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "CDKTF Community"
 sidebar_current: "cdktf"
 description: "Resources to help you contribute to the codebase, submit issues, ask questions, and see our roadmap."

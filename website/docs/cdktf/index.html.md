@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "What is CDKTF?"
 sidebar_current: "docs-home"
 description: |-

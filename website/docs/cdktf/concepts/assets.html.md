@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Assets"
 sidebar_current: "cdktf"
 description: "TODO: describe me"

@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "CLI Commands"
 sidebar_current: "cdktf"
 description: "Use the CLI to initialize a new project, deploy your CDKTF app, generate Terraform configuration files, and more."

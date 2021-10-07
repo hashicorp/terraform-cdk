@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "CDKTF Examples"
 sidebar_current: "cdktf"
 description: "Resources to help you learn CDK for Terraform, including example projects in Typescript, Java, Python C Sharp, and Go."

@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Project Setup"
 sidebar_current: "cdktf"
 description: "Build a CDKTF application from a template or existing HCL project, and configure storage for Terraform state."

@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "CDKTF Architecture"
 sidebar_current: "cdktf"
 description: "Learn the key components of CDK for Terraform applications and how they communicate with Terraform."

@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Unit Tests"
 sidebar_current: "cdktf"
 description: "Write assertions and snapshot tests for your CDK for Terraform application."
