@@ -116,7 +116,6 @@ class TerraformHost extends Construct {
     resource: CloudFormationResource
   ): TerraformResource {
     // TODO: add debug log console.log(JSON.stringify(resource, null, 2));
-    console.log(JSON.stringify(resource, null, 2));
     const m = findMapping(resource.Type);
     if (!m) {
       throw new Error(`no mapping for ${resource.Type}`);
@@ -230,7 +229,6 @@ class TerraformHost extends Construct {
   }
 
   private resolveIntrinsic(fn: string, params: any) {
-    // FIXME: expose a way to add/override handling here for users facing problems
     switch (fn) {
       case "Fn::GetAtt": {
         return Lazy.stringValue({

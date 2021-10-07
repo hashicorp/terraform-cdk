@@ -1,6 +1,7 @@
 import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
 import { Tokenization } from "./tokens/token";
+import { LazyBase } from ".";
 
 class TFExpression extends Intrinsic implements IResolvable {
   public isInnerTerraformExpression = false;
@@ -87,6 +88,13 @@ function markAsInner(arg: any) {
   Tokenization.reverse(arg).map((resolvable) => {
     if (resolvable instanceof TFExpression) {
       resolvable.isInnerTerraformExpression = true;
+    } else if (resolvable instanceof LazyBase) {
+      resolvable.addPostProcessor({
+        postProcess: (value) => {
+          markAsInner(value);
+          return value;
+        },
+      });
     }
   });
 
@@ -105,6 +113,7 @@ class PropertyAccess extends TFExpression {
   }
 
   public resolve(context: IResolveContext): string {
+    markAsInner(this.target);
     this.args.forEach(markAsInner);
 
     const serializedArgs = this.args
@@ -147,6 +156,7 @@ export type Expression =
   | Reference
   | FunctionCall
   | string
+  | string[]
   | number
   | boolean
   | IResolvable;

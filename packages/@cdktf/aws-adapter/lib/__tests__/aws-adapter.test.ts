@@ -74,7 +74,7 @@ describe("AwsTerraformAdapter", () => {
     \\"test\\": {
       \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${join(\\\\\\",\\\\\\", [\\\\\\"one\\\\\\", \\\\\\"two\\\\\\", \${test.adapter_another_C86ABFE2.string}])}\\"
+        \\"value\\": \\"\${join(\\\\\\",\\\\\\", [\\\\\\"one\\\\\\", \\\\\\"two\\\\\\", test.adapter_another_C86ABFE2.string])}\\"
       }
     }
   }
@@ -106,7 +106,7 @@ describe("AwsTerraformAdapter", () => {
     \\"test\\": {
       \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${element(\${test.adapter_another_C86ABFE2.list}, 1)}\\"
+        \\"value\\": \\"\${element(test.adapter_another_C86ABFE2.list, 1)}\\"
       }
     }
   }
@@ -191,7 +191,7 @@ describe("AwsTerraformAdapter", () => {
     \\"test\\": {
       \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${base64encode(\${test.adapter_another_C86ABFE2.string})}\\"
+        \\"value\\": \\"\${base64encode(test.adapter_another_C86ABFE2.string)}\\"
       }
     }
   }
@@ -249,20 +249,19 @@ describe("AwsTerraformAdapter", () => {
             Properties: {},
           },
         },
-      }); // FIXME: this is not right yet
+      });
       expect(synthWithAspects(stack)).toMatchInlineSnapshot(`
 "{
   \\"resource\\": {
     \\"test\\": {
       \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${\${test.adapter_another_C86ABFE2.map}[\\\\\\"keyA\\\\\\"][\${test.adapter_another_C86ABFE2.string}]}\\"
+        \\"value\\": \\"\${test.adapter_another_C86ABFE2.map[\\\\\\"keyA\\\\\\"][test.adapter_another_C86ABFE2.string]}\\"
       }
     }
   }
 }"
 `);
-      expect(Testing.fullSynth(stack)).toBeValidTerraform();
     });
 
     it("should resolve Fn::Sub", () => {
@@ -291,7 +290,7 @@ describe("AwsTerraformAdapter", () => {
     \\"test\\": {
       \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${replace(replace(\\\\\\"this is the $\${TEMPLATE} string. This will not be $\${!REPLACED} but end up without the exclamation mark\\\\\\", \\\\\\"$\${TEMPLATE}\\\\\\", \${test.adapter_another_C86ABFE2.string}), \\\\\\"/\\\\\\\\\\\\\\\\$\\\\\\\\\\\\\\\\{!(\\\\\\\\\\\\\\\\w+)\\\\\\\\\\\\\\\\}/\\\\\\", \\\\\\"$\${$1}\\\\\\")}\\"
+        \\"value\\": \\"\${replace(replace(\\\\\\"this is the $\${TEMPLATE} string. This will not be $\${!REPLACED} but end up without the exclamation mark\\\\\\", \\\\\\"$\${TEMPLATE}\\\\\\", test.adapter_another_C86ABFE2.string), \\\\\\"/\\\\\\\\\\\\\\\\$\\\\\\\\\\\\\\\\{!(\\\\\\\\\\\\\\\\w+)\\\\\\\\\\\\\\\\}/\\\\\\", \\\\\\"$\${$1}\\\\\\")}\\"
       }
     }
   }
@@ -322,7 +321,7 @@ describe("AwsTerraformAdapter", () => {
     \\"test\\": {
       \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${split(\\\\\\",\\\\\\", \${test.adapter_another_C86ABFE2.string})}\\"
+        \\"value\\": \\"\${split(\\\\\\",\\\\\\", test.adapter_another_C86ABFE2.string)}\\"
       }
     }
   }
@@ -357,11 +356,11 @@ registerMapping("Test::Resource", {
   attributes: {
     Ref: (r) => r.getStringAttribute("ref"),
     Arn: (r) => r.getStringAttribute("arn"),
-    List: (r) => r.getListAttribute("list") as any, // TODO: check interface as this is not a string but string[]
-    Bool: (r) => r.getBooleanAttribute("bool") as any, // TODO: check interface as this is not a string but IResolvable
+    List: (r) => r.getListAttribute("list") as any,
+    Bool: (r) => r.getBooleanAttribute("bool") as any,
     String: (r) => r.getStringAttribute("string"),
-    Number: (r) => r.getNumberAttribute("number") as any, // TODO: check interface as this is not a string but number
-    Map: (r) => r.getStringAttribute("map") as any, // TODO: check how to map
+    Number: (r) => r.getNumberAttribute("number") as any,
+    Map: (r) => r.getStringAttribute("map") as any,
   },
 });
 
