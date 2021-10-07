@@ -71,7 +71,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 | -------| ------------|
 |[aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/aws) | Provisions a DynamoDB table on the AWS provider. |
 |[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/azure) | Provisions a Virtual Network on Microsoft Azure. |
-|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/google) | TBD - A line about what the app does.
+|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider. |
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/ucloud) | Provisions a Linux base image on UCloud. |
 
 ### Go
