@@ -82,7 +82,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 | ------ | ----------- |
 |[docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/docker) | Starts a Docker container with an NGINX server. |
 |[aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/aws) | Provisions an EKS cluster on an AWS Virtual Private Cloud. **High memory usage:** The provider generation currently needs ~6 GB of memory, so the maximum for Node.js is [currently set to 8GB](https://github.com/hashicorp/terraform-cdk/blob/11d2e783d1fe94e50abd116ba73689c02590a391/packages/cdktf-cli/lib/get/constructs-maker.ts#L279). |
-|[google cloud kubernetes engine + kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/google) | TBD - A line about what the app does. |
+|[google cloud kubernetes engine + kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider. |
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/ucloud) | Provisions a Linux base image on UCloud. |
 
 ## Youtube Playlist
