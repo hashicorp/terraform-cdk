@@ -28,7 +28,7 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 |[azure-app-service](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure-app-service) | TBD - one line about what the app does. |
 | [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/docker) | Starts a Docker container with an NGINX server. |
 |[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider.  |
-|[google-cloudrun](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google-cloudrun) | TBD - one line about what the app does.|
+|[google-cloudrun](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google-cloudrun) | Defines a Google Cloud Run service with a hello world container. |
 |[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/kubernetes) | TBD - one line about what the app does. |
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/ucloud) | Provisions a Linux base image on UCloud. |
 |[vault](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/vault) | TBD - one line about what the app does. |
