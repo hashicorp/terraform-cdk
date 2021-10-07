@@ -60,7 +60,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 | ------| ------------|
 |[aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/aws) | Provisions a DynamoDB table on the AWS provider. |
 |[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/azure) | Provisions a Virtual Network on Microsoft Azure. |
-|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/google) | TBD - one line about what the app does. |
+|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider. |
 |[gradle-shared-module](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/gradle-shared-module) | Uses gradle to build and share two AWS modules. [Modules](./concepts/fundamentals/modules.html) are distinct configurations that you can package and reuse across projects and teams.|
 |[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/kubernetes) | Schedules and exposes a NGINX deployment on a Kubernetes cluster. **Please check me for accuracy**
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/ucloud) | Provisions a Linux base image on UCloud. |
