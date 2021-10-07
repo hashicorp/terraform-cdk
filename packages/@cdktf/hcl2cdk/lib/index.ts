@@ -219,20 +219,23 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   );
 
   // We collect all module sources
-  const moduleRequirements =
-    Object.values(plan.module || {}).reduce(
-      (carry, moduleBlock) => [
-        ...carry,
-        ...moduleBlock.reduce(
-          (arr, { source, version }) => [
-            ...arr,
-            version ? `${source}@${version}` : source,
-          ],
-          [] as string[]
-        ),
-      ],
-      [] as string[]
-    ) || [];
+  const moduleRequirements = [
+    ...new Set(
+      Object.values(plan.module || {}).reduce(
+        (carry, moduleBlock) => [
+          ...carry,
+          ...moduleBlock.reduce(
+            (arr, { source, version }) => [
+              ...arr,
+              version ? `${source}@${version}` : source,
+            ],
+            [] as string[]
+          ),
+        ],
+        [] as string[]
+      ) || []
+    ),
+  ];
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
