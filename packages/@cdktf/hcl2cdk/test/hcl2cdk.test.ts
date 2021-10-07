@@ -310,6 +310,21 @@ describe("convert", () => {
         }`,
     ],
     [
+      "duplicate modules",
+      `
+        module "vpca" {
+          source = "terraform-aws-modules/vpc/aws"
+        
+          name = "my-vpc-a"
+        }
+        
+        module "vpcb" {
+          source = "terraform-aws-modules/vpc/aws"
+        
+          name = "my-vpc-b"
+        }`,
+    ],
+    [
       "referenced modules",
       `
         module "vpc" {

@@ -389,6 +389,17 @@ new aws.S3.S3Bucket(this, \\"examplebucket\\", {
 "
 `;
 
+exports[`convert duplicate modules configuration 1`] = `
+"import * as Vpc from \\"./.gen/modules/terraform-aws-modules/aws/vpc\\";
+new Vpc.Vpc(this, \\"vpca\\", {
+  name: \\"my-vpc-a\\",
+});
+new Vpc.Vpc(this, \\"vpcb\\", {
+  name: \\"my-vpc-b\\",
+});
+"
+`;
+
 exports[`convert dynamic blocks configuration 1`] = `
 "import * as cdktf from \\"cdktf\\";
 
