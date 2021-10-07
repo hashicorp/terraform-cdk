@@ -23,7 +23,7 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 |[aws-lambda-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-example) | An end-to-end example for a serverless web application hosted on AWS.|
 | [aws-prebuilt](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-prebuilt) | Provisions a DynamoDB table on the prebuilt AWS provider. |
 |[aws-multiple-stacks](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-multiple-stacks) | Uses Stacks to pass different settings into the development, staging, and production environments. |
-|[aws-cloudfront-proxy](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-cloudfront-proxy) | TBD - one line about what the app does. |
+|[aws-cloudfront-proxy](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-cloudfront-proxy) | An example for how to use AWS Cloudfront as a SSL proxy server for any existing domain  |
 |[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure) | Provisions a Virtual Network on Microsoft Azure. |
 |[azure-app-service](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure-app-service) | TBD - one line about what the app does. |
 | [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/docker) | Starts a Docker container with an NGINX server. |
