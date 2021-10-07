@@ -84,22 +84,22 @@ describe("Checking validity", () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
 
-    const app = new MyApplicationsAbstraction(stack, "my-app", {});
-    app.addEndpoint("127.0.0.1"); // This could be a method your class exposes
+    const myAbstraction = new MyApplicationsAbstraction(stack, "my-app", {});
+    myAbstraction.addEndpoint("127.0.0.1"); // This could be a method your class exposes
 
     // We need to do a full synth to validate the terraform configuration
-    expect(Testing.fullSynth(app)).toBeValidTerraform();
+    expect(Testing.fullSynth(stack)).toBeValidTerraform();
   });
 
   it("check if this can be planned", () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
 
-    const app = new MyApplicationsAbstraction(stack, "my-app", {});
-    app.addEndpoint("127.0.0.1"); // This could be a method your class exposes
+    const myAbstraction = new MyApplicationsAbstraction(stack, "my-app", {});
+    myAbstraction.addEndpoint("127.0.0.1"); // This could be a method your class exposes
 
     // We need to do a full synth to plan the terraform configuration
-    expect(Testing.fullSynth(app)).toPlanSuccessfully();
+    expect(Testing.fullSynth(stack)).toPlanSuccessfully();
   });
 });
 ```
