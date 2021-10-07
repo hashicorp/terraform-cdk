@@ -503,13 +503,23 @@ export const providerImports = (providers: string[]) =>
     )() as t.Statement;
   });
 
-export const moduleImports = (modules: Record<string, Module> | undefined) =>
-  Object.values(modules || {}).map(([module]) => {
-    const moduleConstraint = new TerraformModuleConstraint(module.source);
-    return template.ast(
-      `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
-    ) as t.Statement;
+export const moduleImports = (modules: Record<string, Module> | undefined) => {
+  const uniqueModules = new Set<string>();
+  Object.values(modules || {}).map(([module]) =>
+    uniqueModules.add(module.source)
+  );
+
+  const imports: t.Statement[] = [];
+  uniqueModules.forEach((m) => {
+    const moduleConstraint = new TerraformModuleConstraint(m);
+    imports.push(
+      template.ast(
+        `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
+      ) as t.Statement
+    );
   });
+  return imports;
+};
 
 export function gen(statements: t.Statement[]) {
   return prettier.format(generate(t.program(statements) as any).code, {
