@@ -31,7 +31,7 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 |[google-cloudrun](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google-cloudrun) | Defines a Google Cloud Run service with a hello world container. |
 |[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/kubernetes) | Sets up a Kubernetes Deployment with a nginx container. |
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/ucloud) | Provisions a Linux base image on UCloud. |
-|[vault](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/vault) | TBD - one line about what the app does. |
+|[vault](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/vault) | Creates a Mount in Vault. |
 
 #### Backends
 Each CDK for Terraform project can specify a [backend](https://www.terraform.io/docs/language/settings/backends/index.html) that defines where and how Terraform operations are performed, where Terraform [state snapshots](https://www.terraform.io/docs/language/state/index.html) are stored, etc.
