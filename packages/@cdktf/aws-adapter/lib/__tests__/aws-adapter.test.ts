@@ -329,6 +329,28 @@ describe("AwsTerraformAdapter", () => {
 `);
     });
   });
+
+  describe("Conditions", () => {
+    it.only("should create locals for conditions", () => {
+      new StaticCfnConstruct(adapter, "cfn", {
+        Resources: {},
+        Conditions: {
+          IsProd: { "Fn::Equals": ["A", "A"] },
+          And: { "Fn::And": ["IsProd", true, true] },
+        },
+      });
+      // TODO: check how (if at all) literal true and false can be passed
+      // TODO: check why "false" ends up as undefined
+      // FIXME: IsProd needs to be replaced with a local from a conditionId
+      expect(synthWithAspects(stack)).toMatchInlineSnapshot(`
+"{
+  \\"locals\\": {
+    \\"adapter_condition_IsProd_8FB293B1\\": \\"\${(\\\\\\"A\\\\\\" == \\\\\\"A\\\\\\")}\\"
+  }
+}"
+`);
+    });
+  });
 });
 
 /**

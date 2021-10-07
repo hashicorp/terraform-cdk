@@ -131,6 +131,158 @@ export function propertyAccess(target: Expression, args: Expression[]) {
   return new PropertyAccess(target, args) as IResolvable;
 }
 
+class ConditionalExpression extends TFExpression {
+  constructor(
+    private condition: Expression,
+    private trueValue: Expression,
+    private falseValue: Expression
+  ) {
+    super({ condition, trueValue, falseValue });
+  }
+
+  public resolve(context: IResolveContext): string {
+    markAsInner(this.condition);
+    markAsInner(this.trueValue);
+    markAsInner(this.falseValue);
+
+    const condition = this.resolveArg(context, this.condition);
+    const trueValue = this.resolveArg(context, this.trueValue);
+    const falseValue = this.resolveArg(context, this.falseValue);
+
+    const expr = `${condition} ? ${trueValue} : ${falseValue}`;
+
+    return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
+  }
+}
+
+/**
+ * creates an expression like `true ? 1 : 0`
+ */
+export function conditional(
+  condition: Expression,
+  trueValue: Expression,
+  falseValue: Expression
+) {
+  return new ConditionalExpression(condition, trueValue, falseValue);
+}
+
+// https://www.terraform.io/docs/language/expressions/operators.html
+export type Operator =
+  | "!"
+  | "-"
+  | "*"
+  | "/"
+  | "%"
+  | "+"
+  | ">"
+  | ">="
+  | "<"
+  | "<="
+  | "=="
+  | "!="
+  | "&&"
+  | "||";
+export class OperatorExpression extends TFExpression {
+  constructor(
+    private operator: Operator,
+    private leftValue: Expression,
+    private rightValue?: Expression // optional for ! and - operator
+  ) {
+    super({ operator, leftValue, rightValue });
+  }
+
+  public resolve(context: IResolveContext): string {
+    markAsInner(this.leftValue);
+    if (this.rightValue) markAsInner(this.rightValue);
+    const left = this.resolveArg(context, this.leftValue);
+    const right = this.rightValue
+      ? this.resolveArg(context, this.rightValue)
+      : undefined;
+
+    let expr = "";
+    switch (this.operator) {
+      case "!": {
+        expr = `!${left}`; // no braces needed as ! has highest precedence
+        break;
+      }
+      case "-": {
+        if (right) {
+          // subtraction
+          expr = `(${left} - ${right})`;
+        } else {
+          // negation
+          expr = `-${left}`; // no braces needed as - has highest precedence
+        }
+        break;
+      }
+      default: {
+        expr = `(${left} ${this.operator} ${right})`;
+      }
+    }
+
+    return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
+  }
+
+  public static not(value: Expression) {
+    return new OperatorExpression("!", value) as IResolvable;
+  }
+
+  public static negate(value: Expression) {
+    return new OperatorExpression("-", value) as IResolvable;
+  }
+
+  public static mul(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("*", leftValue, rightValue) as IResolvable;
+  }
+
+  public static div(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("/", leftValue, rightValue) as IResolvable;
+  }
+
+  public static mod(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("%", leftValue, rightValue) as IResolvable;
+  }
+
+  public static add(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("+", leftValue, rightValue) as IResolvable;
+  }
+
+  public static sub(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("-", leftValue, rightValue) as IResolvable;
+  }
+
+  public static gt(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression(">", leftValue, rightValue) as IResolvable;
+  }
+
+  public static gte(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression(">=", leftValue, rightValue) as IResolvable;
+  }
+
+  public static lt(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("<", leftValue, rightValue) as IResolvable;
+  }
+
+  public static lte(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("<=", leftValue, rightValue) as IResolvable;
+  }
+
+  public static eq(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("==", leftValue, rightValue) as IResolvable;
+  }
+
+  public static neq(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("!=", leftValue, rightValue) as IResolvable;
+  }
+
+  public static and(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("&&", leftValue, rightValue) as IResolvable;
+  }
+
+  public static or(leftValue: Expression, rightValue: Expression) {
+    return new OperatorExpression("||", leftValue, rightValue) as IResolvable;
+  }
+}
 class FunctionCall extends TFExpression {
   constructor(private name: string, private args: Expression[]) {
     super({ name, args });

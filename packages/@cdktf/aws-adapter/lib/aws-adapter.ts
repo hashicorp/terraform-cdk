@@ -3,8 +3,12 @@
 import { Construct } from "constructs";
 import { toSnakeCase } from "codemaker";
 import { Stack, CfnElement, IResolvable } from "aws-cdk-lib";
-import { TerraformResource, Lazy, Aspects, Fn } from "cdktf";
-import { propertyAccess } from "cdktf/lib/tfExpression";
+import { TerraformResource, Lazy, Aspects, Fn, TerraformLocal } from "cdktf";
+import {
+  conditional,
+  OperatorExpression,
+  propertyAccess,
+} from "cdktf/lib/tfExpression";
 import { CloudFormationResource, CloudFormationTemplate } from "./cfn";
 import { findMapping, Mapping } from "./mapping";
 
@@ -18,6 +22,10 @@ import {
 
 function toTerraformIdentifier(identifier: string) {
   return toSnakeCase(identifier).replace(/-/g, "_");
+}
+
+function getConditionConstructId(conditionId: string) {
+  return `condition_${conditionId}`;
 }
 
 export class AwsTerraformAdapter extends Stack {
@@ -71,6 +79,11 @@ class TerraformHost extends Construct {
         for (const [logical, value] of Object.entries(cfn.Resources)) {
           this.newTerraformResource(this, logical, value);
         }
+        for (const [conditionId, condition] of Object.entries(
+          cfn.Conditions || {}
+        )) {
+          this.newTerraformLocalFromCondition(this, conditionId, condition);
+        }
       }
     }
   }
@@ -122,6 +135,7 @@ class TerraformHost extends Construct {
     }
 
     const props = this.processIntrinsics(resource.Properties ?? {});
+    const conditionId = resource.Condition;
 
     this.mappingForLogicalId[logicalId] = {
       resourceType: resource.Type,
@@ -129,6 +143,13 @@ class TerraformHost extends Construct {
     };
 
     const res = m.resource(scope, logicalId, props);
+    if (conditionId) {
+      res.count = conditional(
+        this.getConditionTerraformLocal(conditionId),
+        1,
+        0
+      );
+    }
 
     const keys = Object.keys(props).filter((k) => props[k] !== undefined);
     if (keys.length > 0) {
@@ -142,6 +163,37 @@ class TerraformHost extends Construct {
     }
 
     return res;
+  }
+
+  private newTerraformLocalFromCondition(
+    scope: Construct,
+    conditionId: string,
+    condition: any
+  ) {
+    console.log("LOCALLLL");
+
+    const local = new TerraformLocal(
+      scope,
+      getConditionConstructId(conditionId),
+      this.processIntrinsics(condition)
+    );
+
+    return local;
+  }
+
+  private getConditionTerraformLocal(conditionId: string): IResolvable {
+    return Lazy.anyValue({
+      produce: () => {
+        const local = this.node.tryFindChild(
+          getConditionConstructId(conditionId)
+        ) as TerraformLocal;
+        if (!local)
+          throw new Error(
+            `Could not find TerraformLocal for condition with id=${conditionId}`
+          );
+        return local.expression;
+      },
+    });
   }
 
   private processIntrinsics(obj: any): any {
@@ -331,6 +383,25 @@ class TerraformHost extends Construct {
 
         return resultString;
       }
+
+      case "Fn::Equals": {
+        const [left, right] = this.processIntrinsics(params);
+        return OperatorExpression.eq(left, right);
+      }
+
+      case "Fn::And": {
+        const [first, ...additional]: [any, any[]] =
+          this.processIntrinsics(params);
+        // Fn:And supports 2-10 parameters to chain
+        return additional.reduce(
+          (current, expression) => OperatorExpression.and(current, expression),
+          first
+        );
+      }
+
+      // case "Fn::If": {
+      //   // TODO:
+      // }
 
       case "Fn::Transform": {
         // TODO: find out if aws cdk uses some of these – probably yes
