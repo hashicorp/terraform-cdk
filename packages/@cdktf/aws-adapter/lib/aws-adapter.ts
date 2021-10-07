@@ -272,11 +272,12 @@ class TerraformHost extends Construct {
       case "Fn::Cidr": {
         // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-cidr.html
         // https://www.terraform.io/docs/language/functions/cidrsubnets.html
-        const [ipBlock, count, cidrBits] = this.processIntrinsics(params);
+        const [ipBlock, count, cidrBits]: [any, number | string, any] =
+          this.processIntrinsics(params);
         const prefix = ipBlock;
-        // given count=4 bits=8 this will return [8, 8, 8, 8] to match the Fn.cidrsubnets interface
-        const newBits = `[for x in ${Fn.range(0, count)}: ${cidrBits}]`; // FIXME: make this an IResolvable and make sure this works
-        return Fn.cidrsubnets(prefix, newBits as any);
+        // given count=4 bits=8 this will be [8, 8, 8, 8] to match the Fn.cidrsubnets interface
+        const newBits = Array(Number(count)).fill(cidrBits, 0);
+        return Fn.cidrsubnets(prefix, newBits);
       }
 
       case "Fn::FindInMap": {

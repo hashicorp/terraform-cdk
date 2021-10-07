@@ -200,39 +200,33 @@ describe("AwsTerraformAdapter", () => {
     });
 
     it("should resolve Fn::Cidr", () => {
-      fail("todo");
-      // FIXME:
       new StaticCfnConstruct(adapter, "cfn", {
         Resources: {
           subject: {
             Type: "Test::Resource",
             Properties: {
               Value: {
-                "Fn::Join": [
-                  ",",
-                  ["one", "two", { "Fn::GetAtt": ["another", "String"] }],
-                ],
+                "Fn::Cidr": ["192.168.0.0/24", "6", "5"],
+              },
+              Value2: {
+                "Fn::Cidr": ["192.168.0.0/24", "1", "8"],
               },
             },
-          },
-          another: {
-            Type: "Test::Resource",
-            Properties: {},
           },
         },
       });
       expect(synthWithAspects(stack)).toMatchInlineSnapshot(`
-  "{
-    \\"resource\\": {
-      \\"test\\": {
-        \\"adapter_another_C86ABFE2\\": {},
-        \\"adapter_subject_24E89D84\\": {
-          \\"value\\": \\"\${join(\\\\\\",\\\\\\", [\\\\\\"one\\\\\\", \\\\\\"two\\\\\\", \${test.adapter_another_C86ABFE2.string}])}\\"
-        }
+"{
+  \\"resource\\": {
+    \\"test\\": {
+      \\"adapter_subject_24E89D84\\": {
+        \\"value\\": \\"\${cidrsubnets(\\\\\\"192.168.0.0/24\\\\\\", \\\\\\"5\\\\\\", \\\\\\"5\\\\\\", \\\\\\"5\\\\\\", \\\\\\"5\\\\\\", \\\\\\"5\\\\\\", \\\\\\"5\\\\\\")}\\",
+        \\"value2\\": \\"\${cidrsubnets(\\\\\\"192.168.0.0/24\\\\\\", \\\\\\"8\\\\\\")}\\"
       }
     }
-  }"
-  `);
+  }
+}"
+`);
     });
 
     it("should resolve Fn::FindInMap", () => {
@@ -268,10 +262,10 @@ describe("AwsTerraformAdapter", () => {
   }
 }"
 `);
+      expect(Testing.fullSynth(stack)).toBeValidTerraform();
     });
 
     it("should resolve Fn::Sub", () => {
-      // FIXME: update snapshot as soon as this works
       new StaticCfnConstruct(adapter, "cfn", {
         Resources: {
           subject: {
@@ -297,7 +291,7 @@ describe("AwsTerraformAdapter", () => {
     \\"test\\": {
       \\"adapter_another_C86ABFE2\\": {},
       \\"adapter_subject_24E89D84\\": {
-        \\"value\\": \\"\${replace(replace(\\\\\\"this is the \${TEMPLATE} string. This will not be \${!REPLACED} but end up without the exclamation mark\\\\\\", \\\\\\"\${TEMPLATE}\\\\\\", \${test.adapter_another_C86ABFE2.string}), \\\\\\"/($\\\\\\\\{!\\\\\\\\w+\\\\\\\\})/\\\\\\", \\\\\\"$1\\\\\\")}\\"
+        \\"value\\": \\"\${replace(replace(\\\\\\"this is the $\${TEMPLATE} string. This will not be $\${!REPLACED} but end up without the exclamation mark\\\\\\", \\\\\\"$\${TEMPLATE}\\\\\\", \${test.adapter_another_C86ABFE2.string}), \\\\\\"/\\\\\\\\\\\\\\\\$\\\\\\\\\\\\\\\\{!(\\\\\\\\\\\\\\\\w+)\\\\\\\\\\\\\\\\}/\\\\\\", \\\\\\"$\${$1}\\\\\\")}\\"
       }
     }
   }
