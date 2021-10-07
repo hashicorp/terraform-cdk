@@ -66,7 +66,7 @@ You can declare providers and modules using either JSON or a string with the for
 
 - For modules on the Terraform Registry, provide the the full registry namespace. For example, to define the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest): `terraform-aws-modules/vpc/aws@ ~> 3.2.0`.
 
-- For local modules please use the object format since there are various possible sources and it allows full control over the naming of the generated classes.
+- For local modules, please use the object format to ensure that CDKTF can properly name the generated classes.
 
   ```jsonc
   {
@@ -86,7 +86,7 @@ When you declare providers and modules in the string format, add the [version co
 
 When you declare providers in JSON, add the constraint in the `version` property.
 
-````jsonc
+```jsonc
 {
   //...
   "terraformProviders": [
@@ -97,6 +97,7 @@ When you declare providers in JSON, add the constraint in the `version` property
     }
   ]
 }
+```
 
 ## Configuration Examples
 
@@ -111,7 +112,7 @@ The example below synthesizes the JSON Terraform configuration into `my-workdir`
   "app": "npm run --silent compile && node main.js",
   "output": "my-workdir"
 }
-````
+```
 
 ### Building Providers
 
