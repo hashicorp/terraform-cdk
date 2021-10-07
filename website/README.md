@@ -5,4 +5,3 @@ This section contains the documentation pages that are available on [terraform.i
 ### Publishing Workflow
 
 TODO: Describe the steps to change existing or add new docs and make them available on the website
- 
