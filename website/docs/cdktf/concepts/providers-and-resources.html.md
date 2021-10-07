@@ -52,7 +52,8 @@ app.synth();
 
 #### Add Provider to `cdktf.json`
 
-To use a new provider, first add it to the "terraformProviders" array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration.html).
+To use a new provider, first add it to the "terraformProviders" array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration-file.html).
+
 For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:
 
 ```json
@@ -62,8 +63,6 @@ For example, this is how you could add [DNS Simple](https://www.terraform.io/doc
   "terraformProviders": ["aws@~> 2.0", "dnsimple"]
 }
 ```
-
--> **Note**: -> **Note**: The [`cdktf.json` specification](/docs/cdktf/cli-reference/configuration.html) contains syntax requirements for specifying a provider version.
 
 #### Generate Classes
 
@@ -80,7 +79,7 @@ Generated typescript constructs in the output directory: .gen
 
 #### Import Classes
 
-Import and use the generated classes in your application. For example, here is how to import the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and define them.
+Import and use the generated classes in your application. The example below shows how to import the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and define them.
 
 ```typescript
 import { Construct } from "constructs";
@@ -120,7 +119,7 @@ new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
-Here is what this code looks like after using the `synth` command to convert it into a JSON configuration file for Terraform:
+Below is what the code above looks like after using the `synth` command to convert it into a JSON Terraform configuration file.
 
 ```bash
 cdktf synth --json
@@ -193,9 +192,7 @@ cdktf synth --json
 
 ### Install Pre-built Providers
 
-It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. This is a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package.
-
-The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page has a complete list, but available pre-built providers include:
+It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package. The [Terraform CDK Providers](https://github.com/orgs/hashicorp/repositories?q=cdktf-provider-) page has a complete list, but available pre-built providers include:
 
 - [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
 - [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
@@ -205,30 +202,32 @@ The [Terraform CDK Providers](https://github.com/terraform-cdk-providers) page h
 - [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
 - [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
 
-These are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. For example, here is how to install the AWS provider in TypeScript / Node:
+These packages are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. The example below shows how to install the AWS provider in TypeScript / Node.
 
 ```
 npm install @cdktf/provider-aws
 ```
 
+When you choose to install a pre-built provider via `npm install`, you should not define that provider again in your `cdktf.json` file. If you are receiving errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and try running `cdktf synth` again.
+
 ### Provider Caching
 
-Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple stacks within one application.
+Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](./stacks.html) within one application.
 
-#### Caching Directory
+#### Set the Caching Directory
 
-Using the `cdktf` cli commands sets the process env `TF_PLUGIN_CACHE_DIR` to `$HOME/.terraform.d/plugin-cache` if it is not already set to something else. See the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache) for more details.
+Refer to the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
 
 To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
 ### Use a Local Provider
 
-Terraform supports using local providers. Terraform has to find these providers to enable CDK for Terraform to generate the appropriate type bindings. You can achieve this in two ways:
+Terraform needs to know the location of local providers to enable CDKTF to generate the appropriate type bindings. You can configure this in two ways:
 
 - [Implied Local Mirrors](https://www.terraform.io/docs/cli/config/config-file.html#implied-local-mirror-directories)
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
-Once configured properly, you can reference these providers in the `cdktf.json` config file the same way that you reference providers in the Terraform Registry.
+Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/create-and-deploy/configuration.html) for more details about the `cdktf.json` specification.
 
 ## Resources
 
@@ -257,26 +256,16 @@ export class HelloTerra extends TerraformStack {
       attribute: [{ name: "id", type: "S" }],
       billingMode: "PAY_PER_REQUEST",
     });
-
 ```
 
-The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language. Add something about how to define resources.
+The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language.
 
 ### Escape Hatch
 
-Terraform supports meta-arguments for changing behavior of resources, including:
+Terraform provides [meta-arguments](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings.
+The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
-- `count`
-- `provisioner`
-- `for_each`
-
-In addition to Terraform [resource meta-arguments](https://www.terraform.io/docs/configuration/resources.html#meta-arguments),
-you may want to override resource attributes that cannot be fully expressed by CDKTF.
-
-To facilitate the addition of meta-arguments and attributes, you can use an escape hatch that will add to or override the Terraform JSON configuration. Use the escape hatch to add meta-arguments or attributes released
-in new versions of Terraform and its providers.
-
-For TypeScript, define a provisioner for a resource using the `addOverride` method.
+The TypeScript example beow defines a provisioner for a resource using the `addOverride` method.
 
 ```typescript
 const tableName = "my-table";
@@ -296,7 +285,7 @@ table.addOverride("provisioner", [
 ]);
 ```
 
-This will synthesize a Terraform configuration with the [provisioner added to the JSON object](https://www.terraform.io/docs/configuration/syntax-json.html#nested-block-mapping).
+When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](https://www.terraform.io/docs/configuration/syntax-json.html#nested-block-mapping).
 
 ```json
 {
@@ -324,7 +313,7 @@ This will synthesize a Terraform configuration with the [provisioner added to th
 }
 ```
 
-To override an attribute, include the resource attribute key in `addOverride`. Note the attribute in the escape hatch is in snake case. This is because the Terraform JSON configuration uses snake case instead of camel case.
+To override an attribute, include the resource attribute key in `addOverride`. The attribute in the escape hatch is in snake case because the Terraform JSON configuration uses snake case instead of camel case.
 
 ```typescript
 const topic = new SnsTopic(this, "Topic", {
@@ -333,7 +322,7 @@ const topic = new SnsTopic(this, "Topic", {
 topic.addOverride("display_name", "my-topic");
 ```
 
-This will synthesize a Terraform configuration with the value overwritten.
+When you run `cdktf synth`, CDKTF generates a Terraform configuration with the value overwritten.
 
 ```json
 {
