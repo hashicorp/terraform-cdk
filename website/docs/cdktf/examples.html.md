@@ -13,7 +13,7 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 
 ## Example Projects
 
--> **Note**: You can find more information about all of the providers in the examples below on the [Terraform Registry](https://registry.terraform.io/).
+-> **Provider Documentation**: You can find more information about all of the providers in the examples below on the [Terraform Registry](https://registry.terraform.io/).
 
 ### Typescript
 
@@ -23,13 +23,13 @@ Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform C
 |[aws-lambda-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-example) | An end-to-end example for a serverless web application hosted on AWS.|
 | [aws-prebuilt](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-prebuilt) | Provisions a DynamoDB table on the prebuilt AWS provider. |
 |[aws-multiple-stacks](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-multiple-stacks) | Uses Stacks to pass different settings into the development, staging, and production environments. |
-|[aws-cloudfront-proxy](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-cloudfront-proxy) | An example for how to use AWS Cloudfront as a SSL proxy server for any existing domain  |
+|[aws-cloudfront-proxy](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/aws-cloudfront-proxy) | Uses AWS Cloudfront as a SSL proxy server for any existing domain.  |
 |[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure) | Provisions a Virtual Network on Microsoft Azure. |
 |[azure-app-service](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/azure-app-service) |  Uses the Azure App Service to deploy a Docker image. |
 | [docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/docker) | Starts a Docker container with an NGINX server. |
-|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider.  |
+|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google) | Creates a simple Compute Instance with the Google Cloud Platform Provider.  |
 |[google-cloudrun](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/google-cloudrun) | Defines a Google Cloud Run service with a hello world container. |
-|[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/kubernetes) | Sets up a Kubernetes Deployment with a nginx container. |
+|[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/kubernetes) | Sets up a Kubernetes Deployment with a NGINX container. |
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/ucloud) | Provisions a Linux base image on UCloud. |
 |[vault](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/vault) | Creates a Mount in Vault. |
 
@@ -60,9 +60,9 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 | ------| ------------|
 |[aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/aws) | Provisions a DynamoDB table on the AWS provider. |
 |[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/azure) | Provisions a Virtual Network on Microsoft Azure. |
-|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider. |
+|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/google) | Creates a simple Compute Instance with the Google Cloud Platform Provider. |
 |[gradle-shared-module](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/gradle-shared-module) | Uses gradle to build and share two AWS modules. [Modules](./concepts/fundamentals/modules.html) are distinct configurations that you can package and reuse across projects and teams.|
-|[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/kubernetes) | Schedules and exposes a NGINX deployment on a Kubernetes cluster. **Please check me for accuracy**
+|[kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/kubernetes) | Schedules and exposes a NGINX deployment on a Kubernetes cluster.
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/ucloud) | Provisions a Linux base image on UCloud. |
 
 ### C Sharp
@@ -71,7 +71,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 | -------| ------------|
 |[aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/aws) | Provisions a DynamoDB table on the AWS provider. |
 |[azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/azure) | Provisions a Virtual Network on Microsoft Azure. |
-|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider. |
+|[google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/google) | Creates a simple Compute Instance with the Google Cloud Platform Provider. |
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/csharp/ucloud) | Provisions a Linux base image on UCloud. |
 
 ### Go
@@ -82,7 +82,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 | ------ | ----------- |
 |[docker](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/docker) | Starts a Docker container with an NGINX server. |
 |[aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/aws) | Provisions an EKS cluster on an AWS Virtual Private Cloud. **High memory usage:** The provider generation currently needs ~6 GB of memory, so the maximum for Node.js is [currently set to 8GB](https://github.com/hashicorp/terraform-cdk/blob/11d2e783d1fe94e50abd116ba73689c02590a391/packages/cdktf-cli/lib/get/constructs-maker.ts#L279). |
-|[google cloud kubernetes engine + kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/google) | Sets up a simple Compute Instance with the Google Cloud Platform Provider. |
+|[google cloud kubernetes engine + kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/google) | Creates a simple Compute Instance with the Google Cloud Platform Provider. |
 |[ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/go/ucloud) | Provisions a Linux base image on UCloud. |
 
 ## Youtube Playlist
