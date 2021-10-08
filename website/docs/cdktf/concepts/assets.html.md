@@ -13,8 +13,8 @@ In CDK for Terraform (CDKTF) v0.4+, asset constructs can manage assets for resou
 
 Assets are especially useful for:
 
-- Lambda functions for copying over previously generated zip files
-- S3 Content for deploying static local files
+- Copying over previously generated zip files with Lambda functions
+- Deploying static local files to S3
 
 ## Usage Example
 
