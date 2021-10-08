@@ -37,7 +37,7 @@ export class AwsTerraformAdapter extends Stack {
     Aspects.of(scope).add({
       visit: (node) => {
         if (node === scope) {
-          // TODO: invokeAWSAspects(this);
+          // TODO: invokeAWSAspects(this); -> find usages of AWSAspects in AWS constructs
           host.convert();
         }
       },
@@ -170,8 +170,6 @@ class TerraformHost extends Construct {
     conditionId: string,
     condition: any
   ) {
-    console.log("LOCALLLL");
-
     const local = new TerraformLocal(
       scope,
       getConditionConstructId(conditionId),
@@ -194,6 +192,25 @@ class TerraformHost extends Construct {
         return local.expression;
       },
     });
+  }
+
+  /**
+   * will replace { Condition: 'MyCondition' } with Terraform Local for "MyCondition"
+   */
+  private processConditions(obj: any): any {
+    if (typeof obj !== "object") {
+      return obj;
+    }
+
+    if (Array.isArray(obj)) {
+      return obj.map((x) => this.processConditions(x));
+    }
+
+    if (Object.keys(obj).length === 1 && typeof obj.Condition === "string") {
+      return this.getConditionTerraformLocal(obj.Condition);
+    }
+
+    return obj;
   }
 
   private processIntrinsics(obj: any): any {
@@ -284,7 +301,6 @@ class TerraformHost extends Construct {
     switch (fn) {
       case "Fn::GetAtt": {
         return Lazy.stringValue({
-          // FIXME: Lazy values (currently) cannot be marked as inner
           produce: () => this.resolveAtt(params[0], params[1]),
         });
       }
@@ -372,7 +388,6 @@ class TerraformHost extends Construct {
         });
 
         // replace ${!Literal} with ${Literal}
-        // To write a dollar sign and curly braces (${}) literally, add an exclamation point (!) after the open curly brace, such as ${!Literal}. CloudFormation resolves this text as ${Literal}.
         // see: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
         resultString = Fn.replace(
           resultString,
@@ -390,8 +405,9 @@ class TerraformHost extends Construct {
       }
 
       case "Fn::And": {
-        const [first, ...additional]: [any, any[]] =
-          this.processIntrinsics(params);
+        const [first, ...additional]: [any, any[]] = this.processConditions(
+          this.processIntrinsics(params)
+        );
         // Fn:And supports 2-10 parameters to chain
         return additional.reduce(
           (current, expression) => OperatorExpression.and(current, expression),
@@ -399,9 +415,35 @@ class TerraformHost extends Construct {
         );
       }
 
-      // case "Fn::If": {
-      //   // TODO:
-      // }
+      case "Fn::Or": {
+        const [first, ...additional]: [any, any[]] = this.processConditions(
+          this.processIntrinsics(params)
+        );
+        // Fn:Or supports 2-10 parameters to chain
+        return additional.reduce(
+          (current, expression) => OperatorExpression.or(current, expression),
+          first
+        );
+      }
+
+      case "Fn::If": {
+        const [conditionId, trueExpression, falseExpression] =
+          this.processIntrinsics(params);
+        return conditional(
+          this.getConditionTerraformLocal(conditionId),
+          trueExpression,
+          falseExpression
+        );
+      }
+
+      case "Fn::Not": {
+        let [condition] = this.processIntrinsics(params);
+        if (typeof condition === "string") {
+          condition = this.getConditionTerraformLocal(condition);
+        }
+
+        return OperatorExpression.not(condition);
+      }
 
       case "Fn::Transform": {
         // TODO: find out if aws cdk uses some of these – probably yes

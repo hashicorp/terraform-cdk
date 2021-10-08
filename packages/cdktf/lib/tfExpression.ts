@@ -185,19 +185,17 @@ export type Operator =
 export class OperatorExpression extends TFExpression {
   constructor(
     private operator: Operator,
-    private leftValue: Expression,
-    private rightValue?: Expression // optional for ! and - operator
+    private left: Expression,
+    private right?: Expression // optional for ! and - operator
   ) {
-    super({ operator, leftValue, rightValue });
+    super({ operator, leftValue: left, rightValue: right });
   }
 
   public resolve(context: IResolveContext): string {
-    markAsInner(this.leftValue);
-    if (this.rightValue) markAsInner(this.rightValue);
-    const left = this.resolveArg(context, this.leftValue);
-    const right = this.rightValue
-      ? this.resolveArg(context, this.rightValue)
-      : undefined;
+    markAsInner(this.left);
+    if (this.right) markAsInner(this.right);
+    const left = this.resolveArg(context, this.left);
+    const right = this.right ? this.resolveArg(context, this.right) : undefined;
 
     let expr = "";
     switch (this.operator) {
@@ -223,64 +221,64 @@ export class OperatorExpression extends TFExpression {
     return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
   }
 
-  public static not(value: Expression) {
-    return new OperatorExpression("!", value) as IResolvable;
+  public static not(expression: Expression) {
+    return new OperatorExpression("!", expression) as IResolvable;
   }
 
-  public static negate(value: Expression) {
-    return new OperatorExpression("-", value) as IResolvable;
+  public static negate(expression: Expression) {
+    return new OperatorExpression("-", expression) as IResolvable;
   }
 
-  public static mul(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("*", leftValue, rightValue) as IResolvable;
+  public static mul(left: Expression, right: Expression) {
+    return new OperatorExpression("*", left, right) as IResolvable;
   }
 
-  public static div(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("/", leftValue, rightValue) as IResolvable;
+  public static div(left: Expression, right: Expression) {
+    return new OperatorExpression("/", left, right) as IResolvable;
   }
 
-  public static mod(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("%", leftValue, rightValue) as IResolvable;
+  public static mod(left: Expression, right: Expression) {
+    return new OperatorExpression("%", left, right) as IResolvable;
   }
 
-  public static add(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("+", leftValue, rightValue) as IResolvable;
+  public static add(left: Expression, right: Expression) {
+    return new OperatorExpression("+", left, right) as IResolvable;
   }
 
-  public static sub(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("-", leftValue, rightValue) as IResolvable;
+  public static sub(left: Expression, right: Expression) {
+    return new OperatorExpression("-", left, right) as IResolvable;
   }
 
-  public static gt(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression(">", leftValue, rightValue) as IResolvable;
+  public static gt(left: Expression, right: Expression) {
+    return new OperatorExpression(">", left, right) as IResolvable;
   }
 
-  public static gte(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression(">=", leftValue, rightValue) as IResolvable;
+  public static gte(left: Expression, right: Expression) {
+    return new OperatorExpression(">=", left, right) as IResolvable;
   }
 
-  public static lt(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("<", leftValue, rightValue) as IResolvable;
+  public static lt(left: Expression, right: Expression) {
+    return new OperatorExpression("<", left, right) as IResolvable;
   }
 
-  public static lte(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("<=", leftValue, rightValue) as IResolvable;
+  public static lte(left: Expression, right: Expression) {
+    return new OperatorExpression("<=", left, right) as IResolvable;
   }
 
-  public static eq(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("==", leftValue, rightValue) as IResolvable;
+  public static eq(left: Expression, right: Expression) {
+    return new OperatorExpression("==", left, right) as IResolvable;
   }
 
-  public static neq(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("!=", leftValue, rightValue) as IResolvable;
+  public static neq(left: Expression, right: Expression) {
+    return new OperatorExpression("!=", left, right) as IResolvable;
   }
 
-  public static and(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("&&", leftValue, rightValue) as IResolvable;
+  public static and(left: Expression, right: Expression) {
+    return new OperatorExpression("&&", left, right) as IResolvable;
   }
 
-  public static or(leftValue: Expression, rightValue: Expression) {
-    return new OperatorExpression("||", leftValue, rightValue) as IResolvable;
+  public static or(left: Expression, right: Expression) {
+    return new OperatorExpression("||", left, right) as IResolvable;
   }
 }
 class FunctionCall extends TFExpression {

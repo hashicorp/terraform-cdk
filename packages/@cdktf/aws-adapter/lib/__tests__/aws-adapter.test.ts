@@ -331,21 +331,27 @@ describe("AwsTerraformAdapter", () => {
   });
 
   describe("Conditions", () => {
-    it.only("should create locals for conditions", () => {
+    it("should create locals for conditions", () => {
       new StaticCfnConstruct(adapter, "cfn", {
         Resources: {},
         Conditions: {
           IsProd: { "Fn::Equals": ["A", "A"] },
-          And: { "Fn::And": ["IsProd", true, true] },
+          IsDev: { "Fn::Not": ["IsProd"] },
+          And: { "Fn::And": [{ Condition: "IsProd" }, true, true] },
+          Or: { "Fn::Or": [{ Condition: "IsProd" }, true, true] },
+          If: { "Fn::If": ["IsProd", 1, 0] },
         },
       });
       // TODO: check how (if at all) literal true and false can be passed
       // TODO: check why "false" ends up as undefined
-      // FIXME: IsProd needs to be replaced with a local from a conditionId
       expect(synthWithAspects(stack)).toMatchInlineSnapshot(`
 "{
   \\"locals\\": {
-    \\"adapter_condition_IsProd_8FB293B1\\": \\"\${(\\\\\\"A\\\\\\" == \\\\\\"A\\\\\\")}\\"
+    \\"adapter_condition_And_696B6B21\\": \\"\${((local.adapter_condition_IsProd_8FB293B1 && true) && true)}\\",
+    \\"adapter_condition_If_4412FEF9\\": \\"\${local.adapter_condition_IsProd_8FB293B1 ? 1 : 0}\\",
+    \\"adapter_condition_IsDev_FDA8D7BD\\": \\"\${!local.adapter_condition_IsProd_8FB293B1}\\",
+    \\"adapter_condition_IsProd_8FB293B1\\": \\"\${(\\\\\\"A\\\\\\" == \\\\\\"A\\\\\\")}\\",
+    \\"adapter_condition_Or_83D17798\\": \\"\${((local.adapter_condition_IsProd_8FB293B1 || true) || true)}\\"
   }
 }"
 `);
