@@ -23,8 +23,6 @@ A template can use substitutions for filenames and file content. To specify your
 
 These variables hold user input. For example, you can use them in project files like `package.json`. CDKTF collects the required data from users when they run `cdktf init` with the template.
 
-TODO: Can you make anything into a user input variable or is it just the things we put in the example block below? What types can people have?
-
 The TypeScript example below specifies that `Name` and `Description` are mandatory, but `OrganizationName` and `WorkspaceName` will only be required for projects that are set up to use a Terraform Cloud [remote backend](/cdktf/concepts/remote-backends.html).
 
 ```typescript
@@ -34,9 +32,11 @@ OrganizationName?: string;
 WorkspaceName?: string;
 ```
 
+There is no way to collect custom user input for templates at the moment.
+
 #### Versions
 
-These variables contain correct versions of the packages that are depending on the CDKTF CLI. The package names are provided in the correct format for the given platform. We recommend using these variables as they are provided without adding any custom logic. TODO: why?
+These variables contain correct versions of the packages that are depending on the CDKTF CLI. The package names are provided in the correct format for the given platform. We recommend using these variables as they are provided without adding any custom logic, since the package name and their version schema follow specific conventions.
 
 Reference the [built-in templates](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/templates) for examples of how you can use version variables. Below are some of the variables in TypeScript.
 
@@ -64,11 +64,11 @@ You can also set the environment variable `CDKTF_LOG_LEVEL` to `debug` before in
 
 You can host your remote template anywhere, as long as it is formatted as a zip archive. GitHub allows users to fetch the repository contents as zip archive, so you do not have to create one manually. You can only specify urls to zip archives, so only url-based authentication mechanisms are supported. If you need support for private packages, please [file an issue](https://github.com/hashicorp/terraform-cdk/issues/new?labels=enhancement%2C+new&template=feature-request.md).
 
-Below is an example of the main branch for a remote template GitHub repository.
+Below is an example the main branch for a remote template GitHub repository.
 
 `https://github.com/<user or organization>/<repo>/archive/refs/heads/main.zip`
 
-TODO: Are tags required? Why are we showing this? :-)
+If you prefer to use a Git tag, the URL format would look like this
 
 `https://github.com/<user or organization>/<repo>/archive/refs/tags/v0.0.1.zip`
 
