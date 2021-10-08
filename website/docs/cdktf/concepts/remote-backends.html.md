@@ -141,9 +141,8 @@ Consider an example project called `hello-terraform` that is using local storage
      any changes that are required for your infrastructure. All Terraform commands
      should now work.
 
-     If you ever set or change modules or backend configuration for Terraform,
-     you forget, other
-     commands will detect it and remind you to do so if necessary.
+     If you ever set or change modules or backend configuration for Terraform, 
+     other cdktf cli commands will detect the change and prompt you to rerun this command if necessary.
 
    ```
 
