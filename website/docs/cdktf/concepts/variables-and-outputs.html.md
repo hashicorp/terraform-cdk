@@ -47,7 +47,7 @@ new Instance(this, "hello", {
 
 A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) assigns a name to an expression to allow repeated usage. They are similar to a local variables in a programming language.
 
-### When to Use Local values
+### When to Use Local Values
 
 Use local values when you need use [Terraform functions](./functions.html) to transform data that is only available when Terraform applies a configuration. For example, instance IDs tha cloud providers assign upon creation.
 
