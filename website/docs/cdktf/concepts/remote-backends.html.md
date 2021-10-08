@@ -9,6 +9,8 @@ description: "Configure a remote backend where Terraform can store infrastructur
 
 Terraform stores [state](https://www.terraform.io/docs/language/state/index.html) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](https://www.terraform.io/docs/backends/types/remote.html) to store state remotely.
 
+By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding Remote Backend. If a `cdktf` project was created with local state by running `cdktf init --local`, the state can be [migrated](#migrate-state) to any remote backend later on, e.g. to Terraform Cloud or Terraform Enterprise.
+
 You can configure your remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), another Terraform (CDKTF) [supported backend](#supported-backends), or a custom location.
 
 ## When to Use Remote Backends
@@ -141,7 +143,7 @@ Consider an example project called `hello-terraform` that is using local storage
      any changes that are required for your infrastructure. All Terraform commands
      should now work.
 
-     If you ever set or change modules or backend configuration for Terraform, 
+     If you ever set or change modules or backend configuration for Terraform,
      other cdktf cli commands will detect the change and prompt you to rerun this command if necessary.
 
    ```
