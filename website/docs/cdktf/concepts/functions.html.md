@@ -9,7 +9,7 @@ description: "Learn when to use built-in Terraform functions to transform or com
 
 Terraform provides a set of built-in functions that transform and combine values within Terraform configurations. The [Terraform function documentation](https://www.terraform.io/docs/language/functions/index.html) contains a complete list. You can also use your editor autocompletion on the `Fn` object to find available options.
 
-Functions can handle normal and [token](./tokens.md) values and will return either tokenized values or `IResolvable`s.
+Functions can handle normal and [token](./tokens.md) values and will return either tokenized values or `IResolvable` values.
 
 ## When to Use Terraform Functions
 
