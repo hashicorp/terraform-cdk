@@ -36,6 +36,10 @@ CDKTF offers many benefits, but it is not the right choice for every project. Yo
 
 You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](./concepts/interoperability-workflows.html).
 
+## Choosing a Language for your Project
+
+We encourage you to use the language that you are most familiar with and that fits the broader landscape of your organization to build CDKTF applications. We strive to have feature parity and good UX across all supported languages, but there may be instances when new features and UX may not achieve parity for languages with experimental support.
+
 ## Project Maturity and Production Readiness
 
 CDK for Terraform is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product.

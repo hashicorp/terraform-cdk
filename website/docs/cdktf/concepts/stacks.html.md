@@ -2,46 +2,12 @@
 layout: "docs"
 page_title: "Stacks"
 sidebar_current: "cdktf"
-description: "TBD"
+description: "Use stacks to specify separate collections of infrastructure for different environments, like test and production."
 ---
 
 # Stacks
 
 A stack represents a collection of infrastructure that will be synthesized as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
-
-## Global Configuration
-
-The app is host of stacks and the root node in the constructs tree. It can be used to provide global configuration to each stack and underlying constructs.
-
-One option to provide global configuration is the app `context`, which can be accessed in any construct within the app.
-
-```typescript
-import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
-import { AwsProvider, Instance } from "./.gen/providers/aws";
-
-class MyStack extends TerraformStack {
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
-
-    new AwsProvider(this, "aws", {
-      region: "us-east-1",
-    });
-
-    new Instance(this, "Hello", {
-      ami: "ami-2757f631",
-      instanceType: "t2.micro",
-      tags: {
-        myConfig: this.node.getContext("myConfig"),
-      },
-    });
-  }
-}
-
-const app = new App({ context: { myConfig: "config" } });
-new MyStack(app, "hello-cdktf");
-app.synth();
-```
 
 ### Single Stack
 
@@ -187,3 +153,19 @@ This will synthesize a Terraform configuration with the remote backend included 
   }
 }
 ```
+
+### Current Limitations
+
+#### Deployments
+
+At the moment all Terraform operations are limited to a single stack. In order to run `diff`, `deploy` or `destroy`, a target stack has to be specified. A deploy command like `cdktf deploy multiple-stacks-dev` will work and all Terraform operations will run in the folder `cdktf.out/stacks/multiple-stacks-dev`.
+
+Omitting the target stack by running a plain `cdktf deploy` will result in error. This will change in future versions, where support for targeting all or a subset of stacks will be added.
+
+Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) when you're interested in this feature.
+
+#### Cross Stack References
+
+Referencing resources from another stack is not yet supported automatically. It can be achieved manually by using [Outputs](website/docs/cdktf/concepts/variables-and-outputs.html.md) and the [Remote State data source](https://www.terraform.io/docs/language/state/remote-state-data.html).
+
+Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) when you're interested in this feature.

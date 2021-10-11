@@ -62,7 +62,47 @@ cdktf deploy --auto-approve
 
 ## Project Configuration
 
+Initializing your project with a template generates a basic project in your preferred programming language that you can customize for your use case. You can do global configuration for your project through either the `cdktf.json` configuration file or the application context.
+
+### `cdktf.json` Configuration File
+
 Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail.
+
+### Application Context
+
+All of the classes in your application can access the application `context`, so it is an ideal place to store project configuration.
+
+TODO: Please explain what types of things you'd want to use the app context for. What things would you use this for rather than cdktf.json?
+
+TODO: Please explain what is going on in this example :-)
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, Instance } from "./.gen/providers/aws";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    new Instance(this, "Hello", {
+      ami: "ami-2757f631",
+      instanceType: "t2.micro",
+      tags: {
+        myConfig: this.constructNode.getContext("myConfig"),
+      },
+    });
+  }
+}
+
+const app = new App({ context: { myConfig: "config" } });
+new MyStack(app, "hello-cdktf");
+app.synth();
+```
 
 ## Convert Existing HCL project
 
