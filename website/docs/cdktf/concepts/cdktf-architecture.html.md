@@ -2,7 +2,7 @@
 layout: "docs"
 page_title: "Architecture"
 sidebar_current: "cdktf"
-description: "Learn the key components of CDK for Terraform applications and how they communicate with Terraform."
+description: "Key CDK for Terraform components and application structure."
 ---
 
 # Architecture
