@@ -1,22 +1,15 @@
-/**
- * Testing interaction with Terraform Cloud
- *
- * @group typescript
- * @group terraform-cloud
- * @group asset
- */
-
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onPosix } from "../../test-helper";
 import { TerraformCloud } from "@skorfmann/terraform-cloud";
 import * as crypto from "crypto";
 const { TERRAFORM_CLOUD_TOKEN, GITHUB_RUN_NUMBER, TERRAFORM_VERSION } =
   process.env;
-const withAuth = TERRAFORM_CLOUD_TOKEN ? it : it.skip;
+const withAuth = TERRAFORM_CLOUD_TOKEN ? onPosix : it.skip;
 
-if (withAuth == it.skip) {
+if (!TERRAFORM_CLOUD_TOKEN) {
   console.log("TERRAFORM_CLOUD_TOKEN is undefined, skipping authed tests");
 }
 
+// Below tests are disabled on windows because they fail due to networking issues
 describe("full integration test", () => {
   let driver: TestDriver;
   let workspaceName: string;

@@ -1,8 +1,3 @@
-/**
- *
- * @group csharp
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("csharp full integration test synth", () => {

@@ -1,16 +1,13 @@
 import yargs from "yargs";
 import React from "react";
-import {
-  readConfigSync,
-  TerraformDependencyConstraint,
-} from "../../lib/config";
-import { Language, LANGUAGES } from "../../lib/get/constructs-maker";
+import { Language, LANGUAGES, config as cfg } from "@cdktf/provider-generator";
 import { Get } from "./ui/get";
 import { renderInk } from "./helper/render-ink";
 import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
+import { checkEnvironment } from "./helper/check-environment";
 
-const config = readConfigSync();
+const config = cfg.readConfigSync();
 
 interface Arguments {
   output: string;
@@ -43,12 +40,13 @@ class Command implements yargs.CommandModule {
   public async handler(argv: any) {
     throwIfNotProjectDirectory("get");
     await displayVersionMessage();
+    await checkEnvironment("get");
     const args = argv as Arguments;
     const providers = config.terraformProviders ?? [];
     const modules = config.terraformModules ?? [];
     const { output, language } = args;
 
-    const constraints: TerraformDependencyConstraint[] = [
+    const constraints: cfg.TerraformDependencyConstraint[] = [
       ...providers,
       ...modules,
     ];

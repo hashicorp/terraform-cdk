@@ -2,6 +2,7 @@ import yargs from "yargs";
 import { terraformCheck } from "./helper/terraform-check";
 import { displayVersionMessage } from "./helper/version-check";
 import { checkForEmptyDirectory, runInit, templates } from "./helper/init";
+import { checkEnvironment } from "./helper/check-environment";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require("../../package.json");
@@ -49,6 +50,7 @@ class Command implements yargs.CommandModule {
   public async handler(argv: any) {
     await terraformCheck();
     await displayVersionMessage();
+    await checkEnvironment("init");
 
     checkForEmptyDirectory(".");
 
