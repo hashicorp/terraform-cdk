@@ -22,8 +22,8 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  isRegistryModule,
 } from "./expressions";
+import { TerraformModuleConstraint } from "@cdktf/provider-generator";
 
 function getReference(graph: DirectedGraph, id: string) {
   const neighbors = graph.outNeighbors(id);
@@ -157,6 +157,43 @@ function addOverrideExpression(
   return ast;
 }
 
+function addOverrideLogicalIdExpression(variable: string, logicalId: string) {
+  const ast = t.expressionStatement(
+    t.callExpression(
+      t.memberExpression(
+        t.identifier(variable),
+        t.identifier("overrideLogicalId")
+      ),
+      [t.stringLiteral(logicalId)]
+    )
+  );
+
+  t.addComment(
+    ast,
+    "leading",
+    "This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match."
+  );
+
+  return ast;
+}
+
+function getRemoteStateType(item: Resource) {
+  const backendRecord = item.find((val) => val.backend);
+  if (backendRecord) {
+    const backend = backendRecord.backend;
+    switch (backend) {
+      case "remote":
+        return "";
+      case "etcdv3":
+        return "_etcd_v3";
+      default:
+        return `_${backend}`;
+    }
+  } else {
+    return "";
+  }
+}
+
 export function resource(
   scope: Scope,
   type: string,
@@ -167,7 +204,10 @@ export function resource(
 ): t.Statement[] {
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
-  const resource = `${provider}.${name.join("_")}`;
+  const resource =
+    provider === "data.terraform"
+      ? `cdktf.data_terraform_${name.join("_")}${getRemoteStateType(item)}`
+      : `${provider}.${name.join("_")}`;
 
   const { for_each, count, ...config } = item[0];
   const dynBlocks = extractDynamicBlocks(config);
@@ -190,6 +230,7 @@ export function resource(
       key,
       config,
       nodeIds,
+      false,
       false,
       getReference(graph, id) || overrideReference
     ),
@@ -215,17 +256,28 @@ you need to keep this like it is.`;
   }
 
   if (count) {
-    const references = extractReferencesFromExpression(count, nodeIds, [
-      "count",
-    ]);
-    expressions.push(
-      addOverrideExpression(
-        varName,
+    if (typeof count === "number") {
+      expressions.push(
+        addOverrideExpression(
+          varName,
+          "count",
+          valueToTs(scope, count, nodeIds),
+          loopComment
+        )
+      );
+    } else {
+      const references = extractReferencesFromExpression(count, nodeIds, [
         "count",
-        referencesToAst(scope, count, references),
-        loopComment
-      )
-    );
+      ]);
+      expressions.push(
+        addOverrideExpression(
+          varName,
+          "count",
+          referencesToAst(scope, count, references),
+          loopComment
+        )
+      );
+    }
   }
 
   // Check for dynamic blocks
@@ -257,13 +309,17 @@ function asExpression(
   config: TerraformResourceBlock,
   nodeIds: string[],
   isModuleImport: boolean,
+  isProvider: boolean,
   reference?: Reference
 ) {
   const { provider, providers, lifecycle, ...otherOptions } = config as any;
 
+  const constructId = uniqueId(scope.constructs, name);
+  const overrideId = !isProvider && constructId !== name;
+
   const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
-    t.stringLiteral(uniqueId(scope.constructs, name)),
+    t.stringLiteral(constructId),
     valueToTs(scope, otherOptions, nodeIds),
   ]);
 
@@ -272,7 +328,7 @@ function asExpression(
     ? referenceToVariableName(scope, reference)
     : variableName(scope, type, name);
 
-  if (reference || providers || provider || lifecycle) {
+  if (reference || providers || provider || lifecycle || overrideId) {
     statements.push(
       t.variableDeclaration("const", [
         t.variableDeclarator(t.identifier(varName), expression),
@@ -311,6 +367,10 @@ function asExpression(
     );
   }
 
+  if (overrideId) {
+    statements.push(addOverrideLogicalIdExpression(varName, name));
+  }
+
   return statements;
 }
 
@@ -334,6 +394,7 @@ export function output(
       sensitive,
     },
     nodeIds,
+    false,
     false
   );
 }
@@ -359,6 +420,7 @@ export function variable(
     key,
     props,
     nodeIds,
+    false,
     false,
     getReference(graph, id)
   );
@@ -393,24 +455,15 @@ export function modules(
   const [{ source, version, ...props }] = item;
   const nodeIds = graph.nodes();
 
-  if (isRegistryModule(source)) {
-    return asExpression(
-      scope,
-      source,
-      key,
-      props,
-      nodeIds,
-      true,
-      getReference(graph, id)
-    );
-  }
+  const moduleConstraint = new TerraformModuleConstraint(source);
 
   return asExpression(
     scope,
-    "cdktf.TerraformHclModule",
+    moduleConstraint.className,
     key,
-    { ...props, source },
+    props,
     nodeIds,
+    true,
     false,
     getReference(graph, id)
   );
@@ -432,7 +485,8 @@ export function provider(
     key,
     props,
     nodeIds,
-    false
+    false,
+    true
   );
 }
 
@@ -449,15 +503,23 @@ export const providerImports = (providers: string[]) =>
     )() as t.Statement;
   });
 
-export const moduleImports = (modules: Record<string, Module> | undefined) =>
-  Object.values(modules || {})
-    .filter(([{ source }]) => isRegistryModule(source))
-    .map(
-      ([{ source }]) =>
-        template(
-          `import * as ${pascalCase(source)} from "./.gen/modules/${source}"`
-        )() as t.Statement
+export const moduleImports = (modules: Record<string, Module> | undefined) => {
+  const uniqueModules = new Set<string>();
+  Object.values(modules || {}).map(([module]) =>
+    uniqueModules.add(module.source)
+  );
+
+  const imports: t.Statement[] = [];
+  uniqueModules.forEach((m) => {
+    const moduleConstraint = new TerraformModuleConstraint(m);
+    imports.push(
+      template.ast(
+        `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
+      ) as t.Statement
     );
+  });
+  return imports;
+};
 
 export function gen(statements: t.Statement[]) {
   return prettier.format(generate(t.program(statements) as any).code, {

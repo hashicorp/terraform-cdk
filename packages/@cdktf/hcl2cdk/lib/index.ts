@@ -1,4 +1,5 @@
 import { parse } from "@cdktf/hcl2json";
+import { isRegistryModule } from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
@@ -9,7 +10,7 @@ import * as rosetta from "jsii-rosetta";
 import * as z from "zod";
 
 import { schema } from "./schema";
-import { findUsedReferences, isRegistryModule } from "./expressions";
+import { findUsedReferences } from "./expressions";
 import {
   backendToExpression,
   cdktfImport,
@@ -191,9 +192,9 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
 
   // In Terraform one can implicitly define the provider by using resources of that type
   const explicitProviders = Object.keys(plan.provider || {});
-  const implicitProviders = Object.keys({ ...plan.resource, ...plan.data }).map(
-    (type) => type.split("_")[0]
-  );
+  const implicitProviders = Object.keys({ ...plan.resource, ...plan.data })
+    .filter((type) => type !== "terraform_remote_state")
+    .map((type) => type.split("_")[0]);
 
   const providerRequirements = Array.from(
     new Set([...explicitProviders, ...implicitProviders])
@@ -218,27 +219,29 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
   );
 
   // We collect all module sources
-  const moduleRequirements = (
-    Object.values(plan.module || {}).reduce(
-      (carry, moduleBlock) => [
-        ...carry,
-        ...moduleBlock.reduce(
-          (arr, { source }) => [...arr, source],
-          [] as string[]
-        ),
-      ],
-      [] as string[]
-    ) || []
-  ).filter((source) => isRegistryModule(source));
+  const moduleRequirements = [
+    ...new Set(
+      Object.values(plan.module || {}).reduce(
+        (carry, moduleBlock) => [
+          ...carry,
+          ...moduleBlock.reduce(
+            (arr, { source, version }) => [
+              ...arr,
+              version ? `${source}@${version}` : source,
+            ],
+            [] as string[]
+          ),
+        ],
+        [] as string[]
+      ) || []
+    ),
+  ];
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
   const cdktfImports =
     plan.terraform?.some((tf) => Object.keys(tf.backend || {}).length > 0) ||
-    Object.keys({ ...plan.variable, ...plan.output }).length > 0 ||
-    Object.values(plan.module || {}).filter(
-      ([{ source }]) => !isRegistryModule(source)
-    ).length > 0
+    Object.keys({ ...plan.variable, ...plan.output }).length > 0
       ? [cdktfImport]
       : ([] as t.Statement[]);
 
@@ -371,3 +374,5 @@ export async function convertProject(
     stats,
   };
 }
+
+export { isRegistryModule };

@@ -1,7 +1,7 @@
 import * as yargs from "yargs";
 import React from "react";
 import { Watch } from "./ui/watch";
-import { readConfigSync } from "../../lib/config";
+import { config as cfg } from "@cdktf/provider-generator";
 import { renderInk } from "./helper/render-ink";
 import * as chalk from "chalk";
 import { displayVersionMessage } from "./helper/version-check";
@@ -10,7 +10,7 @@ import { throwIfNotProjectDirectory } from "./helper/check-directory";
 
 const chalkColour = new chalk.Instance();
 
-const config = readConfigSync();
+const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
   public readonly command = "watch [stack] [OPTIONS]";

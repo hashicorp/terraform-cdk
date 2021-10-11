@@ -1,0 +1,46 @@
+{
+  "name": "@cdktf/provider-generator",
+  "version": "0.0.0",
+  "description": "Exposes API to generate Terraform CDK provider bindings",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "test": "jest",
+    "jest-watch": "jest --watch",
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/provider-generator"
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "cdktf": "0.0.0",
+    "codemaker": "^0.22.0",
+    "fs-extra": "^8.1.0",
+    "is-valid-domain": "^0.1.2",
+    "jsii-srcmak": "^0.1.272"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "@types/glob": "^7.1.4",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.0.0",
+    "@types/reserved-words": "^0.1.0",
+    "jest": "^26.6.3",
+    "typescript": "^4.2.2",
+    "ts-jest": "^26.4.4"
+  }
+}

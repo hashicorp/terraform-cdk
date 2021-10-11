@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput, Testing } from "cdktf";
-import { AwsProvider, SnsTopic } from "./.gen/providers/aws";
+import { AwsProvider, SNS } from "./.gen/providers/aws";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -15,7 +15,7 @@ export class HelloTerra extends TerraformStack {
       ],
     });
 
-    const topic = new SnsTopic(this, "Topic", {
+    const topic = new SNS.SnsTopic(this, "Topic", {
       displayName: "overwritten",
     });
     topic.addOverride("display_name", "topic");

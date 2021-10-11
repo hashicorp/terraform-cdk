@@ -1,10 +1,24 @@
 ---
 layout: "docs"
-page_title: "Template CDKTF docs"
-sidebar_current: "docs-home"
-description: "TODO: describe me"
+page_title: "CDKTF Community"
+sidebar_current: "cdktf"
+description: "Resources to help you contribute to the codebase, submit issues, ask questions, and see our roadmap."
 ---
 
-# Example
+# Community
 
-Lorem Ipsum and so on
+CDK for Terraform is under active development, and we would love your feedback and direct contributions to help guide the project.
+
+## Questions & Issues
+
+If you have questions, the HashiCorp [Discuss](https://discuss.hashicorp.com/) platform using the [terraform-cdk](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/) category is the best place for general discussion. If you run into issues or have ideas for improvements, please file a [bug](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title=) or request a new [feature](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=). Please let us know if you'd like to talk - we are very interested in learning how people use CDK for Terraform in practice.
+
+## Contributing
+
+The CDK for Terraform project is very open to community contributions. The easiest ways to help are by filing bugs for issues, commenting on existing issues you encounter, and commenting on or upvoting feature requests when you have use cases where they would be helpful. Hearing _why_ you're interested is extremely useful, and we appreciate your feedback.
+
+If you're interested in contributing code, please look at the [CONTRIBUTING.md](./CONTRIBUTING.md) guide. Before you file a large pull request, please file a feature request to tell us what you're interested in building. We're happy to work with you on the design to make sure we can review and accept your PR quickly.
+
+## Roadmap
+
+CDK for Terraform is released on a monthly cadence. The [GitHub milestones] (https://github.com/hashicorp/terraform-cdk/milestones) for the project show what is planned for the next release and tentatively planned for subsequent releases. Issues labeled `committed` will land in the planned release, and all others are implicitly stretch goals that may shift to a future release as needed.

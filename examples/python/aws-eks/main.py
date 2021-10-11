@@ -5,7 +5,8 @@ from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput, Token
 
 # for terraform provider
-from imports.aws import AwsProvider, DataAwsCallerIdentity
+from imports.aws import AwsProvider
+from imports.aws.data_sources import DataAwsCallerIdentity
 
 # for terraform module
 from imports.vpc import Vpc

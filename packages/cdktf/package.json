@@ -89,6 +89,7 @@
     "jsii": "^1.29.0",
     "jsii-pacmak": "^1.29.0",
     "json-schema-to-typescript": "^8.0.1",
+    "ts-jest": "^26.4.4",
     "typescript": "^3.9.7"
   },
   "dependencies": {

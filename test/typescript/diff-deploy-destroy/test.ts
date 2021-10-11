@@ -1,9 +1,3 @@
-/**
- * Testing a full cycle of diff, deploy and destroy
- *
- *
- */
-
 import { TestDriver } from "../../test-helper";
 
 describe("full integration test", () => {

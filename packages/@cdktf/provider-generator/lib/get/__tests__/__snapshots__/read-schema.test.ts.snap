@@ -1,0 +1,680 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`readSchema generates a more complex schema 1`] = `
+Object {
+  "moduleSchema": Object {
+    "terraform-aws-modules_eks_aws": Object {
+      "inputs": Array [
+        Object {
+          "default": true,
+          "description": "Whether to attach the module managed cluster autoscaling iam policy to the default worker IAM role. This requires \`manage_worker_autoscaling_policy = true\`",
+          "name": "attach_worker_autoscaling_policy",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to attach the Amazon managed \`AmazonEKS_CNI_Policy\` IAM policy to the default worker IAM role. WARNING: If set \`false\` the permissions must be assigned to the \`aws-node\` DaemonSet pods via another method or nodes will not be able to join the cluster.",
+          "name": "attach_worker_cni_policy",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to create a security group for the cluster or attach the cluster to \`cluster_security_group_id\`.",
+          "name": "cluster_create_security_group",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": "15m",
+          "description": "Timeout value when creating the EKS cluster.",
+          "name": "cluster_create_timeout",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "15m",
+          "description": "Timeout value when deleting the EKS cluster.",
+          "name": "cluster_delete_timeout",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": Array [],
+          "description": "A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)",
+          "name": "cluster_enabled_log_types",
+          "required": false,
+          "type": "list(string)",
+        },
+        Object {
+          "default": false,
+          "description": "Indicates whether or not the Amazon EKS private API server endpoint is enabled.",
+          "name": "cluster_endpoint_private_access",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Indicates whether or not the Amazon EKS public API server endpoint is enabled.",
+          "name": "cluster_endpoint_public_access",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": "",
+          "description": "IAM role name for the cluster. Only applicable if manage_cluster_iam_resources is set to false.",
+          "name": "cluster_iam_role_name",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "",
+          "description": "If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)",
+          "name": "cluster_log_kms_key_id",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": 90,
+          "description": "Number of days to retain log events. Default retention - 90 days.",
+          "name": "cluster_log_retention_in_days",
+          "required": false,
+          "type": "number",
+        },
+        Object {
+          "description": "Name of the EKS cluster. Also used as a prefix in names of related resources.",
+          "name": "cluster_name",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "default": "",
+          "description": "If provided, the EKS cluster will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the workers",
+          "name": "cluster_security_group_id",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "1.14",
+          "description": "Kubernetes version to use for the EKS cluster.",
+          "name": "cluster_version",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "./",
+          "description": "Where to save the Kubectl config file (if \`write_kubeconfig = true\`). Assumed to be a directory if the value ends with a forward slash \`/\`.",
+          "name": "config_output_path",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "/",
+          "description": "If provided, all IAM roles will be created on this path.",
+          "name": "iam_path",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": Array [],
+          "description": "Any additional arguments to pass to the authenticator such as the role to assume. e.g. [\\"-r\\", \\"MyEksRole\\"].",
+          "name": "kubeconfig_aws_authenticator_additional_args",
+          "required": false,
+          "type": "list(string)",
+        },
+        Object {
+          "default": "aws-iam-authenticator",
+          "description": "Command to use to fetch AWS EKS credentials.",
+          "name": "kubeconfig_aws_authenticator_command",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": Array [],
+          "description": "Default arguments passed to the authenticator command. Defaults to [token -i $cluster_name].",
+          "name": "kubeconfig_aws_authenticator_command_args",
+          "required": false,
+          "type": "list(string)",
+        },
+        Object {
+          "default": Object {},
+          "description": "Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = \\"eks\\"}.",
+          "name": "kubeconfig_aws_authenticator_env_variables",
+          "required": false,
+          "type": "map(string)",
+        },
+        Object {
+          "default": "",
+          "description": "Override the default name used for items kubeconfig.",
+          "name": "kubeconfig_name",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": Array [
+            "/bin/sh",
+            "-c",
+          ],
+          "description": "Command to run for local-exec resources. Must be a shell-style interpreter. If you are on Windows Git Bash is a good choice.",
+          "name": "local_exec_interpreter",
+          "required": false,
+          "type": "list(string)",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to apply the aws-auth configmap file.",
+          "name": "manage_aws_auth",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to let the module manage cluster IAM resources. If set to false, cluster_iam_role_name must be specified.",
+          "name": "manage_cluster_iam_resources",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to let the module manage the cluster autoscaling iam policy.",
+          "name": "manage_worker_autoscaling_policy",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to let the module manage worker IAM resources. If set to false, iam_instance_profile_name must be specified for workers.",
+          "name": "manage_worker_iam_resources",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": Array [],
+          "description": "Additional AWS account numbers to add to the aws-auth configmap. See examples/basic/variables.tf for example format.",
+          "name": "map_accounts",
+          "required": false,
+          "type": "list(string)",
+        },
+        Object {
+          "default": Array [],
+          "description": "Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf for example format.",
+          "name": "map_roles",
+          "required": false,
+          "type": "any",
+        },
+        Object {
+          "default": Array [],
+          "description": "Additional IAM users to add to the aws-auth configmap. See examples/basic/variables.tf for example format.",
+          "name": "map_users",
+          "required": false,
+          "type": "any",
+        },
+        Object {
+          "default": null,
+          "description": "If provided, all IAM roles will be created with this permissions boundary attached.",
+          "name": "permissions_boundary",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "description": "A list of subnets to place the EKS cluster and workers within.",
+          "name": "subnets",
+          "required": true,
+          "type": "list(string)",
+        },
+        Object {
+          "default": Object {},
+          "description": "A map of tags to add to all resources.",
+          "name": "tags",
+          "required": false,
+          "type": "map(string)",
+        },
+        Object {
+          "description": "VPC where the cluster and workers will be deployed.",
+          "name": "vpc_id",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "default": Array [],
+          "description": "A list of additional security group ids to attach to worker instances",
+          "name": "worker_additional_security_group_ids",
+          "required": false,
+          "type": "list(string)",
+        },
+        Object {
+          "default": "",
+          "description": "Name filter for AWS EKS worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used.",
+          "name": "worker_ami_name_filter",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "",
+          "description": "Name filter for AWS EKS Windows worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used.",
+          "name": "worker_ami_name_filter_windows",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "602401143452",
+          "description": "The ID of the owner for the AMI to use for the AWS EKS workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').",
+          "name": "worker_ami_owner_id",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": "801119661308",
+          "description": "The ID of the owner for the AMI to use for the AWS EKS Windows workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').",
+          "name": "worker_ami_owner_id_windows",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": false,
+          "description": "Whether to create initial lifecycle hooks provided in worker groups.",
+          "name": "worker_create_initial_lifecycle_hooks",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to create a security group for the workers or attach the workers to \`worker_security_group_id\`.",
+          "name": "worker_create_security_group",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": Array [],
+          "description": "A list of maps defining worker group configurations to be defined using AWS Launch Configurations. See workers_group_defaults for valid keys.",
+          "name": "worker_groups",
+          "required": false,
+          "type": "any",
+        },
+        Object {
+          "default": Array [],
+          "description": "A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults for valid keys.",
+          "name": "worker_groups_launch_template",
+          "required": false,
+          "type": "any",
+        },
+        Object {
+          "default": "",
+          "description": "If provided, all workers will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the EKS cluster.",
+          "name": "worker_security_group_id",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": 1025,
+          "description": "Minimum port number from which pods will accept communication. Must be changed to a lower value if some pods in your cluster will expose a port lower than 1025 (e.g. 22, 80, or 443).",
+          "name": "worker_sg_ingress_from_port",
+          "required": false,
+          "type": "number",
+        },
+        Object {
+          "default": Array [],
+          "description": "Additional policies to be added to workers",
+          "name": "workers_additional_policies",
+          "required": false,
+          "type": "list(string)",
+        },
+        Object {
+          "default": Object {},
+          "description": "Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys.",
+          "name": "workers_group_defaults",
+          "required": false,
+          "type": "any",
+        },
+        Object {
+          "default": "",
+          "description": "User defined workers role name.",
+          "name": "workers_role_name",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to write the aws-auth configmap file.",
+          "name": "write_aws_auth_config",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to write a Kubectl config file containing the cluster configuration. Saved to \`config_output_path\`.",
+          "name": "write_kubeconfig",
+          "required": false,
+          "type": "bool",
+        },
+      ],
+      "name": "terraform-aws-modules_eks_aws",
+      "outputs": Array [
+        Object {
+          "description": "Name of cloudwatch log group created",
+          "name": "cloudwatch_log_group_name",
+        },
+        Object {
+          "description": "The Amazon Resource Name (ARN) of the cluster.",
+          "name": "cluster_arn",
+        },
+        Object {
+          "description": "Nested attribute containing certificate-authority-data for your cluster. This is the base64 encoded certificate data required to communicate with your cluster.",
+          "name": "cluster_certificate_authority_data",
+        },
+        Object {
+          "description": "The endpoint for your EKS Kubernetes API.",
+          "name": "cluster_endpoint",
+        },
+        Object {
+          "description": "IAM role ARN of the EKS cluster.",
+          "name": "cluster_iam_role_arn",
+        },
+        Object {
+          "description": "IAM role name of the EKS cluster.",
+          "name": "cluster_iam_role_name",
+        },
+        Object {
+          "description": "The name/id of the EKS cluster.",
+          "name": "cluster_id",
+        },
+        Object {
+          "description": "The URL on the EKS cluster OIDC Issuer",
+          "name": "cluster_oidc_issuer_url",
+        },
+        Object {
+          "description": "Security group ID attached to the EKS cluster.",
+          "name": "cluster_security_group_id",
+        },
+        Object {
+          "description": "The Kubernetes server version for the EKS cluster.",
+          "name": "cluster_version",
+        },
+        Object {
+          "description": "A kubernetes configuration to authenticate to this EKS cluster.",
+          "name": "config_map_aws_auth",
+        },
+        Object {
+          "description": "kubectl config file contents for this EKS cluster.",
+          "name": "kubeconfig",
+        },
+        Object {
+          "description": "The filename of the generated kubectl config.",
+          "name": "kubeconfig_filename",
+        },
+        Object {
+          "description": "ARN of the worker autoscaling IAM policy if \`manage_worker_autoscaling_policy = true\`",
+          "name": "worker_autoscaling_policy_arn",
+        },
+        Object {
+          "description": "Name of the worker autoscaling IAM policy if \`manage_worker_autoscaling_policy = true\`",
+          "name": "worker_autoscaling_policy_name",
+        },
+        Object {
+          "description": "default IAM instance profile ARN for EKS worker groups",
+          "name": "worker_iam_instance_profile_arns",
+        },
+        Object {
+          "description": "default IAM instance profile name for EKS worker groups",
+          "name": "worker_iam_instance_profile_names",
+        },
+        Object {
+          "description": "default IAM role ARN for EKS worker groups",
+          "name": "worker_iam_role_arn",
+        },
+        Object {
+          "description": "default IAM role name for EKS worker groups",
+          "name": "worker_iam_role_name",
+        },
+        Object {
+          "description": "Security group ID attached to the EKS workers.",
+          "name": "worker_security_group_id",
+        },
+        Object {
+          "description": "IDs of the autoscaling groups containing workers.",
+          "name": "workers_asg_arns",
+        },
+        Object {
+          "description": "Names of the autoscaling groups containing workers.",
+          "name": "workers_asg_names",
+        },
+        Object {
+          "description": "ID of the default worker group AMI",
+          "name": "workers_default_ami_id",
+        },
+        Object {
+          "description": "ARNs of the worker launch templates.",
+          "name": "workers_launch_template_arns",
+        },
+        Object {
+          "description": "IDs of the worker launch templates.",
+          "name": "workers_launch_template_ids",
+        },
+        Object {
+          "description": "Latest versions of the worker launch templates.",
+          "name": "workers_launch_template_latest_versions",
+        },
+        Object {
+          "description": "User data of worker groups",
+          "name": "workers_user_data",
+        },
+      ],
+    },
+  },
+  "providerSchema": {
+  "format_version": "STUBBED VERSION"
+},
+}
+`;
+
+exports[`readSchema generates a single module schema 1`] = `
+Object {
+  "moduleSchema": Object {
+    "terraform-aws-modules_iam_aws_modules_iam-account": Object {
+      "inputs": Array [
+        Object {
+          "description": "AWS IAM account alias for this account",
+          "name": "account_alias",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to allow users to change their own password",
+          "name": "allow_users_to_change_password",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to create AWS IAM account password policy",
+          "name": "create_account_password_policy",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to get AWS account ID, User ID, and ARN in which Terraform is authorized",
+          "name": "get_caller_identity",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": false,
+          "description": "Whether users are prevented from setting a new password after their password has expired (i.e. require administrator reset)",
+          "name": "hard_expiry",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": 0,
+          "description": "The number of days that an user password is valid.",
+          "name": "max_password_age",
+          "required": false,
+          "type": "number",
+        },
+        Object {
+          "default": 8,
+          "description": "Minimum length to require for user passwords",
+          "name": "minimum_password_length",
+          "required": false,
+          "type": "number",
+        },
+        Object {
+          "default": null,
+          "description": "The number of previous passwords that users are prevented from reusing",
+          "name": "password_reuse_prevention",
+          "required": false,
+          "type": "number",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to require lowercase characters for user passwords",
+          "name": "require_lowercase_characters",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to require numbers for user passwords",
+          "name": "require_numbers",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to require symbols for user passwords",
+          "name": "require_symbols",
+          "required": false,
+          "type": "bool",
+        },
+        Object {
+          "default": true,
+          "description": "Whether to require uppercase characters for user passwords",
+          "name": "require_uppercase_characters",
+          "required": false,
+          "type": "bool",
+        },
+      ],
+      "name": "terraform-aws-modules_iam_aws_modules_iam-account",
+      "outputs": Array [
+        Object {
+          "description": "The AWS Account ID number of the account that owns or contains the calling entity",
+          "name": "this_caller_identity_account_id",
+        },
+        Object {
+          "description": "The AWS ARN associated with the calling entity",
+          "name": "this_caller_identity_arn",
+        },
+        Object {
+          "description": "The unique identifier of the calling entity",
+          "name": "this_caller_identity_user_id",
+        },
+        Object {
+          "description": "Indicates whether passwords in the account expire. Returns true if max_password_age contains a value greater than 0. Returns false if it is 0 or not present.",
+          "name": "this_iam_account_password_policy_expire_passwords",
+        },
+      ],
+    },
+  },
+  "providerSchema": {
+  "format_version": "STUBBED VERSION"
+},
+}
+`;
+
+exports[`readSchema generates a single provider schema 1`] = `
+Object {
+  "moduleSchema": Object {},
+  "providerSchema": {
+  "format_version": "STUBBED VERSION",
+  "provider_schemas": {
+    "registry.terraform.io/hashicorp/null": {
+      "provider": {
+        "version": 0,
+        "block": {
+          "description_kind": "plain"
+        }
+      },
+      "resource_schemas": {
+        "null_resource": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "description": "This is set to a random value at create time.",
+                "description_kind": "markdown",
+                "computed": true
+              },
+              "triggers": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "description": "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.",
+                "description_kind": "markdown",
+                "optional": true
+              }
+            },
+            "description": "The \`null_resource\` resource implements the standard resource lifecycle but takes no further action.\\n\\nThe \`triggers\` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.",
+            "description_kind": "markdown"
+          }
+        }
+      },
+      "data_source_schemas": {
+        "null_data_source": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "has_computed_default": {
+                "type": "string",
+                "description": "If set, its literal value will be stored and returned. If not, its value defaults to \`\\"default\\"\`. This argument exists primarily for testing and has little practical use.",
+                "description_kind": "markdown",
+                "optional": true,
+                "computed": true
+              },
+              "id": {
+                "type": "string",
+                "description": "This attribute is only present for some legacy compatibility issues and should not be used. It will be removed in a future version.",
+                "description_kind": "markdown",
+                "deprecated": true,
+                "computed": true
+              },
+              "inputs": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "description": "A map of arbitrary strings that is copied into the \`outputs\` attribute, and accessible directly for interpolation.",
+                "description_kind": "markdown",
+                "optional": true
+              },
+              "outputs": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "description": "After the data source is \\"read\\", a copy of the \`inputs\` map.",
+                "description_kind": "markdown",
+                "computed": true
+              },
+              "random": {
+                "type": "string",
+                "description": "A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.",
+                "description_kind": "markdown",
+                "computed": true
+              }
+            },
+            "description": "The \`null_data_source\` data source implements the standard data source lifecycle but does not\\ninteract with any external APIs.\\n\\nHistorically, the \`null_data_source\` was typically used to construct intermediate values to re-use elsewhere in configuration. The\\nsame can now be achieved using [locals](https://www.terraform.io/docs/language/values/locals.html).\\n",
+            "description_kind": "markdown",
+            "deprecated": true
+          }
+        }
+      }
+    }
+  }
+},
+}
+`;

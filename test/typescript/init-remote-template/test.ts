@@ -1,9 +1,3 @@
-/**
- * Testing interaction remote templates
- *
- * @group typescript
- */
-
 import { TestDriver } from "../../test-helper";
 const fs = require("fs").promises;
 
@@ -12,16 +6,21 @@ describe("remote templates", () => {
     const driver = new TestDriver(__dirname);
     await driver.setupRemoteTemplateProject();
     const files = await fs.readdir(driver.workingDirectory);
-    expect(files).toEqual([
-      ".gen",
-      ".gitignore",
-      ".npmrc",
-      "cdktf.json",
-      "help",
-      "main.ts",
-      "package.json",
-      "tsconfig.json",
-    ]);
+    expect(files).toEqual(
+      expect.arrayContaining([
+        ".gen",
+        ".gitignore",
+        ".npmrc",
+        "cdktf.json",
+        "help",
+        "jest.config.js",
+        "main.ts",
+        "package.json",
+        "setup.js",
+        "tsconfig.json",
+        "__tests__",
+      ])
+    );
   });
 
   test("handles invalid url", async () => {
