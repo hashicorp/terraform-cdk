@@ -182,7 +182,7 @@ export type Operator =
   | "!="
   | "&&"
   | "||";
-export class OperatorExpression extends TFExpression {
+class OperatorExpression extends TFExpression {
   constructor(
     private operator: Operator,
     private left: Expression,
@@ -220,66 +220,66 @@ export class OperatorExpression extends TFExpression {
 
     return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
   }
+}
 
-  public static not(expression: Expression) {
-    return new OperatorExpression("!", expression) as IResolvable;
-  }
+export function notOperation(expression: Expression) {
+  return new OperatorExpression("!", expression) as IResolvable;
+}
 
-  public static negate(expression: Expression) {
-    return new OperatorExpression("-", expression) as IResolvable;
-  }
+export function negateOperation(expression: Expression) {
+  return new OperatorExpression("-", expression) as IResolvable;
+}
 
-  public static mul(left: Expression, right: Expression) {
-    return new OperatorExpression("*", left, right) as IResolvable;
-  }
+export function mulOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("*", left, right) as IResolvable;
+}
 
-  public static div(left: Expression, right: Expression) {
-    return new OperatorExpression("/", left, right) as IResolvable;
-  }
+export function divOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("/", left, right) as IResolvable;
+}
 
-  public static mod(left: Expression, right: Expression) {
-    return new OperatorExpression("%", left, right) as IResolvable;
-  }
+export function modOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("%", left, right) as IResolvable;
+}
 
-  public static add(left: Expression, right: Expression) {
-    return new OperatorExpression("+", left, right) as IResolvable;
-  }
+export function addOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("+", left, right) as IResolvable;
+}
 
-  public static sub(left: Expression, right: Expression) {
-    return new OperatorExpression("-", left, right) as IResolvable;
-  }
+export function subOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("-", left, right) as IResolvable;
+}
 
-  public static gt(left: Expression, right: Expression) {
-    return new OperatorExpression(">", left, right) as IResolvable;
-  }
+export function gtOperation(left: Expression, right: Expression) {
+  return new OperatorExpression(">", left, right) as IResolvable;
+}
 
-  public static gte(left: Expression, right: Expression) {
-    return new OperatorExpression(">=", left, right) as IResolvable;
-  }
+export function gteOperation(left: Expression, right: Expression) {
+  return new OperatorExpression(">=", left, right) as IResolvable;
+}
 
-  public static lt(left: Expression, right: Expression) {
-    return new OperatorExpression("<", left, right) as IResolvable;
-  }
+export function ltOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("<", left, right) as IResolvable;
+}
 
-  public static lte(left: Expression, right: Expression) {
-    return new OperatorExpression("<=", left, right) as IResolvable;
-  }
+export function lteOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("<=", left, right) as IResolvable;
+}
 
-  public static eq(left: Expression, right: Expression) {
-    return new OperatorExpression("==", left, right) as IResolvable;
-  }
+export function eqOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("==", left, right) as IResolvable;
+}
 
-  public static neq(left: Expression, right: Expression) {
-    return new OperatorExpression("!=", left, right) as IResolvable;
-  }
+export function neqOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("!=", left, right) as IResolvable;
+}
 
-  public static and(left: Expression, right: Expression) {
-    return new OperatorExpression("&&", left, right) as IResolvable;
-  }
+export function andOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("&&", left, right) as IResolvable;
+}
 
-  public static or(left: Expression, right: Expression) {
-    return new OperatorExpression("||", left, right) as IResolvable;
-  }
+export function orOperation(left: Expression, right: Expression) {
+  return new OperatorExpression("||", left, right) as IResolvable;
 }
 class FunctionCall extends TFExpression {
   constructor(private name: string, private args: Expression[]) {
@@ -305,6 +305,9 @@ export function call(name: string, args: Expression[]) {
 export type Expression =
   | Reference
   | FunctionCall
+  | PropertyAccess
+  | ConditionalExpression
+  | OperatorExpression
   | string
   | string[]
   | number
