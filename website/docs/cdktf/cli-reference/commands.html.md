@@ -112,6 +112,12 @@ Convert HCL in your clipboard to Python on OSX.
 pbpaste | cdktf convert --language python | pbcopy
 ```
 
+Convert HCL in your clipboard to Python on OSX.
+
+```bash
+pbpaste | cdktf convert --language python | pbcopy
+```
+
 ## deploy
 
 This command deploys a given application.
@@ -315,7 +321,7 @@ Create a new Python project and use a specific version of the `cdktf` package.
 $ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
-Create a new Typescript project from an existing Terraform codebase. Currently, only Typescript is supported, and there are [some known limitations](to do link to these when in the docs).
+Create a new Typescript project from an existing Terraform codebase. Currently, you can only use the `--from-terraform-project` flag with TypeScript, and there are [some known limitations](to do link to these when in the docs).
 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
@@ -398,13 +404,13 @@ $ cdktf synth --json
 
 ## watch
 
-~> **Warning:** The `watch` command is experimental. You should only use it in development environments.
+~> **Warning:** The `watch` command is experimental, so you should only use it in development environments. It also automatically deploys all changes without asking for confirmation.
 
 The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time and automatically deploys changes without asking for confirmation.
 
 Watch reads your root `.gitignore` file to determine which files trigger a `synth` and it uses the `outdir` of your `cdktf.json` (or the default `cdktf.out`) to do so for a deploy. It will generate a checksum of the subdirectory containing the Terraform code for your stack to skip deploys if the synthesized Terraform config did not change.
 
-### Prerequisites
+### Requirements
 
 Before using `watch` you should:
 
@@ -412,18 +418,45 @@ Before using `watch` you should:
 
 - **Check your environment.** The `watch` command should only be used for development environments. We recommend making sure that the terminal where you want to run `watch` has no access keys that allow the `cdktf-cli` to deploy to your production environment.
 
-### Run
+### Run watch
 
-An exemplary invocation of watch could be:
-
-TODO please provide an explanation of what these flags do!
-
-```
-cdktf watch --stack dev --auto-approve
+```sh
+$ cdktf watch --help
 ```
 
-### Troubleshoot
+**Help Output**
+
+```
+cdktf watch [stack] [OPTIONS]
+
+[experimental] Watch for file changes and automatically trigger a deploy
+
+Positionals:
+  stack  Deploy stack which matches the given id only. Required when more than one stack is present in the app                                                                                                                                                                                                                                                      [string]
+
+Options:
+      --version                   Show version number                                                                                                                                                                                                                                                                                                              [boolean]
+      --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                                                                                                                                                                             [boolean] [default: true]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                                                                             [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                                                                                                                                                                             [string]
+  -a, --app                       Command to use in order to execute cdktf app                                                                                                                                                                                                                                                                                    [required]
+  -o, --output                    Output directory                                                                                                                                                                                                                                                                                         [required] [default: "cdktf.out"]
+      --auto-approve              Auto approve                                                                                                                                                                                                                                                                                                 [boolean] [default: false]
+  -h, --help                      Show help
+```
+
+**Examples**
+
+Run `watch` on the development stack (dev). The `--auto-approve` flag skips the explicit plan approval step and is currently always required.
+
+```
+cdktf watch dev --auto-approve
+```
+
+### Troubleshoot watch
 
 Set the `CDKTF_LOG_LEVEL` environment variable to `all` and set `CDKTF_DISABLE_LOGGING` to `false`.
+
+The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
 
 The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.

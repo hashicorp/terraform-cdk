@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack, Testing } from "cdktf";
 import { OurLocalModule } from "./.gen/modules/our-local-module";
 import { Gcloud } from "./.gen/modules/gcloud";
-import { TerraformAwsModulesIamAwsModulesIamAccount } from "./.gen/modules/terraform-aws-modules/iam/aws/modules/iam-account";
+import { IamAccount } from "./.gen/modules/terraform-aws-modules/aws/iam/modules/iam-account";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -10,7 +10,7 @@ export class HelloTerra extends TerraformStack {
 
     new OurLocalModule(this, "local-module", {});
     new Gcloud(this, "gcloud", {});
-    new TerraformAwsModulesIamAwsModulesIamAccount(this, "iam", {
+    new IamAccount(this, "iam", {
       accountAlias: "cdktf",
     });
   }
