@@ -9,7 +9,7 @@ description: "Configure a remote backend where Terraform can store infrastructur
 
 Terraform stores [state](https://www.terraform.io/docs/language/state/index.html) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](https://www.terraform.io/docs/backends/types/remote.html) to store state remotely.
 
-By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding Remote Backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, the state can still be [migrated](#migrate-state) to a remote backend, such as Terraform Cloud or Terraform Enterprise, at a later date. 
+By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding Remote Backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, the state can still be [migrated](#migrate-state) to a remote backend, such as Terraform Cloud or Terraform Enterprise, at a later date.
 
 You can configure your remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), another Terraform (CDKTF) [supported backend](#supported-backends), or a custom location.
 
