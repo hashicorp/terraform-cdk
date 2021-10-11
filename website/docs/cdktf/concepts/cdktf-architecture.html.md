@@ -9,10 +9,6 @@ description: "Learn the key components of CDK for Terraform applications and how
 
 When you use CDKTF, you create an **application** that uses CDKTF libraries to convert infrastructure definitions into JSON configuration files for Terraform. An application can have one or more **stacks**, which represent a collection of infrastructure that will be synthesized as a dedicated Terraform configuration. This allows you to separate the state management for multiple environments with the same infrastructure, like test and production.
 
-## Constructs
-
-CDK for Terraform apps are structured as a tree of [constructs](https://github.com/aws/constructs). The classes `App`, `TerraformStack`, `TerraformResource` and `Resource` are all deriving from `Construct` and are therefore represented as a node in the application tree, where the `App` node is the root.
-
 ## Application
 
 The `App` class is a logical concept to group instances of a `Stack` and provide global configuration to all its descendants.
@@ -200,7 +196,7 @@ The cdktf package is the foundation for each CDK for Terraform project. It's ava
 
 ## Constructs
 
-Constructs is one of the core packages we rely on. It essentially allows modeling a tree of "constructs". The `Application` in CDK for Terraform is the root node, where the Stacks are its children. When generating provider bindings, these are also constructs.
+CDK for Terraform apps are structured as a tree of [constructs](https://github.com/aws/constructs). The classes `App`, `TerraformStack`, `TerraformResource` and `Resource` are all deriving from `Construct` and are therefore represented as a node in the application tree, where the `App` node is the root.
 
 ### Levels of Abstraction
 
