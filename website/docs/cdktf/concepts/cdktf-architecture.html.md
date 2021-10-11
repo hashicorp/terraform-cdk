@@ -7,17 +7,23 @@ description: "Learn the key components of CDK for Terraform applications and how
 
 # Architecture
 
-When you use CDKTF, you create an **application** that uses CDKTF libraries to convert infrastructure definitions into JSON configuration files for Terraform. An application can have one or more **stacks**, which represent a collection of infrastructure that will be synthesized as a dedicated Terraform configuration. This allows you to separate the state management for multiple environments with the same infrastructure, like test and production.
+TBD INTRO
 
 ## Application
 
-The `App` class is a logical concept to group instances of a `Stack` and provide global configuration to all its descendants.
+Each CDK for Terraform (CDKTF) project has at least one application that uses CDKTF libraries to convert infrastructure definitions into JSON configuration files for Terraform. An application can have one or more [stacks](./stacks.html) that represent a collection of infrastructure that will be synthesized as a dedicated Terraform configuration.
+
+You create your application by defining an instance of `App`. `App` contains one or more instances of a `Stack` and provides global configuration to all its descendants.
 
 The synthesized output of an `App` will be written to the configured `output` path (`cdktf.out` by default). By default cdktf projects are designed to have one instance of `App`. However, one could have as many apps as desired wihtin a project. The output path for each `App` instance has to be unique, to avoid conflicts between apps for the synthesized output.
 
 ### Application Context
 
 One option to provide global configuration is the app `context`, which can be accessed in any construct within the app.
+
+TODO: Please explain what types of things you'd want to use the app context for. What things would you use this for rather than cdktf.json?
+
+TODO: Please explain what is going on in this example :-)
 
 ```typescript
 import { Construct } from "constructs";
@@ -47,7 +53,11 @@ new MyStack(app, "hello-cdktf");
 app.synth();
 ```
 
-The other way to define global configuration would be the [cdktf.json]() config file TODO: add link
+-> **Note** You can also define additional global configuration for your application in the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuration-file.html).
+
+### Multiple Applications
+
+TODO: You mentioned somewhere that you could have more than one app in a single project. Can we discuss this and 1) explain why someone would want multiple apps and 2) explain how to configure this?
 
 ## Stack
 
