@@ -17,7 +17,7 @@ You may need to occasionally use these elements in your CDKTF application instea
 
 ## Input Variables
 
-You can define [Terraform variables](https://www.terraform.io/docs/configuration/variables.html) as input parameters to customize stacks and [modules](/fundamentals/modules.html). For example, rather than hardcoding the number and type of AWS EC2 instances to provision, you can define a variable that lets users change these parameters based on their needs.
+You can define [Terraform variables](https://www.terraform.io/docs/configuration/variables.html) as input parameters to customize [stacks](./stacks.html) and [modules](/fundamentals/modules.html). For example, rather than hardcoding the number and type of AWS EC2 instances to provision, you can define a variable that lets users change these parameters based on their needs.
 
 ### When to use Input Variables
 
@@ -27,7 +27,9 @@ If you plan to use CDK for Terraform to manage your infrastructure, then we reco
 
 ### Define Input Variables
 
-The following example demonstrates how a `TerraformVariable` can be used to provide inputs to resources.
+You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](https://www.terraform.io/docs/language/values/variables.html#variables-on-the-command-line) for details. The CDKTF CLI currently supports configuration via [environment variables](https://www.terraform.io/docs/language/values/variables.html#environment-variables), but this will be removed in a future release.
+
+The TypeScript example below uses `TerraformVariable` to provide inputs to resources.
 
 ```typescript
 const imageId = new TerraformVariable(this, "imageId", {
@@ -41,21 +43,19 @@ new Instance(this, "hello", {
 });
 ```
 
-The values for variables have to be provided, exactly in the same way as variables in HCL. There are various ways to do this with Terraform, details can be found [here](https://www.terraform.io/docs/language/values/variables.html#variables-on-the-command-line)
-
-In the `cdktf-cli` we do support variable configuration via [environment variables](https://www.terraform.io/docs/language/values/variables.html#environment-variables) only at the moment.
-
 ## Local Values
 
-A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) assigns a name to an expression to allow repeated usage. They can be thought of similar to a local variable, and as such, can often be replaced by one.
+A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) assigns a name to an expression to allow repeated usage. They are similar to a local variables in a programming language.
 
-### When to Use Local values
+### When to Use Local Values
 
-Local values are helpful for cases, where values need to be changed at Terraform run time using Terraform Functions. If the value is known upfront at synth time, it's usually makes sense to reach for native language features to modify values, such as strings, lists or numbers.
+Use local values when you need use [Terraform functions](./functions.html) to transform data that is only available when Terraform applies a configuration. For example, instance IDs tha cloud providers assign upon creation.
+
+When values are available before [synthesizing your code](/cdktf/cli-reference/commands.html#synth), we recommend using native programming language features to modify values instead.
 
 ### Define Local Values
 
-In TypeScript, a Terraform local is expressed by `TerraformLocal`.
+This TypeScript example uses `TerraformLocal` to create a local value.
 
 ```typescript
 const commonTags = new TerraformLocal(this, "common_tags", {
@@ -68,7 +68,7 @@ new Instance(this, "example", {
 });
 ```
 
-The `TerraformLocal` synthesizes to the following:
+When you run `cdktf synth` the `TerraformLocal` above synthesizes to the following JSON.
 
 ```json
 "locals": {
@@ -93,9 +93,9 @@ You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0
 
 ### When to use Output Values
 
-Outputs are useful to make any value of a Terraform Resource or Data Source available for further consumption. This might be just you wanting to get the URL of the server which was just provisioned. But it's also very handy to allow data sharing between `TerraformStacks`. This applies in particular to data which is depending on the provisioned resources and therefore not known at compile time.
+Use outputs to make data from [Terraform resources](./providers-and-resources.html) and [data sources](./data-sources.html) available for further consumption. They also allow you to share data between [stacks](./stacks.html). Outputs are particularly useful when you need to access data that is only known after Terraform applies the configuration. For example, you may want to get the URL of a newly provisioned server.
 
-For values which are known at compile time (like static inputs such as user or domain names), it's usually recommended to supply this data as direct inputs to the stacks.
+When values are available before [synthesizing your code](/cdktf/cli-reference/commands.html#synth), we recommend supplying this data as direct inputs using the functionality in your preferred programming language.
 
 ```ts
 import { Construct } from "constructs";
@@ -126,7 +126,11 @@ app.synth();
 
 ### Define Outputs
 
-In TypeScript, a Terraform output for a Pet resource of the Randome provider can be expressed by `TerraformOutput`.
+To access outputs, use the `_output` suffix for python and the `Output` suffix for other languages.
+
+Outputs return an HCL expression representing the underlying Terraform resource, so the return type must always be `string`. When `TerraformOutput` is any other type than string, you must add a typecast to compile the application (e.g. `mod.numberOutput as number`). If a module returns a list, you must use an escape hatch to access items or loop over it. Refer to the [Resources page](./resources.html) for more information about how to use escape hatches.
+
+The Typescript example below uses `TerraformOutput` to create an output for a Random provider resource.
 
 ```typescript
 import * as random from "@cdktf/provider-random";
@@ -152,7 +156,7 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
-The `TerraformOutput` synthesizes to the following:
+When you run `cdktf synth`, CDKTF synthesizes the code above to the following JSON configuration.
 
 ```json
 "output": {
@@ -162,7 +166,7 @@ The `TerraformOutput` synthesizes to the following:
 }
 ```
 
-When deployed via `cdktf deploy`, you'll see an output like the following:
+When you run `cdktf deploy`, CDKTF displays the following output.
 
 ```
 Deploying Stack: cdktf-demo
@@ -174,11 +178,9 @@ Summary: 1 created, 0 updated, 0 destroyed.
 Output: random-pet = choice-haddock
 ```
 
-Since these are plain Terraform outputs, these can be used in the same fashion as Terraform outputs (thinking about Terraform Cloud / TFE but also all the other possible backends)
-
 ### Define & Reference Outputs via Remote State
 
-A common use case for outputs is data sharing between stacks. In particular for data, which is not known at compile time.
+The TypeScript example below uses outputs to share data between stacks, each of which has a [remote backend](./remote-backends.html) to store the Terraform state files remotely.
 
 ```ts
 import * as random from "@cdktf/provider-random";

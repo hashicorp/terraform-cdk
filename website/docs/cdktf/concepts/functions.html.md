@@ -7,24 +7,35 @@ description: "Learn when to use built-in Terraform functions to transform or com
 
 # Functions
 
-Terraform provides a set of built-in functions that to transform and combine values within Terraform configurations. The [Terraform function documentation](https://www.terraform.io/docs/language/functions/index.html) contains a complete list. You can also use your editor autocompletion on the `Fn` object.
+Terraform provides a set of built-in functions that transform and combine values within Terraform configurations. The [Terraform function documentation](https://www.terraform.io/docs/language/functions/index.html) contains a complete list. You can also use your editor autocompletion on the `Fn` object to find available options.
 
-## Use Terraform functions
+Functions can handle normal and [token](./tokens.md) values and will return either tokenized values or `IResolvable` values.
 
-We do not recommend using Terraform functions for inputs that are not tied to Terraform, such as environment variables, local files, etc. In those cases, it is easier and more efficient to do this using your chosen programming language.
+## When to Use Terraform Functions
 
-You should Terraform functions when you need to calculate new values based on runtime values (resource / module / data source outputs). **TODO** Explain why.
+Use Terraform functions when you need to calculate new values based on runtime values that are unknown before Terraform applies a configuration. For example, instance IDs that cloud providers assign on creation.
 
-Functions can handle normal and [token](./tokens.md) values and will return either tokenized values or `IResolvable`s.
+When inputs are available before [synthesizing your code](/cdktf/cli-reference/commands.html#synth) (e.g. local files), we recommend transforming the values with your preferred programming language.
 
-**TODO**: Can you please explain why this is a good example of when you should use a function and explain what's going on in this example?
+## Usage Example
+
+The TypeScript example below uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](./variables-and-outputs.html#outputs) and the Terraform [`element`](https://www.terraform.io/docs/language/functions/element.html) function.
+
+The `element` function gets the first element from the list of Availability Zone names.
 
 ```ts
-import { Fn } from "cdktf";
+import { Fn, TerraformOutput } from "cdktf";
+import { DataAwsAvailabilityZones } from "@cdktf/provider-aws";
 
-new vpc() = new VPC(this, "vpc", {});
-new LoadBalancer(this, "lb", {
-  name: "main-lb",
-  subnet: Fn.cidrsubnet(Fn.element(vpc.listOfSubnets, 0), 4, 2),
+// ...
+
+const zones = new DataAwsAvailabilityZones(this, "zones", {
+  state: "available",
 });
+
+new TerraformOutput(this, "first-zone", {
+  value: Fn.element(zones.names, 0),
+});
+
+// ...
 ```
