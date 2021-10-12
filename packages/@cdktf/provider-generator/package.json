@@ -31,7 +31,7 @@
     "codemaker": "^0.22.0",
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.2",
-    "jsii-srcmak": "^0.1.272"
+    "jsii-srcmak": "^0.1.365"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",

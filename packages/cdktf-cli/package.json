@@ -61,7 +61,7 @@
     "ink-spinner": "^4.0.1",
     "ink-use-stdout-dimensions": "^1.0.5",
     "inquirer": "^8.1.2",
-    "jsii-srcmak": "^0.1.272",
+    "jsii-srcmak": "^0.1.365",
     "lodash.isequal": "^4.5.0",
     "log4js": "^6.3.0",
     "open": "^7.0.4",
