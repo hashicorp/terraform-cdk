@@ -3,7 +3,14 @@ import * as path from "path";
 import * as os from "os";
 import { execSync } from "child_process";
 import { convertProject, getTerraformConfigFromDir } from "../lib";
+import {
+  readSchema,
+  ConstructsMakerProviderTarget,
+  LANGUAGES,
+  config,
+} from "@cdktf/provider-generator";
 
+const providerRequirements = ["kreuzwerker/docker@ ~>2.15.0"];
 const createFiles = (cwd: string, files: [string, string][]) => {
   files.forEach(([p, content]) => {
     fs.writeFileSync(path.resolve(cwd, p), content, "utf8");
@@ -150,7 +157,20 @@ function resources(plan: any) {
   }));
 }
 
+let cachedProviderSchema: any;
 describe("convertProject", () => {
+  beforeAll(async () => {
+    // Get all the provider schemas
+    const { providerSchema } = await readSchema(
+      providerRequirements.map((spec) =>
+        ConstructsMakerProviderTarget.from(
+          new config.TerraformProviderConstraint(spec),
+          LANGUAGES[0]
+        )
+      )
+    );
+    cachedProviderSchema = providerSchema;
+  });
   it("has a similar plan", async () => {
     const { importPath, targetPath } = terraformProject([
       [
@@ -202,6 +222,7 @@ describe("convertProject", () => {
       require(path.resolve(targetPath, "cdktf.json")),
       {
         language: "typescript",
+        providerSchema: cachedProviderSchema,
       }
     );
 

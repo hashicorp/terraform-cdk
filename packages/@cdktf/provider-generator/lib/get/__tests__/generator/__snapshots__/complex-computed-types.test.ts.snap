@@ -48,7 +48,7 @@ export namespace ACM {
     * 
     * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#options AcmCertificate#options}
     */
-    readonly options?: AcmCertificateOptions[];
+    readonly options?: AcmCertificateOptions;
   }
   export class AcmCertificateDomainValidationOptions extends cdktf.ComplexComputedList {
 
@@ -79,13 +79,42 @@ export namespace ACM {
     readonly certificateTransparencyLoggingPreference?: string;
   }
 
-  function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptions): any {
+  function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptionsOutput | AcmCertificateOptions): any {
     if (!cdktf.canInspect(struct)) { return struct; }
+    if (cdktf.isComplexElement(struct)) {
+      throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    }
     return {
       certificate_transparency_logging_preference: cdktf.stringToTerraform(struct!.certificateTransparencyLoggingPreference),
     }
   }
 
+  export class AcmCertificateOptionsOutput extends cdktf.ComplexObject {
+    /**
+    * @param terraformResource The parent resource
+    * @param terraformAttribute The attribute on the parent resource this class is referencing
+    * @param isSingleItem True if this is a block, false if it's a list
+    */
+    public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+      super(terraformResource, terraformAttribute, isSingleItem);
+    }
+
+    // certificate_transparency_logging_preference - computed: false, optional: true, required: false
+    private _certificateTransparencyLoggingPreference?: string | undefined; 
+    public get certificateTransparencyLoggingPreference() {
+      return this.getStringAttribute('certificate_transparency_logging_preference');
+    }
+    public set certificateTransparencyLoggingPreference(value: string | undefined) {
+      this._certificateTransparencyLoggingPreference = value;
+    }
+    public resetCertificateTransparencyLoggingPreference() {
+      this._certificateTransparencyLoggingPreference = undefined;
+    }
+    // Temporarily expose input value. Use with caution.
+    public get certificateTransparencyLoggingPreferenceInput() {
+      return this._certificateTransparencyLoggingPreference
+    }
+  }
 
   /**
   * Represents a {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html aws_acm_certificate}
@@ -140,11 +169,11 @@ export namespace ACM {
     }
 
     // certificate_authority_arn - computed: false, optional: true, required: false
-    private _certificateAuthorityArn?: string;
+    private _certificateAuthorityArn?: string | undefined; 
     public get certificateAuthorityArn() {
       return this.getStringAttribute('certificate_authority_arn');
     }
-    public set certificateAuthorityArn(value: string ) {
+    public set certificateAuthorityArn(value: string | undefined) {
       this._certificateAuthorityArn = value;
     }
     public resetCertificateAuthorityArn() {
@@ -156,11 +185,11 @@ export namespace ACM {
     }
 
     // certificate_body - computed: false, optional: true, required: false
-    private _certificateBody?: string;
+    private _certificateBody?: string | undefined; 
     public get certificateBody() {
       return this.getStringAttribute('certificate_body');
     }
-    public set certificateBody(value: string ) {
+    public set certificateBody(value: string | undefined) {
       this._certificateBody = value;
     }
     public resetCertificateBody() {
@@ -172,11 +201,11 @@ export namespace ACM {
     }
 
     // certificate_chain - computed: false, optional: true, required: false
-    private _certificateChain?: string;
+    private _certificateChain?: string | undefined; 
     public get certificateChain() {
       return this.getStringAttribute('certificate_chain');
     }
-    public set certificateChain(value: string ) {
+    public set certificateChain(value: string | undefined) {
       this._certificateChain = value;
     }
     public resetCertificateChain() {
@@ -188,11 +217,11 @@ export namespace ACM {
     }
 
     // domain_name - computed: true, optional: true, required: false
-    private _domainName?: string;
+    private _domainName?: string | undefined; 
     public get domainName() {
       return this.getStringAttribute('domain_name');
     }
-    public set domainName(value: string) {
+    public set domainName(value: string | undefined) {
       this._domainName = value;
     }
     public resetDomainName() {
@@ -214,11 +243,11 @@ export namespace ACM {
     }
 
     // private_key - computed: false, optional: true, required: false
-    private _privateKey?: string;
+    private _privateKey?: string | undefined; 
     public get privateKey() {
       return this.getStringAttribute('private_key');
     }
-    public set privateKey(value: string ) {
+    public set privateKey(value: string | undefined) {
       this._privateKey = value;
     }
     public resetPrivateKey() {
@@ -230,11 +259,11 @@ export namespace ACM {
     }
 
     // subject_alternative_names - computed: true, optional: true, required: false
-    private _subjectAlternativeNames?: string[];
+    private _subjectAlternativeNames?: string[] | undefined; 
     public get subjectAlternativeNames() {
       return this.getListAttribute('subject_alternative_names');
     }
-    public set subjectAlternativeNames(value: string[]) {
+    public set subjectAlternativeNames(value: string[] | undefined) {
       this._subjectAlternativeNames = value;
     }
     public resetSubjectAlternativeNames() {
@@ -246,11 +275,12 @@ export namespace ACM {
     }
 
     // tags - computed: false, optional: true, required: false
-    private _tags?: { [key: string]: string } | cdktf.IResolvable;
+    private _tags?: { [key: string]: string } | cdktf.IResolvable | undefined; 
     public get tags() {
+      // Getting the computed value is not yet implemented
       return this.interpolationForAttribute('tags') as any;
     }
-    public set tags(value: { [key: string]: string } | cdktf.IResolvable ) {
+    public set tags(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
       this._tags = value;
     }
     public resetTags() {
@@ -267,11 +297,11 @@ export namespace ACM {
     }
 
     // validation_method - computed: true, optional: true, required: false
-    private _validationMethod?: string;
+    private _validationMethod?: string | undefined; 
     public get validationMethod() {
       return this.getStringAttribute('validation_method');
     }
-    public set validationMethod(value: string) {
+    public set validationMethod(value: string | undefined) {
       this._validationMethod = value;
     }
     public resetValidationMethod() {
@@ -283,11 +313,12 @@ export namespace ACM {
     }
 
     // options - computed: false, optional: true, required: false
-    private _options?: AcmCertificateOptions[];
+    private _options?: AcmCertificateOptions | undefined; 
+    private __optionsOutput = new AcmCertificateOptionsOutput(this as any, \\"options\\", true);
     public get options() {
-      return this.interpolationForAttribute('options') as any;
+      return this.__optionsOutput;
     }
-    public set options(value: AcmCertificateOptions[] ) {
+    public putOptions(value: AcmCertificateOptions | undefined) {
       this._options = value;
     }
     public resetOptions() {
@@ -312,7 +343,7 @@ export namespace ACM {
         subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
         tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
         validation_method: cdktf.stringToTerraform(this._validationMethod),
-        options: cdktf.listMapper(acmCertificateOptionsToTerraform)(this._options),
+        options: acmCertificateOptionsToTerraform(this._options),
       };
     }
   }
