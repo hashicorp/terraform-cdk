@@ -22,8 +22,8 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  isRegistryModule,
 } from "./expressions";
+import { TerraformModuleConstraint } from "@cdktf/provider-generator";
 
 function getReference(graph: DirectedGraph, id: string) {
   const neighbors = graph.outNeighbors(id);
@@ -455,26 +455,15 @@ export function modules(
   const [{ source, version, ...props }] = item;
   const nodeIds = graph.nodes();
 
-  if (isRegistryModule(source)) {
-    return asExpression(
-      scope,
-      source,
-      key,
-      props,
-      nodeIds,
-      true,
-      false,
-      getReference(graph, id)
-    );
-  }
+  const moduleConstraint = new TerraformModuleConstraint(source);
 
   return asExpression(
     scope,
-    "cdktf.TerraformHclModule",
+    moduleConstraint.className,
     key,
-    { ...props, source },
+    props,
     nodeIds,
-    false,
+    true,
     false,
     getReference(graph, id)
   );
@@ -514,15 +503,23 @@ export const providerImports = (providers: string[]) =>
     )() as t.Statement;
   });
 
-export const moduleImports = (modules: Record<string, Module> | undefined) =>
-  Object.values(modules || {})
-    .filter(([{ source }]) => isRegistryModule(source))
-    .map(
-      ([{ source }]) =>
-        template(
-          `import * as ${pascalCase(source)} from "./.gen/modules/${source}"`
-        )() as t.Statement
+export const moduleImports = (modules: Record<string, Module> | undefined) => {
+  const uniqueModules = new Set<string>();
+  Object.values(modules || {}).map(([module]) =>
+    uniqueModules.add(module.source)
+  );
+
+  const imports: t.Statement[] = [];
+  uniqueModules.forEach((m) => {
+    const moduleConstraint = new TerraformModuleConstraint(m);
+    imports.push(
+      template.ast(
+        `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
+      ) as t.Statement
     );
+  });
+  return imports;
+};
 
 export function gen(statements: t.Statement[]) {
   return prettier.format(generate(t.program(statements) as any).code, {

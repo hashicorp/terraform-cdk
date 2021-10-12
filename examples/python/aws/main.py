@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import SnsTopic, AwsProvider
-from imports.terraform_aws_modules.vpc.aws import TerraformAwsModulesVpcAws
+from imports.aws import AwsProvider
+from imports.aws.sns import SnsTopic
+from imports.terraform_aws_modules.aws import Vpc
 
 
 class MyStack(TerraformStack):
@@ -11,7 +12,7 @@ class MyStack(TerraformStack):
 
         AwsProvider(self, 'Aws', region='eu-central-1')
 
-        TerraformAwsModulesVpcAws(self, 'CustomVpc',
+        Vpc(self, 'CustomVpc',
             name='custom-vpc',
             cidr='10.0.0.0/16',
             azs=["us-east-1a", "us-east-1b"],
