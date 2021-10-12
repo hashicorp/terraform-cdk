@@ -53,7 +53,7 @@ export class Testing {
     const tfConfig = stack.toTerraform();
 
     function removeMetadata(item: any): any {
-      if (typeof item === "object") {
+      if (item !== null && typeof item === "object") {
         if (Array.isArray(item)) {
           return item.map(removeMetadata);
         }
