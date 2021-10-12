@@ -17,6 +17,12 @@ import { isLocalModule } from "@cdktf/provider-generator";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
 import { v4 as uuid } from "uuid";
+import {
+  readSchema,
+  ConstructsMakerProviderTarget,
+  LANGUAGES,
+  config,
+} from "@cdktf/provider-generator";
 
 const chalkColour = new chalk.Instance();
 
@@ -54,6 +60,7 @@ type Options = {
   dist?: string;
   destination: string;
   fromTerraformProject?: string;
+  providerRequirements?: string[];
 };
 export async function runInit(argv: Options) {
   const telemetryData: Record<string, unknown> = {};
@@ -134,6 +141,15 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
       const combinedTfFile = getTerraformConfigFromDir(importPath);
 
+      // Get all the provider schemas
+      const { providerSchema } = await readSchema(
+        (argv.providerRequirements || []).map((spec) =>
+          ConstructsMakerProviderTarget.from(
+            new config.TerraformProviderConstraint(spec),
+            LANGUAGES[0]
+          )
+        )
+      );
       try {
         const { code, cdktfJson, stats } = await convertProject(
           combinedTfFile,
@@ -141,6 +157,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
           require(path.resolve(destination, "cdktf.json")),
           {
             language: "typescript",
+            providerSchema,
           }
         );
 
