@@ -10,32 +10,32 @@ class MyStack(TerraformStack):
 
         KubernetesProvider(self, 'kind', config_path="~/.kube/config")
         example_namespace = Namespace(self, "tf-cdk-example",
-                                      metadata=[{
+                                      metadata={
                                           'name': 'tf-cdk-example'
-                                      }])
+                                      })
         app_name = "nginx-example"
         Deployment(self, 'nginx-deployment',
-                   metadata=[{
+                   metadata={
                        'name': app_name,
-                       'namespace': example_namespace.metadata_input[0].name,
+                       'namespace': example_namespace.metadata.name,
                        'labels': {
                            'app': app_name
                        }
-                   }],
-                   spec=[{
+                   },
+                   spec={
                        'replicas': 2,
-                       'selector': [{
-                           'matchLabels': {
+                       'selector': {
+                           'match_labels': {
                                'app': app_name
                            }
-                       }],
-                       'template': [{
-                           'metadata': [{
+                       },
+                       'template': {
+                           'metadata': {
                                'labels': {
                                    'app': app_name
                                }
-                           }],
-                           'spec': [{
+                           },
+                           'spec': {
                                'container': [{
                                    'image': 'nginx:1.7.9',
                                    'name': 'example',
@@ -43,14 +43,15 @@ class MyStack(TerraformStack):
                                        'containerPort': 80
                                    }]
                                }]
-                           }]
-                       }]
-                   }])
+                           }
+                       }
+                   })
         Service(self, "tf-cdk-service",
-                metadata=[{
-                    'name': 'tf-cdk-service'
-                }],
-                spec=[{
+                metadata={
+                    'name': 'tf-cdk-service',
+                    'namespace': example_namespace.metadata.name,
+                },
+                spec={
                     'selector': {
                         'app': app_name
                     },
@@ -60,7 +61,7 @@ class MyStack(TerraformStack):
                         'target_port': 80
                     }],
                     'type': 'NodePort'
-                }])
+                })
 
 
 app = App()
