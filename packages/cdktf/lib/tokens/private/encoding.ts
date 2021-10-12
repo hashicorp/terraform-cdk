@@ -129,6 +129,20 @@ export function containsListTokenElement(xs: any[]) {
   );
 }
 
+export function isComplexElement(xs: any) {
+  return (
+    typeof xs === "object" &&
+    xs !== undefined &&
+    xs != null &&
+    "withinArray" in xs &&
+    "interpolationAsList" in xs
+  );
+}
+
+export function containsComplexElement(xs: any) {
+  return xs.length > 0 && isComplexElement(xs[0]);
+}
+
 /**
  * Returns true if obj is a token (i.e. has the resolve() method or is a string
  * that includes token markers), or it's a listifictaion of a Token string.

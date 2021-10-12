@@ -1,5 +1,22 @@
 import { AttributeTypeModel } from "./attribute-type-model";
 
+export type GetterType =
+  | { _type: "plain" }
+  | {
+      _type: "args";
+      args: string;
+      returnType?: string;
+      returnStatement: string;
+    }
+  | {
+      _type: "stored_class";
+    };
+
+export type SetterType =
+  | { __type: "none" }
+  | { __type: "set"; type: string }
+  | { __type: "put"; type: string };
+
 export interface AttributeModelOptions {
   storageName: string; // private property
   name: string;
@@ -62,6 +79,99 @@ export class AttributeModel {
 
   public get isProvider(): boolean {
     return this.provider;
+  }
+
+  public get getterType(): GetterType {
+    let getterType: GetterType = { _type: "plain" };
+
+    if (
+      // Complex Computed List Map
+      this.computed &&
+      !this.isOptional &&
+      this.type.isComputedComplex &&
+      this.type.isList &&
+      this.type.isMap
+    ) {
+      getterType = {
+        _type: "args",
+        args: "index: string, key: string",
+        returnType: this.mapType,
+        returnStatement: `new ${this.type.name}(this, \`${this.terraformName}.\${index}\`).lookup(key)`,
+      };
+    } else if (
+      // Complex Computed List
+      this.computed &&
+      !this.isOptional &&
+      this.type.isComputedComplex &&
+      this.type.isList
+    ) {
+      getterType = {
+        _type: "args",
+        args: "index: string",
+        returnStatement: `new ${this.type.name}(this, '${this.terraformName}', index)`,
+      };
+    } else if (
+      // Complex Computed Map
+      this.computed &&
+      !this.isOptional &&
+      this.type.isComputedComplex &&
+      this.type.isMap
+    ) {
+      getterType = {
+        _type: "args",
+        args: "key: string",
+        returnType: this.mapType,
+        returnStatement: `new ${this.type.name}(this, '${this.terraformName}').lookup(key)`,
+      };
+    }
+
+    if (this.type.isSingleItem && this.type.isComplex && !this.isProvider) {
+      getterType = { _type: "stored_class" };
+    }
+
+    return getterType;
+  }
+
+  public get mapType(): string {
+    const type = this.type;
+    if (type.isStringMap) {
+      return `string`;
+    }
+    if (type.isNumberMap) {
+      return `number`;
+    }
+    if (type.isBooleanMap) {
+      return `boolean`;
+    }
+    if (process.env.DEBUG) {
+      console.error(
+        `The attribute ${JSON.stringify(this)} isn't implemented yet`
+      );
+    }
+    return `any`;
+  }
+
+  public get isStored(): boolean {
+    return (
+      (this.isAssignable && !this.isConfigIgnored) ||
+      this.getterType._type === "stored_class"
+    );
+  }
+
+  public get setterType(): SetterType {
+    return this.isStored
+      ? this.getterType._type === "stored_class"
+        ? {
+            __type: "put",
+            type: this.type.storedName,
+          }
+        : {
+            __type: "set",
+            type: `${this.type.storedName}${
+              this.isProvider ? "| undefined" : ""
+            }`,
+          }
+      : { __type: "none" };
   }
 
   public get name(): string {
