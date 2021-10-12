@@ -6,6 +6,7 @@ export interface AttributeTypeModelOptions {
   isComputed?: boolean;
   isOptional?: boolean;
   isRequired?: boolean;
+  isSingleItem?: boolean;
   isMap?: boolean;
   level?: number;
 }
@@ -27,6 +28,7 @@ export class AttributeTypeModel {
   public isComputed: boolean;
   public isOptional: boolean;
   public isRequired?: boolean;
+  public isSingleItem?: boolean; // a block with max one item in it
   public isMap: boolean;
   public struct?: Struct;
   public level?: number;
@@ -37,8 +39,12 @@ export class AttributeTypeModel {
     this.isComputed = !!options.isComputed;
     this.isOptional = !!options.isOptional;
     this.isRequired = !!options.isRequired;
+    this.isSingleItem = !!options.isSingleItem;
     this.level = options.level;
     this.struct = options.struct;
+    if (options.struct) {
+      options.struct.isSingleItem = this.isSingleItem || false;
+    }
   }
 
   public get name(): string {
@@ -47,6 +53,8 @@ export class AttributeTypeModel {
     if (this.isBooleanMap) return `cdktf.BooleanMap`;
     if (this.isMap)
       return `{ [key: string]: ${this._type} } | cdktf.IResolvable`;
+    if (this.isList && !this.isComputed && this.isSingleItem)
+      return `${this._type}`;
     if (this.isList && !this.isComputed) return `${this._type}[]`;
     if (
       this.isList &&
@@ -60,6 +68,12 @@ export class AttributeTypeModel {
     if (this._type === TokenizableTypes.BOOLEAN)
       return `boolean | cdktf.IResolvable`;
     return this._type;
+  }
+
+  public get storedName(): string {
+    let name = this.name;
+
+    return `${name}${this.isOptional ? " | undefined" : ""}`;
   }
 
   public get isComplex(): boolean {

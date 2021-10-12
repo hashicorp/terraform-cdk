@@ -86,3 +86,25 @@ export class ComplexComputedList extends ComplexComputedAttribute {
     );
   }
 }
+
+export class ComplexObject extends ComplexComputedAttribute {
+  constructor(
+    protected terraformResource: ITerraformResource,
+    protected terraformAttribute: string,
+    protected isSingleItem: boolean
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
+
+  protected interpolationForAttribute(property: string) {
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}${this.isSingleItem ? "[0]" : ""}.${property}`
+    );
+  }
+
+  protected interpolationAsList() {
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}.*`
+    );
+  }
+}
