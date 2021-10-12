@@ -137,6 +137,7 @@ Options:
   --cdktf-version             The cdktf version to use while creating a new project.    [string] [default: "0.0.0"]
   --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the
                               .tf files in the path                                                        [string]
+  --provider                  The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a cdktf.json below your current working directory.
   -h, --help                  Show help                                                                   [boolean]
 ```
 
@@ -155,6 +156,7 @@ $ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
 Create a new Typescript project from an existing Terraform codebase. Please be aware that only Typescript is currently supported and that there are [some known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
+To improve the acuracy of the conversion you can add the provider flag with one or multiple items to specify the providers your code is using: `--provider 'hashicorp/aws@ ~>3.62.0'`.
 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
@@ -364,6 +366,7 @@ Options:
   --log-level                 Which log level should be written. Only supported via setting the env
                               CDKTF_LOG_LEVEL                                                        [string]
   --language                      [choices: "typescript", "python", "csharp", "java"] [default: "typescript"]
+  --provider                  The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a cdktf.json below your current working directory.
   -h, --help                  Show help                                                             [boolean]
 ```
 
@@ -372,6 +375,7 @@ Examples:
 - Convert a local file: `cat main.tf | cdktf convert > imported.ts`
 - Convert HCL in your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
 
+To improve the acuracy of the convert command you can add the provider flag with one or multiple items to specify the providers your code is using: `--provider 'hashicorp/aws@ ~>3.62.0'`.
 There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
 
 ### cdktf completion

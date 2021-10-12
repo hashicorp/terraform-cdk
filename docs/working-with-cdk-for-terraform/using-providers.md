@@ -220,3 +220,27 @@ Terraform supports using local providers. For CDK for Terrform being able to gen
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
 Once configured properly, these providers can be referenced in the `cdktf.json` config file as any other provider in the Terraform registry.
+
+## Using References
+
+When working with resources created from providers you can use properties on the instances from the generated bindings to reference in other resources. This allows us to track logical dependencies and access computed values.
+
+```ts
+
+const exampleNamespace = new Namespace(this, "tf-cdk-example", {
+  metadata: {
+    name: "tf-cdk-example",
+  },
+});
+
+new Deployment(this, "nginx-deployment", {
+  metadata: {
+    name: "nginx",
+    namespace: exampleNamespace.metadata.name, // This let's you reference the name
+    labels: {
+      app,
+    },
+  });
+```
+
+Please be aware that you can not pass an entire block (e.g. `exampleNamespace.metadata`) as this is not supported by Terraform. You need to specify all values you want to pass.
