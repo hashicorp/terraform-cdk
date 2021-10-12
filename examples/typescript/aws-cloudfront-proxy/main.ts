@@ -53,79 +53,65 @@ class MyStack extends TerraformStack {
         enabled: true,
         isIpv6Enabled: true,
 
-        viewerCertificate: [
-          {
-            acmCertificateArn: cert.arn,
-            sslSupportMethod: "sni-only",
-          },
-        ],
+        viewerCertificate: {
+          acmCertificateArn: cert.arn,
+          sslSupportMethod: "sni-only",
+        },
 
-        restrictions: [
-          {
-            geoRestriction: [
-              {
-                restrictionType: "none",
-              },
-            ],
+        restrictions: {
+          geoRestriction: {
+            restrictionType: "none",
           },
-        ],
+        },
 
         origin: [
           {
             originId,
             domainName: proxyTarget,
-            customOriginConfig: [
-              {
-                httpPort: 80,
-                httpsPort: 443,
-                originProtocolPolicy: "http-only",
-                originSslProtocols: ["TLSv1.2", "TLSv1.1"],
-              },
-            ],
+            customOriginConfig: {
+              httpPort: 80,
+              httpsPort: 443,
+              originProtocolPolicy: "http-only",
+              originSslProtocols: ["TLSv1.2", "TLSv1.1"],
+            },
           },
         ],
 
         aliases: [domainName],
 
-        defaultCacheBehavior: [
-          {
-            minTtl: 0,
-            defaultTtl: 60,
-            maxTtl: 86400,
-            allowedMethods: [
-              "DELETE",
-              "GET",
-              "HEAD",
-              "OPTIONS",
-              "PATCH",
-              "POST",
-              "PUT",
+        defaultCacheBehavior: {
+          minTtl: 0,
+          defaultTtl: 60,
+          maxTtl: 86400,
+          allowedMethods: [
+            "DELETE",
+            "GET",
+            "HEAD",
+            "OPTIONS",
+            "PATCH",
+            "POST",
+            "PUT",
+          ],
+          cachedMethods: ["GET", "HEAD"],
+          targetOriginId: originId,
+          viewerProtocolPolicy: "redirect-to-https",
+          forwardedValues: {
+            cookies: {
+              forward: "all",
+            },
+            headers: [
+              "Host",
+              "Accept-Datetime",
+              "Accept-Encoding",
+              "Accept-Language",
+              "User-Agent",
+              "Referer",
+              "Origin",
+              "X-Forwarded-Host",
             ],
-            cachedMethods: ["GET", "HEAD"],
-            targetOriginId: originId,
-            viewerProtocolPolicy: "redirect-to-https",
-            forwardedValues: [
-              {
-                cookies: [
-                  {
-                    forward: "all",
-                  },
-                ],
-                headers: [
-                  "Host",
-                  "Accept-Datetime",
-                  "Accept-Encoding",
-                  "Accept-Language",
-                  "User-Agent",
-                  "Referer",
-                  "Origin",
-                  "X-Forwarded-Host",
-                ],
-                queryString: true,
-              },
-            ],
+            queryString: true,
           },
-        ],
+        },
       }
     );
 
