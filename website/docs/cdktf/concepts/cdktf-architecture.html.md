@@ -7,7 +7,7 @@ description: "Key CDK for Terraform components and application structure."
 
 # Architecture
 
-TBD INTRO
+This page explains the tools and processes that CDK for Terraform (CDKTF) uses to leverage the Terraform ecosystem and convert code into Terraform configuration files. It also explains the major components of a CDKTF application and how those pieces fit together.
 
 ## CDKTF Building Blocks
 
@@ -15,7 +15,7 @@ CDKTF leverages existing libraries and tools to help convert the definitions you
 
 ### Amazon Web Services Cloud Development Kit
 
-CDK for Terraform shares core concepts and components with the [Amazon Web Services Cloud Development Kit](https://aws.amazon.com/cdk/) (AWS CDK), which allows you to use programming languages to define infrastructure resources on AWS CloudFormation. However, AWS CDK and CDK for Terraform are different products, and you can use CDKTF to leverage the entire Terraform ecosystem, including the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest). We are also actively working on an [interoperability layer](https://github.com/hashicorp/terraform-cdk/pulls?q=is%3Apr+is%3Aopen+label%3Afeature%2Faws-adapter) to use AWS CDK [constructs](#constructs) directly within CDKTF.
+CDK for Terraform shares core concepts and components with the [Amazon Web Services Cloud Development Kit](https://aws.amazon.com/cdk/) (AWS CDK), a tool that allows you to use familiar programming languages to define infrastructure on AWS CloudFormation. AWS CDK and CDK for Terraform are different products, and you cannot yet use [AWS CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html) within CDKTF. We are actively working on an [interoperability layer](https://github.com/hashicorp/terraform-cdk/pulls?q=is%3Apr+is%3Aopen+label%3Afeature%2Faws-adapter) to enable this in future releases.
 
 ### jsii
 
@@ -27,11 +27,11 @@ CDKTF is a conversion layer that [synthesizes](/cdktf/cli-reference/commands.htm
 
 The diagram below shows how synthesizing a CDKTF application produces a series of artifacts in the `cdktf.out` folder. You can then either use the resulting JSON file with Terraform directly or with CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
 
-![cdktf-terraform](./assets/cdktf-terraform.png)
+![cdktf-terraform](./images/cdktf-terraform-workflow.png)
 
 CDKTF also automatically extracts the schemas from existing Terraform [providers](./providers.html) or [modules](./modules.html) and generates the necessary code bindings for your application.
 
-![cdktf-terraform](./assets/provider-modules.png)
+![cdktf-terraform](./images/provider-modules.png)
 
 ## CDKTF Components
 
@@ -43,20 +43,30 @@ CDKTF has two major components that allow you to define and provision infrastruc
 
 ## Application Architecture
 
-CDKTF applications are structured as a tree of [constructs](https://github.com/aws/constructs), which the AWS documentation defines as "classes that define a 'piece of system state'". The key CDKTF classes are all derived from `Construct` and are represented as a node in the application tree, where the `App` node is the root.
+CDKTF applications are structured as a tree of [constructs](https://github.com/aws/constructs), which the AWS documentation defines as "classes that define a 'piece of system state'". The foundational classes to build a CDKTF application are `App`, `Stack`, and `Resource`.
+
+![cdktf-terraform](./images/cdktf-app-architecture.png)
 
 ### `App` Class
 
-Each CDK for Terraform (CDKTF) project has one or more `App` instances. By default cdktf projects are designed to have one instance of `App`. However, one could have as many apps as desired within a project. The output path for each `App` instance has to be unique, to avoid conflicts between apps for the synthesized output.
+Each CDKTF project has one or more `App` instances that act as a container for the infrastructure configurations you create and deploy. An `App` can have one or more [`Stacks`](./stacks.html) that represent a collection of related infrastructure.
 
-TODO: Can we 1) explain why someone would want multiple apps and 2) explain how to configure this? The configuration may be moved to another page, but please add it here for now.
+By default, CDKTF projects have one instance of `App`, but you could build as many apps as desired within a project. The output path for each `App` instance has to be unique to avoid conflicts between apps for the synthesized output. TODO: Please explain why someone would want multiple apps in their project?
 
-An `App` can have one or more [`Stacks`](./stacks.html) that represent a collection of infrastructure that will be synthesized as a dedicated Terraform configuration.
+### `Stack` Class
 
-### `TerraformStack` Class
+A `Stack` represents a collection of infrastructure resources that CDKTF synthesizes as a separate Terraform configuration. It is equivalent to a [Terraform working directory](https://www.terraform.io/docs/cli/init/index.html).
 
-A `Stack`represents a collection of infrastructure which will be synthesized as a dedicated Terraform configuration. In comparison to Terraform, a Stack is equal to a dedicated working directory. Stacks are useful to separate the state management within an application which is useful in terms of blast radius. Furthermore, it allows to organize the application logically.
+Stacks allow you to separate the state management within an application. For example, you may want to deploy and manage separate infrastructure resources for development and testing. Reference the [stack documentation](./stacks.html) for more details on when and how to use stacks in your project.
 
 ### `Resource` Class
 
-TODO add something here.
+A `Resource` represents the definition for one or more infrastructure objects. Resources and their required attributes vary depending on the provider. Reference the [providers and resources documentation](./providers-and-resources.html#resources) for more details.
+
+### Constructs
+
+Rather than defining resources by hand, you can leverage constructs to reuse existing resource configurations written in your programming language. TODO: Do we have a constructs library that maybe we could link folks to? OR how can we talk about this briefly without going into too much detail.
+
+### Examples
+
+Reference the [examples page](/docs/cdktf/examples.html) to see configured CDKTF applications in each supported programming language.
