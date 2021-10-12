@@ -55,6 +55,7 @@ Choose a language:
 - [kubernetes](./examples/typescript/kubernetes)
 - [ucloud](./examples/typescript/ucloud)
 - [vault](./examples/typescript/vault)
+- [azure-service-bus-queue-trigger](./examples/typescript/azure-service-bus-queue-trigger)
 
 #### Backends
 
