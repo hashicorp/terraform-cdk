@@ -32,6 +32,10 @@ requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast 
 output as a list of strings.
 
 ```typescript
+const logRetention = new TerraformVariable(this, "logRetentionInDays", {
+  type: "number",
+});
+
 const vpc = new Vpc(this, vpcName, {
   name: vpcName,
   publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"],
@@ -40,11 +44,12 @@ const vpc = new Vpc(this, vpcName, {
 new Eks(this, "EksModule", {
   clusterName: "my-kubernetes-cluster",
   subnets: Token.asList(vpc.publicSubnetsOutput),
+  clusterLogRetentionInDays: logRetention.numberValue,
 });
 ```
 
-Initially, the CDK for Terraform will resolve `Token.asList(vpc.publicSubnetsOutput)` to `["#{TOKEN[TOKEN.9]}"]`.
-Later in synthesis, the CDK for Terraform will resolve the token to `${module.<module id>.public_subnets}`.
+Initially, CDKTF will resolve `Token.asList(vpc.publicSubnetsOutput)` to `["#{TOKEN[TOKEN.9]}"]` and `logRetention.numberValue` to a big negative number like `-123828381238238`.
+Later in synthesis, CDKTF will resolve the token to `${module.<module id>.public_subnets}` and `${var.logRetentionInDays}`.
 
 ```json
 {
