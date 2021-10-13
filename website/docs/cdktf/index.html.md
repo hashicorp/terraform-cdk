@@ -38,7 +38,7 @@ You can make this choice for each team and project because CDK for Terraform [in
 
 ## Choosing a Language for your Project
 
-We encourage you to use the language that you are most familiar with and that fits the broader landscape of your organization to build CDKTF applications. We strive to have feature parity and good UX across all supported languages, but there may be instances when new features and UX may not achieve parity for languages with experimental support.
+To choose which language to use to build CDKTF applications, consider which of the supported languages you are most familiar with, and which language best fits your organization's current tooling. We work towards providing feature parity and a good user experience across all supported languages, but there may be instances when new features will not be available for languages with experimental support.
 
 ## Project Maturity and Production Readiness
 
