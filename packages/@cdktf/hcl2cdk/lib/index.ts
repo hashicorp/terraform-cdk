@@ -31,11 +31,9 @@ import {
   forEachNamespaced,
   resourceStats,
 } from "./iteration";
+import { getProviderRequirements } from "./provider";
 
-export async function convertToTypescript(
-  hcl: string,
-  providerSchema: ProviderSchema
-) {
+export async function getParsedHcl(hcl: string) {
   // Get the JSON representation of the HCL
   let json: Record<string, unknown>;
   try {
@@ -55,6 +53,20 @@ export async function convertToTypescript(
 Please include this information:
 ${JSON.stringify((err as z.ZodError).errors)}`);
   }
+
+  return plan;
+}
+
+export async function parseProviderRequirements(hcl: string) {
+  const plan = await getParsedHcl(hcl);
+  return getProviderRequirements(plan);
+}
+
+export async function convertToTypescript(
+  hcl: string,
+  providerSchema: ProviderSchema
+) {
+  const plan = await getParsedHcl(hcl);
 
   // Each key in the scope needs to be unique, therefore we save them in a set
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
@@ -197,34 +209,6 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     [] as t.Statement[]
   );
 
-  // In Terraform one can implicitly define the provider by using resources of that type
-  const explicitProviders = Object.keys(plan.provider || {});
-  const implicitProviders = Object.keys({ ...plan.resource, ...plan.data })
-    .filter((type) => type !== "terraform_remote_state")
-    .map((type) => type.split("_")[0]);
-
-  const providerRequirements = Array.from(
-    new Set([...explicitProviders, ...implicitProviders])
-  ).reduce(
-    (carry, req) => ({ ...carry, [req]: "*" }),
-    {} as Record<string, string>
-  );
-  plan.terraform?.forEach(({ required_providers }) =>
-    (required_providers || []).forEach((providerBlock) =>
-      Object.values(providerBlock).forEach(({ source, version }) => {
-        if (!source) {
-          return;
-        }
-        // implicitly only the last part of the path is used (e.g. docker for kreuzwerker/docker)
-        const parts = source.split("/");
-        if (parts.length > 1) {
-          delete providerRequirements[parts.pop() || ""];
-        }
-        providerRequirements[source] = version || "*";
-      })
-    )
-  );
-
   // We collect all module sources
   const moduleRequirements = [
     ...new Set(
@@ -260,6 +244,8 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
 You can read more about this at https://cdk.tf/variables`
     );
   }
+
+  const providerRequirements = getProviderRequirements(plan);
 
   const providers = providerImports(Object.keys(providerRequirements));
   if (providers.length > 0) {

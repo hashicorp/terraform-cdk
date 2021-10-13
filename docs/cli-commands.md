@@ -137,7 +137,6 @@ Options:
   --cdktf-version             The cdktf version to use while creating a new project.    [string] [default: "0.0.0"]
   --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the
                               .tf files in the path                                                        [string]
-  --provider                  The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a cdktf.json below your current working directory.
   -h, --help                  Show help                                                                   [boolean]
 ```
 
