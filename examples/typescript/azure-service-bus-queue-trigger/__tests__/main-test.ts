@@ -3,7 +3,7 @@ import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
 
 describe("My CDKTF Application", () => {
   // The tests below are example tests, you can find more information at
-  // https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/testing.md
+  // https://cdk.tf/testing
   it.todo("should be tested");
 
   // // All Unit testst test the synthesised terraform code, it does not create real-world resources
