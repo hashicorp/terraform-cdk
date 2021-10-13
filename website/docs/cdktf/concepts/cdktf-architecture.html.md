@@ -51,8 +51,6 @@ CDKTF applications are structured as a tree of [constructs](https://github.com/a
 
 Each CDKTF project has one or more `App` instances that act as a container for the infrastructure configurations you create and deploy. An `App` can have one or more [`Stacks`](./stacks.html) that represent a collection of related infrastructure.
 
-By default, CDKTF projects have one instance of `App`, but you could build as many apps as desired within a project. The output path for each `App` instance has to be unique to avoid conflicts between apps for the synthesized output. TODO: Please explain why someone would want multiple apps in their project?
-
 ### `Stack` Class
 
 A `Stack` represents a collection of infrastructure resources that CDKTF synthesizes as a separate Terraform configuration. It is equivalent to a [Terraform working directory](https://www.terraform.io/docs/cli/init/index.html).
@@ -65,7 +63,9 @@ A `Resource` represents the definition for one or more infrastructure objects. R
 
 ### Constructs
 
-Rather than defining resources by hand, you can leverage constructs to reuse existing resource configurations written in your programming language. TODO: Do we have a constructs library that maybe we could link folks to? OR how can we talk about this briefly without going into too much detail.
+Rather than defining resources by hand, you can leverage constructs to reuse existing resource configurations written in your programming language. For example, you might create a construct that describes a Kubernetes deployment, import it into your application, and customize the deployment via the exposed properties.
+
+Here is an example of a [custom construct written in TypeScript](https://github.com/skorfmann/cdktf-hybrid-module/blob/7a84cbea62fbc3c3b7e92c00d75fcaad495cf29b/packages/cdktf-hybrid-module/lib/construct.ts) that creates a machine image. The exported interface allows users to specify the instance type and one or more tags. The rest of the configuration is defined in the construct and is abstracted from the consumer.
 
 ### Examples
 
