@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Remote Backends"
 sidebar_current: "cdktf"
 description: "Configure a remote backend where Terraform can store infrastructure state files remotely."

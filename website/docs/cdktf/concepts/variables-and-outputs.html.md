@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Variables and Outputs"
 sidebar_current: "cdktf"
 description: "TBD"

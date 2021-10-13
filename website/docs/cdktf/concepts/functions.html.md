@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Functions"
 sidebar_current: "cdktf"
 description: "Learn when to use built-in Terraform functions to transform or combine values."

@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Tokens"
 sidebar_current: "cdktf"
 description: "Tokens allow CDK for Terraform to resolve programming language types to Terraform language syntax."

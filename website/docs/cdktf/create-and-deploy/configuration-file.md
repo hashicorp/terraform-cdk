@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Configuration"
 sidebar_current: "cdktf"
 description: "Use the cdktf.json file to customize configuration settings and define the providers and modules to use with your application."

@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "HCL Interoperability"
 sidebar_current: "cdktf"
 description: "Use configurations written in HCL and configurations written in CDK for Terraform together to define and provision infrastructure."

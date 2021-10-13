@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "CLI Configuration"
 sidebar_current: "cdktf"
 description: "Install and configure the CDKTF Command Line Interface."

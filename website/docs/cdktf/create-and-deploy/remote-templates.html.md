@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Remote Templates"
 sidebar_current: "cdktf"
 description: "Templates allow you to scaffold a new CDK for Terraform Project. Learn to create your own template."

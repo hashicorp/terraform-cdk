@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Modules"
 sidebar_current: "cdktf"
 description: "Use both public and private modules in your CDKTF application to reuse existing configurations."

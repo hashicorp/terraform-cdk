@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Stacks"
 sidebar_current: "cdktf"
 description: "TBD"
