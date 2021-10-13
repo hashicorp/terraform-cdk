@@ -17,7 +17,7 @@ You may need to occasionally use these elements in your CDKTF application instea
 
 ## Input Variables
 
-You can define [Terraform variables](https://www.terraform.io/docs/configuration/variables.html) as input parameters to customize [stacks](./stacks.html) and [modules](/fundamentals/modules.html). For example, rather than hardcoding the number and type of AWS EC2 instances to provision, you can define a variable that lets users change these parameters based on their needs.
+You can define [Terraform variables](https://www.terraform.io/docs/configuration/variables.html) as input parameters to customize [stacks](./stacks.html) and [modules](/concepts/modules.html). For example, rather than hardcoding the number and type of AWS EC2 instances to provision, you can define a variable that lets users change these parameters based on their needs.
 
 ### When to use Input Variables
 

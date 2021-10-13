@@ -50,7 +50,7 @@ If you are running the CLI in an automated environment, you can force the dynami
 
 ## Configuration File
 
-You can configure the behavior of the Terraform CDK CLI by modifying the `cdktf.json` file in your project root directory. Refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail on how you can supply custom configuration settings for your application.
+You can configure the behavior of the Terraform CDK CLI by modifying the `cdktf.json` file in your project root directory. Refer to the [cdktf.json documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more detail on how you can supply custom configuration settings for your application.
 
 ## Telemetry
 

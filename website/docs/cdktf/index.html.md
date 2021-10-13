@@ -67,5 +67,5 @@ See the CHANGELOG in a given release for a description of any new feature flags 
 ## Get Started
 
 - [Install CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and set up your first project on HashiCorp Learn.
-- Learn about [CDKTF application architecture](/docs/cdktf/concepts/architecture.html)
-- Learn how to use key CDKTF concepts like [providers](/docs/cdktf/concepts/fundamentals/providers.html), [modules](/docs/cdktf/concepts/fundamentals/modules.html), and [resources](/docs/cdktf/concepts/fundamentals/resources.html) to define infrastructure
+- Learn about [CDKTF application architecture](/docs/cdktf/concepts/cdktf-architecture.html)
+- Learn how to use key CDKTF concepts like [providers](/docs/cdktf/concepts/providers-and-resources.html), [modules](/docs/cdktf/concepts/concepts/modules.html), and [resources](/docs/cdktf/concepts/providers-and-resources.html) to define infrastructure
