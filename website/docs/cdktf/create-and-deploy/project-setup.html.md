@@ -62,7 +62,7 @@ cdktf deploy --auto-approve
 
 ## Project Configuration
 
-Initializing your project with a template generates a basic project in your preferred programming language that you can customize for your use case. You can do global configuration for your project through either the `cdktf.json` configuration file or the application context.
+Initializing your project with a template generates a basic project in your preferred programming language that you can customize for your use case. You can manage global configuration for your project by customizing the `cdktf.json` configuration file or the application context.
 
 ### `cdktf.json` Configuration File
 
