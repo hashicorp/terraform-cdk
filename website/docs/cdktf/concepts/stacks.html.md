@@ -168,4 +168,4 @@ Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650)
 
 Referencing resources from another stack is not yet supported automatically. It can be achieved manually by using [Outputs](website/docs/cdktf/concepts/variables-and-outputs.html.md) and the [Remote State data source](https://www.terraform.io/docs/language/state/remote-state-data.html).
 
-Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) when you're interested in this feature.
+Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you're interested in this feature.
