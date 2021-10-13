@@ -15,7 +15,7 @@ Functions can handle normal and [token](./tokens.md) values and will return eith
 
 Use Terraform functions when you need to calculate new values based on runtime values that are unknown before Terraform applies a configuration. For example, instance IDs that cloud providers assign on creation.
 
-When inputs are available before [synthesizing your code](/cdktf/cli-reference/commands.html#synth) (e.g. local files), we recommend transforming the values with your preferred programming language.
+When inputs are available before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth) (e.g. local files), we recommend transforming the values with your preferred programming language.
 
 ## Usage Example
 

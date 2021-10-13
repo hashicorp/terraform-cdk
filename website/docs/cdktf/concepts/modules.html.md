@@ -50,7 +50,7 @@ app.synth();
 
 ### Add Module to `cdktf.json`
 
-To use a module in your application, you must first add it to the `terraformModules` array in the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuration-file.html).
+To use a module in your application, you must first add it to the `terraformModules` array in the [`cdktf.json` configuration file](/docs/cdktf/create-and-deploy/configuration-file.html).
 
 To add a module from the Terraform Registry or a private registry, provide a fully qualified name: `registry-namespace/module-name`.
 

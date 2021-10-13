@@ -227,7 +227,7 @@ Terraform needs to know the location of local providers to enable CDKTF to gener
 - [Implied Local Mirrors](https://www.terraform.io/docs/cli/config/config-file.html#implied-local-mirror-directories)
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
-Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/create-and-deploy/configuration-file.html) for more details about the `cdktf.json` specification.
+Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more details about the `cdktf.json` specification.
 
 ## Resources
 

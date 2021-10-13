@@ -17,7 +17,7 @@ You may need to occasionally use these elements in your CDKTF application instea
 
 ## Input Variables
 
-You can define [Terraform variables](https://www.terraform.io/docs/configuration/variables.html) as input parameters to customize [stacks](./stacks.html) and [modules](/concepts/modules.html). For example, rather than hardcoding the number and type of AWS EC2 instances to provision, you can define a variable that lets users change these parameters based on their needs.
+You can define [Terraform variables](https://www.terraform.io/docs/configuration/variables.html) as input parameters to customize [stacks](./stacks.html) and [modules](/docs/cdktf/concepts/modules.html). For example, rather than hardcoding the number and type of AWS EC2 instances to provision, you can define a variable that lets users change these parameters based on their needs.
 
 ### When to use Input Variables
 
@@ -51,7 +51,7 @@ A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) ass
 
 Use local values when you need use [Terraform functions](./functions.html) to transform data that is only available when Terraform applies a configuration. For example, instance IDs tha cloud providers assign upon creation.
 
-When values are available before [synthesizing your code](/cdktf/cli-reference/commands.html#synth), we recommend using native programming language features to modify values instead.
+When values are available before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend using native programming language features to modify values instead.
 
 ### Define Local Values
 
@@ -95,7 +95,7 @@ You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0
 
 Use outputs to make data from [Terraform resources](./providers-and-resources.html) and [data sources](./data-sources.html) available for further consumption. They also allow you to share data between [stacks](./stacks.html). Outputs are particularly useful when you need to access data that is only known after Terraform applies the configuration. For example, you may want to get the URL of a newly provisioned server.
 
-When values are available before [synthesizing your code](/cdktf/cli-reference/commands.html#synth), we recommend supplying this data as direct inputs using the functionality in your preferred programming language.
+When values are available before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend supplying this data as direct inputs using the functionality in your preferred programming language.
 
 ```ts
 import { Construct } from "constructs";
