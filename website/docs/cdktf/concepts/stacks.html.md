@@ -114,12 +114,11 @@ Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651)
 
 ##### Migration from `<= 0.2`
 
-Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` in the project root folder was used. With version `>= 0.3` the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
+Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` in the project root folder was used. With version `>= 0.3`, the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
 
 #### Escape Hatch
 
-For anything on the top-level `terraform` block that is not natively implemented, use the **stack escape hatch** to define a configuration. For example,
-define remote backend using the `addOverride` method in TypeScript.
+For anything on the top-level `terraform` block that is not natively implemented, use the **stack escape hatch** to define a configuration. For example, define remote backend using the `addOverride` method in TypeScript.
 
 ~> **Important**: Escape hatches **must not** have empty arguments or objects, as they will be removed from the synthesized JSON configuration.
 
@@ -158,14 +157,10 @@ This will synthesize a Terraform configuration with the remote backend included 
 
 #### Deployments
 
-At the moment all Terraform operations are limited to a single stack. In order to run `diff`, `deploy` or `destroy`, a target stack has to be specified. A deploy command like `cdktf deploy multiple-stacks-dev` will work and all Terraform operations will run in the folder `cdktf.out/stacks/multiple-stacks-dev`.
+All Terraform operations are currently limited to a single stack, so you must specify a target stack directory to run `diff`, `deploy` or `destroy`. CDKTF emits an error if you omit the target stack and run a plain `cdktf deploy`. In the future, we plan to add support for deploying all or a subset of stacks. Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) if you're interested in this feature.
 
-Omitting the target stack by running a plain `cdktf deploy` will result in error. This will change in future versions, where support for targeting all or a subset of stacks will be added.
-
-Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) if you're interested in this feature.
+To run multiple stacks at once, move them into the same directory and run `cdktf deploy`. For example, you could create a combined directory called `multiple-stacks-dev`, run `cdktf deploy multiple-stacks-dev`, and all Terraform operations will run in the folder `cdktf.out/stacks/multiple-stacks-dev`.
 
 #### Cross Stack References
 
-Referencing resources from another stack is not yet supported automatically. It can be achieved manually by using [Outputs](website/docs/cdktf/concepts/variables-and-outputs.html.md) and the [Remote State data source](https://www.terraform.io/docs/language/state/remote-state-data.html).
-
-Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you're interested in this feature.
+Referencing resources from another stack is not yet supported automatically. You can achieve this with [Outputs](website/docs/cdktf/concepts/variables-and-outputs.html.md) and the [Remote State data source](https://www.terraform.io/docs/language/state/remote-state-data.html). Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you're interested in cross-stack references.

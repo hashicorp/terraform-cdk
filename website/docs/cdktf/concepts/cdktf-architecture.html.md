@@ -15,7 +15,7 @@ CDKTF leverages existing libraries and tools to help convert the definitions you
 
 ### Amazon Web Services Cloud Development Kit
 
-CDK for Terraform shares core concepts and components with the [Amazon Web Services Cloud Development Kit](https://aws.amazon.com/cdk/) (AWS CDK), a tool that allows you to use familiar programming languages to define infrastructure on AWS CloudFormation. AWS CDK and CDK for Terraform are different products, and you cannot yet use [AWS CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html) within CDKTF. We are actively working on an [interoperability layer](https://github.com/hashicorp/terraform-cdk/pulls?q=is%3Apr+is%3Aopen+label%3Afeature%2Faws-adapter) to enable this in future releases.
+CDKTF shares core concepts and components with the [Amazon Web Services Cloud Development Kit](https://aws.amazon.com/cdk/) (AWS CDK), a tool that allows you to use familiar programming languages to define infrastructure on AWS CloudFormation. AWS CDK and CDK for Terraform are different products, and you cannot yet use [AWS CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html) within CDKTF. We are actively working on an [interoperability layer](https://github.com/hashicorp/terraform-cdk/pulls?q=is%3Apr+is%3Aopen+label%3Afeature%2Faws-adapter) to enable this in future releases.
 
 ### jsii
 
@@ -23,9 +23,9 @@ The [`jsii` tool](https://aws.github.io/jsii/) enables publishing polyglot libra
 
 ### Terraform
 
-CDKTF is a conversion layer that [synthesizes](/cdktf/cli-reference/commands.html#synth) infrastructure defined in a supported programming language into [JSON configuration files](https://www.terraform.io/docs/language/syntax/json.html) that Terraform can use to manage infrastructure.
+CDKTF [synthesizes](/cdktf/cli-reference/commands.html#synth) infrastructure defined in a supported programming language into [JSON configuration files](https://www.terraform.io/docs/language/syntax/json.html) that Terraform can use to manage infrastructure.
 
-The diagram below shows how synthesizing a CDKTF application produces a series of artifacts in the `cdktf.out` folder. You can then either use the resulting JSON file with Terraform directly or with CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
+The diagram below shows how synthesizing a CDKTF application produces a series of artifacts in a designated output folder. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
 
 ![cdktf-terraform](./images/cdktf-terraform-workflow.png)
 
@@ -39,7 +39,7 @@ CDKTF has two major components that allow you to define and provision infrastruc
 
 - **Lib:** This is the `cdktf` package that is the foundation for each CDKTF project. It contains all of the core libraries that allow you to leverage the Terraform ecosystem and synthesize your application into Terraform configuration files.
 
-- **CLI:** The [`cdktf` CLI](/cdktf/cli-reference/cli-configuration.html) allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. Refer to the [CLI commands documentation](/cdktf/cli-reference/commands.html) for more details. You also can use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available `cdktf cli` commands where possible.
+- **CLI:** The [`cdktf` CLI](/cdktf/cli-reference/cli-configuration.html) allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. Refer to the [CLI commands documentation](/cdktf/cli-reference/commands.html) for more details. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available `cdktf cli` commands where possible.
 
 ## Application Architecture
 

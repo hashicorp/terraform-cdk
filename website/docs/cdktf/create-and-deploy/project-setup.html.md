@@ -70,11 +70,9 @@ Installing CDK for Terraform with a pre-built template generates a basic `cdktf.
 
 ### Application Context
 
-All of the classes in your application can access the application `context`, so it is an ideal place to store project configuration.
+All of the classes in your application can access the application `context`, so it is an ideal place to store project configuration. Context becomes available to any construct in your application after you run `cdktf synth`.
 
-#### cdktf.json Context
-
-Context can be configured as a static value in `cdktf.json` via the `context` key:
+You can configure context as a static value in `cdktf.json` by setting the `context` property.
 
 ```jsonc
 {
@@ -84,29 +82,13 @@ Context can be configured as a static value in `cdktf.json` via the `context` ke
   }
 ```
 
-This will be available on synth in any construct
-
-```ts
-  this.node.getContext("myConfig"),
-```
-
-#### App Context
-
-It's also possible to provide context when instantiating the `App` class
+You can also provide context when instantiating the `App` class.
 
 ```ts
 const app = new App({ context: { myConfig: "value" } });
 ```
 
-This will be available on synth in any construct
-
-```ts
-  this.node.getContext("myConfig"),
-```
-
-#### Full Example
-
-In the example below, we're using direct `App` context to provide a custom tag value to an AWS EC2 instance.
+The TypeScript example below uses `App` context to provide a custom tag value to an AWS EC2 instance.
 
 ```typescript
 import { Construct } from "constructs";
@@ -215,4 +197,4 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
-The ability to initialize a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template, but you can use the `cdktf convert` command to convert individual HCL files to another programming language. Refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
+Initializing a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template, but you can use the `cdktf convert` command to convert individual HCL files to another programming language. Refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
