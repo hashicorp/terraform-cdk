@@ -72,9 +72,41 @@ Installing CDK for Terraform with a pre-built template generates a basic `cdktf.
 
 All of the classes in your application can access the application `context`, so it is an ideal place to store project configuration.
 
-TODO: Please explain what types of things you'd want to use the app context for. What things would you use this for rather than cdktf.json?
+#### cdktf.json Context
 
-TODO: Please explain what is going on in this example :-)
+Context can be configured as a static value in `cdktf.json` via the `context` key:
+
+```jsonc
+{
+  // ...
+  "context": {
+    "myConfig": "value"
+  }
+```
+
+This will be available on synth in any construct
+
+```ts
+  this.node.getContext("myConfig"),
+```
+
+#### App Context
+
+It's also possible to provide context when instantiating the `App` class
+
+```ts
+const app = new App({ context: { myConfig: "value" } });
+```
+
+This will be available on synth in any construct
+
+```ts
+  this.node.getContext("myConfig"),
+```
+
+#### Full Example
+
+In the example below, we're using direct `App` context to provide a custom tag value to an AWS EC2 instance.
 
 ```typescript
 import { Construct } from "constructs";
@@ -93,13 +125,13 @@ class MyStack extends TerraformStack {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
       tags: {
-        myConfig: this.constructNode.getContext("myConfig"),
+        myConfig: this.node.getContext("myConfig"),
       },
     });
   }
 }
 
-const app = new App({ context: { myConfig: "config" } });
+const app = new App({ context: { myConfig: "value" } });
 new MyStack(app, "hello-cdktf");
 app.synth();
 ```
