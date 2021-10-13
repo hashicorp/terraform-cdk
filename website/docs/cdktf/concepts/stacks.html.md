@@ -162,7 +162,7 @@ At the moment all Terraform operations are limited to a single stack. In order t
 
 Omitting the target stack by running a plain `cdktf deploy` will result in error. This will change in future versions, where support for targeting all or a subset of stacks will be added.
 
-Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) when you're interested in this feature.
+Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) if you're interested in this feature.
 
 #### Cross Stack References
 
