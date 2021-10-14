@@ -4,10 +4,11 @@
   "output": "./",
   "codeMakerOutput": "./src/main/java/imports",
   "terraformProviders": [
-    "aws@~> 2.70.0"
+    "hashicorp/vsphere@~> 2.0.2"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": true,
     "allowSepCharsInLogicalIds": true
-  }
+  },
+  "projectId": "967c4e31-0162-4ccd-8230-88310a62c077"
 }

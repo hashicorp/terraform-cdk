@@ -89,7 +89,7 @@ public class Main extends TerraformStack {
                                                         .memory("512Mi")
                                                         .build()
                                                 )
-                                                .requests(
+                                               .requests(
                                                     DeploymentSpecTemplateSpecContainerResourcesRequests.builder()
                                                         .cpu("250m")
                                                         .memory("50Mi")
