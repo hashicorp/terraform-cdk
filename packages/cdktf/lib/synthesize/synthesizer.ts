@@ -102,7 +102,7 @@ export class StackSynthesizer implements IStackSynthesizer {
  *
  * originally from https://github.com/aws/aws-cdk/blob/dcae3eead0dbf9acb1ed80ba95bb104c64cb1bd7/packages/@aws-cdk/core/lib/private/synthesis.ts#L99-L137
  */
-function invokeAspects(root: IConstruct) {
+export function invokeAspects(root: IConstruct) {
   const invokedByPath: { [nodePath: string]: IAspect[] } = {};
 
   let nestedAspectWarning = false;

@@ -7,6 +7,7 @@ import { Manifest } from "../manifest";
 import { FUTURE_FLAGS } from "../features";
 import { IConstruct, Construct } from "constructs";
 import { setupJest } from "./adapters/jest";
+import { invokeAspects } from "../synthesize/synthesizer";
 
 export interface IScopeCallback {
   (scope: Construct): void;
@@ -50,6 +51,7 @@ export class Testing {
    * Returns the Terraform synthesized JSON.
    */
   public static synth(stack: TerraformStack) {
+    invokeAspects(stack);
     const tfConfig = stack.toTerraform();
 
     function removeMetadata(item: any): any {
