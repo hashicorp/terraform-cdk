@@ -49,4 +49,4 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           TEST_TARGET: "${{ matrix.target }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
-          MAVEN_OPTS: "-Xmx3G"
+          MAVEN_OPTS: "-Xmx6G"

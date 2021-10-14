@@ -8,5 +8,6 @@
   "context": {
     "excludeStackIdFromLogicalIds": true,
     "allowSepCharsInLogicalIds": true
-  }
+  },
+  "projectId": "c7e90bd9-0870-4378-a1fd-98d867ef80e8"
 }

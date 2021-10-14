@@ -2,8 +2,8 @@ package com.example.cdktf.modules;
 
 import com.example.cdktf.common.BaseApplicationModule;
 import com.hashicorp.cdktf.App;
-import imports.aws.AwsProvider;
-import imports.aws.secrets_manager.SecretsmanagerSecret;
+import imports.vsphere.VsphereProvider;
+import imports.vsphere.VirtualMachine;
 import software.constructs.Construct;
 
 public class ModuleA extends BaseApplicationModule {
@@ -11,25 +11,26 @@ public class ModuleA extends BaseApplicationModule {
   public ModuleA(Construct scope, String id) {
     super(scope, id);
 
-    final var providerExternalAwsAccount = AwsProvider.Builder
-        .create(this, "aws-external")
-        .region("us-west-1")
-        .alias("external")
-        .skipRequestingAccountId(true)
-        .profile("external")
+    final var providerExternal = VsphereProvider.Builder
+        .create(this, "vsphere-external")
+        .user(getVarUser().getStringValue())
+        .password(getVarPassword().getStringValue())
+        .vsphereServer(getVarServer().getStringValue())
         .build();
 
-    final var resourceInternalAwsSecret = SecretsmanagerSecret.Builder
-        .create(this, "local-secret")
-        .name("internal-secret")
+    final var resourceInternalVm = VirtualMachine.Builder
+        .create(this, "local-vm")
+        .name("internal-vm")
+        .resourcePoolId("42")
         // Here we're referencing a provider inherited from the BaseApplicationModule
-        .provider(getProviderAws())
+        .provider(getProviderVsphere())
         .build();
 
-    final var resourceExternalAwsSecret = SecretsmanagerSecret.Builder
-        .create(this, "external-secret")
-        .name("external-secret")
-        .provider(providerExternalAwsAccount)
+    final var resourceExternalVm = VirtualMachine.Builder
+        .create(this, "external-vm")
+        .name("external-vm")
+        .resourcePoolId("42")
+        .provider(providerExternal)
         .build();
 
   }
