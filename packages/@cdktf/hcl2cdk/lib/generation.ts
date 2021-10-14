@@ -194,6 +194,19 @@ function getRemoteStateType(item: Resource) {
   }
 }
 
+function resourceType(provider: string, name: string[], item: Resource) {
+  switch (provider) {
+    case "data.terraform":
+      return `cdktf.data_terraform_${name.join("_")}${getRemoteStateType(
+        item
+      )}`;
+    case "null":
+      return `NullProvider.${name.join("_")}`;
+    default:
+      return `${provider}.${name.join("_")}`;
+  }
+}
+
 export function resource(
   scope: Scope,
   type: string,
@@ -204,10 +217,7 @@ export function resource(
 ): t.Statement[] {
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
-  const resource =
-    provider === "data.terraform"
-      ? `cdktf.data_terraform_${name.join("_")}${getRemoteStateType(item)}`
-      : `${provider}.${name.join("_")}`;
+  const resource = resourceType(provider, name, item);
 
   const { for_each, count, ...config } = item[0];
   const dynBlocks = extractDynamicBlocks(config);
@@ -479,9 +489,11 @@ export function provider(
   const nodeIds = graph.nodes();
   const { version, ...props } = item;
 
+  const importKey = key === "null" ? "NullProvider" : key;
+
   return asExpression(
     scope,
-    `${key}.${pascalCase(key + "Provider")}`,
+    `${importKey}.${pascalCase(key + "Provider")}`,
     key,
     props,
     nodeIds,
@@ -498,8 +510,12 @@ export const providerImports = (providers: string[]) =>
   providers.map((providerName) => {
     const parts = providerName.split("/");
     const name = parts.length > 1 ? parts[1] : parts[0];
+    const importName = name === "null" ? "NullProvider" : name;
     return template(
-      `import * as ${name} from "./.gen/providers/${name.replace("./", "")}"`
+      `import * as ${importName} from "./.gen/providers/${name.replace(
+        "./",
+        ""
+      )}"`
     )() as t.Statement;
   });
 
