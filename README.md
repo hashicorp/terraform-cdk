@@ -123,6 +123,7 @@ Choose a language:
 - Writing own [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) for init.
 - Using [assets](./docs/working-with-cdk-for-terraform/terraform-assets.md) to transfer files into the Terraform context.
 - Learn how to write [tests](./docs/working-with-cdk-for-terraform/testing.md).
+- Use [Aspects](./docs/working-with-cdk-for-terraform/aspects.md) to transform bigger sets of resources or build validations.
 
 <a name="maturity"></a>
 
