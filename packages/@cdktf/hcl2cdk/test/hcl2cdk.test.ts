@@ -38,6 +38,12 @@ describe("convert", () => {
     ],
     ["empty provider", `provider "docker" {}`],
     [
+      "null provider",
+      `provider "null" {}
+    resource "null_resource" "test" {}
+    `,
+    ],
+    [
       "provider with complex config",
       `
         provider "aws" {
