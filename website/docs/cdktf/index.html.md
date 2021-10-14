@@ -38,7 +38,9 @@ You can make this choice for each team and project because CDK for Terraform [in
 
 ## Choosing a Language for your Project
 
-To choose which language to use to build CDKTF applications, consider which of the supported languages you are most familiar with, and which language best fits your organization's current tooling. We work towards providing feature parity and a good user experience across all supported languages, but there may be instances when new features will not be available for languages with experimental support.
+Consider which of the supported languages you are most familiar with and which language best fits your organization's current tooling. We work towards providing feature parity and a good user experience across all supported languages, but there may be instances when new features will not be available for languages with experimental support.
+
+If you plan to create and package your own constructs, we recommend choosing TypeScript. Using TypeScript allows you to use the [cdktf constructs](https://github.com/projen/projen#getting-started) package generator to build and publish your constructs in multiple languages. 
 
 ## Project Maturity and Production Readiness
 
