@@ -212,7 +212,7 @@ When you choose to install a pre-built provider via `npm install`, you should no
 
 ### Provider Caching
 
-Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](./stacks.html) within one application.
+Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/docs/cdktf/concepts/stacks.html) within one application.
 
 #### Set the Caching Directory
 

@@ -9,7 +9,7 @@ description: "Learn when to use built-in Terraform functions to transform or com
 
 Terraform provides a set of built-in functions that transform and combine values within Terraform configurations. The [Terraform function documentation](https://www.terraform.io/docs/language/functions/index.html) contains a complete list. You can also use your editor autocompletion on the `Fn` object to find available options.
 
-Functions can handle normal and [token](./tokens.md) values and will return either tokenized values or `IResolvable` values.
+Functions can handle normal and [token](/docs/cdktf/concepts/tokens.html) values and will return either tokenized values or `IResolvable` values.
 
 ## When to Use Terraform Functions
 
@@ -19,7 +19,7 @@ When inputs are available before [synthesizing your code](/docs/cdktf/cli-refere
 
 ## Usage Example
 
-The TypeScript example below uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](./variables-and-outputs.html#outputs) and the Terraform [`element`](https://www.terraform.io/docs/language/functions/element.html) function.
+The TypeScript example below uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/docs/cdktf/concepts/variables-and-outputs.html#outputs) and the Terraform [`element`](https://www.terraform.io/docs/language/functions/element.html) function.
 
 The `element` function gets the first element from the list of Availability Zone names.
 

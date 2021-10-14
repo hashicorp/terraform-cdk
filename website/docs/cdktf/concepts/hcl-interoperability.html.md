@@ -11,7 +11,7 @@ Terraform requires infrastructure configuration files written in either [HashiCo
 
 CDKTF may not be the right choice for every team and project within your organization. For example, some teams may already be very familiar with Terraform and have created HCL modules, providers, etc. To provide flexibility, CDKTF applications are interoperable with Terraform projects written in HCL. Specifically:
 
-- CDKTF applications can use all existing Terraform [providers ](./fundementals/providers.html) and HCL [modules](./fundementals.modules.html.md).
+- CDKTF applications can use all existing Terraform [providers ](/docs/cdktf/concepts/providers-and-resources.html) and HCL [modules](/docs/cdktf/concepts/modules.html).
 - CDKTF can generate modules that HCL Terraform projects can use in their configurations.
 
 This page shows how you can interoperate HCL and CDK for Terraform configuration.
@@ -77,4 +77,4 @@ output "name" {
 
 ## HCL to CDKTF
 
-Use the [`cdktf convert`](../cli-reference/commands.html#convert) command to automatically translate existing HCL into a preferred CDK for Terraform language. The [modules documentation](./fundementals.modules.html.md) shows how to use existing Terraform modules in CDK for Terraform projects.
+Use the [`cdktf convert`](../cli-reference/commands.html#convert) command to automatically translate existing HCL into a preferred CDK for Terraform language. The [modules documentation](/docs/cdktf/concepts/modules.html) shows how to use existing Terraform modules in CDK for Terraform projects.

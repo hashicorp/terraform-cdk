@@ -13,11 +13,11 @@ description: "Use data sources to allow Terraform to use external data, function
 
 Use data sources when you need to reference dynamic data that is not known until after Terraform applies a configuration. For example, instance IDs that cloud providers assign on creation.
 
-When data is static or you know the values before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend creating static references in your preferred programming language or using [Terraform variables](./variables-and-outputs.html).
+When data is static or you know the values before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend creating static references in your preferred programming language or using [Terraform variables](/docs/cdktf/concepts/variables-and-outputs.html).
 
 ## Define Data Sources
 
-Data Sources are part of a [Terraform provider](./providers-and-resources.html). All classes representing Data Sources are prefixed with `Data`.
+Data Sources are part of a [Terraform provider](/docs/cdktf/concepts/providers-and-resources.html). All classes representing Data Sources are prefixed with `Data`.
 
 In the TypeScript example below, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 

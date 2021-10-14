@@ -74,7 +74,7 @@ If you prefer to use a Git tag, the URL format would look like this
 
 ## Use Remote Templates
 
-The CDKTF community maintains the following [remote templates](./docs/working-with-cdk-for-terraform/remote-templates.md) that you can use to set up your project.
+The CDKTF community maintains the following [remote templates](https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/remote-templates.md) that you can use to set up your project.
 
 ```
 $ cdktf init --template https://github.com/<user or organization>/<repo>/archive/refs/tags/v0.0.1.zip
