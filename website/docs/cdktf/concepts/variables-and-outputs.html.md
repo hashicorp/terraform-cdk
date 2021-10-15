@@ -49,7 +49,7 @@ A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) ass
 
 ### When to Use Local Values
 
-Use local values when you need use [Terraform functions](/docs/cdktf/concepts/functions.html) to transform data that is only available when Terraform applies a configuration. For example, instance IDs tha cloud providers assign upon creation.
+Use local values when you need use [Terraform functions](/docs/cdktf/concepts/functions.html) to transform data that is only available when Terraform applies a configuration. For example, instance IDs that cloud providers assign upon creation.
 
 When values are available before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend using native programming language features to modify values instead.
 
@@ -126,7 +126,7 @@ app.synth();
 
 ### Define Outputs
 
-To access outputs, use the `_output` suffix for python and the `Output` suffix for other languages.
+To access outputs, use the `_output` suffix for Python and the `Output` suffix for other languages.
 
 Outputs return an HCL expression representing the underlying Terraform resource, so the return type must always be `string`. When `TerraformOutput` is any other type than string, you must add a typecast to compile the application (e.g. `mod.numberOutput as number`). If a module returns a list, you must use an escape hatch to access items or loop over it. Refer to the [Resources page](/docs/cdktf/concepts/providers-and-resources.html) for more information about how to use escape hatches.
 
