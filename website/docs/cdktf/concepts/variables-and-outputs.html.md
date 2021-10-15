@@ -49,7 +49,7 @@ A [Terraform local](https://www.terraform.io/docs/configuration/locals.html) ass
 
 ### When to Use Local Values
 
-Use local values when you need use [Terraform functions](/docs/cdktf/concepts/functions.html) to transform data that is only available when Terraform applies a configuration. For example, instance IDs tha cloud providers assign upon creation.
+Use local values when you need use [Terraform functions](/docs/cdktf/concepts/functions.html) to transform data that is only available when Terraform applies a configuration. For example, instance IDs that cloud providers assign upon creation.
 
 When values are available before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend using native programming language features to modify values instead.
 
