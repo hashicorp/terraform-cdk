@@ -1,4 +1,11 @@
-# Terraform Functions
+---
+layout: "cdktf"
+page_title: "Functions"
+sidebar_current: "cdktf"
+description: "TODO: describe me"
+---
+
+# Functions
 
 Terraform provides a set of functions that can be used through the CDK for Terraform.
 
