@@ -83,7 +83,7 @@ Import and use the generated classes in your application. The example below show
 
 ```typescript
 import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
+import { App, TerraformStack, Token } from "cdktf";
 import { AwsProvider, Instance } from "./.gen/providers/aws";
 import { DnsimpleProvider, Record } from "./.gen/providers/dnsimple";
 
