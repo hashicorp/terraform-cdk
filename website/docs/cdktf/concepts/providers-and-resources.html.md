@@ -60,7 +60,7 @@ For example, this is how you could add [DNS Simple](https://www.terraform.io/doc
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0", "dnsimple"]
+  "terraformProviders": ["aws@~> 2.0", "dnsimple/dnsimple"]
 }
 ```
 
