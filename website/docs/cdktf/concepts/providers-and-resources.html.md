@@ -250,12 +250,14 @@ export class HelloTerra extends TerraformStack {
 
     const region = new DataAwsRegion(this, "region");
 
-    const table = new DynamodbTable(this, "Hello", {
+    new DynamodbTable(this, "Hello", {
       name: `my-first-table-${region.name}`,
       hashKey: "temp",
       attribute: [{ name: "id", type: "S" }],
       billingMode: "PAY_PER_REQUEST",
     });
+  }
+}
 ```
 
 The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language.
