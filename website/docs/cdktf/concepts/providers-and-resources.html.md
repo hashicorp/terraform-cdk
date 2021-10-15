@@ -60,7 +60,7 @@ For example, this is how you could add [DNS Simple](https://www.terraform.io/doc
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": ["aws@~> 2.0", "dnsimple"]
+  "terraformProviders": ["aws@~> 2.0", "dnsimple/dnsimple"]
 }
 ```
 
@@ -83,7 +83,7 @@ Import and use the generated classes in your application. The example below show
 
 ```typescript
 import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
+import { App, TerraformStack, Token } from "cdktf";
 import { AwsProvider, Instance } from "./.gen/providers/aws";
 import { DnsimpleProvider, Record } from "./.gen/providers/dnsimple";
 
@@ -250,12 +250,14 @@ export class HelloTerra extends TerraformStack {
 
     const region = new DataAwsRegion(this, "region");
 
-    const table = new DynamodbTable(this, "Hello", {
+    new DynamodbTable(this, "Hello", {
       name: `my-first-table-${region.name}`,
       hashKey: "temp",
       attribute: [{ name: "id", type: "S" }],
       billingMode: "PAY_PER_REQUEST",
     });
+  }
+}
 ```
 
 The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language.

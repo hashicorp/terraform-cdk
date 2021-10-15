@@ -7,7 +7,7 @@ description: "Use both public and private modules in your CDKTF application to r
 
 # Modules
 
-[Terraform modules](https://www.terraform.io/docs/language/modules/index.html) are a single directory that contains one or more configuration files.
+A [Terraform module](https://www.terraform.io/docs/language/modules/index.html) is a single directory that contains one or more configuration files.
 
 Modules let you reuse configurations across projects and teams, saving time, enforcing consistency, and reducing errors. For example, you could create a module to describe the configuration for all of your organization's public website buckets. When you package and share this module, other users can incorporate it into their configurations. As requirements evolve, you can make changes to your module once, release a new version, and apply those changes everywhere that module is used.
 
@@ -15,7 +15,7 @@ You can specify any existing public or private module in your `cdktf.json` file,
 
 ## Install Modules
 
-CDKTF lets you use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub local in your application. For example, the TypeScript project below has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
+CDKTF lets you use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the TypeScript project below has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
 
 ```typescript
 import { Construct } from "constructs";
