@@ -359,7 +359,7 @@ $ cdktf login
 
 ## synth
 
-This command synthesizes Terraform configuration for an application.
+This command synthesizes Terraform configuration for an application. CDKTF stores the synthesized configuration in the `cdktf.out` directory, unless you use the `--output` flag to specify a different location. The output folder is ephemeral and might be erased for each `synth` that you run manually or that happens automatically when you run `deploy`, `diff`, or `destroy`.
 
 ```sh
 $ cdktf synth --help

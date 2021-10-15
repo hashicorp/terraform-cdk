@@ -36,6 +36,12 @@ CDKTF offers many benefits, but it is not the right choice for every project. Yo
 
 You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](/docs/cdktf/concepts/hcl-interoperability.html).
 
+## Choosing a Language for your Project
+
+Consider which of the supported languages you are most familiar with and which language best fits your organization's current tooling. We work towards providing feature parity and a good user experience across all supported languages, but there may be instances when new features will not be available for languages with experimental support.
+
+If you plan to create and package your own constructs, we recommend choosing TypeScript. Using TypeScript allows you to use the [cdktf constructs](https://github.com/projen/projen#getting-started) package generator to build and publish your constructs in multiple languages.
+
 ## Project Maturity and Production Readiness
 
 CDK for Terraform is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product.

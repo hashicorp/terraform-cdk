@@ -62,7 +62,61 @@ cdktf deploy --auto-approve
 
 ## Project Configuration
 
-Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/providers-and-resources.html) and [modules](docs/cdktf/concepts/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more detail.
+Initializing your project with a template generates a basic project in your preferred programming language that you can customize for your use case. You can manage global configuration for your project by customizing the `cdktf.json` configuration file or the application context.
+
+### `cdktf.json` Configuration File
+
+Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more detail.
+
+### Application Context
+
+All of the classes in your application can access the application `context`, so it is an ideal place to store project configuration. Context becomes available to any construct in your application after you run `cdktf synth`.
+
+You can configure context as a static value in `cdktf.json` by setting the `context` property.
+
+```jsonc
+{
+  // ...
+  "context": {
+    "myConfig": "value"
+  }
+```
+
+You can also provide context when instantiating the `App` class.
+
+```ts
+const app = new App({ context: { myConfig: "value" } });
+```
+
+The TypeScript example below uses `App` context to provide a custom tag value to an AWS EC2 instance.
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, Instance } from "./.gen/providers/aws";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    new Instance(this, "Hello", {
+      ami: "ami-2757f631",
+      instanceType: "t2.micro",
+      tags: {
+        myConfig: this.node.getContext("myConfig"),
+      },
+    });
+  }
+}
+
+const app = new App({ context: { myConfig: "value" } });
+new MyStack(app, "hello-cdktf");
+app.synth();
+```
 
 ## Convert Existing HCL project
 
@@ -143,4 +197,4 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
-The ability to initialize a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template, but you can use the `cdktf convert` command to convert individual HCL files to another programming language. Refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
+Initializing a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template, but you can use the `cdktf convert` command to convert individual HCL files to another programming language. Refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
