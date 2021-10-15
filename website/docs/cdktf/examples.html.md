@@ -89,7 +89,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 ## Youtube Playlist
 
 - Watch the CDK for Terraform engineering team build a simple end to end serverless application in an [end to end livestream](https://www.youtube.com/watch?v=Ey0SW0c6p8c)
-- [Getting Started with CDK for Terraform and Python](https://www.youtube.com/watch?v=Ee2qh-pEC5k&t=258s), by Charles mcLaughlin of ShopStyle
+- [Getting Started with CDK for Terraform and Python](https://www.youtube.com/watch?v=Ee2qh-pEC5k&t=258s), by Charles McLaughlin of ShopStyle
 - [Extending constructs of the CDK for Terraform](https://www.youtube.com/watch?v=cfU-WOGdNqA)
 
 ### Release demos
