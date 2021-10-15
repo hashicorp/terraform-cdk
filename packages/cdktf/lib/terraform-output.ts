@@ -2,15 +2,10 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
+import { Expression, ref } from ".";
 
 export interface TerraformOutputConfig {
-  readonly value:
-    | string
-    | number
-    | boolean
-    | any[]
-    | { [key: string]: any }
-    | undefined;
+  readonly value: Expression | ITerraformDependable;
   readonly description?: string;
   readonly sensitive?: boolean;
   readonly dependsOn?: ITerraformDependable[];
@@ -24,13 +19,7 @@ export interface TerraformOutputConfig {
 }
 
 export class TerraformOutput extends TerraformElement {
-  public value:
-    | string
-    | number
-    | boolean
-    | any[]
-    | { [key: string]: any }
-    | undefined;
+  public value: Expression | ITerraformDependable;
   public description?: string;
   public sensitive?: boolean;
   public dependsOn?: ITerraformDependable[];
@@ -54,9 +43,15 @@ export class TerraformOutput extends TerraformElement {
     return this.friendlyUniqueId === this.node.id;
   }
 
+  private isITerraformDependable(object: any): object is ITerraformDependable {
+    return "fqn" in object;
+  }
+
   protected synthesizeAttributes(): { [key: string]: any } {
     return {
-      value: this.value,
+      value: this.isITerraformDependable(this.value)
+        ? ref(this.value.fqn)
+        : this.value,
       description: this.description,
       sensitive: this.sensitive,
       dependsOn: this.dependsOn?.map((resource) => `\${${resource.fqn}}`),
