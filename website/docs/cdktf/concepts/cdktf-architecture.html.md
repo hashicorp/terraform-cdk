@@ -29,7 +29,7 @@ The diagram below shows how synthesizing a CDKTF application produces a series o
 
 ![cdktf-terraform](./images/cdktf-terraform-workflow.png)
 
-CDKTF also automatically extracts the schemas from existing Terraform [providers](./providers.html) or [modules](./modules.html) and generates the necessary code bindings for your application.
+CDKTF also automatically extracts the schemas from existing Terraform [providers](/docs/cdktf/concepts/providers-and-resources.html) or [modules](/docs/cdktf/concepts/modules.html) and generates the necessary code bindings for your application.
 
 ![cdktf-terraform](./images/provider-modules.png)
 
@@ -39,7 +39,7 @@ CDKTF has two major components that allow you to define and provision infrastruc
 
 - **Lib:** This is the `cdktf` package that is the foundation for each CDKTF project. It contains all of the core libraries that allow you to leverage the Terraform ecosystem and synthesize your application into Terraform configuration files.
 
-- **CLI:** The [`cdktf` CLI](/cdktf/cli-reference/cli-configuration.html) allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. Refer to the [CLI commands documentation](/cdktf/cli-reference/commands.html) for more details. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available `cdktf cli` commands where possible.
+- **CLI:** The [`cdktf` CLI](/docs/cdktf/cli-reference/cli-configuration.html) allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. Refer to the [CLI commands documentation](/docs/cdktf/cli-reference/commands.html) for more details. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available `cdktf cli` commands where possible.
 
 ## Application Architecture
 

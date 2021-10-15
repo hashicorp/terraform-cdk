@@ -77,7 +77,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 
 ### Go
 
-> Please note: Support for Golang is at an experimental state. In the CDK for Terraform and in the [upstream library JSII](https://aws.github.io/jsii/user-guides/lib-author/configuration/targets/go/) which powers the support for the supported languages.
+> Please note: Support for Golang is experimental for CDK for Terraform and the [upstream library JSII](https://aws.github.io/jsii/user-guides/lib-author/configuration/targets/go/), which powers the support for the supported languages.
 
 | Example                                                                                                                | Description                                                                                                                                                                                                                                                                                                                                    |
 | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
