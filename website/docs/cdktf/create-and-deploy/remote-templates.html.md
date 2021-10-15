@@ -64,7 +64,7 @@ You can also set the environment variable `CDKTF_LOG_LEVEL` to `debug` before in
 
 You can host your remote template anywhere, as long as it is formatted as a zip archive. GitHub allows users to fetch the repository contents as zip archive, so you do not have to create one manually. You can only specify urls to zip archives, so only url-based authentication mechanisms are supported. If you need support for private packages, please [file an issue](https://github.com/hashicorp/terraform-cdk/issues/new?labels=enhancement%2C+new&template=feature-request.md).
 
-Below is an example the main branch for a remote template GitHub repository.
+Below is an example for the `main` branch for a remote template GitHub repository.
 
 `https://github.com/<user or organization>/<repo>/archive/refs/heads/main.zip`
 
