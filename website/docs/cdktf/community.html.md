@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "CDKTF Community"
 sidebar_current: "cdktf"
 description: "Resources to help you contribute to the codebase, submit issues, ask questions, and see our roadmap."
@@ -17,7 +17,7 @@ If you have questions, the HashiCorp [Discuss](https://discuss.hashicorp.com/) p
 
 The CDK for Terraform project is very open to community contributions. The easiest ways to help are by filing bugs for issues, commenting on existing issues you encounter, and commenting on or upvoting feature requests when you have use cases where they would be helpful. Hearing _why_ you're interested is extremely useful, and we appreciate your feedback.
 
-If you're interested in contributing code, please look at the [CONTRIBUTING.md](./CONTRIBUTING.md) guide. Before you file a large pull request, please file a feature request to tell us what you're interested in building. We're happy to work with you on the design to make sure we can review and accept your PR quickly.
+If you're interested in contributing code, please look at the [CONTRIBUTING.md](https://github.com/hashicorp/terraform-cdk/blob/main/CONTRIBUTING.md) guide. Before you file a large pull request, please file a feature request to tell us what you're interested in building. We're happy to work with you on the design to make sure we can review and accept your PR quickly.
 
 ## Roadmap
 

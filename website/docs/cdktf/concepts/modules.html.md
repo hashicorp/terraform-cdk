@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Modules"
 sidebar_current: "cdktf"
 description: "Use both public and private modules in your CDKTF application to reuse existing configurations."
@@ -50,7 +50,7 @@ app.synth();
 
 ### Add Module to `cdktf.json`
 
-To use a module in your application, you must first add it to the `terraformModules` array in the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuration-file.html).
+To use a module in your application, you must first add it to the `terraformModules` array in the [`cdktf.json` configuration file](/docs/cdktf/create-and-deploy/configuration-file.html).
 
 To add a module from the Terraform Registry or a private registry, provide a fully qualified name: `registry-namespace/module-name`.
 
@@ -91,7 +91,7 @@ Go to the working directory and run `cdktf get`. CDKTF automatically creates the
 
 ## Work with Module Outputs
 
-Modules often return data that you can use as inputs to other modules or resources. When this data is only available after Terraform applies the configuration, you must use [Terraform Outputs](./variables-and-outputs.html#outputs).
+Modules often return data that you can use as inputs to other modules or resources. When this data is only available after Terraform applies the configuration, you must use [Terraform Outputs](/docs/cdktf/concepts/variables-and-outputs.html#outputs).
 
 ### Examples
 

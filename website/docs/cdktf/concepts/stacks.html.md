@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Stacks"
 sidebar_current: "cdktf"
 description: "Use stacks to specify separate collections of infrastructure for different environments, like test and production."

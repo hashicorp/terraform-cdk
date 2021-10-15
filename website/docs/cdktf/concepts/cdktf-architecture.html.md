@@ -1,6 +1,6 @@
 ---
-layout: "docs"
-page_title: "Architecture"
+layout: "cdktf"
+page_title: "CDKTF Architecture"
 sidebar_current: "cdktf"
 description: "Key CDK for Terraform components and application structure."
 ---

@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Project Setup"
 sidebar_current: "cdktf"
 description: "Build a CDKTF application from a template or existing HCL project, and configure storage for Terraform state."
@@ -46,7 +46,7 @@ The new scaffolded project is configured to use Terraform state with a [remote b
 
 #### Terraform Cloud VCS Integration
 
-Terraform Cloud supports [connecting to VCS providers](https://www.terraform.io/docs/cloud/vcs/index.html). To use the VCS integration, commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code, so that Terraform Cloud can use it to deploy your infrastructure. On the General Settings page of your Terraform Cloud workspace [set the Terraform working directory](https://www.terraform.io/docs/cloud/workspaces/settings.html#terraform-working-directory) to the output directory of the stack you want to deploy. So for example, use `cdktf.out/stacks/dev` if your stack is named `dev`. Refer to the [Stacks documentation](./stacks.html) for more information about using stacks to separate the state management for multiple environments in an application.
+Terraform Cloud supports [connecting to VCS providers](https://www.terraform.io/docs/cloud/vcs/index.html). To use the VCS integration, commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code, so that Terraform Cloud can use it to deploy your infrastructure. On the General Settings page of your Terraform Cloud workspace [set the Terraform working directory](https://www.terraform.io/docs/cloud/workspaces/settings.html#terraform-working-directory) to the output directory of the stack you want to deploy. So for example, use `cdktf.out/stacks/dev` if your stack is named `dev`. Refer to the [Stacks documentation](/docs/cdktf/concepts/stacks.html) for more information about using stacks to separate the state management for multiple environments in an application.
 
 ~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data that was provided as input for the `cdktf` application.
 
@@ -66,7 +66,7 @@ Initializing your project with a template generates a basic project in your pref
 
 ### `cdktf.json` Configuration File
 
-Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/concepts/cdktf-json.html) for more detail.
+Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more detail.
 
 ### Application Context
 

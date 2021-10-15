@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Providers and Resources"
 sidebar_current: "cdktf"
 description: "Providers allow Terraform to communicate with external APIs. Learn to define providers and resources in a CDK for Terraform application."
@@ -17,7 +17,7 @@ In your CDK for Terraform (CDKTF) application, you will use your preferred progr
 
 ## Providers
 
-You can install pre-built providers, import providers from the Terraform Registry, or reference local providers to define resources for your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/docs/cdktf/create-and-deploy/configuration.html). This allows you to define resources for that provider in your preferred programming language.
+You can install pre-built providers, import providers from the Terraform Registry, or reference local providers to define resources for your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/docs/cdktf/create-and-deploy/configuration-file.html). This allows you to define resources for that provider in your preferred programming language.
 
 ### Import Providers
 
@@ -212,7 +212,7 @@ When you choose to install a pre-built provider via `npm install`, you should no
 
 ### Provider Caching
 
-Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](./stacks.html) within one application.
+Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/docs/cdktf/concepts/stacks.html) within one application.
 
 #### Set the Caching Directory
 
@@ -227,7 +227,7 @@ Terraform needs to know the location of local providers to enable CDKTF to gener
 - [Implied Local Mirrors](https://www.terraform.io/docs/cli/config/config-file.html#implied-local-mirror-directories)
 - [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
-Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/create-and-deploy/configuration.html) for more details about the `cdktf.json` specification.
+Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more details about the `cdktf.json` specification.
 
 ## Resources
 

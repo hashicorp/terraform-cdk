@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "What is CDKTF?"
 sidebar_current: "docs-home"
 description: |-
@@ -31,10 +31,10 @@ You can use every Terraform provider and module available on the [Terraform Regi
 CDKTF offers many benefits, but it is not the right choice for every project. You should consider using CDKTF when:
 
 - You have a strong preference or need to use a procedural language to define infrastructure.
-- You need to create abstractions to help manage complexity. For example, you want to create [constructs](./concepts/fundamentals/constructs.html) to model a reusable infrastructure pattern composed of multiple resources and convenience methods.
+- You need to create abstractions to help manage complexity. For example, you want to create constructs to model a reusable infrastructure pattern composed of multiple resources and convenience methods.
 - You are comfortable doing your own troubleshooting and do not require commercial support.
 
-You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](./concepts/interoperability-workflows.html).
+You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](/docs/cdktf/concepts/hcl-interoperability.html).
 
 ## Choosing a Language for your Project
 
@@ -73,5 +73,5 @@ See the CHANGELOG in a given release for a description of any new feature flags 
 ## Get Started
 
 - [Install CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and set up your first project on HashiCorp Learn.
-- Learn about [CDKTF application architecture](/docs/cdktf/concepts/architecture.html)
-- Learn how to use key CDKTF concepts like [providers](/docs/cdktf/concepts/fundamentals/providers.html), [modules](/docs/cdktf/concepts/fundamentals/modules.html), and [resources](/docs/cdktf/concepts/fundamentals/resources.html) to define infrastructure
+- Learn about [CDKTF application architecture](/docs/cdktf/concepts/cdktf-architecture.html)
+- Learn how to use key CDKTF concepts like [providers](/docs/cdktf/concepts/providers-and-resources.html), [modules](/docs/cdktf/concepts/modules.html), and [resources](/docs/cdktf/concepts/providers-and-resources.html) to define infrastructure

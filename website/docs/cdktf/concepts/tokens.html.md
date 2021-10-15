@@ -1,5 +1,5 @@
 ---
-layout: "docs"
+layout: "cdktf"
 page_title: "Tokens"
 sidebar_current: "cdktf"
 description: "Tokens allow CDK for Terraform to resolve programming language types to Terraform language syntax."
@@ -19,7 +19,7 @@ to cast these attributes to the correct Terraform language syntax.
 
 You may need to use Tokens for:
 
-- [Module outputs](/fundamentals/modules.html) for boolean, string, lists, maps, and other complex types
+- [Module outputs](/docs/cdktf/concepts/modules.html) for boolean, string, lists, maps, and other complex types
 - Resource attributes (such as `id`)
 - Terraform outputs based on resource attributes
 
