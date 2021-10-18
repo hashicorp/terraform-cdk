@@ -37,7 +37,7 @@ const imageId = new TerraformVariable(this, "imageId", {
   default: "ami-abcde123",
   description: "What AMI to use to create an instance",
 });
-new Instance(this, "hello", {
+new EC2.Instance(this, "hello", {
   ami: imageId.value,
   instanceType: "t2.micro",
 });
@@ -63,7 +63,7 @@ const commonTags = new TerraformLocal(this, "common_tags", {
   Owner: "owner",
 });
 
-new Instance(this, "example", {
+new EC2.Instance(this, "example", {
   tags: commonTags.expression,
 });
 ```
