@@ -13,7 +13,9 @@ export class StructEmitter {
   public emit(resource: ResourceModel) {
     resource.structs.forEach((struct) => {
       if (struct.isSingleItem) {
+        // We use the interface here for the configuration / inputs of a resource / nested block
         this.emitInterface(resource, struct);
+        // And we use the class for the attributes / outputs of a resource / nested block
         this.emitClass(struct, `${struct.name}Output`);
       } else if (struct.isClass) {
         this.emitClass(struct);
