@@ -9,13 +9,9 @@ description: "[technical preview] Use AWS CDK (v2) constructs in CDK for Terrafo
 
 -> **The AWS Adapter is a technical preview and not ready for production usage.** Its API is not stable and things might break unexpectedly.
 
-<!-- TODO: reword this header? -->
-
-## How it works
-
 The `AwsTerraformAdapter` (included in the [`@cdktf/aws-cdk`](https://github.com/hashicorp/cdktf-aws-cdk) package) allows you to use Amazon Web Services Cloud Development Kit (AWS CDK) constructs in your CDKTF projects.
 
-The `AwsTerraformAdapter` uses the [`aws_cloudcontrolapi_resource`](https://www.terraform.io/docs/providers/aws/r/cloudcontrolapi_resource.html) Terraform resource to communicate with the [AWS Cloud Control API](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/what-is-cloudcontrolapi.html). Reference this [list of supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html) for the Cloud Control API.  
+The `AwsTerraformAdapter` uses the [`aws_cloudcontrolapi_resource`](https://www.terraform.io/docs/providers/aws/r/cloudcontrolapi_resource.html) Terraform resource to communicate with the [AWS Cloud Control API](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/what-is-cloudcontrolapi.html). Reference this [list of supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html) for the Cloud Control API.
 
 Resources that the AWS Cloud Control API does not yet support� need to be manually mapped to their specific Terraform resources. Automatic mapping is not possible because attribute names and resource types differ between CloudFormation and Terraform. Some manual mappings are already [included](https://github.com/hashicorp/cdktf-aws-cdk/tree/main/src/mapping/aws) in the adapter and we plan on extending the support for them as we continue iterating on this technical preview. As the coverage of the AWS Cloud Control API grows, those manual mappings will become obsolete over time. In the meantime we are happy to accept PRs adding manual mappings for currently unsupported resources!
 
@@ -103,7 +99,7 @@ The [full code of this example](https://github.com/hashicorp/cdktf-aws-cdk/tree/
 
 Resources that the AWS Cloud Control API does not yet support ([supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html)) need manual mappings. While there are some mappings already included, you will need to manually map most unsupported resources. These mappings will eventually become unnecessary as the Cloud Control API supports more and more resources.
 
-The example below shows how to write and register a mapping for an `AWS::DynamoDB::Table` CloudFormation resource. 
+The example below shows how to write and register a mapping for an `AWS::DynamoDB::Table` CloudFormation resource.
 
 Consider the following code:
 
@@ -134,7 +130,7 @@ The adapter will throw an error explaining that there is currently no mapping in
 Error: Unsupported resource Type AWS::DynamoDB::Table. There is no custom mapping registered for AWS::DynamoDB::Table and the AWS CloudControl API does not seem to support it yet. If you think this is an error or you need support for this resource, file an issue at: https://github.com/hashicorp/cdktf-aws-cdk/issues/new?title=Unsupported%20Resource%20Type%20%60AWS::DynamoDB::Table%60 and mention the AWS CDK constructs you want to use
 ```
 
-To write a custom mapping, add the following code right below the imports and above the stack `MyStack`. 
+To write a custom mapping, add the following code right below the imports and above the stack `MyStack`.
 
 The example code imports the `registerMapping` function and invokes it with arguments for registering an `AWS::DynamoDB::Table` resource. The second argument to the function is an object with two parts: `resource` and `attributes`. The `resource` is a function that is called for each instance of the CloudFormation type it is registered for. This example logs the `props` the function receives and returns `null`, which will result in no resource being created.
 
@@ -149,7 +145,6 @@ registerMapping("AWS::DynamoDB::Table", {
   attributes: {},
 });
 ```
-
 
 The example DynamoDB resource results in CDKTF outputting the following `props`:
 
@@ -173,7 +168,7 @@ The example DynamoDB resource results in CDKTF outputting the following `props`:
 ```
 
 These attributes are the properties you would find in the rendered CloudFormation schema of that resource. You can also look at the [CloudFormation docs for an `AWS::DynamoDB::Table` resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html) and can find the same attributes there.
-The next step is to write code that maps those attributes to a format that matches the Terraform resource for an AWS DynamoDBTable. For the target schema, you can either  look at the [docs on the Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) or at the code of the `DynamoDB.DynamodbTableConfig` you will supply to the resource upon creation.
+The next step is to write code that maps those attributes to a format that matches the Terraform resource for an AWS DynamoDBTable. For the target schema, you can either look at the [docs on the Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) or at the code of the `DynamoDB.DynamodbTableConfig` you will supply to the resource upon creation.
 
 The logged `props` show that you need to support at least setting these attributes and that you need to make sure they appear in the resulting CDK for Terraform resources:
 
@@ -186,7 +181,7 @@ The logged `props` show that you need to support at least setting these attribut
 }
 ```
 
-Synthesizing the code with this initial mapping function fails with an error listing properties that may not be properly mapped. CDKTF checks whether there are any object properties left on the `props` object (that are not `undefined`) after the mapping function returned. This is a safeguard of the mapping implementation to block mappings that do not support all properties at the time they were written. 
+Synthesizing the code with this initial mapping function fails with an error listing properties that may not be properly mapped. CDKTF checks whether there are any object properties left on the `props` object (that are not `undefined`) after the mapping function returned. This is a safeguard of the mapping implementation to block mappings that do not support all properties at the time they were written.
 
 ```
 Error: cannot map some properties of AWS::DynamoDB::Table: {
@@ -209,7 +204,6 @@ Error: cannot map some properties of AWS::DynamoDB::Table: {
   "TableName": "MyTestTable"
 }
 ```
-
 
 The example below adds mapping for any missing values in the error message. First, it maps the `AttributeDefinitions` array to make sure it fits the schema of the Terraform resource (which uses e.g. `name` instead of `AttributeName`). It also looks up the `hashKey` in the `KeySchema array`. Finally, it deletes the properties that have been handled and returns a new `DynamodbTable` resource.
 
@@ -246,7 +240,6 @@ registerMapping("AWS::DynamoDB::Table", {
 });
 ```
 
-
 Synthesizing again using this mapping still produces an error.
 
 ```
@@ -258,7 +251,7 @@ Error: cannot map some properties of AWS::DynamoDB::Table: {
 }
 ```
 
-The error indicates that the `ProvisionedThroughput` property has not yet been mapped or deleted. The example below shows a complete mapping for the DynamoDB table. 
+The error indicates that the `ProvisionedThroughput` property has not yet been mapped or deleted. The example below shows a complete mapping for the DynamoDB table.
 
 ```ts
 import { DynamoDB } from "@cdktf/aws-cdk";
@@ -323,7 +316,7 @@ This code synthesizes without error and produces the following `aws_dynamodb_tab
   }
 ```
 
-You should also map the `attributes` argument. When AWS CDK constructs reference each other's properties, they do so via the CloudFormation property name of the resource. 
+You should also map the `attributes` argument. When AWS CDK constructs reference each other's properties, they do so via the CloudFormation property name of the resource.
 
 The example below maps the `Arn` CloudFormation property to the `.arn` of the Terraform resource. While this example might look like something that could be handled automatically, there are cases where this cannot map directly. For example, there are some resources that do not have a direct representation in Terraform but do in CloudFormation (and vice versa).
 
@@ -357,8 +350,6 @@ registerMapping("AWS::DynamoDB::Table", {
   },
 });
 ```
-
-
 
 ## Examples
 
