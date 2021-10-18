@@ -24,7 +24,7 @@ At a high level, you will:
 2. **Define Infrastructure:** Use your chosen language to define the infrastructure you want to provision on one or more providers. CDKTF automatically extracts the schema from Terraform providers and modules to generate the necessary classes for your application.
 3. **Deploy**: Use `cdktf` CLI commands to provision infrastructure with Terraform or synthesize your code into a JSON configuration file that others can use with Terraform directly.
 
-You can use every Terraform provider and module available on the [Terraform Registry](https://registry.terraform.io/), and you can use CDKTF with [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), [Terraform Enterprise](https://www.terraform.io/docs/enterprise/index.html), and HashiCorp's policy as code framework, [Sentinel](https://www.hashicorp.com/sentinel). However, as CDKTF is under active development, we do not yet recommend it for production use cases (more details in [Project Maturity](#project-maturity) below).
+You can use every Terraform provider and module available on the [Terraform Registry](https://registry.terraform.io/), and you can use CDKTF with [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), [Terraform Enterprise](https://www.terraform.io/docs/enterprise/index.html), and HashiCorp's policy as code framework, [Sentinel](https://www.hashicorp.com/sentinel). However, as CDKTF is under active development, we do not yet recommend it for production use cases (more details in [Project Maturity](#project-maturity-and-production-readiness) below).
 
 ## When to use CDK for Terraform
 
