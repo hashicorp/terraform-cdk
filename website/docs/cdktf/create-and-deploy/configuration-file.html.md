@@ -7,7 +7,7 @@ description: "Use the cdktf.json file to customize configuration settings and de
 
 # Configuration File
 
-The `cdktf.json` file is where you can supply custom configuration settings for your application, and define the [providers](/docs/cdktf/concepts/providers-and-resources.html) and [modules](docs/cdktf/concepts/modules.html) that you want to use. When you initialize a new CDK for Terraform project with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html), the template will generate a basic `cdktf.json` file in your root directory that you can customize for your application. Refer to the [Project Setup documentation](/docs/cdktf/create-and-deploy/project-setup.html) for more information about initializing a new project.
+The `cdktf.json` file is where you can supply custom configuration settings for your application, and define the [providers](/docs/cdktf/concepts/providers-and-resources.html) and [modules](/docs/cdktf/concepts/modules.html) that you want to use. When you initialize a new CDK for Terraform project with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html), the template will generate a basic `cdktf.json` file in your root directory that you can customize for your application. Refer to the [Project Setup documentation](/docs/cdktf/create-and-deploy/project-setup.html) for more information about initializing a new project.
 
 ## Specification
 

@@ -321,7 +321,7 @@ Create a new Python project and use a specific version of the `cdktf` package.
 $ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
-Create a new Typescript project from an existing Terraform codebase. Currently, you can only use the `--from-terraform-project` flag with TypeScript, and there are [some known limitations](to do link to these when in the docs).
+Create a new Typescript project from an existing Terraform codebase. Currently, you can only use the `--from-terraform-project` flag with TypeScript, and there are some known limitations.
 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
