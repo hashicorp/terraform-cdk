@@ -97,7 +97,7 @@ The [full code of this example](https://github.com/hashicorp/cdktf-aws-cdk/tree/
 
 ## Write Custom Mappings
 
-While some mappings are already included, you need to manually map most resources that the AWS Cloud Control API does not yet support ([supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html)). 
+While some mappings are already included, you need to manually map most resources that the AWS Cloud Control API does not yet support ([supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html)).
 
 The example below shows how to write and register a mapping for an `AWS::DynamoDB::Table` CloudFormation resource.
 
@@ -170,6 +170,7 @@ The example DynamoDB resource results in CDKTF outputting the following `props`:
 ```
 
 These attributes are the properties you would find in the rendered CloudFormation schema of that resource. You can also find the same attributes in the [CloudFormation docs for an `AWS::DynamoDB::Table` resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html).
+
 ### Create Mappings
 
 Write code that maps all attributes to a format that matches the Terraform resource for an AWS DynamoDBTable. For the target schema, you can either look at the [docs on the Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) or at the code of the `DynamoDB.DynamodbTableConfig` you will supply to the resource upon creation.
