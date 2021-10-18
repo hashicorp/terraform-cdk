@@ -28,7 +28,7 @@ function readStreamAsString(stream: typeof process.stdin): Promise<string> {
   });
 }
 
-function findFileBelowCwd(
+function findFileAboveCwd(
   file: string,
   rootPath = process.cwd()
 ): string | null {
@@ -38,7 +38,7 @@ function findFileBelowCwd(
   }
 
   if (fs.existsSync(path.resolve(rootPath, ".."))) {
-    return findFileBelowCwd(file, path.resolve(rootPath, ".."));
+    return findFileAboveCwd(file, path.resolve(rootPath, ".."));
   }
 
   return null;
@@ -79,7 +79,7 @@ class Command implements yargs.CommandModule {
     await displayVersionMessage();
 
     const providerRequirements: string[] = yargs.argv.provider as string[];
-    const cdktfJsonPath = findFileBelowCwd("cdktf.json");
+    const cdktfJsonPath = findFileAboveCwd("cdktf.json");
     if (cdktfJsonPath) {
       const cdktfJson = await fs.readJson(cdktfJsonPath);
       providerRequirements.push(...cdktfJson.terraformProviders);
