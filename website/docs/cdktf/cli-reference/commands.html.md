@@ -52,12 +52,12 @@ compdef _cdktf_yargs_completions cdktf
 The output also contains the installation instructions. For example, here are the instructions for Mac OSX:
 
 ```
-cdktf completion >> ~/.zsh_profile on OSX.
+cdktf completion >> ~/.bash_profile on OSX.
 # or if using zsh instead of bash
 cdktf completion >> ~/.zshrc
 ```
 
-After you configure auto completion, reload your shell by running `source ~/.zshrc`, `source ~/.zsh_profile` or opening a new terminal window. You can now autocomplete `cdktf` commands by pressing the `<TAB>` key. You may need to enter a space after `cdktf` for autocomplete to take effect.
+After you configure auto completion, reload your shell by running `source ~/.zshrc`, `source ~/.bash_profile` or opening a new terminal window. You can now autocomplete `cdktf` commands by pressing the `<TAB>` key. You may need to enter a space after `cdktf` for autocomplete to take effect.
 
 ```
 > cdktf <TAB>
@@ -78,7 +78,7 @@ watch       -- [experimental] Watch for file changes and automatically trigger a
 
 This command converts Terraform configuration written in HCL to the equivalent configuration in your preferred language.
 
-->**Note**: The `convert` command is only functional for Terraform 1.0 and above. There are also [known limitations](TODO UPDATE LINK when the convert readme is in the new docs structure).
+->**Note**: The `convert` command is only functional for Terraform 1.0 and above. There are also [known limitations](https://cdk.tf/convert-limitations).
 
 ```
 cdktf convert [OPTIONS]
