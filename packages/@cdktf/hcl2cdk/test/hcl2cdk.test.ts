@@ -961,6 +961,7 @@ describe("convert", () => {
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",
+      providerSchema: {},
     });
     expect(all).toMatchSnapshot();
   });
@@ -989,6 +990,7 @@ describe("convert", () => {
       expect(
         convert(hcl, {
           language: language as any,
+          providerSchema: {},
         })
       ).toMatchSnapshot();
     });
@@ -1051,7 +1053,7 @@ describe("convert", () => {
     }
   }
   `,
-      { language: "typescript" }
+      { language: "typescript", providerSchema: {} }
     );
 
     expect(stats).toMatchInlineSnapshot(`

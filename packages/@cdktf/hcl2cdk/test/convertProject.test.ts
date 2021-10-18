@@ -202,6 +202,7 @@ describe("convertProject", () => {
       require(path.resolve(targetPath, "cdktf.json")),
       {
         language: "typescript",
+        providerSchema: {},
       }
     );
 
