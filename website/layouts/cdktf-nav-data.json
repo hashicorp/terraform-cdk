@@ -39,6 +39,7 @@
       { "title": "Project Setup", "path": "create-and-deploy/project-setup" },
       { "title": "Custom Constructs", "path": "create-and-deploy/custom-constructs" },
       { "title": "Remote Templates", "path": "create-and-deploy/remote-templates" },
+      { "title": "AWS Adapter [preview]", "path": "create-and-deploy/aws-adapter" },
     ]
   },
   {
