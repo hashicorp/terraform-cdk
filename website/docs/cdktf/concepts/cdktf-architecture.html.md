@@ -23,7 +23,7 @@ The [`jsii` tool](https://aws.github.io/jsii/) enables publishing polyglot libra
 
 ### Terraform
 
-CDKTF [synthesizes](/cdktf/cli-reference/commands.html#synth) infrastructure defined in a supported programming language into [JSON configuration files](https://www.terraform.io/docs/language/syntax/json.html) that Terraform can use to manage infrastructure.
+CDKTF [synthesizes](/docs/cdktf/cli-reference/commands.html#synth) infrastructure defined in a supported programming language into [JSON configuration files](https://www.terraform.io/docs/language/syntax/json.html) that Terraform can use to manage infrastructure.
 
 The diagram below shows how synthesizing a CDKTF application produces a series of artifacts in a designated output folder. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
 
@@ -49,17 +49,17 @@ CDKTF applications are structured as a tree of [constructs](https://github.com/a
 
 ### `App` Class
 
-Each CDKTF project has one or more `App` instances that act as a container for the infrastructure configurations you create and deploy. An `App` can have one or more [`Stacks`](./stacks.html) that represent a collection of related infrastructure.
+Each CDKTF project has one or more `App` instances that act as a container for the infrastructure configurations you create and deploy. An `App` can have one or more [`Stacks`](/docs/cdktf/concepts/stacks.html) that represent a collection of related infrastructure.
 
 ### `Stack` Class
 
 A `Stack` represents a collection of infrastructure resources that CDKTF synthesizes as a separate Terraform configuration. It is equivalent to a [Terraform working directory](https://www.terraform.io/docs/cli/init/index.html).
 
-Stacks allow you to separate the state management within an application. For example, you may want to deploy and manage separate infrastructure resources for development and testing. Reference the [stack documentation](./stacks.html) for more details on when and how to use stacks in your project.
+Stacks allow you to separate the state management within an application. For example, you may want to deploy and manage separate infrastructure resources for development and testing. Reference the [stack documentation](/docs/cdktf/concepts/stacks.html) for more details on when and how to use stacks in your project.
 
 ### `Resource` Class
 
-A `Resource` represents the definition for one or more infrastructure objects. Resources and their required attributes vary depending on the provider. Reference the [providers and resources documentation](./providers-and-resources.html#resources) for more details.
+A `Resource` represents the definition for one or more infrastructure objects. Resources and their required attributes vary depending on the provider. Reference the [providers and resources documentation](/docs/cdktf/concepts/providers-and-resources.html#resources) for more details.
 
 ### Constructs
 
