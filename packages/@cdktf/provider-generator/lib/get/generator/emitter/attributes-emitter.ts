@@ -51,13 +51,13 @@ export class AttributesEmitter {
         break;
     }
 
-    if (att.setterType.__type === "set") {
+    if (att.setterType._type === "set") {
       this.code.openBlock(
         `public set ${att.name}(value: ${att.setterType.type})`
       );
       this.code.line(`this.${att.storageName} = value;`);
       this.code.closeBlock();
-    } else if (att.setterType.__type === "put") {
+    } else if (att.setterType._type === "put") {
       this.code.openBlock(
         `public put${titleCase(att.name)}(value: ${att.setterType.type})`
       );
