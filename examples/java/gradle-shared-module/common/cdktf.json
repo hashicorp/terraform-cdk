@@ -4,7 +4,7 @@
   "output": "./",
   "codeMakerOutput": "./src/main/java/imports",
   "terraformProviders": [
-    "aws@~> 2.70.0"
+    "aws@~> 3.0"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": true,
