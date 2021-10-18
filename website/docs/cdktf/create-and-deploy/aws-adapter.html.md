@@ -359,11 +359,13 @@ For additional examples, reference the [adapters repository](https://github.com/
 
 As the adapter is an early preview of how we envision interoperability with AWS CDK constructs to work, there are some limitations to it:
 
-- AWS CDK App, Stack and nested Stack constructs are not supported
-- TODO: list all limitations
+- Limited interoperability between CDKTF and AWS CDK tokens. For example, passing Terraform Functions as arguments into AWS CDK constructs might unexpectedly fail.
+- AWS CDK App, Stack and nested Stack constructs are not supported.
+- The following CloudFormation features are not supported yet: Transforms, Parameters, Mappings and Includes.
+- The following AWS CDK features are not supported yet: Assets, Aspects and Annotations.
+
+Please also refer to the [issues](https://github.com/hashicorp/cdktf-aws-cdk/issues) in the adapters repository for further information.
 
 ## Roadmap
 
-Please refer to the [cdktf-aws-cdk](https://github.com/hashicorp/cdktf-aws-cdk) repository on Github for a Roadmap.
-
-<!-- todo: link to some roadmap Github issue that contains the follow up issues? or similar? -->
+Please refer to the [cdktf-aws-cdk](https://github.com/hashicorp/cdktf-aws-cdk) repository on Github for a [Roadmap](https://github.com/hashicorp/cdktf-aws-cdk/issues/10).
