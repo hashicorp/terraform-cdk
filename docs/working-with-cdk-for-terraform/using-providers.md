@@ -243,4 +243,4 @@ new Deployment(this, "nginx-deployment", {
   });
 ```
 
-Please be aware that you can not pass an entire block (e.g. `exampleNamespace.metadata`) as this is not supported by Terraform. You need to specify all values you want to pass.
+Please be aware that you can not pass an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source as this is not supported by Terraform. You need to specify all values you want to pass.
