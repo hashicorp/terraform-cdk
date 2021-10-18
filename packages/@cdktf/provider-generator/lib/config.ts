@@ -23,6 +23,14 @@ export interface TerraformDependencyConstraint {
   readonly namespace?: string;
 }
 
+function getLocalMatch(source: string): RegExpMatchArray | null {
+  return source.match(/^(\.\/|\.\.\/|\.\\\\|\.\.\\\\)(.*)/);
+}
+
+export function isLocalModule(source: string): boolean {
+  return getLocalMatch(source) !== null;
+}
+
 export class TerraformModuleConstraint
   implements TerraformDependencyConstraint
 {
@@ -49,7 +57,7 @@ export class TerraformModuleConstraint
       this.namespace = item.namespace;
     }
 
-    const localMatch = this.getLocalMatch(this.source);
+    const localMatch = getLocalMatch(this.source);
     if (localMatch) {
       this.localSource = `file://${path.join(process.cwd(), this.source)}`;
     }
@@ -63,14 +71,10 @@ export class TerraformModuleConstraint
     return this.namespace ? `${this.namespace}/${this.name}` : this.name;
   }
 
-  private getLocalMatch(source: string): RegExpMatchArray | null {
-    return source.match(/^(\.\/|\.\.\/|\.\\\\|\.\.\\\\)(.*)/);
-  }
-
   private parseDependencyConstraint(
     item: string
   ): TerraformDependencyConstraint {
-    const localMatch = this.getLocalMatch(item);
+    const localMatch = getLocalMatch(item);
     if (localMatch) {
       const fqn = localMatch[2];
       const nameParts = fqn.split("/");
