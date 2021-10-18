@@ -155,7 +155,6 @@ $ cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
 Create a new Typescript project from an existing Terraform codebase. Please be aware that only Typescript is currently supported and that there are [some known limitations](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
-To improve the acuracy of the conversion you can add the provider flag with one or multiple items to specify the providers your code is using: `--provider 'hashicorp/aws@ ~>3.62.0'`.
 
 ```bash
 $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
