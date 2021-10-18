@@ -322,7 +322,7 @@ const aws: Record<Prefix, ResourceNamespace> = {
     comment: "AWS Lake Formation",
   },
   lambda: {
-    name: "Lambda",
+    name: "LambdaFunction",
     comment: "AWS Lambda",
   },
   lex: {
