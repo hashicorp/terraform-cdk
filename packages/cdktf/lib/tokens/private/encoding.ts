@@ -132,8 +132,7 @@ export function containsListTokenElement(xs: any[]) {
 export function isComplexElement(xs: any) {
   return (
     typeof xs === "object" &&
-    xs !== undefined &&
-    xs != null &&
+    xs !== null &&
     "withinArray" in xs &&
     "interpolationAsList" in xs
   );
