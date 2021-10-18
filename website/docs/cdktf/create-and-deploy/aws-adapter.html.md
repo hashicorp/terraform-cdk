@@ -360,7 +360,7 @@ registerMapping("AWS::DynamoDB::Table", {
 
 ## Examples
 
-For additional examples, reference the [adapters repository](https://github.com/hashicorp/cdktf-aws-cdk/examples).
+For additional examples, reference the [adapters repository](https://github.com/hashicorp/cdktf-aws-cdk/tree/main/examples).
 
 ## Known limitations
 
