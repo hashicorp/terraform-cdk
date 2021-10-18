@@ -28,7 +28,7 @@ The TypeScript example below uses the `TerraformBackend` subclass `RemoteBackend
 
 ```typescript
 import { Construct } from "constructs";
-import { App, TerraformStack, TerraformOutput } from "cdktf";
+import { App, RemoteBackend, TerraformStack, TerraformOutput } from "cdktf";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {

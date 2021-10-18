@@ -97,9 +97,9 @@ export class TestDriver {
     );
   };
 
-  init = async (template: string) => {
+  init = async (template: string, additionalOptions = "") => {
     await this.exec(
-      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local`
+      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local ${additionalOptions}`
     );
   };
 
