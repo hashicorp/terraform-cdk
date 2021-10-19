@@ -2,7 +2,7 @@
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": [
-    "aws@~> 3.22"
+    "aws@~> 3.0"
   ],
   "projectId": "8069a925-1bf4-4bc7-a2bb-01e1d0e856b9"
 }
