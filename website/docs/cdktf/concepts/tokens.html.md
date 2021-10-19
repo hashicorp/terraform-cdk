@@ -7,6 +7,8 @@ description: "Tokens allow CDK for Terraform to resolve programming language typ
 
 # Tokens
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
 represent values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
 

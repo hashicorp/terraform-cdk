@@ -7,7 +7,7 @@ description: "[technical preview] Use AWS CDK (v2) constructs in CDK for Terrafo
 
 # [technical preview] AWS Adapter
 
--> **The AWS Adapter is a technical preview and not ready for production usage.** Its API is not stable and things might break unexpectedly.
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness). Also, the AWS Adapter is a technical preview and not ready for production usage. Its API is not stable and things might break unexpectedly.
 
 The `AwsTerraformAdapter` (included in the [`@cdktf/aws-cdk`](https://github.com/hashicorp/cdktf-aws-cdk) package) allows you to use Amazon Web Services Cloud Development Kit (AWS CDK) constructs in your CDK for Terraform (CDKTF) projects.
 
@@ -25,7 +25,7 @@ The `AwsTerraformAdapter` currently only supports TypeScript projects:
 
 ## Install the Adapter
 
-We expect that you will have a CDKTF TypeScript project already set up. Refer to [Project Setup])(/docs/cdktf/create-and-deploy/project-setup.html) for details.
+We expect that you will have a CDKTF TypeScript project already set up. Refer to [Project Setup](/docs/cdktf/create-and-deploy/project-setup.html) for details.
 
 Install the required packages via yarn or npm.
 

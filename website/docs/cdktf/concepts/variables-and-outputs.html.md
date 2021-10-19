@@ -7,6 +7,8 @@ description: "TBD"
 
 # Variables and Outputs
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 Terraform configurations are written in either HashiCorp Configuration Language (HCL) syntax or JSON. Because neither of these is a programming language, Terraform has has developed ways to enable users to request and publish named values. These are:
 
 - [**Input Variables:**](#input-variables) These are like function arguments.

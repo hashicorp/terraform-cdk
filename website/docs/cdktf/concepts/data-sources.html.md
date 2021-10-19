@@ -7,6 +7,8 @@ description: "Use data sources to allow Terraform to use external data, function
 
 # Data Sources
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 [Terraform data sources](https://www.terraform.io/docs/configuration/data-sources.html) fetch information from external APIs and from other Terraform configurations. For example, you may want to import disk image IDs from a cloud provider or share data between configurations for different parts of your infrastructure.
 
 ## When to Use Data Sources

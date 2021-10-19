@@ -7,6 +7,8 @@ description: "Resources to help you learn CDK for Terraform, including example p
 
 # Examples
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 ## Tutorials
 
 Follow these hands-on tutorials from HashiCorp Learn: [Write CDK for Terraform Configurations](https://learn.hashicorp.com/collections/terraform/cdktf)

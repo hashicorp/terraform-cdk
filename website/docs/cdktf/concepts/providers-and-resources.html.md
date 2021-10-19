@@ -7,6 +7,8 @@ description: "Providers allow Terraform to communicate with external APIs. Learn
 
 # Providers and Resources
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 A [provider](https://www.terraform.io/docs/language/providers/index.html) is a Terraform plugin that allows users to manage an external API. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest) or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)

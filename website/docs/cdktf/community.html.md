@@ -7,6 +7,8 @@ description: "Resources to help you contribute to the codebase, submit issues, a
 
 # Community
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 CDK for Terraform is under active development, and we would love your feedback and direct contributions to help guide the project.
 
 ## Questions & Issues

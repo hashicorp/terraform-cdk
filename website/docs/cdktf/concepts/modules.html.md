@@ -7,6 +7,8 @@ description: "Use both public and private modules in your CDKTF application to r
 
 # Modules
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 A [Terraform module](https://www.terraform.io/docs/language/modules/index.html) is a single directory that contains one or more configuration files.
 
 Modules let you reuse configurations across projects and teams, saving time, enforcing consistency, and reducing errors. For example, you could create a module to describe the configuration for all of your organization's public website buckets. When you package and share this module, other users can incorporate it into their configurations. As requirements evolve, you can make changes to your module once, release a new version, and apply those changes everywhere that module is used.

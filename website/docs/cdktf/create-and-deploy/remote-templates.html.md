@@ -7,6 +7,8 @@ description: "Templates allow you to scaffold a new CDK for Terraform Project. L
 
 # Remote Templates
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 When you set up a new project via `cdktf init`, you can supply one of the [built-in templates](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/templates) (e.g. `typescript` or `python`) or use a custom-built remote template. Templates scaffold a new CDK for Terraform (CDKTF) project, creating the necessary directories and files.
 
 ## Create Remote Templates

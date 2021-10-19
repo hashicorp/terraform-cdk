@@ -7,6 +7,8 @@ description: "Build a CDKTF application from a template or existing HCL project,
 
 # Project Setup
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 There are several ways to create a new CDK for Terraform (CDKTF) project, including creating a new application from a pre-built or custom template, or converting an existing HCL project. When you create a new project, you have the option of storing Terraform state locally, or using Terraform Cloud. This page discusses these setup options in more detail.
 
 > **Hands On**: Check out our [CDK for Terraform Quick Start Demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and language-specific [Get Started Tutorials](https://learn.hashicorp.com/collections/terraform/cdktf) on HashiCorp Learn.

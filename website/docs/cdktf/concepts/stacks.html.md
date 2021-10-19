@@ -7,6 +7,8 @@ description: "Use stacks to specify separate collections of infrastructure for d
 
 # Stacks
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 A stack represents a collection of infrastructure that will be synthesized as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
 
 ### Single Stack

@@ -7,6 +7,8 @@ description: "Key CDK for Terraform components and application structure."
 
 # Architecture
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 This page explains the tools and processes that CDK for Terraform (CDKTF) uses to leverage the Terraform ecosystem and convert code into Terraform configuration files. It also explains the major components of a CDKTF application and how those pieces fit together.
 
 ## CDKTF Building Blocks
