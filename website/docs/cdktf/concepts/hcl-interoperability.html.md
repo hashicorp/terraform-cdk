@@ -20,7 +20,7 @@ This page shows how you can interoperate HCL and CDK for Terraform configuration
 
 ## CDKTF to HCL
 
-The example below is a TypeScript CDK for Terraform application that uses the `hashicorp/random` provider to generate a random name.
+The TypeScript example below is a CDKTF application that uses the `hashicorp/random` provider to generate a random name.
 
 ```typescript
 import { Construct } from "constructs";
@@ -55,7 +55,7 @@ app.synth();
 
 To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdktf.json` file out to the module directory in your HCL project.
 
-Once the `cdktf.json` file is transferred, you can reference the pet name module as you would any other HCL Terraform module:
+Once the `cdktf.json` file is transferred, you can reference the pet name module as you would any other HCL Terraform module.
 
 ```terraform
 terraform {
@@ -79,4 +79,4 @@ output "name" {
 
 ## HCL to CDKTF
 
-Use the [`cdktf convert`](../cli-reference/commands.html#convert) command to automatically translate existing HCL into a preferred CDK for Terraform language. The [modules documentation](/docs/cdktf/concepts/modules.html) shows how to use existing Terraform modules in CDK for Terraform projects.
+Use the [`cdktf convert`](../cli-reference/commands.html#convert) command to automatically translate existing HCL into a preferred CDKTF language. The [modules documentation](/docs/cdktf/concepts/modules.html) shows how to use existing Terraform modules in CDK for Terraform projects.

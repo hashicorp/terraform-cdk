@@ -25,7 +25,7 @@ The [`jsii` tool](https://aws.github.io/jsii/) enables publishing polyglot libra
 
 ### Terraform
 
-CDKTF [synthesizes](/docs/cdktf/cli-reference/commands.html#synth) infrastructure defined in a supported programming language into [JSON configuration files](https://www.terraform.io/docs/language/syntax/json.html) that Terraform can use to manage infrastructure.
+CDKTF [synthesizes](/docs/cdktf/cli-reference/commands.html#synth) infrastructure that you define in a supported programming language into [JSON configuration files](https://www.terraform.io/docs/language/syntax/json.html) that Terraform can use to manage infrastructure.
 
 The diagram below shows how synthesizing a CDKTF application produces a series of artifacts in a designated output folder. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
 

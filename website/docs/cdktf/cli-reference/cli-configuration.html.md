@@ -7,6 +7,8 @@ description: "Install and configure the CDKTF Command Line Interface."
 
 # CLI Configuration
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 ## Install
 
 ```bash
