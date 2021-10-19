@@ -17,7 +17,7 @@ You need to manually map resources that the AWS Cloud Control API does not yet s
 
 ## Requirements
 
-The `AwsTerraformAdapter currenly only supports TypeScript projects:
+The `AwsTerraformAdapter` currently only supports TypeScript projects:
 
 - `aws-cdk-lib` >= 2.0.0 (requires `constructs` version 10)
 - `cdktf` >= 0.7.0
