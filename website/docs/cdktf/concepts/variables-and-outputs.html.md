@@ -11,7 +11,7 @@ Terraform configurations are written in either HashiCorp Configuration Language 
 
 - [**Input Variables:**](#input-variables) These are like function arguments.
 - [**Local Values**](#local-values): These are like a function's temporary local variables.
-- [**Output Values**](#output-values): These are like function return values.
+- [**Output Values**](#outputs): These are like function return values.
 
 You may need to occasionally use these elements in your CDKTF application instead of passing data through the conventions available in your preferred programming language.
 

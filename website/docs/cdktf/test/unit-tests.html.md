@@ -7,7 +7,7 @@ description: "Write assertions and snapshot tests for your CDK for Terraform app
 
 # Unit Tests
 
-Testing your application can give you faster feedback cycles and guard you against unwanted changes. Currently, testing in Typescript with jest is best supported, but refer to [write your own adapter](#write-your-own-adapter) to see how you can use your favorite test framework.
+Testing your application can give you faster feedback cycles and guard you against unwanted changes. Currently, testing is only supported in Typescript with jest.
 
 We generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing project, please [follow their guide](https://jestjs.io/docs/getting-started). Then, you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
 
@@ -102,23 +102,6 @@ describe("Checking validity", () => {
     expect(Testing.fullSynth(stack)).toPlanSuccessfully();
   });
 });
-```
-
-## Write Your Own Adapter
-
-We export the matchers so that you can use them in the context of your preferred testing framework. You can import the object `testingMatchers` / `testing_matchers` (for Python) and use the matchers (e.g. `toPlanSuccessfully` / `to_plan_successfully`) directly as functions.
-
-This is an example of how this might look in Python. Please be aware that this is untested code.
-
-```py
-from cdktf import testing, testing_matchers
-from . import MyStack, MyResource
-from imports.aws import SnsTopic
-
-def test_my_resource_has_sns_topic():
-    synthesized = testing.synthScope(lambda scope: MyResource(scope, "my-resource", "my-param"))
-    assertion = testing_matchers.toHaveResourceWithProperties(synthesized, SnsTopic)
-    assert assertion.pass
 ```
 
 ## Integration Testing

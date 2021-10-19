@@ -6,6 +6,6 @@
 module.exports = {
     clearMocks: true,
     coverageProvider: "v8",
-    setupFilesAfterEnv: ["setup.js"],
+    setupFilesAfterEnv: ["./setup.js"],
   };
   
