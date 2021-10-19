@@ -28,7 +28,7 @@ For example, this TypeScript example project has a `main.ts` file that defines A
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, Instance } from "./.gen/providers/aws";
+import { AwsProvider, EC2 } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -38,7 +38,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new Instance(this, "Hello", {
+    new EC2.Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
@@ -84,7 +84,7 @@ Import and use the generated classes in your application. The example below show
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack, Token } from "cdktf";
-import { AwsProvider, Instance } from "./.gen/providers/aws";
+import { AwsProvider, EC2 } from "./.gen/providers/aws";
 import { DnsimpleProvider, Record } from "./.gen/providers/dnsimple";
 
 class MyStack extends TerraformStack {
@@ -95,7 +95,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    const instance = new Instance(this, "Hello", {
+    const instance = new EC2.Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
@@ -250,7 +250,7 @@ export class HelloTerra extends TerraformStack {
 
     const region = new DataAwsRegion(this, "region");
 
-    new DynamodbTable(this, "Hello", {
+    new aws.DynamoDB.DynamodbTable(this, "Hello", {
       name: `my-first-table-${region.name}`,
       hashKey: "temp",
       attribute: [{ name: "id", type: "S" }],
@@ -272,7 +272,7 @@ The TypeScript example beow defines a provisioner for a resource using the `addO
 ```typescript
 const tableName = "my-table";
 
-const table = new DynamodbTable(this, "Hello", {
+const table = new aws.DynamoDB.DynamodbTable(this, "Hello", {
   name: tableName,
   hashKey: "id",
   attribute: [{ name: "id", type: "S" }],
