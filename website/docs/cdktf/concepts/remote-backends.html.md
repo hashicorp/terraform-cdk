@@ -19,7 +19,7 @@ You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform
 
 Consider using a remote backend when multiple individuals or teams need access to your infrastructure state data.
 
-[Remote state](https://www.terraform.io/docs/language/state/remote.html) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information to enable other teams to run their own infrastructure.
+[Remote state](https://www.terraform.io/docs/language/state/remote.html) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information that other teams can use for their own infrastructure.
 
 ## Define Remote Backends
 
