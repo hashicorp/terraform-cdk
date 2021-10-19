@@ -163,7 +163,7 @@ export interface AwsProviderAssumeRole {
   readonly sessionName?: string;
 }
 
-function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRoleOutput | AwsProviderAssumeRole): any {
+function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRoleOutputReference | AwsProviderAssumeRole): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -176,7 +176,7 @@ function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRoleOutput |
   }
 }
 
-export class AwsProviderAssumeRoleOutput extends cdktf.ComplexObject {
+export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -1222,7 +1222,7 @@ export interface AwsProviderIgnoreTags {
   readonly keys?: string[];
 }
 
-function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTagsOutput | AwsProviderIgnoreTags): any {
+function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTagsOutputReference | AwsProviderIgnoreTags): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -1233,7 +1233,7 @@ function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTagsOutput |
   }
 }
 
-export class AwsProviderIgnoreTagsOutput extends cdktf.ComplexObject {
+export class AwsProviderIgnoreTagsOutputReference extends cdktf.ComplexObject {
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing

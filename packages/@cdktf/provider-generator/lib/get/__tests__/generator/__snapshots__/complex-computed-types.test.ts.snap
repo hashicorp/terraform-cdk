@@ -79,7 +79,7 @@ export namespace ACM {
     readonly certificateTransparencyLoggingPreference?: string;
   }
 
-  function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptionsOutput | AcmCertificateOptions): any {
+  function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptionsOutputReference | AcmCertificateOptions): any {
     if (!cdktf.canInspect(struct)) { return struct; }
     if (cdktf.isComplexElement(struct)) {
       throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -89,7 +89,7 @@ export namespace ACM {
     }
   }
 
-  export class AcmCertificateOptionsOutput extends cdktf.ComplexObject {
+  export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
     /**
     * @param terraformResource The parent resource
     * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -314,7 +314,7 @@ export namespace ACM {
 
     // options - computed: false, optional: true, required: false
     private _options?: AcmCertificateOptions | undefined; 
-    private __optionsOutput = new AcmCertificateOptionsOutput(this as any, \\"options\\", true);
+    private __optionsOutput = new AcmCertificateOptionsOutputReference(this as any, \\"options\\", true);
     public get options() {
       return this.__optionsOutput;
     }

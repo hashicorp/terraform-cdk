@@ -16,7 +16,7 @@ export class StructEmitter {
         // We use the interface here for the configuration / inputs of a resource / nested block
         this.emitInterface(resource, struct);
         // And we use the class for the attributes / outputs of a resource / nested block
-        this.emitClass(struct, `${struct.name}Output`);
+        this.emitClass(struct, `${struct.name}OutputReference`);
       } else if (struct.isClass) {
         this.emitClass(struct);
       } else {
@@ -105,7 +105,7 @@ export class StructEmitter {
     this.code.line();
     this.code.openBlock(
       `function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${
-        struct.isSingleItem ? `${struct.name}Output | ` : ""
+        struct.isSingleItem ? `${struct.name}OutputReference | ` : ""
       }${struct.name}): any`
     );
     this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);

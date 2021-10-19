@@ -685,7 +685,7 @@ export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   readonly date?: string;
 }
 
-function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutput | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
+function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -695,7 +695,7 @@ function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: Deepl
   }
 }
 
-export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutput extends cdktf.ComplexObject {
+export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extends cdktf.ComplexObject {
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -2137,7 +2137,7 @@ export interface SingleBlockTypeTimeouts {
   readonly create?: string;
 }
 
-function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutput | SingleBlockTypeTimeouts): any {
+function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -2147,7 +2147,7 @@ function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutp
   }
 }
 
-export class SingleBlockTypeTimeoutsOutput extends cdktf.ComplexObject {
+export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject {
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -2215,7 +2215,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
 
   // timeouts - computed: false, optional: true, required: false
   private _timeouts?: SingleBlockTypeTimeouts | undefined; 
-  private __timeoutsOutput = new SingleBlockTypeTimeoutsOutput(this as any, \\"timeouts\\", true);
+  private __timeoutsOutput = new SingleBlockTypeTimeoutsOutputReference(this as any, \\"timeouts\\", true);
   public get timeouts() {
     return this.__timeoutsOutput;
   }

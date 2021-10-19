@@ -86,7 +86,7 @@ export class AttributesEmitter {
   // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this as any, "metadata", true)'
   private storedClassInit(att: AttributeModel) {
     return `new ${att.type.name}${
-      att.type.isSingleItem ? "Output" : ""
+      att.type.isSingleItem ? "OutputReference" : ""
     }(this as any, "${att.terraformName}", ${
       att.type.isSingleItem ? "true" : "false"
     })`;
