@@ -3,7 +3,7 @@ layout: "cdktf"
 page_title: "Telemetry"
 sidebar_current: "cdktf"
 description: |-
-  Product telemetry in CDK for Terraform
+  CDK for Terraform uses a HashiCorp service called Checkpoint to report project metrics. Using Checkpoint is optional.
 ---
 
 # Telemetry

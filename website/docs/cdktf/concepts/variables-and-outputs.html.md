@@ -2,7 +2,7 @@
 layout: "cdktf"
 page_title: "Variables and Outputs"
 sidebar_current: "cdktf"
-description: "TBD"
+description: "Input variables, local values, and output values allow you to request and publish named values."
 ---
 
 # Variables and Outputs

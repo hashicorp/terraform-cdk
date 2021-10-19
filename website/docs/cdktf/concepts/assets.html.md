@@ -2,7 +2,7 @@
 layout: "cdktf"
 page_title: "Assets"
 sidebar_current: "cdktf"
-description: "TODO: describe me"
+description: "Asset constructs manage assets for resources that need them, such as template_file, S3 bucket objects, or Lambda function archive files."
 ---
 
 # Assets
