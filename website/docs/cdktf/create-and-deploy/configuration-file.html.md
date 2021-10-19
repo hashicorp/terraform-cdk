@@ -9,7 +9,7 @@ description: "Use the cdktf.json file to customize configuration settings and de
 
 -> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-The `cdktf.json` file is where you can supply custom configuration settings for your application, and define the [providers](/docs/cdktf/concepts/providers-and-resources.html) and [modules](/docs/cdktf/concepts/modules.html) that you want to use. When you initialize a new CDK for Terraform project with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html), the template will generate a basic `cdktf.json` file in your root directory that you can customize for your application. Refer to the [Project Setup documentation](/docs/cdktf/create-and-deploy/project-setup.html) for more information about initializing a new project.
+The `cdktf.json` file is where you can supply custom configuration settings for your application and define the [providers](/docs/cdktf/concepts/providers-and-resources.html) and [modules](/docs/cdktf/concepts/modules.html) that you want to use. When you initialize a new CDK for Terraform project with a [built-in template](/docs/cdktf/create-and-deploy/project-setup.html), the template generates a basic `cdktf.json` file in your root directory that you can customize for your application. Refer to the [Project Setup documentation](/docs/cdktf/create-and-deploy/project-setup.html) for more information about initializing a new project.
 
 ## Specification
 
@@ -103,7 +103,7 @@ When you declare providers in JSON, add the constraint in the `version` property
 
 ## Configuration Examples
 
-### Changing the Output Directory
+### Change the Output Directory
 
 Defining `output` changes the directory where `cdktf` will put your generated Terraform configuration file. All Terraform operations will be performed from this directory.
 
@@ -116,7 +116,7 @@ The example below synthesizes the JSON Terraform configuration into `my-workdir`
 }
 ```
 
-### Building Providers
+### Build Providers
 
 With the `terraformProviders` configuration below, a `cdktf get` will build the latest AWS provider within the 2.X version range. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput`, see other examples below.
 
@@ -128,7 +128,7 @@ With the `terraformProviders` configuration below, a `cdktf get` will build the 
 }
 ```
 
-### Building Modules
+### Build Modules
 
 With this `terraformModules` configuration, a `cdktf get` will build the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput` - see other examples below.
 
@@ -140,7 +140,7 @@ With this `terraformModules` configuration, a `cdktf get` will build the latest 
 }
 ```
 
-### Building Providers & Modules
+### Build Providers & Modules
 
 This combines the two examples above. A `cdktf get` will build both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
 
@@ -153,7 +153,7 @@ This combines the two examples above. A `cdktf get` will build both the AWS prov
 }
 ```
 
-### Building Multiple Providers
+### Build Multiple Providers
 
 It's possible to build multiple providers or modules as well.
 
@@ -174,7 +174,7 @@ It's possible to build multiple providers or modules as well.
 }
 ```
 
-### Building Providers in Custom Directory
+### Build Providers in Custom Directory
 
 This generates the `aws` provider bindings in the folder `./imports`. This is used in the Python template to make it easier to reference the generated classes.
 

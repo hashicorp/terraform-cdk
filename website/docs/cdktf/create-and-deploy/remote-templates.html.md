@@ -80,7 +80,7 @@ The CDKTF community maintains the following remote templates that you can use to
 
 - [python-poetry](https://github.com/johnfraney/cdktf-remote-template-python-poetry) (by [@johnfraney](https://github.com/johnfraney))
 
-The example below shows how you can initialize a new CDKTF project with a remote template.
+The example below initializes a new CDKTF project with a remote template.
 
 ```
 $ cdktf init --template https://github.com/<user or organization>/<repo>/archive/refs/tags/v0.0.1.zip
