@@ -5,8 +5,8 @@ import { Tokenization } from "../token";
 
 // Details for encoding and decoding Tokens into native types; should not be exported
 
-export const BEGIN_STRING_TOKEN_MARKER = "${Token[";
-export const BEGIN_LIST_TOKEN_MARKER = "#{Token[";
+export const BEGIN_STRING_TOKEN_MARKER = "${TfToken[";
+export const BEGIN_LIST_TOKEN_MARKER = "#{TfToken[";
 export const END_TOKEN_MARKER = "]}";
 
 export const VALID_KEY_CHARS = "a-zA-Z0-9:._-";
@@ -173,7 +173,7 @@ export function unresolved(obj: any): boolean {
  * Currently not supporting BE architectures.
  */
 // tslint:disable-next-line:no-bitwise
-const DOUBLE_TOKEN_MARKER_BITS = 0xfbff << 16;
+const DOUBLE_TOKEN_MARKER_BITS = 0xfdff << 16;
 
 /**
  * Highest encodable number
