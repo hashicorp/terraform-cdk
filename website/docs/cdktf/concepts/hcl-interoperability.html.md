@@ -55,7 +55,7 @@ app.synth();
 
 To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdktf.json` file out to the module directory in your HCL project.
 
-Once the `cdktf.json` file is transferred, you can reference the pet name module as you would any other HCL Terraform module.
+After you transfer the `cdktf.json` file, you can reference the pet name module as you would any other HCL Terraform module.
 
 ```terraform
 terraform {
