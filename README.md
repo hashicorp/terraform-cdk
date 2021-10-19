@@ -20,7 +20,7 @@ CDKTF includes two packages:
 - [cdktf-cli](./packages/cdktf-cli) - A CLI that allows users to run commands to initialize, import, and synthesize CDK for Terraform applications.
 - [cdktf](./packages/cdktf) - A library for defining Terraform resources using programming constructs.
 
-CDK for Terraform is under active development, and we are still iterating on key workflows and best practices. [Learn more about maturity and production readiness below](#maturity).
+> **Note:** CDK for Terraform is under active development, and we are still iterating on key workflows and best practices. [Learn more about maturity and production readiness below](#maturity).
 
 ## Get Started
 
