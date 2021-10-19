@@ -163,4 +163,4 @@ To run multiple stacks at once, move them into the same directory and run `cdktf
 
 #### Cross Stack References
 
-Referencing resources from another stack is not yet supported automatically. You can achieve this with [Outputs](website/docs/cdktf/concepts/variables-and-outputs.html.md) and the [Remote State data source](https://www.terraform.io/docs/language/state/remote-state-data.html). Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you're interested in cross-stack references.
+Referencing resources from another stack is not yet supported automatically. You can achieve this with [Outputs](/docs/cdktf/concepts/variables-and-outputs.html) and the [Remote State data source](https://www.terraform.io/docs/language/state/remote-state-data.html). Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you're interested in cross-stack references.
