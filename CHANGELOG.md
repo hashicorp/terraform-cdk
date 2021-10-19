@@ -4,6 +4,12 @@
 
 Abbreviated version below, for a guide see [Upgrade Guide for 0.7](./docs/upgrade-guide/upgrading-to-0.7.md)
 
+### [technical preview] AWS Adapter
+
+> **The AWS Adapter is a technical preview and not ready for production usage.** Its API is not stable and things might break unexpectedly.
+
+The `AwsTerraformAdapter` (included in the `@cdktf/aws-cdk` package) allows you to use Amazon Web Services Cloud Development Kit (AWS CDK) constructs in your CDK for Terraform (CDKTF) projects. Find out more in the Github repository [hashicorp/aws-cdk](https://github.com/hashicorp/cdktf-aws-cdk) or jump straight to the [documentation](https://www.terraform.io/docs/cdktf/create-and-deploy/aws-adapter.html).
+
 ### Namespaced AWS Provider Resources [#572](https://github.com/hashicorp/terraform-cdk/issues/572)
 
 The AWS Provider has a size that makes it hard to navigate in editors, especially in languages that compile it to a single file like Python. We implemented namespaces that hold Resources and Data Sources the same category together, the categories can be found on the [AWS Provider page](https://registry.terraform.io/providers/hashicorp/aws/latest/docs).
