@@ -9,12 +9,12 @@ description: "TODO: describe me"
 
 -> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-In CDK for Terraform (CDKTF) v0.4+, asset constructs can manage assets for resources that need them, such as template_file, S3 bucket objects, or Lambda function archive files. You can use Terraform Assets to move existing files or directories into your CDK for Terraform application so that you can use them in CDKTF resources.
+In CDK for Terraform (CDKTF) v0.4+, asset constructs can manage assets for resources that need them, such as template_file, S3 bucket objects, or Lambda function archive files. You can use Terraform assets to move existing files or directories into your CDKTF application so that you can use them in resource definitions.
 
 Assets are especially useful for:
 
-- Copying over previously generated zip files with Lambda functions
-- Deploying static local files to S3
+- Copying over previously generated zip files with Lambda functions.
+- Deploying static local files to S3.
 
 ## Usage Example
 

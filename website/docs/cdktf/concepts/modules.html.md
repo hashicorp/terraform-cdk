@@ -17,7 +17,7 @@ You can specify any existing public or private module in your `cdktf.json` file,
 
 ## Install Modules
 
-CDKTF lets you use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the TypeScript project below has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
+You can use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the TypeScript project below has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
 
 ```typescript
 import { Construct } from "constructs";

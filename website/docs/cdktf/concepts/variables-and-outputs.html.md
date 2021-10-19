@@ -9,13 +9,13 @@ description: "TBD"
 
 -> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-Terraform configurations are written in either HashiCorp Configuration Language (HCL) syntax or JSON. Because neither of these is a programming language, Terraform has has developed ways to enable users to request and publish named values. These are:
+Terraform can understand configurations written in either HashiCorp Configuration Language (HCL) syntax or JSON. Because neither of these is a programming language, Terraform has has developed ways to enable users to request and publish named values. These are:
 
 - [**Input Variables:**](#input-variables) These are like function arguments.
 - [**Local Values**](#local-values): These are like a function's temporary local variables.
 - [**Output Values**](#outputs): These are like function return values.
 
-You may need to occasionally use these elements in your CDKTF application instead of passing data through the conventions available in your preferred programming language.
+You may need to occasionally use these elements in your CDK for Terraform (CDKTF) application instead of passing data through the conventions available in your preferred programming language.
 
 ## Input Variables
 
@@ -25,11 +25,11 @@ You can define [Terraform variables](https://www.terraform.io/docs/configuration
 
 Variables are useful when you plan to synthesize your CDKTF application into a JSON configuration file for Terraform. For example, when you are planning to store configurations and run Terraform inside [Terraform Cloud](https://www.terraform.io/cloud).
 
-If you plan to use CDK for Terraform to manage your infrastructure, then we recommend using your language's APIs to consume the data you would normally pass through Terraform variables. You can read from disk (synchronously) or from the environment variables, just as you would in any normal program.
+If you plan to use CDKTF to manage your infrastructure, we recommend using your language's APIs to consume the data you would normally pass through Terraform variables. You can read from disk (synchronously) or from the environment variables, just as you would in any normal program.
 
 ### Define Input Variables
 
-You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](https://www.terraform.io/docs/language/values/variables.html#variables-on-the-command-line) for details. The CDKTF CLI currently supports configuration via [environment variables](https://www.terraform.io/docs/language/values/variables.html#environment-variables), but this will be removed in a future release.
+You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](https://www.terraform.io/docs/language/values/variables.html#variables-on-the-command-line) for details. The CDKTF CLI currently also supports configuration via [environment variables](https://www.terraform.io/docs/language/values/variables.html#environment-variables).
 
 The TypeScript example below uses `TerraformVariable` to provide inputs to resources.
 
@@ -57,7 +57,7 @@ When values are available before [synthesizing your code](/docs/cdktf/cli-refere
 
 ### Define Local Values
 
-This TypeScript example uses `TerraformLocal` to create a local value.
+The TypeScript example below uses `TerraformLocal` to create a local value.
 
 ```typescript
 const commonTags = new TerraformLocal(this, "common_tags", {
@@ -95,9 +95,11 @@ You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0
 
 ### When to use Output Values
 
-Use outputs to make data from [Terraform resources](/docs/cdktf/concepts/providers-and-resources.html) and [data sources](/docs/cdktf/concepts/data-sources.html) available for further consumption. They also allow you to share data between [stacks](/docs/cdktf/concepts/stacks.html). Outputs are particularly useful when you need to access data that is only known after Terraform applies the configuration. For example, you may want to get the URL of a newly provisioned server.
+Use outputs to make data from [Terraform resources](/docs/cdktf/concepts/providers-and-resources.html) and [data sources](/docs/cdktf/concepts/data-sources.html) available for further consumption or to share data between [stacks](/docs/cdktf/concepts/stacks.html). Outputs are particularly useful when you need to access data that is only known after Terraform applies the configuration. For example, you may want to get the URL of a newly provisioned server.
 
-When values are available before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend supplying this data as direct inputs using the functionality in your preferred programming language.
+When values are available before [synthesizing your code](/docs/cdktf/cli-reference/commands.html#synth), we recommend using the functionality in your preferred programming language to supply this data as direct inputs.
+
+The TypeScript example below uses a `TerraformOutput` to create an output.
 
 ```ts
 import { Construct } from "constructs";

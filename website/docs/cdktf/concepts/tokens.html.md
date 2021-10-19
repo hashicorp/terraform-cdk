@@ -9,21 +9,18 @@ description: "Tokens allow CDK for Terraform to resolve programming language typ
 
 -> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-[Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
-represent values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
+Tokens represent values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
 
-Some attributes specified using CDK for Terraform may not directly map to the values required for Terraform configurations. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
+Some attributes specified using CDK for Terraform (CDKTF) may not directly map to the values required for Terraform configurations. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
 to cast these attributes to the correct Terraform language syntax.
-
--> The [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) contains more in-depth information about tokens.
 
 ## Use Tokens
 
 You may need to use Tokens for:
 
-- [Module outputs](/docs/cdktf/concepts/modules.html) for boolean, string, lists, maps, and other complex types
-- Resource attributes (such as `id`)
-- Terraform outputs based on resource attributes
+- [Module outputs](/docs/cdktf/concepts/modules.html) for boolean, string, lists, maps, and other complex types.
+- Resource attributes (such as `id`).
+- Terraform outputs based on resource attributes.
 
 ### Example
 
@@ -63,3 +60,5 @@ Later in synthesis, CDKTF will resolve the token to `${module.<module id>.public
   }
 }
 ```
+
+Refer to the [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) for more detailed information about tokens.
