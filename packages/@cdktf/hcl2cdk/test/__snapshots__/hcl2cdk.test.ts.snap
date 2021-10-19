@@ -163,62 +163,50 @@ import * as aws from \\"./.gen/providers/aws\\";
 new aws.CloudFront.CloudfrontDistribution(this, \\"s3_distribution\\", {
   aliases: [\\"mysite.example.com\\", \\"yoursite.example.com\\"],
   comment: \\"Some comment\\",
-  defaultCacheBehavior: [
-    {
-      allowedMethods: [
-        \\"DELETE\\",
-        \\"GET\\",
-        \\"HEAD\\",
-        \\"OPTIONS\\",
-        \\"PATCH\\",
-        \\"POST\\",
-        \\"PUT\\",
-      ],
-      cachedMethods: [\\"GET\\", \\"HEAD\\"],
-      defaultTtl: 3600,
-      forwardedValues: [
-        {
-          cookies: [
-            {
-              forward: \\"none\\",
-            },
-          ],
-          queryString: false,
-        },
-      ],
-      maxTtl: 86400,
-      minTtl: 0,
-      targetOriginId: \\"local_s3_origin_id\\",
-      viewerProtocolPolicy: \\"allow-all\\",
+  defaultCacheBehavior: {
+    allowedMethods: [
+      \\"DELETE\\",
+      \\"GET\\",
+      \\"HEAD\\",
+      \\"OPTIONS\\",
+      \\"PATCH\\",
+      \\"POST\\",
+      \\"PUT\\",
+    ],
+    cachedMethods: [\\"GET\\", \\"HEAD\\"],
+    defaultTtl: 3600,
+    forwardedValues: {
+      cookies: {
+        forward: \\"none\\",
+      },
+      queryString: false,
     },
-  ],
+    maxTtl: 86400,
+    minTtl: 0,
+    targetOriginId: \\"local_s3_origin_id\\",
+    viewerProtocolPolicy: \\"allow-all\\",
+  },
   defaultRootObject: \\"index.html\\",
   enabled: true,
   isIpv6Enabled: true,
-  loggingConfig: [
-    {
-      bucket: \\"mylogs.s3.amazonaws.com\\",
-      includeCookies: false,
-      prefix: \\"myprefix\\",
-    },
-  ],
+  loggingConfig: {
+    bucket: \\"mylogs.s3.amazonaws.com\\",
+    includeCookies: false,
+    prefix: \\"myprefix\\",
+  },
   orderedCacheBehavior: [
     {
       allowedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
       cachedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
       compress: true,
       defaultTtl: 86400,
-      forwardedValues: [
-        {
-          cookies: [
-            {
-              forward: \\"none\\",
-            },
-          ],
-          headers: [\\"Origin\\"],
-          queryString: false,
+      forwardedValues: {
+        cookies: {
+          forward: \\"none\\",
         },
-      ],
+        headers: [\\"Origin\\"],
+        queryString: false,
+      },
       maxTtl: 31536000,
       minTtl: 0,
       pathPattern: \\"/content/immutable/*\\",
@@ -230,16 +218,12 @@ new aws.CloudFront.CloudfrontDistribution(this, \\"s3_distribution\\", {
       cachedMethods: [\\"GET\\", \\"HEAD\\"],
       compress: true,
       defaultTtl: 3600,
-      forwardedValues: [
-        {
-          cookies: [
-            {
-              forward: \\"none\\",
-            },
-          ],
-          queryString: false,
+      forwardedValues: {
+        cookies: {
+          forward: \\"none\\",
         },
-      ],
+        queryString: false,
+      },
       maxTtl: 86400,
       minTtl: 0,
       pathPattern: \\"/content/*\\",
@@ -251,33 +235,25 @@ new aws.CloudFront.CloudfrontDistribution(this, \\"s3_distribution\\", {
     {
       domainName: \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
       originId: \\"local_s3_origin_id\\",
-      s3OriginConfig: [
-        {
-          originAccessIdentity:
-            \\"origin-access-identity/cloudfront/ABCDEFG1234567\\",
-        },
-      ],
+      s3OriginConfig: {
+        originAccessIdentity:
+          \\"origin-access-identity/cloudfront/ABCDEFG1234567\\",
+      },
     },
   ],
   priceClass: \\"PriceClass_200\\",
-  restrictions: [
-    {
-      geoRestriction: [
-        {
-          locations: [\\"US\\", \\"CA\\", \\"GB\\", \\"DE\\"],
-          restrictionType: \\"whitelist\\",
-        },
-      ],
+  restrictions: {
+    geoRestriction: {
+      locations: [\\"US\\", \\"CA\\", \\"GB\\", \\"DE\\"],
+      restrictionType: \\"whitelist\\",
     },
-  ],
+  },
   tags: {
     environment: \\"production\\",
   },
-  viewerCertificate: [
-    {
-      cloudfrontDefaultCertificate: true,
-    },
-  ],
+  viewerCertificate: {
+    cloudfrontDefaultCertificate: true,
+  },
 });
 "
 `;

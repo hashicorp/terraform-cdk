@@ -7,7 +7,7 @@ class MyStack extends TerraformStack {
     super(scope, name);
 
     new AzurermProvider(this, "AzureRm", {
-      features: [{}],
+      features: {},
     });
 
     new VirtualNetwork(this, "TfVnet", {

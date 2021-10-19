@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, Fn } from "cdktf";
+import { App, TerraformStack } from "cdktf";
 import {
   KubernetesProvider,
   Namespace,
@@ -14,106 +14,99 @@ class KubeStack extends TerraformStack {
     new KubernetesProvider(this, "kind", {});
 
     const exampleNamespace = new Namespace(this, "tf-cdk-example", {
-      metadata: [
-        {
-          name: "tf-cdk-example",
-        },
-      ],
+      metadata: {
+        name: "tf-cdk-example",
+      },
     });
 
     const app = "nginx-example";
-    new Deployment(this, "nginx-deployment", {
-      metadata: [
-        {
-          name: app,
-          namespace: Fn.lookup(
-            Fn.element(exampleNamespace.metadata, 0),
-            "name",
-            "default" // falls back to the `default` kubernetes namespace if no name was set
-          ),
-          labels: {
+    const nginx = new Deployment(this, "nginx-deployment", {
+      metadata: {
+        name: app,
+        namespace: exampleNamespace.metadata.name,
+        labels: {
+          app,
+        },
+      },
+      spec: {
+        replicas: 2,
+        selector: {
+          matchLabels: {
             app,
           },
         },
-      ],
-      spec: [
-        {
-          replicas: 2,
-          selector: [
-            {
-              matchLabels: {
-                app,
-              },
+        template: {
+          metadata: {
+            labels: {
+              app,
             },
-          ],
-          template: [
-            {
-              metadata: [
-                {
-                  labels: {
-                    app,
+          },
+          spec: {
+            container: [
+              {
+                image: "nginx:1.7.8",
+                name: "example",
+                port: [
+                  {
+                    containerPort: 80,
+                  },
+                ],
+                resources: {
+                  limits: {
+                    cpu: "0.5",
+                    memory: "512Mi",
+                  },
+                  requests: {
+                    cpu: "250m",
+                    memory: "50Mi",
                   },
                 },
-              ],
-              spec: [
-                {
-                  container: [
-                    {
-                      image: "nginx:1.7.8",
-                      name: "example",
-                      port: [
-                        {
-                          containerPort: 80,
-                        },
-                      ],
-                      resources: [
-                        {
-                          limits: [
-                            {
-                              cpu: "0.5",
-                              memory: "512Mi",
-                            },
-                          ],
-                          requests: [
-                            {
-                              cpu: "250m",
-                              memory: "50Mi",
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+              },
+            ],
+          },
         },
-      ],
+      },
+    });
+
+    new Deployment(this, "single-nginx", {
+      metadata: {
+        namespace: nginx.metadata.namespace,
+        name: "single-nginx",
+      },
+      spec: {
+        replicas: 1,
+        selector: { matchLabels: nginx.spec.selector.matchLabels },
+        template: {
+          metadata: { labels: nginx.spec.template.metadata.labels },
+          spec: {
+            container: [
+              {
+                name: "peter",
+              },
+            ],
+          },
+        },
+      },
     });
 
     new Service(this, "nginx-service", {
-      metadata: [
-        {
-          name: app,
+      metadata: nginx.metadata,
+      spec: {
+        selector: {
+          app,
         },
-      ],
-      spec: [
-        {
-          selector: {
-            app,
+        port: [
+          {
+            nodePort: 30201,
+            port: 80,
+            targetPort: "80",
           },
-          port: [
-            {
-              nodePort: 30201,
-              port: 80,
-              targetPort: "80",
-            },
-          ],
-          type: "NodePort",
-        },
-      ],
+        ],
+        type: "NodePort",
+      },
     });
+
+    // x.metadata.name = "nginx-service";
   }
 }
 

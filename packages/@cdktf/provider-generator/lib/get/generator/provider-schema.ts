@@ -8,7 +8,7 @@ import { convertFiles } from "@cdktf/hcl2json";
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
 export interface ProviderSchema {
-  format_version: "1.0";
+  format_version?: "1.0";
   provider_schemas?: { [type: string]: Provider };
 }
 

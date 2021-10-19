@@ -40,12 +40,28 @@ new cdktf.TerraformVariable(this, "imageId", {
 
 ```ts
 import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2json";
+import {
+  readSchema,
+  ConstructsMakerProviderTarget,
+  LANGUAGES,
+  config,
+} from "@cdktf/provider-generator";
 
 (async () => {
+  // Get all the provider schemas, making the conversion more precise
+  const { providerSchema } = await readSchema(
+    providerRequirements.map((spec) =>
+      ConstructsMakerProviderTarget.from(
+        new config.TerraformProviderConstraint(spec),
+        LANGUAGES[0]
+      )
+    )
+  );
+
   await convertProject(
     getTerraformConfigFromDir("/path/to/terraform/project"),
     "/path/to/cdktf-init/project",
-    { language: "typescript" } // Currently we only support Typescript for project conversion
+    { language: "typescript", providerSchema } // Currently we only support Typescript for project conversion
   );
 })();
 ```

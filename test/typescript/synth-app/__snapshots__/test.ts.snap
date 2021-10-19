@@ -39,13 +39,11 @@ exports[`full integration test synth synth generates JSON 1`] = `
     \\"aws\\": [
       {
         \\"region\\": \\"eu-central-1\\",
-        \\"ignore_tags\\": [
-          {
-            \\"keys\\": [
-              \\"foo\\"
-            ]
-          }
-        ]
+        \\"ignore_tags\\": {
+          \\"keys\\": [
+            \\"foo\\"
+          ]
+        }
       }
     ]
   },
@@ -64,11 +62,57 @@ exports[`full integration test synth synth generates JSON 1`] = `
           }
         }
       }
+    },
+    \\"aws_instance\\": {
+      \\"Instance\\": {
+        \\"ami\\": \\"ami-12345678\\",
+        \\"instance_type\\": \\"t2.micro\\",
+        \\"credit_specification\\": {
+          \\"cpu_credits\\": \\"standard\\"
+        },
+        \\"ebs_block_device\\": [
+          {
+            \\"device_name\\": \\"/dev/sda1\\",
+            \\"volume_size\\": 100
+          }
+        ],
+        \\"metadata_options\\": {
+          \\"http_endpoint\\": \\"true\\"
+        },
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-terra/Instance\\",
+            \\"uniqueId\\": \\"Instance\\"
+          }
+        }
+      },
+      \\"Instance2\\": {
+        \\"ami\\": \\"ami-12345678\\",
+        \\"instance_type\\": \\"t2.micro\\",
+        \\"credit_specification\\": {
+          \\"cpu_credits\\": \\"\${aws_instance.Instance.credit_specification[0].cpu_credits}\\"
+        },
+        \\"metadata_options\\": {
+          \\"http_endpoint\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
+        },
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-terra/Instance2\\",
+            \\"uniqueId\\": \\"Instance2\\"
+          }
+        }
+      }
     }
   },
   \\"output\\": {
     \\"snstopicarn\\": {
       \\"value\\": \\"\${aws_sns_topic.Topic.arn}\\"
+    },
+    \\"instancepassword\\": {
+      \\"value\\": \\"\${base64decode(aws_instance.Instance.password_data)}\\"
+    },
+    \\"instancehttpendpoint\\": {
+      \\"value\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
     }
   }
 }"

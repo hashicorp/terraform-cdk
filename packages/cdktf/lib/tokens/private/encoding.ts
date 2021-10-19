@@ -5,8 +5,8 @@ import { Tokenization } from "../token";
 
 // Details for encoding and decoding Tokens into native types; should not be exported
 
-export const BEGIN_STRING_TOKEN_MARKER = "${Token[";
-export const BEGIN_LIST_TOKEN_MARKER = "#{Token[";
+export const BEGIN_STRING_TOKEN_MARKER = "${TfToken[";
+export const BEGIN_LIST_TOKEN_MARKER = "#{TfToken[";
 export const END_TOKEN_MARKER = "]}";
 
 export const VALID_KEY_CHARS = "a-zA-Z0-9:._-";
@@ -129,6 +129,19 @@ export function containsListTokenElement(xs: any[]) {
   );
 }
 
+export function isComplexElement(xs: any) {
+  return (
+    typeof xs === "object" &&
+    xs !== null &&
+    "withinArray" in xs &&
+    "interpolationAsList" in xs
+  );
+}
+
+export function containsComplexElement(xs: any) {
+  return xs.length > 0 && isComplexElement(xs[0]);
+}
+
 /**
  * Returns true if obj is a token (i.e. has the resolve() method or is a string
  * that includes token markers), or it's a listifictaion of a Token string.
@@ -173,7 +186,7 @@ export function unresolved(obj: any): boolean {
  * Currently not supporting BE architectures.
  */
 // tslint:disable-next-line:no-bitwise
-const DOUBLE_TOKEN_MARKER_BITS = 0xfbff << 16;
+const DOUBLE_TOKEN_MARKER_BITS = 0xfdff << 16;
 
 /**
  * Highest encodable number

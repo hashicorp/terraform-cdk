@@ -12,11 +12,21 @@ import { FUTURE_FLAGS } from "cdktf/lib/features";
 import { downloadFile, HttpError } from "../../../lib/util";
 import { logFileName, logger } from "../../../lib/logging";
 import { Errors } from "../../../lib/errors";
-import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2cdk";
+import {
+  convertProject,
+  getTerraformConfigFromDir,
+  parseProviderRequirements,
+} from "@cdktf/hcl2cdk";
 import { isLocalModule } from "@cdktf/provider-generator";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
 import { v4 as uuid } from "uuid";
+import {
+  readSchema,
+  ConstructsMakerProviderTarget,
+  LANGUAGES,
+  config,
+} from "@cdktf/provider-generator";
 
 const chalkColour = new chalk.Instance();
 
@@ -134,6 +144,20 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
       const combinedTfFile = getTerraformConfigFromDir(importPath);
 
+      // Fetch all provider requirements from the project
+      const providerRequirements = await parseProviderRequirements(
+        combinedTfFile
+      );
+
+      // Get all the provider schemas
+      const { providerSchema } = await readSchema(
+        Object.entries(providerRequirements).map(([name, version]) =>
+          ConstructsMakerProviderTarget.from(
+            new config.TerraformProviderConstraint(`${name}@ ${version}`),
+            LANGUAGES[0]
+          )
+        )
+      );
       try {
         const { code, cdktfJson, stats } = await convertProject(
           combinedTfFile,
@@ -141,6 +165,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
           require(path.resolve(destination, "cdktf.json")),
           {
             language: "typescript",
+            providerSchema,
           }
         );
 

@@ -108,3 +108,49 @@ import (
 )
 
 ```
+
+### Simplify Provider API Surface
+
+When generating the provider bindings we previously translated any block to an array of a certain type, both in configuration and as properties on the resource / data source instances. For blocks that can only appear once at most this is making the API harder to use. From this version on these blocks are going to be just the type instead of an array of a certain type.
+
+To migrate you need to update the `cdktf` and `cdktf-cli` version you are using to 0.7 and run `cdktf get` in your project. The new bindings might use fewer arrays in the configuration than before, depending on the schema of the providers you use. The typesystem and `cdktf synth` will guide your migration.
+
+The benefit of this change is that object properties can be accessed directly, e.g.
+
+```ts
+// Before
+const development = new Namespace(this, "development", {
+  metadata: [
+    {
+      name: "development",
+    },
+  ],
+});
+const deploy = new Deployment(this, "nginx", {
+  metadata: [
+    {
+      namespace: "setViaOverride",
+      name: "nginx",
+    },
+  ],
+  //   ...
+});
+deploy.addOverride(
+  "metadata.0.namespace",
+  `\${${development.fqn}.metadata.0.name}`
+);
+
+// After
+const development = new Namespace(this, "development", {
+  metadata: {
+    name: "development",
+  },
+});
+new Deployment(this, "nginx", {
+  metadata: {
+    namespace: development.metadata.namespace,
+    name: "nginx",
+  },
+  //   ...
+});
+```
