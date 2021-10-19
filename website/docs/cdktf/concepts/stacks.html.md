@@ -13,7 +13,7 @@ A stack represents a collection of infrastructure that CDK for Terraform (CDKTF)
 
 ### Single Stack
 
-The example below synthesizes a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
+The example below generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
 
 ```typescript
 import { Construct } from "constructs";
