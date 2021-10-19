@@ -19,7 +19,7 @@ class MyStack(TerraformStack):
         
 
         AzurermProvider(self, "Azurerm",\
-            features=[{}]
+            features={}
             )
 
         example_rg = ResourceGroup(self, 'example-rg',\

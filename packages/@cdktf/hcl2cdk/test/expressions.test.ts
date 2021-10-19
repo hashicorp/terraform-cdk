@@ -393,7 +393,11 @@ describe("expressions", () => {
 
   describe("#referenceToAst", () => {
     it("property access", () => {
-      const scope: Scope = { constructs: new Set<string>(), variables: {} };
+      const scope: Scope = {
+        providerSchema: { format_version: "1.0" },
+        constructs: new Set<string>(),
+        variables: {},
+      };
       expect(
         generate(
           t.program([
@@ -417,7 +421,11 @@ describe("expressions", () => {
 
   describe("#referencesToAst", () => {
     it("nested terraform expressions without space", () => {
-      const scope: Scope = { constructs: new Set<string>(), variables: {} };
+      const scope: Scope = {
+        providerSchema: { format_version: "1.0" },
+        constructs: new Set<string>(),
+        variables: {},
+      };
       const expr = `\${\${each.value}\${var.azure_ad_domain_name}}"`;
       expect(
         generate(

@@ -24,6 +24,7 @@ import {
   constructAst,
 } from "./expressions";
 import { TerraformModuleConstraint } from "@cdktf/provider-generator";
+import { getBlockTypeAtPath } from "./provider";
 
 function getReference(graph: DirectedGraph, id: string) {
   const neighbors = graph.outNeighbors(id);
@@ -42,6 +43,7 @@ function getReference(graph: DirectedGraph, id: string) {
 export const valueToTs = (
   scope: Scope,
   item: TerraformResourceBlock,
+  path: string,
   nodeIds: string[],
   scopedIds: string[] = []
 ): t.Expression => {
@@ -61,15 +63,22 @@ export const valueToTs = (
       if (item === undefined || item === null) {
         return t.nullLiteral();
       }
+      const unwrappedItem =
+        getBlockTypeAtPath(scope.providerSchema, path)?.max_items === 1 &&
+        Array.isArray(item)
+          ? item[0]
+          : item;
 
-      if (Array.isArray(item)) {
+      if (Array.isArray(unwrappedItem)) {
         return t.arrayExpression(
-          item.map((i) => valueToTs(scope, i, nodeIds, scopedIds))
+          unwrappedItem.map((i) =>
+            valueToTs(scope, i, path, nodeIds, scopedIds)
+          )
         );
       }
 
       return t.objectExpression(
-        Object.entries(item)
+        Object.entries(unwrappedItem)
           .map(([key, value]) => {
             if (key === "lifecycle" || value === undefined) {
               return undefined;
@@ -84,15 +93,20 @@ export const valueToTs = (
               );
             }
 
+            const itemPath = `${path}.${key}`;
+
+            const shouldBeArray =
+              typeof value === "object" &&
+              !Array.isArray(value) &&
+              key !== "tags";
+
             return t.objectProperty(
               t.stringLiteral(key !== "for_each" ? camelCase(key) : key),
-              typeof value === "object" &&
-                !Array.isArray(value) &&
-                key !== "tags"
+              shouldBeArray
                 ? t.arrayExpression([
-                    valueToTs(scope, value, nodeIds, scopedIds),
+                    valueToTs(scope, value, itemPath, nodeIds, scopedIds),
                   ])
-                : valueToTs(scope, value, nodeIds, scopedIds)
+                : valueToTs(scope, value, itemPath, nodeIds, scopedIds)
             );
           })
           .filter((expr) => expr !== undefined) as t.ObjectProperty[]
@@ -123,7 +137,12 @@ export function backendToExpression(
                   ...arr,
                   t.objectProperty(
                     t.identifier(camelCase(property)),
-                    valueToTs(scope, value, nodeIds)
+                    valueToTs(
+                      scope,
+                      value,
+                      "path-for-backends-can-be-ignored",
+                      nodeIds
+                    )
                   ),
                 ],
                 [] as t.ObjectProperty[]
@@ -271,7 +290,7 @@ you need to keep this like it is.`;
         addOverrideExpression(
           varName,
           "count",
-          valueToTs(scope, count, nodeIds),
+          valueToTs(scope, count, "path-for-counts-can-be-ignored", nodeIds),
           loopComment
         )
       );
@@ -303,6 +322,7 @@ you need to keep this like it is.`;
             for_each,
             content,
           },
+          "path-for-dynamic-blocks-can-be-ignored",
           nodeIds,
           [scopedVar]
         ),
@@ -330,7 +350,7 @@ function asExpression(
   const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
     t.stringLiteral(constructId),
-    valueToTs(scope, otherOptions, nodeIds),
+    valueToTs(scope, otherOptions, `${type}`, nodeIds),
   ]);
 
   const statements = [];
@@ -353,7 +373,12 @@ function asExpression(
       addOverrideExpression(
         varName,
         "provider",
-        valueToTs(scope, provider, nodeIds)
+        valueToTs(
+          scope,
+          provider,
+          "path-for-provider-blocks-can-be-ignored",
+          nodeIds
+        )
       )
     );
   }
@@ -362,7 +387,12 @@ function asExpression(
       addOverrideExpression(
         varName,
         "providers",
-        valueToTs(scope, providers, nodeIds)
+        valueToTs(
+          scope,
+          providers,
+          "path-for-providers-blocks-can-be-ignored",
+          nodeIds
+        )
       )
     );
   }
@@ -372,7 +402,12 @@ function asExpression(
       addOverrideExpression(
         varName,
         "lifecycle",
-        valueToTs(scope, lifecycle, nodeIds)
+        valueToTs(
+          scope,
+          lifecycle,
+          "path-for-lifecycle-blocks-can-be-ignored",
+          nodeIds
+        )
       )
     );
   }
@@ -450,7 +485,7 @@ export function local(
   return t.variableDeclaration("const", [
     t.variableDeclarator(
       t.identifier(variableName(scope, "local", key)),
-      valueToTs(scope, item, nodeIds)
+      valueToTs(scope, item, "path-for-local-blocks-can-be-ignored", nodeIds)
     ),
   ]);
 }

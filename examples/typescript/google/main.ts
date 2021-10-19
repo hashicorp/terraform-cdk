@@ -31,15 +31,12 @@ class MyStack extends TerraformStack {
     new ComputeInstance(this, "ComputeInstance", {
       name: "cdktf-instance",
       machineType: "f1-micro",
-      bootDisk: [
-        {
-          initializeParams: [
-            {
-              image: "debian-cloud/debian-9",
-            },
-          ],
+      bootDisk: {
+        initializeParams: {
+          image: "debian-cloud/debian-9",
         },
-      ],
+      },
+
       networkInterface: [
         {
           network: network.name,

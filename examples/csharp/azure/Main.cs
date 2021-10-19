@@ -12,7 +12,7 @@ namespace MyCompany.MyApp
         public MyApp(Construct scope, string id) : base(scope, id)
         {
             new AzurermProvider(this, "AzureRm", new AzurermProviderConfig {
-                Features = new []{new AzurermProviderFeatures()}
+                Features = new AzurermProviderFeatures()
             });
 
             new VirtualNetwork(this, "TfVnet", new VirtualNetworkConfig {
