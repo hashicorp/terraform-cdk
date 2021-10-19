@@ -9,7 +9,7 @@ description: "Resources to help you learn CDK for Terraform, including example p
 
 -> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-This page contains links to tutorials, example projects in every supported language, explanatory videos, and other resources to help you learn to use CDK for Terraform (CDKTF).
+This page contains links to tutorials, example projects in every supported language, explanatory videos, and other resources to help you learn to create and manage CDK for Terraform (CDKTF) applications.
 
 ## Tutorials
 
@@ -101,11 +101,9 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 - **0.4:** [Go support, Asset construct, Terraform Cloud integration](https://www.youtube.com/watch?v=TTfFAIeSqgo). This includes a [Google Kubernetes Engine demo](https://youtu.be/TTfFAIeSqgo?t=1573).
 - **0.5:** [Convert and watch command demos](https://www.youtube.com/watch?v=4caW8WJM4h4&t=1s)
 
-   If you're interested in extending the `cdktf convert` command, you may also be interested in the [convert deep dive](https://www.youtube.com/watch?v=rSn4-Ki5nho). You do not need to watch this video to use the `convert` command successfully.
+  If you're interested in extending the `cdktf convert` command, you may also be interested in the [convert deep dive](https://www.youtube.com/watch?v=rSn4-Ki5nho). You do not need to watch this video to use the `convert` command successfully.
 
 - **0.6:** [Snapshot testing](https://www.youtube.com/watch?v=9Is4QJT2664)
-
-
 
 ## Pocket public codebase
 

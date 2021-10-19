@@ -11,8 +11,7 @@ description: "Tokens allow CDK for Terraform to resolve programming language typ
 
 Tokens represent values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
 
-Some attributes specified using CDK for Terraform (CDKTF) may not directly map to the values required for Terraform configurations. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html)
-to cast these attributes to the correct Terraform language syntax.
+Some attributes specified using CDK for Terraform (CDKTF) may not directly map to the values required for Terraform configurations. You can use [Tokens](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) to cast these attributes to the correct Terraform language syntax.
 
 ## Use Tokens
 
