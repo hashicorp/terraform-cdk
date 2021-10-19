@@ -36,7 +36,7 @@ Choose a language:
 
 ## Documentation
 
-Refer to the [CDKTF documentation](https://www.terraform.io/docs/cdktf/index.html)  for more detail about how to build and manage CDKTF applications, including:
+Refer to the [CDKTF documentation](https://www.terraform.io/docs/cdktf/index.html) for more detail about how to build and manage CDKTF applications, including:
 
 -  [Application Architecture](https://www.terraform.io/docs/cdktf/concepts/cdktf-architecture.html): Learn the tools and processes that CDKTF uses to leverage the Terraform ecosystem and convert code into Terraform configuration files. It also explains the major components of a CDKTF application and how those pieces fit together.
 
