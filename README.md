@@ -46,7 +46,6 @@ Refer to the [CDKTF documentation](https://www.terraform.io/docs/cdktf/index.htm
 
 - [Examples](https://www.terraform.io/docs/cdktf/examples.html): Reference example projects in every supported language and review explanatory videos and other resources.
 
-
 <a name="maturity"></a>
 
 ## Project Maturity and Production Readiness
