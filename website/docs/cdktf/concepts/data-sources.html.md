@@ -57,7 +57,7 @@ export class HelloTerraform extends TerraformStack {
             }
         });
 
-        new AwsInstance(this, 'foo', {
+        new aws.EC2.Instance(this, 'foo', {
             ....
             subnetId: remoteState.get('subnet_id')
         });

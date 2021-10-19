@@ -20,7 +20,7 @@ CDKTF lets you use modules from the [Terraform Registry](https://registry.terraf
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, Instance } from "@cdktf/provider-aws";
+import { AwsProvider } from "@cdktf/provider-aws";
 import { Vpc } from '.gen/modules/vpc';
 
 class MyStack extends TerraformStack {
