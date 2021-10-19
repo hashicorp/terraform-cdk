@@ -66,7 +66,7 @@ Initializing your project with a template generates a basic project in your pref
 
 ### `cdktf.json` Configuration File
 
-Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/fundamentals/providers.html) and [modules](docs/cdktf/concepts/fundamentals/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more detail.
+Installing CDK for Terraform with a pre-built template generates a basic `cdktf.json` file in your root directory that you can customize for your application. This config file is where you can define the [providers](/docs/cdktf/concepts/providers-and-resources.html) and [modules](/docs/cdktf/concepts/modules.html) that should be added to the project, and also supply custom configuration settings for the application. Refer to the [cdktf.json documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more detail.
 
 ### Application Context
 
