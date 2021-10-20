@@ -7,17 +7,19 @@ description: "Configure a remote backend where Terraform can store infrastructur
 
 # Remote Backends
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 Terraform stores [state](https://www.terraform.io/docs/language/state/index.html) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](https://www.terraform.io/docs/backends/types/remote.html) to store state remotely.
 
-By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding Remote Backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, the state can still be [migrated](#migrate-local-state-storage-to-remote) to a remote backend, such as Terraform Cloud or Terraform Enterprise, at a later date.
+By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding remote backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, you can still [migrate the state](#migrate-local-state-storage-to-remote) to a remote backend later.
 
-You can configure your remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), another Terraform (CDKTF) [supported backend](#supported-backends), or a custom location.
+You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), another Terraform [supported backend](#supported-backends), or a custom location.
 
 ## When to Use Remote Backends
 
 Consider using a remote backend when multiple individuals or teams need access to your infrastructure state data.
 
-[Remote state](https://www.terraform.io/docs/language/state/remote.html) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines, networking, etc. and can expose some information to other teams to run their own infrastructure.
+[Remote state](https://www.terraform.io/docs/language/state/remote.html) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information that other teams can use for their own infrastructure.
 
 ## Define Remote Backends
 
@@ -85,7 +87,7 @@ Below is the generated `remote.tf.json` file.
 
 All `cdktf` operations perform an automatic `terraform init`, but you can also initialize manually.
 
-To initialize a remote backend, go to the corresponding stack output directory in the `cdktf.out` folder and run `terraform init`.
+To manually initialize a remote backend, go to the corresponding stack output directory in the `cdktf.out` folder and run `terraform init`.
 
 ```shell
 $ cd cdkf.out/stacks/hello-terraform
@@ -94,7 +96,7 @@ $ terraform init
 
 ## Migrate Local State Storage to Remote
 
-After you define your remote backend, you can migrate existing local state files to the designated remote location. This requires moving Terraform state files to the CDK for Terraform output directory.
+After you define your remote backend, you can migrate existing local state files to the designated remote location. This requires moving Terraform state files to the CDKTF output directory.
 
 Consider an example project called `hello-terraform` that is using local storage to store the Terraform state. To migrate the local stage files to the remote backend:
 
@@ -224,7 +226,7 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
 
 Escape hatches can add to or override existing resources, and you can use them for backends or backend constructs that CDKTF does not natively support. Escape hatch methods have an `Override` suffix (e.g., `addOverride`).
 
-The example below uses an escape hatch to add an unsupported remote backend on a Stack object.
+The example below uses an escape hatch to add an unsupported remote backend on a `Stack` object.
 
 ```typescript
 stack.addOverride("terraform.backend", {

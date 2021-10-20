@@ -7,13 +7,15 @@ description: "Providers allow Terraform to communicate with external APIs. Learn
 
 # Providers and Resources
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 A [provider](https://www.terraform.io/docs/language/providers/index.html) is a Terraform plugin that allows users to manage an external API. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest) or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
 Terraform uses providers to provision [resources](https://www.terraform.io/docs/language/resources/index.html), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
 
-In your CDK for Terraform (CDKTF) application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more providers. This page provides details about how to use providers and resources in your application and how to use [escape hatches](#escape-hatch) to change resource behavior when necessary.
+In your CDK for Terraform (CDKTF) application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more providers. This page explains how to use providers and resources in your application and how to use [escape hatches](#escape-hatch) to change resource behavior when necessary.
 
 ## Providers
 
@@ -23,7 +25,7 @@ You can install pre-built providers, import providers from the Terraform Registr
 
 CDK for Terraform lets you import Terraform [providers](https://www.terraform.io/docs/providers/index.html) to your project.
 
-For example, this TypeScript example project has a `main.ts` file that defines AWS resources:
+This TypeScript example project has a `main.ts` file that defines AWS resources.
 
 ```typescript
 import { Construct } from "constructs";
@@ -52,9 +54,9 @@ app.synth();
 
 #### Add Provider to `cdktf.json`
 
-To use a new provider, first add it to the "terraformProviders" array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration-file.html).
+To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration-file.html).
 
-For example, this is how you could add [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:
+The example below adds the [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:
 
 ```json
 {
@@ -79,7 +81,7 @@ Generated typescript constructs in the output directory: .gen
 
 #### Import Classes
 
-Import and use the generated classes in your application. The example below shows how to import the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and define them.
+Import and use the generated classes in your application. The TypeScript example below imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
 
 ```typescript
 import { Construct } from "constructs";
@@ -119,7 +121,7 @@ new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
-Below is what the code above looks like after using the `synth` command to convert it into a JSON Terraform configuration file.
+Use the `synth` command to convert your code into a JSON Terraform configuration file.
 
 ```bash
 cdktf synth --json
@@ -208,7 +210,7 @@ These packages are regularly published to NPM / PyPi, and you can treat them as 
 npm install @cdktf/provider-aws
 ```
 
-When you choose to install a pre-built provider via `npm install`, you should not define that provider again in your `cdktf.json` file. If you are receiving errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and try running `cdktf synth` again.
+When you choose to install a pre-built provider via `npm install`, you should not define that provider again in your `cdktf.json` file. If you receive errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and try running `cdktf synth` again.
 
 ### Provider Caching
 
@@ -216,7 +218,7 @@ Caching prevents CDK for Terraform from re-downloading providers between each CL
 
 #### Set the Caching Directory
 
-Refer to the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/commands/cli-config.html#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
+Refer to the Terraform documentation about [how to configure your plugin cache](/docs/commands/cli-config.html#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
 
 To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
@@ -224,8 +226,8 @@ To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null val
 
 Terraform needs to know the location of local providers to enable CDKTF to generate the appropriate type bindings. You can configure this in two ways:
 
-- [Implied Local Mirrors](https://www.terraform.io/docs/cli/config/config-file.html#implied-local-mirror-directories)
-- [Development Overrides](https://www.terraform.io/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
+- [Implied Local Mirrors](/docs/cli/config/config-file.html#implied-local-mirror-directories)
+- [Development Overrides](/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
 
 Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more details about the `cdktf.json` specification.
 
@@ -260,14 +262,13 @@ export class HelloTerra extends TerraformStack {
 }
 ```
 
-The [Examples](/docs/cdktf/examples.html) page contains multiple example projects for every supported programming language.
+The [examples page](/docs/cdktf/examples.html) contains multiple example projects for every supported programming language.
 
 ### Escape Hatch
 
-Terraform provides [meta-arguments](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings.
-The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
+Terraform provides [meta-arguments](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
-The TypeScript example beow defines a provisioner for a resource using the `addOverride` method.
+The TypeScript example below defines a provisioner for a resource using the `addOverride` method.
 
 ```typescript
 const tableName = "my-table";

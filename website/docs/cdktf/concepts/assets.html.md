@@ -2,21 +2,23 @@
 layout: "cdktf"
 page_title: "Assets"
 sidebar_current: "cdktf"
-description: "TODO: describe me"
+description: "Asset constructs manage assets for resources that need them, such as template_file, S3 bucket objects, or Lambda function archive files."
 ---
 
 # Assets
 
-> **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial on HashiCorp Learn. This tutorial guides you through using a `TerraformAsset` to archive a Lambda function, uploading the archive to an S3 bucket, then deploying the Lambda function.
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-In CDK for Terraform (CDKTF) v0.4+, asset constructs can manage assets for resources that need them, such as template_file, S3 bucket objects, or Lambda function archive files. You can use Terraform Assets to move existing files or directories into your CDK for Terraform application so that you can use them in CDKTF resources.
+In CDK for Terraform (CDKTF) v0.4+, asset constructs can manage assets for resources that need them, such as template_file, S3 bucket objects, or Lambda function archive files. You can use Terraform assets to move existing files or directories into your CDKTF application so that you can use them in resource definitions.
 
 Assets are especially useful for:
 
-- Copying over previously generated zip files with Lambda functions
-- Deploying static local files to S3
+- Copying over previously generated zip files with Lambda functions.
+- Deploying static local files to S3.
 
 ## Usage Example
+
+> **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial on HashiCorp Learn. This tutorial guides you through using a `TerraformAsset` to archive a Lambda function, uploading the archive to an S3 bucket, then deploying the Lambda function.
 
 The TypeScript example below uses `TerraformAsset` to upload the contents of the specified directory into an S3 Bucket. The `TerraformAsset` is responsible for making sure the directory ends up in the correct output folder as a zip file that the `S3BucketObject` can reference.
 

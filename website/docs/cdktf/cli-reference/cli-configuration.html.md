@@ -7,6 +7,10 @@ description: "Install and configure the CDKTF Command Line Interface."
 
 # CLI Configuration
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
+The CDK for Terraform (CDKTF) CLI allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available [`cdktf cli` commands](/docs/cdktf/cli-reference/commands.html) where possible.
+
 ## Install
 
 ```bash
@@ -54,7 +58,7 @@ You can configure the behavior of the Terraform CDK CLI by modifying the `cdktf.
 
 ## Telemetry
 
-CDK for Terraform CLI ([cdktf-cli](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli) interacts with a HashiCorp service called [Checkpoint](https://checkpoint.hashicorp.com)
+The CDKTF CLI ([cdktf-cli](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli) interacts with a HashiCorp service called [Checkpoint](https://checkpoint.hashicorp.com)
 to report project metrics such as cdktf version, project language, provider name, platform name, and other details that help guide the project maintainers with feature and roadmap decisions. The [code that interacts with Checkpoint](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/lib/checkpoint.ts) is part of the CDK for Terraform CLI.
 
 The use of Checkpoint is completely optional. Refer to the [telemetry documentation](/docs/cdktf/telemetry.html) for more information about Checkpoint and you can disable it if desired.
