@@ -112,7 +112,7 @@ To run multiple stacks at once, move them into the same directory and run `cdktf
 
 CDKTF does not yet support referencing resources from another stack automatically. You can achieve this manually with [outputs](/docs/cdktf/concepts/variables-and-outputs.html) and the [remote state data source](/docs/language/state/remote-state-data.html).
 
-Please refer to this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you are interested in deploying multiple stacks at once.
+Please refer to this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you are interested in using cross stack references.
 
 ##### Migration from `<= 0.2`
 
