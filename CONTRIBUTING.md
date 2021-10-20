@@ -257,6 +257,7 @@ const typeMap = json.reduce((map, pr) => {
 
 const lines = Object.entries(typeMap).map(([type, prsPerType]) => {
   const content = prsPerType
+    .filter((pr) => prs.includes(pr))
     .map((num) => {
       if (titleMap[num])
         return `- ${titleMap[num]} [\\#${num}](https://github.com/hashicorp/terraform-cdk/pull/${num})`;
