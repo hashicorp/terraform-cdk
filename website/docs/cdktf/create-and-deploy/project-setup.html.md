@@ -127,13 +127,11 @@ new MyStack(app, "hello-cdktf");
 app.synth();
 ```
 
-## Convert Existing HCL project
+## Convert an HCL Project to a CDKTF TypeScript Project
 
-You have two options to convert existing projects written in HashiCorp Configuration Language (HCL) into the required CDKTF format.
+You can initialize a new CDKTF TypeScript project from an existing project written in HashiCorp Configuration Language (HCL). This option is currently limited to the `typescript` template.
 
-### Convert to TypeScript
-
-To convert an existing HCL project into Typescript, add `--from-terraform-project` to the `init` command with the TypeScript template.
+To convert an existing HCL project, add `--from-terraform-project` to the `init` command with the TypeScript template.
 
 ```
 $ cdktf init --template=typescript --from-terraform-project /path/to/my/tf-hcl-project
@@ -210,6 +208,6 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
-### Convert to Other Languages
+## Convert HCL Files to CDKTF Format
 
-Initializing a new CDKTF project from an HCL project is currently limited to projects that use the `typescript` template. You can use the `cdktf convert` command to convert individual HCL files to other programming languages. Refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
+Use the `cdktf convert` command to convert individual HCL files to CDKTF-compatible files in your preferred programming language. Refer to the [`cdktf convert` command documentation](/docs/cdktf/cli-reference/commands.html) for more information.
