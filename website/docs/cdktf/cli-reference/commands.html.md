@@ -7,6 +7,8 @@ description: "Use the CLI to initialize a new project, deploy your CDKTF app, ge
 
 # CLI Commands
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 The CDK for Terraform CLI has the following commands:
 
 - [completion](/docs/cdktf/cli-reference/commands.html#completion)

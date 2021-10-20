@@ -7,6 +7,8 @@ description: "Write assertions and snapshot tests for your CDK for Terraform app
 
 # Unit Tests
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 Testing your application can give you faster feedback cycles and guard you against unwanted changes. Currently, testing is only supported in Typescript with jest.
 
 We generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing project, please [follow their guide](https://jestjs.io/docs/getting-started). Then, you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
@@ -74,7 +76,7 @@ describe("Unit testing using snapshots", () => {
 
 You can produce invalid Terraform configuration if you are using escape hatches in your CDK for Terraform application. You may use an escape hatch when setting up a [remote backend](/docs/cdktf/concepts/remote-backends.html) or when [overriding resource attributes](/docs/cdktf/concepts/providers-and-resources.html#escape-hatch)
 
-To test this, you can assert that [`terraform validate`](https://www.terraform.io/docs/cli/commands/validate.html) or [`terraform plan`](https://www.terraform.io/docs/cli/commands/plan.html) run successfully on all or part of your application before running `cdktf plan` or `cdktf deploy`
+To test this, you can assert that [`terraform validate`](https://www.terraform.io/docs/cli/commands/validate.html) or [`terraform plan`](https://www.terraform.io/docs/cli/commands/plan.html) run successfully on all or part of your application before running `cdktf plan` or `cdktf deploy`.
 
 ```ts
 import { Testing } from "cdktf";
