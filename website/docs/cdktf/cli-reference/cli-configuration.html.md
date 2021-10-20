@@ -9,7 +9,7 @@ description: "Install and configure the CDKTF Command Line Interface."
 
 -> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-The CDK for Terraform (CDKTF) CLI allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available []`cdktf cli` commands](/docs/cdktf/cli-reference/commands.html) where possible.
+The CDK for Terraform (CDKTF) CLI allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available [`cdktf cli` commands](/docs/cdktf/cli-reference/commands.html) where possible.
 
 ## Install
 
