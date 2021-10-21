@@ -257,6 +257,24 @@ See https://cdk.tf/provider-generation for more details.`
     );
   }
 
+  // We add a comment if there are providers with missing schema information
+  const providersLackingSchema = Object.keys(providerRequirements).filter(
+    (providerName) =>
+      !Object.keys(providerSchema.provider_schemas || {}).some((schemaName) =>
+        schemaName.endsWith(providerName)
+      )
+  );
+  if (providersLackingSchema.length > 0) {
+    expressions[0] = t.addComment(
+      expressions[0],
+      "leading",
+      `The following providers are missing schema information and might need manual adjustments to synthesize correctly: ${providersLackingSchema.join(
+        ", "
+      )}.
+For a more precise conversion please use the --provider flag in convert.`
+    );
+  }
+
   // We split up the generated code so that users can have more control over what to insert where
   return {
     all: gen([
