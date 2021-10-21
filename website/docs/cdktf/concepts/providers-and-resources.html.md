@@ -218,7 +218,7 @@ Caching prevents CDK for Terraform from re-downloading providers between each CL
 
 #### Set the Caching Directory
 
-Refer to the Terraform documentation about [how to configure your plugin cache](/docs/commands/cli-config.html#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
+Refer to the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/cli/config/config-file.html#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
 
 To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
