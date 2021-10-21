@@ -115,6 +115,10 @@ export class Tokenization {
     return [];
   }
 
+  public static containsToken(x: any): boolean {
+    return Tokenization.reverse(x).length > 0;
+  }
+
   /**
    * Un-encode a string potentially containing encoded tokens
    */

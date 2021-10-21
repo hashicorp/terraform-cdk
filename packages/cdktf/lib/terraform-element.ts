@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import { Tokenization } from ".";
 import { TerraformStack } from "./terraform-stack";
 
 export interface TerraformElementMetadata {
@@ -18,6 +19,12 @@ export class TerraformElement extends Construct {
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    if (Tokenization.containsToken(id)) {
+      throw new Error(
+        "You can not use a Token (e.g. a reference to an attribute) as name of a construct"
+      );
+    }
 
     this.node.addMetadata("stacktrace", "trace");
     this.cdktfStack = TerraformStack.of(this);
