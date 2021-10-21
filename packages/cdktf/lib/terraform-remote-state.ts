@@ -15,11 +15,12 @@ export abstract class TerraformRemoteState
   extends TerraformElement
   implements ITerraformAddressable
 {
+  public static readonly tfResourceType = "terraform_remote_state";
   constructor(
     scope: Construct,
     id: string,
     private readonly backend: string,
-    private readonly config: DataTerraformRemoteStateConfig
+    protected config: DataTerraformRemoteStateConfig
   ) {
     super(scope, id);
   }
@@ -43,12 +44,13 @@ export abstract class TerraformRemoteState
   }
 
   public get(output: string): any {
-    return Token.asAny(this.interpolationForAttribute(output));
+    return this.interpolationForAttribute(output);
   }
 
   private interpolationForAttribute(terraformAttribute: string): IResolvable {
     return ref(
-      `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`
+      `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`,
+      this.cdktfStack
     );
   }
 

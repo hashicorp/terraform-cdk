@@ -298,38 +298,35 @@ interface TerraformProviderConfig {
 }
 
 // eslint-disable-next-line react/prop-types
-export const TerraformProvider: React.FunctionComponent<
-  TerraformProviderConfig
-> = ({
-  children,
-  initialState,
-}: TerraformProviderConfig): React.ReactElement => {
-  const initialCurrentStack: SynthesizedStack = {
-    constructPath: "",
-    content: "",
-    name: "",
-    annotations: [],
-    synthesizedStackPath: "",
-    workingDirectory: "",
+export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig> =
+  ({ children, initialState }: TerraformProviderConfig): React.ReactElement => {
+    const initialCurrentStack: SynthesizedStack = {
+      constructPath: "",
+      content: "",
+      name: "",
+      annotations: [],
+      synthesizedStackPath: "",
+      workingDirectory: "",
+      dependencies: [],
+    };
+
+    const [state, dispatch] = React.useReducer(
+      deployReducer,
+      initialState || {
+        status: Status.STARTING,
+        resources: [],
+        currentStack: initialCurrentStack,
+      }
+    );
+
+    return (
+      <TerraformContextState.Provider value={state}>
+        <TerraformContextDispatch.Provider value={dispatch}>
+          {children}
+        </TerraformContextDispatch.Provider>
+      </TerraformContextState.Provider>
+    );
   };
-
-  const [state, dispatch] = React.useReducer(
-    deployReducer,
-    initialState || {
-      status: Status.STARTING,
-      resources: [],
-      currentStack: initialCurrentStack,
-    }
-  );
-
-  return (
-    <TerraformContextState.Provider value={state}>
-      <TerraformContextDispatch.Provider value={dispatch}>
-        {children}
-      </TerraformContextDispatch.Provider>
-    </TerraformContextState.Provider>
-  );
-};
 
 export const useTerraformState = () => {
   const state = React.useContext(TerraformContextState);

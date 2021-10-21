@@ -29,6 +29,7 @@ export interface IResolveOptions {
   preparing: boolean;
   resolver: ITokenResolver;
   prefix?: string[];
+  inTerraformExpression?: boolean;
 }
 
 /**
@@ -45,7 +46,17 @@ export function resolve(obj: any, options: IResolveOptions): any {
   /**
    * Make a new resolution context
    */
-  function makeContext(appendPath?: string): [IResolveContext, IPostProcessor] {
+  function makeContext(
+    inTerraformExpression?: boolean,
+    appendPath?: string
+  ): [IResolveContext, IPostProcessor] {
+    console.log(
+      `Creating new context for ${pathName}${appendPath || ""} ${
+        inTerraformExpression || options.inTerraformExpression
+          ? "in terraform expression"
+          : "not in terraform expression"
+      }`
+    );
     const newPrefix =
       appendPath !== undefined ? prefix.concat([appendPath]) : options.prefix;
 
@@ -58,8 +69,23 @@ export function resolve(obj: any, options: IResolveOptions): any {
         postProcessor = pp;
       },
       resolve(x: any) {
-        return resolve(x, { ...options, prefix: newPrefix });
+        return resolve(x, {
+          ...options,
+          prefix: newPrefix,
+          inTerraformExpression:
+            inTerraformExpression || options.inTerraformExpression,
+        });
       },
+      extend(props: { inTerraformExpression?: boolean; appendPath?: string }) {
+        // TODO: do I need to default both of these?
+        return makeContext(
+          props.inTerraformExpression || options.inTerraformExpression,
+          props.appendPath || appendPath
+        )[0];
+      },
+      // Not sure if this one is needed
+      inTerraformExpression:
+        inTerraformExpression || options.inTerraformExpression,
     };
 
     return [
@@ -78,6 +104,12 @@ export function resolve(obj: any, options: IResolveOptions): any {
       "Unable to resolve object tree with circular reference. Path: " + pathName
     );
   }
+
+  console.log(
+    `Resolving ${obj} ${
+      options.inTerraformExpression ? "in tf expr" : "not in tf expr"
+    }`
+  );
 
   //
   // undefined
@@ -121,6 +153,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
     const tokenStr = TokenString.forString(str);
     if (tokenStr.test()) {
       const fragments = tokenStr.split(tokenMap.lookupToken.bind(tokenMap));
+      console.log("inner string resolve");
       str = options.resolver.resolveString(fragments, makeContext()[0]);
     }
 
@@ -131,6 +164,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
         return TokenMap.instance().lookupNumberToken(parseFloat(id));
       });
 
+      console.log("inner number resolve");
       str = fragments
         .mapTokens({
           mapToken: (resolvable: IResolvable) =>
@@ -167,7 +201,9 @@ export function resolve(obj: any, options: IResolveOptions): any {
     }
 
     const arr = obj
-      .map((x, i) => makeContext(`${i}`)[0].resolve(x))
+      .map((x, i) =>
+        makeContext(options.inTerraformExpression, `${i}`)[0].resolve(x)
+      )
       .filter((x) => typeof x !== "undefined");
 
     return arr;
@@ -204,7 +240,9 @@ export function resolve(obj: any, options: IResolveOptions): any {
       );
     }
 
-    const value = makeContext(key)[0].resolve(obj[key]);
+    const value = makeContext(options.inTerraformExpression, key)[0].resolve(
+      obj[key]
+    );
 
     // skip undefined
     if (typeof value === "undefined") {

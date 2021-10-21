@@ -1,15 +1,34 @@
 import { Construct } from "constructs";
+import { TerraformRemoteState } from ".";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
+
+const BACKEND_SYMBOL = Symbol.for("cdktf/TerraformBackend");
 
 export abstract class TerraformBackend extends TerraformElement {
   constructor(scope: Construct, id: string, protected readonly name: string) {
     super(scope, id);
+    Object.defineProperty(this, BACKEND_SYMBOL, { value: true });
+  }
+
+  public static isBackend(x: any): x is TerraformBackend {
+    return x !== null && typeof x === "object" && BACKEND_SYMBOL in x;
   }
 
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
     return {};
+  }
+
+  /**
+   * Creates a TerraformRemoteState resource that accesses this backend.
+   */
+  public getRemoteStateDataSource(
+    _scope: Construct,
+    _name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    throw new Error("This Backend is not implemented yet");
   }
 
   /**

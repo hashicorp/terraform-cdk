@@ -16,6 +16,7 @@ const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
 import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
+import { LocalBackend, ref, TerraformOutput, TerraformRemoteState } from ".";
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -23,10 +24,14 @@ export interface TerraformStackMetadata {
   readonly backend: string;
 }
 
+type Constructor<T> = Function & { prototype: T };
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
+  private crossStackOutputs: Record<string, TerraformOutput> = {};
+  private crossStackDataSources: Record<string, TerraformRemoteState> = {};
   public synthesizer: IStackSynthesizer;
+  public dependencies: TerraformStack[] = [];
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -136,12 +141,12 @@ export class TerraformStack extends Construct {
       : "";
   }
 
-  public allProviders(): TerraformProvider[] {
-    const providers: TerraformProvider[] = [];
+  private findAll<T>(ClassConstructor: Constructor<T>): T[] {
+    const items: T[] = [];
 
     const visit = async (node: IConstruct) => {
-      if (node instanceof TerraformProvider) {
-        providers.push(node);
+      if (node instanceof ClassConstructor) {
+        items.push(node as unknown as T);
       }
 
       for (const child of node.node.children) {
@@ -151,7 +156,38 @@ export class TerraformStack extends Construct {
 
     visit(this);
 
-    return resolve(this, providers);
+    return resolve(this, items);
+  }
+
+  public allProviders(): TerraformProvider[] {
+    return this.findAll(TerraformProvider);
+  }
+
+  public get backend(): TerraformBackend {
+    const items: TerraformBackend[] = [];
+
+    const visit = async (node: IConstruct) => {
+      if (TerraformBackend.isBackend(node)) {
+        items.push(node);
+      }
+
+      for (const child of node.node.children) {
+        visit(child);
+      }
+    };
+
+    visit(this);
+
+    // There should only be one backend
+    // TODO: See if not resolving here causes problems
+    return items[0] || new LocalBackend(this, {});
+  }
+
+  public prepareStack() {
+    // A preparing resolve run might add new resources to the stack
+    terraformElements(this).forEach((e) =>
+      resolve(this, e.toTerraform(), true)
+    );
   }
 
   public toTerraform(): any {
@@ -183,6 +219,65 @@ export class TerraformStack extends Construct {
     deepMerge(tf, this.rawOverrides);
 
     return resolve(this, tf);
+  }
+
+  public registerOutgoingCrossStackReference(identifier: string) {
+    if (this.crossStackOutputs[identifier]) {
+      return this.crossStackOutputs[identifier];
+    }
+
+    const stack = TerraformStack.of(this);
+
+    const output = new TerraformOutput(
+      stack,
+      `cross-stack-output-${identifier}`,
+      {
+        value: ref(identifier, stack),
+        sensitive: true,
+      }
+    );
+
+    this.crossStackOutputs[identifier] = output;
+    return output;
+  }
+
+  public registerIncomingCrossStackReference(fromStack: TerraformStack) {
+    if (this.crossStackDataSources[String(fromStack)]) {
+      return this.crossStackDataSources[String(fromStack)];
+    }
+    const originBackend = fromStack.backend;
+
+    // TODO: stack name in construct identifier?
+    const remoteState = originBackend.getRemoteStateDataSource(
+      this,
+      `cross-stack-reference-input-${fromStack}`,
+      fromStack.toString()
+    );
+
+    this.crossStackDataSources[String(fromStack)] = remoteState;
+    return remoteState;
+  }
+
+  // Check here for loops in the dependency graph
+  public dependsOn(stack: TerraformStack): boolean {
+    return (
+      this.dependencies.includes(stack) ||
+      this.dependencies.some((d) => d.dependsOn(stack))
+    );
+  }
+
+  public addDependency(dependency: TerraformStack) {
+    if (dependency.dependsOn(this)) {
+      throw new Error(
+        `Can not add dependency ${dependency} to ${this} since it would result in a loop`
+      );
+    }
+
+    if (this.dependencies.includes(dependency)) {
+      return;
+    }
+
+    this.dependencies.push(dependency);
   }
 }
 

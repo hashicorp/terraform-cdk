@@ -122,7 +122,7 @@ export class TerraformVariable
   }
 
   private interpolation(): IResolvable {
-    return ref(`var.${this.friendlyUniqueId}`);
+    return ref(`var.${this.friendlyUniqueId}`, this.cdktfStack);
   }
 
   public get fqn() {

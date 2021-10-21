@@ -3,10 +3,14 @@ import { Construct } from "constructs";
 
 const TOKEN_RESOLVER = new DefaultTokenResolver(new StringConcat());
 
-export function resolve<T>(scope: Construct, obj: T): T {
+export function resolve<T>(
+  scope: Construct,
+  obj: T,
+  preparing: boolean = false
+): T {
   return Tokenization.resolve(obj, {
     scope,
-    preparing: false,
+    preparing,
     resolver: TOKEN_RESOLVER,
   });
 }

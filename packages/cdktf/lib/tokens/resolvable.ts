@@ -4,6 +4,10 @@ import { TokenString } from "./private/encoding";
 import { TokenMap } from "./private/token-map";
 import { TokenizedStringFragments } from "./string-fragments";
 
+export interface IExtendProps {
+  inTerraformExpression?: boolean;
+  appendPath?: string;
+}
 /**
  * Current resolution context for tokens
  */
@@ -27,6 +31,21 @@ export interface IResolveContext {
    * Use this postprocessor after the entire token structure has been resolved
    */
   registerPostProcessor(postProcessor: IPostProcessor): void;
+
+  /**
+   * extends the current resolution context with new properties
+   */
+  extend(props: IExtendProps): IResolveContext;
+
+  // TODO: see if we can remove this
+  /**
+   * Whether the token to be resolved is within a terraform expression
+   *
+   * "${TOKEN}" | ${length(${token})} => true
+   * "TOKEN" | ["TOKEN"] => false
+   * @default false
+   */
+  readonly inTerraformExpression?: boolean;
 }
 
 /**

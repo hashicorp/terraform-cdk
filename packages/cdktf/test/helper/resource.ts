@@ -65,6 +65,7 @@ export class TestResource extends TerraformResource {
 }
 
 export class OtherTestResource extends TerraformResource {
+  public static readonly tfResourceType: string = "other_test_resource";
   constructor(scope: Construct, id: string, config: TerraformMetaArguments) {
     super(scope, id, {
       terraformResourceType: "other_test_resource",
@@ -100,6 +101,7 @@ class TestComplexComputedList extends ComplexComputedList {
 
 // Generated Docker image to test real-world scenarios
 export class DockerImage extends TerraformResource {
+  public static readonly tfResourceType: string = "docker_image";
   private _name: string;
   public constructor(scope: Construct, id: string, config: { name: string }) {
     super(scope, id, {
