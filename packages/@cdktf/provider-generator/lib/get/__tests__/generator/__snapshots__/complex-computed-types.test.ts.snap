@@ -53,22 +53,22 @@ export namespace ACM {
   export class AcmCertificateDomainValidationOptions extends cdktf.ComplexComputedList {
 
     // domain_name - computed: true, optional: false, required: false
-    public get domainName() {
+    public get domainName(): string {
       return this.getStringAttribute('domain_name');
     }
 
     // resource_record_name - computed: true, optional: false, required: false
-    public get resourceRecordName() {
+    public get resourceRecordName(): string {
       return this.getStringAttribute('resource_record_name');
     }
 
     // resource_record_type - computed: true, optional: false, required: false
-    public get resourceRecordType() {
+    public get resourceRecordType(): string {
       return this.getStringAttribute('resource_record_type');
     }
 
     // resource_record_value - computed: true, optional: false, required: false
-    public get resourceRecordValue() {
+    public get resourceRecordValue(): string {
       return this.getStringAttribute('resource_record_value');
     }
   }
@@ -101,10 +101,10 @@ export namespace ACM {
 
     // certificate_transparency_logging_preference - computed: false, optional: true, required: false
     private _certificateTransparencyLoggingPreference?: string | undefined; 
-    public get certificateTransparencyLoggingPreference() {
+    public get certificateTransparencyLoggingPreference(): string {
       return this.getStringAttribute('certificate_transparency_logging_preference');
     }
-    public set certificateTransparencyLoggingPreference(value: string | undefined) {
+    public set certificateTransparencyLoggingPreference(value: string) {
       this._certificateTransparencyLoggingPreference = value;
     }
     public resetCertificateTransparencyLoggingPreference() {
@@ -164,16 +164,16 @@ export namespace ACM {
     // ==========
 
     // arn - computed: true, optional: false, required: false
-    public get arn() {
+    public get arn(): string {
       return this.getStringAttribute('arn');
     }
 
     // certificate_authority_arn - computed: false, optional: true, required: false
     private _certificateAuthorityArn?: string | undefined; 
-    public get certificateAuthorityArn() {
+    public get certificateAuthorityArn(): string {
       return this.getStringAttribute('certificate_authority_arn');
     }
-    public set certificateAuthorityArn(value: string | undefined) {
+    public set certificateAuthorityArn(value: string) {
       this._certificateAuthorityArn = value;
     }
     public resetCertificateAuthorityArn() {
@@ -186,10 +186,10 @@ export namespace ACM {
 
     // certificate_body - computed: false, optional: true, required: false
     private _certificateBody?: string | undefined; 
-    public get certificateBody() {
+    public get certificateBody(): string {
       return this.getStringAttribute('certificate_body');
     }
-    public set certificateBody(value: string | undefined) {
+    public set certificateBody(value: string) {
       this._certificateBody = value;
     }
     public resetCertificateBody() {
@@ -202,10 +202,10 @@ export namespace ACM {
 
     // certificate_chain - computed: false, optional: true, required: false
     private _certificateChain?: string | undefined; 
-    public get certificateChain() {
+    public get certificateChain(): string {
       return this.getStringAttribute('certificate_chain');
     }
-    public set certificateChain(value: string | undefined) {
+    public set certificateChain(value: string) {
       this._certificateChain = value;
     }
     public resetCertificateChain() {
@@ -218,10 +218,10 @@ export namespace ACM {
 
     // domain_name - computed: true, optional: true, required: false
     private _domainName?: string | undefined; 
-    public get domainName() {
+    public get domainName(): string {
       return this.getStringAttribute('domain_name');
     }
-    public set domainName(value: string | undefined) {
+    public set domainName(value: string) {
       this._domainName = value;
     }
     public resetDomainName() {
@@ -238,16 +238,16 @@ export namespace ACM {
     }
 
     // id - computed: true, optional: true, required: false
-    public get id() {
+    public get id(): string {
       return this.getStringAttribute('id');
     }
 
     // private_key - computed: false, optional: true, required: false
     private _privateKey?: string | undefined; 
-    public get privateKey() {
+    public get privateKey(): string {
       return this.getStringAttribute('private_key');
     }
-    public set privateKey(value: string | undefined) {
+    public set privateKey(value: string) {
       this._privateKey = value;
     }
     public resetPrivateKey() {
@@ -260,10 +260,10 @@ export namespace ACM {
 
     // subject_alternative_names - computed: true, optional: true, required: false
     private _subjectAlternativeNames?: string[] | undefined; 
-    public get subjectAlternativeNames() {
+    public get subjectAlternativeNames(): string[] {
       return this.getListAttribute('subject_alternative_names');
     }
-    public set subjectAlternativeNames(value: string[] | undefined) {
+    public set subjectAlternativeNames(value: string[]) {
       this._subjectAlternativeNames = value;
     }
     public resetSubjectAlternativeNames() {
@@ -276,11 +276,11 @@ export namespace ACM {
 
     // tags - computed: false, optional: true, required: false
     private _tags?: { [key: string]: string } | cdktf.IResolvable | undefined; 
-    public get tags() {
+    public get tags(): { [key: string]: string } | cdktf.IResolvable {
       // Getting the computed value is not yet implemented
       return this.interpolationForAttribute('tags') as any;
     }
-    public set tags(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
+    public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
       this._tags = value;
     }
     public resetTags() {
@@ -292,16 +292,16 @@ export namespace ACM {
     }
 
     // validation_emails - computed: true, optional: false, required: false
-    public get validationEmails() {
+    public get validationEmails(): string[] {
       return this.getListAttribute('validation_emails');
     }
 
     // validation_method - computed: true, optional: true, required: false
     private _validationMethod?: string | undefined; 
-    public get validationMethod() {
+    public get validationMethod(): string {
       return this.getStringAttribute('validation_method');
     }
-    public set validationMethod(value: string | undefined) {
+    public set validationMethod(value: string) {
       this._validationMethod = value;
     }
     public resetValidationMethod() {
@@ -318,7 +318,7 @@ export namespace ACM {
     public get options() {
       return this.__optionsOutput;
     }
-    public putOptions(value: AcmCertificateOptions | undefined) {
+    public set options(value: AcmCertificateOptions) {
       this._options = value;
     }
     public resetOptions() {

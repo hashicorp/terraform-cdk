@@ -18,7 +18,7 @@ export class AttributesEmitter {
 
     const isStored = att.isStored;
     const hasResetMethod = isStored && !att.isRequired;
-    const hasInputMethod = isStored;
+    const hasInputMethod = isStored || att.isProvider;
 
     if (isStored) {
       this.code.line(`private ${att.storageName}?: ${att.type.storedName}; `);
@@ -26,7 +26,7 @@ export class AttributesEmitter {
 
     switch (att.getterType._type) {
       case "plain":
-        this.code.openBlock(`public get ${att.name}()`);
+        this.code.openBlock(`public get ${att.name}(): ${att.type.name}`);
         this.code.line(`return ${this.determineGetAttCall(att)};`);
         this.code.closeBlock();
         break;
@@ -48,6 +48,8 @@ export class AttributesEmitter {
         this.code.openBlock(`public get ${att.name}()`);
         this.code.line(`return this._${att.storageName}Output;`);
         this.code.closeBlock();
+        break;
+      case "none":
         break;
     }
 
@@ -93,10 +95,6 @@ export class AttributesEmitter {
   }
 
   public determineGetAttCall(att: AttributeModel): string {
-    if (att.isProvider) {
-      return `this.${att.storageName}`;
-    }
-
     const type = att.type;
     if (type.isString) {
       return `this.getStringAttribute('${att.terraformName}')`;

@@ -1,6 +1,7 @@
 import { AttributeTypeModel } from "./attribute-type-model";
 
 export type GetterType =
+  | { _type: "none" }
   | { _type: "plain" }
   | {
       _type: "args";
@@ -84,6 +85,11 @@ export class AttributeModel {
   public get getterType(): GetterType {
     let getterType: GetterType = { _type: "plain" };
 
+    // Providers only have input types since they can not be referenced
+    if (this.isProvider) {
+      return { _type: "none" };
+    }
+
     if (
       // Complex Computed List Map
       this.computed &&
@@ -159,18 +165,14 @@ export class AttributeModel {
   }
 
   public get setterType(): SetterType {
+    if (this.isProvider) {
+      return { _type: "none" };
+    }
     return this.isStored
-      ? this.getterType._type === "stored_class"
-        ? {
-            _type: "put",
-            type: this.type.storedName,
-          }
-        : {
-            _type: "set",
-            type: `${this.type.storedName}${
-              this.isProvider ? "| undefined" : ""
-            }`,
-          }
+      ? {
+          _type: "set",
+          type: this.type.name,
+        }
       : { _type: "none" };
   }
 

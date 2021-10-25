@@ -12,7 +12,9 @@ export class StructEmitter {
 
   public emit(resource: ResourceModel) {
     resource.structs.forEach((struct) => {
-      if (struct.isSingleItem) {
+      if (resource.isProvider) {
+        this.emitInterface(resource, struct);
+      } else if (struct.isSingleItem) {
         // We use the interface here for the configuration / inputs of a resource / nested block
         this.emitInterface(resource, struct);
         // And we use the class for the attributes / outputs of a resource / nested block
@@ -25,11 +27,8 @@ export class StructEmitter {
     });
   }
 
-  private emitInterface(
-    resource: ResourceModel,
-    struct: Struct,
-    name = struct.name
-  ) {
+  private emitInterface(resource: ResourceModel, struct: Struct) {
+    const name = struct.name;
     if (resource.isProvider) {
       this.code.openBlock(`export interface ${name}`);
     } else {
@@ -58,7 +57,7 @@ export class StructEmitter {
     this.code.closeBlock();
 
     if (!(struct instanceof ConfigStruct)) {
-      this.emitToTerraformFunction(struct);
+      this.emitToTerraformFunction(struct, resource.isProvider);
     }
   }
 
@@ -101,11 +100,13 @@ export class StructEmitter {
     this.code.closeBlock();
   }
 
-  private emitToTerraformFunction(struct: Struct) {
+  private emitToTerraformFunction(struct: Struct, isProvider: boolean) {
     this.code.line();
     this.code.openBlock(
       `function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${
-        struct.isSingleItem ? `${struct.name}OutputReference | ` : ""
+        struct.isSingleItem && !isProvider
+          ? `${struct.name}OutputReference | `
+          : ""
       }${struct.name}): any`
     );
     this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
