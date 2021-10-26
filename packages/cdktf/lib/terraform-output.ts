@@ -3,6 +3,7 @@ import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Expression, ref } from ".";
+import { isArray } from "util";
 
 export interface TerraformOutputConfig {
   readonly value: Expression | ITerraformDependable;
@@ -44,7 +45,12 @@ export class TerraformOutput extends TerraformElement {
   }
 
   private isITerraformDependable(object: any): object is ITerraformDependable {
-    return "fqn" in object;
+    return (
+      object &&
+      typeof object === "object" &&
+      !isArray(object) &&
+      "fqn" in object
+    );
   }
 
   protected synthesizeAttributes(): { [key: string]: any } {
