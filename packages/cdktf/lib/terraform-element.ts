@@ -22,7 +22,7 @@ export class TerraformElement extends Construct {
 
     if (Tokenization.containsToken(id)) {
       throw new Error(
-        "You can not use a Token (e.g. a reference to an attribute) as name of a construct"
+        "You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"
       );
     }
 
