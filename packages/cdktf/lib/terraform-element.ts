@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { Tokenization } from ".";
+import { Token } from ".";
 import { TerraformStack } from "./terraform-stack";
 
 export interface TerraformElementMetadata {
@@ -20,7 +20,7 @@ export class TerraformElement extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    if (Tokenization.containsToken(id)) {
+    if (Token.isUnresolved(id)) {
       throw new Error(
         "You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"
       );
