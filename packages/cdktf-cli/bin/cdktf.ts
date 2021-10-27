@@ -72,6 +72,7 @@ const customCompletion = function (
 
 yargs
   .command(require("./cmds/init"))
+  .command(require("./cmds/get"))
   .command(require("./cmds/convert"))
   .command(require("./cmds/deploy"))
   .command(require("./cmds/destroy"))
