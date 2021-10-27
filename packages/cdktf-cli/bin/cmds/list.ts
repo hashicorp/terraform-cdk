@@ -1,12 +1,13 @@
 import yargs from "yargs";
 import React from "react";
 import { List } from "./ui/list";
-import { readConfigSync } from "../../lib/config";
+import { config as cfg } from "@cdktf/provider-generator";
 import { renderInk } from "./helper/render-ink";
 import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
+import { checkEnvironment } from "./helper/check-environment";
 
-const config = readConfigSync();
+const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
   public readonly command = "list [OPTIONS]";
@@ -29,6 +30,7 @@ class Command implements yargs.CommandModule {
   public async handler(argv: any) {
     throwIfNotProjectDirectory("list");
     await displayVersionMessage();
+    await checkEnvironment("list");
     const command = argv.app;
     const outdir = argv.output;
 

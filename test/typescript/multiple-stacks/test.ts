@@ -1,12 +1,4 @@
-//
-// Testing a full cycle of diff, deploy and destroy
-//
-// @group typescript
-//
-import { TestDriver } from "../../test-helper";
-
-const onWindows = process.platform === "win32" ? it : it.skip;
-const onPosix = process.platform !== "win32" ? it : it.skip;
+import { TestDriver, onPosix, onWindows } from "../../test-helper";
 
 describe("full integration test", () => {
   let driver: TestDriver;
@@ -59,14 +51,28 @@ describe("full integration test", () => {
     `);
   });
 
-  // onWindows() - disabled temporarily
-  it.skip("list windows", () => {
+  onWindows("list windows", () => {
     expect(driver.list()).toMatchInlineSnapshot(`
       "Stack name                      Path
-      first                           cdktf.out\\stacks\\first
-      second                          cdktf.out\\stacks\\second
+      first                           cdktf.out\\\\stacks\\\\first
+      second                          cdktf.out\\\\stacks\\\\second
       "
     `);
+  });
+
+  // completions for stacks relies on a manifest.json being present
+  // so this test must be run after something that synthesizes and
+  // thus writes a Manifest (like e.g. cdktf list)
+  test("shell completions complete stacks", async () => {
+    const { stdout, stderr } = await driver.exec("cdktf", [
+      "--get-yargs-completions",
+      "cdktf",
+      "diff",
+    ]);
+
+    expect(stdout).toContain('first:target stack "first"');
+    expect(stdout).toContain('second:target stack "second"');
+    expect(stderr).toEqual("");
   });
 
   test("deploy", () => {

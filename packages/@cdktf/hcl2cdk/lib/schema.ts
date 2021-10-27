@@ -30,12 +30,15 @@ const resourceConfig = z.array(z.record(z.any()));
 export type Resource = z.infer<typeof resourceConfig>;
 export type Data = Resource;
 
+const providerSpecification = z.union([
+  z.object({ source: z.string(), version: z.string() }).partial(),
+  z.string(),
+]);
+
 const terraformConfig = z
   .object({
     required_version: z.string(),
-    required_providers: z.array(
-      z.record(z.object({ source: z.string(), version: z.string() }).partial())
-    ),
+    required_providers: z.array(z.record(providerSpecification)),
     backend: z.record(z.array(z.record(z.any()))),
   })
   .partial();

@@ -6,19 +6,21 @@ on:
     paths-ignore:
       - "**.md"
       - "docs/**"
+      - "website/**"
 
 jobs:
   build-docker-image:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('/Dockerfile') }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('/Dockerfile', '.terraform.versions.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: Login to DockerHub
@@ -26,6 +28,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - id: tf-versions
+        run: |
+          DEFAULT_TERRAFORM_VERSION=$(cat .terraform.versions.json | jq -r '.default')
+          AVAILABLE_TERRAFORM_VERSIONS=$(cat .terraform.versions.json | jq -r '.available | join(" ")')
+          echo "::set-output name=default::$DEFAULT_TERRAFORM_VERSION"
+          echo "::set-output name=available::$AVAILABLE_TERRAFORM_VERSIONS"
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -34,3 +42,6 @@ jobs:
           tags: hashicorp/jsii-terraform:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: |
+            DEFAULT_TERRAFORM_VERSION=${{ steps.tf-versions.outputs.default }}
+            AVAILABLE_TERRAFORM_VERSIONS=${{ steps.tf-versions.outputs.available }}

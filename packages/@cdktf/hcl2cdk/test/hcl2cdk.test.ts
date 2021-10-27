@@ -1,6 +1,32 @@
 import { convert } from "../lib/index";
+import {
+  readSchema,
+  ConstructsMakerProviderTarget,
+  LANGUAGES,
+  config,
+} from "@cdktf/provider-generator";
+const providers = [
+  "hashicorp/aws@ ~>3.62.0",
+  "kreuzwerker/docker@ ~>2.15.0",
+  "hashicorp/google@ ~>3.87.0",
+];
 
+let cachedProviderSchema: any;
 describe("convert", () => {
+  beforeAll(() => {
+    // Get all the provider schemas
+    return readSchema(
+      providers.map((spec) =>
+        ConstructsMakerProviderTarget.from(
+          new config.TerraformProviderConstraint(spec),
+          LANGUAGES[0]
+        )
+      )
+    ).then((res) => {
+      cachedProviderSchema = res.providerSchema;
+    });
+  }, 500_000);
+
   it.each([
     [
       "output",
@@ -37,6 +63,12 @@ describe("convert", () => {
         }`,
     ],
     ["empty provider", `provider "docker" {}`],
+    [
+      "null provider",
+      `provider "null" {}
+    resource "null_resource" "test" {}
+    `,
+    ],
     [
       "provider with complex config",
       `
@@ -310,6 +342,21 @@ describe("convert", () => {
         }`,
     ],
     [
+      "duplicate modules",
+      `
+        module "vpca" {
+          source = "terraform-aws-modules/vpc/aws"
+        
+          name = "my-vpc-a"
+        }
+        
+        module "vpcb" {
+          source = "terraform-aws-modules/vpc/aws"
+        
+          name = "my-vpc-b"
+        }`,
+    ],
+    [
       "referenced modules",
       `
         module "vpc" {
@@ -536,6 +583,21 @@ describe("convert", () => {
             tag-key = "tag-value"
           }
         }`,
+    ],
+    [
+      "simple count",
+      `
+      resource "aws_instance" "multiple_servers" {
+        count = 4
+      
+        ami           = "ami-0c2b8ca1dad447f8a"
+        instance_type = "t2.micro"
+      
+        tags = {
+          Name = "Server \${count.index}"
+        }
+      }
+      `,
     ],
     [
       "dynamic blocks",
@@ -887,9 +949,45 @@ describe("convert", () => {
       }
       `,
     ],
+    [
+      "remote state",
+      `
+      data "terraform_remote_state" "vpc" {
+        backend = "remote"
+
+        config = {
+          organization = "hashicorp"
+          workspaces = {
+            name = "vpc-prod"
+          }
+        }
+      }
+      `,
+    ],
+    [
+      "remote state types",
+      `
+      data "terraform_remote_state" "etcdv3" {
+        backend = "etcdv3"
+
+        config = {
+          prefix = "terraform-state/"
+        }
+      }
+
+      data "terraform_remote_state" "s3" {
+        backend = "s3"
+
+        config = {
+          bucket = "mybucket"
+        }
+      }
+      `,
+    ],
   ])("%s configuration", async (_name, hcl) => {
     const { all } = await convert(hcl, {
       language: "typescript",
+      providerSchema: cachedProviderSchema,
     });
     expect(all).toMatchSnapshot();
   });
@@ -918,6 +1016,7 @@ describe("convert", () => {
       expect(
         convert(hcl, {
           language: language as any,
+          providerSchema: cachedProviderSchema,
         })
       ).toMatchSnapshot();
     });
@@ -980,7 +1079,7 @@ describe("convert", () => {
     }
   }
   `,
-      { language: "typescript" }
+      { language: "typescript", providerSchema: cachedProviderSchema }
     );
 
     expect(stats).toMatchInlineSnapshot(`

@@ -20,7 +20,11 @@
 
   Destroy:
     cdktf destroy       Destroy the stack
-   
+
+  Test:
+    npm run test        Runs unit tests (edit __tests__/main-test.ts to add your own tests)
+    npm run test:watch  Watches the tests and reruns them on change
+
 
  Upgrades:
    npm run get           Import/update Terraform providers and modules (you should check-in this directory)

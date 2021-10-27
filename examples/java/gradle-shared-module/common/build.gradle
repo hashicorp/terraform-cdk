@@ -6,6 +6,6 @@ application {
 }
 
 dependencies {
-    api 'com.hashicorp:cdktf:0.1.0'
+    api 'com.hashicorp:cdktf:0.0.0'
     api 'software.constructs:constructs:10.0.5'
 }

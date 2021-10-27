@@ -1,6 +1,7 @@
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
+  "projectId": "{{projectId}}",
   "terraformProviders": [],
   "terraformModules": [],
   "context": {

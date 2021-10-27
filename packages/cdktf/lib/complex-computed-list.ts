@@ -20,14 +20,10 @@ abstract class ComplexComputedAttribute {
   }
 
   public getBooleanAttribute(terraformAttribute: string) {
-    return Token.asString(
-      this.interpolationForAttribute(terraformAttribute)
-    ) as any as boolean;
+    return this.interpolationForAttribute(terraformAttribute);
   }
 
-  protected abstract interpolationForAttribute(
-    terraformAttribute: string
-  ): string;
+  protected abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 
 export class StringMap {
@@ -87,6 +83,28 @@ export class ComplexComputedList extends ComplexComputedAttribute {
   protected interpolationForAttribute(property: string) {
     return this.terraformResource.interpolationForAttribute(
       `${this.terraformAttribute}.${this.complexComputedListIndex}.${property}`
+    );
+  }
+}
+
+export class ComplexObject extends ComplexComputedAttribute {
+  constructor(
+    protected terraformResource: ITerraformResource,
+    protected terraformAttribute: string,
+    protected isSingleItem: boolean
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
+
+  protected interpolationForAttribute(property: string) {
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}${this.isSingleItem ? "[0]" : ""}.${property}`
+    );
+  }
+
+  protected interpolationAsList() {
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}.*`
     );
   }
 }

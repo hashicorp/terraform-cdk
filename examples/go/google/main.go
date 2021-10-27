@@ -34,13 +34,11 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	google.NewContainerNodePool(stack, jsii.String("main-pool"), &google.ContainerNodePoolConfig{
 		Name:    jsii.String("main"),
 		Cluster: cluster.Name(),
-		NodeConfig: &[]*google.ContainerNodePoolNodeConfig{
-			{
-				MachineType:    jsii.String("e2-medium"),
-				Preemptible:    jsii.Bool(true),
-				ServiceAccount: sa.Email(),
-				OauthScopes:    &[]*string{jsii.String("https://www.googleapis.com/auth/cloud-platform")},
-			},
+		NodeConfig: &google.ContainerNodePoolNodeConfig{
+			MachineType:    jsii.String("e2-medium"),
+			Preemptible:    jsii.Bool(true),
+			ServiceAccount: sa.Email(),
+			OauthScopes:    &[]*string{jsii.String("https://www.googleapis.com/auth/cloud-platform")},
 		},
 	})
 
@@ -63,20 +61,16 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 
 	namespaceName := "development"
 	kubernetes.NewNamespace(stack, jsii.String("namespace"), &kubernetes.NamespaceConfig{
-		Metadata: &[]*kubernetes.NamespaceMetadata{
-			{
-				Name: jsii.String(namespaceName),
-			},
+		Metadata: &kubernetes.NamespaceMetadata{
+			Name: jsii.String(namespaceName),
 		},
 	})
 
 	helm.NewHelmProvider(stack, jsii.String("helm"), &helm.HelmProviderConfig{
-		Kubernetes: &[]*helm.HelmProviderKubernetes{
-			{
-				ClusterCaCertificate: auth.ClusterCaCertificateOutput(),
-				Host:                 auth.HostOutput(),
-				Token:                auth.TokenOutput(),
-			},
+		Kubernetes: &helm.HelmProviderKubernetes{
+			ClusterCaCertificate: auth.ClusterCaCertificateOutput(),
+			Host:                 auth.HostOutput(),
+			Token:                auth.TokenOutput(),
 		},
 	})
 

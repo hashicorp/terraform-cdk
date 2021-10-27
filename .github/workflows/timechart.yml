@@ -1,7 +1,6 @@
 name: checkrun-timechart
 on:
-  pull_request:
-    types: [synchronize]
+  - pull_request
 
 jobs:
   checkrun-timechart:

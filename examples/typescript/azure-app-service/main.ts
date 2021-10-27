@@ -15,7 +15,7 @@ class MyStack extends TerraformStack {
     const imagename = "nginx:latest";
 
     new AzurermProvider(this, "azureFeature", {
-      features: [{}],
+      features: {},
     });
 
     const rg = new ResourceGroup(this, "cdktf-rg", {
@@ -29,7 +29,7 @@ class MyStack extends TerraformStack {
       resourceGroupName: rg.name,
       location: rg.location,
       name: "DockerCDKTF",
-      sku: [{ size: "F1", tier: "Free" }],
+      sku: { size: "F1", tier: "Free" },
       dependsOn: [rg],
     });
 

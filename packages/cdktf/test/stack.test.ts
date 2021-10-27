@@ -4,6 +4,7 @@ import {
   App,
   Testing,
   TerraformOutput,
+  LocalBackend,
 } from "cdktf/lib";
 import { TerraformModule } from "cdktf/lib/terraform-module";
 import { TestProvider } from "./helper";
@@ -111,6 +112,15 @@ test("stack validation returns no error when provider is not set", () => {
 
   const errors = stack.node.validate();
   expect(errors).toEqual([]);
+});
+
+test("getting Stack for TerraformBackend which was added to root app returns friendly error", () => {
+  const app = Testing.stubVersion(new App({ stackTraces: false }));
+  new TerraformStack(app, "MyStack");
+
+  expect(() => new LocalBackend(app, {})).toThrowErrorMatchingInlineSnapshot(
+    `"No stack could be identified for the construct at path 'backend'. You seem to have passed your root App as scope to a TerraformBackend construct. Pass a stack as scope to your backend instead."`
+  );
 });
 
 class MyModule extends TerraformModule {

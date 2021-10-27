@@ -15,7 +15,12 @@ Steps:
 
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { Container, Image, DockerProvider } from "./.gen/providers/docker";
+import {
+  Container,
+  Image,
+  DockerProvider,
+  Service,
+} from "./.gen/providers/docker";
 
 class MyStack extends TerraformStack {
   public readonly dockerImage: Image;
@@ -39,6 +44,15 @@ class MyStack extends TerraformStack {
           external: 8000,
         },
       ],
+    });
+
+    new Service(this, "nginxService", {
+      name: "nginx",
+      taskSpec: {
+        containerSpec: {
+          image: this.dockerImage.latest,
+        },
+      },
     });
   }
 }

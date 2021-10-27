@@ -48,6 +48,11 @@ test("Output", async () => {
       type: "list",
       value: ["A", "B", "C"],
     },
+    password: {
+      type: "string",
+      sensitive: true,
+      value: "hunter2",
+    },
   };
 
   const { lastFrame } = render(<Output output={output} />);
@@ -61,7 +66,8 @@ test("Output", async () => {
       \\"A\\",
       \\"B\\",
       \\"C\\"
-    ]"
+    ]
+    password = <sensitive>"
   `);
 });
 

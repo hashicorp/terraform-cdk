@@ -27,6 +27,7 @@ Commands:
   cdktf list [OPTIONS]             List stacks in app.
   cdktf login                      Retrieves an API token to connect to Terraform Cloud.
   cdktf synth [stack] [OPTIONS]    Synthesizes Terraform code for the given app in a directory.                                                                                                        [aliases: synthesize]
+  cdktf completion                 generate completion script
 
 Options:
   --version                   Show version number                                                                                                                                                                  [boolean]
@@ -57,6 +58,7 @@ If running in automated environments, the dynamic CLI output rendering can be fo
     - [cdktf destroy](#cdktf-destroy)
     - [cdktf login](#cdktf-login)
     - [cdktf convert](#cdktf-convert)
+    - [cdktf completion](#cdktf-completion)
 
 ### cdktf get
 
@@ -362,6 +364,7 @@ Options:
   --log-level                 Which log level should be written. Only supported via setting the env
                               CDKTF_LOG_LEVEL                                                        [string]
   --language                      [choices: "typescript", "python", "csharp", "java"] [default: "typescript"]
+  --provider                  The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a cdktf.json below your current working directory.
   -h, --help                  Show help                                                             [boolean]
 ```
 
@@ -370,4 +373,59 @@ Examples:
 - Convert a local file: `cat main.tf | cdktf convert > imported.ts`
 - Convert HCL in your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
 
+To improve the acuracy of the convert command you can add the provider flag with one or multiple items to specify the providers your code is using: `--provider 'hashicorp/aws@ ~>3.62.0'`.
 There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
+
+### cdktf completion
+
+Outputs a script that can be used to setup auto completion for bash or zsh.
+
+```
+> cdktf completion
+
+#compdef cdktf
+###-begin-cdktf-completions-###
+#
+# yargs command completion script
+#
+# Installation: cdktf completion >> ~/.zshrc
+#    or cdktf completion >> ~/.zsh_profile on OSX.
+#
+_cdktf_yargs_completions()
+{
+  local reply
+  local si=$IFS
+  IFS=$'
+' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" cdktf --get-yargs-completions "${words[@]}"))
+  IFS=$si
+  _describe 'values' reply
+}
+compdef _cdktf_yargs_completions cdktf
+###-end-cdktf-completions-###
+
+```
+
+The output also contains the installation instructions. So for example for Max OSX they are:
+
+```
+cdktf completion >> ~/.zsh_profile on OSX.
+# or if using zsh instead of bash
+cdktf completion >> ~/.zshrc
+```
+
+After configuring auto completion and reloading your shell (e.g. running `source ~/.zshrc`, `source ~/.zsh_profile` or opening a new terminal window) you should be able to auto complete `cdktf` commands by pressing the `<TAB>` key (you might need to enter a space after `cdktf`):
+
+```
+> cdktf <TAB>
+completion  -- generate completion script
+convert     -- Converts a single file of HCL configuration to CDK for Terraform. Takes the file to be converted on stdin.
+deploy      -- Deploy the given stack
+destroy     -- Destroy the given stack
+diff        -- Perform a diff (terraform plan) for the given stack
+get         -- Generate CDK Constructs for Terraform providers and modules.
+init        -- Create a new cdktf project from a template.
+list        -- List stacks in app.
+login       -- Retrieves an API token to connect to Terraform Cloud.
+synth       -- Synthesizes Terraform code for the given app in a directory.
+watch       -- [experimental] Watch for file changes and automatically trigger a deploy
+```

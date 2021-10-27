@@ -33,16 +33,7 @@ $ yarn build
 
 ## Examples
 
-We have a few top level script commands which are executed with Lerna to make the handling of examples easier:
-
-```
-yarn examples:reinstall // -> reinstall dependencies in Python examples
-yarn examples:build // -> fetch providers for examples and build them
-yarn examples:synth // -> synth all examples
-yarn examples:integration // -> run all of the above
-```
-
-For this work, each example needs a `package.json` with at least a minmal config like this:
+We run the examples as part of our integration tests for each Pull Request. To support this, each example needs a `package.json` with at least a minmal config like this:
 
 ```json
 {
@@ -57,7 +48,7 @@ For this work, each example needs a `package.json` with at least a minmal config
 }
 ```
 
-Lerna is filtering for the `@examples/` prefix in the `name` field.
+If the example shouldn't be run as part of the build pipeline, a `"private": true` entry can be added to `package.json`. Please make sure to add the ignore reason as JSON comment to `package.json` (e.g. `"//": "This example takes ages to build").
 
 ## Development
 
@@ -212,6 +203,10 @@ CDKTF we will either remove the
 legacy behavior or flip the logic for all these features and then
 reset the `FEATURE_FLAGS` map for the next cycle.
 
+## Debugging
+
+When developing new features it can be helpful to enable logging. By setting `CDKTF_LOG_LEVEL` to verbose you can see more information in general. When working with the provider generation you can set `DEBUG=true` to see which types of attributes are not supported yet.
+
 ## Releasing
 
 (this section is work in progress, but contains useful information)
@@ -230,15 +225,49 @@ reset the `FEATURE_FLAGS` map for the next cycle.
 ### Helper for creating the changelog
 
 ```javascript
-// fill this with a list of prs
-const prs = [767, ... ]
-const json = JSON.parse(require("child_process").execSync('gh pr list --state merged --json number,title --limit 200').toString()) // just a high enough limit
-const map = json.reduce((map, pr) => ({ ...map, [pr.number]: pr.title }), {});
-const lines = prs.map(num => {
-    if (map[num]) return `- ${map[num]} [\\#${num}](https://github.com/hashicorp/terraform-cdk/pull/${num})`
-    else throw new Error(`no json data for PR #${num}`)
+const exec = (cmd) => require("child_process").execSync(cmd).toString();
+const lastReleasedVersion = require("../package.json").version;
+const prs = exec(
+  `git log v${lastReleasedVersion}..HEAD | grep "Merge pull request #"`
+)
+  .split(" ")
+  .filter((word) => word.match(/#\d*/))
+  .map((word) => parseInt(word.replace("#", ""), 10));
+
+const json = JSON.parse(
+  exec("gh pr list --state merged --json number,title --limit 200")
+); // just a high enough limit
+
+function getType(prTitle) {
+  if (prTitle.indexOf("(") !== -1) {
+    return prTitle.slice(0, prTitle.indexOf("("));
+  } else {
+    return "Other";
+  }
+}
+const titleMap = json.reduce(
+  (map, pr) => ({ ...map, [pr.number]: pr.title }),
+  {}
+);
+const typeMap = json.reduce((map, pr) => {
+  const type = getType(pr.title);
+
+  return { ...map, [type]: [...(map[type] || []), pr.number] };
+}, {});
+
+const lines = Object.entries(typeMap).map(([type, prsPerType]) => {
+  const content = prsPerType
+    .filter((pr) => prs.includes(pr))
+    .map((num) => {
+      if (titleMap[num])
+        return `- ${titleMap[num]} [\\#${num}](https://github.com/hashicorp/terraform-cdk/pull/${num})`;
+      else throw new Error(`no json data for PR #${num}`);
+    })
+    .join("\n");
+
+  return `### ${type}\n${content}\n\n`;
 });
-console.log(lines.join('\n'));
+console.log(lines.join("\n"));
 ```
 
 To get a list of commits since the last release you can e.g. visit a link like this: `https://github.com/hashicorp/terraform-cdk/compare/v0.4.1...main`. You'll find the PR numbers there as links. This should probably be automated at some point – at best using existing tooling for this :)

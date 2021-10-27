@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using aws;
+using aws.DataSources;
+using aws.DynamoDb;
+using aws.Sns;
 using Constructs;
 using HashiCorp.Cdktf;
 

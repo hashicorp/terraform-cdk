@@ -33,19 +33,15 @@ class MyStack extends TerraformStack {
     const cloudrunsvcapp = new CloudRunService(this, "GcpCDKCloudrunsvc", {
       location: local,
       name: "gcpcdktfcloudrunsvc2020",
-      template: [
-        {
-          spec: [
+      template: {
+        spec: {
+          containers: [
             {
-              containers: [
-                {
-                  image: imagename,
-                },
-              ],
+              image: imagename,
             },
           ],
         },
-      ],
+      },
     });
 
     const policy_data = new DataGoogleIamPolicy(this, "datanoauth", {

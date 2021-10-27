@@ -1,4 +1,5 @@
 import { parse } from "@cdktf/hcl2json";
+import { isRegistryModule, ProviderSchema } from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
@@ -9,7 +10,7 @@ import * as rosetta from "jsii-rosetta";
 import * as z from "zod";
 
 import { schema } from "./schema";
-import { findUsedReferences, isRegistryModule } from "./expressions";
+import { findUsedReferences } from "./expressions";
 import {
   backendToExpression,
   cdktfImport,
@@ -30,15 +31,16 @@ import {
   forEachNamespaced,
   resourceStats,
 } from "./iteration";
+import { getProviderRequirements } from "./provider";
 
-export async function convertToTypescript(hcl: string) {
+export async function getParsedHcl(hcl: string) {
   // Get the JSON representation of the HCL
   let json: Record<string, unknown>;
   try {
     json = await parse("terraform.tf", hcl);
   } catch (err) {
     throw new Error(
-      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+feature%2Fconvert&template=bug-report.md&title=`
+      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://cdk.tf/bugs/new/convert`
     );
   }
 
@@ -47,14 +49,32 @@ export async function convertToTypescript(hcl: string) {
   try {
     plan = schema.parse(json);
   } catch (err) {
-    throw new Error(`Error: HCL-JSON does not conform to schema. This is not expected, please file a bug under https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+feature%2Fconvert&template=bug-report.md&title=
+    throw new Error(`Error: HCL-JSON does not conform to schema. This is not expected, please file a bug under https://cdk.tf/bugs/new/convert
 Please include this information:
 ${JSON.stringify((err as z.ZodError).errors)}`);
   }
 
+  return plan;
+}
+
+export async function parseProviderRequirements(hcl: string) {
+  const plan = await getParsedHcl(hcl);
+  return getProviderRequirements(plan);
+}
+
+export async function convertToTypescript(
+  hcl: string,
+  providerSchema: ProviderSchema
+) {
+  const plan = await getParsedHcl(hcl);
+
   // Each key in the scope needs to be unique, therefore we save them in a set
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
-  const scope: Scope = { constructs: new Set<string>(), variables: {} };
+  const scope: Scope = {
+    providerSchema,
+    constructs: new Set<string>(),
+    variables: {},
+  };
 
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
@@ -189,56 +209,30 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
     [] as t.Statement[]
   );
 
-  // In Terraform one can implicitly define the provider by using resources of that type
-  const explicitProviders = Object.keys(plan.provider || {});
-  const implicitProviders = Object.keys({ ...plan.resource, ...plan.data }).map(
-    (type) => type.split("_")[0]
-  );
-
-  const providerRequirements = Array.from(
-    new Set([...explicitProviders, ...implicitProviders])
-  ).reduce(
-    (carry, req) => ({ ...carry, [req]: "*" }),
-    {} as Record<string, string>
-  );
-  plan.terraform?.forEach(({ required_providers }) =>
-    (required_providers || []).forEach((providerBlock) =>
-      Object.values(providerBlock).forEach(({ source, version }) => {
-        if (!source) {
-          return;
-        }
-        // implicitly only the last part of the path is used (e.g. docker for kreuzwerker/docker)
-        const parts = source.split("/");
-        if (parts.length > 1) {
-          delete providerRequirements[parts.pop() || ""];
-        }
-        providerRequirements[source] = version || "*";
-      })
-    )
-  );
-
   // We collect all module sources
-  const moduleRequirements = (
-    Object.values(plan.module || {}).reduce(
-      (carry, moduleBlock) => [
-        ...carry,
-        ...moduleBlock.reduce(
-          (arr, { source }) => [...arr, source],
-          [] as string[]
-        ),
-      ],
-      [] as string[]
-    ) || []
-  ).filter((source) => isRegistryModule(source));
+  const moduleRequirements = [
+    ...new Set(
+      Object.values(plan.module || {}).reduce(
+        (carry, moduleBlock) => [
+          ...carry,
+          ...moduleBlock.reduce(
+            (arr, { source, version }) => [
+              ...arr,
+              version ? `${source}@${version}` : source,
+            ],
+            [] as string[]
+          ),
+        ],
+        [] as string[]
+      ) || []
+    ),
+  ];
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
   const cdktfImports =
     plan.terraform?.some((tf) => Object.keys(tf.backend || {}).length > 0) ||
-    Object.keys({ ...plan.variable, ...plan.output }).length > 0 ||
-    Object.values(plan.module || {}).filter(
-      ([{ source }]) => !isRegistryModule(source)
-    ).length > 0
+    Object.keys({ ...plan.variable, ...plan.output }).length > 0
       ? [cdktfImport]
       : ([] as t.Statement[]);
 
@@ -247,7 +241,37 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
       expressions[0],
       "leading",
       `Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
-You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/terraform-variables.md`
+You can read more about this at https://cdk.tf/variables`
+    );
+  }
+
+  const providerRequirements = getProviderRequirements(plan);
+
+  const providers = providerImports(Object.keys(providerRequirements));
+  if (providers.length > 0) {
+    providers[0] = t.addComment(
+      providers[0],
+      "leading",
+      `Provider bindings are generated by running cdktf get.
+See https://cdk.tf/provider-generation for more details.`
+    );
+  }
+
+  // We add a comment if there are providers with missing schema information
+  const providersLackingSchema = Object.keys(providerRequirements).filter(
+    (providerName) =>
+      !Object.keys(providerSchema.provider_schemas || {}).some((schemaName) =>
+        schemaName.endsWith(providerName)
+      )
+  );
+  if (providersLackingSchema.length > 0) {
+    expressions[0] = t.addComment(
+      expressions[0],
+      "leading",
+      `The following providers are missing schema information and might need manual adjustments to synthesize correctly: ${providersLackingSchema.join(
+        ", "
+      )}.
+For a more precise conversion please use the --provider flag in convert.`
     );
   }
 
@@ -255,14 +279,14 @@ You can read more about this at https://github.com/hashicorp/terraform-cdk/blob/
   return {
     all: gen([
       ...cdktfImports,
-      ...providerImports(Object.keys(providerRequirements)),
+      ...providers,
       ...moduleImports(plan.module),
       ...((backendExpressions || []) as any),
       ...expressions,
     ]),
     imports: gen([
       ...cdktfImports,
-      ...providerImports(Object.keys(providerRequirements)),
+      ...providers,
       ...moduleImports(plan.module),
     ]),
     code: gen([...((backendExpressions || []) as any), ...expressions]),
@@ -294,16 +318,20 @@ const translations = {
 
 type ConvertOptions = {
   language: keyof typeof translations;
+  providerSchema: ProviderSchema;
 };
 
-export async function convert(hcl: string, { language }: ConvertOptions) {
+export async function convert(
+  hcl: string,
+  { language, providerSchema }: ConvertOptions
+) {
   const fileName = "terraform.tf";
   const translater = translations[language];
 
   if (!translater) {
     throw new Error("Unsupported language used: " + language);
   }
-  const tsCode = await convertToTypescript(hcl);
+  const tsCode = await convertToTypescript(hcl, providerSchema);
   return {
     ...tsCode,
     all: translater({ fileName, contents: tsCode.all }),
@@ -330,7 +358,7 @@ export async function convertProject(
   combinedHcl: string,
   inputMainFile: string,
   inputCdktfJson: CdktfJson,
-  { language }: ConvertOptions
+  { language, providerSchema }: ConvertOptions
 ) {
   if (language !== "typescript") {
     throw new Error("Unsupported language used: " + language);
@@ -344,6 +372,7 @@ export async function convertProject(
     stats,
   } = await convert(combinedHcl, {
     language,
+    providerSchema,
   });
   const importMainFile = [imports, inputMainFile].join("\n");
   const outputMainFile = importMainFile.replace(
@@ -361,3 +390,5 @@ export async function convertProject(
     stats,
   };
 }
+
+export { isRegistryModule };

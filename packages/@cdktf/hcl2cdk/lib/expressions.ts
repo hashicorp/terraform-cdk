@@ -2,7 +2,7 @@ import * as t from "@babel/types";
 import reservedWords from "reserved-words";
 import { camelCase, pascalCase } from "./utils";
 import { TerraformResourceBlock, Scope } from "./types";
-import isValidDomain from "is-valid-domain";
+import { getResourceNamespace } from "@cdktf/provider-generator";
 
 export type Reference = {
   start: number;
@@ -121,7 +121,7 @@ export function extractReferencesFromExpression(
         `Found a reference that is unknown: ${input} has reference "${spot}". The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
-        Please leave a comment at https://github.com/hashicorp/terraform-cdk/issues/842 if you run into this issue.`
+        Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`
       );
       return carry;
     }
@@ -224,31 +224,53 @@ export function variableName(
 
 export function constructAst(type: string, isModuleImport: boolean) {
   if (isModuleImport) {
-    return t.memberExpression(
-      t.identifier(pascalCase(type)),
-      t.identifier(pascalCase(type))
-    );
+    return t.memberExpression(t.identifier(type), t.identifier(type));
   }
 
   // resources or data sources
   if (!type.includes("./") && type.includes(".")) {
     const parts = type.split(".");
     if (parts[0] === "data") {
+      const [_, provider, resource] = parts;
+      const namespace = getResourceNamespace(provider, resource);
+      if (namespace) {
+        return t.memberExpression(
+          t.memberExpression(
+            t.identifier(provider), // e.g. aws
+            t.identifier(namespace.name) // e.g. EC2
+          ),
+          t.identifier(pascalCase(`data_${provider}_${resource}`)) // e.g. DataAwsInstance
+        );
+      }
+
       return t.memberExpression(
-        t.identifier(parts[1]), // e.g. aws
-        t.identifier(pascalCase(`data_${parts[1]}_${parts[2]}`)) // e.g. DataAwsNatGateway
+        t.identifier(provider), // e.g. aws
+        t.identifier(pascalCase(`data_${provider}_${resource}`)) // e.g. DataAwsNatGateway
+      );
+    }
+
+    const [provider, resource] = parts;
+    const namespace = getResourceNamespace(provider, resource);
+    if (namespace) {
+      return t.memberExpression(
+        t.memberExpression(
+          t.identifier(provider), // e.g. aws
+          t.identifier(namespace.name) // e.g. EC2
+        ),
+        t.identifier(pascalCase(resource)) // e.g. Instance
       );
     }
     return t.memberExpression(
-      t.identifier(parts[0]), // e.g. aws
-      t.identifier(pascalCase(parts[1])) // e.g. NatGateway
+      t.identifier(provider), // e.g. google
+      t.identifier(pascalCase(resource)) // e.g. BigQueryTable
     );
   }
+
   return t.identifier(pascalCase(type));
 }
 
 export function referenceToAst(scope: Scope, ref: Reference) {
-  const [resource, _name, ...selector] = ref.referencee.full.split(".");
+  const [resource, , ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
     camelCase(referenceToVariableName(scope, ref))
@@ -419,24 +441,4 @@ export function findUsedReferences(
     (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
     []
   );
-}
-
-// Logic from https://github.com/hashicorp/terraform/blob/e09b831f6ee35d37b11b8dcccd3a6d6f6db5e5ff/internal/addrs/module_source.go#L198
-export function isRegistryModule(source: string) {
-  const parts = source.split("/");
-  if (
-    source.startsWith(".") ||
-    parts.length < 3 ||
-    parts.length > 4 ||
-    source.includes("github.com") ||
-    source.includes("bitbucket.org")
-  ) {
-    return false;
-  }
-
-  if (parts.length === 4 && !isValidDomain(parts[0])) {
-    return false;
-  }
-
-  return true;
 }

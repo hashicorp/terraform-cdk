@@ -12,9 +12,21 @@ import { FUTURE_FLAGS } from "cdktf/lib/features";
 import { downloadFile, HttpError } from "../../../lib/util";
 import { logFileName, logger } from "../../../lib/logging";
 import { Errors } from "../../../lib/errors";
-import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2cdk";
+import {
+  convertProject,
+  getTerraformConfigFromDir,
+  parseProviderRequirements,
+} from "@cdktf/hcl2cdk";
+import { isLocalModule } from "@cdktf/provider-generator";
 import { execSync } from "child_process";
 import { sendTelemetry } from "../../../lib/checkpoint";
+import { v4 as uuid } from "uuid";
+import {
+  readSchema,
+  ConstructsMakerProviderTarget,
+  LANGUAGES,
+  config,
+} from "@cdktf/provider-generator";
 
 const chalkColour = new chalk.Instance();
 
@@ -78,17 +90,19 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const templateInfo = await getTemplate(template);
   telemetryData.template = templateInfo.Name;
 
-  const projectInfo: any = await gatherInfo(
+  const projectInfo: Project = await gatherInfo(
     token,
     templateInfo.Name,
     argv.projectName,
     argv.projectDescription
   );
+  const projectId = uuid();
+  telemetryData.projectId = projectId;
 
   // Check if token is set so we can set up Terraform Cloud workspace
   // only set with the '--local' option is specified the user.
   if (token != "") {
-    telemetryData.isRemote = token;
+    telemetryData.isRemote = Boolean(token);
     console.log(
       chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
     );
@@ -116,6 +130,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     ...deps,
     ...projectInfo,
     futureFlags,
+    projectId,
   });
 
   if (argv.fromTerraformProject) {
@@ -125,8 +140,23 @@ This means that your Terraform state file will be stored locally on disk in a fi
         "utf8"
       );
 
-      const combinedTfFile = getTerraformConfigFromDir(
-        path.resolve(process.cwd(), argv.fromTerraformProject)
+      const importPath = path.resolve(process.cwd(), argv.fromTerraformProject);
+
+      const combinedTfFile = getTerraformConfigFromDir(importPath);
+
+      // Fetch all provider requirements from the project
+      const providerRequirements = await parseProviderRequirements(
+        combinedTfFile
+      );
+
+      // Get all the provider schemas
+      const { providerSchema } = await readSchema(
+        Object.entries(providerRequirements).map(([name, version]) =>
+          ConstructsMakerProviderTarget.from(
+            new config.TerraformProviderConstraint(`${name}@ ${version}`),
+            LANGUAGES[0]
+          )
+        )
       );
       try {
         const { code, cdktfJson, stats } = await convertProject(
@@ -135,6 +165,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
           require(path.resolve(destination, "cdktf.json")),
           {
             language: "typescript",
+            providerSchema,
           }
         );
 
@@ -146,6 +177,11 @@ This means that your Terraform state file will be stored locally on disk in a fi
         );
 
         const { terraformModules, terraformProviders } = cdktfJson;
+
+        if (terraformModules.length > 0) {
+          copyLocalModules(terraformModules, importPath, destination);
+        }
+
         if (terraformModules.length + terraformProviders.length > 0) {
           execSync("npm run get", { cwd: destination });
         }
@@ -168,6 +204,20 @@ This means that your Terraform state file will be stored locally on disk in a fi
   await sendTelemetry("init", telemetryData);
 }
 
+function copyLocalModules(
+  modules: any[],
+  sourcePath: string,
+  destination: string
+) {
+  modules
+    .filter((m) => isLocalModule(m))
+    .map((m) =>
+      fs.copySync(path.resolve(sourcePath, m), path.resolve(destination, m), {
+        recursive: true,
+      })
+    );
+}
+
 async function determineDeps(
   version: string = pkg.version,
   dist?: string
@@ -178,11 +228,7 @@ async function determineDeps(
     const ret = {
       npm_cdktf: path.resolve(dist, "js", `cdktf@${version}.jsii.tgz`),
       npm_cdktf_cli: path.resolve(dist, "js", `cdktf-cli-${version}.tgz`),
-      pypi_cdktf: path.resolve(
-        dist,
-        "python",
-        `cdktf-${pythonVersion}-py3-none-any.whl`
-      ),
+      pypi_cdktf: path.resolve(dist, "python", `cdktf-${pythonVersion}.tar.gz`),
       mvn_cdktf: path.resolve(
         dist,
         "java",

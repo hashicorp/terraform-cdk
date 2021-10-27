@@ -1,12 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import {
-  CloudfrontDistribution,
-  AcmCertificate,
-  Route53Record,
-  AcmCertificateValidation,
-  AwsProvider,
-} from "./.gen/providers/aws";
+import { CloudFront, AwsProvider, Route53, ACM } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -25,7 +19,7 @@ class MyStack extends TerraformStack {
       alias: "route53",
     });
 
-    const cert = new AcmCertificate(this, "cert", {
+    const cert = new ACM.AcmCertificate(this, "cert", {
       domainName,
       validationMethod: "DNS",
       provider,
@@ -36,7 +30,7 @@ class MyStack extends TerraformStack {
     //   privateZone: false
     // })
 
-    const record = new Route53Record(this, "CertValidationRecord", {
+    const record = new Route53.Route53Record(this, "CertValidationRecord", {
       name: cert.domainValidationOptions("0").resourceRecordName,
       type: cert.domainValidationOptions("0").resourceRecordType,
       records: [cert.domainValidationOptions("0").resourceRecordValue],
@@ -46,52 +40,46 @@ class MyStack extends TerraformStack {
       allowOverwrite: true,
     });
 
-    new AcmCertificateValidation(this, "certvalidation", {
+    new ACM.AcmCertificateValidation(this, "certvalidation", {
       certificateArn: cert.arn,
       validationRecordFqdns: [record.fqdn],
       provider,
     });
 
-    const distribution = new CloudfrontDistribution(this, "cloudfront", {
-      enabled: true,
-      isIpv6Enabled: true,
+    const distribution = new CloudFront.CloudfrontDistribution(
+      this,
+      "cloudfront",
+      {
+        enabled: true,
+        isIpv6Enabled: true,
 
-      viewerCertificate: [
-        {
+        viewerCertificate: {
           acmCertificateArn: cert.arn,
           sslSupportMethod: "sni-only",
         },
-      ],
 
-      restrictions: [
-        {
-          geoRestriction: [
-            {
-              restrictionType: "none",
-            },
-          ],
+        restrictions: {
+          geoRestriction: {
+            restrictionType: "none",
+          },
         },
-      ],
 
-      origin: [
-        {
-          originId,
-          domainName: proxyTarget,
-          customOriginConfig: [
-            {
+        origin: [
+          {
+            originId,
+            domainName: proxyTarget,
+            customOriginConfig: {
               httpPort: 80,
               httpsPort: 443,
               originProtocolPolicy: "http-only",
               originSslProtocols: ["TLSv1.2", "TLSv1.1"],
             },
-          ],
-        },
-      ],
+          },
+        ],
 
-      aliases: [domainName],
+        aliases: [domainName],
 
-      defaultCacheBehavior: [
-        {
+        defaultCacheBehavior: {
           minTtl: 0,
           defaultTtl: 60,
           maxTtl: 86400,
@@ -107,31 +95,27 @@ class MyStack extends TerraformStack {
           cachedMethods: ["GET", "HEAD"],
           targetOriginId: originId,
           viewerProtocolPolicy: "redirect-to-https",
-          forwardedValues: [
-            {
-              cookies: [
-                {
-                  forward: "all",
-                },
-              ],
-              headers: [
-                "Host",
-                "Accept-Datetime",
-                "Accept-Encoding",
-                "Accept-Language",
-                "User-Agent",
-                "Referer",
-                "Origin",
-                "X-Forwarded-Host",
-              ],
-              queryString: true,
+          forwardedValues: {
+            cookies: {
+              forward: "all",
             },
-          ],
+            headers: [
+              "Host",
+              "Accept-Datetime",
+              "Accept-Encoding",
+              "Accept-Language",
+              "User-Agent",
+              "Referer",
+              "Origin",
+              "X-Forwarded-Host",
+            ],
+            queryString: true,
+          },
         },
-      ],
-    });
+      }
+    );
 
-    new Route53Record(this, "distribution_domain", {
+    new Route53.Route53Record(this, "distribution_domain", {
       name: domainName,
       type: "A",
       // zoneId: zone.zoneId,
