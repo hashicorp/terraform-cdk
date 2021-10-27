@@ -175,6 +175,6 @@ test("tokens as ids", () => {
       name: "foo",
     });
   }).toThrowErrorMatchingInlineSnapshot(
-    `"You can not use a Token (e.g. a reference to an attribute) as name of a construct"`
+    `"You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"`
   );
 });
