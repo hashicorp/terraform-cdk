@@ -10,7 +10,7 @@ import * as fs from "fs-extra";
     target: "node12",
     minify: true,
     platform: "node",
-    external: ["jsii", "jsii-pacmak"],
+    external: ["jsii", "jsii-pacmak", "@cdktf/hcl2json"],
     tsconfig: "tsconfig.json",
   });
 
