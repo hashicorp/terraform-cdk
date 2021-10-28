@@ -14,6 +14,13 @@ export interface TerraformOutputConfig {
   readonly description?: string;
   readonly sensitive?: boolean;
   readonly dependsOn?: ITerraformDependable[];
+  /**
+   * If set to true the synthesized Terraform Output will be named after the `id`
+   * passed to the constructor instead of the default (TerraformOutput.friendlyUniqueId)
+   *
+   * @default false
+   */
+  readonly staticId?: boolean;
 }
 
 export class TerraformOutput extends TerraformElement {
@@ -35,6 +42,16 @@ export class TerraformOutput extends TerraformElement {
     this.description = config.description;
     this.sensitive = config.sensitive;
     this.dependsOn = config.dependsOn;
+    this.staticId = config.staticId || false;
+  }
+
+  public set staticId(staticId: boolean) {
+    if (staticId) this.overrideLogicalId(this.node.id);
+    else this.resetOverrideLogicalId();
+  }
+
+  public get staticId(): boolean {
+    return this.friendlyUniqueId === this.node.id;
   }
 
   protected synthesizeAttributes(): { [key: string]: any } {

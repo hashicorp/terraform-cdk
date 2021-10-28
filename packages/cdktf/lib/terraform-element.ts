@@ -47,6 +47,13 @@ export class TerraformElement extends Construct {
     this._logicalIdOverride = newLogicalId;
   }
 
+  /**
+   * Resets a previously passed logical Id to use the auto-generated logical id again
+   */
+  public resetOverrideLogicalId() {
+    this._logicalIdOverride = undefined;
+  }
+
   public addOverride(path: string, value: any) {
     const parts = path.split(".");
     let curr: any = this.rawOverrides;
