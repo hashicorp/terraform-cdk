@@ -5,6 +5,5 @@ updates:
     directory: /
     schedule:
       interval: daily
-    commit_message:
-      prefix: "chore"
-      include_scope: true
+    commit-message:
+      prefix: "chore(deps):"
