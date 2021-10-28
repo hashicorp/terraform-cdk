@@ -71,8 +71,6 @@
     ]
   },
   "devDependencies": {
-    "constructs": "^10.0.0",
-    "@skorfmann/jsii-srcmak": "^0.1.272",
     "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-generator": "0.0.0",
     "@cdktf/hcl2cdk": "0.0.0",
