@@ -136,3 +136,19 @@ test("static output id (without feature flags enabled)", () => {
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test("full resource output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource = new TestResource(stack, "foo", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "test-output", {
+    value: resource,
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});

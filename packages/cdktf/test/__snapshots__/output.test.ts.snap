@@ -53,6 +53,35 @@ exports[`description output 1`] = `
 }"
 `;
 
+exports[`full resource output 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${test_resource.foo}\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"foo\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
 exports[`list output 1`] = `
 "{
   \\"output\\": {
