@@ -2,9 +2,10 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { Language } from "./get/constructs-maker";
 import { env } from "process";
-import { CONTEXT_ENV } from "cdktf";
 import { isRegistryModule } from "./get/module";
 import { toPascalCase } from "codemaker";
+
+const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
 
 const CONFIG_FILE = "cdktf.json";
 const DEFAULTS = {
