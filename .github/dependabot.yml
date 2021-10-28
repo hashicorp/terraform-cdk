@@ -4,11 +4,7 @@ updates:
     versioning-strategy: lockfile-only
     directory: /
     schedule:
-      interval: weekly
+      interval: daily
     commit_message:
       prefix: "chore"
       include_scope: true
-    ignore:
-      - dependency-name: jsii
-      - dependency-name: "@jsii/*"
-      - dependency-name: codemaker
