@@ -49,8 +49,8 @@ export class ValidateS3IsPrefixed implements IAspect {
   visit(node: IConstruct) {
     if (node instanceof S3.S3Bucket) {
       if (node.bucket && !node.bucket.startsWith(this.prefix)) {
-        // addInfo / addWarning / addError are possible
-        // these messages will be printed when running synth / plan /deploy
+        // You can include `addInfo`, `addWarning`, and `addError`.
+        // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
         Annotations.of(node).addError(
           `Each S3 Bucket name needs to start with ${this.prefix}`
         );
