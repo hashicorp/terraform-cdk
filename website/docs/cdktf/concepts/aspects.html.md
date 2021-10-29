@@ -9,9 +9,13 @@ description: "Aspects apply an operation to all constructs in a given scope. You
 
 Aspects are a way to apply an operation to all constructs in a given scope, they can be used for mutation (e.g. adding tags to cloud resources) as well as for validation (e.g. ensuring all S3 Buckets are encrypted).
 
-## Using aspects to mutate resources
+## Define Aspects
 
-In this example we write an Aspect that adds tags to resources.
+To create an aspect, you must import the `Aspects` class and the `IAspect` interface and implement one or more methods for `IAspect`. Then, you can call the aspect one or more times on any construct within your application. 
+
+Everything within a CDKTF application descends from the `Construct` class, so you could call the construct on the any instantiated element. This includes the entire application, a particular [stack](/docs/cdktf/concepts/stacks.html), or all of the resources for a specific [provider](/docs/cdktf/concepts/providers-and-resources.html). When you call the aspect, CDKTF applies its methods to all of the the constructs that fall within the specified scope.
+
+The TypeScript example below defines an aspect to add tags to resources. 
 
 ```ts
 import { Aspects, IAspect } from "cdktf";
