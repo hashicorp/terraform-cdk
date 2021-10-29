@@ -45,7 +45,7 @@ import { S3 } from "./.gen/providers/aws";
 export class ValidateS3IsPrefixed implements IAspect {
   constructor(private prefix: string) {}
 
-  // This method is called on every Construct (resources / data sources / Terraform Elements)
+  // This method is called on every Construct within the defined scope (resource, data sources, etc.).
   visit(node: IConstruct) {
     if (node instanceof S3.S3Bucket) {
       if (node.bucket && !node.bucket.startsWith(this.prefix)) {
