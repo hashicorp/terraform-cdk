@@ -34,9 +34,7 @@ export class TagsAddingAspect implements IAspect {
 Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 ```
 
-## Using Aspects to validate resources
-
-In this example we write an Aspect that validates if all S3 Buckets start with an allowed prefix
+You can also use aspects for validation. The TypeScript example below defines an aspect that checks whether all S3 Buckets start with the correct prefix.
 
 ```ts
 import { Aspects, IAspect, Annotations } from "cdktf";
