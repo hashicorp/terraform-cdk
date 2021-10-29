@@ -28,9 +28,7 @@ export class TagsAddingAspect implements IAspect {
   }
 }
 
-// We can call the aspect on any scope.
-// A scope could be a TerraformStack, TerraformElement or an entire Application
-// depending on whet you want to use your aspect for
+// Add tags to every resource defined within `myStack`.
 Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 ```
 
