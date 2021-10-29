@@ -4,6 +4,7 @@ import {
   TerraformOutput,
   TerraformElement,
   App,
+  Fn,
 } from "../lib";
 import fs = require("fs");
 import path = require("path");
@@ -148,6 +149,22 @@ test("full resource output", () => {
 
   new TerraformOutput(stack, "test-output", {
     value: resource,
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("expression output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource = new TestResource(stack, "foo", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.upper(resource.name),
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();

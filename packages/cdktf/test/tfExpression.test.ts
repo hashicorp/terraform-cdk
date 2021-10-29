@@ -170,3 +170,15 @@ test("functions escape string markers", () => {
     resolveExpression(call("length", [rawString(`"`)]))
   ).toMatchInlineSnapshot(`"\${length(\\"\\\\\\"\\")}"`);
 });
+
+test("string index expression argument renders correctly", () => {
+  expect(
+    resolve(null as any, orOperation(true, { a: "foo", b: "bar " }))
+  ).toMatchInlineSnapshot(`"\${(true || {a = \\"foo\\", b = \\"bar \\"})}"`);
+});
+
+test("null expression argument renders correctly", () => {
+  expect(resolve(null as any, orOperation(true, null))).toMatchInlineSnapshot(
+    `"\${(true || undefined)}"`
+  );
+});
