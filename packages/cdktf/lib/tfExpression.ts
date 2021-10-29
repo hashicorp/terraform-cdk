@@ -29,6 +29,16 @@ class TFExpression extends Intrinsic implements IResolvable {
     return resolvedArg;
   }
 
+  /**
+   * Escape string removes characters from the string that are not allowed in Terraform or JSON
+   * It must only be used on non-token values
+   */
+  private escapeString(str: string) {
+    return str
+      .replace(/\n/g, "\\n") // escape newlines
+      .replace(/\${/g, "$$${"); // escape ${ to $${
+  }
+
   private resolveString(str: string, resolvedArg: any) {
     const tokenList = Tokenization.reverseString(str);
     const numberOfTokens = tokenList.tokens.length + tokenList.intrinsic.length;
@@ -36,8 +46,8 @@ class TFExpression extends Intrinsic implements IResolvable {
     // String literal
     if (numberOfTokens === 0) {
       return resolvedArg.startsWith('"') && resolvedArg.endsWith('"')
-        ? resolvedArg
-        : `"${resolvedArg}"`;
+        ? this.escapeString(resolvedArg)
+        : `"${this.escapeString(resolvedArg)}"`;
     }
 
     // Only a token reference
@@ -52,10 +62,14 @@ class TFExpression extends Intrinsic implements IResolvable {
         const rightTokens = Tokenization.reverse(right);
 
         const leftValue =
-          leftTokens.length === 0 ? left : `\${${leftTokens[0]}}`;
+          leftTokens.length === 0
+            ? this.escapeString(left)
+            : `\${${leftTokens[0]}}`;
 
         const rightValue =
-          rightTokens.length === 0 ? right : `\${${rightTokens[0]}}`;
+          rightTokens.length === 0
+            ? this.escapeString(right)
+            : `\${${rightTokens[0]}}`;
 
         return `${leftValue}${rightValue}`;
       },
