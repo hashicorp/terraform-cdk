@@ -59,8 +59,6 @@ export class ValidateS3IsPrefixed implements IAspect {
   }
 }
 
-// We can call the aspect on any scope.
-// A scope could be a TerraformStack, TerraformElement or an entire Application
-// depending on whet you want to use your aspect for
+// Check the prefix for every resource within `myStack`. 
 Aspects.of(myStack).add(new ValidateS3IsPrefixed("myPrefix"));
 ```
