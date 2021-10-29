@@ -338,3 +338,73 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the v
   }
 }
 ```
+
+#### Escape Hatch for Dynamic Blocks
+
+Terraform configurations sometimes use [`dynamic` blocks](/docs/language/expressions/dynamic-blocks.html) to create related resources based on dynamic data, or data that is only known after Terraform provisions the infrastructure. For example, you could create a series of nested blocks for a series of Virtual Private Cloud (VPC) ingress ports. A `dynamic` block loops over a complex value and generates a nested resource block for each element of that complex value.
+
+In CDKTF applications, you must use an escape hatch when you want to loop through a dynamic value like a `TerraformVariable` or a resource output.
+
+To use an escape hatch to loop over dynamic data, you must:
+
+- Set the first argument of `addOverride` to be `dynamic.<attribute_name>`.
+- Create a `for_each` value for the second argument and set it to the list you want to iterate over.
+- Take the attribute as base for the reference when you reference values from the list. For example, use `"${<attribute_name>.value.nested_value}"`.
+
+The TypeScript example below adds ingress values by looping through the ports passed as `TerraformVariable`.
+
+```ts
+const ports = new TerraformVariable(this, "ports", {
+  type: "list",
+  default: [22, 80, 443, 5432],
+});
+
+const sg = new SecurityGroup(this, "sec1grp", {
+  name: "security1",
+  vpcId: "vpcs",
+  egress: [
+    {
+      fromPort: 0,
+      toPort: 0,
+      cidrBlocks: ["0.0.0.0/0"],
+      protocol: "-1",
+    },
+  ],
+});
+sg.addOverride("dynamic.ingress", {
+  for_each: ports.listValue,
+  content: {
+    fromPort: "${ingress.value}",
+    toPort: "${ingress.value}",
+    cidrBlocks: ["0.0.0.0/0"],
+    protocol: "-1",
+  },
+});
+```
+
+You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
+
+The TypeScript example below loops through the ports without using an escape hatch.
+
+```ts
+const ports = [22, 80, 443, 5432];
+
+new SecurityGroup(this, "sec1grp", {
+  name: "security1",
+  vpcId: "vpcs",
+  egress: [
+    {
+      fromPort: 0,
+      toPort: 0,
+      cidrBlocks: ["0.0.0.0/0"],
+      protocol: "-1",
+    },
+  ],
+  ingress: ports.map((port) => ({
+    fromPort: port,
+    toPort: port,
+    cidrBlocks: ["0.0.0.0/0"],
+    protocol: "-1",
+  })),
+});
+```
