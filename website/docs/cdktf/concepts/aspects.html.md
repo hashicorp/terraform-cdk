@@ -2,7 +2,7 @@
 layout: "cdktf"
 page_title: "Aspects"
 sidebar_current: "cdktf"
-description: "Aspects are a way to apply an operation to all constructs in a given scope, they can be used for mutation (e.g. adding tags to cloud resources) as well as for validation (e.g. ensuring all S3 Buckets are encrypted)."
+description: "Aspects apply an operation to all constructs in a given scope. You can use them for mutation (e.g., add resource tags) and validation (e.g., check encryption)."
 ---
 
 # Aspects
