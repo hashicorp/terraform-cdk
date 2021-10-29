@@ -19,7 +19,7 @@ import { Aspects, IAspect } from "cdktf";
 export class TagsAddingAspect implements IAspect {
   constructor(private tagsToAdd: Record<string, string>) {}
 
-  // This method is called on every Construct (resources / data sources / Terraform Elements)
+  // This method is called on every Construct within the specified scope (resources, data sources, etc.).
   visit(node: IConstruct) {
     if (node.hasOwnProperty("tags")) {
       const currentTags = node.tags || {};
