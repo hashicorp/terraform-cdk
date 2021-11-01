@@ -7,7 +7,7 @@ description: "Aspects apply an operation to all constructs in a given scope. You
 
 # Aspects
 
-Aspects allow you to apply an operation to all constructs within a given scope. You may want to use them in your CDK for Terraform (CDKTF) application to mutate elements (e.g. add tags to cloud resources) or for validation (e.g. ensure all S3 Buckets are encrypted).
+Aspects allow you to apply an operation to all constructs within a given scope. You may want to use them in your CDK for Terraform (CDKTF) application to mutate elements (e.g., add tags to cloud resources) or for validation (e.g., ensure all S3 Buckets are encrypted).
 
 ## Define Aspects
 
