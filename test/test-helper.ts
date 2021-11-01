@@ -211,3 +211,32 @@ export class TestDriver {
 
 export const onWindows = process.platform === "win32" ? it : it.skip;
 export const onPosix = process.platform !== "win32" ? it : it.skip;
+
+class Query {
+  private readonly stack: Record<string, any>;
+  constructor(stackInput: string) {
+    this.stack = JSON.parse(stackInput);
+  }
+
+  public byId(id: string): Record<string, any> {
+    const constructs = (
+      [
+        ...Object.values(this.stack.resource || {}),
+        ...Object.values(this.stack.data || {}),
+      ] as Record<string, any>[]
+    ).reduce(
+      (carry, item) => ({ ...carry, ...item }),
+      {} as Record<string, any>
+    );
+
+    return constructs[id];
+  }
+
+  public output(id: string): string {
+    return this.stack.output[id].value;
+  }
+}
+
+export function $(stack: string): Query {
+  return new Query(stack);
+}
