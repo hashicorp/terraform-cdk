@@ -264,11 +264,36 @@ export class HelloTerra extends TerraformStack {
 
 The [examples page](/docs/cdktf/examples.html) contains multiple example projects for every supported programming language.
 
+
 ### Scope
 
 You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
 
 Refer to the [constructs documentation](/docs/cdktf/concepts/constructs.html#scope) for more details and an example.
+
+### Using References
+
+When working with resources created from providers you can use properties on the instances from the generated bindings to reference in other resources. This allows us to track logical dependencies and access computed values.
+
+```ts
+
+const exampleNamespace = new Namespace(this, "tf-cdk-example", {
+  metadata: {
+    name: "tf-cdk-example",
+  },
+});
+
+new Deployment(this, "nginx-deployment", {
+  metadata: {
+    name: "nginx",
+    namespace: exampleNamespace.metadata.name, // This let's you reference the name
+    labels: {
+      app,
+    },
+  });
+```
+
+Please be aware that you can not pass an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source as this is not supported by Terraform. You need to specify all values you want to pass.
 
 ### Escape Hatch
 
