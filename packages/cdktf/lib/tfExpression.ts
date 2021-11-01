@@ -33,8 +33,8 @@ class TFExpression extends Intrinsic implements IResolvable {
    * Escape string removes characters from the string that are not allowed in Terraform or JSON
    * It must only be used on non-token values
    */
-  private escapeString(str: string) {
-    return str
+  protected escapeString(str: string) {
+    return str // Escape double quotes
       .replace(/\n/g, "\\n") // escape newlines
       .replace(/\${/g, "$$${"); // escape ${ to $${
   }
@@ -45,7 +45,9 @@ class TFExpression extends Intrinsic implements IResolvable {
 
     // String literal
     if (numberOfTokens === 0) {
-      return resolvedArg.startsWith('"') && resolvedArg.endsWith('"')
+      return resolvedArg !== `"` &&
+        resolvedArg.startsWith('"') &&
+        resolvedArg.endsWith('"')
         ? this.escapeString(resolvedArg)
         : `"${this.escapeString(resolvedArg)}"`;
     }
@@ -75,6 +77,25 @@ class TFExpression extends Intrinsic implements IResolvable {
       },
     })}"`;
   }
+}
+
+// A string that represents an input value to be escaped
+class RawString extends TFExpression {
+  constructor(private readonly str: string) {
+    super(str);
+  }
+
+  public resolve() {
+    return `"${this.escapeString(this.str).replace(/\"/g, '\\"')}"`; // eslint-disable-line no-useless-escape
+  }
+
+  public toString() {
+    return this.str;
+  }
+}
+
+export function rawString(str: string): IResolvable {
+  return new RawString(str);
 }
 
 class Reference extends TFExpression {

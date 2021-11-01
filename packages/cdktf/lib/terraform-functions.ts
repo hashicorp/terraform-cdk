@@ -3,6 +3,7 @@ import { call } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { TokenMap } from "./tokens/private/token-map";
 import { TokenString } from "./tokens/private/encoding";
+import { rawString } from ".";
 
 // We use branding here to ensure we internally only handle validated values
 // this allows us to catch usage errors before terraform does in some cases
@@ -10,6 +11,12 @@ type TFValue = any & { __type: "tfvalue" };
 type TFValueValidator = (value: any) => TFValue;
 
 type ExecutableTfFunction = (...args: any[]) => IResolvable;
+
+function hasUnescapedDoubleQuotes(str: string) {
+  const ret = /\\([\s\S])|(")/.test(str);
+  console.log("hasUnescapedDoubleQuotes", str, ret);
+  return ret;
+}
 
 // Validators
 function anyValue(value: any): any {
@@ -22,8 +29,15 @@ function mapValue(value: any): any {
 
 function stringValue(value: any): any {
   if (typeof value !== "string" && !Tokenization.isResolvable(value)) {
-    throw new Error(`${value} is not a valid number nor a token`);
+    throw new Error(`'${value}' is not a valid string nor a token`);
   }
+
+  if (typeof value === "string" && hasUnescapedDoubleQuotes(value)) {
+    throw new Error(
+      `'${value}' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string.`
+    );
+  }
+
   return value;
 }
 
@@ -1248,5 +1262,14 @@ export class Fn {
    */
   public static try(expression: any[]) {
     return asAny(terraformFunction("try", listOf(anyValue))(...expression));
+  }
+
+  /**
+   * Use this function to wrap a string and escape it properly for the use in Terraform
+   * This is only needed in certain scenarios (e.g., if you have unescaped double quotes in the string)
+   * @param {String} str
+   */
+  public static rawString(str: string): string {
+    return asString(rawString(str));
   }
 }

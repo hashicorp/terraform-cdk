@@ -407,3 +407,34 @@ test("undefined and null", () => {
     }"
   `);
 });
+
+test("throws error on unescaped double quote string inputs", () => {
+  expect(() => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+    new TerraformOutput(stack, "test-output", {
+      value: Fn.md5(`"`),
+    });
+    Testing.synth(stack);
+  }).toThrowErrorMatchingInlineSnapshot(
+    `"'\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
+  );
+});
+
+test("throws no error when wrapping unescaped double quotes in Fn.rawString", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.md5(Fn.rawString(`"`)),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\\\\\\\"\\\\\\")}\\"
+        }
+      }
+    }"
+  `);
+});

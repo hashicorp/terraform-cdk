@@ -20,6 +20,7 @@ import {
   call,
   subOperation,
   Expression,
+  rawString,
 } from "../lib/tfExpression";
 import { resolve } from "../lib/_tokens";
 const resolveExpression = (expr: Expression) => resolve(null as any, expr);
@@ -162,4 +163,10 @@ test("functions don't escape terraform references that have been tokenized", () 
       call("length", [Token.asString(ref("docker_container.foo.bar"))])
     )
   ).toMatchInlineSnapshot(`"\${length(docker_container.foo.bar)}"`);
+});
+
+test("functions escape string markers", () => {
+  expect(
+    resolveExpression(call("length", [rawString(`"`)]))
+  ).toMatchInlineSnapshot(`"\${length(\\"\\\\\\"\\")}"`);
 });
