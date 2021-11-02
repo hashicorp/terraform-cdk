@@ -271,7 +271,7 @@ You can instantiate the same resource multiple times throughout your infrastruct
 
 Refer to the [constructs documentation](/docs/cdktf/concepts/constructs.html#scope) for more details and an example.
 
-### Using References
+### References
 
 When working with resources created from providers you can use properties on the instances from the generated bindings to reference in other resources. This allows us to track logical dependencies and access computed values.
 
