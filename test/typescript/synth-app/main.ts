@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput, Testing, Fn } from "cdktf";
-import { AwsProvider, SNS, EC2 } from "./.gen/providers/aws";
+import { AwsProvider, sns } from "./.gen/providers/aws";
+import { Instance } from "./.gen/providers/aws/ec2";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -13,14 +14,14 @@ export class HelloTerra extends TerraformStack {
       },
     });
 
-    const topic = new SNS.SnsTopic(this, "Topic", {
+    const topic = new sns.SnsTopic(this, "Topic", {
       displayName: "overwritten",
     });
     topic.addOverride("display_name", "topic");
     topic.addOverride("provider", "aws");
     topic.addOverride("lifecycle", { create_before_destroy: true });
 
-    const instance = new EC2.Instance(this, "Instance", {
+    const instance = new Instance(this, "Instance", {
       ami: "ami-12345678",
       instanceType: "t2.micro",
       ebsBlockDevice: [
@@ -37,7 +38,7 @@ export class HelloTerra extends TerraformStack {
       },
     });
 
-    new EC2.Instance(this, "Instance2", {
+    new Instance(this, "Instance2", {
       ami: "ami-12345678",
       instanceType: "t2.micro",
       creditSpecification: {

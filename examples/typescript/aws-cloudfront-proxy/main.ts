@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import { CloudFront, AwsProvider, Route53, ACM } from "./.gen/providers/aws";
+import { cloudfront, AwsProvider, route53, acm } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -19,7 +19,7 @@ class MyStack extends TerraformStack {
       alias: "route53",
     });
 
-    const cert = new ACM.AcmCertificate(this, "cert", {
+    const cert = new acm.AcmCertificate(this, "cert", {
       domainName,
       validationMethod: "DNS",
       provider,
@@ -30,7 +30,7 @@ class MyStack extends TerraformStack {
     //   privateZone: false
     // })
 
-    const record = new Route53.Route53Record(this, "CertValidationRecord", {
+    const record = new route53.Route53Record(this, "CertValidationRecord", {
       name: cert.domainValidationOptions("0").resourceRecordName,
       type: cert.domainValidationOptions("0").resourceRecordType,
       records: [cert.domainValidationOptions("0").resourceRecordValue],
@@ -40,13 +40,13 @@ class MyStack extends TerraformStack {
       allowOverwrite: true,
     });
 
-    new ACM.AcmCertificateValidation(this, "certvalidation", {
+    new acm.AcmCertificateValidation(this, "certvalidation", {
       certificateArn: cert.arn,
       validationRecordFqdns: [record.fqdn],
       provider,
     });
 
-    const distribution = new CloudFront.CloudfrontDistribution(
+    const distribution = new cloudfront.CloudfrontDistribution(
       this,
       "cloudfront",
       {
@@ -115,7 +115,7 @@ class MyStack extends TerraformStack {
       }
     );
 
-    new Route53.Route53Record(this, "distribution_domain", {
+    new route53.Route53Record(this, "distribution_domain", {
       name: domainName,
       type: "A",
       // zoneId: zone.zoneId,
