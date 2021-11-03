@@ -160,3 +160,21 @@ test("numeric attributes", () => {
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test("tokens as ids", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const foo = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+
+  expect(() => {
+    new TestResource(stack, `resource-${foo.stringValue}`, {
+      name: "foo",
+    });
+  }).toThrowErrorMatchingInlineSnapshot(
+    `"You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"`
+  );
+});
