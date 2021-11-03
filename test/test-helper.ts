@@ -8,7 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra");
 
-class Query {
+class QueryableStack {
   private readonly stack: Record<string, any>;
   constructor(stackInput: string) {
     this.stack = JSON.parse(stackInput);
@@ -124,7 +124,7 @@ export class TestDriver {
   };
 
   synthesizedStack = (stackName: string) => {
-    return new Query(
+    return new QueryableStack(
       fs.readFileSync(
         path.join(this.stackDirectory(stackName), "cdk.tf.json"),
         "utf-8"
