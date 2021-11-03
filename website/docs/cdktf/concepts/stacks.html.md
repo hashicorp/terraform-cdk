@@ -9,11 +9,11 @@ description: "Use stacks to specify separate collections of infrastructure for d
 
 -> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
 
-> **Hands-on:** Try the [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS) tutorial on HashiCorp Learn.
-
 A stack represents a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
 
-### Single Stack
+> **Hands-on:** Try the [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS) tutorial on HashiCorp Learn.
+
+## Single Stack
 
 The example below generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
 
@@ -42,7 +42,7 @@ new MyStack(app, "a-single-stack");
 app.synth();
 ```
 
-#### Multiple Stacks
+## Multiple Stacks
 
 > **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial on HashiCorp Learn. This tutorial guides you through a multi-stack application.
 
@@ -110,17 +110,17 @@ All Terraform operations are currently limited to a single stack, so you must sp
 
 To run multiple stacks at once, move them into the same directory and run `cdktf deploy`. For example, you could create a combined directory called `multiple-stacks-dev`, run `cdktf deploy multiple-stacks-dev`, and all Terraform operations will run in the folder `cdktf.out/stacks/multiple-stacks-dev`.
 
-##### Cross Stack References
+### Cross Stack References
 
 CDKTF does not yet support referencing resources from another stack automatically. You can achieve this manually with [outputs](/docs/cdktf/concepts/variables-and-outputs.html) and the [remote state data source](/docs/language/state/remote-state-data.html).
 
 Please refer to this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you are interested in using cross stack references.
 
-##### Migration from `<= 0.2`
+### Migration from `<= 0.2`
 
 Until version `0.2`, CDKTF only supported a single stack. For local state handling, CDKTF used a `terraform.tfstate` in the project root folder. With version `>= 0.3`, the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
 
-#### Escape Hatch
+## Escape Hatch
 
 For anything on the top-level `terraform` block that is not natively implemented, use the **stack escape hatch** to define a configuration. For example, define remote backend using the `addOverride` method in TypeScript.
 
