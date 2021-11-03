@@ -14,6 +14,10 @@ class Query {
     this.stack = JSON.parse(stackInput);
   }
 
+  /**
+   * Returns the construct with the given ID in the stack, no matter if
+   * it's a data source or resource and which type it has
+   */
   public byId(id: string): Record<string, any> {
     const constructs = (
       [
