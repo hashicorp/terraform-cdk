@@ -77,7 +77,7 @@ test("app synth throws error when provider is missing", () => {
 
   expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
     "Validation failed with the following errors:
-      [MyStack] Found resources without a matching povider. Please make sure to add the following providers to your stack: test-provider"
+      [MyStack] Found resources without a matching provider. Please make sure to add the following providers to your stack: test-provider"
   `);
 });
 
