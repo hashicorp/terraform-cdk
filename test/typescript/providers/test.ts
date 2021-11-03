@@ -1,4 +1,4 @@
-import { TestDriver, $ } from "../../test-helper";
+import { TestDriver } from "../../test-helper";
 
 describe("full integration test", () => {
   let driver: TestDriver;
@@ -19,13 +19,13 @@ describe("full integration test", () => {
     });
 
     test("has resources", () => {
-      expect($(stack).byId("instance")).toBeTruthy();
-      expect($(stack).byId("lambdaFn")).toBeTruthy();
+      expect(stack.byId("instance")).toBeTruthy();
+      expect(stack.byId("lambdaFn")).toBeTruthy();
     });
 
     test("has data source", () => {
-      expect($(stack).byId("ami")).toBeTruthy();
-      expect($(stack).byId("callerIdentity")).toBeTruthy();
+      expect(stack.byId("ami")).toBeTruthy();
+      expect(stack.byId("callerIdentity")).toBeTruthy();
     });
   });
 
@@ -42,19 +42,19 @@ describe("full integration test", () => {
 
       // HCL does not support referencing provider values
       test("provider references are no references", () => {
-        const providerAddress = $(stack).output("provideraddress");
+        const providerAddress = stack.output("provideraddress");
         expect(providerAddress).toEqual("http://127.0.0.1");
       });
 
       test("simple references", () => {
-        const jobSpec = $(stack).byId("secondJob").jobspec;
+        const jobSpec = stack.byId("secondJob").jobspec;
         expect(jobSpec).toContain("${");
         expect(jobSpec).toContain("firstJob");
         expect(jobSpec).toContain("jobspec");
       });
 
       test("single-item references", () => {
-        const namespace = $(stack).byId("myDeployment").metadata.namespace;
+        const namespace = stack.byId("myDeployment").metadata.namespace;
         expect(namespace).toContain("${");
         expect(namespace).toContain("myNamespace");
         expect(namespace).toContain(".metadata[0].name");
@@ -65,7 +65,7 @@ describe("full integration test", () => {
       describe("Simple", () => {
         let instance;
         beforeAll(() => {
-          instance = $(driver.synthesizedStack("mutation")).byId("instance");
+          instance = driver.synthesizedStack("mutation").byId("instance");
         });
 
         test("direct primitive mutation", () => {
@@ -87,12 +87,11 @@ describe("full integration test", () => {
         });
       });
 
+      // The necessary functions are exposed, but currently do not work
       describe.skip("single-item nesting", () => {
         let deployment;
         beforeAll(() => {
-          deployment = $(driver.synthesizedStack("mutation")).byId(
-            "myDeployment"
-          );
+          deployment = driver.synthesizedStack("mutation").byId("myDeployment");
         });
         test("direct primitive mutation", () => {
           expect(deployment.spec.replicas).toBe("2");

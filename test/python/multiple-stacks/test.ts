@@ -10,7 +10,11 @@ describe("python full integration test synth", () => {
 
   test("synth generates JSON for both stacks", async () => {
     await driver.synth();
-    expect(driver.synthesizedStack("python-simple-one")).toMatchSnapshot();
-    expect(driver.synthesizedStack("python-simple-two")).toMatchSnapshot();
+    expect(
+      driver.synthesizedStack("python-simple-one").toString()
+    ).toMatchSnapshot();
+    expect(
+      driver.synthesizedStack("python-simple-two").toString()
+    ).toMatchSnapshot();
   });
 });

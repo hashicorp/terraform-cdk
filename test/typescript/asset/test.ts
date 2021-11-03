@@ -14,7 +14,7 @@ describe("full integration test", () => {
 
   test("synth", async () => {
     await driver.synth("fixed");
-    expect(driver.synthesizedStack("fixed")).toMatchSnapshot();
+    expect(driver.synthesizedStack("fixed").toString()).toMatchSnapshot();
   });
 
   test("file asset copied", async () => {
