@@ -41,7 +41,7 @@ export class ValidateProviderPresence implements IValidation {
       return [];
     } else {
       return [
-        `Found resources without a matching povider. Please make sure to add the following providers to your stack: ${missingProviders.join(
+        `Found resources without a matching provider. Please make sure to add the following providers to your stack: ${missingProviders.join(
           ", "
         )}`,
       ];
