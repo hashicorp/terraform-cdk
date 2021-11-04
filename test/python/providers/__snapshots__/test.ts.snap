@@ -5,15 +5,15 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-third-party-provider\\",
+      \\"stackName\\": \\"references\\",
       \\"backend\\": \\"local\\"
     }
   },
   \\"terraform\\": {
     \\"required_providers\\": {
       \\"docker\\": {
-        \\"version\\": \\"~> 2.0\\",
-        \\"source\\": \\"terraform-providers/docker\\"
+        \\"version\\": \\"~> 2.15\\",
+        \\"source\\": \\"kreuzwerker/docker\\"
       }
     }
   },
@@ -24,22 +24,22 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
   },
   \\"resource\\": {
     \\"docker_image\\": {
-      \\"nginxlatest\\": {
-        \\"keep_locally\\": false,
+      \\"nginxImage\\": {
+        \\"keep_locally\\": true,
         \\"name\\": \\"nginx:latest\\",
         \\"//\\": {
           \\"metadata\\": {
-            \\"path\\": \\"python-third-party-provider/nginx-latest\\",
-            \\"uniqueId\\": \\"nginxlatest\\"
+            \\"path\\": \\"references/nginxImage\\",
+            \\"uniqueId\\": \\"nginxImage\\"
           }
         }
       }
     },
     \\"docker_container\\": {
-      \\"nginxcdktf\\": {
-        \\"image\\": \\"\${docker_image.nginxlatest.name}\\",
+      \\"nginxContainer\\": {
+        \\"image\\": \\"\${docker_image.nginxImage.repo_digest}\\",
         \\"name\\": \\"nginx-python-cdktf\\",
-        \\"privileged\\": false,
+        \\"privileged\\": \\"\${docker_image.nginxImage.keep_locally}\\",
         \\"ports\\": [
           {
             \\"external\\": 8000,
@@ -48,11 +48,16 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
         ],
         \\"//\\": {
           \\"metadata\\": {
-            \\"path\\": \\"python-third-party-provider/nginx-cdktf\\",
-            \\"uniqueId\\": \\"nginxcdktf\\"
+            \\"path\\": \\"references/nginxContainer\\",
+            \\"uniqueId\\": \\"nginxContainer\\"
           }
         }
       }
+    }
+  },
+  \\"output\\": {
+    \\"containerCapAdd\\": {
+      \\"value\\": \\"\${docker_container.nginxContainer.capabilities[0].add}\\"
     }
   }
 }"

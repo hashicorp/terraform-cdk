@@ -71,7 +71,7 @@ Let's take a simple TypeScript application that uses the CDK for Terraform packa
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, Instance } from "./.gen/providers/aws";
+import { AwsProvider, EC2 } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -81,7 +81,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new Instance(this, "Hello", {
+    new EC2.Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });

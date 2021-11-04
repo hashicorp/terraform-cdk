@@ -10,10 +10,6 @@ describe("full integration test synth", () => {
   });
 
   test("synth generates JSON", () => {
-    expect(driver.synthesizedStack("hello-terra")).toMatchSnapshot();
+    expect(driver.synthesizedStack("hello-terra").toString()).toMatchSnapshot();
   });
-
-  // test("object references resolve to right source", ()=> {
-
-  // })
 });
