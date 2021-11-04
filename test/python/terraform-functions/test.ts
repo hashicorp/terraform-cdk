@@ -10,6 +10,8 @@ describe("python terraform functions test synth", () => {
 
   test("synth generates JSON", async () => {
     await driver.synth();
-    expect(driver.synthesizedStack("python-simple")).toMatchSnapshot();
+    expect(
+      driver.synthesizedStack("python-simple").toString()
+    ).toMatchSnapshot();
   });
 });
