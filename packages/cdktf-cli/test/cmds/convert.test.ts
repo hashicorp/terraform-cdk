@@ -31,7 +31,7 @@ describe("convert command", () => {
         `new NullProvider.Resource(this, "dummy", {});`
       );
     });
-  });
+  }, 30_000);
   it("reads provider version from existing cdktf.json", async () => {
     await mkdtemp(async (cwd) => {
       await fs.writeFile(
@@ -54,7 +54,7 @@ describe("convert command", () => {
         `new NullProvider.Resource(this, "dummy", {});`
       );
     });
-  });
+  }, 30_000);
   it("works if no cdktf.json could be found", async () => {
     await mkdtemp(async (cwd) => {
       const result = await execa(cdktfBin, ["convert"], {
@@ -73,5 +73,5 @@ describe("convert command", () => {
         `new NullProvider.Resource(this, "dummy", {});`
       );
     });
-  });
+  }, 30_000);
 });
