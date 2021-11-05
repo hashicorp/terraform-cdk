@@ -253,7 +253,7 @@ const aws: Record<Prefix, ResourceNamespace> = {
     comment: "AWS ElasticSearch Service",
   },
   cloudwatch_event: {
-    name: "cloudwatcheventbridge",
+    name: "eventbridge",
     comment: "AWS CloudWatch Event Bridge",
   },
   schemas: {
