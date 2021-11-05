@@ -1,0 +1,31 @@
+name: Website - Release
+on:
+  push:
+    branches:
+      - stable-website
+    paths:
+      - "website/**"
+
+jobs:
+  website_release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN_WEBSITE_RELEASE }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: hashicorp/terraform-website
+          token: ${{ secrets.GH_TOKEN_WEBSITE_RELEASE }}
+      - name: update website repository
+        run: |
+          git config user.name github-team-tf-cdk
+          git config user.email github-team-tf-cdk@hashicorp.com
+
+          git checkout -b "cdktf-website-update-$GITHUB_RUN_NUMBER"
+
+          git submodule update --init --remote ext/terraform-cdk
+          git add -A .
+          git commit -m "sync + edit cdktf website"
+          git push --set-upstream origin "cdktf-website-update-$GITHUB_RUN_NUMBER"
+
+          gh pr create --title "CDKTF Website update" --body "Updates CDKTF website to SHA $GITHUB_SHA"
