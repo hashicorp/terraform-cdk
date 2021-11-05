@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`full integration test build providers 1`] = `
-"Deploying Stack: hello-deploy
+"Deploying Stack: using-all-providers
 Resources
  ✔ NULL_RESOURCE       test                null_resource.test
 

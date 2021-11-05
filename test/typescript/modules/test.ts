@@ -19,11 +19,15 @@ describe("full integration test", () => {
 
   onPosix("build modules posix", async () => {
     await driver.synth();
-    expect(driver.synthesizedStack("hello-modules")).toMatchSnapshot();
+    expect(
+      driver.synthesizedStack("hello-modules").toString()
+    ).toMatchSnapshot();
   });
 
   onWindows("build modules windows", async () => {
     await driver.synth();
-    expect(driver.synthesizedStack("hello-modules")).toMatchSnapshot();
+    expect(
+      driver.synthesizedStack("hello-modules").toString()
+    ).toMatchSnapshot();
   });
 });

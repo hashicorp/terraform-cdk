@@ -10,8 +10,8 @@ describe("full integration test", () => {
 
   test("synth", async () => {
     await driver.synth();
-    expect(driver.synthesizedStack("first")).toMatchSnapshot();
-    expect(driver.synthesizedStack("second")).toMatchSnapshot();
+    expect(driver.synthesizedStack("first").toString()).toMatchSnapshot();
+    expect(driver.synthesizedStack("second").toString()).toMatchSnapshot();
   });
 
   test("synth with json output", async () => {

@@ -10,6 +10,6 @@ describe("java full integration", () => {
 
   test("synth generates JSON", async () => {
     await driver.synth();
-    expect(driver.synthesizedStack("java-simple")).toMatchSnapshot();
+    expect(driver.synthesizedStack("java-simple").toString()).toMatchSnapshot();
   });
 });

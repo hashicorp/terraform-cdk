@@ -37,8 +37,9 @@ function findFileAboveCwd(
     return fullPath;
   }
 
-  if (fs.existsSync(path.resolve(rootPath, ".."))) {
-    return findFileAboveCwd(file, path.resolve(rootPath, ".."));
+  const parentDir = path.resolve(rootPath, "..");
+  if (fs.existsSync(parentDir) && parentDir !== rootPath) {
+    return findFileAboveCwd(file, parentDir);
   }
 
   return null;
