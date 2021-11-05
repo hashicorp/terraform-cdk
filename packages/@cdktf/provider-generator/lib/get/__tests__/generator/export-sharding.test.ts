@@ -13,7 +13,6 @@ test("shard exports across multiple files to avoid generating files with more th
     path.join(os.tmpdir(), "export-sharding.test")
   );
 
-  console.log({ workdir });
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(__dirname, "fixtures", "aws_wafv2_web_acl.test.fixture.json"),

@@ -175,15 +175,12 @@ export class TerraformProviderGenerator {
     if (!ns?.name) throw new Error("namespace name is missing");
 
     const generatedFiles = [];
-
-    const lowerCasedNamespace = toSnakeCase(ns.name, "");
-
     for (const resource of resources) {
       // drop the last segment of the filepath
       const filePath = resource.filePath.split("/").slice(0, -1).join("/");
       const namespacedFilePath = path.join(
         filePath,
-        lowerCasedNamespace,
+        ns.name,
         resource.fileName
       );
       this.code.openFile(namespacedFilePath);
@@ -242,7 +239,7 @@ export class TerraformProviderGenerator {
     const indexFilePath = path.join(
       `providers`,
       providerName,
-      lowerCasedNamespace,
+      ns.name,
       "index.ts"
     );
     this.code.openFile(indexFilePath);
@@ -253,7 +250,7 @@ export class TerraformProviderGenerator {
     this.code.line();
     this.code.closeFile(indexFilePath);
 
-    return `ns:${lowerCasedNamespace}`;
+    return `ns:${ns.name}`;
   }
 
   private emitFileHeader(resource: ResourceModel) {
