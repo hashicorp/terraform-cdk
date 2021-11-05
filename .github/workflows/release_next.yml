@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: installing dependencies
         run: yarn install
-      - run: tools/align-version.sh "-pre.${{ github.run_number }}"
+      - run: yarn prepare-next-release
       - run: yarn build
       - run: yarn test
       - run: yarn package
