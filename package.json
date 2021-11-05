@@ -34,7 +34,9 @@
     "push-docker-jsii": "docker push hashicorp/jsii-terraform",
     "dist-clean": "lerna run dist-clean --stream && rm -rf dist",
     "prepare": "husky install",
-    "prepare-next-release": "standard-version --prerelease pre --skip.changelog=true --skip.commit=true"
+    "prepare-next-release": "standard-version --prerelease pre --skip.changelog=true --skip.commit=true",
+    "prepare-release": "tools/prepare-release.sh",
+    "release": "standard-version"
   },
   "workspaces": {
     "packages": [
