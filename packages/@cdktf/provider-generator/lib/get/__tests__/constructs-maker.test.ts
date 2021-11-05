@@ -1,7 +1,11 @@
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
-import { determineGoModuleName } from "../constructs-maker";
+import {
+  ConstructsMakerProviderTarget,
+  determineGoModuleName,
+  Language,
+} from "../constructs-maker";
 
 describe("constructsMaker", () => {
   describe("determineGoModuleName", () => {
@@ -77,6 +81,20 @@ describe("constructsMaker", () => {
       await expect(determineGoModuleName(dir)).rejects.toThrow(
         `Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`
       );
+    });
+  });
+  describe("ConstructsMakerProviderTarget", () => {
+    it("returns valid package name for Go", () => {
+      const target = new ConstructsMakerProviderTarget(
+        {
+          name: "google-beta",
+          fqn: "google-beta",
+          source: "google-beta",
+          version: "~> 4.0",
+        },
+        Language.GO
+      );
+      expect(target.srcMakName).toEqual("google_beta");
     });
   });
 });
