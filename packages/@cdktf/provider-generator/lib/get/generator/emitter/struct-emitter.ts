@@ -3,6 +3,7 @@ import { ResourceModel, Struct, ConfigStruct } from "../models";
 import { AttributesEmitter } from "./attributes-emitter";
 import { downcaseFirst } from "../../../util";
 import * as path from "path";
+import { STRUCT_NAMESPACE_THRESHOLD } from "../models/resource-model";
 export class StructEmitter {
   attributesEmitter: AttributesEmitter;
 
@@ -11,128 +12,11 @@ export class StructEmitter {
   }
 
   public emit(resource: ResourceModel) {
-    // iterate over all structs in batches of 400 to avoid too many exports (> 1200)
-
-    const structImports: Record<string, string> = {};
-    const structNamespaceName = `${path.basename(
-      resource.fileName,
-      ".ts"
-    )}-structs`;
-
-    // drop first struct from resource.structs to avoid double import
-    const structsWithoutConfigStruct = resource.structs.slice(1);
-
-    const structPaths = [];
-    for (let i = 0; i < structsWithoutConfigStruct.length; i += 400) {
-      const structsToImport: Record<string, string[]> = {};
-      const classesToImport: Record<string, string[]> = {};
-
-      const structs = structsWithoutConfigStruct.slice(i, i + 400);
-      const filePath = resource.filePath.split("/").slice(0, -1).join("/");
-      const structFilename = `structs${i}.ts`;
-      structPaths.push(structFilename);
-      const namespacedFilePath = path.join(
-        filePath,
-        "wafv2",
-        structNamespaceName,
-        structFilename
-      );
-
-      structs.forEach((struct) => {
-        struct.attributes.forEach((att) => {
-          const structTypeName = att.type.typeName;
-          const fileToImport = structImports[structTypeName];
-
-          if (fileToImport) {
-            structsToImport[fileToImport] ??
-              (structsToImport[fileToImport] = []);
-            structsToImport[fileToImport].push(structTypeName);
-
-            if (
-              structTypeName ===
-              "Wafv2WebAclRuleStatementNotStatementStatementOrStatementStatementAndStatementStatementByteMatchStatement"
-            ) {
-              console.log({ doesntwork: JSON.stringify(att, null, 2) });
-            }
-
-            if (
-              structTypeName ===
-              "Wafv2WebAclRuleStatementNotStatementStatementOrStatementStatementAndStatementStatementXssMatchStatementFieldToMatchMethod"
-            ) {
-              console.log({ doeswork: JSON.stringify(att, null, 2) });
-            }
-
-            if (att.type.struct?.isClass && struct.isClass) {
-              classesToImport[fileToImport] ??
-                (classesToImport[fileToImport] = []);
-              classesToImport[fileToImport].push(
-                `${structTypeName}OutputReference`
-              );
-            }
-          }
-        });
-      });
-
-      structs.map((struct) => (structImports[struct.name] = structFilename));
-
-      this.code.openFile(namespacedFilePath);
-
-      this.code.line(`import * as cdktf from 'cdktf';`);
-      Object.entries(structsToImport).forEach(([fileToImport, structs]) => {
-        const structMapper = structs.map(
-          (struct) => `${downcaseFirst(struct)}ToTerraform`
-        );
-
-        this.code.line(
-          `import { ${structs.join(",\n")} } from './${path.basename(
-            fileToImport,
-            ".ts"
-          )}'`
-        );
-        this.code.line(
-          `import { ${structMapper.join(",\n")} } from './${path.basename(
-            fileToImport,
-            ".ts"
-          )}'`
-        );
-      });
-
-      Object.entries(classesToImport).forEach(([fileToImport, classes]) => {
-        this.code.line(
-          `import { ${classes.join(",\n")} } from './${path.basename(
-            fileToImport,
-            ".ts"
-          )}'`
-        );
-      });
-
-      structs.forEach((struct) => {
-        if (struct.isSingleItem) {
-          // We use the interface here for the configuration / inputs of a resource / nested block
-          this.emitInterface(resource, struct);
-          // And we use the class for the attributes / outputs of a resource / nested block
-          this.emitClass(struct, `${struct.name}OutputReference`);
-        } else if (struct.isClass) {
-          this.emitClass(struct);
-        } else {
-          this.emitInterface(resource, struct);
-        }
-      });
-      this.code.closeFile(namespacedFilePath);
+    if (resource.structsRequireNamespace) {
+      this.emitNamespacedStructs(resource);
+    } else {
+      this.emitStructs(resource);
     }
-
-    const indexFilePath = path.join(
-      resource.filePath.split("/").slice(0, -1).join("/"),
-      "wafv2",
-      structNamespaceName,
-      "index.ts"
-    );
-
-    this.code.openFile(indexFilePath);
-    structPaths.forEach((structPath) => {
-      this.code.line(`export * from './${path.basename(structPath, ".ts")}'`);
-    });
-    this.code.closeFile(indexFilePath);
   }
 
   public emitInterface(
@@ -170,6 +54,116 @@ export class StructEmitter {
     if (!(struct instanceof ConfigStruct)) {
       this.emitToTerraformFunction(struct);
     }
+  }
+
+  private emitStructs(resource: ResourceModel) {
+    resource.structs.forEach((struct) => {
+      if (struct.isSingleItem) {
+        // We use the interface here for the configuration / inputs of a resource / nested block
+        this.emitInterface(resource, struct);
+        // And we use the class for the attributes / outputs of a resource / nested block
+        this.emitClass(struct, struct.outputReferenceName);
+      } else if (struct.isClass) {
+        this.emitClass(struct);
+      } else {
+        this.emitInterface(resource, struct);
+      }
+    });
+  }
+
+  private emitNamespacedStructs(resource: ResourceModel) {
+    // iterate over all structs in batches of 400 to avoid too many exports (> 1200)
+    const structImports: Record<string, string> = {};
+
+    // drop configStruct from resource.structs to avoid double import
+    const structsWithoutConfigStruct = resource.structs.slice(1);
+
+    const structPaths = [];
+    for (
+      let i = 0;
+      i < structsWithoutConfigStruct.length;
+      i += STRUCT_NAMESPACE_THRESHOLD
+    ) {
+      const structsToImport: Record<string, string[]> = {};
+      const structs = structsWithoutConfigStruct.slice(
+        i,
+        i + STRUCT_NAMESPACE_THRESHOLD
+      );
+      const structFilename = `structs${i}.ts`;
+      structPaths.push(structFilename);
+      const namespacedFilePath = path.join(
+        resource.namespacedFilePath,
+        structFilename
+      );
+
+      // find all structs that need to be imported in this file
+      structs.forEach((struct) => {
+        struct.attributes.forEach((att) => {
+          const structTypeName = att.type.typeName;
+          const fileToImport = structImports[structTypeName];
+
+          if (fileToImport) {
+            const attTypeStruct = att.type.struct;
+            if (!attTypeStruct)
+              throw new Error(`${structTypeName} is not a struct`);
+
+            structsToImport[fileToImport] ??
+              (structsToImport[fileToImport] = []);
+            structsToImport[fileToImport].push(
+              ...[structTypeName, attTypeStruct.mapperName]
+            );
+
+            // OutputReferences are only used in the current file
+            // if both the imported type and the referencing type
+            // within this file are class based accessors (complex objects)
+            if (att.type.struct?.isClass && struct.isClass) {
+              structsToImport[fileToImport].push(
+                attTypeStruct.outputReferenceName
+              );
+            }
+          }
+        });
+      });
+
+      // associate current structs batch with the file it will be written to
+      // to find it in subsequent files for importing
+      structs.map((struct) => (structImports[struct.name] = structFilename));
+
+      this.code.openFile(namespacedFilePath);
+      // the structs only makes use of cdktf not constructs
+      this.code.line(`import * as cdktf from 'cdktf';`);
+      Object.entries(structsToImport).forEach(([fileToImport, structs]) => {
+        this.code.line(
+          `import { ${structs.join(",\n")} } from './${path.basename(
+            fileToImport,
+            ".ts"
+          )}'`
+        );
+      });
+
+      structs.forEach((struct) => {
+        if (struct.isSingleItem) {
+          // We use the interface here for the configuration / inputs of a resource / nested block
+          this.emitInterface(resource, struct);
+          // And we use the class for the attributes / outputs of a resource / nested block
+          this.emitClass(struct, struct.outputReferenceName);
+        } else if (struct.isClass) {
+          this.emitClass(struct);
+        } else {
+          this.emitInterface(resource, struct);
+        }
+      });
+      this.code.closeFile(namespacedFilePath);
+    }
+
+    // emit the index file that exports all the struct files we've just generated
+    const indexFilePath = path.join(resource.namespacedFilePath, "index.ts");
+
+    this.code.openFile(indexFilePath);
+    structPaths.forEach((structPath) => {
+      this.code.line(`export * from './${path.basename(structPath, ".ts")}'`);
+    });
+    this.code.closeFile(indexFilePath);
   }
 
   private emitClass(struct: Struct, name = struct.name) {

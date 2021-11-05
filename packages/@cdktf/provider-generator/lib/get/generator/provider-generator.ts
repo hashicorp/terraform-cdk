@@ -4,7 +4,6 @@ import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";
 import { ConstructsMakerTarget } from "../constructs-maker";
-import { downcaseFirst } from "../../util";
 import * as path from "path";
 interface ProviderData {
   name: string;
@@ -191,80 +190,53 @@ export class TerraformProviderGenerator {
       this.code.line(`// generated from terraform resource schema`);
       this.code.line();
 
-      if (resource.structs.length > 400) {
-        const typeNames = resource.configStruct.attributes.map(
-          (a) => a.type.typeName
+      if (resource.structsRequireNamespace) {
+        this.code.line(
+          `import { ${resource.importableTypes.join(", \n")}} from './${
+            resource.structsFolderName
+          }'`
         );
-        const typeClassNames = resource.configStruct.attributes.map(
-          (a) => a.type.struct?.isClass && a.type.typeName
+        this.code.line(
+          `import { ${resource.importableStructMapper.join(", \n")}} from './${
+            resource.structsFolderName
+          }'`
         );
-        typeNames.push(...resource.attributes.map((a) => a.type.typeName));
-        typeClassNames.push(
-          ...resource.attributes.map(
-            (a) => a.type.struct?.isClass && a.type.typeName
-          )
-        );
-        const structNames = resource.structs.map((s) => s.name);
-        const importableTypes = typeNames.filter((t) =>
-          structNames.includes(t)
-        );
-        const importableClassTypes = typeClassNames.filter(
-          (t) => t && structNames.includes(t)
-        );
-        // make importableTypes unique
-        const uniqueImportableTypes = Array.from(new Set(importableTypes));
-        const uniqueImportableClassTypes = Array.from(
-          new Set(importableClassTypes)
-        );
-        const structMapper = uniqueImportableTypes.map(
-          (uniqueImportableType) =>
-            `${downcaseFirst(uniqueImportableType)}ToTerraform`
-        );
-        const importableClasses = uniqueImportableClassTypes.map(
-          (uniqueImportableType) => `${uniqueImportableType}OutputReference`
+        this.code.line(
+          `import { ${resource.importableOutputReferences.join(
+            ",\n"
+          )} } from './${resource.structsFolderName}'`
         );
 
-        this.code.line(
-          `import { ${uniqueImportableTypes.join(
-            ", \n"
-          )}} from './${path.basename(resource.fileName, ".ts")}-structs'`
+        resource.importStatements.forEach((statement) =>
+          this.code.line(statement)
         );
-        this.code.line(
-          `import { ${structMapper.join(", \n")}} from './${path.basename(
-            resource.fileName,
-            ".ts"
-          )}-structs'`
-        );
-        this.code.line(
-          `import { ${importableClasses.join(",\n")} } from './${path.basename(
-            resource.fileName,
-            ".ts"
-          )}-structs'`
-        );
-      }
-      resource.importStatements.forEach((statement) =>
-        this.code.line(statement)
-      );
-      this.code.line();
-      this.code.line(`/**`);
-      this.code.line(`* ${comment}`);
-      this.code.line(`*/`);
+        this.code.line();
+        this.code.line(`/**`);
+        this.code.line(`* ${comment}`);
+        this.code.line(`*/`);
 
-      if (resource.structs.length > 400) {
         this.structEmitter.emitInterface(resource, resource.configStruct);
-      }
+        this.resourceEmitter.emit(resource);
 
-      if (resource.structs.length <= 400) {
+        this.code.closeFile(namespacedFilePath);
+
         this.structEmitter.emit(resource);
-      }
-      this.resourceEmitter.emit(resource);
-      this.code.closeFile(namespacedFilePath);
+        generatedFiles.push(resource.fileName);
+        generatedFiles.push(resource.structsFolderName);
+      } else {
+        resource.importStatements.forEach((statement) =>
+          this.code.line(statement)
+        );
+        this.code.line();
+        this.code.line(`/**`);
+        this.code.line(`* ${comment}`);
+        this.code.line(`*/`);
 
-      if (resource.structs.length > 400) {
         this.structEmitter.emit(resource);
+        this.resourceEmitter.emit(resource);
+        this.code.closeFile(namespacedFilePath);
+        generatedFiles.push(resource.fileName);
       }
-
-      generatedFiles.push(resource.fileName);
     }
 
     const indexFilePath = path.join(
