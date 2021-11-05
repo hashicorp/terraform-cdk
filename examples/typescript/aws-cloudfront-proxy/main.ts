@@ -1,6 +1,12 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import { cloudfront, AwsProvider, route53, acm } from "./.gen/providers/aws";
+import {
+  cloudfront,
+  AwsProvider,
+  route53,
+  acm,
+  wafv2,
+} from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -17,6 +23,50 @@ class MyStack extends TerraformStack {
     const provider = new AwsProvider(this, "aws.route53", {
       region: "us-east-1",
       alias: "route53",
+    });
+
+    new wafv2.Wafv2WebAcl(this, "wafv2", {
+      defaultAction: {
+        allow: {},
+      },
+      name: "managed-rule-example",
+      scope: "REGIONAL",
+      visibilityConfig: {
+        cloudwatchMetricsEnabled: true,
+        metricName: "managed-rule-example",
+        sampledRequestsEnabled: true,
+      },
+      rule: [
+        {
+          name: "managed-rule-example",
+          priority: 1,
+          overrideAction: {
+            count: {},
+          },
+          visibilityConfig: {
+            cloudwatchMetricsEnabled: true,
+            metricName: "managed-rule-example",
+            sampledRequestsEnabled: true,
+          },
+          statement: {
+            managedRuleGroupStatement: {
+              name: "managed-rule-example",
+              vendorName: "AWS",
+              excludedRule: [
+                {
+                  name: "SizeRestrictions_QUERYSTRING",
+                },
+                { name: "SQLInjection_QUERYSTRING" },
+              ],
+              scopeDownStatement: {
+                geoMatchStatement: {
+                  countryCodes: ["US"],
+                },
+              },
+            },
+          },
+        },
+      ],
     });
 
     const cert = new acm.AcmCertificate(this, "cert", {
