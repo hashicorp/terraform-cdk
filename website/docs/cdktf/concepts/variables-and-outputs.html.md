@@ -89,7 +89,7 @@ When you run `cdktf synth` the `TerraformLocal` above synthesizes to the followi
 }
 ```
 
-## Outputs
+## Output Values
 
 You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0-11/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html).
 
@@ -128,7 +128,7 @@ new MyStack(app, "cdktf-producer", {
 app.synth();
 ```
 
-### Define Outputs
+### Define Output Values
 
 To access outputs, use the `_output` suffix for Python and the `Output` suffix for other languages.
 

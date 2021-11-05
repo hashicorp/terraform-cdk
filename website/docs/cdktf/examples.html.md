@@ -81,7 +81,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 
 ### Go
 
-> Please note: Support for Golang is experimental for CDK for Terraform and the [upstream library JSII](https://aws.github.io/jsii/user-guides/lib-author/configuration/targets/go/), which powers the support for the supported languages.
+-> **Note:** Golang support is experimental for both CDKTF and the [upstream library JSII](https://aws.github.io/jsii/user-guides/lib-author/configuration/targets/go/).
 
 | Example                                                                                                                | Description                                                                                                                                                                                                                                                                                                                                    |
 | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -101,7 +101,7 @@ Each CDK for Terraform project can specify a [backend](https://www.terraform.io/
 - **0.4:** [Go support, Asset construct, Terraform Cloud integration](https://www.youtube.com/watch?v=TTfFAIeSqgo). This includes a [Google Kubernetes Engine demo](https://youtu.be/TTfFAIeSqgo?t=1573).
 - **0.5:** [Convert and watch command demos](https://www.youtube.com/watch?v=4caW8WJM4h4&t=1s)
 
-  If you're interested in extending the `cdktf convert` command, you may also be interested in the [convert deep dive](https://www.youtube.com/watch?v=rSn4-Ki5nho). You do not need to watch this video to use the `convert` command successfully.
+  If you are interested in extending the `cdktf convert` command, you may also be interested in the [convert deep dive](https://www.youtube.com/watch?v=rSn4-Ki5nho). You do not need to watch this video to use the `convert` command successfully.
 
 - **0.6:** [Snapshot testing](https://www.youtube.com/watch?v=9Is4QJT2664)
 
