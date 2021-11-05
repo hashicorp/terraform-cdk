@@ -439,7 +439,7 @@ export interface BlockTypeNestedComputedListInputs {
   readonly namePrefix: string;
 }
 
-function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
+export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -573,7 +573,7 @@ export interface ComputedOptionalComplexEgress {
   readonly toPort?: number;
 }
 
-function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
+export function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -685,7 +685,7 @@ export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   readonly date?: string;
 }
 
-function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
+export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -734,7 +734,7 @@ export interface DeeplyNestedBlockTypesLifecycleRule {
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration;
 }
 
-function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
+export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -1997,7 +1997,7 @@ export interface BlockTypeSetListTimeoutsSet {
   readonly create?: string;
 }
 
-function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
+export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -2014,7 +2014,7 @@ export interface BlockTypeSetListTimeoutsList {
   readonly create?: string;
 }
 
-function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
+export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -2137,7 +2137,7 @@ export interface SingleBlockTypeTimeouts {
   readonly create?: string;
 }
 
-function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts): any {
+export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
