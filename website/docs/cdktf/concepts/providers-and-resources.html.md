@@ -273,7 +273,11 @@ Refer to the [constructs documentation](/docs/cdktf/concepts/constructs.html#sco
 
 ### References
 
-When working with resources created from providers you can use properties on the instances from the generated bindings to reference in other resources. This allows us to track logical dependencies and access computed values.
+You can reference resource properties throughout your configuration. For example, you may want to use the name of a parent resource when assigning names to related child resources. Refer to your provider's documentation for a full list of available properties for each resource type.
+
+To create references, call `myResource.<propertyName>` on the resource instance. For example, you could use `myResource.name` to retrieve the `name` property from `myResource`. Terraform does not support passing an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source, so you must create a reference for each individual property.
+
+References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The TypeScript example below uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
 
 ```ts
 
