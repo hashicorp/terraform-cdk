@@ -31,6 +31,8 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: publish tag
+        run: git push --follow-tags
       - name: installing test dependencies
         run: |
           cd test && yarn install
