@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.7.0",
+  "version": "0.8.0-pre.0",
   "private": true,
   "scripts": {
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
@@ -34,7 +34,7 @@
     "push-docker-jsii": "docker push hashicorp/jsii-terraform",
     "dist-clean": "lerna run dist-clean --stream && rm -rf dist",
     "prepare": "husky install",
-    "prepare-next-release": "standard-version --prerelease pre --skip.changelog=true --skip.commit=true",
+    "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
     "prepare-release": "tools/prepare-release.sh",
     "release": "standard-version"
   },
