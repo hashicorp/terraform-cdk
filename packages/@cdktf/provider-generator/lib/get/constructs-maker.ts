@@ -161,7 +161,7 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
       case Language.PYTHON:
         return this.simplifiedName;
       case Language.GO:
-        return this.name;
+        return this.name.replace(/-/gi, "_");
       default:
         return this.constraint.fqn;
     }
