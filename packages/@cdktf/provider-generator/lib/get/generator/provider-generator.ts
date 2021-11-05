@@ -1,4 +1,4 @@
-import { CodeMaker, toSnakeCase } from "codemaker";
+import { CodeMaker } from "codemaker";
 import { Provider, ProviderSchema } from "./provider-schema";
 import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
