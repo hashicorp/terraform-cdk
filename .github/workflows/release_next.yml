@@ -22,6 +22,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: installing dependencies
         run: yarn install
+      - name: Configure git user
+        run: |
+          git config user.name github-team-tf-cdk
+          git config user.email github-team-tf-cdk@hashicorp.com
       - run: yarn prepare-next-release
       - run: yarn build
       - run: yarn test
