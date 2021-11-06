@@ -9,7 +9,7 @@ git tag -l | grep -vE '^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$' | xargs git 
 flags="${@:-}"
 
 # skip tag since that is created with the release
-yarn release --skip.tag=true ${flags}
+yarn release --skip.tag=true --bumpFiles ${flags}
 
 # resotre tags
 git fetch origin --tags
