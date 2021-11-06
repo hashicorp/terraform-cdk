@@ -20,6 +20,8 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # gives standard-version access to all previous commits
       - name: installing dependencies
         run: yarn install
       - name: Configure git user
