@@ -2330,9 +2330,9 @@
     "@types/serve-static" "*"
 
 "@types/follow-redirects@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@types/follow-redirects/-/follow-redirects-1.13.0.tgz#82d3767050314ddb44606576e6bf4fcfee5f4d05"
-  integrity sha512-VPGDD77WMB+da4l1vdfGYM1k9ZjtPyY8EHisvc33QUcwCf/stt/5M1P/ZOPhpnjPgBwJX/xuo3X3wFVp0rutTA==
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/@types/follow-redirects/-/follow-redirects-1.13.1.tgz#b3dde0c7fcff69c497c99daab21a8b366f09270a"
+  integrity sha512-WPzi4QUu0rXeRmcssiXmNVCSbV9elxQJoVfp1N4SThfbKAKEo/xrhzpZVVk/XSCzbwUg70W8wEUC/TCR05QMBQ==
   dependencies:
     "@types/node" "*"
 
