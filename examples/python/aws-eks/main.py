@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # for CDK
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput, Token

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput, Token
 from imports.azurerm import AzurermProvider, ResourceGroup, VirtualNetwork
@@ -16,14 +15,14 @@ class MyStack(TerraformStack):
                 "ENV": "Dev",
                 "PROJECT": "AZ_TF"
             }
-        
+
 
         AzurermProvider(self, "Azurerm",\
             features={}
             )
 
         example_rg = ResourceGroup(self, 'example-rg',\
-            name=rg_name, 
+            name=rg_name,
             location = loca,
             tags = tag
             )
