@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from abc import get_cache_token
 from constructs import Construct
 from cdktf import App
