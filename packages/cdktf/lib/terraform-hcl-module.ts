@@ -34,10 +34,6 @@ export class TerraformHclModule extends TerraformModule {
     return Token.asAny(this.interpolationForOutput(output));
   }
 
-  public getString(output: string): string {
-    return Token.asString(this.interpolationForOutput(output));
-  }
-
   public getNumber(output: string): number {
     return Token.asNumber(this.interpolationForOutput(output));
   }

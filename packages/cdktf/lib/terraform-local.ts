@@ -26,27 +26,27 @@ export class TerraformLocal
   }
 
   public get expression() {
-    return Token.asAny(ref(this.interpolation(), this.cdktfStack));
+    return Token.asAny(this.interpolation());
   }
 
   public get asString(): string {
-    return Token.asString(ref(this.interpolation(), this.cdktfStack));
+    return Token.asString(this.interpolation());
   }
 
   public get asNumber(): number {
-    return Token.asNumber(ref(this.interpolation(), this.cdktfStack));
+    return Token.asNumber(this.interpolation());
   }
 
   public get asList(): string[] {
-    return Token.asList(ref(this.interpolation(), this.cdktfStack));
+    return Token.asList(this.interpolation());
   }
 
   public get asBoolean(): IResolvable {
-    return ref(this.interpolation(), this.cdktfStack);
+    return this.interpolation();
   }
 
   private interpolation(): any {
-    return `local.${this.friendlyUniqueId}`;
+    return ref(`local.${this.friendlyUniqueId}`, this.cdktfStack);
   }
 
   public toTerraform(): any {
