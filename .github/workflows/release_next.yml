@@ -20,15 +20,9 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # gives standard-version access to all previous commits
       - name: installing dependencies
         run: yarn install
-      - name: Configure git user
-        run: |
-          git config user.name github-team-tf-cdk
-          git config user.email github-team-tf-cdk@hashicorp.com
-      - run: yarn prepare-next-release
+      - run: tools/align-version.sh "-pre.${{ github.run_number }}"
       - run: yarn build
       - run: yarn test
       - run: yarn package
@@ -37,8 +31,6 @@ jobs:
         with:
           name: dist
           path: dist
-      - name: publish tag
-        run: git push --follow-tags
       - name: installing test dependencies
         run: |
           cd test && yarn install
