@@ -33,7 +33,10 @@
     "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
     "push-docker-jsii": "docker push hashicorp/jsii-terraform",
     "dist-clean": "lerna run dist-clean --stream && rm -rf dist",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
+    "prepare-release": "tools/prepare-release.sh",
+    "release": "standard-version"
   },
   "workspaces": {
     "packages": [
@@ -65,7 +68,8 @@
     "eslint-plugin-monorepo": "^0.3.2",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
-    "eslint": "^7.29.0"
+    "eslint": "^7.29.0",
+    "standard-version": "^9.3.2"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,css,md}": "prettier --write"
@@ -90,6 +94,34 @@
       "coverage",
       "*.d.ts",
       "*.js"
+    ]
+  },
+  "standard-version": {
+    "bumpFiles": [
+      {
+        "filename": "package.json",
+        "type": "json"
+      },
+      {
+        "filename": "packages/cdktf-cli/package.json",
+        "type": "json"
+      },
+      {
+        "filename": "packages/cdktf/package.json",
+        "type": "json"
+      },
+      {
+        "filename": "packages/@cdktf/hcl2cdk/package.json",
+        "type": "json"
+      },
+      {
+        "filename": "packages/@cdktf/hcl2json/package.json",
+        "type": "json"
+      },
+      {
+        "filename": "packages/@cdktf/provider-generator/package.json",
+        "type": "json"
+      }
     ]
   }
 }
