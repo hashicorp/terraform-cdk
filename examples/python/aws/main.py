@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from constructs import Construct
 from cdktf import App, TerraformStack
 from imports.aws import AwsProvider
