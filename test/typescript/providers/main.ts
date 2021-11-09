@@ -64,7 +64,7 @@ export class NamespacedProviders extends TerraformStack {
       runtime: "nodejs12.x",
       timeout: 10,
       functionName: userId.accountId,
-      role: new Aws.IAM.IamRole(this, "role", {
+      role: new Aws.iam.IamRole(this, "role", {
         assumeRolePolicy: "assumeRolePolicy",
       }).arn,
     });
