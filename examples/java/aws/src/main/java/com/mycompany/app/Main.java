@@ -11,9 +11,9 @@ import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformStack;
 
 import imports.aws.AwsProvider;
-import imports.aws.data_sources.DataAwsRegion;
-import imports.aws.dynamo_db.DynamodbTable;
-import imports.aws.dynamo_db.DynamodbTableAttribute;
+import imports.aws.datasources.DataAwsRegion;
+import imports.aws.dynamodb.DynamodbTable;
+import imports.aws.dynamodb.DynamodbTableAttribute;
 import imports.aws.sns.SnsTopic;
 import software.constructs.Construct;
 

@@ -43,28 +43,28 @@ export class NamespacedProviders extends TerraformStack {
       region: "us-east-1",
     });
 
-    const ami = new Aws.EC2.DataAwsAmi(this, "ami", {
+    const ami = new Aws.ec2.DataAwsAmi(this, "ami", {
       mostRecent: true,
       owners: ["amazon"],
     });
 
-    new Aws.EC2.Instance(this, "instance", {
+    new Aws.ec2.Instance(this, "instance", {
       ami: ami.id,
       availabilityZone: "us-east-1a",
       instanceType: "t2.micro",
     });
 
-    const userId = new Aws.DataSources.DataAwsCallerIdentity(
+    const userId = new Aws.datasources.DataAwsCallerIdentity(
       this,
       "callerIdentity",
       {}
     );
-    new Aws.LambdaFunction.LambdaFunction(this, "lambdaFn", {
+    new Aws.lambdafunction.LambdaFunction(this, "lambdaFn", {
       handler: "index.handler",
       runtime: "nodejs12.x",
       timeout: 10,
       functionName: userId.accountId,
-      role: new Aws.IAM.IamRole(this, "role", {
+      role: new Aws.iam.IamRole(this, "role", {
         assumeRolePolicy: "assumeRolePolicy",
       }).arn,
     });
@@ -144,12 +144,12 @@ export class Mutation extends TerraformStack {
       region: "us-east-1",
     });
 
-    const ami = new Aws.EC2.DataAwsAmi(this, "ami", {
+    const ami = new Aws.ec2.DataAwsAmi(this, "ami", {
       mostRecent: true,
       owners: ["amazon"],
     });
 
-    const instance = new Aws.EC2.Instance(this, "instance", {
+    const instance = new Aws.ec2.Instance(this, "instance", {
       ami: "my-ami",
       availabilityZone: "us-east-1a",
       instanceType: "t2.micro",
