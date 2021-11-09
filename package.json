@@ -95,33 +95,5 @@
       "*.d.ts",
       "*.js"
     ]
-  },
-  "standard-version": {
-    "bumpFiles": [
-      {
-        "filename": "package.json",
-        "type": "json"
-      },
-      {
-        "filename": "packages/cdktf-cli/package.json",
-        "type": "json"
-      },
-      {
-        "filename": "packages/cdktf/package.json",
-        "type": "json"
-      },
-      {
-        "filename": "packages/@cdktf/hcl2cdk/package.json",
-        "type": "json"
-      },
-      {
-        "filename": "packages/@cdktf/hcl2json/package.json",
-        "type": "json"
-      },
-      {
-        "filename": "packages/@cdktf/provider-generator/package.json",
-        "type": "json"
-      }
-    ]
   }
 }

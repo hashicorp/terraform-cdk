@@ -28,7 +28,9 @@ jobs:
         run: |
           git config user.name github-team-tf-cdk
           git config user.email github-team-tf-cdk@hashicorp.com
-      - run: yarn prepare-next-release
+      - run: |
+          yarn prepare-next-release
+          tools/align-version.sh
       - run: yarn build
       - run: yarn test
       - run: yarn package
