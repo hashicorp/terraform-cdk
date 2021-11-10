@@ -1,3 +1,3 @@
 {
-  "app": "npm run --silent compile && node main.js"
+  "app": "npx ts-node main.ts"
 }

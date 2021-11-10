@@ -99,6 +99,16 @@ exports[`sensitive output 1`] = `
 }"
 `;
 
+exports[`static output id (without feature flags enabled) 1`] = `
+"{
+  \\"output\\": {
+    \\"my_static_output_name\\": {
+      \\"value\\": \\"1\\"
+    }
+  }
+}"
+`;
+
 exports[`string output 1`] = `
 "{
   \\"output\\": {

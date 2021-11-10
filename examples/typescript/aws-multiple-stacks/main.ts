@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
+import { AwsProvider, ec2 } from "./.gen/providers/aws";
 
 interface MyStackConfig {
   environment: string;
@@ -17,7 +17,7 @@ class MyStack extends TerraformStack {
       region,
     });
 
-    new EC2.Instance(this, "Hello", {
+    new ec2.Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
       tags: {

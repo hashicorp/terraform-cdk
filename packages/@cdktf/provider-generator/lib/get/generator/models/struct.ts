@@ -1,5 +1,5 @@
 import { AttributeModel } from "./attribute-model";
-
+import { downcaseFirst } from "../../../util";
 export class Struct {
   constructor(
     public readonly name: string,
@@ -40,6 +40,24 @@ export class Struct {
 
   public get extends(): string {
     return "";
+  }
+
+  public get attributeTypeNames(): string[] {
+    return this.attributes.map((a) => a.type.typeName);
+  }
+
+  public get mapperName(): string {
+    return `${downcaseFirst(this.name)}ToTerraform`;
+  }
+
+  public get outputReferenceName(): string {
+    return `${this.name}OutputReference`;
+  }
+
+  public get attributeTypeNamesFromClasses(): string[] {
+    return this.attributes
+      .filter((a) => a.type.struct?.isClass)
+      .map((a) => a.type.typeName);
   }
 }
 

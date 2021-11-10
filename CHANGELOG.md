@@ -1,3 +1,47 @@
+## Unreleased
+
+**Breaking Changes**
+
+### Namespaced AWS Provider Resources [#1248](https://github.com/hashicorp/terraform-cdk/pull/1248)
+
+We iterated on the namespacing for the AWS provider which got introduced in [#1101](https://github.com/hashicorp/terraform-cdk/issues/1101). Our goal was, to enable custom L2 / L3 abstractions being built with jsii, improve the general jsii support for the namespacing and last but not least to allow both namespace and barrel imports in Typescript. A welcome side effect is a 5x performance gain when building packages via jsii for Python (from ~ 16 minutes to ~ 3 minutes) and likely other targets such as Java or C#
+
+As a result, there are a few minor breaking changes:
+
+- Namespaces are all lowercased now, without a separating character
+- Namespaces are all a single word now (e.g. `DynamoDb` used to be `dynamo_db` in Python - it's now just `dynamodb`)
+- `CloudwatchEventBridge` namespace got renamed to `eventbridge`
+
+#### Typescript Example
+
+##### Before
+
+This was pretty much the only way to use the namespaced provider classes.
+
+```ts
+import { CloudFront } from "@cdktf/provider-aws";
+
+new CloudFront.CloudfrontDistribution(this, "cloudfront", {});
+```
+
+##### After
+
+Now it's possible to either import the entire namespace, or a resource class directly.
+
+```ts
+// Similar to before, but namespace is lowercased
+import { cloudfront } from "@cdktf/provider-aws";
+
+new cloudfront.CloudfrontDistribution(this, "cloudfront", {});
+
+// new option
+import { CloudfrontDistribution } from "@cdktf/provider-aws/lib/cloudfront";
+
+new CloudfrontDistribution(this, "cloudfront", {});
+```
+
+See this [Pull Request](https://github.com/hashicorp/terraform-cdk/pull/1248) for more details.
+
 ## 0.7.0 (October 19, 2021)
 
 **Breaking Changes**
