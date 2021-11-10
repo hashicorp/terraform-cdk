@@ -45,10 +45,8 @@ export abstract class TerraformRemoteState
     return Token.asList(this.interpolationForAttribute(output));
   }
 
-  public getBoolean(output: string): boolean {
-    return Token.asString(
-      this.interpolationForAttribute(output)
-    ) as any as boolean;
+  public getBoolean(output: string): IResolvable {
+    return this.interpolationForAttribute(output);
   }
 
   public get(output: string): IResolvable {

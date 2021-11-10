@@ -145,7 +145,7 @@ export class AttributesEmitter {
       return `this.getNumberAttribute('${att.terraformName}')`;
     }
     if (type.isBoolean) {
-      return `this.getBooleanAttribute('${att.terraformName}') as any`;
+      return `this.getBooleanAttribute('${att.terraformName}')`;
     }
     if (type.isMap) {
       return `this.get${uppercaseFirst(att.mapType)}MapAttribute('${
