@@ -131,7 +131,7 @@
     "@types/lodash.isequal": "^4.5.5",
     "@types/nock": "^11.1.0",
     "@types/parse-gitignore": "^1.0.0",
-    "@types/react": "^16.9.35",
+    "@types/react": "^17.0.2",
     "@types/semver": "^7.1.0",
     "@types/stream-buffers": "^3.0.3",
     "@types/uuid": "^8.3.0",
