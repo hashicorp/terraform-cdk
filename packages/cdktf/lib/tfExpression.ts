@@ -17,7 +17,9 @@ class TFExpression extends Intrinsic implements IResolvable {
     }
 
     if (Array.isArray(resolvedArg)) {
-      return `[${resolvedArg.join(", ")}]`;
+      return `[${resolvedArg
+        .map((_, index) => this.resolveArg(context, arg[index]))
+        .join(", ")}]`;
     }
 
     if (typeof resolvedArg === "object") {
@@ -29,15 +31,27 @@ class TFExpression extends Intrinsic implements IResolvable {
     return resolvedArg;
   }
 
+  /**
+   * Escape string removes characters from the string that are not allowed in Terraform or JSON
+   * It must only be used on non-token values
+   */
+  protected escapeString(str: string) {
+    return str // Escape double quotes
+      .replace(/\n/g, "\\n") // escape newlines
+      .replace(/\${/g, "$$${"); // escape ${ to $${
+  }
+
   private resolveString(str: string, resolvedArg: any) {
     const tokenList = Tokenization.reverseString(str);
     const numberOfTokens = tokenList.tokens.length + tokenList.intrinsic.length;
 
     // String literal
     if (numberOfTokens === 0) {
-      return resolvedArg.startsWith('"') && resolvedArg.endsWith('"')
-        ? resolvedArg
-        : `"${resolvedArg}"`;
+      return resolvedArg !== `"` &&
+        resolvedArg.startsWith('"') &&
+        resolvedArg.endsWith('"')
+        ? this.escapeString(resolvedArg)
+        : `"${this.escapeString(resolvedArg)}"`;
     }
 
     // Only a token reference
@@ -52,15 +66,39 @@ class TFExpression extends Intrinsic implements IResolvable {
         const rightTokens = Tokenization.reverse(right);
 
         const leftValue =
-          leftTokens.length === 0 ? left : `\${${leftTokens[0]}}`;
+          leftTokens.length === 0
+            ? this.escapeString(left)
+            : `\${${leftTokens[0]}}`;
 
         const rightValue =
-          rightTokens.length === 0 ? right : `\${${rightTokens[0]}}`;
+          rightTokens.length === 0
+            ? this.escapeString(right)
+            : `\${${rightTokens[0]}}`;
 
         return `${leftValue}${rightValue}`;
       },
     })}"`;
   }
+}
+
+// A string that represents an input value to be escaped
+class RawString extends TFExpression {
+  constructor(private readonly str: string) {
+    super(str);
+  }
+
+  public resolve() {
+    const qts = this.isInnerTerraformExpression ? `"` : ``;
+    return `${qts}${this.escapeString(this.str).replace(/\"/g, '\\"')}${qts}`; // eslint-disable-line no-useless-escape
+  }
+
+  public toString() {
+    return this.str;
+  }
+}
+
+export function rawString(str: string): IResolvable {
+  return new RawString(str);
 }
 
 class Reference extends TFExpression {
