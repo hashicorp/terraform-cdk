@@ -231,7 +231,7 @@ export function constructAst(type: string, isModuleImport: boolean) {
   if (!type.includes("./") && type.includes(".")) {
     const parts = type.split(".");
     if (parts[0] === "data") {
-      const [_, provider, resource] = parts;
+      const [, provider, resource] = parts;
       const namespace = getResourceNamespace(provider, resource);
       if (namespace) {
         return t.memberExpression(
