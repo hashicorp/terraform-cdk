@@ -357,6 +357,34 @@ test("quoted primitives, unquoted functions", () => {
   `);
 });
 
+test("nested objects and arrays as args", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.jsonencode({
+      Statement: [
+        {
+          Action: "sts:AssumeRole",
+          Effect: "Allow",
+          Principal: { Service: "lambda.amazonaws.com" },
+        },
+      ],
+      Version: "2012-10-17",
+    }),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${jsonencode({Statement = [{Action = \\\\\\"sts:AssumeRole\\\\\\", Effect = \\\\\\"Allow\\\\\\", Principal = {Service = \\\\\\"lambda.amazonaws.com\\\\\\"}}], Version = \\\\\\"2012-10-17\\\\\\"})}\\"
+        }
+      }
+    }"
+  `);
+});
+
 test("terraform local", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
@@ -406,4 +434,59 @@ test("undefined and null", () => {
       }
     }"
   `);
+});
+
+test("throws error on unescaped double quote string inputs", () => {
+  expect(() => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+    new TerraformOutput(stack, "test-output", {
+      value: Fn.md5(`"`),
+    });
+    Testing.synth(stack);
+  }).toThrowErrorMatchingInlineSnapshot(
+    `"'\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
+  );
+});
+
+test("throws no error when wrapping unescaped double quotes in Fn.rawString", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.md5(Fn.rawString(`"`)),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\\\\\\\"\\\\\\")}\\"
+        }
+      }
+    }"
+  `);
+});
+
+test("rawString escapes correctly", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TerraformLocal(stack, "test", {
+    default: "abc",
+    plain: Fn.rawString("abc"),
+    infn: Fn.base64encode(Fn.rawString("abc")),
+    quotes: Fn.rawString(`"`),
+    doublequotes: Fn.rawString(`""`),
+    template: Fn.rawString("${TEMPLATE}"),
+  });
+
+  const str = Testing.synth(stack);
+  const json = JSON.parse(str);
+
+  const bslsh = `\\`; // a single backslash
+  expect(json.locals.test).toHaveProperty("default", "abc");
+  expect(json.locals.test).toHaveProperty("plain", "abc");
+  expect(json.locals.test).toHaveProperty("infn", '${base64encode("abc")}');
+  expect(json.locals.test).toHaveProperty("quotes", `${bslsh}"`);
+  expect(json.locals.test).toHaveProperty("doublequotes", `${bslsh}"${bslsh}"`);
+  expect(json.locals.test).toHaveProperty("template", "$${TEMPLATE}");
 });
