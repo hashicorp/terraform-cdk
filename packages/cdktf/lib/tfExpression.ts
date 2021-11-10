@@ -17,7 +17,9 @@ class TFExpression extends Intrinsic implements IResolvable {
     }
 
     if (Array.isArray(resolvedArg)) {
-      return `[${resolvedArg.join(", ")}]`;
+      return `[${resolvedArg
+        .map((_, index) => this.resolveArg(context, arg[index]))
+        .join(", ")}]`;
     }
 
     if (typeof resolvedArg === "object") {

@@ -357,6 +357,34 @@ test("quoted primitives, unquoted functions", () => {
   `);
 });
 
+test("nested objects and arrays as args", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.jsonencode({
+      Statement: [
+        {
+          Action: "sts:AssumeRole",
+          Effect: "Allow",
+          Principal: { Service: "lambda.amazonaws.com" },
+        },
+      ],
+      Version: "2012-10-17",
+    }),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"output\\": {
+        \\"test-output\\": {
+          \\"value\\": \\"\${jsonencode({Statement = [{Action = \\\\\\"sts:AssumeRole\\\\\\", Effect = \\\\\\"Allow\\\\\\", Principal = {Service = \\\\\\"lambda.amazonaws.com\\\\\\"}}], Version = \\\\\\"2012-10-17\\\\\\"})}\\"
+        }
+      }
+    }"
+  `);
+});
+
 test("terraform local", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
