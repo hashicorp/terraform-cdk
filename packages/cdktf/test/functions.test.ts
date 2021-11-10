@@ -438,3 +438,27 @@ test("throws no error when wrapping unescaped double quotes in Fn.rawString", ()
     }"
   `);
 });
+
+test("rawString escapes correctly", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TerraformLocal(stack, "test", {
+    default: "abc",
+    plain: Fn.rawString("abc"),
+    infn: Fn.base64encode(Fn.rawString("abc")),
+    quotes: Fn.rawString(`"`),
+    doublequotes: Fn.rawString(`""`),
+    template: Fn.rawString("${TEMPLATE}"),
+  });
+
+  const str = Testing.synth(stack);
+  const json = JSON.parse(str);
+
+  const bslsh = `\\`; // a single backslash
+  expect(json.locals.test).toHaveProperty("default", "abc");
+  expect(json.locals.test).toHaveProperty("plain", "abc");
+  expect(json.locals.test).toHaveProperty("infn", '${base64encode("abc")}');
+  expect(json.locals.test).toHaveProperty("quotes", `${bslsh}"`);
+  expect(json.locals.test).toHaveProperty("doublequotes", `${bslsh}"${bslsh}"`);
+  expect(json.locals.test).toHaveProperty("template", "$${TEMPLATE}");
+});

@@ -86,7 +86,8 @@ class RawString extends TFExpression {
   }
 
   public resolve() {
-    return `"${this.escapeString(this.str).replace(/\"/g, '\\"')}"`; // eslint-disable-line no-useless-escape
+    const qts = this.isInnerTerraformExpression ? `"` : ``;
+    return `${qts}${this.escapeString(this.str).replace(/\"/g, '\\"')}${qts}`; // eslint-disable-line no-useless-escape
   }
 
   public toString() {
