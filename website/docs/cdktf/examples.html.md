@@ -15,15 +15,14 @@ This page contains links to tutorials, example projects in every supported langu
 
 Follow these hands-on tutorials from HashiCorp Learn:
 
-| Tutorial | Description |
-|---------| -------------|
-|[Install CDKTF and Run a Quick Start Demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) | Write TypeScript code that will provision an NGINX server using Docker on Mac, Windows, or Linux. |
-| [Build AWS Infrastructure with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf) | Provision an EC2 instance on AWS using TypeScript. |
-| [Build AWS Infrastructure with Python](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-python?in=terraform/cdktf) | Provision an EC2 instance on AWS using Python. |
-|[Build AWS Infrastructure with Go](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-go?in=terraform/cdktf) | Provision an EC2 instance on AWS using Go. |
+| Tutorial                                                                                                                                          | Description                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [Install CDKTF and Run a Quick Start Demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf)                      | Write TypeScript code that will provision an NGINX server using Docker on Mac, Windows, or Linux.                     |
+| [Build AWS Infrastructure with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)                        | Provision an EC2 instance on AWS using TypeScript.                                                                    |
+| [Build AWS Infrastructure with Python](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-python?in=terraform/cdktf)                     | Provision an EC2 instance on AWS using Python.                                                                        |
+| [Build AWS Infrastructure with Go](https://learn.hashicorp.com/tutorials/terraform/cdktf-build-go?in=terraform/cdktf)                             | Provision an EC2 instance on AWS using Go.                                                                            |
 | [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) | Deploy a CDKTF application made up of two stacks, each containing a simple AWS Lambda function written in TypeScript. |
-|[Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf) | Use CDKTF to deploy an application on Kubernetes.
-
+| [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf)               | Use CDKTF to deploy an application on Kubernetes.                                                                     |
 
 ## Example Projects
 
