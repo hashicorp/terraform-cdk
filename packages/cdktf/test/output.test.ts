@@ -169,3 +169,40 @@ test("expression output", () => {
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test("resource[] output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource1 = new TestResource(stack, "foo1", {
+    name: "foo1",
+  });
+  const resource2 = new TestResource(stack, "foo2", {
+    name: "foo2",
+  });
+
+  new TerraformOutput(stack, "test-output", {
+    value: [resource1, resource2],
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("resource map output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource = new TestResource(stack, "foo", {
+    name: "foo",
+  });
+  new TerraformOutput(stack, "test-output", {
+    value: {
+      myResource: resource,
+      something: "else",
+    },
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});

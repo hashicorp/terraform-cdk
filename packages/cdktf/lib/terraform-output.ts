@@ -1,8 +1,8 @@
 import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
-import { keysToSnakeCase, deepMerge } from "./util";
+import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { Expression, ref } from ".";
+import { Expression, ref, Tokenization } from ".";
 import { isArray } from "util";
 import { ITerraformAddressable } from "./terraform-addressable";
 
@@ -56,14 +56,35 @@ export class TerraformOutput extends TerraformElement {
     );
   }
 
+  private synthesizeValue(arg: any): any {
+    if (Tokenization.isResolvable(arg)) {
+      return arg;
+    }
+
+    if (this.isITerraformAddressable(arg)) {
+      return ref(arg.fqn);
+    }
+
+    if (Array.isArray(arg)) {
+      return arg.map((innerArg) => this.synthesizeValue(innerArg));
+    }
+
+    if (typeof arg === "object") {
+      return Object.keys(arg).reduce((result, key) => {
+        result[key] = this.synthesizeValue(arg[key]);
+        return result;
+      }, {} as { [key: string]: string });
+    }
+
+    return arg;
+  }
+
   protected synthesizeAttributes(): { [key: string]: any } {
     return {
-      value: this.isITerraformAddressable(this.value)
-        ? ref(this.value.fqn)
-        : this.value,
+      value: this.synthesizeValue(this.value),
       description: this.description,
       sensitive: this.sensitive,
-      dependsOn: this.dependsOn?.map((resource) => `\${${resource.fqn}}`),
+      depends_on: this.dependsOn?.map((resource) => `\${${resource.fqn}}`),
     };
   }
 
@@ -71,12 +92,13 @@ export class TerraformOutput extends TerraformElement {
     return {
       output: {
         [this.friendlyUniqueId]: deepMerge(
-          keysToSnakeCase(this.synthesizeAttributes()),
+          this.synthesizeAttributes(),
           this.rawOverrides
         ),
       },
     };
   }
+
   public toMetadata(): any {
     if (!Object.keys(this.rawOverrides).length) {
       return {};
