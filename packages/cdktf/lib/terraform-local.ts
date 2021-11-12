@@ -3,8 +3,12 @@ import { TerraformElement } from "./terraform-element";
 import { Token } from "./tokens";
 import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
+import { ITerraformAddressable } from "./terraform-addressable";
 
-export class TerraformLocal extends TerraformElement {
+export class TerraformLocal
+  extends TerraformElement
+  implements ITerraformAddressable
+{
   private _expression: any;
 
   constructor(scope: Construct, id: string, expression: any) {
@@ -38,6 +42,10 @@ export class TerraformLocal extends TerraformElement {
   }
 
   private interpolation(): any {
+    return `local.${this.friendlyUniqueId}`;
+  }
+
+  public get fqn() {
     return `local.${this.friendlyUniqueId}`;
   }
 

@@ -4,6 +4,7 @@ import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Expression, ref } from ".";
 import { isArray } from "util";
+import { ITerraformAddressable } from "./terraform-addressable";
 
 export interface TerraformOutputConfig {
   readonly value: Expression | ITerraformDependable;
@@ -20,7 +21,7 @@ export interface TerraformOutputConfig {
 }
 
 export class TerraformOutput extends TerraformElement {
-  public value: Expression | ITerraformDependable;
+  public value: Expression | ITerraformAddressable;
   public description?: string;
   public sensitive?: boolean;
   public dependsOn?: ITerraformDependable[];
@@ -44,7 +45,9 @@ export class TerraformOutput extends TerraformElement {
     return this.friendlyUniqueId === this.node.id;
   }
 
-  private isITerraformDependable(object: any): object is ITerraformDependable {
+  private isITerraformAddressable(
+    object: any
+  ): object is ITerraformAddressable {
     return (
       object &&
       typeof object === "object" &&
@@ -55,7 +58,7 @@ export class TerraformOutput extends TerraformElement {
 
   protected synthesizeAttributes(): { [key: string]: any } {
     return {
-      value: this.isITerraformDependable(this.value)
+      value: this.isITerraformAddressable(this.value)
         ? ref(this.value.fqn)
         : this.value,
       description: this.description,
