@@ -350,4 +350,8 @@ export type Expression =
   | string[]
   | number
   | boolean
-  | IResolvable;
+  | IResolvable
+  | { [key: string]: any }
+  | null
+  | any // ultimately any valid Terraform type can be used as an expression
+  | any[];
