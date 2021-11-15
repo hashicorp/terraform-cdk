@@ -4,6 +4,7 @@ import {
   TerraformOutput,
   TerraformElement,
   App,
+  Fn,
 } from "../lib";
 import fs = require("fs");
 import path = require("path");
@@ -133,6 +134,75 @@ test("static output id (without feature flags enabled)", () => {
     stack,
     "custom-construct-id-which-does-not-appear-in-output-name"
   );
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("full resource output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource = new TestResource(stack, "foo", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "test-output", {
+    value: resource,
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("expression output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource = new TestResource(stack, "foo", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.upper(resource.name),
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("resource[] output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource1 = new TestResource(stack, "foo1", {
+    name: "foo1",
+  });
+  const resource2 = new TestResource(stack, "foo2", {
+    name: "foo2",
+  });
+
+  new TerraformOutput(stack, "test-output", {
+    value: [resource1, resource2],
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("resource map output", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider", {});
+  const resource = new TestResource(stack, "foo", {
+    name: "foo",
+  });
+  new TerraformOutput(stack, "test-output", {
+    value: {
+      myResource: resource,
+      something: "else",
+    },
+  });
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
