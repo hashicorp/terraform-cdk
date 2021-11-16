@@ -264,7 +264,6 @@ export class HelloTerra extends TerraformStack {
 
 The [examples page](/docs/cdktf/examples.html) contains multiple example projects for every supported programming language.
 
-
 ### Scope
 
 You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
@@ -296,8 +295,6 @@ new Deployment(this, "nginx-deployment", {
     },
   });
 ```
-
-Please be aware that you can not pass an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source as this is not supported by Terraform. You need to specify all values you want to pass.
 
 ### Escape Hatch
 
