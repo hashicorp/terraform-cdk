@@ -371,9 +371,9 @@
   integrity sha512-ZKxKZhV2A46xScSvaqmb2+pdS2J+ndadmOtClOQo4QQldswYmvvvG5sRm2RKtvKcHHmZNpcsANLrFtXKI97gFA==
 
 "@cdktf/provider-azurerm@^0.2.9":
-  version "0.2.104"
-  resolved "https://registry.yarnpkg.com/@cdktf/provider-azurerm/-/provider-azurerm-0.2.104.tgz#1bab46e319036ac411b9e3242b459e7568db8d7d"
-  integrity sha512-VYh3hLeKlyQQf7vY7xx1fNd8ztORNKyPcBHU9lrafl8AP96e0YFBVL3h1oXcRIPVz4nf1NlMBnk106avXrz0mQ==
+  version "0.2.143"
+  resolved "https://registry.yarnpkg.com/@cdktf/provider-azurerm/-/provider-azurerm-0.2.143.tgz#425d7d12cefc61df783198268defce0eda8eefb0"
+  integrity sha512-RmIEitsV0IaJbhlEX8+6nCA+0Bn5a1VvLN20C5ZQ3bIasPJcvi2F74GDiTAO2yj64yt94+aFcPhT5DDCoqfx1g==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
