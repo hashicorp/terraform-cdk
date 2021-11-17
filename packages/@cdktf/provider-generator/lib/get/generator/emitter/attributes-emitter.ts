@@ -8,7 +8,10 @@ function titleCase(value: string) {
 }
 
 export class AttributesEmitter {
-  constructor(private code: CodeMaker) {}
+  constructor(
+    private code: CodeMaker,
+    private context: "resource" | "struct"
+  ) {}
 
   public emit(att: AttributeModel, escapeReset: boolean, escapeInput: boolean) {
     this.code.line();
@@ -21,7 +24,12 @@ export class AttributesEmitter {
     const hasInputMethod = isStored;
 
     if (isStored) {
-      this.code.line(`private ${att.storageName}?: ${att.type.storedName}; `);
+      this.code.line(
+        `private ${att.storageName}?: ${
+          // TODO: this is a hack to make optional attributes required on resources but not on structs
+          this.context === "resource" ? att.type.name : att.type.storedName
+        }; `
+      );
     }
 
     switch (att.getterType._type) {
@@ -51,15 +59,15 @@ export class AttributesEmitter {
         break;
     }
 
-    if (att.setterType._type === "set") {
-      this.code.openBlock(
-        `public set ${att.name}(value: ${att.setterType.type})`
-      );
+    const setterType = att.setterType(this.context);
+
+    if (setterType._type === "set") {
+      this.code.openBlock(`public set ${att.name}(value: ${setterType.type})`);
       this.code.line(`this.${att.storageName} = value;`);
       this.code.closeBlock();
-    } else if (att.setterType._type === "put") {
+    } else if (setterType._type === "put") {
       this.code.openBlock(
-        `public put${titleCase(att.name)}(value: ${att.setterType.type})`
+        `public put${titleCase(att.name)}(value: ${setterType.type})`
       );
       this.code.line(`this.${att.storageName} = value;`);
       this.code.closeBlock();

@@ -74,11 +74,11 @@ export class BooleanList extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean[] | undefined; 
+  private _fooOptional?: boolean[]; 
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: boolean[] | undefined) {
+  public set fooOptional(value: boolean[]) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -169,11 +169,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: boolean } | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: { [key: string]: boolean } | cdktf.IResolvable; 
   public get fooComputedOptional() {
     return this.getBooleanAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: { [key: string]: boolean } | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: { [key: string]: boolean } | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -185,11 +185,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: boolean } | cdktf.IResolvable | undefined; 
+  private _fooOptional?: { [key: string]: boolean } | cdktf.IResolvable; 
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: boolean } | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: { [key: string]: boolean } | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -490,12 +490,12 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // ==========
 
   // inputs - computed: false, optional: true, required: false
-  private _inputs?: BlockTypeNestedComputedListInputs[] | undefined; 
+  private _inputs?: BlockTypeNestedComputedListInputs[]; 
   public get inputs() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('inputs') as any;
   }
-  public set inputs(value: BlockTypeNestedComputedListInputs[] | undefined) {
+  public set inputs(value: BlockTypeNestedComputedListInputs[]) {
     this._inputs = value;
   }
   public resetInputs() {
@@ -632,12 +632,12 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: ComputedOptionalComplexEgress[] | undefined; 
+  private _egress?: ComputedOptionalComplexEgress[]; 
   public get egress() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('egress') as any;
   }
-  public set egress(value: ComputedOptionalComplexEgress[] | undefined) {
+  public set egress(value: ComputedOptionalComplexEgress[]) {
     this._egress = value;
   }
   public resetEgress() {
@@ -786,12 +786,12 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // ==========
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[] | undefined; 
+  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[]; 
   public get lifecycleRule() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('lifecycle_rule') as any;
   }
-  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] | undefined) {
+  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[]) {
     this._lifecycleRule = value;
   }
   public resetLifecycleRule() {
@@ -953,11 +953,11 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // ==========
 
   // get_password_data - computed: false, optional: true, required: false
-  private _getPasswordData?: string | undefined; 
+  private _getPasswordData?: string; 
   public get fetchPasswordData() {
     return this.getStringAttribute('get_password_data');
   }
-  public set fetchPasswordData(value: string | undefined) {
+  public set fetchPasswordData(value: string) {
     this._getPasswordData = value;
   }
   public resetFetchPasswordData() {
@@ -1151,12 +1151,12 @@ export class NumberList extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: number[] | undefined; 
+  private _fooOptional?: number[]; 
   public get fooOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: number[] | undefined) {
+  public set fooOptional(value: number[]) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1247,12 +1247,12 @@ export class NumberMap extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: number } | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: { [key: string]: number } | cdktf.IResolvable; 
   public get fooComputedOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: { [key: string]: number } | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: { [key: string]: number } | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1264,12 +1264,12 @@ export class NumberMap extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: number } | cdktf.IResolvable | undefined; 
+  private _fooOptional?: { [key: string]: number } | cdktf.IResolvable; 
   public get fooOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: number } | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: { [key: string]: number } | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1365,11 +1365,11 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: boolean | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: boolean | cdktf.IResolvable; 
   public get fooComputedOptional() {
     return this.getBooleanAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: boolean | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: boolean | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1381,11 +1381,11 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean | cdktf.IResolvable | undefined; 
+  private _fooOptional?: boolean | cdktf.IResolvable; 
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: boolean | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: boolean | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1495,12 +1495,12 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: any } | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: { [key: string]: any } | cdktf.IResolvable; 
   public get fooComputedOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: { [key: string]: any } | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: { [key: string]: any } | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1512,12 +1512,12 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: any } | cdktf.IResolvable | undefined; 
+  private _fooOptional?: { [key: string]: any } | cdktf.IResolvable; 
   public get fooOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: any } | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: { [key: string]: any } | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1628,11 +1628,11 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: number | undefined; 
+  private _fooComputedOptional?: number; 
   public get fooComputedOptional() {
     return this.getNumberAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: number | undefined) {
+  public set fooComputedOptional(value: number) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1644,11 +1644,11 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: number | undefined; 
+  private _fooOptional?: number; 
   public get fooOptional() {
     return this.getNumberAttribute('foo_optional');
   }
-  public set fooOptional(value: number | undefined) {
+  public set fooOptional(value: number) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1758,11 +1758,11 @@ export class PrimitiveString extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: string | undefined; 
+  private _fooComputedOptional?: string; 
   public get fooComputedOptional() {
     return this.getStringAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: string | undefined) {
+  public set fooComputedOptional(value: string) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1774,11 +1774,11 @@ export class PrimitiveString extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: string | undefined; 
+  private _fooOptional?: string; 
   public get fooOptional() {
     return this.getStringAttribute('foo_optional');
   }
-  public set fooOptional(value: string | undefined) {
+  public set fooOptional(value: string) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1888,11 +1888,11 @@ export class NameConflict extends cdktf.TerraformResource {
   // ==========
 
   // values - computed: false, optional: true, required: false
-  private _values?: string | undefined; 
+  private _values?: string; 
   public get values() {
     return this.getStringAttribute('values');
   }
-  public set values(value: string | undefined) {
+  public set values(value: string) {
     this._values = value;
   }
   public resetTfValues() {
@@ -1904,11 +1904,11 @@ export class NameConflict extends cdktf.TerraformResource {
   }
 
   // reset_values - computed: false, optional: true, required: false
-  private _resetValues?: string | undefined; 
+  private _resetValues?: string; 
   public get resetValues() {
     return this.getStringAttribute('reset_values');
   }
-  public set resetValues(value: string | undefined) {
+  public set resetValues(value: string) {
     this._resetValues = value;
   }
   public resetResetValues() {
@@ -1920,11 +1920,11 @@ export class NameConflict extends cdktf.TerraformResource {
   }
 
   // template - computed: false, optional: true, required: false
-  private _template?: string | undefined; 
+  private _template?: string; 
   public get template() {
     return this.getStringAttribute('template');
   }
-  public set template(value: string | undefined) {
+  public set template(value: string) {
     this._template = value;
   }
   public resetTemplate() {
@@ -1936,11 +1936,11 @@ export class NameConflict extends cdktf.TerraformResource {
   }
 
   // template_input - computed: false, optional: true, required: false
-  private _templateInput?: string | undefined; 
+  private _templateInput?: string; 
   public get templateInput() {
     return this.getStringAttribute('template_input');
   }
-  public set templateInput(value: string | undefined) {
+  public set templateInput(value: string) {
     this._templateInput = value;
   }
   public resetTemplateInput() {
@@ -2066,12 +2066,12 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // ==========
 
   // timeouts_set - computed: false, optional: true, required: false
-  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[] | undefined; 
+  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[]; 
   public get timeoutsSet() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('timeouts_set') as any;
   }
-  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | undefined) {
+  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[]) {
     this._timeoutsSet = value;
   }
   public resetTimeoutsSet() {
@@ -2083,12 +2083,12 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   }
 
   // timeouts_list - computed: false, optional: true, required: false
-  private _timeoutsList?: BlockTypeSetListTimeoutsList[] | undefined; 
+  private _timeoutsList?: BlockTypeSetListTimeoutsList[]; 
   public get timeoutsList() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('timeouts_list') as any;
   }
-  public set timeoutsList(value: BlockTypeSetListTimeoutsList[] | undefined) {
+  public set timeoutsList(value: BlockTypeSetListTimeoutsList[]) {
     this._timeoutsList = value;
   }
   public resetTimeoutsList() {
@@ -2214,7 +2214,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ==========
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts?: SingleBlockTypeTimeouts | undefined; 
+  private _timeouts?: SingleBlockTypeTimeouts; 
   private __timeoutsOutput = new SingleBlockTypeTimeoutsOutputReference(this as any, \\"timeouts\\", true);
   public get timeouts() {
     return this.__timeoutsOutput;
@@ -2309,11 +2309,11 @@ export class StringList extends cdktf.TerraformResource {
   // ==========
 
   // subject_alternative_names_optional_computed - computed: true, optional: true, required: false
-  private _subjectAlternativeNamesOptionalComputed?: string[] | undefined; 
+  private _subjectAlternativeNamesOptionalComputed?: string[]; 
   public get subjectAlternativeNamesOptionalComputed() {
     return this.getListAttribute('subject_alternative_names_optional_computed');
   }
-  public set subjectAlternativeNamesOptionalComputed(value: string[] | undefined) {
+  public set subjectAlternativeNamesOptionalComputed(value: string[]) {
     this._subjectAlternativeNamesOptionalComputed = value;
   }
   public resetSubjectAlternativeNamesOptionalComputed() {
@@ -2343,11 +2343,11 @@ export class StringList extends cdktf.TerraformResource {
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
-  private _subjectAlternativeNamesOptional?: string[] | undefined; 
+  private _subjectAlternativeNamesOptional?: string[]; 
   public get subjectAlternativeNamesOptional() {
     return this.getListAttribute('subject_alternative_names_optional');
   }
-  public set subjectAlternativeNamesOptional(value: string[] | undefined) {
+  public set subjectAlternativeNamesOptional(value: string[]) {
     this._subjectAlternativeNamesOptional = value;
   }
   public resetSubjectAlternativeNamesOptional() {
@@ -2439,12 +2439,12 @@ export class StringMap extends cdktf.TerraformResource {
   }
 
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
-  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string } | cdktf.IResolvable | undefined; 
+  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string } | cdktf.IResolvable; 
   public get subjectAlternativeNamesComputedOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any;
   }
-  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
+  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | cdktf.IResolvable) {
     this._subjectAlternativeNamesComputedOptional = value;
   }
   public resetSubjectAlternativeNamesComputedOptional() {
@@ -2456,12 +2456,12 @@ export class StringMap extends cdktf.TerraformResource {
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
-  private _subjectAlternativeNamesOptional?: { [key: string]: string } | cdktf.IResolvable | undefined; 
+  private _subjectAlternativeNamesOptional?: { [key: string]: string } | cdktf.IResolvable; 
   public get subjectAlternativeNamesOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('subject_alternative_names_optional') as any;
   }
-  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
+  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | cdktf.IResolvable) {
     this._subjectAlternativeNamesOptional = value;
   }
   public resetSubjectAlternativeNamesOptional() {

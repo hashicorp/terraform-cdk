@@ -168,11 +168,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // certificate_authority_arn - computed: false, optional: true, required: false
-  private _certificateAuthorityArn?: string | undefined; 
+  private _certificateAuthorityArn?: string; 
   public get certificateAuthorityArn() {
     return this.getStringAttribute('certificate_authority_arn');
   }
-  public set certificateAuthorityArn(value: string | undefined) {
+  public set certificateAuthorityArn(value: string) {
     this._certificateAuthorityArn = value;
   }
   public resetCertificateAuthorityArn() {
@@ -184,11 +184,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // certificate_body - computed: false, optional: true, required: false
-  private _certificateBody?: string | undefined; 
+  private _certificateBody?: string; 
   public get certificateBody() {
     return this.getStringAttribute('certificate_body');
   }
-  public set certificateBody(value: string | undefined) {
+  public set certificateBody(value: string) {
     this._certificateBody = value;
   }
   public resetCertificateBody() {
@@ -200,11 +200,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // certificate_chain - computed: false, optional: true, required: false
-  private _certificateChain?: string | undefined; 
+  private _certificateChain?: string; 
   public get certificateChain() {
     return this.getStringAttribute('certificate_chain');
   }
-  public set certificateChain(value: string | undefined) {
+  public set certificateChain(value: string) {
     this._certificateChain = value;
   }
   public resetCertificateChain() {
@@ -216,11 +216,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // domain_name - computed: true, optional: true, required: false
-  private _domainName?: string | undefined; 
+  private _domainName?: string; 
   public get domainName() {
     return this.getStringAttribute('domain_name');
   }
-  public set domainName(value: string | undefined) {
+  public set domainName(value: string) {
     this._domainName = value;
   }
   public resetDomainName() {
@@ -242,11 +242,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // private_key - computed: false, optional: true, required: false
-  private _privateKey?: string | undefined; 
+  private _privateKey?: string; 
   public get privateKey() {
     return this.getStringAttribute('private_key');
   }
-  public set privateKey(value: string | undefined) {
+  public set privateKey(value: string) {
     this._privateKey = value;
   }
   public resetPrivateKey() {
@@ -258,11 +258,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // subject_alternative_names - computed: true, optional: true, required: false
-  private _subjectAlternativeNames?: string[] | undefined; 
+  private _subjectAlternativeNames?: string[]; 
   public get subjectAlternativeNames() {
     return this.getListAttribute('subject_alternative_names');
   }
-  public set subjectAlternativeNames(value: string[] | undefined) {
+  public set subjectAlternativeNames(value: string[]) {
     this._subjectAlternativeNames = value;
   }
   public resetSubjectAlternativeNames() {
@@ -274,12 +274,12 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable | undefined; 
+  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
   public get tags() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
+  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
     this._tags = value;
   }
   public resetTags() {
@@ -296,11 +296,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // validation_method - computed: true, optional: true, required: false
-  private _validationMethod?: string | undefined; 
+  private _validationMethod?: string; 
   public get validationMethod() {
     return this.getStringAttribute('validation_method');
   }
-  public set validationMethod(value: string | undefined) {
+  public set validationMethod(value: string) {
     this._validationMethod = value;
   }
   public resetValidationMethod() {
@@ -312,7 +312,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // options - computed: false, optional: true, required: false
-  private _options?: AcmCertificateOptions | undefined; 
+  private _options?: AcmCertificateOptions; 
   private __optionsOutput = new AcmCertificateOptionsOutputReference(this as any, \\"options\\", true);
   public get options() {
     return this.__optionsOutput;

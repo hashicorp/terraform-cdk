@@ -6,7 +6,7 @@ export class ResourceEmitter {
   attributesEmitter: AttributesEmitter;
 
   constructor(private readonly code: CodeMaker) {
-    this.attributesEmitter = new AttributesEmitter(this.code);
+    this.attributesEmitter = new AttributesEmitter(this.code, "resource");
   }
 
   public emit(resource: ResourceModel) {

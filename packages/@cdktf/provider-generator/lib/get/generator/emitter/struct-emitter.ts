@@ -8,7 +8,7 @@ export class StructEmitter {
   attributesEmitter: AttributesEmitter;
 
   constructor(private readonly code: CodeMaker) {
-    this.attributesEmitter = new AttributesEmitter(this.code);
+    this.attributesEmitter = new AttributesEmitter(this.code, "struct");
   }
 
   public emit(resource: ResourceModel) {
