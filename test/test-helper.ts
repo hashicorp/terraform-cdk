@@ -8,7 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra");
 
-class QueryableStack {
+export class QueryableStack {
   private readonly stack: Record<string, any>;
   constructor(stackInput: string) {
     this.stack = JSON.parse(stackInput);
@@ -19,6 +19,7 @@ class QueryableStack {
    * it's a data source or resource and which type it has
    */
   public byId(id: string): Record<string, any> {
+    const sanitizedId = id.replace(/_/g, "");
     const constructs = (
       [
         ...Object.values(this.stack.resource || {}),
@@ -29,14 +30,18 @@ class QueryableStack {
       {} as Record<string, any>
     );
 
-    return constructs[id];
+    return constructs[sanitizedId];
   }
 
   public output(id: string): string {
     return this.stack.output[id].value;
   }
 
-  public toString(): string {
+  public toString(removeMetadata = false): string {
+    if (removeMetadata) {
+      return JSON.stringify({ ...this.stack, ["//"]: undefined }, null, 2);
+    }
+
     return JSON.stringify(this.stack, null, 2);
   }
 }
@@ -117,6 +122,10 @@ export class TestDriver {
 
   copyFile = (source, dest) => {
     fse.copySync(path.join(this.rootDir, source), dest);
+  };
+
+  addFile = (dest, content) => {
+    fse.writeFileSync(dest, content);
   };
 
   stackDirectory = (stackName: string) => {
@@ -216,13 +225,15 @@ export class TestDriver {
     await this.get();
   };
 
-  setupGoProject = async () => {
+  setupGoProject = async (cb?: (workingDirectory) => void) => {
     this.switchToTempDir();
+    console.log(this.workingDirectory);
     await this.init("go");
     this.copyFiles("cdktf.json");
     this.copyFile("main.go", "main.go");
 
     await this.get();
+    cb && cb(this.workingDirectory);
 
     // automatically retrieves required jsii-runtime module (used in generated providers)
     await this.exec("go mod tidy");

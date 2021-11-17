@@ -1,0 +1,9 @@
+{
+  "language": "go",
+  "app": "go run main.go",
+  "terraformProviders": ["hashicorp/random@~> 3.1.0"],
+  "codeMakerOutput": "generated",
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}

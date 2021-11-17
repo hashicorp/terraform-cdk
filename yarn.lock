@@ -1880,7 +1880,7 @@
     prop-types "^15.5.10"
     yn "^3.1.1"
 
-"@skorfmann/terraform-cloud@^1.10.1":
+"@skorfmann/terraform-cloud@^1.10.1", "@skorfmann/terraform-cloud@^1.9.1":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@skorfmann/terraform-cloud/-/terraform-cloud-1.10.1.tgz#a09c9fb3a582b04c39b97a16e53424172db2feb1"
   integrity sha512-yQpxfH1VbwIcsyRQ8eN8qLJ76pZ4CQ1Ck1SmFtiKE7J790KFwC8o2r1dlTU130M/bv1eb/8gdPY1T3DLj40D8w==
@@ -2120,6 +2120,14 @@
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
+
+"@types/jest@^27.0.1":
+  version "27.0.3"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.0.3.tgz#0cf9dfe9009e467f70a342f0f94ead19842a783a"
+  integrity sha512-cmmwv9t7gBYt7hNKH5Spu7Kuu/DotGa+Ff+JGRKZ4db5eh8PnKS4LuebJ3YLUoyOyIHraTGyULn23YtEAm0VSg==
+  dependencies:
+    jest-diff "^27.0.0"
+    pretty-format "^27.0.0"
 
 "@types/jest@^27.0.2":
   version "27.0.2"
@@ -2732,7 +2740,7 @@ archiver-utils@^2.1.0:
     normalize-path "^3.0.0"
     readable-stream "^2.0.0"
 
-archiver@5.3.0, archiver@^5.1.0:
+archiver@5.3.0, archiver@^5.1.0, archiver@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/archiver/-/archiver-5.3.0.tgz#dd3e097624481741df626267564f7dd8640a45ba"
   integrity sha512-iUw+oDwK0fgNpvveEsdQ0Ase6IIKztBJU2U0E9MzszMfmVVUyv1QJhS2ITW9ZCqx8dktAxVAjWWkKehuZE8OPg==
@@ -8144,6 +8152,11 @@ mute-stream@0.0.8, mute-stream@~0.0.4:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
+nan@^2.14.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
+  integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
+
 nanomatch@^1.2.9:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
@@ -8270,6 +8283,13 @@ node-notifier@^8.0.0:
     shellwords "^0.1.1"
     uuid "^8.3.0"
     which "^2.0.2"
+
+node-pty@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/node-pty/-/node-pty-0.10.0.tgz#c98d23967b076b35c9fb216c542a04d0b5db4821"
+  integrity sha512-Q65ookKbjhqWUYKmtZ6iPn0nnqNdzpm3YJOBmzwWJde/TrenBxK9FgqGGtSW0Wjz4YsR1grQF4a7RS5nBwuW9A==
+  dependencies:
+    nan "^2.14.0"
 
 node-releases@^2.0.1:
   version "2.0.1"
