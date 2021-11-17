@@ -4,13 +4,17 @@ import { Token } from "./tokens";
 import { deepMerge, keysToSnakeCase } from "./util";
 import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
+import { ITerraformAddressable } from "./terraform-addressable";
 
 export interface DataTerraformRemoteStateConfig {
   readonly workspace?: string;
   readonly defaults?: { [key: string]: any };
 }
 
-export abstract class TerraformRemoteState extends TerraformElement {
+export abstract class TerraformRemoteState
+  extends TerraformElement
+  implements ITerraformAddressable
+{
   constructor(
     scope: Construct,
     id: string,
@@ -46,6 +50,10 @@ export abstract class TerraformRemoteState extends TerraformElement {
     return ref(
       `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`
     );
+  }
+
+  public get fqn() {
+    return `data.terraform_remote_state.${this.friendlyUniqueId}`;
   }
 
   private extractConfig(): { [name: string]: any } {

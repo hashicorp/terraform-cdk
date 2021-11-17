@@ -4,6 +4,7 @@ import { keysToSnakeCase, deepMerge } from "./util";
 import { Token } from "./tokens";
 import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
+import { ITerraformAddressable } from "./terraform-addressable";
 
 export abstract class VariableType {
   public static readonly STRING = "string";
@@ -82,7 +83,10 @@ export interface TerraformVariableConfig {
   readonly sensitive?: boolean;
 }
 
-export class TerraformVariable extends TerraformElement {
+export class TerraformVariable
+  extends TerraformElement
+  implements ITerraformAddressable
+{
   public readonly default?: any;
   public readonly description?: string;
   public readonly type?: string;
@@ -119,6 +123,10 @@ export class TerraformVariable extends TerraformElement {
 
   private interpolation(): IResolvable {
     return ref(`var.${this.friendlyUniqueId}`);
+  }
+
+  public get fqn() {
+    return `var.${this.friendlyUniqueId}`;
   }
 
   public synthesizeAttributes(): { [key: string]: any } {
