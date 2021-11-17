@@ -21,7 +21,7 @@ export class AttributesEmitter {
     const hasInputMethod = isStored;
 
     if (isStored) {
-      this.code.line(`private ${att.storageName}?: ${att.type.storedName}; `);
+      this.code.line(`private ${att.storageName}?: ${att.type.name}; `);
     }
 
     switch (att.getterType._type) {
@@ -51,15 +51,15 @@ export class AttributesEmitter {
         break;
     }
 
-    if (att.setterType._type === "set") {
-      this.code.openBlock(
-        `public set ${att.name}(value: ${att.setterType.type})`
-      );
+    const setterType = att.setterType;
+
+    if (setterType._type === "set") {
+      this.code.openBlock(`public set ${att.name}(value: ${setterType.type})`);
       this.code.line(`this.${att.storageName} = value;`);
       this.code.closeBlock();
-    } else if (att.setterType._type === "put") {
+    } else if (setterType._type === "put") {
       this.code.openBlock(
-        `public put${titleCase(att.name)}(value: ${att.setterType.type})`
+        `public put${titleCase(att.name)}(value: ${setterType.type})`
       );
       this.code.line(`this.${att.storageName} = value;`);
       this.code.closeBlock();
