@@ -24,12 +24,7 @@ export class AttributesEmitter {
     const hasInputMethod = isStored;
 
     if (isStored) {
-      this.code.line(
-        `private ${att.storageName}?: ${
-          // TODO: this is a hack to make optional attributes required on resources but not on structs
-          this.context === "resource" ? att.type.name : att.type.storedName
-        }; `
-      );
+      this.code.line(`private ${att.storageName}?: ${att.type.name}; `);
     }
 
     switch (att.getterType._type) {

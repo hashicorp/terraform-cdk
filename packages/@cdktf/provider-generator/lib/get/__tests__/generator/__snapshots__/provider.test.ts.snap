@@ -187,7 +187,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   }
 
   // external_id - computed: false, optional: true, required: false
-  private _externalId?: string | undefined; 
+  private _externalId?: string; 
   public get externalId() {
     return this._externalId;
   }
@@ -203,7 +203,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   }
 
   // policy - computed: false, optional: true, required: false
-  private _policy?: string | undefined; 
+  private _policy?: string; 
   public get policy() {
     return this._policy;
   }
@@ -219,7 +219,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   }
 
   // role_arn - computed: false, optional: true, required: false
-  private _roleArn?: string | undefined; 
+  private _roleArn?: string; 
   public get roleArn() {
     return this._roleArn;
   }
@@ -235,7 +235,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   }
 
   // session_name - computed: false, optional: true, required: false
-  private _sessionName?: string | undefined; 
+  private _sessionName?: string; 
   public get sessionName() {
     return this._sessionName;
   }
@@ -1244,7 +1244,7 @@ export class AwsProviderIgnoreTagsOutputReference extends cdktf.ComplexObject {
   }
 
   // key_prefixes - computed: false, optional: true, required: false
-  private _keyPrefixes?: string[] | undefined; 
+  private _keyPrefixes?: string[]; 
   public get keyPrefixes() {
     return this._keyPrefixes;
   }
@@ -1260,7 +1260,7 @@ export class AwsProviderIgnoreTagsOutputReference extends cdktf.ComplexObject {
   }
 
   // keys - computed: false, optional: true, required: false
-  private _keys?: string[] | undefined; 
+  private _keys?: string[]; 
   public get keys() {
     return this._keys;
   }

@@ -706,7 +706,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   }
 
   // date - computed: false, optional: true, required: false
-  private _date?: string | undefined; 
+  private _date?: string; 
   public get date() {
     return this.getStringAttribute('date');
   }
@@ -2158,7 +2158,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   }
 
   // create - computed: false, optional: true, required: false
-  private _create?: string | undefined; 
+  private _create?: string; 
   public get create() {
     return this.getStringAttribute('create');
   }

@@ -155,7 +155,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   }
 
   // whitelisted_names - computed: false, optional: true, required: false
-  private _whitelistedNames?: string[] | undefined; 
+  private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
     return this.getListAttribute('whitelisted_names');
   }
@@ -215,7 +215,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   }
 
   // headers - computed: false, optional: true, required: false
-  private _headers?: string[] | undefined; 
+  private _headers?: string[]; 
   public get headers() {
     return this.getListAttribute('headers');
   }
@@ -244,7 +244,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   }
 
   // query_string_cache_keys - computed: false, optional: true, required: false
-  private _queryStringCacheKeys?: string[] | undefined; 
+  private _queryStringCacheKeys?: string[]; 
   public get queryStringCacheKeys() {
     return this.getListAttribute('query_string_cache_keys');
   }
@@ -464,7 +464,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   }
 
   // whitelisted_names - computed: false, optional: true, required: false
-  private _whitelistedNames?: string[] | undefined; 
+  private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
     return this.getListAttribute('whitelisted_names');
   }
@@ -524,7 +524,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   }
 
   // headers - computed: false, optional: true, required: false
-  private _headers?: string[] | undefined; 
+  private _headers?: string[]; 
   public get headers() {
     return this.getListAttribute('headers');
   }
@@ -553,7 +553,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   }
 
   // query_string_cache_keys - computed: false, optional: true, required: false
-  private _queryStringCacheKeys?: string[] | undefined; 
+  private _queryStringCacheKeys?: string[]; 
   public get queryStringCacheKeys() {
     return this.getListAttribute('query_string_cache_keys');
   }
@@ -727,7 +727,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // compress - computed: false, optional: true, required: false
-  private _compress?: boolean | cdktf.IResolvable | undefined; 
+  private _compress?: boolean | cdktf.IResolvable; 
   public get compress() {
     return this.getBooleanAttribute('compress') as any;
   }
@@ -743,7 +743,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // default_ttl - computed: false, optional: true, required: false
-  private _defaultTtl?: number | undefined; 
+  private _defaultTtl?: number; 
   public get defaultTtl() {
     return this.getNumberAttribute('default_ttl');
   }
@@ -759,7 +759,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // field_level_encryption_id - computed: false, optional: true, required: false
-  private _fieldLevelEncryptionId?: string | undefined; 
+  private _fieldLevelEncryptionId?: string; 
   public get fieldLevelEncryptionId() {
     return this.getStringAttribute('field_level_encryption_id');
   }
@@ -775,7 +775,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // max_ttl - computed: false, optional: true, required: false
-  private _maxTtl?: number | undefined; 
+  private _maxTtl?: number; 
   public get maxTtl() {
     return this.getNumberAttribute('max_ttl');
   }
@@ -791,7 +791,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // min_ttl - computed: false, optional: true, required: false
-  private _minTtl?: number | undefined; 
+  private _minTtl?: number; 
   public get minTtl() {
     return this.getNumberAttribute('min_ttl');
   }
@@ -807,7 +807,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // smooth_streaming - computed: false, optional: true, required: false
-  private _smoothStreaming?: boolean | cdktf.IResolvable | undefined; 
+  private _smoothStreaming?: boolean | cdktf.IResolvable; 
   public get smoothStreaming() {
     return this.getBooleanAttribute('smooth_streaming') as any;
   }
@@ -836,7 +836,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // trusted_signers - computed: false, optional: true, required: false
-  private _trustedSigners?: string[] | undefined; 
+  private _trustedSigners?: string[]; 
   public get trustedSigners() {
     return this.getListAttribute('trusted_signers');
   }
@@ -879,7 +879,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // lambda_function_association - computed: false, optional: true, required: false
-  private _lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | undefined; 
+  private _lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[]; 
   public get lambdaFunctionAssociation() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('lambda_function_association') as any;
@@ -946,7 +946,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   }
 
   // include_cookies - computed: false, optional: true, required: false
-  private _includeCookies?: boolean | cdktf.IResolvable | undefined; 
+  private _includeCookies?: boolean | cdktf.IResolvable; 
   public get includeCookies() {
     return this.getBooleanAttribute('include_cookies') as any;
   }
@@ -962,7 +962,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   }
 
   // prefix - computed: false, optional: true, required: false
-  private _prefix?: string | undefined; 
+  private _prefix?: string; 
   public get prefix() {
     return this.getStringAttribute('prefix');
   }
@@ -1023,7 +1023,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   }
 
   // whitelisted_names - computed: false, optional: true, required: false
-  private _whitelistedNames?: string[] | undefined; 
+  private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
     return this.getListAttribute('whitelisted_names');
   }
@@ -1083,7 +1083,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   }
 
   // headers - computed: false, optional: true, required: false
-  private _headers?: string[] | undefined; 
+  private _headers?: string[]; 
   public get headers() {
     return this.getListAttribute('headers');
   }
@@ -1112,7 +1112,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   }
 
   // query_string_cache_keys - computed: false, optional: true, required: false
-  private _queryStringCacheKeys?: string[] | undefined; 
+  private _queryStringCacheKeys?: string[]; 
   public get queryStringCacheKeys() {
     return this.getListAttribute('query_string_cache_keys');
   }
@@ -1355,7 +1355,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
 
   // origin_keepalive_timeout - computed: false, optional: true, required: false
-  private _originKeepaliveTimeout?: number | undefined; 
+  private _originKeepaliveTimeout?: number; 
   public get originKeepaliveTimeout() {
     return this.getNumberAttribute('origin_keepalive_timeout');
   }
@@ -1384,7 +1384,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
 
   // origin_read_timeout - computed: false, optional: true, required: false
-  private _originReadTimeout?: number | undefined; 
+  private _originReadTimeout?: number; 
   public get originReadTimeout() {
     return this.getNumberAttribute('origin_read_timeout');
   }
@@ -1622,7 +1622,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   }
 
   // locations - computed: false, optional: true, required: false
-  private _locations?: string[] | undefined; 
+  private _locations?: string[]; 
   public get locations() {
     return this.getListAttribute('locations');
   }
@@ -1741,7 +1741,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
 
   // acm_certificate_arn - computed: false, optional: true, required: false
-  private _acmCertificateArn?: string | undefined; 
+  private _acmCertificateArn?: string; 
   public get acmCertificateArn() {
     return this.getStringAttribute('acm_certificate_arn');
   }
@@ -1757,7 +1757,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
 
   // cloudfront_default_certificate - computed: false, optional: true, required: false
-  private _cloudfrontDefaultCertificate?: boolean | cdktf.IResolvable | undefined; 
+  private _cloudfrontDefaultCertificate?: boolean | cdktf.IResolvable; 
   public get cloudfrontDefaultCertificate() {
     return this.getBooleanAttribute('cloudfront_default_certificate') as any;
   }
@@ -1773,7 +1773,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
 
   // iam_certificate_id - computed: false, optional: true, required: false
-  private _iamCertificateId?: string | undefined; 
+  private _iamCertificateId?: string; 
   public get iamCertificateId() {
     return this.getStringAttribute('iam_certificate_id');
   }
@@ -1789,7 +1789,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
 
   // minimum_protocol_version - computed: false, optional: true, required: false
-  private _minimumProtocolVersion?: string | undefined; 
+  private _minimumProtocolVersion?: string; 
   public get minimumProtocolVersion() {
     return this.getStringAttribute('minimum_protocol_version');
   }
@@ -1805,7 +1805,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
 
   // ssl_support_method - computed: false, optional: true, required: false
-  private _sslSupportMethod?: string | undefined; 
+  private _sslSupportMethod?: string; 
   public get sslSupportMethod() {
     return this.getStringAttribute('ssl_support_method');
   }
@@ -2592,7 +2592,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   }
 
   // date - computed: false, optional: true, required: false
-  private _date?: string | undefined; 
+  private _date?: string; 
   public get date() {
     return this.getStringAttribute('date');
   }
@@ -2608,7 +2608,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   }
 
   // days - computed: false, optional: true, required: false
-  private _days?: number | undefined; 
+  private _days?: number; 
   public get days() {
     return this.getNumberAttribute('days');
   }
@@ -2624,7 +2624,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   }
 
   // expired_object_delete_marker - computed: false, optional: true, required: false
-  private _expiredObjectDeleteMarker?: boolean | cdktf.IResolvable | undefined; 
+  private _expiredObjectDeleteMarker?: boolean | cdktf.IResolvable; 
   public get expiredObjectDeleteMarker() {
     return this.getBooleanAttribute('expired_object_delete_marker') as any;
   }
@@ -2667,7 +2667,7 @@ export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference ext
   }
 
   // days - computed: false, optional: true, required: false
-  private _days?: number | undefined; 
+  private _days?: number; 
   public get days() {
     return this.getNumberAttribute('days');
   }
@@ -2855,7 +2855,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   }
 
   // days - computed: false, optional: true, required: false
-  private _days?: number | undefined; 
+  private _days?: number; 
   public get days() {
     return this.getNumberAttribute('days');
   }
@@ -2884,7 +2884,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   }
 
   // years - computed: false, optional: true, required: false
-  private _years?: number | undefined; 
+  private _years?: number; 
   public get years() {
     return this.getNumberAttribute('years');
   }
@@ -2990,7 +2990,7 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
   }
 
   // rule - computed: false, optional: true, required: false
-  private _rule?: S3BucketObjectLockConfigurationRule | undefined; 
+  private _rule?: S3BucketObjectLockConfigurationRule; 
   private __ruleOutput = new S3BucketObjectLockConfigurationRuleOutputReference(this as any, \\"rule\\", true);
   public get rule() {
     return this.__ruleOutput;
@@ -3096,7 +3096,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
 
   // account_id - computed: false, optional: true, required: false
-  private _accountId?: string | undefined; 
+  private _accountId?: string; 
   public get accountId() {
     return this.getStringAttribute('account_id');
   }
@@ -3125,7 +3125,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
 
   // replica_kms_key_id - computed: false, optional: true, required: false
-  private _replicaKmsKeyId?: string | undefined; 
+  private _replicaKmsKeyId?: string; 
   public get replicaKmsKeyId() {
     return this.getStringAttribute('replica_kms_key_id');
   }
@@ -3141,7 +3141,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
 
   // storage_class - computed: false, optional: true, required: false
-  private _storageClass?: string | undefined; 
+  private _storageClass?: string; 
   public get storageClass() {
     return this.getStringAttribute('storage_class');
   }
@@ -3157,7 +3157,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
 
   // access_control_translation - computed: false, optional: true, required: false
-  private _accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation | undefined; 
+  private _accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation; 
   private __accessControlTranslationOutput = new S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference(this as any, \\"access_control_translation\\", true);
   public get accessControlTranslation() {
     return this.__accessControlTranslationOutput;
@@ -3206,7 +3206,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   }
 
   // prefix - computed: false, optional: true, required: false
-  private _prefix?: string | undefined; 
+  private _prefix?: string; 
   public get prefix() {
     return this.getStringAttribute('prefix');
   }
@@ -3222,7 +3222,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable | undefined; 
+  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
   public get tags() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('tags') as any;
@@ -3308,7 +3308,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputR
   }
 
   // sse_kms_encrypted_objects - computed: false, optional: true, required: false
-  private _sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects | undefined; 
+  private _sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects; 
   private __sseKmsEncryptedObjectsOutput = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference(this as any, \\"sse_kms_encrypted_objects\\", true);
   public get sseKmsEncryptedObjects() {
     return this.__sseKmsEncryptedObjectsOutput;
@@ -3471,7 +3471,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
   }
 
   // kms_master_key_id - computed: false, optional: true, required: false
-  private _kmsMasterKeyId?: string | undefined; 
+  private _kmsMasterKeyId?: string; 
   public get kmsMasterKeyId() {
     return this.getStringAttribute('kms_master_key_id');
   }
@@ -3618,7 +3618,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   }
 
   // enabled - computed: false, optional: true, required: false
-  private _enabled?: boolean | cdktf.IResolvable | undefined; 
+  private _enabled?: boolean | cdktf.IResolvable; 
   public get enabled() {
     return this.getBooleanAttribute('enabled') as any;
   }
@@ -3634,7 +3634,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   }
 
   // mfa_delete - computed: false, optional: true, required: false
-  private _mfaDelete?: boolean | cdktf.IResolvable | undefined; 
+  private _mfaDelete?: boolean | cdktf.IResolvable; 
   public get mfaDelete() {
     return this.getBooleanAttribute('mfa_delete') as any;
   }
@@ -3692,7 +3692,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
 
   // error_document - computed: false, optional: true, required: false
-  private _errorDocument?: string | undefined; 
+  private _errorDocument?: string; 
   public get errorDocument() {
     return this.getStringAttribute('error_document');
   }
@@ -3708,7 +3708,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
 
   // index_document - computed: false, optional: true, required: false
-  private _indexDocument?: string | undefined; 
+  private _indexDocument?: string; 
   public get indexDocument() {
     return this.getStringAttribute('index_document');
   }
@@ -3724,7 +3724,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
 
   // redirect_all_requests_to - computed: false, optional: true, required: false
-  private _redirectAllRequestsTo?: string | undefined; 
+  private _redirectAllRequestsTo?: string; 
   public get redirectAllRequestsTo() {
     return this.getStringAttribute('redirect_all_requests_to');
   }
@@ -3740,7 +3740,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
 
   // routing_rules - computed: false, optional: true, required: false
-  private _routingRules?: string | undefined; 
+  private _routingRules?: string; 
   public get routingRules() {
     return this.getStringAttribute('routing_rules');
   }
@@ -4410,7 +4410,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   }
 
   // create - computed: false, optional: true, required: false
-  private _create?: string | undefined; 
+  private _create?: string; 
   public get create() {
     return this.getStringAttribute('create');
   }
@@ -4426,7 +4426,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   }
 
   // delete - computed: false, optional: true, required: false
-  private _delete?: string | undefined; 
+  private _delete?: string; 
   public get delete() {
     return this.getStringAttribute('delete');
   }
