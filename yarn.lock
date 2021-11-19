@@ -371,9 +371,9 @@
   integrity sha512-ZKxKZhV2A46xScSvaqmb2+pdS2J+ndadmOtClOQo4QQldswYmvvvG5sRm2RKtvKcHHmZNpcsANLrFtXKI97gFA==
 
 "@cdktf/provider-azurerm@^0.2.9":
-  version "0.2.104"
-  resolved "https://registry.yarnpkg.com/@cdktf/provider-azurerm/-/provider-azurerm-0.2.104.tgz#1bab46e319036ac411b9e3242b459e7568db8d7d"
-  integrity sha512-VYh3hLeKlyQQf7vY7xx1fNd8ztORNKyPcBHU9lrafl8AP96e0YFBVL3h1oXcRIPVz4nf1NlMBnk106avXrz0mQ==
+  version "0.2.161"
+  resolved "https://registry.yarnpkg.com/@cdktf/provider-azurerm/-/provider-azurerm-0.2.161.tgz#e8a5cfb5d9624f78cb6f3da2cc403a3e12eae31a"
+  integrity sha512-9dGHKCauitYrSKS83n+YbYr6Mn8iEkC6/DBwsmz6hq1p9b4oJ2rYhr2/aGvlSe9Rznsc/6OEW9m/QNmheMJ92Q==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
@@ -9883,9 +9883,9 @@ sprintf-js@~1.0.2:
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
 sscaff@^1.2.0:
-  version "1.2.123"
-  resolved "https://registry.yarnpkg.com/sscaff/-/sscaff-1.2.123.tgz#b6fba958c3bec1e729afc4f41841a46cadf39831"
-  integrity sha512-Bhw7rsqv3x12whVvUFgzpcHkv81cOOfpY18VbkegI5DdWCy6Ua5hth0M2w29gYNFCkTiikW3wEdDkpeRghPBDg==
+  version "1.2.131"
+  resolved "https://registry.yarnpkg.com/sscaff/-/sscaff-1.2.131.tgz#922600743f551246cce9ff6d068db4a381aa89d7"
+  integrity sha512-vKap+a2ByEBq0nMLdJV5dX24eSyvLXBYqT/UJTJuZ8M5orV8CrSiCOOYoI9Kh4FrssS+EBB4uBygTnaW4JhnbA==
 
 sshpk@^1.7.0:
   version "1.16.1"
