@@ -54,7 +54,7 @@ describe("full integration test", () => {
       });
 
       test("single-item references", () => {
-        const namespace = stack.byId("myDeployment").metadata.namespace;
+        const namespace = stack.byId("myDeployment").metadata[0].namespace;
         expect(namespace).toContain("${");
         expect(namespace).toContain("myNamespace");
         expect(namespace).toContain(".metadata[0].name");
@@ -81,9 +81,11 @@ describe("full integration test", () => {
         });
 
         test("put method mutation", () => {
-          expect(instance.metadata_options).toEqual({
-            http_endpoint: "127.0.0.1",
-          });
+          expect(instance.metadata_options).toEqual([
+            {
+              http_endpoint: "127.0.0.1",
+            },
+          ]);
         });
       });
 
