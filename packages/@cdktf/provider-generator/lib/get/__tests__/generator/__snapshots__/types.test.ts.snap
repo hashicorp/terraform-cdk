@@ -741,7 +741,7 @@ export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNe
   }
   return {
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
-    expiration: deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct!.expiration),
+    expiration: [deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct!.expiration)],
   }
 }
 

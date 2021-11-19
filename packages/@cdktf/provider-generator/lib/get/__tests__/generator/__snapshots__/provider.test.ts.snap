@@ -1672,9 +1672,9 @@ export class AwsProvider extends cdktf.TerraformProvider {
       skip_requesting_account_id: cdktf.booleanToTerraform(this._skipRequestingAccountId),
       token: cdktf.stringToTerraform(this._token),
       alias: cdktf.stringToTerraform(this._alias),
-      assume_role: awsProviderAssumeRoleToTerraform(this._assumeRole),
+      assume_role: [awsProviderAssumeRoleToTerraform(this._assumeRole)],
       endpoints: cdktf.listMapper(awsProviderEndpointsToTerraform)(this._endpoints),
-      ignore_tags: awsProviderIgnoreTagsToTerraform(this._ignoreTags),
+      ignore_tags: [awsProviderIgnoreTagsToTerraform(this._ignoreTags)],
     };
   }
 }

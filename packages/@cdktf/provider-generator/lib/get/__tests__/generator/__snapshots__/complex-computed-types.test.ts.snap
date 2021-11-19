@@ -342,7 +342,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
       subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
       tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
       validation_method: cdktf.stringToTerraform(this._validationMethod),
-      options: acmCertificateOptionsToTerraform(this._options),
+      options: [acmCertificateOptionsToTerraform(this._options)],
     };
   }
 }
