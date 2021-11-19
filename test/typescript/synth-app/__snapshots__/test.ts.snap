@@ -39,7 +39,6 @@ exports[`full integration test synth synth generates JSON 1`] = `
     \\"aws\\": [
       {
         \\"region\\": \\"eu-central-1\\",
-        \\"assume_role\\": [],
         \\"ignore_tags\\": [
           {
             \\"keys\\": [
@@ -86,7 +85,6 @@ exports[`full integration test synth synth generates JSON 1`] = `
             \\"http_endpoint\\": \\"true\\"
           }
         ],
-        \\"root_block_device\\": [],
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"hello-terra/Instance\\",
@@ -107,7 +105,6 @@ exports[`full integration test synth synth generates JSON 1`] = `
             \\"http_endpoint\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
           }
         ],
-        \\"root_block_device\\": [],
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"hello-terra/Instance2\\",
@@ -124,29 +121,22 @@ exports[`full integration test synth synth generates JSON 1`] = `
           {
             \\"allow\\": [
               {}
-            ],
-            \\"block\\": []
+            ]
           }
         ],
         \\"rule\\": [
           {
             \\"name\\": \\"managed-rule-example\\",
             \\"priority\\": 1,
-            \\"action\\": [],
             \\"override_action\\": [
               {
                 \\"count\\": [
                   {}
-                ],
-                \\"none\\": []
+                ]
               }
             ],
             \\"statement\\": [
               {
-                \\"and_statement\\": [],
-                \\"byte_match_statement\\": [],
-                \\"geo_match_statement\\": [],
-                \\"ip_set_reference_statement\\": [],
                 \\"managed_rule_group_statement\\": [
                   {
                     \\"name\\": \\"managed-rule-example\\",
@@ -160,15 +150,7 @@ exports[`full integration test synth synth generates JSON 1`] = `
                       }
                     ]
                   }
-                ],
-                \\"not_statement\\": [],
-                \\"or_statement\\": [],
-                \\"rate_based_statement\\": [],
-                \\"regex_pattern_set_reference_statement\\": [],
-                \\"rule_group_reference_statement\\": [],
-                \\"size_constraint_statement\\": [],
-                \\"sqli_match_statement\\": [],
-                \\"xss_match_statement\\": []
+                ]
               }
             ],
             \\"visibility_config\\": [

@@ -219,7 +219,12 @@ export class StructEmitter {
     );
     this.code.closeBlock();
 
-    this.code.openBlock("return");
+    if (struct.isSingleItem) {
+      this.code.line("return [{");
+      this.code.indent();
+    } else {
+      this.code.openBlock("return");
+    }
     for (const att of struct.isClass
       ? struct.attributes
       : struct.assignableAttributes) {
@@ -227,7 +232,12 @@ export class StructEmitter {
         this.attributesEmitter.emitToTerraform(att, true);
       }
     }
-    this.code.closeBlock(";");
+    if (struct.isSingleItem) {
+      this.code.unindent();
+      this.code.line("}];");
+    } else {
+      this.code.closeBlock(";");
+    }
     this.code.closeBlock();
     this.code.line();
   }

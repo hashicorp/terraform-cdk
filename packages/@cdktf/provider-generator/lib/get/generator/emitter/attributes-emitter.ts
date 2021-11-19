@@ -215,13 +215,6 @@ export class AttributesEmitter {
           `${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`
         );
         break;
-      case type.isList && type.isSingleItem:
-        this.code.line(
-          `${att.terraformName}: [${defaultCheck}${downcaseFirst(
-            type.name
-          )}ToTerraform(${varReference})],`
-        );
-        break;
       default:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}${downcaseFirst(

@@ -168,12 +168,14 @@ export function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRoleO
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
-  return {
+  return [{
+
     external_id: cdktf.stringToTerraform(struct!.externalId),
     policy: cdktf.stringToTerraform(struct!.policy),
     role_arn: cdktf.stringToTerraform(struct!.roleArn),
     session_name: cdktf.stringToTerraform(struct!.sessionName),
-  }
+
+  }];
 }
 
 export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
@@ -1227,10 +1229,12 @@ export function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTagsO
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
-  return {
+  return [{
+
     key_prefixes: cdktf.listMapper(cdktf.stringToTerraform)(struct!.keyPrefixes),
     keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.keys),
-  }
+
+  }];
 }
 
 export class AwsProviderIgnoreTagsOutputReference extends cdktf.ComplexObject {
@@ -1672,9 +1676,9 @@ export class AwsProvider extends cdktf.TerraformProvider {
       skip_requesting_account_id: cdktf.booleanToTerraform(this._skipRequestingAccountId),
       token: cdktf.stringToTerraform(this._token),
       alias: cdktf.stringToTerraform(this._alias),
-      assume_role: [awsProviderAssumeRoleToTerraform(this._assumeRole)],
+      assume_role: awsProviderAssumeRoleToTerraform(this._assumeRole),
       endpoints: cdktf.listMapper(awsProviderEndpointsToTerraform)(this._endpoints),
-      ignore_tags: [awsProviderIgnoreTagsToTerraform(this._ignoreTags)],
+      ignore_tags: awsProviderIgnoreTagsToTerraform(this._ignoreTags),
     };
   }
 }

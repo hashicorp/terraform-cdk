@@ -690,9 +690,11 @@ export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
-  return {
+  return [{
+
     date: cdktf.stringToTerraform(struct!.date),
-  }
+
+  }];
 }
 
 export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extends cdktf.ComplexObject {
@@ -741,7 +743,7 @@ export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNe
   }
   return {
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
-    expiration: [deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct!.expiration)],
+    expiration: deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct!.expiration),
   }
 }
 
@@ -2142,9 +2144,11 @@ export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeo
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
-  return {
+  return [{
+
     create: cdktf.stringToTerraform(struct!.create),
-  }
+
+  }];
 }
 
 export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject {
