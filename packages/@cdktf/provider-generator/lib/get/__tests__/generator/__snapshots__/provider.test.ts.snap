@@ -191,7 +191,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   public get externalId() {
     return this._externalId;
   }
-  public set externalId(value: string | undefined| undefined) {
+  public set externalId(value: string| undefined) {
     this._externalId = value;
   }
   public resetExternalId() {
@@ -207,7 +207,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   public get policy() {
     return this._policy;
   }
-  public set policy(value: string | undefined| undefined) {
+  public set policy(value: string| undefined) {
     this._policy = value;
   }
   public resetPolicy() {
@@ -223,7 +223,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   public get roleArn() {
     return this._roleArn;
   }
-  public set roleArn(value: string | undefined| undefined) {
+  public set roleArn(value: string| undefined) {
     this._roleArn = value;
   }
   public resetRoleArn() {
@@ -239,7 +239,7 @@ export class AwsProviderAssumeRoleOutputReference extends cdktf.ComplexObject {
   public get sessionName() {
     return this._sessionName;
   }
-  public set sessionName(value: string | undefined| undefined) {
+  public set sessionName(value: string| undefined) {
     this._sessionName = value;
   }
   public resetSessionName() {
@@ -1248,7 +1248,7 @@ export class AwsProviderIgnoreTagsOutputReference extends cdktf.ComplexObject {
   public get keyPrefixes() {
     return this._keyPrefixes;
   }
-  public set keyPrefixes(value: string[] | undefined| undefined) {
+  public set keyPrefixes(value: string[]| undefined) {
     this._keyPrefixes = value;
   }
   public resetKeyPrefixes() {
@@ -1264,7 +1264,7 @@ export class AwsProviderIgnoreTagsOutputReference extends cdktf.ComplexObject {
   public get keys() {
     return this._keys;
   }
-  public set keys(value: string[] | undefined| undefined) {
+  public set keys(value: string[]| undefined) {
     this._keys = value;
   }
   public resetKeys() {

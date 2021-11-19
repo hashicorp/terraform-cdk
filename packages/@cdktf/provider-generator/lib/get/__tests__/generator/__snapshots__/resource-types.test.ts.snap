@@ -159,7 +159,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   public get whitelistedNames() {
     return this.getListAttribute('whitelisted_names');
   }
-  public set whitelistedNames(value: string[] | undefined) {
+  public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
   }
   public resetWhitelistedNames() {
@@ -219,7 +219,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   public get headers() {
     return this.getListAttribute('headers');
   }
-  public set headers(value: string[] | undefined) {
+  public set headers(value: string[]) {
     this._headers = value;
   }
   public resetHeaders() {
@@ -248,7 +248,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   public get queryStringCacheKeys() {
     return this.getListAttribute('query_string_cache_keys');
   }
-  public set queryStringCacheKeys(value: string[] | undefined) {
+  public set queryStringCacheKeys(value: string[]) {
     this._queryStringCacheKeys = value;
   }
   public resetQueryStringCacheKeys() {
@@ -468,7 +468,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   public get whitelistedNames() {
     return this.getListAttribute('whitelisted_names');
   }
-  public set whitelistedNames(value: string[] | undefined) {
+  public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
   }
   public resetWhitelistedNames() {
@@ -528,7 +528,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   public get headers() {
     return this.getListAttribute('headers');
   }
-  public set headers(value: string[] | undefined) {
+  public set headers(value: string[]) {
     this._headers = value;
   }
   public resetHeaders() {
@@ -557,7 +557,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   public get queryStringCacheKeys() {
     return this.getListAttribute('query_string_cache_keys');
   }
-  public set queryStringCacheKeys(value: string[] | undefined) {
+  public set queryStringCacheKeys(value: string[]) {
     this._queryStringCacheKeys = value;
   }
   public resetQueryStringCacheKeys() {
@@ -731,7 +731,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get compress() {
     return this.getBooleanAttribute('compress') as any;
   }
-  public set compress(value: boolean | cdktf.IResolvable | undefined) {
+  public set compress(value: boolean | cdktf.IResolvable) {
     this._compress = value;
   }
   public resetCompress() {
@@ -747,7 +747,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get defaultTtl() {
     return this.getNumberAttribute('default_ttl');
   }
-  public set defaultTtl(value: number | undefined) {
+  public set defaultTtl(value: number) {
     this._defaultTtl = value;
   }
   public resetDefaultTtl() {
@@ -763,7 +763,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get fieldLevelEncryptionId() {
     return this.getStringAttribute('field_level_encryption_id');
   }
-  public set fieldLevelEncryptionId(value: string | undefined) {
+  public set fieldLevelEncryptionId(value: string) {
     this._fieldLevelEncryptionId = value;
   }
   public resetFieldLevelEncryptionId() {
@@ -779,7 +779,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get maxTtl() {
     return this.getNumberAttribute('max_ttl');
   }
-  public set maxTtl(value: number | undefined) {
+  public set maxTtl(value: number) {
     this._maxTtl = value;
   }
   public resetMaxTtl() {
@@ -795,7 +795,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get minTtl() {
     return this.getNumberAttribute('min_ttl');
   }
-  public set minTtl(value: number | undefined) {
+  public set minTtl(value: number) {
     this._minTtl = value;
   }
   public resetMinTtl() {
@@ -811,7 +811,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get smoothStreaming() {
     return this.getBooleanAttribute('smooth_streaming') as any;
   }
-  public set smoothStreaming(value: boolean | cdktf.IResolvable | undefined) {
+  public set smoothStreaming(value: boolean | cdktf.IResolvable) {
     this._smoothStreaming = value;
   }
   public resetSmoothStreaming() {
@@ -840,7 +840,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get trustedSigners() {
     return this.getListAttribute('trusted_signers');
   }
-  public set trustedSigners(value: string[] | undefined) {
+  public set trustedSigners(value: string[]) {
     this._trustedSigners = value;
   }
   public resetTrustedSigners() {
@@ -884,7 +884,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('lambda_function_association') as any;
   }
-  public set lambdaFunctionAssociation(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | undefined) {
+  public set lambdaFunctionAssociation(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[]) {
     this._lambdaFunctionAssociation = value;
   }
   public resetLambdaFunctionAssociation() {
@@ -950,7 +950,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   public get includeCookies() {
     return this.getBooleanAttribute('include_cookies') as any;
   }
-  public set includeCookies(value: boolean | cdktf.IResolvable | undefined) {
+  public set includeCookies(value: boolean | cdktf.IResolvable) {
     this._includeCookies = value;
   }
   public resetIncludeCookies() {
@@ -966,7 +966,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   public get prefix() {
     return this.getStringAttribute('prefix');
   }
-  public set prefix(value: string | undefined) {
+  public set prefix(value: string) {
     this._prefix = value;
   }
   public resetPrefix() {
@@ -1027,7 +1027,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   public get whitelistedNames() {
     return this.getListAttribute('whitelisted_names');
   }
-  public set whitelistedNames(value: string[] | undefined) {
+  public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
   }
   public resetWhitelistedNames() {
@@ -1087,7 +1087,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   public get headers() {
     return this.getListAttribute('headers');
   }
-  public set headers(value: string[] | undefined) {
+  public set headers(value: string[]) {
     this._headers = value;
   }
   public resetHeaders() {
@@ -1116,7 +1116,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   public get queryStringCacheKeys() {
     return this.getListAttribute('query_string_cache_keys');
   }
-  public set queryStringCacheKeys(value: string[] | undefined) {
+  public set queryStringCacheKeys(value: string[]) {
     this._queryStringCacheKeys = value;
   }
   public resetQueryStringCacheKeys() {
@@ -1359,7 +1359,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   public get originKeepaliveTimeout() {
     return this.getNumberAttribute('origin_keepalive_timeout');
   }
-  public set originKeepaliveTimeout(value: number | undefined) {
+  public set originKeepaliveTimeout(value: number) {
     this._originKeepaliveTimeout = value;
   }
   public resetOriginKeepaliveTimeout() {
@@ -1388,7 +1388,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   public get originReadTimeout() {
     return this.getNumberAttribute('origin_read_timeout');
   }
-  public set originReadTimeout(value: number | undefined) {
+  public set originReadTimeout(value: number) {
     this._originReadTimeout = value;
   }
   public resetOriginReadTimeout() {
@@ -1626,7 +1626,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   public get locations() {
     return this.getListAttribute('locations');
   }
-  public set locations(value: string[] | undefined) {
+  public set locations(value: string[]) {
     this._locations = value;
   }
   public resetLocations() {
@@ -1745,7 +1745,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   public get acmCertificateArn() {
     return this.getStringAttribute('acm_certificate_arn');
   }
-  public set acmCertificateArn(value: string | undefined) {
+  public set acmCertificateArn(value: string) {
     this._acmCertificateArn = value;
   }
   public resetAcmCertificateArn() {
@@ -1761,7 +1761,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   public get cloudfrontDefaultCertificate() {
     return this.getBooleanAttribute('cloudfront_default_certificate') as any;
   }
-  public set cloudfrontDefaultCertificate(value: boolean | cdktf.IResolvable | undefined) {
+  public set cloudfrontDefaultCertificate(value: boolean | cdktf.IResolvable) {
     this._cloudfrontDefaultCertificate = value;
   }
   public resetCloudfrontDefaultCertificate() {
@@ -1777,7 +1777,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   public get iamCertificateId() {
     return this.getStringAttribute('iam_certificate_id');
   }
-  public set iamCertificateId(value: string | undefined) {
+  public set iamCertificateId(value: string) {
     this._iamCertificateId = value;
   }
   public resetIamCertificateId() {
@@ -1793,7 +1793,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   public get minimumProtocolVersion() {
     return this.getStringAttribute('minimum_protocol_version');
   }
-  public set minimumProtocolVersion(value: string | undefined) {
+  public set minimumProtocolVersion(value: string) {
     this._minimumProtocolVersion = value;
   }
   public resetMinimumProtocolVersion() {
@@ -1809,7 +1809,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   public get sslSupportMethod() {
     return this.getStringAttribute('ssl_support_method');
   }
-  public set sslSupportMethod(value: string | undefined) {
+  public set sslSupportMethod(value: string) {
     this._sslSupportMethod = value;
   }
   public resetSslSupportMethod() {
@@ -2596,7 +2596,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   public get date() {
     return this.getStringAttribute('date');
   }
-  public set date(value: string | undefined) {
+  public set date(value: string) {
     this._date = value;
   }
   public resetDate() {
@@ -2612,7 +2612,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   public get days() {
     return this.getNumberAttribute('days');
   }
-  public set days(value: number | undefined) {
+  public set days(value: number) {
     this._days = value;
   }
   public resetDays() {
@@ -2628,7 +2628,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   public get expiredObjectDeleteMarker() {
     return this.getBooleanAttribute('expired_object_delete_marker') as any;
   }
-  public set expiredObjectDeleteMarker(value: boolean | cdktf.IResolvable | undefined) {
+  public set expiredObjectDeleteMarker(value: boolean | cdktf.IResolvable) {
     this._expiredObjectDeleteMarker = value;
   }
   public resetExpiredObjectDeleteMarker() {
@@ -2671,7 +2671,7 @@ export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference ext
   public get days() {
     return this.getNumberAttribute('days');
   }
-  public set days(value: number | undefined) {
+  public set days(value: number) {
     this._days = value;
   }
   public resetDays() {
@@ -2859,7 +2859,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   public get days() {
     return this.getNumberAttribute('days');
   }
-  public set days(value: number | undefined) {
+  public set days(value: number) {
     this._days = value;
   }
   public resetDays() {
@@ -2888,7 +2888,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   public get years() {
     return this.getNumberAttribute('years');
   }
-  public set years(value: number | undefined) {
+  public set years(value: number) {
     this._years = value;
   }
   public resetYears() {
@@ -3100,7 +3100,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   public get accountId() {
     return this.getStringAttribute('account_id');
   }
-  public set accountId(value: string | undefined) {
+  public set accountId(value: string) {
     this._accountId = value;
   }
   public resetAccountId() {
@@ -3129,7 +3129,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   public get replicaKmsKeyId() {
     return this.getStringAttribute('replica_kms_key_id');
   }
-  public set replicaKmsKeyId(value: string | undefined) {
+  public set replicaKmsKeyId(value: string) {
     this._replicaKmsKeyId = value;
   }
   public resetReplicaKmsKeyId() {
@@ -3145,7 +3145,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   public get storageClass() {
     return this.getStringAttribute('storage_class');
   }
-  public set storageClass(value: string | undefined) {
+  public set storageClass(value: string) {
     this._storageClass = value;
   }
   public resetStorageClass() {
@@ -3210,7 +3210,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   public get prefix() {
     return this.getStringAttribute('prefix');
   }
-  public set prefix(value: string | undefined) {
+  public set prefix(value: string) {
     this._prefix = value;
   }
   public resetPrefix() {
@@ -3227,7 +3227,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('tags') as any;
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
+  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
     this._tags = value;
   }
   public resetTags() {
@@ -3475,7 +3475,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
   public get kmsMasterKeyId() {
     return this.getStringAttribute('kms_master_key_id');
   }
-  public set kmsMasterKeyId(value: string | undefined) {
+  public set kmsMasterKeyId(value: string) {
     this._kmsMasterKeyId = value;
   }
   public resetKmsMasterKeyId() {
@@ -3622,7 +3622,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   public get enabled() {
     return this.getBooleanAttribute('enabled') as any;
   }
-  public set enabled(value: boolean | cdktf.IResolvable | undefined) {
+  public set enabled(value: boolean | cdktf.IResolvable) {
     this._enabled = value;
   }
   public resetEnabled() {
@@ -3638,7 +3638,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   public get mfaDelete() {
     return this.getBooleanAttribute('mfa_delete') as any;
   }
-  public set mfaDelete(value: boolean | cdktf.IResolvable | undefined) {
+  public set mfaDelete(value: boolean | cdktf.IResolvable) {
     this._mfaDelete = value;
   }
   public resetMfaDelete() {
@@ -3696,7 +3696,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   public get errorDocument() {
     return this.getStringAttribute('error_document');
   }
-  public set errorDocument(value: string | undefined) {
+  public set errorDocument(value: string) {
     this._errorDocument = value;
   }
   public resetErrorDocument() {
@@ -3712,7 +3712,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   public get indexDocument() {
     return this.getStringAttribute('index_document');
   }
-  public set indexDocument(value: string | undefined) {
+  public set indexDocument(value: string) {
     this._indexDocument = value;
   }
   public resetIndexDocument() {
@@ -3728,7 +3728,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   public get redirectAllRequestsTo() {
     return this.getStringAttribute('redirect_all_requests_to');
   }
-  public set redirectAllRequestsTo(value: string | undefined) {
+  public set redirectAllRequestsTo(value: string) {
     this._redirectAllRequestsTo = value;
   }
   public resetRedirectAllRequestsTo() {
@@ -3744,7 +3744,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   public get routingRules() {
     return this.getStringAttribute('routing_rules');
   }
-  public set routingRules(value: string | undefined) {
+  public set routingRules(value: string) {
     this._routingRules = value;
   }
   public resetRoutingRules() {
@@ -4414,7 +4414,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   public get create() {
     return this.getStringAttribute('create');
   }
-  public set create(value: string | undefined) {
+  public set create(value: string) {
     this._create = value;
   }
   public resetCreate() {
@@ -4430,7 +4430,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   public get delete() {
     return this.getStringAttribute('delete');
   }
-  public set delete(value: string | undefined) {
+  public set delete(value: string) {
     this._delete = value;
   }
   public resetDelete() {

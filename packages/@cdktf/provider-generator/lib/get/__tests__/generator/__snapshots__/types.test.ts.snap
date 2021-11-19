@@ -710,7 +710,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   public get date() {
     return this.getStringAttribute('date');
   }
-  public set date(value: string | undefined) {
+  public set date(value: string) {
     this._date = value;
   }
   public resetDate() {
@@ -2162,7 +2162,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   public get create() {
     return this.getStringAttribute('create');
   }
-  public set create(value: string | undefined) {
+  public set create(value: string) {
     this._create = value;
   }
   public resetCreate() {

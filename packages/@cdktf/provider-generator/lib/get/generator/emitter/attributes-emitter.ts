@@ -8,10 +8,7 @@ function titleCase(value: string) {
 }
 
 export class AttributesEmitter {
-  constructor(
-    private code: CodeMaker,
-    private context: "resource" | "struct"
-  ) {}
+  constructor(private code: CodeMaker) {}
 
   public emit(att: AttributeModel, escapeReset: boolean, escapeInput: boolean) {
     this.code.line();
@@ -54,7 +51,7 @@ export class AttributesEmitter {
         break;
     }
 
-    const setterType = att.setterType(this.context);
+    const setterType = att.setterType;
 
     if (setterType._type === "set") {
       this.code.openBlock(`public set ${att.name}(value: ${setterType.type})`);

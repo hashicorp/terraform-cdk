@@ -103,7 +103,7 @@ export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
   public get certificateTransparencyLoggingPreference() {
     return this.getStringAttribute('certificate_transparency_logging_preference');
   }
-  public set certificateTransparencyLoggingPreference(value: string | undefined) {
+  public set certificateTransparencyLoggingPreference(value: string) {
     this._certificateTransparencyLoggingPreference = value;
   }
   public resetCertificateTransparencyLoggingPreference() {

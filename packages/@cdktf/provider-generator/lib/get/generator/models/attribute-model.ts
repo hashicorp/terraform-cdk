@@ -158,7 +158,7 @@ export class AttributeModel {
     );
   }
 
-  public setterType(context?: "resource" | "struct"): SetterType {
+  public get setterType(): SetterType {
     if (!this.isStored) {
       return { _type: "none" };
     }
@@ -170,17 +170,9 @@ export class AttributeModel {
       };
     }
 
-    // TODO: this is a hack to make optional attributes required on resources but not on structs
-    if (context === "resource") {
-      return {
-        _type: "set",
-        type: `${this.type.name}${this.isProvider ? "| undefined" : ""}`,
-      };
-    }
-
     return {
       _type: "set",
-      type: `${this.type.storedName}${this.isProvider ? "| undefined" : ""}`,
+      type: `${this.type.name}${this.isProvider ? "| undefined" : ""}`,
     };
   }
 
