@@ -167,13 +167,13 @@ export class AttributeModel {
     if (this.getterType._type === "stored_class") {
       return {
         _type: "stored_class",
-        type: this.type.storedName,
+        type: this.type.name,
       };
     }
 
     return {
       _type: "set",
-      type: `${this.type.name}${this.isProvider ? "| undefined" : ""}`,
+      type: `${this.type.name}${this.isProvider ? " | undefined" : ""}`,
     };
   }
 

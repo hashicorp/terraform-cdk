@@ -246,18 +246,18 @@ export class AttributesEmitter {
           `${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`
         );
         break;
-      case att.getterType._type === "stored_class":
+      case !isStruct && att.getterType._type === "stored_class":
         this.code.line(
           `${att.terraformName}: ${defaultCheck}${downcaseFirst(
             type.name
-          )}ToTerraform(${varReference}),`
+          )}ToTerraform(${varReference}.internalValue),`
         );
         break;
       default:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}${downcaseFirst(
             type.name
-          )}ToTerraform(${varReference}.internalValue),`
+          )}ToTerraform(${varReference}),`
         );
         break;
     }
