@@ -98,6 +98,25 @@ export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): AcmCertificateOptions | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._certificateTransparencyLoggingPreference) {
+      hasAnyValues = true;
+      internalValueResult.certificateTransparencyLoggingPreference = this._certificateTransparencyLoggingPreference;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: AcmCertificateOptions | undefined) {
+    if (value === undefined) {
+      this._certificateTransparencyLoggingPreference = undefined;
+    }
+    else {
+      this._certificateTransparencyLoggingPreference = value.certificateTransparencyLoggingPreference;
+    }
+  }
+
   // certificate_transparency_logging_preference - computed: false, optional: true, required: false
   private _certificateTransparencyLoggingPreference?: string; 
   public get certificateTransparencyLoggingPreference() {
@@ -111,7 +130,7 @@ export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get certificateTransparencyLoggingPreferenceInput() {
-    return this._certificateTransparencyLoggingPreference
+    return this._certificateTransparencyLoggingPreference;
   }
 }
 
@@ -155,7 +174,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
     this._subjectAlternativeNames = config.subjectAlternativeNames;
     this._tags = config.tags;
     this._validationMethod = config.validationMethod;
-    this._options = config.options;
+    this._options.internalValue = config.options;
   }
 
   // ==========
@@ -180,7 +199,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get certificateAuthorityArnInput() {
-    return this._certificateAuthorityArn
+    return this._certificateAuthorityArn;
   }
 
   // certificate_body - computed: false, optional: true, required: false
@@ -196,7 +215,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get certificateBodyInput() {
-    return this._certificateBody
+    return this._certificateBody;
   }
 
   // certificate_chain - computed: false, optional: true, required: false
@@ -212,7 +231,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get certificateChainInput() {
-    return this._certificateChain
+    return this._certificateChain;
   }
 
   // domain_name - computed: true, optional: true, required: false
@@ -228,7 +247,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get domainNameInput() {
-    return this._domainName
+    return this._domainName;
   }
 
   // domain_validation_options - computed: true, optional: false, required: false
@@ -254,7 +273,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get privateKeyInput() {
-    return this._privateKey
+    return this._privateKey;
   }
 
   // subject_alternative_names - computed: true, optional: true, required: false
@@ -270,7 +289,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesInput() {
-    return this._subjectAlternativeNames
+    return this._subjectAlternativeNames;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -287,7 +306,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
-    return this._tags
+    return this._tags;
   }
 
   // validation_emails - computed: true, optional: false, required: false
@@ -308,24 +327,23 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get validationMethodInput() {
-    return this._validationMethod
+    return this._validationMethod;
   }
 
   // options - computed: false, optional: true, required: false
-  private _options?: AcmCertificateOptions; 
-  private __optionsOutput = new AcmCertificateOptionsOutputReference(this as any, \\"options\\", true);
+  private _options = new AcmCertificateOptionsOutputReference(this as any, \\"options\\", true);
   public get options() {
-    return this.__optionsOutput;
+    return this._options;
   }
-  public putOptions(value: AcmCertificateOptions | undefined) {
-    this._options = value;
+  public putOptions(value: AcmCertificateOptions) {
+    this._options.internalValue = value;
   }
   public resetOptions() {
-    this._options = undefined;
+    this._options.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get optionsInput() {
-    return this._options
+    return this._options.internalValue;
   }
 
   // =========
@@ -342,7 +360,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
       subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
       tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
       validation_method: cdktf.stringToTerraform(this._validationMethod),
-      options: acmCertificateOptionsToTerraform(this._options),
+      options: acmCertificateOptionsToTerraform(this._options.internalValue),
     };
   }
 }
