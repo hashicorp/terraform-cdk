@@ -176,6 +176,9 @@ export class StructEmitter {
     );
 
     if (struct.isSingleItem) {
+      this.code.line();
+      this.code.line(`private _internalValue?: ${struct.name};`);
+      this.code.line();
       this.code.line(`/**`);
       this.code.line(`* @param terraformResource The parent resource`);
       this.code.line(
@@ -192,6 +195,11 @@ export class StructEmitter {
         `super(terraformResource, terraformAttribute, isSingleItem);`
       );
       this.code.closeBlock();
+
+      this.code.line();
+      this.emitInternalValueGetter(struct);
+      this.code.line();
+      this.emitInternalValueSetter(struct);
     }
 
     for (const att of struct.attributes) {
@@ -202,6 +210,63 @@ export class StructEmitter {
       );
     }
 
+    this.code.closeBlock();
+  }
+
+  private emitInternalValueGetter(struct: Struct) {
+    this.code.openBlock(
+      `public get internalValue(): ${struct.name} | undefined`
+    );
+    this.code.line("let hasAnyValues = false;");
+    this.code.line("const internalValueResult = {};");
+    for (const att of struct.attributes) {
+      if (att.isStored) {
+        this.code.openBlock(`if (this.${att.storageName})`);
+        this.code.line("hasAnyValues = true;");
+        if (att.getterType._type === "stored_class") {
+          this.code.line(
+            `internvalValueResult.${att.name} = ${att.storageName}?.internalValue;`
+          );
+        } else {
+          this.code.line(
+            `internvalValueResult.${att.name} = ${att.storageName};`
+          );
+        }
+        this.code.closeBlock();
+      }
+    }
+    this.code.line("return hasAnyValues ? internalValueResult : undefined;");
+    this.code.closeBlock();
+  }
+
+  private emitInternalValueSetter(struct: Struct) {
+    this.code.openBlock(
+      `public set internalValue(value: ${struct.name} | undefined)`
+    );
+    this.code.openBlock("if (value === undefined)");
+    for (const att of struct.attributes) {
+      if (att.isStored) {
+        if (att.setterType._type === "stored_class") {
+          this.code.line(`this.${att.storageName}.internalValue = undefined;`);
+        } else {
+          this.code.line(`this.${att.storageName} = undefined;`);
+        }
+      }
+    }
+    this.code.closeBlock();
+    this.code.openBlock("else");
+    for (const att of struct.attributes) {
+      if (att.isStored) {
+        if (att.setterType._type === "stored_class") {
+          this.code.line(
+            `this.${att.storageName}.internalValue = value.${att.name};`
+          );
+        } else {
+          this.code.line(`this.${att.storageName} = value.${att.name};`);
+        }
+      }
+    }
+    this.code.closeBlock();
     this.code.closeBlock();
   }
 
