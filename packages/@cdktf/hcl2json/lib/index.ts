@@ -108,8 +108,7 @@ export async function convertFiles(
     }
   }
 
-  if (tfFileContents === "") {
-    // used to check for `&& tfJSONFileContents === []` as well which esbuild complains about as always false
+  if (tfFileContents === "" && tfJSONFileContents === []) {
     console.error(`No '.tf' or '.tf.json' files found in ${workingDirectory}`);
     return;
   }
