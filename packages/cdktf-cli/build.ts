@@ -17,10 +17,10 @@ import * as fs from "fs-extra";
       "yargs",
       "cdktf",
       "@cdktf/hcl2cdk",
-      "@cdktf/hcl2json",
     ],
     tsconfig: "tsconfig.json",
   });
 
   fs.copySync("./bin/cdktf", "./bin-dist/cdktf");
+  fs.copySync("./templates", "./bin-dist/templates", { recursive: true });
 })();
