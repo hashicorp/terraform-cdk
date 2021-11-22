@@ -3,9 +3,15 @@ import { terraformCheck } from "./helper/terraform-check";
 import { displayVersionMessage } from "./helper/version-check";
 import { checkForEmptyDirectory, runInit, templates } from "./helper/init";
 import { checkEnvironment } from "./helper/check-environment";
+import { pkgUpSync } from "pkg-up";
+import * as fs from "fs-extra";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkg = require("../../package.json");
+const pkgPath = pkgUpSync({ cwd: __dirname });
+if (!pkgPath) {
+  throw new Error("unable to find package.json");
+}
+const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
 
 class Command implements yargs.CommandModule {
   public readonly command = "init [OPTIONS]";

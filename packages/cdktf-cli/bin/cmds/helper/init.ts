@@ -3,6 +3,7 @@ import * as chalk from "chalk";
 import * as inquirer from "inquirer";
 import extract from "extract-zip";
 import { TerraformLogin } from "../helper/terraform-login";
+import { pkgUpSync } from "pkg-up";
 
 import * as os from "os";
 import * as path from "path";
@@ -30,7 +31,7 @@ import {
 
 const chalkColour = new chalk.Instance();
 
-const templatesDir = path.join(__dirname, "..", "templates");
+const templatesDir = path.join(__dirname, "templates");
 const availableTemplates = fs
   .readdirSync(templatesDir)
   .filter((x) => !x.startsWith("."));
@@ -40,7 +41,11 @@ for (const template of availableTemplates) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkg = require("../../../package.json");
+const pkgPath = pkgUpSync({ cwd: __dirname });
+if (!pkgPath) {
+  throw new Error("unable to find package.json");
+}
+const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
 const constructsVersion = pkg.dependencies.constructs;
 
 export function checkForEmptyDirectory(dir: string) {
