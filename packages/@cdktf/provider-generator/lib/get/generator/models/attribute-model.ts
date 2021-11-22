@@ -159,19 +159,21 @@ export class AttributeModel {
   }
 
   public get setterType(): SetterType {
-    return this.isStored
-      ? this.getterType._type === "stored_class"
-        ? {
-            _type: "put",
-            type: this.type.storedName,
-          }
-        : {
-            _type: "set",
-            type: `${this.type.storedName}${
-              this.isProvider ? "| undefined" : ""
-            }`,
-          }
-      : { _type: "none" };
+    if (!this.isStored) {
+      return { _type: "none" };
+    }
+
+    if (this.getterType._type === "stored_class") {
+      return {
+        _type: "put",
+        type: this.type.storedName,
+      };
+    }
+
+    return {
+      _type: "set",
+      type: `${this.type.name}${this.isProvider ? "| undefined" : ""}`,
+    };
   }
 
   public get name(): string {
