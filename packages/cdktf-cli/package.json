@@ -29,13 +29,13 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "jsii": "1.37.0",
-    "jsii-pacmak": "1.37.0",
-    "yargs": "^17.0",
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
     "cdktf": "0.0.0",
-    "constructs": "^10.0.0"
+    "constructs": "^10.0.0",
+    "jsii": "1.37.0",
+    "jsii-pacmak": "1.37.0",
+    "yargs": "^17.0"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
