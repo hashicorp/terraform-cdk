@@ -11,7 +11,7 @@ export const renderInk = async (component: React.ReactElement) => {
 
   try {
     await waitUntilExit();
-  } catch (e) {
+  } catch (e: any) {
     console.error(e.message);
     exit(1);
   }

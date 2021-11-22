@@ -56,7 +56,7 @@ export class SynthStack {
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
         },
       });
-    } catch (e) {
+    } catch (e: any) {
       const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}
 
 Synth command: {blue ${command}}

@@ -37,7 +37,7 @@ function getBinaryVersion(
 ): Promise<string> {
   try {
     return exec(binary, [versionCommand], { env: process.env });
-  } catch (e) {
+  } catch (e: any) {
     throw Errors.Usage(
       command,
       `Unable to run ${binary} ${versionCommand}, please check if ${binary} is installed: ${e}`

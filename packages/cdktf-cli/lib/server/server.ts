@@ -58,7 +58,7 @@ async function startApolloServer() {
                 })
               );
               await watchClient.start();
-            } catch (e) {
+            } catch (e: any) {
               const state: GraphQLWatchState = {
                 resources: [],
                 stacks: [],

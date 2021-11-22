@@ -37,7 +37,7 @@ export async function startServer(): Promise<{
     try {
       await fetch(`http://localhost:${port}/up`);
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.code !== "ECONNREFUSED") throw e;
       if (retries > 0) {
         await new Promise((resolve) => setTimeout(resolve, waitTime));
