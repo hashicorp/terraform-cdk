@@ -120,7 +120,7 @@ class MyStack extends TerraformStack {
 
 ### Aspects
 
-`Aspects` allow you to implement a visitor pattern, dynamically add or remove constructs, and automatically change attributes of existing constructs when you synthesize your CDTKF application. For example, you could use an aspect to help tag resources based on dynamic conditions. Reference the [aspects](docs/cdktf/concepts/aspects.html) for more details.
+`Aspects` allow you to implement a visitor pattern, dynamically add or remove constructs, and automatically change attributes of existing constructs when you synthesize your CDTKF application. For example, you could use an aspect to help tag resources based on dynamic conditions. Refer to the [aspects documentation](docs/cdktf/concepts/aspects.html) for more details.
 
 ### Available Constructs
 
