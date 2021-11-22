@@ -146,7 +146,7 @@
     "strip-ansi": "^6.0.0",
     "subscriptions-transport-ws": "^0.9.19",
     "ts-jest": "^26.4.4",
-    "typescript": "^4.1.0",
+    "typescript": "^3.9.10",
     "utility-types": "^3.10.0",
     "uuid": "^8.3.2",
     "ws": "^7.5.3",
