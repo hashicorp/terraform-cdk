@@ -9888,9 +9888,9 @@ sprintf-js@~1.0.2:
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
 sscaff@^1.2.0:
-  version "1.2.123"
-  resolved "https://registry.yarnpkg.com/sscaff/-/sscaff-1.2.123.tgz#b6fba958c3bec1e729afc4f41841a46cadf39831"
-  integrity sha512-Bhw7rsqv3x12whVvUFgzpcHkv81cOOfpY18VbkegI5DdWCy6Ua5hth0M2w29gYNFCkTiikW3wEdDkpeRghPBDg==
+  version "1.2.131"
+  resolved "https://registry.yarnpkg.com/sscaff/-/sscaff-1.2.131.tgz#922600743f551246cce9ff6d068db4a381aa89d7"
+  integrity sha512-vKap+a2ByEBq0nMLdJV5dX24eSyvLXBYqT/UJTJuZ8M5orV8CrSiCOOYoI9Kh4FrssS+EBB4uBygTnaW4JhnbA==
 
 sshpk@^1.7.0:
   version "1.16.1"

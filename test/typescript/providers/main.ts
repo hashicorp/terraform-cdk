@@ -59,14 +59,21 @@ export class NamespacedProviders extends TerraformStack {
       "callerIdentity",
       {}
     );
+
+    const role = new Aws.iam.IamRole(this, "role", {
+      assumeRolePolicy: "assumeRolePolicy",
+    });
+    new Aws.iam.IamRolePolicyAttachment(this, "lambda-role-vpc-att", {
+      policyArn:
+        "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+      role: role.name,
+    });
     new Aws.lambdafunction.LambdaFunction(this, "lambdaFn", {
       handler: "index.handler",
       runtime: "nodejs12.x",
       timeout: 10,
       functionName: userId.accountId,
-      role: new Aws.iam.IamRole(this, "role", {
-        assumeRolePolicy: "assumeRolePolicy",
-      }).arn,
+      role: role.arn,
     });
   }
 }
