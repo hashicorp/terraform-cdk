@@ -2,7 +2,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { CodeMaker } from "codemaker";
 import { mkdtemp } from "../util";
-import * as srcmak from "@skorfmann/jsii-srcmak";
+import * as srcmak from "jsii-srcmak";
 import {
   TerraformModuleConstraint,
   TerraformDependencyConstraint,

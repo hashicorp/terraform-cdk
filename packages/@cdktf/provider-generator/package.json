@@ -27,11 +27,11 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@skorfmann/jsii-srcmak": "^0.1.272",
     "cdktf": "0.0.0",
     "codemaker": "^0.22.0",
     "fs-extra": "^8.1.0",
-    "is-valid-domain": "^0.1.2"
+    "is-valid-domain": "^0.1.2",
+    "jsii-srcmak": "^0.1.406"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
