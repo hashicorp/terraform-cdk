@@ -67,7 +67,9 @@ A `Resource` represents the definition for one or more infrastructure objects. R
 
 Rather than defining resources by hand, you can leverage constructs to reuse existing resource configurations written in your programming language. For example, you might create a construct that describes a Kubernetes deployment, import it into your application, and customize the deployment via the exposed properties.
 
-Here is an example of a [custom construct written in TypeScript](https://github.com/skorfmann/cdktf-hybrid-module/blob/7a84cbea62fbc3c3b7e92c00d75fcaad495cf29b/packages/cdktf-hybrid-module/lib/construct.ts) that creates a machine image. The exported interface allows users to specify the instance type and one or more tags. The rest of the configuration is defined in the construct and is abstracted from the consumer.
+This is an example of a [custom construct written in TypeScript](https://github.com/skorfmann/cdktf-hybrid-module/blob/7a84cbea62fbc3c3b7e92c00d75fcaad495cf29b/packages/cdktf-hybrid-module/lib/construct.ts) that creates a machine image. The exported interface allows users to specify the instance type and one or more tags. The rest of the configuration is defined in the construct and is abstracted from the consumer.
+
+Reference the [constructs documentation](/docs/cdktf/concepts/constructs.html) for more details.
 
 ### Examples
 
