@@ -9,6 +9,7 @@ import * as fs from "fs-extra";
     format: "cjs",
     target: "node12",
     minify: true,
+    sourcemap: true,
     platform: "node",
     external: [
       "jsii",
