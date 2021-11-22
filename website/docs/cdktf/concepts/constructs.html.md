@@ -6,6 +6,8 @@ description: “Constructs are classes that allow you to reuse existing configur
 
 # Constructs
 
+-> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+
 Construct is a general term that you can use to describe parts of your CDK for Terraform (CDKTF) project because every element in a CDKTF application is a descendent of the [`Construct` base class](https://github.com/aws/constructs/blob/main/API.md#constructs-construct). The entire application, each `stack`, and each resource are all constructs.
 
 You can also import custom construct classes that represent infrastructure configurations written in your programming language. Custom constructs are helpful because they enforce configuration best practices, they let you reuse configurations rather than rewriting them multiple times, and they abstract some configuration details away. For example, you might import a construct that configures a Kubernetes deployment. When you create a new instance in your application, you can customize the deployment via the exposed properties without learning all of the implementation details.
