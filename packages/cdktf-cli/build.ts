@@ -17,6 +17,7 @@ import * as fs from "fs-extra";
       "yargs",
       "cdktf",
       "@cdktf/hcl2cdk",
+      "constructs",
     ],
     tsconfig: "tsconfig.json",
   });
