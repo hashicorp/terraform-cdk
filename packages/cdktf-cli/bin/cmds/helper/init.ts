@@ -112,7 +112,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
         projectInfo.WorkspaceName,
         token
       );
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         chalkColour`{redBright ERROR: Could not create Terraform Cloud Workspace: ${error.message}}`
       );
@@ -187,7 +187,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
         }
 
         telemetryData.conversionStats = stats;
-      } catch (err: any) {
+      } catch (err) {
         throw Errors.Internal("init", err, { fromTerraformProject: true });
       }
     } else {
@@ -469,7 +469,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
         await fs.remove(tmpDir);
       },
     };
-  } catch (e: any) {
+  } catch (e) {
     if (e.code === "ERR_INVALID_URL") {
       console.error(
         chalkColour`Could not download template: {redBright the supplied url is invalid}`

@@ -104,7 +104,7 @@ class Command implements yargs.CommandModule {
       });
       output = all;
       await sendTelemetry("convert", { ...stats, error: false });
-    } catch (err: any) {
+    } catch (err) {
       throw Errors.Internal("convert", err.message, { language });
     }
 

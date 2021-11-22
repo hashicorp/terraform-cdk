@@ -51,7 +51,7 @@ export class VersionCheckTTL {
         return true;
       }
       return false;
-    } catch (err: any) {
+    } catch (err) {
       if (err.code === "ENOENT") {
         return true;
       } else {
@@ -114,7 +114,7 @@ export async function displayVersionMessage(): Promise<void> {
         `Newer version of Terraform CDK is available [${laterVersion}] - Upgrade recommended`
       );
     }
-  } catch (err: any) {
+  } catch (err) {
     console.error(`Could not run version check - ${err.message}`);
   }
 }

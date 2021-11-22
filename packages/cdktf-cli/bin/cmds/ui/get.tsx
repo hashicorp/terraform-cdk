@@ -62,7 +62,7 @@ export const Get = ({
           );
           process.exit(1);
         }
-      } catch (e: any) {
+      } catch (e) {
         console.error(e);
         exit(e);
       }

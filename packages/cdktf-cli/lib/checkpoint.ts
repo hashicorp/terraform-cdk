@@ -77,7 +77,7 @@ export async function sendTelemetry(
 
   try {
     await ReportRequest(reportParams);
-  } catch (err: any) {
+  } catch (err) {
     logger.error(`Could not send telemetry data: ${err}`);
   }
 }
@@ -173,7 +173,7 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
 
   try {
     await post(`${BASE_URL}telemetry/${reportParams.product}`, postData);
-  } catch (e: any) {
+  } catch (e) {
     // Log errors writing to checkpoint
     processLoggerError(e.message);
   }

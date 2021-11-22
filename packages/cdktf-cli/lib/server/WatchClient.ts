@@ -136,7 +136,7 @@ export class WatchClient {
         stacks,
       });
       if (this.needsInit) await this.queueAction("INIT", true);
-    } catch (e: any) {
+    } catch (e) {
       throw new RecoverableError(e.errorOutput || e.message, "SYNTHESIZING");
     }
   }
@@ -189,7 +189,7 @@ export class WatchClient {
       }
       // deployment was successful -> update hash
       this.lastTargetStackHash = newTargetStackHash;
-    } catch (e: any) {
+    } catch (e) {
       // When new providers where added or the stack name might've
       // been changed (when using just a single stack) we need to
       // re-init Terraform. We'll do this proactively on any error.
@@ -267,7 +267,7 @@ export class WatchClient {
     let gitignored: string[] = [];
     try {
       gitignored = await readGitignore(process.cwd());
-    } catch (e: any) {
+    } catch (e) {
       logger.error(e);
       this.updateState({
         error: {
@@ -369,7 +369,7 @@ export class WatchClient {
             break;
           }
         }
-      } catch (e: any) {
+      } catch (e) {
         if (e instanceof RecoverableError) {
           this.updateState({
             error: {

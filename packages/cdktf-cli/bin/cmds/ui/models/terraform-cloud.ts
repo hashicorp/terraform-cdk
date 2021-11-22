@@ -69,7 +69,7 @@ function BeautifyErrors(name: string) {
     descriptor!.value = async function (...args: any[]) {
       try {
         return await originalMethod.apply(this, args);
-      } catch (e: any) {
+      } catch (e) {
         if (
           e.response &&
           e.response.status >= 400 &&
@@ -379,7 +379,7 @@ export class TerraformCloud implements Terraform {
         this.organizationName,
         this.workspaceName
       );
-    } catch (e: any) {
+    } catch (e) {
       if (e.response?.status === 404) {
         // return a more descriptive error message as http response is not descriptive enough
         // will not be touched by BeautifyErrors decorator
@@ -454,7 +454,7 @@ export class TerraformCloud implements Terraform {
         path.resolve(this.stack.synthesizedStackPath, ".terraform"),
         { recursive: true }
       );
-    } catch (error: any) {
+    } catch (error) {
       logger.debug(`Could not remove .terraform folder`, error);
     }
   }

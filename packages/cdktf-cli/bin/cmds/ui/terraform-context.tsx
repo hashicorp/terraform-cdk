@@ -73,7 +73,7 @@ const parseJsonOutputLine = (
 
   try {
     message = schema.parse(json);
-  } catch (err: any) {
+  } catch (err) {
     if (err instanceof z.ZodError) {
       logger.warn(
         `Error parsing line into schema: ${JSON.stringify(
@@ -448,7 +448,7 @@ export const useTerraform = ({
       }
 
       dispatch({ type: "SYNTHESIZED", stacks });
-    } catch (e: any) {
+    } catch (e) {
       dispatch({ type: "ERROR", error: e });
     }
   };
@@ -461,7 +461,7 @@ export const useTerraform = ({
         );
       dispatch({ type: "INIT" });
       await terraform.init();
-    } catch (e: any) {
+    } catch (e) {
       dispatch({ type: "ERROR", error: e });
     }
   };
@@ -471,7 +471,7 @@ export const useTerraform = ({
       if (!terraform) throw new Error("Terraform is not initialized yet");
       const output = await terraform.output();
       dispatch({ type: "OUTPUT", output });
-    } catch (e: any) {
+    } catch (e) {
       dispatch({ type: "ERROR", error: e });
     }
   };
@@ -486,7 +486,7 @@ export const useTerraform = ({
       plan = await terraform.plan(destroy);
       dispatch({ type: "PLANNED", plan });
       return plan;
-    } catch (e: any) {
+    } catch (e) {
       dispatch({ type: "ERROR", error: e });
     }
     return;
@@ -511,7 +511,7 @@ export const useTerraform = ({
         });
       }
       dispatch({ type: "DONE" });
-    } catch (e: any) {
+    } catch (e) {
       dispatch({ type: "ERROR", error: e });
     }
   };
@@ -536,7 +536,7 @@ export const useTerraform = ({
         });
       }
       dispatch({ type: "DONE" });
-    } catch (e: any) {
+    } catch (e) {
       dispatch({ type: "ERROR", error: e });
     }
   };
