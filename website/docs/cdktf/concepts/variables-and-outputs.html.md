@@ -91,7 +91,7 @@ When you run `cdktf synth` the `TerraformLocal` above synthesizes to the followi
 
 ## Output Values
 
-You can define [Terraform outputs](/docs/language/values/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](/docs/language/state/workspaces.html).
+You can define [Terraform outputs](https://www.terraform.io/docs/language/values/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html).
 
 ### When to use Output Values
 
