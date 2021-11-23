@@ -24,5 +24,4 @@ import * as fs from "fs-extra";
   });
 
   fs.copySync("./bin/cdktf", "./bin-dist/cdktf");
-  fs.copySync("./templates", "./bin-dist/templates", { recursive: true });
 })();
