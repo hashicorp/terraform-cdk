@@ -31,9 +31,10 @@ export function expectImportMatchSnapshot(
         await fs.promises.readFile(jsiiPath, "utf-8")
       );
 
-      // patch cdktf version in manifest because it's not stable
+      // patch versions in manifest because they're not stable
       manifest.dependencies.cdktf = "999.999.999";
       manifest.fingerprint = "<fingerprint>";
+      manifest.jsiiVersion = "<jsiiVersion>";
 
       expect(manifest).toMatchSnapshot();
     });
