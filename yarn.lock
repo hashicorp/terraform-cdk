@@ -903,14 +903,6 @@
   resolved "https://registry.yarnpkg.com/@josephg/resolvable/-/resolvable-1.0.1.tgz#69bc4db754d79e1a2f17a650d3466e038d94a5eb"
   integrity sha512-CtzORUwWTTOTqfVtHaKRJ0I1kNQd1bpn3sUh8I3nJDVY+5/M/Oe1DnEWzPQvqq/xPIIkzzzIP7mfCoAjFRvDhg==
 
-"@jsii/check-node@1.43.0":
-  version "1.43.0"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.43.0.tgz#e0b07fb57da48a1eb6f844730e816af8c7295c95"
-  integrity sha512-9+bZhSZB5Mz4yQb0y+sJTbFugtUmVyEaRNRoaptc31w8xERiOXr1SJNQe3JCOckArf5KfeeGHVbXB9ZMBcBSkg==
-  dependencies:
-    chalk "^4.1.2"
-    semver "^7.3.5"
-
 "@jsii/check-node@1.46.0":
   version "1.46.0"
   resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.46.0.tgz#4825c26f0cd4515015e950ab17df63df07abadfb"
@@ -923,13 +915,6 @@
   version "1.46.0"
   resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.46.0.tgz#8ad4e333120374708f2d681651c6b7fd7961f6a6"
   integrity sha512-yp6rN23ve+F1/6g8Gwmp8PbrtqpMB05GMwJ8GGhvwmCLa0kBO8eALWvB/KtmuDJ4wllSojVvuK4rluUTTkvBWg==
-  dependencies:
-    jsonschema "^1.4.0"
-
-"@jsii/spec@^1.43.0":
-  version "1.43.0"
-  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.43.0.tgz#78b7f21235b29dbbf31c9bc83afdf51cbe5f26a2"
-  integrity sha512-4FZmzdBdVO64VEq1dQ6vXvBIWWHnUjP8bz7jAIjwSTE6iyJnSz2XT32tJpNg57RpBHRDdUuZGCgYa+xl06iGcA==
   dependencies:
     jsonschema "^1.4.0"
 
@@ -7180,22 +7165,7 @@ jsii-reflect@^1.46.0:
     oo-ascii-tree "^1.46.0"
     yargs "^16.2.0"
 
-jsii-rosetta@^1.39.0:
-  version "1.43.0"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-1.43.0.tgz#12f396b23e86b88a1158a9a8df8c41a32310adfe"
-  integrity sha512-AjJ0tlrnBatJB7OJ/cn9sFaLpM4Ra7fSkxLlHNWsVE1KFAUnCLIcDloXaytaDmBXY/emxi3/XbWwGUIqbjbCIw==
-  dependencies:
-    "@jsii/check-node" "1.43.0"
-    "@jsii/spec" "^1.43.0"
-    "@xmldom/xmldom" "^0.7.5"
-    commonmark "^0.30.0"
-    fs-extra "^9.1.0"
-    sort-json "^2.0.0"
-    typescript "~3.9.10"
-    workerpool "^6.1.5"
-    yargs "^16.2.0"
-
-jsii-rosetta@^1.46.0:
+jsii-rosetta@^1.39.0, jsii-rosetta@^1.46.0:
   version "1.46.0"
   resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-1.46.0.tgz#ce832f160ffd3c1566bba8764a8ad956cb260344"
   integrity sha512-EyGFTMcSiLw03aCcDmN8tjwIJ2+XbW7LZJiq8VkyHoKdMz6urHKtYGZTNDns9iNH2/WxfjFRt+d3S9tYi2AfRw==
