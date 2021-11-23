@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "CDK for Terraform CLI",
   "bin": {
-    "cdktf": "bin-dist/cdktf"
+    "cdktf": "bundle/bin/cdktf"
   },
   "scripts": {
     "build": "tsc",

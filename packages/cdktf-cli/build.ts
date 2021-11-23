@@ -52,7 +52,7 @@ const nativeNodeModulesPlugin = {
   await esbuild.build({
     entryPoints: ["./bin/cdktf.ts", "./lib/server/server.ts"],
     bundle: true,
-    outdir: "./bin-dist",
+    outdir: "./bundle",
     format: "cjs",
     target: "node12",
     minify: true,
@@ -71,5 +71,9 @@ const nativeNodeModulesPlugin = {
     tsconfig: "tsconfig.json",
   });
 
-  fs.copySync("./bin/cdktf", "./bin-dist/cdktf");
+  fs.copySync("./bin/cdktf", "./bundle/bin/cdktf");
+  fs.copySync(
+    "./lib/server/schema.graphql",
+    "./bundle/lib/server/schema.graphql"
+  );
 })();

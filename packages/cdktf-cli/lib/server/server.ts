@@ -7,9 +7,25 @@ import { SubscriptionServer } from "subscriptions-transport-ws";
 import { loadSchema } from "@graphql-tools/load";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { PubSub } from "graphql-subscriptions";
-import path from "path";
 import { WatchClient, WatchState } from "./WatchClient";
 import { GraphQLWatchState, mapWatchState } from "./util";
+import * as path from "path";
+import * as fs from "fs-extra";
+import { projectRootPath } from "../../bin/cmds/helper/utilities";
+
+const loadFile = (file: string) => {
+  // if file exists relative ot this file return its file path
+  // otherwise return the file path relative to the project root
+  const filePath = path.resolve(path.join(__dirname, file));
+  if (fs.existsSync(filePath)) {
+    return filePath;
+  }
+  return path.resolve(
+    path.join(projectRootPath(), "bundle", "lib", "server", file)
+  );
+};
+
+const graphqlSchemaPath = loadFile("schema.graphql");
 
 type WatchInputs = {
   targetDir: string;
@@ -86,14 +102,11 @@ async function startApolloServer() {
     },
   };
 
-  const schema = await loadSchema(
-    path.resolve(path.join(__dirname, "schema.graphql")),
-    {
-      // load from a single schema file
-      loaders: [new GraphQLFileLoader()],
-      resolvers,
-    }
-  );
+  const schema = await loadSchema(graphqlSchemaPath, {
+    // load from a single schema file
+    loaders: [new GraphQLFileLoader()],
+    resolvers,
+  });
 
   // setup express and base http server
   const app = express();

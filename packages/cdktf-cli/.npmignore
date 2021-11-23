@@ -2,9 +2,9 @@
 *.d.ts
 *.js
 
-!bin-dist/*.d.ts
-!bin-dist/*.js
-!bin-dist/*.js.map
+!bundle/**/*.d.ts
+!bundle/**/*.js
+!bundle/**/*.js.map
 !lib/**/*.d.ts
 !lib/**/*.js
 
