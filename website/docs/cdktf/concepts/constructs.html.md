@@ -126,7 +126,7 @@ class MyStack extends TerraformStack {
 
 ### Available Constructs
 
-You can search the Amazon Web Services (AWS) [Construct Hub](https://constructs.dev/search?q=&cdk=cdktf&sort=newest&offset=0) for existing CDKTF-compatible constructs. We are also building the [AWS Adapter](/docs/cdktf/create-and-deploy/aws-adapter.html), which lets you use AWS Constructs in your CDKTF projects.
+You can search the Amazon Web Services (AWS) [Construct Hub](https://constructs.dev/search?q=&cdk=cdktf&offset=0) for existing CDKTF-compatible constructs. We are also building the [AWS Adapter](/docs/cdktf/create-and-deploy/aws-adapter.html), which lets you use AWS Constructs in your CDKTF projects.
 
 ~> **Note:** The AWS Adapter is in tech preview.
 
