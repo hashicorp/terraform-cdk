@@ -93,7 +93,7 @@ Go to the working directory and run `cdktf get`. CDKTF automatically creates the
 
 ## Work with Module Outputs
 
-Modules often return data that you can use as inputs to other modules or resources. When this data is only available after Terraform applies the configuration, you must use [Terraform Outputs](/docs/cdktf/concepts/variables-and-outputs.html#outputs).
+Modules often return data that you can use as inputs to other modules or resources. When this data is only available after Terraform applies the configuration, you must use [Terraform Outputs](/docs/cdktf/concepts/variables-and-outputs.html#output-values).
 
 ### Examples
 

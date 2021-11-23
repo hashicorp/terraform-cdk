@@ -13,7 +13,7 @@ Terraform can understand configurations written in either HashiCorp Configuratio
 
 - [**Input Variables:**](#input-variables) These are like function arguments.
 - [**Local Values**](#local-values): These are like a function's temporary local variables.
-- [**Output Values**](#outputs): These are like function return values.
+- [**Output Values**](#output-values): These are like function return values.
 
 You may need to occasionally use these elements in your CDK for Terraform (CDKTF) application instead of passing data through the conventions available in your preferred programming language.
 
@@ -91,7 +91,7 @@ When you run `cdktf synth` the `TerraformLocal` above synthesizes to the followi
 
 ## Output Values
 
-You can define [Terraform outputs](https://www.terraform.io/docs/configuration-0-11/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html).
+You can define [Terraform outputs](https://www.terraform.io/docs/language/values/outputs.html) to export structured data about your resources. Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html).
 
 ### When to use Output Values
 
