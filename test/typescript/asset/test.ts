@@ -73,6 +73,50 @@ describe("full integration test", () => {
     expect(stat.isFile()).toBe(true);
   });
 
+  test("relative file asset copied", async () => {
+    await driver.synth("fixed");
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relativeasset/hash/relative-asset.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
+  });
+
+  test("relative folder asset copied", async () => {
+    await driver.synth("fixed");
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relative/hash/a.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relative/hash/b.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relative/hash/bar/c.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
+  });
+
   test("without asset changes there should be no redeployment", async () => {
     expect(await driver.diff("normal")).toContain(
       "1 to create, 0 to update, 0 to delete"

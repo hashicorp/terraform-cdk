@@ -41,12 +41,6 @@ export class TerraformAsset extends Resource {
   constructor(scope: Construct, id: string, config: TerraformAssetConfig) {
     super(scope, id);
 
-    if (!path.isAbsolute(config.path)) {
-      throw new Error(
-        `TerraformAsset path needs to be absolute, got relative path: '${config.path}'`
-      );
-    }
-
     const stat = fs.statSync(config.path);
     const inferredType = stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
     this.type = config.type ?? inferredType;
