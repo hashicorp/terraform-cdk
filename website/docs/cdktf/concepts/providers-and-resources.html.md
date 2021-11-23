@@ -339,7 +339,7 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the v
 }
 ```
 
-You can access elements in arrays by a dot notation: `resource.addOverride("configurations.0.https", true)`.
+Use a dot notation to access elements in arrays: `resource.addOverride("configurations.0.https", true)`.
 
 #### Escape Hatch for Dynamic Blocks
 
