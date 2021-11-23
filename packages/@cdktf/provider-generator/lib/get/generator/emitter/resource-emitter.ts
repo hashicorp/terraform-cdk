@@ -101,7 +101,13 @@ export class ResourceEmitter {
 
     // initialize config properties
     for (const att of resource.configStruct.assignableAttributes) {
-      this.code.line(`this.${att.storageName} = config.${att.name};`);
+      if (att.setterType._type === "stored_class") {
+        this.code.line(
+          `this.${att.storageName}.internalValue = config.${att.name};`
+        );
+      } else {
+        this.code.line(`this.${att.storageName} = config.${att.name};`);
+      }
     }
 
     this.code.closeBlock();

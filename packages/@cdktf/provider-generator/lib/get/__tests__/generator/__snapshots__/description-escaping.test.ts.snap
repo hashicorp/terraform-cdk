@@ -71,7 +71,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get brokenCommentsInput() {
-    return this._brokenComments
+    return this._brokenComments;
   }
 
   // =========
@@ -154,7 +154,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get withCodeBlockInput() {
-    return this._withCodeBlock
+    return this._withCodeBlock;
   }
 
   // =========

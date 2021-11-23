@@ -215,6 +215,7 @@ export class Mutation extends TerraformStack {
 
     // put method mutation
     deployment.spec.putStrategy({
+      type: "RollingUpdate",
       rollingUpdate: {
         maxSurge: "10%",
         maxUnavailable: "10%",

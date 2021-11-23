@@ -345,6 +345,8 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the v
 }
 ```
 
+Use a dot notation to access elements in arrays: `resource.addOverride("configurations.0.https", true)`.
+
 #### Escape Hatch for Dynamic Blocks
 
 Terraform configurations sometimes use [`dynamic` blocks](/docs/language/expressions/dynamic-blocks.html) to create related resources based on dynamic data, or data that is only known after Terraform provisions the infrastructure. For example, you could create a series of nested blocks for a series of Virtual Private Cloud (VPC) ingress ports. A `dynamic` block loops over a complex value and generates a nested resource block for each element of that complex value.
