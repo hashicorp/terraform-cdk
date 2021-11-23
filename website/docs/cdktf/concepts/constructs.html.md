@@ -34,7 +34,7 @@ Both Terraform [modules](/docs/cdktf/concepts/modules.html) and constructs allow
 
 You can use the [`cdktf convert`](/docs/cdktf/cli-reference/commands.html#convert) command to translate existing projects written in HashiCorp Configuration Language (HCL) into CDKTF-compatible projects. You could then use the output as a starting point to create custom constructs.
 
-You cannot create a Terraform module directly from an existing CDKTF construct, but you can use the synthesized output of a CDKTF project as a Terraform Module. Refer to the [HCL interoperability](website/docs/cdktf/concepts/hcl-interoperability.html.md) page for more details.
+You cannot create a Terraform module directly from an existing CDKTF construct, but you can use the synthesized output of a CDKTF project as a Terraform Module. Refer to the [HCL interoperability](/docs/cdktf/concepts/hcl-interoperability.html) page for more details.
 
 ## Constructs vs. Stacks
 
