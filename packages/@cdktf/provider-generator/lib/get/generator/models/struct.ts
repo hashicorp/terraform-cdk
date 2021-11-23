@@ -54,6 +54,10 @@ export class Struct {
     return `${this.name}OutputReference`;
   }
 
+  public get isProvider(): boolean {
+    return this.attributes.some((att) => att.isProvider);
+  }
+
   public get attributeTypeNamesFromClasses(): string[] {
     return this.attributes
       .filter((a) => a.type.struct?.isClass)
