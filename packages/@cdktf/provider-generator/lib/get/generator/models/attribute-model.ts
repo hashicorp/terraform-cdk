@@ -15,7 +15,8 @@ export type GetterType =
 export type SetterType =
   | { _type: "none" }
   | { _type: "set"; type: string }
-  | { _type: "put"; type: string };
+  | { _type: "put"; type: string }
+  | { _type: "stored_class"; type: string };
 
 export interface AttributeModelOptions {
   storageName: string; // private property
@@ -165,14 +166,14 @@ export class AttributeModel {
 
     if (this.getterType._type === "stored_class") {
       return {
-        _type: "put",
-        type: this.type.storedName,
+        _type: "stored_class",
+        type: this.type.name,
       };
     }
 
     return {
       _type: "set",
-      type: `${this.type.name}${this.isProvider ? "| undefined" : ""}`,
+      type: `${this.type.name}${this.isProvider ? " | undefined" : ""}`,
     };
   }
 

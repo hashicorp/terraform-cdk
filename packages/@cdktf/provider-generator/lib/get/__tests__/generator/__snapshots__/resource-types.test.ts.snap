@@ -141,6 +141,31 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionCacheBehaviorForwardedValuesCookies | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._forward) {
+      hasAnyValues = true;
+      internalValueResult.forward = this._forward;
+    }
+    if (this._whitelistedNames) {
+      hasAnyValues = true;
+      internalValueResult.whitelistedNames = this._whitelistedNames;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionCacheBehaviorForwardedValuesCookies | undefined) {
+    if (value === undefined) {
+      this._forward = undefined;
+      this._whitelistedNames = undefined;
+    }
+    else {
+      this._forward = value.forward;
+      this._whitelistedNames = value.whitelistedNames;
+    }
+  }
+
   // forward - computed: false, optional: false, required: true
   private _forward?: string; 
   public get forward() {
@@ -151,7 +176,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get forwardInput() {
-    return this._forward
+    return this._forward;
   }
 
   // whitelisted_names - computed: false, optional: true, required: false
@@ -167,7 +192,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get whitelistedNamesInput() {
-    return this._whitelistedNames
+    return this._whitelistedNames;
   }
 }
 export interface CloudfrontDistributionCacheBehaviorForwardedValues {
@@ -214,6 +239,43 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionCacheBehaviorForwardedValues | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._headers) {
+      hasAnyValues = true;
+      internalValueResult.headers = this._headers;
+    }
+    if (this._queryString) {
+      hasAnyValues = true;
+      internalValueResult.queryString = this._queryString;
+    }
+    if (this._queryStringCacheKeys) {
+      hasAnyValues = true;
+      internalValueResult.queryStringCacheKeys = this._queryStringCacheKeys;
+    }
+    if (this._cookies) {
+      hasAnyValues = true;
+      internalValueResult.cookies = this._cookies?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionCacheBehaviorForwardedValues | undefined) {
+    if (value === undefined) {
+      this._headers = undefined;
+      this._queryString = undefined;
+      this._queryStringCacheKeys = undefined;
+      this._cookies.internalValue = undefined;
+    }
+    else {
+      this._headers = value.headers;
+      this._queryString = value.queryString;
+      this._queryStringCacheKeys = value.queryStringCacheKeys;
+      this._cookies.internalValue = value.cookies;
+    }
+  }
+
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
@@ -227,7 +289,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   }
   // Temporarily expose input value. Use with caution.
   public get headersInput() {
-    return this._headers
+    return this._headers;
   }
 
   // query_string - computed: false, optional: false, required: true
@@ -240,7 +302,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   }
   // Temporarily expose input value. Use with caution.
   public get queryStringInput() {
-    return this._queryString
+    return this._queryString;
   }
 
   // query_string_cache_keys - computed: false, optional: true, required: false
@@ -256,21 +318,20 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   }
   // Temporarily expose input value. Use with caution.
   public get queryStringCacheKeysInput() {
-    return this._queryStringCacheKeys
+    return this._queryStringCacheKeys;
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies?: CloudfrontDistributionCacheBehaviorForwardedValuesCookies; 
-  private __cookiesOutput = new CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference(this as any, \\"cookies\\", true);
+  private _cookies = new CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference(this as any, \\"cookies\\", true);
   public get cookies() {
-    return this.__cookiesOutput;
+    return this._cookies;
   }
   public putCookies(value: CloudfrontDistributionCacheBehaviorForwardedValuesCookies) {
-    this._cookies = value;
+    this._cookies.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get cookiesInput() {
-    return this._cookies
+    return this._cookies.internalValue;
   }
 }
 export interface CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation {
@@ -450,6 +511,31 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._forward) {
+      hasAnyValues = true;
+      internalValueResult.forward = this._forward;
+    }
+    if (this._whitelistedNames) {
+      hasAnyValues = true;
+      internalValueResult.whitelistedNames = this._whitelistedNames;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies | undefined) {
+    if (value === undefined) {
+      this._forward = undefined;
+      this._whitelistedNames = undefined;
+    }
+    else {
+      this._forward = value.forward;
+      this._whitelistedNames = value.whitelistedNames;
+    }
+  }
+
   // forward - computed: false, optional: false, required: true
   private _forward?: string; 
   public get forward() {
@@ -460,7 +546,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   }
   // Temporarily expose input value. Use with caution.
   public get forwardInput() {
-    return this._forward
+    return this._forward;
   }
 
   // whitelisted_names - computed: false, optional: true, required: false
@@ -476,7 +562,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   }
   // Temporarily expose input value. Use with caution.
   public get whitelistedNamesInput() {
-    return this._whitelistedNames
+    return this._whitelistedNames;
   }
 }
 export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValues {
@@ -523,6 +609,43 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorForwardedValues | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._headers) {
+      hasAnyValues = true;
+      internalValueResult.headers = this._headers;
+    }
+    if (this._queryString) {
+      hasAnyValues = true;
+      internalValueResult.queryString = this._queryString;
+    }
+    if (this._queryStringCacheKeys) {
+      hasAnyValues = true;
+      internalValueResult.queryStringCacheKeys = this._queryStringCacheKeys;
+    }
+    if (this._cookies) {
+      hasAnyValues = true;
+      internalValueResult.cookies = this._cookies?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionDefaultCacheBehaviorForwardedValues | undefined) {
+    if (value === undefined) {
+      this._headers = undefined;
+      this._queryString = undefined;
+      this._queryStringCacheKeys = undefined;
+      this._cookies.internalValue = undefined;
+    }
+    else {
+      this._headers = value.headers;
+      this._queryString = value.queryString;
+      this._queryStringCacheKeys = value.queryStringCacheKeys;
+      this._cookies.internalValue = value.cookies;
+    }
+  }
+
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
@@ -536,7 +659,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get headersInput() {
-    return this._headers
+    return this._headers;
   }
 
   // query_string - computed: false, optional: false, required: true
@@ -549,7 +672,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get queryStringInput() {
-    return this._queryString
+    return this._queryString;
   }
 
   // query_string_cache_keys - computed: false, optional: true, required: false
@@ -565,21 +688,20 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get queryStringCacheKeysInput() {
-    return this._queryStringCacheKeys
+    return this._queryStringCacheKeys;
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies?: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies; 
-  private __cookiesOutput = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference(this as any, \\"cookies\\", true);
+  private _cookies = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference(this as any, \\"cookies\\", true);
   public get cookies() {
-    return this.__cookiesOutput;
+    return this._cookies;
   }
   public putCookies(value: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies) {
-    this._cookies = value;
+    this._cookies.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get cookiesInput() {
-    return this._cookies
+    return this._cookies.internalValue;
   }
 }
 export interface CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation {
@@ -700,6 +822,97 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionDefaultCacheBehavior | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._allowedMethods) {
+      hasAnyValues = true;
+      internalValueResult.allowedMethods = this._allowedMethods;
+    }
+    if (this._cachedMethods) {
+      hasAnyValues = true;
+      internalValueResult.cachedMethods = this._cachedMethods;
+    }
+    if (this._compress) {
+      hasAnyValues = true;
+      internalValueResult.compress = this._compress;
+    }
+    if (this._defaultTtl) {
+      hasAnyValues = true;
+      internalValueResult.defaultTtl = this._defaultTtl;
+    }
+    if (this._fieldLevelEncryptionId) {
+      hasAnyValues = true;
+      internalValueResult.fieldLevelEncryptionId = this._fieldLevelEncryptionId;
+    }
+    if (this._maxTtl) {
+      hasAnyValues = true;
+      internalValueResult.maxTtl = this._maxTtl;
+    }
+    if (this._minTtl) {
+      hasAnyValues = true;
+      internalValueResult.minTtl = this._minTtl;
+    }
+    if (this._smoothStreaming) {
+      hasAnyValues = true;
+      internalValueResult.smoothStreaming = this._smoothStreaming;
+    }
+    if (this._targetOriginId) {
+      hasAnyValues = true;
+      internalValueResult.targetOriginId = this._targetOriginId;
+    }
+    if (this._trustedSigners) {
+      hasAnyValues = true;
+      internalValueResult.trustedSigners = this._trustedSigners;
+    }
+    if (this._viewerProtocolPolicy) {
+      hasAnyValues = true;
+      internalValueResult.viewerProtocolPolicy = this._viewerProtocolPolicy;
+    }
+    if (this._forwardedValues) {
+      hasAnyValues = true;
+      internalValueResult.forwardedValues = this._forwardedValues?.internalValue;
+    }
+    if (this._lambdaFunctionAssociation) {
+      hasAnyValues = true;
+      internalValueResult.lambdaFunctionAssociation = this._lambdaFunctionAssociation;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionDefaultCacheBehavior | undefined) {
+    if (value === undefined) {
+      this._allowedMethods = undefined;
+      this._cachedMethods = undefined;
+      this._compress = undefined;
+      this._defaultTtl = undefined;
+      this._fieldLevelEncryptionId = undefined;
+      this._maxTtl = undefined;
+      this._minTtl = undefined;
+      this._smoothStreaming = undefined;
+      this._targetOriginId = undefined;
+      this._trustedSigners = undefined;
+      this._viewerProtocolPolicy = undefined;
+      this._forwardedValues.internalValue = undefined;
+      this._lambdaFunctionAssociation = undefined;
+    }
+    else {
+      this._allowedMethods = value.allowedMethods;
+      this._cachedMethods = value.cachedMethods;
+      this._compress = value.compress;
+      this._defaultTtl = value.defaultTtl;
+      this._fieldLevelEncryptionId = value.fieldLevelEncryptionId;
+      this._maxTtl = value.maxTtl;
+      this._minTtl = value.minTtl;
+      this._smoothStreaming = value.smoothStreaming;
+      this._targetOriginId = value.targetOriginId;
+      this._trustedSigners = value.trustedSigners;
+      this._viewerProtocolPolicy = value.viewerProtocolPolicy;
+      this._forwardedValues.internalValue = value.forwardedValues;
+      this._lambdaFunctionAssociation = value.lambdaFunctionAssociation;
+    }
+  }
+
   // allowed_methods - computed: false, optional: false, required: true
   private _allowedMethods?: string[]; 
   public get allowedMethods() {
@@ -710,7 +923,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get allowedMethodsInput() {
-    return this._allowedMethods
+    return this._allowedMethods;
   }
 
   // cached_methods - computed: false, optional: false, required: true
@@ -723,7 +936,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get cachedMethodsInput() {
-    return this._cachedMethods
+    return this._cachedMethods;
   }
 
   // compress - computed: false, optional: true, required: false
@@ -739,7 +952,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get compressInput() {
-    return this._compress
+    return this._compress;
   }
 
   // default_ttl - computed: false, optional: true, required: false
@@ -755,7 +968,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get defaultTtlInput() {
-    return this._defaultTtl
+    return this._defaultTtl;
   }
 
   // field_level_encryption_id - computed: false, optional: true, required: false
@@ -771,7 +984,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get fieldLevelEncryptionIdInput() {
-    return this._fieldLevelEncryptionId
+    return this._fieldLevelEncryptionId;
   }
 
   // max_ttl - computed: false, optional: true, required: false
@@ -787,7 +1000,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get maxTtlInput() {
-    return this._maxTtl
+    return this._maxTtl;
   }
 
   // min_ttl - computed: false, optional: true, required: false
@@ -803,7 +1016,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get minTtlInput() {
-    return this._minTtl
+    return this._minTtl;
   }
 
   // smooth_streaming - computed: false, optional: true, required: false
@@ -819,7 +1032,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get smoothStreamingInput() {
-    return this._smoothStreaming
+    return this._smoothStreaming;
   }
 
   // target_origin_id - computed: false, optional: false, required: true
@@ -832,7 +1045,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get targetOriginIdInput() {
-    return this._targetOriginId
+    return this._targetOriginId;
   }
 
   // trusted_signers - computed: false, optional: true, required: false
@@ -848,7 +1061,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get trustedSignersInput() {
-    return this._trustedSigners
+    return this._trustedSigners;
   }
 
   // viewer_protocol_policy - computed: false, optional: false, required: true
@@ -861,21 +1074,20 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get viewerProtocolPolicyInput() {
-    return this._viewerProtocolPolicy
+    return this._viewerProtocolPolicy;
   }
 
   // forwarded_values - computed: false, optional: false, required: true
-  private _forwardedValues?: CloudfrontDistributionDefaultCacheBehaviorForwardedValues; 
-  private __forwardedValuesOutput = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference(this as any, \\"forwarded_values\\", true);
+  private _forwardedValues = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference(this as any, \\"forwarded_values\\", true);
   public get forwardedValues() {
-    return this.__forwardedValuesOutput;
+    return this._forwardedValues;
   }
   public putForwardedValues(value: CloudfrontDistributionDefaultCacheBehaviorForwardedValues) {
-    this._forwardedValues = value;
+    this._forwardedValues.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get forwardedValuesInput() {
-    return this._forwardedValues
+    return this._forwardedValues.internalValue;
   }
 
   // lambda_function_association - computed: false, optional: true, required: false
@@ -892,7 +1104,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get lambdaFunctionAssociationInput() {
-    return this._lambdaFunctionAssociation
+    return this._lambdaFunctionAssociation;
   }
 }
 export interface CloudfrontDistributionLoggingConfig {
@@ -932,6 +1144,37 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionLoggingConfig | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._bucket) {
+      hasAnyValues = true;
+      internalValueResult.bucket = this._bucket;
+    }
+    if (this._includeCookies) {
+      hasAnyValues = true;
+      internalValueResult.includeCookies = this._includeCookies;
+    }
+    if (this._prefix) {
+      hasAnyValues = true;
+      internalValueResult.prefix = this._prefix;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionLoggingConfig | undefined) {
+    if (value === undefined) {
+      this._bucket = undefined;
+      this._includeCookies = undefined;
+      this._prefix = undefined;
+    }
+    else {
+      this._bucket = value.bucket;
+      this._includeCookies = value.includeCookies;
+      this._prefix = value.prefix;
+    }
+  }
+
   // bucket - computed: false, optional: false, required: true
   private _bucket?: string; 
   public get bucket() {
@@ -942,7 +1185,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   }
   // Temporarily expose input value. Use with caution.
   public get bucketInput() {
-    return this._bucket
+    return this._bucket;
   }
 
   // include_cookies - computed: false, optional: true, required: false
@@ -958,7 +1201,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   }
   // Temporarily expose input value. Use with caution.
   public get includeCookiesInput() {
-    return this._includeCookies
+    return this._includeCookies;
   }
 
   // prefix - computed: false, optional: true, required: false
@@ -974,7 +1217,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   }
   // Temporarily expose input value. Use with caution.
   public get prefixInput() {
-    return this._prefix
+    return this._prefix;
   }
 }
 export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies {
@@ -1009,6 +1252,31 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._forward) {
+      hasAnyValues = true;
+      internalValueResult.forward = this._forward;
+    }
+    if (this._whitelistedNames) {
+      hasAnyValues = true;
+      internalValueResult.whitelistedNames = this._whitelistedNames;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies | undefined) {
+    if (value === undefined) {
+      this._forward = undefined;
+      this._whitelistedNames = undefined;
+    }
+    else {
+      this._forward = value.forward;
+      this._whitelistedNames = value.whitelistedNames;
+    }
+  }
+
   // forward - computed: false, optional: false, required: true
   private _forward?: string; 
   public get forward() {
@@ -1019,7 +1287,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   }
   // Temporarily expose input value. Use with caution.
   public get forwardInput() {
-    return this._forward
+    return this._forward;
   }
 
   // whitelisted_names - computed: false, optional: true, required: false
@@ -1035,7 +1303,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   }
   // Temporarily expose input value. Use with caution.
   public get whitelistedNamesInput() {
-    return this._whitelistedNames
+    return this._whitelistedNames;
   }
 }
 export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValues {
@@ -1082,6 +1350,43 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorForwardedValues | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._headers) {
+      hasAnyValues = true;
+      internalValueResult.headers = this._headers;
+    }
+    if (this._queryString) {
+      hasAnyValues = true;
+      internalValueResult.queryString = this._queryString;
+    }
+    if (this._queryStringCacheKeys) {
+      hasAnyValues = true;
+      internalValueResult.queryStringCacheKeys = this._queryStringCacheKeys;
+    }
+    if (this._cookies) {
+      hasAnyValues = true;
+      internalValueResult.cookies = this._cookies?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOrderedCacheBehaviorForwardedValues | undefined) {
+    if (value === undefined) {
+      this._headers = undefined;
+      this._queryString = undefined;
+      this._queryStringCacheKeys = undefined;
+      this._cookies.internalValue = undefined;
+    }
+    else {
+      this._headers = value.headers;
+      this._queryString = value.queryString;
+      this._queryStringCacheKeys = value.queryStringCacheKeys;
+      this._cookies.internalValue = value.cookies;
+    }
+  }
+
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
@@ -1095,7 +1400,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get headersInput() {
-    return this._headers
+    return this._headers;
   }
 
   // query_string - computed: false, optional: false, required: true
@@ -1108,7 +1413,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get queryStringInput() {
-    return this._queryString
+    return this._queryString;
   }
 
   // query_string_cache_keys - computed: false, optional: true, required: false
@@ -1124,21 +1429,20 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   }
   // Temporarily expose input value. Use with caution.
   public get queryStringCacheKeysInput() {
-    return this._queryStringCacheKeys
+    return this._queryStringCacheKeys;
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies?: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies; 
-  private __cookiesOutput = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference(this as any, \\"cookies\\", true);
+  private _cookies = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference(this as any, \\"cookies\\", true);
   public get cookies() {
-    return this.__cookiesOutput;
+    return this._cookies;
   }
   public putCookies(value: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies) {
-    this._cookies = value;
+    this._cookies.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get cookiesInput() {
-    return this._cookies
+    return this._cookies.internalValue;
   }
 }
 export interface CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation {
@@ -1328,6 +1632,55 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionOriginCustomOriginConfig | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._httpPort) {
+      hasAnyValues = true;
+      internalValueResult.httpPort = this._httpPort;
+    }
+    if (this._httpsPort) {
+      hasAnyValues = true;
+      internalValueResult.httpsPort = this._httpsPort;
+    }
+    if (this._originKeepaliveTimeout) {
+      hasAnyValues = true;
+      internalValueResult.originKeepaliveTimeout = this._originKeepaliveTimeout;
+    }
+    if (this._originProtocolPolicy) {
+      hasAnyValues = true;
+      internalValueResult.originProtocolPolicy = this._originProtocolPolicy;
+    }
+    if (this._originReadTimeout) {
+      hasAnyValues = true;
+      internalValueResult.originReadTimeout = this._originReadTimeout;
+    }
+    if (this._originSslProtocols) {
+      hasAnyValues = true;
+      internalValueResult.originSslProtocols = this._originSslProtocols;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOriginCustomOriginConfig | undefined) {
+    if (value === undefined) {
+      this._httpPort = undefined;
+      this._httpsPort = undefined;
+      this._originKeepaliveTimeout = undefined;
+      this._originProtocolPolicy = undefined;
+      this._originReadTimeout = undefined;
+      this._originSslProtocols = undefined;
+    }
+    else {
+      this._httpPort = value.httpPort;
+      this._httpsPort = value.httpsPort;
+      this._originKeepaliveTimeout = value.originKeepaliveTimeout;
+      this._originProtocolPolicy = value.originProtocolPolicy;
+      this._originReadTimeout = value.originReadTimeout;
+      this._originSslProtocols = value.originSslProtocols;
+    }
+  }
+
   // http_port - computed: false, optional: false, required: true
   private _httpPort?: number; 
   public get httpPort() {
@@ -1338,7 +1691,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
   // Temporarily expose input value. Use with caution.
   public get httpPortInput() {
-    return this._httpPort
+    return this._httpPort;
   }
 
   // https_port - computed: false, optional: false, required: true
@@ -1351,7 +1704,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
   // Temporarily expose input value. Use with caution.
   public get httpsPortInput() {
-    return this._httpsPort
+    return this._httpsPort;
   }
 
   // origin_keepalive_timeout - computed: false, optional: true, required: false
@@ -1367,7 +1720,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
   // Temporarily expose input value. Use with caution.
   public get originKeepaliveTimeoutInput() {
-    return this._originKeepaliveTimeout
+    return this._originKeepaliveTimeout;
   }
 
   // origin_protocol_policy - computed: false, optional: false, required: true
@@ -1380,7 +1733,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
   // Temporarily expose input value. Use with caution.
   public get originProtocolPolicyInput() {
-    return this._originProtocolPolicy
+    return this._originProtocolPolicy;
   }
 
   // origin_read_timeout - computed: false, optional: true, required: false
@@ -1396,7 +1749,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
   // Temporarily expose input value. Use with caution.
   public get originReadTimeoutInput() {
-    return this._originReadTimeout
+    return this._originReadTimeout;
   }
 
   // origin_ssl_protocols - computed: false, optional: false, required: true
@@ -1409,7 +1762,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   }
   // Temporarily expose input value. Use with caution.
   public get originSslProtocolsInput() {
-    return this._originSslProtocols
+    return this._originSslProtocols;
   }
 }
 export interface CloudfrontDistributionOriginS3OriginConfig {
@@ -1439,6 +1792,25 @@ export class CloudfrontDistributionOriginS3OriginConfigOutputReference extends c
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionOriginS3OriginConfig | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._originAccessIdentity) {
+      hasAnyValues = true;
+      internalValueResult.originAccessIdentity = this._originAccessIdentity;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOriginS3OriginConfig | undefined) {
+    if (value === undefined) {
+      this._originAccessIdentity = undefined;
+    }
+    else {
+      this._originAccessIdentity = value.originAccessIdentity;
+    }
+  }
+
   // origin_access_identity - computed: false, optional: false, required: true
   private _originAccessIdentity?: string; 
   public get originAccessIdentity() {
@@ -1449,7 +1821,7 @@ export class CloudfrontDistributionOriginS3OriginConfigOutputReference extends c
   }
   // Temporarily expose input value. Use with caution.
   public get originAccessIdentityInput() {
-    return this._originAccessIdentity
+    return this._originAccessIdentity;
   }
 }
 export interface CloudfrontDistributionOrigin {
@@ -1527,6 +1899,25 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionOriginGroupFailoverCriteria | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._statusCodes) {
+      hasAnyValues = true;
+      internalValueResult.statusCodes = this._statusCodes;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOriginGroupFailoverCriteria | undefined) {
+    if (value === undefined) {
+      this._statusCodes = undefined;
+    }
+    else {
+      this._statusCodes = value.statusCodes;
+    }
+  }
+
   // status_codes - computed: false, optional: false, required: true
   private _statusCodes?: number[]; 
   public get statusCodes() {
@@ -1538,7 +1929,7 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   }
   // Temporarily expose input value. Use with caution.
   public get statusCodesInput() {
-    return this._statusCodes
+    return this._statusCodes;
   }
 }
 export interface CloudfrontDistributionOriginGroupMember {
@@ -1621,6 +2012,31 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionRestrictionsGeoRestriction | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._locations) {
+      hasAnyValues = true;
+      internalValueResult.locations = this._locations;
+    }
+    if (this._restrictionType) {
+      hasAnyValues = true;
+      internalValueResult.restrictionType = this._restrictionType;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionRestrictionsGeoRestriction | undefined) {
+    if (value === undefined) {
+      this._locations = undefined;
+      this._restrictionType = undefined;
+    }
+    else {
+      this._locations = value.locations;
+      this._restrictionType = value.restrictionType;
+    }
+  }
+
   // locations - computed: false, optional: true, required: false
   private _locations?: string[]; 
   public get locations() {
@@ -1634,7 +2050,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   }
   // Temporarily expose input value. Use with caution.
   public get locationsInput() {
-    return this._locations
+    return this._locations;
   }
 
   // restriction_type - computed: false, optional: false, required: true
@@ -1647,7 +2063,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   }
   // Temporarily expose input value. Use with caution.
   public get restrictionTypeInput() {
-    return this._restrictionType
+    return this._restrictionType;
   }
 }
 export interface CloudfrontDistributionRestrictions {
@@ -1679,18 +2095,36 @@ export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.Com
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionRestrictions | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._geoRestriction) {
+      hasAnyValues = true;
+      internalValueResult.geoRestriction = this._geoRestriction?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionRestrictions | undefined) {
+    if (value === undefined) {
+      this._geoRestriction.internalValue = undefined;
+    }
+    else {
+      this._geoRestriction.internalValue = value.geoRestriction;
+    }
+  }
+
   // geo_restriction - computed: false, optional: false, required: true
-  private _geoRestriction?: CloudfrontDistributionRestrictionsGeoRestriction; 
-  private __geoRestrictionOutput = new CloudfrontDistributionRestrictionsGeoRestrictionOutputReference(this as any, \\"geo_restriction\\", true);
+  private _geoRestriction = new CloudfrontDistributionRestrictionsGeoRestrictionOutputReference(this as any, \\"geo_restriction\\", true);
   public get geoRestriction() {
-    return this.__geoRestrictionOutput;
+    return this._geoRestriction;
   }
   public putGeoRestriction(value: CloudfrontDistributionRestrictionsGeoRestriction) {
-    this._geoRestriction = value;
+    this._geoRestriction.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get geoRestrictionInput() {
-    return this._geoRestriction
+    return this._geoRestriction.internalValue;
   }
 }
 export interface CloudfrontDistributionViewerCertificate {
@@ -1740,6 +2174,49 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): CloudfrontDistributionViewerCertificate | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._acmCertificateArn) {
+      hasAnyValues = true;
+      internalValueResult.acmCertificateArn = this._acmCertificateArn;
+    }
+    if (this._cloudfrontDefaultCertificate) {
+      hasAnyValues = true;
+      internalValueResult.cloudfrontDefaultCertificate = this._cloudfrontDefaultCertificate;
+    }
+    if (this._iamCertificateId) {
+      hasAnyValues = true;
+      internalValueResult.iamCertificateId = this._iamCertificateId;
+    }
+    if (this._minimumProtocolVersion) {
+      hasAnyValues = true;
+      internalValueResult.minimumProtocolVersion = this._minimumProtocolVersion;
+    }
+    if (this._sslSupportMethod) {
+      hasAnyValues = true;
+      internalValueResult.sslSupportMethod = this._sslSupportMethod;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionViewerCertificate | undefined) {
+    if (value === undefined) {
+      this._acmCertificateArn = undefined;
+      this._cloudfrontDefaultCertificate = undefined;
+      this._iamCertificateId = undefined;
+      this._minimumProtocolVersion = undefined;
+      this._sslSupportMethod = undefined;
+    }
+    else {
+      this._acmCertificateArn = value.acmCertificateArn;
+      this._cloudfrontDefaultCertificate = value.cloudfrontDefaultCertificate;
+      this._iamCertificateId = value.iamCertificateId;
+      this._minimumProtocolVersion = value.minimumProtocolVersion;
+      this._sslSupportMethod = value.sslSupportMethod;
+    }
+  }
+
   // acm_certificate_arn - computed: false, optional: true, required: false
   private _acmCertificateArn?: string; 
   public get acmCertificateArn() {
@@ -1753,7 +2230,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
   // Temporarily expose input value. Use with caution.
   public get acmCertificateArnInput() {
-    return this._acmCertificateArn
+    return this._acmCertificateArn;
   }
 
   // cloudfront_default_certificate - computed: false, optional: true, required: false
@@ -1769,7 +2246,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
   // Temporarily expose input value. Use with caution.
   public get cloudfrontDefaultCertificateInput() {
-    return this._cloudfrontDefaultCertificate
+    return this._cloudfrontDefaultCertificate;
   }
 
   // iam_certificate_id - computed: false, optional: true, required: false
@@ -1785,7 +2262,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
   // Temporarily expose input value. Use with caution.
   public get iamCertificateIdInput() {
-    return this._iamCertificateId
+    return this._iamCertificateId;
   }
 
   // minimum_protocol_version - computed: false, optional: true, required: false
@@ -1801,7 +2278,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
   // Temporarily expose input value. Use with caution.
   public get minimumProtocolVersionInput() {
-    return this._minimumProtocolVersion
+    return this._minimumProtocolVersion;
   }
 
   // ssl_support_method - computed: false, optional: true, required: false
@@ -1817,7 +2294,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   }
   // Temporarily expose input value. Use with caution.
   public get sslSupportMethodInput() {
-    return this._sslSupportMethod
+    return this._sslSupportMethod;
   }
 }
 
@@ -1866,13 +2343,13 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
     this._webAclId = config.webAclId;
     this._cacheBehavior = config.cacheBehavior;
     this._customErrorResponse = config.customErrorResponse;
-    this._defaultCacheBehavior = config.defaultCacheBehavior;
-    this._loggingConfig = config.loggingConfig;
+    this._defaultCacheBehavior.internalValue = config.defaultCacheBehavior;
+    this._loggingConfig.internalValue = config.loggingConfig;
     this._orderedCacheBehavior = config.orderedCacheBehavior;
     this._origin = config.origin;
     this._originGroup = config.originGroup;
-    this._restrictions = config.restrictions;
-    this._viewerCertificate = config.viewerCertificate;
+    this._restrictions.internalValue = config.restrictions;
+    this._viewerCertificate.internalValue = config.viewerCertificate;
   }
 
   // ==========
@@ -1897,7 +2374,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get aliasesInput() {
-    return this._aliases
+    return this._aliases;
   }
 
   // arn - computed: true, optional: false, required: false
@@ -1923,7 +2400,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get commentInput() {
-    return this._comment
+    return this._comment;
   }
 
   // default_root_object - computed: false, optional: true, required: false
@@ -1939,7 +2416,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get defaultRootObjectInput() {
-    return this._defaultRootObject
+    return this._defaultRootObject;
   }
 
   // domain_name - computed: true, optional: false, required: false
@@ -1957,7 +2434,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get enabledInput() {
-    return this._enabled
+    return this._enabled;
   }
 
   // etag - computed: true, optional: false, required: false
@@ -1983,7 +2460,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get httpVersionInput() {
-    return this._httpVersion
+    return this._httpVersion;
   }
 
   // id - computed: true, optional: true, required: false
@@ -2009,7 +2486,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get isIpv6EnabledInput() {
-    return this._isIpv6Enabled
+    return this._isIpv6Enabled;
   }
 
   // last_modified_time - computed: true, optional: false, required: false
@@ -2030,7 +2507,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get priceClassInput() {
-    return this._priceClass
+    return this._priceClass;
   }
 
   // retain_on_delete - computed: false, optional: true, required: false
@@ -2046,7 +2523,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get retainOnDeleteInput() {
-    return this._retainOnDelete
+    return this._retainOnDelete;
   }
 
   // status - computed: true, optional: false, required: false
@@ -2068,7 +2545,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
-    return this._tags
+    return this._tags;
   }
 
   // wait_for_deployment - computed: false, optional: true, required: false
@@ -2084,7 +2561,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get waitForDeploymentInput() {
-    return this._waitForDeployment
+    return this._waitForDeployment;
   }
 
   // web_acl_id - computed: false, optional: true, required: false
@@ -2100,7 +2577,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get webAclIdInput() {
-    return this._webAclId
+    return this._webAclId;
   }
 
   // cache_behavior - computed: false, optional: true, required: false
@@ -2117,7 +2594,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get cacheBehaviorInput() {
-    return this._cacheBehavior
+    return this._cacheBehavior;
   }
 
   // custom_error_response - computed: false, optional: true, required: false
@@ -2134,38 +2611,36 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get customErrorResponseInput() {
-    return this._customErrorResponse
+    return this._customErrorResponse;
   }
 
   // default_cache_behavior - computed: false, optional: false, required: true
-  private _defaultCacheBehavior?: CloudfrontDistributionDefaultCacheBehavior; 
-  private __defaultCacheBehaviorOutput = new CloudfrontDistributionDefaultCacheBehaviorOutputReference(this as any, \\"default_cache_behavior\\", true);
+  private _defaultCacheBehavior = new CloudfrontDistributionDefaultCacheBehaviorOutputReference(this as any, \\"default_cache_behavior\\", true);
   public get defaultCacheBehavior() {
-    return this.__defaultCacheBehaviorOutput;
+    return this._defaultCacheBehavior;
   }
   public putDefaultCacheBehavior(value: CloudfrontDistributionDefaultCacheBehavior) {
-    this._defaultCacheBehavior = value;
+    this._defaultCacheBehavior.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get defaultCacheBehaviorInput() {
-    return this._defaultCacheBehavior
+    return this._defaultCacheBehavior.internalValue;
   }
 
   // logging_config - computed: false, optional: true, required: false
-  private _loggingConfig?: CloudfrontDistributionLoggingConfig; 
-  private __loggingConfigOutput = new CloudfrontDistributionLoggingConfigOutputReference(this as any, \\"logging_config\\", true);
+  private _loggingConfig = new CloudfrontDistributionLoggingConfigOutputReference(this as any, \\"logging_config\\", true);
   public get loggingConfig() {
-    return this.__loggingConfigOutput;
+    return this._loggingConfig;
   }
-  public putLoggingConfig(value: CloudfrontDistributionLoggingConfig | undefined) {
-    this._loggingConfig = value;
+  public putLoggingConfig(value: CloudfrontDistributionLoggingConfig) {
+    this._loggingConfig.internalValue = value;
   }
   public resetLoggingConfig() {
-    this._loggingConfig = undefined;
+    this._loggingConfig.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get loggingConfigInput() {
-    return this._loggingConfig
+    return this._loggingConfig.internalValue;
   }
 
   // ordered_cache_behavior - computed: false, optional: true, required: false
@@ -2182,7 +2657,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get orderedCacheBehaviorInput() {
-    return this._orderedCacheBehavior
+    return this._orderedCacheBehavior;
   }
 
   // origin - computed: false, optional: false, required: true
@@ -2196,7 +2671,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get originInput() {
-    return this._origin
+    return this._origin;
   }
 
   // origin_group - computed: false, optional: true, required: false
@@ -2213,35 +2688,33 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get originGroupInput() {
-    return this._originGroup
+    return this._originGroup;
   }
 
   // restrictions - computed: false, optional: false, required: true
-  private _restrictions?: CloudfrontDistributionRestrictions; 
-  private __restrictionsOutput = new CloudfrontDistributionRestrictionsOutputReference(this as any, \\"restrictions\\", true);
+  private _restrictions = new CloudfrontDistributionRestrictionsOutputReference(this as any, \\"restrictions\\", true);
   public get restrictions() {
-    return this.__restrictionsOutput;
+    return this._restrictions;
   }
   public putRestrictions(value: CloudfrontDistributionRestrictions) {
-    this._restrictions = value;
+    this._restrictions.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get restrictionsInput() {
-    return this._restrictions
+    return this._restrictions.internalValue;
   }
 
   // viewer_certificate - computed: false, optional: false, required: true
-  private _viewerCertificate?: CloudfrontDistributionViewerCertificate; 
-  private __viewerCertificateOutput = new CloudfrontDistributionViewerCertificateOutputReference(this as any, \\"viewer_certificate\\", true);
+  private _viewerCertificate = new CloudfrontDistributionViewerCertificateOutputReference(this as any, \\"viewer_certificate\\", true);
   public get viewerCertificate() {
-    return this.__viewerCertificateOutput;
+    return this._viewerCertificate;
   }
   public putViewerCertificate(value: CloudfrontDistributionViewerCertificate) {
-    this._viewerCertificate = value;
+    this._viewerCertificate.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get viewerCertificateInput() {
-    return this._viewerCertificate
+    return this._viewerCertificate.internalValue;
   }
 
   // =========
@@ -2263,13 +2736,13 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       web_acl_id: cdktf.stringToTerraform(this._webAclId),
       cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform)(this._cacheBehavior),
       custom_error_response: cdktf.listMapper(cloudfrontDistributionCustomErrorResponseToTerraform)(this._customErrorResponse),
-      default_cache_behavior: cloudfrontDistributionDefaultCacheBehaviorToTerraform(this._defaultCacheBehavior),
-      logging_config: cloudfrontDistributionLoggingConfigToTerraform(this._loggingConfig),
+      default_cache_behavior: cloudfrontDistributionDefaultCacheBehaviorToTerraform(this._defaultCacheBehavior.internalValue),
+      logging_config: cloudfrontDistributionLoggingConfigToTerraform(this._loggingConfig.internalValue),
       ordered_cache_behavior: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorToTerraform)(this._orderedCacheBehavior),
       origin: cdktf.listMapper(cloudfrontDistributionOriginToTerraform)(this._origin),
       origin_group: cdktf.listMapper(cloudfrontDistributionOriginGroupToTerraform)(this._originGroup),
-      restrictions: cloudfrontDistributionRestrictionsToTerraform(this._restrictions),
-      viewer_certificate: cloudfrontDistributionViewerCertificateToTerraform(this._viewerCertificate),
+      restrictions: cloudfrontDistributionRestrictionsToTerraform(this._restrictions.internalValue),
+      viewer_certificate: cloudfrontDistributionViewerCertificateToTerraform(this._viewerCertificate.internalValue),
     };
   }
 }
@@ -2351,7 +2824,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get accountIdInput() {
-    return this._accountId
+    return this._accountId;
   }
 
   // id - computed: true, optional: true, required: false
@@ -2591,6 +3064,37 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketLifecycleRuleExpiration | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._date) {
+      hasAnyValues = true;
+      internalValueResult.date = this._date;
+    }
+    if (this._days) {
+      hasAnyValues = true;
+      internalValueResult.days = this._days;
+    }
+    if (this._expiredObjectDeleteMarker) {
+      hasAnyValues = true;
+      internalValueResult.expiredObjectDeleteMarker = this._expiredObjectDeleteMarker;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketLifecycleRuleExpiration | undefined) {
+    if (value === undefined) {
+      this._date = undefined;
+      this._days = undefined;
+      this._expiredObjectDeleteMarker = undefined;
+    }
+    else {
+      this._date = value.date;
+      this._days = value.days;
+      this._expiredObjectDeleteMarker = value.expiredObjectDeleteMarker;
+    }
+  }
+
   // date - computed: false, optional: true, required: false
   private _date?: string; 
   public get date() {
@@ -2604,7 +3108,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   }
   // Temporarily expose input value. Use with caution.
   public get dateInput() {
-    return this._date
+    return this._date;
   }
 
   // days - computed: false, optional: true, required: false
@@ -2620,7 +3124,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   }
   // Temporarily expose input value. Use with caution.
   public get daysInput() {
-    return this._days
+    return this._days;
   }
 
   // expired_object_delete_marker - computed: false, optional: true, required: false
@@ -2636,7 +3140,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   }
   // Temporarily expose input value. Use with caution.
   public get expiredObjectDeleteMarkerInput() {
-    return this._expiredObjectDeleteMarker
+    return this._expiredObjectDeleteMarker;
   }
 }
 export interface S3BucketLifecycleRuleNoncurrentVersionExpiration {
@@ -2666,6 +3170,25 @@ export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference ext
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketLifecycleRuleNoncurrentVersionExpiration | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._days) {
+      hasAnyValues = true;
+      internalValueResult.days = this._days;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketLifecycleRuleNoncurrentVersionExpiration | undefined) {
+    if (value === undefined) {
+      this._days = undefined;
+    }
+    else {
+      this._days = value.days;
+    }
+  }
+
   // days - computed: false, optional: true, required: false
   private _days?: number; 
   public get days() {
@@ -2679,7 +3202,7 @@ export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference ext
   }
   // Temporarily expose input value. Use with caution.
   public get daysInput() {
-    return this._days
+    return this._days;
   }
 }
 export interface S3BucketLifecycleRuleNoncurrentVersionTransition {
@@ -2854,6 +3377,37 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketObjectLockConfigurationRuleDefaultRetention | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._days) {
+      hasAnyValues = true;
+      internalValueResult.days = this._days;
+    }
+    if (this._mode) {
+      hasAnyValues = true;
+      internalValueResult.mode = this._mode;
+    }
+    if (this._years) {
+      hasAnyValues = true;
+      internalValueResult.years = this._years;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketObjectLockConfigurationRuleDefaultRetention | undefined) {
+    if (value === undefined) {
+      this._days = undefined;
+      this._mode = undefined;
+      this._years = undefined;
+    }
+    else {
+      this._days = value.days;
+      this._mode = value.mode;
+      this._years = value.years;
+    }
+  }
+
   // days - computed: false, optional: true, required: false
   private _days?: number; 
   public get days() {
@@ -2867,7 +3421,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   }
   // Temporarily expose input value. Use with caution.
   public get daysInput() {
-    return this._days
+    return this._days;
   }
 
   // mode - computed: false, optional: false, required: true
@@ -2880,7 +3434,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   }
   // Temporarily expose input value. Use with caution.
   public get modeInput() {
-    return this._mode
+    return this._mode;
   }
 
   // years - computed: false, optional: true, required: false
@@ -2896,7 +3450,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   }
   // Temporarily expose input value. Use with caution.
   public get yearsInput() {
-    return this._years
+    return this._years;
   }
 }
 export interface S3BucketObjectLockConfigurationRule {
@@ -2928,18 +3482,36 @@ export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.Co
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketObjectLockConfigurationRule | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._defaultRetention) {
+      hasAnyValues = true;
+      internalValueResult.defaultRetention = this._defaultRetention?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketObjectLockConfigurationRule | undefined) {
+    if (value === undefined) {
+      this._defaultRetention.internalValue = undefined;
+    }
+    else {
+      this._defaultRetention.internalValue = value.defaultRetention;
+    }
+  }
+
   // default_retention - computed: false, optional: false, required: true
-  private _defaultRetention?: S3BucketObjectLockConfigurationRuleDefaultRetention; 
-  private __defaultRetentionOutput = new S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference(this as any, \\"default_retention\\", true);
+  private _defaultRetention = new S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference(this as any, \\"default_retention\\", true);
   public get defaultRetention() {
-    return this.__defaultRetentionOutput;
+    return this._defaultRetention;
   }
   public putDefaultRetention(value: S3BucketObjectLockConfigurationRuleDefaultRetention) {
-    this._defaultRetention = value;
+    this._defaultRetention.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get defaultRetentionInput() {
-    return this._defaultRetention
+    return this._defaultRetention.internalValue;
   }
 }
 export interface S3BucketObjectLockConfiguration {
@@ -2976,6 +3548,31 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketObjectLockConfiguration | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._objectLockEnabled) {
+      hasAnyValues = true;
+      internalValueResult.objectLockEnabled = this._objectLockEnabled;
+    }
+    if (this._rule) {
+      hasAnyValues = true;
+      internalValueResult.rule = this._rule?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketObjectLockConfiguration | undefined) {
+    if (value === undefined) {
+      this._objectLockEnabled = undefined;
+      this._rule.internalValue = undefined;
+    }
+    else {
+      this._objectLockEnabled = value.objectLockEnabled;
+      this._rule.internalValue = value.rule;
+    }
+  }
+
   // object_lock_enabled - computed: false, optional: false, required: true
   private _objectLockEnabled?: string; 
   public get objectLockEnabled() {
@@ -2986,24 +3583,23 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
   }
   // Temporarily expose input value. Use with caution.
   public get objectLockEnabledInput() {
-    return this._objectLockEnabled
+    return this._objectLockEnabled;
   }
 
   // rule - computed: false, optional: true, required: false
-  private _rule?: S3BucketObjectLockConfigurationRule; 
-  private __ruleOutput = new S3BucketObjectLockConfigurationRuleOutputReference(this as any, \\"rule\\", true);
+  private _rule = new S3BucketObjectLockConfigurationRuleOutputReference(this as any, \\"rule\\", true);
   public get rule() {
-    return this.__ruleOutput;
+    return this._rule;
   }
-  public putRule(value: S3BucketObjectLockConfigurationRule | undefined) {
-    this._rule = value;
+  public putRule(value: S3BucketObjectLockConfigurationRule) {
+    this._rule.internalValue = value;
   }
   public resetRule() {
-    this._rule = undefined;
+    this._rule.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get ruleInput() {
-    return this._rule
+    return this._rule.internalValue;
   }
 }
 export interface S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation {
@@ -3033,6 +3629,25 @@ export class S3BucketReplicationConfigurationRulesDestinationAccessControlTransl
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._owner) {
+      hasAnyValues = true;
+      internalValueResult.owner = this._owner;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation | undefined) {
+    if (value === undefined) {
+      this._owner = undefined;
+    }
+    else {
+      this._owner = value.owner;
+    }
+  }
+
   // owner - computed: false, optional: false, required: true
   private _owner?: string; 
   public get owner() {
@@ -3043,7 +3658,7 @@ export class S3BucketReplicationConfigurationRulesDestinationAccessControlTransl
   }
   // Temporarily expose input value. Use with caution.
   public get ownerInput() {
-    return this._owner
+    return this._owner;
   }
 }
 export interface S3BucketReplicationConfigurationRulesDestination {
@@ -3095,6 +3710,49 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketReplicationConfigurationRulesDestination | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._accountId) {
+      hasAnyValues = true;
+      internalValueResult.accountId = this._accountId;
+    }
+    if (this._bucket) {
+      hasAnyValues = true;
+      internalValueResult.bucket = this._bucket;
+    }
+    if (this._replicaKmsKeyId) {
+      hasAnyValues = true;
+      internalValueResult.replicaKmsKeyId = this._replicaKmsKeyId;
+    }
+    if (this._storageClass) {
+      hasAnyValues = true;
+      internalValueResult.storageClass = this._storageClass;
+    }
+    if (this._accessControlTranslation) {
+      hasAnyValues = true;
+      internalValueResult.accessControlTranslation = this._accessControlTranslation?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketReplicationConfigurationRulesDestination | undefined) {
+    if (value === undefined) {
+      this._accountId = undefined;
+      this._bucket = undefined;
+      this._replicaKmsKeyId = undefined;
+      this._storageClass = undefined;
+      this._accessControlTranslation.internalValue = undefined;
+    }
+    else {
+      this._accountId = value.accountId;
+      this._bucket = value.bucket;
+      this._replicaKmsKeyId = value.replicaKmsKeyId;
+      this._storageClass = value.storageClass;
+      this._accessControlTranslation.internalValue = value.accessControlTranslation;
+    }
+  }
+
   // account_id - computed: false, optional: true, required: false
   private _accountId?: string; 
   public get accountId() {
@@ -3108,7 +3766,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
   // Temporarily expose input value. Use with caution.
   public get accountIdInput() {
-    return this._accountId
+    return this._accountId;
   }
 
   // bucket - computed: false, optional: false, required: true
@@ -3121,7 +3779,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
   // Temporarily expose input value. Use with caution.
   public get bucketInput() {
-    return this._bucket
+    return this._bucket;
   }
 
   // replica_kms_key_id - computed: false, optional: true, required: false
@@ -3137,7 +3795,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
   // Temporarily expose input value. Use with caution.
   public get replicaKmsKeyIdInput() {
-    return this._replicaKmsKeyId
+    return this._replicaKmsKeyId;
   }
 
   // storage_class - computed: false, optional: true, required: false
@@ -3153,24 +3811,23 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
   // Temporarily expose input value. Use with caution.
   public get storageClassInput() {
-    return this._storageClass
+    return this._storageClass;
   }
 
   // access_control_translation - computed: false, optional: true, required: false
-  private _accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation; 
-  private __accessControlTranslationOutput = new S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference(this as any, \\"access_control_translation\\", true);
+  private _accessControlTranslation = new S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference(this as any, \\"access_control_translation\\", true);
   public get accessControlTranslation() {
-    return this.__accessControlTranslationOutput;
+    return this._accessControlTranslation;
   }
-  public putAccessControlTranslation(value: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation | undefined) {
-    this._accessControlTranslation = value;
+  public putAccessControlTranslation(value: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation) {
+    this._accessControlTranslation.internalValue = value;
   }
   public resetAccessControlTranslation() {
-    this._accessControlTranslation = undefined;
+    this._accessControlTranslation.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get accessControlTranslationInput() {
-    return this._accessControlTranslation
+    return this._accessControlTranslation.internalValue;
   }
 }
 export interface S3BucketReplicationConfigurationRulesFilter {
@@ -3205,6 +3862,31 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketReplicationConfigurationRulesFilter | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._prefix) {
+      hasAnyValues = true;
+      internalValueResult.prefix = this._prefix;
+    }
+    if (this._tags) {
+      hasAnyValues = true;
+      internalValueResult.tags = this._tags;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketReplicationConfigurationRulesFilter | undefined) {
+    if (value === undefined) {
+      this._prefix = undefined;
+      this._tags = undefined;
+    }
+    else {
+      this._prefix = value.prefix;
+      this._tags = value.tags;
+    }
+  }
+
   // prefix - computed: false, optional: true, required: false
   private _prefix?: string; 
   public get prefix() {
@@ -3218,7 +3900,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   }
   // Temporarily expose input value. Use with caution.
   public get prefixInput() {
-    return this._prefix
+    return this._prefix;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -3235,7 +3917,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
-    return this._tags
+    return this._tags;
   }
 }
 export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects {
@@ -3265,6 +3947,25 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsE
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._enabled) {
+      hasAnyValues = true;
+      internalValueResult.enabled = this._enabled;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects | undefined) {
+    if (value === undefined) {
+      this._enabled = undefined;
+    }
+    else {
+      this._enabled = value.enabled;
+    }
+  }
+
   // enabled - computed: false, optional: false, required: true
   private _enabled?: boolean | cdktf.IResolvable; 
   public get enabled() {
@@ -3275,7 +3976,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsE
   }
   // Temporarily expose input value. Use with caution.
   public get enabledInput() {
-    return this._enabled
+    return this._enabled;
   }
 }
 export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteria {
@@ -3307,21 +4008,39 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputR
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
-  // sse_kms_encrypted_objects - computed: false, optional: true, required: false
-  private _sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects; 
-  private __sseKmsEncryptedObjectsOutput = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference(this as any, \\"sse_kms_encrypted_objects\\", true);
-  public get sseKmsEncryptedObjects() {
-    return this.__sseKmsEncryptedObjectsOutput;
+  public get internalValue(): S3BucketReplicationConfigurationRulesSourceSelectionCriteria | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._sseKmsEncryptedObjects) {
+      hasAnyValues = true;
+      internalValueResult.sseKmsEncryptedObjects = this._sseKmsEncryptedObjects?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
   }
-  public putSseKmsEncryptedObjects(value: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects | undefined) {
-    this._sseKmsEncryptedObjects = value;
+
+  public set internalValue(value: S3BucketReplicationConfigurationRulesSourceSelectionCriteria | undefined) {
+    if (value === undefined) {
+      this._sseKmsEncryptedObjects.internalValue = undefined;
+    }
+    else {
+      this._sseKmsEncryptedObjects.internalValue = value.sseKmsEncryptedObjects;
+    }
+  }
+
+  // sse_kms_encrypted_objects - computed: false, optional: true, required: false
+  private _sseKmsEncryptedObjects = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference(this as any, \\"sse_kms_encrypted_objects\\", true);
+  public get sseKmsEncryptedObjects() {
+    return this._sseKmsEncryptedObjects;
+  }
+  public putSseKmsEncryptedObjects(value: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects) {
+    this._sseKmsEncryptedObjects.internalValue = value;
   }
   public resetSseKmsEncryptedObjects() {
-    this._sseKmsEncryptedObjects = undefined;
+    this._sseKmsEncryptedObjects.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get sseKmsEncryptedObjectsInput() {
-    return this._sseKmsEncryptedObjects
+    return this._sseKmsEncryptedObjects.internalValue;
   }
 }
 export interface S3BucketReplicationConfigurationRules {
@@ -3411,6 +4130,31 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketReplicationConfiguration | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._role) {
+      hasAnyValues = true;
+      internalValueResult.role = this._role;
+    }
+    if (this._rules) {
+      hasAnyValues = true;
+      internalValueResult.rules = this._rules;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketReplicationConfiguration | undefined) {
+    if (value === undefined) {
+      this._role = undefined;
+      this._rules = undefined;
+    }
+    else {
+      this._role = value.role;
+      this._rules = value.rules;
+    }
+  }
+
   // role - computed: false, optional: false, required: true
   private _role?: string; 
   public get role() {
@@ -3421,7 +4165,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   }
   // Temporarily expose input value. Use with caution.
   public get roleInput() {
-    return this._role
+    return this._role;
   }
 
   // rules - computed: false, optional: false, required: true
@@ -3435,7 +4179,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   }
   // Temporarily expose input value. Use with caution.
   public get rulesInput() {
-    return this._rules
+    return this._rules;
   }
 }
 export interface S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault {
@@ -3470,6 +4214,31 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._kmsMasterKeyId) {
+      hasAnyValues = true;
+      internalValueResult.kmsMasterKeyId = this._kmsMasterKeyId;
+    }
+    if (this._sseAlgorithm) {
+      hasAnyValues = true;
+      internalValueResult.sseAlgorithm = this._sseAlgorithm;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault | undefined) {
+    if (value === undefined) {
+      this._kmsMasterKeyId = undefined;
+      this._sseAlgorithm = undefined;
+    }
+    else {
+      this._kmsMasterKeyId = value.kmsMasterKeyId;
+      this._sseAlgorithm = value.sseAlgorithm;
+    }
+  }
+
   // kms_master_key_id - computed: false, optional: true, required: false
   private _kmsMasterKeyId?: string; 
   public get kmsMasterKeyId() {
@@ -3483,7 +4252,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
   }
   // Temporarily expose input value. Use with caution.
   public get kmsMasterKeyIdInput() {
-    return this._kmsMasterKeyId
+    return this._kmsMasterKeyId;
   }
 
   // sse_algorithm - computed: false, optional: false, required: true
@@ -3496,7 +4265,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
   }
   // Temporarily expose input value. Use with caution.
   public get sseAlgorithmInput() {
-    return this._sseAlgorithm
+    return this._sseAlgorithm;
   }
 }
 export interface S3BucketServerSideEncryptionConfigurationRule {
@@ -3528,18 +4297,36 @@ export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extend
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketServerSideEncryptionConfigurationRule | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._applyServerSideEncryptionByDefault) {
+      hasAnyValues = true;
+      internalValueResult.applyServerSideEncryptionByDefault = this._applyServerSideEncryptionByDefault?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketServerSideEncryptionConfigurationRule | undefined) {
+    if (value === undefined) {
+      this._applyServerSideEncryptionByDefault.internalValue = undefined;
+    }
+    else {
+      this._applyServerSideEncryptionByDefault.internalValue = value.applyServerSideEncryptionByDefault;
+    }
+  }
+
   // apply_server_side_encryption_by_default - computed: false, optional: false, required: true
-  private _applyServerSideEncryptionByDefault?: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault; 
-  private __applyServerSideEncryptionByDefaultOutput = new S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference(this as any, \\"apply_server_side_encryption_by_default\\", true);
+  private _applyServerSideEncryptionByDefault = new S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference(this as any, \\"apply_server_side_encryption_by_default\\", true);
   public get applyServerSideEncryptionByDefault() {
-    return this.__applyServerSideEncryptionByDefaultOutput;
+    return this._applyServerSideEncryptionByDefault;
   }
   public putApplyServerSideEncryptionByDefault(value: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault) {
-    this._applyServerSideEncryptionByDefault = value;
+    this._applyServerSideEncryptionByDefault.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get applyServerSideEncryptionByDefaultInput() {
-    return this._applyServerSideEncryptionByDefault
+    return this._applyServerSideEncryptionByDefault.internalValue;
   }
 }
 export interface S3BucketServerSideEncryptionConfiguration {
@@ -3571,18 +4358,36 @@ export class S3BucketServerSideEncryptionConfigurationOutputReference extends cd
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketServerSideEncryptionConfiguration | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._rule) {
+      hasAnyValues = true;
+      internalValueResult.rule = this._rule?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketServerSideEncryptionConfiguration | undefined) {
+    if (value === undefined) {
+      this._rule.internalValue = undefined;
+    }
+    else {
+      this._rule.internalValue = value.rule;
+    }
+  }
+
   // rule - computed: false, optional: false, required: true
-  private _rule?: S3BucketServerSideEncryptionConfigurationRule; 
-  private __ruleOutput = new S3BucketServerSideEncryptionConfigurationRuleOutputReference(this as any, \\"rule\\", true);
+  private _rule = new S3BucketServerSideEncryptionConfigurationRuleOutputReference(this as any, \\"rule\\", true);
   public get rule() {
-    return this.__ruleOutput;
+    return this._rule;
   }
   public putRule(value: S3BucketServerSideEncryptionConfigurationRule) {
-    this._rule = value;
+    this._rule.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get ruleInput() {
-    return this._rule
+    return this._rule.internalValue;
   }
 }
 export interface S3BucketVersioning {
@@ -3617,6 +4422,31 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketVersioning | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._enabled) {
+      hasAnyValues = true;
+      internalValueResult.enabled = this._enabled;
+    }
+    if (this._mfaDelete) {
+      hasAnyValues = true;
+      internalValueResult.mfaDelete = this._mfaDelete;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketVersioning | undefined) {
+    if (value === undefined) {
+      this._enabled = undefined;
+      this._mfaDelete = undefined;
+    }
+    else {
+      this._enabled = value.enabled;
+      this._mfaDelete = value.mfaDelete;
+    }
+  }
+
   // enabled - computed: false, optional: true, required: false
   private _enabled?: boolean | cdktf.IResolvable; 
   public get enabled() {
@@ -3630,7 +4460,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get enabledInput() {
-    return this._enabled
+    return this._enabled;
   }
 
   // mfa_delete - computed: false, optional: true, required: false
@@ -3646,7 +4476,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get mfaDeleteInput() {
-    return this._mfaDelete
+    return this._mfaDelete;
   }
 }
 export interface S3BucketWebsite {
@@ -3691,6 +4521,43 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): S3BucketWebsite | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._errorDocument) {
+      hasAnyValues = true;
+      internalValueResult.errorDocument = this._errorDocument;
+    }
+    if (this._indexDocument) {
+      hasAnyValues = true;
+      internalValueResult.indexDocument = this._indexDocument;
+    }
+    if (this._redirectAllRequestsTo) {
+      hasAnyValues = true;
+      internalValueResult.redirectAllRequestsTo = this._redirectAllRequestsTo;
+    }
+    if (this._routingRules) {
+      hasAnyValues = true;
+      internalValueResult.routingRules = this._routingRules;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketWebsite | undefined) {
+    if (value === undefined) {
+      this._errorDocument = undefined;
+      this._indexDocument = undefined;
+      this._redirectAllRequestsTo = undefined;
+      this._routingRules = undefined;
+    }
+    else {
+      this._errorDocument = value.errorDocument;
+      this._indexDocument = value.indexDocument;
+      this._redirectAllRequestsTo = value.redirectAllRequestsTo;
+      this._routingRules = value.routingRules;
+    }
+  }
+
   // error_document - computed: false, optional: true, required: false
   private _errorDocument?: string; 
   public get errorDocument() {
@@ -3704,7 +4571,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get errorDocumentInput() {
-    return this._errorDocument
+    return this._errorDocument;
   }
 
   // index_document - computed: false, optional: true, required: false
@@ -3720,7 +4587,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get indexDocumentInput() {
-    return this._indexDocument
+    return this._indexDocument;
   }
 
   // redirect_all_requests_to - computed: false, optional: true, required: false
@@ -3736,7 +4603,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get redirectAllRequestsToInput() {
-    return this._redirectAllRequestsTo
+    return this._redirectAllRequestsTo;
   }
 
   // routing_rules - computed: false, optional: true, required: false
@@ -3752,7 +4619,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get routingRulesInput() {
-    return this._routingRules
+    return this._routingRules;
   }
 }
 
@@ -3804,11 +4671,11 @@ export class S3Bucket extends cdktf.TerraformResource {
     this._grant = config.grant;
     this._lifecycleRule = config.lifecycleRule;
     this._logging = config.logging;
-    this._objectLockConfiguration = config.objectLockConfiguration;
-    this._replicationConfiguration = config.replicationConfiguration;
-    this._serverSideEncryptionConfiguration = config.serverSideEncryptionConfiguration;
-    this._versioning = config.versioning;
-    this._website = config.website;
+    this._objectLockConfiguration.internalValue = config.objectLockConfiguration;
+    this._replicationConfiguration.internalValue = config.replicationConfiguration;
+    this._serverSideEncryptionConfiguration.internalValue = config.serverSideEncryptionConfiguration;
+    this._versioning.internalValue = config.versioning;
+    this._website.internalValue = config.website;
   }
 
   // ==========
@@ -3828,7 +4695,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get accelerationStatusInput() {
-    return this._accelerationStatus
+    return this._accelerationStatus;
   }
 
   // acl - computed: false, optional: true, required: false
@@ -3844,7 +4711,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get aclInput() {
-    return this._acl
+    return this._acl;
   }
 
   // arn - computed: true, optional: true, required: false
@@ -3865,7 +4732,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get bucketInput() {
-    return this._bucket
+    return this._bucket;
   }
 
   // bucket_domain_name - computed: true, optional: false, required: false
@@ -3886,7 +4753,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get bucketPrefixInput() {
-    return this._bucketPrefix
+    return this._bucketPrefix;
   }
 
   // bucket_regional_domain_name - computed: true, optional: false, required: false
@@ -3907,7 +4774,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get forceDestroyInput() {
-    return this._forceDestroy
+    return this._forceDestroy;
   }
 
   // hosted_zone_id - computed: true, optional: true, required: false
@@ -3923,7 +4790,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get hostedZoneIdInput() {
-    return this._hostedZoneId
+    return this._hostedZoneId;
   }
 
   // id - computed: true, optional: true, required: false
@@ -3944,7 +4811,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get policyInput() {
-    return this._policy
+    return this._policy;
   }
 
   // region - computed: true, optional: true, required: false
@@ -3960,7 +4827,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get regionInput() {
-    return this._region
+    return this._region;
   }
 
   // request_payer - computed: true, optional: true, required: false
@@ -3976,7 +4843,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get requestPayerInput() {
-    return this._requestPayer
+    return this._requestPayer;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -3993,7 +4860,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
-    return this._tags
+    return this._tags;
   }
 
   // website_domain - computed: true, optional: true, required: false
@@ -4009,7 +4876,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get websiteDomainInput() {
-    return this._websiteDomain
+    return this._websiteDomain;
   }
 
   // website_endpoint - computed: true, optional: true, required: false
@@ -4025,7 +4892,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get websiteEndpointInput() {
-    return this._websiteEndpoint
+    return this._websiteEndpoint;
   }
 
   // cors_rule - computed: false, optional: true, required: false
@@ -4042,7 +4909,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get corsRuleInput() {
-    return this._corsRule
+    return this._corsRule;
   }
 
   // grant - computed: false, optional: true, required: false
@@ -4059,7 +4926,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get grantInput() {
-    return this._grant
+    return this._grant;
   }
 
   // lifecycle_rule - computed: false, optional: true, required: false
@@ -4076,7 +4943,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get lifecycleRuleInput() {
-    return this._lifecycleRule
+    return this._lifecycleRule;
   }
 
   // logging - computed: false, optional: true, required: false
@@ -4093,92 +4960,87 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get loggingInput() {
-    return this._logging
+    return this._logging;
   }
 
   // object_lock_configuration - computed: false, optional: true, required: false
-  private _objectLockConfiguration?: S3BucketObjectLockConfiguration; 
-  private __objectLockConfigurationOutput = new S3BucketObjectLockConfigurationOutputReference(this as any, \\"object_lock_configuration\\", true);
+  private _objectLockConfiguration = new S3BucketObjectLockConfigurationOutputReference(this as any, \\"object_lock_configuration\\", true);
   public get objectLockConfiguration() {
-    return this.__objectLockConfigurationOutput;
+    return this._objectLockConfiguration;
   }
-  public putObjectLockConfiguration(value: S3BucketObjectLockConfiguration | undefined) {
-    this._objectLockConfiguration = value;
+  public putObjectLockConfiguration(value: S3BucketObjectLockConfiguration) {
+    this._objectLockConfiguration.internalValue = value;
   }
   public resetObjectLockConfiguration() {
-    this._objectLockConfiguration = undefined;
+    this._objectLockConfiguration.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get objectLockConfigurationInput() {
-    return this._objectLockConfiguration
+    return this._objectLockConfiguration.internalValue;
   }
 
   // replication_configuration - computed: false, optional: true, required: false
-  private _replicationConfiguration?: S3BucketReplicationConfiguration; 
-  private __replicationConfigurationOutput = new S3BucketReplicationConfigurationOutputReference(this as any, \\"replication_configuration\\", true);
+  private _replicationConfiguration = new S3BucketReplicationConfigurationOutputReference(this as any, \\"replication_configuration\\", true);
   public get replicationConfiguration() {
-    return this.__replicationConfigurationOutput;
+    return this._replicationConfiguration;
   }
-  public putReplicationConfiguration(value: S3BucketReplicationConfiguration | undefined) {
-    this._replicationConfiguration = value;
+  public putReplicationConfiguration(value: S3BucketReplicationConfiguration) {
+    this._replicationConfiguration.internalValue = value;
   }
   public resetReplicationConfiguration() {
-    this._replicationConfiguration = undefined;
+    this._replicationConfiguration.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get replicationConfigurationInput() {
-    return this._replicationConfiguration
+    return this._replicationConfiguration.internalValue;
   }
 
   // server_side_encryption_configuration - computed: false, optional: true, required: false
-  private _serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration; 
-  private __serverSideEncryptionConfigurationOutput = new S3BucketServerSideEncryptionConfigurationOutputReference(this as any, \\"server_side_encryption_configuration\\", true);
+  private _serverSideEncryptionConfiguration = new S3BucketServerSideEncryptionConfigurationOutputReference(this as any, \\"server_side_encryption_configuration\\", true);
   public get serverSideEncryptionConfiguration() {
-    return this.__serverSideEncryptionConfigurationOutput;
+    return this._serverSideEncryptionConfiguration;
   }
-  public putServerSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration | undefined) {
-    this._serverSideEncryptionConfiguration = value;
+  public putServerSideEncryptionConfiguration(value: S3BucketServerSideEncryptionConfiguration) {
+    this._serverSideEncryptionConfiguration.internalValue = value;
   }
   public resetServerSideEncryptionConfiguration() {
-    this._serverSideEncryptionConfiguration = undefined;
+    this._serverSideEncryptionConfiguration.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get serverSideEncryptionConfigurationInput() {
-    return this._serverSideEncryptionConfiguration
+    return this._serverSideEncryptionConfiguration.internalValue;
   }
 
   // versioning - computed: false, optional: true, required: false
-  private _versioning?: S3BucketVersioning; 
-  private __versioningOutput = new S3BucketVersioningOutputReference(this as any, \\"versioning\\", true);
+  private _versioning = new S3BucketVersioningOutputReference(this as any, \\"versioning\\", true);
   public get versioning() {
-    return this.__versioningOutput;
+    return this._versioning;
   }
-  public putVersioning(value: S3BucketVersioning | undefined) {
-    this._versioning = value;
+  public putVersioning(value: S3BucketVersioning) {
+    this._versioning.internalValue = value;
   }
   public resetVersioning() {
-    this._versioning = undefined;
+    this._versioning.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get versioningInput() {
-    return this._versioning
+    return this._versioning.internalValue;
   }
 
   // website - computed: false, optional: true, required: false
-  private _website?: S3BucketWebsite; 
-  private __websiteOutput = new S3BucketWebsiteOutputReference(this as any, \\"website\\", true);
+  private _website = new S3BucketWebsiteOutputReference(this as any, \\"website\\", true);
   public get website() {
-    return this.__websiteOutput;
+    return this._website;
   }
-  public putWebsite(value: S3BucketWebsite | undefined) {
-    this._website = value;
+  public putWebsite(value: S3BucketWebsite) {
+    this._website.internalValue = value;
   }
   public resetWebsite() {
-    this._website = undefined;
+    this._website.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get websiteInput() {
-    return this._website
+    return this._website.internalValue;
   }
 
   // =========
@@ -4203,11 +5065,11 @@ export class S3Bucket extends cdktf.TerraformResource {
       grant: cdktf.listMapper(s3BucketGrantToTerraform)(this._grant),
       lifecycle_rule: cdktf.listMapper(s3BucketLifecycleRuleToTerraform)(this._lifecycleRule),
       logging: cdktf.listMapper(s3BucketLoggingToTerraform)(this._logging),
-      object_lock_configuration: s3BucketObjectLockConfigurationToTerraform(this._objectLockConfiguration),
-      replication_configuration: s3BucketReplicationConfigurationToTerraform(this._replicationConfiguration),
-      server_side_encryption_configuration: s3BucketServerSideEncryptionConfigurationToTerraform(this._serverSideEncryptionConfiguration),
-      versioning: s3BucketVersioningToTerraform(this._versioning),
-      website: s3BucketWebsiteToTerraform(this._website),
+      object_lock_configuration: s3BucketObjectLockConfigurationToTerraform(this._objectLockConfiguration.internalValue),
+      replication_configuration: s3BucketReplicationConfigurationToTerraform(this._replicationConfiguration.internalValue),
+      server_side_encryption_configuration: s3BucketServerSideEncryptionConfigurationToTerraform(this._serverSideEncryptionConfiguration.internalValue),
+      versioning: s3BucketVersioningToTerraform(this._versioning.internalValue),
+      website: s3BucketWebsiteToTerraform(this._website.internalValue),
     };
   }
 }
@@ -4409,6 +5271,31 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): SecurityGroupTimeouts | undefined {
+    let hasAnyValues = false;
+    const internalValueResult: any = {};
+    if (this._create) {
+      hasAnyValues = true;
+      internalValueResult.create = this._create;
+    }
+    if (this._delete) {
+      hasAnyValues = true;
+      internalValueResult.delete = this._delete;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SecurityGroupTimeouts | undefined) {
+    if (value === undefined) {
+      this._create = undefined;
+      this._delete = undefined;
+    }
+    else {
+      this._create = value.create;
+      this._delete = value.delete;
+    }
+  }
+
   // create - computed: false, optional: true, required: false
   private _create?: string; 
   public get create() {
@@ -4422,7 +5309,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get createInput() {
-    return this._create
+    return this._create;
   }
 
   // delete - computed: false, optional: true, required: false
@@ -4438,7 +5325,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   }
   // Temporarily expose input value. Use with caution.
   public get deleteInput() {
-    return this._delete
+    return this._delete;
   }
 }
 
@@ -4482,7 +5369,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
     this._revokeRulesOnDelete = config.revokeRulesOnDelete;
     this._tags = config.tags;
     this._vpcId = config.vpcId;
-    this._timeouts = config.timeouts;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -4507,7 +5394,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get descriptionInput() {
-    return this._description
+    return this._description;
   }
 
   // egress - computed: true, optional: true, required: false
@@ -4524,7 +5411,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get egressInput() {
-    return this._egress
+    return this._egress;
   }
 
   // id - computed: true, optional: true, required: false
@@ -4546,7 +5433,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get ingressInput() {
-    return this._ingress
+    return this._ingress;
   }
 
   // name - computed: true, optional: true, required: false
@@ -4562,7 +5449,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get nameInput() {
-    return this._name
+    return this._name;
   }
 
   // name_prefix - computed: false, optional: true, required: false
@@ -4578,7 +5465,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get namePrefixInput() {
-    return this._namePrefix
+    return this._namePrefix;
   }
 
   // owner_id - computed: true, optional: false, required: false
@@ -4599,7 +5486,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get revokeRulesOnDeleteInput() {
-    return this._revokeRulesOnDelete
+    return this._revokeRulesOnDelete;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -4616,7 +5503,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
-    return this._tags
+    return this._tags;
   }
 
   // vpc_id - computed: true, optional: true, required: false
@@ -4632,24 +5519,23 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get vpcIdInput() {
-    return this._vpcId
+    return this._vpcId;
   }
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts?: SecurityGroupTimeouts; 
-  private __timeoutsOutput = new SecurityGroupTimeoutsOutputReference(this as any, \\"timeouts\\", true);
+  private _timeouts = new SecurityGroupTimeoutsOutputReference(this as any, \\"timeouts\\", true);
   public get timeouts() {
-    return this.__timeoutsOutput;
+    return this._timeouts;
   }
-  public putTimeouts(value: SecurityGroupTimeouts | undefined) {
-    this._timeouts = value;
+  public putTimeouts(value: SecurityGroupTimeouts) {
+    this._timeouts.internalValue = value;
   }
   public resetTimeouts() {
-    this._timeouts = undefined;
+    this._timeouts.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsInput() {
-    return this._timeouts
+    return this._timeouts.internalValue;
   }
 
   // =========
@@ -4666,7 +5552,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
       revoke_rules_on_delete: cdktf.booleanToTerraform(this._revokeRulesOnDelete),
       tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
       vpc_id: cdktf.stringToTerraform(this._vpcId),
-      timeouts: securityGroupTimeoutsToTerraform(this._timeouts),
+      timeouts: securityGroupTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

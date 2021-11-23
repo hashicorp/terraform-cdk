@@ -62,7 +62,9 @@ export class StructEmitter {
         // We use the interface here for the configuration / inputs of a resource / nested block
         this.emitInterface(resource, struct);
         // And we use the class for the attributes / outputs of a resource / nested block
-        this.emitClass(struct, struct.outputReferenceName);
+        if (!struct.isProvider) {
+          this.emitClass(struct, struct.outputReferenceName);
+        }
       } else if (struct.isClass) {
         this.emitClass(struct);
       } else {
@@ -146,7 +148,9 @@ export class StructEmitter {
           // We use the interface here for the configuration / inputs of a resource / nested block
           this.emitInterface(resource, struct);
           // And we use the class for the attributes / outputs of a resource / nested block
-          this.emitClass(struct, struct.outputReferenceName);
+          if (!struct.isProvider) {
+            this.emitClass(struct, struct.outputReferenceName);
+          }
         } else if (struct.isClass) {
           this.emitClass(struct);
         } else {
@@ -192,6 +196,11 @@ export class StructEmitter {
         `super(terraformResource, terraformAttribute, isSingleItem);`
       );
       this.code.closeBlock();
+
+      this.code.line();
+      this.emitInternalValueGetter(struct);
+      this.code.line();
+      this.emitInternalValueSetter(struct);
     }
 
     for (const att of struct.attributes) {
@@ -205,11 +214,70 @@ export class StructEmitter {
     this.code.closeBlock();
   }
 
+  private emitInternalValueGetter(struct: Struct) {
+    this.code.openBlock(
+      `public get internalValue(): ${struct.name} | undefined`
+    );
+    this.code.line("let hasAnyValues = false;");
+    this.code.line("const internalValueResult: any = {};");
+    for (const att of struct.attributes) {
+      if (att.isStored) {
+        this.code.openBlock(`if (this.${att.storageName})`);
+        this.code.line("hasAnyValues = true;");
+        if (att.getterType._type === "stored_class") {
+          this.code.line(
+            `internalValueResult.${att.name} = this.${att.storageName}?.internalValue;`
+          );
+        } else {
+          this.code.line(
+            `internalValueResult.${att.name} = this.${att.storageName};`
+          );
+        }
+        this.code.closeBlock();
+      }
+    }
+    this.code.line("return hasAnyValues ? internalValueResult : undefined;");
+    this.code.closeBlock();
+  }
+
+  private emitInternalValueSetter(struct: Struct) {
+    this.code.openBlock(
+      `public set internalValue(value: ${struct.name} | undefined)`
+    );
+    this.code.openBlock("if (value === undefined)");
+    for (const att of struct.attributes) {
+      if (att.isStored) {
+        if (att.setterType._type === "stored_class") {
+          this.code.line(`this.${att.storageName}.internalValue = undefined;`);
+        } else {
+          this.code.line(`this.${att.storageName} = undefined;`);
+        }
+      }
+    }
+    this.code.closeBlock();
+    this.code.openBlock("else");
+    for (const att of struct.attributes) {
+      if (att.isStored) {
+        if (att.setterType._type === "stored_class") {
+          this.code.line(
+            `this.${att.storageName}.internalValue = value.${att.name};`
+          );
+        } else {
+          this.code.line(`this.${att.storageName} = value.${att.name};`);
+        }
+      }
+    }
+    this.code.closeBlock();
+    this.code.closeBlock();
+  }
+
   private emitToTerraformFunction(struct: Struct) {
     this.code.line();
     this.code.openBlock(
       `export function ${downcaseFirst(struct.name)}ToTerraform(struct?: ${
-        struct.isSingleItem ? `${struct.name}OutputReference | ` : ""
+        struct.isSingleItem && !struct.isProvider
+          ? `${struct.name}OutputReference | `
+          : ""
       }${struct.name}): any`
     );
     this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
