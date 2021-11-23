@@ -1,14 +1,23 @@
 *.ts
+*.d.ts
+*.js
 
-!*.d.ts
-!*.js
+!bin-dist/*.d.ts
+!bin-dist/*.js
+!bin-dist/*.js.map
+!lib/**/*.d.ts
+!lib/**/*.js
 
 bin
-lib
 test
-
+dist
+.eslintignore
+.gitignore
+package.sh
+tsconfig.json
+tsconfig.tsbuildinfo
 dist
 coverage
 
-# include .ts files from templates
-!templates/**/*.ts
+# include all files from templates
+!templates/**/*
