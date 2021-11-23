@@ -21,7 +21,7 @@ When inputs are available before [synthesizing your code](/docs/cdktf/cli-refere
 
 ## Usage Example
 
-The TypeScript example below uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/docs/cdktf/concepts/variables-and-outputs.html#outputs) and the Terraform [`element`](https://www.terraform.io/docs/language/functions/element.html) function.
+The TypeScript example below uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/docs/cdktf/concepts/variables-and-outputs.html#output-values) and the Terraform [`element`](https://www.terraform.io/docs/language/functions/element.html) function.
 
 The `element` function gets the first element from the list of Availability Zone names.
 
