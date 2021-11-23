@@ -17,7 +17,7 @@ A stack represents a collection of infrastructure that CDK for Terraform (CDKTF)
 
 You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same `stack` parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
 
-Refer to the [constructs documentation](/docs/cdktf/concepts/constructs#scope) for more details and an example.
+Refer to the [constructs documentation](/docs/cdktf/concepts/constructs.html#scope) for more details and an example.
 
 ## Single Stack
 
