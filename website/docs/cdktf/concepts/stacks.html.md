@@ -13,6 +13,12 @@ A stack represents a collection of infrastructure that CDK for Terraform (CDKTF)
 
 > **Hands-on:** Try the [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS) tutorial on HashiCorp Learn.
 
+## Scope
+
+You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same `stack` parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
+
+Refer to the [constructs documentation](/docs/cdktf/concepts/constructs#scope) for more details and an example.
+
 ## Single Stack
 
 The example below generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`

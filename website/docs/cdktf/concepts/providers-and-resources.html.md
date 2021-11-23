@@ -264,6 +264,12 @@ export class HelloTerra extends TerraformStack {
 
 The [examples page](/docs/cdktf/examples.html) contains multiple example projects for every supported programming language.
 
+### Scope
+
+You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
+
+Refer to the [constructs documentation](/docs/cdktf/concepts/constructs#scope) for more details and an example.
+
 ### Escape Hatch
 
 Terraform provides [meta-arguments](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
