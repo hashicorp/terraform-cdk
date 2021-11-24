@@ -33,7 +33,7 @@ function assets(scope: Construct, assetOverrides = {}) {
   });
 
   const relativeAssets = new TerraformAsset(scope, "relative", {
-    path: "relative",
+    path: "./relative",
     ...assetOverrides,
   });
 
@@ -71,11 +71,11 @@ export class FixedHash extends TerraformStack {
       value: zippedFixtures.fileName,
     });
 
-    new TerraformOutput(this, "relative-asset", {
+    new TerraformOutput(this, "relative-asset-name", {
       value: relativeAsset.fileName,
     });
 
-    new TerraformOutput(this, "relative-assets", {
+    new TerraformOutput(this, "relative-assets-name", {
       value: relativeAssets.fileName,
     });
   }

@@ -8,6 +8,14 @@ exports[`full integration test folder asset copied 2`] = `"This is b"`;
 
 exports[`full integration test folder asset copied 3`] = `"this is c"`;
 
+exports[`full integration test relative file asset copied 1`] = `"Hello Asset World"`;
+
+exports[`full integration test relative folder asset copied 1`] = `"This is a"`;
+
+exports[`full integration test relative folder asset copied 2`] = `"This is b"`;
+
+exports[`full integration test relative folder asset copied 3`] = `"this is c"`;
+
 exports[`full integration test synth 1`] = `
 "{
   \\"//\\": {
@@ -26,6 +34,12 @@ exports[`full integration test synth 1`] = `
     },
     \\"zippedfixturesname\\": {
       \\"value\\": \\"archive.zip\\"
+    },
+    \\"relativeassetname\\": {
+      \\"value\\": \\"relative-asset.txt\\"
+    },
+    \\"relativeassetsname\\": {
+      \\"value\\": \\"relative\\"
     }
   }
 }"

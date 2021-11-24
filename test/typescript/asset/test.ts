@@ -8,8 +8,8 @@ describe("full integration test", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname);
     await driver.setupTypescriptProject();
-    driver.copyFiles("local-asset.txt");
-    driver.copyFolders("fixtures");
+    driver.copyFiles("local-asset.txt", "relative-asset.txt");
+    driver.copyFolders("fixtures", "relative");
   });
 
   test("synth", async () => {
