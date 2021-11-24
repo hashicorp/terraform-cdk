@@ -268,7 +268,7 @@ export class Fn {
   }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/matchkeys.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
+   * {@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
    * @param {Object} value
    * @param {any} key
    * @param {any} defaultValue
