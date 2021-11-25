@@ -14,7 +14,7 @@
     "jest": "^27.2.1",
     "node-pty": "0.10.0",
     "strip-ansi": "^6.0.0",
-    "ts-jest": "^27.0.5",
+    "ts-jest": "^27.0.7",
     "typescript": "^3.9.7"
   }
 }
