@@ -281,7 +281,7 @@ describe("parseConfig", () => {
           "output": "cdktf.out",
           "terraformModules": Array [
             TerraformModuleConstraint {
-              "fqn": "app.terraform.io/example-corp/k8s-cluster/azurerm",
+              "fqn": "app-terraform-io/example-corp/k8s-cluster/azurerm",
               "name": "k8s-cluster",
               "namespace": "example-corp/azurerm",
               "source": "app.terraform.io/example-corp/k8s-cluster/azurerm",
