@@ -112,7 +112,7 @@ test("string values", () => {
     "{
       \\"output\\": {
         \\"test-output\\": {
-          \\"value\\": \\"\${parseInt(\\\\\\"-210\\\\\\", 10)}\\"
+          \\"value\\": \\"\${parseint(\\\\\\"-210\\\\\\", 10)}\\"
         }
       }
     }"
