@@ -696,6 +696,8 @@ export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?
 }
 
 export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -706,7 +708,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   }
 
   public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined {
-    let hasAnyValues = false;
+    let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._date) {
       hasAnyValues = true;
@@ -717,9 +719,11 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
 
   public set internalValue(value: DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined) {
     if (value === undefined) {
+      this.isEmptyObject = false;
       this._date = undefined;
     }
     else {
+      this.isEmptyObject = Object.keys(value).length === 0;
       this._date = value.date;
     }
   }
@@ -2167,6 +2171,8 @@ export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeo
 }
 
 export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -2177,7 +2183,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   }
 
   public get internalValue(): SingleBlockTypeTimeouts | undefined {
-    let hasAnyValues = false;
+    let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._create) {
       hasAnyValues = true;
@@ -2188,9 +2194,11 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
 
   public set internalValue(value: SingleBlockTypeTimeouts | undefined) {
     if (value === undefined) {
+      this.isEmptyObject = false;
       this._create = undefined;
     }
     else {
+      this.isEmptyObject = Object.keys(value).length === 0;
       this._create = value.create;
     }
   }
