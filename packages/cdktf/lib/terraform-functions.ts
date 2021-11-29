@@ -945,7 +945,7 @@ export class Fn {
     base: number | IResolvable
   ) {
     return asNumber(
-      terraformFunction("parseInt", [stringValue, numericValue])(value, base)
+      terraformFunction("parseint", [stringValue, numericValue])(value, base)
     );
   }
 
