@@ -2,7 +2,10 @@
   "name": "end2end-tests",
   "version": "0.0.0",
   "description": "This directory contains integration tests for the cdktf project.",
-  "scripts": {},
+  "scripts": {
+    "integration": "./run-against-dist cross-env NODE_OPTIONS=--max-old-space-size=4096 npx jest",
+    "integration:windows": "run-against-dist.bat cross-env NODE_OPTIONS=--max-old-space-size=4096 npx jest"
+  },
   "license": "MPL-2.0",
   "devDependencies": {
     "@skorfmann/terraform-cloud": "^1.9.1",

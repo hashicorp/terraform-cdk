@@ -63,9 +63,9 @@ jobs:
           name: dist
           path: dist
       - name: install test dependencies
-        run: cd test && yarn
+        run: cd test && yarn install
       - name: integration tests
-        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
+        run: cd test && yarn integration ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
