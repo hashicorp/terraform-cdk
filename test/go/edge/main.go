@@ -40,7 +40,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 
 	// plain values
 	edge.NewRequiredAttributeResource(stack, jsii.String("plain"), &edge.RequiredAttributeResourceConfig{
-		// Bool: res.Bool(), TODO: references to Booleans currently do not work
+		// Bool: res.Bool(), TODO: references to Booleans currently do not work (see #1363)
 		Bool: jsii.Bool(true),
 		Str:  res.Str(),
 		Num:  res.Num(),
@@ -48,7 +48,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 
 	// required values FROM required single item lists
 	edge.NewRequiredAttributeResource(stack, jsii.String("from_single_list"), &edge.RequiredAttributeResourceConfig{
-		// Bool: list.Singlereq().Reqbool(), TODO: references to Booleans currently do not work
+		// Bool: list.Singlereq().Reqbool(), TODO: references to Booleans currently do not work (see #1363)
 		Bool: jsii.Bool(true),
 		Str:  list.Singlereq().Reqstr(),
 		Num:  list.Singlereq().Reqnum(),
