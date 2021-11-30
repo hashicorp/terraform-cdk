@@ -27,7 +27,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "cdktf": "0.0.0",
+    "@cdktf/hcl2json": "0.0.0",
     "codemaker": "^0.22.0",
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.2",

@@ -43,7 +43,7 @@ Official HashiCorp [maintained providers](https://registry.terraform.io/browse/p
 
 #### 3rd Party Providers
 
-Community providers have to provide a fully qualified name, e.g. to define the Docker provider: `terraform-providers/docker@~> 2.0`
+Community providers have to provide a fully qualified name, e.g. to define the Docker provider: `kreuzwerker/docker@~> 2.0`
 
 #### Modules
 

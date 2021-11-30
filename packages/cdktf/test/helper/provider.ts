@@ -55,7 +55,7 @@ export class DockerProvider extends TerraformProvider {
         providerName: "docker",
         providerVersionConstraint: "~> 2.0",
       },
-      terraformProviderSource: "terraform-providers/docker",
+      terraformProviderSource: "kreuzwerker/docker",
     });
   }
 }

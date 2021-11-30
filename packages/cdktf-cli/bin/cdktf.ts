@@ -71,7 +71,16 @@ const customCompletion = function (
 // https://github.com/yargs/yargs/blob/d33e9972291406490cd8fdad0b3589be234e0f12/lib/completion.ts#L202
 
 yargs
-  .commandDir("cmds")
+  .command(require("./cmds/init"))
+  .command(require("./cmds/get"))
+  .command(require("./cmds/convert"))
+  .command(require("./cmds/deploy"))
+  .command(require("./cmds/destroy"))
+  .command(require("./cmds/diff"))
+  .command(require("./cmds/list"))
+  .command(require("./cmds/login"))
+  .command(require("./cmds/synth"))
+  .command(require("./cmds/watch"))
   .recommendCommands()
   .wrap(yargs.terminalWidth())
   .showHelpOnFail(false)
