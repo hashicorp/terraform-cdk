@@ -56,7 +56,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 
 	// required values FROM required multi item lists
 	// edge.NewRequiredAttributeResource(stack, jsii.String("from_list"), &edge.RequiredAttributeResourceConfig{
-	// TODO: this compiles, but currently does not work (fails at synth)
+	// TODO: this compiles, but currently does not work (fails at synth) (see #1371)
 	// Bool: cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req, 0), "reqbool", false),
 	// TODO: this compiles but fails with "Expected array type, got \"<unresolved-token>\""
 	// Num: cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), 0), "reqnum", 0).(*float64),
@@ -67,7 +67,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	// edge.NewListBlockResource(stack, jsii.String("list_reference"), &edge.ListBlockResourceConfig{
 	// TODO: this fails at synth with "Expected array type, got \"<unresolved-token>\""
 	// Req: list.Req(),
-	// TODO: this does not compile
+	// TODO: this does not compile (see #1371)
 	// Singlereq: list.Singlereq(),
 	// })
 
