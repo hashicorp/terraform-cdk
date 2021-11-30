@@ -289,7 +289,7 @@ const exampleNamespace = new Namespace(this, "tf-cdk-example", {
 new Deployment(this, "nginx-deployment", {
   metadata: {
     name: "nginx",
-    namespace: exampleNamespace.metadata.name, // This let's you reference the name
+    namespace: exampleNamespace.metadata.name, // Reference the namespace name propery
     labels: {
       app,
     },
