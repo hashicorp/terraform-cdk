@@ -25,7 +25,9 @@ mkdir %staging%
 cd /D %staging%
 call npm init -y >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 exit /B 1
-for /f %%f in ('dir /b /s "%CDKTF_DIST%\js\*.tgz" ^| sort /r') do call npm install %%f
+set expanded_list=
+for /f %%f in ('dir /b /s "%CDKTF_DIST%\js\*.tgz" ^| sort /r') do call set expanded_list=%%expanded_list%% "%%f"
+npm install %expanded_list%
 IF %ERRORLEVEL% NEQ 0 exit /B 1
 set PATH=%staging%\node_modules\.bin;%PATH%
 

@@ -73,6 +73,7 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          NODE_OPTIONS: "--max-old-space-size=7168"
 
   windows_integration:
     needs: prepare-integration-tests
@@ -109,3 +110,4 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=7168"
