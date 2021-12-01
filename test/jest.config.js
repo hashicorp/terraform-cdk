@@ -1,14 +1,13 @@
 module.exports = {
-  preset: 'ts-jest',
   testEnvironment: 'node',
   roots: [
     "<rootDir>"
   ],
   setupFilesAfterEnv: ['./jest.setup.js'],
-  testMatch: ['**/*test.ts'],
+  testMatch: ['**/*test.js'],
   moduleFileExtensions: [
     "js",
-    "ts"
+    "ts",
   ],
   testTimeout: 300000
 }
