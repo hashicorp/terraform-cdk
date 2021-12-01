@@ -1,7 +1,12 @@
 import { Construct } from "constructs";
 import * as fs from "fs";
 import * as path from "path";
-import { copySync, archiveSync, hashPath } from "./private/fs";
+import {
+  copySync,
+  archiveSync,
+  hashPath,
+  findFileAboveCwd,
+} from "./private/fs";
 import { Resource } from "./resource";
 import { ISynthesisSession } from "./synthesize";
 import { addCustomSynthesis } from "./synthesize/synthesizer";
@@ -41,10 +46,27 @@ export class TerraformAsset extends Resource {
   constructor(scope: Construct, id: string, config: TerraformAssetConfig) {
     super(scope, id);
 
-    const stat = fs.statSync(config.path);
+    if (path.isAbsolute(config.path)) {
+      this.sourcePath = config.path;
+    } else {
+      const cdktfJsonPath = findFileAboveCwd("cdktf.json");
+      if (cdktfJsonPath) {
+        // Relative paths are always considered to be relative to cdktf.json, but operations are performed relative to process.cwd
+        const absolutePath = path.resolve(
+          path.dirname(cdktfJsonPath),
+          config.path
+        );
+        this.sourcePath = path.relative(process.cwd(), absolutePath);
+      } else {
+        throw new Error(
+          `TerraformAsset ${id} was created with a relative path '${config.path}', but no cdktf.json file was found to base it on.`
+        );
+      }
+    }
+
+    const stat = fs.statSync(this.sourcePath);
     const inferredType = stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
     this.type = config.type ?? inferredType;
-    this.sourcePath = config.path;
     this.assetHash = config.assetHash || hashPath(this.sourcePath);
 
     if (stat.isFile() && this.type !== AssetType.FILE) {
