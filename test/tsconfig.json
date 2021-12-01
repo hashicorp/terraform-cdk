@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "charset": "utf8",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "lib": [
+      "es2018"
+    ],
+    "module": "CommonJS",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "stripInternal": true,
+    "target": "ES2018",
+    "incremental": true
+  },
+  "include": [
+    "**/test.ts",
+    "*.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "cdktf.out"
+  ]
+}
