@@ -1,5 +1,0 @@
-.jsii
-
-*.js
-!jest.config.js
-!jest.setup.js
