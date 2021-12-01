@@ -41,7 +41,7 @@ jobs:
           path: dist
       - name: installing test dependencies
         run: |
-          cd test && yarn install && npx tsc
+          cd test && yarn install
       - id: build-test-matrix
         run: |
           ./tools/build-test-matrix.sh
