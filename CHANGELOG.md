@@ -1,4 +1,4 @@
-## 0.8.0 (November 26, 2021)
+## 0.8.0 (December 1, 2021)
 
 **Breaking Changes**
 
@@ -46,6 +46,8 @@ See this [Pull Request](https://github.com/hashicorp/terraform-cdk/pull/1248) fo
 
 ### fix
 
+- fix(provider-generator): Fix private registry module generation [\#1361](https://github.com/hashicorp/terraform-cdk/pull/1361)
+- fix(lib): Fix incorrect parseInt casing [\#1359](https://github.com/hashicorp/terraform-cdk/pull/1359)
 - fix(lib): fix documentation link for lookup [\#1347](https://github.com/hashicorp/terraform-cdk/pull/1347)
 - fix(provider-generator): Mutating complex objects [\#1331](https://github.com/hashicorp/terraform-cdk/pull/1331)
 - fix(provider-generator): attributes on resources should not be undefined [\#1310](https://github.com/hashicorp/terraform-cdk/pull/1310)
