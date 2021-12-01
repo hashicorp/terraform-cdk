@@ -72,6 +72,7 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=7168"
 
   release_npm:
     name: Release to NPM
