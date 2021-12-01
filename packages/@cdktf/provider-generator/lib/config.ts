@@ -110,7 +110,7 @@ export class TerraformModuleConstraint
         source,
         version,
         namespace,
-        fqn: source.replace("//", "/"),
+        fqn: source.replace("//", "/").replace(/\./g, "-"),
       };
     }
 
