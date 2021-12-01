@@ -127,3 +127,25 @@ test("shard exports across multiple files to avoid generating files with more th
   );
   expect(outputStructs3600).toMatchSnapshot(`structs3600`);
 });
+
+test("shard exports across multiple files to avoid generating files with more than a 1000 exports in a provider without namespaces", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "export-sharding-no-namespace.test")
+  );
+
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(__dirname, "fixtures", "datadog_dashboard.test.fixture.json"),
+      "utf-8"
+    )
+  );
+  new TerraformProviderGenerator(code, spec);
+  await code.save(workdir);
+
+  const output = fs.readFileSync(
+    path.join(workdir, "providers/datadog/dashboard.ts"),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot(`dashboard-resource`);
+});
