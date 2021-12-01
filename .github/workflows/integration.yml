@@ -41,7 +41,7 @@ jobs:
           path: dist
       - name: installing test dependencies
         run: |
-          cd test && yarn install && npx tsc
+          cd test && yarn install && npx tsc .
       - id: build-test-matrix
         run: |
           ./tools/build-test-matrix.sh
@@ -66,7 +66,7 @@ jobs:
           name: dist
           path: dist
       - name: install test dependencies
-        run: cd test && yarn && npx tsc
+        run: cd test && yarn && npx tsc .
       - name: integration tests
         run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
         env:
@@ -103,7 +103,7 @@ jobs:
           name: dist
           path: dist
       - name: install test dependencies
-        run: cd test && yarn && npx tsc
+        run: cd test && yarn && npx tsc .
       - name: integration tests
         run: cd test && ./run-against-dist.bat "npx jest ${env:TEST_TARGET}"
         env:
