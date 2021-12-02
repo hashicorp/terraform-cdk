@@ -250,6 +250,9 @@ exports[`variable output 1`] = `
     \\"test-output\\": {
       \\"value\\": \\"\${var.test-variable}\\"
     }
+  },
+  \\"variable\\": {
+    \\"test-variable\\": {}
   }
 }"
 `;
