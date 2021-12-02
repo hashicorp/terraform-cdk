@@ -1,13 +1,13 @@
 ---
-layout: "cdktf"
-page_title: "Tokens"
-sidebar_current: "cdktf"
-description: "Tokens allow CDK for Terraform to resolve programming language types to Terraform language syntax."
+page_title: Tokens
+description: >-
+  Tokens allow CDK for Terraform to resolve programming language types to
+  Terraform language syntax.
 ---
 
 # Tokens
 
--> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf/#project-maturity-and-production-readiness).
 
 Tokens represent values that are unknown until Terraform applies your configuration. For example, names of cloud resources are only assigned upon creation.
 
@@ -17,7 +17,7 @@ Some attributes specified using CDK for Terraform (CDKTF) may not directly map t
 
 You may need to use Tokens for:
 
-- [Module outputs](/docs/cdktf/concepts/modules.html) for boolean, string, lists, maps, and other complex types.
+- [Module outputs](/cdktf/concepts/modules) for boolean, string, lists, maps, and other complex types.
 - Resource attributes (such as `id`).
 - Terraform outputs based on resource attributes.
 

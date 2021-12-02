@@ -1,29 +1,29 @@
 ---
-layout: "cdktf"
-page_title: "Remote Backends"
-sidebar_current: "cdktf"
-description: "Configure a remote backend where Terraform can store infrastructure state files remotely."
+page_title: Remote Backends
+description: >-
+  Configure a remote backend where Terraform can store infrastructure state
+  files remotely.
 ---
 
 # Remote Backends
 
--> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf/#project-maturity-and-production-readiness).
 
-Terraform stores [state](https://www.terraform.io/docs/language/state/index.html) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](https://www.terraform.io/docs/backends/types/remote.html) to store state remotely.
+Terraform stores [state](/language/state) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](/language/settings/backends/enhanced/remote) to store state remotely.
 
 By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding remote backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, you can still [migrate the state](#migrate-local-state-storage-to-remote) to a remote backend later.
 
-You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), another Terraform [supported backend](#supported-backends), or a custom location.
+You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform Cloud](/cloud-docs), another Terraform [supported backend](#supported-backends), or a custom location.
 
 ## When to Use Remote Backends
 
 Consider using a remote backend when multiple individuals or teams need access to your infrastructure state data.
 
-[Remote state](https://www.terraform.io/docs/language/state/remote.html) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information that other teams can use for their own infrastructure.
+[Remote state](/language/state/remote) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information that other teams can use for their own infrastructure.
 
 ## Define Remote Backends
 
-You can define a [JSON configuration for a remote backend](https://www.terraform.io/docs/configuration/syntax-json.html#terraform-blocks)
+You can define a [JSON configuration for a remote backend](/language/syntax/json#terraform-blocks)
 with a `TerraformBackend` subclass or a JSON configuration file.
 
 The TypeScript example below uses the `TerraformBackend` subclass `RemoteBackend`.
@@ -101,7 +101,8 @@ After you define your remote backend, you can migrate existing local state files
 Consider an example project called `hello-terraform` that is using local storage to store the Terraform state. To migrate the local stage files to the remote backend:
 
 1. Navigate into the main project directory.
-2. Use `RemoteBackend` to add a new remote backend.
+
+1. Use `RemoteBackend` to add a new remote backend.
 
    ```typescript
    const stack = new MyStack(app, "hello-terraform");
@@ -114,14 +115,15 @@ Consider an example project called `hello-terraform` that is using local storage
    });
    ```
 
-3. Run `cdktf synth` to generate the Terraform configuration file.
-4. Move the Terraform state file into the output directory.
+1. Run `cdktf synth` to generate the Terraform configuration file.
+
+1. Move the Terraform state file into the output directory.
 
    ```bash
    mv terraform.hello-terraform.tfstate cdktf.out/stacks/hello-terraform
    ```
 
-5. Navigate to `cdktf.out/stacks/hello-terraform` and run `terraform init`. CDKTF prints the following output:
+1. Navigate to `cdktf.out/stacks/hello-terraform` and run `terraform init`. CDKTF prints the following output:
 
    ```
    Initializing the backend...
@@ -150,7 +152,7 @@ Consider an example project called `hello-terraform` that is using local storage
 
    ```
 
-6. Run`cdktf diff` in the root `hello-terraform` directory to validate state migration. CDKTF prints the following output:
+1. Run`cdktf diff` in the root `hello-terraform` directory to validate state migration. CDKTF prints the following output:
 
    ```bash
    Stack: hello-terraform
@@ -165,59 +167,59 @@ Consider an example project called `hello-terraform` that is using local storage
 
 In addition to Terraform Cloud, Terraform and CDKTF support the following backends.
 
-- [local](https://www.terraform.io/docs/backends/types/local.html)
+- [local](/language/settings/backends/enhanced/local)
   ```typescript
   new LocalBackend(stack, {...});
   ```
-- [artifactory](https://www.terraform.io/docs/backends/types/artifactory.html)
+- [artifactory](/language/settings/backends/standard/artifactory)
   ```typescript
   new ArtifactoryBackend(stack, {...});
   ```
-- [azurerm](https://www.terraform.io/docs/backends/types/azurerm.html)
+- [azurerm](/language/settings/backends/standard/azurerm)
   ```typescript
   new AzurermBackend(stack, {...});
   ```
-- [consul](https://www.terraform.io/docs/backends/types/consul.html)
+- [consul](/language/settings/backends/standard/consul)
   ```typescript
   new ConsulBackend(stack, {...});
   ```
-- [cos](https://www.terraform.io/docs/backends/types/cos.html)
+- [cos](/language/settings/backends/standard/cos)
   ```typescript
   new CosBackend(stack, {...});
   ```
-- [etcd](https://www.terraform.io/docs/backends/types/etcd.html)
+- [etcd](/language/settings/backends/standard/etcd)
   ```typescript
   new EtcdBackend(stack, {...});
   ```
-- [etcdv3](https://www.terraform.io/docs/backends/types/etcdv3.html)
+- [etcdv3](/language/settings/backends/standard/etcdv3)
   ```typescript
   new EtcdV3Backend(stack, {...});
   ```
-- [gcs](https://www.terraform.io/docs/backends/types/gcs.html)
+- [gcs](/language/settings/backends/standard/gcs)
   ```typescript
   new GcsBackend(stack, {...});
   ```
-- [http](https://www.terraform.io/docs/backends/types/http.html)
+- [http](/language/settings/backends/standard/http)
   ```typescript
   new HttpBackend(stack, {...});
   ```
-- [manta](https://www.terraform.io/docs/backends/types/manta.html)
+- [manta](/language/settings/backends/standard/manta)
   ```typescript
   new MantaBackend(stack, {...});
   ```
-- [oss](https://www.terraform.io/docs/backends/types/oss.html)
+- [oss](/language/settings/backends/standard/oss)
   ```typescript
   new OssBackend(stack, {...});
   ```
-- [pg](https://www.terraform.io/docs/backends/types/pg.html)
+- [pg](/language/settings/backends/standard/pg)
   ```typescript
   new PgBackend(stack, {...});
   ```
-- [s3](https://www.terraform.io/docs/backends/types/s3.html)
+- [s3](/language/settings/backends/standard/s3)
   ```typescript
   new S3Backend(stack, {...});
   ```
-- [swift](https://www.terraform.io/docs/backends/types/swift.html)
+- [swift](/language/settings/backends/standard/swift)
   ```typescript
   new SwiftBackend(stack, {...});
   ```

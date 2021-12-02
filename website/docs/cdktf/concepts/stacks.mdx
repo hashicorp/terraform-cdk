@@ -1,13 +1,13 @@
 ---
-layout: "cdktf"
-page_title: "Stacks"
-sidebar_current: "cdktf"
-description: "Use stacks to specify separate collections of infrastructure for different environments, like test and production."
+page_title: Stacks
+description: >-
+  Use stacks to specify separate collections of infrastructure for different
+  environments, like test and production.
 ---
 
 # Stacks
 
--> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf/#project-maturity-and-production-readiness).
 
 A stack represents a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
 
@@ -17,7 +17,7 @@ A stack represents a collection of infrastructure that CDK for Terraform (CDKTF)
 
 You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same `stack` parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
 
-Refer to the [constructs documentation](/docs/cdktf/concepts/constructs.html#scope) for more details and an example.
+Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for more details and an example.
 
 ## Single Stack
 
@@ -118,7 +118,7 @@ To run multiple stacks at once, move them into the same directory and run `cdktf
 
 ### Cross-Stack References
 
-CDKTF does not yet support referencing resources from another stack automatically. You can achieve this manually with [outputs](/docs/cdktf/concepts/variables-and-outputs.html) and the [remote state data source](/docs/language/state/remote-state-data.html).
+CDKTF does not yet support referencing resources from another stack automatically. You can achieve this manually with [outputs](/cdktf/concepts/variables-and-outputs) and the [remote state data source](/language/state/remote-state-data).
 
 Please refer to this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you are interested in using cross-stack references.
 
