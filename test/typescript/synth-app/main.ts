@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput, Testing, Fn } from "cdktf";
 import { AwsProvider, sns } from "./.gen/providers/aws";
 import { Instance } from "./.gen/providers/aws/ec2";
+import { Wafv2WebAcl } from "./.gen/providers/aws/wafv2";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -66,6 +67,45 @@ export class HelloTerra extends TerraformStack {
           name: "test",
         },
       },
+    });
+
+    new Wafv2WebAcl(this, "wafv2", {
+      defaultAction: {
+        allow: {},
+      },
+      name: "managed-rule-example",
+      scope: "REGIONAL",
+      visibilityConfig: {
+        cloudwatchMetricsEnabled: true,
+        metricName: "managed-rule-example",
+        sampledRequestsEnabled: true,
+      },
+      rule: [
+        {
+          name: "managed-rule-example",
+          priority: 1,
+          overrideAction: {
+            count: {},
+          },
+          visibilityConfig: {
+            cloudwatchMetricsEnabled: true,
+            metricName: "managed-rule-example",
+            sampledRequestsEnabled: true,
+          },
+          statement: {
+            managedRuleGroupStatement: {
+              name: "managed-rule-example",
+              vendorName: "AWS",
+              excludedRule: [
+                {
+                  name: "SizeRestrictions_QUERYSTRING",
+                },
+                { name: "SQLInjection_QUERYSTRING" },
+              ],
+            },
+          },
+        },
+      ],
     });
   }
 }

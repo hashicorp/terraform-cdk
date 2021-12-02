@@ -102,6 +102,54 @@ exports[`full integration test synth synth generates JSON 1`] = `
           }
         }
       }
+    },
+    \\"aws_wafv2_web_acl\\": {
+      \\"wafv2\\": {
+        \\"name\\": \\"managed-rule-example\\",
+        \\"scope\\": \\"REGIONAL\\",
+        \\"default_action\\": {
+          \\"allow\\": {}
+        },
+        \\"rule\\": [
+          {
+            \\"name\\": \\"managed-rule-example\\",
+            \\"priority\\": 1,
+            \\"override_action\\": {
+              \\"count\\": {}
+            },
+            \\"statement\\": {
+              \\"managed_rule_group_statement\\": {
+                \\"name\\": \\"managed-rule-example\\",
+                \\"vendor_name\\": \\"AWS\\",
+                \\"excluded_rule\\": [
+                  {
+                    \\"name\\": \\"SizeRestrictions_QUERYSTRING\\"
+                  },
+                  {
+                    \\"name\\": \\"SQLInjection_QUERYSTRING\\"
+                  }
+                ]
+              }
+            },
+            \\"visibility_config\\": {
+              \\"cloudwatch_metrics_enabled\\": true,
+              \\"metric_name\\": \\"managed-rule-example\\",
+              \\"sampled_requests_enabled\\": true
+            }
+          }
+        ],
+        \\"visibility_config\\": {
+          \\"cloudwatch_metrics_enabled\\": true,
+          \\"metric_name\\": \\"managed-rule-example\\",
+          \\"sampled_requests_enabled\\": true
+        },
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-terra/wafv2\\",
+            \\"uniqueId\\": \\"wafv2\\"
+          }
+        }
+      }
     }
   },
   \\"output\\": {
