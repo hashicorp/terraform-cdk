@@ -491,6 +491,8 @@ export function listBlockResourceSingleoptToTerraform(struct?: ListBlockResource
 }
 
 export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -501,7 +503,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   }
 
   public get internalValue(): ListBlockResourceSingleopt | undefined {
-    let hasAnyValues = false;
+    let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._optstr) {
       hasAnyValues = true;
@@ -544,6 +546,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
 
   public set internalValue(value: ListBlockResourceSingleopt | undefined) {
     if (value === undefined) {
+      this.isEmptyObject = false;
       this._optstr = undefined;
       this._optnum = undefined;
       this._optbool = undefined;
@@ -555,6 +558,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
       this._computedbool = undefined;
     }
     else {
+      this.isEmptyObject = Object.keys(value).length === 0;
       this._optstr = value.optstr;
       this._optnum = value.optnum;
       this._optbool = value.optbool;
@@ -760,6 +764,8 @@ export function listBlockResourceSinglereqToTerraform(struct?: ListBlockResource
 }
 
 export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -770,7 +776,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   }
 
   public get internalValue(): ListBlockResourceSinglereq | undefined {
-    let hasAnyValues = false;
+    let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._optstr) {
       hasAnyValues = true;
@@ -813,6 +819,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
 
   public set internalValue(value: ListBlockResourceSinglereq | undefined) {
     if (value === undefined) {
+      this.isEmptyObject = false;
       this._optstr = undefined;
       this._optnum = undefined;
       this._optbool = undefined;
@@ -824,6 +831,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
       this._computedbool = undefined;
     }
     else {
+      this.isEmptyObject = Object.keys(value).length === 0;
       this._optstr = value.optstr;
       this._optnum = value.optnum;
       this._optbool = value.optbool;
