@@ -178,11 +178,18 @@ export class ResourceModel {
   }
 
   public get namespacedFilePath(): string {
-    return path.join(
-      this.filePath.split("/").slice(0, -1).join("/"),
-      this.namespace!.name,
-      this.structsFolderName
-    );
+    if (this.namespace) {
+      return path.join(
+        this.filePath.split("/").slice(0, -1).join("/"),
+        this.namespace!.name,
+        this.structsFolderName
+      );
+    } else {
+      return path.join(
+        this.filePath.split("/").slice(0, -1).join("/"),
+        this.structsFolderName
+      );
+    }
   }
 
   private escapeSchema(schema: string): string {

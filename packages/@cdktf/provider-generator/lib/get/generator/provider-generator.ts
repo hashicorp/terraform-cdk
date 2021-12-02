@@ -102,6 +102,8 @@ export class TerraformProviderGenerator {
           namespacedResources[namespace] = [];
         }
         namespacedResources[namespace].push(resourceModel);
+      } else if (resourceModel.structsRequireNamespace) {
+        files.push(this.emitResourceFileWithComplexStruct(resourceModel));
       } else {
         files.push(this.emitResourceFile(resourceModel));
       }
@@ -251,6 +253,67 @@ export class TerraformProviderGenerator {
     this.code.closeFile(indexFilePath);
 
     return `ns:${ns.name}`;
+  }
+
+  private emitResourceFileWithComplexStruct(resource: ResourceModel) {
+    const generatedFiles = [];
+
+    // drop the last segment of the filepath
+    const filePath = resource.filePath;
+    this.code.openFile(filePath);
+    this.code.line(`// generated from terraform resource schema`);
+    this.code.line();
+
+    if (resource.structsRequireNamespace) {
+      this.code.line(
+        `import { ${resource.importableTypes.join(", \n")}} from './${
+          resource.structsFolderName
+        }'`
+      );
+      this.code.line(
+        `import { ${resource.importableStructMapper.join(", \n")}} from './${
+          resource.structsFolderName
+        }'`
+      );
+      this.code.line(
+        `import { ${resource.importableOutputReferences.join(
+          ",\n"
+        )} } from './${resource.structsFolderName}'`
+      );
+
+      resource.importStatements.forEach((statement) =>
+        this.code.line(statement)
+      );
+      this.code.line();
+      this.code.line(`/**`);
+      this.code.line(`* SOME COMMENT`);
+      this.code.line(`*/`);
+
+      this.structEmitter.emitInterface(resource, resource.configStruct);
+      this.resourceEmitter.emit(resource);
+
+      this.code.closeFile(filePath);
+
+      this.structEmitter.emit(resource);
+      generatedFiles.push(resource.fileName);
+      generatedFiles.push(resource.structsFolderName);
+    } else {
+      resource.importStatements.forEach((statement) =>
+        this.code.line(statement)
+      );
+      this.code.line();
+      this.code.line(`/**`);
+      this.code.line(`*/`);
+
+      this.structEmitter.emit(resource);
+      this.resourceEmitter.emit(resource);
+      this.code.closeFile(filePath);
+      generatedFiles.push(resource.fileName);
+    }
+
+    console.log({ generatedFiles, statements: resource.importStatements });
+
+    return filePath;
   }
 
   private emitFileHeader(resource: ResourceModel) {
