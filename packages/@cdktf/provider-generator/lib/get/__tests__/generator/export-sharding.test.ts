@@ -166,11 +166,4 @@ test("shard exports across multiple files to avoid generating files with more th
     "utf-8"
   );
   expect(outputStructs400).toMatchSnapshot(`structs400`);
-
-  const outputStructs800 = fs.readFileSync(
-    path.join(workdir, "providers/datadog/dashboard-structs/structs800.ts"),
-    "utf-8"
-  );
-
-  expect(outputStructs800).toMatchSnapshot(`structs800`);
 });

@@ -265,21 +265,31 @@ export class TerraformProviderGenerator {
     this.code.line();
 
     if (resource.structsRequireNamespace) {
-      this.code.line(
-        `import { ${resource.importableTypes.join(", \n")}} from './${
-          resource.structsFolderName
-        }'`
-      );
-      this.code.line(
-        `import { ${resource.importableStructMapper.join(", \n")}} from './${
-          resource.structsFolderName
-        }'`
-      );
-      this.code.line(
-        `import { ${resource.importableOutputReferences.join(
-          ",\n"
-        )} } from './${resource.structsFolderName}'`
-      );
+      if (resource.importableTypes.length > 0) {
+        this.code.line(
+          `import { ${resource.importableTypes.join(", \n")}} from './${
+            resource.structsFolderName
+          }'`
+        );
+      }
+
+      if (resource.importableStructMapper.length > 0) {
+        this.code.line(
+          `import { ${resource.importableStructMapper.join(", \n")}} from './${
+            resource.structsFolderName
+          }'`
+        );
+      }
+
+      if (resource.importableOutputReferences.length > 0) {
+        this.code.line(
+          `import { ${resource.importableOutputReferences.join(
+            ",\n"
+          )} } from './${resource.structsFolderName}'`
+        );
+      }
+
+      this.code.line(`export * from './${resource.structsFolderName}'`);
 
       resource.importStatements.forEach((statement) =>
         this.code.line(statement)
@@ -310,8 +320,6 @@ export class TerraformProviderGenerator {
       this.code.closeFile(filePath);
       generatedFiles.push(resource.fileName);
     }
-
-    console.log({ generatedFiles, statements: resource.importStatements });
 
     return filePath;
   }
