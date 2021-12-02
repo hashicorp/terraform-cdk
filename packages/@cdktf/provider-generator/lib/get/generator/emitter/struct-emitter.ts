@@ -180,6 +180,9 @@ export class StructEmitter {
     );
 
     if (struct.isSingleItem) {
+      this.code.line("private isEmptyObject = false;");
+      this.code.line();
+
       this.code.line(`/**`);
       this.code.line(`* @param terraformResource The parent resource`);
       this.code.line(
@@ -218,11 +221,16 @@ export class StructEmitter {
     this.code.openBlock(
       `public get internalValue(): ${struct.name} | undefined`
     );
-    this.code.line("let hasAnyValues = false;");
+
+    this.code.line("let hasAnyValues = this.isEmptyObject;");
     this.code.line("const internalValueResult: any = {};");
     for (const att of struct.attributes) {
       if (att.isStored) {
-        this.code.openBlock(`if (this.${att.storageName})`);
+        if (att.getterType._type === "stored_class") {
+          this.code.openBlock(`if (this.${att.storageName}?.internalValue)`);
+        } else {
+          this.code.openBlock(`if (this.${att.storageName})`);
+        }
         this.code.line("hasAnyValues = true;");
         if (att.getterType._type === "stored_class") {
           this.code.line(
@@ -244,7 +252,9 @@ export class StructEmitter {
     this.code.openBlock(
       `public set internalValue(value: ${struct.name} | undefined)`
     );
+
     this.code.openBlock("if (value === undefined)");
+    this.code.line("this.isEmptyObject = false;");
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {
@@ -256,6 +266,7 @@ export class StructEmitter {
     }
     this.code.closeBlock();
     this.code.openBlock("else");
+    this.code.line("this.isEmptyObject = Object.keys(value).length === 0;");
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {
