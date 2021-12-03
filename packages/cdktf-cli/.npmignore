@@ -1,14 +1,8 @@
 *.ts
-*.d.ts
-*.js
 
-!bundle/**/*.d.ts
-!bundle/**/*.js
-!bundle/**/*.js.map
-!lib/**/*.d.ts
-!lib/**/*.js
+!*.d.ts
+!*.js
 
-bin
 test
 dist
 .eslintignore
