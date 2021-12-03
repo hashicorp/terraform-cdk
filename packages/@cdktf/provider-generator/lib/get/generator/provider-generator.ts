@@ -294,10 +294,6 @@ export class TerraformProviderGenerator {
       resource.importStatements.forEach((statement) =>
         this.code.line(statement)
       );
-      this.code.line();
-      this.code.line(`/**`);
-      this.code.line(`* SOME COMMENT`);
-      this.code.line(`*/`);
 
       this.structEmitter.emitInterface(resource, resource.configStruct);
       this.resourceEmitter.emit(resource);
@@ -311,9 +307,6 @@ export class TerraformProviderGenerator {
       resource.importStatements.forEach((statement) =>
         this.code.line(statement)
       );
-      this.code.line();
-      this.code.line(`/**`);
-      this.code.line(`*/`);
 
       this.structEmitter.emit(resource);
       this.resourceEmitter.emit(resource);
