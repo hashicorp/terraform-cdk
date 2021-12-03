@@ -15,4 +15,4 @@ getProvider(
 
 getProvider(new TerraformProviderConstraint("oci@= 4.13.0"));
 
-getProvider(new TerraformProviderConstraint("DataDog/datadog@~> 3.0"));
+getProvider(new TerraformProviderConstraint("DataDog/datadog@= 3.6.0"));
