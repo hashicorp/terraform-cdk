@@ -1,3 +1,16 @@
+## 0.8.1 (December 3, 2021)
+
+### fix
+
+- fix(cli): Distribute unbundled source code [\#1379](https://github.com/hashicorp/terraform-cdk/pull/1379)
+- fix(lib): Add struct sharding for providers without namespaces [\#1375](https://github.com/hashicorp/terraform-cdk/pull/1375)
+- fix(cli): only log if logs are sent [\#1365](https://github.com/hashicorp/terraform-cdk/pull/1365)
+- fix(lib): Keep specified empty objects [\#1329](https://github.com/hashicorp/terraform-cdk/pull/1329)
+
+### chore
+
+- chore(cli): typescript init prints link to all prebuilt providers [\#1348](https://github.com/hashicorp/terraform-cdk/pull/1348)
+
 ## 0.8.0 (December 1, 2021)
 
 **Breaking Changes**
