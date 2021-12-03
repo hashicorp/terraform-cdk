@@ -9,7 +9,7 @@ import { Schema } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
 
-export const STRUCT_NAMESPACE_THRESHOLD = 400;
+export const STRUCT_SHARDING_THRESHOLD = 400;
 interface ResourceModelOptions {
   terraformType: string;
   className: string;
@@ -58,8 +58,8 @@ export class ResourceModel {
     ];
   }
 
-  public get structsRequireNamespace(): boolean {
-    return this._structs.length > STRUCT_NAMESPACE_THRESHOLD;
+  public get structsRequireSharding(): boolean {
+    return this._structs.length > STRUCT_SHARDING_THRESHOLD;
   }
 
   public get structs(): Struct[] {
@@ -177,18 +177,13 @@ export class ResourceModel {
       .map((a) => a.type.typeName);
   }
 
-  public get namespacedFilePath(): string {
+  public get structsFolderPath(): string {
+    const basePath = this.filePath.split("/").slice(0, -1).join("/");
+
     if (this.namespace) {
-      return path.join(
-        this.filePath.split("/").slice(0, -1).join("/"),
-        this.namespace!.name,
-        this.structsFolderName
-      );
+      return path.join(basePath, this.namespace!.name, this.structsFolderName);
     } else {
-      return path.join(
-        this.filePath.split("/").slice(0, -1).join("/"),
-        this.structsFolderName
-      );
+      return path.join(basePath, this.structsFolderName);
     }
   }
 

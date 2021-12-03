@@ -3,7 +3,7 @@ import { ResourceModel, Struct, ConfigStruct } from "../models";
 import { AttributesEmitter } from "./attributes-emitter";
 import { downcaseFirst } from "../../../util";
 import * as path from "path";
-import { STRUCT_NAMESPACE_THRESHOLD } from "../models/resource-model";
+import { STRUCT_SHARDING_THRESHOLD } from "../models/resource-model";
 export class StructEmitter {
   attributesEmitter: AttributesEmitter;
 
@@ -12,7 +12,7 @@ export class StructEmitter {
   }
 
   public emit(resource: ResourceModel) {
-    if (resource.structsRequireNamespace) {
+    if (resource.structsRequireSharding) {
       this.emitNamespacedStructs(resource);
     } else {
       this.emitStructs(resource);
@@ -84,19 +84,15 @@ export class StructEmitter {
     for (
       let i = 0;
       i < structsWithoutConfigStruct.length;
-      i += STRUCT_NAMESPACE_THRESHOLD
+      i += STRUCT_SHARDING_THRESHOLD
     ) {
       const structsToImport: Record<string, string[]> = {};
       const structs = structsWithoutConfigStruct.slice(
         i,
-        i + STRUCT_NAMESPACE_THRESHOLD
+        i + STRUCT_SHARDING_THRESHOLD
       );
       const structFilename = `structs${i}.ts`;
       structPaths.push(structFilename);
-      const namespacedFilePath = path.join(
-        resource.namespacedFilePath,
-        structFilename
-      );
 
       // find all structs that need to be imported in this file
       structs.forEach((struct) => {
@@ -131,6 +127,11 @@ export class StructEmitter {
       // to find it in subsequent files for importing
       structs.map((struct) => (structImports[struct.name] = structFilename));
 
+      const namespacedFilePath = path.join(
+        resource.structsFolderPath,
+        structFilename
+      );
+
       this.code.openFile(namespacedFilePath);
       // the structs only makes use of cdktf not constructs
       this.code.line(`import * as cdktf from 'cdktf';`);
@@ -161,7 +162,7 @@ export class StructEmitter {
     }
 
     // emit the index file that exports all the struct files we've just generated
-    const indexFilePath = path.join(resource.namespacedFilePath, "index.ts");
+    const indexFilePath = path.join(resource.structsFolderPath, "index.ts");
 
     this.code.openFile(indexFilePath);
     structPaths.forEach((structPath) => {

@@ -102,7 +102,7 @@ export class TerraformProviderGenerator {
           namespacedResources[namespace] = [];
         }
         namespacedResources[namespace].push(resourceModel);
-      } else if (resourceModel.structsRequireNamespace) {
+      } else if (resourceModel.structsRequireSharding) {
         files.push(this.emitResourceFileWithComplexStruct(resourceModel));
       } else {
         files.push(this.emitResourceFile(resourceModel));
@@ -189,7 +189,7 @@ export class TerraformProviderGenerator {
       this.code.line(`// generated from terraform resource schema`);
       this.code.line();
 
-      if (resource.structsRequireNamespace) {
+      if (resource.structsRequireSharding) {
         this.code.line(
           `import { ${resource.importableTypes.join(", \n")}} from './${
             resource.structsFolderName
@@ -264,7 +264,7 @@ export class TerraformProviderGenerator {
     this.code.line(`// generated from terraform resource schema`);
     this.code.line();
 
-    if (resource.structsRequireNamespace) {
+    if (resource.structsRequireSharding) {
       if (resource.importableTypes.length > 0) {
         this.code.line(
           `import { ${resource.importableTypes.join(", \n")}} from './${
