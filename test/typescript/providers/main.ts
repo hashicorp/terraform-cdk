@@ -16,6 +16,7 @@ import * as Nomad from "./.gen/providers/nomad";
 import * as Vault from "./.gen/providers/vault";
 import * as Consul from "./.gen/providers/consul";
 import * as External from "./.gen/providers/external";
+import * as Datadog from "./.gen/providers/datadog";
 
 export class UsingAllProviders extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -32,7 +33,18 @@ export class UsingAllProviders extends TerraformStack {
       },
     ]);
 
-    [Aws, Azure, Google, Kubernetes, Nomad, Vault, Openstack, Consul, External];
+    [
+      Aws,
+      Azure,
+      Google,
+      Kubernetes,
+      Nomad,
+      Vault,
+      Openstack,
+      Consul,
+      External,
+      Datadog,
+    ];
   }
 }
 

@@ -102,6 +102,8 @@ export class TerraformProviderGenerator {
           namespacedResources[namespace] = [];
         }
         namespacedResources[namespace].push(resourceModel);
+      } else if (resourceModel.structsRequireSharding) {
+        files.push(this.emitResourceFileWithComplexStruct(resourceModel));
       } else {
         files.push(this.emitResourceFile(resourceModel));
       }
@@ -187,7 +189,7 @@ export class TerraformProviderGenerator {
       this.code.line(`// generated from terraform resource schema`);
       this.code.line();
 
-      if (resource.structsRequireNamespace) {
+      if (resource.structsRequireSharding) {
         this.code.line(
           `import { ${resource.importableTypes.join(", \n")}} from './${
             resource.structsFolderName
@@ -251,6 +253,68 @@ export class TerraformProviderGenerator {
     this.code.closeFile(indexFilePath);
 
     return `ns:${ns.name}`;
+  }
+
+  private emitResourceFileWithComplexStruct(resource: ResourceModel) {
+    const generatedFiles = [];
+
+    // drop the last segment of the filepath
+    const filePath = resource.filePath;
+    this.code.openFile(filePath);
+    this.code.line(`// generated from terraform resource schema`);
+    this.code.line();
+
+    if (resource.structsRequireSharding) {
+      if (resource.importableTypes.length > 0) {
+        this.code.line(
+          `import { ${resource.importableTypes.join(", \n")}} from './${
+            resource.structsFolderName
+          }'`
+        );
+      }
+
+      if (resource.importableStructMapper.length > 0) {
+        this.code.line(
+          `import { ${resource.importableStructMapper.join(", \n")}} from './${
+            resource.structsFolderName
+          }'`
+        );
+      }
+
+      if (resource.importableOutputReferences.length > 0) {
+        this.code.line(
+          `import { ${resource.importableOutputReferences.join(
+            ",\n"
+          )} } from './${resource.structsFolderName}'`
+        );
+      }
+
+      this.code.line(`export * from './${resource.structsFolderName}'`);
+
+      resource.importStatements.forEach((statement) =>
+        this.code.line(statement)
+      );
+
+      this.structEmitter.emitInterface(resource, resource.configStruct);
+      this.resourceEmitter.emit(resource);
+
+      this.code.closeFile(filePath);
+
+      this.structEmitter.emit(resource);
+      generatedFiles.push(resource.fileName);
+      generatedFiles.push(resource.structsFolderName);
+    } else {
+      resource.importStatements.forEach((statement) =>
+        this.code.line(statement)
+      );
+
+      this.structEmitter.emit(resource);
+      this.resourceEmitter.emit(resource);
+      this.code.closeFile(filePath);
+      generatedFiles.push(resource.fileName);
+    }
+
+    return filePath;
   }
 
   private emitFileHeader(resource: ResourceModel) {
