@@ -50,8 +50,7 @@
       "examples/csharp/*",
       "examples/go/*",
       ".yalc/*",
-      ".yalc/@*/*",
-      "test"
+      ".yalc/@*/*"
     ],
     "nohoist": [
       "archiver",
