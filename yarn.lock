@@ -6284,9 +6284,9 @@ is-unicode-supported@^0.1.0:
   integrity sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==
 
 is-valid-domain@^0.1.2:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/is-valid-domain/-/is-valid-domain-0.1.4.tgz#5d5d811e1627cac9d39f504b645c57e76d946629"
-  integrity sha512-Caa6rwGze6pihA29wy3T1yNXzd53caGHvL0OfJ8RLtv0tVVzVZGlxFcQ0W8kls/uG0QUrv2B3J9xi/YB5/cfUQ==
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/is-valid-domain/-/is-valid-domain-0.1.5.tgz#38b00f8fb70778b650c71356915a184321d22609"
+  integrity sha512-ilzfGo1kXzoVpSLplJWOexoiuAc6mRK+vPlNAeEPVJ29RagETpCz0izg6CZfY72DCuA+PCrEAEJeaecRLMNq5Q==
   dependencies:
     punycode "^2.1.1"
 
