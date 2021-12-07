@@ -293,7 +293,7 @@ export class TerraformCloud implements Terraform {
       client.Applies.logs(result.relationships.apply.data.id).then(
         ({ data }) => {
           // In rare cases the backend sends an empty chunk of data back.
-          if (data.length) {
+          if (data && data.length) {
             stdout(Buffer.from(data, "utf8"));
           }
         }
