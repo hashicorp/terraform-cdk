@@ -1,12 +1,17 @@
 import { ProviderSchema, Schema, AttributeType, Block } from "../../";
 
 type ResourceSchema = { [type: string]: Schema };
-export function schema(
-  name: string,
-  provider: Schema,
-  resources: ResourceSchema = {},
-  dataSources: ResourceSchema = {}
-): ProviderSchema {
+export function schema({
+  name,
+  provider,
+  resources = {},
+  dataSources = {},
+}: {
+  name: string;
+  provider: Schema;
+  resources: ResourceSchema;
+  dataSources: ResourceSchema;
+}): ProviderSchema {
   return {
     format_version: "1.0",
     provider_schemas: {
@@ -32,12 +37,17 @@ export class SchemaBuilder {
     };
   }
 
-  public attribute(
-    name: string,
-    type: AttributeType,
-    required: boolean = false,
-    computed: boolean = false
-  ): SchemaBuilder {
+  public attribute({
+    name,
+    type,
+    required = false,
+    computed = false,
+  }: {
+    name: string;
+    type: AttributeType;
+    required: boolean;
+    computed: boolean;
+  }): SchemaBuilder {
     this.schema.block.attributes[name] = {
       type,
       optional: !required,
@@ -47,12 +57,17 @@ export class SchemaBuilder {
     return this;
   }
 
-  public listBlock(
-    name: string,
-    block: Block,
-    minItems: number,
-    maxItems: number
-  ): SchemaBuilder {
+  public listBlock({
+    name,
+    block,
+    minItems,
+    maxItems,
+  }: {
+    name: string;
+    block: Block;
+    minItems: number;
+    maxItems: number;
+  }): SchemaBuilder {
     this.schema.block.block_types[name] = {
       nesting_mode: "list",
       block,
@@ -62,16 +77,34 @@ export class SchemaBuilder {
     return this;
   }
 
-  public mapBlock(name: string, block: Block): SchemaBuilder {
+  public mapBlock({
+    name,
+    block,
+  }: {
+    name: string;
+    block: Block;
+  }): SchemaBuilder {
     this.schema.block.block_types[name] = { nesting_mode: "map", block };
     return this;
   }
 
-  public setBlock(name: string, block: Block): SchemaBuilder {
+  public setBlock({
+    name,
+    block,
+  }: {
+    name: string;
+    block: Block;
+  }): SchemaBuilder {
     this.schema.block.block_types[name] = { nesting_mode: "set", block };
     return this;
   }
-  public singleBlock(name: string, block: Block): SchemaBuilder {
+  public singleBlock({
+    name,
+    block,
+  }: {
+    name: string;
+    block: Block;
+  }): SchemaBuilder {
     this.schema.block.block_types[name] = { nesting_mode: "single", block };
     return this;
   }
@@ -84,22 +117,34 @@ export class SchemaBuilder {
     return this.schema.block;
   }
 
-  public addAllPrimitiveTypes(
-    required: boolean,
-    computed: boolean,
-    prefix = ""
-  ): SchemaBuilder {
-    this.attribute(prefix + "str", "string", required, computed)
-      .attribute(prefix + "num", "number", required, computed)
-      .attribute(prefix + "bool", "bool", required, computed);
+  public addAllPrimitiveTypes({
+    required,
+    computed,
+    prefix = "",
+  }: {
+    required: boolean;
+    computed: boolean;
+    prefix?: string;
+  }): SchemaBuilder {
+    this.attribute({ name: prefix + "str", type: "string", required, computed })
+      .attribute({ name: prefix + "num", type: "number", required, computed })
+      .attribute({ name: prefix + "bool", type: "bool", required, computed });
 
     return this;
   }
 
   public addAllPrimitivePermutations(): SchemaBuilder {
-    this.addAllPrimitiveTypes(false, false, "opt")
-      .addAllPrimitiveTypes(true, false, "req")
-      .addAllPrimitiveTypes(false, true, "computed");
+    this.addAllPrimitiveTypes({
+      required: false,
+      computed: false,
+      prefix: "opt",
+    })
+      .addAllPrimitiveTypes({ required: true, computed: false, prefix: "req" })
+      .addAllPrimitiveTypes({
+        required: false,
+        computed: true,
+        prefix: "computed",
+      });
     return this;
   }
 }

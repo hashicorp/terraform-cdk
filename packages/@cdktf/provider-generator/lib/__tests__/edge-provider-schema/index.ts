@@ -2,31 +2,52 @@ import { ProviderSchema } from "../../";
 import { schema, SchemaBuilder as S } from "./builder";
 
 const required_attribute_resource = new S()
-  .addAllPrimitiveTypes(true, false)
+  .addAllPrimitiveTypes({ required: true, computed: false })
   .build();
 
 const optional_attribute_resource = new S()
-  .addAllPrimitiveTypes(false, false)
+  .addAllPrimitiveTypes({ required: false, computed: false })
   .build();
 
 const optional_computed_attribute_resource = new S()
-  .addAllPrimitiveTypes(false, true)
+  .addAllPrimitiveTypes({ required: false, computed: true })
   .build();
 
 const list_block_resource = new S()
-  .listBlock("opt", new S().addAllPrimitivePermutations().asBlock(), 0, 42)
-  .listBlock("req", new S().addAllPrimitivePermutations().asBlock(), 1, 42)
-  .listBlock("singleopt", new S().addAllPrimitivePermutations().asBlock(), 0, 1)
-  .listBlock("singlereq", new S().addAllPrimitivePermutations().asBlock(), 1, 1)
+  .listBlock({
+    name: "opt",
+    block: new S().addAllPrimitivePermutations().asBlock(),
+    minItems: 0,
+    maxItems: 42,
+  })
+  .listBlock({
+    name: "req",
+    block: new S().addAllPrimitivePermutations().asBlock(),
+    minItems: 1,
+    maxItems: 42,
+  })
+  .listBlock({
+    name: "singleopt",
+    block: new S().addAllPrimitivePermutations().asBlock(),
+    minItems: 0,
+    maxItems: 1,
+  })
+  .listBlock({
+    name: "singlereq",
+    block: new S().addAllPrimitivePermutations().asBlock(),
+    minItems: 1,
+    maxItems: 1,
+  })
   .build();
 
-export const edgeSchema: ProviderSchema = schema(
-  "edge",
-  new S().addAllPrimitivePermutations().build(),
-  {
+export const edgeSchema: ProviderSchema = schema({
+  name: "edge",
+  provider: new S().addAllPrimitivePermutations().build(),
+  resources: {
     required_attribute_resource,
     optional_attribute_resource,
     optional_computed_attribute_resource,
     list_block_resource,
-  }
-);
+  },
+  dataSources: {},
+});
