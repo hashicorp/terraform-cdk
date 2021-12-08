@@ -17,7 +17,7 @@
     {
       "name": "eks",
       "source": "terraform-aws-modules/eks/aws",
-      "version": "~> 14.0"
+      "version": "~> 15.0"
     }
   ],
   "codeMakerOutput": "imports"
