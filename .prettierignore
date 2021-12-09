@@ -9,3 +9,5 @@ packages/*/coverage
 packages/**/.yalc
 packages/**/dist
 dist
+packages/@cdktf/provider-generator/edge-provider-bindings
+test/edge-provider-bindings
