@@ -36,7 +36,7 @@ class TFExpression extends Intrinsic implements IResolvable {
    * It must only be used on non-token values
    */
   protected escapeString(str: string) {
-    return str // Escape double quotes
+    return str
       .replace(/\n/g, "\\n") // escape newlines
       .replace(/\${/g, "$$${"); // escape ${ to $${
   }
@@ -63,12 +63,24 @@ class TFExpression extends Intrinsic implements IResolvable {
     return `"${tokenList.join({
       join: (left, right) => {
         const leftTokens = Tokenization.reverse(left);
+        const leftTokenList = Tokenization.reverseString(left);
         const rightTokens = Tokenization.reverse(right);
 
-        const leftValue =
-          leftTokens.length === 0
-            ? this.escapeString(left)
-            : `\${${leftTokens[0]}}`;
+        const leftTokenCount =
+          leftTokenList.intrinsic.length + leftTokenList.tokens.length;
+
+        // if left is mixed, needs to be left alone (because it's a result of a previous join iteration)
+        let leftValue = left;
+
+        // if left is a string literal, then we need to escape it
+        if (leftTokenList.literals.length === 1 && leftTokenCount === 0) {
+          leftValue = this.escapeString(left);
+        }
+
+        // if left is only a token, needs to be wrapped as terraform expression
+        if (leftTokenList.literals.length === 0 && leftTokenCount === 1) {
+          leftValue = `\${${leftTokens[0]}}`;
+        }
 
         const rightValue =
           rightTokens.length === 0

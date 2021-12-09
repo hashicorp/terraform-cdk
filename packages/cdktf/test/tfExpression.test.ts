@@ -182,3 +182,28 @@ test("null expression argument renders correctly", () => {
     `"\${(true || undefined)}"`
   );
 });
+
+test("reference inside a string literal inside a terraform function adds extra terraform expression", () => {
+  const referenceA = ref("docker_container.foo.barA");
+  const referenceB = ref("docker_container.foo.barB");
+  const referenceC = ref("docker_container.foo.barC");
+  const referenceD = ref("docker_container.foo.barD");
+
+  expect(
+    resolve(
+      null as any,
+      call("join", [
+        ", ",
+        [
+          `one ref is plain ${referenceA} and the other one as well: ${Token.asString(
+            referenceB
+          )}`,
+          referenceC, // this is a plain reference
+          `${referenceD} woop woop`,
+        ],
+      ])
+    )
+  ).toMatchInlineSnapshot(
+    `"\${join(\\", \\", [\\"one ref is plain \${docker_container.foo.barA} and the other one as well: \${docker_container.foo.barB}\\", docker_container.foo.barC, \\"\${docker_container.foo.barD} woop woop\\"])}"`
+  );
+});
