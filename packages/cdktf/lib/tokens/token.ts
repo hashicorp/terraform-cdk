@@ -52,6 +52,7 @@ export class Token {
     if (typeof value === "string") {
       return value;
     }
+
     return TokenMap.instance().registerString(
       Token.asAny(value),
       options.displayHint
