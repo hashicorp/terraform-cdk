@@ -38,6 +38,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: Upload edge-provider bindings
+        uses: actions/upload-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: packages/@cdktf/provider-generator/edge-provider-bindings
       - name: installing test dependencies
         run: |
           cd test && yarn install
@@ -62,6 +67,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: Download edge-provider bindings
+        uses: actions/download-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: test/edge-provider-bindings
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
