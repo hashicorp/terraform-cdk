@@ -427,7 +427,7 @@ describe("Cross Stack references", () => {
     );
   });
 
-  it.only("one ref is cross stack and the other cross stack and inner but the same ref is used", () => {
+  it("one ref is cross stack and the other cross stack and inner but the same ref is used", () => {
     const name = originStack.resource.stringValue;
     new TestResource(testStack, "ResourceWithoutFunction", {
       name,

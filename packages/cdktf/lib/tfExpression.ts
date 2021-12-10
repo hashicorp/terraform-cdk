@@ -5,26 +5,12 @@ import { App, TerraformStack } from ".";
 
 class TFExpression extends Intrinsic implements IResolvable {
   protected resolveArg(context: IResolveContext, arg: any): string {
-    console.log(
-      `Resolve Arg is called on ${this} for ${arg} with context ${
-        context.inTerraformExpression ? "in TFE" : "not in TFE"
-      }`
-    );
     const resolvedArg = context.resolve(arg);
-    console.log(`Preliminary resolvedArg ${resolvedArg}`);
     if (Tokenization.isResolvable(arg)) {
-      console.log(`Arg is resolvable, done here`);
       return resolvedArg;
     }
 
     if (typeof arg === "string") {
-      console.log(
-        `Arg is string, resolving string ${this.resolveString(
-          context,
-          arg,
-          resolvedArg
-        )}`
-      );
       return this.resolveString(context, arg, resolvedArg);
     }
 
@@ -54,15 +40,10 @@ class TFExpression extends Intrinsic implements IResolvable {
   }
 
   private resolveString(
-    context: IResolveContext,
+    _context: IResolveContext,
     str: string,
     resolvedArg: any
   ) {
-    console.log(
-      `ResolveString called with ${str} and  resolvedArg ${resolvedArg}, in ${
-        context.inTerraformExpression ? "in TFE" : "not in TFE"
-      }`
-    );
     const tokenList = Tokenization.reverseString(str);
     const numberOfTokens = tokenList.tokens.length + tokenList.intrinsic.length;
 
@@ -114,11 +95,6 @@ class TFExpression extends Intrinsic implements IResolvable {
   }
 
   public resolveExpr(context: IResolveContext, tfExpression: string) {
-    console.log(
-      `resolveExpr called with ${tfExpression} ${
-        context.inTerraformExpression ? "in TFE" : "not in TFE"
-      }`
-    );
     return this.isInsideTerraformExpression(context)
       ? tfExpression
       : `\${${tfExpression}}`;
@@ -155,34 +131,31 @@ class Reference extends TFExpression {
     super(identifier);
   }
 
-  private referenceIdentifier(stackName: string): string {
-    return this.crossStackIdentifier[stackName] ?? this.identifier;
-  }
-
   public resolve(context: IResolveContext): string {
-    console.log(
-      `Reference resolve called for ${this.identifier} with context ${
-        context.inTerraformExpression ? "in TFE" : "not in TFE"
-      }`
-    );
     // We check for cross stack references on preparation, setting a new identifier
     const resolutionStack = TerraformStack.of(context.scope);
+    const stackName = resolutionStack.toString();
 
     if (context.preparing) {
       // Cross stack reference
       if (this.originStack && this.originStack !== resolutionStack) {
         const app = App.of(this.originStack);
-        this.crossStackIdentifier[resolutionStack.toString()] =
-          app.crossStackReference(
-            this.originStack,
-            resolutionStack,
-            this.identifier
-          );
+        const csr = app.crossStackReference(
+          this.originStack,
+          resolutionStack,
+          this.identifier
+        );
+
+        this.crossStackIdentifier[stackName] = csr;
       }
     }
 
-    const identifier = this.referenceIdentifier(resolutionStack.toString());
-    return this.resolveExpr(context, identifier);
+    // If this is a cross stack reference we will resolve to a reference within this stack.
+    if (this.crossStackIdentifier[stackName]) {
+      return this.crossStackIdentifier[stackName];
+    }
+
+    return this.resolveExpr(context, this.identifier);
   }
 }
 export function ref(identifier: string, stack: TerraformStack): IResolvable {

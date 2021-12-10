@@ -20,10 +20,6 @@ describe("cross stack references", () => {
   });
 
   test("synth generates JSON", () => {
-    expect(driver.synthesizedStack("source").toString()).toMatchSnapshot();
-    expect(driver.synthesizedStack("passthrough").toString()).toMatchSnapshot();
-    // expect(driver.synthesizedStack("sink").toString()).toMatchSnapshot();
-
     expect(driver.manifest()).toMatchSnapshot();
   });
 
@@ -34,14 +30,7 @@ describe("cross stack references", () => {
       // await driver.deploy("sink");
     });
 
-    it("prereq - source stack writes files", () => {
-      expect(readLocalFile("originNum")).toMatchInlineSnapshot(`"4"`);
-      expect(readLocalFile("originStr")).toMatchInlineSnapshot(
-        `"BN@LPd]x*VqopF[B5#2>?}_WbbJ*Vm{S"`
-      );
-    });
-
-    it.skip("references primitive values", () => {
+    it("references primitive values", () => {
       expect(readLocalFile("originNum")).toBe(readLocalFile("passthroughNum"));
       expect(readLocalFile("originStr")).toBe(readLocalFile("passthroughStr"));
     });

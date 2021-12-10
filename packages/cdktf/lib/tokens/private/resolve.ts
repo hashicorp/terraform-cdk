@@ -50,13 +50,6 @@ export function resolve(obj: any, options: IResolveOptions): any {
     inTerraformExpression?: boolean,
     appendPath?: string
   ): [IResolveContext, IPostProcessor] {
-    console.log(
-      `Creating new context for ${pathName}${appendPath || ""} ${
-        inTerraformExpression || options.inTerraformExpression
-          ? "in terraform expression"
-          : "not in terraform expression"
-      }`
-    );
     const newPrefix =
       appendPath !== undefined ? prefix.concat([appendPath]) : options.prefix;
 
@@ -105,12 +98,6 @@ export function resolve(obj: any, options: IResolveOptions): any {
     );
   }
 
-  console.log(
-    `Resolving ${obj} ${
-      options.inTerraformExpression ? "in tf expr" : "not in tf expr"
-    }`
-  );
-
   //
   // undefined
   //
@@ -153,7 +140,6 @@ export function resolve(obj: any, options: IResolveOptions): any {
     const tokenStr = TokenString.forString(str);
     if (tokenStr.test()) {
       const fragments = tokenStr.split(tokenMap.lookupToken.bind(tokenMap));
-      console.log("inner string resolve");
       str = options.resolver.resolveString(fragments, makeContext()[0]);
     }
 
@@ -164,7 +150,6 @@ export function resolve(obj: any, options: IResolveOptions): any {
         return TokenMap.instance().lookupNumberToken(parseFloat(id));
       });
 
-      console.log("inner number resolve");
       str = fragments
         .mapTokens({
           mapToken: (resolvable: IResolvable) =>

@@ -167,8 +167,6 @@ export class App extends Construct {
 
     const remoteState = toStack.registerIncomingCrossStackReference(fromStack);
 
-    const remoteStateAccess = remoteState.get(outputId);
-    console.log({ remoteStateAccess });
-    return remoteStateAccess;
+    return remoteState.get(outputId);
   }
 }

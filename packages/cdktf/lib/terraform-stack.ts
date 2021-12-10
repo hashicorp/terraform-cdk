@@ -226,13 +226,11 @@ export class TerraformStack extends Construct {
       return this.crossStackOutputs[identifier];
     }
 
-    const stack = TerraformStack.of(this);
-
     const output = new TerraformOutput(
-      stack,
+      this,
       `cross-stack-output-${identifier}`,
       {
-        value: ref(identifier, stack),
+        value: ref(identifier, this),
         sensitive: true,
       }
     );
