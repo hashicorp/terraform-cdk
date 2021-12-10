@@ -710,7 +710,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._date) {
+    if (this._date !== undefined) {
       hasAnyValues = true;
       internalValueResult.date = this._date;
     }
@@ -2185,7 +2185,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   public get internalValue(): SingleBlockTypeTimeouts | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._create) {
+    if (this._create !== undefined) {
       hasAnyValues = true;
       internalValueResult.create = this._create;
     }
