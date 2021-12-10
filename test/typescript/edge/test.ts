@@ -44,7 +44,7 @@ describe("edge provider test", () => {
       expect(l.req[1].reqstr).toBe("reqstr2");
 
       // Single item list
-      expect(l.singlereq.reqbool).toBe(true);
+      expect(l.singlereq.reqbool).toBe(false);
       expect(l.singlereq.reqnum).toBe(1);
       expect(l.singlereq.reqstr).toBe("reqstr");
     });

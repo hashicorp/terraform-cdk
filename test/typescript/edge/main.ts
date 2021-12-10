@@ -18,7 +18,7 @@ export class ReferenceStack extends TerraformStack {
         { reqbool: true, reqnum: 1, reqstr: "reqstr" },
         { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
       ],
-      singlereq: { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+      singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
     });
 
     // plain values

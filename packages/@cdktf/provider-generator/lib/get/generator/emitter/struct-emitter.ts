@@ -228,9 +228,11 @@ export class StructEmitter {
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.getterType._type === "stored_class") {
-          this.code.openBlock(`if (this.${att.storageName}?.internalValue)`);
+          this.code.openBlock(
+            `if (this.${att.storageName}?.internalValue !== undefined)`
+          );
         } else {
-          this.code.openBlock(`if (this.${att.storageName})`);
+          this.code.openBlock(`if (this.${att.storageName} !== undefined)`);
         }
         this.code.line("hasAnyValues = true;");
         if (att.getterType._type === "stored_class") {

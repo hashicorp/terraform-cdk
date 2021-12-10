@@ -505,39 +505,39 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   public get internalValue(): ListBlockResourceSingleopt | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._optstr) {
+    if (this._optstr !== undefined) {
       hasAnyValues = true;
       internalValueResult.optstr = this._optstr;
     }
-    if (this._optnum) {
+    if (this._optnum !== undefined) {
       hasAnyValues = true;
       internalValueResult.optnum = this._optnum;
     }
-    if (this._optbool) {
+    if (this._optbool !== undefined) {
       hasAnyValues = true;
       internalValueResult.optbool = this._optbool;
     }
-    if (this._reqstr) {
+    if (this._reqstr !== undefined) {
       hasAnyValues = true;
       internalValueResult.reqstr = this._reqstr;
     }
-    if (this._reqnum) {
+    if (this._reqnum !== undefined) {
       hasAnyValues = true;
       internalValueResult.reqnum = this._reqnum;
     }
-    if (this._reqbool) {
+    if (this._reqbool !== undefined) {
       hasAnyValues = true;
       internalValueResult.reqbool = this._reqbool;
     }
-    if (this._computedstr) {
+    if (this._computedstr !== undefined) {
       hasAnyValues = true;
       internalValueResult.computedstr = this._computedstr;
     }
-    if (this._computednum) {
+    if (this._computednum !== undefined) {
       hasAnyValues = true;
       internalValueResult.computednum = this._computednum;
     }
-    if (this._computedbool) {
+    if (this._computedbool !== undefined) {
       hasAnyValues = true;
       internalValueResult.computedbool = this._computedbool;
     }
@@ -778,39 +778,39 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   public get internalValue(): ListBlockResourceSinglereq | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._optstr) {
+    if (this._optstr !== undefined) {
       hasAnyValues = true;
       internalValueResult.optstr = this._optstr;
     }
-    if (this._optnum) {
+    if (this._optnum !== undefined) {
       hasAnyValues = true;
       internalValueResult.optnum = this._optnum;
     }
-    if (this._optbool) {
+    if (this._optbool !== undefined) {
       hasAnyValues = true;
       internalValueResult.optbool = this._optbool;
     }
-    if (this._reqstr) {
+    if (this._reqstr !== undefined) {
       hasAnyValues = true;
       internalValueResult.reqstr = this._reqstr;
     }
-    if (this._reqnum) {
+    if (this._reqnum !== undefined) {
       hasAnyValues = true;
       internalValueResult.reqnum = this._reqnum;
     }
-    if (this._reqbool) {
+    if (this._reqbool !== undefined) {
       hasAnyValues = true;
       internalValueResult.reqbool = this._reqbool;
     }
-    if (this._computedstr) {
+    if (this._computedstr !== undefined) {
       hasAnyValues = true;
       internalValueResult.computedstr = this._computedstr;
     }
-    if (this._computednum) {
+    if (this._computednum !== undefined) {
       hasAnyValues = true;
       internalValueResult.computednum = this._computednum;
     }
-    if (this._computedbool) {
+    if (this._computedbool !== undefined) {
       hasAnyValues = true;
       internalValueResult.computedbool = this._computedbool;
     }

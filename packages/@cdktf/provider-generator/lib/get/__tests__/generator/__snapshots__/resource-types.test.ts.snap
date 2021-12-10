@@ -146,11 +146,11 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   public get internalValue(): CloudfrontDistributionCacheBehaviorForwardedValuesCookies | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._forward) {
+    if (this._forward !== undefined) {
       hasAnyValues = true;
       internalValueResult.forward = this._forward;
     }
-    if (this._whitelistedNames) {
+    if (this._whitelistedNames !== undefined) {
       hasAnyValues = true;
       internalValueResult.whitelistedNames = this._whitelistedNames;
     }
@@ -248,19 +248,19 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   public get internalValue(): CloudfrontDistributionCacheBehaviorForwardedValues | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._headers) {
+    if (this._headers !== undefined) {
       hasAnyValues = true;
       internalValueResult.headers = this._headers;
     }
-    if (this._queryString) {
+    if (this._queryString !== undefined) {
       hasAnyValues = true;
       internalValueResult.queryString = this._queryString;
     }
-    if (this._queryStringCacheKeys) {
+    if (this._queryStringCacheKeys !== undefined) {
       hasAnyValues = true;
       internalValueResult.queryStringCacheKeys = this._queryStringCacheKeys;
     }
-    if (this._cookies?.internalValue) {
+    if (this._cookies?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.cookies = this._cookies?.internalValue;
     }
@@ -524,11 +524,11 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._forward) {
+    if (this._forward !== undefined) {
       hasAnyValues = true;
       internalValueResult.forward = this._forward;
     }
-    if (this._whitelistedNames) {
+    if (this._whitelistedNames !== undefined) {
       hasAnyValues = true;
       internalValueResult.whitelistedNames = this._whitelistedNames;
     }
@@ -626,19 +626,19 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorForwardedValues | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._headers) {
+    if (this._headers !== undefined) {
       hasAnyValues = true;
       internalValueResult.headers = this._headers;
     }
-    if (this._queryString) {
+    if (this._queryString !== undefined) {
       hasAnyValues = true;
       internalValueResult.queryString = this._queryString;
     }
-    if (this._queryStringCacheKeys) {
+    if (this._queryStringCacheKeys !== undefined) {
       hasAnyValues = true;
       internalValueResult.queryStringCacheKeys = this._queryStringCacheKeys;
     }
-    if (this._cookies?.internalValue) {
+    if (this._cookies?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.cookies = this._cookies?.internalValue;
     }
@@ -843,55 +843,55 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   public get internalValue(): CloudfrontDistributionDefaultCacheBehavior | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._allowedMethods) {
+    if (this._allowedMethods !== undefined) {
       hasAnyValues = true;
       internalValueResult.allowedMethods = this._allowedMethods;
     }
-    if (this._cachedMethods) {
+    if (this._cachedMethods !== undefined) {
       hasAnyValues = true;
       internalValueResult.cachedMethods = this._cachedMethods;
     }
-    if (this._compress) {
+    if (this._compress !== undefined) {
       hasAnyValues = true;
       internalValueResult.compress = this._compress;
     }
-    if (this._defaultTtl) {
+    if (this._defaultTtl !== undefined) {
       hasAnyValues = true;
       internalValueResult.defaultTtl = this._defaultTtl;
     }
-    if (this._fieldLevelEncryptionId) {
+    if (this._fieldLevelEncryptionId !== undefined) {
       hasAnyValues = true;
       internalValueResult.fieldLevelEncryptionId = this._fieldLevelEncryptionId;
     }
-    if (this._maxTtl) {
+    if (this._maxTtl !== undefined) {
       hasAnyValues = true;
       internalValueResult.maxTtl = this._maxTtl;
     }
-    if (this._minTtl) {
+    if (this._minTtl !== undefined) {
       hasAnyValues = true;
       internalValueResult.minTtl = this._minTtl;
     }
-    if (this._smoothStreaming) {
+    if (this._smoothStreaming !== undefined) {
       hasAnyValues = true;
       internalValueResult.smoothStreaming = this._smoothStreaming;
     }
-    if (this._targetOriginId) {
+    if (this._targetOriginId !== undefined) {
       hasAnyValues = true;
       internalValueResult.targetOriginId = this._targetOriginId;
     }
-    if (this._trustedSigners) {
+    if (this._trustedSigners !== undefined) {
       hasAnyValues = true;
       internalValueResult.trustedSigners = this._trustedSigners;
     }
-    if (this._viewerProtocolPolicy) {
+    if (this._viewerProtocolPolicy !== undefined) {
       hasAnyValues = true;
       internalValueResult.viewerProtocolPolicy = this._viewerProtocolPolicy;
     }
-    if (this._forwardedValues?.internalValue) {
+    if (this._forwardedValues?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.forwardedValues = this._forwardedValues?.internalValue;
     }
-    if (this._lambdaFunctionAssociation) {
+    if (this._lambdaFunctionAssociation !== undefined) {
       hasAnyValues = true;
       internalValueResult.lambdaFunctionAssociation = this._lambdaFunctionAssociation;
     }
@@ -1169,15 +1169,15 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   public get internalValue(): CloudfrontDistributionLoggingConfig | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._bucket) {
+    if (this._bucket !== undefined) {
       hasAnyValues = true;
       internalValueResult.bucket = this._bucket;
     }
-    if (this._includeCookies) {
+    if (this._includeCookies !== undefined) {
       hasAnyValues = true;
       internalValueResult.includeCookies = this._includeCookies;
     }
-    if (this._prefix) {
+    if (this._prefix !== undefined) {
       hasAnyValues = true;
       internalValueResult.prefix = this._prefix;
     }
@@ -1281,11 +1281,11 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._forward) {
+    if (this._forward !== undefined) {
       hasAnyValues = true;
       internalValueResult.forward = this._forward;
     }
-    if (this._whitelistedNames) {
+    if (this._whitelistedNames !== undefined) {
       hasAnyValues = true;
       internalValueResult.whitelistedNames = this._whitelistedNames;
     }
@@ -1383,19 +1383,19 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorForwardedValues | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._headers) {
+    if (this._headers !== undefined) {
       hasAnyValues = true;
       internalValueResult.headers = this._headers;
     }
-    if (this._queryString) {
+    if (this._queryString !== undefined) {
       hasAnyValues = true;
       internalValueResult.queryString = this._queryString;
     }
-    if (this._queryStringCacheKeys) {
+    if (this._queryStringCacheKeys !== undefined) {
       hasAnyValues = true;
       internalValueResult.queryStringCacheKeys = this._queryStringCacheKeys;
     }
-    if (this._cookies?.internalValue) {
+    if (this._cookies?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.cookies = this._cookies?.internalValue;
     }
@@ -1669,27 +1669,27 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   public get internalValue(): CloudfrontDistributionOriginCustomOriginConfig | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._httpPort) {
+    if (this._httpPort !== undefined) {
       hasAnyValues = true;
       internalValueResult.httpPort = this._httpPort;
     }
-    if (this._httpsPort) {
+    if (this._httpsPort !== undefined) {
       hasAnyValues = true;
       internalValueResult.httpsPort = this._httpsPort;
     }
-    if (this._originKeepaliveTimeout) {
+    if (this._originKeepaliveTimeout !== undefined) {
       hasAnyValues = true;
       internalValueResult.originKeepaliveTimeout = this._originKeepaliveTimeout;
     }
-    if (this._originProtocolPolicy) {
+    if (this._originProtocolPolicy !== undefined) {
       hasAnyValues = true;
       internalValueResult.originProtocolPolicy = this._originProtocolPolicy;
     }
-    if (this._originReadTimeout) {
+    if (this._originReadTimeout !== undefined) {
       hasAnyValues = true;
       internalValueResult.originReadTimeout = this._originReadTimeout;
     }
-    if (this._originSslProtocols) {
+    if (this._originSslProtocols !== undefined) {
       hasAnyValues = true;
       internalValueResult.originSslProtocols = this._originSslProtocols;
     }
@@ -1833,7 +1833,7 @@ export class CloudfrontDistributionOriginS3OriginConfigOutputReference extends c
   public get internalValue(): CloudfrontDistributionOriginS3OriginConfig | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._originAccessIdentity) {
+    if (this._originAccessIdentity !== undefined) {
       hasAnyValues = true;
       internalValueResult.originAccessIdentity = this._originAccessIdentity;
     }
@@ -1944,7 +1944,7 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   public get internalValue(): CloudfrontDistributionOriginGroupFailoverCriteria | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._statusCodes) {
+    if (this._statusCodes !== undefined) {
       hasAnyValues = true;
       internalValueResult.statusCodes = this._statusCodes;
     }
@@ -2061,11 +2061,11 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   public get internalValue(): CloudfrontDistributionRestrictionsGeoRestriction | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._locations) {
+    if (this._locations !== undefined) {
       hasAnyValues = true;
       internalValueResult.locations = this._locations;
     }
-    if (this._restrictionType) {
+    if (this._restrictionType !== undefined) {
       hasAnyValues = true;
       internalValueResult.restrictionType = this._restrictionType;
     }
@@ -2148,7 +2148,7 @@ export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.Com
   public get internalValue(): CloudfrontDistributionRestrictions | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._geoRestriction?.internalValue) {
+    if (this._geoRestriction?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.geoRestriction = this._geoRestriction?.internalValue;
     }
@@ -2231,23 +2231,23 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   public get internalValue(): CloudfrontDistributionViewerCertificate | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._acmCertificateArn) {
+    if (this._acmCertificateArn !== undefined) {
       hasAnyValues = true;
       internalValueResult.acmCertificateArn = this._acmCertificateArn;
     }
-    if (this._cloudfrontDefaultCertificate) {
+    if (this._cloudfrontDefaultCertificate !== undefined) {
       hasAnyValues = true;
       internalValueResult.cloudfrontDefaultCertificate = this._cloudfrontDefaultCertificate;
     }
-    if (this._iamCertificateId) {
+    if (this._iamCertificateId !== undefined) {
       hasAnyValues = true;
       internalValueResult.iamCertificateId = this._iamCertificateId;
     }
-    if (this._minimumProtocolVersion) {
+    if (this._minimumProtocolVersion !== undefined) {
       hasAnyValues = true;
       internalValueResult.minimumProtocolVersion = this._minimumProtocolVersion;
     }
-    if (this._sslSupportMethod) {
+    if (this._sslSupportMethod !== undefined) {
       hasAnyValues = true;
       internalValueResult.sslSupportMethod = this._sslSupportMethod;
     }
@@ -3125,15 +3125,15 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   public get internalValue(): S3BucketLifecycleRuleExpiration | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._date) {
+    if (this._date !== undefined) {
       hasAnyValues = true;
       internalValueResult.date = this._date;
     }
-    if (this._days) {
+    if (this._days !== undefined) {
       hasAnyValues = true;
       internalValueResult.days = this._days;
     }
-    if (this._expiredObjectDeleteMarker) {
+    if (this._expiredObjectDeleteMarker !== undefined) {
       hasAnyValues = true;
       internalValueResult.expiredObjectDeleteMarker = this._expiredObjectDeleteMarker;
     }
@@ -3235,7 +3235,7 @@ export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference ext
   public get internalValue(): S3BucketLifecycleRuleNoncurrentVersionExpiration | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._days) {
+    if (this._days !== undefined) {
       hasAnyValues = true;
       internalValueResult.days = this._days;
     }
@@ -3446,15 +3446,15 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   public get internalValue(): S3BucketObjectLockConfigurationRuleDefaultRetention | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._days) {
+    if (this._days !== undefined) {
       hasAnyValues = true;
       internalValueResult.days = this._days;
     }
-    if (this._mode) {
+    if (this._mode !== undefined) {
       hasAnyValues = true;
       internalValueResult.mode = this._mode;
     }
-    if (this._years) {
+    if (this._years !== undefined) {
       hasAnyValues = true;
       internalValueResult.years = this._years;
     }
@@ -3555,7 +3555,7 @@ export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.Co
   public get internalValue(): S3BucketObjectLockConfigurationRule | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._defaultRetention?.internalValue) {
+    if (this._defaultRetention?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.defaultRetention = this._defaultRetention?.internalValue;
     }
@@ -3625,11 +3625,11 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
   public get internalValue(): S3BucketObjectLockConfiguration | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._objectLockEnabled) {
+    if (this._objectLockEnabled !== undefined) {
       hasAnyValues = true;
       internalValueResult.objectLockEnabled = this._objectLockEnabled;
     }
-    if (this._rule?.internalValue) {
+    if (this._rule?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.rule = this._rule?.internalValue;
     }
@@ -3710,7 +3710,7 @@ export class S3BucketReplicationConfigurationRulesDestinationAccessControlTransl
   public get internalValue(): S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._owner) {
+    if (this._owner !== undefined) {
       hasAnyValues = true;
       internalValueResult.owner = this._owner;
     }
@@ -3795,23 +3795,23 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   public get internalValue(): S3BucketReplicationConfigurationRulesDestination | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._accountId) {
+    if (this._accountId !== undefined) {
       hasAnyValues = true;
       internalValueResult.accountId = this._accountId;
     }
-    if (this._bucket) {
+    if (this._bucket !== undefined) {
       hasAnyValues = true;
       internalValueResult.bucket = this._bucket;
     }
-    if (this._replicaKmsKeyId) {
+    if (this._replicaKmsKeyId !== undefined) {
       hasAnyValues = true;
       internalValueResult.replicaKmsKeyId = this._replicaKmsKeyId;
     }
-    if (this._storageClass) {
+    if (this._storageClass !== undefined) {
       hasAnyValues = true;
       internalValueResult.storageClass = this._storageClass;
     }
-    if (this._accessControlTranslation?.internalValue) {
+    if (this._accessControlTranslation?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.accessControlTranslation = this._accessControlTranslation?.internalValue;
     }
@@ -3951,11 +3951,11 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   public get internalValue(): S3BucketReplicationConfigurationRulesFilter | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._prefix) {
+    if (this._prefix !== undefined) {
       hasAnyValues = true;
       internalValueResult.prefix = this._prefix;
     }
-    if (this._tags) {
+    if (this._tags !== undefined) {
       hasAnyValues = true;
       internalValueResult.tags = this._tags;
     }
@@ -4040,7 +4040,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsE
   public get internalValue(): S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._enabled) {
+    if (this._enabled !== undefined) {
       hasAnyValues = true;
       internalValueResult.enabled = this._enabled;
     }
@@ -4105,7 +4105,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputR
   public get internalValue(): S3BucketReplicationConfigurationRulesSourceSelectionCriteria | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._sseKmsEncryptedObjects?.internalValue) {
+    if (this._sseKmsEncryptedObjects?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.sseKmsEncryptedObjects = this._sseKmsEncryptedObjects?.internalValue;
     }
@@ -4231,11 +4231,11 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   public get internalValue(): S3BucketReplicationConfiguration | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._role) {
+    if (this._role !== undefined) {
       hasAnyValues = true;
       internalValueResult.role = this._role;
     }
-    if (this._rules) {
+    if (this._rules !== undefined) {
       hasAnyValues = true;
       internalValueResult.rules = this._rules;
     }
@@ -4319,11 +4319,11 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
   public get internalValue(): S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._kmsMasterKeyId) {
+    if (this._kmsMasterKeyId !== undefined) {
       hasAnyValues = true;
       internalValueResult.kmsMasterKeyId = this._kmsMasterKeyId;
     }
-    if (this._sseAlgorithm) {
+    if (this._sseAlgorithm !== undefined) {
       hasAnyValues = true;
       internalValueResult.sseAlgorithm = this._sseAlgorithm;
     }
@@ -4406,7 +4406,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extend
   public get internalValue(): S3BucketServerSideEncryptionConfigurationRule | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._applyServerSideEncryptionByDefault?.internalValue) {
+    if (this._applyServerSideEncryptionByDefault?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.applyServerSideEncryptionByDefault = this._applyServerSideEncryptionByDefault?.internalValue;
     }
@@ -4471,7 +4471,7 @@ export class S3BucketServerSideEncryptionConfigurationOutputReference extends cd
   public get internalValue(): S3BucketServerSideEncryptionConfiguration | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._rule?.internalValue) {
+    if (this._rule?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.rule = this._rule?.internalValue;
     }
@@ -4539,11 +4539,11 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   public get internalValue(): S3BucketVersioning | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._enabled) {
+    if (this._enabled !== undefined) {
       hasAnyValues = true;
       internalValueResult.enabled = this._enabled;
     }
-    if (this._mfaDelete) {
+    if (this._mfaDelete !== undefined) {
       hasAnyValues = true;
       internalValueResult.mfaDelete = this._mfaDelete;
     }
@@ -4642,19 +4642,19 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   public get internalValue(): S3BucketWebsite | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._errorDocument) {
+    if (this._errorDocument !== undefined) {
       hasAnyValues = true;
       internalValueResult.errorDocument = this._errorDocument;
     }
-    if (this._indexDocument) {
+    if (this._indexDocument !== undefined) {
       hasAnyValues = true;
       internalValueResult.indexDocument = this._indexDocument;
     }
-    if (this._redirectAllRequestsTo) {
+    if (this._redirectAllRequestsTo !== undefined) {
       hasAnyValues = true;
       internalValueResult.redirectAllRequestsTo = this._redirectAllRequestsTo;
     }
-    if (this._routingRules) {
+    if (this._routingRules !== undefined) {
       hasAnyValues = true;
       internalValueResult.routingRules = this._routingRules;
     }
@@ -5396,11 +5396,11 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   public get internalValue(): SecurityGroupTimeouts | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._create) {
+    if (this._create !== undefined) {
       hasAnyValues = true;
       internalValueResult.create = this._create;
     }
-    if (this._delete) {
+    if (this._delete !== undefined) {
       hasAnyValues = true;
       internalValueResult.delete = this._delete;
     }
