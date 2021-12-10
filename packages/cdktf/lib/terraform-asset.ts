@@ -12,7 +12,7 @@ import { ISynthesisSession } from "./synthesize";
 import { addCustomSynthesis } from "./synthesize/synthesizer";
 
 export interface TerraformAssetConfig {
-  // absolute path to the file or folder configured
+  // path to the file or folder configured. If relative, the path is resolved from the location of cdktf.json
   readonly path: string;
   // file type of the asset, either AssetType.FILE, AssetType.DIRECTORY, AssetType.ARCHIVE
   readonly type?: AssetType;
