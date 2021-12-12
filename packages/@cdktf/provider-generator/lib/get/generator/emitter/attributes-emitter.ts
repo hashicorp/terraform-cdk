@@ -144,6 +144,9 @@ export class AttributesEmitter {
     if (type.isBoolean) {
       return `this.getBooleanAttribute('${att.terraformName}') as any`;
     }
+    if (type.isMap) {
+      return `this.getMapAttribute('${att.terraformName}')`;
+    }
     if (process.env.DEBUG) {
       console.error(
         `The attribute ${JSON.stringify(att)} isn't implemented yet`

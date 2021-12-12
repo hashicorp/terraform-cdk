@@ -54,8 +54,7 @@ export class AttributeTypeModel {
     if (this.isStringMap) return `cdktf.StringMap`;
     if (this.isNumberMap) return `cdktf.NumberMap`;
     if (this.isBooleanMap) return `cdktf.BooleanMap`;
-    if (this.isMap)
-      return `{ [key: string]: ${this._type} } | cdktf.IResolvable`;
+    if (this.isMap) return `{ [key: string]: ${this._type} }`;
     if (this.isList && !this.isComputed && this.isSingleItem)
       return `${this._type}`;
     // neither boolean nor boolean[] is tokenizable, so both parts need IResolvable
@@ -111,7 +110,9 @@ export class AttributeTypeModel {
   }
 
   public get isBoolean(): boolean {
-    return this._type === TokenizableTypes.BOOLEAN || this.isBooleanMap;
+    return (
+      this._type === TokenizableTypes.BOOLEAN && !this.isList && !this.isMap
+    );
   }
 
   public get isStringMap(): boolean {

@@ -29,6 +29,10 @@ abstract class ComplexComputedAttribute implements IInterpolatingParent {
     );
   }
 
+  public getMapAttribute(terraformAttribute: string) {
+    return Token.asMap(this.interpolationForAttribute(terraformAttribute));
+  }
+
   public abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 

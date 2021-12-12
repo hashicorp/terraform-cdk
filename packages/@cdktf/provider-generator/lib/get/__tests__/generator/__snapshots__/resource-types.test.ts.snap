@@ -45,7 +45,7 @@ export interface CloudfrontDistributionConfig extends cdktf.TerraformMetaArgumen
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#tags CloudfrontDistribution#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#wait_for_deployment CloudfrontDistribution#wait_for_deployment}
   */
@@ -2587,12 +2587,11 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -2949,7 +2948,7 @@ export interface S3BucketConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#website_domain S3Bucket#website_domain}
   */
@@ -3337,7 +3336,7 @@ export interface S3BucketLifecycleRule {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * expiration block
   * 
@@ -3921,7 +3920,7 @@ export interface S3BucketReplicationConfigurationRulesFilter {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
 }
 
 export function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: S3BucketReplicationConfigurationRulesFilterOutputReference | S3BucketReplicationConfigurationRulesFilter): any {
@@ -3991,12 +3990,11 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -4966,12 +4964,11 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -5232,7 +5229,7 @@ export interface SecurityGroupConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#tags SecurityGroup#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#vpc_id SecurityGroup#vpc_id}
   */
@@ -5613,12 +5610,11 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
