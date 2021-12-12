@@ -1,7 +1,6 @@
 // copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/private/token-map.ts
 import { IResolvable } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
-import { Token } from "../token";
 import {
   BEGIN_LIST_TOKEN_MARKER,
   BEGIN_STRING_TOKEN_MARKER,
@@ -10,6 +9,7 @@ import {
   extractTokenDouble,
   TokenString,
   VALID_KEY_CHARS,
+  BEGIN_MAP_TOKEN_MARKER,
 } from "./encoding";
 
 const glob = global as any;
@@ -18,6 +18,7 @@ const STRING_SYMBOL = Symbol.for("@cdktf/core.TokenMap.STRING");
 const LIST_SYMBOL = Symbol.for("@cdktf/core.TokenMap.LIST");
 const NUMBER_SYMBOL = Symbol.for("@cdktf/core.TokenMap.NUMBER");
 const NUMBER_LIST_SYMBOL = Symbol.for("@cdktf/core.TokenMap.NUMBER_LIST");
+const MAP_SYMBOL = Symbol.for("@cdktf/core.TokenMap.MAP");
 
 /**
  * Central place where we keep a mapping from Tokens to their String representation
@@ -91,19 +92,16 @@ export class TokenMap {
   }
 
   /**
-   * Lookup a token from an encoded value
+   * Generate a unique string for this Token, returning a key
    */
-  public tokenFromEncoding(x: any): IResolvable | undefined {
-    if (typeof x === "string") {
-      return this.lookupString(x);
-    }
-    if (Array.isArray(x)) {
-      return this.lookupList(x);
-    }
-    if (Token.isUnresolved(x)) {
-      return x;
-    }
-    return undefined;
+  public registerMap(
+    token: IResolvable,
+    displayHint?: string
+  ): { [key: string]: any } {
+    return cachedValue(token, MAP_SYMBOL, () => {
+      const key = this.registerStringKey(token, displayHint);
+      return [`${BEGIN_MAP_TOKEN_MARKER}${key}${END_TOKEN_MARKER}`];
+    });
   }
 
   /**
@@ -125,6 +123,22 @@ export class TokenMap {
       return undefined;
     }
     const str = TokenString.forListToken(xs[0]);
+    const fragments = str.split(this.lookupToken.bind(this));
+    if (fragments.length === 1) {
+      return fragments.firstToken;
+    }
+    return undefined;
+  }
+
+  /**
+   * Reverse a string representation into a Token object
+   */
+  public lookupMap(xs: { [key: string]: any }): IResolvable | undefined {
+    const keys = Object.keys(xs);
+    if (keys.length !== 1) {
+      return undefined;
+    }
+    const str = TokenString.forMapToken(keys[0]);
     const fragments = str.split(this.lookupToken.bind(this));
     if (fragments.length === 1) {
       return fragments.firstToken;

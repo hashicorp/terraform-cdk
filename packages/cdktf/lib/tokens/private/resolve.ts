@@ -14,6 +14,7 @@ import {
   TokenString,
   unresolved,
   containsNumberListTokenElement,
+  containsMapToken,
 } from "./encoding";
 import { TokenMap } from "./token-map";
 
@@ -180,6 +181,11 @@ export function resolve(obj: any, options: IResolveOptions): any {
       .filter((x) => typeof x !== "undefined");
 
     return arr;
+  }
+
+  // check for tokenized map
+  if (containsMapToken(obj)) {
+    return options.resolver.resolveMap(obj, makeContext()[0]);
   }
 
   //

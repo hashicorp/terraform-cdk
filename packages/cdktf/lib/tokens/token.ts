@@ -93,6 +93,20 @@ export class Token {
   }
 
   /**
+   * Return a reversible map representation of this token
+   */
+  public static asMap(
+    value: any,
+    options: EncodingOptions = {}
+  ): { [key: string]: any } {
+    // since the return value is basically an object, just encode always
+    return TokenMap.instance().registerMap(
+      Token.asAny(value),
+      options.displayHint
+    );
+  }
+
+  /**
    * Return a resolvable representation of the given value
    */
   public static asAny(value: any): IResolvable {
@@ -128,7 +142,9 @@ export class Tokenization {
       const reversedNumber = Tokenization.reverseNumber(x);
       return reversedNumber ? [reversedNumber] : [];
     }
-    return [];
+
+    const reversedMap = Tokenization.reverseMap(x);
+    return reversedMap ? [reversedMap] : [];
   }
 
   /**
@@ -157,6 +173,13 @@ export class Tokenization {
    */
   public static reverseNumberList(l: number[]): IResolvable | undefined {
     return TokenMap.instance().lookupNumberList(l);
+  }
+
+  /**
+   * Un-encode a Tokenized value from a map
+   */
+  public static reverseMap(m: { [key: string]: any }): IResolvable | undefined {
+    return TokenMap.instance().lookupMap(m);
   }
 
   /**
