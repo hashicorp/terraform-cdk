@@ -76,6 +76,13 @@ export class TerraformStack extends Construct {
     }
   }
 
+  public prepareStack() {
+    // A preparing resolve run might add new resources to the stack, e.g. for cross stack references.
+    terraformElements(this).forEach((e) =>
+      resolve(this, e.toTerraform(), true)
+    );
+  }
+
   public addOverride(path: string, value: any) {
     const parts = path.split(".");
     let curr: any = this.rawOverrides;

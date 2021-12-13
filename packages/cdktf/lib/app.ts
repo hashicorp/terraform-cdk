@@ -97,6 +97,7 @@ export class App extends Construct {
         (c): c is TerraformStack => c instanceof TerraformStack
       );
 
+    stacks.forEach((stack) => stack.prepareStack());
     stacks.forEach((stack) => stack.synthesizer.synthesize(session));
 
     this.manifest.writeToFile();
