@@ -1,4 +1,4 @@
-import { Construct } from "constructs";
+import { Construct, IConstruct } from "constructs";
 import * as fs from "fs";
 import { version } from "../package.json";
 import { DISABLE_STACK_TRACE_IN_METADATA } from "./annotations";
@@ -6,6 +6,7 @@ import { Manifest } from "./manifest";
 import { ISynthesisSession } from "./synthesize";
 import { TerraformStack } from "./terraform-stack";
 
+const APP_SYMBOL = Symbol.for("cdktf/App");
 export const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
 export interface AppOptions {
   /**
@@ -62,6 +63,8 @@ export class App extends Construct {
    */
   constructor(options: AppOptions = {}) {
     super(undefined as any, "");
+    Object.defineProperty(this, APP_SYMBOL, { value: true });
+
     this.outdir = process.env.CDKTF_OUTDIR ?? options.outdir ?? "cdktf.out";
     this.targetStackId = process.env.CDKTF_TARGET_STACK_ID;
     this.skipValidation = options.skipValidation;
@@ -79,6 +82,30 @@ export class App extends Construct {
       fs.mkdirSync(this.outdir);
     }
     this.manifest = new Manifest(version, this.outdir);
+  }
+
+  public static isApp(x: any): x is App {
+    return x !== null && typeof x === "object" && APP_SYMBOL in x;
+  }
+
+  public static of(construct: IConstruct): App {
+    return _lookup(construct);
+
+    function _lookup(c: IConstruct): App {
+      if (App.isApp(c)) {
+        return c;
+      }
+
+      const node = c.node;
+
+      if (!node.scope) {
+        throw new Error(
+          `No app could be identified for the construct at path '${construct.node.path}'`
+        );
+      }
+
+      return _lookup(node.scope);
+    }
   }
 
   /**
