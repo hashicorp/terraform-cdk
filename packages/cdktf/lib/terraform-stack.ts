@@ -76,6 +76,38 @@ export class TerraformStack extends Construct {
     }
   }
 
+  private findAll<T>({
+    byConstructor: ClassConstructor,
+    byPredicate,
+  }: {
+    byConstructor?: Constructor<T>;
+    byPredicate?: (node: unknown) => boolean;
+  }): T[] {
+    const predicate = ClassConstructor
+      ? (x: unknown) => x instanceof ClassConstructor
+      : byPredicate;
+
+    if (!predicate) {
+      throw new Error("Either byConstructor or byPredicate must be provided");
+    }
+
+    const items: T[] = [];
+
+    const visit = async (node: IConstruct) => {
+      if (predicate(node)) {
+        items.push(node as unknown as T);
+      }
+
+      for (const child of node.node.children) {
+        visit(child);
+      }
+    };
+
+    visit(this);
+
+    return items;
+  }
+
   public prepareStack() {
     // A preparing resolve run might add new resources to the stack, e.g. for cross stack references.
     terraformElements(this).forEach((e) =>
@@ -144,21 +176,14 @@ export class TerraformStack extends Construct {
   }
 
   public allProviders(): TerraformProvider[] {
-    const providers: TerraformProvider[] = [];
+    return this.findAll({ byConstructor: TerraformProvider });
+  }
 
-    const visit = async (node: IConstruct) => {
-      if (node instanceof TerraformProvider) {
-        providers.push(node);
-      }
-
-      for (const child of node.node.children) {
-        visit(child);
-      }
-    };
-
-    visit(this);
-
-    return resolve(this, providers);
+  public get backend(): TerraformBackend {
+    const backends = this.findAll<TerraformBackend>({
+      byPredicate: (item: unknown) => TerraformBackend.isBackend(item),
+    });
+    return backends[0] || new LocalBackend(this, {});
   }
 
   public toTerraform(): any {
