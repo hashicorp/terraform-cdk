@@ -220,3 +220,49 @@ test("reference inside a string literal inside a terraform function adds extra t
     `"\${join(\\", \\", [\\"one ref is plain \${docker_container.foo.barA} and the other one as well: \${docker_container.foo.barB}\\", docker_container.foo.barC, \\"\${docker_container.foo.barD} woop woop\\"])}"`
   );
 });
+
+test("a reference within a function needs no Terraform Expression wrapper", () => {
+  expect(
+    resolve(null as any, call("length", [ref("docker_container.foo.bar")]))
+  ).toMatchInlineSnapshot(`"\${length(docker_container.foo.bar)}"`);
+});
+
+test("a reference within a string in a function needs a Terraform Expression wrapper", () => {
+  expect(
+    resolve(
+      null as any,
+      call("length", [`this is the ref: ${ref("docker_container.foo.bar")}`])
+    )
+  ).toMatchInlineSnapshot(
+    `"\${length(\\"this is the ref: \${docker_container.foo.bar}\\")}"`
+  );
+});
+
+test("a reference used within a function and within a string only has a Terraform Expression wrapper for the string", () => {
+  const reference = ref("docker_container.foo.bar");
+
+  expect(
+    resolve(
+      null as any,
+      call("x", [reference, `this is the ref: ${reference}`])
+    )
+  ).toMatchInlineSnapshot(
+    `"\${x(docker_container.foo.bar, \\"this is the ref: \${docker_container.foo.bar}\\")}"`
+  );
+});
+
+test("nesting can undo the wrapping", () => {
+  const reference = ref("docker_container.foo.bar");
+
+  expect(
+    resolve(
+      null as any,
+      call("x", [
+        reference,
+        `this is the ref: ${call("y", [`my ref: ${reference}`, reference])}`,
+      ])
+    )
+  ).toMatchInlineSnapshot(
+    `"\${x(docker_container.foo.bar, \\"this is the ref: \${y(\\"my ref: \${docker_container.foo.bar}\\", docker_container.foo.bar)}\\")}"`
+  );
+});
