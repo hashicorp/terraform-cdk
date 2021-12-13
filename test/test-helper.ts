@@ -260,6 +260,10 @@ export class TestDriver {
       await templateServer.stop();
     }
   };
+
+  readLocalFile = (fileName: string): string => {
+    return fs.readFileSync(path.join(this.workingDirectory, fileName), "utf8");
+  };
 }
 
 export const onWindows = process.platform === "win32" ? it : it.skip;

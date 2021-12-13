@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cross stack references synth generates JSON 1`] = `
+"{
+  \\"version\\": \\"stubbed\\",
+  \\"stacks\\": {
+    \\"source\\": {
+      \\"name\\": \\"source\\",
+      \\"constructPath\\": \\"source\\",
+      \\"workingDirectory\\": \\"stacks/source\\",
+      \\"synthesizedStackPath\\": \\"stacks/source/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"passthrough\\": {
+      \\"name\\": \\"passthrough\\",
+      \\"constructPath\\": \\"passthrough\\",
+      \\"workingDirectory\\": \\"stacks/passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks/passthrough/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    },
+    \\"sink\\": {
+      \\"name\\": \\"sink\\",
+      \\"constructPath\\": \\"sink\\",
+      \\"workingDirectory\\": \\"stacks/sink\\",
+      \\"synthesizedStackPath\\": \\"stacks/sink/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    },
+    \\"fns\\": {
+      \\"name\\": \\"fns\\",
+      \\"constructPath\\": \\"fns\\",
+      \\"workingDirectory\\": \\"stacks/fns\\",
+      \\"synthesizedStackPath\\": \\"stacks/fns/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    },
+    \\"functionOutput\\": {
+      \\"name\\": \\"functionOutput\\",
+      \\"constructPath\\": \\"functionOutput\\",
+      \\"workingDirectory\\": \\"stacks/functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks/functionOutput/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    }
+  }
+}"
+`;

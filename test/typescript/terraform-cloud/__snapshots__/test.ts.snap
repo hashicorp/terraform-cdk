@@ -1,14 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`full integration test deploy in Terraform Cloud 1`] = `
-"Deploying Stack: hello-terra
+"Deploying Stack: source-stack
 Resources
+ ✔ LOCAL_FILE          file                local_file.file
+
  ✔ NULL_RESOURCE       test                null_resource.test
 
+ ✔ RANDOM_PASSWORD     password            random_password.password
 
-Summary: 1 created, 0 updated, 0 destroyed.
 
-Output: isAssetPresent = yes
+Summary: 3 created, 0 updated, 0 destroyed.
+
+Output: crossstackoutputrandompasswordpasswordresult = <sensitive>
+        isAssetPresent = yes
         output = constant value
 "
 `;
