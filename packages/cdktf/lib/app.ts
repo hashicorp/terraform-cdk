@@ -130,6 +130,33 @@ export class App extends Construct {
     this.manifest.writeToFile();
   }
 
+  /**
+   * Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources
+   */
+  public crossStackReference(
+    fromStack: TerraformStack,
+    toStack: TerraformStack,
+    identifier: string
+  ): string {
+    // TODO: Check for different apps
+    //     if (App.of(fromStack) !== App.of(toStack)) {
+    //       throw new Error(
+    //         `Cross-stack references are only allowed between stacks in the same application.
+    // ${toStack} is in a different application than ${fromStack}`
+    //       );
+    //     }
+
+    toStack.addDependency(fromStack);
+    const outputId =
+      fromStack.registerOutgoingCrossStackReference(
+        identifier
+      ).friendlyUniqueId;
+
+    const remoteState = toStack.registerIncomingCrossStackReference(fromStack);
+
+    return remoteState.getString(outputId);
+  }
+
   private loadContext(defaults: { [key: string]: string } = {}) {
     const node = this.node;
 

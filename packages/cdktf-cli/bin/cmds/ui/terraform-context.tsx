@@ -309,6 +309,7 @@ export const TerraformProvider: React.FunctionComponent<
     content: "",
     name: "",
     annotations: [],
+    dependencies: [],
     synthesizedStackPath: "",
     workingDirectory: "",
   };

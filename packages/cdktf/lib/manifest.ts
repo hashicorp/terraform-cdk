@@ -15,6 +15,7 @@ export interface StackManifest {
   readonly synthesizedStackPath: string;
   readonly workingDirectory: string;
   readonly annotations: StackAnnotation[];
+  readonly dependencies: string[];
 }
 
 export interface IManifest {
@@ -52,6 +53,7 @@ export class Manifest implements IManifest {
         Manifest.stackFileName
       ),
       annotations: [], // will be replaced later when processed in App
+      dependencies: stack.dependencies.map((item) => item.toString()),
     };
     this.stacks[name] = manifest;
 

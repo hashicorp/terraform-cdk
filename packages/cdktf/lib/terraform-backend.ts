@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import { TerraformRemoteState } from "./terraform-remote-state";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 
@@ -18,6 +19,15 @@ export abstract class TerraformBackend extends TerraformElement {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {};
   }
+
+  /**
+   * Creates a TerraformRemoteState resource that accesses this backend.
+   */
+  public abstract getRemoteStateDataSource(
+    scope: Construct,
+    name: string,
+    fromStack: string
+  ): TerraformRemoteState;
 
   /**
    * Adds this resource to the terraform JSON output.

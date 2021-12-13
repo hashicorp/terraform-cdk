@@ -4,6 +4,10 @@ import { resolve } from "./_tokens";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { TerraformProvider } from "./terraform-provider";
+import { LocalBackend } from "./backends/local-backend";
+import { ref } from "./tfExpression";
+import { TerraformOutput } from "./terraform-output";
+import { TerraformRemoteState } from "./terraform-remote-state";
 import {
   EXCLUDE_STACK_ID_FROM_LOGICAL_IDS,
   ALLOW_SEP_CHARS_IN_LOGICAL_IDS,
@@ -17,6 +21,10 @@ import { ValidateProviderPresence } from "./validations";
 import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Constructor<T> = Function & { prototype: T };
+type StackIdentifier = string;
+
 export interface TerraformStackMetadata {
   readonly stackName: string;
   readonly version: string;
@@ -26,7 +34,11 @@ export interface TerraformStackMetadata {
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
+  private crossStackOutputs: Record<StackIdentifier, TerraformOutput> = {};
+  private crossStackDataSources: Record<StackIdentifier, TerraformRemoteState> =
+    {};
   public synthesizer: IStackSynthesizer;
+  public dependencies: TerraformStack[] = [];
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -215,6 +227,62 @@ export class TerraformStack extends Construct {
     deepMerge(tf, this.rawOverrides);
 
     return resolve(this, tf);
+  }
+
+  public registerOutgoingCrossStackReference(identifier: string) {
+    if (this.crossStackOutputs[identifier]) {
+      return this.crossStackOutputs[identifier];
+    }
+
+    const output = new TerraformOutput(
+      this,
+      `cross-stack-output-${identifier}`,
+      {
+        value: ref(identifier, this),
+        sensitive: true,
+      }
+    );
+
+    this.crossStackOutputs[identifier] = output;
+    return output;
+  }
+
+  public registerIncomingCrossStackReference(fromStack: TerraformStack) {
+    if (this.crossStackDataSources[String(fromStack)]) {
+      return this.crossStackDataSources[String(fromStack)];
+    }
+    const originBackend = fromStack.backend;
+
+    const remoteState = originBackend.getRemoteStateDataSource(
+      this,
+      `cross-stack-reference-input-${fromStack}`,
+      fromStack.toString()
+    );
+
+    this.crossStackDataSources[String(fromStack)] = remoteState;
+    return remoteState;
+  }
+
+  // Check here for loops in the dependency graph
+  public dependsOn(stack: TerraformStack): boolean {
+    return (
+      this.dependencies.includes(stack) ||
+      this.dependencies.some((d) => d.dependsOn(stack))
+    );
+  }
+
+  public addDependency(dependency: TerraformStack) {
+    if (dependency.dependsOn(this)) {
+      throw new Error(
+        `Can not add dependency ${dependency} to ${this} since it would result in a loop`
+      );
+    }
+
+    if (this.dependencies.includes(dependency)) {
+      return;
+    }
+
+    this.dependencies.push(dependency);
   }
 }
 

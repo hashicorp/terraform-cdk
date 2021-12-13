@@ -2,6 +2,7 @@ import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
 import { Tokenization } from "./tokens/token";
 import { LazyBase } from "./tokens/lazy";
+import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 
 class TFExpression extends Intrinsic implements IResolvable {
@@ -126,7 +127,34 @@ class Reference extends TFExpression {
     super(identifier);
   }
 
-  public resolve(): string {
+  public resolve(context: IResolveContext): string {
+    // We check for cross stack references on preparation, setting a new identifier
+    const resolutionStack = TerraformStack.of(context.scope);
+    const stackName = resolutionStack.toString();
+
+    if (context.preparing) {
+      // Cross stack reference
+      if (this.originStack && this.originStack !== resolutionStack) {
+        const app = App.of(this.originStack);
+        const csr = app.crossStackReference(
+          this.originStack,
+          resolutionStack,
+          this.identifier
+        );
+
+        if (this.isInnerTerraformExpression) {
+          markAsInner(csr);
+        }
+
+        this.crossStackIdentifier[stackName] = csr;
+      }
+    }
+
+    // If this is a cross stack reference we will resolve to a reference within this stack.
+    if (this.crossStackIdentifier[stackName]) {
+      return this.crossStackIdentifier[stackName];
+    }
+
     return this.isInnerTerraformExpression
       ? this.identifier
       : `\${${this.identifier}}`;
