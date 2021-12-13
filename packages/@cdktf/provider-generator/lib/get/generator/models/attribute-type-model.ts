@@ -54,6 +54,7 @@ export class AttributeTypeModel {
     if (this.isStringMap) return `cdktf.StringMap`;
     if (this.isNumberMap) return `cdktf.NumberMap`;
     if (this.isBooleanMap) return `cdktf.BooleanMap`;
+    if (this.isAnyMap) return `cdktf.AnyMap`;
     if (this.isMap) return `{ [key: string]: ${this._type} }`;
     if (this.isList && !this.isComputed && this.isSingleItem)
       return `${this._type}`;
@@ -139,6 +140,12 @@ export class AttributeTypeModel {
       this.isMap &&
       this._type === TokenizableTypes.BOOLEAN &&
       this.isComputed
+    );
+  }
+
+  public get isAnyMap(): boolean {
+    return (
+      !this.isOptional && this.isMap && this._type === "any" && this.isComputed
     );
   }
 

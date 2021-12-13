@@ -144,6 +144,9 @@ export class AttributeModel {
     if (type.isBooleanMap) {
       return `boolean`;
     }
+    if (type.isAnyMap) {
+      return `any`;
+    }
     if (process.env.DEBUG) {
       console.error(
         `The attribute ${JSON.stringify(this)} isn't implemented yet`

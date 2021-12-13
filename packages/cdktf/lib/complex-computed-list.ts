@@ -81,6 +81,21 @@ export class BooleanMap {
   }
 }
 
+export class AnyMap {
+  constructor(
+    protected terraformResource: ITerraformResource,
+    protected terraformAttribute: string
+  ) {}
+
+  public lookup(key: string): any {
+    return Token.asAny(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}["${key}"]`
+      )
+    );
+  }
+}
+
 export class ComplexComputedList extends ComplexComputedAttribute {
   constructor(
     protected terraformResource: IInterpolatingParent,
