@@ -1,4 +1,5 @@
-import { Fn, Token } from "../lib";
+import { Construct } from "constructs";
+import { TerraformStack, Fn, Token } from "../lib";
 import {
   addOperation,
   andOperation,
@@ -23,21 +24,25 @@ import {
   rawString,
 } from "../lib/tfExpression";
 import { resolve } from "../lib/_tokens";
-const resolveExpression = (expr: Expression) => resolve(null as any, expr);
+
+const appScope = new Construct(undefined as any, "randomScope");
+
+const stack = new TerraformStack(appScope, "Stack");
+const resolveExpression = (expr: Expression) => resolve(stack, expr);
 
 test("can render reference", () => {
   expect(
-    (ref("aws_s3_bucket.best.bucket_domain_name") as any).resolve()
+    resolveExpression(ref("aws_s3_bucket.best.bucket_domain_name", stack))
   ).toMatchInlineSnapshot(`"\${aws_s3_bucket.best.bucket_domain_name}"`);
 });
 
 test("propertyAccess renders correctly", () => {
   expect(
     resolveExpression(
-      propertyAccess(ref("some_resource.my_resource.some_attribute_array"), [
-        0,
-        "name",
-      ])
+      propertyAccess(
+        ref("some_resource.my_resource.some_attribute_array", stack),
+        [0, "name"]
+      )
     )
   ).toMatchInlineSnapshot(
     `"\${some_resource.my_resource.some_attribute_array[0][\\"name\\"]}"`
@@ -48,7 +53,7 @@ test("propertyAccess resolves target properly", () => {
   expect(
     resolveExpression(
       propertyAccess(
-        Fn.tolist(ref("some_resource.my_resource.some_attribute_array")),
+        Fn.tolist(ref("some_resource.my_resource.some_attribute_array", stack)),
         [0, "name"]
       )
     )
@@ -166,14 +171,14 @@ test("functions escape terraform reference like strings", () => {
 
 test("functions don't escape terraform references", () => {
   expect(
-    resolveExpression(call("length", [ref("docker_container.foo.bar")]))
+    resolveExpression(call("length", [ref("docker_container.foo.bar", stack)]))
   ).toMatchInlineSnapshot(`"\${length(docker_container.foo.bar)}"`);
 });
 
 test("functions don't escape terraform references that have been tokenized", () => {
   expect(
     resolveExpression(
-      call("length", [Token.asString(ref("docker_container.foo.bar"))])
+      call("length", [Token.asString(ref("docker_container.foo.bar", stack))])
     )
   ).toMatchInlineSnapshot(`"\${length(docker_container.foo.bar)}"`);
 });
@@ -186,25 +191,24 @@ test("functions escape string markers", () => {
 
 test("string index expression argument renders correctly", () => {
   expect(
-    resolve(null as any, orOperation(true, { a: "foo", b: "bar " }))
+    resolveExpression(orOperation(true, { a: "foo", b: "bar " }))
   ).toMatchInlineSnapshot(`"\${(true || {a = \\"foo\\", b = \\"bar \\"})}"`);
 });
 
 test("null expression argument renders correctly", () => {
-  expect(resolve(null as any, orOperation(true, null))).toMatchInlineSnapshot(
+  expect(resolveExpression(orOperation(true, null))).toMatchInlineSnapshot(
     `"\${(true || undefined)}"`
   );
 });
 
 test("reference inside a string literal inside a terraform function adds extra terraform expression", () => {
-  const referenceA = ref("docker_container.foo.barA");
-  const referenceB = ref("docker_container.foo.barB");
-  const referenceC = ref("docker_container.foo.barC");
-  const referenceD = ref("docker_container.foo.barD");
+  const referenceA = ref("docker_container.foo.barA", stack);
+  const referenceB = ref("docker_container.foo.barB", stack);
+  const referenceC = ref("docker_container.foo.barC", stack);
+  const referenceD = ref("docker_container.foo.barD", stack);
 
   expect(
-    resolve(
-      null as any,
+    resolveExpression(
       call("join", [
         ", ",
         [
@@ -223,15 +227,16 @@ test("reference inside a string literal inside a terraform function adds extra t
 
 test("a reference within a function needs no Terraform Expression wrapper", () => {
   expect(
-    resolve(null as any, call("length", [ref("docker_container.foo.bar")]))
+    resolveExpression(call("length", [ref("docker_container.foo.bar", stack)]))
   ).toMatchInlineSnapshot(`"\${length(docker_container.foo.bar)}"`);
 });
 
 test("a reference within a string in a function needs a Terraform Expression wrapper", () => {
   expect(
-    resolve(
-      null as any,
-      call("length", [`this is the ref: ${ref("docker_container.foo.bar")}`])
+    resolveExpression(
+      call("length", [
+        `this is the ref: ${ref("docker_container.foo.bar", stack)}`,
+      ])
     )
   ).toMatchInlineSnapshot(
     `"\${length(\\"this is the ref: \${docker_container.foo.bar}\\")}"`
@@ -239,24 +244,20 @@ test("a reference within a string in a function needs a Terraform Expression wra
 });
 
 test("a reference used within a function and within a string only has a Terraform Expression wrapper for the string", () => {
-  const reference = ref("docker_container.foo.bar");
+  const reference = ref("docker_container.foo.bar", stack);
 
   expect(
-    resolve(
-      null as any,
-      call("x", [reference, `this is the ref: ${reference}`])
-    )
+    resolveExpression(call("x", [reference, `this is the ref: ${reference}`]))
   ).toMatchInlineSnapshot(
     `"\${x(docker_container.foo.bar, \\"this is the ref: \${docker_container.foo.bar}\\")}"`
   );
 });
 
 test("nesting can undo the wrapping", () => {
-  const reference = ref("docker_container.foo.bar");
+  const reference = ref("docker_container.foo.bar", stack);
 
   expect(
-    resolve(
-      null as any,
+    resolveExpression(
       call("x", [
         reference,
         `this is the ref: ${call("y", [`my ref: ${reference}`, reference])}`,

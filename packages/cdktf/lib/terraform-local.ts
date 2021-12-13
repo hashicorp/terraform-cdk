@@ -22,23 +22,23 @@ export class TerraformLocal
   }
 
   public get expression() {
-    return Token.asAny(ref(this.interpolation()));
+    return Token.asAny(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asString(): string {
-    return Token.asString(ref(this.interpolation()));
+    return Token.asString(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asNumber(): number {
-    return Token.asNumber(ref(this.interpolation()));
+    return Token.asNumber(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asList(): string[] {
-    return Token.asList(ref(this.interpolation()));
+    return Token.asList(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asBoolean(): IResolvable {
-    return ref(this.interpolation());
+    return ref(this.interpolation(), this.cdktfStack);
   }
 
   private interpolation(): any {

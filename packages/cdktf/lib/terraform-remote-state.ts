@@ -50,7 +50,8 @@ export abstract class TerraformRemoteState
 
   private interpolationForAttribute(terraformAttribute: string): IResolvable {
     return ref(
-      `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`
+      `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`,
+      this.cdktfStack
     );
   }
 
