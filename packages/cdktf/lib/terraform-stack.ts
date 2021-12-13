@@ -24,6 +24,7 @@ export interface TerraformStackMetadata {
   readonly backend: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 type Constructor<T> = Function & { prototype: T };
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
