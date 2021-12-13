@@ -15,6 +15,8 @@ export abstract class TerraformRemoteState
   extends TerraformElement
   implements ITerraformAddressable
 {
+  public static readonly tfResourceType = "terraform_remote_state";
+
   constructor(
     scope: Construct,
     id: string,
@@ -42,8 +44,8 @@ export abstract class TerraformRemoteState
     ) as any as boolean;
   }
 
-  public get(output: string): any {
-    return Token.asAny(this.interpolationForAttribute(output));
+  public get(output: string): IResolvable {
+    return this.interpolationForAttribute(output);
   }
 
   private interpolationForAttribute(terraformAttribute: string): IResolvable {
