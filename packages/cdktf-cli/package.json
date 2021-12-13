@@ -32,7 +32,7 @@
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
     "cdktf": "0.0.0",
-    "constructs": "^10.0.0",
+    "constructs": "^10.0.12",
     "jsii": "^1.46.0",
     "jsii-pacmak": "^1.46.0",
     "yargs": "^17.0"
