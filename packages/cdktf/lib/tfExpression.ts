@@ -171,7 +171,7 @@ class PropertyAccess extends TFExpression {
       .map((a) => `[${a}]`) // property access
       .join("");
 
-    const expr = `${this.target}${serializedArgs}`;
+    const expr = `${this.resolveArg(context, this.target)}${serializedArgs}`;
 
     return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
   }
