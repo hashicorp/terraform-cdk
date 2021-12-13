@@ -1,4 +1,4 @@
-import { Token } from "../lib";
+import { Fn, Token } from "../lib";
 import {
   addOperation,
   andOperation,
@@ -41,6 +41,19 @@ test("propertyAccess renders correctly", () => {
     )
   ).toMatchInlineSnapshot(
     `"\${some_resource.my_resource.some_attribute_array[0][\\"name\\"]}"`
+  );
+});
+
+test("propertyAccess resolves target properly", () => {
+  expect(
+    resolveExpression(
+      propertyAccess(
+        Fn.tolist(ref("some_resource.my_resource.some_attribute_array")),
+        [0, "name"]
+      )
+    )
+  ).toMatchInlineSnapshot(
+    `"\${tolist(some_resource.my_resource.some_attribute_array)[0][\\"name\\"]}"`
   );
 });
 
