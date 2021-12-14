@@ -279,6 +279,7 @@ export * from './required-attribute-resource';
 export * from './optional-attribute-resource';
 export * from './optional-computed-attribute-resource';
 export * from './list-block-resource';
+export * from './map-resource';
 export * from './edge-provider';
 
 "
@@ -1187,6 +1188,131 @@ export class ListBlockResource extends cdktf.TerraformResource {
       singleopt: listBlockResourceSingleoptToTerraform(this._singleopt.internalValue),
       singlereq: listBlockResourceSinglereqToTerraform(this._singlereq.internalValue),
       singleComputedBlock: listBlockResourceSingleComputedBlockToTerraform(this._singleComputedBlock.internalValue),
+    };
+  }
+}
+"
+`;
+
+exports[`Edge Provider Schema compiles to Typescript: map-resource.ts 1`] = `
+"// https://www.terraform.io/docs/providers/edge/r/map_resource.html
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface MapResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#optMap MapResource#optMap}
+  */
+  readonly optMap?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#reqMap MapResource#reqMap}
+  */
+  readonly reqMap: { [key: string]: boolean };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#computedMap MapResource#computedMap}
+  */
+  readonly computedMap?: { [key: string]: number };
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html map_resource}
+*/
+export class MapResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"map_resource\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html map_resource} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options MapResourceConfig
+  */
+  public constructor(scope: Construct, id: string, config: MapResourceConfig) {
+    super(scope, id, {
+      terraformResourceType: 'map_resource',
+      terraformGeneratorMetadata: {
+        providerName: 'edge'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._optMap = config.optMap;
+    this._reqMap = config.reqMap;
+    this._computedMap = config.computedMap;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // optMap - computed: false, optional: true, required: false
+  private _optMap?: { [key: string]: string }; 
+  public get optMap() {
+    return this.getMapAttribute('optMap');
+  }
+  public set optMap(value: { [key: string]: string }) {
+    this._optMap = value;
+  }
+  public resetOptMap() {
+    this._optMap = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optMapInput() {
+    return this._optMap;
+  }
+
+  // reqMap - computed: false, optional: false, required: true
+  private _reqMap?: { [key: string]: boolean }; 
+  public get reqMap() {
+    return this.getMapAttribute('reqMap');
+  }
+  public set reqMap(value: { [key: string]: boolean }) {
+    this._reqMap = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqMapInput() {
+    return this._reqMap;
+  }
+
+  // computedMap - computed: true, optional: true, required: false
+  private _computedMap?: { [key: string]: number }; 
+  public get computedMap() {
+    return this.getMapAttribute('computedMap');
+  }
+  public set computedMap(value: { [key: string]: number }) {
+    this._computedMap = value;
+  }
+  public resetComputedMap() {
+    this._computedMap = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedMapInput() {
+    return this._computedMap;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      optMap: cdktf.hashMapper(cdktf.anyToTerraform)(this._optMap),
+      reqMap: cdktf.hashMapper(cdktf.anyToTerraform)(this._reqMap),
+      computedMap: cdktf.hashMapper(cdktf.anyToTerraform)(this._computedMap),
     };
   }
 }

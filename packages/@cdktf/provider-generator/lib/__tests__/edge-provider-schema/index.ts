@@ -63,6 +63,27 @@ const list_block_resource = new S()
   })
   .build();
 
+const map_resource = new S()
+  .attribute({
+    name: "optMap",
+    type: ["map", "string"],
+    required: false,
+    computed: false,
+  })
+  .attribute({
+    name: "reqMap",
+    type: ["map", "bool"],
+    required: true,
+    computed: false,
+  })
+  .attribute({
+    name: "computedMap",
+    type: ["map", "number"],
+    required: false,
+    computed: true,
+  })
+  .build();
+
 export const edgeSchema: ProviderSchema = schema({
   name: "edge",
   provider: new S().addAllPrimitivePermutations().build(),
@@ -71,6 +92,7 @@ export const edgeSchema: ProviderSchema = schema({
     optional_attribute_resource,
     optional_computed_attribute_resource,
     list_block_resource,
+    map_resource,
   },
   dataSources: {},
 });
