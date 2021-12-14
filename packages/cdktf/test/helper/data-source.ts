@@ -6,6 +6,7 @@ import {
   StringMap,
   NumberMap,
   BooleanMap,
+  AnyMap,
 } from "../../lib";
 import { TestProviderMetadata } from "./provider";
 import { stringToTerraform } from "../../lib/runtime";
@@ -47,6 +48,10 @@ export class TestDataSource extends TerraformDataSource {
 
   public booleanMap(key: string) {
     return new BooleanMap(this, "boolean_map").lookup(key);
+  }
+
+  public anyMap(key: string) {
+    return new AnyMap(this, "any_map").lookup(key);
   }
 
   protected synthesizeAttributes(): { [p: string]: any } {
