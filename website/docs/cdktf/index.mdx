@@ -1,9 +1,8 @@
 ---
-layout: "cdktf"
-page_title: "What is CDKTF?"
-sidebar_current: "docs-home"
-description: |-
-  CDK for Terraform lets you use familiar programming languages to define and provision infrastructure.
+page_title: What is CDKTF?
+description: >-
+  CDK for Terraform lets you use familiar programming languages to define and
+  provision infrastructure.
 ---
 
 # What is CDK for Terraform?
@@ -23,10 +22,10 @@ CDK for Terraform leverages concepts and libraries from the [AWS Cloud Developme
 At a high level, you will:
 
 1. **Create an Application:** Use either a built-in or a custom template to scaffold a project in your chosen language.
-2. **Define Infrastructure:** Use your chosen language to define the infrastructure you want to provision on one or more providers. CDKTF automatically extracts the schema from Terraform providers and modules to generate the necessary classes for your application.
-3. **Deploy**: Use `cdktf` CLI commands to provision infrastructure with Terraform or synthesize your code into a JSON configuration file that others can use with Terraform directly.
+1. **Define Infrastructure:** Use your chosen language to define the infrastructure you want to provision on one or more providers. CDKTF automatically extracts the schema from Terraform providers and modules to generate the necessary classes for your application.
+1. **Deploy**: Use `cdktf` CLI commands to provision infrastructure with Terraform or synthesize your code into a JSON configuration file that others can use with Terraform directly.
 
-You can use every Terraform provider and module available on the [Terraform Registry](https://registry.terraform.io/), and you can use CDKTF with [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html), [Terraform Enterprise](https://www.terraform.io/docs/enterprise/index.html), and HashiCorp's policy as code framework, [Sentinel](https://www.hashicorp.com/sentinel). However, as CDKTF is under active development, we do not yet recommend it for production use cases (more details in [Project Maturity](#project-maturity-and-production-readiness) below).
+You can use every Terraform provider and module available on the [Terraform Registry](https://registry.terraform.io/), and you can use CDKTF with [Terraform Cloud](/cloud), [Terraform Enterprise](/enterprise), and HashiCorp's policy as code framework, [Sentinel](https://www.hashicorp.com/sentinel). However, as CDKTF is under active development, we do not yet recommend it for production use cases (more details in [Project Maturity](#project-maturity-and-production-readiness) below).
 
 ## When to use CDK for Terraform
 
@@ -36,7 +35,7 @@ CDKTF offers many benefits, but it is not the right choice for every project. Yo
 - You need to create abstractions to help manage complexity. For example, you want to create constructs to model a reusable infrastructure pattern composed of multiple resources and convenience methods.
 - You are comfortable doing your own troubleshooting and do not require commercial support.
 
-You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](/docs/cdktf/concepts/hcl-interoperability.html).
+You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](/cdktf/concepts/hcl-interoperability).
 
 ## Choosing a Language for your Project
 
@@ -50,7 +49,7 @@ CDK for Terraform is under active development; we’re still working out key wor
 
 This tool can be used with Terraform Cloud and Terraform Enterprise, but is not eligible for commercial support, and is not officially recommended for production use cases. Like other HashiCorp pre-1.0 tools, some early-adopter users are already using CDK for Terraform in production, and we are working with those users to validate and improve workflows.
 
-Early adopters of CDK for Terraform should expect to encounter and work around bugs occasionally, may need to refactor their codebase with each major release, and will intermittently need to use HCL and understand how JSON Terraform configurations are generated. For example, [overrides](https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/escape-hatch.md) may be required to use Terraform functionality that cannot currently be expressed using CDK for Terraform. Our goal is to provide a user experience where this is an exceptional edge case. If you’re comfortable with this level of troubleshooting, we’re very interested in your feedback and practical experience. The [Community](/docs/cdktf/community.html) page explains how to ask questions, submit issues, and contribute to the project.
+Early adopters of CDK for Terraform should expect to encounter and work around bugs occasionally, may need to refactor their codebase with each major release, and will intermittently need to use HCL and understand how JSON Terraform configurations are generated. For example, [overrides](https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/escape-hatch.md) may be required to use Terraform functionality that cannot currently be expressed using CDK for Terraform. Our goal is to provide a user experience where this is an exceptional edge case. If you’re comfortable with this level of troubleshooting, we’re very interested in your feedback and practical experience. The [Community](/cdktf/community) page explains how to ask questions, submit issues, and contribute to the project.
 
 These caveats apply to CDK for Terraform itself, which generates Terraform configurations. Generated Terraform configurations are applied using Terraform Core, a well established / mature tool to provision infrastructure.
 
@@ -75,5 +74,5 @@ See the CHANGELOG in a given release for a description of any new feature flags 
 ## Get Started
 
 - [Install CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and set up your first project on HashiCorp Learn.
-- Learn about [CDKTF application architecture](/docs/cdktf/concepts/cdktf-architecture.html).
-- Learn how to use key CDKTF concepts like [providers](/docs/cdktf/concepts/providers-and-resources.html), [modules](/docs/cdktf/concepts/modules.html), and [resources](/docs/cdktf/concepts/providers-and-resources.html) to define infrastructure.
+- Learn about [CDKTF application architecture](/cdktf/concepts/cdktf-architecture).
+- Learn how to use key CDKTF concepts like [providers](/cdktf/concepts/providers-and-resources), [modules](/cdktf/concepts/modules), and [resources](/cdktf/concepts/providers-and-resources) to define infrastructure.
