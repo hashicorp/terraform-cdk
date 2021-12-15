@@ -1,13 +1,13 @@
 ---
-layout: "cdktf"
-page_title: "Remote Templates"
-sidebar_current: "cdktf"
-description: "Templates allow you to scaffold a new CDK for Terraform Project. Learn to create your own template."
+page_title: Remote Templates
+description: >-
+  Templates allow you to scaffold a new CDK for Terraform Project. Learn to
+  create your own template.
 ---
 
 # Remote Templates
 
--> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness).
 
 When you set up a new project via `cdktf init`, you can supply one of the [built-in templates](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/templates) (e.g. `typescript` or `python`) or use a custom-built remote template. Templates scaffold a new CDK for Terraform (CDKTF) project, creating the necessary directories and files.
 
@@ -25,7 +25,7 @@ A template can use substitutions for filenames and file content. To specify your
 
 These variables hold user input. For example, you can use them in project files like `package.json`. CDKTF collects the required data from users when they run `cdktf init` with the template.
 
-The TypeScript example below specifies that `Name` and `Description` are mandatory, but `OrganizationName` and `WorkspaceName` will only be required for projects that are set up to use a Terraform Cloud [remote backend](/docs/cdktf/concepts/remote-backends.html).
+The TypeScript example below specifies that `Name` and `Description` are mandatory, but `OrganizationName` and `WorkspaceName` will only be required for projects that are set up to use a Terraform Cloud [remote backend](/cdktf/concepts/remote-backends).
 
 ```typescript
 Name: string;
