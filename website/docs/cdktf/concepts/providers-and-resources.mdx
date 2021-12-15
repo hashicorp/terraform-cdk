@@ -1,29 +1,29 @@
 ---
-layout: "cdktf"
-page_title: "Providers and Resources"
-sidebar_current: "cdktf"
-description: "Providers allow Terraform to communicate with external APIs. Learn to define providers and resources in a CDK for Terraform application."
+page_title: Providers and Resources
+description: >-
+  Providers allow Terraform to communicate with external APIs. Learn to define
+  providers and resources in a CDK for Terraform application.
 ---
 
 # Providers and Resources
 
--> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness).
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness).
 
-A [provider](https://www.terraform.io/docs/language/providers/index.html) is a Terraform plugin that allows users to manage an external API. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest) or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
+A [provider](/language/providers) is a Terraform plugin that allows users to manage an external API. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest) or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
-Terraform uses providers to provision [resources](https://www.terraform.io/docs/language/resources/index.html), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
+Terraform uses providers to provision [resources](/language/resources), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
 
 In your CDK for Terraform (CDKTF) application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more providers. This page explains how to use providers and resources in your application and how to use [escape hatches](#escape-hatch) to change resource behavior when necessary.
 
 ## Providers
 
-You can install pre-built providers, import providers from the Terraform Registry, or reference local providers to define resources for your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/docs/cdktf/create-and-deploy/configuration-file.html). This allows you to define resources for that provider in your preferred programming language.
+You can install pre-built providers, import providers from the Terraform Registry, or reference local providers to define resources for your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/cdktf/create-and-deploy/configuration-file). This allows you to define resources for that provider in your preferred programming language.
 
 ### Import Providers
 
-CDK for Terraform lets you import Terraform [providers](https://www.terraform.io/docs/providers/index.html) to your project.
+CDK for Terraform lets you import Terraform [providers](/language/providers) to your project.
 
 This TypeScript example project has a `main.ts` file that defines AWS resources.
 
@@ -54,9 +54,9 @@ app.synth();
 
 #### Add Provider to `cdktf.json`
 
-To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/docs/cdktf/create-and-deploy/configuration-file.html).
+To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/cdktf/create-and-deploy/configuration-file).
 
-The example below adds the [DNS Simple](https://www.terraform.io/docs/providers/dnsimple/index.html) provider:
+The example below adds the [DNS Simple](https://registry.terraform.io/providers/dnsimple/dnsimple/latest/docs) provider:
 
 ```json
 {
@@ -214,11 +214,11 @@ When you choose to install a pre-built provider via `npm install`, you should no
 
 ### Provider Caching
 
-Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/docs/cdktf/concepts/stacks.html) within one application.
+Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/cdktf/concepts/stacks) within one application.
 
 #### Set the Caching Directory
 
-Refer to the Terraform documentation about [how to configure your plugin cache](https://www.terraform.io/docs/cli/config/config-file.html#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
+Refer to the Terraform documentation about [how to configure your plugin cache](/cli/config/config-file#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
 
 To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
@@ -226,10 +226,10 @@ To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null val
 
 Terraform needs to know the location of local providers to enable CDKTF to generate the appropriate type bindings. You can configure this in two ways:
 
-- [Implied Local Mirrors](/docs/cli/config/config-file.html#implied-local-mirror-directories)
-- [Development Overrides](/docs/cli/config/config-file.html#development-overrides-for-provider-developers)
+- [Implied Local Mirrors](/cli/config/config-file#implied-local-mirror-directories)
+- [Development Overrides](/cli/config/config-file#development-overrides-for-provider-developers)
 
-Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/docs/cdktf/create-and-deploy/configuration-file.html) for more details about the `cdktf.json` specification.
+Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/cdktf/create-and-deploy/configuration-file) for more details about the `cdktf.json` specification.
 
 ## Resources
 
@@ -262,13 +262,13 @@ export class HelloTerra extends TerraformStack {
 }
 ```
 
-The [examples page](/docs/cdktf/examples.html) contains multiple example projects for every supported programming language.
+The [examples page](/cdktf/examples) contains multiple example projects for every supported programming language.
 
 ### Scope
 
 You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
 
-Refer to the [constructs documentation](/docs/cdktf/concepts/constructs.html#scope) for more details and an example.
+Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for more details and an example.
 
 ### References
 
@@ -298,7 +298,7 @@ new Deployment(this, "nginx-deployment", {
 
 ### Escape Hatch
 
-Terraform provides [meta-arguments](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
+Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
 The TypeScript example below defines a provisioner for a resource using the `addOverride` method.
 
@@ -320,7 +320,7 @@ table.addOverride("provisioner", [
 ]);
 ```
 
-When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](https://www.terraform.io/docs/configuration/syntax-json.html#nested-block-mapping).
+When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](/language/syntax/json#nested-block-mapping).
 
 ```json
 {
@@ -375,7 +375,7 @@ Use a dot notation to access elements in arrays: `resource.addOverride("configur
 
 #### Escape Hatch for Dynamic Blocks
 
-Terraform configurations sometimes use [`dynamic` blocks](/docs/language/expressions/dynamic-blocks.html) to create related resources based on dynamic data, or data that is only known after Terraform provisions the infrastructure. For example, you could create a series of nested blocks for a series of Virtual Private Cloud (VPC) ingress ports. A `dynamic` block loops over a complex value and generates a nested resource block for each element of that complex value.
+Terraform configurations sometimes use [`dynamic` blocks](/language/expressions/dynamic-blocks) to create related resources based on dynamic data, or data that is only known after Terraform provisions the infrastructure. For example, you could create a series of nested blocks for a series of Virtual Private Cloud (VPC) ingress ports. A `dynamic` block loops over a complex value and generates a nested resource block for each element of that complex value.
 
 In CDKTF applications, you must use an escape hatch when you want to loop through a dynamic value like a `TerraformVariable` or a resource output.
 

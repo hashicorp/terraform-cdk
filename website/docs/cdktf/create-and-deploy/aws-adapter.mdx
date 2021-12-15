@@ -1,17 +1,15 @@
 ---
-layout: "cdktf"
 page_title: "[technical preview] AWS Adapter"
-sidebar_current: "cdktf"
 description: "[technical preview] Use AWS CDK (v2) constructs in CDK for Terraform projects."
 ---
 
-# [technical preview] AWS Adapter
+# \[technical preview] AWS Adapter
 
--> **Note:** CDK for Terraform is currently in [beta](/docs/cdktf/index.html#project-maturity-and-production-readiness). Also, the AWS Adapter is a technical preview and not ready for production usage. Its API is not stable and things might break unexpectedly.
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness). Also, the AWS Adapter is a technical preview and not ready for production usage. Its API is not stable and things might break unexpectedly.
 
 The `AwsTerraformAdapter` is included in the [`@cdktf/aws-cdk`](https://github.com/hashicorp/cdktf-aws-cdk) package and allows you to use Amazon Web Services Cloud Development Kit (AWS CDK) constructs in your CDK for Terraform (CDKTF) projects.
 
-The `AwsTerraformAdapter` uses the [`aws_cloudcontrolapi_resource`](https://www.terraform.io/docs/providers/aws/r/cloudcontrolapi_resource.html) Terraform resource to communicate with the [AWS Cloud Control API](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/what-is-cloudcontrolapi.html). Reference this [list of supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html) for the Cloud Control API.
+The `AwsTerraformAdapter` uses the [`aws_cloudcontrolapi_resource`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudcontrolapi_resource) Terraform resource to communicate with the [AWS Cloud Control API](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/what-is-cloudcontrolapi.html). Reference this [list of supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html) for the Cloud Control API.
 
 You need to [manually map](#write-manual-mappings) resources that the AWS Cloud Control API does not yet support to specific Terraform resources because attribute names and resource types differ between CloudFormation and Terraform. Some manual mappings are [included in the adapter](https://github.com/hashicorp/cdktf-aws-cdk/tree/main/src/mapping/aws), and we are happy to accept PRs that add manual mappings for currently unsupported resources!
 
@@ -27,9 +25,9 @@ The `AwsTerraformAdapter` currently only supports TypeScript projects:
 
 To install the `AwsTerraformAdapter`:
 
-1. Set up a CDKTF TypeScript project. Refer to [Project Setup](/docs/cdktf/create-and-deploy/project-setup.html) for details.
+1. Set up a CDKTF TypeScript project. Refer to [Project Setup](/cdktf/create-and-deploy/project-setup) for details.
 
-2. Install the required packages via yarn or npm.
+1. Install the required packages via yarn or npm.
 
    ```
    yarn add aws-cdk-lib@^2.0.0-rc.17 @cdktf/aws-cdk
