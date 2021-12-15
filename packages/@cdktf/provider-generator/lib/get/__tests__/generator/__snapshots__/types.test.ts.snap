@@ -932,6 +932,14 @@ export interface IncompatibleAttributeNamesConfig extends cdktf.TerraformMetaArg
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#equals IncompatibleAttributeNames#equals}
   */
   readonly equalTo: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#node IncompatibleAttributeNames#node}
+  */
+  readonly nodeAttribute: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#system IncompatibleAttributeNames#system}
+  */
+  readonly systemAttribute: string;
 }
 
 /**
@@ -969,6 +977,8 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
     this._getPasswordData = config.fetchPasswordData;
     this._self = config.selfAttribute;
     this._equals = config.equalTo;
+    this._node = config.nodeAttribute;
+    this._system = config.systemAttribute;
   }
 
   // ==========
@@ -1017,6 +1027,32 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
     return this._equals;
   }
 
+  // node - computed: false, optional: false, required: true
+  private _node?: string; 
+  public get nodeAttribute() {
+    return this.getStringAttribute('node');
+  }
+  public set nodeAttribute(value: string) {
+    this._node = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nodeAttributeInput() {
+    return this._node;
+  }
+
+  // system - computed: false, optional: false, required: true
+  private _system?: string; 
+  public get systemAttribute() {
+    return this.getStringAttribute('system');
+  }
+  public set systemAttribute(value: string) {
+    this._system = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get systemAttributeInput() {
+    return this._system;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1026,6 +1062,8 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
       get_password_data: cdktf.stringToTerraform(this._getPasswordData),
       self: cdktf.stringToTerraform(this._self),
       equals: cdktf.stringToTerraform(this._equals),
+      node: cdktf.stringToTerraform(this._node),
+      system: cdktf.stringToTerraform(this._system),
     };
   }
 }
