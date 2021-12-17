@@ -20,6 +20,10 @@ class ReferenceStack(TerraformStack):
             ],
             singlereq={"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}
         )
+        map = edge.MapResource(self, "map",
+            opt_map={"key1": "value1"},
+            req_map={"key1": True}
+        )
 
         # plain values
         edge.RequiredAttributeResource(self, "plain",
@@ -61,6 +65,19 @@ class ReferenceStack(TerraformStack):
         edge.ListBlockResource(self, "list_literal",
             req=[list.singlereq],
             singlereq=list.singlereq
+        )
+
+        # required values FROM map
+        edge.RequiredAttributeResource(self, "from_map",
+            bool=Fn.lookup(map.req_map, "key1", False),
+            str=Fn.lookup(map.opt_map, "key1", "missing"),
+            num=Fn.lookup(map.computed_map, "key1", 0)
+        )
+
+        # passing a reference to a complete map
+        edge.MapResource(self, "map_reference",
+            opt_map=map.opt_map,
+            req_map=map.req_map
         )
 
 # CDKTF supports referencing inputs from providers (Terraform does not)

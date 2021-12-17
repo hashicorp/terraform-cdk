@@ -149,5 +149,28 @@ describe("csharp full integration test synth", () => {
       // Expands single item references
       expect(item.req[0]).toMatchInlineSnapshot();
     });
+
+    it("item references a map", () => {
+      const item = stack.byId("from_map");
+
+      // Expands map references
+      expect(item.bool).toEqual(
+        '${lookup(map_resource.map.reqMap, "key1", false)}'
+      );
+      expect(item.str).toEqual(
+        '${lookup(map_resource.map.optMap, "key1", "missing")}'
+      );
+      expect(item.num).toEqual(
+        '${lookup(map_resource.map.computedMap, "key1", 0)}'
+      );
+    });
+
+    it("item references a full map", () => {
+      const item = stack.byId("map_reference");
+
+      // Expands map references
+      expect(item.reqMap).toEqual("${map_resource.map.reqMap}");
+      expect(item.optMap).toEqual("${map_resource.map.optMap}");
+    });
   });
 });
