@@ -100,7 +100,7 @@ export class TokenMap {
   ): { [key: string]: any } {
     return cachedValue(token, MAP_SYMBOL, () => {
       const key = this.registerStringKey(token, displayHint);
-      return [`${BEGIN_MAP_TOKEN_MARKER}${key}${END_TOKEN_MARKER}`];
+      return { [`${BEGIN_MAP_TOKEN_MARKER}${key}${END_TOKEN_MARKER}`]: key };
     });
   }
 
