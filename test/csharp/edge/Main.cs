@@ -25,7 +25,7 @@ namespace MyCompany.MyApp
                 Req = new [] { new ListBlockResourceReq { Reqbool = true, Reqnum = 1, Reqstr = "reqstr" }, new ListBlockResourceReq { Reqbool = false, Reqnum = 0, Reqstr = "reqstr2" } },
                 Singlereq = new ListBlockResourceSinglereq { Reqbool = true, Reqnum = 1, Reqstr = "reqstr" }
             });
-            var map = new MapResource(this, "map", new Struct {
+            var map = new MapResource(this, "map", new MapResourceConfig {
                 OptMap = new Struct { Key1 = "value1" },
                 ReqMap = new Struct { Key1 = true }
             });
@@ -70,14 +70,14 @@ namespace MyCompany.MyApp
             // });
 
             // required values FROM map
-            new RequiredAttributeResource(this, "from_map", new Struct {
-                Bool = Fn.Lookup(map.ReqMap, "key1", false),
+            new RequiredAttributeResource(this, "from_map", new RequiredAttributeResourceConfig {
+                Bool = Token.AsAny(Fn.Lookup(map.ReqMap, "key1", false)),
                 Str = Fn.Lookup(map.OptMap, "key1", "missing"),
                 Num = Fn.Lookup(map.ComputedMap, "key1", 0)
             });
 
             // passing a reference to a complete map
-            new MapResource(this, "map_reference", new Struct {
+            new MapResource(this, "map_reference", new MapResourceConfig {
                 OptMap = map.OptMap,
                 ReqMap = map.ReqMap
             });

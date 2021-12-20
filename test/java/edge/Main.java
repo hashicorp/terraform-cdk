@@ -26,8 +26,8 @@ class ReferenceStack extends TerraformStack {
                 .singlereq(ListBlockResourceSinglereq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build())
                 .build();
         MapResource map = MapResource.Builder.create(this, "map")
-                .optMap(Map.of("key1", "value1"))
-                .reqMap(Map.of("key1", true))
+                .optMap(Collections.singletonMap("key1", "value1"))
+                .reqMap(Collections.singletonMap("key1", true))
                 .build();
 
         // plain values
@@ -71,7 +71,7 @@ class ReferenceStack extends TerraformStack {
 
         // required values FROM map
         RequiredAttributeResource.Builder.create(this, "from_map")
-                .bool(Fn.lookup(map.getReqMap(), "key1", false))
+                .bool(Token.asAny(Fn.lookup(map.getReqMap(), "key1", false)))
                 .str(Fn.lookup(map.getOptMap(), "key1", "missing"))
                 .num(Fn.lookup(map.getComputedMap(), "key1", 0))
                 .build();

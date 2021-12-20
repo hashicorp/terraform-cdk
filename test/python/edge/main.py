@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 from constructs import Construct
-from cdktf import App, Fn, TerraformStack
+from cdktf import App, Fn, TerraformStack, Token
 import imports.edge as edge
 
 # Using references to resource attributes as resource arguments
@@ -69,7 +69,7 @@ class ReferenceStack(TerraformStack):
 
         # required values FROM map
         edge.RequiredAttributeResource(self, "from_map",
-            bool=Fn.lookup(map.req_map, "key1", False),
+            bool=Token.as_any(Fn.lookup(map.req_map, "key1", False)),
             str=Fn.lookup(map.opt_map, "key1", "missing"),
             num=Fn.lookup(map.computed_map, "key1", 0)
         )
