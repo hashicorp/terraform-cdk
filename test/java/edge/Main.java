@@ -72,8 +72,8 @@ class ReferenceStack extends TerraformStack {
         // required values FROM map
         RequiredAttributeResource.Builder.create(this, "from_map")
                 .bool(Token.asAny(Fn.lookup(map.getReqMap(), "key1", false)))
-                .str(Fn.lookup(map.getOptMap(), "key1", "missing"))
-                .num(Fn.lookup(map.getComputedMap(), "key1", 0))
+                .str(Token.asString(Fn.lookup(map.getOptMap(), "key1", "missing")))
+                .num(Token.asNumber(Fn.lookup(map.getComputedMap(), "key1", 0)))
                 .build();
 
         // passing a reference to a complete map
