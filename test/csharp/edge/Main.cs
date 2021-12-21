@@ -27,7 +27,7 @@ namespace MyCompany.MyApp
             });
             var map = new MapResource(this, "map", new MapResourceConfig {
                 OptMap = new Dictionary<string, string> { ["Key1"] = "value1" },
-                ReqMap = new Dictionary<string, bool> { ["Key1"] = true }
+                ReqMap = new Dictionary<string, object> { ["Key1"] = true }
             });
 
             // plain values
