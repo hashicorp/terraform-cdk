@@ -62,8 +62,26 @@ export class TerraformDataSource
     );
   }
   
-  public getMapAttribute(terraformAttribute: string) {
-    return Token.asMap(this.interpolationForAttribute(terraformAttribute));
+  public getStringMapAttribute(terraformAttribute: string) {
+    return Token.asStringMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getNumberMapAttribute(terraformAttribute: string) {
+    return Token.asNumberMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getBooleanMapAttribute(terraformAttribute: string) {
+    return Token.asBooleanMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getAnyMapAttribute(terraformAttribute: string) {
+    return Token.asAnyMap(this.interpolationForAttribute(terraformAttribute));
   }
 
   public get fqn(): string {

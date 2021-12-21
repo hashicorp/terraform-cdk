@@ -97,13 +97,55 @@ export class Token {
    */
   public static asMap(
     value: any,
+    mapValue: any,
     options: EncodingOptions = {}
   ): { [key: string]: any } {
     // since the return value is basically an object, just encode always
     return TokenMap.instance().registerMap(
       Token.asAny(value),
+      mapValue,
       options.displayHint
     );
+  }
+
+  /**
+   * Return a reversible map representation of this token
+   */
+  public static asStringMap(
+    value: any,
+    options: EncodingOptions = {}
+  ): { [key: string]: string } {
+    return this.asMap(value, "", options);
+  }
+
+  /**
+   * Return a reversible map representation of this token
+   */
+  public static asNumberMap(
+    value: any,
+    options: EncodingOptions = {}
+  ): { [key: string]: number } {
+    return this.asMap(value, 0, options);
+  }
+
+  /**
+   * Return a reversible map representation of this token
+   */
+  public static asBooleanMap(
+    value: any,
+    options: EncodingOptions = {}
+  ): { [key: string]: boolean } {
+    return this.asMap(value, true, options);
+  }
+
+  /**
+   * Return a reversible map representation of this token
+   */
+  public static asAnyMap(
+    value: any,
+    options: EncodingOptions = {}
+  ): { [key: string]: any } {
+    return this.asMap(value, "any", options);
   }
 
   /**

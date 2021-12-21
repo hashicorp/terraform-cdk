@@ -299,7 +299,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string }; 
   public get tags() {
-    return this.getMapAttribute('tags');
+    return this.getStringMapAttribute('tags');
   }
   public set tags(value: { [key: string]: string }) {
     this._tags = value;
@@ -361,7 +361,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
       domain_name: cdktf.stringToTerraform(this._domainName),
       private_key: cdktf.stringToTerraform(this._privateKey),
       subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       validation_method: cdktf.stringToTerraform(this._validationMethod),
       options: acmCertificateOptionsToTerraform(this._options.internalValue),
     };

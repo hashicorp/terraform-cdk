@@ -135,16 +135,16 @@ export class AttributeModel {
 
   public get mapType(): string {
     const type = this.type;
-    if (type.isStringMap) {
+    if (type.isStringMap || (type.isMap && type.innerType === "string")) {
       return `string`;
     }
-    if (type.isNumberMap) {
+    if (type.isNumberMap || (type.isMap && type.innerType === "number")) {
       return `number`;
     }
-    if (type.isBooleanMap) {
+    if (type.isBooleanMap || (type.isMap && type.innerType === "boolean")) {
       return `boolean`;
     }
-    if (type.isAnyMap) {
+    if (type.isAnyMap || (type.isMap && type.innerType === "any")) {
       return `any`;
     }
     if (process.env.DEBUG) {

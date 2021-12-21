@@ -1,6 +1,6 @@
 import { CodeMaker } from "codemaker";
 import { AttributeModel } from "../models";
-import { downcaseFirst } from "../../../util";
+import { downcaseFirst, uppercaseFirst } from "../../../util";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
 
 function titleCase(value: string) {
@@ -145,7 +145,9 @@ export class AttributesEmitter {
       return `this.getBooleanAttribute('${att.terraformName}') as any`;
     }
     if (type.isMap) {
-      return `this.getMapAttribute('${att.terraformName}')`;
+      return `this.get${uppercaseFirst(att.mapType)}MapAttribute('${
+        att.terraformName
+      }')`;
     }
     if (process.env.DEBUG) {
       console.error(

@@ -2589,7 +2589,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string }; 
   public get tags() {
-    return this.getMapAttribute('tags');
+    return this.getStringMapAttribute('tags');
   }
   public set tags(value: { [key: string]: string }) {
     this._tags = value;
@@ -2785,7 +2785,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       is_ipv6_enabled: cdktf.booleanToTerraform(this._isIpv6Enabled),
       price_class: cdktf.stringToTerraform(this._priceClass),
       retain_on_delete: cdktf.booleanToTerraform(this._retainOnDelete),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       wait_for_deployment: cdktf.booleanToTerraform(this._waitForDeployment),
       web_acl_id: cdktf.stringToTerraform(this._webAclId),
       cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform)(this._cacheBehavior),
@@ -3372,7 +3372,7 @@ export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule)
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
     enabled: cdktf.booleanToTerraform(struct!.enabled),
     prefix: cdktf.stringToTerraform(struct!.prefix),
-    tags: cdktf.hashMapper(cdktf.anyToTerraform)(struct!.tags),
+    tags: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.tags),
     expiration: s3BucketLifecycleRuleExpirationToTerraform(struct!.expiration),
     noncurrent_version_expiration: s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform(struct!.noncurrentVersionExpiration),
     noncurrent_version_transition: cdktf.listMapper(s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform)(struct!.noncurrentVersionTransition),
@@ -3930,7 +3930,7 @@ export function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: 
   }
   return {
     prefix: cdktf.stringToTerraform(struct!.prefix),
-    tags: cdktf.hashMapper(cdktf.anyToTerraform)(struct!.tags),
+    tags: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.tags),
   }
 }
 
@@ -3992,7 +3992,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string }; 
   public get tags() {
-    return this.getMapAttribute('tags');
+    return this.getStringMapAttribute('tags');
   }
   public set tags(value: { [key: string]: string }) {
     this._tags = value;
@@ -4966,7 +4966,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string }; 
   public get tags() {
-    return this.getMapAttribute('tags');
+    return this.getStringMapAttribute('tags');
   }
   public set tags(value: { [key: string]: string }) {
     this._tags = value;
@@ -5174,7 +5174,7 @@ export class S3Bucket extends cdktf.TerraformResource {
       policy: cdktf.stringToTerraform(this._policy),
       region: cdktf.stringToTerraform(this._region),
       request_payer: cdktf.stringToTerraform(this._requestPayer),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       website_domain: cdktf.stringToTerraform(this._websiteDomain),
       website_endpoint: cdktf.stringToTerraform(this._websiteEndpoint),
       cors_rule: cdktf.listMapper(s3BucketCorsRuleToTerraform)(this._corsRule),
@@ -5612,7 +5612,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string }; 
   public get tags() {
-    return this.getMapAttribute('tags');
+    return this.getStringMapAttribute('tags');
   }
   public set tags(value: { [key: string]: string }) {
     this._tags = value;
@@ -5669,7 +5669,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
       name: cdktf.stringToTerraform(this._name),
       name_prefix: cdktf.stringToTerraform(this._namePrefix),
       revoke_rules_on_delete: cdktf.booleanToTerraform(this._revokeRulesOnDelete),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       vpc_id: cdktf.stringToTerraform(this._vpcId),
       timeouts: securityGroupTimeoutsToTerraform(this._timeouts.internalValue),
     };

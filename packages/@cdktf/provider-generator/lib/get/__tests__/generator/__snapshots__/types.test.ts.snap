@@ -173,7 +173,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: boolean }; 
   public get fooComputedOptional() {
-    return this.getMapAttribute('foo_computed_optional');
+    return this.getBooleanMapAttribute('foo_computed_optional');
   }
   public set fooComputedOptional(value: { [key: string]: boolean }) {
     this._fooComputedOptional = value;
@@ -189,7 +189,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: boolean }; 
   public get fooOptional() {
-    return this.getMapAttribute('foo_optional');
+    return this.getBooleanMapAttribute('foo_optional');
   }
   public set fooOptional(value: { [key: string]: boolean }) {
     this._fooOptional = value;
@@ -208,8 +208,8 @@ export class BooleanMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
-      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
+      foo_computed_optional: cdktf.hashMapper(cdktf.booleanToTerraform)(this._fooComputedOptional),
+      foo_optional: cdktf.hashMapper(cdktf.booleanToTerraform)(this._fooOptional),
     };
   }
 }
@@ -1317,7 +1317,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: number }; 
   public get fooComputedOptional() {
-    return this.getMapAttribute('foo_computed_optional');
+    return this.getNumberMapAttribute('foo_computed_optional');
   }
   public set fooComputedOptional(value: { [key: string]: number }) {
     this._fooComputedOptional = value;
@@ -1333,7 +1333,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: number }; 
   public get fooOptional() {
-    return this.getMapAttribute('foo_optional');
+    return this.getNumberMapAttribute('foo_optional');
   }
   public set fooOptional(value: { [key: string]: number }) {
     this._fooOptional = value;
@@ -1352,8 +1352,8 @@ export class NumberMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
-      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
+      foo_computed_optional: cdktf.hashMapper(cdktf.numberToTerraform)(this._fooComputedOptional),
+      foo_optional: cdktf.hashMapper(cdktf.numberToTerraform)(this._fooOptional),
     };
   }
 }
@@ -1563,7 +1563,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: { [key: string]: any }; 
   public get fooComputedOptional() {
-    return this.getMapAttribute('foo_computed_optional');
+    return this.getAnyMapAttribute('foo_computed_optional');
   }
   public set fooComputedOptional(value: { [key: string]: any }) {
     this._fooComputedOptional = value;
@@ -1579,7 +1579,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: { [key: string]: any }; 
   public get fooOptional() {
-    return this.getMapAttribute('foo_optional');
+    return this.getAnyMapAttribute('foo_optional');
   }
   public set fooOptional(value: { [key: string]: any }) {
     this._fooOptional = value;
@@ -1595,7 +1595,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired?: { [key: string]: any }; 
   public get fooRequired() {
-    return this.getMapAttribute('foo_required');
+    return this.getAnyMapAttribute('foo_required');
   }
   public set fooRequired(value: { [key: string]: any }) {
     this._fooRequired = value;
@@ -2526,7 +2526,7 @@ export class StringMap extends cdktf.TerraformResource {
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
   private _subjectAlternativeNamesComputedOptional?: { [key: string]: string }; 
   public get subjectAlternativeNamesComputedOptional() {
-    return this.getMapAttribute('subject_alternative_names_computed_optional');
+    return this.getStringMapAttribute('subject_alternative_names_computed_optional');
   }
   public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string }) {
     this._subjectAlternativeNamesComputedOptional = value;
@@ -2542,7 +2542,7 @@ export class StringMap extends cdktf.TerraformResource {
   // subject_alternative_names_optional - computed: false, optional: true, required: false
   private _subjectAlternativeNamesOptional?: { [key: string]: string }; 
   public get subjectAlternativeNamesOptional() {
-    return this.getMapAttribute('subject_alternative_names_optional');
+    return this.getStringMapAttribute('subject_alternative_names_optional');
   }
   public set subjectAlternativeNamesOptional(value: { [key: string]: string }) {
     this._subjectAlternativeNamesOptional = value;
@@ -2561,8 +2561,8 @@ export class StringMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesComputedOptional),
-      subject_alternative_names_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesOptional),
+      subject_alternative_names_computed_optional: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesComputedOptional),
+      subject_alternative_names_optional: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptional),
     };
   }
 }

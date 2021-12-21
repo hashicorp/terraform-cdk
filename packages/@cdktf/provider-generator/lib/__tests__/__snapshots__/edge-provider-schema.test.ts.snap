@@ -1262,7 +1262,7 @@ export class MapResource extends cdktf.TerraformResource {
   // optMap - computed: false, optional: true, required: false
   private _optMap?: { [key: string]: string }; 
   public get optMap() {
-    return this.getMapAttribute('optMap');
+    return this.getStringMapAttribute('optMap');
   }
   public set optMap(value: { [key: string]: string }) {
     this._optMap = value;
@@ -1278,7 +1278,7 @@ export class MapResource extends cdktf.TerraformResource {
   // reqMap - computed: false, optional: false, required: true
   private _reqMap?: { [key: string]: boolean }; 
   public get reqMap() {
-    return this.getMapAttribute('reqMap');
+    return this.getBooleanMapAttribute('reqMap');
   }
   public set reqMap(value: { [key: string]: boolean }) {
     this._reqMap = value;
@@ -1291,7 +1291,7 @@ export class MapResource extends cdktf.TerraformResource {
   // computedMap - computed: true, optional: true, required: false
   private _computedMap?: { [key: string]: number }; 
   public get computedMap() {
-    return this.getMapAttribute('computedMap');
+    return this.getNumberMapAttribute('computedMap');
   }
   public set computedMap(value: { [key: string]: number }) {
     this._computedMap = value;
@@ -1310,9 +1310,9 @@ export class MapResource extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      optMap: cdktf.hashMapper(cdktf.anyToTerraform)(this._optMap),
-      reqMap: cdktf.hashMapper(cdktf.anyToTerraform)(this._reqMap),
-      computedMap: cdktf.hashMapper(cdktf.anyToTerraform)(this._computedMap),
+      optMap: cdktf.hashMapper(cdktf.stringToTerraform)(this._optMap),
+      reqMap: cdktf.hashMapper(cdktf.booleanToTerraform)(this._reqMap),
+      computedMap: cdktf.hashMapper(cdktf.numberToTerraform)(this._computedMap),
     };
   }
 }

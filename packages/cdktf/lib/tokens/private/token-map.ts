@@ -94,13 +94,16 @@ export class TokenMap {
   /**
    * Generate a unique string for this Token, returning a key
    */
-  public registerMap(
+  public registerMap<V>(
     token: IResolvable,
+    mapValue: V,
     displayHint?: string
-  ): { [key: string]: any } {
+  ): { [key: string]: V } {
     return cachedValue(token, MAP_SYMBOL, () => {
       const key = this.registerStringKey(token, displayHint);
-      return { [`${BEGIN_MAP_TOKEN_MARKER}${key}${END_TOKEN_MARKER}`]: key };
+      return {
+        [`${BEGIN_MAP_TOKEN_MARKER}${key}${END_TOKEN_MARKER}`]: mapValue,
+      };
     });
   }
 
