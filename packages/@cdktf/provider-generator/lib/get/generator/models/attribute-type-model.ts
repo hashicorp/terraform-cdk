@@ -176,7 +176,10 @@ export class AttributeTypeModel {
     return (
       this.isMap &&
       !this.isList &&
-      Object.values(TokenizableTypes).includes(this._type as TokenizableTypes)
+      (Object.values(TokenizableTypes).includes(
+        this._type as TokenizableTypes
+      ) ||
+        this._type === "any")
     );
   }
 

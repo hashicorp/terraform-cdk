@@ -118,11 +118,11 @@ export interface BooleanMapConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map#foo_computed_optional BooleanMap#foo_computed_optional}
   */
-  readonly fooComputedOptional?: { [key: string]: boolean };
+  readonly fooComputedOptional?: { [key: string]: (boolean | cdktf.IResolvable) };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map#foo_optional BooleanMap#foo_optional}
   */
-  readonly fooOptional?: { [key: string]: boolean };
+  readonly fooOptional?: { [key: string]: (boolean | cdktf.IResolvable) };
 }
 
 /**
@@ -171,11 +171,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: boolean }; 
+  private _fooComputedOptional?: { [key: string]: (boolean | cdktf.IResolvable) }; 
   public get fooComputedOptional() {
     return this.getBooleanMapAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: { [key: string]: boolean }) {
+  public set fooComputedOptional(value: { [key: string]: (boolean | cdktf.IResolvable) }) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -187,11 +187,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: boolean }; 
+  private _fooOptional?: { [key: string]: (boolean | cdktf.IResolvable) }; 
   public get fooOptional() {
     return this.getBooleanMapAttribute('foo_optional');
   }
-  public set fooOptional(value: { [key: string]: boolean }) {
+  public set fooOptional(value: { [key: string]: (boolean | cdktf.IResolvable) }) {
     this._fooOptional = value;
   }
   public resetFooOptional() {

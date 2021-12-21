@@ -1211,7 +1211,7 @@ export interface MapResourceConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#reqMap MapResource#reqMap}
   */
-  readonly reqMap: { [key: string]: boolean };
+  readonly reqMap: { [key: string]: (boolean | cdktf.IResolvable) };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#computedMap MapResource#computedMap}
   */
@@ -1276,11 +1276,11 @@ export class MapResource extends cdktf.TerraformResource {
   }
 
   // reqMap - computed: false, optional: false, required: true
-  private _reqMap?: { [key: string]: boolean }; 
+  private _reqMap?: { [key: string]: (boolean | cdktf.IResolvable) }; 
   public get reqMap() {
     return this.getBooleanMapAttribute('reqMap');
   }
-  public set reqMap(value: { [key: string]: boolean }) {
+  public set reqMap(value: { [key: string]: (boolean | cdktf.IResolvable) }) {
     this._reqMap = value;
   }
   // Temporarily expose input value. Use with caution.
