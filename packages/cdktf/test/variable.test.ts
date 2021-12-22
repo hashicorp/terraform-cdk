@@ -157,3 +157,14 @@ test("variable with variable default", () => {
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test("nullable variable", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+    nullable: true,
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
