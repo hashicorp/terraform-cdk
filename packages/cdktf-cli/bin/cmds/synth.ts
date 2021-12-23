@@ -22,9 +22,9 @@ class Command implements yargs.CommandModule {
         desc: "Stack to output when using --json flag",
         type: "string",
       })
-      .option("disable-checking-code-maker-output", {
+      .option("disable-generated-providers-check", {
         type: "boolean",
-        desc: "Disable checking `codeMakerOutput` existence.",
+        desc: "Disable checking the existence of `provider-generator`'s outputs",
         default: false,
       })
       .option("app", {
@@ -51,11 +51,11 @@ class Command implements yargs.CommandModule {
     const command = argv.app;
     const outdir = argv.output;
     const jsonOutput = argv.json;
-    const disableCheckingCodeMakerOutput = argv.disableCheckingCodeMakerOutput;
+    const disableGeneratedProvidersCheck = argv.disableGeneratedProvidersCheck;
     const stack = argv.stack;
 
     if (
-      !disableCheckingCodeMakerOutput &&
+      !disableGeneratedProvidersCheck &&
       config.checkCodeMakerOutput &&
       !(await fs.pathExists(config.codeMakerOutput))
     ) {
