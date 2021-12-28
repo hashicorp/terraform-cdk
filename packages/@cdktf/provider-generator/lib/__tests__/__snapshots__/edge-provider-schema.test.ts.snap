@@ -285,7 +285,7 @@ export * from './edge-provider';
 `;
 
 exports[`Edge Provider Schema compiles to Typescript: list-block-resource.ts 1`] = `
-"// https://www.terraform.io/docs/providers/edge/r/list_block_resource.html
+"// https://www.terraform.io/docs/providers/edge/r/list_block_resource
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -297,63 +297,63 @@ export interface ListBlockResourceConfig extends cdktf.TerraformMetaArguments {
   /**
   * opt block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#opt ListBlockResource#opt}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#opt ListBlockResource#opt}
   */
   readonly opt?: ListBlockResourceOpt[];
   /**
   * req block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#req ListBlockResource#req}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#req ListBlockResource#req}
   */
   readonly req: ListBlockResourceReq[];
   /**
   * singleopt block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#singleopt ListBlockResource#singleopt}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#singleopt ListBlockResource#singleopt}
   */
   readonly singleopt?: ListBlockResourceSingleopt;
   /**
   * singlereq block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#singlereq ListBlockResource#singlereq}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#singlereq ListBlockResource#singlereq}
   */
   readonly singlereq: ListBlockResourceSinglereq;
 }
 export interface ListBlockResourceOpt {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optstr ListBlockResource#optstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
   */
   readonly optstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optnum ListBlockResource#optnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optnum ListBlockResource#optnum}
   */
   readonly optnum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optbool ListBlockResource#optbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optbool ListBlockResource#optbool}
   */
   readonly optbool?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqstr ListBlockResource#reqstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqstr ListBlockResource#reqstr}
   */
   readonly reqstr: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqnum ListBlockResource#reqnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqnum ListBlockResource#reqnum}
   */
   readonly reqnum: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqbool ListBlockResource#reqbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqbool ListBlockResource#reqbool}
   */
   readonly reqbool: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedstr ListBlockResource#computedstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedstr ListBlockResource#computedstr}
   */
   readonly computedstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computednum ListBlockResource#computednum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computednum ListBlockResource#computednum}
   */
   readonly computednum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedbool ListBlockResource#computedbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedbool ListBlockResource#computedbool}
   */
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
@@ -378,39 +378,39 @@ export function listBlockResourceOptToTerraform(struct?: ListBlockResourceOpt): 
 
 export interface ListBlockResourceReq {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optstr ListBlockResource#optstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
   */
   readonly optstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optnum ListBlockResource#optnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optnum ListBlockResource#optnum}
   */
   readonly optnum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optbool ListBlockResource#optbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optbool ListBlockResource#optbool}
   */
   readonly optbool?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqstr ListBlockResource#reqstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqstr ListBlockResource#reqstr}
   */
   readonly reqstr: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqnum ListBlockResource#reqnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqnum ListBlockResource#reqnum}
   */
   readonly reqnum: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqbool ListBlockResource#reqbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqbool ListBlockResource#reqbool}
   */
   readonly reqbool: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedstr ListBlockResource#computedstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedstr ListBlockResource#computedstr}
   */
   readonly computedstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computednum ListBlockResource#computednum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computednum ListBlockResource#computednum}
   */
   readonly computednum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedbool ListBlockResource#computedbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedbool ListBlockResource#computedbool}
   */
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
@@ -435,39 +435,39 @@ export function listBlockResourceReqToTerraform(struct?: ListBlockResourceReq): 
 
 export interface ListBlockResourceSingleopt {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optstr ListBlockResource#optstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
   */
   readonly optstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optnum ListBlockResource#optnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optnum ListBlockResource#optnum}
   */
   readonly optnum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optbool ListBlockResource#optbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optbool ListBlockResource#optbool}
   */
   readonly optbool?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqstr ListBlockResource#reqstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqstr ListBlockResource#reqstr}
   */
   readonly reqstr: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqnum ListBlockResource#reqnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqnum ListBlockResource#reqnum}
   */
   readonly reqnum: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqbool ListBlockResource#reqbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqbool ListBlockResource#reqbool}
   */
   readonly reqbool: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedstr ListBlockResource#computedstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedstr ListBlockResource#computedstr}
   */
   readonly computedstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computednum ListBlockResource#computednum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computednum ListBlockResource#computednum}
   */
   readonly computednum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedbool ListBlockResource#computedbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedbool ListBlockResource#computedbool}
   */
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
@@ -708,39 +708,39 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
 }
 export interface ListBlockResourceSinglereq {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optstr ListBlockResource#optstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
   */
   readonly optstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optnum ListBlockResource#optnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optnum ListBlockResource#optnum}
   */
   readonly optnum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#optbool ListBlockResource#optbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optbool ListBlockResource#optbool}
   */
   readonly optbool?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqstr ListBlockResource#reqstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqstr ListBlockResource#reqstr}
   */
   readonly reqstr: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqnum ListBlockResource#reqnum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqnum ListBlockResource#reqnum}
   */
   readonly reqnum: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#reqbool ListBlockResource#reqbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#reqbool ListBlockResource#reqbool}
   */
   readonly reqbool: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedstr ListBlockResource#computedstr}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedstr ListBlockResource#computedstr}
   */
   readonly computedstr?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computednum ListBlockResource#computednum}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computednum ListBlockResource#computednum}
   */
   readonly computednum?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html#computedbool ListBlockResource#computedbool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#computedbool ListBlockResource#computedbool}
   */
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
@@ -981,7 +981,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html list_block_resource}
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource list_block_resource}
 */
 export class ListBlockResource extends cdktf.TerraformResource {
 
@@ -995,7 +995,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource.html list_block_resource} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource list_block_resource} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1099,7 +1099,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
 `;
 
 exports[`Edge Provider Schema compiles to Typescript: optional-attribute-resource.ts 1`] = `
-"// https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource.html
+"// https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1109,21 +1109,21 @@ import * as cdktf from 'cdktf';
 
 export interface OptionalAttributeResourceConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource.html#str OptionalAttributeResource#str}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#str OptionalAttributeResource#str}
   */
   readonly str?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource.html#num OptionalAttributeResource#num}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#num OptionalAttributeResource#num}
   */
   readonly num?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource.html#bool OptionalAttributeResource#bool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#bool OptionalAttributeResource#bool}
   */
   readonly bool?: boolean | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource.html optional_attribute_resource}
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource optional_attribute_resource}
 */
 export class OptionalAttributeResource extends cdktf.TerraformResource {
 
@@ -1137,7 +1137,7 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource.html optional_attribute_resource} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource optional_attribute_resource} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1227,7 +1227,7 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
 `;
 
 exports[`Edge Provider Schema compiles to Typescript: optional-computed-attribute-resource.ts 1`] = `
-"// https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource.html
+"// https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1237,21 +1237,21 @@ import * as cdktf from 'cdktf';
 
 export interface OptionalComputedAttributeResourceConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource.html#str OptionalComputedAttributeResource#str}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#str OptionalComputedAttributeResource#str}
   */
   readonly str?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource.html#num OptionalComputedAttributeResource#num}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#num OptionalComputedAttributeResource#num}
   */
   readonly num?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource.html#bool OptionalComputedAttributeResource#bool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#bool OptionalComputedAttributeResource#bool}
   */
   readonly bool?: boolean | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource.html optional_computed_attribute_resource}
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource optional_computed_attribute_resource}
 */
 export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
 
@@ -1265,7 +1265,7 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource.html optional_computed_attribute_resource} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource optional_computed_attribute_resource} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1355,7 +1355,7 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
 `;
 
 exports[`Edge Provider Schema compiles to Typescript: required-attribute-resource.ts 1`] = `
-"// https://www.terraform.io/docs/providers/edge/r/required_attribute_resource.html
+"// https://www.terraform.io/docs/providers/edge/r/required_attribute_resource
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1365,21 +1365,21 @@ import * as cdktf from 'cdktf';
 
 export interface RequiredAttributeResourceConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource.html#str RequiredAttributeResource#str}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#str RequiredAttributeResource#str}
   */
   readonly str: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource.html#num RequiredAttributeResource#num}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#num RequiredAttributeResource#num}
   */
   readonly num: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource.html#bool RequiredAttributeResource#bool}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#bool RequiredAttributeResource#bool}
   */
   readonly bool: boolean | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource.html required_attribute_resource}
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource required_attribute_resource}
 */
 export class RequiredAttributeResource extends cdktf.TerraformResource {
 
@@ -1393,7 +1393,7 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource.html required_attribute_resource} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource required_attribute_resource} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
