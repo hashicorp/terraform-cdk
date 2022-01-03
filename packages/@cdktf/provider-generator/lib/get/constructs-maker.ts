@@ -11,6 +11,12 @@ import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
+import { Worker, isMainThread, parentPort } from "worker_threads";
+
+if (!isMainThread) {
+  console.log("Worker exec starts");
+  this.generateInWorker();
+}
 
 export enum Language {
   TYPESCRIPT = "typescript",
@@ -220,9 +226,10 @@ export class ConstructsMaker {
     );
   }
 
-  private async generateTypeScript() {
-    const schema = await readSchema(this.targets);
-
+  private async generateTypeScript(schema: {
+    providerSchema: ProviderSchema;
+    moduleSchema: Record<string, ModuleSchema>;
+  }) {
     const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(
       (target) => target instanceof ConstructsMakerModuleTarget
     ) as ConstructsMakerModuleTarget[];
@@ -248,86 +255,119 @@ export class ConstructsMaker {
     }
   }
 
-  public async generate() {
-    await this.generateTypeScript();
+  public generateInWorker() {
+    parentPort?.on("message", async (targets: ConstructsMakerTarget[]) => {
+      const schema = await readSchema(targets);
 
-    if (this.isJavascriptTarget) {
-      await this.save();
-    }
+      await this.generateTypeScript(schema);
 
-    if (!this.isJavascriptTarget || this.options.outputJsii) {
-      for (const target of this.targets) {
-        // these are the module dependencies we compile against
-        const deps = ["@types/node", "constructs", "cdktf"];
-        const opts: srcmak.Options = {
-          entrypoint: target.fileName,
-          deps: deps.map((dep) =>
-            path.dirname(require.resolve(`${dep}/package.json`))
-          ),
-          moduleKey: target.moduleKey,
-        };
-
-        // used for testing.
-        if (this.options.outputJsii) {
-          opts.jsii = { path: this.options.outputJsii };
-        }
-
-        if (this.isPythonTarget) {
-          opts.python = {
-            outdir: this.codeMakerOutdir,
-            moduleName: target.srcMakName,
-          };
-        }
-
-        if (this.isJavaTarget) {
-          opts.java = {
-            outdir: ".", // generated java files aren't packaged, so just include directly in app
-            package: `imports.${target.srcMakName}`,
-          };
-        }
-
-        if (this.isCsharpTarget) {
-          opts.csharp = {
-            outdir: this.codeMakerOutdir,
-            namespace: target.srcMakName,
-          };
-        }
-
-        if (this.isGoTarget) {
-          // TODO: check if needed for modules somehow
-          // const targetType = target.isProvider ? 'provider' : 'module';
-
-          // jsii-srcmac will produce a folder inside this dir named after "packageName"
-          // so this results in e.g. .gen/hashicorp/random
-          const outdir = path.join(
-            this.codeMakerOutdir,
-            target.namespace ?? ""
-          );
-
-          opts.golang = {
-            outdir,
-            moduleName: await determineGoModuleName(outdir), // e.g. `github.com/org/userproject/.gen/hashicorp`
-            packageName: target.srcMakName, // package will be named e.g. random for hashicorp/random
-          };
-        }
-
-        if (
-          process.env.NODE_OPTIONS &&
-          !process.env.NODE_OPTIONS.includes(`--max-old-space-size`)
-        ) {
-          console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
-The provider generation needs a substantial amount of memory (~13GB) for some providers and languages.
-So cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=16384" by default. As your environment already contains
-a NODE_OPTIONS variable, we won't override it. Hence, the provider generation might fail with an out of memory error.`);
-        } else {
-          // increase memory to allow generating large providers (i.e. aws or azurerm for Go)
-          // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
-          process.env.NODE_OPTIONS = "--max-old-space-size=16384";
-        }
-
-        await generateJsiiLanguage(this.code, opts);
+      if (this.isJavascriptTarget) {
+        await this.save();
       }
-    }
+
+      if (!this.isJavascriptTarget || this.options.outputJsii) {
+        for (const target of this.targets) {
+          // these are the module dependencies we compile against
+          const deps = ["@types/node", "constructs", "cdktf"];
+          const opts: srcmak.Options = {
+            entrypoint: target.fileName,
+            deps: deps.map((dep) =>
+              path.dirname(require.resolve(`${dep}/package.json`))
+            ),
+            moduleKey: target.moduleKey,
+          };
+
+          // used for testing.
+          if (this.options.outputJsii) {
+            opts.jsii = { path: this.options.outputJsii };
+          }
+
+          if (this.isPythonTarget) {
+            opts.python = {
+              outdir: this.codeMakerOutdir,
+              moduleName: target.srcMakName,
+            };
+          }
+
+          if (this.isJavaTarget) {
+            opts.java = {
+              outdir: ".", // generated java files aren't packaged, so just include directly in app
+              package: `imports.${target.srcMakName}`,
+            };
+          }
+
+          if (this.isCsharpTarget) {
+            opts.csharp = {
+              outdir: this.codeMakerOutdir,
+              namespace: target.srcMakName,
+            };
+          }
+
+          if (this.isGoTarget) {
+            // TODO: check if needed for modules somehow
+            // const targetType = target.isProvider ? 'provider' : 'module';
+
+            // jsii-srcmac will produce a folder inside this dir named after "packageName"
+            // so this results in e.g. .gen/hashicorp/random
+            const outdir = path.join(
+              this.codeMakerOutdir,
+              target.namespace ?? ""
+            );
+
+            opts.golang = {
+              outdir,
+              moduleName: await determineGoModuleName(outdir), // e.g. `github.com/org/userproject/.gen/hashicorp`
+              packageName: target.srcMakName, // package will be named e.g. random for hashicorp/random
+            };
+          }
+
+          if (
+            process.env.NODE_OPTIONS &&
+            !process.env.NODE_OPTIONS.includes(`--max-old-space-size`)
+          ) {
+            console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
+  The provider generation needs a substantial amount of memory (~13GB) for some providers and languages.
+  So cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=16384" by default. As your environment already contains
+  a NODE_OPTIONS variable, we won't override it. Hence, the provider generation might fail with an out of memory error.`);
+          } else {
+            // increase memory to allow generating large providers (i.e. aws or azurerm for Go)
+            // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
+            process.env.NODE_OPTIONS = "--max-old-space-size=16384";
+          }
+
+          await generateJsiiLanguage(this.code, opts);
+        }
+      }
+
+      parentPort?.postMessage("Done");
+    });
+  }
+
+  public async generate() {
+    const middle = Math.floor(this.targets.length / 2);
+    const workloads1 = this.targets.slice(0, middle);
+    const workloads2 = this.targets.slice(middle + 1);
+
+    const worker1 = new Worker(__filename);
+    const worker2 = new Worker(__filename);
+    console.log({ workloads1, workloads2, worker1, worker2 });
+
+    const worker1Done = new Promise((resolve) => {
+      worker1.on("message", () => {
+        resolve(null);
+      });
+    });
+
+    const worker2Done = new Promise((resolve) => {
+      worker2.on("message", () => {
+        resolve(null);
+      });
+    });
+
+    worker1.postMessage(workloads1);
+    worker2.postMessage(workloads2);
+
+    await Promise.all([worker1Done, worker2Done]);
 
     for (const target of this.targets) {
       await this.reportTelemetry({
