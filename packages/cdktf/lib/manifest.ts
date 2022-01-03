@@ -53,7 +53,7 @@ export class Manifest implements IManifest {
         Manifest.stackFileName
       ),
       annotations: [], // will be replaced later when processed in App
-      dependencies: stack.dependencies.map((item) => item.toString()),
+      dependencies: stack.dependencies.map((item) => item.node.path),
     };
     this.stacks[name] = manifest;
 
