@@ -81,6 +81,11 @@ export interface TerraformVariableConfig {
   readonly type?: string;
 
   readonly sensitive?: boolean;
+
+  /*
+   * The nullable argument in a variable block controls whether the module caller may assign the value null to the variable.
+   */
+  readonly nullable?: boolean;
 }
 
 export class TerraformVariable
@@ -91,6 +96,7 @@ export class TerraformVariable
   public readonly description?: string;
   public readonly type?: string;
   public readonly sensitive?: boolean;
+  public readonly nullable?: boolean;
 
   constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
     super(scope, id);
@@ -99,6 +105,7 @@ export class TerraformVariable
     this.description = config.description;
     this.type = config.type;
     this.sensitive = config.sensitive;
+    this.nullable = config.nullable;
   }
 
   public get stringValue(): string {
@@ -135,6 +142,7 @@ export class TerraformVariable
       description: this.description,
       type: this.type,
       sensitive: this.sensitive,
+      nullable: this.nullable,
     };
   }
 
