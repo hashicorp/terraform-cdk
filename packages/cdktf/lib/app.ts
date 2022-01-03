@@ -138,14 +138,6 @@ export class App extends Construct {
     toStack: TerraformStack,
     identifier: string
   ): string {
-    // TODO: Check for different apps
-    //     if (App.of(fromStack) !== App.of(toStack)) {
-    //       throw new Error(
-    //         `Cross-stack references are only allowed between stacks in the same application.
-    // ${toStack} is in a different application than ${fromStack}`
-    //       );
-    //     }
-
     toStack.addDependency(fromStack);
     const outputId =
       fromStack.registerOutgoingCrossStackReference(
