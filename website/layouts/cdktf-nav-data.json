@@ -1,0 +1,70 @@
+[
+  { "title": "What is CDK for Terraform?", "path": "/" },
+  {
+    "title": "Get Started",
+    "href": "https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf"
+  },
+  {
+    "title": "Concepts",
+    "routes": [
+      { "title": "Architecture", "path": "concepts/architecture" },
+      {
+        "title": "Fundamentals",
+        "routes": [
+          {"title": "Providers", "path": "concepts/fundamentals/providers" },
+          {"title": "Modules", "path": "concepts/fundamentals/modules" },
+          {"title": "Data Sources", "path": "concepts/fundamentals/data-sources"},
+          {"title": "Resources", "path": "concepts/fundamentals/resources" },
+          {"title": "Constructs", "path": "concepts/fundamentals/constructs" },
+          {"title": "Remote Backends", "path": "concepts/fundamentals/remote-backends" },
+          {"title": "Assets", "path": "concepts/fundamentals/assets" },
+          {"title": "Locals", "path": "concepts/fundamentals/locals" },
+          {"title": "Variables", "path": "concepts/fundamentals/variables" },
+          {"title": "Outputs", "path": "concepts/fundamentals/outputs" },
+          {"title": "Tokens", "path": "concepts/fundamentals/tokens" },
+          {"title": "Aspects", "path": "concepts/fundamentals/aspects" },
+          {"title": "Stacks", "path": "concepts/fundamentals/stacks" },
+          {"title": "Functions", "path": "concepts/fundamentals/functions" },
+        ]
+      },
+      { "title": "CDKTF and Terraform", "path": "concepts/intro-to-cdktf-and-terraform" },
+      { "title": "HCL Interoperability", "path": "concepts/interoperability-workflows" },
+      { "title": "Best Practices", "path": "concepts/best-practices" },
+    ]
+  },
+  {
+    "title": "Create and Deploy",
+    "routes": [
+      { "title": "Common Workflows", "path": "create-and-deploy/common-workflows" },
+      { "title": "Project Setup", "path": "create-and-deploy/project-setup" },
+      { "title": "Custom Constructs", "path": "create-and-deploy/custom-constructs" },
+      { "title": "Remote Templates", "path": "create-and-deploy/remote-templates" },
+      { "title": "AWS Adapter [preview]", "path": "create-and-deploy/aws-adapter" },
+    ]
+  },
+  {
+    "title": "Test",
+    "routes": [
+      { "title": "Unit Tests", "path": "test/unit-tests" },
+      { "title": "Integration Tests", "path": "test/integration-tests" },
+    ]
+  },
+  {
+    "title": "CLI Reference",
+    "routes": [
+      { "title": "Configuration", "path": "cli-reference/configuration" },
+      { "title": "Commands", "path": "test/commands" },
+    ]
+  },
+
+  { "title": "API Reference", "path": "TBD" },
+  { "title": "Examples", "path": "/examples" },
+  { "title": "Troubleshoot", "path": "/troubleshoot" },
+  {
+    "title": "Releases",
+    "routes": [
+      { "title": "Release Cadence", "path": "releases/release-cadence" },
+    ]
+  },
+  { "title": "Community", "path": "/community" },
+]

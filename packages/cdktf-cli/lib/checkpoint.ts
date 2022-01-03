@@ -128,10 +128,10 @@ function getUserId(): string {
     path.resolve(os.homedir(), ".cdktf", "config.json"),
     "userId",
     true,
-    `This signature is a randomly generated UUID used to anonymously differentiate users in telemetry data order to inform product direction. 
-This signature is random, it is not based on any personally identifiable information. 
+    `This signature is a randomly generated UUID used to anonymously differentiate users in telemetry data order to inform product direction.
+This signature is random, it is not based on any personally identifiable information.
 To create a new signature, you can simply delete this file at any time.
-See https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/telemetry.md for more
+See https://cdk.tf/telemetry for more
 information on how to disable it.`
   );
 }

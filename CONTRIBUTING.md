@@ -203,6 +203,10 @@ CDKTF we will either remove the
 legacy behavior or flip the logic for all these features and then
 reset the `FEATURE_FLAGS` map for the next cycle.
 
+## Debugging
+
+When developing new features it can be helpful to enable logging. By setting `CDKTF_LOG_LEVEL` to verbose you can see more information in general. When working with the provider generation you can set `DEBUG=true` to see which types of attributes are not supported yet.
+
 ## Releasing
 
 (this section is work in progress, but contains useful information)
@@ -212,74 +216,35 @@ reset the `FEATURE_FLAGS` map for the next cycle.
 #### Terraform CDK
 
 1. Create a new branch (e.g. `prepare-release-0.5.0`)
-2. Update the version in the root `package.json`
-3. Update the [CHANGELOG](./CHANGELOG.md)
+2. Update the [CHANGELOG](./CHANGELOG.md)
+3. Update the version in the root `package.json`
 4. Create a PR to merge the new branch into `main`
 5. Merge the PR
 6. A new release will be build and published because the version changed
 
 ### Helper for creating the changelog
 
-```javascript
-// fill this with a list of prs
-const prs = [767, ... ]
-const json = JSON.parse(require("child_process").execSync('gh pr list --state merged --json number,title --limit 200').toString()) // just a high enough limit
-const map = json.reduce((map, pr) => ({ ...map, [pr.number]: pr.title }), {});
-const lines = prs.map(num => {
-    if (map[num]) return `- ${map[num]} [\\#${num}](https://github.com/hashicorp/terraform-cdk/pull/${num})`
-    else throw new Error(`no json data for PR #${num}`)
-});
-console.log(lines.join('\n'));
+Just run the following script before bumping the version, it'll create a ready to copy markdown formatted changelog.
+
+```
+./tools/create-changelog.sh
 ```
 
-To get a list of commits since the last release you can e.g. visit a link like this: `https://github.com/hashicorp/terraform-cdk/compare/v0.4.1...main`. You'll find the PR numbers there as links. This should probably be automated at some point – at best using existing tooling for this :)
+Other than that, you can get a list of commits since the last release you can e.g. visit a link like this: `https://github.com/hashicorp/terraform-cdk/compare/v0.4.1...main`. You'll find the PR numbers there as links.
 
 #### Prebuilt Providers
 
-We have a bunch of prebuilt providers which are depending on the current minor version of `cdktf`, e.g. `~> 0.5`.
+We have a bunch of prebuilt providers which are depending on the current minor version of `cdktf`, e.g. `~> 0.5`. In case the minor version gets bumped (e.g. from `0.7.x` to `0.8.x`), the prebuilt providers need to be updated. This can be achieved by:
 
-Right now the upgrade is a rather manual process. However, we're aiming to improve this.
+1. Create, review and merge a PR which updates the relevant version in https://github.com/hashicorp/cdktf-repository-manager/blob/main/projenrc.template.js
+2. Trigger a manual run of this workflow https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml
 
-1. Update the [provider project](https://github.com/terraform-cdk-providers/cdktf-provider-project) and change the [cdktf version](https://github.com/terraform-cdk-providers/cdktf-provider-project/blob/90d8c1a873437904060b2ec51d8fe607d7170828/src/cdktf-config.ts#L16) with a pull request. Make sure the title of the PR starts with `BREAKING CHANGE:`, which will bump the version accordingly when the PR is merged. The release process after merging the PR is fully automated
-2. Once the `provider project` package got published, the actual providers can be upgraded as well.
+## Issue Grooming
 
-Here's an example script for the `0.5` upgrade. It assumes that the provider repositories were checked out locally relative to the script.
+To ensure we can properly prioritize new features and bugs we aim to keep our issues prioritized and sorted. We label new issues both in size (`size/small`, ..., `size/x-large`) and priority (`priority/awaiting-more-evidence`, ..., `priority/critical-urgent`) and we add labels for the affected part of the code base / effect (`cdktf-cli`, ..., `ux/cli`).
 
-```js
-#!/usr/bin/env node
+Here are GitHub links that help this process:
 
-const path = require("path");
-const ps = require("child_process");
-
-// Please check the projects at https://cdk.tf/provider to ensure all the projects are up to date.
-const directories = [
-  "cdktf-provider-aws",
-  "cdktf-provider-azurerm",
-  "cdktf-provider-docker",
-  "cdktf-provider-github",
-  "cdktf-provider-google",
-  "cdktf-provider-kubernetes",
-  "cdktf-provider-null",
-  "cdktf-provider-external",
-  `cdktf-provider-datadog`,
-];
-
-directories.forEach((directory) => {
-  const [scope, namespace, provider] = directory.split("-");
-
-  console.log(
-    `running in ${directory} - https://cdk.tf/${namespace}/${provider}`
-  );
-
-  const workingDir = path.join(__dirname, directory);
-  const prepareScript = `git reset --hard && git clean -fdx && git checkout master && git up`;
-  const script = `
-    git checkout -b upgrade-cdktf-0.5 && yarn add --dev @cdktf/provider-project@latest && npx projen && git commit -am "BREAKING CHANGE: Bump cdktf dependency to 0.5 \n\n See https://github.com/hashicorp/terraform-cdk/pull/857" && yarn fetch && yarn compile && yarn docgen && yarn run commit && git push --set-upstream origin upgrade-cdktf-0.5
-  `;
-  ps.execSync(prepareScript, { cwd: workingDir, stdio: [null, null, null] });
-  ps.execSync(script, {
-    cwd: workingDir,
-    stdio: ["inherit", "inherit", "inherit"],
-  });
-});
-```
+- [All new issues](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+label%3Anew)
+- [All unprioritized issues (that are not waiting for an answer)](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+-label%3Apriority%2Fawaiting-more-evidence+-label%3Apriority%2Fbacklog+-label%3Apriority%2Fcritical-urgent+-label%3Apriority%2Fimportant-longterm+-label%3Apriority%2Fimportant-soon+-label%3Aneeds-priority+-label%3Awaiting-on-answer+-label%3Anew)
+- [Issues to follow up on](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+label%3Awaiting-on-answer+updated%3A%3C2021-11-01) (Query needs manual adjustment of the date)

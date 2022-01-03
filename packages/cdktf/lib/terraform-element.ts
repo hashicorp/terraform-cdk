@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import { Token } from ".";
 import { TerraformStack } from "./terraform-stack";
 
 export interface TerraformElementMetadata {
@@ -18,6 +19,12 @@ export class TerraformElement extends Construct {
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    if (Token.isUnresolved(id)) {
+      throw new Error(
+        "You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"
+      );
+    }
 
     this.node.addMetadata("stacktrace", "trace");
     this.cdktfStack = TerraformStack.of(this);
@@ -45,6 +52,13 @@ export class TerraformElement extends Construct {
    */
   public overrideLogicalId(newLogicalId: string) {
     this._logicalIdOverride = newLogicalId;
+  }
+
+  /**
+   * Resets a previously passed logical Id to use the auto-generated logical id again
+   */
+  public resetOverrideLogicalId() {
+    this._logicalIdOverride = undefined;
   }
 
   public addOverride(path: string, value: any) {

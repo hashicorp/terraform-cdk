@@ -24,6 +24,7 @@ import {
   constructAst,
 } from "./expressions";
 import { TerraformModuleConstraint } from "@cdktf/provider-generator";
+import { getBlockTypeAtPath } from "./provider";
 
 function getReference(graph: DirectedGraph, id: string) {
   const neighbors = graph.outNeighbors(id);
@@ -42,6 +43,7 @@ function getReference(graph: DirectedGraph, id: string) {
 export const valueToTs = (
   scope: Scope,
   item: TerraformResourceBlock,
+  path: string,
   nodeIds: string[],
   scopedIds: string[] = []
 ): t.Expression => {
@@ -61,15 +63,22 @@ export const valueToTs = (
       if (item === undefined || item === null) {
         return t.nullLiteral();
       }
+      const unwrappedItem =
+        getBlockTypeAtPath(scope.providerSchema, path)?.max_items === 1 &&
+        Array.isArray(item)
+          ? item[0]
+          : item;
 
-      if (Array.isArray(item)) {
+      if (Array.isArray(unwrappedItem)) {
         return t.arrayExpression(
-          item.map((i) => valueToTs(scope, i, nodeIds, scopedIds))
+          unwrappedItem.map((i) =>
+            valueToTs(scope, i, path, nodeIds, scopedIds)
+          )
         );
       }
 
       return t.objectExpression(
-        Object.entries(item)
+        Object.entries(unwrappedItem)
           .map(([key, value]) => {
             if (key === "lifecycle" || value === undefined) {
               return undefined;
@@ -84,15 +93,20 @@ export const valueToTs = (
               );
             }
 
+            const itemPath = `${path}.${key}`;
+
+            const shouldBeArray =
+              typeof value === "object" &&
+              !Array.isArray(value) &&
+              key !== "tags";
+
             return t.objectProperty(
               t.stringLiteral(key !== "for_each" ? camelCase(key) : key),
-              typeof value === "object" &&
-                !Array.isArray(value) &&
-                key !== "tags"
+              shouldBeArray
                 ? t.arrayExpression([
-                    valueToTs(scope, value, nodeIds, scopedIds),
+                    valueToTs(scope, value, itemPath, nodeIds, scopedIds),
                   ])
-                : valueToTs(scope, value, nodeIds, scopedIds)
+                : valueToTs(scope, value, itemPath, nodeIds, scopedIds)
             );
           })
           .filter((expr) => expr !== undefined) as t.ObjectProperty[]
@@ -123,7 +137,12 @@ export function backendToExpression(
                   ...arr,
                   t.objectProperty(
                     t.identifier(camelCase(property)),
-                    valueToTs(scope, value, nodeIds)
+                    valueToTs(
+                      scope,
+                      value,
+                      "path-for-backends-can-be-ignored",
+                      nodeIds
+                    )
                   ),
                 ],
                 [] as t.ObjectProperty[]
@@ -194,6 +213,19 @@ function getRemoteStateType(item: Resource) {
   }
 }
 
+function resourceType(provider: string, name: string[], item: Resource) {
+  switch (provider) {
+    case "data.terraform":
+      return `cdktf.data_terraform_${name.join("_")}${getRemoteStateType(
+        item
+      )}`;
+    case "null":
+      return `NullProvider.${name.join("_")}`;
+    default:
+      return `${provider}.${name.join("_")}`;
+  }
+}
+
 export function resource(
   scope: Scope,
   type: string,
@@ -204,10 +236,7 @@ export function resource(
 ): t.Statement[] {
   const [provider, ...name] = type.split("_");
   const nodeIds = graph.nodes();
-  const resource =
-    provider === "data.terraform"
-      ? `cdktf.data_terraform_${name.join("_")}${getRemoteStateType(item)}`
-      : `${provider}.${name.join("_")}`;
+  const resource = resourceType(provider, name, item);
 
   const { for_each, count, ...config } = item[0];
   const dynBlocks = extractDynamicBlocks(config);
@@ -261,7 +290,7 @@ you need to keep this like it is.`;
         addOverrideExpression(
           varName,
           "count",
-          valueToTs(scope, count, nodeIds),
+          valueToTs(scope, count, "path-for-counts-can-be-ignored", nodeIds),
           loopComment
         )
       );
@@ -293,6 +322,7 @@ you need to keep this like it is.`;
             for_each,
             content,
           },
+          "path-for-dynamic-blocks-can-be-ignored",
           nodeIds,
           [scopedVar]
         ),
@@ -320,7 +350,7 @@ function asExpression(
   const expression = t.newExpression(constructAst(type, isModuleImport), [
     t.thisExpression(),
     t.stringLiteral(constructId),
-    valueToTs(scope, otherOptions, nodeIds),
+    valueToTs(scope, otherOptions, `${type}`, nodeIds),
   ]);
 
   const statements = [];
@@ -343,7 +373,12 @@ function asExpression(
       addOverrideExpression(
         varName,
         "provider",
-        valueToTs(scope, provider, nodeIds)
+        valueToTs(
+          scope,
+          provider,
+          "path-for-provider-blocks-can-be-ignored",
+          nodeIds
+        )
       )
     );
   }
@@ -352,7 +387,12 @@ function asExpression(
       addOverrideExpression(
         varName,
         "providers",
-        valueToTs(scope, providers, nodeIds)
+        valueToTs(
+          scope,
+          providers,
+          "path-for-providers-blocks-can-be-ignored",
+          nodeIds
+        )
       )
     );
   }
@@ -362,7 +402,12 @@ function asExpression(
       addOverrideExpression(
         varName,
         "lifecycle",
-        valueToTs(scope, lifecycle, nodeIds)
+        valueToTs(
+          scope,
+          lifecycle,
+          "path-for-lifecycle-blocks-can-be-ignored",
+          nodeIds
+        )
       )
     );
   }
@@ -440,7 +485,7 @@ export function local(
   return t.variableDeclaration("const", [
     t.variableDeclarator(
       t.identifier(variableName(scope, "local", key)),
-      valueToTs(scope, item, nodeIds)
+      valueToTs(scope, item, "path-for-local-blocks-can-be-ignored", nodeIds)
     ),
   ]);
 }
@@ -479,9 +524,11 @@ export function provider(
   const nodeIds = graph.nodes();
   const { version, ...props } = item;
 
+  const importKey = key === "null" ? "NullProvider" : key;
+
   return asExpression(
     scope,
-    `${key}.${pascalCase(key + "Provider")}`,
+    `${importKey}.${pascalCase(key + "Provider")}`,
     key,
     props,
     nodeIds,
@@ -498,18 +545,32 @@ export const providerImports = (providers: string[]) =>
   providers.map((providerName) => {
     const parts = providerName.split("/");
     const name = parts.length > 1 ? parts[1] : parts[0];
+    const importName = name === "null" ? "NullProvider" : name;
     return template(
-      `import * as ${name} from "./.gen/providers/${name.replace("./", "")}"`
+      `import * as ${importName} from "./.gen/providers/${name.replace(
+        "./",
+        ""
+      )}"`
     )() as t.Statement;
   });
 
-export const moduleImports = (modules: Record<string, Module> | undefined) =>
-  Object.values(modules || {}).map(([module]) => {
-    const moduleConstraint = new TerraformModuleConstraint(module.source);
-    return template.ast(
-      `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
-    ) as t.Statement;
+export const moduleImports = (modules: Record<string, Module> | undefined) => {
+  const uniqueModules = new Set<string>();
+  Object.values(modules || {}).map(([module]) =>
+    uniqueModules.add(module.source)
+  );
+
+  const imports: t.Statement[] = [];
+  uniqueModules.forEach((m) => {
+    const moduleConstraint = new TerraformModuleConstraint(m);
+    imports.push(
+      template.ast(
+        `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
+      ) as t.Statement
+    );
   });
+  return imports;
+};
 
 export function gen(statements: t.Statement[]) {
   return prettier.format(generate(t.program(statements) as any).code, {

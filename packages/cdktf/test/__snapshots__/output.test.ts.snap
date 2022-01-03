@@ -53,6 +53,64 @@ exports[`description output 1`] = `
 }"
 `;
 
+exports[`expression output 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${upper(\\\\\\"foo\\\\\\")}\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"foo\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`full resource output 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${test_resource.foo}\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"foo\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
 exports[`list output 1`] = `
 "{
   \\"output\\": {
@@ -88,12 +146,89 @@ exports[`number output 1`] = `
 }"
 `;
 
+exports[`resource map output 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": {
+        \\"myResource\\": \\"\${test_resource.foo}\\",
+        \\"something\\": \\"else\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"foo\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`resource[] output 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": [
+        \\"\${test_resource.foo1}\\",
+        \\"\${test_resource.foo2}\\"
+      ]
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"foo1\\": {
+        \\"name\\": \\"foo1\\"
+      },
+      \\"foo2\\": {
+        \\"name\\": \\"foo2\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
 exports[`sensitive output 1`] = `
 "{
   \\"output\\": {
     \\"test-output\\": {
       \\"sensitive\\": true,
       \\"value\\": 1
+    }
+  }
+}"
+`;
+
+exports[`static output id (without feature flags enabled) 1`] = `
+"{
+  \\"output\\": {
+    \\"my_static_output_name\\": {
+      \\"value\\": \\"1\\"
     }
   }
 }"
@@ -115,6 +250,9 @@ exports[`variable output 1`] = `
     \\"test-output\\": {
       \\"value\\": \\"\${var.test-variable}\\"
     }
+  },
+  \\"variable\\": {
+    \\"test-variable\\": {}
   }
 }"
 `;

@@ -10,6 +10,6 @@ describe("Go full integration test synth", () => {
 
   test("synth generates JSON", async () => {
     await driver.synth();
-    expect(driver.synthesizedStack("go-simple")).toMatchSnapshot();
+    expect(driver.synthesizedStack("go-simple").toString()).toMatchSnapshot();
   });
 });

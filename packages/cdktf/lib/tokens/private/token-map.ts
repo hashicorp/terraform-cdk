@@ -14,9 +14,9 @@ import {
 
 const glob = global as any;
 
-const STRING_SYMBOL = Symbol.for("@aws-cdk/core.TokenMap.STRING");
-const LIST_SYMBOL = Symbol.for("@aws-cdk/core.TokenMap.LIST");
-const NUMBER_SYMBOL = Symbol.for("@aws-cdk/core.TokenMap.NUMBER");
+const STRING_SYMBOL = Symbol.for("@cdktf/core.TokenMap.STRING");
+const LIST_SYMBOL = Symbol.for("@cdktf/core.TokenMap.LIST");
+const NUMBER_SYMBOL = Symbol.for("@cdktf/core.TokenMap.NUMBER");
 
 /**
  * Central place where we keep a mapping from Tokens to their String representation
@@ -32,10 +32,10 @@ export class TokenMap {
    * Singleton instance of the token string map
    */
   public static instance(): TokenMap {
-    if (!glob.__cdkTokenMap) {
-      glob.__cdkTokenMap = new TokenMap();
+    if (!glob.__cdktfTokenMap) {
+      glob.__cdktfTokenMap = new TokenMap();
     }
-    return glob.__cdkTokenMap;
+    return glob.__cdktfTokenMap;
   }
 
   private readonly stringTokenMap = new Map<string, IResolvable>();

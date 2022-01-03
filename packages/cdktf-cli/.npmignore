@@ -4,9 +4,14 @@
 !*.js
 
 test
-
+dist
+.eslintignore
+.gitignore
+package.sh
+tsconfig.json
+tsconfig.tsbuildinfo
 dist
 coverage
 
-# include .ts files from templates
-!templates/**/*.ts
+# include all files from templates
+!templates/**/*

@@ -4,6 +4,7 @@ import { keysToSnakeCase, deepMerge } from "./util";
 import { Token } from "./tokens";
 import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
+import { ITerraformAddressable } from "./terraform-addressable";
 
 export abstract class VariableType {
   public static readonly STRING = "string";
@@ -80,13 +81,22 @@ export interface TerraformVariableConfig {
   readonly type?: string;
 
   readonly sensitive?: boolean;
+
+  /*
+   * The nullable argument in a variable block controls whether the module caller may assign the value null to the variable.
+   */
+  readonly nullable?: boolean;
 }
 
-export class TerraformVariable extends TerraformElement {
+export class TerraformVariable
+  extends TerraformElement
+  implements ITerraformAddressable
+{
   public readonly default?: any;
   public readonly description?: string;
   public readonly type?: string;
   public readonly sensitive?: boolean;
+  public readonly nullable?: boolean;
 
   constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
     super(scope, id);
@@ -95,6 +105,7 @@ export class TerraformVariable extends TerraformElement {
     this.description = config.description;
     this.type = config.type;
     this.sensitive = config.sensitive;
+    this.nullable = config.nullable;
   }
 
   public get stringValue(): string {
@@ -121,12 +132,17 @@ export class TerraformVariable extends TerraformElement {
     return ref(`var.${this.friendlyUniqueId}`);
   }
 
+  public get fqn() {
+    return `var.${this.friendlyUniqueId}`;
+  }
+
   public synthesizeAttributes(): { [key: string]: any } {
     return {
       default: this.default,
       description: this.description,
       type: this.type,
       sensitive: this.sensitive,
+      nullable: this.nullable,
     };
   }
 

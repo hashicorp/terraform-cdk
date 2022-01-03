@@ -121,7 +121,7 @@ export function extractReferencesFromExpression(
         `Found a reference that is unknown: ${input} has reference "${spot}". The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
-        Please leave a comment at https://github.com/hashicorp/terraform-cdk/issues/842 if you run into this issue.`
+        Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`
       );
       return carry;
     }
@@ -231,7 +231,7 @@ export function constructAst(type: string, isModuleImport: boolean) {
   if (!type.includes("./") && type.includes(".")) {
     const parts = type.split(".");
     if (parts[0] === "data") {
-      const [_, provider, resource] = parts;
+      const [, provider, resource] = parts;
       const namespace = getResourceNamespace(provider, resource);
       if (namespace) {
         return t.memberExpression(

@@ -8,6 +8,44 @@ const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra");
 
+export class QueryableStack {
+  private readonly stack: Record<string, any>;
+  constructor(stackInput: string) {
+    this.stack = JSON.parse(stackInput);
+  }
+
+  /**
+   * Returns the construct with the given ID in the stack, no matter if
+   * it's a data source or resource and which type it has
+   */
+  public byId(id: string): Record<string, any> {
+    const sanitizedId = id.replace(/_/g, "");
+    const constructs = (
+      [
+        ...Object.values(this.stack.resource || {}),
+        ...Object.values(this.stack.data || {}),
+      ] as Record<string, any>[]
+    ).reduce(
+      (carry, item) => ({ ...carry, ...item }),
+      {} as Record<string, any>
+    );
+
+    return constructs[sanitizedId];
+  }
+
+  public output(id: string): string {
+    return this.stack.output[id].value;
+  }
+
+  public toString(removeMetadata = false): string {
+    if (removeMetadata) {
+      return JSON.stringify({ ...this.stack, ["//"]: undefined }, null, 2);
+    }
+
+    return JSON.stringify(this.stack, null, 2);
+  }
+}
+
 export class TestDriver {
   public env: Record<string, string>;
   public workingDirectory: string;
@@ -86,20 +124,26 @@ export class TestDriver {
     fse.copySync(path.join(this.rootDir, source), dest);
   };
 
+  addFile = (dest, content) => {
+    fse.writeFileSync(dest, content);
+  };
+
   stackDirectory = (stackName: string) => {
     return path.join(this.workingDirectory, "cdktf.out", "stacks", stackName);
   };
 
   synthesizedStack = (stackName: string) => {
-    return fs.readFileSync(
-      path.join(this.stackDirectory(stackName), "cdk.tf.json"),
-      "utf-8"
+    return new QueryableStack(
+      fs.readFileSync(
+        path.join(this.stackDirectory(stackName), "cdk.tf.json"),
+        "utf-8"
+      )
     );
   };
 
-  init = async (template: string) => {
+  init = async (template: string, additionalOptions = "") => {
     await this.exec(
-      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local`
+      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local ${additionalOptions}`
     );
   };
 
@@ -181,13 +225,15 @@ export class TestDriver {
     await this.get();
   };
 
-  setupGoProject = async () => {
+  setupGoProject = async (cb?: (workingDirectory) => void) => {
     this.switchToTempDir();
+    console.log(this.workingDirectory);
     await this.init("go");
     this.copyFiles("cdktf.json");
     this.copyFile("main.go", "main.go");
 
     await this.get();
+    cb && cb(this.workingDirectory);
 
     // automatically retrieves required jsii-runtime module (used in generated providers)
     await this.exec("go mod tidy");

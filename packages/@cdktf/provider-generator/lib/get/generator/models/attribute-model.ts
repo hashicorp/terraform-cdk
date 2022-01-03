@@ -1,5 +1,23 @@
 import { AttributeTypeModel } from "./attribute-type-model";
 
+export type GetterType =
+  | { _type: "plain" }
+  | {
+      _type: "args";
+      args: string;
+      returnType?: string;
+      returnStatement: string;
+    }
+  | {
+      _type: "stored_class";
+    };
+
+export type SetterType =
+  | { _type: "none" }
+  | { _type: "set"; type: string }
+  | { _type: "put"; type: string }
+  | { _type: "stored_class"; type: string };
+
 export interface AttributeModelOptions {
   storageName: string; // private property
   name: string;
@@ -64,6 +82,101 @@ export class AttributeModel {
     return this.provider;
   }
 
+  public get getterType(): GetterType {
+    let getterType: GetterType = { _type: "plain" };
+
+    if (
+      // Complex Computed List Map
+      this.computed &&
+      !this.isOptional &&
+      this.type.isComputedComplex &&
+      this.type.isList &&
+      this.type.isMap
+    ) {
+      getterType = {
+        _type: "args",
+        args: "index: string, key: string",
+        returnType: this.mapType,
+        returnStatement: `new ${this.type.name}(this, \`${this.terraformName}.\${index}\`).lookup(key)`,
+      };
+    } else if (
+      // Complex Computed List
+      this.computed &&
+      !this.isOptional &&
+      this.type.isComputedComplex &&
+      this.type.isList
+    ) {
+      getterType = {
+        _type: "args",
+        args: "index: string",
+        returnStatement: `new ${this.type.name}(this, '${this.terraformName}', index)`,
+      };
+    } else if (
+      // Complex Computed Map
+      this.computed &&
+      !this.isOptional &&
+      this.type.isComputedComplex &&
+      this.type.isMap
+    ) {
+      getterType = {
+        _type: "args",
+        args: "key: string",
+        returnType: this.mapType,
+        returnStatement: `new ${this.type.name}(this, '${this.terraformName}').lookup(key)`,
+      };
+    }
+
+    if (this.type.isSingleItem && this.type.isComplex && !this.isProvider) {
+      getterType = { _type: "stored_class" };
+    }
+
+    return getterType;
+  }
+
+  public get mapType(): string {
+    const type = this.type;
+    if (type.isStringMap) {
+      return `string`;
+    }
+    if (type.isNumberMap) {
+      return `number`;
+    }
+    if (type.isBooleanMap) {
+      return `boolean`;
+    }
+    if (process.env.DEBUG) {
+      console.error(
+        `The attribute ${JSON.stringify(this)} isn't implemented yet`
+      );
+    }
+    return `any`;
+  }
+
+  public get isStored(): boolean {
+    return (
+      (this.isAssignable && !this.isConfigIgnored) ||
+      this.getterType._type === "stored_class"
+    );
+  }
+
+  public get setterType(): SetterType {
+    if (!this.isStored) {
+      return { _type: "none" };
+    }
+
+    if (this.getterType._type === "stored_class") {
+      return {
+        _type: "stored_class",
+        type: this.type.name,
+      };
+    }
+
+    return {
+      _type: "set",
+      type: `${this.type.name}${this.isProvider ? " | undefined" : ""}`,
+    };
+  }
+
   public get name(): string {
     // `self` and `build` doesn't work in as property name in Python
     if (this._name === "self" || this._name === "build")
@@ -75,6 +188,8 @@ export class AttributeModel {
     if (this._name === "equals") return "equalTo";
     // `node` is already used by the Constructs base class
     if (this._name === "node") return "nodeAttribute";
+    // `System` shadows built-in types in CSharp (see #1420)
+    if (this._name === "system") return "systemAttribute";
     // `tfResourceType` is already used by resources to distinguish between different resource types
     if (this._name === "tfResourceType") return `${this._name}Attribute`;
     return this._name;

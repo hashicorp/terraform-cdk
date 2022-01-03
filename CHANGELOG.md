@@ -1,4 +1,153 @@
-## Unreleased Changes
+## 0.8.3
+
+### fix
+
+- fix(provider-generator): rename `system` attributes as they conflict in CSharp (fixes Okta provider) [\#1422](https://github.com/hashicorp/terraform-cdk/pull/1422)
+- fix(docs): fix order of changelog steps to make sure version is bumped after running script [\#1419](https://github.com/hashicorp/terraform-cdk/pull/1419)
+
+### chore
+
+- chore: migrate docs to mdx [\#1421](https://github.com/hashicorp/terraform-cdk/pull/1421)
+- chore: fix edge provider tests in pre-release pipeline [\#1423](https://github.com/hashicorp/terraform-cdk/pull/1423)
+
+## 0.8.2
+
+### fix
+
+- fix(lib): make sure to resolve reference expression target [\#1412](https://github.com/hashicorp/terraform-cdk/pull/1412)
+- fix(provider-generator): Fix false block attributes [\#1405](https://github.com/hashicorp/terraform-cdk/pull/1405)
+- fix(lib): inline references in strings should not destroy string itself [\#1401](https://github.com/hashicorp/terraform-cdk/pull/1401)
+- fix: data can be null in some cases as well [\#1395](https://github.com/hashicorp/terraform-cdk/pull/1395)
+
+### chore
+
+- chore(docs): Adds a REAMDE to docs folder [\#1381](https://github.com/hashicorp/terraform-cdk/pull/1381)
+- chore: update constructs to 10.0.12 [\#1414](https://github.com/hashicorp/terraform-cdk/pull/1414)
+- chore: copy edge provider on release pipeline [\#1408](https://github.com/hashicorp/terraform-cdk/pull/1408)
+
+### test
+
+- test(provider-generator): verify generated provider emit same HCL across languages [\#1311](https://github.com/hashicorp/terraform-cdk/pull/1311)
+
+## 0.8.1 (December 3, 2021)
+
+### fix
+
+- fix(cli): Distribute unbundled source code [\#1379](https://github.com/hashicorp/terraform-cdk/pull/1379)
+- fix(lib): Add struct sharding for providers without namespaces [\#1375](https://github.com/hashicorp/terraform-cdk/pull/1375)
+- fix(cli): only log if logs are sent [\#1365](https://github.com/hashicorp/terraform-cdk/pull/1365)
+- fix(lib): Keep specified empty objects [\#1329](https://github.com/hashicorp/terraform-cdk/pull/1329)
+
+### chore
+
+- chore(cli): typescript init prints link to all prebuilt providers [\#1348](https://github.com/hashicorp/terraform-cdk/pull/1348)
+
+## 0.8.0 (December 1, 2021)
+
+**Breaking Changes**
+
+### Namespaced AWS Provider Resources [#1248](https://github.com/hashicorp/terraform-cdk/pull/1248)
+
+We iterated on the namespacing for the AWS provider which got introduced in [#1101](https://github.com/hashicorp/terraform-cdk/issues/1101). Our goal was, to enable custom L2 / L3 abstractions being built with jsii, improve the general jsii support for the namespacing and last but not least to allow both namespace and barrel imports in Typescript. A welcome side effect is a 5x performance gain when building packages via jsii for Python (from ~ 16 minutes to ~ 3 minutes) and likely other targets such as Java or C#
+
+As a result, there are a few minor breaking changes:
+
+- Namespaces are all lowercased now, without a separating character
+- Namespaces are all a single word now (e.g. `DynamoDb` used to be `dynamo_db` in Python - it's now just `dynamodb`)
+- `CloudwatchEventBridge` namespace got renamed to `eventbridge`
+
+#### Typescript Example
+
+##### Before
+
+This was pretty much the only way to use the namespaced provider classes.
+
+```ts
+import { CloudFront } from "@cdktf/provider-aws";
+
+new CloudFront.CloudfrontDistribution(this, "cloudfront", {});
+```
+
+##### After
+
+Now it's possible to either import the entire namespace, or a resource class directly.
+
+```ts
+// Similar to before, but namespace is lowercased
+import { cloudfront } from "@cdktf/provider-aws";
+
+new cloudfront.CloudfrontDistribution(this, "cloudfront", {});
+
+// new option
+import { CloudfrontDistribution } from "@cdktf/provider-aws/lib/cloudfront";
+
+new CloudfrontDistribution(this, "cloudfront", {});
+```
+
+See this [Pull Request](https://github.com/hashicorp/terraform-cdk/pull/1248) for more details.
+
+**Other Changes**
+
+### fix
+
+- fix(provider-generator): Fix private registry module generation [\#1361](https://github.com/hashicorp/terraform-cdk/pull/1361)
+- fix(lib): Fix incorrect parseInt casing [\#1359](https://github.com/hashicorp/terraform-cdk/pull/1359)
+- fix(lib): fix documentation link for lookup [\#1347](https://github.com/hashicorp/terraform-cdk/pull/1347)
+- fix(provider-generator): Mutating complex objects [\#1331](https://github.com/hashicorp/terraform-cdk/pull/1331)
+- fix(provider-generator): attributes on resources should not be undefined [\#1310](https://github.com/hashicorp/terraform-cdk/pull/1310)
+- fix(examples): Make sure we're using pipenv [\#1272](https://github.com/hashicorp/terraform-cdk/pull/1272)
+- fix(lib): Increased --max-old-space-size value [\#1265](https://github.com/hashicorp/terraform-cdk/pull/1265)
+- fix(examples): temporarily set fixed AWS provider version for Java [\#1261](https://github.com/hashicorp/terraform-cdk/pull/1261)
+- fix(cli): fix bug that required cdktf.json in parent directory when running convert [\#1256](https://github.com/hashicorp/terraform-cdk/pull/1256)
+- fix(provider-generator): escape hyphens in provider names for Go package identifiers [\#1252](https://github.com/hashicorp/terraform-cdk/pull/1252)
+- fix(lib): Rework AWS Provider Namespacing [\#1248](https://github.com/hashicorp/terraform-cdk/pull/1248)
+- fix(lib): escape newlines in terraform functions [\#1233](https://github.com/hashicorp/terraform-cdk/pull/1233)
+- fix(lib): Also separate Token Map and symbols for interoperability with AWS CDK Tokens [\#1176](https://github.com/hashicorp/terraform-cdk/pull/1176)
+- fix(release): only include prs since last version in the changelog [\#1171](https://github.com/hashicorp/terraform-cdk/pull/1171)
+
+### chore
+
+- chore(docs): Fix broken anchor links [\#1345](https://github.com/hashicorp/terraform-cdk/pull/1345)
+- chore(docs): link and layout fixes [\#1344](https://github.com/hashicorp/terraform-cdk/pull/1344)
+- chore(docs): document list escape hatches [\#1342](https://github.com/hashicorp/terraform-cdk/pull/1342)
+- chore(tests): remove jsii version from snapshot [\#1341](https://github.com/hashicorp/terraform-cdk/pull/1341)
+- chore(docs): Add constructs documentation to website [\#1338](https://github.com/hashicorp/terraform-cdk/pull/1338)
+- chore(deps): upgrade jsii versions and unpin AWS TF provider version for Java example [\#1336](https://github.com/hashicorp/terraform-cdk/pull/1336)
+- chore(docs): Move examples up in sidebar, list out tutorials [\#1291](https://github.com/hashicorp/terraform-cdk/pull/1291)
+- chore(deps): yarn upgrade [\#1283](https://github.com/hashicorp/terraform-cdk/pull/1283)
+- chore(cli): upgrade React version [\#1259](https://github.com/hashicorp/terraform-cdk/pull/1259)
+- chore(release): Pre-releases should use next version [\#1257](https://github.com/hashicorp/terraform-cdk/pull/1257)
+- chore(docs): Fix docs nits like images, headings, and contractions [\#1245](https://github.com/hashicorp/terraform-cdk/pull/1245)
+- chore(deps): remove obsolete dependency `json-schema-to-typescript` [\#1232](https://github.com/hashicorp/terraform-cdk/pull/1232)
+- chore(deps): fix dependabot config [\#1220](https://github.com/hashicorp/terraform-cdk/pull/1220)
+- chore(deps): re-enable dependabot [\#1219](https://github.com/hashicorp/terraform-cdk/pull/1219)
+- chore(docs): document escape hatch for dynamic blocks [\#1215](https://github.com/hashicorp/terraform-cdk/pull/1215)
+- chore(docs): copy over aspects [\#1214](https://github.com/hashicorp/terraform-cdk/pull/1214)
+- chore(docs): revert link change [\#1177](https://github.com/hashicorp/terraform-cdk/pull/1177)
+- chore(docs): Laura fix docs nits [\#1172](https://github.com/hashicorp/terraform-cdk/pull/1172)
+- chore(examples): Use AWS provider 3.0 [\#1155](https://github.com/hashicorp/terraform-cdk/pull/1155)
+
+### Other
+
+- chore: add website release automation [\#1255](https://github.com/hashicorp/terraform-cdk/pull/1255)
+- fix: Fix EC2 Instance creation example [\#1254](https://github.com/hashicorp/terraform-cdk/pull/1254)
+- fix: Minor typo in error message about missing providers [\#1240](https://github.com/hashicorp/terraform-cdk/pull/1240)
+
+### feat
+
+- feat(cli): use ts-node to compile main.ts [\#1253](https://github.com/hashicorp/terraform-cdk/pull/1253)
+- feat(docs): add link to new deploy apps tutorial [\#1236](https://github.com/hashicorp/terraform-cdk/pull/1236)
+- feat(lib): Add `staticId` option to TerraformOutput (uses construct id as synthesized output name)" [\#1213](https://github.com/hashicorp/terraform-cdk/pull/1213)
+- feat(lib): throw error when a token is used in a construct name [\#1181](https://github.com/hashicorp/terraform-cdk/pull/1181)
+- feat(hcl2cdk): document providers with missing type information [\#1174](https://github.com/hashicorp/terraform-cdk/pull/1174)
+- feat(lib): Expand Output value types [\#1145](https://github.com/hashicorp/terraform-cdk/pull/1145)
+
+### test
+
+- test(cli): test generated providers [\#1235](https://github.com/hashicorp/terraform-cdk/pull/1235)
+- test(lib): ensure assets dont redeploy without FS changes [\#1178](https://github.com/hashicorp/terraform-cdk/pull/1178)
+
+## 0.7.0 (October 19, 2021)
 
 **Breaking Changes**
 
@@ -8,6 +157,82 @@ Abbreviated version below, for a guide see [Upgrade Guide for 0.7](./docs/upgrad
 
 The AWS Provider has a size that makes it hard to navigate in editors, especially in languages that compile it to a single file like Python. We implemented namespaces that hold Resources and Data Sources the same category together, the categories can be found on the [AWS Provider page](https://registry.terraform.io/providers/hashicorp/aws/latest/docs).
 If you don't use the AWS provider no action is needed, if you do you need to adjust your import statements to match the namespaces. You can find more information at [the upgrade guide](./docs/upgrade-guide/upgrading-to-0.7.md).
+
+### Simplify Provider API Surface [#258](https://github.com/hashicorp/terraform-cdk/issues/258)
+
+When generating the provider bindings we previously translated any block to an array of a certain type, both in configuration and as properties on the resource / data source instances. For blocks that can only appear once at most this is making the API harder to use. From this version on these blocks are going to be just the type instead of an array of a certain type.
+For information on how to migrate please see [the upgrade guide](./docs/upgrade-guide/upgrading-to-0.7.md).
+
+**Technical Preview**
+
+### AWS Adapter
+
+> **The AWS Adapter is a technical preview and not ready for production usage.** Its API is not stable and things might break unexpectedly.
+
+The `AwsTerraformAdapter` (included in the `@cdktf/aws-cdk` package) allows you to use Amazon Web Services Cloud Development Kit (AWS CDK) constructs in your CDK for Terraform (CDKTF) projects. Find out more in the Github repository [hashicorp/aws-cdk](https://github.com/hashicorp/cdktf-aws-cdk) or jump straight to the [documentation](https://www.terraform.io/docs/cdktf/create-and-deploy/aws-adapter.html).
+
+**Features**
+
+- feat(docs): Aws Adapter [\#1149](https://github.com/hashicorp/terraform-cdk/pull/1149)
+- feat(lib): change the namespace of encoded string, list and number tokens [\#1148](https://github.com/hashicorp/terraform-cdk/pull/1148)
+- feat(docs): document the use of aspects and annotations [\#1144](https://github.com/hashicorp/terraform-cdk/pull/1144)
+- feat(lib): invoke Aspects when using `Testing.synth` and `Testing.synthScope` [\#1143](https://github.com/hashicorp/terraform-cdk/pull/1143)
+- feat(cli): namespace aws provider [\#1101](https://github.com/hashicorp/terraform-cdk/pull/1101)
+- feat(docs): add telemetry docs [\#1071](https://github.com/hashicorp/terraform-cdk/pull/1071)
+- feat(examples): add example azure service bus [\#1063](https://github.com/hashicorp/terraform-cdk/pull/1063)
+- feat(hcl2cdk): Copy local modules when init from TF project [\#1024](https://github.com/hashicorp/terraform-cdk/pull/1024)
+- feat(lib): use objects instead of objects in arrays if possible [\#935](https://github.com/hashicorp/terraform-cdk/pull/935)
+- feat: Extend support for Terraform expressions [\#1131](https://github.com/hashicorp/terraform-cdk/pull/1131)
+
+**Fixed Bugs**
+
+- fix(docs): fix missing backticks [\#1167](https://github.com/hashicorp/terraform-cdk/pull/1167)
+- fix(lib): Lock jsii version [\#1166](https://github.com/hashicorp/terraform-cdk/pull/1166)
+- fix(provider-generator): rename lambda namespace in lambda functions [\#1154](https://github.com/hashicorp/terraform-cdk/pull/1154)
+- fix(docs): fix typo in remote templates docs [\#1151](https://github.com/hashicorp/terraform-cdk/pull/1151)
+- fix(examples): fix path to setup.js file in jest config [\#1147](https://github.com/hashicorp/terraform-cdk/pull/1147)
+- fix(hcl2cdk): Convert null provider [\#1142](https://github.com/hashicorp/terraform-cdk/pull/1142)
+- fix(docs): fix example for integration test [\#1129](https://github.com/hashicorp/terraform-cdk/pull/1129)
+- fix(tests): quote lerna scope to prevent shell expansion [\#1121](https://github.com/hashicorp/terraform-cdk/pull/1121)
+- fix(hcl2cdk): Always using module binding for convert command [\#1120](https://github.com/hashicorp/terraform-cdk/pull/1120)
+- fix(hcl2cdk): Fix duplicate modules [\#1025](https://github.com/hashicorp/terraform-cdk/pull/1025)
+
+**Refactoring**
+
+- refactor(cli): replace links with redirects [\#1138](https://github.com/hashicorp/terraform-cdk/pull/1138)
+
+**Documentation**
+
+- chore(docs): Fix link to outputs doc [\#1164](https://github.com/hashicorp/terraform-cdk/pull/1164)
+- chore(docs): Fixes broken links [\#1163](https://github.com/hashicorp/terraform-cdk/pull/1163)
+- chore(docs): Update docs link [\#1162](https://github.com/hashicorp/terraform-cdk/pull/1162)
+- chore(docs): Fix docs links [\#1161](https://github.com/hashicorp/terraform-cdk/pull/1161)
+- chore(docs): reference interoperability layer [\#1160](https://github.com/hashicorp/terraform-cdk/pull/1160)
+- chore(docs): add new namespaces [\#1159](https://github.com/hashicorp/terraform-cdk/pull/1159)
+- chore(docs): review cli reference [\#1158](https://github.com/hashicorp/terraform-cdk/pull/1158)
+- chore(docs): remove adapter part [\#1157](https://github.com/hashicorp/terraform-cdk/pull/1157)
+- chore(docs): improve release script to not require manual pr selection [\#1156](https://github.com/hashicorp/terraform-cdk/pull/1156)
+- chore(docs): Proofreading edits [\#1150](https://github.com/hashicorp/terraform-cdk/pull/1150)
+- chore(docs): Terraform Docs [\#1146](https://github.com/hashicorp/terraform-cdk/pull/1146)
+- chore(docs): document numeric tokens [\#1140](https://github.com/hashicorp/terraform-cdk/pull/1140)
+- chore(deps): add script to update all snapshot tests [\#1139](https://github.com/hashicorp/terraform-cdk/pull/1139)
+- chore(docs): Laura architecture edits [\#1137](https://github.com/hashicorp/terraform-cdk/pull/1137)
+- chore(docs): Merge docs content to stable website [\#1133](https://github.com/hashicorp/terraform-cdk/pull/1133)
+- chore(docs): Laura docs todos edits [\#1128](https://github.com/hashicorp/terraform-cdk/pull/1128)
+- chore(docs): Add note and copyediting to providers page [\#1127](https://github.com/hashicorp/terraform-cdk/pull/1127)
+- chore(docs): Address todos [\#1126](https://github.com/hashicorp/terraform-cdk/pull/1126)
+- chore(docs): CDK for Terraform Architecture [\#1112](https://github.com/hashicorp/terraform-cdk/pull/1112)
+- chore(docs): Update cli configuration doc [\#1111](https://github.com/hashicorp/terraform-cdk/pull/1111)
+- chore(docs): Autofix prettier [\#1110](https://github.com/hashicorp/terraform-cdk/pull/1110)
+- chore(tests): Ignore website changes for test workflows [\#1109](https://github.com/hashicorp/terraform-cdk/pull/1109)
+- chore(docs): Combine Resources and Providers pages [\#1092](https://github.com/hashicorp/terraform-cdk/pull/1092)
+- chore(docs): Edits to Project Setup & Config file docs [\#1085](https://github.com/hashicorp/terraform-cdk/pull/1085)
+- chore(docs): Terraform Outputs [\#1078](https://github.com/hashicorp/terraform-cdk/pull/1078)
+- chore(docs): Adds descriptions example drafts [\#1073](https://github.com/hashicorp/terraform-cdk/pull/1073)
+- chore(docs): improve community documentation [\#1066](https://github.com/hashicorp/terraform-cdk/pull/1066)
+- chore(docs): What is CDKTF and Interoperability [\#1065](https://github.com/hashicorp/terraform-cdk/pull/1065)
+- chore(docs): link docs to Pocket codebase, YouTube [\#1062](https://github.com/hashicorp/terraform-cdk/pull/1062)
+- chore(docs): Project Setup [\#1056](https://github.com/hashicorp/terraform-cdk/pull/1056)
 
 ## 0.6.4 (October 4, 2021)
 

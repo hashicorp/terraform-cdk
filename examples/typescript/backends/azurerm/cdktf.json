@@ -1,7 +1,7 @@
 {
   "language": "typescript",
-  "app": "npm run --silent compile && node main.js",
+  "app": "npx ts-node main.ts",
   "terraformProviders": [
-    "aws@~> 2.0"
+    "aws@~> 3.0"
   ]
 }

@@ -3,6 +3,10 @@ import { AttributeModel } from "../models";
 import { downcaseFirst } from "../../../util";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
 
+function titleCase(value: string) {
+  return value[0].toUpperCase() + value.slice(1);
+}
+
 export class AttributesEmitter {
   constructor(private code: CodeMaker) {}
 
@@ -12,198 +16,118 @@ export class AttributesEmitter {
       `// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`
     );
 
-    switch (true) {
-      case att.computed &&
-        !att.isOptional &&
-        att.type.isComputedComplex &&
-        att.type.isList &&
-        att.type.isMap:
-        return this.emitComputedComplexListMap(att);
-      case att.computed &&
-        !att.isOptional &&
-        att.type.isComputedComplex &&
-        att.type.isList:
-        return this.emitComputedComplexList(att);
-      case att.computed &&
-        att.isOptional &&
-        att.type.isComputedComplex &&
-        att.type.isList:
-        return this.emitComputedComplexOptional(att, escapeReset, escapeInput);
-      case att.computed &&
-        !att.isOptional &&
-        att.type.isComputedComplex &&
-        att.type.isMap:
-        return this.emitComputedComplexMap(att);
-      case att.computed &&
-        att.isOptional &&
-        att.type.isComputedComplex &&
-        att.type.isMap:
-        return this.emitComputedComplexOptional(att, escapeReset, escapeInput);
-      case att.computed &&
-        att.optional &&
-        !att.isRequired &&
-        att.isConfigIgnored:
-        return this.emitOptionalComputedIgnored(att);
-      case att.computed && att.isOptional:
-        return this.emitOptionalComputed(att, escapeReset, escapeInput);
-      case att.computed:
-        return this.emitComputed(att);
-      case att.isOptional:
-        return this.emitOptional(att, escapeReset, escapeInput);
-      case att.isRequired:
-        return this.emitRequired(att, escapeInput);
+    const isStored = att.isStored;
+    const hasResetMethod = isStored && !att.isRequired;
+    const hasInputMethod = isStored;
+
+    const getterType = att.getterType;
+
+    if (isStored) {
+      if (getterType._type === "stored_class") {
+        this.code.line(
+          `private ${att.storageName} = ${this.storedClassInit(att)};`
+        );
+      } else {
+        this.code.line(`private ${att.storageName}?: ${att.type.name}; `);
+      }
+    }
+
+    switch (getterType._type) {
+      case "plain":
+        this.code.openBlock(`public get ${att.name}()`);
+        this.code.line(`return ${this.determineGetAttCall(att)};`);
+        this.code.closeBlock();
+        break;
+
+      case "args":
+        this.code.openBlock(
+          `public ${att.name}(${getterType.args})${
+            getterType.returnType ? ": " + getterType.returnType : ""
+          }`
+        );
+        this.code.line(`return ${getterType.returnStatement};`);
+        this.code.closeBlock();
+        break;
+
+      case "stored_class":
+        this.code.openBlock(`public get ${att.name}()`);
+        this.code.line(`return this.${att.storageName};`);
+        this.code.closeBlock();
+        break;
+    }
+
+    const setterType = att.setterType;
+
+    switch (setterType._type) {
+      case "set":
+        this.code.openBlock(
+          `public set ${att.name}(value: ${setterType.type})`
+        );
+        this.code.line(`this.${att.storageName} = value;`);
+        this.code.closeBlock();
+        break;
+
+      case "put":
+        this.code.openBlock(
+          `public put${titleCase(att.name)}(value: ${setterType.type})`
+        );
+        this.code.line(`this.${att.storageName} = value;`);
+        this.code.closeBlock();
+        break;
+
+      case "stored_class":
+        this.code.openBlock(
+          `public put${titleCase(att.name)}(value: ${setterType.type})`
+        );
+        this.code.line(`this.${att.storageName}.internalValue = value;`);
+        this.code.closeBlock();
+        break;
+    }
+
+    if (hasResetMethod) {
+      this.code.openBlock(
+        `public ${this.getResetName(att.name, escapeReset)}()`
+      );
+
+      if (setterType._type === "stored_class") {
+        this.code.line(`this.${att.storageName}.internalValue = undefined;`);
+      } else {
+        this.code.line(`this.${att.storageName} = undefined;`);
+      }
+
+      this.code.closeBlock();
+    }
+
+    if (hasInputMethod) {
+      this.code.line(`// Temporarily expose input value. Use with caution.`);
+      this.code.openBlock(
+        `public get ${this.getInputName(att, escapeInput)}()`
+      );
+
+      if (setterType._type === "stored_class") {
+        this.code.line(`return this.${att.storageName}.internalValue;`);
+      } else {
+        this.code.line(`return this.${att.storageName};`);
+      }
+
+      this.code.closeBlock();
     }
   }
 
-  private emitOptional(
-    att: AttributeModel,
-    escapeReset: boolean,
-    escapeInput: boolean
-  ) {
-    this.code.line(`private ${att.storageName}?: ${att.type.name};`);
-    this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(
-      `return ${
-        att.isProvider
-          ? "this." + att.storageName
-          : this.determineGetAttCall(att)
-      };`
-    );
-    this.code.closeBlock();
-
-    this.code.openBlock(
-      `public set ${att.name}(value: ${att.type.name} ${
-        att.isProvider ? " | undefined" : ""
-      })`
-    );
-    this.code.line(`this.${att.storageName} = value;`);
-    this.code.closeBlock();
-
-    this.code.openBlock(`public ${this.getResetName(att.name, escapeReset)}()`);
-    this.code.line(`this.${att.storageName} = undefined;`);
-    this.code.closeBlock();
-
-    this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
-    this.code.line(`return this.${att.storageName}`);
-    this.code.closeBlock();
-  }
-
-  private emitOptionalComputed(
-    att: AttributeModel,
-    escapeReset: boolean,
-    escapeInput: boolean
-  ) {
-    this.code.line(`private ${att.storageName}?: ${att.type.name};`);
-    this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(`return ${this.determineGetAttCall(att)};`);
-    this.code.closeBlock();
-
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
-    this.code.line(`this.${att.storageName} = value;`);
-    this.code.closeBlock();
-
-    this.code.openBlock(`public ${this.getResetName(att.name, escapeReset)}()`);
-    this.code.line(`this.${att.storageName} = undefined;`);
-    this.code.closeBlock();
-
-    this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
-    this.code.line(`return this.${att.storageName}`);
-    this.code.closeBlock();
-  }
-
-  private emitOptionalComputedIgnored(att: AttributeModel) {
-    this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(`return ${this.determineGetAttCall(att)};`);
-    this.code.closeBlock();
-  }
-
-  private emitComputed(att: AttributeModel) {
-    this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(`return ${this.determineGetAttCall(att)};`);
-    this.code.closeBlock();
-  }
-
-  private emitRequired(att: AttributeModel, escapeInput: boolean) {
-    this.code.line(`private ${att.storageName}: ${att.type.name};`);
-    this.code.openBlock(`public get ${att.name}()`);
-    this.code.line(
-      `return ${
-        att.isProvider
-          ? "this." + att.storageName
-          : this.determineGetAttCall(att)
-      };`
-    );
-    this.code.closeBlock();
-
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
-    this.code.line(`this.${att.storageName} = value;`);
-    this.code.closeBlock();
-
-    this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
-    this.code.line(`return this.${att.storageName}`);
-    this.code.closeBlock();
-  }
-
-  private emitComputedComplexList(att: AttributeModel) {
-    this.code.openBlock(`public ${att.name}(index: string)`);
-    this.code.line(
-      `return new ${att.type.name}(this, '${att.terraformName}', index);`
-    );
-    this.code.closeBlock();
-  }
-
-  private emitComputedComplexListMap(att: AttributeModel) {
-    this.code.openBlock(
-      `public ${att.name}(index: string, key: string): ${this.determineMapType(
-        att
-      )}`
-    );
-    this.code.line(
-      `return new ${att.type.name}(this, \`${att.terraformName}.\${index}\`).lookup(key);`
-    );
-    this.code.closeBlock();
-  }
-
-  private emitComputedComplexOptional(
-    att: AttributeModel,
-    escapeReset: boolean,
-    escapeInput: boolean
-  ) {
-    this.code.line(`private ${att.storageName}?: ${att.type.name}`);
-    this.code.openBlock(`public get ${att.name}(): ${att.type.name}`);
-    this.code.line(
-      `return this.interpolationForAttribute('${att.terraformName}') as any; // Getting the computed value is not yet implemented`
-    );
-    this.code.closeBlock();
-
-    this.code.openBlock(`public set ${att.name}(value: ${att.type.name})`);
-    this.code.line(`this.${att.storageName} = value;`);
-    this.code.closeBlock();
-
-    this.code.openBlock(`public ${this.getResetName(att.name, escapeReset)}()`);
-    this.code.line(`this.${att.storageName} = undefined;`);
-    this.code.closeBlock();
-
-    this.code.line(`// Temporarily expose input value. Use with caution.`);
-    this.code.openBlock(`public get ${this.getInputName(att, escapeInput)}()`);
-    this.code.line(`return this.${att.storageName}`);
-    this.code.closeBlock();
-  }
-
-  private emitComputedComplexMap(att: AttributeModel) {
-    this.code.openBlock(
-      `public ${att.name}(key: string): ${this.determineMapType(att)}`
-    );
-    this.code.line(
-      `return new ${att.type.name}(this, '${att.terraformName}').lookup(key);`
-    );
-    this.code.closeBlock();
+  // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this as any, "metadata", true)'
+  private storedClassInit(att: AttributeModel) {
+    return `new ${att.type.name}${
+      att.type.isSingleItem ? "OutputReference" : ""
+    }(this as any, "${att.terraformName}", ${
+      att.type.isSingleItem ? "true" : "false"
+    })`;
   }
 
   public determineGetAttCall(att: AttributeModel): string {
+    if (att.isProvider) {
+      return `this.${att.storageName}`;
+    }
+
     const type = att.type;
     if (type.isString) {
       return `this.getStringAttribute('${att.terraformName}')`;
@@ -215,33 +139,16 @@ export class AttributesEmitter {
       return `this.getNumberAttribute('${att.terraformName}')`;
     }
     if (type.isBoolean) {
-      return `this.getBooleanAttribute('${att.terraformName}')`;
+      return `this.getBooleanAttribute('${att.terraformName}') as any`;
     }
     if (process.env.DEBUG) {
       console.error(
         `The attribute ${JSON.stringify(att)} isn't implemented yet`
       );
     }
-    return `this.interpolationForAttribute('${att.terraformName}') as any`;
-  }
 
-  public determineMapType(att: AttributeModel): string {
-    const type = att.type;
-    if (type.isStringMap) {
-      return `string`;
-    }
-    if (type.isNumberMap) {
-      return `number`;
-    }
-    if (type.isBooleanMap) {
-      return `boolean`;
-    }
-    if (process.env.DEBUG) {
-      console.error(
-        `The attribute ${JSON.stringify(att)} isn't implemented yet`
-      );
-    }
-    return `any`;
+    this.code.line(`// Getting the computed value is not yet implemented`);
+    return `this.interpolationForAttribute('${att.terraformName}') as any`;
   }
 
   public needsInputEscape(
@@ -277,9 +184,9 @@ export class AttributesEmitter {
   public getResetName(name: string, escape: boolean) {
     if (!name) return name;
     if (escape) {
-      return `resetTf${name[0].toUpperCase() + name.slice(1)}`;
+      return `resetTf${titleCase(name)}`;
     } else {
-      return `reset${name[0].toUpperCase() + name.slice(1)}`;
+      return `reset${titleCase(name)}`;
     }
   }
 
@@ -298,11 +205,7 @@ export class AttributesEmitter {
     switch (true) {
       case type.isList && type.isMap:
         this.code.line(
-          `${
-            att.terraformName
-          }: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${this.determineMapType(
-            att
-          )}ToTerraform))(${varReference}),`
+          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform))(${varReference}),`
         );
         break;
       case type.isStringList || type.isNumberList || type.isBooleanList:
@@ -314,7 +217,7 @@ export class AttributesEmitter {
           )}ToTerraform)(${varReference}),`
         );
         break;
-      case type.isList:
+      case type.isList && !type.isSingleItem:
         this.code.line(
           `${
             att.terraformName
@@ -325,11 +228,7 @@ export class AttributesEmitter {
         break;
       case type.isMap:
         this.code.line(
-          `${
-            att.terraformName
-          }: ${defaultCheck}cdktf.hashMapper(cdktf.${this.determineMapType(
-            att
-          )}ToTerraform)(${varReference}),`
+          `${att.terraformName}: ${defaultCheck}cdktf.hashMapper(cdktf.${att.mapType}ToTerraform)(${varReference}),`
         );
         break;
       case type.isString:
@@ -345,6 +244,13 @@ export class AttributesEmitter {
       case type.isBoolean:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`
+        );
+        break;
+      case !isStruct && att.getterType._type === "stored_class":
+        this.code.line(
+          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
+            type.name
+          )}ToTerraform(${varReference}.internalValue),`
         );
         break;
       default:

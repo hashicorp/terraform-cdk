@@ -4,6 +4,7 @@ on:
     paths-ignore:
       - "**.md"
       - "docs/**"
+      - "website/**"
 
 jobs:
   prepare-integration-tests:
@@ -38,6 +39,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: Upload edge-provider bindings
+        uses: actions/upload-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: packages/@cdktf/provider-generator/edge-provider-bindings
       - name: installing test dependencies
         run: |
           cd test && yarn install
@@ -64,6 +70,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: Download edge-provider bindings
+        uses: actions/download-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: test/edge-provider-bindings
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
@@ -72,6 +83,7 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          NODE_OPTIONS: "--max-old-space-size=7168"
 
   windows_integration:
     needs: prepare-integration-tests
@@ -101,6 +113,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: Download edge-provider bindings
+        uses: actions/download-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: test/edge-provider-bindings
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
@@ -108,3 +125,4 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=7168"

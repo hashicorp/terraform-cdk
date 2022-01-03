@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import os
 from constructs import Construct
 from cdktf import App, TerraformStack

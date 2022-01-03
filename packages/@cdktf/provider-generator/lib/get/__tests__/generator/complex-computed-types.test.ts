@@ -19,8 +19,14 @@ test("generate an acm certifacte resource with complex computed types", async ()
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/ACM.ts"),
+    path.join(workdir, "providers/aws/acm/acm-certificate.ts"),
     "utf-8"
   );
-  expect(output).toMatchSnapshot();
+  expect(output).toMatchSnapshot(`acm-certificate`);
+
+  const outputIndex = fs.readFileSync(
+    path.join(workdir, "providers/aws/acm/index.ts"),
+    "utf-8"
+  );
+  expect(outputIndex).toMatchSnapshot(`index`);
 });

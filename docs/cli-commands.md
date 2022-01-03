@@ -364,6 +364,7 @@ Options:
   --log-level                 Which log level should be written. Only supported via setting the env
                               CDKTF_LOG_LEVEL                                                        [string]
   --language                      [choices: "typescript", "python", "csharp", "java"] [default: "typescript"]
+  --provider                  The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a cdktf.json below your current working directory.
   -h, --help                  Show help                                                             [boolean]
 ```
 
@@ -372,6 +373,7 @@ Examples:
 - Convert a local file: `cat main.tf | cdktf convert > imported.ts`
 - Convert HCL in your clipboard to Python on OSX: `pbpaste | cdktf convert --language python | pbcopy`
 
+To improve the acuracy of the convert command you can add the provider flag with one or multiple items to specify the providers your code is using: `--provider 'hashicorp/aws@ ~>3.62.0'`.
 There are some known limitations, please [check them out at the @cdktf/hcl2cdk package](../packages/@cdktf/hcl2cdk/README.md#known-limitations).
 
 ### cdktf completion
