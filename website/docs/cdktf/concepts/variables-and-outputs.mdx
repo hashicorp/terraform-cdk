@@ -237,7 +237,7 @@ class Consumer extends TerraformStack {
     });
 
     new TerraformOutput(this, "random-remote-pet", {
-      value: remoteState.getString("id"),
+      value: remoteState.getString("random-pet"),
     });
   }
 }
