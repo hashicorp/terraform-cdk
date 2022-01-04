@@ -19,7 +19,7 @@
     "cdktf-cli": "0.0.0"
   },
   "dependencies": {
-    "constructs": "^10.0.20",
+    "constructs": "^10.0.24",
     "cdktf": "0.0.0"
   }
 }
