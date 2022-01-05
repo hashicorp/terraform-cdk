@@ -83,7 +83,7 @@
     "@types/node": "^14.0.26",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
-    "constructs": "^10.0.24",
+    "constructs": "^10.0.25",
     "eslint": "^7.29.0",
     "jest": "^26.6.3",
     "jsii": "^1.50.0",
@@ -99,6 +99,6 @@
   ],
   "stability": "experimental",
   "peerDependencies": {
-    "constructs": "^10.0.24"
+    "constructs": "^10.0.25"
   }
 }
