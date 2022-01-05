@@ -24,6 +24,10 @@ const uniqueClassName = (className: string): string => {
   return className;
 };
 
+const isReservedClassName = (className: string): boolean => {
+  return ["string"].includes(className.toLowerCase());
+};
+
 class Parser {
   private structs = new Array<Struct>();
 
@@ -51,6 +55,10 @@ class Parser {
         optional: true,
         computed: false,
       };
+    }
+
+    if (isReservedClassName(baseName)) {
+      baseName = `${baseName}_resource`;
     }
 
     const className = uniqueClassName(toPascalCase(baseName));
