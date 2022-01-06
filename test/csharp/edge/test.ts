@@ -28,6 +28,12 @@ describe("csharp full integration test synth", () => {
       stdio: "inherit",
       env: driver.env,
     });
+
+    execSync("dotnet add package Constructs", {
+      stdio: "inherit",
+      env: driver.env,
+    });
+
     await driver.synth("fixed");
   });
 
