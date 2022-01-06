@@ -245,8 +245,11 @@ export const parseConfig = (configJSON?: string) => {
     ...JSON.parse(configJSON || "{}"),
   };
 
-  config.checkCodeMakerOutput =
-    isPresent(config.terraformModules) || isPresent(config.terraformProviders);
+  if (config.checkCodeMakerOutput == undefined || config.checkCodeMakerOutput) {
+    config.checkCodeMakerOutput =
+      isPresent(config.terraformModules) ||
+      isPresent(config.terraformProviders);
+  }
 
   if (isPresent(config.terraformModules)) {
     config.terraformModules = config.terraformModules?.map(

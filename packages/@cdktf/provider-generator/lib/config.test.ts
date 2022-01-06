@@ -23,6 +23,19 @@ describe("parseConfig", () => {
     `);
   });
 
+  it("parses 'checkCodeMakerOutput'", async () => {
+    const input = {
+      checkCodeMakerOutput: true,
+    };
+    expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
+      Object {
+        "checkCodeMakerOutput": false,
+        "codeMakerOutput": ".gen",
+        "output": "cdktf.out",
+      }
+    `);
+  });
+
   describe("providers", () => {
     it("parses provider string", async () => {
       const input = {
@@ -83,6 +96,35 @@ describe("parseConfig", () => {
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
           "checkCodeMakerOutput": true,
+          "codeMakerOutput": ".gen",
+          "output": "cdktf.out",
+          "terraformProviders": Array [
+            TerraformProviderConstraint {
+              "fqn": "aws",
+              "name": "aws",
+              "namespace": undefined,
+              "source": undefined,
+              "version": "~> 2.0",
+            },
+          ],
+        }
+      `);
+    });
+
+    it("disables 'checkCodeMakerOutput' even if providers are given", async () => {
+      const input = {
+        checkCodeMakerOutput: false,
+        terraformProviders: [
+          {
+            name: "aws",
+            version: "~> 2.0",
+          },
+        ],
+      };
+
+      expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
+        Object {
+          "checkCodeMakerOutput": false,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformProviders": Array [
@@ -737,6 +779,30 @@ describe("parseConfig", () => {
               "namespace": "cloudposse",
               "source": "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1",
               "version": undefined,
+            },
+          ],
+        }
+      `);
+    });
+
+    it("disables 'checkCodeMakerOutput' even if modules are given", async () => {
+      const input = {
+        checkCodeMakerOutput: false,
+        terraformModules: ["terraform-aws-modules/vpc/aws@2.39.0"],
+      };
+
+      expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
+        Object {
+          "checkCodeMakerOutput": false,
+          "codeMakerOutput": ".gen",
+          "output": "cdktf.out",
+          "terraformModules": Array [
+            TerraformModuleConstraint {
+              "fqn": "terraform-aws-modules/vpc/aws",
+              "name": "vpc",
+              "namespace": "terraform-aws-modules/aws",
+              "source": "terraform-aws-modules/vpc/aws",
+              "version": "2.39.0",
             },
           ],
         }
