@@ -1,0 +1,87 @@
+---
+page_title: Remote Templates
+description: >-
+  Templates allow you to scaffold a new CDK for Terraform Project. Learn to
+  create your own template.
+---
+
+# Remote Templates
+
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness).
+
+When you set up a new project via `cdktf init`, you can supply one of the [built-in templates](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/templates) (e.g. `typescript` or `python`) or use a custom-built remote template. Templates scaffold a new CDK for Terraform (CDKTF) project, creating the necessary directories and files.
+
+## Create Remote Templates
+
+A template is a directory that contains at least a `cdktf.json` file, which is required for the `cdktf` CLI. When users run `cdktf init`, CDKTF downloads and and extracts a zip archive containing the files for the specified template. To create the project, it then searches all directories and extracts the directory containing the `cdktf.json` file. This allows you to create content (e.g. a `README.md`) in the root directory of your remote template that won't appear in the generated project directory.
+
+You can use the library [`sscaff`](https://github.com/awslabs/node-sscaff) to scaffold a new project. The `sscaff` library copies all files into the new project directory while allowing for substitutions and hooks.
+
+### Substitutions
+
+A template can use substitutions for filenames and file content. To specify your own variables, use Hooks (details below). In addition to the [built-in substitutions of](https://github.com/awslabs/node-sscaff#built-in-substitutions) `sccaff`, CDKTF supplies variables that you can use in templates.
+
+#### User Input
+
+These variables hold user input. For example, you can use them in project files like `package.json`. CDKTF collects the required data from users when they run `cdktf init` with the template.
+
+The TypeScript example below specifies that `Name` and `Description` are mandatory, but `OrganizationName` and `WorkspaceName` will only be required for projects that are set up to use a Terraform Cloud [remote backend](/cdktf/concepts/remote-backends).
+
+```typescript
+Name: string;
+Description: string;
+OrganizationName?: string;
+WorkspaceName?: string;
+```
+
+There is no way to collect custom user input for templates at the moment.
+
+#### Versions
+
+These variables contain correct versions of the packages that are depending on the CDKTF CLI. The package names are provided in the correct format for the given platform. We recommend using these variables as they are provided without adding any custom logic, since the package name and their version schema follow specific conventions.
+
+Reference the [built-in templates](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/templates) for examples of how you can use version variables. Below are some of the variables in TypeScript.
+
+```typescript
+cdktf_version: string;
+constructs_version: string;
+npm_cdktf: string;
+npm_cdktf_cli: string;
+pypi_cdktf: string;
+mvn_cdktf: string;
+nuget_cdktf: string;
+```
+
+### `pre` and `post` Hooks
+
+[Hooks](https://github.com/awslabs/node-sscaff#hooks) allow you to run additional logic before and after the generation of the output.
+
+### Debug Remote Templates
+
+Add `console.log()` statements to your hook functions. CDK for Terraform displays this log output when a user initializes a project from your template.
+
+You can also set the environment variable `CDKTF_LOG_LEVEL` to `debug` before invoking `cdktf init` to see more debugging output. The debugging output will be printed on stdout.
+
+## Distribute Remote Templates
+
+You can host your remote template anywhere, as long as it is formatted as a zip archive. GitHub allows users to fetch the repository contents as zip archive, so you do not have to create one manually. You can only specify urls to zip archives, so only url-based authentication mechanisms are supported. If you need support for private packages, please [file an issue](https://github.com/hashicorp/terraform-cdk/issues/new?labels=enhancement%2C+new&template=feature-request.md).
+
+Below is an example for the `main` branch for a remote template GitHub repository.
+
+`https://github.com/<user or organization>/<repo>/archive/refs/heads/main.zip`
+
+If you prefer to use a Git tag, the URL format would look like this
+
+`https://github.com/<user or organization>/<repo>/archive/refs/tags/v0.0.1.zip`
+
+## Use Remote Templates
+
+The CDKTF community maintains the following remote templates that you can use to set up your project.
+
+- [python-poetry](https://github.com/johnfraney/cdktf-remote-template-python-poetry) (by [@johnfraney](https://github.com/johnfraney))
+
+The example below initializes a new CDKTF project with a remote template.
+
+```
+$ cdktf init --template https://github.com/<user or organization>/<repo>/archive/refs/tags/v0.0.1.zip
+```

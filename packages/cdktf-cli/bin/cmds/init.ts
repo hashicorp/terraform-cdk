@@ -3,9 +3,9 @@ import { terraformCheck } from "./helper/terraform-check";
 import { displayVersionMessage } from "./helper/version-check";
 import { checkForEmptyDirectory, runInit, templates } from "./helper/init";
 import { checkEnvironment } from "./helper/check-environment";
+import { readPackageJson } from "./helper/utilities";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkg = require("../../package.json");
+const pkg = readPackageJson();
 
 class Command implements yargs.CommandModule {
   public readonly command = "init [OPTIONS]";

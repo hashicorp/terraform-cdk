@@ -32,7 +32,8 @@
 
  Use Prebuilt Providers:
 
-  You can add one or multiple of the prebuilt providers listed below:
+  You can find all prebuilt providers on npm: https://www.npmjs.com/search?q=keywords:cdktf
+  You can install these providers through npm:
 
   npm install @cdktf/provider-aws
   npm install @cdktf/provider-google

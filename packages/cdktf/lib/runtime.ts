@@ -53,6 +53,11 @@ export function hashMapper(elementMapper: Mapper): Mapper {
       return x;
     }
 
+    // We can't treat strings as hashes (likely a token or a misconfiguration)
+    if (typeof x === "string") {
+      return x;
+    }
+
     const ret: any = {};
 
     Object.keys(x).forEach((key) => {

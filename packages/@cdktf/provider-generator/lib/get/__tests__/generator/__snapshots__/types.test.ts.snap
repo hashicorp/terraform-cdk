@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`boolean list attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/boolean_list.html
+"// https://www.terraform.io/docs/providers/aws/r/boolean_list
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -11,17 +11,17 @@ import * as cdktf from 'cdktf';
 
 export interface BooleanListConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html#foo_required BooleanList#foo_required}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list#foo_required BooleanList#foo_required}
   */
   readonly fooRequired: boolean[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html#foo_optional BooleanList#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list#foo_optional BooleanList#foo_optional}
   */
   readonly fooOptional?: boolean[];
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html aws_boolean_list}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/boolean_list aws_boolean_list}
 */
 export class BooleanList extends cdktf.TerraformResource {
 
@@ -35,7 +35,7 @@ export class BooleanList extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/boolean_list.html aws_boolean_list} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/boolean_list aws_boolean_list} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -70,15 +70,15 @@ export class BooleanList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
-    return this._fooRequired
+    return this._fooRequired;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean[] | undefined; 
+  private _fooOptional?: boolean[]; 
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: boolean[] | undefined) {
+  public set fooOptional(value: boolean[]) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -86,7 +86,7 @@ export class BooleanList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // =========
@@ -104,7 +104,7 @@ export class BooleanList extends cdktf.TerraformResource {
 `;
 
 exports[`boolean map attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/boolean_map.html
+"// https://www.terraform.io/docs/providers/aws/r/boolean_map
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -114,17 +114,17 @@ import * as cdktf from 'cdktf';
 
 export interface BooleanMapConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html#foo_computed_optional BooleanMap#foo_computed_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map#foo_computed_optional BooleanMap#foo_computed_optional}
   */
   readonly fooComputedOptional?: { [key: string]: boolean } | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html#foo_optional BooleanMap#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map#foo_optional BooleanMap#foo_optional}
   */
   readonly fooOptional?: { [key: string]: boolean } | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html aws_boolean_map}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/boolean_map aws_boolean_map}
 */
 export class BooleanMap extends cdktf.TerraformResource {
 
@@ -138,7 +138,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/boolean_map.html aws_boolean_map} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/boolean_map aws_boolean_map} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -169,11 +169,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: boolean } | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: { [key: string]: boolean } | cdktf.IResolvable; 
   public get fooComputedOptional() {
     return this.getBooleanAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: { [key: string]: boolean } | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: { [key: string]: boolean } | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -181,15 +181,15 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+    return this._fooComputedOptional;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: boolean } | cdktf.IResolvable | undefined; 
+  private _fooOptional?: { [key: string]: boolean } | cdktf.IResolvable; 
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: boolean } | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: { [key: string]: boolean } | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -197,7 +197,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // =========
@@ -215,7 +215,7 @@ export class BooleanMap extends cdktf.TerraformResource {
 `;
 
 exports[`computed complex attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/computed_complex.html
+"// https://www.terraform.io/docs/providers/aws/r/computed_complex
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -274,7 +274,7 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex.html aws_computed_complex}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex aws_computed_complex}
 */
 export class ComputedComplex extends cdktf.TerraformResource {
 
@@ -288,7 +288,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_complex.html aws_computed_complex} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_complex aws_computed_complex} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -329,7 +329,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
 `;
 
 exports[`computed complex nested attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html
+"// https://www.terraform.io/docs/providers/aws/r/computed_complex_nested
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -361,7 +361,7 @@ export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html aws_computed_complex_nested}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested aws_computed_complex_nested}
 */
 export class ComputedComplexNested extends cdktf.TerraformResource {
 
@@ -375,7 +375,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested.html aws_computed_complex_nested} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested aws_computed_complex_nested} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -416,7 +416,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
 `;
 
 exports[`computed nested complex list block type 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html
+"// https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -428,18 +428,18 @@ export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaAr
   /**
   * inputs block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#inputs BlockTypeNestedComputedList#inputs}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list#inputs BlockTypeNestedComputedList#inputs}
   */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
 export interface BlockTypeNestedComputedListInputs {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html#name_prefix BlockTypeNestedComputedList#name_prefix}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list#name_prefix BlockTypeNestedComputedList#name_prefix}
   */
   readonly namePrefix: string;
 }
 
-function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
+export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -451,7 +451,7 @@ function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedCo
 
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html aws_block_type_nested_computed_list}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list aws_block_type_nested_computed_list}
 */
 export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
 
@@ -465,7 +465,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list.html aws_block_type_nested_computed_list} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list aws_block_type_nested_computed_list} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -490,12 +490,12 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // ==========
 
   // inputs - computed: false, optional: true, required: false
-  private _inputs?: BlockTypeNestedComputedListInputs[] | undefined; 
+  private _inputs?: BlockTypeNestedComputedListInputs[]; 
   public get inputs() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('inputs') as any;
   }
-  public set inputs(value: BlockTypeNestedComputedListInputs[] | undefined) {
+  public set inputs(value: BlockTypeNestedComputedListInputs[]) {
     this._inputs = value;
   }
   public resetInputs() {
@@ -503,7 +503,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get inputsInput() {
-    return this._inputs
+    return this._inputs;
   }
 
   // =========
@@ -520,7 +520,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
 `;
 
 exports[`computed optional complex attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html
+"// https://www.terraform.io/docs/providers/aws/r/computed_optional_complex
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -530,50 +530,50 @@ import * as cdktf from 'cdktf';
 
 export interface ComputedOptionalComplexConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#egress ComputedOptionalComplex#egress}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#egress ComputedOptionalComplex#egress}
   */
   readonly egress?: ComputedOptionalComplexEgress[];
 }
 export interface ComputedOptionalComplexEgress {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#cidr_blocks ComputedOptionalComplex#cidr_blocks}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#cidr_blocks ComputedOptionalComplex#cidr_blocks}
   */
   readonly cidrBlocks?: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#description ComputedOptionalComplex#description}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#description ComputedOptionalComplex#description}
   */
   readonly description?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#from_port ComputedOptionalComplex#from_port}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#from_port ComputedOptionalComplex#from_port}
   */
   readonly fromPort?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#ipv6_cidr_blocks ComputedOptionalComplex#ipv6_cidr_blocks}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#ipv6_cidr_blocks ComputedOptionalComplex#ipv6_cidr_blocks}
   */
   readonly ipv6CidrBlocks?: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#prefix_list_ids ComputedOptionalComplex#prefix_list_ids}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#prefix_list_ids ComputedOptionalComplex#prefix_list_ids}
   */
   readonly prefixListIds?: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#protocol ComputedOptionalComplex#protocol}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#protocol ComputedOptionalComplex#protocol}
   */
   readonly protocol?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#security_groups ComputedOptionalComplex#security_groups}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#security_groups ComputedOptionalComplex#security_groups}
   */
   readonly securityGroups?: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#self ComputedOptionalComplex#self}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#self ComputedOptionalComplex#self}
   */
   readonly selfAttribute?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html#to_port ComputedOptionalComplex#to_port}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#to_port ComputedOptionalComplex#to_port}
   */
   readonly toPort?: number;
 }
 
-function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
+export function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -593,7 +593,7 @@ function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalCompl
 
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html aws_computed_optional_complex}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex aws_computed_optional_complex}
 */
 export class ComputedOptionalComplex extends cdktf.TerraformResource {
 
@@ -607,7 +607,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex.html aws_computed_optional_complex} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex aws_computed_optional_complex} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -632,12 +632,12 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: ComputedOptionalComplexEgress[] | undefined; 
+  private _egress?: ComputedOptionalComplexEgress[]; 
   public get egress() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('egress') as any;
   }
-  public set egress(value: ComputedOptionalComplexEgress[] | undefined) {
+  public set egress(value: ComputedOptionalComplexEgress[]) {
     this._egress = value;
   }
   public resetEgress() {
@@ -645,7 +645,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get egressInput() {
-    return this._egress
+    return this._egress;
   }
 
   // =========
@@ -662,7 +662,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
 `;
 
 exports[`deeply nested block types 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html
+"// https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -674,18 +674,18 @@ export interface DeeplyNestedBlockTypesConfig extends cdktf.TerraformMetaArgumen
   /**
   * lifecycle_rule block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#lifecycle_rule DeeplyNestedBlockTypes#lifecycle_rule}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types#lifecycle_rule DeeplyNestedBlockTypes#lifecycle_rule}
   */
   readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
 }
 export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#date DeeplyNestedBlockTypes#date}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types#date DeeplyNestedBlockTypes#date}
   */
   readonly date?: string;
 }
 
-function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
+export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -696,6 +696,8 @@ function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: Deepl
 }
 
 export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -705,12 +707,33 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._date !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.date = this._date;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._date = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._date = value.date;
+    }
+  }
+
   // date - computed: false, optional: true, required: false
-  private _date?: string | undefined; 
+  private _date?: string; 
   public get date() {
     return this.getStringAttribute('date');
   }
-  public set date(value: string | undefined) {
+  public set date(value: string) {
     this._date = value;
   }
   public resetDate() {
@@ -718,23 +741,23 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   }
   // Temporarily expose input value. Use with caution.
   public get dateInput() {
-    return this._date
+    return this._date;
   }
 }
 export interface DeeplyNestedBlockTypesLifecycleRule {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#abort_incomplete_multipart_upload_days DeeplyNestedBlockTypes#abort_incomplete_multipart_upload_days}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types#abort_incomplete_multipart_upload_days DeeplyNestedBlockTypes#abort_incomplete_multipart_upload_days}
   */
   readonly abortIncompleteMultipartUploadDays?: number;
   /**
   * expiration block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html#expiration DeeplyNestedBlockTypes#expiration}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types#expiration DeeplyNestedBlockTypes#expiration}
   */
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration;
 }
 
-function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
+export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -747,7 +770,7 @@ function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlo
 
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html aws_deeply_nested_block_types}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types aws_deeply_nested_block_types}
 */
 export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
 
@@ -761,7 +784,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types.html aws_deeply_nested_block_types} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types aws_deeply_nested_block_types} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -786,12 +809,12 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // ==========
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[] | undefined; 
+  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[]; 
   public get lifecycleRule() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('lifecycle_rule') as any;
   }
-  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] | undefined) {
+  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[]) {
     this._lifecycleRule = value;
   }
   public resetLifecycleRule() {
@@ -799,7 +822,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get lifecycleRuleInput() {
-    return this._lifecycleRule
+    return this._lifecycleRule;
   }
 
   // =========
@@ -816,7 +839,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
 `;
 
 exports[`ignored attributes 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html
+"// https://www.terraform.io/docs/providers/aws/r/ignored_attributes
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -828,7 +851,7 @@ export interface IgnoredAttributesConfig extends cdktf.TerraformMetaArguments {
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html aws_ignored_attributes}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/ignored_attributes aws_ignored_attributes}
 */
 export class IgnoredAttributes extends cdktf.TerraformResource {
 
@@ -842,7 +865,7 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/ignored_attributes.html aws_ignored_attributes} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/ignored_attributes aws_ignored_attributes} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -888,7 +911,7 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
 `;
 
 exports[`incompatible attribute names 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html
+"// https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -898,21 +921,29 @@ import * as cdktf from 'cdktf';
 
 export interface IncompatibleAttributeNamesConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#get_password_data IncompatibleAttributeNames#get_password_data}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names#get_password_data IncompatibleAttributeNames#get_password_data}
   */
   readonly fetchPasswordData?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#self IncompatibleAttributeNames#self}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names#self IncompatibleAttributeNames#self}
   */
   readonly selfAttribute: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html#equals IncompatibleAttributeNames#equals}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names#equals IncompatibleAttributeNames#equals}
   */
   readonly equalTo: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names#node IncompatibleAttributeNames#node}
+  */
+  readonly nodeAttribute: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names#system IncompatibleAttributeNames#system}
+  */
+  readonly systemAttribute: string;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html aws_incompatible_attribute_names}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names aws_incompatible_attribute_names}
 */
 export class IncompatibleAttributeNames extends cdktf.TerraformResource {
 
@@ -926,7 +957,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names.html aws_incompatible_attribute_names} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/incompatible_attribute_names aws_incompatible_attribute_names} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -946,6 +977,8 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
     this._getPasswordData = config.fetchPasswordData;
     this._self = config.selfAttribute;
     this._equals = config.equalTo;
+    this._node = config.nodeAttribute;
+    this._system = config.systemAttribute;
   }
 
   // ==========
@@ -953,11 +986,11 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // ==========
 
   // get_password_data - computed: false, optional: true, required: false
-  private _getPasswordData?: string | undefined; 
+  private _getPasswordData?: string; 
   public get fetchPasswordData() {
     return this.getStringAttribute('get_password_data');
   }
-  public set fetchPasswordData(value: string | undefined) {
+  public set fetchPasswordData(value: string) {
     this._getPasswordData = value;
   }
   public resetFetchPasswordData() {
@@ -965,7 +998,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fetchPasswordDataInput() {
-    return this._getPasswordData
+    return this._getPasswordData;
   }
 
   // self - computed: false, optional: false, required: true
@@ -978,7 +1011,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get selfAttributeInput() {
-    return this._self
+    return this._self;
   }
 
   // equals - computed: false, optional: false, required: true
@@ -991,7 +1024,33 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get equalToInput() {
-    return this._equals
+    return this._equals;
+  }
+
+  // node - computed: false, optional: false, required: true
+  private _node?: string; 
+  public get nodeAttribute() {
+    return this.getStringAttribute('node');
+  }
+  public set nodeAttribute(value: string) {
+    this._node = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nodeAttributeInput() {
+    return this._node;
+  }
+
+  // system - computed: false, optional: false, required: true
+  private _system?: string; 
+  public get systemAttribute() {
+    return this.getStringAttribute('system');
+  }
+  public set systemAttribute(value: string) {
+    this._system = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get systemAttributeInput() {
+    return this._system;
   }
 
   // =========
@@ -1003,6 +1062,8 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
       get_password_data: cdktf.stringToTerraform(this._getPasswordData),
       self: cdktf.stringToTerraform(this._self),
       equals: cdktf.stringToTerraform(this._equals),
+      node: cdktf.stringToTerraform(this._node),
+      system: cdktf.stringToTerraform(this._system),
     };
   }
 }
@@ -1010,7 +1071,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
 `;
 
 exports[`list of string map attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/list_of_string_map.html
+"// https://www.terraform.io/docs/providers/aws/r/list_of_string_map
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1022,7 +1083,7 @@ export interface ListOfStringMapConfig extends cdktf.TerraformMetaArguments {
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map.html aws_list_of_string_map}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map aws_list_of_string_map}
 */
 export class ListOfStringMap extends cdktf.TerraformResource {
 
@@ -1036,7 +1097,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map.html aws_list_of_string_map} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map aws_list_of_string_map} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1077,7 +1138,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
 `;
 
 exports[`number list attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/number_list.html
+"// https://www.terraform.io/docs/providers/aws/r/number_list
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1087,17 +1148,17 @@ import * as cdktf from 'cdktf';
 
 export interface NumberListConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_list.html#foo_required NumberList#foo_required}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_list#foo_required NumberList#foo_required}
   */
   readonly fooRequired: number[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_list.html#foo_optional NumberList#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_list#foo_optional NumberList#foo_optional}
   */
   readonly fooOptional?: number[];
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_list.html aws_number_list}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_list aws_number_list}
 */
 export class NumberList extends cdktf.TerraformResource {
 
@@ -1111,7 +1172,7 @@ export class NumberList extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/number_list.html aws_number_list} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/number_list aws_number_list} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1147,16 +1208,16 @@ export class NumberList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
-    return this._fooRequired
+    return this._fooRequired;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: number[] | undefined; 
+  private _fooOptional?: number[]; 
   public get fooOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: number[] | undefined) {
+  public set fooOptional(value: number[]) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1164,7 +1225,7 @@ export class NumberList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // =========
@@ -1182,7 +1243,7 @@ export class NumberList extends cdktf.TerraformResource {
 `;
 
 exports[`number map attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/number_map.html
+"// https://www.terraform.io/docs/providers/aws/r/number_map
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1192,17 +1253,17 @@ import * as cdktf from 'cdktf';
 
 export interface NumberMapConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map.html#foo_computed_optional NumberMap#foo_computed_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map#foo_computed_optional NumberMap#foo_computed_optional}
   */
   readonly fooComputedOptional?: { [key: string]: number } | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map.html#foo_optional NumberMap#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map#foo_optional NumberMap#foo_optional}
   */
   readonly fooOptional?: { [key: string]: number } | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_map.html aws_number_map}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/number_map aws_number_map}
 */
 export class NumberMap extends cdktf.TerraformResource {
 
@@ -1216,7 +1277,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/number_map.html aws_number_map} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/number_map aws_number_map} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1247,12 +1308,12 @@ export class NumberMap extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: number } | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: { [key: string]: number } | cdktf.IResolvable; 
   public get fooComputedOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: { [key: string]: number } | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: { [key: string]: number } | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1260,16 +1321,16 @@ export class NumberMap extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+    return this._fooComputedOptional;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: number } | cdktf.IResolvable | undefined; 
+  private _fooOptional?: { [key: string]: number } | cdktf.IResolvable; 
   public get fooOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: number } | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: { [key: string]: number } | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1277,7 +1338,7 @@ export class NumberMap extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // =========
@@ -1295,7 +1356,7 @@ export class NumberMap extends cdktf.TerraformResource {
 `;
 
 exports[`primitive boolean 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html
+"// https://www.terraform.io/docs/providers/aws/r/primitive_boolean
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1305,21 +1366,21 @@ import * as cdktf from 'cdktf';
 
 export interface PrimitiveBooleanConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html#foo_computed_optional PrimitiveBoolean#foo_computed_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean#foo_computed_optional PrimitiveBoolean#foo_computed_optional}
   */
   readonly fooComputedOptional?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html#foo_optional PrimitiveBoolean#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean#foo_optional PrimitiveBoolean#foo_optional}
   */
   readonly fooOptional?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html#foo_required PrimitiveBoolean#foo_required}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean#foo_required PrimitiveBoolean#foo_required}
   */
   readonly fooRequired: boolean | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html aws_primitive_boolean}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean aws_primitive_boolean}
 */
 export class PrimitiveBoolean extends cdktf.TerraformResource {
 
@@ -1333,7 +1394,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean.html aws_primitive_boolean} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_boolean aws_primitive_boolean} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1365,11 +1426,11 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: boolean | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: boolean | cdktf.IResolvable; 
   public get fooComputedOptional() {
     return this.getBooleanAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: boolean | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: boolean | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1377,15 +1438,15 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+    return this._fooComputedOptional;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean | cdktf.IResolvable | undefined; 
+  private _fooOptional?: boolean | cdktf.IResolvable; 
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: boolean | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: boolean | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1393,7 +1454,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1406,7 +1467,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
-    return this._fooRequired
+    return this._fooRequired;
   }
 
   // =========
@@ -1425,7 +1486,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
 `;
 
 exports[`primitive dynamic 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html
+"// https://www.terraform.io/docs/providers/aws/r/primitive_dynamic
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1435,21 +1496,21 @@ import * as cdktf from 'cdktf';
 
 export interface PrimitiveDynamicConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html#foo_computed_optional PrimitiveDynamic#foo_computed_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic#foo_computed_optional PrimitiveDynamic#foo_computed_optional}
   */
   readonly fooComputedOptional?: { [key: string]: any } | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html#foo_optional PrimitiveDynamic#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic#foo_optional PrimitiveDynamic#foo_optional}
   */
   readonly fooOptional?: { [key: string]: any } | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html#foo_required PrimitiveDynamic#foo_required}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic#foo_required PrimitiveDynamic#foo_required}
   */
   readonly fooRequired: { [key: string]: any } | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html aws_primitive_dynamic}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic aws_primitive_dynamic}
 */
 export class PrimitiveDynamic extends cdktf.TerraformResource {
 
@@ -1463,7 +1524,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic.html aws_primitive_dynamic} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic aws_primitive_dynamic} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1495,12 +1556,12 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: any } | cdktf.IResolvable | undefined; 
+  private _fooComputedOptional?: { [key: string]: any } | cdktf.IResolvable; 
   public get fooComputedOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_computed_optional') as any;
   }
-  public set fooComputedOptional(value: { [key: string]: any } | cdktf.IResolvable | undefined) {
+  public set fooComputedOptional(value: { [key: string]: any } | cdktf.IResolvable) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1508,16 +1569,16 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+    return this._fooComputedOptional;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: any } | cdktf.IResolvable | undefined; 
+  private _fooOptional?: { [key: string]: any } | cdktf.IResolvable; 
   public get fooOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: { [key: string]: any } | cdktf.IResolvable | undefined) {
+  public set fooOptional(value: { [key: string]: any } | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1525,7 +1586,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1539,7 +1600,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
-    return this._fooRequired
+    return this._fooRequired;
   }
 
   // =========
@@ -1558,7 +1619,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
 `;
 
 exports[`primitive number 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/primitive_number.html
+"// https://www.terraform.io/docs/providers/aws/r/primitive_number
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1568,21 +1629,21 @@ import * as cdktf from 'cdktf';
 
 export interface PrimitiveNumberConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html#foo_computed_optional PrimitiveNumber#foo_computed_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number#foo_computed_optional PrimitiveNumber#foo_computed_optional}
   */
   readonly fooComputedOptional?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html#foo_optional PrimitiveNumber#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number#foo_optional PrimitiveNumber#foo_optional}
   */
   readonly fooOptional?: number;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html#foo_required PrimitiveNumber#foo_required}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_number#foo_required PrimitiveNumber#foo_required}
   */
   readonly fooRequired: number;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html aws_primitive_number}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_number aws_primitive_number}
 */
 export class PrimitiveNumber extends cdktf.TerraformResource {
 
@@ -1596,7 +1657,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_number.html aws_primitive_number} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_number aws_primitive_number} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1628,11 +1689,11 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: number | undefined; 
+  private _fooComputedOptional?: number; 
   public get fooComputedOptional() {
     return this.getNumberAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: number | undefined) {
+  public set fooComputedOptional(value: number) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1640,15 +1701,15 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+    return this._fooComputedOptional;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: number | undefined; 
+  private _fooOptional?: number; 
   public get fooOptional() {
     return this.getNumberAttribute('foo_optional');
   }
-  public set fooOptional(value: number | undefined) {
+  public set fooOptional(value: number) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1656,7 +1717,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1669,7 +1730,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
-    return this._fooRequired
+    return this._fooRequired;
   }
 
   // =========
@@ -1688,7 +1749,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
 `;
 
 exports[`primitive string 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/primitive_string.html
+"// https://www.terraform.io/docs/providers/aws/r/primitive_string
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1698,21 +1759,21 @@ import * as cdktf from 'cdktf';
 
 export interface PrimitiveStringConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html#foo_computed_optional PrimitiveString#foo_computed_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string#foo_computed_optional PrimitiveString#foo_computed_optional}
   */
   readonly fooComputedOptional?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html#foo_optional PrimitiveString#foo_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string#foo_optional PrimitiveString#foo_optional}
   */
   readonly fooOptional?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html#foo_required PrimitiveString#foo_required}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_string#foo_required PrimitiveString#foo_required}
   */
   readonly fooRequired: string;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html aws_primitive_string}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/primitive_string aws_primitive_string}
 */
 export class PrimitiveString extends cdktf.TerraformResource {
 
@@ -1726,7 +1787,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_string.html aws_primitive_string} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/primitive_string aws_primitive_string} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1758,11 +1819,11 @@ export class PrimitiveString extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: string | undefined; 
+  private _fooComputedOptional?: string; 
   public get fooComputedOptional() {
     return this.getStringAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: string | undefined) {
+  public set fooComputedOptional(value: string) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1770,15 +1831,15 @@ export class PrimitiveString extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooComputedOptionalInput() {
-    return this._fooComputedOptional
+    return this._fooComputedOptional;
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: string | undefined; 
+  private _fooOptional?: string; 
   public get fooOptional() {
     return this.getStringAttribute('foo_optional');
   }
-  public set fooOptional(value: string | undefined) {
+  public set fooOptional(value: string) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1786,7 +1847,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooOptionalInput() {
-    return this._fooOptional
+    return this._fooOptional;
   }
 
   // foo_required - computed: false, optional: false, required: true
@@ -1799,7 +1860,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get fooRequiredInput() {
-    return this._fooRequired
+    return this._fooRequired;
   }
 
   // =========
@@ -1818,7 +1879,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
 `;
 
 exports[`reset and input name conflicts 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/name_conflict.html
+"// https://www.terraform.io/docs/providers/aws/r/name_conflict
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1828,25 +1889,25 @@ import * as cdktf from 'cdktf';
 
 export interface NameConflictConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#values NameConflict#values}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict#values NameConflict#values}
   */
   readonly values?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#reset_values NameConflict#reset_values}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict#reset_values NameConflict#reset_values}
   */
   readonly resetValues?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#template NameConflict#template}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict#template NameConflict#template}
   */
   readonly template?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html#template_input NameConflict#template_input}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/name_conflict#template_input NameConflict#template_input}
   */
   readonly templateInput?: string;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html aws_name_conflict}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/name_conflict aws_name_conflict}
 */
 export class NameConflict extends cdktf.TerraformResource {
 
@@ -1860,7 +1921,7 @@ export class NameConflict extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/name_conflict.html aws_name_conflict} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/name_conflict aws_name_conflict} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -1888,11 +1949,11 @@ export class NameConflict extends cdktf.TerraformResource {
   // ==========
 
   // values - computed: false, optional: true, required: false
-  private _values?: string | undefined; 
+  private _values?: string; 
   public get values() {
     return this.getStringAttribute('values');
   }
-  public set values(value: string | undefined) {
+  public set values(value: string) {
     this._values = value;
   }
   public resetTfValues() {
@@ -1900,15 +1961,15 @@ export class NameConflict extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get valuesInput() {
-    return this._values
+    return this._values;
   }
 
   // reset_values - computed: false, optional: true, required: false
-  private _resetValues?: string | undefined; 
+  private _resetValues?: string; 
   public get resetValues() {
     return this.getStringAttribute('reset_values');
   }
-  public set resetValues(value: string | undefined) {
+  public set resetValues(value: string) {
     this._resetValues = value;
   }
   public resetResetValues() {
@@ -1916,15 +1977,15 @@ export class NameConflict extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get resetValuesInput() {
-    return this._resetValues
+    return this._resetValues;
   }
 
   // template - computed: false, optional: true, required: false
-  private _template?: string | undefined; 
+  private _template?: string; 
   public get template() {
     return this.getStringAttribute('template');
   }
-  public set template(value: string | undefined) {
+  public set template(value: string) {
     this._template = value;
   }
   public resetTemplate() {
@@ -1932,15 +1993,15 @@ export class NameConflict extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get templateTfInput() {
-    return this._template
+    return this._template;
   }
 
   // template_input - computed: false, optional: true, required: false
-  private _templateInput?: string | undefined; 
+  private _templateInput?: string; 
   public get templateInput() {
     return this.getStringAttribute('template_input');
   }
-  public set templateInput(value: string | undefined) {
+  public set templateInput(value: string) {
     this._templateInput = value;
   }
   public resetTemplateInput() {
@@ -1948,7 +2009,7 @@ export class NameConflict extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get templateInputInput() {
-    return this._templateInput
+    return this._templateInput;
   }
 
   // =========
@@ -1968,7 +2029,7 @@ export class NameConflict extends cdktf.TerraformResource {
 `;
 
 exports[`set / list block type 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html
+"// https://www.terraform.io/docs/providers/aws/r/block_type_set_list
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1980,24 +2041,24 @@ export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
   /**
   * timeouts_set block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#timeouts_set BlockTypeSetList#timeouts_set}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list#timeouts_set BlockTypeSetList#timeouts_set}
   */
   readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
   /**
   * timeouts_list block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#timeouts_list BlockTypeSetList#timeouts_list}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list#timeouts_list BlockTypeSetList#timeouts_list}
   */
   readonly timeoutsList?: BlockTypeSetListTimeoutsList[];
 }
 export interface BlockTypeSetListTimeoutsSet {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#create BlockTypeSetList#create}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list#create BlockTypeSetList#create}
   */
   readonly create?: string;
 }
 
-function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
+export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -2009,12 +2070,12 @@ function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeout
 
 export interface BlockTypeSetListTimeoutsList {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html#create BlockTypeSetList#create}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list#create BlockTypeSetList#create}
   */
   readonly create?: string;
 }
 
-function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
+export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -2026,7 +2087,7 @@ function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeou
 
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html aws_block_type_set_list}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list aws_block_type_set_list}
 */
 export class BlockTypeSetList extends cdktf.TerraformResource {
 
@@ -2040,7 +2101,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list.html aws_block_type_set_list} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list aws_block_type_set_list} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -2066,12 +2127,12 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // ==========
 
   // timeouts_set - computed: false, optional: true, required: false
-  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[] | undefined; 
+  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[]; 
   public get timeoutsSet() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('timeouts_set') as any;
   }
-  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | undefined) {
+  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[]) {
     this._timeoutsSet = value;
   }
   public resetTimeoutsSet() {
@@ -2079,16 +2140,16 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsSetInput() {
-    return this._timeoutsSet
+    return this._timeoutsSet;
   }
 
   // timeouts_list - computed: false, optional: true, required: false
-  private _timeoutsList?: BlockTypeSetListTimeoutsList[] | undefined; 
+  private _timeoutsList?: BlockTypeSetListTimeoutsList[]; 
   public get timeoutsList() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('timeouts_list') as any;
   }
-  public set timeoutsList(value: BlockTypeSetListTimeoutsList[] | undefined) {
+  public set timeoutsList(value: BlockTypeSetListTimeoutsList[]) {
     this._timeoutsList = value;
   }
   public resetTimeoutsList() {
@@ -2096,7 +2157,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsListInput() {
-    return this._timeoutsList
+    return this._timeoutsList;
   }
 
   // =========
@@ -2114,7 +2175,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
 `;
 
 exports[`single block type 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/single_block_type.html
+"// https://www.terraform.io/docs/providers/aws/r/single_block_type
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -2126,18 +2187,18 @@ export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
   /**
   * timeouts block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html#timeouts SingleBlockType#timeouts}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type#timeouts SingleBlockType#timeouts}
   */
   readonly timeouts?: SingleBlockTypeTimeouts;
 }
 export interface SingleBlockTypeTimeouts {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html#create SingleBlockType#create}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type#create SingleBlockType#create}
   */
   readonly create?: string;
 }
 
-function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts): any {
+export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -2148,6 +2209,8 @@ function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutp
 }
 
 export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
@@ -2157,12 +2220,33 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
+  public get internalValue(): SingleBlockTypeTimeouts | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._create !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.create = this._create;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SingleBlockTypeTimeouts | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._create = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._create = value.create;
+    }
+  }
+
   // create - computed: false, optional: true, required: false
-  private _create?: string | undefined; 
+  private _create?: string; 
   public get create() {
     return this.getStringAttribute('create');
   }
-  public set create(value: string | undefined) {
+  public set create(value: string) {
     this._create = value;
   }
   public resetCreate() {
@@ -2170,12 +2254,12 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   }
   // Temporarily expose input value. Use with caution.
   public get createInput() {
-    return this._create
+    return this._create;
   }
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html aws_single_block_type}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/single_block_type aws_single_block_type}
 */
 export class SingleBlockType extends cdktf.TerraformResource {
 
@@ -2189,7 +2273,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/single_block_type.html aws_single_block_type} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/single_block_type aws_single_block_type} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -2206,7 +2290,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._timeouts = config.timeouts;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -2214,20 +2298,19 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ==========
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts?: SingleBlockTypeTimeouts | undefined; 
-  private __timeoutsOutput = new SingleBlockTypeTimeoutsOutputReference(this as any, \\"timeouts\\", true);
+  private _timeouts = new SingleBlockTypeTimeoutsOutputReference(this as any, \\"timeouts\\", true);
   public get timeouts() {
-    return this.__timeoutsOutput;
+    return this._timeouts;
   }
-  public putTimeouts(value: SingleBlockTypeTimeouts | undefined) {
-    this._timeouts = value;
+  public putTimeouts(value: SingleBlockTypeTimeouts) {
+    this._timeouts.internalValue = value;
   }
   public resetTimeouts() {
-    this._timeouts = undefined;
+    this._timeouts.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get timeoutsInput() {
-    return this._timeouts
+    return this._timeouts.internalValue;
   }
 
   // =========
@@ -2236,7 +2319,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts: singleBlockTypeTimeoutsToTerraform(this._timeouts),
+      timeouts: singleBlockTypeTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }
@@ -2244,7 +2327,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
 `;
 
 exports[`string list attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/string_list.html
+"// https://www.terraform.io/docs/providers/aws/r/string_list
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -2254,21 +2337,21 @@ import * as cdktf from 'cdktf';
 
 export interface StringListConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list.html#subject_alternative_names_optional_computed StringList#subject_alternative_names_optional_computed}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list#subject_alternative_names_optional_computed StringList#subject_alternative_names_optional_computed}
   */
   readonly subjectAlternativeNamesOptionalComputed?: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list.html#subject_alternative_names_required StringList#subject_alternative_names_required}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list#subject_alternative_names_required StringList#subject_alternative_names_required}
   */
   readonly subjectAlternativeNamesRequired: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list.html#subject_alternative_names_optional StringList#subject_alternative_names_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_list#subject_alternative_names_optional StringList#subject_alternative_names_optional}
   */
   readonly subjectAlternativeNamesOptional?: string[];
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_list.html aws_string_list}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_list aws_string_list}
 */
 export class StringList extends cdktf.TerraformResource {
 
@@ -2282,7 +2365,7 @@ export class StringList extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/string_list.html aws_string_list} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/string_list aws_string_list} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -2309,11 +2392,11 @@ export class StringList extends cdktf.TerraformResource {
   // ==========
 
   // subject_alternative_names_optional_computed - computed: true, optional: true, required: false
-  private _subjectAlternativeNamesOptionalComputed?: string[] | undefined; 
+  private _subjectAlternativeNamesOptionalComputed?: string[]; 
   public get subjectAlternativeNamesOptionalComputed() {
     return this.getListAttribute('subject_alternative_names_optional_computed');
   }
-  public set subjectAlternativeNamesOptionalComputed(value: string[] | undefined) {
+  public set subjectAlternativeNamesOptionalComputed(value: string[]) {
     this._subjectAlternativeNamesOptionalComputed = value;
   }
   public resetSubjectAlternativeNamesOptionalComputed() {
@@ -2321,7 +2404,7 @@ export class StringList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalComputedInput() {
-    return this._subjectAlternativeNamesOptionalComputed
+    return this._subjectAlternativeNamesOptionalComputed;
   }
 
   // subject_alternative_names_computed - computed: true, optional: false, required: false
@@ -2339,15 +2422,15 @@ export class StringList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesRequiredInput() {
-    return this._subjectAlternativeNamesRequired
+    return this._subjectAlternativeNamesRequired;
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
-  private _subjectAlternativeNamesOptional?: string[] | undefined; 
+  private _subjectAlternativeNamesOptional?: string[]; 
   public get subjectAlternativeNamesOptional() {
     return this.getListAttribute('subject_alternative_names_optional');
   }
-  public set subjectAlternativeNamesOptional(value: string[] | undefined) {
+  public set subjectAlternativeNamesOptional(value: string[]) {
     this._subjectAlternativeNamesOptional = value;
   }
   public resetSubjectAlternativeNamesOptional() {
@@ -2355,7 +2438,7 @@ export class StringList extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalInput() {
-    return this._subjectAlternativeNamesOptional
+    return this._subjectAlternativeNamesOptional;
   }
 
   // =========
@@ -2374,7 +2457,7 @@ export class StringList extends cdktf.TerraformResource {
 `;
 
 exports[`string map attribute 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/string_map.html
+"// https://www.terraform.io/docs/providers/aws/r/string_map
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -2384,17 +2467,17 @@ import * as cdktf from 'cdktf';
 
 export interface StringMapConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map.html#subject_alternative_names_computed_optional StringMap#subject_alternative_names_computed_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map#subject_alternative_names_computed_optional StringMap#subject_alternative_names_computed_optional}
   */
   readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string } | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map.html#subject_alternative_names_optional StringMap#subject_alternative_names_optional}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map#subject_alternative_names_optional StringMap#subject_alternative_names_optional}
   */
   readonly subjectAlternativeNamesOptional?: { [key: string]: string } | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_map.html aws_string_map}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/string_map aws_string_map}
 */
 export class StringMap extends cdktf.TerraformResource {
 
@@ -2408,7 +2491,7 @@ export class StringMap extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/string_map.html aws_string_map} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/string_map aws_string_map} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -2439,12 +2522,12 @@ export class StringMap extends cdktf.TerraformResource {
   }
 
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
-  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string } | cdktf.IResolvable | undefined; 
+  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string } | cdktf.IResolvable; 
   public get subjectAlternativeNamesComputedOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any;
   }
-  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
+  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | cdktf.IResolvable) {
     this._subjectAlternativeNamesComputedOptional = value;
   }
   public resetSubjectAlternativeNamesComputedOptional() {
@@ -2452,16 +2535,16 @@ export class StringMap extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesComputedOptionalInput() {
-    return this._subjectAlternativeNamesComputedOptional
+    return this._subjectAlternativeNamesComputedOptional;
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
-  private _subjectAlternativeNamesOptional?: { [key: string]: string } | cdktf.IResolvable | undefined; 
+  private _subjectAlternativeNamesOptional?: { [key: string]: string } | cdktf.IResolvable; 
   public get subjectAlternativeNamesOptional() {
     // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('subject_alternative_names_optional') as any;
   }
-  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | cdktf.IResolvable | undefined) {
+  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | cdktf.IResolvable) {
     this._subjectAlternativeNamesOptional = value;
   }
   public resetSubjectAlternativeNamesOptional() {
@@ -2469,7 +2552,7 @@ export class StringMap extends cdktf.TerraformResource {
   }
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalInput() {
-    return this._subjectAlternativeNamesOptional
+    return this._subjectAlternativeNamesOptional;
   }
 
   // =========

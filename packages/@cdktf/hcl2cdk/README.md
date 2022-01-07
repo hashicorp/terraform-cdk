@@ -39,7 +39,7 @@ new cdktf.TerraformVariable(this, "imageId", {
 ### Convert a project
 
 ```ts
-import { convertProject, getTerraformConfigFromDir } from "@cdktf/hcl2json";
+import * as hcl2cdk from "@cdktf/hcl2cdk";
 import {
   readSchema,
   ConstructsMakerProviderTarget,
@@ -48,19 +48,26 @@ import {
 } from "@cdktf/provider-generator";
 
 (async () => {
-  // Get all the provider schemas, making the conversion more precise
-  const { providerSchema } = await readSchema(
-    providerRequirements.map((spec) =>
-      ConstructsMakerProviderTarget.from(
-        new config.TerraformProviderConstraint(spec),
-        LANGUAGES[0]
-      )
+  const hcl = hcl2cdk.getTerraformConfigFromDir("/path/to/terraform/project");
+  const providerRequirements = await hcl2cdk.parseProviderRequirements(hcl);
+  const targets = Object.entries(providerRequirements).map(([name, version]) =>
+    ConstructsMakerProviderTarget.from(
+      new config.TerraformProviderConstraint(`${name}@ ${version}`),
+      LANGUAGES[0]
     )
   );
+  // Get all the provider schemas, making the conversion more precise
+  const { providerSchema } = await readSchema(targets);
 
-  await convertProject(
-    getTerraformConfigFromDir("/path/to/terraform/project"),
-    "/path/to/cdktf-init/project",
+  const mainTs = await hcl2cdk.convert(hcl, {
+    language: "typescript",
+    providerSchema: providerSchema,
+  });
+
+  await hcl2cdk.convertProject(
+    hcl,
+    mainTs.code,
+    require("../cdktf.json"),
     { language: "typescript", providerSchema } // Currently we only support Typescript for project conversion
   );
 })();

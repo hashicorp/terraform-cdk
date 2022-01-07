@@ -27,10 +27,11 @@ import {
   LANGUAGES,
   config,
 } from "@cdktf/provider-generator";
+import { readPackageJson, projectRootPath } from "./utilities";
 
 const chalkColour = new chalk.Instance();
 
-const templatesDir = path.join(__dirname, "..", "..", "..", "templates");
+const templatesDir = path.join(projectRootPath(), "templates");
 const availableTemplates = fs
   .readdirSync(templatesDir)
   .filter((x) => !x.startsWith("."));
@@ -39,8 +40,7 @@ for (const template of availableTemplates) {
   templates.push(template);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkg = require("../../../package.json");
+const pkg = readPackageJson();
 const constructsVersion = pkg.dependencies.constructs;
 
 export function checkForEmptyDirectory(dir: string) {

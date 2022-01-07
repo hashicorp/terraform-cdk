@@ -1,4 +1,6 @@
 import { toSnakeCase } from "codemaker";
+import path from "path";
+import { downcaseFirst } from "../../../util";
 import {
   ResourceNamespace,
   getResourceNamespace,
@@ -7,6 +9,7 @@ import { Schema } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
 
+export const STRUCT_SHARDING_THRESHOLD = 400;
 interface ResourceModelOptions {
   terraformType: string;
   className: string;
@@ -55,6 +58,10 @@ export class ResourceModel {
     ];
   }
 
+  public get structsRequireSharding(): boolean {
+    return this._structs.length > STRUCT_SHARDING_THRESHOLD;
+  }
+
   public get structs(): Struct[] {
     return [this.configStruct, ...this._structs];
   }
@@ -80,7 +87,7 @@ export class ResourceModel {
       return `https://www.terraform.io/docs/providers/${this.provider}`;
     return `https://www.terraform.io/docs/providers/${this.provider}/${
       this.isDataSource ? "d" : "r"
-    }/${this.terraformDocName}.html`;
+    }/${this.terraformDocName}`;
   }
 
   public get isProvider(): boolean {
@@ -118,6 +125,66 @@ export class ResourceModel {
         ""
       )
     );
+  }
+
+  public get importableTypes(): string[] {
+    const structNames = this.structNames;
+    const result = [
+      ...this.configStruct.attributeTypeNames,
+      ...this.attributeTypeNames,
+    ].filter((t) => structNames.includes(t));
+
+    return Array.from(new Set(result));
+  }
+
+  public get importableTypesFromClasses(): string[] {
+    const structNames = this.structNames;
+    const result = [
+      ...this.configStruct.attributeTypeNamesFromClasses,
+      ...this.attributeTypeNamesFromClasses,
+    ].filter((t) => structNames.includes(t));
+
+    return Array.from(new Set(result));
+  }
+
+  public get importableOutputReferences(): string[] {
+    return this.importableTypesFromClasses.map(
+      (type) => `${type}OutputReference`
+    );
+  }
+
+  public get importableStructMapper(): string[] {
+    return this.importableTypes.map(
+      (type) => `${downcaseFirst(type)}ToTerraform`
+    );
+  }
+
+  public get structNames(): string[] {
+    return this.structs.map((s) => s.name);
+  }
+
+  public get structsFolderName(): string {
+    return `${path.basename(this.fileName, ".ts")}-structs`;
+  }
+
+  public get attributeTypeNames(): string[] {
+    return this.attributes.map((a) => a.type.typeName);
+  }
+
+  public get attributeTypeNamesFromClasses(): string[] {
+    return this.attributes
+      .filter((a) => a.type.struct?.isClass)
+      .map((a) => a.type.typeName);
+  }
+
+  public get structsFolderPath(): string {
+    const basePath = this.filePath.split("/").slice(0, -1).join("/");
+
+    if (this.namespace) {
+      return path.join(basePath, this.namespace!.name, this.structsFolderName);
+    } else {
+      return path.join(basePath, this.structsFolderName);
+    }
   }
 
   private escapeSchema(schema: string): string {

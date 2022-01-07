@@ -1,0 +1,100 @@
+[
+  { "heading": "CDK for Terraform" },
+  { "title": "Overview", "path": "" },
+  {
+    "title": "Get Started",
+    "href": "https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf"
+  },
+  {
+    "title": "Concepts",
+    "routes": [
+      {
+        "title": "Architecture",
+        "path": "concepts/cdktf-architecture"
+      },
+      {
+        "title": "HCL Interoperability",
+        "path": "concepts/hcl-interoperability"
+      },
+      {
+        "title": "Constructs",
+        "path": "concepts/constructs"
+      },
+      {
+        "title": "Providers and Resources",
+        "path": "concepts/providers-and-resources"
+      },
+      {
+        "title": "Modules",
+        "path": "concepts/modules"
+      },
+      {
+        "title": "Data Sources",
+        "path": "concepts/data-sources"
+      },
+      {
+        "title": "Variables and Outputs",
+        "path": "concepts/variables-and-outputs"
+      },
+      {
+        "title": "Functions",
+        "path": "concepts/functions"
+      },
+      {
+        "title": "Remote Backends",
+        "path": "concepts/remote-backends"
+      },
+      {
+        "title": "Aspects",
+        "path": "concepts/aspects"
+      },
+      {
+        "title": "Assets",
+        "path": "concepts/assets"
+      },
+      {
+        "title": "Tokens",
+        "path": "concepts/tokens"
+      },
+      {
+        "title": "Stacks",
+        "path": "concepts/stacks"
+      }
+    ]
+  },
+  { "title": "Examples and Guides", "path": "examples" },
+  {
+    "title": "Create and Deploy",
+    "routes": [
+      { "title": "Project Setup", "path": "create-and-deploy/project-setup" },
+      {
+        "title": "Configuration File",
+        "path": "create-and-deploy/configuration-file"
+      },
+      {
+        "title": "Remote Templates",
+        "path": "create-and-deploy/remote-templates"
+      },
+      {
+        "title": "AWS Adapter [preview]",
+        "path": "create-and-deploy/aws-adapter"
+      }
+    ]
+  },
+  {
+    "title": "Test",
+    "routes": [{ "title": "Unit Tests", "path": "test/unit-tests" }]
+  },
+  {
+    "title": "CLI Reference",
+    "routes": [
+      {
+        "title": "CLI Configuration",
+        "path": "cli-reference/cli-configuration"
+      },
+      { "title": "Commands", "path": "cli-reference/commands" }
+    ]
+  },
+  { "title": "Community", "path": "community" },
+  { "title": "Telemetry", "path": "telemetry" }
+]

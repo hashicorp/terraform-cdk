@@ -20,11 +20,19 @@ export class AttributesEmitter {
     const hasResetMethod = isStored && !att.isRequired;
     const hasInputMethod = isStored;
 
+    const getterType = att.getterType;
+
     if (isStored) {
-      this.code.line(`private ${att.storageName}?: ${att.type.storedName}; `);
+      if (getterType._type === "stored_class") {
+        this.code.line(
+          `private ${att.storageName} = ${this.storedClassInit(att)};`
+        );
+      } else {
+        this.code.line(`private ${att.storageName}?: ${att.type.name}; `);
+      }
     }
 
-    switch (att.getterType._type) {
+    switch (getterType._type) {
       case "plain":
         this.code.openBlock(`public get ${att.name}()`);
         this.code.line(`return ${this.determineGetAttCall(att)};`);
@@ -33,43 +41,60 @@ export class AttributesEmitter {
 
       case "args":
         this.code.openBlock(
-          `public ${att.name}(${att.getterType.args})${
-            att.getterType.returnType ? ": " + att.getterType.returnType : ""
+          `public ${att.name}(${getterType.args})${
+            getterType.returnType ? ": " + getterType.returnType : ""
           }`
         );
-        this.code.line(`return ${att.getterType.returnStatement};`);
+        this.code.line(`return ${getterType.returnStatement};`);
         this.code.closeBlock();
         break;
 
       case "stored_class":
-        this.code.line(
-          `private _${att.storageName}Output = ${this.storedClassInit(att)};`
-        );
         this.code.openBlock(`public get ${att.name}()`);
-        this.code.line(`return this._${att.storageName}Output;`);
+        this.code.line(`return this.${att.storageName};`);
         this.code.closeBlock();
         break;
     }
 
-    if (att.setterType._type === "set") {
-      this.code.openBlock(
-        `public set ${att.name}(value: ${att.setterType.type})`
-      );
-      this.code.line(`this.${att.storageName} = value;`);
-      this.code.closeBlock();
-    } else if (att.setterType._type === "put") {
-      this.code.openBlock(
-        `public put${titleCase(att.name)}(value: ${att.setterType.type})`
-      );
-      this.code.line(`this.${att.storageName} = value;`);
-      this.code.closeBlock();
+    const setterType = att.setterType;
+
+    switch (setterType._type) {
+      case "set":
+        this.code.openBlock(
+          `public set ${att.name}(value: ${setterType.type})`
+        );
+        this.code.line(`this.${att.storageName} = value;`);
+        this.code.closeBlock();
+        break;
+
+      case "put":
+        this.code.openBlock(
+          `public put${titleCase(att.name)}(value: ${setterType.type})`
+        );
+        this.code.line(`this.${att.storageName} = value;`);
+        this.code.closeBlock();
+        break;
+
+      case "stored_class":
+        this.code.openBlock(
+          `public put${titleCase(att.name)}(value: ${setterType.type})`
+        );
+        this.code.line(`this.${att.storageName}.internalValue = value;`);
+        this.code.closeBlock();
+        break;
     }
 
     if (hasResetMethod) {
       this.code.openBlock(
         `public ${this.getResetName(att.name, escapeReset)}()`
       );
-      this.code.line(`this.${att.storageName} = undefined;`);
+
+      if (setterType._type === "stored_class") {
+        this.code.line(`this.${att.storageName}.internalValue = undefined;`);
+      } else {
+        this.code.line(`this.${att.storageName} = undefined;`);
+      }
+
       this.code.closeBlock();
     }
 
@@ -78,7 +103,13 @@ export class AttributesEmitter {
       this.code.openBlock(
         `public get ${this.getInputName(att, escapeInput)}()`
       );
-      this.code.line(`return this.${att.storageName}`);
+
+      if (setterType._type === "stored_class") {
+        this.code.line(`return this.${att.storageName}.internalValue;`);
+      } else {
+        this.code.line(`return this.${att.storageName};`);
+      }
+
       this.code.closeBlock();
     }
   }
@@ -213,6 +244,13 @@ export class AttributesEmitter {
       case type.isBoolean:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`
+        );
+        break;
+      case !isStruct && att.getterType._type === "stored_class":
+        this.code.line(
+          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
+            type.name
+          )}ToTerraform(${varReference}.internalValue),`
         );
         break;
       default:

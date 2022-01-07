@@ -1,0 +1,240 @@
+---
+page_title: Remote Backends
+description: >-
+  Configure a remote backend where Terraform can store infrastructure state
+  files remotely.
+---
+
+# Remote Backends
+
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness).
+
+Terraform stores [state](/language/state) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](/language/settings/backends/remote) to store state remotely.
+
+By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding remote backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, you can still [migrate the state](#migrate-local-state-storage-to-remote) to a remote backend later.
+
+You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform Cloud](/cloud), another Terraform [supported backend](#supported-backends), or a custom location.
+
+## When to Use Remote Backends
+
+Consider using a remote backend when multiple individuals or teams need access to your infrastructure state data.
+
+[Remote state](/language/state/remote) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information that other teams can use for their own infrastructure.
+
+## Define Remote Backends
+
+You can define a [JSON configuration for a remote backend](/language/syntax/json#terraform-blocks)
+with a `TerraformBackend` subclass or a JSON configuration file.
+
+The TypeScript example below uses the `TerraformBackend` subclass `RemoteBackend`.
+
+```typescript
+import { Construct } from "constructs";
+import { App, RemoteBackend, TerraformStack, TerraformOutput } from "cdktf";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new RemoteBackend(this, {
+      hostname: "app.terraform.io",
+      organization: "company",
+      workspaces: {
+        name: "my-app-prod",
+      },
+    });
+
+    new TerraformOutput(this, "dns-server", {
+      value: "hello-world",
+    });
+  }
+}
+
+const app = new App();
+new Mystack(app, "hello-terraform");
+```
+
+When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
+
+Below is the stack output directory.
+
+```bash
+tree .
+.
+├── cdk.tf.json
+└── remote.tf.json
+```
+
+Below is the generated `remote.tf.json` file.
+
+```json
+{
+  "terraform": {
+    "backend": {
+      "remote": {
+        "hostname": "app.terraform.io",
+        "organization": "company",
+        "workspaces": {
+          "name": "my-app-prod"
+        }
+      }
+    }
+  }
+}
+```
+
+## Initialize Remote Backends
+
+All `cdktf` operations perform an automatic `terraform init`, but you can also initialize manually.
+
+To manually initialize a remote backend, go to the corresponding stack output directory in the `cdktf.out` folder and run `terraform init`.
+
+```shell
+$ cd cdkf.out/stacks/hello-terraform
+$ terraform init
+```
+
+## Migrate Local State Storage to Remote
+
+After you define your remote backend, you can migrate existing local state files to the designated remote location. This requires moving Terraform state files to the CDKTF output directory.
+
+Consider an example project called `hello-terraform` that is using local storage to store the Terraform state. To migrate the local stage files to the remote backend:
+
+1. Navigate into the main project directory.
+
+1. Use `RemoteBackend` to add a new remote backend.
+
+   ```typescript
+   const stack = new MyStack(app, "hello-terraform");
+   new RemoteBackend(stack, {
+     hostname: "app.terraform.io",
+     organization: "company",
+     workspaces: {
+       name: "my-app-prod",
+     },
+   });
+   ```
+
+1. Run `cdktf synth` to generate the Terraform configuration file.
+
+1. Move the Terraform state file into the output directory.
+
+   ```bash
+   mv terraform.hello-terraform.tfstate cdktf.out/stacks/hello-terraform
+   ```
+
+1. Navigate to `cdktf.out/stacks/hello-terraform` and run `terraform init`. CDKTF prints the following output:
+
+   ```
+   Initializing the backend...
+   Do you want to copy existing state to the new backend?
+     Pre-existing state was found while migrating the previous "local" backend to the
+     newly configured "remote" backend. No existing state was found in the newly
+     configured "remote" backend. Do you want to copy this state to the new "remote"
+     backend? Enter "yes" to copy and "no" to start with an empty state.
+
+     Enter a value: yes
+
+     Successfully configured the backend "remote"! Terraform will automatically
+     use this backend unless the backend configuration changes.
+
+     Initializing provider plugins...
+
+     .....
+     Terraform has been successfully initialized!
+
+     You may now begin working with Terraform. Try running "terraform plan" to see
+     any changes that are required for your infrastructure. All Terraform commands
+     should now work.
+
+     If you ever set or change modules or backend configuration for Terraform,
+     other cdktf cli commands will detect the change and prompt you to rerun this command if necessary.
+
+   ```
+
+1. Run`cdktf diff` in the root `hello-terraform` directory to validate state migration. CDKTF prints the following output:
+
+   ```bash
+   Stack: hello-terraform
+
+   Diff: 0 to create, 0 to update, 0 to delete.
+
+   ```
+
+   With the remote backend type in this example, a diff would indicate that the state was not migrated properly. There are no changes to the stack, which means the migration was successful. Consult the documentation for the remote backend you are using to understand how to validate state migration.
+
+# Supported Backends
+
+In addition to Terraform Cloud, Terraform and CDKTF support the following backends.
+
+- [local](/language/settings/backends/local)
+  ```typescript
+  new LocalBackend(stack, {...});
+  ```
+- [artifactory](/language/settings/backends/artifactory)
+  ```typescript
+  new ArtifactoryBackend(stack, {...});
+  ```
+- [azurerm](/language/settings/backends/azurerm)
+  ```typescript
+  new AzurermBackend(stack, {...});
+  ```
+- [consul](/language/settings/backends/consul)
+  ```typescript
+  new ConsulBackend(stack, {...});
+  ```
+- [cos](/language/settings/backends/cos)
+  ```typescript
+  new CosBackend(stack, {...});
+  ```
+- [etcd](/language/settings/backends/etcd)
+  ```typescript
+  new EtcdBackend(stack, {...});
+  ```
+- [etcdv3](/language/settings/backends/etcdv3)
+  ```typescript
+  new EtcdV3Backend(stack, {...});
+  ```
+- [gcs](/language/settings/backends/gcs)
+  ```typescript
+  new GcsBackend(stack, {...});
+  ```
+- [http](/language/settings/backends/http)
+  ```typescript
+  new HttpBackend(stack, {...});
+  ```
+- [manta](/language/settings/backends/manta)
+  ```typescript
+  new MantaBackend(stack, {...});
+  ```
+- [oss](/language/settings/backends/oss)
+  ```typescript
+  new OssBackend(stack, {...});
+  ```
+- [pg](/language/settings/backends/pg)
+  ```typescript
+  new PgBackend(stack, {...});
+  ```
+- [s3](/language/settings/backends/s3)
+  ```typescript
+  new S3Backend(stack, {...});
+  ```
+- [swift](/language/settings/backends/swift)
+  ```typescript
+  new SwiftBackend(stack, {...});
+  ```
+
+## Escape Hatches
+
+Escape hatches can add to or override existing resources, and you can use them for backends or backend constructs that CDKTF does not natively support. Escape hatch methods have an `Override` suffix (e.g., `addOverride`).
+
+The example below uses an escape hatch to add an unsupported remote backend on a `Stack` object.
+
+```typescript
+stack.addOverride("terraform.backend", {
+  atlas: {
+    name: "example_corp/networking-prod",
+    address: "https://app.terraform.io",
+  },
+});
+```

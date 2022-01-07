@@ -87,9 +87,7 @@ describe("full integration test", () => {
         });
       });
 
-      // The necessary functions are exposed, but currently do not work
-      // See https://github.com/hashicorp/terraform-cdk/issues/1246
-      describe.skip("single-item nesting", () => {
+      describe("single-item nesting", () => {
         let deployment;
         beforeAll(() => {
           deployment = driver.synthesizedStack("mutation").byId("myDeployment");

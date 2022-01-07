@@ -32,8 +32,10 @@ export class AttributeTypeModel {
   public isMap: boolean;
   public struct?: Struct;
   public level?: number;
+  public typeName: string;
 
   constructor(private _type: string, options: AttributeTypeModelOptions) {
+    this.typeName = _type;
     this.isList = !!options.isList;
     this.isMap = !!options.isMap;
     this.isComputed = !!options.isComputed;

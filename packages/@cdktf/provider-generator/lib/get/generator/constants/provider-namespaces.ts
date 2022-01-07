@@ -8,189 +8,189 @@ export type ResourceNamespace = {
 // If the same prefix is used, the longest will take precedent over the others.
 const aws: Record<Prefix, ResourceNamespace> = {
   acmpa: {
-    name: "ACMPCA",
+    name: "acmpca",
     comment: "AWS Certificate Manager Private Certificate Authority",
   },
-  acm: { name: "ACM", comment: "Amazon Certificate Manager" },
+  acm: { name: "acm", comment: "Amazon Certificate Manager" },
   apigatewayv2: {
-    name: "APIGatewayV2",
+    name: "apigatewayv2",
     comment: "Amazon API Gateway Websocket and HTTP APIs",
   },
   api_gateway: {
-    name: "APIGateway",
+    name: "apigateway",
     comment: "API Gateway",
   },
   accessanalyzer: {
-    name: "AccessAnalyzer",
+    name: "accessanalyzer",
     comment: "Access Analyzer Analyzer",
   },
   prometheus: {
-    name: "Prometheus",
+    name: "prometheus",
     comment: "Prometheus",
   },
   amplify: {
-    name: "Amplify",
+    name: "amplify",
     comment: "AWS Amplify",
   },
   apprunner: {
-    name: "AppRunner",
+    name: "apprunner",
     comment: "App Runner",
   },
   appconfig: {
-    name: "AppConfig",
+    name: "appconfig",
     comment: "AppConfig",
   },
   appmesh: {
-    name: "AppMesh",
+    name: "appmesh",
     comment: "App Mesh",
   },
   appstream: {
-    name: "AppStream",
+    name: "appstream",
     comment: "AppStream",
   },
   appsync: {
-    name: "AppSync",
+    name: "appsync",
     comment: "AWS AppSync",
   },
   appautoscaling: {
-    name: "AppAutoScaling",
+    name: "appautoscaling",
     comment: "AWS AppAutoScaling",
   },
   athena: {
-    name: "Athena",
+    name: "athena",
     comment: "Amazon Athena",
   },
   autoscalingplans: {
-    name: "AutoScalingPlans",
+    name: "autoscalingplans",
     comment: "AWS Auto Scaling Plans",
   },
   autoscaling: {
-    name: "AutoScaling",
+    name: "autoscaling",
     comment: "AWS Auto Scaling",
     additionalPrefix: ["launch_configuration"],
   },
   backup: {
-    name: "Backup",
+    name: "backup",
     comment: "AWS Backup",
   },
   batch: {
-    name: "Batch",
+    name: "batch",
     comment: "AWS Batch",
   },
   budgets: {
-    name: "Budgets",
+    name: "budgets",
     comment: "AWS Budgets",
   },
   chime: {
-    name: "Chime",
+    name: "chime",
     comment: "Amazon Chime",
   },
   cloud9: {
-    name: "Cloud9",
+    name: "cloud9",
     comment: "AWS Cloud9",
   },
   cloudformation: {
-    name: "CloudFormation",
+    name: "cloudformation",
     comment: "AWS CloudFormation",
   },
   cloudfront: {
-    name: "CloudFront",
+    name: "cloudfront",
     comment: "AWS CloudFront",
   },
   cloudhsm: {
-    name: "CloudHSM",
+    name: "cloudhsm",
     comment: "AWS CloudHSM",
   },
   cloudtrail: {
-    name: "CloudTrail",
+    name: "cloudtrail",
     comment: "AWS CloudTrail",
   },
   cloudwatch: {
-    name: "CloudWatch",
+    name: "cloudwatch",
     comment: "AWS CloudWatch",
   },
   codeartifact: {
-    name: "CodeArtifact",
+    name: "codeartifact",
     comment: "AWS CodeArtifact",
   },
   codebuild: {
-    name: "CodeBuild",
+    name: "codebuild",
     comment: "AWS CodeBuild",
   },
   codecommit: {
-    name: "CodeCommit",
+    name: "codecommit",
     comment: "AWS CodeCommit",
   },
   codedeploy: {
-    name: "CodeDeploy",
+    name: "codedeploy",
     comment: "AWS CodeDeploy",
   },
   codepipeline: {
-    name: "CodePipeline",
+    name: "codepipeline",
     comment: "AWS CodePipeline",
   },
   codestar: {
-    name: "CodeStar",
+    name: "codestar",
     comment: "AWS CodeStar",
   },
   cognito: {
-    name: "Cognito",
+    name: "cognito",
     comment: "AWS Cognito",
   },
   config: {
-    name: "Config",
+    name: "config",
     comment: "AWS Config",
   },
   connect: {
-    name: "Connect",
+    name: "connect",
     comment: "AWS Connect",
   },
   cur: {
-    name: "Cur",
+    name: "cur",
     comment: "AWS Cost and Usage Report",
   },
   dlm: {
-    name: "DLM",
+    name: "dlm",
     comment: "AWS Data Lifecycle Manager",
   },
   datapipeline: {
-    name: "DataPipeline",
+    name: "datapipeline",
     comment: "AWS Data Pipeline",
   },
   datasync: {
-    name: "DataSync",
+    name: "datasync",
     comment: "AWS DataSync",
   },
   dms: {
-    name: "DMS",
+    name: "dms",
     comment: "AWS Database Migration Service",
   },
   devicefarm: {
-    name: "DeviceFarm",
+    name: "devicefarm",
     comment: "AWS Device Farm",
   },
   dx: {
-    name: "DirectConnect",
+    name: "directconnect",
     comment: "AWS Direct Connect",
   },
   directory_service: {
-    name: "DirectoryService",
+    name: "directoryservice",
     comment: "AWS Directory Service",
   },
   docdb: {
-    name: "DocumentDB",
+    name: "documentdb",
     comment: "AWS DocumentDB",
   },
   dynamodb: {
-    name: "DynamoDB",
+    name: "dynamodb",
     comment: "AWS DynamoDB",
   },
   dax: {
-    name: "DAX",
+    name: "dax",
     comment: "AWS DynamoDB Accelerator",
   },
   ec2: {
-    name: "EC2",
+    name: "ec2",
     comment: "AWS EC2",
     additionalPrefix: [
       "ami",
@@ -206,31 +206,31 @@ const aws: Record<Prefix, ResourceNamespace> = {
     ],
   },
   ecr: {
-    name: "ECR",
+    name: "ecr",
     comment: "AWS EC2 Container Registry",
   },
   ecs: {
-    name: "ECS",
+    name: "ecs",
     comment: "AWS EC2 Container Service",
   },
   efs: {
-    name: "EFS",
+    name: "efs",
     comment: "AWS EFS",
   },
   eks: {
-    name: "EKS",
+    name: "eks",
     comment: "AWS Elastic Kubernetes Service",
   },
   elasticache: {
-    name: "ElastiCache",
+    name: "elasticache",
     comment: "AWS ElastiCache",
   },
   elastic_beanstalk: {
-    name: "ElasticBeanstalk",
+    name: "elasticbeanstalk",
     comment: "AWS Elastic Beanstalk",
   },
   lb: {
-    name: "ELB",
+    name: "elb",
     comment: "AWS Elastic Load Balancer",
     additionalPrefix: [
       "alb",
@@ -241,281 +241,281 @@ const aws: Record<Prefix, ResourceNamespace> = {
     ],
   },
   emr: {
-    name: "EMR",
+    name: "emr",
     comment: "AWS Elastic MapReduce",
   },
   elastictranscoder: {
-    name: "ElasticTranscoder",
+    name: "elastictranscoder",
     comment: "AWS Elastic Transcoder",
   },
   elasticsearch: {
-    name: "ElasticSearch",
+    name: "elasticsearch",
     comment: "AWS ElasticSearch Service",
   },
   cloudwatch_event: {
-    name: "CloudWatchEventBridge",
+    name: "eventbridge",
     comment: "AWS CloudWatch Event Bridge",
   },
   schemas: {
-    name: "EventBridgeSchemas",
+    name: "eventbridgeschemas",
     comment: "AWS EventBridge Schemas",
   },
   fsx: {
-    name: "FSx",
+    name: "fsx",
     comment: "AWS File System FSx",
   },
   fms: {
-    name: "FMS",
+    name: "fms",
     comment: "AWS Firewall Management Service",
   },
   gamelift: {
-    name: "GameLift",
+    name: "gamelift",
     comment: "AWS GameLift",
   },
   glacier: {
-    name: "Glacier",
+    name: "glacier",
     comment: "AWS Glacier",
   },
   globalaccelerator: {
-    name: "GlobalAccelerator",
+    name: "globalaccelerator",
     comment: "AWS Global Accelerator",
   },
   glue: {
-    name: "Glue",
+    name: "glue",
     comment: "AWS Glue",
   },
   guardduty: {
-    name: "GuardDuty",
+    name: "guardduty",
     comment: "AWS GuardDuty",
   },
   iam: {
-    name: "IAM",
+    name: "iam",
     comment: "AWS Identity and Access Management",
   },
   identitiystore: {
-    name: "IdentityStore",
+    name: "identitystore",
     comment: "AWS Identity Store",
   },
   imagebuilder: {
-    name: "ImageBuilder",
+    name: "imagebuilder",
     comment: "AWS Image Builder",
   },
   inspector: {
-    name: "Inspector",
+    name: "inspector",
     comment: "AWS Inspector",
     additionalPrefix: ["inspector_assessment_target"],
   },
   iot: {
-    name: "IoT",
+    name: "iot",
     comment: "AWS IoT",
   },
   kms: {
-    name: "KMS",
+    name: "kms",
     comment: "AWS Key Management Service",
   },
   kinesis: {
-    name: "Kinesis",
+    name: "kinesis",
     comment: "AWS Kinesis",
   },
   lakeformation: {
-    name: "LakeFormation",
+    name: "lakeformation",
     comment: "AWS Lake Formation",
   },
   lambda: {
-    name: "LambdaFunction",
+    name: "lambdafunction",
     comment: "AWS Lambda",
   },
   lex: {
-    name: "Lex",
+    name: "lex",
     comment: "AWS Lex",
   },
   licensemanager: {
-    name: "LicenseManager",
+    name: "licensemanager",
     comment: "AWS License Manager",
   },
   lightsail: {
-    name: "Lightsail",
+    name: "lightsail",
     comment: "AWS Lightsail",
   },
   mq: {
-    name: "MQ",
+    name: "mq",
     comment: "AWS Managed Message Queue",
   },
   macie2: {
-    name: "Macie2",
+    name: "macie2",
     comment: "AWS Macie 2",
   },
   macie: {
-    name: "Macie",
+    name: "macie",
     comment: "AWS Macie",
   },
   msk: {
-    name: "MSK",
+    name: "msk",
     comment: "AWS Managed Streaming for Kafka",
   },
   mwaa: {
-    name: "MWAA",
+    name: "mwaa",
     comment: "AWS Managed Workloads for Apache Airflow",
   },
   media_convert: {
-    name: "MediaConvert",
+    name: "mediaconvert",
     comment: "AWS MediaConvert",
   },
   media_package: {
-    name: "MediaPackage",
+    name: "mediapackage",
     comment: "Media Package",
   },
   media_store: {
-    name: "MediaStore",
+    name: "mediastore",
     comment: "AWS Media Store",
   },
   neptune: {
-    name: "Neptune",
+    name: "neptune",
     comment: "AWS Neptune",
   },
   networkfirewall: {
-    name: "NetworkFirewall",
+    name: "networkfirewall",
     comment: "AWS Network Firewall",
   },
   opsworks: {
-    name: "OpsWorks",
+    name: "opsworks",
     comment: "AWS OpsWorks",
   },
   organizations: {
-    name: "Organizations",
+    name: "organizations",
     comment: "AWS Organizations",
   },
   outposts: {
-    name: "Outposts",
+    name: "outposts",
     comment: "AWS Outposts",
   },
   pinpoint: {
-    name: "Pinpoint",
+    name: "pinpoint",
     comment: "AWS Pinpoint",
   },
   pricing: {
-    name: "Pricing",
+    name: "pricing",
     comment: "AWS Pricing",
   },
   qldb: {
-    name: "QLDB",
+    name: "qldb",
     comment: "AWS Quantum Ledger Database",
   },
   quicksight: {
-    name: "QuickSight",
+    name: "quicksight",
     comment: "AWS QuickSight",
   },
   ram: {
-    name: "RAM",
+    name: "ram",
     comment: "AWS Resource Access Manager",
   },
   rds: {
-    name: "RDS",
+    name: "rds",
     comment: "AWS Relational Database Service",
     additionalPrefix: ["db"],
   },
   redshift: {
-    name: "Redshift",
+    name: "redshift",
     comment: "AWS Redshift",
   },
   resourcegroups: {
-    name: "ResourceGroups",
+    name: "resourcegroups",
     comment: "AWS Resource Groups",
   },
   route53: {
-    name: "Route53",
+    name: "route53",
     comment: "AWS Route 53",
   },
   s3: {
-    name: "S3",
+    name: "s3",
     comment: "AWS Simple Storage Service",
   },
   ses: {
-    name: "SES",
+    name: "ses",
     comment: "AWS Simple Email Service",
   },
   sns: {
-    name: "SNS",
+    name: "sns",
     comment: "AWS Simple Notification Service",
   },
   sqs: {
-    name: "SQS",
+    name: "sqs",
     comment: "AWS Simple Queue Service",
   },
   ssm: {
-    name: "SSM",
+    name: "ssm",
     comment: "AWS Systems Manager",
   },
   ssoadmin: {
-    name: "SSOAdmin",
+    name: "ssoadmin",
     comment: "AWS SSO Admin",
   },
   swf: {
-    name: "SWF",
+    name: "swf",
     comment: "AWS Simple Workflow Service",
   },
   sagemaker: {
-    name: "SageMaker",
+    name: "sagemaker",
     comment: "AWS SageMaker",
   },
   secretsmanager: {
-    name: "SecretsManager",
+    name: "secretsmanager",
     comment: "AWS Secrets Manager",
   },
   securityhub: {
-    name: "SecurityHub",
+    name: "securityhub",
     comment: "AWS Security Hub",
   },
   serverlessapplicationrepository: {
-    name: "ServerlessApplicationRepository",
+    name: "serverlessapplicationrepository",
     comment: "AWS Serverless Application Repository",
   },
   servicecatalog: {
-    name: "ServiceCatalog",
+    name: "servicecatalog",
     comment: "AWS Service Catalog",
   },
   service_discovery: {
-    name: "ServiceDiscovery",
+    name: "servicediscovery",
     comment: "AWS Service Discovery",
   },
   servicequotas: {
-    name: "ServiceQuotas",
+    name: "servicequotas",
     comment: "AWS Service Quotas",
   },
   shield: {
-    name: "Shield",
+    name: "shield",
     comment: "AWS Shield Protection",
   },
   signer: {
-    name: "Signer",
+    name: "signer",
     comment: "AWS Signer",
   },
   simpledb: {
-    name: "SimpleDB",
+    name: "simpledb",
     comment: "AWS SimpleDB",
   },
   sfn: {
-    name: "SFN",
+    name: "sfn",
     comment: "AWS Step Functions",
   },
   storagegateway: {
-    name: "StorageGateway",
+    name: "storagegateway",
     comment: "AWS Storage Gateway",
   },
   synthetics: {
-    name: "Synthetics",
+    name: "synthetics",
     comment: "AWS Synthetics",
   },
   timestreamwrite: {
-    name: "TimestreamWrite",
+    name: "timestreamwrite",
     comment: "AWS Timestream Write",
   },
   transfer: {
-    name: "Transfer",
+    name: "transfer",
     comment: "AWS Transfer",
   },
   vpc: {
-    name: "VPC",
+    name: "vpc",
     comment: "AWS VPC",
     additionalPrefix: [
       "customer_gateway",
@@ -538,31 +538,31 @@ const aws: Record<Prefix, ResourceNamespace> = {
     ],
   },
   wafv2: {
-    name: "WAFV2",
+    name: "wafv2",
     comment: "AWS WAF V2",
   },
   wafregional: {
-    name: "WAFRegional",
+    name: "wafregional",
     comment: "AWS WAF Regional",
   },
   waf: {
-    name: "WAF",
+    name: "waf",
     comment: "AWS WAF",
   },
   worklink: {
-    name: "WorkLink",
+    name: "worklink",
     comment: "AWS WorkLink",
   },
   workspaces: {
-    name: "Workspaces",
+    name: "workspaces",
     comment: "AWS WorkSpaces",
   },
   xray: {
-    name: "XRay",
+    name: "xray",
     comment: "AWS X-Ray",
   },
   _datasources: {
-    name: "DataSources",
+    name: "datasources",
     comment: "AWS Data Sources",
     additionalPrefix: [
       "arn",

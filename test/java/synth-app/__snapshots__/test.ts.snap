@@ -14,11 +14,18 @@ exports[`java full integration synth generates JSON 1`] = `
       \\"null\\": {
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
+      },
+      \\"random\\": {
+        \\"version\\": \\"~> 3.1.0\\",
+        \\"source\\": \\"hashicorp/random\\"
       }
     }
   },
   \\"provider\\": {
     \\"null\\": [
+      {}
+    ],
+    \\"random\\": [
       {}
     ]
   },
@@ -29,6 +36,17 @@ exports[`java full integration synth generates JSON 1`] = `
           \\"metadata\\": {
             \\"path\\": \\"java-simple/NullResource\\",
             \\"uniqueId\\": \\"NullResource\\"
+          }
+        }
+      }
+    },
+    \\"random_string\\": {
+      \\"RandomString\\": {
+        \\"length\\": 42,
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"java-simple/RandomString\\",
+            \\"uniqueId\\": \\"RandomString\\"
           }
         }
       }
