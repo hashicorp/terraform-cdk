@@ -1,11 +1,7 @@
 import { Token } from "./tokens";
-import { IResolvable } from "./tokens/resolvable";
+import { IInterpolatingParent } from "./terraform-addressable";
 
-export interface IInterpolatingParent {
-  interpolationForAttribute(terraformAttribute: string): IResolvable;
-}
-
-abstract class ComplexComputedAttribute {
+abstract class ComplexComputedAttribute implements IInterpolatingParent {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string

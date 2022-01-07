@@ -194,7 +194,7 @@ export class StructEmitter {
       );
       this.code.line(`*/`);
       this.code.openBlock(
-        `public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean)`
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean)`
       );
       this.code.line(
         `super(terraformResource, terraformAttribute, isSingleItem);`
@@ -302,9 +302,7 @@ export class StructEmitter {
     this.code.closeBlock();
 
     this.code.openBlock("return");
-    for (const att of struct.isClass
-      ? struct.attributes
-      : struct.assignableAttributes) {
+    for (const att of struct.assignableAttributes) {
       if (!att.isConfigIgnored) {
         this.attributesEmitter.emitToTerraform(att, true);
       }
