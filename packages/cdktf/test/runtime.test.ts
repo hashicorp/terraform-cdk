@@ -52,7 +52,7 @@ describe("Runtime", () => {
       );
     });
 
-    it("leaves directly passed references in tact with a tokenized list", () => {
+    it("leaves directly passed references intact with a tokenized list", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
       const reference = ref("some_resource.my_resource.some_attribute_array");
 
