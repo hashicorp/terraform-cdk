@@ -5,7 +5,9 @@
   "description": "This directory contains integration tests for the cdktf project.",
   "scripts": {
     "edge:install": "rm -rf ./edge-provider-bindings && cp -R ../packages/@cdktf/provider-generator/edge-provider-bindings/ ./edge-provider-bindings",
-    "edge:translateTests": "node ./translate-edge-tests.js"
+    "edge:translateTests": "node ./translate-edge-tests.js",
+    "preedge:update": "npm run edge:install",
+    "edge:update": "./run-against-dist ./update-edge.sh"
   },
   "license": "MPL-2.0",
   "devDependencies": {
