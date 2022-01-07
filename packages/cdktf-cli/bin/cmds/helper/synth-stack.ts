@@ -130,7 +130,7 @@ Command output on stdout:
     );
 
     for (const orphanedDirectory of orphanedDirectories) {
-      fs.rmdirSync(orphanedDirectory, { recursive: true });
+      fs.rmSync(orphanedDirectory, { recursive: true });
     }
 
     return stacks;

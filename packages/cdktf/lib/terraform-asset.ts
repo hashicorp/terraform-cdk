@@ -128,7 +128,7 @@ export class TerraformAsset extends Resource {
     // Cleanup existing assets
     const previousVersionsFolder = path.join(basePath, this.namedFolder);
     if (fs.existsSync(previousVersionsFolder)) {
-      fs.rmdirSync(previousVersionsFolder, { recursive: true });
+      fs.rmSync(previousVersionsFolder, { recursive: true });
     }
 
     const targetPath = path.join(basePath, this.path);
