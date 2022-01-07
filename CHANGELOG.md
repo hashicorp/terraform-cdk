@@ -1,3 +1,14 @@
+## 0.8.6
+
+### fix
+
+- fix(lib): don't treat strings as maps [\#1467](https://github.com/hashicorp/terraform-cdk/pull/1467)
+- fix: update specified nodejs version to >=12.16 to reflect our actual requirements [\#1466](https://github.com/hashicorp/terraform-cdk/pull/1466)
+
+### Other
+
+- chore: fix constructs error [\#1460](https://github.com/hashicorp/terraform-cdk/pull/1460)
+
 ## 0.8.5
 
 ### fix
