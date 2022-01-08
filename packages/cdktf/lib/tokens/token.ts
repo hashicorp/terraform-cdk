@@ -108,6 +108,8 @@ export class Token {
     );
   }
 
+  public static readonly STRING_MAP_TOKEN_VALUE = "String Map Token Value";
+
   /**
    * Return a reversible map representation of this token
    */
@@ -115,8 +117,10 @@ export class Token {
     value: any,
     options: EncodingOptions = {}
   ): { [key: string]: string } {
-    return this.asMap(value, "", options);
+    return this.asMap(value, Token.STRING_MAP_TOKEN_VALUE, options);
   }
+
+  public static readonly NUMBER_MAP_TOKEN_VALUE = -123456789;
 
   /**
    * Return a reversible map representation of this token
@@ -125,7 +129,7 @@ export class Token {
     value: any,
     options: EncodingOptions = {}
   ): { [key: string]: number } {
-    return this.asMap(value, 0, options);
+    return this.asMap(value, Token.NUMBER_MAP_TOKEN_VALUE, options);
   }
 
   /**
@@ -138,6 +142,8 @@ export class Token {
     return this.asMap(value, true, options);
   }
 
+  public static readonly ANY_MAP_TOKEN_VALUE = "Any Map Token Value";
+
   /**
    * Return a reversible map representation of this token
    */
@@ -145,7 +151,7 @@ export class Token {
     value: any,
     options: EncodingOptions = {}
   ): { [key: string]: any } {
-    return this.asMap(value, "any", options);
+    return this.asMap(value, Token.ANY_MAP_TOKEN_VALUE, options);
   }
 
   /**
