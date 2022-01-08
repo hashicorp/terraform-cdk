@@ -17,6 +17,7 @@ import {
   containsMapToken,
 } from "./encoding";
 import { TokenMap } from "./token-map";
+import { Token } from "../token";
 
 // This file should not be exported to consumers, resolving should happen through Construct.resolve()
 
@@ -122,6 +123,15 @@ export function resolve(obj: any, options: IResolveOptions): any {
       );
     }
 
+    if (
+      obj === Token.STRING_MAP_TOKEN_VALUE ||
+      obj === Token.ANY_MAP_TOKEN_VALUE
+    ) {
+      throw new Error(
+        "Found an encoded map token in a scalar string context. Use 'Fn.lookup(map, key, default)' (not 'map[key]') to extract values from token maps."
+      );
+    }
+
     let str: string = obj;
 
     const tokenStr = TokenString.forString(str);
@@ -152,6 +162,12 @@ export function resolve(obj: any, options: IResolveOptions): any {
   // number - potentially decode Tokenized number
   //
   if (typeof obj === "number") {
+    if (obj === Token.NUMBER_MAP_TOKEN_VALUE) {
+      throw new Error(
+        "Found an encoded map token in a scalar number context. Use 'Fn.lookup(map, key, default)' (not 'map[key]') to extract values from token maps."
+      );
+    }
+
     return resolveNumberToken(obj, makeContext()[0]);
   }
 

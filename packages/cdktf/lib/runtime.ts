@@ -58,7 +58,7 @@ export function hashMapper(elementMapper: Mapper): Mapper {
     if (typeof x === "string") {
       return x;
     }
-    
+
     if (containsMapToken(x)) {
       return x;
     }
