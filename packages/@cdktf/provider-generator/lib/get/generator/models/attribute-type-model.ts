@@ -52,10 +52,10 @@ export class AttributeTypeModel {
 
   public get name(): string {
     // computed map wrappers
-    if (this.isStringMap) return `cdktf.StringMap`;
-    if (this.isNumberMap) return `cdktf.NumberMap`;
-    if (this.isBooleanMap) return `cdktf.BooleanMap`;
-    if (this.isAnyMap) return `cdktf.AnyMap`;
+    if (this.isComputedStringMap) return `cdktf.StringMap`;
+    if (this.isComputedNumberMap) return `cdktf.NumberMap`;
+    if (this.isComputedBooleanMap) return `cdktf.BooleanMap`;
+    if (this.isComputedAnyMap) return `cdktf.AnyMap`;
 
     // map of booleans has token support, but booleans don't
     if (this.isMap && this._type === TokenizableTypes.BOOLEAN)
@@ -140,36 +140,35 @@ export class AttributeTypeModel {
   }
 
   public get isStringMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.STRING &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.STRING;
+  }
+
+  public get isComputedStringMap(): boolean {
+    return this.isStringMap && this.isComputed && !this.isOptional;
   }
 
   public get isNumberMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.NUMBER &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.NUMBER;
+  }
+
+  public get isComputedNumberMap(): boolean {
+    return this.isNumberMap && this.isComputed && !this.isOptional;
   }
 
   public get isBooleanMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.BOOLEAN &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.BOOLEAN;
+  }
+
+  public get isComputedBooleanMap(): boolean {
+    return this.isBooleanMap && this.isComputed && !this.isOptional;
   }
 
   public get isAnyMap(): boolean {
-    return (
-      !this.isOptional && this.isMap && this._type === "any" && this.isComputed
-    );
+    return this.isMap && this._type === "any";
+  }
+
+  public get isComputedAnyMap(): boolean {
+    return this.isAnyMap && this.isComputed && !this.isOptional;
   }
 
   public get isTokenizableMap(): boolean {
