@@ -235,7 +235,6 @@ export interface Config {
   readonly codeMakerOutput: string;
   terraformProviders?: TerraformProviderConstraint[];
   terraformModules?: TerraformModuleConstraint[];
-  checkCodeMakerOutput?: boolean;
   readonly context?: { [key: string]: any };
 }
 
@@ -244,12 +243,6 @@ export const parseConfig = (configJSON?: string) => {
     ...DEFAULTS,
     ...JSON.parse(configJSON || "{}"),
   };
-
-  if (config.checkCodeMakerOutput == undefined || config.checkCodeMakerOutput) {
-    config.checkCodeMakerOutput =
-      isPresent(config.terraformModules) ||
-      isPresent(config.terraformProviders);
-  }
 
   if (isPresent(config.terraformModules)) {
     config.terraformModules = config.terraformModules?.map(
@@ -280,4 +273,10 @@ export function readConfigSync(
   }
 
   return parseConfig(configFileContent);
+}
+
+export function shouldCheckCodeMakerOutput(config: Config): boolean {
+  return (
+    isPresent(config.terraformModules) || isPresent(config.terraformProviders)
+  );
 }

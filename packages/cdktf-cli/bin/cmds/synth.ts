@@ -22,11 +22,6 @@ class Command implements yargs.CommandModule {
         desc: "Stack to output when using --json flag",
         type: "string",
       })
-      .option("check-code-maker-output", {
-        type: "boolean",
-        desc: "Whether if check `codeMakerOutput` existence",
-        default: config.checkCodeMakerOutput,
-      })
       .option("app", {
         default: config.app,
         desc: "Command to use in order to execute cdktf app",
@@ -41,6 +36,11 @@ class Command implements yargs.CommandModule {
         type: "boolean",
         desc: "Provide JSON output for the generated Terraform configuration.",
         default: false,
+      })
+      .option("check-code-maker-output", {
+        type: "boolean",
+        desc: "Whether if check `codeMakerOutput` existence",
+        default: cfg.shouldCheckCodeMakerOutput(config),
       })
       .showHelpOnFail(true);
 
