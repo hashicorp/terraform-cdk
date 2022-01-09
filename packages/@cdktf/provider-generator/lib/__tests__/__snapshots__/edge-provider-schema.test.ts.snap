@@ -1195,7 +1195,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
 `;
 
 exports[`Edge Provider Schema compiles to Typescript: map-resource.ts 1`] = `
-"// https://www.terraform.io/docs/providers/edge/r/map_resource.html
+"// https://www.terraform.io/docs/providers/edge/r/map_resource
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1205,21 +1205,21 @@ import * as cdktf from 'cdktf';
 
 export interface MapResourceConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#optMap MapResource#optMap}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource#optMap MapResource#optMap}
   */
   readonly optMap?: { [key: string]: string };
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#reqMap MapResource#reqMap}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource#reqMap MapResource#reqMap}
   */
   readonly reqMap: { [key: string]: (boolean | cdktf.IResolvable) };
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html#computedMap MapResource#computedMap}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource#computedMap MapResource#computedMap}
   */
   readonly computedMap?: { [key: string]: number };
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html map_resource}
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/map_resource map_resource}
 */
 export class MapResource extends cdktf.TerraformResource {
 
@@ -1233,7 +1233,7 @@ export class MapResource extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/map_resource.html map_resource} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/map_resource map_resource} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
