@@ -201,7 +201,7 @@ export class DefaultTokenResolver implements ITokenResolver {
       throw new Error(`Cannot add elements to list token, got: ${xs}`);
     }
 
-    const token = TokenMap.instance().lookupNumberToken(xs[0]);
+    const token = TokenMap.instance().lookupNumberList(xs);
     if (token === undefined) {
       return xs;
     }

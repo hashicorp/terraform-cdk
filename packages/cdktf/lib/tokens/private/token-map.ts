@@ -162,7 +162,7 @@ export class TokenMap {
     if (xs.length !== 1) {
       return undefined;
     }
-    const tokenIndex = extractTokenDouble(xs[0], false);
+    const tokenIndex = extractTokenDouble(xs[0], true);
     if (tokenIndex === undefined) {
       return undefined;
     }
