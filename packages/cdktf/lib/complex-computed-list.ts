@@ -23,6 +23,12 @@ abstract class ComplexComputedAttribute implements IInterpolatingParent {
     return this.interpolationForAttribute(terraformAttribute);
   }
 
+  public getNumberListAttribute(terraformAttribute: string) {
+    return Token.asNumberList(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
   public abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 

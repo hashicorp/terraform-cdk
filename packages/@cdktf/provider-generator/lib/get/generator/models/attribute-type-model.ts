@@ -15,6 +15,7 @@ export enum TokenizableTypes {
   STRING = "string",
   STRING_LIST = "string[]",
   NUMBER = "number",
+  NUMBER_LIST = "number[]",
   BOOLEAN = "boolean",
 }
 
