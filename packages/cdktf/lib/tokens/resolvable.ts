@@ -1,6 +1,6 @@
 // Copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/resolvable.ts
 import { IConstruct } from "constructs";
-import { TokenString, extractTokenDouble } from "./private/encoding";
+import { TokenString } from "./private/encoding";
 import { TokenMap } from "./private/token-map";
 import { TokenizedStringFragments } from "./string-fragments";
 
