@@ -1207,8 +1207,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired?: number[]; 
   public get fooRequired() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.getNumberListAttribute('foo_required');
   }
   public set fooRequired(value: number[]) {
     this._fooRequired = value;
@@ -1221,8 +1220,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: number[]; 
   public get fooOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.getNumberListAttribute('foo_optional');
   }
   public set fooOptional(value: number[]) {
     this._fooOptional = value;
