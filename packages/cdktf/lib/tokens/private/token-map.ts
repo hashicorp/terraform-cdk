@@ -17,6 +17,7 @@ const glob = global as any;
 const STRING_SYMBOL = Symbol.for("@cdktf/core.TokenMap.STRING");
 const LIST_SYMBOL = Symbol.for("@cdktf/core.TokenMap.LIST");
 const NUMBER_SYMBOL = Symbol.for("@cdktf/core.TokenMap.NUMBER");
+const NUMBER_LIST_SYMBOL = Symbol.for("@cdktf/core.TokenMap.NUMBER_LIST");
 
 /**
  * Central place where we keep a mapping from Tokens to their String representation
@@ -73,9 +74,19 @@ export class TokenMap {
   /**
    * Create a unique number representation for this Token and return it
    */
+  public registerNumberList(token: IResolvable): number[] {
+    return cachedValue(token, NUMBER_LIST_SYMBOL, () => {
+      const key = this.registerNumberKey(token, true);
+      return [key];
+    });
+  }
+
+  /**
+   * Create a unique number representation for this Token and return it
+   */
   public registerNumber(token: IResolvable): number {
     return cachedValue(token, NUMBER_SYMBOL, () => {
-      return this.registerNumberKey(token);
+      return this.registerNumberKey(token, false);
     });
   }
 
@@ -133,7 +144,25 @@ export class TokenMap {
    * Reverse a number encoding into a Token, or undefined if the number wasn't a Token
    */
   public lookupNumberToken(x: number): IResolvable | undefined {
-    const tokenIndex = extractTokenDouble(x);
+    const tokenIndex = extractTokenDouble(x, false);
+    if (tokenIndex === undefined) {
+      return undefined;
+    }
+    const t = this.numberTokenMap.get(tokenIndex);
+    if (t === undefined) {
+      throw new Error("Encoded representation of unknown number Token found");
+    }
+    return t;
+  }
+
+  /**
+   * Reverse a number encoding into a Token, or undefined if the number wasn't a Token
+   */
+  public lookupNumberList(xs: number[]): IResolvable | undefined {
+    if (xs.length !== 1) {
+      return undefined;
+    }
+    const tokenIndex = extractTokenDouble(xs[0], false);
     if (tokenIndex === undefined) {
       return undefined;
     }
@@ -168,10 +197,10 @@ export class TokenMap {
     return key;
   }
 
-  private registerNumberKey(token: IResolvable): number {
+  private registerNumberKey(token: IResolvable, list: boolean): number {
     const counter = this.tokenCounter++;
     this.numberTokenMap.set(counter, token);
-    return createTokenDouble(counter);
+    return createTokenDouble(counter, list);
   }
 }
 
