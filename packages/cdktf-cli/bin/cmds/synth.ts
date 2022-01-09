@@ -39,7 +39,7 @@ class Command implements yargs.CommandModule {
       })
       .option("check-code-maker-output", {
         type: "boolean",
-        desc: "Whether if check `codeMakerOutput` existence",
+        desc: "Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or modules are configured.",
         default: cfg.shouldCheckCodeMakerOutput(config),
       })
       .showHelpOnFail(true);
