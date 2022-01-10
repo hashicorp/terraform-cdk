@@ -40,6 +40,11 @@ exports[`full integration test build modules posix 1`] = `
         }
       }
     }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {}
+    }
   }
 }"
 `;

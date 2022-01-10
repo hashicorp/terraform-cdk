@@ -121,6 +121,8 @@ export class TerraformStack extends Construct {
   }
 
   public prepareStack() {
+    // Ensure we have a backend configured
+    this.ensureBackendExists();
     // A preparing resolve run might add new resources to the stack, e.g. for cross stack references.
     terraformElements(this).forEach((e) =>
       resolve(this, e.toTerraform(), true)
@@ -191,7 +193,7 @@ export class TerraformStack extends Construct {
     return this.findAll({ byConstructor: TerraformProvider });
   }
 
-  public get backend(): TerraformBackend {
+  public ensureBackendExists(): TerraformBackend {
     const backends = this.findAll<TerraformBackend>({
       byPredicate: (item: unknown) => TerraformBackend.isBackend(item),
     });
@@ -251,7 +253,7 @@ export class TerraformStack extends Construct {
     if (this.crossStackDataSources[String(fromStack)]) {
       return this.crossStackDataSources[String(fromStack)];
     }
-    const originBackend = fromStack.backend;
+    const originBackend = fromStack.ensureBackendExists();
     const originPath = fromStack.node.path;
 
     const remoteState = originBackend.getRemoteStateDataSource(

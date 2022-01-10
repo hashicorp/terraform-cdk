@@ -130,6 +130,7 @@ test("app synth executes Aspects", () => {
     "App
     └── MyStack (TerraformStack)
         ├── Resource1 (MyResource)
+        ├── backend (LocalBackend)
         └── Resource2 (MyResource)
     "
   `);

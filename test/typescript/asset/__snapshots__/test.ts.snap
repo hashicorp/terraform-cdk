@@ -41,6 +41,11 @@ exports[`full integration test synth 1`] = `
     \\"relativeassetsname\\": {
       \\"value\\": \\"relative\\"
     }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {}
+    }
   }
 }"
 `;
