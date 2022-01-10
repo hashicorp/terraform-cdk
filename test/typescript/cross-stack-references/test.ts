@@ -17,7 +17,7 @@ describe("cross stack references", () => {
 
   describe("deployed", () => {
     beforeAll(async () => {
-      await driver.deploy("source");
+      await driver.deploy("origin");
       await driver.deploy("passthrough");
       await driver.deploy("sink");
     });
@@ -75,6 +75,20 @@ describe("cross stack references", () => {
 
         expect(originNum * 2).toBe(result);
       });
+    });
+
+    // Check for Deadly embrace scenario: https://github.com/aws/aws-cdk/pull/12778
+    it("can remove references to deployed stacks", async () => {
+      driver.setEnv("SWITCH_STACK", "on");
+      console.log(driver.workingDirectory);
+      await driver.deploy("secondOrigin");
+      await driver.deploy("switchedStack");
+      expect(driver.manifest()).toMatchSnapshot("with dependency");
+
+      driver.setEnv("SWITCH_STACK", undefined);
+      await driver.deploy("secondOrigin");
+      await driver.deploy("switchedStack");
+      expect(driver.manifest()).toMatchSnapshot("without dependency");
     });
   });
 });

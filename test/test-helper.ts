@@ -128,6 +128,10 @@ export class TestDriver {
     fse.writeFileSync(dest, content);
   };
 
+  setEnv = (key, value) => {
+    this.env[key] = value;
+  };
+
   stackDirectory = (stackName: string) => {
     return path.join(this.workingDirectory, "cdktf.out", "stacks", stackName);
   };

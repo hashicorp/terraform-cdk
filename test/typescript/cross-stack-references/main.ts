@@ -47,9 +47,9 @@ export class SourceStack extends TerraformStack {
       input: ["a", "b", "c", "d", "e", "f"],
     });
 
-    writeToFile(this, "originNum", this.numericResource.result);
-    writeToFile(this, "originStr", this.stringResource.result);
-    writeToFile(this, "originList", this.listResource.result);
+    writeToFile(this, `${id}Num`, this.numericResource.result);
+    writeToFile(this, `${id}Str`, this.stringResource.result);
+    writeToFile(this, `${id}List`, this.listResource.result);
   }
 }
 
@@ -105,7 +105,7 @@ export class ConsumerStack extends TerraformStack {
 }
 
 const app = Testing.stubVersion(new App({ stackTraces: false }));
-const src = new SourceStack(app, "source");
+const src = new SourceStack(app, "origin");
 const passthrough = new ConsumerStack(app, "passthrough", {
   numericResource: src.numericResource,
   stringResource: src.stringResource,
@@ -135,6 +135,15 @@ new ConsumerStack(app, "functionOutput", {
   // From function output
   numericValue: fns.numericValue,
   stringValue: fns.stringValue,
+});
+
+// Check for Deadly embrace scenario: https://github.com/aws/aws-cdk/pull/12778
+const secondOrigin = new SourceStack(app, "secondOrigin");
+new ConsumerStack(app, "switchedStack", {
+  numericResource:
+    process.env.SWITCH_STACK === "on"
+      ? secondOrigin.numericResource
+      : undefined,
 });
 
 app.synth();
