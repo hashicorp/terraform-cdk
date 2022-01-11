@@ -45,7 +45,10 @@ class ReferenceStack(TerraformStack):
         # edge.RequiredAttributeResource(self, "from_list",
         #     bool=Fn.lookup(Fn.element(list.req, 0), "reqbool", False),
         #     str=Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback"),
-        #     num=Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)
+        #     num=Fn.lookup(Fn.element(list.req, 0), "reqnum", 0),
+        #     str_list=[Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback")],
+        #     num_list=[Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)],
+        #     bool_list=[Fn.lookup(Fn.element(list.req, 0), "reqbool", False)]
         # )
 
         # passing a reference to a complete list
@@ -87,7 +90,10 @@ class ProviderStack(TerraformStack):
         edge.RequiredAttributeResource(self, "reqOpt",
             bool=provider_opt.reqbool,
             num=provider_opt.reqnum,
-            str=provider_opt.reqstr
+            str=provider_opt.reqstr,
+            str_list=[provider_opt.reqstr],
+            num_list=[provider_opt.reqnum],
+            bool_list=[provider_opt.reqbool]
         )
 
         edge.OptionalAttributeResource(self, "optOpt",
@@ -105,7 +111,10 @@ class ProviderStack(TerraformStack):
         edge.RequiredAttributeResource(self, "reqFull",
             bool=provider_full.reqbool,
             num=provider_full.reqnum,
-            str=provider_full.reqstr
+            str=provider_full.reqstr,
+            str_list=[provider_full.reqstr],
+            num_list=[provider_full.reqnum],
+            bool_list=[provider_full.reqbool]
         )
 
         edge.OptionalAttributeResource(self, "optFull",

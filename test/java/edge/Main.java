@@ -41,9 +41,9 @@ class ReferenceStack extends TerraformStack {
                 .bool(true) // list.getSinglereq().getReqbool();
                 .str(list.getSinglereq().getReqstr())
                 .num(list.getSinglereq().getReqnum())
-                .strList(List.of(list.getSinglereq().getReqstr()))
-                .numList(List.of(list.getSinglereq().getReqnum()))
-                .boolList(List.of(list.getSinglereq().getReqbool()))
+                .strList(Collections.singletonList(list.getSinglereq().getReqstr()))
+                .numList(Collections.singletonList(list.getSinglereq().getReqnum()))
+                .boolList(Collections.singletonList(list.getSinglereq().getReqbool()))
                 .build();
 
         // required values FROM required multi item lists
@@ -97,6 +97,9 @@ class ProviderStack extends TerraformStack {
                 .bool(true)
                 .num(Token.asNumber(providerOpt.getReqnum()))
                 .str(Token.asString(providerOpt.getReqstr()))
+                .strList(Collections.singletonList(providerOpt.getReqstr()))
+                .numList(Collections.singletonList(providerOpt.getReqnum()))
+                .boolList(Collections.singletonList(providerOpt.getReqbool()))
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "optOpt")
@@ -116,6 +119,9 @@ class ProviderStack extends TerraformStack {
                 .bool(true)
                 .num(Token.asNumber(providerFull.getReqnum()))
                 .str(Token.asString(providerFull.getReqstr()))
+                .strList(Collections.singletonList(providerFull.getReqstr()))
+                .numList(Collections.singletonList(providerFull.getReqnum()))
+                .boolList(Collections.singletonList(providerFull.getReqbool()))
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "optFull")
