@@ -11,7 +11,7 @@ exports[`full integration test build modules posix 1`] = `
   },
   \\"module\\": {
     \\"localmodule\\": {
-      \\"source\\": \\"../../../local-module\\",
+      \\"source\\": \\"./assets/localmodulelocalmodule/97F51B069A2EA5F1B6BA8B6C0FED84E4\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"hello-modules/local-module\\",
