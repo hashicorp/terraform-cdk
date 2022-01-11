@@ -63,12 +63,12 @@ jobs:
       - name: Create Patch
         run: |-
           git add .
-          git diff --patch --staged > ${{ github.workspace }}/upgrade.patch
+          git diff --patch --staged > ./upgrade.patch
       - name: Upload Patch
         uses: actions/upload-artifact@v2
         with:
           name: upgrade.patch
-          path: ${{ github.workspace }}/upgrade.patch
+          path: ./upgrade.patch
 
   pr:
     name: Create Pull Request
@@ -85,12 +85,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: upgrade.patch
-          path: ${{ github.workspace }}
 
       - name: Apply patch
-        run:
-          '[ -s ${{ github.workspace }}/upgrade.patch ] && git apply ${{ github.workspace
-          }}/upgrade.patch || echo "Empty patch. Skipping."'
+        run: '[ -s ./upgrade.patch ] && git apply ./upgrade.patch || echo "Empty patch. Skipping."'
 
       - name: Make Pull Request
         uses: peter-evans/create-pull-request@v3
