@@ -101,5 +101,5 @@ jobs:
           title: "chore: npm-check-updates && yarn upgrade"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
-          labels: contribution/core,dependencies,auto-approve
+          labels: dependencies,auto-approve
           team-reviewers: cdktf
