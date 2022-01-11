@@ -5441,10 +5441,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.9.tgz#041b05df45755e587a24942279b9d113146e1c96"
   integrity sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==
 
-graphology-types@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/graphology-types/-/graphology-types-0.23.0.tgz#76a0564baf31891044a7b0cc6cd028810541bb7a"
-  integrity sha512-6Je1NWU3el7YmybAhRzrOEi79Blhx05EU3wGUCvP5ikaxRXEflrW/5unfw5q/wqfwjryM9tcwUv4M7TZ8yTBYQ==
+graphology-types@^0.21.2:
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/graphology-types/-/graphology-types-0.21.2.tgz#533af8c4632d9ba4447b5df4fcc26173275df308"
+  integrity sha512-KNdgwG0dbVjhJqRUw0OivJ5pkUHunbk4vDatwdfITfNvPugX0xR327ZKsaOcr3snbiBJfyGu7lCrXeYp4KF8YA==
 
 graphology@^0.23.2:
   version "0.23.2"
