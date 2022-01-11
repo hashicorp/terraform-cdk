@@ -3,14 +3,17 @@ import { schema, SchemaBuilder as S } from "./builder";
 
 const required_attribute_resource = new S()
   .addAllPrimitiveTypes({ required: true, computed: false })
+  .addAllPrimitiveListTypes({ required: true, computed: false })
   .build();
 
 const optional_attribute_resource = new S()
   .addAllPrimitiveTypes({ required: false, computed: false })
+  .addAllPrimitiveListTypes({ required: false, computed: false })
   .build();
 
 const optional_computed_attribute_resource = new S()
   .addAllPrimitiveTypes({ required: false, computed: true })
+  .addAllPrimitiveListTypes({ required: false, computed: true })
   .build();
 
 const list_block_resource = new S()
