@@ -20,22 +20,22 @@ describe("full integration test", () => {
 
   test("diff", () => {
     expect(driver.diff("first")).toMatchInlineSnapshot(`
-      "Stack: [1mfirst[22m
-      [1mResources[22m
-       [32m+ [39mNULL_RESOURCE       test                [90mnull_resource.test[39m
+      "Stack: first
+      Resources
+       + NULL_RESOURCE       test                null_resource.test
 
 
-      [1mDiff: [22m1 to create, 0 to update, 0 to delete.
+      Diff: 1 to create, 0 to update, 0 to delete.
       "
     `);
 
     expect(driver.diff("second")).toMatchInlineSnapshot(`
-      "Stack: [1msecond[22m
-      [1mResources[22m
-       [32m+ [39mNULL_RESOURCE       test                [90mnull_resource.test[39m
+      "Stack: second
+      Resources
+       + NULL_RESOURCE       test                null_resource.test
 
 
-      [1mDiff: [22m1 to create, 0 to update, 0 to delete.
+      Diff: 1 to create, 0 to update, 0 to delete.
       "
     `);
 
@@ -44,7 +44,7 @@ describe("full integration test", () => {
 
   onPosix("list posix", () => {
     expect(driver.list()).toMatchInlineSnapshot(`
-      "[1mStack name[22m                      [1mPath[22m
+      "Stack name                      Path
       first                           cdktf.out/stacks/first
       second                          cdktf.out/stacks/second
       "
@@ -77,22 +77,22 @@ describe("full integration test", () => {
 
   test("deploy", () => {
     expect(driver.deploy("first")).toMatchInlineSnapshot(`
-      "Deploying Stack: [1mfirst[22m
-      [1mResources[22m
-       [32m✔ [39mNULL_RESOURCE       test                [90mnull_resource.test[39m
+      "Deploying Stack: first
+      Resources
+       ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      [1mSummary: [22m1 created, 0 updated, 0 destroyed.
+      Summary: 1 created, 0 updated, 0 destroyed.
       "
     `);
 
     expect(driver.deploy("second")).toMatchInlineSnapshot(`
-      "Deploying Stack: [1msecond[22m
-      [1mResources[22m
-       [32m✔ [39mNULL_RESOURCE       test                [90mnull_resource.test[39m
+      "Deploying Stack: second
+      Resources
+       ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      [1mSummary: [22m1 created, 0 updated, 0 destroyed.
+      Summary: 1 created, 0 updated, 0 destroyed.
       "
     `);
 
@@ -103,22 +103,22 @@ describe("full integration test", () => {
 
   test("destroy", () => {
     expect(driver.destroy("first")).toMatchInlineSnapshot(`
-      "Destroying Stack: [1mfirst[22m
-      [1mResources[22m
-       [31m✔ [39mNULL_RESOURCE       test                [90mnull_resource.test[39m
+      "Destroying Stack: first
+      Resources
+       ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      [1mSummary: [22m1 destroyed.
+      Summary: 1 destroyed.
       "
     `);
 
     expect(driver.destroy("second")).toMatchInlineSnapshot(`
-      "Destroying Stack: [1msecond[22m
-      [1mResources[22m
-       [31m✔ [39mNULL_RESOURCE       test                [90mnull_resource.test[39m
+      "Destroying Stack: second
+      Resources
+       ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      [1mSummary: [22m1 destroyed.
+      Summary: 1 destroyed.
       "
     `);
 
