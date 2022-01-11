@@ -248,3 +248,9 @@ Here are GitHub links that help this process:
 - [All new issues](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+label%3Anew)
 - [All unprioritized issues (that are not waiting for an answer)](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+-label%3Apriority%2Fawaiting-more-evidence+-label%3Apriority%2Fbacklog+-label%3Apriority%2Fcritical-urgent+-label%3Apriority%2Fimportant-longterm+-label%3Apriority%2Fimportant-soon+-label%3Aneeds-priority+-label%3Awaiting-on-answer+-label%3Anew)
 - [Issues to follow up on](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+label%3Awaiting-on-answer+updated%3A%3C2021-11-01) (Query needs manual adjustment of the date)
+
+## Reproducing Bugs on Windows
+
+A good way to tackle windows related things is to use an AWS EC2 instance running Windows. Here's a Terraform repo with a bit of guideline on how to connect via Remote Desktop or VS Code Remote SSH https://github.com/skorfmann/windows-test-machine
+
+
