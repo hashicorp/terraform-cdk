@@ -25,14 +25,20 @@ class ReferenceStack(TerraformStack):
         edge.RequiredAttributeResource(self, "plain",
             bool=res.bool,
             str=res.str,
-            num=res.num
+            num=res.num,
+            str_list=res.str_list,
+            num_list=res.num_list,
+            bool_list=res.bool_list
         )
 
         # required values FROM required single item lists
         edge.RequiredAttributeResource(self, "from_single_list",
             bool=list.singlereq.reqbool,
             str=list.singlereq.reqstr,
-            num=list.singlereq.reqnum
+            num=list.singlereq.reqnum,
+            str_list=[list.singlereq.reqstr],
+            num_list=[list.singlereq.reqnum],
+            bool_list=[list.singlereq.reqbool]
         )
 
         # required values FROM required multi item lists

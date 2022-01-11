@@ -31,6 +31,9 @@ class ReferenceStack extends TerraformStack {
                 .bool(true) // res.getBool();
                 .str(res.getStr())
                 .num(res.getNum())
+                .strList(res.getStrList())
+                .numList(res.getNumList())
+                .boolList(res.getBoolList())
                 .build();
 
         // required values FROM required single item lists
@@ -38,6 +41,9 @@ class ReferenceStack extends TerraformStack {
                 .bool(true) // list.getSinglereq().getReqbool();
                 .str(list.getSinglereq().getReqstr())
                 .num(list.getSinglereq().getReqnum())
+                .strList(List.of(list.getSinglereq().getReqstr()))
+                .numList(List.of(list.getSinglereq().getReqnum()))
+                .boolList(List.of(list.getSinglereq().getReqbool()))
                 .build();
 
         // required values FROM required multi item lists
