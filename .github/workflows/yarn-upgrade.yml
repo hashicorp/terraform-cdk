@@ -63,6 +63,7 @@ jobs:
       - name: Create Patch
         run: |-
           git add .
+          touch ${{ runner.temp }}/upgrade.patch
           git diff --patch --staged > ${{ runner.temp }}/upgrade.patch
       - name: Upload Patch
         uses: actions/upload-artifact@v2
