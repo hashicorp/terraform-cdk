@@ -17,6 +17,14 @@
               "equals": {
                 "type": "string",
                 "required": true
+              },
+              "node": {
+                "type": "string",
+                "required": true
+              },
+              "system": {
+                "type": "string",
+                "required": true
               }
             }
           },

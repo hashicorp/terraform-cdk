@@ -216,8 +216,8 @@ When developing new features it can be helpful to enable logging. By setting `CD
 #### Terraform CDK
 
 1. Create a new branch (e.g. `prepare-release-0.5.0`)
-2. Update the version in the root `package.json`
-3. Update the [CHANGELOG](./CHANGELOG.md)
+2. Update the [CHANGELOG](./CHANGELOG.md)
+3. Update the version in the root `package.json`
 4. Create a PR to merge the new branch into `main`
 5. Merge the PR
 6. A new release will be build and published because the version changed
