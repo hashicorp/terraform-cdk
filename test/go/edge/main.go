@@ -56,7 +56,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 		Str:  list.Singlereq().Reqstr(),
 		Num:  list.Singlereq().Reqnum(),
 		StrList: &[]*string{list.Singlereq().Reqstr()},
-		NumList: &[]*int{list.Singlereq().Reqnum()},
+		NumList: &[]*float64{list.Singlereq().Reqnum()},
 		BoolList: &[]*bool{jsii.Bool(true)},//list.Singlereq().Reqbool()},
 	})
 
@@ -114,7 +114,7 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Num:  providerOpt.Reqnum(),
 		Str:  providerOpt.Reqstr(),
 		StrList: &[]*string{providerOpt.Reqstr()},
-		NumList: &[]*int{providerOpt.Reqnum()},
+		NumList: &[]*float64{providerOpt.Reqnum()},
 		BoolList: &[]*bool{jsii.Bool(true)},//providerOpt.Reqbool()},
 	})
 
@@ -135,7 +135,7 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Num:  providerFull.Reqnum(),
 		Str:  providerFull.Reqstr(),
 		StrList: &[]*string{providerFull.Reqstr()},
-		NumList: &[]*int{providerFull.Reqnum()},
+		NumList: &[]*float64{providerFull.Reqnum()},
 		BoolList: &[]*bool{jsii.Bool(true)},//providerFull.Reqbool()},
 	})
 
