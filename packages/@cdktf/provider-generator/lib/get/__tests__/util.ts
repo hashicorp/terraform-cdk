@@ -33,6 +33,7 @@ export function expectImportMatchSnapshot(
 
       // patch versions in manifest because they're not stable
       manifest.dependencies.cdktf = "999.999.999";
+      manifest.dependencies.constructs = "999.999.999";
       manifest.fingerprint = "<fingerprint>";
       manifest.jsiiVersion = "<jsiiVersion>";
 
