@@ -90,26 +90,29 @@ describe("java full integration", () => {
       expect(stack.byId("plain").num).toEqual(
         "${optional_attribute_resource.test.num}"
       );
-      expect(stack.byId("plain").bool).toEqual(
-        "${optional_attribute_resource.test.bool}"
-      );
+      // Not supported in Java
+      // expect(stack.byId("plain").bool).toEqual(
+      //   "${optional_attribute_resource.test.bool}"
+      // );
       expect(stack.byId("plain").strList).toEqual(
         "${optional_attribute_resource.test.strList}"
       );
       expect(stack.byId("plain").numList).toEqual(
         "${optional_attribute_resource.test.numList}"
       );
-      expect(stack.byId("plain").boolList).toEqual(
-        "${optional_attribute_resource.test.boolList}"
-      );
+      // Not supported in Java
+      // expect(stack.byId("plain").boolList).toEqual(
+      //   "${optional_attribute_resource.test.boolList}"
+      // );
     });
 
     it("item references a required single item lists required values", () => {
       const item = stack.byId("from_single_list");
 
-      expect(item.bool).toEqual(
-        "${list_block_resource.list.singlereq[0].reqbool}"
-      );
+      // Not supported in Java
+      // expect(item.bool).toEqual(
+      //   "${list_block_resource.list.singlereq[0].reqbool}"
+      // );
       expect(item.str).toEqual(
         "${list_block_resource.list.singlereq[0].reqstr}"
       );

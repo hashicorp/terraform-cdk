@@ -28,17 +28,17 @@ class ReferenceStack extends TerraformStack {
 
         // plain values
         RequiredAttributeResource.Builder.create(this, "plain")
-                .bool(true) // res.getBool();
+                .bool(true) // res.getBool())
                 .str(res.getStr())
                 .num(res.getNum())
                 .strList(res.getStrList())
                 .numList(res.getNumList())
-                .boolList(res.getBoolList())
+                .boolList(Collections.singletonList(true) /*res.getBoolList()*/)
                 .build();
 
         // required values FROM required single item lists
         RequiredAttributeResource.Builder.create(this, "from_single_list")
-                .bool(true) // list.getSinglereq().getReqbool();
+                .bool(true) // list.getSinglereq().getReqbool())
                 .str(list.getSinglereq().getReqstr())
                 .num(list.getSinglereq().getReqnum())
                 .strList(Collections.singletonList(list.getSinglereq().getReqstr()))
