@@ -40,6 +40,7 @@
     "jsii-pacmak": "^1.55.1",
     "minimatch": "^5.0.1",
     "node-abort-controller": "^3.0.1",
+    "tunnel-agent": "^0.6.0",
     "yargs": "^17.4"
   },
   "eslintConfig": {
