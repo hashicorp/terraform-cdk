@@ -12,25 +12,20 @@ jobs:
     permissions:
       contents: read
     runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Check Out
         uses: actions/checkout@v2
-
-      - name: Set up Node
-        uses: actions/setup-node@v2.5.0
-        with:
-          node-version: 12
-
-      - name: Locate Yarn cache
-        id: yarn-cache
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Restore Yarn cache
-        uses: actions/cache@v2.1.7
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |-
+          restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install Tools
         run: |-
