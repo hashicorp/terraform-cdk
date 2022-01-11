@@ -82,15 +82,15 @@ describe("edge provider test", () => {
       expect(item.num).toEqual(
         "${list_block_resource.list.singlereq[0].reqnum}"
       );
-      expect(item.boolList).toEqual(
-        "[${list_block_resource.list.singlereq[0].reqbool}]"
-      );
-      expect(item.strList).toEqual(
-        "[${list_block_resource.list.singlereq[0].reqstr}]"
-      );
-      expect(item.numList).toEqual(
-        "[${list_block_resource.list.singlereq[0].reqnum}]"
-      );
+      expect(item.boolList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqbool}",
+      ]);
+      expect(item.strList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqstr}",
+      ]);
+      expect(item.numList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqnum}",
+      ]);
     });
 
     it("item references required values from multi-item lists", () => {
@@ -106,15 +106,15 @@ describe("edge provider test", () => {
       expect(item.num).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
       );
-      expect(item.boolList).toEqual(
-        '[${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}]'
-      );
-      expect(item.strList).toEqual(
-        '[${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}]'
-      );
-      expect(item.numList).toEqual(
-        '[${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}]'
-      );
+      expect(item.boolList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}',
+      ]);
+      expect(item.strList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}',
+      ]);
+      expect(item.numList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}',
+      ]);
     });
 
     it("item references a required single item list", () => {

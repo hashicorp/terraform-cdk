@@ -1226,7 +1226,7 @@ export interface OptionalAttributeResourceConfig extends cdktf.TerraformMetaArgu
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#boolList OptionalAttributeResource#boolList}
   */
-  readonly boolList?: boolean[];
+  readonly boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1354,11 +1354,11 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
   }
 
   // boolList - computed: false, optional: true, required: false
-  private _boolList?: boolean[]; 
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
     return this.getBooleanAttribute('boolList') as any;
   }
-  public set boolList(value: boolean[]) {
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
   }
   public resetBoolList() {
@@ -1420,7 +1420,7 @@ export interface OptionalComputedAttributeResourceConfig extends cdktf.Terraform
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#boolList OptionalComputedAttributeResource#boolList}
   */
-  readonly boolList?: boolean[];
+  readonly boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1548,11 +1548,11 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
   }
 
   // boolList - computed: true, optional: true, required: false
-  private _boolList?: boolean[]; 
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
     return this.getBooleanAttribute('boolList') as any;
   }
-  public set boolList(value: boolean[]) {
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
   }
   public resetBoolList() {
@@ -1614,7 +1614,7 @@ export interface RequiredAttributeResourceConfig extends cdktf.TerraformMetaArgu
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#boolList RequiredAttributeResource#boolList}
   */
-  readonly boolList: boolean[];
+  readonly boolList: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1727,11 +1727,11 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
   }
 
   // boolList - computed: false, optional: false, required: true
-  private _boolList?: boolean[]; 
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
     return this.getBooleanAttribute('boolList') as any;
   }
-  public set boolList(value: boolean[]) {
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
   }
   // Temporarily expose input value. Use with caution.
