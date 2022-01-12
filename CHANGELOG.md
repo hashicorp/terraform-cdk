@@ -2,14 +2,17 @@
 
 **Breaking Changes**
 
-### Map Tokens [#1411](https://github.com/hashicorp/terraform-cdk/pull/1411)
+### Number[] Tokens [#1471](https://github.com/hashicorp/terraform-cdk/pull/1471)
 
-As part of an effort to use more native types, there are now tokens for maps of primitive values.
+As part of an effort to use more native types, there are now tokens for number[].
+There is now `Token.asNumberList()` which can be used to conver other values into number[].
 
-As a result, there is a minor breaking change:
+As a result of some standardization, there is a minor breaking change:
 
-- Map attributes have gone from `{ [key: string]: TYPE } | cdktf.IResolvable` to `{ [key: string]:TYPE }` when `TYPE` is `string, number, or boolean`.
-  - The most common impact is maps created by using Terraform functions (`Fn.(...)`) will now need to be passed to `Token.as<String/Number/Boolean>Map()` before assigning to a resource attribute.
+- Boolean[] attributes have gone from `boolean[]` to `Array<boolean | IResolvable> | IResolvable`.
+  - This is done because neither `boolean` or `boolean[]` is representable by a token.
+  - This should make it easier to pass around `boolean[]` between resources and fuctions.
+  - For jsii languages (especially Java and C#), these types will end up as `List<Object>`.
 
 ## 0.8.6
 
