@@ -85,6 +85,7 @@ test("Apply", async () => {
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
     annotations: [],
+    dependencies: [],
   };
 
   const initialState: DeployState = {
@@ -127,6 +128,7 @@ test("Apply Multiple Resources", async () => {
     synthesizedStackPath: "./foo/stacks/bar",
     workingDirectory: "./foo",
     annotations: [],
+    dependencies: [],
   };
 
   const initialState: DeployState = {

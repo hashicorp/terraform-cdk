@@ -85,6 +85,7 @@ node_modules
               resource: {},
             },
             annotations: [],
+            dependencies: [],
           },
         ],
         error: {

@@ -34,6 +34,7 @@ test("get stack manifest", () => {
     Object {
       "annotations": Array [],
       "constructPath": "this-is-a-stack",
+      "dependencies": Array [],
       "name": "this-is-a-stack",
       "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
       "workingDirectory": "stacks/this-is-a-stack",
@@ -60,7 +61,8 @@ test("write manifest", () => {
           \\"constructPath\\": \\"this-is-a-stack\\",
           \\"workingDirectory\\": \\"stacks/this-is-a-stack\\",
           \\"synthesizedStackPath\\": \\"stacks/this-is-a-stack/cdk.tf.json\\",
-          \\"annotations\\": []
+          \\"annotations\\": [],
+          \\"dependencies\\": []
         }
       }
     }"
@@ -109,7 +111,8 @@ describe("manifest annotations", () => {
                 \\"level\\": \\"@cdktf/error\\",
                 \\"message\\": \\"an error\\"
               }
-            ]
+            ],
+            \\"dependencies\\": []
           }
         }
       }"

@@ -104,10 +104,6 @@ function getAssertElementWithProperties(
       throw new Error(`invalid JSON string passed: ${received}`);
     }
 
-    if (!(type in stack)) {
-      throw new Error(`Type ${type} not found in stack`);
-    }
-
     const items =
       Object.values(
         Object.entries(stack[type] || {}) // for all data/resource entries
