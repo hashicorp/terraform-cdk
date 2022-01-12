@@ -12,25 +12,20 @@ jobs:
     permissions:
       contents: read
     runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Check Out
         uses: actions/checkout@v2
-
-      - name: Set up Node
-        uses: actions/setup-node@v2.5.0
-        with:
-          node-version: 12
-
-      - name: Locate Yarn cache
-        id: yarn-cache
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Restore Yarn cache
-        uses: actions/cache@v2.1.7
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |-
+          restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install Tools
         run: |-
@@ -47,6 +42,7 @@ jobs:
         # We special-case typescript because it's not semantically versioned
         # We special-case constructs because we want to stay in control of the minimum compatible version
         # We special-case lerna because we have a patch on it that stops applying if Lerna upgrades. Remove this once https://github.com/lerna/lerna/pull/2874 releases.
+        # We special-case graphology-types because the newer version has type definitions that are not compatible with our typescript version.
         run: |-
           # Upgrade dependencies at repository root
           ncu --upgrade --filter=@types/node,@types/fs-extra --target=minor
@@ -55,7 +51,7 @@ jobs:
           # Upgrade all the packages
           lerna exec --parallel ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
           lerna exec --parallel ncu -- --upgrade --filter=typescript --target=patch
-          lerna exec --parallel ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,${{ steps.list-packages.outputs.list }}'  --target=minor
+          lerna exec --parallel ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn update" to run)
       - name: Run "yarn install"
         run: yarn install
@@ -68,12 +64,12 @@ jobs:
       - name: Create Patch
         run: |-
           git add .
-          git diff --patch --staged > ${{ runner.temp }}/upgrade.patch
+          git diff --patch --staged > ./upgrade.patch
       - name: Upload Patch
         uses: actions/upload-artifact@v2
         with:
           name: upgrade.patch
-          path: ${{ runner.temp }}/upgrade.patch
+          path: ./upgrade.patch
 
   pr:
     name: Create Pull Request
@@ -90,12 +86,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: upgrade.patch
-          path: ${{ runner.temp }}
 
       - name: Apply patch
-        run:
-          '[ -s ${{ runner.temp }}/upgrade.patch ] && git apply ${{ runner.temp
-          }}/upgrade.patch || echo "Empty patch. Skipping."'
+        run: '[ -s ./upgrade.patch ] && git apply ./upgrade.patch || echo "Empty patch. Skipping."'
 
       - name: Make Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -109,5 +102,5 @@ jobs:
           title: "chore: npm-check-updates && yarn upgrade"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
-          labels: contribution/core,dependencies,auto-approve
+          labels: dependencies,auto-approve
           team-reviewers: cdktf
