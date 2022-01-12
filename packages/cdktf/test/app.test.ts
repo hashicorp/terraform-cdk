@@ -20,6 +20,7 @@ import { Aspects } from "../lib/aspect";
 import { IConstruct } from "constructs";
 import { setupJest } from "../lib/testing/adapters/jest";
 import { TestProvider, TestResource } from "./helper";
+import { OtherTestResource } from "./helper/resource";
 setupJest();
 
 test("context can be passed through CDKTF_CONTEXT", () => {
@@ -462,23 +463,6 @@ describe("Cross Stack references", () => {
     );
   });
 
-  it.skip("throws an error when a stack is referenced from a different app", () => {
-    new RemoteBackend(originStack, {
-      organization: "testorg",
-      workspaces: {
-        name: "testworkspace",
-      },
-    });
-
-    const otherApp = new App();
-    const otherStack = new TerraformStack(otherApp, "OtherStack");
-    new TestResource(otherStack, "Resource", {
-      name: originStack.resource.stringValue,
-    });
-
-    expect(() => app.synth()).toThrow();
-  });
-
   it("makes all outputs sensitive since the input could be", () => {
     new TestResource(testStack, "Resource", {
       name: originStack.resource.stringValue,
@@ -563,5 +547,21 @@ describe("Cross Stack references", () => {
     expect(additionalStackSynth).toHaveDataSource(
       DataTerraformRemoteStateLocal
     );
+  });
+
+  it("resolves complex computed lists with cross stack references", () => {
+    const other = new OtherTestResource(originStack, "other", {});
+    new TestResource(testStack, "Resource", {
+      name: other.complexComputedList("42").id,
+    });
+
+    app.synth();
+    const { originStackSynth, targetStackSynth } = getStackSynths(app);
+    expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
+    expect(targetStackSynth).toHaveDataSource(DataTerraformRemoteStateLocal);
+    const originOutput = Object.values(
+      JSON.parse(originStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(originOutput).toContain(".complex_computed_list.42.id");
   });
 });
