@@ -46,7 +46,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 		Num:  res.Num(),
 		StrList: res.StrList(),
 		NumList: res.NumList(),
-		BoolList: res.BoolList(),
+		BoolList: &[]*bool{jsii.Bool(true)},//res.BoolList(),
 	})
 
 	// required values FROM required single item lists
