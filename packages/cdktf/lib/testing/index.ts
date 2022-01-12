@@ -33,6 +33,11 @@ export class Testing {
     return app;
   }
 
+  public static fakeCdktfJsonPath(app: App): App {
+    app.node.setContext("cdktfJsonPath", `${process.cwd()}/cdktf.json`);
+    return app;
+  }
+
   public static enableFutureFlags(app: App): App {
     const node = app.node;
     Object.entries(FUTURE_FLAGS).forEach(([key, value]) =>

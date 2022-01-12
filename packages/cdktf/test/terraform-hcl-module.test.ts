@@ -1,23 +1,22 @@
 import { Testing, TerraformStack, TerraformHclModule } from "../lib";
 import { TestProvider, TestResource } from "./helper";
-import * as path from "path";
 
 test("minimal configuration", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
 test("pass variables", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
     variables: {
       param1: "name",
       param2: 1,
@@ -28,7 +27,7 @@ test("pass variables", () => {
 });
 
 test("simple provider", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   const provider = new TestProvider(stack, "provider", {
@@ -37,14 +36,14 @@ test("simple provider", () => {
   });
 
   new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
     providers: [provider],
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
 test("multiple providers", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   const provider1 = new TestProvider(stack, "provider1", {
@@ -57,14 +56,14 @@ test("multiple providers", () => {
   });
 
   new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
     providers: [provider1, provider2],
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
 test("multiple providers can't have the same module alias", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   const provider1 = new TestProvider(stack, "provider1", {
@@ -79,7 +78,7 @@ test("multiple providers can't have the same module alias", () => {
 
   try {
     new TerraformHclModule(stack, "test", {
-      source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+      source: "./test/fixtures/hcl-module/",
       providers: [provider1, provider2],
     });
   } catch (e) {
@@ -90,7 +89,7 @@ test("multiple providers can't have the same module alias", () => {
 });
 
 test("complex providers", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   const provider1 = new TestProvider(stack, "provider1", {
@@ -104,7 +103,7 @@ test("complex providers", () => {
   });
 
   new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
     providers: [
       { provider: provider1, moduleAlias: "src" },
       { provider: provider2, moduleAlias: "dst" },
@@ -119,12 +118,12 @@ test("complex providers", () => {
 });
 
 test("reference module", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
   });
 
   new TestResource(stack, "resource", {
@@ -134,12 +133,12 @@ test("reference module", () => {
 });
 
 test("reference module list", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
   });
 
   const resource = new TestResource(stack, "resource", {
@@ -151,11 +150,11 @@ test("reference module list", () => {
 });
 
 test("set variable", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   const module = new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
   });
 
   module.set("param1", "value1");
@@ -163,11 +162,11 @@ test("set variable", () => {
 });
 
 test("add provider", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   const module = new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
   });
 
   const provider = new TestProvider(stack, "provider", {
@@ -179,12 +178,12 @@ test("add provider", () => {
 });
 
 test("depend on module", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
 
   const module = new TerraformHclModule(stack, "test", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
   });
 
   new TestResource(stack, "resource", {
@@ -195,15 +194,15 @@ test("depend on module", () => {
 });
 
 test("depend on other module", () => {
-  const app = Testing.app();
+  const app = Testing.fakeCdktfJsonPath(Testing.app());
   const stack = new TerraformStack(app, "test");
 
   const module1 = new TerraformHclModule(stack, "test_1", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
   });
 
   new TerraformHclModule(stack, "test_2", {
-    source: path.resolve(__dirname, "./fixtures/hcl-module/"),
+    source: "./test/fixtures/hcl-module/",
     dependsOn: [module1],
   });
 
