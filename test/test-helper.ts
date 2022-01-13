@@ -128,8 +128,19 @@ export class TestDriver {
     fse.writeFileSync(dest, content);
   };
 
+  setEnv = (key, value) => {
+    this.env[key] = value;
+  };
+
   stackDirectory = (stackName: string) => {
     return path.join(this.workingDirectory, "cdktf.out", "stacks", stackName);
+  };
+
+  manifest = () => {
+    return fs.readFileSync(
+      path.join(this.workingDirectory, "cdktf.out", "manifest.json"),
+      "utf8"
+    );
   };
 
   synthesizedStack = (stackName: string) => {
@@ -252,6 +263,10 @@ export class TestDriver {
     } finally {
       await templateServer.stop();
     }
+  };
+
+  readLocalFile = (fileName: string): string => {
+    return fs.readFileSync(path.join(this.workingDirectory, fileName), "utf8");
   };
 }
 

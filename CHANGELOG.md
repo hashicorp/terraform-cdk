@@ -1,3 +1,44 @@
+## 0.8.6
+
+### fix
+
+- fix(lib): don't treat strings as maps [\#1467](https://github.com/hashicorp/terraform-cdk/pull/1467)
+- fix: update specified nodejs version to >=12.16 to reflect our actual requirements [\#1466](https://github.com/hashicorp/terraform-cdk/pull/1466)
+
+### Other
+
+- chore: fix constructs error [\#1460](https://github.com/hashicorp/terraform-cdk/pull/1460)
+
+## 0.8.5
+
+### fix
+
+- fix(provider-generator): rename String resource [\#1455](https://github.com/hashicorp/terraform-cdk/pull/1455)
+
+### chore
+
+- chore(hcl2cdk): update readme [\#1452](https://github.com/hashicorp/terraform-cdk/pull/1452)
+- chore(examples): Upgrade aws provider version for Go example [\#1450](https://github.com/hashicorp/terraform-cdk/pull/1450)
+- chore: update maven config for publishing [\#1457](https://github.com/hashicorp/terraform-cdk/pull/1457)
+- chore: update constructs to 10.0.25 [\#1453](https://github.com/hashicorp/terraform-cdk/pull/1453)
+
+## 0.8.4
+
+### fix
+
+- fix(provider-generator): remove .html suffix for doc links [\#1438](https://github.com/hashicorp/terraform-cdk/pull/1438)
+- fix: Update Remote State Outputs documentation [\#1436](https://github.com/hashicorp/terraform-cdk/pull/1436)
+
+### feat
+
+- feat(lib): Add nullable field to terraform variables [\#1435](https://github.com/hashicorp/terraform-cdk/pull/1435)
+
+### chore
+
+- chore: update constructs to 10.0.20 [\#1444](https://github.com/hashicorp/terraform-cdk/pull/1444)
+- chore: store website nav files (main) [\#1434](https://github.com/hashicorp/terraform-cdk/pull/1434)
+- chore: add make website command to preview docs website [\#1426](https://github.com/hashicorp/terraform-cdk/pull/1426)
+
 ## 0.8.3
 
 ### fix

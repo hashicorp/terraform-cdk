@@ -160,6 +160,12 @@ describe("matchers", () => {
 
       expect(res.pass).toBeTruthy();
     });
+
+    it("should fail if no item is found as asserted", () => {
+      const res = toHaveResourceWithProperties(synthesizedStack, DockerImage);
+
+      expect(res.pass).toBeFalsy();
+    });
   });
 
   describe("toHaveDataSourceWithProperties", () => {

@@ -62,7 +62,7 @@ export class TerraformOutput extends TerraformElement {
     }
 
     if (this.isITerraformAddressable(arg)) {
-      return ref(arg.fqn);
+      return ref(arg.fqn, this.cdktfStack);
     }
 
     if (Array.isArray(arg)) {

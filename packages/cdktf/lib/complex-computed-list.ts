@@ -1,9 +1,9 @@
 import { Token } from "./tokens";
-import { ITerraformResource } from "./terraform-resource";
+import { IInterpolatingParent } from "./terraform-addressable";
 
-abstract class ComplexComputedAttribute {
+abstract class ComplexComputedAttribute implements IInterpolatingParent {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -23,12 +23,12 @@ abstract class ComplexComputedAttribute {
     return this.interpolationForAttribute(terraformAttribute);
   }
 
-  protected abstract interpolationForAttribute(terraformAttribute: string): any;
+  public abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 
 export class StringMap {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -43,7 +43,7 @@ export class StringMap {
 
 export class NumberMap {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -58,7 +58,7 @@ export class NumberMap {
 
 export class BooleanMap {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -73,14 +73,14 @@ export class BooleanMap {
 
 export class ComplexComputedList extends ComplexComputedAttribute {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
     protected complexComputedListIndex: string
   ) {
     super(terraformResource, terraformAttribute);
   }
 
-  protected interpolationForAttribute(property: string) {
+  public interpolationForAttribute(property: string) {
     return this.terraformResource.interpolationForAttribute(
       `${this.terraformAttribute}.${this.complexComputedListIndex}.${property}`
     );
@@ -89,14 +89,14 @@ export class ComplexComputedList extends ComplexComputedAttribute {
 
 export class ComplexObject extends ComplexComputedAttribute {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
     protected isSingleItem: boolean
   ) {
     super(terraformResource, terraformAttribute);
   }
 
-  protected interpolationForAttribute(property: string) {
+  public interpolationForAttribute(property: string) {
     return this.terraformResource.interpolationForAttribute(
       `${this.terraformAttribute}${this.isSingleItem ? "[0]" : ""}.${property}`
     );

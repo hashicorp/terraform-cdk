@@ -9,6 +9,9 @@ import com.hashicorp.cdktf.Testing;
 import imports.nullprovider.NullProvider;
 import imports.nullprovider.Resource;
 
+import imports.random.RandomProvider;
+import imports.random.StringResource;
+
 public class Main extends TerraformStack
 {
     public Main(final Construct scope, final String id) {
@@ -16,6 +19,9 @@ public class Main extends TerraformStack
 
         NullProvider.Builder.create(this, "Null").build();
         Resource resource = Resource.Builder.create(this, "NullResource").build();
+
+        RandomProvider.Builder.create(this, "Random").build();
+        StringResource stringResource = StringResource.Builder.create(this, "RandomString").length(42).build();
     }
 
     public static void main(String[] args) {

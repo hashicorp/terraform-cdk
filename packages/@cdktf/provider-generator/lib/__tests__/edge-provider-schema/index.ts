@@ -38,6 +38,26 @@ const list_block_resource = new S()
     minItems: 1,
     maxItems: 1,
   })
+  .listBlock({
+    name: "singleComputedBlock",
+    block: new S()
+      .attribute({
+        computed: true,
+        name: "computed",
+        type: "string",
+        required: false,
+        optional: false,
+      })
+      .attribute({
+        computed: false,
+        name: "configured",
+        type: "string",
+        required: false,
+      })
+      .asBlock(),
+    minItems: 0,
+    maxItems: 1,
+  })
   .build();
 
 export const edgeSchema: ProviderSchema = schema({

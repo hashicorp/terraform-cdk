@@ -50,3 +50,20 @@ export function hashPath(src: string) {
   hashRecursion(src);
   return hash.digest("hex").slice(0, HASH_LEN).toUpperCase();
 }
+
+export function findFileAboveCwd(
+  file: string,
+  rootPath = process.cwd()
+): string | null {
+  const fullPath = path.resolve(rootPath, file);
+  if (fs.existsSync(fullPath)) {
+    return fullPath;
+  }
+
+  const parentDir = path.resolve(rootPath, "..");
+  if (fs.existsSync(parentDir) && parentDir !== rootPath) {
+    return findFileAboveCwd(file, parentDir);
+  }
+
+  return null;
+}

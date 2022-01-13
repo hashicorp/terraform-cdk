@@ -27,17 +27,35 @@ function assets(scope: Construct, assetOverrides = {}) {
     type: AssetType.ARCHIVE,
   });
 
+  const relativeAsset = new TerraformAsset(scope, "relative-asset", {
+    path: "relative-asset.txt",
+    ...assetOverrides,
+  });
+
+  const relativeAssets = new TerraformAsset(scope, "relative", {
+    path: "./relative",
+    ...assetOverrides,
+  });
+
   return {
     localAsset,
     fixtures,
     zippedFixtures,
+    relativeAsset,
+    relativeAssets,
   };
 }
 
 export class FixedHash extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    const { localAsset, fixtures, zippedFixtures } = assets(this, {
+    const {
+      localAsset,
+      fixtures,
+      zippedFixtures,
+      relativeAsset,
+      relativeAssets,
+    } = assets(this, {
       assetHash: "hash",
     });
 
@@ -52,6 +70,14 @@ export class FixedHash extends TerraformStack {
     new TerraformOutput(this, "zipped-fixtures-name", {
       value: zippedFixtures.fileName,
     });
+
+    new TerraformOutput(this, "relative-asset-name", {
+      value: relativeAsset.fileName,
+    });
+
+    new TerraformOutput(this, "relative-assets-name", {
+      value: relativeAssets.fileName,
+    });
   }
 }
 
@@ -60,7 +86,13 @@ export class NormalHash extends TerraformStack {
     super(scope, id);
 
     new NullProvider(this, "null", {});
-    const { localAsset, fixtures, zippedFixtures } = assets(this);
+    const {
+      localAsset,
+      fixtures,
+      zippedFixtures,
+      relativeAsset,
+      relativeAssets,
+    } = assets(this);
 
     new NullResource(this, "resource", {
       triggers: {
@@ -70,6 +102,10 @@ export class NormalHash extends TerraformStack {
         fixturesPath: fixtures.path,
         zippedFixturesAssetHash: zippedFixtures.assetHash,
         zippedFixturesPath: zippedFixtures.path,
+        relativeAssetAssetHash: relativeAsset.assetHash,
+        relativeAssetAssetPath: relativeAsset.path,
+        relativeAssestsAssetHash: relativeAssets.assetHash,
+        relativeAsssetsAssetPath: relativeAssets.path,
       },
     });
   }

@@ -15,6 +15,9 @@ exports[`python full integration test synth synth generates JSON for both stacks
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
       }
+    },
+    \\"backend\\": {
+      \\"local\\": {}
     }
   },
   \\"provider\\": {
@@ -52,6 +55,9 @@ exports[`python full integration test synth synth generates JSON for both stacks
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
       }
+    },
+    \\"backend\\": {
+      \\"local\\": {}
     }
   },
   \\"provider\\": {

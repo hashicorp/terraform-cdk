@@ -432,6 +432,13 @@ export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaAr
   */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
 }
+export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends cdktf.ComplexComputedList {
+
+  // starting_position - computed: true, optional: false, required: false
+  public get startingPosition() {
+    return this.getStringAttribute('starting_position');
+  }
+}
 export interface BlockTypeNestedComputedListInputs {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list#name_prefix BlockTypeNestedComputedList#name_prefix}
@@ -703,7 +710,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -2216,7 +2223,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
