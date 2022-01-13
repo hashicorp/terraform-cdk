@@ -1,9 +1,11 @@
+import { Construct } from "constructs";
 import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
 import { Tokenization } from "./tokens/token";
 import { LazyBase } from "./tokens/lazy";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
+import { TerraformLocal } from "./terraform-local";
 
 class TFExpression extends Intrinsic implements IResolvable {
   public isInnerTerraformExpression = false;
@@ -369,8 +371,15 @@ export function orOperation(left: Expression, right: Expression) {
   return new OperatorExpression("||", left, right) as IResolvable;
 }
 class FunctionCall extends TFExpression {
-  constructor(private name: string, private args: Expression[]) {
+  private originStack?: TerraformStack;
+  private crossStackExpression: Record<string, string> = {};
+  constructor(
+    private scope: Construct | undefined,
+    private name: string,
+    private args: Expression[]
+  ) {
     super({ name, args });
+    this.originStack = scope ? TerraformStack.of(scope) : undefined;
   }
 
   public resolve(context: IResolveContext): string {
@@ -382,11 +391,37 @@ class FunctionCall extends TFExpression {
 
     const expr = `${this.name}(${serializedArgs})`;
 
-    return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
+    // We check for cross stack references on preparation, setting a new identifier
+    const resolutionStack = TerraformStack.of(context.scope);
+    const stackName = resolutionStack.toString();
+
+    if (
+      context.preparing &&
+      this.originStack &&
+      this.originStack !== resolutionStack &&
+      this.scope
+    ) {
+      // Cross stack reference
+      const local = new TerraformLocal(this.scope, "42", expr);
+
+      console.log("local", local);
+      this.crossStackExpression[stackName] = context.resolve(
+        local.asResolvable
+      );
+    }
+
+    const crossStackExpr = this.crossStackExpression[stackName] ?? expr;
+    return this.isInnerTerraformExpression
+      ? crossStackExpr
+      : `\${${crossStackExpr}}`;
   }
 }
-export function call(name: string, args: Expression[]) {
-  return new FunctionCall(name, args) as IResolvable;
+export function call(
+  scope: Construct | undefined,
+  name: string,
+  args: Expression[]
+) {
+  return new FunctionCall(scope, name, args) as IResolvable;
 }
 
 export type Expression =

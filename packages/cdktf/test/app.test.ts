@@ -142,6 +142,7 @@ class MyResource extends TerraformResource {}
 describe("Cross Stack references", () => {
   class OriginStack extends TerraformStack {
     public resource: TestResource;
+    public fnValue?: string;
     constructor(scope: App, id: string) {
       super(scope, id);
 
@@ -563,5 +564,24 @@ describe("Cross Stack references", () => {
       JSON.parse(originStackSynth).output as { value: string }[]
     )[0].value;
     expect(originOutput).toContain(".complex_computed_list.42.id");
+  });
+
+  it("saves Fn state on the origin stack", () => {
+    originStack.fnValue = Fn.upper(
+      originStack.resource.stringValue,
+      originStack
+    );
+    new TestResource(testStack, "Resource", {
+      name: originStack.fnValue,
+    });
+
+    app.synth();
+    const { originStackSynth } = getStackSynths(app);
+    expect(
+      Object.values(JSON.parse(originStackSynth).output.value)[0]
+    ).toContain("local");
+    expect(Object.values(JSON.parse(originStackSynth).locals)[0]).toEqual(
+      "upper(data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputtestresourceOriginStackresource3C7D7739stringvalue_362449F3)"
+    );
   });
 });
