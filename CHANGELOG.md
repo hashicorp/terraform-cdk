@@ -4,8 +4,8 @@
 
 ### Number[] Tokens [#1471](https://github.com/hashicorp/terraform-cdk/pull/1471)
 
-As part of an effort to use more native types, there are now tokens for number[].
-There is now `Token.asNumberList()` which can be used to conver other values into number[].
+As part of an effort to use more native types, there are now tokens for `number[]`.
+This is mostly an internal change, but there is now `Token.asNumberList()` which can be used to convert other values into `number[]`.
 
 As a result of some standardization, there is a minor breaking change:
 
