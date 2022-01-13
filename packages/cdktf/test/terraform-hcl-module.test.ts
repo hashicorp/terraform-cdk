@@ -2,7 +2,7 @@ import { Testing, TerraformStack, TerraformHclModule } from "../lib";
 import { TestProvider, TestResource } from "./helper";
 
 test("minimal configuration", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   new TerraformHclModule(stack, "test", {
@@ -12,7 +12,7 @@ test("minimal configuration", () => {
 });
 
 test("pass variables", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   new TerraformHclModule(stack, "test", {
@@ -27,7 +27,7 @@ test("pass variables", () => {
 });
 
 test("simple provider", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   const provider = new TestProvider(stack, "provider", {
@@ -43,7 +43,7 @@ test("simple provider", () => {
 });
 
 test("multiple providers", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   const provider1 = new TestProvider(stack, "provider1", {
@@ -63,7 +63,7 @@ test("multiple providers", () => {
 });
 
 test("multiple providers can't have the same module alias", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   const provider1 = new TestProvider(stack, "provider1", {
@@ -89,7 +89,7 @@ test("multiple providers can't have the same module alias", () => {
 });
 
 test("complex providers", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   const provider1 = new TestProvider(stack, "provider1", {
@@ -118,7 +118,7 @@ test("complex providers", () => {
 });
 
 test("reference module", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
 
@@ -133,7 +133,7 @@ test("reference module", () => {
 });
 
 test("reference module list", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
 
@@ -150,7 +150,7 @@ test("reference module list", () => {
 });
 
 test("set variable", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   const module = new TerraformHclModule(stack, "test", {
@@ -162,7 +162,7 @@ test("set variable", () => {
 });
 
 test("add provider", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   const module = new TerraformHclModule(stack, "test", {
@@ -178,7 +178,7 @@ test("add provider", () => {
 });
 
 test("depend on module", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
 
@@ -194,7 +194,7 @@ test("depend on module", () => {
 });
 
 test("depend on other module", () => {
-  const app = Testing.fakeCdktfJsonPath(Testing.app());
+  const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
   const module1 = new TerraformHclModule(stack, "test_1", {
