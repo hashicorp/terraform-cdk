@@ -7,6 +7,7 @@ on:
       - "**.md"
       - "docs/**"
       - "website/**"
+      - "tools/update-github-project-board/**"
 
 jobs:
   prepare-release:
