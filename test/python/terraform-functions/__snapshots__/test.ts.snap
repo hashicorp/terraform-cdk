@@ -18,19 +18,21 @@ exports[`python terraform functions test synth synth generates JSON 1`] = `
     }
   },
   \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      }
-    },
     \\"backend\\": {
-      \\"local\\": {},
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      },
       \\"remote\\": {
         \\"organization\\": \\"test\\",
         \\"workspaces\\": {
           \\"name\\": \\"test\\"
         }
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"version\\": \\"~> 3.1.0\\",
+        \\"source\\": \\"hashicorp/null\\"
       }
     }
   },

@@ -10,14 +10,16 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"docker\\": {
         \\"version\\": \\"~> 2.15\\",
         \\"source\\": \\"kreuzwerker/docker\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {

@@ -20,19 +20,21 @@ exports[`full integration test synth synth generates JSON 1`] = `
     }
   },
   \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"version\\": \\"~> 2.0\\",
-        \\"source\\": \\"aws\\"
-      }
-    },
     \\"backend\\": {
-      \\"local\\": {},
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      },
       \\"remote\\": {
         \\"organization\\": \\"test\\",
         \\"workspaces\\": {
           \\"name\\": \\"test\\"
         }
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"version\\": \\"~> 2.0\\",
+        \\"source\\": \\"aws\\"
       }
     }
   },

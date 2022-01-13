@@ -10,14 +10,16 @@ exports[`python full integration test assets synth generates JSON and copies fil
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {

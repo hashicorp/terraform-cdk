@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 from constructs import Construct
-from cdktf import App, TerraformStack, Testing
+from cdktf import App, TerraformStack, Testing, LocalBackend
 from imports.null import NullProvider, Resource
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
         super().__init__(scope, ns)
+        LocalBackend(self, path="terraform.tfstate")
 
         NullProvider(self, "null")
         resource = Resource(self, "null-resource")

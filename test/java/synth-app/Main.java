@@ -5,6 +5,7 @@ import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.Testing;
+import com.hashicorp.cdktf.LocalBackend;
 
 import imports.nullprovider.NullProvider;
 import imports.nullprovider.Resource;
@@ -16,6 +17,7 @@ public class Main extends TerraformStack
 {
     public Main(final Construct scope, final String id) {
         super(scope, id);
+        LocalBackend.Builder.create(this).path("terraform.tfstate").build();
 
         NullProvider.Builder.create(this, "Null").build();
         Resource resource = Resource.Builder.create(this, "NullResource").build();

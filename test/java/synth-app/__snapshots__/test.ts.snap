@@ -10,6 +10,11 @@ exports[`java full integration synth generates JSON 1`] = `
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"~> 3.1.0\\",
@@ -19,9 +24,6 @@ exports[`java full integration synth generates JSON 1`] = `
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/random\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {
