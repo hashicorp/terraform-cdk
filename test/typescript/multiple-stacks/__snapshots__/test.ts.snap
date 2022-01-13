@@ -20,6 +20,9 @@ exports[`full integration test synth 1`] = `
         \\"version\\": \\" ~> 3.1.0\\",
         \\"source\\": \\"null\\"
       }
+    },
+    \\"backend\\": {
+      \\"local\\": {}
     }
   },
   \\"provider\\": {
@@ -69,6 +72,9 @@ exports[`full integration test synth 2`] = `
         \\"version\\": \\" ~> 3.1.0\\",
         \\"source\\": \\"null\\"
       }
+    },
+    \\"backend\\": {
+      \\"local\\": {}
     }
   },
   \\"provider\\": {
@@ -118,6 +124,9 @@ exports[`full integration test synth with json output 1`] = `
         \\"version\\": \\" ~> 3.1.0\\",
         \\"source\\": \\"null\\"
       }
+    },
+    \\"backend\\": {
+      \\"local\\": {}
     }
   },
   \\"provider\\": {

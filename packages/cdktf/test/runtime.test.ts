@@ -1,11 +1,8 @@
 import { resolve } from "../lib/_tokens";
 import { listMapper, hashMapper, anyToTerraform } from "../lib/runtime";
-import { ref } from "../lib/tfExpression";
 import { Token } from "../lib/tokens/token";
-import { Fn } from "../lib/terraform-functions";
 
 const resolveExpression = (expr: any) => resolve(null as any, expr);
-
 describe("Runtime", () => {
   describe("listmapper", () => {
     it("maps through the list", () => {
@@ -25,7 +22,9 @@ describe("Runtime", () => {
 
     it("leaves references in tact", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
-      const reference = ref("some_resource.my_resource.some_attribute_array");
+      const reference = Token.asString(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
 
       expect(
         resolveExpression(listMapper(identity)(["a", reference, "b", "c", "d"]))
@@ -43,7 +42,9 @@ describe("Runtime", () => {
 
     it("leaves directly passed references in tact with a list", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
-      const reference = ref("some_resource.my_resource.some_attribute_array");
+      const reference = Token.asString(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
 
       expect(
         resolveExpression(listMapper(identity)(reference))
@@ -54,7 +55,9 @@ describe("Runtime", () => {
 
     it("leaves directly passed references intact with a tokenized list", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
-      const reference = ref("some_resource.my_resource.some_attribute_array");
+      const reference = Token.asString(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
 
       expect(
         resolveExpression({
@@ -69,16 +72,16 @@ describe("Runtime", () => {
 
     it("works together with a hashmapper", () => {
       const reference = Token.asString(
-        ref("some_resource.my_resource.some_attribute_array")
+        "${some_resource.my_resource.some_attribute_array}"
       );
 
       expect(
         resolveExpression({
-          match_labels: Fn.tomap(hashMapper(anyToTerraform)(reference)),
+          match_labels: hashMapper(anyToTerraform)(reference),
         })
       ).toMatchInlineSnapshot(`
         Object {
-          "match_labels": "\${tomap(some_resource.my_resource.some_attribute_array)}",
+          "match_labels": "\${some_resource.my_resource.some_attribute_array}",
         }
       `);
     });

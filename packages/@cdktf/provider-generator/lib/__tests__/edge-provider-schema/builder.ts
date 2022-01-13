@@ -42,15 +42,17 @@ export class SchemaBuilder {
     type,
     required = false,
     computed = false,
+    optional = !required,
   }: {
     name: string;
     type: AttributeType;
-    required: boolean;
-    computed: boolean;
+    required?: boolean;
+    computed?: boolean;
+    optional?: boolean;
   }): SchemaBuilder {
     this.schema.block.attributes[name] = {
       type,
-      optional: !required,
+      optional,
       computed,
       required,
     };

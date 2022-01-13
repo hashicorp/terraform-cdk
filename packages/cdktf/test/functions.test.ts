@@ -494,13 +494,16 @@ test("rawString escapes correctly", () => {
 });
 
 test("tomap does not destroy incoming ref", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
   expect(
     Testing.synthScope(
       (scope) =>
         new TerraformLocal(
           scope,
           "test",
-          Fn.tomap(Token.asString(ref("test.instance.attr")))
+          Fn.tomap(Token.asString(ref("test.instance.attr", stack)))
         )
     )
   ).toMatchInlineSnapshot(`

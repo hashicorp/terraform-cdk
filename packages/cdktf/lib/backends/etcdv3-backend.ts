@@ -14,6 +14,16 @@ export class EtcdV3Backend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
+
+  public getRemoteStateDataSource(
+    _scope: Construct,
+    _name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    throw new Error(
+      "The EtcdV3Backend does not yet implement cross stack references"
+    );
+  }
 }
 
 export class DataTerraformRemoteStateEtcdV3 extends TerraformRemoteState {

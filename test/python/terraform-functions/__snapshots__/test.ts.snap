@@ -25,6 +25,7 @@ exports[`python terraform functions test synth synth generates JSON 1`] = `
       }
     },
     \\"backend\\": {
+      \\"local\\": {},
       \\"remote\\": {
         \\"organization\\": \\"test\\",
         \\"workspaces\\": {
