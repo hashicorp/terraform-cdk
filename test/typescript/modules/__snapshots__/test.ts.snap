@@ -9,6 +9,13 @@ exports[`full integration test build modules posix 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    }
+  },
   \\"module\\": {
     \\"localmodule\\": {
       \\"source\\": \\"./assets/localmodulelocalmodule/97F51B069A2EA5F1B6BA8B6C0FED84E4\\",
@@ -39,11 +46,6 @@ exports[`full integration test build modules posix 1`] = `
           \\"uniqueId\\": \\"iam\\"
         }
       }
-    }
-  },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {}
     }
   }
 }"

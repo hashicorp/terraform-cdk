@@ -10,14 +10,16 @@ exports[`csharp full integration test synth synth generates JSON 1`] = `
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {

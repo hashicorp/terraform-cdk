@@ -10,14 +10,16 @@ exports[`python full integration test synth synth generates JSON for both stacks
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {
@@ -50,14 +52,16 @@ exports[`python full integration test synth synth generates JSON for both stacks
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {

@@ -15,14 +15,16 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"undefined\\",
         \\"source\\": \\"null\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {
@@ -67,14 +69,16 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"undefined\\",
         \\"source\\": \\"null\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {
@@ -119,14 +123,16 @@ exports[`full integration test without features 1`] = `
     }
   },
   \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
     \\"required_providers\\": {
       \\"null\\": {
         \\"version\\": \\"undefined\\",
         \\"source\\": \\"null\\"
       }
-    },
-    \\"backend\\": {
-      \\"local\\": {}
     }
   },
   \\"provider\\": {

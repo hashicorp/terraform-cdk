@@ -22,7 +22,9 @@ exports[`full integration test synth 1`] = `
       }
     },
     \\"backend\\": {
-      \\"local\\": {}
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
     }
   },
   \\"provider\\": {
@@ -74,7 +76,9 @@ exports[`full integration test synth 2`] = `
       }
     },
     \\"backend\\": {
-      \\"local\\": {}
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
     }
   },
   \\"provider\\": {
@@ -126,7 +130,9 @@ exports[`full integration test synth with json output 1`] = `
       }
     },
     \\"backend\\": {
-      \\"local\\": {}
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
     }
   },
   \\"provider\\": {

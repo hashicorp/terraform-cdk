@@ -25,6 +25,13 @@ exports[`full integration test synth 1`] = `
       \\"backend\\": \\"local\\"
     }
   },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    }
+  },
   \\"output\\": {
     \\"localassetname\\": {
       \\"value\\": \\"local-asset.txt\\"
@@ -40,11 +47,6 @@ exports[`full integration test synth 1`] = `
     },
     \\"relativeassetsname\\": {
       \\"value\\": \\"relative\\"
-    }
-  },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {}
     }
   }
 }"

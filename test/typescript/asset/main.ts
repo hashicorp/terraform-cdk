@@ -6,6 +6,7 @@ import {
   TerraformAsset,
   TerraformOutput,
   AssetType,
+  LocalBackend,
 } from "cdktf";
 import * as path from "path";
 import { Resource as NullResource, NullProvider } from "./.gen/providers/null";
@@ -49,6 +50,10 @@ function assets(scope: Construct, assetOverrides = {}) {
 export class FixedHash extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+    new LocalBackend(this, {
+      path: "terraform.tfstate",
+    });
+
     const {
       localAsset,
       fixtures,
@@ -84,6 +89,9 @@ export class FixedHash extends TerraformStack {
 export class NormalHash extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+    new LocalBackend(this, {
+      path: "terraform.tfstate",
+    });
 
     new NullProvider(this, "null", {});
     const {
