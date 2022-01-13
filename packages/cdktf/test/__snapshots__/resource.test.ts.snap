@@ -112,6 +112,35 @@ exports[`minimal configuration 1`] = `
 }"
 `;
 
+exports[`number[] attributes 1`] = `
+"{
+  \\"output\\": {
+    \\"number-list\\": {
+      \\"value\\": \\"\${test_resource.resource.number_list_value}\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
 exports[`numeric attributes 1`] = `
 "{
   \\"output\\": {

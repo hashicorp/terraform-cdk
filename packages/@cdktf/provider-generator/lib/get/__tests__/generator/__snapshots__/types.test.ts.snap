@@ -13,11 +13,11 @@ export interface BooleanListConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list#foo_required BooleanList#foo_required}
   */
-  readonly fooRequired: boolean[];
+  readonly fooRequired: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list#foo_optional BooleanList#foo_optional}
   */
-  readonly fooOptional?: boolean[];
+  readonly fooOptional?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -61,11 +61,11 @@ export class BooleanList extends cdktf.TerraformResource {
   // ==========
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired?: boolean[]; 
+  private _fooRequired?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooRequired() {
     return this.getBooleanAttribute('foo_required') as any;
   }
-  public set fooRequired(value: boolean[]) {
+  public set fooRequired(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._fooRequired = value;
   }
   // Temporarily expose input value. Use with caution.
@@ -74,11 +74,11 @@ export class BooleanList extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean[]; 
+  private _fooOptional?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooOptional() {
     return this.getBooleanAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: boolean[]) {
+  public set fooOptional(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1207,8 +1207,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired?: number[]; 
   public get fooRequired() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.getNumberListAttribute('foo_required');
   }
   public set fooRequired(value: number[]) {
     this._fooRequired = value;
@@ -1221,8 +1220,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: number[]; 
   public get fooOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.getNumberListAttribute('foo_optional');
   }
   public set fooOptional(value: number[]) {
     this._fooOptional = value;

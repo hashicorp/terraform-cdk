@@ -26,6 +26,9 @@ export class ReferenceStack extends TerraformStack {
       bool: res.bool,
       str: res.str,
       num: res.num,
+      strList: res.strList,
+      numList: res.numList,
+      boolList: res.boolList,
     });
 
     // required values FROM required single item lists
@@ -33,6 +36,9 @@ export class ReferenceStack extends TerraformStack {
       bool: list.singlereq.reqbool,
       str: list.singlereq.reqstr,
       num: list.singlereq.reqnum,
+      strList: [list.singlereq.reqstr],
+      numList: [list.singlereq.reqnum],
+      boolList: [list.singlereq.reqbool],
     });
 
     // required values FROM required multi item lists
@@ -40,6 +46,9 @@ export class ReferenceStack extends TerraformStack {
       bool: Fn.lookup(Fn.element(list.req, 0), "reqbool", false),
       str: Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback"),
       num: Fn.lookup(Fn.element(list.req, 0), "reqnum", 0),
+      strList: [Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback")],
+      numList: [Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)],
+      boolList: [Fn.lookup(Fn.element(list.req, 0), "reqbool", false)],
     });
 
     // passing a reference to a complete list
@@ -84,6 +93,9 @@ export class ProviderStack extends TerraformStack {
       bool: providerOpt.reqbool!,
       num: providerOpt.reqnum!,
       str: providerOpt.reqstr!,
+      strList: [providerOpt.reqstr!],
+      numList: [providerOpt.reqnum!],
+      boolList: [providerOpt.reqbool!],
     });
 
     new edge.OptionalAttributeResource(this, "optOpt", {
@@ -102,6 +114,9 @@ export class ProviderStack extends TerraformStack {
       bool: providerFull.reqbool!,
       num: providerFull.reqnum!,
       str: providerFull.reqstr!,
+      strList: [providerFull.reqstr!],
+      numList: [providerFull.reqnum!],
+      boolList: [providerFull.reqbool!],
     });
 
     new edge.OptionalAttributeResource(this, "optFull", {

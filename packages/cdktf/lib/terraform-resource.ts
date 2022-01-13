@@ -87,6 +87,12 @@ export class TerraformResource
     return this.interpolationForAttribute(terraformAttribute);
   }
 
+  public getNumberListAttribute(terraformAttribute: string) {
+    return Token.asNumberList(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
   public get fqn(): string {
     return Token.asString(
       `${this.terraformResourceType}.${this.friendlyUniqueId}`

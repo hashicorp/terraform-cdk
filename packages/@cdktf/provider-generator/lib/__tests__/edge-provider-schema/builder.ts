@@ -149,4 +149,35 @@ export class SchemaBuilder {
       });
     return this;
   }
+
+  public addAllPrimitiveListTypes({
+    required,
+    computed,
+    prefix = "",
+  }: {
+    required: boolean;
+    computed: boolean;
+    prefix?: string;
+  }): SchemaBuilder {
+    this.attribute({
+      name: prefix + "strList",
+      type: ["list", "string"],
+      required,
+      computed,
+    })
+      .attribute({
+        name: prefix + "numList",
+        type: ["list", "number"],
+        required,
+        computed,
+      })
+      .attribute({
+        name: prefix + "boolList",
+        type: ["list", "bool"],
+        required,
+        computed,
+      });
+
+    return this;
+  }
 }
