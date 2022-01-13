@@ -15,6 +15,7 @@ export enum TokenizableTypes {
   STRING = "string",
   STRING_LIST = "string[]",
   NUMBER = "number",
+  NUMBER_LIST = "number[]",
   BOOLEAN = "boolean",
 }
 
@@ -57,6 +58,9 @@ export class AttributeTypeModel {
       return `{ [key: string]: ${this._type} } | cdktf.IResolvable`;
     if (this.isList && !this.isComputed && this.isSingleItem)
       return `${this._type}`;
+    // neither boolean nor boolean[] is tokenizable, so both parts need IResolvable
+    if (this.isList && this._type === TokenizableTypes.BOOLEAN)
+      return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
     if (this.isList && !this.isComputed) return `${this._type}[]`;
     if (
       this.isList &&

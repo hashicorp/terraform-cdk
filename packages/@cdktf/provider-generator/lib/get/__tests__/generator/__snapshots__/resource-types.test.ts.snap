@@ -1965,8 +1965,7 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   // status_codes - computed: false, optional: false, required: true
   private _statusCodes?: number[]; 
   public get statusCodes() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('status_codes') as any;
+    return this.getNumberListAttribute('status_codes');
   }
   public set statusCodes(value: number[]) {
     this._statusCodes = value;

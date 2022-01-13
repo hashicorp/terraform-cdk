@@ -135,6 +135,9 @@ export class AttributesEmitter {
     if (type.isStringList) {
       return `this.getListAttribute('${att.terraformName}')`;
     }
+    if (type.isNumberList) {
+      return `this.getNumberListAttribute('${att.terraformName}')`;
+    }
     if (type.isNumber) {
       return `this.getNumberAttribute('${att.terraformName}')`;
     }

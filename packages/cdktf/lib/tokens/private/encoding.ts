@@ -129,6 +129,12 @@ export function containsListTokenElement(xs: any[]) {
   );
 }
 
+export function containsNumberListTokenElement(xs: any[]) {
+  return xs.some(
+    (x) => typeof x === "number" && extractTokenDouble(x, true) !== undefined
+  );
+}
+
 export function isComplexElement(xs: any) {
   return (
     typeof xs === "object" &&
@@ -152,10 +158,12 @@ export function unresolved(obj: any): boolean {
   if (typeof obj === "string") {
     return TokenString.forString(obj).test();
   } else if (typeof obj === "number") {
-    return extractTokenDouble(obj) !== undefined;
+    return extractTokenDouble(obj, false) !== undefined;
   } else if (Array.isArray(obj) && obj.length === 1) {
     return (
-      typeof obj[0] === "string" && TokenString.forListToken(obj[0]).test()
+      (typeof obj[0] === "string" && TokenString.forListToken(obj[0]).test()) ||
+      (typeof obj[0] === "number" &&
+        extractTokenDouble(obj[0], true) !== undefined)
     );
   } else {
     return Tokenization.isResolvable(obj);
@@ -188,6 +196,9 @@ export function unresolved(obj: any): boolean {
 // tslint:disable-next-line:no-bitwise
 const DOUBLE_TOKEN_MARKER_BITS = 0xfdff << 16;
 
+// tslint:disable-next-line:no-bitwise
+const DOUBLE_LIST_TOKEN_MARKER_BITS = 0xfbff << 16;
+
 /**
  * Highest encodable number
  */
@@ -208,7 +219,7 @@ const BITS32 = Math.pow(2, 32);
  *
  * We use this to encode Token ordinals.
  */
-export function createTokenDouble(x: number) {
+export function createTokenDouble(x: number, list: boolean) {
   if (Math.floor(x) !== x || x < 0) {
     throw new Error("Can only encode positive integers");
   }
@@ -224,7 +235,9 @@ export function createTokenDouble(x: number) {
 
   // This needs an "x >> 32" but that will make it a 32-bit number instead
   // of a 64-bit number.
-  ints[1] = (shr32(x) & 0xffff) | DOUBLE_TOKEN_MARKER_BITS; // Top 16 bits of number and the mask
+  ints[1] =
+    (shr32(x) & 0xffff) |
+    (list ? DOUBLE_LIST_TOKEN_MARKER_BITS : DOUBLE_TOKEN_MARKER_BITS); // Top 16 bits of number and the mask
   // tslint:enable:no-bitwise
 
   return new Float64Array(buf)[0];
@@ -249,14 +262,20 @@ function shl32(x: number) {
  *
  * Returns undefined if the float is a not an encoded token.
  */
-export function extractTokenDouble(encoded: number): number | undefined {
+export function extractTokenDouble(
+  encoded: number,
+  list: boolean
+): number | undefined {
   const buf = new ArrayBuffer(8);
   new Float64Array(buf)[0] = encoded;
 
   const ints = new Uint32Array(buf);
 
   // tslint:disable:no-bitwise
-  if ((ints[1] & 0xffff0000) !== DOUBLE_TOKEN_MARKER_BITS) {
+  if (
+    (ints[1] & 0xffff0000) !==
+    (list ? DOUBLE_LIST_TOKEN_MARKER_BITS : DOUBLE_TOKEN_MARKER_BITS)
+  ) {
     return undefined;
   }
 

@@ -94,6 +94,16 @@ describe("java full integration", () => {
       // expect(stack.byId("plain").bool).toEqual(
       //   "${optional_attribute_resource.test.bool}"
       // );
+      expect(stack.byId("plain").strList).toEqual(
+        "${optional_attribute_resource.test.strList}"
+      );
+      expect(stack.byId("plain").numList).toEqual(
+        "${optional_attribute_resource.test.numList}"
+      );
+      // Not supported in Java
+      // expect(stack.byId("plain").boolList).toEqual(
+      //   "${optional_attribute_resource.test.boolList}"
+      // );
     });
 
     it("item references a required single item lists required values", () => {
@@ -109,6 +119,15 @@ describe("java full integration", () => {
       expect(item.num).toEqual(
         "${list_block_resource.list.singlereq[0].reqnum}"
       );
+      expect(item.boolList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqbool}",
+      ]);
+      expect(item.strList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqstr}",
+      ]);
+      expect(item.numList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqnum}",
+      ]);
     });
 
     // Not supported in Java
@@ -116,16 +135,24 @@ describe("java full integration", () => {
       const item = stack.byId("from_list");
 
       // Direct access is not supported, we have to go through terraform functions
-      // Not supported in Java
-      // expect(item.bool).toEqual(
-      //   '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}'
-      // );
+      expect(item.bool).toEqual(
+        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}'
+      );
       expect(item.str).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}'
       );
       expect(item.num).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
       );
+      expect(item.boolList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}',
+      ]);
+      expect(item.strList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}',
+      ]);
+      expect(item.numList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}',
+      ]);
     });
 
     // Not supported in Java

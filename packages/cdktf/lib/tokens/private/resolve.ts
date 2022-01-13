@@ -9,7 +9,12 @@ import {
   StringConcat,
 } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
-import { containsListTokenElement, TokenString, unresolved } from "./encoding";
+import {
+  containsListTokenElement,
+  TokenString,
+  unresolved,
+  containsNumberListTokenElement,
+} from "./encoding";
 import { TokenMap } from "./token-map";
 
 // This file should not be exported to consumers, resolving should happen through Construct.resolve()
@@ -164,6 +169,10 @@ export function resolve(obj: any, options: IResolveOptions): any {
   if (Array.isArray(obj)) {
     if (containsListTokenElement(obj)) {
       return options.resolver.resolveList(obj, makeContext()[0]);
+    }
+
+    if (containsNumberListTokenElement(obj)) {
+      return options.resolver.resolveNumberList(obj, makeContext()[0]);
     }
 
     const arr = obj

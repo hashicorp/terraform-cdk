@@ -1215,6 +1215,18 @@ export interface OptionalAttributeResourceConfig extends cdktf.TerraformMetaArgu
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#bool OptionalAttributeResource#bool}
   */
   readonly bool?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#strList OptionalAttributeResource#strList}
+  */
+  readonly strList?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#numList OptionalAttributeResource#numList}
+  */
+  readonly numList?: number[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#boolList OptionalAttributeResource#boolList}
+  */
+  readonly boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1252,6 +1264,9 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
     this._str = config.str;
     this._num = config.num;
     this._bool = config.bool;
+    this._strList = config.strList;
+    this._numList = config.numList;
+    this._boolList = config.boolList;
   }
 
   // ==========
@@ -1306,6 +1321,54 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
     return this._bool;
   }
 
+  // strList - computed: false, optional: true, required: false
+  private _strList?: string[]; 
+  public get strList() {
+    return this.getListAttribute('strList');
+  }
+  public set strList(value: string[]) {
+    this._strList = value;
+  }
+  public resetStrList() {
+    this._strList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get strListInput() {
+    return this._strList;
+  }
+
+  // numList - computed: false, optional: true, required: false
+  private _numList?: number[]; 
+  public get numList() {
+    return this.getNumberListAttribute('numList');
+  }
+  public set numList(value: number[]) {
+    this._numList = value;
+  }
+  public resetNumList() {
+    this._numList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numListInput() {
+    return this._numList;
+  }
+
+  // boolList - computed: false, optional: true, required: false
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
+  public get boolList() {
+    return this.getBooleanAttribute('boolList') as any;
+  }
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
+    this._boolList = value;
+  }
+  public resetBoolList() {
+    this._boolList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get boolListInput() {
+    return this._boolList;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1315,6 +1378,9 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
+      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
     };
   }
 }
@@ -1343,6 +1409,18 @@ export interface OptionalComputedAttributeResourceConfig extends cdktf.Terraform
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#bool OptionalComputedAttributeResource#bool}
   */
   readonly bool?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#strList OptionalComputedAttributeResource#strList}
+  */
+  readonly strList?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#numList OptionalComputedAttributeResource#numList}
+  */
+  readonly numList?: number[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#boolList OptionalComputedAttributeResource#boolList}
+  */
+  readonly boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1380,6 +1458,9 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
     this._str = config.str;
     this._num = config.num;
     this._bool = config.bool;
+    this._strList = config.strList;
+    this._numList = config.numList;
+    this._boolList = config.boolList;
   }
 
   // ==========
@@ -1434,6 +1515,54 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
     return this._bool;
   }
 
+  // strList - computed: true, optional: true, required: false
+  private _strList?: string[]; 
+  public get strList() {
+    return this.getListAttribute('strList');
+  }
+  public set strList(value: string[]) {
+    this._strList = value;
+  }
+  public resetStrList() {
+    this._strList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get strListInput() {
+    return this._strList;
+  }
+
+  // numList - computed: true, optional: true, required: false
+  private _numList?: number[]; 
+  public get numList() {
+    return this.getNumberListAttribute('numList');
+  }
+  public set numList(value: number[]) {
+    this._numList = value;
+  }
+  public resetNumList() {
+    this._numList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numListInput() {
+    return this._numList;
+  }
+
+  // boolList - computed: true, optional: true, required: false
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
+  public get boolList() {
+    return this.getBooleanAttribute('boolList') as any;
+  }
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
+    this._boolList = value;
+  }
+  public resetBoolList() {
+    this._boolList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get boolListInput() {
+    return this._boolList;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1443,6 +1572,9 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
+      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
     };
   }
 }
@@ -1471,6 +1603,18 @@ export interface RequiredAttributeResourceConfig extends cdktf.TerraformMetaArgu
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#bool RequiredAttributeResource#bool}
   */
   readonly bool: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#strList RequiredAttributeResource#strList}
+  */
+  readonly strList: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#numList RequiredAttributeResource#numList}
+  */
+  readonly numList: number[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#boolList RequiredAttributeResource#boolList}
+  */
+  readonly boolList: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1508,6 +1652,9 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
     this._str = config.str;
     this._num = config.num;
     this._bool = config.bool;
+    this._strList = config.strList;
+    this._numList = config.numList;
+    this._boolList = config.boolList;
   }
 
   // ==========
@@ -1553,6 +1700,45 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
     return this._bool;
   }
 
+  // strList - computed: false, optional: false, required: true
+  private _strList?: string[]; 
+  public get strList() {
+    return this.getListAttribute('strList');
+  }
+  public set strList(value: string[]) {
+    this._strList = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get strListInput() {
+    return this._strList;
+  }
+
+  // numList - computed: false, optional: false, required: true
+  private _numList?: number[]; 
+  public get numList() {
+    return this.getNumberListAttribute('numList');
+  }
+  public set numList(value: number[]) {
+    this._numList = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numListInput() {
+    return this._numList;
+  }
+
+  // boolList - computed: false, optional: false, required: true
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
+  public get boolList() {
+    return this.getBooleanAttribute('boolList') as any;
+  }
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
+    this._boolList = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get boolListInput() {
+    return this._boolList;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1562,6 +1748,9 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
+      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
     };
   }
 }
