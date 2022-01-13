@@ -15,6 +15,9 @@ exports[`csharp full integration test synth synth generates JSON 1`] = `
         \\"version\\": \\"~> 3.1.0\\",
         \\"source\\": \\"hashicorp/null\\"
       }
+    },
+    \\"backend\\": {
+      \\"local\\": {}
     }
   },
   \\"provider\\": {

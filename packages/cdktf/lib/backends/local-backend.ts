@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import * as path from "path";
 import { TerraformBackend } from "../terraform-backend";
 import { keysToSnakeCase } from "../util";
 import {
@@ -13,6 +14,19 @@ export class LocalBackend extends TerraformBackend {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
+  }
+
+  public getRemoteStateDataSource(
+    scope: Construct,
+    name: string,
+    fromStack: string
+  ): TerraformRemoteState {
+    return new DataTerraformRemoteStateLocal(scope, name, {
+      workspace: this.props.workspaceDir,
+      path:
+        this.props.path ||
+        path.join(process.cwd(), `terraform.${fromStack}.tfstate`),
+    });
   }
 }
 

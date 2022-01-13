@@ -52,7 +52,7 @@ export abstract class TerraformModule
 
   public interpolationForOutput(moduleOutput: string): string {
     return TokenMap.instance().registerString(
-      ref(`module.${this.friendlyUniqueId}.${moduleOutput}`)
+      ref(`module.${this.friendlyUniqueId}.${moduleOutput}`, this.cdktfStack)
     );
   }
 
