@@ -318,6 +318,12 @@ export interface ListBlockResourceConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#singlereq ListBlockResource#singlereq}
   */
   readonly singlereq: ListBlockResourceSinglereq;
+  /**
+  * singleComputedBlock block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#singleComputedBlock ListBlockResource#singleComputedBlock}
+  */
+  readonly singleComputedBlock?: ListBlockResourceSingleComputedBlock;
 }
 export interface ListBlockResourceOpt {
   /**
@@ -498,7 +504,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -771,7 +777,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -979,6 +985,77 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
     return this._computedbool;
   }
 }
+export interface ListBlockResourceSingleComputedBlock {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#configured ListBlockResource#configured}
+  */
+  readonly configured?: string;
+}
+
+export function listBlockResourceSingleComputedBlockToTerraform(struct?: ListBlockResourceSingleComputedBlockOutputReference | ListBlockResourceSingleComputedBlock): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+    configured: cdktf.stringToTerraform(struct!.configured),
+  }
+}
+
+export class ListBlockResourceSingleComputedBlockOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param isSingleItem True if this is a block, false if it's a list
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
+    super(terraformResource, terraformAttribute, isSingleItem);
+  }
+
+  public get internalValue(): ListBlockResourceSingleComputedBlock | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._configured !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.configured = this._configured;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ListBlockResourceSingleComputedBlock | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._configured = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._configured = value.configured;
+    }
+  }
+
+  // computed - computed: true, optional: false, required: false
+  public get computed() {
+    return this.getStringAttribute('computed');
+  }
+
+  // configured - computed: false, optional: true, required: false
+  private _configured?: string; 
+  public get configured() {
+    return this.getStringAttribute('configured');
+  }
+  public set configured(value: string) {
+    this._configured = value;
+  }
+  public resetConfigured() {
+    this._configured = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get configuredInput() {
+    return this._configured;
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource list_block_resource}
@@ -1016,6 +1093,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
     this._req = config.req;
     this._singleopt.internalValue = config.singleopt;
     this._singlereq.internalValue = config.singlereq;
+    this._singleComputedBlock.internalValue = config.singleComputedBlock;
   }
 
   // ==========
@@ -1082,6 +1160,22 @@ export class ListBlockResource extends cdktf.TerraformResource {
     return this._singlereq.internalValue;
   }
 
+  // singleComputedBlock - computed: false, optional: true, required: false
+  private _singleComputedBlock = new ListBlockResourceSingleComputedBlockOutputReference(this as any, \\"singleComputedBlock\\", true);
+  public get singleComputedBlock() {
+    return this._singleComputedBlock;
+  }
+  public putSingleComputedBlock(value: ListBlockResourceSingleComputedBlock) {
+    this._singleComputedBlock.internalValue = value;
+  }
+  public resetSingleComputedBlock() {
+    this._singleComputedBlock.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get singleComputedBlockInput() {
+    return this._singleComputedBlock.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1092,6 +1186,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
       req: cdktf.listMapper(listBlockResourceReqToTerraform)(this._req),
       singleopt: listBlockResourceSingleoptToTerraform(this._singleopt.internalValue),
       singlereq: listBlockResourceSinglereqToTerraform(this._singlereq.internalValue),
+      singleComputedBlock: listBlockResourceSingleComputedBlockToTerraform(this._singleComputedBlock.internalValue),
     };
   }
 }

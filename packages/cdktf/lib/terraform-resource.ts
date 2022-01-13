@@ -6,6 +6,7 @@ import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
+import { IInterpolatingParent } from "./terraform-addressable";
 
 export interface ITerraformResource {
   readonly terraformResourceType: string;
@@ -45,7 +46,7 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
 
 export class TerraformResource
   extends TerraformElement
-  implements ITerraformResource, ITerraformDependable
+  implements ITerraformResource, ITerraformDependable, IInterpolatingParent
 {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
