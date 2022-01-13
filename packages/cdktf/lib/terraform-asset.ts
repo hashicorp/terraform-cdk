@@ -49,7 +49,9 @@ export class TerraformAsset extends Resource {
     if (path.isAbsolute(config.path)) {
       this.sourcePath = config.path;
     } else {
-      const cdktfJsonPath = findFileAboveCwd("cdktf.json");
+      const cdktfJsonPath =
+        scope.node.tryGetContext("cdktfJsonPath") ??
+        findFileAboveCwd("cdktf.json");
       if (cdktfJsonPath) {
         // Relative paths are always considered to be relative to cdktf.json, but operations are performed relative to process.cwd
         const absolutePath = path.resolve(
