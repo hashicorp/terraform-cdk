@@ -20,6 +20,7 @@ import { IConstruct } from "constructs";
 import { setupJest } from "../lib/testing/adapters/jest";
 import { TestProvider, TestResource } from "./helper";
 import { OtherTestResource } from "./helper/resource";
+import { TerraformOutput } from "../lib/terraform-output";
 setupJest();
 
 test("context can be passed through CDKTF_CONTEXT", () => {
@@ -537,7 +538,7 @@ describe("Cross Stack references", () => {
     );
   });
 
-  it("resolves complex computed lists with cross stack references", () => {
+  it("resolves complex computed list values with cross stack references", () => {
     const other = new OtherTestResource(originStack, "other", {});
     new TestResource(testStack, "Resource", {
       name: other.complexComputedList("42").id,
@@ -551,5 +552,88 @@ describe("Cross Stack references", () => {
       JSON.parse(originStackSynth).output as { value: string }[]
     )[0].value;
     expect(originOutput).toContain(".complex_computed_list.42.id");
+  });
+
+  it("resolves complex computed lists as fqn with cross stack references", () => {
+    const other = new OtherTestResource(originStack, "other", {});
+    new TerraformOutput(testStack, "fqn", {
+      value: other.complexComputedList("42"),
+    });
+
+    app.synth();
+    const { originStackSynth, targetStackSynth } = getStackSynths(app);
+
+    expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
+    const originOutput = Object.values(
+      JSON.parse(originStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(originOutput).toMatchInlineSnapshot(
+      `"\${other_test_resource.OriginStack_other_935318CE}"`
+    );
+    expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
+    const targetOutput = Object.values(
+      JSON.parse(targetStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(targetOutput).toMatchInlineSnapshot(`
+      Object {
+        "complexComputedListIndex": "42",
+        "terraformAttribute": "complex_computed_list",
+        "terraformResource": "\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CE_FB44ED5E}",
+      }
+    `);
+  });
+
+  it("resolves output reference as fqn with cross stack references", () => {
+    const other = new OtherTestResource(originStack, "other", {});
+    new TerraformOutput(testStack, "fqn", {
+      value: other.outputRef,
+    });
+
+    app.synth();
+    const { originStackSynth, targetStackSynth } = getStackSynths(app);
+
+    expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
+    const originOutput = Object.values(
+      JSON.parse(originStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(originOutput).toMatchInlineSnapshot(
+      `"\${other_test_resource.OriginStack_other_935318CE}"`
+    );
+    expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
+    const targetOutput = Object.values(
+      JSON.parse(targetStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(targetOutput).toMatchInlineSnapshot(`
+      Object {
+        "isSingleItem": true,
+        "terraformAttribute": "outputRef",
+        "terraformResource": "\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CE_FB44ED5E}",
+      }
+    `);
+  });
+
+  it("resolves resource as fqn with cross stack referencess", () => {
+    const other = new OtherTestResource(originStack, "other", {});
+    new TerraformOutput(testStack, "fqn", {
+      value: other,
+    });
+
+    app.synth();
+    const { originStackSynth, targetStackSynth } = getStackSynths(app);
+
+    expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
+    const originOutput = Object.values(
+      JSON.parse(originStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(originOutput).toMatchInlineSnapshot(
+      `"\${other_test_resource.OriginStack_other_935318CE}"`
+    );
+    expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
+    const targetOutput = Object.values(
+      JSON.parse(targetStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(targetOutput).toMatchInlineSnapshot(
+      `"\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CE_FB44ED5E}"`
+    );
   });
 });

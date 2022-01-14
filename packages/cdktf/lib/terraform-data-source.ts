@@ -10,7 +10,7 @@ import {
 } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { ref } from "./tfExpression";
+import { ref, insideTfExpression } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
 
 export class TerraformDataSource
@@ -26,6 +26,7 @@ export class TerraformDataSource
   public count?: number | IResolvable;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
+  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id);
@@ -33,11 +34,19 @@ export class TerraformDataSource
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
-      this.dependsOn = config.dependsOn.map((dependency) => dependency.fqn);
+      this.dependsOn = config.dependsOn.map((dependency) =>
+        insideTfExpression(dependency.fqn)
+      );
     }
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
+    this.fqn = Token.asString(
+      ref(
+        `data.${this.terraformResourceType}.${this.friendlyUniqueId}`,
+        this.cdktfStack
+      )
+    );
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -82,12 +91,6 @@ export class TerraformDataSource
 
   public getAnyMapAttribute(terraformAttribute: string) {
     return Token.asAnyMap(this.interpolationForAttribute(terraformAttribute));
-  }
-
-  public get fqn(): string {
-    return Token.asString(
-      `data.${this.terraformResourceType}.${this.friendlyUniqueId}`
-    );
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {

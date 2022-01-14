@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { Expression, ref } from ".";
+import { Expression } from ".";
 import { isArray } from "util";
 import { ITerraformAddressable } from "./terraform-addressable";
 import { Token } from "./tokens";
@@ -63,7 +63,7 @@ export class TerraformOutput extends TerraformElement {
     }
 
     if (this.isITerraformAddressable(arg)) {
-      return ref(arg.fqn, this.cdktfStack);
+      return arg.fqn;
     }
 
     if (Array.isArray(arg)) {
@@ -85,7 +85,7 @@ export class TerraformOutput extends TerraformElement {
       value: this.synthesizeValue(this.value),
       description: this.description,
       sensitive: this.sensitive,
-      depends_on: this.dependsOn?.map((resource) => `\${${resource.fqn}}`),
+      depends_on: this.dependsOn?.map((resource) => resource.fqn),
     };
   }
 

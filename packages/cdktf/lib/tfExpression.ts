@@ -194,6 +194,11 @@ function markAsInner(arg: any) {
   }
 }
 
+export function insideTfExpression(arg: any) {
+  markAsInner(arg);
+  return arg;
+}
+
 class PropertyAccess extends TFExpression {
   constructor(private target: Expression, private args: Expression[]) {
     super({ target, args });
