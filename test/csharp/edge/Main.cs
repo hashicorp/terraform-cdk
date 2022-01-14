@@ -73,7 +73,10 @@ namespace MyCompany.MyApp
             new RequiredAttributeResource(this, "from_map", new RequiredAttributeResourceConfig {
                 Bool = Token.AsAny(Fn.Lookup(map.ReqMap, "key1", false)),
                 Str = Token.AsString(Fn.Lookup(map.OptMap, "key1", "missing")),
-                Num = Token.AsNumber(Fn.Lookup(map.ComputedMap, "key1", 0))
+                Num = Token.AsNumber(Fn.Lookup(map.ComputedMap, "key1", 0)),
+                StrList = new [] { Token.AsString(Fn.Lookup(map.OptMap, "key1", "missing")) },
+                NumList = new [] { Token.AsNumber(Fn.Lookup(map.ComputedMap, "key1", 0)) },
+                BoolList = new [] { Token.AsAny(Fn.Lookup(map.ReqMap, "key1", false)) }
             });
 
             // passing a reference to a complete map

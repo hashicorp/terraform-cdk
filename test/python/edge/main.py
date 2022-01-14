@@ -71,7 +71,10 @@ class ReferenceStack(TerraformStack):
         edge.RequiredAttributeResource(self, "from_map",
             bool=Token().as_any(Fn.lookup(map.req_map, "key1", False)),
             str=Token().as_string(Fn.lookup(map.opt_map, "key1", "missing")),
-            num=Token().as_number(Fn.lookup(map.computed_map, "key1", 0))
+            num=Token().as_number(Fn.lookup(map.computed_map, "key1", 0)),
+            str_list=[Token().as_string(Fn.lookup(map.opt_map, "key1", "missing"))],
+            num_list=[Token().as_number(Fn.lookup(map.computed_map, "key1", 0))],
+            bool_list=[Token().as_any(Fn.lookup(map.req_map, "key1", False))]
         )
 
         # passing a reference to a complete map

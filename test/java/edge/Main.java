@@ -74,6 +74,9 @@ class ReferenceStack extends TerraformStack {
                 .bool(Token.asAny(Fn.lookup(map.getReqMap(), "key1", false)))
                 .str(Token.asString(Fn.lookup(map.getOptMap(), "key1", "missing")))
                 .num(Token.asNumber(Fn.lookup(map.getComputedMap(), "key1", 0)))
+                .strList(Collections.singletonList(Token.asString(Fn.lookup(map.getOptMap(), "key1", "missing"))))
+                .numList(Collections.singletonList(Token.asNumber(Fn.lookup(map.getComputedMap(), "key1", 0))))
+                .boolList(Collections.singletonList(Token.asAny(Fn.lookup(map.getReqMap(), "key1", false))))
                 .build();
 
         // passing a reference to a complete map

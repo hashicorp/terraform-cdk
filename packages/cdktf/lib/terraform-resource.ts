@@ -92,7 +92,7 @@ export class TerraformResource
       this.interpolationForAttribute(terraformAttribute)
     );
   }
-  
+
   public getStringMapAttribute(terraformAttribute: string) {
     return Token.asStringMap(
       this.interpolationForAttribute(terraformAttribute)

@@ -163,6 +163,15 @@ describe("csharp full integration test synth", () => {
       expect(item.num).toEqual(
         '${lookup(map_resource.map.computedMap, "key1", 0)}'
       );
+      expect(item.boolList).toEqual([
+        '${lookup(map_resource.map.reqMap, "key1", false)}',
+      ]);
+      expect(item.strList).toEqual([
+        '${lookup(map_resource.map.optMap, "key1", "missing")}',
+      ]);
+      expect(item.numList).toEqual([
+        '${lookup(map_resource.map.computedMap, "key1", 0)}',
+      ]);
     });
 
     it("item references a full map", () => {

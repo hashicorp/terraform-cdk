@@ -72,6 +72,9 @@ export class ReferenceStack extends TerraformStack {
       bool: Fn.lookup(map.reqMap, "key1", false),
       str: Fn.lookup(map.optMap, "key1", "missing"),
       num: Fn.lookup(map.computedMap, "key1", 0),
+      strList: [Fn.lookup(map.optMap, "key1", "missing")],
+      numList: [Fn.lookup(map.computedMap, "key1", 0)],
+      boolList: [Fn.lookup(map.reqMap, "key1", false)],
     });
 
     // passing a reference to a complete map

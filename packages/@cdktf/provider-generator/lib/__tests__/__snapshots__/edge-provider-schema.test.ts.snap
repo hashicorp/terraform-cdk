@@ -1482,7 +1482,8 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
   // boolList - computed: false, optional: true, required: false
   private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
-    return this.getBooleanAttribute('boolList') as any;
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('boolList') as any;
   }
   public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
@@ -1676,7 +1677,8 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
   // boolList - computed: true, optional: true, required: false
   private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
-    return this.getBooleanAttribute('boolList') as any;
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('boolList') as any;
   }
   public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
@@ -1855,7 +1857,8 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
   // boolList - computed: false, optional: false, required: true
   private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
-    return this.getBooleanAttribute('boolList') as any;
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('boolList') as any;
   }
   public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;

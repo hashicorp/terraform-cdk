@@ -71,7 +71,7 @@ function listOf(type: TFValueValidator): TFValueValidator {
         if (extractTokenDouble(item, true) !== undefined) {
           return item;
         }
-        
+
         if (TokenString.forMapToken(item).test()) {
           return item;
         }

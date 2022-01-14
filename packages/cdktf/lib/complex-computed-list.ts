@@ -28,7 +28,7 @@ abstract class ComplexComputedAttribute implements IInterpolatingParent {
       this.interpolationForAttribute(terraformAttribute)
     );
   }
-  
+
   public getStringMapAttribute(terraformAttribute: string) {
     return Token.asStringMap(
       this.interpolationForAttribute(terraformAttribute)
@@ -101,7 +101,7 @@ export class BooleanMap {
 
 export class AnyMap {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 

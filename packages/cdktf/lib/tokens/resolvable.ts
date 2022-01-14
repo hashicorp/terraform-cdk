@@ -212,7 +212,7 @@ export class DefaultTokenResolver implements ITokenResolver {
     }
     return context.resolve(token);
   }
-  
+
   public resolveMap(xs: { [key: string]: any }, context: IResolveContext) {
     const keys = Object.keys(xs);
     if (keys.length !== 1) {
