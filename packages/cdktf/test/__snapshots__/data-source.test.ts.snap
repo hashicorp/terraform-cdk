@@ -14,7 +14,8 @@ exports[`dependent data source 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -45,7 +46,8 @@ exports[`minimal configuration 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"terraform\\": {
@@ -69,7 +71,8 @@ exports[`with boolean map 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -100,7 +103,8 @@ exports[`with complex computed list 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -131,7 +135,8 @@ exports[`with number map 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -162,7 +167,8 @@ exports[`with string map 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {

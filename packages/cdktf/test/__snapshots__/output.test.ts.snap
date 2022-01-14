@@ -22,7 +22,8 @@ exports[`dependent output 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -62,7 +63,8 @@ exports[`expression output 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -91,7 +93,8 @@ exports[`full resource output 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -158,7 +161,8 @@ exports[`resource map output 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -190,7 +194,8 @@ exports[`resource[] output 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -252,7 +257,8 @@ exports[`variable output 1`] = `
     }
   },
   \\"variable\\": {
-    \\"test-variable\\": {}
+    \\"test-variable\\": {
+    }
   }
 }"
 `;

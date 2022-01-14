@@ -4,22 +4,17 @@ exports[`python full integration test assets synth generates JSON and copies fil
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"python-assets\\",
-      \\"backend\\": \\"local\\"
+      \\"version\\": \\"stubbed\\"
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
-      }
+  \\"output\\": {
+    \\"fixtureoutput\\": {
+      \\"value\\": \\"assets/fixture/hash/fixture.txt\\"
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      }
+    \\"fixturesoutput\\": {
+      \\"value\\": \\"assets/fixtures/hash/archive.zip\\"
     }
   },
   \\"provider\\": {
@@ -39,12 +34,17 @@ exports[`python full integration test assets synth generates JSON and copies fil
       }
     }
   },
-  \\"output\\": {
-    \\"fixtureoutput\\": {
-      \\"value\\": \\"assets/fixture/hash/fixture.txt\\"
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
     },
-    \\"fixturesoutput\\": {
-      \\"value\\": \\"assets/fixtures/hash/archive.zip\\"
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
+      }
     }
   }
 }"

@@ -4,9 +4,52 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"references\\",
-      \\"backend\\": \\"local\\"
+      \\"version\\": \\"stubbed\\"
+    }
+  },
+  \\"output\\": {
+    \\"containerCapAdd\\": {
+      \\"value\\": \\"\${docker_container.nginxContainer.capabilities[0].add}\\"
+    }
+  },
+  \\"provider\\": {
+    \\"docker\\": [
+      {}
+    ]
+  },
+  \\"resource\\": {
+    \\"docker_container\\": {
+      \\"nginxContainer\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"references/nginxContainer\\",
+            \\"uniqueId\\": \\"nginxContainer\\"
+          }
+        },
+        \\"image\\": \\"\${docker_image.nginxImage.repo_digest}\\",
+        \\"name\\": \\"nginx-python-cdktf\\",
+        \\"ports\\": [
+          {
+            \\"external\\": 8000,
+            \\"internal\\": 80
+          }
+        ],
+        \\"privileged\\": \\"\${docker_image.nginxImage.keep_locally}\\"
+      }
+    },
+    \\"docker_image\\": {
+      \\"nginxImage\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"references/nginxImage\\",
+            \\"uniqueId\\": \\"nginxImage\\"
+          }
+        },
+        \\"keep_locally\\": true,
+        \\"name\\": \\"nginx:latest\\"
+      }
     }
   },
   \\"terraform\\": {
@@ -17,52 +60,9 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
     },
     \\"required_providers\\": {
       \\"docker\\": {
-        \\"version\\": \\"~> 2.15\\",
-        \\"source\\": \\"kreuzwerker/docker\\"
+        \\"source\\": \\"kreuzwerker/docker\\",
+        \\"version\\": \\"~> 2.15\\"
       }
-    }
-  },
-  \\"provider\\": {
-    \\"docker\\": [
-      {}
-    ]
-  },
-  \\"resource\\": {
-    \\"docker_image\\": {
-      \\"nginxImage\\": {
-        \\"keep_locally\\": true,
-        \\"name\\": \\"nginx:latest\\",
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"references/nginxImage\\",
-            \\"uniqueId\\": \\"nginxImage\\"
-          }
-        }
-      }
-    },
-    \\"docker_container\\": {
-      \\"nginxContainer\\": {
-        \\"image\\": \\"\${docker_image.nginxImage.repo_digest}\\",
-        \\"name\\": \\"nginx-python-cdktf\\",
-        \\"privileged\\": \\"\${docker_image.nginxImage.keep_locally}\\",
-        \\"ports\\": [
-          {
-            \\"external\\": 8000,
-            \\"internal\\": 80
-          }
-        ],
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"references/nginxContainer\\",
-            \\"uniqueId\\": \\"nginxContainer\\"
-          }
-        }
-      }
-    }
-  },
-  \\"output\\": {
-    \\"containerCapAdd\\": {
-      \\"value\\": \\"\${docker_container.nginxContainer.capabilities[0].add}\\"
     }
   }
 }"

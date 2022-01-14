@@ -4,22 +4,9 @@ exports[`python full integration test synth synth generates JSON for both stacks
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"python-simple-one\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
-      }
-    },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      }
+      \\"version\\": \\"stubbed\\"
     }
   },
   \\"provider\\": {
@@ -38,18 +25,6 @@ exports[`python full integration test synth synth generates JSON for both stacks
         }
       }
     }
-  }
-}"
-`;
-
-exports[`python full integration test synth synth generates JSON for both stacks 2`] = `
-"{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-simple-two\\",
-      \\"backend\\": \\"local\\"
-    }
   },
   \\"terraform\\": {
     \\"backend\\": {
@@ -59,9 +34,21 @@ exports[`python full integration test synth synth generates JSON for both stacks
     },
     \\"required_providers\\": {
       \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
       }
+    }
+  }
+}"
+`;
+
+exports[`python full integration test synth synth generates JSON for both stacks 2`] = `
+"{
+  \\"//\\": {
+    \\"metadata\\": {
+      \\"backend\\": \\"local\\",
+      \\"stackName\\": \\"python-simple-two\\",
+      \\"version\\": \\"stubbed\\"
     }
   },
   \\"provider\\": {
@@ -78,6 +65,19 @@ exports[`python full integration test synth synth generates JSON for both stacks
             \\"uniqueId\\": \\"nullresource\\"
           }
         }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
       }
     }
   }

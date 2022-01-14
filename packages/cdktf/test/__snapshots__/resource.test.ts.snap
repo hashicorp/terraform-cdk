@@ -11,7 +11,8 @@ exports[`dependent resource 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -38,7 +39,8 @@ exports[`do not change capitalization of arbritary nested types 1`] = `
 "{
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -65,7 +67,8 @@ exports[`do not change capitalization of tags 1`] = `
 "{
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -92,7 +95,8 @@ exports[`minimal configuration 1`] = `
 "{
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -121,7 +125,8 @@ exports[`number[] attributes 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -150,7 +155,8 @@ exports[`numeric attributes 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -201,15 +207,18 @@ exports[`serialize list interpolation 1`] = `
 "{
   \\"provider\\": {
     \\"other\\": [
-      {}
+      {
+      }
     ],
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
     \\"other_test_resource\\": {
-      \\"othertest\\": {}
+      \\"othertest\\": {
+      }
     },
     \\"test_resource\\": {
       \\"test\\": {
@@ -235,15 +244,18 @@ exports[`with complex computed list 1`] = `
 "{
   \\"provider\\": {
     \\"other\\": [
-      {}
+      {
+      }
     ],
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
     \\"other_test_resource\\": {
-      \\"othertest\\": {}
+      \\"othertest\\": {
+      }
     },
     \\"test_resource\\": {
       \\"test\\": {
