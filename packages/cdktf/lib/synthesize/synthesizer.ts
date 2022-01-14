@@ -1,5 +1,6 @@
 import * as path from "path";
 import * as fs from "fs";
+import stringify = require("json-stable-stringify");
 import { TerraformStack } from "../terraform-stack";
 import { IStackSynthesizer, ISynthesisSession } from "./types";
 import { AnnotationMetadataEntryType, Annotations } from "../annotations";
@@ -92,7 +93,7 @@ export class StackSynthesizer implements IStackSynthesizer {
 
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
-      JSON.stringify(tfConfig, undefined, 2)
+      stringify(tfConfig, { space: 2 })
     );
   }
 }

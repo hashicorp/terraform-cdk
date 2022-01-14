@@ -80,6 +80,7 @@
   "license": "MPL-2.0",
   "devDependencies": {
     "@types/jest": "^25.2.3",
+    "@types/json-stable-stringify": "^1.0.33",
     "@types/node": "^14.18.5",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -92,10 +93,12 @@
     "typescript": "^3.9.10"
   },
   "dependencies": {
-    "archiver": "5.3.0"
+    "archiver": "5.3.0",
+    "json-stable-stringify": "^1.0.1"
   },
   "bundledDependencies": [
-    "archiver"
+    "archiver",
+    "json-stable-stringify"
   ],
   "stability": "experimental",
   "peerDependencies": {

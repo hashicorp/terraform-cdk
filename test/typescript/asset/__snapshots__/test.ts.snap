@@ -20,9 +20,26 @@ exports[`full integration test synth 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"fixed\\",
-      \\"backend\\": \\"local\\"
+      \\"version\\": \\"stubbed\\"
+    }
+  },
+  \\"output\\": {
+    \\"fixturesname\\": {
+      \\"value\\": \\"fixtures\\"
+    },
+    \\"localassetname\\": {
+      \\"value\\": \\"local-asset.txt\\"
+    },
+    \\"relativeassetname\\": {
+      \\"value\\": \\"relative-asset.txt\\"
+    },
+    \\"relativeassetsname\\": {
+      \\"value\\": \\"relative\\"
+    },
+    \\"zippedfixturesname\\": {
+      \\"value\\": \\"archive.zip\\"
     }
   },
   \\"terraform\\": {
@@ -30,23 +47,6 @@ exports[`full integration test synth 1`] = `
       \\"local\\": {
         \\"path\\": \\"terraform.tfstate\\"
       }
-    }
-  },
-  \\"output\\": {
-    \\"localassetname\\": {
-      \\"value\\": \\"local-asset.txt\\"
-    },
-    \\"fixturesname\\": {
-      \\"value\\": \\"fixtures\\"
-    },
-    \\"zippedfixturesname\\": {
-      \\"value\\": \\"archive.zip\\"
-    },
-    \\"relativeassetname\\": {
-      \\"value\\": \\"relative-asset.txt\\"
-    },
-    \\"relativeassetsname\\": {
-      \\"value\\": \\"relative\\"
     }
   }
 }"

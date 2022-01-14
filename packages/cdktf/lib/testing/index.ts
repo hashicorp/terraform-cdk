@@ -1,6 +1,7 @@
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
+import stringify = require("json-stable-stringify");
 import { App } from "../../lib";
 import { TerraformStack } from "../terraform-stack";
 import { Manifest } from "../manifest";
@@ -117,7 +118,7 @@ export class Testing {
     }
     const cleaned = removeMetadata(tfConfig);
 
-    return JSON.stringify(cleaned, null, 2);
+    return stringify(cleaned, { space: 2 });
   }
 
   public static fullSynth(stack: TerraformStack): string {

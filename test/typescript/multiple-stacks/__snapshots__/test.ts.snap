@@ -4,27 +4,14 @@ exports[`full integration test synth 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"first\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
         \\"null_resource\\": [
           \\"provisioner\\"
         ]
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\" ~> 3.1.0\\",
-        \\"source\\": \\"null\\"
-      }
-    },
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
-      }
+      },
+      \\"stackName\\": \\"first\\",
+      \\"version\\": \\"stubbed\\"
     }
   },
   \\"provider\\": {
@@ -35,19 +22,32 @@ exports[`full integration test synth 1`] = `
   \\"resource\\": {
     \\"null_resource\\": {
       \\"test\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"first/test\\",
+            \\"uniqueId\\": \\"test\\"
+          }
+        },
         \\"provisioner\\": [
           {
             \\"local-exec\\": {
               \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
             }
           }
-        ],
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"first/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        ]
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"null\\",
+        \\"version\\": \\" ~> 3.1.0\\"
       }
     }
   }
@@ -58,27 +58,14 @@ exports[`full integration test synth 2`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"second\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
         \\"null_resource\\": [
           \\"provisioner\\"
         ]
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\" ~> 3.1.0\\",
-        \\"source\\": \\"null\\"
-      }
-    },
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
-      }
+      },
+      \\"stackName\\": \\"second\\",
+      \\"version\\": \\"stubbed\\"
     }
   },
   \\"provider\\": {
@@ -89,19 +76,32 @@ exports[`full integration test synth 2`] = `
   \\"resource\\": {
     \\"null_resource\\": {
       \\"test\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"second/test\\",
+            \\"uniqueId\\": \\"test\\"
+          }
+        },
         \\"provisioner\\": [
           {
             \\"local-exec\\": {
               \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
             }
           }
-        ],
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"second/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        ]
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"null\\",
+        \\"version\\": \\" ~> 3.1.0\\"
       }
     }
   }
@@ -112,27 +112,14 @@ exports[`full integration test synth with json output 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"first\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
         \\"null_resource\\": [
           \\"provisioner\\"
         ]
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\" ~> 3.1.0\\",
-        \\"source\\": \\"null\\"
-      }
-    },
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
-      }
+      },
+      \\"stackName\\": \\"first\\",
+      \\"version\\": \\"stubbed\\"
     }
   },
   \\"provider\\": {
@@ -143,19 +130,32 @@ exports[`full integration test synth with json output 1`] = `
   \\"resource\\": {
     \\"null_resource\\": {
       \\"test\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"first/test\\",
+            \\"uniqueId\\": \\"test\\"
+          }
+        },
         \\"provisioner\\": [
           {
             \\"local-exec\\": {
               \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
             }
           }
-        ],
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"first/test\\",
-            \\"uniqueId\\": \\"test\\"
-          }
-        }
+        ]
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"null\\",
+        \\"version\\": \\" ~> 3.1.0\\"
       }
     }
   }
