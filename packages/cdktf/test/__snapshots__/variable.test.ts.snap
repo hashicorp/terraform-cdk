@@ -60,6 +60,17 @@ exports[`map collection type 1`] = `
 }"
 `;
 
+exports[`nullable variable 1`] = `
+"{
+  \\"variable\\": {
+    \\"test-variable\\": {
+      \\"nullable\\": true,
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
 exports[`number type 1`] = `
 "{
   \\"variable\\": {
@@ -88,7 +99,8 @@ exports[`reference 1`] = `
 "{
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {

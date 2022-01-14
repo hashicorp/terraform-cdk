@@ -17,6 +17,16 @@ export class ArtifactoryBackend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
+
+  public getRemoteStateDataSource(
+    _scope: Construct,
+    _name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    throw new Error(
+      "The ArtifactoryBackend does not yet implement cross stack references"
+    );
+  }
 }
 
 export class DataTerraformRemoteStateArtifactory extends TerraformRemoteState {

@@ -4,84 +4,47 @@ exports[`full integration test build modules posix 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"hello-modules\\",
-      \\"backend\\": \\"local\\"
+      \\"version\\": \\"stubbed\\"
     }
   },
   \\"module\\": {
-    \\"localmodule\\": {
-      \\"source\\": \\"../../../local-module\\",
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"hello-modules/local-module\\",
-          \\"uniqueId\\": \\"localmodule\\"
-        }
-      }
-    },
     \\"gcloud\\": {
-      \\"source\\": \\"terraform-google-modules/gcloud/google\\",
-      \\"version\\": \\"2.0.3\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"hello-modules/gcloud\\",
           \\"uniqueId\\": \\"gcloud\\"
         }
-      }
+      },
+      \\"source\\": \\"terraform-google-modules/gcloud/google\\",
+      \\"version\\": \\"2.0.3\\"
     },
     \\"iam\\": {
-      \\"account_alias\\": \\"cdktf\\",
-      \\"source\\": \\"terraform-aws-modules/iam/aws//modules/iam-account\\",
-      \\"version\\": \\"3.12.0\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"hello-modules/iam\\",
           \\"uniqueId\\": \\"iam\\"
         }
-      }
-    }
-  }
-}"
-`;
-
-exports[`full integration test build modules windows 1`] = `
-"{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"hello-modules\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
-  \\"module\\": {
+      },
+      \\"account_alias\\": \\"cdktf\\",
+      \\"source\\": \\"terraform-aws-modules/iam/aws//modules/iam-account\\",
+      \\"version\\": \\"3.12.0\\"
+    },
     \\"localmodule\\": {
-      \\"source\\": \\"..\\\\\\\\..\\\\\\\\..\\\\\\\\local-module\\",
       \\"//\\": {
         \\"metadata\\": {
           \\"path\\": \\"hello-modules/local-module\\",
           \\"uniqueId\\": \\"localmodule\\"
         }
-      }
-    },
-    \\"gcloud\\": {
-      \\"source\\": \\"terraform-google-modules/gcloud/google\\",
-      \\"version\\": \\"2.0.3\\",
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"hello-modules/gcloud\\",
-          \\"uniqueId\\": \\"gcloud\\"
-        }
-      }
-    },
-    \\"iam\\": {
-      \\"account_alias\\": \\"cdktf\\",
-      \\"source\\": \\"terraform-aws-modules/iam/aws//modules/iam-account\\",
-      \\"version\\": \\"3.12.0\\",
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"hello-modules/iam\\",
-          \\"uniqueId\\": \\"iam\\"
-        }
+      },
+      \\"source\\": \\"./assets/localmodulelocalmodule/97F51B069A2EA5F1B6BA8B6C0FED84E4\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
       }
     }
   }

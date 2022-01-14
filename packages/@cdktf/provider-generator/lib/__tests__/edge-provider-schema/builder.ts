@@ -42,15 +42,17 @@ export class SchemaBuilder {
     type,
     required = false,
     computed = false,
+    optional = !required,
   }: {
     name: string;
     type: AttributeType;
-    required: boolean;
-    computed: boolean;
+    required?: boolean;
+    computed?: boolean;
+    optional?: boolean;
   }): SchemaBuilder {
     this.schema.block.attributes[name] = {
       type,
-      optional: !required,
+      optional,
       computed,
       required,
     };
@@ -145,6 +147,37 @@ export class SchemaBuilder {
         computed: true,
         prefix: "computed",
       });
+    return this;
+  }
+
+  public addAllPrimitiveListTypes({
+    required,
+    computed,
+    prefix = "",
+  }: {
+    required: boolean;
+    computed: boolean;
+    prefix?: string;
+  }): SchemaBuilder {
+    this.attribute({
+      name: prefix + "strList",
+      type: ["list", "string"],
+      required,
+      computed,
+    })
+      .attribute({
+        name: prefix + "numList",
+        type: ["list", "number"],
+        required,
+        computed,
+      })
+      .attribute({
+        name: prefix + "boolList",
+        type: ["list", "bool"],
+        required,
+        computed,
+      });
+
     return this;
   }
 }

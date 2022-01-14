@@ -11,10 +11,11 @@ import {
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref } from "./tfExpression";
+import { IInterpolatingParent } from "./terraform-addressable";
 
 export class TerraformDataSource
   extends TerraformElement
-  implements ITerraformResource, ITerraformDependable
+  implements ITerraformResource, ITerraformDependable, IInterpolatingParent
 {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
@@ -53,6 +54,12 @@ export class TerraformDataSource
 
   public getBooleanAttribute(terraformAttribute: string) {
     return this.interpolationForAttribute(terraformAttribute);
+  }
+
+  public getNumberListAttribute(terraformAttribute: string) {
+    return Token.asNumberList(
+      this.interpolationForAttribute(terraformAttribute)
+    );
   }
 
   public get fqn(): string {
@@ -109,7 +116,8 @@ export class TerraformDataSource
 
   public interpolationForAttribute(terraformAttribute: string) {
     return ref(
-      `data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}`
+      `data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}`,
+      this.cdktfStack
     );
   }
 }

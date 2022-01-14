@@ -44,6 +44,9 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 		Bool: jsii.Bool(true),
 		Str:  res.Str(),
 		Num:  res.Num(),
+		StrList: res.StrList(),
+		NumList: res.NumList(),
+		BoolList: &[]*bool{jsii.Bool(true)},//res.BoolList(),
 	})
 
 	// required values FROM required single item lists
@@ -52,6 +55,9 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 		Bool: jsii.Bool(true),
 		Str:  list.Singlereq().Reqstr(),
 		Num:  list.Singlereq().Reqnum(),
+		StrList: &[]*string{list.Singlereq().Reqstr()},
+		NumList: &[]*float64{list.Singlereq().Reqnum()},
+		BoolList: &[]*bool{jsii.Bool(true)},//list.Singlereq().Reqbool()},
 	})
 
 	// required values FROM required multi item lists
@@ -107,6 +113,9 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Bool: providerOpt.Reqbool(),
 		Num:  providerOpt.Reqnum(),
 		Str:  providerOpt.Reqstr(),
+		StrList: &[]*string{providerOpt.Reqstr()},
+		NumList: &[]*float64{providerOpt.Reqnum()},
+		BoolList: &[]*bool{jsii.Bool(true)},//providerOpt.Reqbool()},
 	})
 
 	edge.NewOptionalAttributeResource(stack, jsii.String("optOpt"), &edge.OptionalAttributeResourceConfig{
@@ -125,6 +134,9 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Bool: providerFull.Reqbool(),
 		Num:  providerFull.Reqnum(),
 		Str:  providerFull.Reqstr(),
+		StrList: &[]*string{providerFull.Reqstr()},
+		NumList: &[]*float64{providerFull.Reqnum()},
+		BoolList: &[]*bool{jsii.Bool(true)},//providerFull.Reqbool()},
 	})
 
 	edge.NewOptionalAttributeResource(stack, jsii.String("optFull"), &edge.OptionalAttributeResourceConfig{

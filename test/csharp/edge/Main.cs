@@ -30,14 +30,20 @@ namespace MyCompany.MyApp
             new RequiredAttributeResource(this, "plain", new RequiredAttributeResourceConfig {
                 Bool = res.Bool,
                 Str = res.Str,
-                Num = res.Num
+                Num = res.Num,
+                StrList = res.StrList,
+                NumList = res.NumList,
+                BoolList = res.BoolList
             });
 
             // required values FROM required single item lists
             new RequiredAttributeResource(this, "from_single_list", new RequiredAttributeResourceConfig {
                 Bool = list.Singlereq.Reqbool,
                 Str = list.Singlereq.Reqstr,
-                Num = list.Singlereq.Reqnum
+                Num = list.Singlereq.Reqnum,
+                StrList = new [] { list.Singlereq.Reqstr },
+                NumList = new [] { list.Singlereq.Reqnum },
+                BoolList = new [] { list.Singlereq.Reqbool }
             });
 
             // required values FROM required multi item lists

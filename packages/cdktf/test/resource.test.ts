@@ -178,3 +178,19 @@ test("tokens as ids", () => {
     `"You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"`
   );
 });
+
+test("number[] attributes", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const foo = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "number-list", {
+    value: foo.numberList,
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});

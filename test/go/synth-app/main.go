@@ -9,6 +9,9 @@ import (
 
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
+	cdktf.NewLocalBackend(stack, &cdktf.LocalBackendProps{
+		Path: jsii.String("terraform.tfstate"),
+	})
 
 	random.NewRandomProvider(stack, jsii.String("provider"), &random.RandomProviderConfig{})
 

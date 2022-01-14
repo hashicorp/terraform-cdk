@@ -28,16 +28,22 @@ class ReferenceStack extends TerraformStack {
 
         // plain values
         RequiredAttributeResource.Builder.create(this, "plain")
-                .bool(true) // res.getBool();
+                .bool(true) // res.getBool())
                 .str(res.getStr())
                 .num(res.getNum())
+                .strList(res.getStrList())
+                .numList(res.getNumList())
+                .boolList(Collections.singletonList(true) /*res.getBoolList()*/)
                 .build();
 
         // required values FROM required single item lists
         RequiredAttributeResource.Builder.create(this, "from_single_list")
-                .bool(true) // list.getSinglereq().getReqbool();
+                .bool(true) // list.getSinglereq().getReqbool())
                 .str(list.getSinglereq().getReqstr())
                 .num(list.getSinglereq().getReqnum())
+                .strList(Collections.singletonList(list.getSinglereq().getReqstr()))
+                .numList(Collections.singletonList(list.getSinglereq().getReqnum()))
+                .boolList(Collections.singletonList(list.getSinglereq().getReqbool()))
                 .build();
 
         // required values FROM required multi item lists
@@ -91,6 +97,9 @@ class ProviderStack extends TerraformStack {
                 .bool(true)
                 .num(Token.asNumber(providerOpt.getReqnum()))
                 .str(Token.asString(providerOpt.getReqstr()))
+                .strList(Collections.singletonList(providerOpt.getReqstr()))
+                .numList(Collections.singletonList(providerOpt.getReqnum()))
+                .boolList(Collections.singletonList(providerOpt.getReqbool()))
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "optOpt")
@@ -110,6 +119,9 @@ class ProviderStack extends TerraformStack {
                 .bool(true)
                 .num(Token.asNumber(providerFull.getReqnum()))
                 .str(Token.asString(providerFull.getReqstr()))
+                .strList(Collections.singletonList(providerFull.getReqstr()))
+                .numList(Collections.singletonList(providerFull.getReqnum()))
+                .boolList(Collections.singletonList(providerFull.getReqbool()))
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "optFull")

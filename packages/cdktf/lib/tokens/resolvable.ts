@@ -90,6 +90,11 @@ export interface ITokenResolver {
    * Resolve a tokenized list
    */
   resolveList(l: string[], context: IResolveContext): any;
+
+  /**
+   * Resolve a tokenized number list
+   */
+  resolveNumberList(l: number[], context: IResolveContext): any;
 }
 
 /**
@@ -188,5 +193,18 @@ export class DefaultTokenResolver implements ITokenResolver {
     }
 
     return fragments.mapTokens({ mapToken: context.resolve }).firstValue;
+  }
+
+  public resolveNumberList(xs: number[], context: IResolveContext) {
+    // Must be a singleton list token, because concatenation is not allowed.
+    if (xs.length !== 1) {
+      throw new Error(`Cannot add elements to list token, got: ${xs}`);
+    }
+
+    const token = TokenMap.instance().lookupNumberList(xs);
+    if (token === undefined) {
+      return xs;
+    }
+    return context.resolve(token);
   }
 }

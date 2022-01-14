@@ -118,9 +118,75 @@ To run multiple stacks at once, move them into the same directory and run `cdktf
 
 ### Cross-Stack References
 
-CDKTF does not yet support referencing resources from another stack automatically. You can achieve this manually with [outputs](/cdktf/concepts/variables-and-outputs) and the [remote state data source](/language/state/remote-state-data).
+When you reference resources from one stack in another stack, you can do so by exposing the resource in the source stack and referencing it in the target stack.
 
-Please refer to this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) if you are interested in using cross-stack references.
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider } from "./.gen/providers/aws";
+import { Vpc } from "./my-aws-vpc-construct";
+import { DockerBackend } from "./my-docker-backend-construct";
+
+class VPCStack extends TerraformStack {
+  public vpc: Vpc;
+  constructor(scope: Construct, id: string, public region = "us-east-1") {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region,
+    });
+
+    this.vpc = new Vpc(this, "vpc", {});
+  }
+}
+
+interface BackendStackConfig {
+  region: string;
+  vpcId: string;
+  dockerImage: string;
+}
+class BackendStack extends TerraformStack {
+  constructor(scope: Construct, id: string, config: BackendStackConfig) {
+    super(scope, id);
+
+    const { region, vpcId, dockerImage } = config;
+
+    new AwsProvider(this, "aws", {
+      region,
+    });
+
+    new DockerBackend(this, "docker-backend", {
+      vpcId,
+      dockerImage,
+    });
+  }
+}
+
+const app = new App();
+const origin = new VPCStack(app, "origin-stack");
+new BackendStack(app, "target-stack", {
+  region: origin.region,
+  vpcId: origin.vpc.id,
+  dockerImage: "org/my-image:latest",
+});
+
+app.synth();
+```
+
+From a usage perspective it looks like we are accessing the `id` value of `vpc` from the `origin-stack` instance of `VpcStack` and then referencing it in the `target-stack` instance of `BackendStack`.
+Accessing a value from a different stack causes the value to be exported as `TerraformOutput` in the origin stack.
+The value is than accessed through a `TerraformRemoteState` in the target stack.
+Both are automatically added to the respective stacks to make the process seemless.
+
+Cross Stack References are also only supported for the local and remote backend as of right now.
+
+### Stack Dependencies
+
+We add the stack dependencies in the `cdktf.out/manifest.json` file for each stack under `dependencies`.
+By default a stack is dependant on another stack when the data used origins in that stack.
+If you e.g. write `this.allResources = Fn.merge(resourceFromStackA.items, resourceFromStackB.items)` in Stack C and use `stackC.allResources` in Stack D, Stack D will be dependant on Stack A and B, but not C since that is not the origin of the data.
+In case you don't want the "middleman" to be cut out you can run `stackD.addDependency(stackC)` to make the dependency explicit.
+There are currently no safe-guards around this feature, it's your responsibility to deploy the stacks in the respective order.
 
 ### Migration from `<= 0.2`
 

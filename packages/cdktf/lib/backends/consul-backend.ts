@@ -14,6 +14,16 @@ export class ConsulBackend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
+
+  public getRemoteStateDataSource(
+    _scope: Construct,
+    _name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    throw new Error(
+      "The ConsulBackend does not yet implement cross stack references"
+    );
+  }
 }
 
 export class DataTerraformRemoteStateConsul extends TerraformRemoteState {

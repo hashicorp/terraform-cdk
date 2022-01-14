@@ -83,6 +83,16 @@ export class Token {
   }
 
   /**
+   * Return a reversible list representation of this token
+   */
+  public static asNumberList(value: any): number[] {
+    if (Array.isArray(value) && value.every((x) => typeof x === "number")) {
+      return value;
+    }
+    return TokenMap.instance().registerNumberList(Token.asAny(value));
+  }
+
+  /**
    * Return a resolvable representation of the given value
    */
   public static asAny(value: any): IResolvable {
@@ -107,7 +117,12 @@ export class Tokenization {
     }
     if (Array.isArray(x)) {
       const reversedList = Tokenization.reverseList(x);
-      return reversedList ? [reversedList] : [];
+      if (reversedList) {
+        return [reversedList];
+      }
+
+      const reversedNumberList = Tokenization.reverseNumberList(x);
+      return reversedNumberList ? [reversedNumberList] : [];
     }
     if (typeof x === "number") {
       const reversedNumber = Tokenization.reverseNumber(x);
@@ -135,6 +150,13 @@ export class Tokenization {
    */
   public static reverseList(l: string[]): IResolvable | undefined {
     return TokenMap.instance().lookupList(l);
+  }
+
+  /**
+   * Un-encode a Tokenized value from a list
+   */
+  public static reverseNumberList(l: number[]): IResolvable | undefined {
+    return TokenMap.instance().lookupNumberList(l);
   }
 
   /**
