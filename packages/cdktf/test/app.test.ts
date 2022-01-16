@@ -291,7 +291,7 @@ describe("Cross Stack references", () => {
       }
     );
   });
-  it("errors if cross stack references are used with unsupported backends", () => {
+  it.skip("errors if cross stack references are used with unsupported backends", () => {
     new TestResource(testStack, "Resource", {
       name: originStack.resource.stringValue,
     });
