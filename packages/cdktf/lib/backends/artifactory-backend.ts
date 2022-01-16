@@ -19,13 +19,11 @@ export class ArtifactoryBackend extends TerraformBackend {
   }
 
   public getRemoteStateDataSource(
-    _scope: Construct,
-    _name: string,
+    scope: Construct,
+    name: string,
     _fromStack: string
   ): TerraformRemoteState {
-    throw new Error(
-      "The ArtifactoryBackend does not yet implement cross stack references"
-    );
+    return new DataTerraformRemoteStateArtifactory(scope, name, this.props);
   }
 }
 
