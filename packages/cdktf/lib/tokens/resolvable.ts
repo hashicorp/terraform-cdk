@@ -95,6 +95,11 @@ export interface ITokenResolver {
    * Resolve a tokenized number list
    */
   resolveNumberList(l: number[], context: IResolveContext): any;
+
+  /**
+   * Resolve a tokenized map
+   */
+  resolveMap(m: { [key: string]: any }, context: IResolveContext): any;
 }
 
 /**
@@ -206,5 +211,23 @@ export class DefaultTokenResolver implements ITokenResolver {
       return xs;
     }
     return context.resolve(token);
+  }
+
+  public resolveMap(xs: { [key: string]: any }, context: IResolveContext) {
+    const keys = Object.keys(xs);
+    if (keys.length !== 1) {
+      throw new Error(`Cannot add elements to map token, got: ${xs}`);
+    }
+
+    const str = TokenString.forMapToken(keys[0]);
+    const tokenMap = TokenMap.instance();
+    const fragments = str.split(tokenMap.lookupToken.bind(tokenMap));
+    if (fragments.length !== 1) {
+      throw new Error(
+        `Cannot concatenate strings in a tokenized map, got: ${xs[0]}`
+      );
+    }
+
+    return fragments.mapTokens({ mapToken: context.resolve }).firstValue;
   }
 }

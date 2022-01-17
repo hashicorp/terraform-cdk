@@ -74,6 +74,21 @@ test("with boolean map", () => {
   ).toMatchSnapshot();
 });
 
+test("with any map", () => {
+  expect(
+    Testing.synthScope((stack) => {
+      new TestProvider(stack, "provider", {});
+
+      const dataSource = new TestDataSource(stack, "test", {
+        name: "foo",
+      });
+      new TestResource(stack, "test-resource", {
+        name: Token.asString(dataSource.anyMap("id")),
+      });
+    })
+  ).toMatchSnapshot();
+});
+
 test("dependent data source", () => {
   expect(
     Testing.synthScope((stack) => {

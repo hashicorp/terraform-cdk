@@ -29,6 +29,28 @@ abstract class ComplexComputedAttribute implements IInterpolatingParent {
     );
   }
 
+  public getStringMapAttribute(terraformAttribute: string) {
+    return Token.asStringMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getNumberMapAttribute(terraformAttribute: string) {
+    return Token.asNumberMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getBooleanMapAttribute(terraformAttribute: string) {
+    return Token.asBooleanMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getAnyMapAttribute(terraformAttribute: string) {
+    return Token.asAnyMap(this.interpolationForAttribute(terraformAttribute));
+  }
+
   public abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 
@@ -74,6 +96,21 @@ export class BooleanMap {
         `${this.terraformAttribute}["${key}"]`
       )
     ) as any as boolean;
+  }
+}
+
+export class AnyMap {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {}
+
+  public lookup(key: string): any {
+    return Token.asAny(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}["${key}"]`
+      )
+    );
   }
 }
 

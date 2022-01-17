@@ -7,12 +7,14 @@ import { Tokenization } from "../token";
 
 export const BEGIN_STRING_TOKEN_MARKER = "${TfToken[";
 export const BEGIN_LIST_TOKEN_MARKER = "#{TfToken[";
+export const BEGIN_MAP_TOKEN_MARKER = "&{TfToken[";
 export const END_TOKEN_MARKER = "]}";
 
 export const VALID_KEY_CHARS = "a-zA-Z0-9:._-";
 
 const QUOTED_BEGIN_STRING_TOKEN_MARKER = regexQuote(BEGIN_STRING_TOKEN_MARKER);
 const QUOTED_BEGIN_LIST_TOKEN_MARKER = regexQuote(BEGIN_LIST_TOKEN_MARKER);
+const QUOTED_BEGIN_MAP_TOKEN_MARKER = regexQuote(BEGIN_MAP_TOKEN_MARKER);
 const QUOTED_END_TOKEN_MARKER = regexQuote(END_TOKEN_MARKER);
 
 const STRING_TOKEN_REGEX = new RegExp(
@@ -21,6 +23,10 @@ const STRING_TOKEN_REGEX = new RegExp(
 );
 const LIST_TOKEN_REGEX = new RegExp(
   `${QUOTED_BEGIN_LIST_TOKEN_MARKER}([${VALID_KEY_CHARS}]+)${QUOTED_END_TOKEN_MARKER}`,
+  "g"
+);
+const MAP_TOKEN_REGEX = new RegExp(
+  `${QUOTED_BEGIN_MAP_TOKEN_MARKER}([${VALID_KEY_CHARS}]+)${QUOTED_END_TOKEN_MARKER}`,
   "g"
 );
 
@@ -52,6 +58,13 @@ export class TokenString {
    */
   public static forNumbers(s: string) {
     return new TokenString(s, NUMBER_TOKEN_REGEX, 0);
+  }
+
+  /**
+   * Returns a `TokenString` for this string that handles encoded maps
+   */
+  public static forMapToken(s: string) {
+    return new TokenString(s, MAP_TOKEN_REGEX);
   }
 
   constructor(
@@ -135,6 +148,12 @@ export function containsNumberListTokenElement(xs: any[]) {
   );
 }
 
+export function containsMapToken(xs: { [key: string]: any }) {
+  return Object.keys(xs).some(
+    (x) => typeof x === "string" && TokenString.forMapToken(x).test()
+  );
+}
+
 export function isComplexElement(xs: any) {
   return (
     typeof xs === "object" &&
@@ -165,6 +184,8 @@ export function unresolved(obj: any): boolean {
       (typeof obj[0] === "number" &&
         extractTokenDouble(obj[0], true) !== undefined)
     );
+  } else if (obj != null && containsMapToken(obj)) {
+    return true;
   } else {
     return Tokenization.isResolvable(obj);
   }
