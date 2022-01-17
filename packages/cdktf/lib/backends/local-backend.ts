@@ -31,10 +31,11 @@ export class LocalBackend extends TerraformBackend {
     fromStack: string
   ): TerraformRemoteState {
     return new DataTerraformRemoteStateLocal(scope, name, {
-      workspace: this.props.workspaceDir,
+      workspaceDir: this.props.workspaceDir,
       path:
         this.props.path ||
         path.join(process.cwd(), `terraform.${fromStack}.tfstate`),
+      workspace: "${terraform.workspace}",
     });
   }
 }

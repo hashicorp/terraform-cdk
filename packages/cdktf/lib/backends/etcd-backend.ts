@@ -16,13 +16,11 @@ export class EtcdBackend extends TerraformBackend {
   }
 
   public getRemoteStateDataSource(
-    _scope: Construct,
-    _name: string,
+    scope: Construct,
+    name: string,
     _fromStack: string
   ): TerraformRemoteState {
-    throw new Error(
-      "The EtcdBackend does not yet implement cross stack references"
-    );
+    return new DataTerraformRemoteStateEtcd(scope, name, this.props);
   }
 }
 
