@@ -25,6 +25,10 @@ namespace MyCompany.MyApp
                 Req = new [] { new ListBlockResourceReq { Reqbool = true, Reqnum = 1, Reqstr = "reqstr" }, new ListBlockResourceReq { Reqbool = false, Reqnum = 0, Reqstr = "reqstr2" } },
                 Singlereq = new ListBlockResourceSinglereq { Reqbool = true, Reqnum = 1, Reqstr = "reqstr" }
             });
+            var map = new MapResource(this, "map", new MapResourceConfig {
+                OptMap = new Dictionary<string, string> { ["Key1"] = "value1" },
+                ReqMap = new Dictionary<string, object> { ["Key1"] = true }
+            });
 
             // plain values
             new RequiredAttributeResource(this, "plain", new RequiredAttributeResourceConfig {
@@ -64,6 +68,22 @@ namespace MyCompany.MyApp
             //     Req = new [] { list.Singlereq },
             //     Singlereq = list.Singlereq
             // });
+
+            // required values FROM map
+            new RequiredAttributeResource(this, "from_map", new RequiredAttributeResourceConfig {
+                Bool = Token.AsAny(Fn.Lookup(map.ReqMap, "key1", false)),
+                Str = Token.AsString(Fn.Lookup(map.OptMap, "key1", "missing")),
+                Num = Token.AsNumber(Fn.Lookup(map.ComputedMap, "key1", 0)),
+                StrList = new [] { Token.AsString(Fn.Lookup(map.OptMap, "key1", "missing")) },
+                NumList = new [] { Token.AsNumber(Fn.Lookup(map.ComputedMap, "key1", 0)) },
+                BoolList = new [] { Token.AsAny(Fn.Lookup(map.ReqMap, "key1", false)) }
+            });
+
+            // passing a reference to a complete map
+            new MapResource(this, "map_reference", new MapResourceConfig {
+                OptMap = map.OptMap,
+                ReqMap = map.ReqMap
+            });
         }
     }
 

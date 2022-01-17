@@ -51,28 +51,51 @@ export class AttributeTypeModel {
   }
 
   public get name(): string {
-    if (this.isStringMap) return `cdktf.StringMap`;
-    if (this.isNumberMap) return `cdktf.NumberMap`;
-    if (this.isBooleanMap) return `cdktf.BooleanMap`;
+    // computed map wrappers
+    if (this.isComputedStringMap) return `cdktf.StringMap`;
+    if (this.isComputedNumberMap) return `cdktf.NumberMap`;
+    if (this.isComputedBooleanMap) return `cdktf.BooleanMap`;
+    if (this.isComputedAnyMap) return `cdktf.AnyMap`;
+
+    // map of booleans has token support, but booleans don't
+    if (this.isMap && this._type === TokenizableTypes.BOOLEAN)
+      return `{ [key: string]: (${this._type} | cdktf.IResolvable) }`;
+
+    // other maps with token support
+    if (this.isTokenizableMap) return `{ [key: string]: ${this._type} }`;
+
+    // maps without token support
     if (this.isMap)
       return `{ [key: string]: ${this._type} } | cdktf.IResolvable`;
+
+    // single item list
     if (this.isList && !this.isComputed && this.isSingleItem)
       return `${this._type}`;
+
     // neither boolean nor boolean[] is tokenizable, so both parts need IResolvable
     if (this.isList && this._type === TokenizableTypes.BOOLEAN)
       return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
+
+    // non-computed list
     if (this.isList && !this.isComputed) return `${this._type}[]`;
+
+    // computed lists of simple types
     if (
       this.isList &&
       this.isComputed &&
       (this.isPrimitive || !this.struct?.isClass)
     )
       return `${this._type}[]`;
+
+    // complex computed list
     if (this.isList && this.isComputed && this.isComplex)
       return `${this._type}`;
 
+    // boolean
     if (this._type === TokenizableTypes.BOOLEAN)
       return `boolean | cdktf.IResolvable`;
+
+    // all other types
     return this._type;
   }
 
@@ -111,33 +134,51 @@ export class AttributeTypeModel {
   }
 
   public get isBoolean(): boolean {
-    return this._type === TokenizableTypes.BOOLEAN || this.isBooleanMap;
+    return (
+      this._type === TokenizableTypes.BOOLEAN && !this.isList && !this.isMap
+    );
   }
 
   public get isStringMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.STRING &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.STRING;
+  }
+
+  public get isComputedStringMap(): boolean {
+    return this.isStringMap && this.isComputed && !this.isOptional;
   }
 
   public get isNumberMap(): boolean {
-    return (
-      !this.isOptional &&
-      this.isMap &&
-      this._type === TokenizableTypes.NUMBER &&
-      this.isComputed
-    );
+    return this.isMap && this._type === TokenizableTypes.NUMBER;
+  }
+
+  public get isComputedNumberMap(): boolean {
+    return this.isNumberMap && this.isComputed && !this.isOptional;
   }
 
   public get isBooleanMap(): boolean {
+    return this.isMap && this._type === TokenizableTypes.BOOLEAN;
+  }
+
+  public get isComputedBooleanMap(): boolean {
+    return this.isBooleanMap && this.isComputed && !this.isOptional;
+  }
+
+  public get isAnyMap(): boolean {
+    return this.isMap && this._type === "any";
+  }
+
+  public get isComputedAnyMap(): boolean {
+    return this.isAnyMap && this.isComputed && !this.isOptional;
+  }
+
+  public get isTokenizableMap(): boolean {
     return (
-      !this.isOptional &&
       this.isMap &&
-      this._type === TokenizableTypes.BOOLEAN &&
-      this.isComputed
+      !this.isList &&
+      (Object.values(TokenizableTypes).includes(
+        this._type as TokenizableTypes
+      ) ||
+        this._type === "any")
     );
   }
 

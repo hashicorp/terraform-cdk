@@ -72,6 +72,10 @@ function listOf(type: TFValueValidator): TFValueValidator {
           return item;
         }
 
+        if (TokenString.forMapToken(item).test()) {
+          return item;
+        }
+
         if (typeof item === "string") {
           const tokenList = Tokenization.reverseString(item);
           const numberOfTokens =
