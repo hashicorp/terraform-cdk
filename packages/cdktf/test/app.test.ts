@@ -6,7 +6,6 @@ import {
   Testing,
   DataTerraformRemoteStateLocal,
   LocalBackend,
-  HttpBackend,
   RemoteBackend,
   DataTerraformRemoteState,
   Fn,
@@ -289,17 +288,6 @@ describe("Cross Stack references", () => {
           path: targetPath,
         },
       }
-    );
-  });
-  it.skip("errors if cross stack references are used with unsupported backends", () => {
-    new TestResource(testStack, "Resource", {
-      name: originStack.resource.stringValue,
-    });
-
-    new HttpBackend(originStack, { address: "http://example.com" });
-
-    expect(() => app.synth()).toThrowError(
-      /The HttpBackend does not yet implement cross stack references/
     );
   });
 
