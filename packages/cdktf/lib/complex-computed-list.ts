@@ -1,5 +1,6 @@
 import { Token } from "./tokens";
 import { IInterpolatingParent } from "./terraform-addressable";
+import { Fn, propertyAccess } from ".";
 
 abstract class ComplexComputedAttribute implements IInterpolatingParent {
   constructor(
@@ -118,12 +119,24 @@ export class ComplexComputedList extends ComplexComputedAttribute {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
-    protected complexComputedListIndex: string
+    protected complexComputedListIndex: string,
+    protected wrapsSet?: boolean
   ) {
     super(terraformResource, terraformAttribute);
   }
 
   public interpolationForAttribute(property: string) {
+    if (this.wrapsSet) {
+      return propertyAccess(
+        Fn.tolist(
+          this.terraformResource.interpolationForAttribute(
+            this.terraformAttribute
+          )
+        ),
+        [this.complexComputedListIndex, property]
+      );
+    }
+
     return this.terraformResource.interpolationForAttribute(
       `${this.terraformAttribute}.${this.complexComputedListIndex}.${property}`
     );

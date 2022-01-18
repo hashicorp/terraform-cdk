@@ -104,12 +104,12 @@ export class AttributeModel {
       this.computed &&
       !this.isOptional &&
       this.type.isComputedComplex &&
-      this.type.isList
+      (this.type.isList || this.type.isSet)
     ) {
       getterType = {
         _type: "args",
         args: "index: string",
-        returnStatement: `new ${this.type.name}(this, '${this.terraformName}', index)`,
+        returnStatement: `new ${this.type.name}(this, '${this.terraformName}', index, ${this.type.isSet})`,
       };
     } else if (
       // Complex Computed Map
@@ -133,7 +133,7 @@ export class AttributeModel {
     return getterType;
   }
 
-  public get mapType(): string {
+  public get mapType() {
     const type = this.type;
     if (type.isStringMap) {
       return `string`;

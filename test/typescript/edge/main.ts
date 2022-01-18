@@ -24,6 +24,12 @@ export class ReferenceStack extends TerraformStack {
       optMap: { key1: "value1" },
       reqMap: { key1: true },
     });
+    const set = new edge.SetBlockResource(this, "set_block", {
+      set: [
+        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+      ],
+    });
 
     // plain values
     new edge.RequiredAttributeResource(this, "plain", {
@@ -81,6 +87,17 @@ export class ReferenceStack extends TerraformStack {
     new edge.MapResource(this, "map_reference", {
       optMap: map.optMap,
       reqMap: map.reqMap,
+    });
+
+    // passing a list ref into a set
+    new edge.SetBlockResource(this, "set_from_list", {
+      set: list.req,
+    });
+
+    // passing a set ref into a list
+    new edge.ListBlockResource(this, "list_from_set", {
+      req: set.set,
+      singlereq: { reqbool: true, reqnum: 1, reqstr: "reqstr" },
     });
   }
 }

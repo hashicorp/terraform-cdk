@@ -138,6 +138,9 @@ export class AttributesEmitter {
     if (type.isNumberList) {
       return `this.getNumberListAttribute('${att.terraformName}')`;
     }
+    if (type.isStringSet) {
+      return `cdktf.Fn.tolist(this.getListAttribute('${att.terraformName}'))`;
+    }
     if (type.isNumber) {
       return `this.getNumberAttribute('${att.terraformName}')`;
     }
@@ -156,6 +159,14 @@ export class AttributesEmitter {
     }
 
     this.code.line(`// Getting the computed value is not yet implemented`);
+    if (type.isSet) {
+      // Token.asAny is required because tolist returns an Array encoded token which the listMapper
+      // would try to map over when this is passed to another resource. With Token.asAny() it is left
+      // as is by the listMapper and is later properly resolved to a reference
+      // (this only works in TypeScript currently, same as for referencing lists
+      // [see "interpolationForAttribute(...) as any" further below])
+      return `cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('${att.terraformName}'))) as any`;
+    }
     return `this.interpolationForAttribute('${att.terraformName}') as any`;
   }
 
@@ -211,9 +222,23 @@ export class AttributesEmitter {
         : "";
 
     switch (true) {
+      case type.isSet && type.isMap:
+        this.code.line(
+          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform))(${varReference}),`
+        );
+        break;
       case type.isList && type.isMap:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform))(${varReference}),`
+        );
+        break;
+      case type.isStringSet || type.isNumberSet || type.isBooleanSet:
+        this.code.line(
+          `${
+            att.terraformName
+          }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
+            type.innerType
+          )}ToTerraform)(${varReference}),`
         );
         break;
       case type.isStringList || type.isNumberList || type.isBooleanList:
@@ -221,6 +246,15 @@ export class AttributesEmitter {
           `${
             att.terraformName
           }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
+            type.innerType
+          )}ToTerraform)(${varReference}),`
+        );
+        break;
+      case type.isSet && !type.isSingleItem:
+        this.code.line(
+          `${
+            att.terraformName
+          }: ${defaultCheck}cdktf.listMapper(${downcaseFirst(
             type.innerType
           )}ToTerraform)(${varReference}),`
         );
