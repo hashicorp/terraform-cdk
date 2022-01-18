@@ -641,6 +641,19 @@ export const useRunDeploy = ({
   };
 };
 
+export const useRunOutput = (options: UseTerraformOptions) => {
+  const state = useTerraformState();
+  const { synth, init, output } = useTerraform(options);
+
+  useRunOnce(synth);
+  useRunWhen(state.status === Status.SYNTHESIZED, async () => {
+    await init();
+    await output();
+  });
+
+  return state;
+};
+
 interface UseRunDestroyOptions extends UseTerraformOptions {
   autoApprove?: boolean;
 }
