@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 from constructs import Construct
-from cdktf import App, Fn, TerraformStack
+from cdktf import App, Fn, TerraformStack, Token
 import imports.edge as edge
 
 # Using references to resource attributes as resource arguments
@@ -19,6 +19,10 @@ class ReferenceStack(TerraformStack):
             req=[{"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}, {"reqbool": False, "reqnum": 0, "reqstr": "reqstr2"}
             ],
             singlereq={"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}
+        )
+        map = edge.MapResource(self, "map",
+            opt_map={"key1": "value1"},
+            req_map={"key1": True}
         )
 
         # plain values
@@ -61,6 +65,22 @@ class ReferenceStack(TerraformStack):
         edge.ListBlockResource(self, "list_literal",
             req=[list.singlereq],
             singlereq=list.singlereq
+        )
+
+        # required values FROM map
+        edge.RequiredAttributeResource(self, "from_map",
+            bool=Token().as_any(Fn.lookup(map.req_map, "key1", False)),
+            str=Token().as_string(Fn.lookup(map.opt_map, "key1", "missing")),
+            num=Token().as_number(Fn.lookup(map.computed_map, "key1", 0)),
+            str_list=[Token().as_string(Fn.lookup(map.opt_map, "key1", "missing"))],
+            num_list=[Token().as_number(Fn.lookup(map.computed_map, "key1", 0))],
+            bool_list=[Token().as_any(Fn.lookup(map.req_map, "key1", False))]
+        )
+
+        # passing a reference to a complete map
+        edge.MapResource(self, "map_reference",
+            opt_map=map.opt_map,
+            req_map=map.req_map
         )
 
 # CDKTF supports referencing inputs from providers (Terraform does not)

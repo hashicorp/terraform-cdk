@@ -20,6 +20,10 @@ export class ReferenceStack extends TerraformStack {
       ],
       singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
     });
+    const map = new edge.MapResource(this, "map", {
+      optMap: { key1: "value1" },
+      reqMap: { key1: true },
+    });
 
     // plain values
     new edge.RequiredAttributeResource(this, "plain", {
@@ -61,6 +65,22 @@ export class ReferenceStack extends TerraformStack {
     new edge.ListBlockResource(this, "list_literal", {
       req: [list.singlereq],
       singlereq: list.singlereq,
+    });
+
+    // required values FROM map
+    new edge.RequiredAttributeResource(this, "from_map", {
+      bool: Fn.lookup(map.reqMap, "key1", false),
+      str: Fn.lookup(map.optMap, "key1", "missing"),
+      num: Fn.lookup(map.computedMap, "key1", 0),
+      strList: [Fn.lookup(map.optMap, "key1", "missing")],
+      numList: [Fn.lookup(map.computedMap, "key1", 0)],
+      boolList: [Fn.lookup(map.reqMap, "key1", false)],
+    });
+
+    // passing a reference to a complete map
+    new edge.MapResource(this, "map_reference", {
+      optMap: map.optMap,
+      reqMap: map.reqMap,
     });
   }
 }

@@ -2,6 +2,15 @@
 
 **Breaking Changes**
 
+### Map Tokens [#1411](https://github.com/hashicorp/terraform-cdk/pull/1411)
+
+As part of an effort to use more native types, there are now tokens for maps of primitive values.
+
+As a result, there is a minor breaking change:
+
+- Map attributes have gone from `{ [key: string]: TYPE } | cdktf.IResolvable` to `{ [key: string]:TYPE }` when `TYPE` is `string, number, or boolean`.
+  - The most common impact is maps created by using Terraform functions (`Fn.(...)`) will now need to be passed to `Token.as<String/Number/Boolean>Map()` before assigning to a resource attribute.
+
 ### Number[] Tokens [#1471](https://github.com/hashicorp/terraform-cdk/pull/1471)
 
 As part of an effort to use more native types, there are now tokens for `number[]`.

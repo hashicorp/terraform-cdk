@@ -16,13 +16,14 @@ export class AzurermBackend extends TerraformBackend {
   }
 
   public getRemoteStateDataSource(
-    _scope: Construct,
-    _name: string,
+    scope: Construct,
+    name: string,
     _fromStack: string
   ): TerraformRemoteState {
-    throw new Error(
-      "The AzurermBackend does not yet implement cross stack references"
-    );
+    return new DataTerraformRemoteStateAzurerm(scope, name, {
+      ...this.props,
+      workspace: "${terraform.workspace}",
+    });
   }
 }
 
