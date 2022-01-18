@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { IResolvable, Token } from "./tokens";
+import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import {
@@ -23,7 +23,7 @@ export class TerraformDataSource
   // TerraformMetaArguments
 
   public dependsOn?: string[];
-  public count?: number | IResolvable;
+  public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
   public readonly fqn: string;
