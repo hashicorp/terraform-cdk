@@ -128,7 +128,7 @@ using temporary security credentials.
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws#endpoints AwsProvider#endpoints}
   */
-  readonly endpoints?: AwsProviderEndpoints[];
+  readonly endpoints?: AwsProviderEndpoints[] | cdktf.IResolvable;
   /**
   * ignore_tags block
   * 
@@ -1502,11 +1502,11 @@ export class AwsProvider extends cdktf.TerraformProvider {
   }
 
   // endpoints - computed: false, optional: true, required: false
-  private _endpoints?: AwsProviderEndpoints[]; 
+  private _endpoints?: AwsProviderEndpoints[] | cdktf.IResolvable; 
   public get endpoints() {
     return this._endpoints;
   }
-  public set endpoints(value: AwsProviderEndpoints[] | undefined) {
+  public set endpoints(value: AwsProviderEndpoints[] | cdktf.IResolvable | undefined) {
     this._endpoints = value;
   }
   public resetEndpoints() {

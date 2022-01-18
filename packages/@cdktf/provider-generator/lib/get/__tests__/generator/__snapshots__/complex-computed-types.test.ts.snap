@@ -334,7 +334,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // options - computed: false, optional: true, required: false
-  private _options = new AcmCertificateOptionsOutputReference(this as any, \\"options\\", true);
+  private _options = new AcmCertificateOptionsOutputReference(this, \\"options\\", true);
   public get options() {
     return this._options;
   }

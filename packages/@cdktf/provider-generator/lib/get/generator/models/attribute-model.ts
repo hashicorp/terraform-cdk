@@ -96,7 +96,7 @@ export class AttributeModel {
       getterType = {
         _type: "args",
         args: "index: string, key: string",
-        returnType: this.mapType,
+        returnType: this.mapReturnType,
         returnStatement: `new ${this.type.name}(this, \`${this.terraformName}.\${index}\`).lookup(key)`,
       };
     } else if (
@@ -121,7 +121,7 @@ export class AttributeModel {
       getterType = {
         _type: "args",
         args: "key: string",
-        returnType: this.mapType,
+        returnType: this.mapReturnType,
         returnStatement: `new ${this.type.name}(this, '${this.terraformName}').lookup(key)`,
       };
     }
@@ -153,6 +153,15 @@ export class AttributeModel {
       );
     }
     return `any`;
+  }
+
+  public get mapReturnType(): string {
+    const mapDataType = this.mapType;
+    if (!this.isTokenizable) {
+      return `${mapDataType} | cdktf.IResolvable`;
+    }
+
+    return mapDataType;
   }
 
   public get isStored(): boolean {
