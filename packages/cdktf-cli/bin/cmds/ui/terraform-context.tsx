@@ -42,6 +42,7 @@ export enum Status {
   PLANNED = "planned",
   DEPLOYING = "deploying",
   DESTROYING = "destroying",
+  OUTPUT_FETCHED = "output fetched",
   DONE = "done",
 }
 
@@ -270,7 +271,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       };
     }
     case "OUTPUT": {
-      return { ...state, output: action.output };
+      return { ...state, output: action.output, status: Status.OUTPUT_FETCHED };
     }
     case "DONE": {
       return { ...state, status: Status.DONE };
