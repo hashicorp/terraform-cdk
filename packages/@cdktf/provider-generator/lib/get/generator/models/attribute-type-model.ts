@@ -71,26 +71,27 @@ export class AttributeTypeModel {
     if (this.isMap)
       return `{ [key: string]: ${this._type} } | cdktf.IResolvable`;
 
+    const hasListRepresentation = this.isList || this.isSet;
+
     // single item list
-    if ((this.isList || this.isSet) && !this.isComputed && this.isSingleItem)
+    if (hasListRepresentation && !this.isComputed && this.isSingleItem)
       return `${this._type}`;
 
     // neither boolean nor boolean[] is tokenizable, so both parts need IResolvable
     if (this.isList && this._type === TokenizableTypes.BOOLEAN)
       return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
     // non-computed list
-    if ((this.isList || this.isSet) && !this.isComputed)
-      return `${this._type}[]`;
+    if (hasListRepresentation && !this.isComputed) return `${this._type}[]`;
     // computed lists of simple types
     if (
-      (this.isList || this.isSet) &&
+      hasListRepresentation &&
       this.isComputed &&
       (this.isPrimitive || !this.struct?.isClass)
     )
       return `${this._type}[]`;
 
     // complex computed list
-    if ((this.isList || this.isSet) && this.isComputed && this.isComplex)
+    if (hasListRepresentation && this.isComputed && this.isComplex)
       return `${this._type}`;
 
     // boolean
