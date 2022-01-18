@@ -186,7 +186,7 @@ export const Deploy = ({
   autoApprove,
 }: DeployConfig): React.ReactElement => {
   const {
-    state: { status, currentStack, errors, plan },
+    state: { status, currentStack, errors, plan, output },
     confirmation,
     isConfirmed,
   } = useRunDeploy({
@@ -221,6 +221,12 @@ export const Deploy = ({
         <Text>
           No changes for Stack: <Text bold>{currentStack.name}</Text>
         </Text>
+        {output && Object.keys(output).length > 0 && (
+          <Box marginTop={1}>
+            <Text bold>Output: </Text>
+            <Output output={output} />
+          </Box>
+        )}
       </>
     );
 
