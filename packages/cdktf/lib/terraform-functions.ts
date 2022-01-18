@@ -1,4 +1,4 @@
-import { Tokenization } from "./tokens/token";
+import { Tokenization, Token } from "./tokens/token";
 import { call } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { TokenMap } from "./tokens/private/token-map";
@@ -114,8 +114,8 @@ function asBoolean(value: IResolvable) {
   return value; // Booleans can not be represented as a token
 }
 
-function asAny(value: IResolvable) {
-  return asString(value) as any;
+function asAny(value: IResolvable): any {
+  return Token.asAny(value);
 }
 
 function terraformFunction(

@@ -114,11 +114,11 @@ export class AttributesEmitter {
     }
   }
 
-  // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this as any, "metadata", true)'
+  // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this, "metadata", true)'
   private storedClassInit(att: AttributeModel) {
     return `new ${att.type.name}${
       att.type.isSingleItem ? "OutputReference" : ""
-    }(this as any, "${att.terraformName}", ${
+    }(this, "${att.terraformName}", ${
       att.type.isSingleItem ? "true" : "false"
     })`;
   }
@@ -164,10 +164,10 @@ export class AttributesEmitter {
       // would try to map over when this is passed to another resource. With Token.asAny() it is left
       // as is by the listMapper and is later properly resolved to a reference
       // (this only works in TypeScript currently, same as for referencing lists
-      // [see "interpolationForAttribute(...) as any" further below])
-      return `cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('${att.terraformName}'))) as any`;
+      // [see "interpolationForAttribute(...)" further below])
+      return `cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('${att.terraformName}')))`;
     }
-    return `this.interpolationForAttribute('${att.terraformName}') as any`;
+    return `this.interpolationForAttribute('${att.terraformName}')`;
   }
 
   public needsInputEscape(

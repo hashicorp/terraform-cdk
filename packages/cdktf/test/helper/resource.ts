@@ -62,7 +62,7 @@ export class TestResource extends TerraformResource {
   }
 
   public get anyList() {
-    return this.interpolationForAttribute("any_list") as any;
+    return this.interpolationForAttribute("any_list");
   }
 
   public get numberList() {
