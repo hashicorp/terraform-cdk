@@ -261,7 +261,7 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
 
   // security_groups - computed: true, optional: false, required: false
   public get securityGroups() {
-    return this.getListAttribute('security_groups');
+    return cdktf.Fn.tolist(this.getListAttribute('security_groups'));
   }
 
   // self - computed: true, optional: false, required: false
@@ -315,7 +315,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
 
   // egress - computed: true, optional: false, required: false
   public egress(index: string) {
-    return new ComputedComplexEgress(this, 'egress', index);
+    return new ComputedComplexEgress(this, 'egress', index, true);
   }
 
   // =========
@@ -402,7 +402,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
 
   // resources - computed: true, optional: false, required: false
   public resources(index: string) {
-    return new ComputedComplexNestedResources(this, 'resources', index);
+    return new ComputedComplexNestedResources(this, 'resources', index, false);
   }
 
   // =========
@@ -644,7 +644,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   private _egress?: ComputedOptionalComplexEgress[]; 
   public get egress() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('egress') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress'))) as any;
   }
   public set egress(value: ComputedOptionalComplexEgress[]) {
     this._egress = value;
@@ -2132,7 +2132,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   private _timeoutsSet?: BlockTypeSetListTimeoutsSet[]; 
   public get timeoutsSet() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('timeouts_set') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('timeouts_set'))) as any;
   }
   public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[]) {
     this._timeoutsSet = value;

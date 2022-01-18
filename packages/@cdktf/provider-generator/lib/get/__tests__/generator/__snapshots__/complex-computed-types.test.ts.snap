@@ -256,7 +256,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
 
   // domain_validation_options - computed: true, optional: false, required: false
   public domainValidationOptions(index: string) {
-    return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index);
+    return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index, false);
   }
 
   // id - computed: true, optional: true, required: false
