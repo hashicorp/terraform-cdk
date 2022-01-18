@@ -280,6 +280,7 @@ export * from './optional-attribute-resource';
 export * from './optional-computed-attribute-resource';
 export * from './list-block-resource';
 export * from './map-resource';
+export * from './set-block-resource';
 export * from './edge-provider';
 
 "
@@ -1880,6 +1881,150 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
       strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
       numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
       boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
+    };
+  }
+}
+"
+`;
+
+exports[`Edge Provider Schema compiles to Typescript: set-block-resource.ts 1`] = `
+"// https://www.terraform.io/docs/providers/edge/r/set_block_resource
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface SetBlockResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * set block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#set SetBlockResource#set}
+  */
+  readonly set?: SetBlockResourceSet[];
+}
+export interface SetBlockResourceSet {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#optstr SetBlockResource#optstr}
+  */
+  readonly optstr?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#optnum SetBlockResource#optnum}
+  */
+  readonly optnum?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#optbool SetBlockResource#optbool}
+  */
+  readonly optbool?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#reqstr SetBlockResource#reqstr}
+  */
+  readonly reqstr: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#reqnum SetBlockResource#reqnum}
+  */
+  readonly reqnum: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#reqbool SetBlockResource#reqbool}
+  */
+  readonly reqbool: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#computedstr SetBlockResource#computedstr}
+  */
+  readonly computedstr?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#computednum SetBlockResource#computednum}
+  */
+  readonly computednum?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#computedbool SetBlockResource#computedbool}
+  */
+  readonly computedbool?: boolean | cdktf.IResolvable;
+}
+
+export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+    optstr: cdktf.stringToTerraform(struct!.optstr),
+    optnum: cdktf.numberToTerraform(struct!.optnum),
+    optbool: cdktf.booleanToTerraform(struct!.optbool),
+    reqstr: cdktf.stringToTerraform(struct!.reqstr),
+    reqnum: cdktf.numberToTerraform(struct!.reqnum),
+    reqbool: cdktf.booleanToTerraform(struct!.reqbool),
+    computedstr: cdktf.stringToTerraform(struct!.computedstr),
+    computednum: cdktf.numberToTerraform(struct!.computednum),
+    computedbool: cdktf.booleanToTerraform(struct!.computedbool),
+  }
+}
+
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource set_block_resource}
+*/
+export class SetBlockResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"set_block_resource\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource set_block_resource} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options SetBlockResourceConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: SetBlockResourceConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'set_block_resource',
+      terraformGeneratorMetadata: {
+        providerName: 'edge'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._set = config.set;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // set - computed: false, optional: true, required: false
+  private _set?: SetBlockResourceSet[]; 
+  public get set() {
+    // Getting the computed value is not yet implemented
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('set'))) as any;
+  }
+  public set set(value: SetBlockResourceSet[]) {
+    this._set = value;
+  }
+  public resetSet() {
+    this._set = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get setInput() {
+    return this._set;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      set: cdktf.listMapper(setBlockResourceSetToTerraform)(this._set),
     };
   }
 }
