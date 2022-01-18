@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "ink-testing-library";
-import { Output } from "../../bin/cmds/ui/deploy";
+import { Output } from "../../bin/cmds/ui/components";
 import { DeploySummary, Apply } from "../../bin/cmds/ui/deploy";
 import { stripAnsi } from "../test-helper";
 import {
