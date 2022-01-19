@@ -1,4 +1,4 @@
-import { Tokenization, Token } from "./tokens/token";
+import { Tokenization } from "./tokens/token";
 import { call } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { TokenMap } from "./tokens/private/token-map";
@@ -114,8 +114,13 @@ function asBoolean(value: IResolvable) {
   return value; // Booleans can not be represented as a token
 }
 
-function asAny(value: IResolvable): any {
-  return Token.asAny(value);
+function asAny(value: IResolvable) {
+  // Ordinarily casting to any can cause issues, but
+  // in this case it makes using functions a bit easier in TS
+  // and doesn't really harm other languages.
+  // Jsii has issues when returning the value directly,
+  // so wrap as a string.
+  return asString(value) as any;
 }
 
 function terraformFunction(
