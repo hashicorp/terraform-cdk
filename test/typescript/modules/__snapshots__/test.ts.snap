@@ -38,7 +38,11 @@ exports[`full integration test build modules posix 1`] = `
           \\"uniqueId\\": \\"localmodule\\"
         }
       },
-      \\"source\\": \\"./assets/localmodulelocalmodule/97F51B069A2EA5F1B6BA8B6C0FED84E4\\"
+      \\"set\\": [
+        \\"test\\",
+        \\"sets\\"
+      ],
+      \\"source\\": \\"./assets/localmodulelocalmodule/D2650B692714A27106B347431A9F0397\\"
     }
   },
   \\"terraform\\": {

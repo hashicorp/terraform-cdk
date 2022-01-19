@@ -11,7 +11,9 @@ export class HelloTerra extends TerraformStack {
       path: "terraform.tfstate",
     });
 
-    new OurLocalModule(this, "local-module", {});
+    new OurLocalModule(this, "local-module", {
+      set: ["test", "sets"],
+    });
     new Gcloud(this, "gcloud", {});
     new IamAccount(this, "iam", {
       accountAlias: "cdktf",
