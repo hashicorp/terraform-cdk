@@ -33,6 +33,12 @@ class Command implements yargs.CommandModule {
         required: false,
         desc: "Auto approve",
       })
+      .option("outputs-file", {
+        type: "string",
+        required: false,
+        desc: "Path to file where stack outputs will be written as JSON",
+        requiresArg: true,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {

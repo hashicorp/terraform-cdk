@@ -32,6 +32,7 @@ import { Watch } from "./ui/watch";
 import { sendTelemetry } from "../../lib/checkpoint";
 import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
+import { saveOutputs, normalizeOutputPath, Outputs } from "./helper/outputs";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -80,12 +81,19 @@ export async function deploy(argv: any) {
   const autoApprove = argv.autoApprove;
   const stack = argv.stack;
 
+  const onOutputsRetrieved = argv.outputsFile
+    ? (outputs: Outputs) =>
+        saveOutputs(normalizeOutputPath(argv.outputsFile), outputs)
+    : // eslint-disable-next-line @typescript-eslint/no-empty-function
+      () => {};
+
   await renderInk(
     React.createElement(Deploy, {
       targetDir: outdir,
       targetStack: stack,
       synthCommand: command,
       autoApprove,
+      onOutputsRetrieved,
     })
   );
 }

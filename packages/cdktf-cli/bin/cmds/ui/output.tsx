@@ -5,22 +5,26 @@ import Spinner from "ink-spinner";
 import { Output as OutputComponent } from "./components";
 
 import { Status, useRunOutput } from "./terraform-context";
+import { Outputs } from "../helper/outputs";
 
 type OutputConfig = {
   targetDir: string;
   targetStack?: string;
   synthCommand: string;
+  onOutputsRetrieved: (outputs: Outputs) => void;
 };
 
 export const Output = ({
   targetDir,
   targetStack,
   synthCommand,
+  onOutputsRetrieved,
 }: OutputConfig): React.ReactElement => {
   const { status, currentStack, errors, output } = useRunOutput({
     targetDir,
     targetStack,
     synthCommand,
+    onOutputsRetrieved,
   });
 
   const planStages = [

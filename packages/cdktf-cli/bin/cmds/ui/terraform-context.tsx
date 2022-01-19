@@ -21,6 +21,7 @@ import { logger } from "../../../lib/logging";
 import { schema, ActionTypes } from "./models/schema";
 import * as z from "zod";
 import { AnnotationMetadataEntryType } from "cdktf";
+import { Outputs } from "../helper/outputs";
 
 const chalkColour = new chalk.Instance();
 
@@ -615,9 +616,11 @@ export const useRunDiff = (options: UseRunDiffOptions) => {
 
 interface UseRunDeployOptions extends UseTerraformOptions {
   autoApprove?: boolean;
+  onOutputsRetrieved: (outputs: Outputs) => void;
 }
 export const useRunDeploy = ({
   autoApprove,
+  onOutputsRetrieved,
   ...options
 }: UseRunDeployOptions) => {
   const state = useTerraformState();
@@ -634,6 +637,12 @@ export const useRunDeploy = ({
     await output();
   });
 
+  useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
+    if (state.output) {
+      onOutputsRetrieved(state.output);
+    }
+  });
+
   return {
     state,
     confirmation: confirmationCallback,
@@ -641,7 +650,11 @@ export const useRunDeploy = ({
   };
 };
 
-export const useRunOutput = (options: UseTerraformOptions) => {
+interface UseRunOutputOptions extends UseTerraformOptions {
+  onOutputsRetrieved: (outputs: Outputs) => void;
+}
+
+export const useRunOutput = (options: UseRunOutputOptions) => {
   const state = useTerraformState();
   const { synth, init, output } = useTerraform(options);
 
@@ -649,6 +662,11 @@ export const useRunOutput = (options: UseTerraformOptions) => {
   useRunWhen(state.status === Status.SYNTHESIZED, async () => {
     await init();
     await output();
+  });
+  useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
+    if (state.output) {
+      options.onOutputsRetrieved(state.output);
+    }
   });
 
   return state;

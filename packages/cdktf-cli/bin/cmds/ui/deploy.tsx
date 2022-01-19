@@ -7,6 +7,7 @@ import { DeployingElement, Output } from "./components";
 import { DeployingResource, PlannedResourceAction } from "./models/terraform";
 import { Status, useTerraformState, useRunDeploy } from "./terraform-context";
 import { Plan } from "./diff";
+import { Outputs } from "../helper/outputs";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -146,6 +147,7 @@ interface DeployConfig {
   targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
+  onOutputsRetrieved: (outputs: Outputs) => void;
 }
 
 export const Deploy = ({
@@ -153,6 +155,7 @@ export const Deploy = ({
   targetStack,
   synthCommand,
   autoApprove,
+  onOutputsRetrieved,
 }: DeployConfig): React.ReactElement => {
   const {
     state: { status, currentStack, errors, plan, output },
@@ -163,6 +166,7 @@ export const Deploy = ({
     targetStack,
     synthCommand,
     autoApprove,
+    onOutputsRetrieved,
   });
 
   const planStages = [

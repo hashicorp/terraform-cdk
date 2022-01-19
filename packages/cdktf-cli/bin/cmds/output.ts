@@ -6,6 +6,7 @@ import { renderInk } from "./helper/render-ink";
 import { displayVersionMessage } from "./helper/version-check";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 import { checkEnvironment } from "./helper/check-environment";
+import { Outputs, saveOutputs, normalizeOutputPath } from "./helper/outputs";
 
 const config = cfg.readConfigSync();
 
@@ -32,6 +33,12 @@ class Command implements yargs.CommandModule {
         desc: "Output directory",
         alias: "o",
       })
+      .option("outputs-file", {
+        type: "string",
+        required: false,
+        desc: "Path to file where stack outputs will be written as JSON",
+        requiresArg: true,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
@@ -41,12 +48,18 @@ class Command implements yargs.CommandModule {
     const command = argv.app;
     const outdir = argv.output;
     const stack = argv.stack;
+    const onOutputsRetrieved = argv.outputsFile
+      ? (outputs: Outputs) =>
+          saveOutputs(normalizeOutputPath(argv.outputsFile), outputs)
+      : // eslint-disable-next-line @typescript-eslint/no-empty-function
+        () => {};
 
     await renderInk(
       React.createElement(Output, {
         targetDir: outdir,
         targetStack: stack,
         synthCommand: command,
+        onOutputsRetrieved,
       })
     );
   }
