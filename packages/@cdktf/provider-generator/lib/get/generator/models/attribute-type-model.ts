@@ -105,6 +105,11 @@ export class AttributeTypeModel {
     if (this._type === TokenizableTypes.BOOLEAN)
       return `boolean | cdktf.IResolvable`;
 
+    // custom structs
+    if (this.isComplex && !this.struct?.isClass && !this.isSingleItem) {
+      return `${this._type} | cdktf.IResolvable`;
+    }
+
     // all other types
     return this._type;
   }

@@ -366,8 +366,8 @@ export interface ListBlockResourceOpt {
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
 
-export function listBlockResourceOptToTerraform(struct?: ListBlockResourceOpt): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function listBlockResourceOptToTerraform(struct?: ListBlockResourceOpt | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -423,8 +423,8 @@ export interface ListBlockResourceReq {
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
 
-export function listBlockResourceReqToTerraform(struct?: ListBlockResourceReq): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function listBlockResourceReqToTerraform(struct?: ListBlockResourceReq | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -481,7 +481,7 @@ export interface ListBlockResourceSingleopt {
 }
 
 export function listBlockResourceSingleoptToTerraform(struct?: ListBlockResourceSingleoptOutputReference | ListBlockResourceSingleopt): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -754,7 +754,7 @@ export interface ListBlockResourceSinglereq {
 }
 
 export function listBlockResourceSinglereqToTerraform(struct?: ListBlockResourceSinglereqOutputReference | ListBlockResourceSinglereq): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -995,7 +995,7 @@ export interface ListBlockResourceSingleComputedBlock {
 }
 
 export function listBlockResourceSingleComputedBlockToTerraform(struct?: ListBlockResourceSingleComputedBlockOutputReference | ListBlockResourceSingleComputedBlock): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }

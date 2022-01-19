@@ -163,8 +163,8 @@ export interface AwsProviderAssumeRole {
   readonly sessionName?: string;
 }
 
-export function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -989,8 +989,8 @@ export interface AwsProviderEndpoints {
   readonly xray?: string;
 }
 
-export function awsProviderEndpointsToTerraform(struct?: AwsProviderEndpoints): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function awsProviderEndpointsToTerraform(struct?: AwsProviderEndpoints | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -1149,7 +1149,7 @@ export interface AwsProviderIgnoreTags {
 }
 
 export function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }

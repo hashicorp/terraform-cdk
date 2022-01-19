@@ -295,6 +295,13 @@ export class AttributesEmitter {
           )}ToTerraform(${varReference}.internalValue),`
         );
         break;
+      case type.isComplex && !type.struct?.isClass && !type.isSingleItem:
+        this.code.line(
+          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
+            type.struct!.name
+          )}ToTerraform(${varReference}),`
+        );
+        break;
       default:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}${downcaseFirst(

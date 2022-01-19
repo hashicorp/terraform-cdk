@@ -292,9 +292,11 @@ export class StructEmitter {
         struct.isSingleItem && !struct.isProvider
           ? `${struct.name}OutputReference | `
           : ""
-      }${struct.name}): any`
+      }${struct.name}${!struct.isClass ? " | cdktf.IResolvable" : ""}): any`
     );
-    this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
+    this.code.line(
+      `if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }`
+    );
     this.code.openBlock(`if (cdktf.isComplexElement(struct))`);
     this.code.line(
       `throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");`
