@@ -43,9 +43,18 @@ describe("full integration test", () => {
       expect(l.req[1].reqstr).toBe("reqstr2");
 
       // Single item list
-      expect(l.singlereq.reqbool).toBe(true);
+      expect(l.singlereq.reqbool).toBe(false);
       expect(l.singlereq.reqnum).toBe(1);
       expect(l.singlereq.reqstr).toBe("reqstr");
+    });
+
+    it("renders plain values in sets", () => {
+      const s = stack.byId("set_block");
+
+      expect(s.set).toEqual([
+        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+      ]);
     });
 
     it("references plain values", () => {
@@ -191,6 +200,18 @@ describe("full integration test", () => {
       // Expands map references
       expect(item.reqMap).toEqual("${map_resource.map.reqMap}");
       expect(item.optMap).toEqual("${map_resource.map.optMap}");
+    });
+
+    it("item references set from multi-item list", () => {
+      const item = stack.byId("set_from_list");
+
+      expect(item.set).toEqual("${list_block_resource.list.req}");
+    });
+
+    it("item references multi-item list from set", () => {
+      const item = stack.byId("list_from_set");
+
+      expect(item.req).toEqual("${tolist(set_block_resource.setblock.set)}");
     });
   });
 });

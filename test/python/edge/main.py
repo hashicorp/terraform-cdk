@@ -18,11 +18,15 @@ class ReferenceStack(TerraformStack):
         list = edge.ListBlockResource(self, "list",
             req=[{"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}, {"reqbool": False, "reqnum": 0, "reqstr": "reqstr2"}
             ],
-            singlereq={"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}
+            singlereq={"reqbool": False, "reqnum": 1, "reqstr": "reqstr"}
         )
         map = edge.MapResource(self, "map",
             opt_map={"key1": "value1"},
             req_map={"key1": True}
+        )
+        set = edge.SetBlockResource(self, "set_block",
+            set=[{"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}, {"reqbool": False, "reqnum": 0, "reqstr": "reqstr2"}
+            ]
         )
 
         # plain values
@@ -81,6 +85,17 @@ class ReferenceStack(TerraformStack):
         edge.MapResource(self, "map_reference",
             opt_map=map.opt_map,
             req_map=map.req_map
+        )
+
+        # passing a list ref into a set
+        edge.SetBlockResource(self, "set_from_list",
+            set=list.req
+        )
+
+        # passing a set ref into a list
+        edge.ListBlockResource(self, "list_from_set",
+            req=set.set,
+            singlereq={"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}
         )
 
 # CDKTF supports referencing inputs from providers (Terraform does not)
