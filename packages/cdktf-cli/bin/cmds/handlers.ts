@@ -33,6 +33,7 @@ import { sendTelemetry } from "../../lib/checkpoint";
 import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
 import { saveOutputs, normalizeOutputPath, Outputs } from "./helper/outputs";
+import { Output } from "./ui/output";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -282,5 +283,28 @@ export async function watch(argv: any) {
         autoApprove,
       })
     )
+  );
+}
+
+export async function output(argv: any) {
+  throwIfNotProjectDirectory("output");
+  await displayVersionMessage();
+  await checkEnvironment("output");
+  const command = argv.app;
+  const outdir = argv.output;
+  const stack = argv.stack;
+  const onOutputsRetrieved = argv.outputsFile
+    ? (outputs: Outputs) =>
+        saveOutputs(normalizeOutputPath(argv.outputsFile), outputs)
+    : // eslint-disable-next-line @typescript-eslint/no-empty-function
+      () => {};
+
+  await renderInk(
+    React.createElement(Output, {
+      targetDir: outdir,
+      targetStack: stack,
+      synthCommand: command,
+      onOutputsRetrieved,
+    })
   );
 }

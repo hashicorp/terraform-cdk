@@ -1,12 +1,6 @@
 import * as yargs from "yargs";
-import React from "react";
-import { Output } from "./ui/output";
 import { config as cfg } from "@cdktf/provider-generator";
-import { renderInk } from "./helper/render-ink";
-import { displayVersionMessage } from "./helper/version-check";
-import { throwIfNotProjectDirectory } from "./helper/check-directory";
-import { checkEnvironment } from "./helper/check-environment";
-import { Outputs, saveOutputs, normalizeOutputPath } from "./helper/outputs";
+import { requireHandlers } from "./helper/utilities";
 
 const config = cfg.readConfigSync();
 
@@ -42,26 +36,9 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
-    throwIfNotProjectDirectory("deploy");
-    await displayVersionMessage();
-    await checkEnvironment("deploy");
-    const command = argv.app;
-    const outdir = argv.output;
-    const stack = argv.stack;
-    const onOutputsRetrieved = argv.outputsFile
-      ? (outputs: Outputs) =>
-          saveOutputs(normalizeOutputPath(argv.outputsFile), outputs)
-      : // eslint-disable-next-line @typescript-eslint/no-empty-function
-        () => {};
-
-    await renderInk(
-      React.createElement(Output, {
-        targetDir: outdir,
-        targetStack: stack,
-        synthCommand: command,
-        onOutputsRetrieved,
-      })
-    );
+    // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
+    const api = requireHandlers();
+    api.output(argv);
   }
 }
 
