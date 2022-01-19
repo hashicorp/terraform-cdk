@@ -4,7 +4,7 @@ import { https, http } from "follow-redirects";
 import * as os from "os";
 import * as path from "path";
 import { processLoggerError, processLoggerDebug } from "./logging";
-import { IManifest, Manifest } from "cdktf/lib/manifest";
+import { IManifest, Manifest } from "cdktf";
 import { config } from "@cdktf/provider-generator";
 
 export async function shell(
