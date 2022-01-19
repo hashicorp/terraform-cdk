@@ -11,7 +11,7 @@ import { projectRootPath } from "../../bin/cmds/helper/utilities";
 const serverLogger = getLogger("cli-server");
 
 const loadFile = (file: string) => {
-  // if file exists relative ot this file return its file path
+  // if file exists relative to this file return its file path
   // otherwise return the file path relative to the project root
   const filePath = path.join(__dirname, file);
   if (fs.existsSync(filePath)) {
