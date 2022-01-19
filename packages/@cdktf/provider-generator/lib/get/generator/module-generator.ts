@@ -130,7 +130,7 @@ function parseType(type: string) {
 }
 
 function parseComplexType(type: string): string | undefined {
-  const complex = /^(object|list|map)\(([\s\S]+)\)/;
+  const complex = /^(object|list|map|set)\(([\s\S]+)\)/;
   const match = complex.exec(type);
   if (!match) {
     return undefined;
@@ -142,7 +142,7 @@ function parseComplexType(type: string): string | undefined {
     return `any`;
   }
 
-  if (kind === "list") {
+  if (kind === "list" || kind === "set") {
     return `${parseType(innerType)}[]`;
   }
 

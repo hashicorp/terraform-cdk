@@ -186,7 +186,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   // whitelisted_names - computed: false, optional: true, required: false
   private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
-    return this.getListAttribute('whitelisted_names');
+    return cdktf.Fn.tolist(this.getListAttribute('whitelisted_names'));
   }
   public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
@@ -287,7 +287,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
-    return this.getListAttribute('headers');
+    return cdktf.Fn.tolist(this.getListAttribute('headers'));
   }
   public set headers(value: string[]) {
     this._headers = value;
@@ -564,7 +564,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   // whitelisted_names - computed: false, optional: true, required: false
   private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
-    return this.getListAttribute('whitelisted_names');
+    return cdktf.Fn.tolist(this.getListAttribute('whitelisted_names'));
   }
   public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
@@ -665,7 +665,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
-    return this.getListAttribute('headers');
+    return cdktf.Fn.tolist(this.getListAttribute('headers'));
   }
   public set headers(value: string[]) {
     this._headers = value;
@@ -936,7 +936,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   // allowed_methods - computed: false, optional: false, required: true
   private _allowedMethods?: string[]; 
   public get allowedMethods() {
-    return this.getListAttribute('allowed_methods');
+    return cdktf.Fn.tolist(this.getListAttribute('allowed_methods'));
   }
   public set allowedMethods(value: string[]) {
     this._allowedMethods = value;
@@ -949,7 +949,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   // cached_methods - computed: false, optional: false, required: true
   private _cachedMethods?: string[]; 
   public get cachedMethods() {
-    return this.getListAttribute('cached_methods');
+    return cdktf.Fn.tolist(this.getListAttribute('cached_methods'));
   }
   public set cachedMethods(value: string[]) {
     this._cachedMethods = value;
@@ -1114,7 +1114,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   private _lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[]; 
   public get lambdaFunctionAssociation() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('lambda_function_association') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('lambda_function_association'))) as any;
   }
   public set lambdaFunctionAssociation(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[]) {
     this._lambdaFunctionAssociation = value;
@@ -1321,7 +1321,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   // whitelisted_names - computed: false, optional: true, required: false
   private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
-    return this.getListAttribute('whitelisted_names');
+    return cdktf.Fn.tolist(this.getListAttribute('whitelisted_names'));
   }
   public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
@@ -1422,7 +1422,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
-    return this.getListAttribute('headers');
+    return cdktf.Fn.tolist(this.getListAttribute('headers'));
   }
   public set headers(value: string[]) {
     this._headers = value;
@@ -1791,7 +1791,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   // origin_ssl_protocols - computed: false, optional: false, required: true
   private _originSslProtocols?: string[]; 
   public get originSslProtocols() {
-    return this.getListAttribute('origin_ssl_protocols');
+    return cdktf.Fn.tolist(this.getListAttribute('origin_ssl_protocols'));
   }
   public set originSslProtocols(value: string[]) {
     this._originSslProtocols = value;
@@ -1965,7 +1965,8 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   // status_codes - computed: false, optional: false, required: true
   private _statusCodes?: number[]; 
   public get statusCodes() {
-    return this.getNumberListAttribute('status_codes');
+    // Getting the computed value is not yet implemented
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('status_codes'))) as any;
   }
   public set statusCodes(value: number[]) {
     this._statusCodes = value;
@@ -2087,7 +2088,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   // locations - computed: false, optional: true, required: false
   private _locations?: string[]; 
   public get locations() {
-    return this.getListAttribute('locations');
+    return cdktf.Fn.tolist(this.getListAttribute('locations'));
   }
   public set locations(value: string[]) {
     this._locations = value;
@@ -2419,7 +2420,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // aliases - computed: false, optional: true, required: false
   private _aliases?: string[]; 
   public get aliases() {
-    return this.getListAttribute('aliases');
+    return cdktf.Fn.tolist(this.getListAttribute('aliases'));
   }
   public set aliases(value: string[]) {
     this._aliases = value;
@@ -2638,7 +2639,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _cacheBehavior?: CloudfrontDistributionCacheBehavior[]; 
   public get cacheBehavior() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('cache_behavior') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('cache_behavior'))) as any;
   }
   public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[]) {
     this._cacheBehavior = value;
@@ -2655,7 +2656,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[]; 
   public get customErrorResponse() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('custom_error_response') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('custom_error_response'))) as any;
   }
   public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[]) {
     this._customErrorResponse = value;
@@ -2718,7 +2719,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _origin?: CloudfrontDistributionOrigin[]; 
   public get origin() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('origin') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin'))) as any;
   }
   public set origin(value: CloudfrontDistributionOrigin[]) {
     this._origin = value;
@@ -2732,7 +2733,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _originGroup?: CloudfrontDistributionOriginGroup[]; 
   public get originGroup() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('origin_group') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin_group'))) as any;
   }
   public set originGroup(value: CloudfrontDistributionOriginGroup[]) {
     this._originGroup = value;
@@ -4269,7 +4270,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   private _rules?: S3BucketReplicationConfigurationRules[]; 
   public get rules() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('rules') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('rules'))) as any;
   }
   public set rules(value: S3BucketReplicationConfigurationRules[]) {
     this._rules = value;
@@ -5032,7 +5033,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   private _grant?: S3BucketGrant[]; 
   public get grant() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('grant') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('grant'))) as any;
   }
   public set grant(value: S3BucketGrant[]) {
     this._grant = value;
@@ -5066,7 +5067,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   private _logging?: S3BucketLogging[]; 
   public get logging() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('logging') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('logging'))) as any;
   }
   public set logging(value: S3BucketLogging[]) {
     this._logging = value;
@@ -5521,7 +5522,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   private _egress?: SecurityGroupEgress[]; 
   public get egress() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('egress') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress'))) as any;
   }
   public set egress(value: SecurityGroupEgress[]) {
     this._egress = value;
@@ -5543,7 +5544,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   private _ingress?: SecurityGroupIngress[]; 
   public get ingress() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('ingress') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('ingress'))) as any;
   }
   public set ingress(value: SecurityGroupIngress[]) {
     this._ingress = value;

@@ -55,7 +55,7 @@ Terraform Cloud supports [connecting to VCS providers](/cloud-docs/vcs). To use 
 1. Commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code, so that Terraform Cloud can use it to deploy your infrastructure.
 1. On the **General Settings** page of your Terraform Cloud workspace, [set the Terraform working directory](/cloud-docs/workspaces/settings#terraform-working-directory) to the output directory of the stack you want to deploy. For example, use `cdktf.out/stacks/dev` if your stack is named `dev`.
 
-   Refer to the [Stacks page](/cdktf/concepts/stacks) for more information about using stacks to separate the state management for multiple environments in an application.
+   Refer to [Stacks](/cdktf/concepts/stacks) for more information about using stacks to separate the state management for multiple environments in an application.
 
 ~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data that was provided as input for the `cdktf` application.
 
@@ -126,6 +126,10 @@ const app = new App({ context: { myConfig: "value" } });
 new MyStack(app, "hello-cdktf");
 app.synth();
 ```
+
+## Generate Terraform Configuration
+
+Run [`cdktf synth`](/cdktf/cli-reference/commands#synth) to synthesize your application into JSON configuration files that Terraform can use to manage infrastructure. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands.
 
 ## Convert an HCL Project to a CDKTF TypeScript Project
 
@@ -210,4 +214,4 @@ app.synth();
 
 ## Convert HCL Files to CDKTF Format
 
-Use the `cdktf convert` command to convert individual HCL files to CDKTF-compatible files in your preferred programming language. Refer to the [`cdktf convert` command documentation](/cdktf/cli-reference/commands) for more information.
+Use the `cdktf convert` command to convert individual HCL files to CDKTF-compatible files in your preferred programming language. Refer to the [`cdktf convert` command documentation](/cdktf/cli-reference/commands#convert) for more information.

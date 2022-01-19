@@ -11,7 +11,7 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
   },
   \\"output\\": {
     \\"containerCapAdd\\": {
-      \\"value\\": \\"\${docker_container.nginxContainer.capabilities[0].add}\\"
+      \\"value\\": \\"\${tolist(docker_container.nginxContainer.capabilities[0].add)}\\"
     }
   },
   \\"provider\\": {
