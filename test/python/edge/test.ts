@@ -92,7 +92,7 @@ describe("full integration test", () => {
       ]);
     });
 
-    it.skip("item references required values from multi-item lists", () => {
+    it("item references required values from multi-item lists", () => {
       const item = stack.byId("from_list");
 
       // Direct access is not supported, we have to go through terraform functions
@@ -116,7 +116,7 @@ describe("full integration test", () => {
       ]);
     });
 
-    it.skip("item references a required single item list", () => {
+    it("item references a required single item list", () => {
       const item = stack.byId("list_reference");
 
       // Expands single item references
@@ -135,7 +135,7 @@ describe("full integration test", () => {
       `);
     });
 
-    it.skip("item references a required multi item list", () => {
+    it("item references a required multi item list", () => {
       const item = stack.byId("list_reference");
 
       // Expands single item references

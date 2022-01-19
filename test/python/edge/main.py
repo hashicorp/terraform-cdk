@@ -46,20 +46,20 @@ class ReferenceStack(TerraformStack):
         )
 
         # required values FROM required multi item lists
-        # edge.RequiredAttributeResource(self, "from_list",
-        #     bool=Fn.lookup(Fn.element(list.req, 0), "reqbool", False),
-        #     str=Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback"),
-        #     num=Fn.lookup(Fn.element(list.req, 0), "reqnum", 0),
-        #     str_list=[Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback")],
-        #     num_list=[Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)],
-        #     bool_list=[Fn.lookup(Fn.element(list.req, 0), "reqbool", False)]
-        # )
+        edge.RequiredAttributeResource(self, "from_list",
+            bool=Token().as_any(Fn.lookup(Fn.element(list.req, 0), "reqbool", False)),
+            str=Token().as_string(Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback")),
+            num=Token().as_number(Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)),
+            str_list=[Token().as_string(Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback"))],
+            num_list=[Token().as_number(Fn.lookup(Fn.element(list.req, 0), "reqnum", 0))],
+            bool_list=[Token().as_any(Fn.lookup(Fn.element(list.req, 0), "reqbool", False))]
+        )
 
         # passing a reference to a complete list
-        # edge.ListBlockResource(self, "list_reference",
-        #     req=list.req,
-        #     singlereq=list.singlereq
-        # )
+        edge.ListBlockResource(self, "list_reference",
+            req=list.req,
+            singlereq=list.singlereq
+        )
 
         # passing a literal array with references for a list
         edge.ListBlockResource(self, "list_literal",
