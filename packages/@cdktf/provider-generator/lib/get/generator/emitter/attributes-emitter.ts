@@ -141,6 +141,9 @@ export class AttributesEmitter {
     if (type.isStringSet) {
       return `cdktf.Fn.tolist(this.getListAttribute('${att.terraformName}'))`;
     }
+    if (type.isNumberSet) {
+      return `cdktf.Token.asNumberList(cdktf.Fn.tolist(this.getNumberListAttribute('${att.terraformName}')))`;
+    }
     if (type.isNumber) {
       return `this.getNumberAttribute('${att.terraformName}')`;
     }

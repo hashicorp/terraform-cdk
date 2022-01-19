@@ -1902,7 +1902,7 @@ export interface SetBlockResourceConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#set SetBlockResource#set}
   */
-  readonly set?: SetBlockResourceSet[];
+  readonly set?: SetBlockResourceSet[] | cdktf.IResolvable;
 }
 export interface SetBlockResourceSet {
   /**
@@ -1943,8 +1943,8 @@ export interface SetBlockResourceSet {
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
 
-export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -2002,12 +2002,12 @@ export class SetBlockResource extends cdktf.TerraformResource {
   // ==========
 
   // set - computed: false, optional: true, required: false
-  private _set?: SetBlockResourceSet[]; 
+  private _set?: SetBlockResourceSet[] | cdktf.IResolvable; 
   public get set() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('set'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('set')));
   }
-  public set set(value: SetBlockResourceSet[]) {
+  public set set(value: SetBlockResourceSet[] | cdktf.IResolvable) {
     this._set = value;
   }
   public resetSet() {

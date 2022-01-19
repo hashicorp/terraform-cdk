@@ -1114,7 +1114,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   private _lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable; 
   public get lambdaFunctionAssociation() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('lambda_function_association'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('lambda_function_association')));
   }
   public set lambdaFunctionAssociation(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable) {
     this._lambdaFunctionAssociation = value;
@@ -1965,8 +1965,7 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   // status_codes - computed: false, optional: false, required: true
   private _statusCodes?: number[]; 
   public get statusCodes() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('status_codes'))) as any;
+    return cdktf.Token.asNumberList(cdktf.Fn.tolist(this.getNumberListAttribute('status_codes')));
   }
   public set statusCodes(value: number[]) {
     this._statusCodes = value;
@@ -2639,7 +2638,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _cacheBehavior?: CloudfrontDistributionCacheBehavior[] | cdktf.IResolvable; 
   public get cacheBehavior() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('cache_behavior'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('cache_behavior')));
   }
   public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] | cdktf.IResolvable) {
     this._cacheBehavior = value;
@@ -2656,7 +2655,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[] | cdktf.IResolvable; 
   public get customErrorResponse() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('custom_error_response'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('custom_error_response')));
   }
   public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | cdktf.IResolvable) {
     this._customErrorResponse = value;
@@ -2719,7 +2718,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _origin?: CloudfrontDistributionOrigin[] | cdktf.IResolvable; 
   public get origin() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin')));
   }
   public set origin(value: CloudfrontDistributionOrigin[] | cdktf.IResolvable) {
     this._origin = value;
@@ -2733,7 +2732,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _originGroup?: CloudfrontDistributionOriginGroup[] | cdktf.IResolvable; 
   public get originGroup() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin_group'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin_group')));
   }
   public set originGroup(value: CloudfrontDistributionOriginGroup[] | cdktf.IResolvable) {
     this._originGroup = value;
@@ -4270,7 +4269,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   private _rules?: S3BucketReplicationConfigurationRules[] | cdktf.IResolvable; 
   public get rules() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('rules'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('rules')));
   }
   public set rules(value: S3BucketReplicationConfigurationRules[] | cdktf.IResolvable) {
     this._rules = value;
@@ -5033,7 +5032,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   private _grant?: S3BucketGrant[] | cdktf.IResolvable; 
   public get grant() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('grant'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('grant')));
   }
   public set grant(value: S3BucketGrant[] | cdktf.IResolvable) {
     this._grant = value;
@@ -5067,7 +5066,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   private _logging?: S3BucketLogging[] | cdktf.IResolvable; 
   public get logging() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('logging'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('logging')));
   }
   public set logging(value: S3BucketLogging[] | cdktf.IResolvable) {
     this._logging = value;
@@ -5522,7 +5521,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   private _egress?: SecurityGroupEgress[] | cdktf.IResolvable; 
   public get egress() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress')));
   }
   public set egress(value: SecurityGroupEgress[] | cdktf.IResolvable) {
     this._egress = value;
@@ -5544,7 +5543,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   private _ingress?: SecurityGroupIngress[] | cdktf.IResolvable; 
   public get ingress() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('ingress'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('ingress')));
   }
   public set ingress(value: SecurityGroupIngress[] | cdktf.IResolvable) {
     this._ingress = value;

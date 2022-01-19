@@ -644,7 +644,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   private _egress?: ComputedOptionalComplexEgress[] | cdktf.IResolvable; 
   public get egress() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress')));
   }
   public set egress(value: ComputedOptionalComplexEgress[] | cdktf.IResolvable) {
     this._egress = value;
@@ -2132,7 +2132,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   private _timeoutsSet?: BlockTypeSetListTimeoutsSet[] | cdktf.IResolvable; 
   public get timeoutsSet() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('timeouts_set'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('timeouts_set')));
   }
   public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | cdktf.IResolvable) {
     this._timeoutsSet = value;
