@@ -10,11 +10,15 @@ export class TerraformLocal
   implements ITerraformAddressable
 {
   private _expression: any;
+  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, expression: any) {
     super(scope, id);
 
     this._expression = expression;
+    this.fqn = Token.asString(
+      ref(`local.${this.friendlyUniqueId}`, this.cdktfStack)
+    );
   }
 
   public set expression(value: any) {
@@ -42,10 +46,6 @@ export class TerraformLocal
   }
 
   private interpolation(): any {
-    return `local.${this.friendlyUniqueId}`;
-  }
-
-  public get fqn() {
     return `local.${this.friendlyUniqueId}`;
   }
 

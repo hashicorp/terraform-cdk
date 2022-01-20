@@ -60,7 +60,13 @@ test("resource fqn", () => {
     name: "bar",
   });
 
-  expect(resource.fqn).toEqual("test_resource.test");
+  new TerraformOutput(stack, "result", {
+    value: resource.fqn,
+  });
+
+  expect(JSON.parse(Testing.synth(stack) as any).output.result.value).toEqual(
+    "${test_resource.test}"
+  );
 });
 
 test("serialize list interpolation", () => {
