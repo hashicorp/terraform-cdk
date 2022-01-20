@@ -2,6 +2,14 @@
 
 **Breaking Changes**
 
+### Standardize IResolvable Usage [#1299](https://github.com/hashicorp/terraform-cdk/pull/1299)
+
+This is an effort to make sure attributes can be freely passed between resources for all different types.
+
+There is a minor breaking change:
+
+- `count` on resources and data sources has gone from `number | cdktf.IResolvable` to `number`. If code was previously passing an `IResolvable`, it will now need to use `Token.asNumber()`
+
 ### Map Tokens [#1411](https://github.com/hashicorp/terraform-cdk/pull/1411)
 
 As part of an effort to use more native types, there are now tokens for maps of primitive values.
