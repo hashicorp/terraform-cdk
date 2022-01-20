@@ -327,6 +327,13 @@ export interface ListBlockResourceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly singleComputedBlock?: ListBlockResourceSingleComputedBlock;
 }
+export class ListBlockResourceComputedListOfObject extends cdktf.ComplexComputedList {
+
+  // str - computed: true, optional: false, required: false
+  public get str() {
+    return this.getStringAttribute('str');
+  }
+}
 export interface ListBlockResourceOpt {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
@@ -1098,6 +1105,11 @@ export class ListBlockResource extends cdktf.TerraformResource {
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // computedListOfObject - computed: true, optional: false, required: false
+  public computedListOfObject(index: string) {
+    return new ListBlockResourceComputedListOfObject(this, 'computedListOfObject', index, false);
+  }
 
   // opt - computed: false, optional: true, required: false
   private _opt?: ListBlockResourceOpt[] | cdktf.IResolvable; 
