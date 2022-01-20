@@ -78,10 +78,9 @@ export class TestOutputReference extends ComplexObject {
    */
   public constructor(
     terraformResource: ITerraformResource,
-    terraformAttribute: string,
-    isSingleItem: boolean
+    terraformAttribute: string
   ) {
-    super(terraformResource, terraformAttribute, isSingleItem);
+    super(terraformResource, terraformAttribute);
   }
 
   public get value() {
@@ -114,7 +113,7 @@ export class OtherTestResource extends TerraformResource {
   }
 
   public get outputRef() {
-    return new TestOutputReference(this, "outputRef", true);
+    return new TestOutputReference(this, "outputRef");
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {

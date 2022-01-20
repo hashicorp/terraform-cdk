@@ -605,7 +605,6 @@ describe("Cross Stack references", () => {
     )[0].value;
     expect(targetOutput).toMatchInlineSnapshot(`
       Object {
-        "isSingleItem": true,
         "terraformAttribute": "outputRef",
         "terraformResource": "\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CE_FB44ED5E}",
       }

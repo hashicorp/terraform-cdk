@@ -118,9 +118,7 @@ export class AttributesEmitter {
   private storedClassInit(att: AttributeModel) {
     return `new ${att.type.name}${
       att.type.isSingleItem ? "OutputReference" : ""
-    }(this, "${att.terraformName}", ${
-      att.type.isSingleItem ? "true" : "false"
-    })`;
+    }(this, "${att.terraformName}")`;
   }
 
   public determineGetAttCall(att: AttributeModel): string {

@@ -144,15 +144,14 @@ export class ComplexComputedList extends ComplexComputedAttribute {
 export class ComplexObject extends ComplexComputedAttribute {
   constructor(
     protected terraformResource: IInterpolatingParent,
-    protected terraformAttribute: string,
-    protected isSingleItem: boolean
+    protected terraformAttribute: string
   ) {
     super(terraformResource, terraformAttribute);
   }
 
   public interpolationForAttribute(property: string) {
     return this.terraformResource.interpolationForAttribute(
-      `${this.terraformAttribute}${this.isSingleItem ? "[0]" : ""}.${property}`
+      `${this.terraformAttribute}[0].${property}`
     );
   }
 

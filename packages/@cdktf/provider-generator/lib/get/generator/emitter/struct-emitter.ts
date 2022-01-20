@@ -189,16 +189,11 @@ export class StructEmitter {
       this.code.line(
         `* @param terraformAttribute The attribute on the parent resource this class is referencing`
       );
-      this.code.line(
-        `* @param isSingleItem True if this is a block, false if it's a list`
-      );
       this.code.line(`*/`);
       this.code.openBlock(
-        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean)`
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`
       );
-      this.code.line(
-        `super(terraformResource, terraformAttribute, isSingleItem);`
-      );
+      this.code.line(`super(terraformResource, terraformAttribute);`);
       this.code.closeBlock();
 
       this.code.line();
