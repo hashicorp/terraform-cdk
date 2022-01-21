@@ -135,8 +135,6 @@ class ProviderStack extends TerraformStack {
                 .alias("full")
                 .build();
 
-        // TODO: this currently does not compile because provider.reqbool may be undefined
-        // although it is required to be set and therefor never actually is undefined
         RequiredAttributeResource.Builder.create(this, "reqOpt")
                 .bool(Token.asAny(providerOpt.getReqbool()))
                 .num(Token.asNumber(providerOpt.getReqnum()))

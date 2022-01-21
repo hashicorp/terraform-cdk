@@ -124,7 +124,7 @@ export class ProviderStack extends TerraformStack {
       alias: "full",
     });
 
-    // TODO: this currently does not compile because provider.reqbool may be undefined
+    // Non-null assertion because provider.reqbool may be undefined
     // although it is required to be set and therefor never actually is undefined
     new edge.RequiredAttributeResource(this, "reqOpt", {
       bool: providerOpt.reqbool!,

@@ -120,8 +120,6 @@ class ProviderStack(TerraformStack):
             alias="full"
         )
 
-        # TODO: this currently does not compile because provider.reqbool may be undefined
-        # although it is required to be set and therefor never actually is undefined
         edge.RequiredAttributeResource(self, "reqOpt",
             bool=provider_opt.reqbool,
             num=provider_opt.reqnum,
