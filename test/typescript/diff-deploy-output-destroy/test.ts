@@ -30,18 +30,18 @@ describe("full integration test", () => {
 
 
       Summary: 1 created, 0 updated, 0 destroyed.
+
+      Output: output = hello
+              output2 = <sensitive>
       "
     `);
   });
 
   test("output", () => {
     expect(driver.output()).toMatchInlineSnapshot(`
-      "Deploying Stack: hello-deploy
-      Resources
-       ✔ NULL_RESOURCE       test                null_resource.test
-
-
-      Summary: 1 created, 0 updated, 0 destroyed.
+      "
+      Output: output = hello
+              output2 = <sensitive>
       "
     `);
   });
@@ -61,7 +61,14 @@ describe("full integration test", () => {
     driver.output(undefined, outputOutputsPath);
     const outputOutput = JSON.parse(fs.readFileSync(outputOutputsPath, "utf8"));
 
-    expect(deployOutput).toMatchInlineSnapshot();
+    expect(deployOutput).toMatchInlineSnapshot(`
+      Object {
+        "hello-deploy": Object {
+          "output": "hello",
+          "output2": "<sensitive>",
+        },
+      }
+    `);
     expect(outputOutput).toEqual(deployOutput);
   });
 

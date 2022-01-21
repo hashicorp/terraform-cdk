@@ -83,12 +83,16 @@ export async function deploy(argv: any) {
   const autoApprove = argv.autoApprove;
   const stack = argv.stack;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
-  const outputsPath = normalizeOutputPath(argv.outputsFile);
-  const onOutputsRetrieved = argv.outputsFile
-    ? (outputs: NestedTerraformOutput) =>
-        saveOutputs(outputsPath, outputs, includeSensitiveOutputs)
-    : // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {};
+
+  let outputsPath: string | undefined = undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  let onOutputsRetrieved: (outputs: NestedTerraformOutput) => void = () => {};
+
+  if (argv.outputsFile) {
+    outputsPath = normalizeOutputPath(argv.outputsFile);
+    onOutputsRetrieved = (outputs: NestedTerraformOutput) =>
+      saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
+  }
 
   await renderInk(
     React.createElement(Deploy, {
@@ -297,12 +301,15 @@ export async function output(argv: any) {
   const outdir = argv.output;
   const stack = argv.stack;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
-  const outputsPath = normalizeOutputPath(argv.outputsFile);
-  const onOutputsRetrieved = argv.outputsFile
-    ? (outputs: NestedTerraformOutput) =>
-        saveOutputs(outputsPath, outputs, includeSensitiveOutputs)
-    : // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {};
+  let outputsPath: string | undefined = undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  let onOutputsRetrieved: (outputs: NestedTerraformOutput) => void = () => {};
+
+  if (argv.outputsFile) {
+    outputsPath = normalizeOutputPath(argv.outputsFile);
+    onOutputsRetrieved = (outputs: NestedTerraformOutput) =>
+      saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
+  }
 
   await renderInk(
     React.createElement(Output, {
