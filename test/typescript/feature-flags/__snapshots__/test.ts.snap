@@ -12,6 +12,8 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
       },
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
     }
   },
   \\"provider\\": {
@@ -67,6 +69,8 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
       },
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
     }
   },
   \\"provider\\": {
@@ -122,6 +126,8 @@ exports[`full integration test without features 1`] = `
       },
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
     }
   },
   \\"provider\\": {
