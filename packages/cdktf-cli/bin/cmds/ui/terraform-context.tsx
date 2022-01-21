@@ -198,7 +198,7 @@ const isObjectEmpty = (obj: Record<string, any>): boolean => {
   );
 };
 
-export const useConstructIdsForOutput = (
+export const getConstructIdsForOutput = (
   stackContent: Record<string, any>,
   output: { [key: string]: TerraformOutput }
 ): NestedTerraformOutput => {
@@ -322,7 +322,7 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       return {
         ...state,
         output: action.output,
-        outputByConstructId: useConstructIdsForOutput(
+        outputByConstructId: getConstructIdsForOutput(
           JSON.parse(state.currentStack.content),
           action.output
         ),
