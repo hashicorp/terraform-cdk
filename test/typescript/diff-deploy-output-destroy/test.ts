@@ -1,4 +1,6 @@
 import { TestDriver } from "../../test-helper";
+import * as path from "path";
+import * as fs from "fs";
 
 describe("full integration test", () => {
   let driver: TestDriver;
@@ -30,6 +32,37 @@ describe("full integration test", () => {
       Summary: 1 created, 0 updated, 0 destroyed.
       "
     `);
+  });
+
+  test("output", () => {
+    expect(driver.output()).toMatchInlineSnapshot(`
+      "Deploying Stack: hello-deploy
+      Resources
+       ✔ NULL_RESOURCE       test                null_resource.test
+
+
+      Summary: 1 created, 0 updated, 0 destroyed.
+      "
+    `);
+  });
+
+  it("deploy and output write the same outputs file", () => {
+    const deployOutputsPath = path.resolve(
+      driver.workingDirectory,
+      "deploy.outputs.json"
+    );
+    const outputOutputsPath = path.resolve(
+      driver.workingDirectory,
+      "output.outputs.json"
+    );
+
+    driver.deploy(undefined, deployOutputsPath);
+    const deployOutput = JSON.parse(fs.readFileSync(deployOutputsPath, "utf8"));
+    driver.output(undefined, outputOutputsPath);
+    const outputOutput = JSON.parse(fs.readFileSync(outputOutputsPath, "utf8"));
+
+    expect(deployOutput).toMatchInlineSnapshot();
+    expect(outputOutput).toEqual(deployOutput);
   });
 
   test("destroy", () => {

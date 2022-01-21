@@ -178,9 +178,22 @@ export class TestDriver {
     }).toString();
   };
 
-  deploy = (stackName?: string) => {
+  deploy = (stackName?: string, outputsFilePath?: string) => {
     return execSync(
-      `cdktf deploy ${stackName ? stackName : ""} --auto-approve`,
+      `cdktf deploy ${
+        stackName ? stackName : ""
+      } --auto-approve --outputs-file=${
+        outputsFilePath ? outputsFilePath : ""
+      }`,
+      { env: this.env }
+    ).toString();
+  };
+
+  output = (stackName?: string, outputsFilePath?: string) => {
+    return execSync(
+      `cdktf output ${stackName ? stackName : ""} --outputs-file=${
+        outputsFilePath ? outputsFilePath : ""
+      }`,
       { env: this.env }
     ).toString();
   };
