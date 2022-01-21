@@ -39,6 +39,12 @@ class Command implements yargs.CommandModule {
         desc: "Path to file where stack outputs will be written as JSON",
         requiresArg: true,
       })
+      .option("outputs-file-include-sensitive-outputs", {
+        type: "boolean",
+        required: false,
+        desc: "Whether to include sensitive outputs in the output file",
+        default: false,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {

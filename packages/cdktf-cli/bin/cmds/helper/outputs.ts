@@ -9,14 +9,17 @@ export type OutputIdMapNode = { [stackOrConstructId: string]: OutputIdMap };
 export type OutputIdMap = OutputIdMapLeaf | OutputIdMapNode;
 
 function unpackTerraformOutput(
-  outputs: NestedTerraformOutput
+  outputs: NestedTerraformOutput,
+  includeSensitiveOutputs: boolean
 ): Record<string, string> {
   return Object.entries(outputs).reduce(
     (acc, [key, entry]) => ({
       ...acc,
       [key]: isTerraformOutput(entry)
-        ? entry.value
-        : unpackTerraformOutput(entry),
+        ? !entry.sensitive || includeSensitiveOutputs
+          ? entry.value
+          : "<sensitive>"
+        : unpackTerraformOutput(entry, includeSensitiveOutputs),
     }),
     {}
   );
@@ -24,11 +27,16 @@ function unpackTerraformOutput(
 
 export async function saveOutputs(
   filePath: string,
-  outputs: NestedTerraformOutput
+  outputs: NestedTerraformOutput,
+  includeSensitiveOutputs: boolean
 ) {
   fs.writeFileSync(
     filePath,
-    JSON.stringify(unpackTerraformOutput(outputs), null, 2)
+    JSON.stringify(
+      unpackTerraformOutput(outputs, includeSensitiveOutputs),
+      null,
+      2
+    )
   );
 }
 

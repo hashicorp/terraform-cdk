@@ -82,10 +82,11 @@ export async function deploy(argv: any) {
   const outdir = argv.output;
   const autoApprove = argv.autoApprove;
   const stack = argv.stack;
+  const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   const outputsPath = normalizeOutputPath(argv.outputsFile);
-
   const onOutputsRetrieved = argv.outputsFile
-    ? (outputs: NestedTerraformOutput) => saveOutputs(outputsPath, outputs)
+    ? (outputs: NestedTerraformOutput) =>
+        saveOutputs(outputsPath, outputs, includeSensitiveOutputs)
     : // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {};
 
@@ -295,9 +296,11 @@ export async function output(argv: any) {
   const command = argv.app;
   const outdir = argv.output;
   const stack = argv.stack;
+  const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   const outputsPath = normalizeOutputPath(argv.outputsFile);
   const onOutputsRetrieved = argv.outputsFile
-    ? (outputs: NestedTerraformOutput) => saveOutputs(outputsPath, outputs)
+    ? (outputs: NestedTerraformOutput) =>
+        saveOutputs(outputsPath, outputs, includeSensitiveOutputs)
     : // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {};
 
