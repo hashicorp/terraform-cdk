@@ -12,7 +12,7 @@ class Command implements yargs.CommandModule {
   public readonly builder = (args: yargs.Argv) =>
     args
       .positional("stack", {
-        desc: "Deploy stack which matches the given id only. Required when more than one stack is present in the app",
+        desc: "Get outputs of stack which matches the given id only. Required when more than one stack is present in the app",
         type: "string",
       })
       .option("app", {
