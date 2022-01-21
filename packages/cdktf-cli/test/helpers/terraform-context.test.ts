@@ -1,7 +1,7 @@
-import { useConstructIdsForOutput } from "../../bin/cmds/ui/terraform-context";
-describe("useConstructIdsForOutput", () => {
+import { getConstructIdsForOutput } from "../../bin/cmds/ui/terraform-context";
+describe("getConstructIdsForOutput", () => {
   test("in a flat structure", () => {
-    const result = useConstructIdsForOutput(
+    const result = getConstructIdsForOutput(
       {
         ["//"]: {
           outputs: {
@@ -30,7 +30,7 @@ describe("useConstructIdsForOutput", () => {
   });
 
   test("in a nested structure", () => {
-    const result = useConstructIdsForOutput(
+    const result = getConstructIdsForOutput(
       {
         ["//"]: {
           outputs: {
@@ -67,7 +67,7 @@ describe("useConstructIdsForOutput", () => {
   });
 
   test("in a mixed structure", () => {
-    const result = useConstructIdsForOutput(
+    const result = getConstructIdsForOutput(
       {
         ["//"]: {
           outputs: {
@@ -115,7 +115,7 @@ describe("useConstructIdsForOutput", () => {
   });
 
   test("omits outputs with missing results (e.g. not deployed yet)", () => {
-    const result = useConstructIdsForOutput(
+    const result = getConstructIdsForOutput(
       {
         ["//"]: {
           outputs: {
