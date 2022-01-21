@@ -7,7 +7,7 @@ const config = cfg.readConfigSync();
 class Command implements yargs.CommandModule {
   public readonly command = "output [stack] [OPTIONS]";
   public readonly describe = "Prints the output of a stack";
-  public readonly aliases = [];
+  public readonly aliases = ["outputs"];
 
   public readonly builder = (args: yargs.Argv) =>
     args
