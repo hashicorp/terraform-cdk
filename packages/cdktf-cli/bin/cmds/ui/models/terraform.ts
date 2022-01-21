@@ -49,6 +49,10 @@ export interface TerraformOutput {
   value: string | Record<string, unknown> | Array<any>;
 }
 
+export function isTerraformOutput(output: any): output is TerraformOutput {
+  return typeof output.value === "string";
+}
+
 export interface TerraformPlan {
   readonly resources: PlannedResource[];
   readonly applyableResources: PlannedResource[];

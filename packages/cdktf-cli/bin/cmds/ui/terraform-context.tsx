@@ -21,7 +21,7 @@ import { logger } from "../../../lib/logging";
 import { schema, ActionTypes } from "./models/schema";
 import * as z from "zod";
 import { AnnotationMetadataEntryType } from "cdktf";
-import { Outputs } from "../helper/outputs";
+import { OutputIdMap } from "../helper/outputs";
 
 const chalkColour = new chalk.Instance();
 
@@ -186,6 +186,52 @@ export const parseOutput = (str: string): DeployingResource[] => {
   }, new Array());
 };
 
+const isObjectEmpty = (obj: Record<string, any>): boolean => {
+  if (typeof obj !== "object") {
+    return false;
+  }
+  return (
+    Object.keys(obj).length === 0 ||
+    Object.values(obj).every(
+      (v) => v === undefined || v === null || isObjectEmpty(v)
+    )
+  );
+};
+
+export const useConstructIdsForOutput = (
+  stackContent: Record<string, any>,
+  output: { [key: string]: TerraformOutput }
+): NestedTerraformOutput => {
+  // Older cdktf versions might not have the output metadata
+  if (!("//" in stackContent) || !("outputs" in stackContent["//"])) {
+    return output;
+  }
+  const outputMapping = stackContent["//"].outputs;
+
+  const mapOutput = (value: OutputIdMap): NestedTerraformOutput => {
+    return Object.entries(value).reduce((acc, [key, value]) => {
+      if (typeof value === "string") {
+        return { ...acc, [key]: output[value] };
+      }
+
+      const mapped = mapOutput(value);
+      if (isObjectEmpty(mapped)) {
+        return acc;
+      }
+
+      return {
+        ...acc,
+        [key]: mapped,
+      };
+    }, {});
+  };
+
+  return mapOutput(outputMapping);
+};
+
+export type NestedTerraformOutput =
+  | { [key: string]: TerraformOutput }
+  | { [key: string]: NestedTerraformOutput };
 export type DeployState = {
   status: Status;
   resources: DeployingResource[];
@@ -195,6 +241,7 @@ export type DeployState = {
   stacks?: SynthesizedStack[];
   errors?: string[];
   output?: { [key: string]: TerraformOutput };
+  outputByConstructId?: NestedTerraformOutput;
 };
 
 type Action =
@@ -272,7 +319,15 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       };
     }
     case "OUTPUT": {
-      return { ...state, output: action.output, status: Status.OUTPUT_FETCHED };
+      return {
+        ...state,
+        output: action.output,
+        outputByConstructId: useConstructIdsForOutput(
+          JSON.parse(state.currentStack.content),
+          action.output
+        ),
+        status: Status.OUTPUT_FETCHED,
+      };
     }
     case "DONE": {
       return { ...state, status: Status.DONE };
@@ -616,7 +671,7 @@ export const useRunDiff = (options: UseRunDiffOptions) => {
 
 interface UseRunDeployOptions extends UseTerraformOptions {
   autoApprove?: boolean;
-  onOutputsRetrieved: (outputs: Outputs) => void;
+  onOutputsRetrieved: (outputs: NestedTerraformOutput) => void;
 }
 export const useRunDeploy = ({
   autoApprove,
@@ -638,8 +693,8 @@ export const useRunDeploy = ({
   });
 
   useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
-    if (state.output) {
-      onOutputsRetrieved(state.output);
+    if (state.outputByConstructId) {
+      onOutputsRetrieved(state.outputByConstructId);
     }
   });
 
@@ -651,10 +706,13 @@ export const useRunDeploy = ({
 };
 
 interface UseRunOutputOptions extends UseTerraformOptions {
-  onOutputsRetrieved: (outputs: Outputs) => void;
+  onOutputsRetrieved: (outputs: NestedTerraformOutput) => void;
 }
 
-export const useRunOutput = (options: UseRunOutputOptions) => {
+export const useRunOutput = ({
+  onOutputsRetrieved,
+  ...options
+}: UseRunOutputOptions) => {
   const state = useTerraformState();
   const { synth, init, output } = useTerraform(options);
 
@@ -664,8 +722,8 @@ export const useRunOutput = (options: UseRunOutputOptions) => {
     await output();
   });
   useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
-    if (state.output) {
-      options.onOutputsRetrieved(state.output);
+    if (state.outputByConstructId) {
+      onOutputsRetrieved(state.outputByConstructId);
     }
   });
 

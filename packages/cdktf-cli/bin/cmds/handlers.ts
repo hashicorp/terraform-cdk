@@ -32,8 +32,9 @@ import { Watch } from "./ui/watch";
 import { sendTelemetry } from "../../lib/checkpoint";
 import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
-import { saveOutputs, normalizeOutputPath, Outputs } from "./helper/outputs";
+import { saveOutputs, normalizeOutputPath } from "./helper/outputs";
 import { Output } from "./ui/output";
+import { NestedTerraformOutput } from "./ui/terraform-context";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -81,10 +82,10 @@ export async function deploy(argv: any) {
   const outdir = argv.output;
   const autoApprove = argv.autoApprove;
   const stack = argv.stack;
+  const outputsPath = normalizeOutputPath(argv.outputsFile);
 
   const onOutputsRetrieved = argv.outputsFile
-    ? (outputs: Outputs) =>
-        saveOutputs(normalizeOutputPath(argv.outputsFile), outputs)
+    ? (outputs: NestedTerraformOutput) => saveOutputs(outputsPath, outputs)
     : // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {};
 
@@ -95,6 +96,7 @@ export async function deploy(argv: any) {
       synthCommand: command,
       autoApprove,
       onOutputsRetrieved,
+      outputsPath,
     })
   );
 }
@@ -293,9 +295,9 @@ export async function output(argv: any) {
   const command = argv.app;
   const outdir = argv.output;
   const stack = argv.stack;
+  const outputsPath = normalizeOutputPath(argv.outputsFile);
   const onOutputsRetrieved = argv.outputsFile
-    ? (outputs: Outputs) =>
-        saveOutputs(normalizeOutputPath(argv.outputsFile), outputs)
+    ? (outputs: NestedTerraformOutput) => saveOutputs(outputsPath, outputs)
     : // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {};
 
@@ -305,6 +307,7 @@ export async function output(argv: any) {
       targetStack: stack,
       synthCommand: command,
       onOutputsRetrieved,
+      outputsPath,
     })
   );
 }

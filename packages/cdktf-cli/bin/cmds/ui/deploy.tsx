@@ -5,9 +5,13 @@ import Spinner from "ink-spinner";
 import ConfirmInput from "@skorfmann/ink-confirm-input";
 import { DeployingElement, Output } from "./components";
 import { DeployingResource, PlannedResourceAction } from "./models/terraform";
-import { Status, useTerraformState, useRunDeploy } from "./terraform-context";
+import {
+  Status,
+  useTerraformState,
+  useRunDeploy,
+  NestedTerraformOutput,
+} from "./terraform-context";
 import { Plan } from "./diff";
-import { Outputs } from "../helper/outputs";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -95,7 +99,11 @@ const ApplyableResources = ({
   );
 };
 
-export const Apply = (): React.ReactElement => {
+export const Apply = ({
+  outputsPath,
+}: {
+  outputsPath?: string;
+}): React.ReactElement => {
   const { resources, status, currentStack, output } = useTerraformState();
   const applyActions = [
     PlannedResourceAction.UPDATE,
@@ -132,9 +140,18 @@ export const Apply = (): React.ReactElement => {
           stackName={currentStack.name}
         />
         {output && Object.keys(output).length > 0 && (
-          <Box marginTop={1}>
-            <Text bold>Output: </Text>
-            <Output output={output} />
+          <Box flexDirection="column">
+            <Box marginTop={1}>
+              <Text bold>Output: </Text>
+              <Output output={output} />
+            </Box>
+            <Box>
+              {outputsPath && output ? (
+                <Text>The outputs have been written to {outputsPath}</Text>
+              ) : (
+                <Text></Text>
+              )}
+            </Box>
           </Box>
         )}
       </Box>
@@ -147,7 +164,8 @@ interface DeployConfig {
   targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
-  onOutputsRetrieved: (outputs: Outputs) => void;
+  onOutputsRetrieved: (outputs: NestedTerraformOutput) => void;
+  outputsPath?: string;
 }
 
 export const Deploy = ({
@@ -156,6 +174,7 @@ export const Deploy = ({
   synthCommand,
   autoApprove,
   onOutputsRetrieved,
+  outputsPath,
 }: DeployConfig): React.ReactElement => {
   const {
     state: { status, currentStack, errors, plan, output },
@@ -195,9 +214,18 @@ export const Deploy = ({
           No changes for Stack: <Text bold>{currentStack.name}</Text>
         </Text>
         {output && Object.keys(output).length > 0 && (
-          <Box marginTop={1}>
-            <Text bold>Output: </Text>
-            <Output output={output} />
+          <Box flexDirection="column">
+            <Box marginTop={1}>
+              <Text bold>Output: </Text>
+              <Output output={output} />
+            </Box>
+            <Box>
+              {outputsPath && output ? (
+                <Text>The outputs have been written to {outputsPath}</Text>
+              ) : (
+                <Text></Text>
+              )}
+            </Box>
           </Box>
         )}
       </>
@@ -222,7 +250,7 @@ export const Deploy = ({
               <Confirm callback={confirmation} />
             </Box>
           )}
-          {isConfirmed && <Apply />}
+          {isConfirmed && <Apply outputsPath={outputsPath} />}
         </>
       )}
     </Box>
