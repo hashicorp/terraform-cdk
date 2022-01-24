@@ -34,7 +34,7 @@ import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
 import { saveOutputs, normalizeOutputPath } from "./helper/outputs";
 import { Output } from "./ui/output";
-import { NestedTerraformOutput } from "./ui/terraform-context";
+import { NestedTerraformOutputs } from "./ui/terraform-context";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -86,11 +86,11 @@ export async function deploy(argv: any) {
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  let onOutputsRetrieved: (outputs: NestedTerraformOutput) => void = () => {};
+  let onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void = () => {};
 
   if (argv.outputsFile) {
     outputsPath = normalizeOutputPath(argv.outputsFile);
-    onOutputsRetrieved = (outputs: NestedTerraformOutput) =>
+    onOutputsRetrieved = (outputs: NestedTerraformOutputs) =>
       saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
   }
 
@@ -303,11 +303,11 @@ export async function output(argv: any) {
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  let onOutputsRetrieved: (outputs: NestedTerraformOutput) => void = () => {};
+  let onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void = () => {};
 
   if (argv.outputsFile) {
     outputsPath = normalizeOutputPath(argv.outputsFile);
-    onOutputsRetrieved = (outputs: NestedTerraformOutput) =>
+    onOutputsRetrieved = (outputs: NestedTerraformOutputs) =>
       saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
   }
 

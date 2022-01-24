@@ -1,3 +1,3 @@
 export * from "./plan-element";
 export * from "./deploying-element";
-export * from "./output";
+export * from "./outputs";

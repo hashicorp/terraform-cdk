@@ -2,8 +2,8 @@ import React from "react";
 import { Text, Box } from "ink";
 import { TerraformOutput } from "../models/terraform";
 
-export interface OutputConfig {
-  output: { [key: string]: TerraformOutput };
+export interface OutputsConfig {
+  outputs: { [key: string]: TerraformOutput };
 }
 function sanitize(value: any) {
   if (typeof value === "object") {
@@ -13,16 +13,16 @@ function sanitize(value: any) {
   return value;
 }
 
-export const Output = ({ output }: OutputConfig): React.ReactElement => {
+export const Outputs = ({ outputs }: OutputsConfig): React.ReactElement => {
   return (
     <Box flexDirection="column">
-      {Object.keys(output).map((key) => (
+      {Object.keys(outputs).map((key) => (
         <Box key={key}>
           <Text>
             {key} ={" "}
-            {output[key].sensitive
+            {outputs[key].sensitive
               ? "<sensitive>"
-              : sanitize(output[key].value)}
+              : sanitize(outputs[key].value)}
           </Text>
         </Box>
       ))}

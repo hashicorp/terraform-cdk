@@ -198,23 +198,23 @@ const isObjectEmpty = (obj: Record<string, any>): boolean => {
   );
 };
 
-export const getConstructIdsForOutput = (
+export const getConstructIdsForOutputs = (
   stackContent: Record<string, any>,
-  output: { [key: string]: TerraformOutput }
-): NestedTerraformOutput => {
+  outputs: { [key: string]: TerraformOutput }
+): NestedTerraformOutputs => {
   // Older cdktf versions might not have the output metadata
   if (!("//" in stackContent) || !("outputs" in stackContent["//"])) {
-    return output;
+    return outputs;
   }
-  const outputMapping = stackContent["//"].outputs;
+  const outputsMapping = stackContent["//"].outputs;
 
-  const mapOutput = (value: OutputIdMap): NestedTerraformOutput => {
+  const mapOutputs = (value: OutputIdMap): NestedTerraformOutputs => {
     return Object.entries(value).reduce((acc, [key, value]) => {
       if (typeof value === "string") {
-        return { ...acc, [key]: output[value] };
+        return { ...acc, [key]: outputs[value] };
       }
 
-      const mapped = mapOutput(value);
+      const mapped = mapOutputs(value);
       if (isObjectEmpty(mapped)) {
         return acc;
       }
@@ -226,12 +226,12 @@ export const getConstructIdsForOutput = (
     }, {});
   };
 
-  return mapOutput(outputMapping);
+  return mapOutputs(outputsMapping);
 };
 
-export type NestedTerraformOutput =
+export type NestedTerraformOutputs =
   | { [key: string]: TerraformOutput }
-  | { [key: string]: NestedTerraformOutput };
+  | { [key: string]: NestedTerraformOutputs };
 export type DeployState = {
   status: Status;
   resources: DeployingResource[];
@@ -240,8 +240,8 @@ export type DeployState = {
   currentStack: SynthesizedStack;
   stacks?: SynthesizedStack[];
   errors?: string[];
-  output?: { [key: string]: TerraformOutput };
-  outputByConstructId?: NestedTerraformOutput;
+  outputs?: { [key: string]: TerraformOutput };
+  outputsByConstructId?: NestedTerraformOutputs;
 };
 
 type Action =
@@ -321,8 +321,8 @@ function deployReducer(state: DeployState, action: Action): DeployState {
     case "OUTPUT": {
       return {
         ...state,
-        output: action.output,
-        outputByConstructId: getConstructIdsForOutput(
+        outputs: action.output,
+        outputsByConstructId: getConstructIdsForOutputs(
           JSON.parse(state.currentStack.content),
           action.output
         ),
@@ -671,7 +671,7 @@ export const useRunDiff = (options: UseRunDiffOptions) => {
 
 interface UseRunDeployOptions extends UseTerraformOptions {
   autoApprove?: boolean;
-  onOutputsRetrieved: (outputs: NestedTerraformOutput) => void;
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
 }
 export const useRunDeploy = ({
   autoApprove,
@@ -693,8 +693,8 @@ export const useRunDeploy = ({
   });
 
   useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
-    if (state.outputByConstructId) {
-      onOutputsRetrieved(state.outputByConstructId);
+    if (state.outputsByConstructId) {
+      onOutputsRetrieved(state.outputsByConstructId);
     }
   });
 
@@ -706,7 +706,7 @@ export const useRunDeploy = ({
 };
 
 interface UseRunOutputOptions extends UseTerraformOptions {
-  onOutputsRetrieved: (outputs: NestedTerraformOutput) => void;
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
 }
 
 export const useRunOutput = ({
@@ -722,8 +722,8 @@ export const useRunOutput = ({
     await output();
   });
   useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
-    if (state.outputByConstructId) {
-      onOutputsRetrieved(state.outputByConstructId);
+    if (state.outputsByConstructId) {
+      onOutputsRetrieved(state.outputsByConstructId);
     }
   });
 

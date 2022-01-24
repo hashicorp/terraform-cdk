@@ -2,19 +2,19 @@
 import React, { Fragment } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import { Output as OutputComponent } from "./components";
+import { Outputs as OutputComponent } from "./components";
 
 import {
   Status,
   useRunOutput,
-  NestedTerraformOutput,
+  NestedTerraformOutputs,
 } from "./terraform-context";
 
 type OutputConfig = {
   targetDir: string;
   targetStack?: string;
   synthCommand: string;
-  onOutputsRetrieved: (outputs: NestedTerraformOutput) => void;
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
 };
 
@@ -25,7 +25,7 @@ export const Output = ({
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const { status, currentStack, errors, output } = useRunOutput({
+  const { status, currentStack, errors, outputs } = useRunOutput({
     targetDir,
     targetStack,
     synthCommand,
@@ -63,18 +63,18 @@ export const Output = ({
         </Fragment>
       ) : (
         <Box flexDirection="column">
-          {output && Object.keys(output).length > 0 ? (
+          {outputs && Object.keys(outputs).length > 0 ? (
             <Fragment>
               <Box marginTop={1}>
                 <Text bold>Output: </Text>
-                <OutputComponent output={output} />
+                <OutputComponent outputs={outputs} />
               </Box>
             </Fragment>
           ) : (
             <Text>No output found</Text>
           )}
           <Box>
-            {outputsPath && output ? (
+            {outputsPath && outputs ? (
               <Text>The outputs have been written to {outputsPath}</Text>
             ) : (
               <Text></Text>

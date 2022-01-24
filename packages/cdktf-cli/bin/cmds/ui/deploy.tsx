@@ -3,13 +3,13 @@ import React, { Fragment, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import ConfirmInput from "@skorfmann/ink-confirm-input";
-import { DeployingElement, Output } from "./components";
+import { DeployingElement, Outputs } from "./components";
 import { DeployingResource, PlannedResourceAction } from "./models/terraform";
 import {
   Status,
   useTerraformState,
   useRunDeploy,
-  NestedTerraformOutput,
+  NestedTerraformOutputs,
 } from "./terraform-context";
 import { Plan } from "./diff";
 
@@ -104,7 +104,7 @@ export const Apply = ({
 }: {
   outputsPath?: string;
 }): React.ReactElement => {
-  const { resources, status, currentStack, output } = useTerraformState();
+  const { resources, status, currentStack, outputs } = useTerraformState();
   const applyActions = [
     PlannedResourceAction.UPDATE,
     PlannedResourceAction.CREATE,
@@ -139,14 +139,14 @@ export const Apply = ({
           resources={applyableResources}
           stackName={currentStack.name}
         />
-        {output && Object.keys(output).length > 0 && (
+        {outputs && Object.keys(outputs).length > 0 && (
           <Box flexDirection="column">
             <Box marginTop={1}>
               <Text bold>Output: </Text>
-              <Output output={output} />
+              <Outputs outputs={outputs} />
             </Box>
             <Box>
-              {outputsPath && output ? (
+              {outputsPath && outputs ? (
                 <Text>The outputs have been written to {outputsPath}</Text>
               ) : (
                 <Text></Text>
@@ -164,7 +164,7 @@ interface DeployConfig {
   targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
-  onOutputsRetrieved: (outputs: NestedTerraformOutput) => void;
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
 }
 
@@ -177,7 +177,7 @@ export const Deploy = ({
   outputsPath,
 }: DeployConfig): React.ReactElement => {
   const {
-    state: { status, currentStack, errors, plan, output },
+    state: { status, currentStack, errors, plan, outputs },
     confirmation,
     isConfirmed,
   } = useRunDeploy({
@@ -213,14 +213,14 @@ export const Deploy = ({
         <Text>
           No changes for Stack: <Text bold>{currentStack.name}</Text>
         </Text>
-        {output && Object.keys(output).length > 0 && (
+        {outputs && Object.keys(outputs).length > 0 && (
           <Box flexDirection="column">
             <Box marginTop={1}>
               <Text bold>Output: </Text>
-              <Output output={output} />
+              <Outputs outputs={outputs} />
             </Box>
             <Box>
-              {outputsPath && output ? (
+              {outputsPath && outputs ? (
                 <Text>The outputs have been written to {outputsPath}</Text>
               ) : (
                 <Text></Text>

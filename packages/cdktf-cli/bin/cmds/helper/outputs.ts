@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { TerraformOutput, isTerraformOutput } from "../ui/models/terraform";
-import { NestedTerraformOutput } from "../ui/terraform-context";
+import { NestedTerraformOutputs } from "../ui/terraform-context";
 
 export type Outputs = { [key: string]: TerraformOutput };
 export type OutputIdMapLeaf = { [constructId: string]: string };
@@ -9,7 +9,7 @@ export type OutputIdMapNode = { [stackOrConstructId: string]: OutputIdMap };
 export type OutputIdMap = OutputIdMapLeaf | OutputIdMapNode;
 
 function unpackTerraformOutput(
-  outputs: NestedTerraformOutput,
+  outputs: NestedTerraformOutputs,
   includeSensitiveOutputs: boolean
 ): Record<string, string> {
   return Object.entries(outputs).reduce(
@@ -27,7 +27,7 @@ function unpackTerraformOutput(
 
 export async function saveOutputs(
   filePath: string,
-  outputs: NestedTerraformOutput,
+  outputs: NestedTerraformOutputs,
   includeSensitiveOutputs: boolean
 ) {
   fs.writeFileSync(
