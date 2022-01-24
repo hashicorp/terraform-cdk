@@ -185,7 +185,10 @@ Cross Stack References are also only supported for the local and remote backend 
 We add the stack dependencies in the `cdktf.out/manifest.json` file for each stack under `dependencies`.
 By default a stack is dependant on another stack when the data used origins in that stack.
 If you e.g. write `this.allResources = Fn.merge(resourceFromStackA.items, resourceFromStackB.items)` in Stack C and use `stackC.allResources` in Stack D, Stack D will be dependant on Stack A and B, but not C since that is not the origin of the data.
+
 In case you don't want the "middleman" to be cut out you can run `stackD.addDependency(stackC)` to make the dependency explicit.
+If you want to keep the result of the function attached to one stack (and saved its state) you can use a `TerraformLocal` and expose it instead: `this.allResources = TerraformLocal(this, "merged_items", Fn.merge(resourceFromStackA.items, resourceFromStackB.items)`.
+
 There are currently no safe-guards around this feature, it's your responsibility to deploy the stacks in the respective order.
 
 ### Migration from `<= 0.2`
