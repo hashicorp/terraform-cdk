@@ -50,7 +50,11 @@ export interface TerraformOutput {
 }
 
 export function isTerraformOutput(output: any): output is TerraformOutput {
-  return typeof output.value === "string";
+  return (
+    typeof output === "object" &&
+    typeof output.sensitive === "boolean" &&
+    typeof output.type === "string"
+  );
 }
 
 export interface TerraformPlan {
