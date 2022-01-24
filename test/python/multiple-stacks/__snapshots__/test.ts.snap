@@ -7,7 +7,8 @@ exports[`python full integration test synth synth generates JSON for both stacks
       \\"backend\\": \\"local\\",
       \\"stackName\\": \\"python-simple-one\\",
       \\"version\\": \\"stubbed\\"
-    }
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
@@ -49,7 +50,8 @@ exports[`python full integration test synth synth generates JSON for both stacks
       \\"backend\\": \\"local\\",
       \\"stackName\\": \\"python-simple-two\\",
       \\"version\\": \\"stubbed\\"
-    }
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [

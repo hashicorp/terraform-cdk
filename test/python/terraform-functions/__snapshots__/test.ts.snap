@@ -15,6 +15,11 @@ exports[`python terraform functions test synth synth generates JSON 1`] = `
       },
       \\"stackName\\": \\"python-simple\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
+      \\"python-simple\\": {
+        \\"computed\\": \\"computed\\"
+      }
     }
   },
   \\"output\\": {
