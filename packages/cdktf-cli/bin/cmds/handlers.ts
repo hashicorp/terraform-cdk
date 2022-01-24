@@ -32,6 +32,9 @@ import { Watch } from "./ui/watch";
 import { sendTelemetry } from "../../lib/checkpoint";
 import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
+import { saveOutputs, normalizeOutputPath } from "./helper/outputs";
+import { Output } from "./ui/output";
+import { NestedTerraformOutputs } from "./ui/terraform-context";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -79,6 +82,17 @@ export async function deploy(argv: any) {
   const outdir = argv.output;
   const autoApprove = argv.autoApprove;
   const stack = argv.stack;
+  const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
+
+  let outputsPath: string | undefined = undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  let onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void = () => {};
+
+  if (argv.outputsFile) {
+    outputsPath = normalizeOutputPath(argv.outputsFile);
+    onOutputsRetrieved = (outputs: NestedTerraformOutputs) =>
+      saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
+  }
 
   await renderInk(
     React.createElement(Deploy, {
@@ -86,6 +100,8 @@ export async function deploy(argv: any) {
       targetStack: stack,
       synthCommand: command,
       autoApprove,
+      onOutputsRetrieved,
+      outputsPath,
     })
   );
 }
@@ -274,5 +290,34 @@ export async function watch(argv: any) {
         autoApprove,
       })
     )
+  );
+}
+
+export async function output(argv: any) {
+  throwIfNotProjectDirectory("output");
+  await displayVersionMessage();
+  await checkEnvironment("output");
+  const command = argv.app;
+  const outdir = argv.output;
+  const stack = argv.stack;
+  const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
+  let outputsPath: string | undefined = undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  let onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void = () => {};
+
+  if (argv.outputsFile) {
+    outputsPath = normalizeOutputPath(argv.outputsFile);
+    onOutputsRetrieved = (outputs: NestedTerraformOutputs) =>
+      saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
+  }
+
+  await renderInk(
+    React.createElement(Output, {
+      targetDir: outdir,
+      targetStack: stack,
+      synthCommand: command,
+      onOutputsRetrieved,
+      outputsPath,
+    })
   );
 }
