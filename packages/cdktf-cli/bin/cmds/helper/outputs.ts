@@ -18,7 +18,7 @@ function unpackTerraformOutput(
       [key]: isTerraformOutput(entry)
         ? !entry.sensitive || includeSensitiveOutputs
           ? entry.value
-          : "<sensitive>"
+          : undefined
         : unpackTerraformOutput(entry, includeSensitiveOutputs),
     }),
     {}

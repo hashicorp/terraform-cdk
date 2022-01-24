@@ -65,7 +65,6 @@ describe("full integration test", () => {
       Object {
         "hello-deploy": Object {
           "output": "hello",
-          "output2": "<sensitive>",
         },
       }
     `);
