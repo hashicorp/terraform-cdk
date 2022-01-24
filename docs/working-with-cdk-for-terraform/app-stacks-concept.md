@@ -147,12 +147,6 @@ Omitting the target stack by running a plain `cdktf deploy` will result in error
 
 Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) when you're interested in this feature.
 
-#### Cross Stack References
-
-Referencing resources from another stack is not yet supported automatically. It can be achieved manually by using Outputs and the Remote State data source.
-
-Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/651) when you're interested in this feature.
-
 ### Migration from `<= 0.2`
 
 Up until CDK for Terraform version `0.2` only a single stack was supported. For local state handling, a `terraform.tfstate` in the project root folder was used. With version `>= 0.3` the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.

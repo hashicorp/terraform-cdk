@@ -1,7 +1,9 @@
 import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
 import { Tokenization } from "./tokens/token";
-import { LazyBase } from ".";
+import { LazyBase } from "./tokens/lazy";
+import { App } from "./app";
+import { TerraformStack } from "./terraform-stack";
 
 class TFExpression extends Intrinsic implements IResolvable {
   public isInnerTerraformExpression = false;
@@ -114,18 +116,53 @@ export function rawString(str: string): IResolvable {
 }
 
 class Reference extends TFExpression {
-  constructor(private identifier: string) {
+  /**
+   * A single reference could be used in multiple stacks,
+   * e.g. if we expose the ref directly or as token on the stack.
+   * We need to store the identifier for each stack,
+   * so that the resolved identifier string matches the stack it's resolved in.
+   */
+  private crossStackIdentifier: Record<string, string> = {};
+  constructor(private identifier: string, private originStack: TerraformStack) {
     super(identifier);
   }
 
-  public resolve(): string {
+  public resolve(context: IResolveContext): string {
+    // We check for cross stack references on preparation, setting a new identifier
+    const resolutionStack = TerraformStack.of(context.scope);
+    const stackName = resolutionStack.toString();
+
+    if (context.preparing) {
+      // Cross stack reference
+      if (this.originStack && this.originStack !== resolutionStack) {
+        const app = App.of(this.originStack);
+        const csr = app.crossStackReference(
+          this.originStack,
+          resolutionStack,
+          this.identifier
+        );
+
+        if (this.isInnerTerraformExpression) {
+          markAsInner(csr);
+        }
+
+        this.crossStackIdentifier[stackName] = csr;
+      }
+    }
+
+    // If this is a cross stack reference we will resolve to a reference within this stack.
+    if (this.crossStackIdentifier[stackName]) {
+      return this.crossStackIdentifier[stackName];
+    }
+
     return this.isInnerTerraformExpression
       ? this.identifier
       : `\${${this.identifier}}`;
   }
 }
-export function ref(identifier: string): IResolvable {
-  return new Reference(identifier);
+
+export function ref(identifier: string, stack: TerraformStack): IResolvable {
+  return new Reference(identifier, stack);
 }
 
 function markAsInner(arg: any) {
@@ -155,6 +192,13 @@ function markAsInner(arg: any) {
       Object.keys(arg).forEach((key) => markAsInner(arg[key]));
     }
   }
+}
+/**
+ * marks the argument as being used in a terraform expression
+ */
+export function insideTfExpression(arg: any) {
+  markAsInner(arg);
+  return arg;
 }
 
 class PropertyAccess extends TFExpression {

@@ -10,11 +10,15 @@ export class TerraformLocal
   implements ITerraformAddressable
 {
   private _expression: any;
+  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, expression: any) {
     super(scope, id);
 
     this._expression = expression;
+    this.fqn = Token.asString(
+      ref(`local.${this.friendlyUniqueId}`, this.cdktfStack)
+    );
   }
 
   public set expression(value: any) {
@@ -22,30 +26,26 @@ export class TerraformLocal
   }
 
   public get expression() {
-    return Token.asAny(ref(this.interpolation()));
+    return Token.asAny(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asString(): string {
-    return Token.asString(ref(this.interpolation()));
+    return Token.asString(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asNumber(): number {
-    return Token.asNumber(ref(this.interpolation()));
+    return Token.asNumber(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asList(): string[] {
-    return Token.asList(ref(this.interpolation()));
+    return Token.asList(ref(this.interpolation(), this.cdktfStack));
   }
 
   public get asBoolean(): IResolvable {
-    return ref(this.interpolation());
+    return ref(this.interpolation(), this.cdktfStack);
   }
 
   private interpolation(): any {
-    return `local.${this.friendlyUniqueId}`;
-  }
-
-  public get fqn() {
     return `local.${this.friendlyUniqueId}`;
   }
 

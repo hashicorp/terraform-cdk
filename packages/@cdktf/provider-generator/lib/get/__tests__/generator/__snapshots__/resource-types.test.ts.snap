@@ -45,7 +45,7 @@ export interface CloudfrontDistributionConfig extends cdktf.TerraformMetaArgumen
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#tags CloudfrontDistribution#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#wait_for_deployment CloudfrontDistribution#wait_for_deployment}
   */
@@ -139,7 +139,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -186,7 +186,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   // whitelisted_names - computed: false, optional: true, required: false
   private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
-    return this.getListAttribute('whitelisted_names');
+    return cdktf.Fn.tolist(this.getListAttribute('whitelisted_names'));
   }
   public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
@@ -241,7 +241,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -287,7 +287,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
-    return this.getListAttribute('headers');
+    return cdktf.Fn.tolist(this.getListAttribute('headers'));
   }
   public set headers(value: string[]) {
     this._headers = value;
@@ -517,7 +517,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -564,7 +564,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   // whitelisted_names - computed: false, optional: true, required: false
   private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
-    return this.getListAttribute('whitelisted_names');
+    return cdktf.Fn.tolist(this.getListAttribute('whitelisted_names'));
   }
   public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
@@ -619,7 +619,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -665,7 +665,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
-    return this.getListAttribute('headers');
+    return cdktf.Fn.tolist(this.getListAttribute('headers'));
   }
   public set headers(value: string[]) {
     this._headers = value;
@@ -836,7 +836,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -936,7 +936,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   // allowed_methods - computed: false, optional: false, required: true
   private _allowedMethods?: string[]; 
   public get allowedMethods() {
-    return this.getListAttribute('allowed_methods');
+    return cdktf.Fn.tolist(this.getListAttribute('allowed_methods'));
   }
   public set allowedMethods(value: string[]) {
     this._allowedMethods = value;
@@ -949,7 +949,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   // cached_methods - computed: false, optional: false, required: true
   private _cachedMethods?: string[]; 
   public get cachedMethods() {
-    return this.getListAttribute('cached_methods');
+    return cdktf.Fn.tolist(this.getListAttribute('cached_methods'));
   }
   public set cachedMethods(value: string[]) {
     this._cachedMethods = value;
@@ -1114,7 +1114,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   private _lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[]; 
   public get lambdaFunctionAssociation() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('lambda_function_association') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('lambda_function_association'))) as any;
   }
   public set lambdaFunctionAssociation(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[]) {
     this._lambdaFunctionAssociation = value;
@@ -1162,7 +1162,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -1274,7 +1274,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -1321,7 +1321,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   // whitelisted_names - computed: false, optional: true, required: false
   private _whitelistedNames?: string[]; 
   public get whitelistedNames() {
-    return this.getListAttribute('whitelisted_names');
+    return cdktf.Fn.tolist(this.getListAttribute('whitelisted_names'));
   }
   public set whitelistedNames(value: string[]) {
     this._whitelistedNames = value;
@@ -1376,7 +1376,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -1422,7 +1422,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   // headers - computed: false, optional: true, required: false
   private _headers?: string[]; 
   public get headers() {
-    return this.getListAttribute('headers');
+    return cdktf.Fn.tolist(this.getListAttribute('headers'));
   }
   public set headers(value: string[]) {
     this._headers = value;
@@ -1662,7 +1662,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -1791,7 +1791,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   // origin_ssl_protocols - computed: false, optional: false, required: true
   private _originSslProtocols?: string[]; 
   public get originSslProtocols() {
-    return this.getListAttribute('origin_ssl_protocols');
+    return cdktf.Fn.tolist(this.getListAttribute('origin_ssl_protocols'));
   }
   public set originSslProtocols(value: string[]) {
     this._originSslProtocols = value;
@@ -1826,7 +1826,7 @@ export class CloudfrontDistributionOriginS3OriginConfigOutputReference extends c
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -1937,7 +1937,7 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -1966,7 +1966,7 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   private _statusCodes?: number[]; 
   public get statusCodes() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('status_codes') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('status_codes'))) as any;
   }
   public set statusCodes(value: number[]) {
     this._statusCodes = value;
@@ -2054,7 +2054,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -2088,7 +2088,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   // locations - computed: false, optional: true, required: false
   private _locations?: string[]; 
   public get locations() {
-    return this.getListAttribute('locations');
+    return cdktf.Fn.tolist(this.getListAttribute('locations'));
   }
   public set locations(value: string[]) {
     this._locations = value;
@@ -2141,7 +2141,7 @@ export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.Com
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -2224,7 +2224,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -2420,7 +2420,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // aliases - computed: false, optional: true, required: false
   private _aliases?: string[]; 
   public get aliases() {
-    return this.getListAttribute('aliases');
+    return cdktf.Fn.tolist(this.getListAttribute('aliases'));
   }
   public set aliases(value: string[]) {
     this._aliases = value;
@@ -2588,12 +2588,11 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getStringMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -2640,7 +2639,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _cacheBehavior?: CloudfrontDistributionCacheBehavior[]; 
   public get cacheBehavior() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('cache_behavior') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('cache_behavior'))) as any;
   }
   public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[]) {
     this._cacheBehavior = value;
@@ -2657,7 +2656,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[]; 
   public get customErrorResponse() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('custom_error_response') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('custom_error_response'))) as any;
   }
   public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[]) {
     this._customErrorResponse = value;
@@ -2720,7 +2719,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _origin?: CloudfrontDistributionOrigin[]; 
   public get origin() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('origin') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin'))) as any;
   }
   public set origin(value: CloudfrontDistributionOrigin[]) {
     this._origin = value;
@@ -2734,7 +2733,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   private _originGroup?: CloudfrontDistributionOriginGroup[]; 
   public get originGroup() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('origin_group') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin_group'))) as any;
   }
   public set originGroup(value: CloudfrontDistributionOriginGroup[]) {
     this._originGroup = value;
@@ -2787,7 +2786,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       is_ipv6_enabled: cdktf.booleanToTerraform(this._isIpv6Enabled),
       price_class: cdktf.stringToTerraform(this._priceClass),
       retain_on_delete: cdktf.booleanToTerraform(this._retainOnDelete),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       wait_for_deployment: cdktf.booleanToTerraform(this._waitForDeployment),
       web_acl_id: cdktf.stringToTerraform(this._webAclId),
       cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform)(this._cacheBehavior),
@@ -2950,7 +2949,7 @@ export interface S3BucketConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#website_domain S3Bucket#website_domain}
   */
@@ -3118,7 +3117,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3228,7 +3227,7 @@ export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference ext
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3338,7 +3337,7 @@ export interface S3BucketLifecycleRule {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * expiration block
   * 
@@ -3374,7 +3373,7 @@ export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule)
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
     enabled: cdktf.booleanToTerraform(struct!.enabled),
     prefix: cdktf.stringToTerraform(struct!.prefix),
-    tags: cdktf.hashMapper(cdktf.anyToTerraform)(struct!.tags),
+    tags: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.tags),
     expiration: s3BucketLifecycleRuleExpirationToTerraform(struct!.expiration),
     noncurrent_version_expiration: s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform(struct!.noncurrentVersionExpiration),
     noncurrent_version_transition: cdktf.listMapper(s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform)(struct!.noncurrentVersionTransition),
@@ -3439,7 +3438,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3548,7 +3547,7 @@ export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.Co
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3618,7 +3617,7 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3703,7 +3702,7 @@ export class S3BucketReplicationConfigurationRulesDestinationAccessControlTransl
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3788,7 +3787,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3922,7 +3921,7 @@ export interface S3BucketReplicationConfigurationRulesFilter {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#tags S3Bucket#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
 }
 
 export function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: S3BucketReplicationConfigurationRulesFilterOutputReference | S3BucketReplicationConfigurationRulesFilter): any {
@@ -3932,7 +3931,7 @@ export function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: 
   }
   return {
     prefix: cdktf.stringToTerraform(struct!.prefix),
-    tags: cdktf.hashMapper(cdktf.anyToTerraform)(struct!.tags),
+    tags: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.tags),
   }
 }
 
@@ -3944,7 +3943,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -3992,12 +3991,11 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getStringMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -4033,7 +4031,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsE
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4098,7 +4096,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputR
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4224,7 +4222,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4272,7 +4270,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   private _rules?: S3BucketReplicationConfigurationRules[]; 
   public get rules() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('rules') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('rules'))) as any;
   }
   public set rules(value: S3BucketReplicationConfigurationRules[]) {
     this._rules = value;
@@ -4312,7 +4310,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4399,7 +4397,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extend
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4464,7 +4462,7 @@ export class S3BucketServerSideEncryptionConfigurationOutputReference extends cd
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4532,7 +4530,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4635,7 +4633,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -4967,12 +4965,11 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getStringMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -5036,7 +5033,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   private _grant?: S3BucketGrant[]; 
   public get grant() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('grant') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('grant'))) as any;
   }
   public set grant(value: S3BucketGrant[]) {
     this._grant = value;
@@ -5070,7 +5067,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   private _logging?: S3BucketLogging[]; 
   public get logging() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('logging') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('logging'))) as any;
   }
   public set logging(value: S3BucketLogging[]) {
     this._logging = value;
@@ -5178,7 +5175,7 @@ export class S3Bucket extends cdktf.TerraformResource {
       policy: cdktf.stringToTerraform(this._policy),
       region: cdktf.stringToTerraform(this._region),
       request_payer: cdktf.stringToTerraform(this._requestPayer),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       website_domain: cdktf.stringToTerraform(this._websiteDomain),
       website_endpoint: cdktf.stringToTerraform(this._websiteEndpoint),
       cors_rule: cdktf.listMapper(s3BucketCorsRuleToTerraform)(this._corsRule),
@@ -5233,7 +5230,7 @@ export interface SecurityGroupConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#tags SecurityGroup#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#vpc_id SecurityGroup#vpc_id}
   */
@@ -5389,7 +5386,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -5525,7 +5522,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   private _egress?: SecurityGroupEgress[]; 
   public get egress() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('egress') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress'))) as any;
   }
   public set egress(value: SecurityGroupEgress[]) {
     this._egress = value;
@@ -5547,7 +5544,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   private _ingress?: SecurityGroupIngress[]; 
   public get ingress() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('ingress') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('ingress'))) as any;
   }
   public set ingress(value: SecurityGroupIngress[]) {
     this._ingress = value;
@@ -5614,12 +5611,11 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getStringMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -5674,7 +5670,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
       name: cdktf.stringToTerraform(this._name),
       name_prefix: cdktf.stringToTerraform(this._namePrefix),
       revoke_rules_on_delete: cdktf.booleanToTerraform(this._revokeRulesOnDelete),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       vpc_id: cdktf.stringToTerraform(this._vpcId),
       timeouts: securityGroupTimeoutsToTerraform(this._timeouts.internalValue),
     };

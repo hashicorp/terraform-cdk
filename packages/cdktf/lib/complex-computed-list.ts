@@ -1,9 +1,10 @@
 import { Token } from "./tokens";
-import { ITerraformResource } from "./terraform-resource";
+import { IInterpolatingParent } from "./terraform-addressable";
+import { Fn, propertyAccess } from ".";
 
-abstract class ComplexComputedAttribute {
+abstract class ComplexComputedAttribute implements IInterpolatingParent {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -23,12 +24,40 @@ abstract class ComplexComputedAttribute {
     return this.interpolationForAttribute(terraformAttribute);
   }
 
-  protected abstract interpolationForAttribute(terraformAttribute: string): any;
+  public getNumberListAttribute(terraformAttribute: string) {
+    return Token.asNumberList(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getStringMapAttribute(terraformAttribute: string) {
+    return Token.asStringMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getNumberMapAttribute(terraformAttribute: string) {
+    return Token.asNumberMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getBooleanMapAttribute(terraformAttribute: string) {
+    return Token.asBooleanMap(
+      this.interpolationForAttribute(terraformAttribute)
+    );
+  }
+
+  public getAnyMapAttribute(terraformAttribute: string) {
+    return Token.asAnyMap(this.interpolationForAttribute(terraformAttribute));
+  }
+
+  public abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 
 export class StringMap {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -43,7 +72,7 @@ export class StringMap {
 
 export class NumberMap {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -58,7 +87,7 @@ export class NumberMap {
 
 export class BooleanMap {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
   ) {}
 
@@ -71,16 +100,43 @@ export class BooleanMap {
   }
 }
 
+export class AnyMap {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {}
+
+  public lookup(key: string): any {
+    return Token.asAny(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}["${key}"]`
+      )
+    );
+  }
+}
+
 export class ComplexComputedList extends ComplexComputedAttribute {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
-    protected complexComputedListIndex: string
+    protected complexComputedListIndex: string,
+    protected wrapsSet?: boolean
   ) {
     super(terraformResource, terraformAttribute);
   }
 
-  protected interpolationForAttribute(property: string) {
+  public interpolationForAttribute(property: string) {
+    if (this.wrapsSet) {
+      return propertyAccess(
+        Fn.tolist(
+          this.terraformResource.interpolationForAttribute(
+            this.terraformAttribute
+          )
+        ),
+        [this.complexComputedListIndex, property]
+      );
+    }
+
     return this.terraformResource.interpolationForAttribute(
       `${this.terraformAttribute}.${this.complexComputedListIndex}.${property}`
     );
@@ -89,14 +145,14 @@ export class ComplexComputedList extends ComplexComputedAttribute {
 
 export class ComplexObject extends ComplexComputedAttribute {
   constructor(
-    protected terraformResource: ITerraformResource,
+    protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
     protected isSingleItem: boolean
   ) {
     super(terraformResource, terraformAttribute);
   }
 
-  protected interpolationForAttribute(property: string) {
+  public interpolationForAttribute(property: string) {
     return this.terraformResource.interpolationForAttribute(
       `${this.terraformAttribute}${this.isSingleItem ? "[0]" : ""}.${property}`
     );

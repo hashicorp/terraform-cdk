@@ -37,7 +37,7 @@ export interface AcmCertificateConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#tags AcmCertificate#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#validation_method AcmCertificate#validation_method}
   */
@@ -96,7 +96,7 @@ export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -256,7 +256,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
 
   // domain_validation_options - computed: true, optional: false, required: false
   public domainValidationOptions(index: string) {
-    return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index);
+    return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index, false);
   }
 
   // id - computed: true, optional: true, required: false
@@ -297,12 +297,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getStringMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -362,7 +361,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
       domain_name: cdktf.stringToTerraform(this._domainName),
       private_key: cdktf.stringToTerraform(this._privateKey),
       subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       validation_method: cdktf.stringToTerraform(this._validationMethod),
       options: acmCertificateOptionsToTerraform(this._options.internalValue),
     };

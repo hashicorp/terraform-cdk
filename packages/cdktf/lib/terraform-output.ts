@@ -2,9 +2,10 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { Expression, ref, Tokenization } from ".";
+import { Expression } from ".";
 import { isArray } from "util";
 import { ITerraformAddressable } from "./terraform-addressable";
+import { Token } from "./tokens";
 
 export interface TerraformOutputConfig {
   readonly value: Expression | ITerraformDependable;
@@ -57,12 +58,12 @@ export class TerraformOutput extends TerraformElement {
   }
 
   private synthesizeValue(arg: any): any {
-    if (Tokenization.isResolvable(arg)) {
+    if (Token.isUnresolved(arg)) {
       return arg;
     }
 
     if (this.isITerraformAddressable(arg)) {
-      return ref(arg.fqn);
+      return arg.fqn;
     }
 
     if (Array.isArray(arg)) {
@@ -84,7 +85,7 @@ export class TerraformOutput extends TerraformElement {
       value: this.synthesizeValue(this.value),
       description: this.description,
       sensitive: this.sensitive,
-      depends_on: this.dependsOn?.map((resource) => `\${${resource.fqn}}`),
+      depends_on: this.dependsOn?.map((resource) => resource.fqn),
     };
   }
 

@@ -1,0 +1,26 @@
+name: Project Board
+
+on:
+  pull_request:
+    paths:
+      - "tools/update-github-project-board/**"
+
+  schedule:
+    # At every full hour
+    - cron: "0 * * * *"
+  workflow_dispatch: {}
+jobs:
+  update-project-board:
+    if: github.repository == 'hashicorp/terraform-cdk'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get project data
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_BOARD_UPDATE_GH_TOKEN }}
+          ORGANIZATION: hashicorp
+          PROJECT_NUMBER: 125
+        run: |
+          cd tools/update-github-project-board
+          npm install
+          npm start

@@ -13,11 +13,11 @@ export interface BooleanListConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list#foo_required BooleanList#foo_required}
   */
-  readonly fooRequired: boolean[];
+  readonly fooRequired: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_list#foo_optional BooleanList#foo_optional}
   */
-  readonly fooOptional?: boolean[];
+  readonly fooOptional?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -61,11 +61,12 @@ export class BooleanList extends cdktf.TerraformResource {
   // ==========
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired?: boolean[]; 
+  private _fooRequired?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooRequired() {
-    return this.getBooleanAttribute('foo_required') as any;
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('foo_required') as any;
   }
-  public set fooRequired(value: boolean[]) {
+  public set fooRequired(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._fooRequired = value;
   }
   // Temporarily expose input value. Use with caution.
@@ -74,11 +75,12 @@ export class BooleanList extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: boolean[]; 
+  private _fooOptional?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooOptional() {
-    return this.getBooleanAttribute('foo_optional') as any;
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('foo_optional') as any;
   }
-  public set fooOptional(value: boolean[]) {
+  public set fooOptional(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -116,11 +118,11 @@ export interface BooleanMapConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map#foo_computed_optional BooleanMap#foo_computed_optional}
   */
-  readonly fooComputedOptional?: { [key: string]: boolean } | cdktf.IResolvable;
+  readonly fooComputedOptional?: { [key: string]: (boolean | cdktf.IResolvable) };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/boolean_map#foo_optional BooleanMap#foo_optional}
   */
-  readonly fooOptional?: { [key: string]: boolean } | cdktf.IResolvable;
+  readonly fooOptional?: { [key: string]: (boolean | cdktf.IResolvable) };
 }
 
 /**
@@ -169,11 +171,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: boolean } | cdktf.IResolvable; 
+  private _fooComputedOptional?: { [key: string]: (boolean | cdktf.IResolvable) }; 
   public get fooComputedOptional() {
-    return this.getBooleanAttribute('foo_computed_optional') as any;
+    return this.getBooleanMapAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: { [key: string]: boolean } | cdktf.IResolvable) {
+  public set fooComputedOptional(value: { [key: string]: (boolean | cdktf.IResolvable) }) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -185,11 +187,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: boolean } | cdktf.IResolvable; 
+  private _fooOptional?: { [key: string]: (boolean | cdktf.IResolvable) }; 
   public get fooOptional() {
-    return this.getBooleanAttribute('foo_optional') as any;
+    return this.getBooleanMapAttribute('foo_optional');
   }
-  public set fooOptional(value: { [key: string]: boolean } | cdktf.IResolvable) {
+  public set fooOptional(value: { [key: string]: (boolean | cdktf.IResolvable) }) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -206,8 +208,8 @@ export class BooleanMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
-      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
+      foo_computed_optional: cdktf.hashMapper(cdktf.booleanToTerraform)(this._fooComputedOptional),
+      foo_optional: cdktf.hashMapper(cdktf.booleanToTerraform)(this._fooOptional),
     };
   }
 }
@@ -259,7 +261,7 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
 
   // security_groups - computed: true, optional: false, required: false
   public get securityGroups() {
-    return this.getListAttribute('security_groups');
+    return cdktf.Fn.tolist(this.getListAttribute('security_groups'));
   }
 
   // self - computed: true, optional: false, required: false
@@ -313,7 +315,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
 
   // egress - computed: true, optional: false, required: false
   public egress(index: string) {
-    return new ComputedComplexEgress(this, 'egress', index);
+    return new ComputedComplexEgress(this, 'egress', index, true);
   }
 
   // =========
@@ -400,7 +402,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
 
   // resources - computed: true, optional: false, required: false
   public resources(index: string) {
-    return new ComputedComplexNestedResources(this, 'resources', index);
+    return new ComputedComplexNestedResources(this, 'resources', index, false);
   }
 
   // =========
@@ -431,6 +433,13 @@ export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaAr
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list#inputs BlockTypeNestedComputedList#inputs}
   */
   readonly inputs?: BlockTypeNestedComputedListInputs[];
+}
+export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends cdktf.ComplexComputedList {
+
+  // starting_position - computed: true, optional: false, required: false
+  public get startingPosition() {
+    return this.getStringAttribute('starting_position');
+  }
 }
 export interface BlockTypeNestedComputedListInputs {
   /**
@@ -635,7 +644,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   private _egress?: ComputedOptionalComplexEgress[]; 
   public get egress() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('egress') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress'))) as any;
   }
   public set egress(value: ComputedOptionalComplexEgress[]) {
     this._egress = value;
@@ -703,7 +712,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -1200,8 +1209,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired?: number[]; 
   public get fooRequired() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.getNumberListAttribute('foo_required');
   }
   public set fooRequired(value: number[]) {
     this._fooRequired = value;
@@ -1214,8 +1222,7 @@ export class NumberList extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: number[]; 
   public get fooOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.getNumberListAttribute('foo_optional');
   }
   public set fooOptional(value: number[]) {
     this._fooOptional = value;
@@ -1255,11 +1262,11 @@ export interface NumberMapConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map#foo_computed_optional NumberMap#foo_computed_optional}
   */
-  readonly fooComputedOptional?: { [key: string]: number } | cdktf.IResolvable;
+  readonly fooComputedOptional?: { [key: string]: number };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/number_map#foo_optional NumberMap#foo_optional}
   */
-  readonly fooOptional?: { [key: string]: number } | cdktf.IResolvable;
+  readonly fooOptional?: { [key: string]: number };
 }
 
 /**
@@ -1308,12 +1315,11 @@ export class NumberMap extends cdktf.TerraformResource {
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: number } | cdktf.IResolvable; 
+  private _fooComputedOptional?: { [key: string]: number }; 
   public get fooComputedOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_computed_optional') as any;
+    return this.getNumberMapAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: { [key: string]: number } | cdktf.IResolvable) {
+  public set fooComputedOptional(value: { [key: string]: number }) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1325,12 +1331,11 @@ export class NumberMap extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: number } | cdktf.IResolvable; 
+  private _fooOptional?: { [key: string]: number }; 
   public get fooOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.getNumberMapAttribute('foo_optional');
   }
-  public set fooOptional(value: { [key: string]: number } | cdktf.IResolvable) {
+  public set fooOptional(value: { [key: string]: number }) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1347,8 +1352,8 @@ export class NumberMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooComputedOptional),
-      foo_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooOptional),
+      foo_computed_optional: cdktf.hashMapper(cdktf.numberToTerraform)(this._fooComputedOptional),
+      foo_optional: cdktf.hashMapper(cdktf.numberToTerraform)(this._fooOptional),
     };
   }
 }
@@ -1498,15 +1503,15 @@ export interface PrimitiveDynamicConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic#foo_computed_optional PrimitiveDynamic#foo_computed_optional}
   */
-  readonly fooComputedOptional?: { [key: string]: any } | cdktf.IResolvable;
+  readonly fooComputedOptional?: { [key: string]: any };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic#foo_optional PrimitiveDynamic#foo_optional}
   */
-  readonly fooOptional?: { [key: string]: any } | cdktf.IResolvable;
+  readonly fooOptional?: { [key: string]: any };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/primitive_dynamic#foo_required PrimitiveDynamic#foo_required}
   */
-  readonly fooRequired: { [key: string]: any } | cdktf.IResolvable;
+  readonly fooRequired: { [key: string]: any };
 }
 
 /**
@@ -1552,16 +1557,15 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
 
   // foo_computed - computed: true, optional: false, required: false
   public fooComputed(key: string): any {
-    return new { [key: string]: any } | cdktf.IResolvable(this, 'foo_computed').lookup(key);
+    return new cdktf.AnyMap(this, 'foo_computed').lookup(key);
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
-  private _fooComputedOptional?: { [key: string]: any } | cdktf.IResolvable; 
+  private _fooComputedOptional?: { [key: string]: any }; 
   public get fooComputedOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_computed_optional') as any;
+    return this.getAnyMapAttribute('foo_computed_optional');
   }
-  public set fooComputedOptional(value: { [key: string]: any } | cdktf.IResolvable) {
+  public set fooComputedOptional(value: { [key: string]: any }) {
     this._fooComputedOptional = value;
   }
   public resetFooComputedOptional() {
@@ -1573,12 +1577,11 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
 
   // foo_optional - computed: false, optional: true, required: false
-  private _fooOptional?: { [key: string]: any } | cdktf.IResolvable; 
+  private _fooOptional?: { [key: string]: any }; 
   public get fooOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.getAnyMapAttribute('foo_optional');
   }
-  public set fooOptional(value: { [key: string]: any } | cdktf.IResolvable) {
+  public set fooOptional(value: { [key: string]: any }) {
     this._fooOptional = value;
   }
   public resetFooOptional() {
@@ -1590,12 +1593,11 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   }
 
   // foo_required - computed: false, optional: false, required: true
-  private _fooRequired?: { [key: string]: any } | cdktf.IResolvable; 
+  private _fooRequired?: { [key: string]: any }; 
   public get fooRequired() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.getAnyMapAttribute('foo_required');
   }
-  public set fooRequired(value: { [key: string]: any } | cdktf.IResolvable) {
+  public set fooRequired(value: { [key: string]: any }) {
     this._fooRequired = value;
   }
   // Temporarily expose input value. Use with caution.
@@ -2130,7 +2132,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   private _timeoutsSet?: BlockTypeSetListTimeoutsSet[]; 
   public get timeoutsSet() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('timeouts_set') as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('timeouts_set'))) as any;
   }
   public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[]) {
     this._timeoutsSet = value;
@@ -2216,7 +2218,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -2469,11 +2471,11 @@ export interface StringMapConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map#subject_alternative_names_computed_optional StringMap#subject_alternative_names_computed_optional}
   */
-  readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string } | cdktf.IResolvable;
+  readonly subjectAlternativeNamesComputedOptional?: { [key: string]: string };
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map#subject_alternative_names_optional StringMap#subject_alternative_names_optional}
   */
-  readonly subjectAlternativeNamesOptional?: { [key: string]: string } | cdktf.IResolvable;
+  readonly subjectAlternativeNamesOptional?: { [key: string]: string };
 }
 
 /**
@@ -2522,12 +2524,11 @@ export class StringMap extends cdktf.TerraformResource {
   }
 
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
-  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string } | cdktf.IResolvable; 
+  private _subjectAlternativeNamesComputedOptional?: { [key: string]: string }; 
   public get subjectAlternativeNamesComputedOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('subject_alternative_names_computed_optional') as any;
+    return this.getStringMapAttribute('subject_alternative_names_computed_optional');
   }
-  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set subjectAlternativeNamesComputedOptional(value: { [key: string]: string }) {
     this._subjectAlternativeNamesComputedOptional = value;
   }
   public resetSubjectAlternativeNamesComputedOptional() {
@@ -2539,12 +2540,11 @@ export class StringMap extends cdktf.TerraformResource {
   }
 
   // subject_alternative_names_optional - computed: false, optional: true, required: false
-  private _subjectAlternativeNamesOptional?: { [key: string]: string } | cdktf.IResolvable; 
+  private _subjectAlternativeNamesOptional?: { [key: string]: string }; 
   public get subjectAlternativeNamesOptional() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('subject_alternative_names_optional') as any;
+    return this.getStringMapAttribute('subject_alternative_names_optional');
   }
-  public set subjectAlternativeNamesOptional(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set subjectAlternativeNamesOptional(value: { [key: string]: string }) {
     this._subjectAlternativeNamesOptional = value;
   }
   public resetSubjectAlternativeNamesOptional() {
@@ -2561,8 +2561,8 @@ export class StringMap extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_computed_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesComputedOptional),
-      subject_alternative_names_optional: cdktf.hashMapper(cdktf.anyToTerraform)(this._subjectAlternativeNamesOptional),
+      subject_alternative_names_computed_optional: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesComputedOptional),
+      subject_alternative_names_optional: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptional),
     };
   }
 }

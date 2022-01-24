@@ -60,7 +60,13 @@ test("resource fqn", () => {
     name: "bar",
   });
 
-  expect(resource.fqn).toEqual("test_resource.test");
+  new TerraformOutput(stack, "result", {
+    value: resource.fqn,
+  });
+
+  expect(JSON.parse(Testing.synth(stack) as any).output.result.value).toEqual(
+    "${test_resource.test}"
+  );
 });
 
 test("serialize list interpolation", () => {
@@ -177,4 +183,20 @@ test("tokens as ids", () => {
   }).toThrowErrorMatchingInlineSnapshot(
     `"You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"`
   );
+});
+
+test("number[] attributes", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const foo = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+
+  new TerraformOutput(stack, "number-list", {
+    value: foo.numberList,
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
 });

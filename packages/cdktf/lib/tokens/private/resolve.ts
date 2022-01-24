@@ -9,8 +9,15 @@ import {
   StringConcat,
 } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
-import { containsListTokenElement, TokenString, unresolved } from "./encoding";
+import {
+  containsListTokenElement,
+  TokenString,
+  unresolved,
+  containsNumberListTokenElement,
+  containsMapToken,
+} from "./encoding";
 import { TokenMap } from "./token-map";
+import { Token } from "../token";
 
 // This file should not be exported to consumers, resolving should happen through Construct.resolve()
 
@@ -112,7 +119,16 @@ export function resolve(obj: any, options: IResolveOptions): any {
     // If this is a "list element" Token, it should never occur by itself in string context
     if (TokenString.forListToken(obj).test()) {
       throw new Error(
-        "Found an encoded list token string in a scalar string context. Use 'Fn.element(list, 0)' (not 'list[0]') to extract elements from token lists."
+        "Found an encoded list token string in a scalar string context. Use 'Fn.element(list, 0)' (not 'list[0]') to extract elements from token lists"
+      );
+    }
+
+    if (
+      obj === Token.STRING_MAP_TOKEN_VALUE ||
+      obj === Token.ANY_MAP_TOKEN_VALUE
+    ) {
+      throw new Error(
+        "Found an encoded map token in a scalar string context. Use 'Fn.lookup(map, key, default)' (not 'map[key]') to extract values from token maps."
       );
     }
 
@@ -146,6 +162,12 @@ export function resolve(obj: any, options: IResolveOptions): any {
   // number - potentially decode Tokenized number
   //
   if (typeof obj === "number") {
+    if (obj === Token.NUMBER_MAP_TOKEN_VALUE) {
+      throw new Error(
+        "Found an encoded map token in a scalar number context. Use 'Fn.lookup(map, key, default)' (not 'map[key]') to extract values from token maps."
+      );
+    }
+
     return resolveNumberToken(obj, makeContext()[0]);
   }
 
@@ -166,11 +188,20 @@ export function resolve(obj: any, options: IResolveOptions): any {
       return options.resolver.resolveList(obj, makeContext()[0]);
     }
 
+    if (containsNumberListTokenElement(obj)) {
+      return options.resolver.resolveNumberList(obj, makeContext()[0]);
+    }
+
     const arr = obj
       .map((x, i) => makeContext(`${i}`)[0].resolve(x))
       .filter((x) => typeof x !== "undefined");
 
     return arr;
+  }
+
+  // check for tokenized map
+  if (containsMapToken(obj)) {
+    return options.resolver.resolveMap(obj, makeContext()[0]);
   }
 
   //

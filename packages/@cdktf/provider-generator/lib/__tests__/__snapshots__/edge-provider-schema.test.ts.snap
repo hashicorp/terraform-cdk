@@ -279,6 +279,8 @@ export * from './required-attribute-resource';
 export * from './optional-attribute-resource';
 export * from './optional-computed-attribute-resource';
 export * from './list-block-resource';
+export * from './map-resource';
+export * from './set-block-resource';
 export * from './edge-provider';
 
 "
@@ -318,6 +320,12 @@ export interface ListBlockResourceConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#singlereq ListBlockResource#singlereq}
   */
   readonly singlereq: ListBlockResourceSinglereq;
+  /**
+  * singleComputedBlock block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#singleComputedBlock ListBlockResource#singleComputedBlock}
+  */
+  readonly singleComputedBlock?: ListBlockResourceSingleComputedBlock;
 }
 export interface ListBlockResourceOpt {
   /**
@@ -498,7 +506,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -771,7 +779,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
     super(terraformResource, terraformAttribute, isSingleItem);
   }
 
@@ -979,6 +987,77 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
     return this._computedbool;
   }
 }
+export interface ListBlockResourceSingleComputedBlock {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#configured ListBlockResource#configured}
+  */
+  readonly configured?: string;
+}
+
+export function listBlockResourceSingleComputedBlockToTerraform(struct?: ListBlockResourceSingleComputedBlockOutputReference | ListBlockResourceSingleComputedBlock): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+    configured: cdktf.stringToTerraform(struct!.configured),
+  }
+}
+
+export class ListBlockResourceSingleComputedBlockOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param isSingleItem True if this is a block, false if it's a list
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
+    super(terraformResource, terraformAttribute, isSingleItem);
+  }
+
+  public get internalValue(): ListBlockResourceSingleComputedBlock | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._configured !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.configured = this._configured;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ListBlockResourceSingleComputedBlock | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._configured = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._configured = value.configured;
+    }
+  }
+
+  // computed - computed: true, optional: false, required: false
+  public get computed() {
+    return this.getStringAttribute('computed');
+  }
+
+  // configured - computed: false, optional: true, required: false
+  private _configured?: string; 
+  public get configured() {
+    return this.getStringAttribute('configured');
+  }
+  public set configured(value: string) {
+    this._configured = value;
+  }
+  public resetConfigured() {
+    this._configured = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get configuredInput() {
+    return this._configured;
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource list_block_resource}
@@ -1016,6 +1095,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
     this._req = config.req;
     this._singleopt.internalValue = config.singleopt;
     this._singlereq.internalValue = config.singlereq;
+    this._singleComputedBlock.internalValue = config.singleComputedBlock;
   }
 
   // ==========
@@ -1082,6 +1162,22 @@ export class ListBlockResource extends cdktf.TerraformResource {
     return this._singlereq.internalValue;
   }
 
+  // singleComputedBlock - computed: false, optional: true, required: false
+  private _singleComputedBlock = new ListBlockResourceSingleComputedBlockOutputReference(this as any, \\"singleComputedBlock\\", true);
+  public get singleComputedBlock() {
+    return this._singleComputedBlock;
+  }
+  public putSingleComputedBlock(value: ListBlockResourceSingleComputedBlock) {
+    this._singleComputedBlock.internalValue = value;
+  }
+  public resetSingleComputedBlock() {
+    this._singleComputedBlock.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get singleComputedBlockInput() {
+    return this._singleComputedBlock.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1092,6 +1188,132 @@ export class ListBlockResource extends cdktf.TerraformResource {
       req: cdktf.listMapper(listBlockResourceReqToTerraform)(this._req),
       singleopt: listBlockResourceSingleoptToTerraform(this._singleopt.internalValue),
       singlereq: listBlockResourceSinglereqToTerraform(this._singlereq.internalValue),
+      singleComputedBlock: listBlockResourceSingleComputedBlockToTerraform(this._singleComputedBlock.internalValue),
+    };
+  }
+}
+"
+`;
+
+exports[`Edge Provider Schema compiles to Typescript: map-resource.ts 1`] = `
+"// https://www.terraform.io/docs/providers/edge/r/map_resource
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface MapResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource#optMap MapResource#optMap}
+  */
+  readonly optMap?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource#reqMap MapResource#reqMap}
+  */
+  readonly reqMap: { [key: string]: (boolean | cdktf.IResolvable) };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/map_resource#computedMap MapResource#computedMap}
+  */
+  readonly computedMap?: { [key: string]: number };
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/map_resource map_resource}
+*/
+export class MapResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"map_resource\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/map_resource map_resource} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options MapResourceConfig
+  */
+  public constructor(scope: Construct, id: string, config: MapResourceConfig) {
+    super(scope, id, {
+      terraformResourceType: 'map_resource',
+      terraformGeneratorMetadata: {
+        providerName: 'edge'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._optMap = config.optMap;
+    this._reqMap = config.reqMap;
+    this._computedMap = config.computedMap;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // optMap - computed: false, optional: true, required: false
+  private _optMap?: { [key: string]: string }; 
+  public get optMap() {
+    return this.getStringMapAttribute('optMap');
+  }
+  public set optMap(value: { [key: string]: string }) {
+    this._optMap = value;
+  }
+  public resetOptMap() {
+    this._optMap = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optMapInput() {
+    return this._optMap;
+  }
+
+  // reqMap - computed: false, optional: false, required: true
+  private _reqMap?: { [key: string]: (boolean | cdktf.IResolvable) }; 
+  public get reqMap() {
+    return this.getBooleanMapAttribute('reqMap');
+  }
+  public set reqMap(value: { [key: string]: (boolean | cdktf.IResolvable) }) {
+    this._reqMap = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqMapInput() {
+    return this._reqMap;
+  }
+
+  // computedMap - computed: true, optional: true, required: false
+  private _computedMap?: { [key: string]: number }; 
+  public get computedMap() {
+    return this.getNumberMapAttribute('computedMap');
+  }
+  public set computedMap(value: { [key: string]: number }) {
+    this._computedMap = value;
+  }
+  public resetComputedMap() {
+    this._computedMap = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedMapInput() {
+    return this._computedMap;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      optMap: cdktf.hashMapper(cdktf.stringToTerraform)(this._optMap),
+      reqMap: cdktf.hashMapper(cdktf.booleanToTerraform)(this._reqMap),
+      computedMap: cdktf.hashMapper(cdktf.numberToTerraform)(this._computedMap),
     };
   }
 }
@@ -1120,6 +1342,18 @@ export interface OptionalAttributeResourceConfig extends cdktf.TerraformMetaArgu
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#bool OptionalAttributeResource#bool}
   */
   readonly bool?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#strList OptionalAttributeResource#strList}
+  */
+  readonly strList?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#numList OptionalAttributeResource#numList}
+  */
+  readonly numList?: number[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_attribute_resource#boolList OptionalAttributeResource#boolList}
+  */
+  readonly boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1157,6 +1391,9 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
     this._str = config.str;
     this._num = config.num;
     this._bool = config.bool;
+    this._strList = config.strList;
+    this._numList = config.numList;
+    this._boolList = config.boolList;
   }
 
   // ==========
@@ -1211,6 +1448,55 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
     return this._bool;
   }
 
+  // strList - computed: false, optional: true, required: false
+  private _strList?: string[]; 
+  public get strList() {
+    return this.getListAttribute('strList');
+  }
+  public set strList(value: string[]) {
+    this._strList = value;
+  }
+  public resetStrList() {
+    this._strList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get strListInput() {
+    return this._strList;
+  }
+
+  // numList - computed: false, optional: true, required: false
+  private _numList?: number[]; 
+  public get numList() {
+    return this.getNumberListAttribute('numList');
+  }
+  public set numList(value: number[]) {
+    this._numList = value;
+  }
+  public resetNumList() {
+    this._numList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numListInput() {
+    return this._numList;
+  }
+
+  // boolList - computed: false, optional: true, required: false
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
+  public get boolList() {
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('boolList') as any;
+  }
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
+    this._boolList = value;
+  }
+  public resetBoolList() {
+    this._boolList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get boolListInput() {
+    return this._boolList;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1220,6 +1506,9 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
+      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
     };
   }
 }
@@ -1248,6 +1537,18 @@ export interface OptionalComputedAttributeResourceConfig extends cdktf.Terraform
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#bool OptionalComputedAttributeResource#bool}
   */
   readonly bool?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#strList OptionalComputedAttributeResource#strList}
+  */
+  readonly strList?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#numList OptionalComputedAttributeResource#numList}
+  */
+  readonly numList?: number[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/optional_computed_attribute_resource#boolList OptionalComputedAttributeResource#boolList}
+  */
+  readonly boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1285,6 +1586,9 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
     this._str = config.str;
     this._num = config.num;
     this._bool = config.bool;
+    this._strList = config.strList;
+    this._numList = config.numList;
+    this._boolList = config.boolList;
   }
 
   // ==========
@@ -1339,6 +1643,55 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
     return this._bool;
   }
 
+  // strList - computed: true, optional: true, required: false
+  private _strList?: string[]; 
+  public get strList() {
+    return this.getListAttribute('strList');
+  }
+  public set strList(value: string[]) {
+    this._strList = value;
+  }
+  public resetStrList() {
+    this._strList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get strListInput() {
+    return this._strList;
+  }
+
+  // numList - computed: true, optional: true, required: false
+  private _numList?: number[]; 
+  public get numList() {
+    return this.getNumberListAttribute('numList');
+  }
+  public set numList(value: number[]) {
+    this._numList = value;
+  }
+  public resetNumList() {
+    this._numList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numListInput() {
+    return this._numList;
+  }
+
+  // boolList - computed: true, optional: true, required: false
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
+  public get boolList() {
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('boolList') as any;
+  }
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
+    this._boolList = value;
+  }
+  public resetBoolList() {
+    this._boolList = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get boolListInput() {
+    return this._boolList;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1348,6 +1701,9 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
+      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
     };
   }
 }
@@ -1376,6 +1732,18 @@ export interface RequiredAttributeResourceConfig extends cdktf.TerraformMetaArgu
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#bool RequiredAttributeResource#bool}
   */
   readonly bool: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#strList RequiredAttributeResource#strList}
+  */
+  readonly strList: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#numList RequiredAttributeResource#numList}
+  */
+  readonly numList: number[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/required_attribute_resource#boolList RequiredAttributeResource#boolList}
+  */
+  readonly boolList: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable;
 }
 
 /**
@@ -1413,6 +1781,9 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
     this._str = config.str;
     this._num = config.num;
     this._bool = config.bool;
+    this._strList = config.strList;
+    this._numList = config.numList;
+    this._boolList = config.boolList;
   }
 
   // ==========
@@ -1458,6 +1829,46 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
     return this._bool;
   }
 
+  // strList - computed: false, optional: false, required: true
+  private _strList?: string[]; 
+  public get strList() {
+    return this.getListAttribute('strList');
+  }
+  public set strList(value: string[]) {
+    this._strList = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get strListInput() {
+    return this._strList;
+  }
+
+  // numList - computed: false, optional: false, required: true
+  private _numList?: number[]; 
+  public get numList() {
+    return this.getNumberListAttribute('numList');
+  }
+  public set numList(value: number[]) {
+    this._numList = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numListInput() {
+    return this._numList;
+  }
+
+  // boolList - computed: false, optional: false, required: true
+  private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
+  public get boolList() {
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('boolList') as any;
+  }
+  public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
+    this._boolList = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get boolListInput() {
+    return this._boolList;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1467,6 +1878,153 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
+      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
+    };
+  }
+}
+"
+`;
+
+exports[`Edge Provider Schema compiles to Typescript: set-block-resource.ts 1`] = `
+"// https://www.terraform.io/docs/providers/edge/r/set_block_resource
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface SetBlockResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * set block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#set SetBlockResource#set}
+  */
+  readonly set?: SetBlockResourceSet[];
+}
+export interface SetBlockResourceSet {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#optstr SetBlockResource#optstr}
+  */
+  readonly optstr?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#optnum SetBlockResource#optnum}
+  */
+  readonly optnum?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#optbool SetBlockResource#optbool}
+  */
+  readonly optbool?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#reqstr SetBlockResource#reqstr}
+  */
+  readonly reqstr: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#reqnum SetBlockResource#reqnum}
+  */
+  readonly reqnum: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#reqbool SetBlockResource#reqbool}
+  */
+  readonly reqbool: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#computedstr SetBlockResource#computedstr}
+  */
+  readonly computedstr?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#computednum SetBlockResource#computednum}
+  */
+  readonly computednum?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#computedbool SetBlockResource#computedbool}
+  */
+  readonly computedbool?: boolean | cdktf.IResolvable;
+}
+
+export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+    optstr: cdktf.stringToTerraform(struct!.optstr),
+    optnum: cdktf.numberToTerraform(struct!.optnum),
+    optbool: cdktf.booleanToTerraform(struct!.optbool),
+    reqstr: cdktf.stringToTerraform(struct!.reqstr),
+    reqnum: cdktf.numberToTerraform(struct!.reqnum),
+    reqbool: cdktf.booleanToTerraform(struct!.reqbool),
+    computedstr: cdktf.stringToTerraform(struct!.computedstr),
+    computednum: cdktf.numberToTerraform(struct!.computednum),
+    computedbool: cdktf.booleanToTerraform(struct!.computedbool),
+  }
+}
+
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource set_block_resource}
+*/
+export class SetBlockResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"set_block_resource\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource set_block_resource} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options SetBlockResourceConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: SetBlockResourceConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'set_block_resource',
+      terraformGeneratorMetadata: {
+        providerName: 'edge'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._set = config.set;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // set - computed: false, optional: true, required: false
+  private _set?: SetBlockResourceSet[]; 
+  public get set() {
+    // Getting the computed value is not yet implemented
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('set'))) as any;
+  }
+  public set set(value: SetBlockResourceSet[]) {
+    this._set = value;
+  }
+  public resetSet() {
+    this._set = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get setInput() {
+    return this._set;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      set: cdktf.listMapper(setBlockResourceSetToTerraform)(this._set),
     };
   }
 }

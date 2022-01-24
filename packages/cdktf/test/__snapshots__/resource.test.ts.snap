@@ -11,7 +11,8 @@ exports[`dependent resource 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -38,7 +39,8 @@ exports[`do not change capitalization of arbritary nested types 1`] = `
 "{
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -65,7 +67,8 @@ exports[`do not change capitalization of tags 1`] = `
 "{
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -92,12 +95,43 @@ exports[`minimal configuration 1`] = `
 "{
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`number[] attributes 1`] = `
+"{
+  \\"output\\": {
+    \\"number-list\\": {
+      \\"value\\": \\"\${test_resource.resource.number_list_value}\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"resource\\": {
         \\"name\\": \\"foo\\"
       }
     }
@@ -121,7 +155,8 @@ exports[`numeric attributes 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -172,15 +207,18 @@ exports[`serialize list interpolation 1`] = `
 "{
   \\"provider\\": {
     \\"other\\": [
-      {}
+      {
+      }
     ],
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
     \\"other_test_resource\\": {
-      \\"othertest\\": {}
+      \\"othertest\\": {
+      }
     },
     \\"test_resource\\": {
       \\"test\\": {
@@ -206,15 +244,18 @@ exports[`with complex computed list 1`] = `
 "{
   \\"provider\\": {
     \\"other\\": [
-      {}
+      {
+      }
     ],
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
     \\"other_test_resource\\": {
-      \\"othertest\\": {}
+      \\"othertest\\": {
+      }
     },
     \\"test_resource\\": {
       \\"test\\": {

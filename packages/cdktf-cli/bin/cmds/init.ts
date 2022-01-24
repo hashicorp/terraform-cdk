@@ -1,9 +1,7 @@
 import yargs from "yargs";
-import { terraformCheck } from "./helper/terraform-check";
-import { displayVersionMessage } from "./helper/version-check";
-import { checkForEmptyDirectory, runInit, templates } from "./helper/init";
-import { checkEnvironment } from "./helper/check-environment";
-import { readPackageJson } from "./helper/utilities";
+
+import { templates } from "./helper/init-templates";
+import { readPackageJson, requireHandlers } from "./helper/utilities";
 
 const pkg = readPackageJson();
 
@@ -48,13 +46,9 @@ class Command implements yargs.CommandModule {
       .strict();
 
   public async handler(argv: any) {
-    await terraformCheck();
-    await displayVersionMessage();
-    await checkEnvironment("init");
-
-    checkForEmptyDirectory(".");
-
-    await runInit(argv);
+    // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
+    const api = requireHandlers();
+    api.init(argv);
   }
 }
 

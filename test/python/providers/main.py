@@ -1,11 +1,12 @@
 #!/usr/bin/python3 -tt
 from constructs import Construct
-from cdktf import App, TerraformStack, Testing, TerraformOutput
+from cdktf import App, TerraformStack, Testing, TerraformOutput, LocalBackend
 from imports.docker import Image, Container, DockerProvider
 
 class References(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
         super().__init__(scope, ns)
+        LocalBackend(self, path="terraform.tfstate")
 
         DockerProvider(self, "provider")
 

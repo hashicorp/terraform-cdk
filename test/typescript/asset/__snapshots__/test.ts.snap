@@ -8,24 +8,45 @@ exports[`full integration test folder asset copied 2`] = `"This is b"`;
 
 exports[`full integration test folder asset copied 3`] = `"this is c"`;
 
+exports[`full integration test relative file asset copied 1`] = `"Hello Asset World"`;
+
+exports[`full integration test relative folder asset copied 1`] = `"This is a"`;
+
+exports[`full integration test relative folder asset copied 2`] = `"This is b"`;
+
+exports[`full integration test relative folder asset copied 3`] = `"this is c"`;
+
 exports[`full integration test synth 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"fixed\\",
-      \\"backend\\": \\"local\\"
+      \\"version\\": \\"stubbed\\"
     }
   },
   \\"output\\": {
-    \\"localassetname\\": {
-      \\"value\\": \\"local-asset.txt\\"
-    },
     \\"fixturesname\\": {
       \\"value\\": \\"fixtures\\"
     },
+    \\"localassetname\\": {
+      \\"value\\": \\"local-asset.txt\\"
+    },
+    \\"relativeassetname\\": {
+      \\"value\\": \\"relative-asset.txt\\"
+    },
+    \\"relativeassetsname\\": {
+      \\"value\\": \\"relative\\"
+    },
     \\"zippedfixturesname\\": {
       \\"value\\": \\"archive.zip\\"
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
     }
   }
 }"

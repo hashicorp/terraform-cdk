@@ -58,6 +58,15 @@ describe("full integration test", () => {
       expect(stack.byId("plain").bool).toEqual(
         "${optional_attribute_resource.test.bool}"
       );
+      expect(stack.byId("plain").strList).toEqual(
+        "${optional_attribute_resource.test.strList}"
+      );
+      expect(stack.byId("plain").numList).toEqual(
+        "${optional_attribute_resource.test.numList}"
+      );
+      expect(stack.byId("plain").boolList).toEqual(
+        "${optional_attribute_resource.test.boolList}"
+      );
     });
 
     it("item references a required single item lists required values", () => {
@@ -72,6 +81,15 @@ describe("full integration test", () => {
       expect(item.num).toEqual(
         "${list_block_resource.list.singlereq[0].reqnum}"
       );
+      expect(item.boolList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqbool}",
+      ]);
+      expect(item.strList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqstr}",
+      ]);
+      expect(item.numList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqnum}",
+      ]);
     });
 
     it.skip("item references required values from multi-item lists", () => {
@@ -87,6 +105,15 @@ describe("full integration test", () => {
       expect(item.num).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
       );
+      expect(item.boolList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}',
+      ]);
+      expect(item.strList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}',
+      ]);
+      expect(item.numList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}',
+      ]);
     });
 
     it.skip("item references a required single item list", () => {
@@ -132,6 +159,38 @@ describe("full integration test", () => {
           "reqstr": "\${list_block_resource.list.singlereq[0].reqstr}",
         }
       `);
+    });
+
+    it("item references a map", () => {
+      const item = stack.byId("from_map");
+
+      // Expands map references
+      expect(item.bool).toEqual(
+        '${lookup(map_resource.map.reqMap, "key1", false)}'
+      );
+      expect(item.str).toEqual(
+        '${lookup(map_resource.map.optMap, "key1", "missing")}'
+      );
+      expect(item.num).toEqual(
+        '${lookup(map_resource.map.computedMap, "key1", 0)}'
+      );
+      expect(item.boolList).toEqual([
+        '${lookup(map_resource.map.reqMap, "key1", false)}',
+      ]);
+      expect(item.strList).toEqual([
+        '${lookup(map_resource.map.optMap, "key1", "missing")}',
+      ]);
+      expect(item.numList).toEqual([
+        '${lookup(map_resource.map.computedMap, "key1", 0)}',
+      ]);
+    });
+
+    it("item references a full map", () => {
+      const item = stack.byId("map_reference");
+
+      // Expands map references
+      expect(item.reqMap).toEqual("${map_resource.map.reqMap}");
+      expect(item.optMap).toEqual("${map_resource.map.optMap}");
     });
   });
 });

@@ -6,6 +6,8 @@ import {
 import { Construct } from "constructs";
 import { TestProviderMetadata } from "./provider";
 import { stringToTerraform } from "../../lib/runtime";
+import { ComplexObject } from "../../lib/complex-computed-list";
+import { ITerraformResource } from "../../lib/terraform-resource";
 
 export interface TestResourceConfig extends TerraformMetaArguments {
   name: string;
@@ -62,9 +64,33 @@ export class TestResource extends TerraformResource {
   public get anyList() {
     return this.interpolationForAttribute("any_list") as any;
   }
+
+  public get numberList() {
+    return this.getNumberListAttribute("number_list_value");
+  }
+}
+
+export class TestOutputReference extends ComplexObject {
+  /**
+   * @param terraformResource The parent resource
+   * @param terraformAttribute The attribute on the parent resource this class is referencing
+   * @param isSingleItem True if this is a block, false if it's a list
+   */
+  public constructor(
+    terraformResource: ITerraformResource,
+    terraformAttribute: string,
+    isSingleItem: boolean
+  ) {
+    super(terraformResource, terraformAttribute, isSingleItem);
+  }
+
+  public get value() {
+    return this.getStringAttribute("value");
+  }
 }
 
 export class OtherTestResource extends TerraformResource {
+  public static readonly tfResourceType: string = "other_test_resource";
   constructor(scope: Construct, id: string, config: TerraformMetaArguments) {
     super(scope, id, {
       terraformResourceType: "other_test_resource",
@@ -87,6 +113,10 @@ export class OtherTestResource extends TerraformResource {
     return new TestComplexComputedList(this, "complex_computed_list", index);
   }
 
+  public get outputRef() {
+    return new TestOutputReference(this, "outputRef", true);
+  }
+
   protected synthesizeAttributes(): { [name: string]: any } {
     return {};
   }
@@ -100,6 +130,7 @@ class TestComplexComputedList extends ComplexComputedList {
 
 // Generated Docker image to test real-world scenarios
 export class DockerImage extends TerraformResource {
+  public static readonly tfResourceType: string = "docker_image";
   private _name: string;
   public constructor(scope: Construct, id: string, config: { name: string }) {
     super(scope, id, {

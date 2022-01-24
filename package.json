@@ -17,7 +17,8 @@
     "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",
     "lint:workspace": "eslint .",
     "link-packages": "lerna exec --scope 'cdktf*' --scope @cdktf/* yarn link",
-    "integration": "cd test && ./run-against-dist npx jest --runInBand",
+    "integration": "cd test && yarn edge:install && ./run-against-dist npx jest --runInBand",
+    "integration:update": "cd test && yarn && yarn edge:install && NODE_OPTIONS='--max-old-space-size=7168' ./run-against-dist npx jest -u --runInBand",
     "integration:typescript": "cd test && ./run-against-dist npx jest --runInBand typescript",
     "integration:python": "cd test && ./run-against-dist npx jest --runInBand python",
     "integration:csharp": "cd test && ./run-against-dist npx jest --runInBand csharp",
@@ -55,20 +56,23 @@
     "nohoist": [
       "archiver",
       "**/archiver",
-      "**/archiver/**"
+      "**/archiver/**",
+      "json-stable-stringify",
+      "**/json-stable-stringify",
+      "**/json-stable-stringify/**"
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.28.1",
-    "@typescript-eslint/parser": "^4.28.1",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
     "changelog-parser": "^2.8.0",
-    "eslint": "^7.29.0",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-monorepo": "^0.3.2",
     "husky": ">=6",
     "lerna": "^4.0.0",
     "lint-staged": ">=10",
-    "prettier": "^2.3.1",
+    "prettier": "^2.5.1",
     "standard-version": "^9.3.2"
   },
   "lint-staged": {

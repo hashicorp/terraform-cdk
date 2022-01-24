@@ -88,6 +88,7 @@ describe("WatchClient", () => {
               workingDirectory: "C",
               content: "null",
               annotations: [],
+              dependencies: [],
             },
           ];
         });
@@ -120,6 +121,7 @@ describe("WatchClient", () => {
               workingDirectory: "C",
               content: "null",
               annotations: [],
+              dependencies: [],
             },
             {
               name: "StackB",
@@ -128,6 +130,7 @@ describe("WatchClient", () => {
               workingDirectory: "C",
               content: "null",
               annotations: [],
+              dependencies: [],
             },
           ];
         });
@@ -160,6 +163,7 @@ describe("WatchClient", () => {
               workingDirectory: __dirname,
               content: JSON.stringify({ terraform: {} } as TerraformJson),
               annotations: [],
+              dependencies: [],
             },
           ];
         });

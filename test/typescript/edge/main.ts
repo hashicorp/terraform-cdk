@@ -20,12 +20,25 @@ export class ReferenceStack extends TerraformStack {
       ],
       singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
     });
+    const map = new edge.MapResource(this, "map", {
+      optMap: { key1: "value1" },
+      reqMap: { key1: true },
+    });
+    const set = new edge.SetBlockResource(this, "set_block", {
+      set: [
+        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+      ],
+    });
 
     // plain values
     new edge.RequiredAttributeResource(this, "plain", {
       bool: res.bool,
       str: res.str,
       num: res.num,
+      strList: res.strList,
+      numList: res.numList,
+      boolList: res.boolList,
     });
 
     // required values FROM required single item lists
@@ -33,6 +46,9 @@ export class ReferenceStack extends TerraformStack {
       bool: list.singlereq.reqbool,
       str: list.singlereq.reqstr,
       num: list.singlereq.reqnum,
+      strList: [list.singlereq.reqstr],
+      numList: [list.singlereq.reqnum],
+      boolList: [list.singlereq.reqbool],
     });
 
     // required values FROM required multi item lists
@@ -40,6 +56,9 @@ export class ReferenceStack extends TerraformStack {
       bool: Fn.lookup(Fn.element(list.req, 0), "reqbool", false),
       str: Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback"),
       num: Fn.lookup(Fn.element(list.req, 0), "reqnum", 0),
+      strList: [Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback")],
+      numList: [Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)],
+      boolList: [Fn.lookup(Fn.element(list.req, 0), "reqbool", false)],
     });
 
     // passing a reference to a complete list
@@ -52,6 +71,33 @@ export class ReferenceStack extends TerraformStack {
     new edge.ListBlockResource(this, "list_literal", {
       req: [list.singlereq],
       singlereq: list.singlereq,
+    });
+
+    // required values FROM map
+    new edge.RequiredAttributeResource(this, "from_map", {
+      bool: Fn.lookup(map.reqMap, "key1", false),
+      str: Fn.lookup(map.optMap, "key1", "missing"),
+      num: Fn.lookup(map.computedMap, "key1", 0),
+      strList: [Fn.lookup(map.optMap, "key1", "missing")],
+      numList: [Fn.lookup(map.computedMap, "key1", 0)],
+      boolList: [Fn.lookup(map.reqMap, "key1", false)],
+    });
+
+    // passing a reference to a complete map
+    new edge.MapResource(this, "map_reference", {
+      optMap: map.optMap,
+      reqMap: map.reqMap,
+    });
+
+    // passing a list ref into a set
+    new edge.SetBlockResource(this, "set_from_list", {
+      set: list.req,
+    });
+
+    // passing a set ref into a list
+    new edge.ListBlockResource(this, "list_from_set", {
+      req: set.set,
+      singlereq: { reqbool: true, reqnum: 1, reqstr: "reqstr" },
     });
   }
 }
@@ -84,6 +130,9 @@ export class ProviderStack extends TerraformStack {
       bool: providerOpt.reqbool!,
       num: providerOpt.reqnum!,
       str: providerOpt.reqstr!,
+      strList: [providerOpt.reqstr!],
+      numList: [providerOpt.reqnum!],
+      boolList: [providerOpt.reqbool!],
     });
 
     new edge.OptionalAttributeResource(this, "optOpt", {
@@ -102,6 +151,9 @@ export class ProviderStack extends TerraformStack {
       bool: providerFull.reqbool!,
       num: providerFull.reqnum!,
       str: providerFull.reqstr!,
+      strList: [providerFull.reqstr!],
+      numList: [providerFull.reqnum!],
+      boolList: [providerFull.reqbool!],
     });
 
     new edge.OptionalAttributeResource(this, "optFull", {
