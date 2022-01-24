@@ -509,12 +509,12 @@ Options:
 The `--outputs-file` option allows you to specify a file where the stack outputs will be written as JSON.
 The JSONs structure is matching your construct structure, the name of each construct is used as a key.
 
-```json
+```jsonc
 {
   "MyStack": {
     "MyConstructInstance": {
       "MyOutput": "my-value",
-      "MySecretOutput": "my-secret-value" // <sensitive> if --outputs-file-include-sensitive-outputs is not set
+      "MySecretOutput": "my-secret-value" // not present if --outputs-file-include-sensitive-outputs is not set
     }
   }
 }
