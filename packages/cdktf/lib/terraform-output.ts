@@ -7,6 +7,8 @@ import { isArray } from "util";
 import { ITerraformAddressable } from "./terraform-addressable";
 import { Token } from "./tokens";
 
+const TERRAFORM_OUTPUT_SYMBOL = Symbol.for("cdktf/TerraformOutput");
+
 export interface TerraformOutputConfig {
   readonly value: Expression | ITerraformDependable;
   readonly description?: string;
@@ -35,6 +37,11 @@ export class TerraformOutput extends TerraformElement {
     this.sensitive = config.sensitive;
     this.dependsOn = config.dependsOn;
     this.staticId = config.staticId || false;
+    Object.defineProperty(this, TERRAFORM_OUTPUT_SYMBOL, { value: true });
+  }
+
+  public static isTerrafromOutput(x: any): x is TerraformOutput {
+    return x !== null && typeof x === "object" && TERRAFORM_OUTPUT_SYMBOL in x;
   }
 
   public set staticId(staticId: boolean) {

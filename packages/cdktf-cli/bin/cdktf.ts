@@ -81,6 +81,7 @@ yargs
   .command(require("./cmds/login"))
   .command(require("./cmds/synth"))
   .command(require("./cmds/watch"))
+  .command(require("./cmds/output"))
   .recommendCommands()
   .wrap(yargs.terminalWidth())
   .showHelpOnFail(false)

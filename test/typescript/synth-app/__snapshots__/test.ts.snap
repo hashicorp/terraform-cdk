@@ -17,6 +17,13 @@ exports[`full integration test synth synth generates JSON 1`] = `
       },
       \\"stackName\\": \\"hello-terra\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
+      \\"hello-terra\\": {
+        \\"instance-http-endpoint\\": \\"instancehttpendpoint\\",
+        \\"instance-password\\": \\"instancepassword\\",
+        \\"sns-topic-arn\\": \\"snstopicarn\\"
+      }
     }
   },
   \\"output\\": {

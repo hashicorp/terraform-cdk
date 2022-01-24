@@ -7,6 +7,12 @@ exports[`python full integration test assets synth generates JSON and copies fil
       \\"backend\\": \\"local\\",
       \\"stackName\\": \\"python-assets\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
+      \\"python-assets\\": {
+        \\"fixture-output\\": \\"fixtureoutput\\",
+        \\"fixtures-output\\": \\"fixturesoutput\\"
+      }
     }
   },
   \\"output\\": {

@@ -23,6 +23,15 @@ exports[`full integration test synth 1`] = `
       \\"backend\\": \\"local\\",
       \\"stackName\\": \\"fixed\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
+      \\"fixed\\": {
+        \\"fixtures-name\\": \\"fixturesname\\",
+        \\"local-asset-name\\": \\"localassetname\\",
+        \\"relative-asset-name\\": \\"relativeassetname\\",
+        \\"relative-assets-name\\": \\"relativeassetsname\\",
+        \\"zipped-fixtures-name\\": \\"zippedfixturesname\\"
+      }
     }
   },
   \\"output\\": {

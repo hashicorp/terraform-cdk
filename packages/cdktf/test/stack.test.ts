@@ -8,6 +8,7 @@ import {
 } from "cdktf/lib";
 import { TerraformModule } from "cdktf/lib/terraform-module";
 import { TestProvider } from "./helper";
+import { Construct } from "constructs";
 
 test("stack synthesis merges all elements into a single output", () => {
   const app = Testing.stubVersion(
@@ -121,6 +122,83 @@ test("getting Stack for TerraformBackend which was added to root app returns fri
   expect(() => new LocalBackend(app, {})).toThrowErrorMatchingInlineSnapshot(
     `"No stack could be identified for the construct at path 'backend'. You seem to have passed your root App as scope to a TerraformBackend construct. Pass a stack as scope to your backend instead."`
   );
+});
+
+describe("output id map", () => {
+  test("output id map is empty when no outputs are added", () => {
+    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const stack = new TerraformStack(app, "MyStack");
+
+    expect(stack.toTerraform()["//"].outputs).toEqual({});
+  });
+
+  test("output id map is populated when outputs are added", () => {
+    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const stack = new TerraformStack(app, "MyStack");
+
+    new TerraformOutput(stack, "output1", {
+      value: "value1",
+    });
+
+    const resource = new MyResource(stack, "Resource1", {
+      terraformResourceType: "aws_bucket",
+    });
+
+    new TerraformOutput(stack, "output2", {
+      value: resource,
+    });
+
+    const tf = stack.toTerraform();
+    const { outputs } = tf["//"];
+
+    expect(Object.keys(outputs.MyStack)).toEqual(["output1", "output2"]);
+    expect(Object.keys(tf.output)).toEqual(
+      expect.arrayContaining(Object.values(outputs.MyStack))
+    );
+  });
+
+  test("output id map is populated with nested custom constructs", () => {
+    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const stack = new TerraformStack(app, "MyStack");
+
+    class MyCustomConstruct extends Construct {
+      constructor(scope: Construct, id: string) {
+        super(scope, id);
+
+        const resource = new MyResource(this, "resource", {
+          terraformResourceType: "aws_bucket",
+        });
+
+        new TerraformOutput(this, "output", {
+          value: resource,
+        });
+        new TerraformOutput(this, "output1", {
+          value: "value1",
+        });
+      }
+    }
+
+    new MyCustomConstruct(stack, "MyCustomConstruct");
+    new MyCustomConstruct(stack, "MyCustomOtherConstruct");
+
+    const tf = stack.toTerraform();
+    const { outputs } = tf["//"];
+
+    expect(outputs).toMatchInlineSnapshot(`
+      Object {
+        "MyStack": Object {
+          "MyCustomConstruct": Object {
+            "output": "MyStack_MyCustomConstruct_output_E06F5428",
+            "output1": "MyStack_MyCustomConstruct_output1_55CB8869",
+          },
+          "MyCustomOtherConstruct": Object {
+            "output": "MyStack_MyCustomOtherConstruct_output_BCB14270",
+            "output1": "MyStack_MyCustomOtherConstruct_output1_BEDB5493",
+          },
+        },
+      }
+    `);
+  });
 });
 
 class MyModule extends TerraformModule {
