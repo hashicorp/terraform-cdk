@@ -1,0 +1,38 @@
+{
+  "provider_schemas": {
+    "provider_one": {
+      "resource_schemas": {
+        "resource_name": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "attribute_one": {
+                "type": "bool",
+                "required": true,
+                "description": "resource number 1"
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    },
+    "provider_two": {
+      "resource_schemas": {
+        "resource_name": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "attribute_one": {
+                "type": "bool",
+                "required": true,
+                "description": "resource number 1"
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}

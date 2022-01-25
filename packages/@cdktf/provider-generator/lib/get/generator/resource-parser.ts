@@ -14,21 +14,13 @@ import {
   AttributeModel,
 } from "./models";
 
-const classNames: string[] = [];
-
-const uniqueClassName = (className: string): string => {
-  if (classNames.includes(className)) {
-    className = `${className}A`;
-  }
-  classNames.push(className);
-  return className;
-};
 
 const isReservedClassName = (className: string): boolean => {
   return ["string"].includes(className.toLowerCase());
 };
 
 class Parser {
+  private classNames = new Array<string>();
   private structs = new Array<Struct>();
 
   public resourceFrom(
@@ -61,9 +53,9 @@ class Parser {
       baseName = `${baseName}_resource`;
     }
 
-    const className = uniqueClassName(toPascalCase(baseName));
+    const className = this.uniqueClassName(toPascalCase(baseName));
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
-    const configStructName = uniqueClassName(`${className}Config`);
+    const configStructName = this.uniqueClassName(`${className}Config`);
     const fileName =
       baseName === "index"
         ? "index-resource.ts"
@@ -96,6 +88,14 @@ class Parser {
 
     return resourceModel;
   }
+
+  private uniqueClassName(className: string): string {
+    if (this.classNames.includes(className)) {
+      className = `${className}A`;
+    }
+    this.classNames.push(className);
+    return className;
+  };
 
   private renderAttributeType(
     scope: Scope[],
@@ -395,7 +395,7 @@ class Parser {
     attributes: AttributeModel[],
     isSingleItem = false
   ) {
-    const name = uniqueClassName(
+    const name = this.uniqueClassName(
       toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
     );
     const parent = scope[scope.length - 1];

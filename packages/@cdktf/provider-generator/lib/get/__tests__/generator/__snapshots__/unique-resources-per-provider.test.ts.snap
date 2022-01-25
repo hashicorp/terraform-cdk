@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`two providers with same resource name do not collide 1`] = `
+"// https://www.terraform.io/docs/providers/provider_one/r/resource_name
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface ResourceNameConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * resource number 1
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/provider_one/r/resource_name#attribute_one ResourceName#attribute_one}
+  */
+  readonly attributeOne: boolean | cdktf.IResolvable;
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/provider_one/r/resource_name resource_name}
+*/
+export class ResourceName extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"resource_name\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/provider_one/r/resource_name resource_name} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options ResourceNameConfig
+  */
+  public constructor(scope: Construct, id: string, config: ResourceNameConfig) {
+    super(scope, id, {
+      terraformResourceType: 'resource_name',
+      terraformGeneratorMetadata: {
+        providerName: 'provider_one'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._attributeOne = config.attributeOne;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // attribute_one - computed: false, optional: false, required: true
+  private _attributeOne?: boolean | cdktf.IResolvable; 
+  public get attributeOne() {
+    return this.getBooleanAttribute('attribute_one');
+  }
+  public set attributeOne(value: boolean | cdktf.IResolvable) {
+    this._attributeOne = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get attributeOneInput() {
+    return this._attributeOne;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      attribute_one: cdktf.booleanToTerraform(this._attributeOne),
+    };
+  }
+}
+"
+`;
+
+exports[`two providers with same resource name do not collide 2`] = `
+"// https://www.terraform.io/docs/providers/provider_two/r/resource_name
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface ResourceNameConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * resource number 1
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/provider_two/r/resource_name#attribute_one ResourceName#attribute_one}
+  */
+  readonly attributeOne: boolean | cdktf.IResolvable;
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/provider_two/r/resource_name resource_name}
+*/
+export class ResourceName extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType: string = \\"resource_name\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/provider_two/r/resource_name resource_name} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options ResourceNameConfig
+  */
+  public constructor(scope: Construct, id: string, config: ResourceNameConfig) {
+    super(scope, id, {
+      terraformResourceType: 'resource_name',
+      terraformGeneratorMetadata: {
+        providerName: 'provider_two'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._attributeOne = config.attributeOne;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // attribute_one - computed: false, optional: false, required: true
+  private _attributeOne?: boolean | cdktf.IResolvable; 
+  public get attributeOne() {
+    return this.getBooleanAttribute('attribute_one');
+  }
+  public set attributeOne(value: boolean | cdktf.IResolvable) {
+    this._attributeOne = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get attributeOneInput() {
+    return this._attributeOne;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      attribute_one: cdktf.booleanToTerraform(this._attributeOne),
+    };
+  }
+}
+"
+`;
