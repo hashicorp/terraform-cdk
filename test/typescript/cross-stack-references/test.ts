@@ -90,5 +90,14 @@ describe("cross stack references", () => {
       await driver.deploy("switchedStack");
       expect(driver.manifest()).toMatchSnapshot("without dependency");
     });
+
+    it("can pin function outputs to a stack by using terraform locals", async () => {
+      await driver.deploy("pinnedFns");
+      await driver.deploy("functionOutputPinned");
+
+      const pinnedStr = driver.readLocalFile("pinnedFnsStr");
+      const outputPinnedStr = driver.readLocalFile("functionOutputPinnedStr");
+      expect(pinnedStr).toEqual(outputPinnedStr);
+    });
   });
 });

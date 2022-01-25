@@ -52,6 +52,26 @@ exports[`cross stack references deployed can remove references to deployed stack
         \\"origin\\"
       ]
     },
+    \\"pinnedFns\\": {
+      \\"name\\": \\"pinnedFns\\",
+      \\"constructPath\\": \\"pinnedFns\\",
+      \\"workingDirectory\\": \\"stacks/pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks/pinnedFns/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutputPinned\\": {
+      \\"name\\": \\"functionOutputPinned\\",
+      \\"constructPath\\": \\"functionOutputPinned\\",
+      \\"workingDirectory\\": \\"stacks/functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks/functionOutputPinned/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"pinnedFns\\"
+      ]
+    },
     \\"secondOrigin\\": {
       \\"name\\": \\"secondOrigin\\",
       \\"constructPath\\": \\"secondOrigin\\",
@@ -126,6 +146,26 @@ exports[`cross stack references deployed can remove references to deployed stack
         \\"origin\\"
       ]
     },
+    \\"pinnedFns\\": {
+      \\"name\\": \\"pinnedFns\\",
+      \\"constructPath\\": \\"pinnedFns\\",
+      \\"workingDirectory\\": \\"stacks/pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks/pinnedFns/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutputPinned\\": {
+      \\"name\\": \\"functionOutputPinned\\",
+      \\"constructPath\\": \\"functionOutputPinned\\",
+      \\"workingDirectory\\": \\"stacks/functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks/functionOutputPinned/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"pinnedFns\\"
+      ]
+    },
     \\"secondOrigin\\": {
       \\"name\\": \\"secondOrigin\\",
       \\"constructPath\\": \\"secondOrigin\\",
@@ -196,6 +236,26 @@ exports[`cross stack references synth generates JSON 1`] = `
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
+      ]
+    },
+    \\"pinnedFns\\": {
+      \\"name\\": \\"pinnedFns\\",
+      \\"constructPath\\": \\"pinnedFns\\",
+      \\"workingDirectory\\": \\"stacks/pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks/pinnedFns/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutputPinned\\": {
+      \\"name\\": \\"functionOutputPinned\\",
+      \\"constructPath\\": \\"functionOutputPinned\\",
+      \\"workingDirectory\\": \\"stacks/functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks/functionOutputPinned/cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"pinnedFns\\"
       ]
     },
     \\"secondOrigin\\": {
