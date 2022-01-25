@@ -78,9 +78,18 @@ describe("java full integration", () => {
       expect(l.req[1].reqstr).toBe("reqstr2");
 
       // Single item list
-      expect(l.singlereq.reqbool).toBe(true);
+      expect(l.singlereq.reqbool).toBe(false);
       expect(l.singlereq.reqnum).toBe(1);
       expect(l.singlereq.reqstr).toBe("reqstr");
+    });
+
+    it("renders plain values in sets", () => {
+      const s = stack.byId("set_block");
+
+      expect(s.set).toEqual([
+        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+      ]);
     });
 
     it("references plain values", () => {
@@ -90,29 +99,26 @@ describe("java full integration", () => {
       expect(stack.byId("plain").num).toEqual(
         "${optional_attribute_resource.test.num}"
       );
-      // Not supported in Java
-      // expect(stack.byId("plain").bool).toEqual(
-      //   "${optional_attribute_resource.test.bool}"
-      // );
+      expect(stack.byId("plain").bool).toEqual(
+        "${optional_attribute_resource.test.bool}"
+      );
       expect(stack.byId("plain").strList).toEqual(
         "${optional_attribute_resource.test.strList}"
       );
       expect(stack.byId("plain").numList).toEqual(
         "${optional_attribute_resource.test.numList}"
       );
-      // Not supported in Java
-      // expect(stack.byId("plain").boolList).toEqual(
-      //   "${optional_attribute_resource.test.boolList}"
-      // );
+      expect(stack.byId("plain").boolList).toEqual(
+        "${optional_attribute_resource.test.boolList}"
+      );
     });
 
     it("item references a required single item lists required values", () => {
       const item = stack.byId("from_single_list");
 
-      // Not supported in Java
-      // expect(item.bool).toEqual(
-      //   "${list_block_resource.list.singlereq[0].reqbool}"
-      // );
+      expect(item.bool).toEqual(
+        "${list_block_resource.list.singlereq[0].reqbool}"
+      );
       expect(item.str).toEqual(
         "${list_block_resource.list.singlereq[0].reqstr}"
       );
@@ -130,8 +136,7 @@ describe("java full integration", () => {
       ]);
     });
 
-    // Not supported in Java
-    it.skip("item references required values from multi-item lists", () => {
+    it("item references required values from multi-item lists", () => {
       const item = stack.byId("from_list");
 
       // Direct access is not supported, we have to go through terraform functions
@@ -155,7 +160,7 @@ describe("java full integration", () => {
       ]);
     });
 
-    // Not supported in Java
+    // Not supported at this time
     it.skip("item references a required single item list", () => {
       const item = stack.byId("list_reference");
 
@@ -163,7 +168,7 @@ describe("java full integration", () => {
       expect(item.singlereq).toMatchInlineSnapshot();
     });
 
-    // Not supported in Java
+    // Not supported at this time
     it.skip("item references a required multi item list", () => {
       const item = stack.byId("list_reference");
 
@@ -171,7 +176,7 @@ describe("java full integration", () => {
       expect(item.req).toEqual("${list_block_resource.list.req}");
     });
 
-    // Not supported in Java
+    // Not possible
     it.skip("list attribute uses reference of single-item list", () => {
       const item = stack.byId("list_literal");
 
@@ -209,6 +214,18 @@ describe("java full integration", () => {
       // Expands map references
       expect(item.reqMap).toEqual("${map_resource.map.reqMap}");
       expect(item.optMap).toEqual("${map_resource.map.optMap}");
+    });
+
+    it("item references set from multi-item list", () => {
+      const item = stack.byId("set_from_list");
+
+      expect(item.set).toEqual("${list_block_resource.list.req}");
+    });
+
+    it("item references multi-item list from set", () => {
+      const item = stack.byId("list_from_set");
+
+      expect(item.req).toEqual("${tolist(set_block_resource.setblock.set)}");
     });
   });
 });

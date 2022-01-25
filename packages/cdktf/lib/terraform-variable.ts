@@ -123,8 +123,8 @@ export class TerraformVariable
     return Token.asList(this.interpolation());
   }
 
-  public get booleanValue(): boolean {
-    return Token.asString(this.interpolation()) as any as boolean;
+  public get booleanValue(): IResolvable {
+    return this.interpolation();
   }
 
   public get value(): any {

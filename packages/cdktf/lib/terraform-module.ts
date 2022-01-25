@@ -5,7 +5,6 @@ import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
 import { ref, insideTfExpression } from "./tfExpression";
-import { TokenMap } from "./tokens/private/token-map";
 import { TerraformAsset } from "./terraform-asset";
 
 export interface TerraformModuleOptions {
@@ -63,10 +62,15 @@ export abstract class TerraformModule
     return {};
   }
 
-  public interpolationForOutput(moduleOutput: string): string {
-    return TokenMap.instance().registerString(
-      ref(`module.${this.friendlyUniqueId}.${moduleOutput}`, this.cdktfStack)
+  public interpolationForOutput(moduleOutput: string) {
+    return ref(
+      `module.${this.friendlyUniqueId}.${moduleOutput}`,
+      this.cdktfStack
     );
+  }
+
+  public getString(output: string): string {
+    return Token.asString(this.interpolationForOutput(output));
   }
 
   public get providers() {

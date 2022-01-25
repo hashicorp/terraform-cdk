@@ -21,28 +21,35 @@ class ReferenceStack extends TerraformStack {
         arrlist.add(ListBlockResourceReq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build());
         arrlist.add(ListBlockResourceReq.builder().reqbool(false).reqnum(0).reqstr("reqstr2").build());
 
+        List<SetBlockResourceSet> setlist = new ArrayList<SetBlockResourceSet>();
+        setlist.add(SetBlockResourceSet.builder().reqbool(true).reqnum(1).reqstr("reqstr").build());
+        setlist.add(SetBlockResourceSet.builder().reqbool(false).reqnum(0).reqstr("reqstr2").build());
+
         OptionalAttributeResource res = OptionalAttributeResource.Builder.create(this, "test").build();
         ListBlockResource list = ListBlockResource.Builder.create(this, "list").req(arrlist)
-                .singlereq(ListBlockResourceSinglereq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build())
+                .singlereq(ListBlockResourceSinglereq.builder().reqbool(false).reqnum(1).reqstr("reqstr").build())
                 .build();
         MapResource map = MapResource.Builder.create(this, "map")
                 .optMap(Collections.singletonMap("key1", "value1"))
                 .reqMap(Collections.singletonMap("key1", true))
                 .build();
+        SetBlockResource set = SetBlockResource.Builder.create(this, "set_block")
+                .set(setlist)
+                .build();
 
         // plain values
         RequiredAttributeResource.Builder.create(this, "plain")
-                .bool(true) // res.getBool())
+                .bool(Token.asAny(res.getBool()))
                 .str(res.getStr())
                 .num(res.getNum())
                 .strList(res.getStrList())
                 .numList(res.getNumList())
-                .boolList(Collections.singletonList(true) /*res.getBoolList()*/)
+                .boolList(Token.asAny(res.getBoolList()))
                 .build();
 
         // required values FROM required single item lists
         RequiredAttributeResource.Builder.create(this, "from_single_list")
-                .bool(true) // list.getSinglereq().getReqbool())
+                .bool(Token.asAny(list.getSinglereq().getReqbool()))
                 .str(list.getSinglereq().getReqstr())
                 .num(list.getSinglereq().getReqnum())
                 .strList(Collections.singletonList(list.getSinglereq().getReqstr()))
@@ -51,21 +58,28 @@ class ReferenceStack extends TerraformStack {
                 .build();
 
         // required values FROM required multi item lists
-        // RequiredAttributeResource.Builder.create(this, "from_list")
-        //         .bool(Fn.lookup(Fn.element(list.getReq(), 0), "reqbool", false))
-        //         .str(Token.asString(Fn.lookup(Fn.element(list.getReq(), 0), "reqstr", "fallback")))
-        //         .num(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0)))
-        //         .build();
+        RequiredAttributeResource.Builder.create(this, "from_list")
+                .bool(Token.asAny(Fn.lookup(Fn.element(list.getReq(), 0), "reqbool", false)))
+                .str(Token.asString(Fn.lookup(Fn.element(list.getReq(), 0), "reqstr", "fallback")))
+                .num(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0)))
+                .strList(Collections.singletonList(Token.asString(Fn.lookup(Fn.element(list.getReq(), 0), "reqstr", "fallback"))))
+                .numList(Collections.singletonList(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0))))
+                .boolList(Collections.singletonList(Token.asAny(Fn.lookup(Fn.element(list.getReq(), 0), "reqbool", false))))
+                .build();
 
         // passing a reference to a complete list
+        // Not supported at this time.
+        // Tricky to get working because of JSII interface limitations.
         // ListBlockResource.Builder.create(this, "list_reference")
-        //         .req(Collections.emptyList()) // .req(list.getReq())
+        //         .req(Token.asAny(list.getReq()))
         //         .singlereq(list.getSinglereq())
         //         .build();
 
         // passing a literal array with references for a list
+        // This doesn't work since the types of 'req' and 'singlereq' are different.
+        // It works in TS/Python since the type definitions have the same properties.
         // ListBlockResource.Builder.create(this, "list_literal")
-        //         .req(Collections.singletonList(list.getSinglereq()))
+        //         .req(Token.asAny(Collections.singletonList(list.getSinglereq())))
         //         .singlereq(list.getSinglereq())
         //         .build();
 
@@ -83,6 +97,17 @@ class ReferenceStack extends TerraformStack {
         MapResource.Builder.create(this, "map_reference")
                 .optMap(map.getOptMap())
                 .reqMap(map.getReqMap())
+                .build();
+
+        // passing a list ref into a set
+        SetBlockResource.Builder.create(this, "set_from_list")
+                .set(Token.asAny(list.getReq()))
+                .build();
+
+        // passing a set ref into a list
+        ListBlockResource.Builder.create(this, "list_from_set")
+                .req(Token.asAny(set.getSet()))
+                .singlereq(ListBlockResourceSinglereq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build())
                 .build();
     }
 }
@@ -110,11 +135,8 @@ class ProviderStack extends TerraformStack {
                 .alias("full")
                 .build();
 
-        // TODO: this currently does not compile because provider.reqbool may be undefined
-        // although it is required to be set and therefor never actually is undefined
         RequiredAttributeResource.Builder.create(this, "reqOpt")
-                // .bool(providerOpt.getReqbool())
-                .bool(true)
+                .bool(Token.asAny(providerOpt.getReqbool()))
                 .num(Token.asNumber(providerOpt.getReqnum()))
                 .str(Token.asString(providerOpt.getReqstr()))
                 .strList(Collections.singletonList(providerOpt.getReqstr()))
@@ -123,20 +145,19 @@ class ProviderStack extends TerraformStack {
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "optOpt")
-                // .bool(providerOpt.getOptbool())
+                .bool(Token.asAny(providerOpt.getOptbool()))
                 .str(Token.asString(providerOpt.getOptstr()))
                 .num(Token.asNumber(providerOpt.getOptnum()))
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "computedOpt")
-                // .bool(providerOpt.getComputedbool())
+                .bool(Token.asAny(providerOpt.getComputedbool()))
                 .str(Token.asString(providerOpt.getComputedstr()))
                 .num(Token.asNumber(providerOpt.getComputednum()))
                 .build();
 
         RequiredAttributeResource.Builder.create(this, "reqFull")
-                // .bool(providerFull.getReqbool())
-                .bool(true)
+                .bool(Token.asAny(providerFull.getReqbool()))
                 .num(Token.asNumber(providerFull.getReqnum()))
                 .str(Token.asString(providerFull.getReqstr()))
                 .strList(Collections.singletonList(providerFull.getReqstr()))
@@ -145,13 +166,13 @@ class ProviderStack extends TerraformStack {
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "optFull")
-                // .bool(providerFull.getOptbool())
+                .bool(Token.asAny(providerFull.getOptbool()))
                 .str(Token.asString(providerFull.getOptstr()))
                 .num(Token.asNumber(providerFull.getOptnum()))
                 .build();
 
         OptionalAttributeResource.Builder.create(this, "computedFull")
-                // .bool(providerFull.getComputedbool())
+                .bool(Token.asAny(providerFull.getComputedbool()))
                 .str(Token.asString(providerFull.getComputedstr()))
                 .num(Token.asNumber(providerFull.getComputednum()))
                 .build();

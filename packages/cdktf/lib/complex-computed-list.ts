@@ -1,4 +1,4 @@
-import { Token } from "./tokens";
+import { Token, IResolvable } from "./tokens";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { Fn, propertyAccess } from ".";
 
@@ -20,7 +20,7 @@ abstract class ComplexComputedAttribute implements IInterpolatingParent {
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
-  public getBooleanAttribute(terraformAttribute: string) {
+  public getBooleanAttribute(terraformAttribute: string): IResolvable {
     return this.interpolationForAttribute(terraformAttribute);
   }
 
@@ -91,12 +91,10 @@ export class BooleanMap {
     protected terraformAttribute: string
   ) {}
 
-  public lookup(key: string): boolean {
-    return Token.asString(
-      this.terraformResource.interpolationForAttribute(
-        `${this.terraformAttribute}["${key}"]`
-      )
-    ) as any as boolean;
+  public lookup(key: string): IResolvable {
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}["${key}"]`
+    );
   }
 }
 
