@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.8.6",
+  "version": "0.9.0",
   "private": true,
   "scripts": {
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
