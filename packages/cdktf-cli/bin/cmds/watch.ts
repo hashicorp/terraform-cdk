@@ -24,7 +24,7 @@ class Command implements yargs.CommandModule {
       .option("output", {
         default: config.output,
         required: true,
-        desc: "Output directory",
+        desc: "Output directory for the synthesized Terraform config",
         alias: "o",
       })
       .option("auto-approve", {

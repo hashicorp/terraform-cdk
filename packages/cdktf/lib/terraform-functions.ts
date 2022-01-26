@@ -115,6 +115,11 @@ function asBoolean(value: IResolvable) {
 }
 
 function asAny(value: IResolvable) {
+  // Ordinarily casting to any can cause issues, but
+  // in this case it makes using functions a bit easier in TS
+  // and doesn't really harm other languages.
+  // Jsii has issues when returning the value directly,
+  // so wrap as a string.
   return asString(value) as any;
 }
 
@@ -161,7 +166,7 @@ export class Fn {
    * @param {Array} value
    * @param {number} chunkSize
    */
-  public static chunklist(value: any[], chunkSize: number | IResolvable) {
+  public static chunklist(value: any[], chunkSize: number) {
     return asList(
       terraformFunction("chunklist", [listOf(anyValue), numericValue])(
         value,
@@ -209,7 +214,7 @@ export class Fn {
    * @param {Array} list
    * @param {any} value
    */
-  public static contains(list: any[], value: any) {
+  public static contains(list: any[] | IResolvable, value: any) {
     return asBoolean(
       terraformFunction("contains", [listOf(anyValue), anyValue])(list, value)
     );
@@ -219,7 +224,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/distinct.html distinct} takes a list and returns a new list with any duplicate elements removed.
    * @param {Array} list
    */
-  public static distinct(list: any[]) {
+  public static distinct(list: any[] | IResolvable) {
     return asList(terraformFunction("distinct", [listOf(anyValue)])(list));
   }
 
@@ -228,10 +233,7 @@ export class Fn {
    * @param {Array} list
    * @param {number} index
    */
-  public static element(
-    list: any[] | IResolvable,
-    index: number | IResolvable
-  ) {
+  public static element(list: any[] | IResolvable, index: number) {
     return asAny(
       terraformFunction("element", [listOf(anyValue), numericValue])(
         list,
@@ -298,9 +300,9 @@ export class Fn {
    * @param {Array} searchSet
    */
   public static matchkeys(
-    valuesList: any[] | string,
-    keysList: any[] | string,
-    searchSet: any[] | string
+    valuesList: any[] | string | IResolvable,
+    keysList: any[] | string | IResolvable,
+    searchSet: any[] | string | IResolvable
   ) {
     return asList(
       terraformFunction("matchkeys", [anyValue, anyValue, anyValue])(
@@ -323,7 +325,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/one.html one} takes a list, set, or tuple value with either zero or one elements.
    * @param {Array} list
    */
-  public static one(list: any[] | string) {
+  public static one(list: any[] | string | IResolvable) {
     return asAny(terraformFunction("one", [listOf(anyValue)])(list));
   }
 
@@ -333,11 +335,7 @@ export class Fn {
    * @param {number} limit
    * @param {number=1} step
    */
-  public static range(
-    start: number | IResolvable,
-    limit: number | IResolvable,
-    step = 1
-  ) {
+  public static range(start: number, limit: number, step = 1) {
     return asList(
       terraformFunction("range", listOf(anyValue))(start, limit, step)
     );
@@ -347,7 +345,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/reverse.html reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.
    * @param {Array} values
    */
-  public static reverse(values: any[]) {
+  public static reverse(values: any[] | IResolvable) {
     return asList(terraformFunction("reverse", [listOf(anyValue)])(values));
   }
 
@@ -375,8 +373,8 @@ export class Fn {
    * @param {Array} subtrahend
    */
   public static setsubtract(
-    minuend: any[] | string,
-    subtrahend: any[] | string
+    minuend: any[] | string | IResolvable,
+    subtrahend: any[] | string | IResolvable
   ) {
     return asList(
       terraformFunction("setsubtract", [listOf(anyValue), listOf(anyValue)])(
@@ -401,9 +399,9 @@ export class Fn {
    * @param {number} endindex
    */
   public static slice(
-    list: any[] | string,
-    startindex: number | IResolvable,
-    endindex: number | IResolvable
+    list: any[] | string | IResolvable,
+    startindex: number,
+    endindex: number
   ) {
     return asList(
       terraformFunction("slice", [
@@ -418,7 +416,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/sort.html sort} takes a list of strings and returns a new list with those strings sorted lexicographically.
    * @param {Array} list
    */
-  public static sort(list: any[] | string) {
+  public static sort(list: any[] | string | IResolvable) {
     return asList(terraformFunction("sort", [listOf(anyValue)])(list));
   }
 
@@ -426,7 +424,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/sum.html sum} takes a list or set of numbers and returns the sum of those numbers.
    * @param {Array} list
    */
-  public static sum(list: any[] | string) {
+  public static sum(list: any[] | string | IResolvable) {
     return asNumber(terraformFunction("sum", [listOf(anyValue)])(list));
   }
 
@@ -451,7 +449,10 @@ export class Fn {
    * @param {Array} keyslist
    * @param {Array} valueslist
    */
-  public static zipmap(keyslist: any[], valueslist: any[]) {
+  public static zipmap(
+    keyslist: any[] | IResolvable,
+    valueslist: any[] | IResolvable
+  ) {
     return asAny(terraformFunction("zipmap", [mapValue])(keyslist, valueslist));
   }
 
@@ -459,7 +460,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/base64sha256.html base64sha256} computes the SHA256 hash of a given string and encodes it with Base64.
    * @param {string} value
    */
-  public static base64sha256(value: string | IResolvable) {
+  public static base64sha256(value: string) {
     return asString(terraformFunction("base64sha256", [stringValue])(value));
   }
 
@@ -467,7 +468,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/base64sha512.html base64sha512} computes the SHA512 hash of a given string and encodes it with Base64.
    * @param {string} value
    */
-  public static base64sha512(value: string | IResolvable) {
+  public static base64sha512(value: string) {
     return asString(terraformFunction("base64sha512", [stringValue])(value));
   }
 
@@ -476,10 +477,7 @@ export class Fn {
    * @param {string} value
    * @param {number=10} cost
    */
-  public static bcrypt(
-    value: string | IResolvable,
-    cost?: number | IResolvable
-  ) {
+  public static bcrypt(value: string, cost?: number) {
     return asString(terraformFunction("bcrypt", listOf(anyValue))(value, cost));
   }
 
@@ -487,7 +485,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/filebase64sha256.html filebase64sha256} is a variant of base64sha256 that hashes the contents of a given file rather than a literal string.
    * @param {string} value
    */
-  public static filebase64sha256(value: string | IResolvable) {
+  public static filebase64sha256(value: string) {
     return asString(
       terraformFunction("filebase64sha256", [stringValue])(value)
     );
@@ -497,7 +495,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/filebase64sha512.html filebase64sha512} is a variant of base64sha512 that hashes the contents of a given file rather than a literal string.
    * @param {string} value
    */
-  public static filebase64sha512(value: string | IResolvable) {
+  public static filebase64sha512(value: string) {
     return asString(
       terraformFunction("filebase64sha512", [stringValue])(value)
     );
@@ -507,7 +505,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/filemd5.html filemd5} is a variant of md5 that hashes the contents of a given file rather than a literal string.
    * @param {string} value
    */
-  public static filemd5(value: string | IResolvable) {
+  public static filemd5(value: string) {
     return asString(terraformFunction("filemd5", [stringValue])(value));
   }
 
@@ -515,7 +513,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/filesha1.html filesha1} is a variant of sha1 that hashes the contents of a given file rather than a literal string.
    * @param {string} value
    */
-  public static filesha1(value: string | IResolvable) {
+  public static filesha1(value: string) {
     return asString(terraformFunction("filesha1", [stringValue])(value));
   }
 
@@ -523,7 +521,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/filesha256.html filesha256} is a variant of sha256 that hashes the contents of a given file rather than a literal string.
    * @param {string} value
    */
-  public static filesha256(value: string | IResolvable) {
+  public static filesha256(value: string) {
     return asString(terraformFunction("filesha256", [stringValue])(value));
   }
 
@@ -531,7 +529,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/filesha512.html filesha512} is a variant of sha512 that hashes the contents of a given file rather than a literal string.
    * @param {string} value
    */
-  public static filesha512(value: string | IResolvable) {
+  public static filesha512(value: string) {
     return asString(terraformFunction("filesha512", [stringValue])(value));
   }
 
@@ -539,7 +537,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/md5.html md5} computes the MD5 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} value
    */
-  public static md5(value: string | IResolvable) {
+  public static md5(value: string) {
     return asString(terraformFunction("md5", [stringValue])(value));
   }
 
@@ -548,10 +546,7 @@ export class Fn {
    * @param {string} ciphertext
    * @param {string} privatekey
    */
-  public static rsadecrypt(
-    ciphertext: string | IResolvable,
-    privatekey: string | IResolvable
-  ) {
+  public static rsadecrypt(ciphertext: string, privatekey: string) {
     return asString(
       terraformFunction("rsadecrypt", [stringValue, stringValue])(
         ciphertext,
@@ -564,7 +559,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/sha1.html sha1} computes the SHA1 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} value
    */
-  public static sha1(value: string | IResolvable) {
+  public static sha1(value: string) {
     return asString(terraformFunction("sha1", [stringValue])(value));
   }
 
@@ -572,7 +567,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/sha256.html sha256} computes the SHA256 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} value
    */
-  public static sha256(value: string | IResolvable) {
+  public static sha256(value: string) {
     return asString(terraformFunction("sha256", [stringValue])(value));
   }
 
@@ -580,7 +575,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/sha512.html sha512} computes the SHA512 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} value
    */
-  public static sha512(value: string | IResolvable) {
+  public static sha512(value: string) {
     return asString(terraformFunction("sha512", [stringValue])(value));
   }
 
@@ -596,10 +591,7 @@ export class Fn {
    * @param {string} namespace
    * @param {string} name
    */
-  public static uuidv5(
-    namespace: string | IResolvable,
-    name: string | IResolvable
-  ) {
+  public static uuidv5(namespace: string, name: string) {
     return asString(
       terraformFunction("uuidv5", [stringValue, stringValue])(namespace, name)
     );
@@ -610,10 +602,7 @@ export class Fn {
    * @param {string} spec
    * @param {string} timestamp
    */
-  public static formatdate(
-    spec: string | IResolvable,
-    timestamp: string | IResolvable
-  ) {
+  public static formatdate(spec: string, timestamp: string) {
     return asString(
       terraformFunction("formatdate", [stringValue, stringValue])(
         spec,
@@ -627,10 +616,7 @@ export class Fn {
    * @param {string} timestamp
    * @param {string} duration
    */
-  public static timeadd(
-    timestamp: string | IResolvable,
-    duration: string | IResolvable
-  ) {
+  public static timeadd(timestamp: string, duration: string) {
     return asString(
       terraformFunction("timeadd", [stringValue, stringValue])(
         timestamp,
@@ -650,7 +636,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/base64decode.html base64decode} takes a string containing a Base64 character sequence and returns the original string.
    * @param {string} value
    */
-  public static base64decode(value: string | IResolvable) {
+  public static base64decode(value: string) {
     return asString(terraformFunction("base64decode", [stringValue])(value));
   }
 
@@ -658,7 +644,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/base64encode.html base64encode} takes a string containing a Base64 character sequence and returns the original string.
    * @param {string} value
    */
-  public static base64encode(value: string | IResolvable) {
+  public static base64encode(value: string) {
     return asString(terraformFunction("base64encode", [stringValue])(value));
   }
 
@@ -666,7 +652,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/base64gzip.html base64gzip} compresses a string with gzip and then encodes the result in Base64 encoding.
    * @param {string} value
    */
-  public static base64gzip(value: string | IResolvable) {
+  public static base64gzip(value: string) {
     return asString(terraformFunction("base64gzip", [stringValue])(value));
   }
 
@@ -674,7 +660,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/csvdecode.html csvdecode} decodes a string containing CSV-formatted data and produces a list of maps representing that data.
    * @param {string} value
    */
-  public static csvdecode(value: string | IResolvable) {
+  public static csvdecode(value: string) {
     return asList(terraformFunction("csvdecode", [stringValue])(value));
   }
 
@@ -682,7 +668,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/jsondecode.html jsondecode} interprets a given string as JSON, returning a representation of the result of decoding that string.
    * @param {string} value
    */
-  public static jsondecode(value: string | IResolvable) {
+  public static jsondecode(value: string) {
     return asAny(terraformFunction("jsondecode", [stringValue])(value));
   }
 
@@ -699,10 +685,7 @@ export class Fn {
    * @param {string} value
    * @param {string} encodingName
    */
-  public static textdecodebase64(
-    value: string | IResolvable,
-    encodingName: string | IResolvable
-  ) {
+  public static textdecodebase64(value: string, encodingName: string) {
     return asString(
       terraformFunction("textdecodebase64", [stringValue, stringValue])(
         value,
@@ -716,10 +699,7 @@ export class Fn {
    * @param {string} value
    * @param {string} encodingName
    */
-  public static textencodebase64(
-    value: string | IResolvable,
-    encodingName: string | IResolvable
-  ) {
+  public static textencodebase64(value: string, encodingName: string) {
     return asString(
       terraformFunction("textencodebase64", [stringValue, stringValue])(
         value,
@@ -732,7 +712,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/urlencode.html urlencode} applies URL encoding to a given string.
    * @param {string} value
    */
-  public static urlencode(value: string | IResolvable) {
+  public static urlencode(value: string) {
     return asString(terraformFunction("urlencode", [stringValue])(value));
   }
 
@@ -740,7 +720,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/yamldecode.html yamldecode} parses a string as a subset of YAML, and produces a representation of its value.
    * @param {string} value
    */
-  public static yamldecode(value: string | IResolvable) {
+  public static yamldecode(value: string) {
     return asAny(terraformFunction("yamldecode", [stringValue])(value));
   }
 
@@ -756,7 +736,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/abspath.html abspath} takes a string containing a filesystem path and converts it to an absolute path.
    * @param {string} value
    */
-  public static abspath(value: string | IResolvable) {
+  public static abspath(value: string) {
     return asString(terraformFunction("abspath", [stringValue])(value));
   }
 
@@ -764,7 +744,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/dirname.html dirname} takes a string containing a filesystem path and removes the last portion from it.
    * @param {string} value
    */
-  public static dirname(value: string | IResolvable) {
+  public static dirname(value: string) {
     return asString(terraformFunction("dirname", [stringValue])(value));
   }
 
@@ -772,7 +752,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/pathexpand.html pathexpand} takes a string containing a filesystem path and removes the last portion from it.
    * @param {string} value
    */
-  public static pathexpand(value: string | IResolvable) {
+  public static pathexpand(value: string) {
     return asString(terraformFunction("pathexpand", [stringValue])(value));
   }
 
@@ -780,7 +760,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/basename.html basename} takes a string containing a filesystem path and removes all except the last portion from it.
    * @param {string} value
    */
-  public static basename(value: string | IResolvable) {
+  public static basename(value: string) {
     return asString(terraformFunction("basename", [stringValue])(value));
   }
 
@@ -788,7 +768,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/file.html file} takes a string containing a filesystem path and removes all except the last portion from it.
    * @param {string} value
    */
-  public static file(value: string | IResolvable) {
+  public static file(value: string) {
     return asString(terraformFunction("file", [stringValue])(value));
   }
 
@@ -796,7 +776,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/fileexists.html fileexists} determines whether a file exists at a given path.
    * @param {string} value
    */
-  public static fileexists(value: string | IResolvable) {
+  public static fileexists(value: string) {
     return asBoolean(terraformFunction("fileexists", [stringValue])(value));
   }
 
@@ -805,10 +785,7 @@ export class Fn {
    * @param {string} path
    * @param {string} pattern
    */
-  public static fileset(
-    path: string | IResolvable,
-    pattern: string | IResolvable
-  ) {
+  public static fileset(path: string, pattern: string) {
     return asList(
       terraformFunction("fileset", [stringValue, stringValue])(path, pattern)
     );
@@ -818,7 +795,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/filebase64.html filebase64} reads the contents of a file at the given path and returns them as a base64-encoded string.
    * @param {string} value
    */
-  public static filebase64(value: string | IResolvable) {
+  public static filebase64(value: string) {
     return asString(terraformFunction("filebase64", [stringValue])(value));
   }
 
@@ -827,7 +804,7 @@ export class Fn {
    * @param {string} path
    * @param {Object} vars
    */
-  public static templatefile(path: string | IResolvable, vars: any) {
+  public static templatefile(path: string, vars: any) {
     return asString(
       terraformFunction("templatefile", [stringValue, mapValue])(path, vars)
     );
@@ -838,10 +815,7 @@ export class Fn {
    * @param {string} prefix
    * @param {number} hostnum
    */
-  public static cidrhost(
-    prefix: string | IResolvable,
-    hostnum: number | IResolvable
-  ) {
+  public static cidrhost(prefix: string, hostnum: number) {
     return asString(
       terraformFunction("cidrhost", [stringValue, numericValue])(
         prefix,
@@ -854,7 +828,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/cidrnetmask.html cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address.
    * @param {string} prefix
    */
-  public static cidrnetmask(prefix: string | IResolvable) {
+  public static cidrnetmask(prefix: string) {
     return asString(terraformFunction("cidrnetmask", [stringValue])(prefix));
   }
 
@@ -864,11 +838,7 @@ export class Fn {
    * @param {number} newbits
    * @param {number} netnum
    */
-  public static cidrsubnet(
-    prefix: string | IResolvable,
-    newbits: number | IResolvable,
-    netnum: number | IResolvable
-  ) {
+  public static cidrsubnet(prefix: string, newbits: number, netnum: number) {
     return asString(
       terraformFunction("cidrsubnet", [
         stringValue,
@@ -883,10 +853,7 @@ export class Fn {
    * @param {string} prefix
    * @param {...number} newbits
    */
-  public static cidrsubnets(
-    prefix: string | IResolvable,
-    newbits: (number | IResolvable)[]
-  ) {
+  public static cidrsubnets(prefix: string, newbits: number[]) {
     return asList(
       terraformFunction("cidrsubnets", listOf(anyValue))(prefix, ...newbits)
     );
@@ -896,7 +863,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/abs.html abs} returns the absolute value of the given number
    * @param {number} value
    */
-  public static abs(value: number | IResolvable) {
+  public static abs(value: number) {
     return asNumber(terraformFunction("abs", [numericValue])(value));
   }
 
@@ -904,7 +871,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/ceil.html ceil} returns the closest whole number that is greater than or equal to the given value, which may be a fraction.
    * @param {number} value
    */
-  public static ceil(value: number | IResolvable) {
+  public static ceil(value: number) {
     return asNumber(terraformFunction("ceil", [numericValue])(value));
   }
 
@@ -912,7 +879,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/floor.html floor} returns the closest whole number that is less than or equal to the given value, which may be a fraction
    * @param {number} value
    */
-  public static floor(value: number | IResolvable) {
+  public static floor(value: number) {
     return asNumber(terraformFunction("floor", [numericValue])(value));
   }
 
@@ -921,7 +888,7 @@ export class Fn {
    * @param {number} value
    * @param {number} base
    */
-  public static log(value: number | IResolvable, base: number | IResolvable) {
+  public static log(value: number, base: number) {
     return asNumber(
       terraformFunction("log", [numericValue, numericValue])(value, base)
     );
@@ -931,7 +898,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/max.html max} takes one or more numbers and returns the greatest number from the set.
    * @param {Array<number>} values
    */
-  public static max(values: (number | IResolvable)[]) {
+  public static max(values: number[]) {
     return asNumber(terraformFunction("max", listOf(numericValue))(...values));
   }
 
@@ -939,7 +906,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set.
    * @param {Array<number>} values
    */
-  public static min(values: (number | IResolvable)[]) {
+  public static min(values: number[]) {
     return asNumber(terraformFunction("min", listOf(numericValue))(...values));
   }
 
@@ -948,10 +915,7 @@ export class Fn {
    * @param {string} value
    * @param {number} base
    */
-  public static parseInt(
-    value: string | IResolvable,
-    base: number | IResolvable
-  ) {
+  public static parseInt(value: string, base: number) {
     return asNumber(
       terraformFunction("parseint", [stringValue, numericValue])(value, base)
     );
@@ -962,7 +926,7 @@ export class Fn {
    * @param {number} value
    * @param {number} power
    */
-  public static pow(value: number | IResolvable, power: number | IResolvable) {
+  public static pow(value: number, power: number) {
     return asNumber(
       terraformFunction("pow", [numericValue, numericValue])(value, power)
     );
@@ -972,7 +936,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/signum.html signum} determines the sign of a number, returning a number between -1 and 1 to represent the sign.
    * @param {number} value
    */
-  public static signum(value: number | IResolvable) {
+  public static signum(value: number) {
     return asNumber(terraformFunction("signum", [numericValue])(value));
   }
 
@@ -980,7 +944,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/chomp.html chomp} removes newline characters at the end of a string.
    * @param {string} value
    */
-  public static chomp(value: string | IResolvable) {
+  public static chomp(value: string) {
     return asString(terraformFunction("chomp", [stringValue])(value));
   }
 
@@ -989,7 +953,7 @@ export class Fn {
    * @param {string} spec
    * @param {Array} values
    */
-  public static format(spec: string | IResolvable, values: any[]) {
+  public static format(spec: string, values: any[]) {
     return asString(
       terraformFunction("format", listOf(anyValue))(spec, ...values)
     );
@@ -1000,7 +964,7 @@ export class Fn {
    * @param {string} spec
    * @param {Array<string>} values
    */
-  public static formatlist(spec: string | IResolvable, values: any[]) {
+  public static formatlist(spec: string, values: any[]) {
     return asList(
       terraformFunction("formatlist", listOf(anyValue))(spec, ...values)
     );
@@ -1011,10 +975,7 @@ export class Fn {
    * @param {number} indentation
    * @param {string} value
    */
-  public static indent(
-    indentation: number | IResolvable,
-    value: string | IResolvable
-  ) {
+  public static indent(indentation: number, value: string) {
     return asString(
       terraformFunction("indent", [numericValue, stringValue])(
         indentation,
@@ -1028,10 +989,7 @@ export class Fn {
    * @param {string} separator
    * @param {Array} value
    */
-  public static join(
-    separator: string | IResolvable,
-    value: (string | IResolvable)[]
-  ) {
+  public static join(separator: string, value: string[]) {
     return asString(
       terraformFunction("join", [stringValue, listOf(anyValue)])(
         separator,
@@ -1044,7 +1002,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/lower.html lower} converts all cased letters in the given string to lowercase.
    * @param {string} value
    */
-  public static lower(value: string | IResolvable) {
+  public static lower(value: string) {
     return asString(terraformFunction("lower", [stringValue])(value));
   }
 
@@ -1053,10 +1011,7 @@ export class Fn {
    * @param {string} pattern
    * @param {string} value
    */
-  public static regexall(
-    pattern: string | IResolvable,
-    value: string | IResolvable
-  ) {
+  public static regexall(pattern: string, value: string) {
     return asList(
       terraformFunction("regexall", [stringValue, stringValue])(pattern, value)
     );
@@ -1068,11 +1023,7 @@ export class Fn {
    * @param {string} substring
    * @param {string} replacement
    */
-  public static replace(
-    value: string | IResolvable,
-    substring: string | IResolvable,
-    replacement: string | IResolvable
-  ) {
+  public static replace(value: string, substring: string, replacement: string) {
     return asString(
       terraformFunction("replace", [stringValue, stringValue, stringValue])(
         value,
@@ -1087,10 +1038,7 @@ export class Fn {
    * @param {string} seperator
    * @param {string} value
    */
-  public static split(
-    seperator: string | IResolvable,
-    value: string | IResolvable
-  ) {
+  public static split(seperator: string, value: string) {
     return asList(
       terraformFunction("split", [stringValue, stringValue])(seperator, value)
     );
@@ -1100,7 +1048,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/strrev.html strrev} reverses the characters in a string.
    * @param {string} value
    */
-  public static strrev(value: string | IResolvable) {
+  public static strrev(value: string) {
     return asString(terraformFunction("strrev", [stringValue])(value));
   }
 
@@ -1110,11 +1058,7 @@ export class Fn {
    * @param {number} offset
    * @param {number} length
    */
-  public static substr(
-    value: string | IResolvable,
-    offset: number | IResolvable,
-    length: number | IResolvable
-  ) {
+  public static substr(value: string, offset: number, length: number) {
     return asString(
       terraformFunction("substr", [stringValue, numericValue, numericValue])(
         value,
@@ -1128,7 +1072,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/title.html title} converts the first letter of each word in the given string to uppercase.
    * @param {string} value
    */
-  public static title(value: string | IResolvable) {
+  public static title(value: string) {
     return asString(terraformFunction("title", [stringValue])(value));
   }
 
@@ -1137,10 +1081,7 @@ export class Fn {
    * @param {string} value
    * @param {string} replacement
    */
-  public static trim(
-    value: string | IResolvable,
-    replacement: string | IResolvable
-  ) {
+  public static trim(value: string, replacement: string) {
     return asString(
       terraformFunction("trim", [stringValue, stringValue])(value, replacement)
     );
@@ -1151,10 +1092,7 @@ export class Fn {
    * @param {string} value
    * @param {string} prefix
    */
-  public static trimprefix(
-    value: string | IResolvable,
-    prefix: string | IResolvable
-  ) {
+  public static trimprefix(value: string, prefix: string) {
     return asString(
       terraformFunction("trimprefix", [stringValue, stringValue])(value, prefix)
     );
@@ -1165,10 +1103,7 @@ export class Fn {
    * @param {string} value
    * @param {string} suffix
    */
-  public static trimsuffix(
-    value: string | IResolvable,
-    suffix: string | IResolvable
-  ) {
+  public static trimsuffix(value: string, suffix: string) {
     return asString(
       terraformFunction("trimsuffix", [stringValue, stringValue])(value, suffix)
     );
@@ -1178,7 +1113,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/trimspace.html trimspace} removes any space characters from the start and end of the given string.
    * @param {string} value
    */
-  public static trimspace(value: string | IResolvable) {
+  public static trimspace(value: string) {
     return asString(terraformFunction("trimspace", [stringValue])(value));
   }
 
@@ -1186,7 +1121,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/upper.html upper} converts all cased letters in the given string to uppercase.
    * @param {string} value
    */
-  public static upper(value: string | IResolvable) {
+  public static upper(value: string) {
     return asString(terraformFunction("upper", [stringValue])(value));
   }
 

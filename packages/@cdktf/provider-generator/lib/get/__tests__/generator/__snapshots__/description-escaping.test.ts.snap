@@ -64,7 +64,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   // broken_comments - computed: false, optional: false, required: true
   private _brokenComments?: boolean | cdktf.IResolvable; 
   public get brokenComments() {
-    return this.getBooleanAttribute('broken_comments') as any;
+    return this.getBooleanAttribute('broken_comments');
   }
   public set brokenComments(value: boolean | cdktf.IResolvable) {
     this._brokenComments = value;
@@ -147,7 +147,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // with_code_block - computed: false, optional: false, required: true
   private _withCodeBlock?: boolean | cdktf.IResolvable; 
   public get withCodeBlock() {
-    return this.getBooleanAttribute('with_code_block') as any;
+    return this.getBooleanAttribute('with_code_block');
   }
   public set withCodeBlock(value: boolean | cdktf.IResolvable) {
     this._withCodeBlock = value;

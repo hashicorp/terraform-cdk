@@ -114,11 +114,11 @@ export class AttributesEmitter {
     }
   }
 
-  // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this as any, "metadata", true)'
+  // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this, "metadata", true)'
   private storedClassInit(att: AttributeModel) {
     return `new ${att.type.name}${
       att.type.isSingleItem ? "OutputReference" : ""
-    }(this as any, "${att.terraformName}", ${
+    }(this, "${att.terraformName}", ${
       att.type.isSingleItem ? "true" : "false"
     })`;
   }
@@ -141,11 +141,14 @@ export class AttributesEmitter {
     if (type.isStringSet) {
       return `cdktf.Fn.tolist(this.getListAttribute('${att.terraformName}'))`;
     }
+    if (type.isNumberSet) {
+      return `cdktf.Token.asNumberList(cdktf.Fn.tolist(this.getNumberListAttribute('${att.terraformName}')))`;
+    }
     if (type.isNumber) {
       return `this.getNumberAttribute('${att.terraformName}')`;
     }
     if (type.isBoolean) {
-      return `this.getBooleanAttribute('${att.terraformName}') as any`;
+      return `this.getBooleanAttribute('${att.terraformName}')`;
     }
     if (type.isMap) {
       return `this.get${uppercaseFirst(att.mapType)}MapAttribute('${
@@ -164,10 +167,10 @@ export class AttributesEmitter {
       // would try to map over when this is passed to another resource. With Token.asAny() it is left
       // as is by the listMapper and is later properly resolved to a reference
       // (this only works in TypeScript currently, same as for referencing lists
-      // [see "interpolationForAttribute(...) as any" further below])
-      return `cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('${att.terraformName}'))) as any`;
+      // [see "interpolationForAttribute(...)" further below])
+      return `cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('${att.terraformName}')))`;
     }
-    return `this.interpolationForAttribute('${att.terraformName}') as any`;
+    return `this.interpolationForAttribute('${att.terraformName}')`;
   }
 
   public needsInputEscape(
@@ -293,6 +296,13 @@ export class AttributesEmitter {
           `${att.terraformName}: ${defaultCheck}${downcaseFirst(
             type.name
           )}ToTerraform(${varReference}.internalValue),`
+        );
+        break;
+      case type.isComplex && !type.struct?.isClass && !type.isSingleItem:
+        this.code.line(
+          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
+            type.struct!.name
+          )}ToTerraform(${varReference}),`
         );
         break;
       default:

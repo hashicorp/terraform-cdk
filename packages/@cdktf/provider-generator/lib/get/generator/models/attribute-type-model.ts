@@ -61,7 +61,7 @@ export class AttributeTypeModel {
     if (this.isComputedAnyMap) return `cdktf.AnyMap`;
 
     // map of booleans has token support, but booleans don't
-    if (this.isMap && this._type === TokenizableTypes.BOOLEAN)
+    if (this.isBooleanMap)
       return `{ [key: string]: (${this._type} | cdktf.IResolvable) }`;
 
     // other maps with token support
@@ -78,17 +78,24 @@ export class AttributeTypeModel {
       return `${this._type}`;
 
     // neither boolean nor boolean[] is tokenizable, so both parts need IResolvable
-    if (this.isList && this._type === TokenizableTypes.BOOLEAN)
+    if (hasListRepresentation && this._type === TokenizableTypes.BOOLEAN)
       return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
-    // non-computed list
-    if (hasListRepresentation && !this.isComputed) return `${this._type}[]`;
-    // computed lists of simple types
-    if (
-      hasListRepresentation &&
-      this.isComputed &&
-      (this.isPrimitive || !this.struct?.isClass)
-    )
+
+    // non-computed list of primitives
+    if (hasListRepresentation && !this.isComputed && this.isPrimitive)
       return `${this._type}[]`;
+
+    // non-computed list of non-primitives
+    if (hasListRepresentation && !this.isComputed && !this.isPrimitive)
+      return `${this._type}[] | cdktf.IResolvable`;
+
+    // computed lists of primitive types
+    if (hasListRepresentation && this.isComputed && this.isPrimitive)
+      return `${this._type}[]`;
+
+    // computed lists of simple types
+    if (hasListRepresentation && this.isComputed && !this.struct?.isClass)
+      return `${this._type}[] | cdktf.IResolvable`;
 
     // complex computed list
     if (hasListRepresentation && this.isComputed && this.isComplex)
@@ -97,6 +104,11 @@ export class AttributeTypeModel {
     // boolean
     if (this._type === TokenizableTypes.BOOLEAN)
       return `boolean | cdktf.IResolvable`;
+
+    // custom structs
+    if (this.isComplex && !this.struct?.isClass && !this.isSingleItem) {
+      return `${this._type} | cdktf.IResolvable`;
+    }
 
     // all other types
     return this._type;

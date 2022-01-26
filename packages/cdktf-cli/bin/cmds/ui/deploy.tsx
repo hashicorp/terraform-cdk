@@ -3,13 +3,14 @@ import React, { Fragment, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import ConfirmInput from "@skorfmann/ink-confirm-input";
-import { DeployingElement } from "./components";
+import { DeployingElement, Outputs } from "./components";
+import { DeployingResource, PlannedResourceAction } from "./models/terraform";
 import {
-  DeployingResource,
-  TerraformOutput,
-  PlannedResourceAction,
-} from "./models/terraform";
-import { Status, useTerraformState, useRunDeploy } from "./terraform-context";
+  Status,
+  useTerraformState,
+  useRunDeploy,
+  NestedTerraformOutputs,
+} from "./terraform-context";
 import { Plan } from "./diff";
 
 interface DeploySummaryConfig {
@@ -45,33 +46,6 @@ export const DeploySummary = ({
         </Box>
       ))}
     </>
-  );
-};
-
-interface OutputConfig {
-  output: { [key: string]: TerraformOutput };
-}
-function sanitize(value: any) {
-  if (typeof value === "object") {
-    return JSON.stringify(value, null, 2);
-  }
-
-  return value;
-}
-export const Output = ({ output }: OutputConfig): React.ReactElement => {
-  return (
-    <Box flexDirection="column">
-      {Object.keys(output).map((key) => (
-        <Box key={key}>
-          <Text>
-            {key} ={" "}
-            {output[key].sensitive
-              ? "<sensitive>"
-              : sanitize(output[key].value)}
-          </Text>
-        </Box>
-      ))}
-    </Box>
   );
 };
 
@@ -125,8 +99,12 @@ const ApplyableResources = ({
   );
 };
 
-export const Apply = (): React.ReactElement => {
-  const { resources, status, currentStack, output } = useTerraformState();
+export const Apply = ({
+  outputsPath,
+}: {
+  outputsPath?: string;
+}): React.ReactElement => {
+  const { resources, status, currentStack, outputs } = useTerraformState();
   const applyActions = [
     PlannedResourceAction.UPDATE,
     PlannedResourceAction.CREATE,
@@ -161,10 +139,19 @@ export const Apply = (): React.ReactElement => {
           resources={applyableResources}
           stackName={currentStack.name}
         />
-        {output && Object.keys(output).length > 0 && (
-          <Box marginTop={1}>
-            <Text bold>Output: </Text>
-            <Output output={output} />
+        {outputs && Object.keys(outputs).length > 0 && (
+          <Box flexDirection="column">
+            <Box marginTop={1}>
+              <Text bold>Output: </Text>
+              <Outputs outputs={outputs} />
+            </Box>
+            <Box>
+              {outputsPath && outputs ? (
+                <Text>The outputs have been written to {outputsPath}</Text>
+              ) : (
+                <Text></Text>
+              )}
+            </Box>
           </Box>
         )}
       </Box>
@@ -177,6 +164,8 @@ interface DeployConfig {
   targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
+  outputsPath?: string;
 }
 
 export const Deploy = ({
@@ -184,9 +173,11 @@ export const Deploy = ({
   targetStack,
   synthCommand,
   autoApprove,
+  onOutputsRetrieved,
+  outputsPath,
 }: DeployConfig): React.ReactElement => {
   const {
-    state: { status, currentStack, errors, plan },
+    state: { status, currentStack, errors, plan, outputs },
     confirmation,
     isConfirmed,
   } = useRunDeploy({
@@ -194,6 +185,7 @@ export const Deploy = ({
     targetStack,
     synthCommand,
     autoApprove,
+    onOutputsRetrieved,
   });
 
   const planStages = [
@@ -221,6 +213,21 @@ export const Deploy = ({
         <Text>
           No changes for Stack: <Text bold>{currentStack.name}</Text>
         </Text>
+        {outputs && Object.keys(outputs).length > 0 && (
+          <Box flexDirection="column">
+            <Box marginTop={1}>
+              <Text bold>Output: </Text>
+              <Outputs outputs={outputs} />
+            </Box>
+            <Box>
+              {outputsPath && outputs ? (
+                <Text>The outputs have been written to {outputsPath}</Text>
+              ) : (
+                <Text></Text>
+              )}
+            </Box>
+          </Box>
+        )}
       </>
     );
 
@@ -243,7 +250,7 @@ export const Deploy = ({
               <Confirm callback={confirmation} />
             </Box>
           )}
-          {isConfirmed && <Apply />}
+          {isConfirmed && <Apply outputsPath={outputsPath} />}
         </>
       )}
     </Box>

@@ -7,7 +7,8 @@ exports[`Go full integration test synth synth generates JSON 1`] = `
       \\"backend\\": \\"local\\",
       \\"stackName\\": \\"go-simple\\",
       \\"version\\": \\"stubbed\\"
-    }
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"random\\": [

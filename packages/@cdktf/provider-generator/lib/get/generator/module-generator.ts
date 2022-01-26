@@ -88,7 +88,7 @@ export class ModuleGenerator {
     for (const output of spec.outputs) {
       const outputName = toCamelCase(output.name);
       this.code.openBlock(`public get ${outputName}Output()`);
-      this.code.line(`return this.interpolationForOutput('${output.name}')`);
+      this.code.line(`return this.getString('${output.name}')`);
       this.code.closeBlock();
     }
 

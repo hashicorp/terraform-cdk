@@ -14,7 +14,7 @@ export interface ITerraformResource {
   readonly friendlyUniqueId: string;
 
   dependsOn?: string[];
-  count?: number | IResolvable;
+  count?: number;
   provider?: TerraformProvider;
   lifecycle?: TerraformResourceLifecycle;
 
@@ -29,7 +29,7 @@ export interface TerraformResourceLifecycle {
 
 export interface TerraformMetaArguments {
   readonly dependsOn?: ITerraformDependable[];
-  readonly count?: number | IResolvable;
+  readonly count?: number;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
 }
@@ -54,7 +54,7 @@ export class TerraformResource
   // TerraformMetaArguments
 
   public dependsOn?: string[];
-  public count?: number | IResolvable;
+  public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
   public readonly fqn: string;

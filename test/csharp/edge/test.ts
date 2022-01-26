@@ -56,9 +56,18 @@ describe("csharp full integration test synth", () => {
       expect(l.req[1].reqstr).toBe("reqstr2");
 
       // Single item list
-      expect(l.singlereq.reqbool).toBe(true);
+      expect(l.singlereq.reqbool).toBe(false);
       expect(l.singlereq.reqnum).toBe(1);
       expect(l.singlereq.reqstr).toBe("reqstr");
+    });
+
+    it("renders plain values in sets", () => {
+      const s = stack.byId("set_block");
+
+      expect(s.set).toEqual([
+        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+      ]);
     });
 
     it("references plain values", () => {
@@ -105,7 +114,7 @@ describe("csharp full integration test synth", () => {
       ]);
     });
 
-    it.skip("item references required values from multi-item lists", () => {
+    it("item references required values from multi-item lists", () => {
       const item = stack.byId("from_list");
 
       // Direct access is not supported, we have to go through terraform functions
@@ -129,13 +138,27 @@ describe("csharp full integration test synth", () => {
       ]);
     });
 
+    // Not supported at this time
     it.skip("item references a required single item list", () => {
       const item = stack.byId("list_reference");
 
       // Expands single item references
-      expect(item.singlereq).toMatchInlineSnapshot();
+      expect(item.singlereq).toMatchInlineSnapshot(`
+        Object {
+          "computedbool": "\${list_block_resource.list.singlereq[0].computedbool}",
+          "computednum": "\${list_block_resource.list.singlereq[0].computednum}",
+          "computedstr": "\${list_block_resource.list.singlereq[0].computedstr}",
+          "optbool": "\${list_block_resource.list.singlereq[0].optbool}",
+          "optnum": "\${list_block_resource.list.singlereq[0].optnum}",
+          "optstr": "\${list_block_resource.list.singlereq[0].optstr}",
+          "reqbool": "\${list_block_resource.list.singlereq[0].reqbool}",
+          "reqnum": "\${list_block_resource.list.singlereq[0].reqnum}",
+          "reqstr": "\${list_block_resource.list.singlereq[0].reqstr}",
+        }
+      `);
     });
 
+    // Not supported at this time
     it.skip("item references a required multi item list", () => {
       const item = stack.byId("list_reference");
 
@@ -143,11 +166,24 @@ describe("csharp full integration test synth", () => {
       expect(item.req).toEqual("${list_block_resource.list.req}");
     });
 
+    // Not possible
     it.skip("list attribute uses reference of single-item list", () => {
       const item = stack.byId("list_literal");
 
       // Expands single item references
-      expect(item.req[0]).toMatchInlineSnapshot();
+      expect(item.req[0]).toMatchInlineSnapshot(`
+        Object {
+          "computedbool": "\${list_block_resource.list.singlereq[0].computedbool}",
+          "computednum": "\${list_block_resource.list.singlereq[0].computednum}",
+          "computedstr": "\${list_block_resource.list.singlereq[0].computedstr}",
+          "optbool": "\${list_block_resource.list.singlereq[0].optbool}",
+          "optnum": "\${list_block_resource.list.singlereq[0].optnum}",
+          "optstr": "\${list_block_resource.list.singlereq[0].optstr}",
+          "reqbool": "\${list_block_resource.list.singlereq[0].reqbool}",
+          "reqnum": "\${list_block_resource.list.singlereq[0].reqnum}",
+          "reqstr": "\${list_block_resource.list.singlereq[0].reqstr}",
+        }
+      `);
     });
 
     it("item references a map", () => {
@@ -180,6 +216,18 @@ describe("csharp full integration test synth", () => {
       // Expands map references
       expect(item.reqMap).toEqual("${map_resource.map.reqMap}");
       expect(item.optMap).toEqual("${map_resource.map.optMap}");
+    });
+
+    it("item references set from multi-item list", () => {
+      const item = stack.byId("set_from_list");
+
+      expect(item.set).toEqual("${list_block_resource.list.req}");
+    });
+
+    it("item references multi-item list from set", () => {
+      const item = stack.byId("list_from_set");
+
+      expect(item.req).toEqual("${tolist(set_block_resource.setblock.set)}");
     });
   });
 });

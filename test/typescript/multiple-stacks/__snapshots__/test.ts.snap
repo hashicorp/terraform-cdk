@@ -12,7 +12,8 @@ exports[`full integration test synth 1`] = `
       },
       \\"stackName\\": \\"first\\",
       \\"version\\": \\"stubbed\\"
-    }
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
@@ -66,7 +67,8 @@ exports[`full integration test synth 2`] = `
       },
       \\"stackName\\": \\"second\\",
       \\"version\\": \\"stubbed\\"
-    }
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
@@ -120,7 +122,8 @@ exports[`full integration test synth with json output 1`] = `
       },
       \\"stackName\\": \\"first\\",
       \\"version\\": \\"stubbed\\"
-    }
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [

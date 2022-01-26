@@ -301,13 +301,13 @@ export interface ListBlockResourceConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#opt ListBlockResource#opt}
   */
-  readonly opt?: ListBlockResourceOpt[];
+  readonly opt?: ListBlockResourceOpt[] | cdktf.IResolvable;
   /**
   * req block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#req ListBlockResource#req}
   */
-  readonly req: ListBlockResourceReq[];
+  readonly req: ListBlockResourceReq[] | cdktf.IResolvable;
   /**
   * singleopt block
   * 
@@ -366,8 +366,8 @@ export interface ListBlockResourceOpt {
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
 
-export function listBlockResourceOptToTerraform(struct?: ListBlockResourceOpt): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function listBlockResourceOptToTerraform(struct?: ListBlockResourceOpt | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -423,8 +423,8 @@ export interface ListBlockResourceReq {
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
 
-export function listBlockResourceReqToTerraform(struct?: ListBlockResourceReq): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function listBlockResourceReqToTerraform(struct?: ListBlockResourceReq | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -481,7 +481,7 @@ export interface ListBlockResourceSingleopt {
 }
 
 export function listBlockResourceSingleoptToTerraform(struct?: ListBlockResourceSingleoptOutputReference | ListBlockResourceSingleopt): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -614,7 +614,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   // optbool - computed: false, optional: true, required: false
   private _optbool?: boolean | cdktf.IResolvable; 
   public get optbool() {
-    return this.getBooleanAttribute('optbool') as any;
+    return this.getBooleanAttribute('optbool');
   }
   public set optbool(value: boolean | cdktf.IResolvable) {
     this._optbool = value;
@@ -656,7 +656,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   // reqbool - computed: false, optional: false, required: true
   private _reqbool?: boolean | cdktf.IResolvable; 
   public get reqbool() {
-    return this.getBooleanAttribute('reqbool') as any;
+    return this.getBooleanAttribute('reqbool');
   }
   public set reqbool(value: boolean | cdktf.IResolvable) {
     this._reqbool = value;
@@ -701,7 +701,7 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   // computedbool - computed: true, optional: true, required: false
   private _computedbool?: boolean | cdktf.IResolvable; 
   public get computedbool() {
-    return this.getBooleanAttribute('computedbool') as any;
+    return this.getBooleanAttribute('computedbool');
   }
   public set computedbool(value: boolean | cdktf.IResolvable) {
     this._computedbool = value;
@@ -754,7 +754,7 @@ export interface ListBlockResourceSinglereq {
 }
 
 export function listBlockResourceSinglereqToTerraform(struct?: ListBlockResourceSinglereqOutputReference | ListBlockResourceSinglereq): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -887,7 +887,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   // optbool - computed: false, optional: true, required: false
   private _optbool?: boolean | cdktf.IResolvable; 
   public get optbool() {
-    return this.getBooleanAttribute('optbool') as any;
+    return this.getBooleanAttribute('optbool');
   }
   public set optbool(value: boolean | cdktf.IResolvable) {
     this._optbool = value;
@@ -929,7 +929,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   // reqbool - computed: false, optional: false, required: true
   private _reqbool?: boolean | cdktf.IResolvable; 
   public get reqbool() {
-    return this.getBooleanAttribute('reqbool') as any;
+    return this.getBooleanAttribute('reqbool');
   }
   public set reqbool(value: boolean | cdktf.IResolvable) {
     this._reqbool = value;
@@ -974,7 +974,7 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   // computedbool - computed: true, optional: true, required: false
   private _computedbool?: boolean | cdktf.IResolvable; 
   public get computedbool() {
-    return this.getBooleanAttribute('computedbool') as any;
+    return this.getBooleanAttribute('computedbool');
   }
   public set computedbool(value: boolean | cdktf.IResolvable) {
     this._computedbool = value;
@@ -995,7 +995,7 @@ export interface ListBlockResourceSingleComputedBlock {
 }
 
 export function listBlockResourceSingleComputedBlockToTerraform(struct?: ListBlockResourceSingleComputedBlockOutputReference | ListBlockResourceSingleComputedBlock): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -1103,12 +1103,12 @@ export class ListBlockResource extends cdktf.TerraformResource {
   // ==========
 
   // opt - computed: false, optional: true, required: false
-  private _opt?: ListBlockResourceOpt[]; 
+  private _opt?: ListBlockResourceOpt[] | cdktf.IResolvable; 
   public get opt() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('opt') as any;
+    return this.interpolationForAttribute('opt');
   }
-  public set opt(value: ListBlockResourceOpt[]) {
+  public set opt(value: ListBlockResourceOpt[] | cdktf.IResolvable) {
     this._opt = value;
   }
   public resetOpt() {
@@ -1120,12 +1120,12 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // req - computed: false, optional: false, required: true
-  private _req?: ListBlockResourceReq[]; 
+  private _req?: ListBlockResourceReq[] | cdktf.IResolvable; 
   public get req() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('req') as any;
+    return this.interpolationForAttribute('req');
   }
-  public set req(value: ListBlockResourceReq[]) {
+  public set req(value: ListBlockResourceReq[] | cdktf.IResolvable) {
     this._req = value;
   }
   // Temporarily expose input value. Use with caution.
@@ -1134,7 +1134,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // singleopt - computed: false, optional: true, required: false
-  private _singleopt = new ListBlockResourceSingleoptOutputReference(this as any, \\"singleopt\\", true);
+  private _singleopt = new ListBlockResourceSingleoptOutputReference(this, \\"singleopt\\", true);
   public get singleopt() {
     return this._singleopt;
   }
@@ -1150,7 +1150,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // singlereq - computed: false, optional: false, required: true
-  private _singlereq = new ListBlockResourceSinglereqOutputReference(this as any, \\"singlereq\\", true);
+  private _singlereq = new ListBlockResourceSinglereqOutputReference(this, \\"singlereq\\", true);
   public get singlereq() {
     return this._singlereq;
   }
@@ -1163,7 +1163,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // singleComputedBlock - computed: false, optional: true, required: false
-  private _singleComputedBlock = new ListBlockResourceSingleComputedBlockOutputReference(this as any, \\"singleComputedBlock\\", true);
+  private _singleComputedBlock = new ListBlockResourceSingleComputedBlockOutputReference(this, \\"singleComputedBlock\\", true);
   public get singleComputedBlock() {
     return this._singleComputedBlock;
   }
@@ -1435,7 +1435,7 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
   // bool - computed: false, optional: true, required: false
   private _bool?: boolean | cdktf.IResolvable; 
   public get bool() {
-    return this.getBooleanAttribute('bool') as any;
+    return this.getBooleanAttribute('bool');
   }
   public set bool(value: boolean | cdktf.IResolvable) {
     this._bool = value;
@@ -1484,7 +1484,7 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
   private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('boolList') as any;
+    return this.interpolationForAttribute('boolList');
   }
   public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
@@ -1630,7 +1630,7 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
   // bool - computed: true, optional: true, required: false
   private _bool?: boolean | cdktf.IResolvable; 
   public get bool() {
-    return this.getBooleanAttribute('bool') as any;
+    return this.getBooleanAttribute('bool');
   }
   public set bool(value: boolean | cdktf.IResolvable) {
     this._bool = value;
@@ -1679,7 +1679,7 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
   private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('boolList') as any;
+    return this.interpolationForAttribute('boolList');
   }
   public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
@@ -1819,7 +1819,7 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
   // bool - computed: false, optional: false, required: true
   private _bool?: boolean | cdktf.IResolvable; 
   public get bool() {
-    return this.getBooleanAttribute('bool') as any;
+    return this.getBooleanAttribute('bool');
   }
   public set bool(value: boolean | cdktf.IResolvable) {
     this._bool = value;
@@ -1859,7 +1859,7 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
   private _boolList?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get boolList() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('boolList') as any;
+    return this.interpolationForAttribute('boolList');
   }
   public set boolList(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._boolList = value;
@@ -1902,7 +1902,7 @@ export interface SetBlockResourceConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource#set SetBlockResource#set}
   */
-  readonly set?: SetBlockResourceSet[];
+  readonly set?: SetBlockResourceSet[] | cdktf.IResolvable;
 }
 export interface SetBlockResourceSet {
   /**
@@ -1943,8 +1943,8 @@ export interface SetBlockResourceSet {
   readonly computedbool?: boolean | cdktf.IResolvable;
 }
 
-export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -2002,12 +2002,12 @@ export class SetBlockResource extends cdktf.TerraformResource {
   // ==========
 
   // set - computed: false, optional: true, required: false
-  private _set?: SetBlockResourceSet[]; 
+  private _set?: SetBlockResourceSet[] | cdktf.IResolvable; 
   public get set() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('set'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('set')));
   }
-  public set set(value: SetBlockResourceSet[]) {
+  public set set(value: SetBlockResourceSet[] | cdktf.IResolvable) {
     this._set = value;
   }
   public resetSet() {

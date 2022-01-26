@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "ink-testing-library";
-import { Output } from "../../bin/cmds/ui/deploy";
+import { Outputs } from "../../bin/cmds/ui/components";
 import { DeploySummary, Apply } from "../../bin/cmds/ui/deploy";
 import { stripAnsi } from "../test-helper";
 import {
@@ -55,7 +55,7 @@ test("Output", async () => {
     },
   };
 
-  const { lastFrame } = render(<Output output={output} />);
+  const { lastFrame } = render(<Outputs outputs={output} />);
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
     "foo = baz
     map = {

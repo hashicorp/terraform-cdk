@@ -64,7 +64,7 @@ export class BooleanList extends cdktf.TerraformResource {
   private _fooRequired?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooRequired() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_required') as any;
+    return this.interpolationForAttribute('foo_required');
   }
   public set fooRequired(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._fooRequired = value;
@@ -78,7 +78,7 @@ export class BooleanList extends cdktf.TerraformResource {
   private _fooOptional?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooOptional() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('foo_optional') as any;
+    return this.interpolationForAttribute('foo_optional');
   }
   public set fooOptional(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
     this._fooOptional = value;
@@ -166,7 +166,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): boolean {
+  public fooComputed(key: string): boolean | cdktf.IResolvable {
     return new cdktf.BooleanMap(this, 'foo_computed').lookup(key);
   }
 
@@ -266,7 +266,7 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
 
   // self - computed: true, optional: false, required: false
   public get selfAttribute() {
-    return this.getBooleanAttribute('self') as any;
+    return this.getBooleanAttribute('self');
   }
 
   // to_port - computed: true, optional: false, required: false
@@ -353,7 +353,7 @@ export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
   // autoscaling_groups - computed: true, optional: false, required: false
   public get autoscalingGroups() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('autoscaling_groups') as any;
+    return this.interpolationForAttribute('autoscaling_groups');
   }
 
   // remote_access_security_group_id - computed: true, optional: false, required: false
@@ -432,7 +432,7 @@ export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaAr
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_nested_computed_list#inputs BlockTypeNestedComputedList#inputs}
   */
-  readonly inputs?: BlockTypeNestedComputedListInputs[];
+  readonly inputs?: BlockTypeNestedComputedListInputs[] | cdktf.IResolvable;
 }
 export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends cdktf.ComplexComputedList {
 
@@ -448,8 +448,8 @@ export interface BlockTypeNestedComputedListInputs {
   readonly namePrefix: string;
 }
 
-export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -499,12 +499,12 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // ==========
 
   // inputs - computed: false, optional: true, required: false
-  private _inputs?: BlockTypeNestedComputedListInputs[]; 
+  private _inputs?: BlockTypeNestedComputedListInputs[] | cdktf.IResolvable; 
   public get inputs() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('inputs') as any;
+    return this.interpolationForAttribute('inputs');
   }
-  public set inputs(value: BlockTypeNestedComputedListInputs[]) {
+  public set inputs(value: BlockTypeNestedComputedListInputs[] | cdktf.IResolvable) {
     this._inputs = value;
   }
   public resetInputs() {
@@ -541,7 +541,7 @@ export interface ComputedOptionalComplexConfig extends cdktf.TerraformMetaArgume
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/computed_optional_complex#egress ComputedOptionalComplex#egress}
   */
-  readonly egress?: ComputedOptionalComplexEgress[];
+  readonly egress?: ComputedOptionalComplexEgress[] | cdktf.IResolvable;
 }
 export interface ComputedOptionalComplexEgress {
   /**
@@ -582,8 +582,8 @@ export interface ComputedOptionalComplexEgress {
   readonly toPort?: number;
 }
 
-export function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -641,12 +641,12 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: ComputedOptionalComplexEgress[]; 
+  private _egress?: ComputedOptionalComplexEgress[] | cdktf.IResolvable; 
   public get egress() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress')));
   }
-  public set egress(value: ComputedOptionalComplexEgress[]) {
+  public set egress(value: ComputedOptionalComplexEgress[] | cdktf.IResolvable) {
     this._egress = value;
   }
   public resetEgress() {
@@ -685,7 +685,7 @@ export interface DeeplyNestedBlockTypesConfig extends cdktf.TerraformMetaArgumen
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/deeply_nested_block_types#lifecycle_rule DeeplyNestedBlockTypes#lifecycle_rule}
   */
-  readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[];
+  readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[] | cdktf.IResolvable;
 }
 export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   /**
@@ -694,8 +694,8 @@ export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   readonly date?: string;
 }
 
-export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -766,8 +766,8 @@ export interface DeeplyNestedBlockTypesLifecycleRule {
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration;
 }
 
-export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -818,12 +818,12 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // ==========
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[]; 
+  private _lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[] | cdktf.IResolvable; 
   public get lifecycleRule() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('lifecycle_rule') as any;
+    return this.interpolationForAttribute('lifecycle_rule');
   }
-  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[]) {
+  public set lifecycleRule(value: DeeplyNestedBlockTypesLifecycleRule[] | cdktf.IResolvable) {
     this._lifecycleRule = value;
   }
   public resetLifecycleRule() {
@@ -1130,7 +1130,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // ==========
 
   // keys - computed: true, optional: false, required: false
-  public keys(index: string, key: string): string {
+  public keys(index: string, key: string): string | cdktf.IResolvable {
     return new cdktf.StringMap(this, \`keys.\${index}\`).lookup(key);
   }
 
@@ -1310,7 +1310,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): number {
+  public fooComputed(key: string): number | cdktf.IResolvable {
     return new cdktf.NumberMap(this, 'foo_computed').lookup(key);
   }
 
@@ -1427,13 +1427,13 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
 
   // foo_computed - computed: true, optional: false, required: false
   public get fooComputed() {
-    return this.getBooleanAttribute('foo_computed') as any;
+    return this.getBooleanAttribute('foo_computed');
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
   private _fooComputedOptional?: boolean | cdktf.IResolvable; 
   public get fooComputedOptional() {
-    return this.getBooleanAttribute('foo_computed_optional') as any;
+    return this.getBooleanAttribute('foo_computed_optional');
   }
   public set fooComputedOptional(value: boolean | cdktf.IResolvable) {
     this._fooComputedOptional = value;
@@ -1449,7 +1449,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: boolean | cdktf.IResolvable; 
   public get fooOptional() {
-    return this.getBooleanAttribute('foo_optional') as any;
+    return this.getBooleanAttribute('foo_optional');
   }
   public set fooOptional(value: boolean | cdktf.IResolvable) {
     this._fooOptional = value;
@@ -1465,7 +1465,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired?: boolean | cdktf.IResolvable; 
   public get fooRequired() {
-    return this.getBooleanAttribute('foo_required') as any;
+    return this.getBooleanAttribute('foo_required');
   }
   public set fooRequired(value: boolean | cdktf.IResolvable) {
     this._fooRequired = value;
@@ -1556,7 +1556,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): any {
+  public fooComputed(key: string): any | cdktf.IResolvable {
     return new cdktf.AnyMap(this, 'foo_computed').lookup(key);
   }
 
@@ -2045,13 +2045,13 @@ export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list#timeouts_set BlockTypeSetList#timeouts_set}
   */
-  readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[];
+  readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[] | cdktf.IResolvable;
   /**
   * timeouts_list block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/block_type_set_list#timeouts_list BlockTypeSetList#timeouts_list}
   */
-  readonly timeoutsList?: BlockTypeSetListTimeoutsList[];
+  readonly timeoutsList?: BlockTypeSetListTimeoutsList[] | cdktf.IResolvable;
 }
 export interface BlockTypeSetListTimeoutsSet {
   /**
@@ -2060,8 +2060,8 @@ export interface BlockTypeSetListTimeoutsSet {
   readonly create?: string;
 }
 
-export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -2077,8 +2077,8 @@ export interface BlockTypeSetListTimeoutsList {
   readonly create?: string;
 }
 
-export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -2129,12 +2129,12 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // ==========
 
   // timeouts_set - computed: false, optional: true, required: false
-  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[]; 
+  private _timeoutsSet?: BlockTypeSetListTimeoutsSet[] | cdktf.IResolvable; 
   public get timeoutsSet() {
     // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('timeouts_set'))) as any;
+    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('timeouts_set')));
   }
-  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[]) {
+  public set timeoutsSet(value: BlockTypeSetListTimeoutsSet[] | cdktf.IResolvable) {
     this._timeoutsSet = value;
   }
   public resetTimeoutsSet() {
@@ -2146,12 +2146,12 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   }
 
   // timeouts_list - computed: false, optional: true, required: false
-  private _timeoutsList?: BlockTypeSetListTimeoutsList[]; 
+  private _timeoutsList?: BlockTypeSetListTimeoutsList[] | cdktf.IResolvable; 
   public get timeoutsList() {
     // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('timeouts_list') as any;
+    return this.interpolationForAttribute('timeouts_list');
   }
-  public set timeoutsList(value: BlockTypeSetListTimeoutsList[]) {
+  public set timeoutsList(value: BlockTypeSetListTimeoutsList[] | cdktf.IResolvable) {
     this._timeoutsList = value;
   }
   public resetTimeoutsList() {
@@ -2200,8 +2200,8 @@ export interface SingleBlockTypeTimeouts {
   readonly create?: string;
 }
 
-export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -2300,7 +2300,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ==========
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts = new SingleBlockTypeTimeoutsOutputReference(this as any, \\"timeouts\\", true);
+  private _timeouts = new SingleBlockTypeTimeoutsOutputReference(this, \\"timeouts\\", true);
   public get timeouts() {
     return this._timeouts;
   }
@@ -2519,7 +2519,7 @@ export class StringMap extends cdktf.TerraformResource {
   // ==========
 
   // subject_alternative_names_computed - computed: true, optional: false, required: false
-  public subjectAlternativeNamesComputed(key: string): string {
+  public subjectAlternativeNamesComputed(key: string): string | cdktf.IResolvable {
     return new cdktf.StringMap(this, 'subject_alternative_names_computed').lookup(key);
   }
 

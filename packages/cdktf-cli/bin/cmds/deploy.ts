@@ -24,7 +24,7 @@ class Command implements yargs.CommandModule {
       .option("output", {
         default: config.output,
         required: true,
-        desc: "Output directory",
+        desc: "Output directory for the synthesized Terraform config",
         alias: "o",
       })
       .option("auto-approve", {
@@ -32,6 +32,18 @@ class Command implements yargs.CommandModule {
         default: false,
         required: false,
         desc: "Auto approve",
+      })
+      .option("outputs-file", {
+        type: "string",
+        required: false,
+        desc: "Path to file where stack outputs will be written as JSON",
+        requiresArg: true,
+      })
+      .option("outputs-file-include-sensitive-outputs", {
+        type: "boolean",
+        required: false,
+        desc: "Whether to include sensitive outputs in the output file",
+        default: false,
       })
       .showHelpOnFail(true);
 

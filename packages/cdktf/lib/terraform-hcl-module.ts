@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { TerraformModuleOptions, TerraformModule } from "./terraform-module";
-import { Token } from "./tokens";
+import { Token, IResolvable } from "./tokens";
 
 export interface TerraformHclModuleOptions extends TerraformModuleOptions {
   readonly variables?: { [key: string]: any };
@@ -34,18 +34,12 @@ export class TerraformHclModule extends TerraformModule {
     return Token.asAny(this.interpolationForOutput(output));
   }
 
-  public getString(output: string): string {
-    return Token.asString(this.interpolationForOutput(output));
-  }
-
   public getNumber(output: string): number {
     return Token.asNumber(this.interpolationForOutput(output));
   }
 
-  public getBoolean(output: string): boolean {
-    return Token.asString(
-      this.interpolationForOutput(output)
-    ) as any as boolean;
+  public getBoolean(output: string): IResolvable {
+    return this.interpolationForOutput(output);
   }
 
   public getList(output: string): string[] {

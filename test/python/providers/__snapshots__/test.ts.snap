@@ -7,6 +7,11 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
       \\"backend\\": \\"local\\",
       \\"stackName\\": \\"references\\",
       \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
+      \\"references\\": {
+        \\"containerCapAdd\\": \\"containerCapAdd\\"
+      }
     }
   },
   \\"output\\": {
