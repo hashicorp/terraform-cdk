@@ -14,7 +14,8 @@ exports[`dependent data source 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -45,8 +46,41 @@ exports[`minimal configuration 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`with any map 1`] = `
+"{
+  \\"data\\": {
+    \\"test_data_source\\": {
+      \\"test\\": {
+        \\"name\\": \\"foo\\"
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"test-resource\\": {
+        \\"name\\": \\"\${data.test_data_source.test.any_map[\\\\\\"id\\\\\\"]}\\"
+      }
+    }
   },
   \\"terraform\\": {
     \\"required_providers\\": {
@@ -69,7 +103,8 @@ exports[`with boolean map 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -100,7 +135,8 @@ exports[`with complex computed list 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -131,7 +167,8 @@ exports[`with number map 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {
@@ -162,7 +199,8 @@ exports[`with string map 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {

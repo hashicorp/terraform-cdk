@@ -1,6 +1,6 @@
 import { CodeMaker } from "codemaker";
 import { AttributeModel } from "../models";
-import { downcaseFirst } from "../../../util";
+import { downcaseFirst, uppercaseFirst } from "../../../util";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
 
 function titleCase(value: string) {
@@ -114,11 +114,11 @@ export class AttributesEmitter {
     }
   }
 
-  // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this as any, "metadata", true)'
+  // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutput(this, "metadata", true)'
   private storedClassInit(att: AttributeModel) {
     return `new ${att.type.name}${
       att.type.isSingleItem ? "OutputReference" : ""
-    }(this as any, "${att.terraformName}", ${
+    }(this, "${att.terraformName}", ${
       att.type.isSingleItem ? "true" : "false"
     })`;
   }
@@ -135,11 +135,25 @@ export class AttributesEmitter {
     if (type.isStringList) {
       return `this.getListAttribute('${att.terraformName}')`;
     }
+    if (type.isNumberList) {
+      return `this.getNumberListAttribute('${att.terraformName}')`;
+    }
+    if (type.isStringSet) {
+      return `cdktf.Fn.tolist(this.getListAttribute('${att.terraformName}'))`;
+    }
+    if (type.isNumberSet) {
+      return `cdktf.Token.asNumberList(cdktf.Fn.tolist(this.getNumberListAttribute('${att.terraformName}')))`;
+    }
     if (type.isNumber) {
       return `this.getNumberAttribute('${att.terraformName}')`;
     }
     if (type.isBoolean) {
-      return `this.getBooleanAttribute('${att.terraformName}') as any`;
+      return `this.getBooleanAttribute('${att.terraformName}')`;
+    }
+    if (type.isMap) {
+      return `this.get${uppercaseFirst(att.mapType)}MapAttribute('${
+        att.terraformName
+      }')`;
     }
     if (process.env.DEBUG) {
       console.error(
@@ -148,7 +162,15 @@ export class AttributesEmitter {
     }
 
     this.code.line(`// Getting the computed value is not yet implemented`);
-    return `this.interpolationForAttribute('${att.terraformName}') as any`;
+    if (type.isSet) {
+      // Token.asAny is required because tolist returns an Array encoded token which the listMapper
+      // would try to map over when this is passed to another resource. With Token.asAny() it is left
+      // as is by the listMapper and is later properly resolved to a reference
+      // (this only works in TypeScript currently, same as for referencing lists
+      // [see "interpolationForAttribute(...)" further below])
+      return `cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('${att.terraformName}')))`;
+    }
+    return `this.interpolationForAttribute('${att.terraformName}')`;
   }
 
   public needsInputEscape(
@@ -203,9 +225,23 @@ export class AttributesEmitter {
         : "";
 
     switch (true) {
+      case type.isSet && type.isMap:
+        this.code.line(
+          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform))(${varReference}),`
+        );
+        break;
       case type.isList && type.isMap:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform))(${varReference}),`
+        );
+        break;
+      case type.isStringSet || type.isNumberSet || type.isBooleanSet:
+        this.code.line(
+          `${
+            att.terraformName
+          }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
+            type.innerType
+          )}ToTerraform)(${varReference}),`
         );
         break;
       case type.isStringList || type.isNumberList || type.isBooleanList:
@@ -213,6 +249,15 @@ export class AttributesEmitter {
           `${
             att.terraformName
           }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
+            type.innerType
+          )}ToTerraform)(${varReference}),`
+        );
+        break;
+      case type.isSet && !type.isSingleItem:
+        this.code.line(
+          `${
+            att.terraformName
+          }: ${defaultCheck}cdktf.listMapper(${downcaseFirst(
             type.innerType
           )}ToTerraform)(${varReference}),`
         );
@@ -251,6 +296,13 @@ export class AttributesEmitter {
           `${att.terraformName}: ${defaultCheck}${downcaseFirst(
             type.name
           )}ToTerraform(${varReference}.internalValue),`
+        );
+        break;
+      case type.isComplex && !type.struct?.isClass && !type.isSingleItem:
+        this.code.line(
+          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
+            type.struct!.name
+          )}ToTerraform(${varReference}),`
         );
         break;
       default:

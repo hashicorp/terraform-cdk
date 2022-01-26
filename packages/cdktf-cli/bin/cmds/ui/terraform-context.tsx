@@ -21,6 +21,7 @@ import { logger } from "../../../lib/logging";
 import { schema, ActionTypes } from "./models/schema";
 import * as z from "zod";
 import { AnnotationMetadataEntryType } from "cdktf";
+import { OutputIdMap } from "../helper/outputs";
 
 const chalkColour = new chalk.Instance();
 
@@ -42,6 +43,7 @@ export enum Status {
   PLANNED = "planned",
   DEPLOYING = "deploying",
   DESTROYING = "destroying",
+  OUTPUT_FETCHED = "output fetched",
   DONE = "done",
 }
 
@@ -184,6 +186,52 @@ export const parseOutput = (str: string): DeployingResource[] => {
   }, new Array());
 };
 
+const isObjectEmpty = (obj: Record<string, any>): boolean => {
+  if (typeof obj !== "object") {
+    return false;
+  }
+  return (
+    Object.keys(obj).length === 0 ||
+    Object.values(obj).every(
+      (v) => v === undefined || v === null || isObjectEmpty(v)
+    )
+  );
+};
+
+export const getConstructIdsForOutputs = (
+  stackContent: Record<string, any>,
+  outputs: { [key: string]: TerraformOutput }
+): NestedTerraformOutputs => {
+  // Older cdktf versions might not have the output metadata
+  if (!("//" in stackContent) || !("outputs" in stackContent["//"])) {
+    return outputs;
+  }
+  const outputsMapping = stackContent["//"].outputs;
+
+  const mapOutputs = (value: OutputIdMap): NestedTerraformOutputs => {
+    return Object.entries(value).reduce((acc, [key, value]) => {
+      if (typeof value === "string") {
+        return { ...acc, [key]: outputs[value] };
+      }
+
+      const mapped = mapOutputs(value);
+      if (isObjectEmpty(mapped)) {
+        return acc;
+      }
+
+      return {
+        ...acc,
+        [key]: mapped,
+      };
+    }, {});
+  };
+
+  return mapOutputs(outputsMapping);
+};
+
+export type NestedTerraformOutputs =
+  | { [key: string]: TerraformOutput }
+  | { [key: string]: NestedTerraformOutputs };
 export type DeployState = {
   status: Status;
   resources: DeployingResource[];
@@ -192,7 +240,8 @@ export type DeployState = {
   currentStack: SynthesizedStack;
   stacks?: SynthesizedStack[];
   errors?: string[];
-  output?: { [key: string]: TerraformOutput };
+  outputs?: { [key: string]: TerraformOutput };
+  outputsByConstructId?: NestedTerraformOutputs;
 };
 
 type Action =
@@ -270,7 +319,15 @@ function deployReducer(state: DeployState, action: Action): DeployState {
       };
     }
     case "OUTPUT": {
-      return { ...state, output: action.output };
+      return {
+        ...state,
+        outputs: action.output,
+        outputsByConstructId: getConstructIdsForOutputs(
+          JSON.parse(state.currentStack.content),
+          action.output
+        ),
+        status: Status.OUTPUT_FETCHED,
+      };
     }
     case "DONE": {
       return { ...state, status: Status.DONE };
@@ -298,34 +355,39 @@ interface TerraformProviderConfig {
 }
 
 // eslint-disable-next-line react/prop-types
-export const TerraformProvider: React.FunctionComponent<TerraformProviderConfig> =
-  ({ children, initialState }: TerraformProviderConfig): React.ReactElement => {
-    const initialCurrentStack: SynthesizedStack = {
-      constructPath: "",
-      content: "",
-      name: "",
-      annotations: [],
-      synthesizedStackPath: "",
-      workingDirectory: "",
-    };
-
-    const [state, dispatch] = React.useReducer(
-      deployReducer,
-      initialState || {
-        status: Status.STARTING,
-        resources: [],
-        currentStack: initialCurrentStack,
-      }
-    );
-
-    return (
-      <TerraformContextState.Provider value={state}>
-        <TerraformContextDispatch.Provider value={dispatch}>
-          {children}
-        </TerraformContextDispatch.Provider>
-      </TerraformContextState.Provider>
-    );
+export const TerraformProvider: React.FunctionComponent<
+  TerraformProviderConfig
+> = ({
+  children,
+  initialState,
+}: TerraformProviderConfig): React.ReactElement => {
+  const initialCurrentStack: SynthesizedStack = {
+    constructPath: "",
+    content: "",
+    name: "",
+    annotations: [],
+    dependencies: [],
+    synthesizedStackPath: "",
+    workingDirectory: "",
   };
+
+  const [state, dispatch] = React.useReducer(
+    deployReducer,
+    initialState || {
+      status: Status.STARTING,
+      resources: [],
+      currentStack: initialCurrentStack,
+    }
+  );
+
+  return (
+    <TerraformContextState.Provider value={state}>
+      <TerraformContextDispatch.Provider value={dispatch}>
+        {children}
+      </TerraformContextDispatch.Provider>
+    </TerraformContextState.Provider>
+  );
+};
 
 export const useTerraformState = () => {
   const state = React.useContext(TerraformContextState);
@@ -609,9 +671,11 @@ export const useRunDiff = (options: UseRunDiffOptions) => {
 
 interface UseRunDeployOptions extends UseTerraformOptions {
   autoApprove?: boolean;
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
 }
 export const useRunDeploy = ({
   autoApprove,
+  onOutputsRetrieved,
   ...options
 }: UseRunDeployOptions) => {
   const state = useTerraformState();
@@ -628,11 +692,42 @@ export const useRunDeploy = ({
     await output();
   });
 
+  useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
+    if (state.outputsByConstructId) {
+      onOutputsRetrieved(state.outputsByConstructId);
+    }
+  });
+
   return {
     state,
     confirmation: confirmationCallback,
     isConfirmed: confirmed,
   };
+};
+
+interface UseRunOutputOptions extends UseTerraformOptions {
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
+}
+
+export const useRunOutput = ({
+  onOutputsRetrieved,
+  ...options
+}: UseRunOutputOptions) => {
+  const state = useTerraformState();
+  const { synth, init, output } = useTerraform(options);
+
+  useRunOnce(synth);
+  useRunWhen(state.status === Status.SYNTHESIZED, async () => {
+    await init();
+    await output();
+  });
+  useRunWhen(state.status === Status.OUTPUT_FETCHED, () => {
+    if (state.outputsByConstructId) {
+      onOutputsRetrieved(state.outputsByConstructId);
+    }
+  });
+
+  return state;
 };
 
 interface UseRunDestroyOptions extends UseTerraformOptions {

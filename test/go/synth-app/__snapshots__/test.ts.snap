@@ -4,18 +4,11 @@ exports[`Go full integration test synth synth generates JSON 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"go-simple\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"random\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/random\\"
-      }
-    }
+      \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"random\\": [
@@ -25,13 +18,26 @@ exports[`Go full integration test synth synth generates JSON 1`] = `
   \\"resource\\": {
     \\"random_pet\\": {
       \\"pet\\": {
-        \\"prefix\\": \\"my\\",
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"go-simple/pet\\",
             \\"uniqueId\\": \\"pet\\"
           }
-        }
+        },
+        \\"prefix\\": \\"my\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"random\\": {
+        \\"source\\": \\"hashicorp/random\\",
+        \\"version\\": \\"~> 3.1.0\\"
       }
     }
   }

@@ -1,12 +1,6 @@
 import yargs from "yargs";
-import React from "react";
-import { Synth } from "./ui/synth";
 import { config as cfg } from "@cdktf/provider-generator";
-import { renderInk } from "./helper/render-ink";
-import * as fs from "fs-extra";
-import { displayVersionMessage } from "./helper/version-check";
-import { throwIfNotProjectDirectory } from "./helper/check-directory";
-import { checkEnvironment } from "./helper/check-environment";
+import { requireHandlers } from "./helper/utilities";
 
 const config = cfg.readConfigSync();
 
@@ -29,7 +23,7 @@ class Command implements yargs.CommandModule {
       })
       .option("output", {
         default: config.output,
-        desc: "Output directory",
+        desc: "Output directory for the synthesized Terraform config",
         alias: "o",
       })
       .option("json", {
@@ -40,32 +34,9 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
-    throwIfNotProjectDirectory("synth");
-    await displayVersionMessage();
-    await checkEnvironment("synth");
-    const command = argv.app;
-    const outdir = argv.output;
-    const jsonOutput = argv.json;
-    const stack = argv.stack;
-
-    if (
-      config.checkCodeMakerOutput &&
-      !(await fs.pathExists(config.codeMakerOutput))
-    ) {
-      console.error(
-        `ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`
-      );
-      process.exit(1);
-    }
-
-    await renderInk(
-      React.createElement(Synth, {
-        targetDir: outdir,
-        targetStack: stack,
-        synthCommand: command,
-        jsonOutput: jsonOutput,
-      })
-    );
+    // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
+    const api = requireHandlers();
+    api.synth(argv);
   }
 }
 

@@ -4,8 +4,21 @@ import detectPort from "detect-port";
 import fetch from "cross-fetch";
 import execa from "execa";
 import { logger, getLogger } from "../logging";
+import * as path from "path";
+import * as fs from "fs-extra";
+import { projectRootPath } from "../../bin/cmds/helper/utilities";
 
 const serverLogger = getLogger("cli-server");
+
+const loadFile = (file: string) => {
+  // if file exists relative to this file return its file path
+  // otherwise return the file path relative to the project root
+  const filePath = path.join(__dirname, file);
+  if (fs.existsSync(filePath)) {
+    return filePath;
+  }
+  return path.join(projectRootPath(), "bundle", "lib", "server", file);
+};
 
 export async function startServer(): Promise<{
   port: number;
@@ -15,11 +28,9 @@ export async function startServer(): Promise<{
 
   const port = await detectPort(40000);
 
-  const subprocess = execa(
-    `node`,
-    [require.resolve(`./server.js`), String(port)],
-    { env: process.env }
-  );
+  const subprocess = execa(`node`, [loadFile("server.js"), String(port)], {
+    env: process.env,
+  });
 
   subprocess.stderr?.on("data", (chunk) =>
     serverLogger.error(chunk.toString())

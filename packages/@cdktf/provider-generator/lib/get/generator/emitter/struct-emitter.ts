@@ -3,7 +3,7 @@ import { ResourceModel, Struct, ConfigStruct } from "../models";
 import { AttributesEmitter } from "./attributes-emitter";
 import { downcaseFirst } from "../../../util";
 import * as path from "path";
-import { STRUCT_NAMESPACE_THRESHOLD } from "../models/resource-model";
+import { STRUCT_SHARDING_THRESHOLD } from "../models/resource-model";
 export class StructEmitter {
   attributesEmitter: AttributesEmitter;
 
@@ -12,7 +12,7 @@ export class StructEmitter {
   }
 
   public emit(resource: ResourceModel) {
-    if (resource.structsRequireNamespace) {
+    if (resource.structsRequireSharding) {
       this.emitNamespacedStructs(resource);
     } else {
       this.emitStructs(resource);
@@ -84,19 +84,15 @@ export class StructEmitter {
     for (
       let i = 0;
       i < structsWithoutConfigStruct.length;
-      i += STRUCT_NAMESPACE_THRESHOLD
+      i += STRUCT_SHARDING_THRESHOLD
     ) {
       const structsToImport: Record<string, string[]> = {};
       const structs = structsWithoutConfigStruct.slice(
         i,
-        i + STRUCT_NAMESPACE_THRESHOLD
+        i + STRUCT_SHARDING_THRESHOLD
       );
       const structFilename = `structs${i}.ts`;
       structPaths.push(structFilename);
-      const namespacedFilePath = path.join(
-        resource.namespacedFilePath,
-        structFilename
-      );
 
       // find all structs that need to be imported in this file
       structs.forEach((struct) => {
@@ -131,6 +127,11 @@ export class StructEmitter {
       // to find it in subsequent files for importing
       structs.map((struct) => (structImports[struct.name] = structFilename));
 
+      const namespacedFilePath = path.join(
+        resource.structsFolderPath,
+        structFilename
+      );
+
       this.code.openFile(namespacedFilePath);
       // the structs only makes use of cdktf not constructs
       this.code.line(`import * as cdktf from 'cdktf';`);
@@ -161,7 +162,7 @@ export class StructEmitter {
     }
 
     // emit the index file that exports all the struct files we've just generated
-    const indexFilePath = path.join(resource.namespacedFilePath, "index.ts");
+    const indexFilePath = path.join(resource.structsFolderPath, "index.ts");
 
     this.code.openFile(indexFilePath);
     structPaths.forEach((structPath) => {
@@ -180,6 +181,9 @@ export class StructEmitter {
     );
 
     if (struct.isSingleItem) {
+      this.code.line("private isEmptyObject = false;");
+      this.code.line();
+
       this.code.line(`/**`);
       this.code.line(`* @param terraformResource The parent resource`);
       this.code.line(
@@ -190,7 +194,7 @@ export class StructEmitter {
       );
       this.code.line(`*/`);
       this.code.openBlock(
-        `public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean)`
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean)`
       );
       this.code.line(
         `super(terraformResource, terraformAttribute, isSingleItem);`
@@ -218,11 +222,18 @@ export class StructEmitter {
     this.code.openBlock(
       `public get internalValue(): ${struct.name} | undefined`
     );
-    this.code.line("let hasAnyValues = false;");
+
+    this.code.line("let hasAnyValues = this.isEmptyObject;");
     this.code.line("const internalValueResult: any = {};");
     for (const att of struct.attributes) {
       if (att.isStored) {
-        this.code.openBlock(`if (this.${att.storageName})`);
+        if (att.getterType._type === "stored_class") {
+          this.code.openBlock(
+            `if (this.${att.storageName}?.internalValue !== undefined)`
+          );
+        } else {
+          this.code.openBlock(`if (this.${att.storageName} !== undefined)`);
+        }
         this.code.line("hasAnyValues = true;");
         if (att.getterType._type === "stored_class") {
           this.code.line(
@@ -244,7 +255,9 @@ export class StructEmitter {
     this.code.openBlock(
       `public set internalValue(value: ${struct.name} | undefined)`
     );
+
     this.code.openBlock("if (value === undefined)");
+    this.code.line("this.isEmptyObject = false;");
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {
@@ -256,6 +269,7 @@ export class StructEmitter {
     }
     this.code.closeBlock();
     this.code.openBlock("else");
+    this.code.line("this.isEmptyObject = Object.keys(value).length === 0;");
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {
@@ -278,9 +292,11 @@ export class StructEmitter {
         struct.isSingleItem && !struct.isProvider
           ? `${struct.name}OutputReference | `
           : ""
-      }${struct.name}): any`
+      }${struct.name}${!struct.isClass ? " | cdktf.IResolvable" : ""}): any`
     );
-    this.code.line(`if (!cdktf.canInspect(struct)) { return struct; }`);
+    this.code.line(
+      `if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }`
+    );
     this.code.openBlock(`if (cdktf.isComplexElement(struct))`);
     this.code.line(
       `throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");`
@@ -288,9 +304,7 @@ export class StructEmitter {
     this.code.closeBlock();
 
     this.code.openBlock("return");
-    for (const att of struct.isClass
-      ? struct.attributes
-      : struct.assignableAttributes) {
+    for (const att of struct.assignableAttributes) {
       if (!att.isConfigIgnored) {
         this.attributesEmitter.emitToTerraform(att, true);
       }

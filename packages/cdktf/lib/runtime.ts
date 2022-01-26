@@ -9,6 +9,7 @@
 import {
   containsComplexElement,
   isComplexElement,
+  containsMapToken,
 } from "./tokens/private/encoding";
 import { Tokenization } from "./tokens";
 
@@ -50,6 +51,15 @@ export function hashMapper(elementMapper: Mapper): Mapper {
     }
 
     if (Tokenization.isResolvable(x)) {
+      return x;
+    }
+
+    // We can't treat strings as hashes (likely a token or a misconfiguration)
+    if (typeof x === "string") {
+      return x;
+    }
+
+    if (containsMapToken(x)) {
       return x;
     }
 

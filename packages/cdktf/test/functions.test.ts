@@ -1,6 +1,8 @@
 import { Testing, TerraformStack, TerraformOutput, Fn } from "../lib";
 import { TerraformVariable } from "../lib/terraform-variable";
 import { TerraformLocal } from "../lib/terraform-local";
+import { ref } from "../lib/tfExpression";
+import { Token } from "../lib/tokens/token";
 
 test("static values", () => {
   const app = Testing.app();
@@ -112,7 +114,7 @@ test("string values", () => {
     "{
       \\"output\\": {
         \\"test-output\\": {
-          \\"value\\": \\"\${parseInt(\\\\\\"-210\\\\\\", 10)}\\"
+          \\"value\\": \\"\${parseint(\\\\\\"-210\\\\\\", 10)}\\"
         }
       }
     }"
@@ -489,4 +491,26 @@ test("rawString escapes correctly", () => {
   expect(json.locals.test).toHaveProperty("quotes", `${bslsh}"`);
   expect(json.locals.test).toHaveProperty("doublequotes", `${bslsh}"${bslsh}"`);
   expect(json.locals.test).toHaveProperty("template", "$${TEMPLATE}");
+});
+
+test("tomap does not destroy incoming ref", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  expect(
+    Testing.synthScope(
+      (scope) =>
+        new TerraformLocal(
+          scope,
+          "test",
+          Fn.tomap(Token.asString(ref("test.instance.attr", stack)))
+        )
+    )
+  ).toMatchInlineSnapshot(`
+    "{
+      \\"locals\\": {
+        \\"test\\": \\"\${tomap(test.instance.attr)}\\"
+      }
+    }"
+  `);
 });

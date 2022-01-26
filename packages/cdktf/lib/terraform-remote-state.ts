@@ -15,6 +15,9 @@ export abstract class TerraformRemoteState
   extends TerraformElement
   implements ITerraformAddressable
 {
+  public static readonly tfResourceType = "terraform_remote_state";
+  public readonly fqn: string;
+
   constructor(
     scope: Construct,
     id: string,
@@ -22,6 +25,12 @@ export abstract class TerraformRemoteState
     private readonly config: DataTerraformRemoteStateConfig
   ) {
     super(scope, id);
+    this.fqn = Token.asString(
+      ref(
+        `data.terraform_remote_state.${this.friendlyUniqueId}`,
+        this.cdktfStack
+      )
+    );
   }
 
   public getString(output: string): string {
@@ -36,24 +45,19 @@ export abstract class TerraformRemoteState
     return Token.asList(this.interpolationForAttribute(output));
   }
 
-  public getBoolean(output: string): boolean {
-    return Token.asString(
-      this.interpolationForAttribute(output)
-    ) as any as boolean;
+  public getBoolean(output: string): IResolvable {
+    return this.interpolationForAttribute(output);
   }
 
-  public get(output: string): any {
-    return Token.asAny(this.interpolationForAttribute(output));
+  public get(output: string): IResolvable {
+    return this.interpolationForAttribute(output);
   }
 
   private interpolationForAttribute(terraformAttribute: string): IResolvable {
     return ref(
-      `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`
+      `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`,
+      this.cdktfStack
     );
-  }
-
-  public get fqn() {
-    return `data.terraform_remote_state.${this.friendlyUniqueId}`;
   }
 
   private extractConfig(): { [name: string]: any } {

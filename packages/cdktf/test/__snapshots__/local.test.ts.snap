@@ -15,7 +15,8 @@ exports[`local reference 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {

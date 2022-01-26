@@ -1,14 +1,6 @@
 import * as yargs from "yargs";
-import React from "react";
-import { Watch } from "./ui/watch";
 import { config as cfg } from "@cdktf/provider-generator";
-import { renderInk } from "./helper/render-ink";
-import * as chalk from "chalk";
-import { displayVersionMessage } from "./helper/version-check";
-import { GraphQLServerProvider } from "../../lib/client/react";
-import { throwIfNotProjectDirectory } from "./helper/check-directory";
-
-const chalkColour = new chalk.Instance();
+import { requireHandlers } from "./helper/utilities";
 
 const config = cfg.readConfigSync();
 
@@ -32,7 +24,7 @@ class Command implements yargs.CommandModule {
       .option("output", {
         default: config.output,
         required: true,
-        desc: "Output directory",
+        desc: "Output directory for the synthesized Terraform config",
         alias: "o",
       })
       .option("auto-approve", {
@@ -44,32 +36,9 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
-    throwIfNotProjectDirectory("watch");
-    await displayVersionMessage();
-    const command = argv.app;
-    const outdir = argv.output;
-    const autoApprove = argv.autoApprove;
-    const stack = argv.stack;
-
-    if (!autoApprove) {
-      console.error(
-        chalkColour`{redBright ERROR: The watch command always automatically deploys and approves changes. To make this behaviour explicit the --auto-approve flag must be set}`
-      );
-      process.exit(1);
-    }
-
-    await renderInk(
-      React.createElement(
-        GraphQLServerProvider,
-        undefined,
-        React.createElement(Watch, {
-          targetDir: outdir,
-          targetStack: stack,
-          synthCommand: command,
-          autoApprove,
-        })
-      )
-    );
+    // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
+    const api = requireHandlers();
+    api.watch(argv);
   }
 }
 

@@ -4,34 +4,19 @@ exports[`python full integration test synth synth generates JSON 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-simple\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": [
-          \\"terraform\\"
-        ],
         \\"null_resource\\": [
           \\"triggers\\"
+        ],
+        \\"stack\\": [
+          \\"terraform\\"
         ]
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      }
+      },
+      \\"stackName\\": \\"python-simple\\",
+      \\"version\\": \\"stubbed\\"
     },
-    \\"backend\\": {
-      \\"remote\\": {
-        \\"organization\\": \\"test\\",
-        \\"workspaces\\": {
-          \\"name\\": \\"test\\"
-        }
-      }
-    }
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
@@ -41,15 +26,34 @@ exports[`python full integration test synth synth generates JSON 1`] = `
   \\"resource\\": {
     \\"null_resource\\": {
       \\"nullresource\\": {
-        \\"triggers\\": {
-          \\"cluster_instance_ids\\": \\"foo\\"
-        },
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"python-simple/null-resource\\",
             \\"uniqueId\\": \\"nullresource\\"
           }
+        },
+        \\"triggers\\": {
+          \\"cluster_instance_ids\\": \\"foo\\"
         }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      },
+      \\"remote\\": {
+        \\"organization\\": \\"test\\",
+        \\"workspaces\\": {
+          \\"name\\": \\"test\\"
+        }
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
       }
     }
   }

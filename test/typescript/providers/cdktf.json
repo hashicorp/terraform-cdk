@@ -12,7 +12,8 @@
     "nomad",
     "external",
     "terraform-providers/openstack",
-    "oci"
+    "oci",
+    "DataDog/datadog@~> 3.0"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"

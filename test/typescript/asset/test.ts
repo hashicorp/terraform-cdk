@@ -8,8 +8,8 @@ describe("full integration test", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname);
     await driver.setupTypescriptProject();
-    driver.copyFiles("local-asset.txt");
-    driver.copyFolders("fixtures");
+    driver.copyFiles("local-asset.txt", "relative-asset.txt");
+    driver.copyFolders("fixtures", "relative");
   });
 
   test("synth", async () => {
@@ -71,6 +71,50 @@ describe("full integration test", () => {
       )
     );
     expect(stat.isFile()).toBe(true);
+  });
+
+  test("relative file asset copied", async () => {
+    await driver.synth("fixed");
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relativeasset/hash/relative-asset.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
+  });
+
+  test("relative folder asset copied", async () => {
+    await driver.synth("fixed");
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relative/hash/a.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relative/hash/b.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
+    expect(
+      fs.readFileSync(
+        path.resolve(
+          driver.stackDirectory("fixed"),
+          "assets/relative/hash/bar/c.txt"
+        ),
+        "utf-8"
+      )
+    ).toMatchSnapshot();
   });
 
   test("without asset changes there should be no redeployment", async () => {

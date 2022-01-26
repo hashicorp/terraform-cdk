@@ -4,6 +4,10 @@ import { resolve } from "./_tokens";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { TerraformProvider } from "./terraform-provider";
+import { LocalBackend } from "./backends/local-backend";
+import { ref } from "./tfExpression";
+import { TerraformOutput } from "./terraform-output";
+import { TerraformRemoteState } from "./terraform-remote-state";
 import {
   EXCLUDE_STACK_ID_FROM_LOGICAL_IDS,
   ALLOW_SEP_CHARS_IN_LOGICAL_IDS,
@@ -17,6 +21,13 @@ import { ValidateProviderPresence } from "./validations";
 import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Constructor<T> = Function & { prototype: T };
+type StackIdentifier = string;
+type OutputIdMap =
+  | { [constructId: string]: string }
+  | { [stackOrConstructId: string]: OutputIdMap };
+
 export interface TerraformStackMetadata {
   readonly stackName: string;
   readonly version: string;
@@ -26,7 +37,11 @@ export interface TerraformStackMetadata {
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
+  private crossStackOutputs: Record<StackIdentifier, TerraformOutput> = {};
+  private crossStackDataSources: Record<StackIdentifier, TerraformRemoteState> =
+    {};
   public synthesizer: IStackSynthesizer;
+  public dependencies: TerraformStack[] = [];
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -74,6 +89,47 @@ export class TerraformStack extends Construct {
 
       return _lookup(node.scope);
     }
+  }
+
+  private findAll<T>({
+    byConstructor: ClassConstructor,
+    byPredicate,
+  }: {
+    byConstructor?: Constructor<T>;
+    byPredicate?: (node: unknown) => boolean;
+  }): T[] {
+    const predicate = ClassConstructor
+      ? (x: unknown) => x instanceof ClassConstructor
+      : byPredicate;
+
+    if (!predicate) {
+      throw new Error("Either byConstructor or byPredicate must be provided");
+    }
+
+    const items: T[] = [];
+
+    const visit = async (node: IConstruct) => {
+      if (predicate(node)) {
+        items.push(node as unknown as T);
+      }
+
+      for (const child of node.node.children) {
+        visit(child);
+      }
+    };
+
+    visit(this);
+
+    return items;
+  }
+
+  public prepareStack() {
+    // Ensure we have a backend configured
+    this.ensureBackendExists();
+    // A preparing resolve run might add new resources to the stack, e.g. for cross stack references.
+    terraformElements(this).forEach((e) =>
+      resolve(this, e.toTerraform(), true)
+    );
   }
 
   public addOverride(path: string, value: any) {
@@ -137,21 +193,14 @@ export class TerraformStack extends Construct {
   }
 
   public allProviders(): TerraformProvider[] {
-    const providers: TerraformProvider[] = [];
+    return this.findAll({ byConstructor: TerraformProvider });
+  }
 
-    const visit = async (node: IConstruct) => {
-      if (node instanceof TerraformProvider) {
-        providers.push(node);
-      }
-
-      for (const child of node.node.children) {
-        visit(child);
-      }
-    };
-
-    visit(this);
-
-    return resolve(this, providers);
+  public ensureBackendExists(): TerraformBackend {
+    const backends = this.findAll<TerraformBackend>({
+      byPredicate: (item: unknown) => TerraformBackend.isBackend(item),
+    });
+    return backends[0] || new LocalBackend(this, {});
   }
 
   public toTerraform(): any {
@@ -173,7 +222,25 @@ export class TerraformStack extends Construct {
       deepMerge(metadata, meta);
     }
 
-    (tf as any)["//"] = { metadata };
+    const outputs: OutputIdMap = elements.reduce((carry, item) => {
+      if (!TerraformOutput.isTerrafromOutput(item)) {
+        return carry;
+      }
+
+      deepMerge(
+        carry,
+        item.node.path.split("/").reduceRight((innerCarry, part) => {
+          if (Object.keys(innerCarry).length === 0) {
+            return { [part]: item.friendlyUniqueId };
+          }
+          return { [part]: innerCarry };
+        }, {})
+      );
+
+      return carry;
+    }, {});
+
+    (tf as any)["//"] = { metadata, outputs };
 
     const fragments = elements.map((e) => resolve(this, e.toTerraform()));
     for (const fragment of fragments) {
@@ -183,6 +250,63 @@ export class TerraformStack extends Construct {
     deepMerge(tf, this.rawOverrides);
 
     return resolve(this, tf);
+  }
+
+  public registerOutgoingCrossStackReference(identifier: string) {
+    if (this.crossStackOutputs[identifier]) {
+      return this.crossStackOutputs[identifier];
+    }
+
+    const output = new TerraformOutput(
+      this,
+      `cross-stack-output-${identifier}`,
+      {
+        value: ref(identifier, this),
+        sensitive: true,
+      }
+    );
+
+    this.crossStackOutputs[identifier] = output;
+    return output;
+  }
+
+  public registerIncomingCrossStackReference(fromStack: TerraformStack) {
+    if (this.crossStackDataSources[String(fromStack)]) {
+      return this.crossStackDataSources[String(fromStack)];
+    }
+    const originBackend = fromStack.ensureBackendExists();
+    const originPath = fromStack.node.path;
+
+    const remoteState = originBackend.getRemoteStateDataSource(
+      this,
+      `cross-stack-reference-input-${originPath}`,
+      originPath
+    );
+
+    this.crossStackDataSources[originPath] = remoteState;
+    return remoteState;
+  }
+
+  // Check here for loops in the dependency graph
+  public dependsOn(stack: TerraformStack): boolean {
+    return (
+      this.dependencies.includes(stack) ||
+      this.dependencies.some((d) => d.dependsOn(stack))
+    );
+  }
+
+  public addDependency(dependency: TerraformStack) {
+    if (dependency.dependsOn(this)) {
+      throw new Error(
+        `Can not add dependency ${dependency} to ${this} since it would result in a loop`
+      );
+    }
+
+    if (this.dependencies.includes(dependency)) {
+      return;
+    }
+
+    this.dependencies.push(dependency);
   }
 }
 

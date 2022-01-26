@@ -10,7 +10,7 @@ import {
 export function expectImportMatchSnapshot(
   constraint: TerraformDependencyConstraint
 ) {
-  jest.setTimeout(120_000);
+  jest.setTimeout(240_000);
 
   test(constraint.name, async () => {
     await mkdtemp(async (workdir) => {
@@ -33,6 +33,7 @@ export function expectImportMatchSnapshot(
 
       // patch versions in manifest because they're not stable
       manifest.dependencies.cdktf = "999.999.999";
+      manifest.dependencies.constructs = "999.999.999";
       manifest.fingerprint = "<fingerprint>";
       manifest.jsiiVersion = "<jsiiVersion>";
 

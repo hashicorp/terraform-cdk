@@ -290,8 +290,13 @@ export class TerraformCloud implements Terraform {
       const res = await client.Runs.show(runId);
 
       // fetch logs and update UI in the background
-      client.Applies.logs(result.relationships.apply.data.id).then(({ data }) =>
-        stdout(Buffer.from(data, "utf8"))
+      client.Applies.logs(result.relationships.apply.data.id).then(
+        ({ data }) => {
+          // In rare cases the backend sends an empty chunk of data back.
+          if (data && data.length) {
+            stdout(Buffer.from(data, "utf8"));
+          }
+        }
       );
       return res;
     }
@@ -450,10 +455,9 @@ export class TerraformCloud implements Terraform {
 
   private removeLocalTerraformDirectory() {
     try {
-      fs.rmdirSync(
-        path.resolve(this.stack.synthesizedStackPath, ".terraform"),
-        { recursive: true }
-      );
+      fs.rmSync(path.resolve(this.stack.synthesizedStackPath, ".terraform"), {
+        recursive: true,
+      });
     } catch (error) {
       logger.debug(`Could not remove .terraform folder`, error);
     }

@@ -4,18 +4,11 @@ exports[`python full integration test synth synth generates JSON for both stacks
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"python-simple-one\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      }
-    }
+      \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
@@ -33,6 +26,19 @@ exports[`python full integration test synth synth generates JSON for both stacks
         }
       }
     }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
+      }
+    }
   }
 }"
 `;
@@ -41,18 +47,11 @@ exports[`python full integration test synth synth generates JSON for both stacks
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"python-simple-two\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      }
-    }
+      \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
@@ -68,6 +67,19 @@ exports[`python full integration test synth synth generates JSON for both stacks
             \\"uniqueId\\": \\"nullresource\\"
           }
         }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
       }
     }
   }

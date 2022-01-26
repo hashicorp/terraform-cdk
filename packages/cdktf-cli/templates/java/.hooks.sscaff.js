@@ -2,8 +2,6 @@ const { execSync } = require('child_process');
 const { readFileSync, writeFileSync } = require('fs');
 const os = require('os');
 
-const cli = require.resolve('../../bin/cdktf');
-
 exports.pre = (variables) => {
   try {
     if (os.platform() === 'win32') {

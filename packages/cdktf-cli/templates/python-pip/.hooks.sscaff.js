@@ -3,8 +3,6 @@ const { chmodSync } = require('fs');
 const { readFileSync, writeFileSync } = require('fs');
 const os = require('os');
 
-const cli = require.resolve('../../bin/cdktf');
-
 exports.pre = () => {
   try {
     if (os.platform() === 'win32') {

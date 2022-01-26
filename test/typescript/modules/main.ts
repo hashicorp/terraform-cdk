@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, Testing } from "cdktf";
+import { App, TerraformStack, Testing, LocalBackend } from "cdktf";
 import { OurLocalModule } from "./.gen/modules/our-local-module";
 import { Gcloud } from "./.gen/modules/gcloud";
 import { IamAccount } from "./.gen/modules/terraform-aws-modules/aws/iam/modules/iam-account";
@@ -7,8 +7,13 @@ import { IamAccount } from "./.gen/modules/terraform-aws-modules/aws/iam/modules
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+    new LocalBackend(this, {
+      path: "terraform.tfstate",
+    });
 
-    new OurLocalModule(this, "local-module", {});
+    new OurLocalModule(this, "local-module", {
+      set: ["test", "sets"],
+    });
     new Gcloud(this, "gcloud", {});
     new IamAccount(this, "iam", {
       accountAlias: "cdktf",

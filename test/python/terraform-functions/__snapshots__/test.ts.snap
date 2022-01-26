@@ -4,33 +4,27 @@ exports[`python terraform functions test synth synth generates JSON 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"python-simple\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": [
-          \\"terraform\\"
-        ],
         \\"null_resource\\": [
           \\"triggers\\"
+        ],
+        \\"stack\\": [
+          \\"terraform\\"
         ]
+      },
+      \\"stackName\\": \\"python-simple\\",
+      \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
+      \\"python-simple\\": {
+        \\"computed\\": \\"computed\\"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      }
-    },
-    \\"backend\\": {
-      \\"remote\\": {
-        \\"organization\\": \\"test\\",
-        \\"workspaces\\": {
-          \\"name\\": \\"test\\"
-        }
-      }
+  \\"output\\": {
+    \\"computed\\": {
+      \\"value\\": \\"\${element(merge({id = null_resource.nullresource.id}, {value = \\\\\\"123\\\\\\"}), 1)}\\"
     }
   },
   \\"provider\\": {
@@ -41,21 +35,35 @@ exports[`python terraform functions test synth synth generates JSON 1`] = `
   \\"resource\\": {
     \\"null_resource\\": {
       \\"nullresource\\": {
-        \\"triggers\\": {
-          \\"cluster_instance_ids\\": \\"foo\\"
-        },
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"python-simple/null-resource\\",
             \\"uniqueId\\": \\"nullresource\\"
           }
+        },
+        \\"triggers\\": {
+          \\"cluster_instance_ids\\": \\"foo\\"
         }
       }
     }
   },
-  \\"output\\": {
-    \\"computed\\": {
-      \\"value\\": \\"\${element(merge({id = null_resource.nullresource.id}, {value = \\\\\\"123\\\\\\"}), 1)}\\"
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      },
+      \\"remote\\": {
+        \\"organization\\": \\"test\\",
+        \\"workspaces\\": {
+          \\"name\\": \\"test\\"
+        }
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
+      }
     }
   }
 }"

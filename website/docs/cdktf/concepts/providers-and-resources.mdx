@@ -270,6 +270,32 @@ You can instantiate the same resource multiple times throughout your infrastruct
 
 Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for more details and an example.
 
+### References
+
+You can reference resource properties throughout your configuration. For example, you may want to use the name of a parent resource when assigning names to related child resources. Refer to your provider's documentation for a full list of available properties for each resource type.
+
+To create references, call `myResource.<propertyName>` on the resource instance. For example, you could use `myResource.name` to retrieve the `name` property from `myResource`. Terraform does not support passing an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source, so you must create a reference for each individual property.
+
+References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The TypeScript example below uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
+
+```ts
+
+const exampleNamespace = new Namespace(this, "tf-cdk-example", {
+  metadata: {
+    name: "tf-cdk-example",
+  },
+});
+
+new Deployment(this, "nginx-deployment", {
+  metadata: {
+    name: "nginx",
+    namespace: exampleNamespace.metadata.name, // Reference the namespace name propery
+    labels: {
+      app,
+    },
+  });
+```
+
 ### Escape Hatch
 
 Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.

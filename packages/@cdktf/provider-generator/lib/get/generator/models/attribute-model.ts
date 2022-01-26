@@ -96,7 +96,7 @@ export class AttributeModel {
       getterType = {
         _type: "args",
         args: "index: string, key: string",
-        returnType: this.mapType,
+        returnType: this.mapReturnType,
         returnStatement: `new ${this.type.name}(this, \`${this.terraformName}.\${index}\`).lookup(key)`,
       };
     } else if (
@@ -104,12 +104,12 @@ export class AttributeModel {
       this.computed &&
       !this.isOptional &&
       this.type.isComputedComplex &&
-      this.type.isList
+      (this.type.isList || this.type.isSet)
     ) {
       getterType = {
         _type: "args",
         args: "index: string",
-        returnStatement: `new ${this.type.name}(this, '${this.terraformName}', index)`,
+        returnStatement: `new ${this.type.name}(this, '${this.terraformName}', index, ${this.type.isSet})`,
       };
     } else if (
       // Complex Computed Map
@@ -121,7 +121,7 @@ export class AttributeModel {
       getterType = {
         _type: "args",
         args: "key: string",
-        returnType: this.mapType,
+        returnType: this.mapReturnType,
         returnStatement: `new ${this.type.name}(this, '${this.terraformName}').lookup(key)`,
       };
     }
@@ -133,7 +133,7 @@ export class AttributeModel {
     return getterType;
   }
 
-  public get mapType(): string {
+  public get mapType() {
     const type = this.type;
     if (type.isStringMap) {
       return `string`;
@@ -144,12 +144,24 @@ export class AttributeModel {
     if (type.isBooleanMap) {
       return `boolean`;
     }
+    if (type.isAnyMap) {
+      return `any`;
+    }
     if (process.env.DEBUG) {
       console.error(
         `The attribute ${JSON.stringify(this)} isn't implemented yet`
       );
     }
     return `any`;
+  }
+
+  public get mapReturnType(): string {
+    const mapDataType = this.mapType;
+    if (!this.isTokenizable) {
+      return `${mapDataType} | cdktf.IResolvable`;
+    }
+
+    return mapDataType;
   }
 
   public get isStored(): boolean {
@@ -188,6 +200,8 @@ export class AttributeModel {
     if (this._name === "equals") return "equalTo";
     // `node` is already used by the Constructs base class
     if (this._name === "node") return "nodeAttribute";
+    // `System` shadows built-in types in CSharp (see #1420)
+    if (this._name === "system") return "systemAttribute";
     // `tfResourceType` is already used by resources to distinguish between different resource types
     if (this._name === "tfResourceType") return `${this._name}Attribute`;
     return this._name;

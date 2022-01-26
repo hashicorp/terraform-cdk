@@ -14,6 +14,17 @@ export class AzurermBackend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
+
+  public getRemoteStateDataSource(
+    scope: Construct,
+    name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    return new DataTerraformRemoteStateAzurerm(scope, name, {
+      ...this.props,
+      workspace: "${terraform.workspace}",
+    });
+  }
 }
 
 export class DataTerraformRemoteStateAzurerm extends TerraformRemoteState {

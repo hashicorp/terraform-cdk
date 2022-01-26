@@ -24,6 +24,10 @@ const uniqueClassName = (className: string): string => {
   return className;
 };
 
+const isReservedClassName = (className: string): boolean => {
+  return ["string"].includes(className.toLowerCase());
+};
+
 class Parser {
   private structs = new Array<Struct>();
 
@@ -51,6 +55,10 @@ class Parser {
         optional: true,
         computed: false,
       };
+    }
+
+    if (isReservedClassName(baseName)) {
+      baseName = `${baseName}_resource`;
     }
 
     const className = uniqueClassName(toPascalCase(baseName));
@@ -144,7 +152,8 @@ class Parser {
 
       if (kind === "set" || kind === "list") {
         const attrType = this.renderAttributeType(scope, type as AttributeType);
-        attrType.isList = true;
+        attrType.isList = kind === "list";
+        attrType.isSet = kind === "set";
         attrType.isComputed = isComputed;
         attrType.isOptional = isOptional;
         attrType.isRequired = isRequired;
@@ -192,8 +201,6 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
-      if (parentType.inBlockType && att.computed && !!att.optional === false)
-        continue;
       const type = this.renderAttributeType(
         [
           parentType,
@@ -324,7 +331,8 @@ class Parser {
             terraformFullName: parent.fullName(terraformName),
             type: new AttributeTypeModel(struct.name, {
               struct,
-              isList: true,
+              isList: blockType.nesting_mode === "list",
+              isSet: blockType.nesting_mode === "set",
               isOptional: optional,
               isRequired: required,
               isSingleItem: blockType.max_items === 1,

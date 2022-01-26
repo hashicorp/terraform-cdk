@@ -21,6 +21,7 @@ The CDK for Terraform CLI has the following commands:
 - [login](/cdktf/cli-reference/commands#login)
 - [synth](/cdktf/cli-reference/commands#synth)
 - [watch](/cdktf/cli-reference/commands#watch)
+- [output](/cdktf/cli-reference/commands#output)
 
 ## completion
 
@@ -131,18 +132,25 @@ $ cdktf deploy --help
 **Help Output**
 
 ```
-cdktf deploy [OPTIONS]
+cdktf deploy [stack] [OPTIONS]
 
 Deploy the given stack
 
+Positionals:
+  stack  Deploy stack which matches the given id only. Required when more than one stack is present in the app                                                                                                        [string]
+
 Options:
-  --version          Show version number                                                                                                                                           [boolean]
-  --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                          [boolean] [default: true]
-  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
-  --app, -a          Command to use in order to execute cdktf app                                                                                                                 [required]
-  --output, -o       Output directory                                                                                                                      [required] [default: "cdktf.out"]
-  --auto-approve     Auto approve                                                                                                                                 [boolean] [default: false]
-  -h, --help         Show help                                                                                                                                                     [boolean]
+      --version                                 Show version number                                                                                                                                                  [boolean]
+      --disable-logging                         Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                 [boolean] [default: true]
+      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                                                                                                                                    [boolean] [default: false]
+      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                 [string]
+  -a, --app                                     Command to use in order to execute cdktf app                                                                                       [required] [default: "npx ts-node main.ts"]
+  -o, --output                                  Output directory                                                                                                                             [required] [default: "cdktf.out"]
+      --auto-approve                            Auto approve                                                                                                                                        [boolean] [default: false]
+      --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                              [string]
+      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                             [boolean] [default: false]
+  -h, --help                                    Show help                                                                                                                                                            [boolean]
 ```
 
 **Examples**
@@ -158,6 +166,8 @@ Deploy an application with automatic approval of the diff (Terraform plan).
 ```bash
 $ cdktf deploy --auto-approve
 ```
+
+For more info on the `--outputs-file` option, [see the `output` command below](/cdktf/cli-reference/commands#output).
 
 ## destroy
 
@@ -462,3 +472,52 @@ Set the `CDKTF_LOG_LEVEL` environment variable to `all` and set `CDKTF_DISABLE_L
 The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
 
 The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
+
+## output
+
+This command gets the outputs defined in the Terraform configuration of the given stack. It uses `terraform output` under the hood.
+
+```sh
+$ cdktf output --help
+```
+
+**Help Output**
+
+```
+cdktf output [stack] [OPTIONS]
+
+Prints the output of a stack
+
+Positionals:
+  stack  Get outputs of stack which matches the given id only. Required when more than one stack is present in the app                                                                                                [string]
+
+Options:
+      --version                                 Show version number                                                                                                                                                  [boolean]
+      --disable-logging                         Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                 [boolean] [default: true]
+      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                                                                                                                                    [boolean] [default: false]
+      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                 [string]
+  -a, --app                                     Command to use in order to execute cdktf app                                                                                       [required] [default: "npx ts-node main.ts"]
+  -o, --output                                  Output directory                                                                                                                             [required] [default: "cdktf.out"]
+      --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                              [string]
+      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                             [boolean] [default: false]
+  -h, --help                                    Show help                                                                                                                                                            [boolean]
+```
+
+### `--outputs-file`
+
+The `--outputs-file` option allows you to specify a file where the stack outputs will be written as JSON.
+The JSONs structure is matching your construct structure, the name of each construct is used as a key.
+
+```jsonc
+{
+  "MyStack": {
+    "MyConstructInstance": {
+      "MyOutput": "my-value",
+      "MySecretOutput": "my-secret-value" // not present if --outputs-file-include-sensitive-outputs is not set
+    }
+  }
+}
+```
+
+Please be aware that sensitive outputs are only written to the file if the `--outputs-file-include-sensitive-outputs` option is used.
