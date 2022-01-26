@@ -55,7 +55,7 @@ Terraform Cloud supports [connecting to VCS providers](/cloud-docs/vcs). To use 
 1. Commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code, so that Terraform Cloud can use it to deploy your infrastructure.
 1. On the **General Settings** page of your Terraform Cloud workspace, [set the Terraform working directory](/cloud-docs/workspaces/settings#terraform-working-directory) to the output directory of the stack you want to deploy. For example, use `cdktf.out/stacks/dev` if your stack is named `dev`.
 
-   Refer to [Stacks](/cdktf/concepts/stacks) for more information about using stacks to separate the state management for multiple environments in an application.
+Refer to [Stacks](/cdktf/concepts/stacks) for more information about using stacks to separate the state management for multiple environments in an application.
 
 ~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data that was provided as input for the `cdktf` application.
 
