@@ -222,7 +222,7 @@ When developing new features it can be helpful to enable logging. By setting `CD
 5. Create a PR to merge the new branch into `main`
 6. Merge the PR
 7. A new release will be build and published because the version changed
-8. Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (The commit message need to have a `!` so that the minor version is bumped)
+8. Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`)
 9. Run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
 10. Update the learn examples and the end to end examples
 11. Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
