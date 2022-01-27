@@ -194,7 +194,7 @@ export class AttributeModel {
     if (this._name === "self" || this._name === "build")
       return `${this._name}Attribute`;
     // jsii can't handle `getFoo` properties, since it's incompatible with Java
-    if (this._name.match(/^get[A-Z]+/))
+    if (this._name.match(/^get[A-Za-z]+/))
       return this._name.replace("get", "fetch");
     // `equals` is a prohibited name in jsii
     if (this._name === "equals") return "equalTo";
