@@ -1,5 +1,6 @@
 import { CodeMaker, toCamelCase } from "codemaker";
 import { ConstructsMakerModuleTarget } from "../constructs-maker";
+import { AttributeModel } from "./models";
 
 export class ModuleGenerator {
   constructor(
@@ -41,9 +42,9 @@ export class ModuleGenerator {
       }
       this.code.line(` */`);
       this.code.line(
-        `readonly ${toCamelCase(input.name)}${optional}: ${parseType(
-          input.type
-        )};`
+        `readonly ${AttributeModel.escapeName(
+          toCamelCase(input.name)
+        )}${optional}: ${parseType(input.type)};`
       );
     }
     this.code.closeBlock();
@@ -65,14 +66,14 @@ export class ModuleGenerator {
     this.code.close(`});`);
 
     for (const input of spec.inputs) {
-      const inputName = toCamelCase(input.name);
+      const inputName = AttributeModel.escapeName(toCamelCase(input.name));
       this.code.line(`this.${inputName} = options.${inputName};`);
     }
 
     this.code.close(`}`); // ctor
 
     for (const input of spec.inputs) {
-      const inputName = toCamelCase(input.name);
+      const inputName = AttributeModel.escapeName(toCamelCase(input.name));
       const inputType =
         parseType(input.type) +
         (input.required && input.default === undefined ? "" : " | undefined");

@@ -190,21 +190,23 @@ export class AttributeModel {
   }
 
   public get name(): string {
+    return AttributeModel.escapeName(this._name);
+  }
+
+  public static escapeName(name: string): string {
     // `self` and `build` doesn't work in as property name in Python
-    if (this._name === "self" || this._name === "build")
-      return `${this._name}Attribute`;
+    if (name === "self" || name === "build") return `${name}Attribute`;
     // jsii can't handle `getFoo` properties, since it's incompatible with Java
-    if (this._name.match(/^get[A-Za-z]+/))
-      return this._name.replace("get", "fetch");
+    if (name.match(/^get[A-Za-z]+/)) return name.replace("get", "fetch");
     // `equals` is a prohibited name in jsii
-    if (this._name === "equals") return "equalTo";
+    if (name === "equals") return "equalTo";
     // `node` is already used by the Constructs base class
-    if (this._name === "node") return "nodeAttribute";
+    if (name === "node") return "nodeAttribute";
     // `System` shadows built-in types in CSharp (see #1420)
-    if (this._name === "system") return "systemAttribute";
+    if (name === "system") return "systemAttribute";
     // `tfResourceType` is already used by resources to distinguish between different resource types
-    if (this._name === "tfResourceType") return `${this._name}Attribute`;
-    return this._name;
+    if (name === "tfResourceType") return `${name}Attribute`;
+    return name;
   }
 
   public get description(): string | undefined {
