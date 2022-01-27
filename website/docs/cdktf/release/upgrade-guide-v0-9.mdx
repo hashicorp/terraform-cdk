@@ -1,0 +1,38 @@
+---
+page_title: Upgrading to CDKTF Version 0.9
+description: >-
+  We changed some provider bindings to work better across all languages.
+---
+
+# Upgrading to CDK for Terraform Version 0.9
+
+We changed some provider bindings to work better across all languages.
+
+### Standardize IResolvable Usage [#1299](https://github.com/hashicorp/terraform-cdk/pull/1299)
+
+This is an effort to make sure attributes can be freely passed between resources for all different types.
+
+There is a minor breaking change:
+
+- `count` on resources and data sources has gone from `number | cdktf.IResolvable` to `number`. If code was previously passing an `IResolvable`, it will now need to wrap the `IResolvable` using `Token.asNumber()` on Typescript and Java , `Token.AsNumer()` on C#, `cdktf.Token_AsNumber()` on Go, and `Token().as_string()` on Python.
+
+### Map Tokens [#1411](https://github.com/hashicorp/terraform-cdk/pull/1411)
+
+As part of an effort to use more native types, there are now tokens for maps of primitive values.
+
+As a result, there is a minor breaking change:
+
+- Map attributes have gone from `{ [key: string]: TYPE } | cdktf.IResolvable` to `{ [key: string]:TYPE }` when `TYPE` is `string, number, or boolean`.
+  - The most common impact is maps created by using Terraform functions (`Fn.(...)`) will now need to be passed to `Token.as<String/Number/Boolean>Map()` before assigning to a resource attribute. The naming is a bit different per language, on C# it's `Token.As<String/Number/Boolean>Map()`, on Go it's `cdktf.Token_As<String/Number/Boolean>Map()`, and on Python it's `Token().as_<string/number/boolean>_map()`.
+
+### Number[] Tokens [#1471](https://github.com/hashicorp/terraform-cdk/pull/1471)
+
+As part of an effort to use more native types, there are now tokens for `number[]`.
+This is mostly an internal change, but there is now `Token.asNumberList()` (on C# it's `Token.AsNumberList()`, on Go it's `cdktf.Token_AsNumberList`, on Python it's `Token().as_number_list()`) which can be used to convert other values into `number[]`.
+
+As a result of some standardization, there is a minor breaking change:
+
+- Boolean[] attributes have gone from `boolean[]` to `Array<boolean | IResolvable> | IResolvable`.
+  - This is done because neither `boolean` or `boolean[]` is representable by a token.
+  - This should make it easier to pass around `boolean[]` between resources and fuctions.
+  - For jsii languages (especially Java and C#), these types will end up as `List<Object>`.
