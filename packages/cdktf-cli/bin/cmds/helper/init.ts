@@ -294,12 +294,14 @@ async function gatherInfo(
   if (!projectName) {
     questions.push({
       name: "projectName",
+      message: "Project Name",
       default: currentDirectory,
     });
   }
   if (!projectDescription) {
     questions.push({
       name: "projectDescription",
+      message: "Project Description",
       default: projectDescriptionDefault,
     });
   }
