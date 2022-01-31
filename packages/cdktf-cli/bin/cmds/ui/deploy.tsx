@@ -1,17 +1,18 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import ConfirmInput from "@skorfmann/ink-confirm-input";
 import { DeployingElement, Outputs } from "./components";
-import { DeployingResource, PlannedResourceAction } from "./models/terraform";
 import {
-  Status,
-  useTerraformState,
-  useRunDeploy,
-  NestedTerraformOutputs,
-} from "./terraform-context";
+  DeployingResource,
+  PlannedResourceAction,
+  TerraformPlan,
+  TerraformOutput,
+} from "./models/terraform";
+import { NestedTerraformOutputs } from "./terraform-context";
 import { Plan } from "./diff";
+import { CdktfProject, ProjectUpdates } from "../../../lib";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -99,66 +100,6 @@ const ApplyableResources = ({
   );
 };
 
-export const Apply = ({
-  outputsPath,
-}: {
-  outputsPath?: string;
-}): React.ReactElement => {
-  const { resources, status, currentStack, outputs } = useTerraformState();
-  const applyActions = [
-    PlannedResourceAction.UPDATE,
-    PlannedResourceAction.CREATE,
-    PlannedResourceAction.DELETE,
-    PlannedResourceAction.READ,
-  ];
-  const applyableResources = resources.filter((resource) =>
-    applyActions.includes(resource.action)
-  );
-  return (
-    <Fragment>
-      <Box flexDirection="column">
-        <Box>
-          {Status.DEPLOYING == status ? (
-            <>
-              <Text color="green">
-                <Spinner type="dots" />
-              </Text>
-              <Box paddingLeft={1}>
-                <Text>Deploying Stack: </Text>
-                <Text bold>{currentStack.name}</Text>
-              </Box>
-            </>
-          ) : (
-            <>
-              <Text>Deploying Stack: </Text>
-              <Text bold>{currentStack.name}</Text>
-            </>
-          )}
-        </Box>
-        <ApplyableResources
-          resources={applyableResources}
-          stackName={currentStack.name}
-        />
-        {outputs && Object.keys(outputs).length > 0 && (
-          <Box flexDirection="column">
-            <Box marginTop={1}>
-              <Text bold>Output: </Text>
-              <Outputs outputs={outputs} />
-            </Box>
-            <Box>
-              {outputsPath && outputs ? (
-                <Text>The outputs have been written to {outputsPath}</Text>
-              ) : (
-                <Text></Text>
-              )}
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </Fragment>
-  );
-};
-
 interface DeployConfig {
   targetDir: string;
   targetStack?: string;
@@ -176,42 +117,65 @@ export const Deploy = ({
   onOutputsRetrieved,
   outputsPath,
 }: DeployConfig): React.ReactElement => {
-  const {
-    state: { status, currentStack, errors, plan, outputs },
-    confirmation,
-    isConfirmed,
-  } = useRunDeploy({
-    targetDir,
-    targetStack,
-    synthCommand,
-    autoApprove,
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
+  const [stackName, setStackName] = useState<string>();
+  const [plan, setPlan] = useState<TerraformPlan>();
+  const [error, setError] = useState<unknown>(null);
+  const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
+
+  useEffect(() => {
+    const project = new CdktfProject({
+      targetDir,
+      synthCommand,
+      onUpdate: (event) => {
+        setStackName(project.stackName || "");
+        setProjectUpdate(event);
+        setOutputs(project.outputs);
+        setPlan(project.currentPlan!);
+        if (event.type === "deployed") {
+          onOutputsRetrieved(event.outputsByConstructId);
+        }
+      },
+      autoApprove,
+    });
+
+    project.deploy(targetStack).catch(setError);
+  }, [
+    setPlan,
+    setError,
+    setOutputs,
+    setStackName,
+    setProjectUpdate,
     onOutputsRetrieved,
-  });
+  ]);
 
-  const planStages = [
-    Status.INITIALIZING,
-    Status.PLANNING,
-    Status.SYNTHESIZING,
-    Status.SYNTHESIZED,
-    Status.STARTING,
-  ];
-  const isPlanning = planStages.includes(status);
-  const statusText =
-    currentStack.name === "" ? (
-      <Text>{status}...</Text>
-    ) : (
-      <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
-      </Text>
+  if (error) {
+    function extractError(error: any) {
+      if (typeof error === "string") {
+        return error;
+      }
+      if (error instanceof Error) {
+        return error.message;
+      }
+      if (error && typeof error === "object" && "stderr" in error) {
+        return error.stderr;
+      }
+
+      return JSON.stringify(error);
+    }
+
+    return (
+      <Box>
+        <Text>An error occured: {extractError(error)}</Text>
+      </Box>
     );
+  }
 
-  if (errors) return <Box>{errors.map((e: any) => e.message)}</Box>;
-  if (plan && !plan.needsApply)
+  if (plan && !plan.needsApply) {
     return (
       <>
         <Text>
-          No changes for Stack: <Text bold>{currentStack.name}</Text>
+          No changes for Stack: <Text bold>{stackName}</Text>
         </Text>
         {outputs && Object.keys(outputs).length > 0 && (
           <Box flexDirection="column">
@@ -230,29 +194,100 @@ export const Deploy = ({
         )}
       </>
     );
+  }
 
-  return (
-    <Box>
-      {isPlanning ? (
+  switch (projectUpdate?.type) {
+    case undefined: // starting
+    case "synthing":
+    case "synthed":
+    case "diffing":
+    case "diffed":
+      const status = projectUpdate?.type || "starting";
+      return (
+        <Box>
+          <>
+            <Text color="green">
+              <Spinner type="dots" />
+            </Text>
+            <Box paddingLeft={1}>
+              <Text>
+                {stackName === "" ? (
+                  <Text>{status}...</Text>
+                ) : (
+                  <Text>
+                    {status}
+                    <Text bold>&nbsp;{stackName}</Text>...
+                  </Text>
+                )}
+              </Text>
+            </Box>
+          </>
+        </Box>
+      );
+
+    case "waiting for approval":
+      return (
+        <Box>
+          <Box flexDirection="column">
+            <Plan currentStackName={stackName || ""} plan={plan!} />
+            <Confirm callback={projectUpdate.approve} />
+          </Box>
+        </Box>
+      );
+
+    case "deploying":
+    case "deploy update":
+    case "deployed":
+      const resources =
+        "resources" in projectUpdate ? projectUpdate.resources : [];
+      const applyActions = [
+        PlannedResourceAction.UPDATE,
+        PlannedResourceAction.CREATE,
+        PlannedResourceAction.DELETE,
+        PlannedResourceAction.READ,
+      ];
+      const applyableResources = resources.filter((resource) =>
+        applyActions.includes(resource.action)
+      );
+      return (
         <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
+          <Box flexDirection="column">
+            <Box>
+              <>
+                <Text color="green">
+                  <Spinner type="dots" />
+                </Text>
+                <Box paddingLeft={1}>
+                  <Text>Deploying Stack: </Text>
+                  <Text bold>{stackName}</Text>
+                </Box>
+              </>
+            </Box>
+            <ApplyableResources
+              resources={applyableResources}
+              stackName={stackName || ""}
+            />
+            {outputs && Object.keys(outputs).length > 0 && (
+              <Box flexDirection="column">
+                <Box marginTop={1}>
+                  <Text bold>Output: </Text>
+                  <Outputs outputs={outputs} />
+                </Box>
+                <Box>
+                  {outputsPath && outputs ? (
+                    <Text>The outputs have been written to {outputsPath}</Text>
+                  ) : (
+                    <Text></Text>
+                  )}
+                </Box>
+              </Box>
+            )}
           </Box>
         </Fragment>
-      ) : (
-        <>
-          {!isConfirmed && (
-            <Box flexDirection="column">
-              <Plan />
-              <Confirm callback={confirmation} />
-            </Box>
-          )}
-          {isConfirmed && <Apply outputsPath={outputsPath} />}
-        </>
-      )}
-    </Box>
-  );
+      );
+    default:
+      return (
+        <Text>{`Trying to render unknown state: ${projectUpdate?.type}`}</Text>
+      );
+  }
 };

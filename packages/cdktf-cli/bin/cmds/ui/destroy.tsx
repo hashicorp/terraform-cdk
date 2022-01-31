@@ -1,12 +1,16 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import ConfirmInput from "@skorfmann/ink-confirm-input";
 import { DeployingElement } from "./components";
-import { DeployingResource, PlannedResourceAction } from "./models/terraform";
-import { Status, useTerraformState, useRunDestroy } from "./terraform-context";
+import {
+  DeployingResource,
+  PlannedResourceAction,
+  TerraformPlan,
+} from "./models/terraform";
 import { Plan } from "./diff";
+import { CdktfProject, ProjectUpdates } from "../../../lib";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -63,57 +67,6 @@ const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
   );
 };
 
-export const DestroyComponent = (): React.ReactElement => {
-  const { resources, status, currentStack } = useTerraformState();
-  const applyActions = [
-    PlannedResourceAction.UPDATE,
-    PlannedResourceAction.CREATE,
-    PlannedResourceAction.DELETE,
-    PlannedResourceAction.READ,
-  ];
-  const applyableResources = resources.filter((resource) =>
-    applyActions.includes(resource.action)
-  );
-  return (
-    <Fragment>
-      <Box flexDirection="column">
-        <Box>
-          {Status.DESTROYING == status ? (
-            <>
-              <Text color="green">
-                <Spinner type="dots" />
-              </Text>
-              <Box paddingLeft={1}>
-                <Text>Destroying Stack: </Text>
-                <Text bold>{currentStack.name}</Text>
-              </Box>
-            </>
-          ) : (
-            <>
-              <Text>Destroying Stack: </Text>
-              <Text bold>{currentStack.name}</Text>
-            </>
-          )}
-        </Box>
-        <Text bold>Resources</Text>
-        {applyableResources.map((resource: any) => (
-          <Box key={resource.id} marginLeft={1}>
-            <DeployingElement
-              resource={resource}
-              stackName={currentStack.name}
-            />
-          </Box>
-        ))}
-        <Box marginTop={1}>
-          <Text bold>Summary: </Text>
-          <DeploySummary resources={applyableResources} />
-          <Text>.</Text>
-        </Box>
-      </Box>
-    </Fragment>
-  );
-};
-
 interface DestroyConfig {
   targetDir: string;
   targetStack?: string;
@@ -127,67 +80,144 @@ export const Destroy = ({
   synthCommand,
   autoApprove,
 }: DestroyConfig): React.ReactElement => {
-  const {
-    state: { status, currentStack, errors, plan },
-    confirmation,
-    isConfirmed,
-  } = useRunDestroy({
-    targetDir,
-    targetStack,
-    synthCommand,
-    autoApprove,
-  });
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
+  const [stackName, setStackName] = useState<string>();
+  const [plan, setPlan] = useState<TerraformPlan>();
+  const [error, setError] = useState<unknown>(null);
 
-  const planStages = [
-    Status.INITIALIZING,
-    Status.PLANNING,
-    Status.SYNTHESIZING,
-    Status.SYNTHESIZED,
-    Status.STARTING,
-  ];
-  const isPlanning = planStages.includes(status);
-  const statusText =
-    currentStack.name === "" ? (
-      <Text>{status}...</Text>
-    ) : (
+  useEffect(() => {
+    const project = new CdktfProject({
+      targetDir,
+      synthCommand,
+      onUpdate: (event) => {
+        setStackName(project.stackName || "");
+        setProjectUpdate(event);
+        setPlan(project.currentPlan!);
+      },
+      autoApprove,
+    });
+
+    project.destroy(targetStack).catch(setError);
+  }, [setPlan, setError, setStackName, setProjectUpdate]);
+
+  if (error) {
+    function extractError(error: any) {
+      if (typeof error === "string") {
+        return error;
+      }
+      if (error instanceof Error) {
+        return error.message;
+      }
+      if (error && typeof error === "object" && "stderr" in error) {
+        return error.stderr;
+      }
+
+      return JSON.stringify(error);
+    }
+
+    return (
+      <Box>
+        <Text>An error occured: {extractError(error)}</Text>
+      </Box>
+    );
+  }
+
+  if (plan && !plan.needsApply) {
+    return (
       <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
+        No changes for Stack: <Text bold>{stackName}</Text>
       </Text>
     );
+  }
 
-  if (errors) return <Box>{errors}</Box>;
-  if (plan && !plan.needsApply)
-    return (
-      <>
-        <Text>
-          No changes for Stack: <Text bold>{currentStack.name}</Text>
-        </Text>
-      </>
-    );
+  switch (projectUpdate?.type) {
+    case undefined: // starting
+    case "synthing":
+    case "synthed":
+    case "diffing":
+    case "diffed":
+      const status = projectUpdate?.type || "starting";
+      return (
+        <Box>
+          <>
+            <Text color="green">
+              <Spinner type="dots" />
+            </Text>
+            <Box paddingLeft={1}>
+              <Text>
+                {stackName === "" ? (
+                  <Text>{status}...</Text>
+                ) : (
+                  <Text>
+                    {status}
+                    <Text bold>&nbsp;{stackName}</Text>...
+                  </Text>
+                )}
+              </Text>
+            </Box>
+          </>
+        </Box>
+      );
 
-  return (
-    <Box>
-      {isPlanning ? (
+    case "waiting for approval":
+      return (
+        <Box>
+          <Box flexDirection="column">
+            <Plan currentStackName={stackName || ""} plan={plan!} />
+            <Confirm callback={projectUpdate.approve} />
+          </Box>
+        </Box>
+      );
+
+    case "destroying":
+    case "destroy update":
+    case "destroyed":
+      const resources =
+        "resources" in projectUpdate ? projectUpdate.resources : [];
+      const applyActions = [
+        PlannedResourceAction.UPDATE,
+        PlannedResourceAction.CREATE,
+        PlannedResourceAction.DELETE,
+        PlannedResourceAction.READ,
+      ];
+      const applyableResources = resources.filter((resource) =>
+        applyActions.includes(resource.action)
+      );
+      return (
         <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
+          <Box flexDirection="column">
+            <Box>
+              <>
+                {projectUpdate?.type !== "destroyed" ? (
+                  <Text color="green">
+                    <Spinner type="dots" />
+                  </Text>
+                ) : (
+                  <></>
+                )}
+                <Box paddingLeft={1}>
+                  <Text>Destroying Stack: </Text>
+                  <Text bold>{stackName}</Text>
+                </Box>
+              </>
+            </Box>
+            <Text bold>Resources</Text>
+            {applyableResources.map((resource: any) => (
+              <Box key={resource.id} marginLeft={1}>
+                <DeployingElement resource={resource} stackName={stackName} />
+              </Box>
+            ))}
+            <Box marginTop={1}>
+              <Text bold>Summary: </Text>
+              <DeploySummary resources={applyableResources} />
+              <Text>.</Text>
+            </Box>
           </Box>
         </Fragment>
-      ) : (
-        <>
-          {!isConfirmed && (
-            <Box flexDirection="column">
-              <Plan />
-              <Confirm callback={confirmation} />
-            </Box>
-          )}
-          {isConfirmed && <DestroyComponent />}
-        </>
-      )}
-    </Box>
-  );
+      );
+    default:
+      return (
+        <Text>{`Trying to render unknown state: ${projectUpdate?.type}`}</Text>
+      );
+  }
 };

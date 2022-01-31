@@ -1,9 +1,10 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Text, Box, Static } from "ink";
 import Spinner from "ink-spinner";
-import { PlannedResource } from "./models/terraform";
+import { PlannedResource, TerraformPlan } from "./models/terraform";
 import { PlanElement } from "./components";
-import { Status, useTerraformState, useRunDiff } from "./terraform-context";
+import { CdktfProject, Status } from "../../../lib";
+import { TerraformCloudPlan } from "./models/terraform-cloud";
 
 interface DiffConfig {
   targetDir: string;
@@ -45,39 +46,48 @@ const PlanSummary = ({ resources }: PlanSummaryConfig): React.ReactElement => {
   );
 };
 
-export const CloudRunInfo = (): React.ReactElement => {
-  const { url } = useTerraformState();
-  if (url == undefined) return <></>;
+export const CloudRunInfo = ({ url }: { url?: string }): React.ReactElement => {
+  if (url === undefined) return <></>;
 
   const staticElements = [url];
 
+  // TODO: create follow up issue to use https://github.com/sindresorhus/ink-link
   return (
     <Static items={staticElements}>
       {(e) => (
-        <Text key={e}>
-          Running plan in the remote backend. To view this run in a browser,
-          visit: {e}
-        </Text>
+        <>
+          <Text>
+            Running plan in the remote backend. To view this run in a browser,
+            visit:
+          </Text>
+          <Text key={e}>{e}</Text>
+        </>
       )}
     </Static>
   );
 };
 
-export const Plan = (): React.ReactElement => {
-  const { plan, currentStack } = useTerraformState();
-
+export const Plan = ({
+  plan,
+  currentStackName,
+}: {
+  plan: TerraformPlan;
+  currentStackName: string;
+}): React.ReactElement => {
   return (
     <Fragment>
       <Box flexDirection="column">
-        <CloudRunInfo />
+        <CloudRunInfo
+          url={plan instanceof TerraformCloudPlan ? plan.url : undefined}
+        />
         <Box>
           <Text>Stack: </Text>
-          <Text bold>{currentStack.name}</Text>
+          <Text bold>{currentStackName}</Text>
         </Box>
         {plan?.needsApply ? <Text bold>Resources</Text> : <></>}
         {plan?.applyableResources.map((resource) => (
           <Box key={resource.id} marginLeft={1}>
-            <PlanElement resource={resource} stackName={currentStack.name} />
+            <PlanElement resource={resource} stackName={currentStackName} />
           </Box>
         ))}
         <Box marginTop={1}>
@@ -95,41 +105,62 @@ export const Diff = ({
   targetStack,
   synthCommand,
 }: DiffConfig): React.ReactElement => {
-  const { status, currentStack, errors } = useRunDiff({
-    targetDir,
-    targetStack,
-    synthCommand,
-    isSpeculative: true,
-  });
+  const [projectStatus, setProjectStatus] = useState<Status>();
+  const [stackName, setStackName] = useState<string>();
+  const [plan, setPlan] = useState<TerraformPlan>();
+  const [error, setError] = useState<string | null>(null);
 
-  const isPlanning: boolean = status != Status.PLANNED;
-  const statusText =
-    currentStack.name === "" ? (
-      `${status}...`
-    ) : (
-      <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
-      </Text>
+  useEffect(() => {
+    const project = new CdktfProject({
+      targetDir,
+      synthCommand,
+      onUpdate: () => {
+        setStackName(project.stackName || "");
+        setProjectStatus(project.status);
+      },
+    });
+
+    project
+      .diff(targetStack)
+      .then(() => setPlan(project.currentPlan!), setError);
+  }, [setPlan, setError]);
+
+  if (error) {
+    return (
+      <Box>
+        <Text>{error}</Text>
+      </Box>
     );
+  }
 
-  if (errors) return <Box>{errors}</Box>;
+  if (plan) {
+    return (
+      <Box>
+        <Plan currentStackName={stackName || ""} plan={plan!} />
+      </Box>
+    );
+  }
 
+  // TODO: remove useTerraformState
   return (
     <Box>
-      <CloudRunInfo />
-      {isPlanning ? (
-        <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
+      <Fragment>
+        <Text color="green">
+          <Spinner type="dots" />
+        </Text>
+        <Box paddingLeft={1}>
+          <Text>
+            {stackName === "" ? (
+              `${projectStatus}...`
+            ) : (
+              <Text>
+                {projectStatus}
+                <Text bold>&nbsp;{stackName}</Text>...
+              </Text>
+            )}
           </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
-          </Box>
-        </Fragment>
-      ) : (
-        <Plan />
-      )}
+        </Box>
+      </Fragment>
     </Box>
   );
 };

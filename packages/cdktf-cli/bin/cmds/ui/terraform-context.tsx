@@ -413,7 +413,7 @@ const useTerraformDispatch = () => {
   return dispatch;
 };
 
-const useConfirmation = ({
+export const useConfirmation = ({
   autoApprove = false,
 }: {
   autoApprove?: boolean;
