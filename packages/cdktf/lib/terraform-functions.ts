@@ -146,7 +146,7 @@ function terraformFunction(
 
 export class Fn {
   /**
-   * {@link https://www.terraform.io/docs/language/functions/anytrue.html anytrue} returns true if all elements in a given collection are true or "true"
+   * {@link https://www.terraform.io/docs/language/functions/alltrue.html alltrue} returns true if all elements in a given collection are true
    * @param {Array} values
    */
   public static alltrue(values: any[]) {
