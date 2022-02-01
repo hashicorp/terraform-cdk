@@ -1024,8 +1024,8 @@ export class Fn {
    */
   public static regex(pattern: string, value: string) {
     return asString(
-        terraformFunction("regex", [stringValue, stringValue])(pattern, value)
-    )
+      terraformFunction("regex", [stringValue, stringValue])(pattern, value)
+    );
   }
 
   /**
