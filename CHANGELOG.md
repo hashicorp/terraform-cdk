@@ -1,3 +1,42 @@
+## 0.9.1
+
+### fix
+- fix(cli): add better messaging on inint [\#1524](https://github.com/hashicorp/terraform-cdk/pull/1524)
+- fix(provider-generator): don't build generated edge provider output as part of building the provider-generator [\#1509](https://github.com/hashicorp/terraform-cdk/pull/1509)
+- fix(functions): add missing "regex" function
+
+### chore
+- chore(docs): Merge stable-website into main  [\#1515](https://github.com/hashicorp/terraform-cdk/pull/1515)
+- chore(docs): add 0.9 upgrade guide [\#1512](https://github.com/hashicorp/terraform-cdk/pull/1512)
+
+
+### 
+- (chore)docs: merge main into stable website [\#1513](https://github.com/hashicorp/terraform-cdk/pull/1513)
+
+
+### Other
+- chore: add make website command to preview docs website [\#1427](https://github.com/hashicorp/terraform-cdk/pull/1427)
+
+
+### feat
+
+
+
+### chore: store website nav files
+- chore: store website nav files (stable-website) [\#1433](https://github.com/hashicorp/terraform-cdk/pull/1433)
+
+
+### chore: migrate docs to MDX
+- chore: migrate docs to MDX (stable-website) [\#1417](https://github.com/hashicorp/terraform-cdk/pull/1417)
+
+
+### refactor
+
+
+
+### test
+
+
 ## 0.9.0
 
 **Breaking Changes**
