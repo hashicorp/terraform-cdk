@@ -1018,6 +1018,17 @@ export class Fn {
   }
 
   /**
+   * {@link https://www.terraform.io/docs/language/functions/regex.html regex} applies a regular expression to a string and returns the matching substrings.
+   * @param {string} pattern
+   * @param {string} value
+   */
+  public static regex(pattern: string, value: string) {
+    return asString(
+        terraformFunction("regex", [stringValue, stringValue])(pattern, value)
+    )
+  }
+
+  /**
    * {@link https://www.terraform.io/docs/language/functions/replace.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
    * @param {string} value
    * @param {string} substring
