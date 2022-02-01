@@ -1018,7 +1018,7 @@ export class Fn {
   }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/regex.html regex} applies a regular expression to a string and returns the matching substrings.
+   * {@link https://www.terraform.io/docs/language/functions/regex.html regex} applies a regular expression to a string and returns the matching substrings in pattern.
    * @param {string} pattern
    * @param {string} value
    */
