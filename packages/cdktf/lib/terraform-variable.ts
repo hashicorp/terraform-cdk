@@ -51,6 +51,11 @@ export abstract class VariableType {
   }
 }
 
+export interface TerraformVariableValidationConfig {
+  readonly condition: any;
+  readonly error_message: string;
+}
+
 export interface TerraformVariableConfig {
   readonly default?: any;
   readonly description?: string;
@@ -86,6 +91,11 @@ export interface TerraformVariableConfig {
    * The nullable argument in a variable block controls whether the module caller may assign the value null to the variable.
    */
   readonly nullable?: boolean;
+
+  /**
+   * Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block
+   */
+  readonly validation?: TerraformVariableValidationConfig;
 }
 
 export class TerraformVariable
@@ -97,6 +107,7 @@ export class TerraformVariable
   public readonly type?: string;
   public readonly sensitive?: boolean;
   public readonly nullable?: boolean;
+  public readonly validation?: TerraformVariableValidationConfig;
 
   public readonly fqn: string;
 
@@ -108,6 +119,7 @@ export class TerraformVariable
     this.type = config.type;
     this.sensitive = config.sensitive;
     this.nullable = config.nullable;
+    this.validation = config.validation;
     this.fqn = Token.asString(this.interpolation());
   }
 
@@ -142,6 +154,7 @@ export class TerraformVariable
       type: this.type,
       sensitive: this.sensitive,
       nullable: this.nullable,
+      validation: this.validation,
     };
   }
 
