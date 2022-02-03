@@ -4,7 +4,7 @@ setlocal EnableDelayedExpansion
 
 set scriptdir=%~dp0
 
-set CDKTF_DIST="%scriptdir%\..\dist"
+set CDKTF_DIST=%scriptdir%\..\dist
 set cwd=%cd%
 
 cd /D %CDKTF_DIST%
