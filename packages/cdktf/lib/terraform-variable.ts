@@ -52,8 +52,8 @@ export abstract class VariableType {
 }
 
 export interface TerraformVariableValidationConfig {
-  readonly condition: any;
-  readonly error_message: string;
+  readonly condition: string | IResolvable;
+  readonly errorMessage: string;
 }
 
 export interface TerraformVariableConfig {
@@ -95,7 +95,7 @@ export interface TerraformVariableConfig {
   /**
    * Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block
    */
-  readonly validation?: TerraformVariableValidationConfig;
+  readonly validation?: TerraformVariableValidationConfig[];
 }
 
 export class TerraformVariable
@@ -107,7 +107,7 @@ export class TerraformVariable
   public readonly type?: string;
   public readonly sensitive?: boolean;
   public readonly nullable?: boolean;
-  public readonly validation?: TerraformVariableValidationConfig;
+  public readonly validation?: TerraformVariableValidationConfig[];
 
   public readonly fqn: string;
 
@@ -154,7 +154,10 @@ export class TerraformVariable
       type: this.type,
       sensitive: this.sensitive,
       nullable: this.nullable,
-      validation: this.validation,
+      validation: this.validation.map((validation) => ({
+        error_message: validation.errorMessage,
+        condition: validation.condition,
+      })),
     };
   }
 
