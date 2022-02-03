@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { Token } from "./tokens";
-import {Expression, ref} from "./tfExpression";
+import { Expression, ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { ITerraformAddressable } from "./terraform-addressable";
 
