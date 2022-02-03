@@ -28,7 +28,7 @@ export class BooleanList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_boolean_list\\";
+  public static readonly tfResourceType = \\"aws_boolean_list\\";
 
   // ===========
   // INITIALIZER
@@ -133,7 +133,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_boolean_map\\";
+  public static readonly tfResourceType = \\"aws_boolean_map\\";
 
   // ===========
   // INITIALIZER
@@ -283,7 +283,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_computed_complex\\";
+  public static readonly tfResourceType = \\"aws_computed_complex\\";
 
   // ===========
   // INITIALIZER
@@ -370,7 +370,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_computed_complex_nested\\";
+  public static readonly tfResourceType = \\"aws_computed_complex_nested\\";
 
   // ===========
   // INITIALIZER
@@ -467,7 +467,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_block_type_nested_computed_list\\";
+  public static readonly tfResourceType = \\"aws_block_type_nested_computed_list\\";
 
   // ===========
   // INITIALIZER
@@ -609,7 +609,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_computed_optional_complex\\";
+  public static readonly tfResourceType = \\"aws_computed_optional_complex\\";
 
   // ===========
   // INITIALIZER
@@ -786,7 +786,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_deeply_nested_block_types\\";
+  public static readonly tfResourceType = \\"aws_deeply_nested_block_types\\";
 
   // ===========
   // INITIALIZER
@@ -867,7 +867,7 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_ignored_attributes\\";
+  public static readonly tfResourceType = \\"aws_ignored_attributes\\";
 
   // ===========
   // INITIALIZER
@@ -959,7 +959,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_incompatible_attribute_names\\";
+  public static readonly tfResourceType = \\"aws_incompatible_attribute_names\\";
 
   // ===========
   // INITIALIZER
@@ -1099,7 +1099,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_list_of_string_map\\";
+  public static readonly tfResourceType = \\"aws_list_of_string_map\\";
 
   // ===========
   // INITIALIZER
@@ -1174,7 +1174,7 @@ export class NumberList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_number_list\\";
+  public static readonly tfResourceType = \\"aws_number_list\\";
 
   // ===========
   // INITIALIZER
@@ -1277,7 +1277,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_number_map\\";
+  public static readonly tfResourceType = \\"aws_number_map\\";
 
   // ===========
   // INITIALIZER
@@ -1392,7 +1392,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_boolean\\";
+  public static readonly tfResourceType = \\"aws_primitive_boolean\\";
 
   // ===========
   // INITIALIZER
@@ -1522,7 +1522,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_dynamic\\";
+  public static readonly tfResourceType = \\"aws_primitive_dynamic\\";
 
   // ===========
   // INITIALIZER
@@ -1652,7 +1652,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_number\\";
+  public static readonly tfResourceType = \\"aws_primitive_number\\";
 
   // ===========
   // INITIALIZER
@@ -1782,7 +1782,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_string\\";
+  public static readonly tfResourceType = \\"aws_primitive_string\\";
 
   // ===========
   // INITIALIZER
@@ -1916,7 +1916,7 @@ export class NameConflict extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_name_conflict\\";
+  public static readonly tfResourceType = \\"aws_name_conflict\\";
 
   // ===========
   // INITIALIZER
@@ -2096,7 +2096,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_block_type_set_list\\";
+  public static readonly tfResourceType = \\"aws_block_type_set_list\\";
 
   // ===========
   // INITIALIZER
@@ -2268,7 +2268,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_single_block_type\\";
+  public static readonly tfResourceType = \\"aws_single_block_type\\";
 
   // ===========
   // INITIALIZER
@@ -2360,7 +2360,7 @@ export class StringList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_string_list\\";
+  public static readonly tfResourceType = \\"aws_string_list\\";
 
   // ===========
   // INITIALIZER
@@ -2486,7 +2486,7 @@ export class StringMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_string_map\\";
+  public static readonly tfResourceType = \\"aws_string_map\\";
 
   // ===========
   // INITIALIZER
