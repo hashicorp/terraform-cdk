@@ -87,9 +87,7 @@ For local modules, use the object format.
 }
 ```
 
-#### Generating bindings for submodules
-
-For performance reasons we don't generate bindings for submodules. To generate bindings for submodules, need to specify the module source as `terraform-aws-modules/eks/aws//modules/eks-managed-node-group`, where after the `//` is the path to the submodule in the modules repository.
+For performance reasons we don't automatically generate bindings for submodules. To generate bindings for submodules, specify the module source as `terraform-aws-modules/eks/aws//modules/eks-managed-node-group`, where after the `//` is the path to the submodule in the modules repository.
 
 ### Generate Module Bindings
 
