@@ -59,7 +59,7 @@ test("generate multiple aws modules", async () => {
   await maker.generate();
 
   const vpcOutput = fs.readFileSync(
-    path.join(workdir, "modules/terraform-aws-modules/aws/vpc.ts"),
+    path.join(workdir, "modules/terraform-aws-modules/vpc/aws.ts"),
     "utf-8"
   );
   expect(vpcOutput).toMatchSnapshot();

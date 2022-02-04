@@ -1,39 +1,86 @@
 import { convert } from "../lib/index";
+import * as fs from "fs";
+import * as path from "path";
 import {
   readSchema,
   ConstructsMakerProviderTarget,
   LANGUAGES,
   config,
 } from "@cdktf/provider-generator";
+import { execSync } from "child_process";
 const providers = [
-  "hashicorp/aws@ ~>3.62.0",
+  "hashicorp/aws@ ~>3.74.0",
   "kreuzwerker/docker@ ~>2.15.0",
   "hashicorp/google@ ~>3.87.0",
+  "hashicorp/null@ ~>3.1.0",
+  "hashicorp/azuread@ ~>2.17.0",
+  "hashicorp/local@ ~>2.1.0",
+  "alexkappa/auth0@ ~>0.26.2",
+  "DataDog/datadog@ ~>3.8.1",
 ];
 
+enum Synth {
+  yes,
+  needsAFix_MissingCdktfImport,
+  needsAFix_SingleItemBlocksAreTreatedAsArrays,
+  needsAFix_BooleanAsIResolvable, // Type 'IResolvable' is not assignable to type 'boolean'.",
+  needsAFix_MaximumCallStackSizeExceeded,
+  needsAFix_UnforseenRename, // e.g. User to UserA
+  needsAFix_StringIsNotAssignableToListOfString, // e.g. Type 'string' is not assignable to type 'string[] | undefined'.
+  never, // Some examples are built so that they will never synth but test a specific generation edge case
+}
+
 let cachedProviderSchema: any;
+let projectDir: string;
 describe("convert", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     // Get all the provider schemas
-    return readSchema(
+    const { providerSchema } = await readSchema(
       providers.map((spec) =>
         ConstructsMakerProviderTarget.from(
           new config.TerraformProviderConstraint(spec),
           LANGUAGES[0]
         )
       )
-    ).then((res) => {
-      cachedProviderSchema = res.providerSchema;
-    });
+    );
+
+    cachedProviderSchema = providerSchema;
+
+    // Initialize a new project
+    projectDir = fs.mkdtempSync("cdktf-convert-test");
+    execSync(
+      `cd ${projectDir} && npx cdktf init --local --cdktf-version=0.9.0 --project-name="hello" --project-description="world" --template=typescript`
+    );
+    const cdktfJson = JSON.parse(
+      fs.readFileSync(path.join(projectDir, "cdktf.json"), "utf8")
+    );
+    fs.writeFileSync(
+      path.join(projectDir, "cdktf.json"),
+      JSON.stringify(
+        {
+          ...cdktfJson,
+          terraformProviders: providers,
+          terraformModules: ["terraform-aws-modules/vpc/aws@ ~>3.11.5"],
+        },
+        null,
+        2
+      )
+    );
+    execSync(`cd ${projectDir} && npx cdktf get`);
   }, 500_000);
 
-  it.each([
+  afterAll(() => {
+    fs.rmdirSync(projectDir, { recursive: true });
+  });
+
+  describe.each<[string, string, Synth]>([
     [
       "output",
       `
         output "cidr_out" {
             value = "test"
         }`,
+      Synth.yes,
     ],
     [
       "sensitive output",
@@ -42,6 +89,7 @@ describe("convert", () => {
             value = "test"
             sensitive = true
         }`,
+      Synth.yes,
     ],
     [
       "output withdescription",
@@ -51,6 +99,7 @@ describe("convert", () => {
             sensitive = true
             description = "Best output"
         }`,
+      Synth.yes,
     ],
     [
       "multiple outputs",
@@ -61,13 +110,15 @@ describe("convert", () => {
         output "second_cidr_out" {
             value = "second"
         }`,
+      Synth.yes,
     ],
-    ["empty provider", `provider "docker" {}`],
+    ["empty provider", `provider "docker" {}`, Synth.yes],
     [
       "null provider",
       `provider "null" {}
     resource "null_resource" "test" {}
     `,
+      Synth.yes,
     ],
     [
       "provider with complex config",
@@ -85,17 +136,25 @@ describe("convert", () => {
           }
         }
       `,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "simple resource",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         resource "aws_vpc" "example" {
           cidr_block = "10.0.0.0/16"
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "complex resource",
       ` 
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         resource "aws_cloudfront_distribution" "s3_distribution" {
           origin {
             domain_name = "aws_s3_bucket.b.bucket_regional_domain_name"
@@ -200,13 +259,18 @@ describe("convert", () => {
             cloudfront_default_certificate = true
           }
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "simple data source",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         data "aws_subnet" "selected" {
-          id = "subnet_id"
+          vpc_id = "subnet_id"
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "locals",
@@ -221,6 +285,7 @@ describe("convert", () => {
           value = "\${local.service_name},\${local.owner},\${local.is_it_great},\${local.how_many}"
         }
         `,
+      Synth.yes,
     ],
     [
       "multiple locals blocks",
@@ -238,10 +303,14 @@ describe("convert", () => {
         output "combined-so-it-does-not-get-removed" {
           value = "\${local.service_name},\${local.owner},\${local.is_it_great},\${local.how_many}"
         }`,
+      Synth.yes,
     ],
     [
       "resource references",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         resource "aws_kms_key" "examplekms" {
           description             = "KMS key 1"
           deletion_window_in_days = 7
@@ -258,10 +327,15 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "locals references",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
+
         locals {
           bucket_name = "foo"
         }
@@ -270,10 +344,14 @@ describe("convert", () => {
           bucket = local.bucket_name
           acl    = "private"
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "variable references",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         variable "bucket_name" {
           type    = string
           default = "demo"
@@ -283,10 +361,14 @@ describe("convert", () => {
           bucket = var.bucket_name
           acl    = "private"
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "data references",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         variable "bucket_name" {
           type    = string
           default = "demo"
@@ -294,7 +376,6 @@ describe("convert", () => {
         
         data "aws_s3_bucket" "examplebucket" {
           bucket = var.bucket_name
-          acl    = "private"
         }
         
         resource "aws_s3_bucket_object" "examplebucket_object" {
@@ -302,10 +383,14 @@ describe("convert", () => {
           bucket     = data.aws_s3_bucket.examplebucket.arn
           source     = "index.html"
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "double references",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         variable "bucket_name" {
           type    = string
           default = "demo"
@@ -318,6 +403,7 @@ describe("convert", () => {
             tag-key = var.bucket_name
           }
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "modules",
@@ -340,6 +426,7 @@ describe("convert", () => {
             Environment = "dev"
           }
         }`,
+      Synth.yes,
     ],
     [
       "duplicate modules",
@@ -355,6 +442,7 @@ describe("convert", () => {
         
           name = "my-vpc-b"
         }`,
+      Synth.yes,
     ],
     [
       "referenced modules",
@@ -381,6 +469,7 @@ describe("convert", () => {
         output "subnet_ids" {
           value = module.vpc.public_subnets
         }`,
+      Synth.yes,
     ],
     [
       "arithmetics",
@@ -395,10 +484,14 @@ describe("convert", () => {
         output "arithmetics" {
           value = var.members + var.admins
         }`,
+      Synth.yes,
     ],
     [
       "conditionals",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         resource "aws_kms_key" "examplekms" {
           description             = "KMS key 1"
           deletion_window_in_days = 7
@@ -415,6 +508,7 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "for expression 1",
@@ -440,6 +534,7 @@ describe("convert", () => {
           value = "\${local.admin_users},\${local.regular_users}"
         }
         `,
+      Synth.yes,
     ],
     [
       "for expression 2",
@@ -459,10 +554,16 @@ describe("convert", () => {
         output "so-it-does-not-get-removed" {
           value = local.users_by_role
         }`,
+      Synth.yes,
     ],
     [
       "for expression 3",
       `
+        provider "datadog" {
+          api_key = "api_key"
+          app_key = "app_key"
+        }
+
         variable "users" {
           type = list(object({
             id = string
@@ -470,13 +571,19 @@ describe("convert", () => {
         }
         
         resource "datadog_monitor" "hard_query" {
-          name = "queries are hard"
-          query = join(" && ", [for o in var.users : "!(!\${o.id})"])
+          name    = "queries are hard"
+          message = "here we go"
+          query   = join(" && ", [for o in var.users : "!(!\${o.id})"])
+          type    = "metric alert"
         }`,
+      Synth.yes,
     ],
     [
       "resource references with HCL functions",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         resource "aws_kms_key" "examplekms" {
           description             = "KMS key 1"
           deletion_window_in_days = 7
@@ -493,10 +600,14 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "for each on list using splat",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         variable "buckets" {
           type    = list(string)
         }
@@ -522,6 +633,7 @@ describe("convert", () => {
           kms_key_id = aws_kms_key.examplekms.arn
         }
         `,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "for_each loops",
@@ -540,10 +652,14 @@ describe("convert", () => {
           }
         }
         `,
+      Synth.needsAFix_MaximumCallStackSizeExceeded,
     ],
     [
       "property access through []",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         variable "settings" {
           type = map(string)
         }
@@ -553,10 +669,14 @@ describe("convert", () => {
           acl    = "private"
         }
         `,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "list access through []",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         variable "settings" {
           type = list(map(string))
         }
@@ -566,10 +686,14 @@ describe("convert", () => {
           acl    = "private"
         }
         `,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "count loops",
       `
+        provider "aws" {
+          region                      = "us-east-1"
+        }
         variable "users" {
           type = set(string)
         }
@@ -583,10 +707,14 @@ describe("convert", () => {
             tag-key = "tag-value"
           }
         }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "simple count",
       `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       resource "aws_instance" "multiple_servers" {
         count = 4
       
@@ -598,6 +726,7 @@ describe("convert", () => {
         }
       }
       `,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "dynamic blocks",
@@ -624,10 +753,14 @@ describe("convert", () => {
             }
           }
         }`,
+      Synth.needsAFix_MaximumCallStackSizeExceeded,
     ],
     [
       "multiple blocks",
       `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       resource "aws_security_group" "allow_tls" {
         name        = "allow_tls"
         description = "Allow TLS inbound traffic"
@@ -664,6 +797,7 @@ describe("convert", () => {
           Name = "allow_tls"
         }
       }`,
+      Synth.needsAFix_BooleanAsIResolvable,
     ],
     [
       "provider alias",
@@ -690,6 +824,7 @@ describe("convert", () => {
         }
       }        
       `,
+      Synth.never,
     ],
     [
       "local module",
@@ -698,6 +833,7 @@ describe("convert", () => {
         source = "./aws_vpc"
       }        
       `,
+      Synth.never,
     ],
     [
       "complex for each loops",
@@ -736,11 +872,17 @@ describe("convert", () => {
       
       resource "aws_lb_listener" "example" {
         # ... other configuration ...
-      
-        certificate_arn = aws_acm_certificate_validation.example.certificate_arn
+        
+        certificate_arn   = aws_acm_certificate_validation.example.certificate_arn
+        load_balancer_arn = "best-lb-arn" 
+        default_action  {
+          type             = "forward"
+          target_group_arn = "best-target"
+        }
       }
               
       `,
+      Synth.needsAFix_StringIsNotAssignableToListOfString,
     ],
     [
       "local backend",
@@ -751,6 +893,7 @@ describe("convert", () => {
         }
       }     
       `,
+      Synth.yes,
     ],
     [
       "remote backend",
@@ -759,7 +902,6 @@ describe("convert", () => {
         backend "remote" {
           hostname = "app.terraform.io"
           organization = "company"
-          path_to_state = "terraform.tfstate"
       
           workspaces {
             name = "my-app-prod"
@@ -767,14 +909,25 @@ describe("convert", () => {
         }
       }
       `,
+      Synth.yes,
     ],
     [
       "numeric property access",
       `
+      provider "google" {
+        project = "my-project"
+        region  = "us-central1"
+      }
       resource "google_compute_instance" "example" {
         name          = "example"
         machine_type  = "f1-micro"
         zone          = "us-east1-b"
+
+        boot_disk {
+          initialize_params {
+            image = "debian-cloud/debian-9"
+          }
+        }
 
         network_interface {
           network = "default"
@@ -789,6 +942,7 @@ describe("convert", () => {
         value = "\${google_compute_instance.example.network_interface.0.access_config.0.assigned_nat_ip}"
       }
       `,
+      Synth.yes,
     ],
     [
       "blocks should be arrays",
@@ -808,6 +962,7 @@ describe("convert", () => {
         }
       }
       `,
+      Synth.needsAFix_SingleItemBlocksAreTreatedAsArrays,
     ],
     [
       "provider with var reference",
@@ -816,17 +971,22 @@ describe("convert", () => {
         description = "A domain"
       }
       provider "auth0" {
-        domain = var.domain
+        domain        = var.domain
+        client_id     = "client_id"
+        client_secret = "client_secret"
       }
       `,
+      Synth.yes,
     ],
     [
       "data local_file",
       `
+      provider "local" {}
       data "local_file" "_01_please_verify" {
         filename = "./email_templates/01_please_verify/template.html"
       }
       `,
+      Synth.yes,
     ],
     [
       "required namespaced provider",
@@ -836,6 +996,8 @@ describe("convert", () => {
       }
       provider "auth0" {
         domain = var.domain
+        client_id = "42"
+        client_secret = "secret"
       }
       
       terraform {
@@ -847,6 +1009,7 @@ describe("convert", () => {
         }
       }
       `,
+      Synth.yes,
     ],
     [
       "for_each with var usage",
@@ -870,6 +1033,7 @@ describe("convert", () => {
         display_name        = each.key
       }
       `,
+      Synth.needsAFix_UnforseenRename,
     ],
     [
       "terraform workspace",
@@ -879,6 +1043,7 @@ describe("convert", () => {
         name_prefix = "app-\${terraform.workspace}"
       }
       `,
+      Synth.never,
     ],
     [
       "all module types",
@@ -910,6 +1075,7 @@ describe("convert", () => {
         source = "git::ssh://username@example.com/storage.git"
       }
       `,
+      Synth.never,
     ],
     [
       "number output",
@@ -918,6 +1084,7 @@ describe("convert", () => {
         value = 42
       }
       `,
+      Synth.yes,
     ],
     [
       "same name local, var, out",
@@ -932,6 +1099,7 @@ describe("convert", () => {
         value = "\${local.test}"
       }
       `,
+      Synth.yes,
     ],
     [
       "aliased duplicate provider with var reference",
@@ -939,15 +1107,26 @@ describe("convert", () => {
       variable "domain" {
         description = "A domain"
       }
-      provider "auth0" {
-        domain = var.domain
+      variable "client_id" {
+        description = "A client_id"
+      }
+      variable "client_secret" {
+        description = "A client_secret"
       }
       provider "auth0" {
-        alias = "private_auth0"
-        domain = var.domain
-        private = true
+        domain        = var.domain
+        client_id     = var.client_id
+        client_secret = var.client_secret
+      }
+      provider "auth0" {
+        alias         = "private_auth0"
+        domain        = var.domain
+        client_id     = var.client_id
+        client_secret = var.client_secret
+        debug         = true
       }
       `,
+      Synth.yes,
     ],
     [
       "remote state",
@@ -963,6 +1142,7 @@ describe("convert", () => {
         }
       }
       `,
+      Synth.needsAFix_MissingCdktfImport,
     ],
     [
       "remote state types",
@@ -983,13 +1163,68 @@ describe("convert", () => {
         }
       }
       `,
+      Synth.needsAFix_MissingCdktfImport,
     ],
-  ])("%s configuration", async (_name, hcl) => {
-    const { all } = await convert(hcl, {
-      language: "typescript",
-      providerSchema: cachedProviderSchema,
+  ])("%s", (name, hcl, shouldPlan) => {
+    let result: ReturnType<typeof convert>;
+    beforeAll(() => {
+      result = convert(hcl, {
+        language: "typescript",
+        providerSchema: cachedProviderSchema,
+      });
     });
-    expect(all).toMatchSnapshot();
+
+    it("snapshot", async () => {
+      const { all } = await result;
+      expect(all).toMatchSnapshot();
+    });
+
+    if (shouldPlan === Synth.yes) {
+      it("plan", async () => {
+        const filename = name.replace(/\s/g, "-");
+        const { imports, code } = await result;
+        // Have a before all somewhere above bootstrap a TS project
+        // __dirname should be replaceed by the bootstrapped directory
+        const pathToThisProjectsFile = path.join(projectDir, filename + ".ts");
+        const fileContent = `
+        import { Construct } from "constructs";
+        import { App, TerraformStack } from "cdktf";
+        ${imports}
+        
+        class MyStack extends TerraformStack {
+          constructor(scope: Construct, name: string) {
+            super(scope, name);
+        
+            ${code}
+            
+          }
+        }
+        
+        const app = new App();
+        new MyStack(app, "${filename}");
+        app.synth();
+        `;
+        fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
+
+        const stdout = execSync(
+          `cd ${projectDir} && npx cdktf synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`
+        );
+        expect(stdout.toString()).toEqual(
+          expect.stringContaining(`Generated Terraform code for the stacks`)
+        );
+      });
+    }
+
+    if (
+      [
+        Synth.needsAFix_MissingCdktfImport,
+        Synth.needsAFix_BooleanAsIResolvable,
+        Synth.needsAFix_MaximumCallStackSizeExceeded,
+        Synth.needsAFix_SingleItemBlocksAreTreatedAsArrays,
+      ].includes(shouldPlan)
+    ) {
+      it.todo("plans");
+    }
   });
 
   const targetLanguages = ["typescript", "python", "csharp", "java"];
