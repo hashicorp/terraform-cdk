@@ -103,7 +103,8 @@
         "path": "release"
       },
       { "title": "Upgrading to Version 0.6", "path": "release/upgrade-guide-v0-6" },
-      { "title": "Upgrading to Version 0.7", "path": "release/upgrade-guide-v0-7" }
+      { "title": "Upgrading to Version 0.7", "path": "release/upgrade-guide-v0-7" },
+      { "title": "Upgrading to Version 0.9", "path": "release/upgrade-guide-v0-9" }
     ]
   },
   { "title": "Community", "path": "community" },

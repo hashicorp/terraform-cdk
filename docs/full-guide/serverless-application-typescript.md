@@ -7,7 +7,7 @@ powered by AWS APIGateway and AWS Lambda.
 
 The repository can be found here:
 https://github.com/hashicorp/cdktf-integration-serverless-example  
-(includes screenhots)
+(includes screenshots)
 
 There are also examples available using Docker containers on
 [AWS ECS](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript)
@@ -15,7 +15,7 @@ or [GCP K8S](https://github.com/hashicorp/kubernetes-on-gcp-with-terraform-cdk).
 
 ## Preface
 
-This guide assumes basic familarity with the CDK for Terraform and that you have
+This guide assumes basic familiarity with the CDK for Terraform and that you have
 it installed already. If you are new to the CDKTF it is recommended to first
 have a look at the [getting started guide](../getting-started/typescript.md)
 which explains the CDK for Terraform itself in more detail and the commands used
@@ -156,7 +156,7 @@ output to our S3 bucket.
 
 ## Posts API
 
-The infrastructure and code for the serverless function for the posts api is
+The infrastructure and code for the serverless function for the posts api are
 defined inside the `posts` directory.
 
 The infrastructure code is split into multiple files. The main entrypoint is
