@@ -148,7 +148,10 @@ export class TerraformResource
       this.rawOverrides
     );
 
-    attributes["//"] = Object.assign({}, attributes['//'], this.constructNodeMetadata);
+    attributes["//"] = {
+      ...attributes['//'],
+      ...this.constructNodeMetadata
+    };
 
     return {
       resource: {
