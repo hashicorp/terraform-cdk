@@ -50,7 +50,7 @@ type ProgressEvent =
     };
 
 export interface ProjectContext {
-  targetAction?: "synth" | "diff" | "deploy" | "destroy";
+  targetAction?: "synth" | "diff" | "deploy" | "destroy" | "output";
   targetStack?: string;
   message?: string;
   synthesizedStacks?: SynthesizedStack[];
@@ -249,6 +249,17 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
                 type: "onTargetAction",
                 name: "actionIsSynth",
                 value: "synth",
+              },
+            },
+            {
+              target: "gatherOutput",
+              actions: assign({
+                synthesizedStacks: (_context, event) => event.data,
+              }),
+              cond: {
+                type: "onTargetAction",
+                name: "actionIsOutput",
+                value: "output",
               },
             },
             {

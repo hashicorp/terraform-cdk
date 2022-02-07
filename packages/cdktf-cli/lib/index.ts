@@ -15,6 +15,7 @@ import {
   DeployingResource,
   TerraformPlan,
 } from "../bin/cmds/ui/models/terraform";
+import { NestedTerraformOutputs } from "../bin/cmds/ui/terraform-context";
 
 // TODO: move files around to all be under lib
 export { SynthesizedStack };
@@ -32,7 +33,6 @@ export enum Status {
   DONE = "done",
 }
 
-// TODO: add project state payload (synthesized stacks, diffed stacks, applied stacks, etc)
 export type ProjectUpdates =
   | {
       type: "synthing";
@@ -97,7 +97,7 @@ export class CdktfProject {
   public status: Status;
   public stacks?: SynthesizedStack[];
   public outputs?: Record<string, any>;
-  public outputsByConstructId?: Record<string, any>;
+  public outputsByConstructId?: NestedTerraformOutputs;
   public deployingResources?: DeployingResource[];
 
   constructor({
@@ -306,5 +306,17 @@ export class CdktfProject {
     });
 
     return this.waitOnMachineDone();
+  }
+
+  public async fetchOutputs(stackName?: string) {
+    this.stateMachine.send({
+      type: "START",
+      targetAction: "destroy",
+      targetStack: stackName,
+    });
+
+    await this.waitOnMachineDone();
+
+    return this.outputs;
   }
 }

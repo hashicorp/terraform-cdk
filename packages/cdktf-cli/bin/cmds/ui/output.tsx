@@ -1,14 +1,11 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { Outputs as OutputComponent } from "./components";
-
-import {
-  Status,
-  useRunOutput,
-  NestedTerraformOutputs,
-} from "./terraform-context";
+import { NestedTerraformOutputs } from "./terraform-context";
+import { CdktfProject, ProjectUpdates } from "../../../lib";
+import { TerraformOutput } from "./models/terraform";
 
 type OutputConfig = {
   targetDir: string;
@@ -25,34 +22,75 @@ export const Output = ({
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const { status, currentStack, errors, outputs } = useRunOutput({
-    targetDir,
-    targetStack,
-    synthCommand,
-    onOutputsRetrieved,
-  });
+  const [done, setDone] = useState(false);
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
+  const [stackName, setStackName] = useState<string>();
+  const [error, setError] = useState<unknown>(null);
+  const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
 
-  const planStages = [
-    Status.INITIALIZING,
-    Status.SYNTHESIZING,
-    Status.SYNTHESIZED,
-  ];
-  const isPlanning = planStages.includes(status);
+  useEffect(() => {
+    const project = new CdktfProject({
+      targetDir,
+      synthCommand,
+      onUpdate: (event) => {
+        setStackName(project.stackName || "");
+        setProjectUpdate(event);
+
+        if (event.type === "deployed") {
+        }
+      },
+    });
+
+    project
+      .fetchOutputs(targetStack)
+      .then((outputData) => {
+        setOutputs(outputData);
+        onOutputsRetrieved(project.outputsByConstructId!);
+        setDone(true);
+      })
+      .catch(setError);
+  }, [
+    setError,
+    setOutputs,
+    setStackName,
+    setProjectUpdate,
+    onOutputsRetrieved,
+  ]);
+
+  if (error) {
+    function extractError(error: any) {
+      if (typeof error === "string") {
+        return error;
+      }
+      if (error instanceof Error) {
+        return error.message;
+      }
+      if (error && typeof error === "object" && "stderr" in error) {
+        return error.stderr;
+      }
+
+      return JSON.stringify(error);
+    }
+
+    return (
+      <Box>
+        <Text>An error occured: {extractError(error)}</Text>
+      </Box>
+    );
+  }
   const statusText =
-    currentStack.name === "" ? (
-      <Text>{status}...</Text>
+    stackName === "" ? (
+      <Text>{projectUpdate?.type}...</Text>
     ) : (
       <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
+        {projectUpdate?.type}
+        <Text bold>&nbsp;{stackName}</Text>...
       </Text>
     );
 
-  if (errors) return <Box>{errors.map((e: any) => e.message)}</Box>;
-
   return (
     <Box>
-      {isPlanning ? (
+      {!done ? (
         <Fragment>
           <Text color="green">
             <Spinner type="dots" />
