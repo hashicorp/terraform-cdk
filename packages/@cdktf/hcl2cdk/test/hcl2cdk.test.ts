@@ -30,6 +30,9 @@ enum Synth {
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
+const cdktfBin = path.join(__dirname, "../../../cdktf-cli/bin/cdktf");
+const cdktfDist = path.join(__dirname, "../../../../dist");
+
 let cachedProviderSchema: any;
 let projectDir: string;
 describe("convert", () => {
@@ -49,7 +52,7 @@ describe("convert", () => {
     // Initialize a new project
     projectDir = fs.mkdtempSync("cdktf-convert-test");
     execSync(
-      `cd ${projectDir} && npx cdktf init --local --cdktf-version=0.9.0 --project-name="hello" --project-description="world" --template=typescript`
+      `cd ${projectDir} && ${cdktfBin} init --local --dist=${cdktfDist} --project-name="hello" --project-description="world" --template=typescript`
     );
     const cdktfJson = JSON.parse(
       fs.readFileSync(path.join(projectDir, "cdktf.json"), "utf8")
@@ -66,7 +69,7 @@ describe("convert", () => {
         2
       )
     );
-    execSync(`cd ${projectDir} && npx cdktf get`);
+    execSync(`cd ${projectDir} && ${cdktfBin} get`);
   }, 500_000);
 
   afterAll(() => {
@@ -1207,7 +1210,7 @@ describe("convert", () => {
         fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
 
         const stdout = execSync(
-          `cd ${projectDir} && npx cdktf synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`
+          `cd ${projectDir} && ${cdktfBin} synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`
         );
         expect(stdout.toString()).toEqual(
           expect.stringContaining(`Generated Terraform code for the stacks`)
