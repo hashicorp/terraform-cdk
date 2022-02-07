@@ -207,7 +207,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
     id: "project",
     initial: "idle",
     context: {
-      onProgress: () => {},
+      onProgress: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       targetAction: "synth",
       targetStack: "stackName",
       message: undefined,

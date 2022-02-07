@@ -128,18 +128,20 @@ export class CdktfProject {
               break;
 
             case "RESOURCE_UPDATE":
-              const map = new Map<string, DeployingResource>(
-                (this.deployingResources || []).map((r) => [r.id, r])
-              );
-              event.updatedResources.forEach((r) => map.set(r.id, r));
-              this.deployingResources = Array.from(map.values());
+              {
+                const map = new Map<string, DeployingResource>(
+                  (this.deployingResources || []).map((r) => [r.id, r])
+                );
+                event.updatedResources.forEach((r) => map.set(r.id, r));
+                this.deployingResources = Array.from(map.values());
 
-              onUpdate({
-                type: "deploy update",
-                stackName: event.stackName,
-                deployOutput: event.stdout,
-                resources: this.deployingResources,
-              });
+                onUpdate({
+                  type: "deploy update",
+                  stackName: event.stackName,
+                  deployOutput: event.stdout,
+                  resources: this.deployingResources,
+                });
+              }
               break;
           }
         },

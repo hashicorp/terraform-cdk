@@ -11,6 +11,7 @@ import {
 } from "./models/terraform";
 import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
+import { ErrorComponent } from "./components/error";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -101,25 +102,7 @@ export const Destroy = ({
   }, [setPlan, setError, setStackName, setProjectUpdate]);
 
   if (error) {
-    function extractError(error: any) {
-      if (typeof error === "string") {
-        return error;
-      }
-      if (error instanceof Error) {
-        return error.message;
-      }
-      if (error && typeof error === "object" && "stderr" in error) {
-        return error.stderr;
-      }
-
-      return JSON.stringify(error);
-    }
-
-    return (
-      <Box>
-        <Text>An error occured: {extractError(error)}</Text>
-      </Box>
-    );
+    return <ErrorComponent error={error} />;
   }
 
   if (plan && !plan.needsApply) {
@@ -135,7 +118,7 @@ export const Destroy = ({
     case "synthing":
     case "synthed":
     case "diffing":
-    case "diffed":
+    case "diffed": {
       const status = projectUpdate?.type || "starting";
       return (
         <Box>
@@ -158,6 +141,7 @@ export const Destroy = ({
           </>
         </Box>
       );
+    }
 
     case "waiting for approval":
       return (
@@ -171,7 +155,7 @@ export const Destroy = ({
 
     case "destroying":
     case "destroy update":
-    case "destroyed":
+    case "destroyed": {
       const resources =
         "resources" in projectUpdate ? projectUpdate.resources : [];
       const applyActions = [
@@ -215,6 +199,7 @@ export const Destroy = ({
           </Box>
         </Fragment>
       );
+    }
     default:
       return (
         <Text>{`Trying to render unknown state: ${projectUpdate?.type}`}</Text>

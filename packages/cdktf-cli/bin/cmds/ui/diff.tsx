@@ -4,7 +4,7 @@ import Spinner from "ink-spinner";
 import { PlannedResource, TerraformPlan } from "./models/terraform";
 import { PlanElement } from "./components";
 import { CdktfProject, Status } from "../../../lib";
-import { TerraformCloudPlan } from "./models/terraform-cloud";
+import { ErrorComponent } from "./components/error";
 
 interface DiffConfig {
   targetDir: string;
@@ -55,13 +55,13 @@ export const CloudRunInfo = ({ url }: { url?: string }): React.ReactElement => {
   return (
     <Static items={staticElements}>
       {(e) => (
-        <>
+        <Fragment key={e}>
           <Text>
             Running plan in the remote backend. To view this run in a browser,
             visit:
           </Text>
           <Text key={e}>{e}</Text>
-        </>
+        </Fragment>
       )}
     </Static>
   );
@@ -77,9 +77,7 @@ export const Plan = ({
   return (
     <Fragment>
       <Box flexDirection="column">
-        <CloudRunInfo
-          url={plan instanceof TerraformCloudPlan ? plan.url : undefined}
-        />
+        <CloudRunInfo url={"url" in plan ? (plan as any).url : undefined} />
         <Box>
           <Text>Stack: </Text>
           <Text bold>{currentStackName}</Text>
@@ -126,11 +124,7 @@ export const Diff = ({
   }, [setPlan, setError]);
 
   if (error) {
-    return (
-      <Box>
-        <Text>{error}</Text>
-      </Box>
-    );
+    return <ErrorComponent error={error} />;
   }
 
   if (plan) {

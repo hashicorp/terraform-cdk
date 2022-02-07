@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "ink-testing-library";
 import { Outputs } from "../../bin/cmds/ui/components";
-import { DeploySummary, Apply } from "../../bin/cmds/ui/deploy";
+import { DeploySummary } from "../../bin/cmds/ui/deploy";
 import { stripAnsi } from "../test-helper";
 import {
   DeployingResource,
@@ -9,12 +9,6 @@ import {
   PlannedResourceAction,
   TerraformOutput,
 } from "../../bin/cmds/ui/models/terraform";
-import {
-  TerraformProvider,
-  DeployState,
-  Status,
-} from "../../bin/cmds/ui/terraform-context";
-import { SynthesizedStack } from "../../bin/cmds/helper/synth-stack";
 
 test("DeploySummary", async () => {
   const resource: DeployingResource = {
@@ -68,86 +62,5 @@ test("Output", async () => {
       \\"C\\"
     ]
     password = <sensitive>"
-  `);
-});
-
-test("Apply", async () => {
-  const resource: DeployingResource = {
-    id: "foo.bar_352350",
-    action: PlannedResourceAction.CREATE,
-    applyState: DeployingResourceApplyState.CREATING,
-  };
-
-  const currentStack: SynthesizedStack = {
-    constructPath: "",
-    content: "",
-    name: "testing",
-    synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo",
-    annotations: [],
-    dependencies: [],
-  };
-
-  const initialState: DeployState = {
-    status: Status.STARTING,
-    resources: [resource],
-    currentStack,
-  };
-
-  const { lastFrame } = render(
-    <TerraformProvider initialState={initialState}>
-      <Apply />
-    </TerraformProvider>
-  );
-  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
-    "Deploying Stack: testing
-    Resources
-     ⠋ FOO                  bar_352350          foo.bar_352350
-
-    Summary: 0 created, 0 updated, 0 destroyed."
-  `);
-});
-
-test("Apply Multiple Resources", async () => {
-  const resource: DeployingResource = {
-    id: "null_resource.hellodiff_test_352350",
-    action: PlannedResourceAction.CREATE,
-    applyState: DeployingResourceApplyState.CREATING,
-  };
-
-  const otherResource: DeployingResource = {
-    id: "null_resource.hellodiff_test_85E428D7",
-    action: PlannedResourceAction.CREATE,
-    applyState: DeployingResourceApplyState.CREATED,
-  };
-
-  const currentStack: SynthesizedStack = {
-    constructPath: "",
-    content: "",
-    name: "hellodiff",
-    synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo",
-    annotations: [],
-    dependencies: [],
-  };
-
-  const initialState: DeployState = {
-    status: Status.STARTING,
-    resources: [resource, otherResource],
-    currentStack,
-  };
-
-  const { lastFrame } = render(
-    <TerraformProvider initialState={initialState}>
-      <Apply />
-    </TerraformProvider>
-  );
-  expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
-    "Deploying Stack: hellodiff
-    Resources
-     ⠋ NULL_RESOURCE        test_352350         null_resource.hellodiff_test_352350
-     ✔ NULL_RESOURCE        test                null_resource.hellodiff_test_85E428D7
-
-    Summary: 1 created, 0 updated, 0 destroyed."
   `);
 });

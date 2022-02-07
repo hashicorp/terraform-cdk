@@ -4,7 +4,7 @@ describe("CdktfProject", () => {
     const cdktfProject = new CdktfProject({
       synthCommand: "cdktf",
       targetDir: "/tmp/cdktf-project",
-      onUpdate: () => {},
+      onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
     });
     expect(cdktfProject).toBeTruthy();
   });

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { CdktfProject, Status, SynthesizedStack } from "../../../lib";
+import { ErrorComponent } from "./components/error";
 
 interface CommonSynthConfig {
   targetDir: string;
@@ -81,7 +82,7 @@ export const Synth = ({
     );
   }
 
-  if (error) return <Box>{error}</Box>;
+  if (error) return <ErrorComponent error={error} />;
 
   return (
     <Box>

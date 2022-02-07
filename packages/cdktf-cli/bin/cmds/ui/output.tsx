@@ -6,6 +6,7 @@ import { Outputs as OutputComponent } from "./components";
 import { NestedTerraformOutputs } from "./terraform-context";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
 import { TerraformOutput } from "./models/terraform";
+import { ErrorComponent } from "./components/error";
 
 type OutputConfig = {
   targetDir: string;
@@ -35,9 +36,6 @@ export const Output = ({
       onUpdate: (event) => {
         setStackName(project.stackName || "");
         setProjectUpdate(event);
-
-        if (event.type === "deployed") {
-        }
       },
     });
 
@@ -58,25 +56,7 @@ export const Output = ({
   ]);
 
   if (error) {
-    function extractError(error: any) {
-      if (typeof error === "string") {
-        return error;
-      }
-      if (error instanceof Error) {
-        return error.message;
-      }
-      if (error && typeof error === "object" && "stderr" in error) {
-        return error.stderr;
-      }
-
-      return JSON.stringify(error);
-    }
-
-    return (
-      <Box>
-        <Text>An error occured: {extractError(error)}</Text>
-      </Box>
-    );
+    return <ErrorComponent error={error} />;
   }
   const statusText =
     stackName === "" ? (

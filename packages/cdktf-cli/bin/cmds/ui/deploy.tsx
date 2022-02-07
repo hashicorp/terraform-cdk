@@ -13,6 +13,7 @@ import {
 import { NestedTerraformOutputs } from "./terraform-context";
 import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
+import { ErrorComponent } from "./components/error";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -150,25 +151,7 @@ export const Deploy = ({
   ]);
 
   if (error) {
-    function extractError(error: any) {
-      if (typeof error === "string") {
-        return error;
-      }
-      if (error instanceof Error) {
-        return error.message;
-      }
-      if (error && typeof error === "object" && "stderr" in error) {
-        return error.stderr;
-      }
-
-      return JSON.stringify(error);
-    }
-
-    return (
-      <Box>
-        <Text>An error occured: {extractError(error)}</Text>
-      </Box>
-    );
+    return <ErrorComponent error={error} />;
   }
 
   if (plan && !plan.needsApply) {
@@ -201,7 +184,7 @@ export const Deploy = ({
     case "synthing":
     case "synthed":
     case "diffing":
-    case "diffed":
+    case "diffed": {
       const status = projectUpdate?.type || "starting";
       return (
         <Box>
@@ -224,7 +207,7 @@ export const Deploy = ({
           </>
         </Box>
       );
-
+    }
     case "waiting for approval":
       return (
         <Box>
@@ -237,7 +220,7 @@ export const Deploy = ({
 
     case "deploying":
     case "deploy update":
-    case "deployed":
+    case "deployed": {
       const resources =
         "resources" in projectUpdate ? projectUpdate.resources : [];
       const applyActions = [
@@ -285,6 +268,7 @@ export const Deploy = ({
           </Box>
         </Fragment>
       );
+    }
     default:
       return (
         <Text>{`Trying to render unknown state: ${projectUpdate?.type}`}</Text>

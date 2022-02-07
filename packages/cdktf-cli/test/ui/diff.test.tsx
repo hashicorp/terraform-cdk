@@ -6,12 +6,6 @@ import {
   PlannedResource,
   PlannedResourceAction,
 } from "../../bin/cmds/ui/models/terraform";
-import {
-  TerraformProvider,
-  DeployState,
-  Status,
-} from "../../bin/cmds/ui/terraform-context";
-import { SynthesizedStack } from "../../bin/cmds/helper/synth-stack";
 
 test("Diff", async () => {
   const resource: PlannedResource = {
@@ -19,33 +13,14 @@ test("Diff", async () => {
     action: PlannedResourceAction.CREATE,
   };
 
-  const currentStack: SynthesizedStack = {
-    constructPath: "",
-    content: "",
-    name: "testing",
-    synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo",
-    annotations: [],
-    dependencies: [],
+  const plan = {
+    needsApply: true,
+    applyableResources: [resource],
+    planFile: "",
+    resources: [resource],
   };
 
-  const initialState: DeployState = {
-    status: Status.STARTING,
-    currentStack,
-    resources: [],
-    plan: {
-      needsApply: true,
-      applyableResources: [resource],
-      planFile: "",
-      resources: [resource],
-    },
-  };
-
-  const { lastFrame } = render(
-    <TerraformProvider initialState={initialState}>
-      <Plan />
-    </TerraformProvider>
-  );
+  const { lastFrame } = render(<Plan currentStackName="testing" plan={plan} />);
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
     "Stack: testing
     Resources
@@ -56,33 +31,14 @@ test("Diff", async () => {
 });
 
 test("Diff no Changes", async () => {
-  const currentStack: SynthesizedStack = {
-    constructPath: "",
-    content: "",
-    name: "testing",
-    synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo",
-    annotations: [],
-    dependencies: [],
-  };
-
-  const initialState: DeployState = {
-    status: Status.STARTING,
-    currentStack,
+  const plan = {
+    needsApply: false,
+    applyableResources: [],
+    planFile: "",
     resources: [],
-    plan: {
-      needsApply: false,
-      applyableResources: [],
-      planFile: "",
-      resources: [],
-    },
   };
 
-  const { lastFrame } = render(
-    <TerraformProvider initialState={initialState}>
-      <Plan />
-    </TerraformProvider>
-  );
+  const { lastFrame } = render(<Plan plan={plan} currentStackName="testing" />);
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
     "Stack: testing
 
@@ -91,34 +47,15 @@ test("Diff no Changes", async () => {
 });
 
 test("Diff with Cloud URL", async () => {
-  const currentStack: SynthesizedStack = {
-    constructPath: "",
-    content: "",
-    name: "testing",
-    synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo",
-    annotations: [],
-    dependencies: [],
-  };
-
-  const initialState: DeployState = {
-    status: Status.STARTING,
-    currentStack,
+  const plan = {
+    needsApply: false,
+    applyableResources: [],
+    planFile: "",
     resources: [],
     url: "https://app.terraform.io/foo/bar",
-    plan: {
-      needsApply: false,
-      applyableResources: [],
-      planFile: "",
-      resources: [],
-    },
   };
 
-  const { lastFrame } = render(
-    <TerraformProvider initialState={initialState}>
-      <Plan />
-    </TerraformProvider>
-  );
+  const { lastFrame } = render(<Plan plan={plan} currentStackName="testing" />);
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
     "Running plan in the remote backend. To view this run in a browser, visit:
     https://app.terraform.io/foo/bar
@@ -139,33 +76,14 @@ test("Diff Multiple Resources", async () => {
     action: PlannedResourceAction.CREATE,
   };
 
-  const currentStack: SynthesizedStack = {
-    constructPath: "",
-    content: "",
-    name: "testing",
-    synthesizedStackPath: "./foo/stacks/bar",
-    workingDirectory: "./foo",
-    annotations: [],
-    dependencies: [],
+  const plan = {
+    needsApply: true,
+    applyableResources: [resource, otherResource],
+    planFile: "",
+    resources: [resource, otherResource],
   };
 
-  const initialState: DeployState = {
-    status: Status.STARTING,
-    currentStack,
-    resources: [],
-    plan: {
-      needsApply: true,
-      applyableResources: [resource, otherResource],
-      planFile: "",
-      resources: [resource, otherResource],
-    },
-  };
-
-  const { lastFrame } = render(
-    <TerraformProvider initialState={initialState}>
-      <Plan />
-    </TerraformProvider>
-  );
+  const { lastFrame } = render(<Plan plan={plan} currentStackName="testing" />);
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
     "Stack: testing
     Resources
