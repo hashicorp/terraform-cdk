@@ -154,7 +154,7 @@ export class TerraformVariable
       type: this.type,
       sensitive: this.sensitive,
       nullable: this.nullable,
-      validation: this?.validation.map((validation) => ({
+      validation: this.validation?.map((validation) => ({
         error_message: validation.errorMessage,
         condition: validation.condition,
       })),
