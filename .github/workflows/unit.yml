@@ -51,6 +51,7 @@ jobs:
         run: |
           tools/align-version.sh
           yarn build
+          yarn package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: test
