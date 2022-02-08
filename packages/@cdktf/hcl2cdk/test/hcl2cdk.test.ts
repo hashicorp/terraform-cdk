@@ -21,12 +21,12 @@ const providers = [
 
 enum Synth {
   yes,
-  needsAFix_MissingCdktfImport,
-  needsAFix_SingleItemBlocksAreTreatedAsArrays,
-  needsAFix_BooleanAsIResolvable, // Type 'IResolvable' is not assignable to type 'boolean'.",
-  needsAFix_MaximumCallStackSizeExceeded,
-  needsAFix_UnforseenRename, // e.g. User to UserA
-  needsAFix_StringIsNotAssignableToListOfString, // e.g. Type 'string' is not assignable to type 'string[] | undefined'.
+  needsAFix_MissingCdktfImport, // https://github.com/hashicorp/terraform-cdk/issues/1548
+  needsAFix_SingleItemBlocksAreTreatedAsArrays, // https://github.com/hashicorp/terraform-cdk/issues/1549
+  needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
+  needsAFix_MaximumCallStackSizeExceeded, // https://github.com/hashicorp/terraform-cdk/issues/1551
+  needsAFix_UnforseenRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
+  needsAFix_StringIsNotAssignableToListOfString, // https://github.com/hashicorp/terraform-cdk/issues/1553
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
