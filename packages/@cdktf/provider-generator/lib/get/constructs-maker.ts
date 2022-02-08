@@ -235,13 +235,11 @@ export class ConstructsMaker {
         (target) => target instanceof ConstructsMakerProviderTarget
       ) as ConstructsMakerProviderTarget[];
 
-    if (providerTargets.length > 0) {
-      new TerraformProviderGenerator(
+    providerTargets.forEach((providerTarget) => new TerraformProviderGenerator(
         this.code,
         schema.providerSchema,
-        providerTargets
-      );
-    }
+        [providerTarget]
+      ))
 
     if (moduleTargets.length > 0) {
       new ModuleGenerator(this.code, moduleTargets);
