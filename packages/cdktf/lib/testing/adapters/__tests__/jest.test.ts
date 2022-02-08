@@ -30,15 +30,9 @@ describe("jest-adapter", () => {
           name: "bazs",
           foo: expect.arrayContaining([expect.anything()]),
         })
-      ).toThrowErrorMatchingInlineSnapshot(`
-        "Expected test_resource with properties {\\"name\\":\\"bazs\\",\\"foo\\":\\"expect.ArrayContaining\\"} to be present in synthesised stack.
-        Found 1 test_resource resources instead:
-        [
-          {
-            \\"name\\": \\"bar\\"
-          }
-        ]"
-      `);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Class constructor Construct cannot be invoked without 'new'"`
+      );
     });
   });
 });

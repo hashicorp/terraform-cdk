@@ -3,6 +3,7 @@ import {
   TerraformStack,
   TerraformVariable,
   VariableType,
+  Fn,
 } from "../lib";
 import { TestResource } from "./helper";
 import { TestProvider } from "./helper/provider";
@@ -165,6 +166,22 @@ test("nullable variable", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "string",
     nullable: true,
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("validation block variable", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+    validation: [
+      {
+        errorMessage: "Validation failed..",
+        condition: Fn.regex("mickey_mouse", "mickey_mouse"),
+      },
+    ],
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
