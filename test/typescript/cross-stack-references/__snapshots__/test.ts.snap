@@ -7,16 +7,16 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"origin\\": {
       \\"name\\": \\"origin\\",
       \\"constructPath\\": \\"origin\\",
-      \\"workingDirectory\\": \\"stacks/origin\\",
-      \\"synthesizedStackPath\\": \\"stacks/origin/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\origin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\origin\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     },
     \\"passthrough\\": {
       \\"name\\": \\"passthrough\\",
       \\"constructPath\\": \\"passthrough\\",
-      \\"workingDirectory\\": \\"stacks/passthrough\\",
-      \\"synthesizedStackPath\\": \\"stacks/passthrough/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -25,8 +25,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"sink\\": {
       \\"name\\": \\"sink\\",
       \\"constructPath\\": \\"sink\\",
-      \\"workingDirectory\\": \\"stacks/sink\\",
-      \\"synthesizedStackPath\\": \\"stacks/sink/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -35,8 +35,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"fns\\": {
       \\"name\\": \\"fns\\",
       \\"constructPath\\": \\"fns\\",
-      \\"workingDirectory\\": \\"stacks/fns\\",
-      \\"synthesizedStackPath\\": \\"stacks/fns/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -45,8 +45,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"functionOutput\\": {
       \\"name\\": \\"functionOutput\\",
       \\"constructPath\\": \\"functionOutput\\",
-      \\"workingDirectory\\": \\"stacks/functionOutput\\",
-      \\"synthesizedStackPath\\": \\"stacks/functionOutput/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -55,8 +55,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"pinnedFns\\": {
       \\"name\\": \\"pinnedFns\\",
       \\"constructPath\\": \\"pinnedFns\\",
-      \\"workingDirectory\\": \\"stacks/pinnedFns\\",
-      \\"synthesizedStackPath\\": \\"stacks/pinnedFns/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\pinnedFns\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -65,8 +65,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"functionOutputPinned\\": {
       \\"name\\": \\"functionOutputPinned\\",
       \\"constructPath\\": \\"functionOutputPinned\\",
-      \\"workingDirectory\\": \\"stacks/functionOutputPinned\\",
-      \\"synthesizedStackPath\\": \\"stacks/functionOutputPinned/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutputPinned\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"pinnedFns\\"
@@ -75,16 +75,16 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"secondOrigin\\": {
       \\"name\\": \\"secondOrigin\\",
       \\"constructPath\\": \\"secondOrigin\\",
-      \\"workingDirectory\\": \\"stacks/secondOrigin\\",
-      \\"synthesizedStackPath\\": \\"stacks/secondOrigin/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\secondOrigin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\secondOrigin\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     },
     \\"switchedStack\\": {
       \\"name\\": \\"switchedStack\\",
       \\"constructPath\\": \\"switchedStack\\",
-      \\"workingDirectory\\": \\"stacks/switchedStack\\",
-      \\"synthesizedStackPath\\": \\"stacks/switchedStack/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\switchedStack\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\switchedStack\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"secondOrigin\\"
@@ -101,16 +101,16 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"origin\\": {
       \\"name\\": \\"origin\\",
       \\"constructPath\\": \\"origin\\",
-      \\"workingDirectory\\": \\"stacks/origin\\",
-      \\"synthesizedStackPath\\": \\"stacks/origin/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\origin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\origin\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     },
     \\"passthrough\\": {
       \\"name\\": \\"passthrough\\",
       \\"constructPath\\": \\"passthrough\\",
-      \\"workingDirectory\\": \\"stacks/passthrough\\",
-      \\"synthesizedStackPath\\": \\"stacks/passthrough/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -119,8 +119,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"sink\\": {
       \\"name\\": \\"sink\\",
       \\"constructPath\\": \\"sink\\",
-      \\"workingDirectory\\": \\"stacks/sink\\",
-      \\"synthesizedStackPath\\": \\"stacks/sink/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -129,8 +129,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"fns\\": {
       \\"name\\": \\"fns\\",
       \\"constructPath\\": \\"fns\\",
-      \\"workingDirectory\\": \\"stacks/fns\\",
-      \\"synthesizedStackPath\\": \\"stacks/fns/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -139,8 +139,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"functionOutput\\": {
       \\"name\\": \\"functionOutput\\",
       \\"constructPath\\": \\"functionOutput\\",
-      \\"workingDirectory\\": \\"stacks/functionOutput\\",
-      \\"synthesizedStackPath\\": \\"stacks/functionOutput/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -149,8 +149,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"pinnedFns\\": {
       \\"name\\": \\"pinnedFns\\",
       \\"constructPath\\": \\"pinnedFns\\",
-      \\"workingDirectory\\": \\"stacks/pinnedFns\\",
-      \\"synthesizedStackPath\\": \\"stacks/pinnedFns/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\pinnedFns\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -159,8 +159,8 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"functionOutputPinned\\": {
       \\"name\\": \\"functionOutputPinned\\",
       \\"constructPath\\": \\"functionOutputPinned\\",
-      \\"workingDirectory\\": \\"stacks/functionOutputPinned\\",
-      \\"synthesizedStackPath\\": \\"stacks/functionOutputPinned/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutputPinned\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"pinnedFns\\"
@@ -169,16 +169,16 @@ exports[`cross stack references deployed can remove references to deployed stack
     \\"secondOrigin\\": {
       \\"name\\": \\"secondOrigin\\",
       \\"constructPath\\": \\"secondOrigin\\",
-      \\"workingDirectory\\": \\"stacks/secondOrigin\\",
-      \\"synthesizedStackPath\\": \\"stacks/secondOrigin/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\secondOrigin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\secondOrigin\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     },
     \\"switchedStack\\": {
       \\"name\\": \\"switchedStack\\",
       \\"constructPath\\": \\"switchedStack\\",
-      \\"workingDirectory\\": \\"stacks/switchedStack\\",
-      \\"synthesizedStackPath\\": \\"stacks/switchedStack/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\switchedStack\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\switchedStack\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     }
@@ -193,16 +193,16 @@ exports[`cross stack references synth generates JSON 1`] = `
     \\"origin\\": {
       \\"name\\": \\"origin\\",
       \\"constructPath\\": \\"origin\\",
-      \\"workingDirectory\\": \\"stacks/origin\\",
-      \\"synthesizedStackPath\\": \\"stacks/origin/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\origin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\origin\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     },
     \\"passthrough\\": {
       \\"name\\": \\"passthrough\\",
       \\"constructPath\\": \\"passthrough\\",
-      \\"workingDirectory\\": \\"stacks/passthrough\\",
-      \\"synthesizedStackPath\\": \\"stacks/passthrough/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -211,8 +211,8 @@ exports[`cross stack references synth generates JSON 1`] = `
     \\"sink\\": {
       \\"name\\": \\"sink\\",
       \\"constructPath\\": \\"sink\\",
-      \\"workingDirectory\\": \\"stacks/sink\\",
-      \\"synthesizedStackPath\\": \\"stacks/sink/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -221,8 +221,8 @@ exports[`cross stack references synth generates JSON 1`] = `
     \\"fns\\": {
       \\"name\\": \\"fns\\",
       \\"constructPath\\": \\"fns\\",
-      \\"workingDirectory\\": \\"stacks/fns\\",
-      \\"synthesizedStackPath\\": \\"stacks/fns/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -231,8 +231,8 @@ exports[`cross stack references synth generates JSON 1`] = `
     \\"functionOutput\\": {
       \\"name\\": \\"functionOutput\\",
       \\"constructPath\\": \\"functionOutput\\",
-      \\"workingDirectory\\": \\"stacks/functionOutput\\",
-      \\"synthesizedStackPath\\": \\"stacks/functionOutput/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -241,8 +241,8 @@ exports[`cross stack references synth generates JSON 1`] = `
     \\"pinnedFns\\": {
       \\"name\\": \\"pinnedFns\\",
       \\"constructPath\\": \\"pinnedFns\\",
-      \\"workingDirectory\\": \\"stacks/pinnedFns\\",
-      \\"synthesizedStackPath\\": \\"stacks/pinnedFns/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\pinnedFns\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"origin\\"
@@ -251,8 +251,8 @@ exports[`cross stack references synth generates JSON 1`] = `
     \\"functionOutputPinned\\": {
       \\"name\\": \\"functionOutputPinned\\",
       \\"constructPath\\": \\"functionOutputPinned\\",
-      \\"workingDirectory\\": \\"stacks/functionOutputPinned\\",
-      \\"synthesizedStackPath\\": \\"stacks/functionOutputPinned/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutputPinned\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"pinnedFns\\"
@@ -261,16 +261,16 @@ exports[`cross stack references synth generates JSON 1`] = `
     \\"secondOrigin\\": {
       \\"name\\": \\"secondOrigin\\",
       \\"constructPath\\": \\"secondOrigin\\",
-      \\"workingDirectory\\": \\"stacks/secondOrigin\\",
-      \\"synthesizedStackPath\\": \\"stacks/secondOrigin/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\secondOrigin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\secondOrigin\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     },
     \\"switchedStack\\": {
       \\"name\\": \\"switchedStack\\",
       \\"constructPath\\": \\"switchedStack\\",
-      \\"workingDirectory\\": \\"stacks/switchedStack\\",
-      \\"synthesizedStackPath\\": \\"stacks/switchedStack/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\switchedStack\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\switchedStack\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     }

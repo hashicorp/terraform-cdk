@@ -7,16 +7,16 @@ exports[`python cross stack references synth generates JSON 1`] = `
     \\"source\\": {
       \\"name\\": \\"source\\",
       \\"constructPath\\": \\"source\\",
-      \\"workingDirectory\\": \\"stacks/source\\",
-      \\"synthesizedStackPath\\": \\"stacks/source/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\source\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\source\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": []
     },
     \\"passthrough\\": {
       \\"name\\": \\"passthrough\\",
       \\"constructPath\\": \\"passthrough\\",
-      \\"workingDirectory\\": \\"stacks/passthrough\\",
-      \\"synthesizedStackPath\\": \\"stacks/passthrough/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"source\\"
@@ -25,8 +25,8 @@ exports[`python cross stack references synth generates JSON 1`] = `
     \\"sink\\": {
       \\"name\\": \\"sink\\",
       \\"constructPath\\": \\"sink\\",
-      \\"workingDirectory\\": \\"stacks/sink\\",
-      \\"synthesizedStackPath\\": \\"stacks/sink/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"source\\"
@@ -35,8 +35,8 @@ exports[`python cross stack references synth generates JSON 1`] = `
     \\"fns\\": {
       \\"name\\": \\"fns\\",
       \\"constructPath\\": \\"fns\\",
-      \\"workingDirectory\\": \\"stacks/fns\\",
-      \\"synthesizedStackPath\\": \\"stacks/fns/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"source\\"
@@ -45,8 +45,8 @@ exports[`python cross stack references synth generates JSON 1`] = `
     \\"functionOutput\\": {
       \\"name\\": \\"functionOutput\\",
       \\"constructPath\\": \\"functionOutput\\",
-      \\"workingDirectory\\": \\"stacks/functionOutput\\",
-      \\"synthesizedStackPath\\": \\"stacks/functionOutput/cdk.tf.json\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
       \\"annotations\\": [],
       \\"dependencies\\": [
         \\"source\\"
