@@ -200,6 +200,7 @@ jobs:
 
       - id: self_mutation
         name: Find mutations
+        shell: bash # run in Git bash shell (makes '||' work)
         run: |
           git add .
           git diff --cached --exit-code || echo "::set-output name=self_mutation_happened::true"
