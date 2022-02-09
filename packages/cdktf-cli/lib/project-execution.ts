@@ -166,7 +166,7 @@ const services = {
       });
     });
   },
-  gatherOutputs: async (context: ProjectContext) => {
+  gatherOutput: async (context: ProjectContext) => {
     if (context.targetAction === "destroy") {
       return Promise.resolve({});
     }
@@ -186,14 +186,16 @@ const services = {
 const guards = {
   onTargetAction: (
     context: ProjectContext,
+    _event: any,
     state: { cond: { value: string } } // https://xstate.js.org/docs/guides/guards.html#custom-guards
   ) => context.targetAction === state.cond.value,
-  autoApprove: (context: ProjectContext) => context.autoApprove,
-  planNeedsNoApply: (context: ProjectContext) =>
-    context.targetStackPlan?.needsApply === false,
+  autoApprove: (context: ProjectContext) => Boolean(context.autoApprove),
+  planNeedsNoApply: (
+    _context: ProjectContext,
+    event: { data: TerraformPlan }
+  ) => event.data.needsApply === false,
 };
 
-// TODO: test every error type
 const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
   {
     id: "project",
