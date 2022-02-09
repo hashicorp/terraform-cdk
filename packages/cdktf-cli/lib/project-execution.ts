@@ -69,21 +69,20 @@ function getStack(
 ): SynthesizedStack {
   if (!context.synthesizedStacks) {
     throw Errors.Internal(
-      "unknown",
       "Trying to access a stack before it has been synthesized"
     );
   }
   if (stackName) {
     const stack = context.synthesizedStacks.find((s) => s.name === stackName);
     if (!stack) {
-      throw Errors.Usage("unknown", "Unknown stack: " + stackName);
+      throw Errors.Usage("Unknown stack: " + stackName);
     }
 
     return stack;
   }
 
   if (context.synthesizedStacks.length !== 1) {
-    throw Errors.Usage("unknown", "Please select a stack to use");
+    throw Errors.Usage("Please select a stack to use");
   }
 
   return context.synthesizedStacks[0];
@@ -125,10 +124,7 @@ const services = {
   deploy: async (context: ProjectContext) => {
     const planFile = context.targetStackPlan?.planFile;
     if (!planFile) {
-      throw Errors.Internal(
-        "unknown",
-        "No plan file found, diff needs to be run first"
-      );
+      throw Errors.Internal("No plan file found, diff needs to be run first");
     }
 
     const stack = getStack(context);
@@ -155,10 +151,7 @@ const services = {
   destroy: async (context: ProjectContext) => {
     const planFile = context.targetStackPlan?.planFile;
     if (!planFile) {
-      throw Errors.Internal(
-        "unknown",
-        "No plan file found, diff needs to be run first"
-      );
+      throw Errors.Internal("No plan file found, diff needs to be run first");
     }
 
     const stack = getStack(context);
@@ -193,7 +186,6 @@ const services = {
 const guards = {
   onTargetAction: (
     context: ProjectContext,
-    _event: ProjectEvent,
     state: { cond: { value: string } } // https://xstate.js.org/docs/guides/guards.html#custom-guards
   ) => context.targetAction === state.cond.value,
   autoApprove: (context: ProjectContext) => context.autoApprove,

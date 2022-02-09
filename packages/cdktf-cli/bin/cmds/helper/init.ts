@@ -173,7 +173,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
         telemetryData.conversionStats = stats;
       } catch (err) {
-        throw Errors.Internal("init", err, { fromTerraformProject: true });
+        throw Errors.Internal(err, { fromTerraformProject: true });
       }
     } else {
       console.error(
@@ -371,7 +371,6 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
 
     if (!templatePath) {
       throw Errors.Usage(
-        "init",
         chalkColour`Could not find a {whiteBright cdktf.json} in the extracted directory`,
         {}
       );
