@@ -16,6 +16,7 @@ import {
   getConstructIdsForOutputs,
   parseOutput,
 } from "../bin/cmds/ui/terraform-context";
+import { printAnnotations } from "./synth";
 
 export type ProjectEvent =
   | {
@@ -109,7 +110,14 @@ async function getTerraformClient(
 
 const services = {
   synthProject: async (context: ProjectContext) => {
-    return await SynthStack.synth(context.synthCommand, context.targetDir);
+    const stacks = await SynthStack.synth(
+      context.synthCommand,
+      context.targetDir
+    );
+
+    printAnnotations(stacks);
+
+    return stacks;
   },
   diff: async (context: ProjectContext) => {
     const stack = getStack(context);

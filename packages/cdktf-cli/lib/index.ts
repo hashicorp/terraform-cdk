@@ -167,6 +167,7 @@ export class CdktfProject {
             stacks: this.stacks,
             errorMessage: ctx.message,
           });
+
           break;
 
         case "diff":
