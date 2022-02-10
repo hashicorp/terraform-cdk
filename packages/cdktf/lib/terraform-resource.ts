@@ -149,8 +149,8 @@ export class TerraformResource
     );
 
     attributes["//"] = {
-      ...(attributes['//'] ?? {}),
-      ...this.constructNodeMetadata
+      ...(attributes["//"] ?? {}),
+      ...this.constructNodeMetadata,
     };
 
     return {
