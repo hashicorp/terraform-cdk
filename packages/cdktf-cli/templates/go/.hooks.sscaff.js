@@ -56,5 +56,8 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
 		Workspaces:   cdktf.NewNamedRemoteWorkspace(jsii.String("${workspaceName}")),
 	})`);
 
+  // add import for jsii helper used above
+  result = result.replace(`"github.com/aws/constructs-go/constructs/v10"`, `"github.com/aws/constructs-go/constructs/v10"\n	"github.com/aws/jsii-runtime-go"`);
+
   writeFileSync('./main.go', result, 'utf-8');
 }
