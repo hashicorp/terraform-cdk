@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cross stack references deployed can remove references to deployed stacks: with dependency 1`] = `
+exports[`cross stack references deployed can remove references to deployed stacks on Windows: with dependency 1`] = `
 "{
   \\"version\\": \\"stubbed\\",
   \\"stacks\\": {
@@ -94,7 +94,7 @@ exports[`cross stack references deployed can remove references to deployed stack
 }"
 `;
 
-exports[`cross stack references deployed can remove references to deployed stacks: without dependency 1`] = `
+exports[`cross stack references deployed can remove references to deployed stacks on Windows: without dependency 1`] = `
 "{
   \\"version\\": \\"stubbed\\",
   \\"stacks\\": {
@@ -186,7 +186,7 @@ exports[`cross stack references deployed can remove references to deployed stack
 }"
 `;
 
-exports[`cross stack references synth generates JSON 1`] = `
+exports[`cross stack references synth generates JSON on Windows 1`] = `
 "{
   \\"version\\": \\"stubbed\\",
   \\"stacks\\": {

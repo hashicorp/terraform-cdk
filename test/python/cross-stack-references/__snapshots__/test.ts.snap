@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`python cross stack references synth generates JSON 1`] = `
+exports[`python cross stack references synth generates JSON on Windows 1`] = `
 "{
   \\"version\\": \\"stubbed\\",
   \\"stacks\\": {
