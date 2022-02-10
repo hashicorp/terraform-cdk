@@ -1,4 +1,4 @@
-import { TestDriver } from "../../test-helper";
+import { onPosix, onWindows, TestDriver } from "../../test-helper";
 
 describe("python cross stack references", () => {
   let driver: TestDriver;
@@ -9,7 +9,11 @@ describe("python cross stack references", () => {
     await driver.synth();
   });
 
-  test("synth generates JSON", () => {
+  onPosix("synth generates JSON on POSIX", () => {
+    expect(driver.manifest()).toMatchSnapshot();
+  });
+
+  onWindows("synth generates JSON on Windows", () => {
     expect(driver.manifest()).toMatchSnapshot();
   });
 

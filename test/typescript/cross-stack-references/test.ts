@@ -1,6 +1,4 @@
-import * as fs from "fs-extra";
-import * as path from "path";
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onPosix, onWindows } from "../../test-helper";
 
 describe("cross stack references", () => {
   let driver: TestDriver;
@@ -11,7 +9,11 @@ describe("cross stack references", () => {
     await driver.synth();
   });
 
-  test("synth generates JSON", () => {
+  onPosix("synth generates JSON on POSIX", () => {
+    expect(driver.manifest()).toMatchSnapshot();
+  });
+
+  onWindows("synth generates JSON on Windows", () => {
     expect(driver.manifest()).toMatchSnapshot();
   });
 
@@ -78,7 +80,7 @@ describe("cross stack references", () => {
     });
 
     // Check for Deadly embrace scenario: https://github.com/aws/aws-cdk/pull/12778
-    it("can remove references to deployed stacks", async () => {
+    onPosix("can remove references to deployed stacks on POSIX", async () => {
       driver.setEnv("SWITCH_STACK", "on");
       console.log(driver.workingDirectory);
       await driver.deploy("secondOrigin");
@@ -90,6 +92,22 @@ describe("cross stack references", () => {
       await driver.deploy("switchedStack");
       expect(driver.manifest()).toMatchSnapshot("without dependency");
     });
+
+    onWindows(
+      "can remove references to deployed stacks on Windows",
+      async () => {
+        driver.setEnv("SWITCH_STACK", "on");
+        console.log(driver.workingDirectory);
+        await driver.deploy("secondOrigin");
+        await driver.deploy("switchedStack");
+        expect(driver.manifest()).toMatchSnapshot("with dependency");
+
+        driver.setEnv("SWITCH_STACK", undefined);
+        await driver.deploy("secondOrigin");
+        await driver.deploy("switchedStack");
+        expect(driver.manifest()).toMatchSnapshot("without dependency");
+      }
+    );
 
     it("can pin function outputs to a stack by using terraform locals", async () => {
       await driver.deploy("pinnedFns");
