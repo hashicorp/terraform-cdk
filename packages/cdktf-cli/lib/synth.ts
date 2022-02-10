@@ -1,4 +1,4 @@
-import { SynthesizedStack } from "../bin/cmds/helper/synth-stack";
+import { SynthesizedStack } from "./synth-stack";
 import { AnnotationMetadataEntryType } from "cdktf";
 import * as chalk from "chalk";
 

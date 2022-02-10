@@ -1,11 +1,11 @@
-import { shell } from "../../../lib/util";
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as chalk from "chalk";
 import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
-import { sendTelemetry } from "../../../lib/checkpoint";
 import { performance } from "perf_hooks";
+import { sendTelemetry } from "./checkpoint";
+import { shell } from "./util";
 
 const chalkColour = new chalk.Instance();
 

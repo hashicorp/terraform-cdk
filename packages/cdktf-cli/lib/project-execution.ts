@@ -1,21 +1,17 @@
 // Each action drives itself to completion and exposes updates to the user.
 
 import { assign, createMachine } from "xstate";
-// TODO: move this over
-import { SynthStack, SynthesizedStack } from "../bin/cmds/helper/synth-stack";
+import { SynthStack, SynthesizedStack } from "./synth-stack";
 import { Errors } from "./errors";
 import { TerraformJson } from "../bin/cmds/ui/terraform-json";
-import { TerraformCloud } from "../bin/cmds/ui/models/terraform-cloud";
-import { TerraformCli } from "../bin/cmds/ui/models/terraform-cli";
+import { TerraformCloud } from "./models/terraform-cloud";
+import { TerraformCli } from "./models/terraform-cli";
 import {
   TerraformPlan,
   Terraform,
   DeployingResource,
-} from "../bin/cmds/ui/models/terraform";
-import {
-  getConstructIdsForOutputs,
-  parseOutput,
-} from "../bin/cmds/ui/terraform-context";
+} from "./models/terraform";
+import { getConstructIdsForOutputs, parseOutput } from "./output";
 import { printAnnotations } from "./synth";
 
 export type ProjectEvent =

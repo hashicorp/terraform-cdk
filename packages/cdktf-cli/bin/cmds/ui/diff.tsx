@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Text, Box, Static } from "ink";
 import Spinner from "ink-spinner";
-import { PlannedResource, TerraformPlan } from "./models/terraform";
+import { PlannedResource, TerraformPlan } from "../../../lib/models/terraform";
 import { PlanElement } from "./components";
 import { CdktfProject, Status } from "../../../lib";
 import { ErrorComponent } from "./components/error";

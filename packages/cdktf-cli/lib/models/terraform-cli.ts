@@ -5,8 +5,8 @@ import {
   TerraformOutput,
   AbstractTerraformPlan,
 } from "./terraform";
-import { SynthesizedStack } from "../../helper/synth-stack";
-import { terraformBinaryName } from "../../helper/terraform";
+import { SynthesizedStack } from "../synth-stack";
+import { terraformBinaryName } from "../../bin/cmds/helper/terraform";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan

@@ -9,10 +9,10 @@ import {
   PlannedResourceAction,
   TerraformPlan,
   TerraformOutput,
-} from "./models/terraform";
-import { NestedTerraformOutputs } from "./terraform-context";
+} from "../../../lib/models/terraform";
 import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
+import { NestedTerraformOutputs } from "../../../lib/output";
 import { ErrorComponent } from "./components/error";
 
 interface DeploySummaryConfig {

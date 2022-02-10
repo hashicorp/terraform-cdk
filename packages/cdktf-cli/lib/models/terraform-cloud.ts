@@ -8,12 +8,12 @@ import {
   TerraformOutput,
   AbstractTerraformPlan,
 } from "./terraform";
-import { TerraformJsonConfigBackendRemote } from "../terraform-json";
+import { TerraformJsonConfigBackendRemote } from "../../bin/cmds/ui/terraform-json";
 import * as TerraformCloudClient from "@skorfmann/terraform-cloud";
 import archiver from "archiver";
 import { WritableStreamBuffer } from "stream-buffers";
-import { SynthesizedStack } from "../../helper/synth-stack";
-import { logger } from "../../../../lib/logging";
+import { SynthesizedStack } from "../synth-stack";
+import { logger } from "../logging";
 export class TerraformCloudPlan
   extends AbstractTerraformPlan
   implements TerraformPlan

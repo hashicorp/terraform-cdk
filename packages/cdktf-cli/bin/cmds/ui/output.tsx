@@ -3,9 +3,9 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { Outputs as OutputComponent } from "./components";
-import { NestedTerraformOutputs } from "./terraform-context";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
-import { TerraformOutput } from "./models/terraform";
+import { NestedTerraformOutputs } from "../../../lib/output";
+import { TerraformOutput } from "../../../lib/models/terraform";
 import { ErrorComponent } from "./components/error";
 
 type OutputConfig = {

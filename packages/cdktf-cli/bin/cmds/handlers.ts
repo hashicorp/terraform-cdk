@@ -30,9 +30,12 @@ import { Watch } from "./ui/watch";
 import { sendTelemetry } from "../../lib/checkpoint";
 import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
-import { saveOutputs, normalizeOutputPath } from "./helper/outputs";
 import { Output } from "./ui/output";
-import { NestedTerraformOutputs } from "./ui/terraform-context";
+import {
+  NestedTerraformOutputs,
+  saveOutputs,
+  normalizeOutputPath,
+} from "../../lib/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 import { checkEnvironment } from "./helper/check-environment";
 

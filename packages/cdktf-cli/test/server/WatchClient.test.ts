@@ -1,12 +1,12 @@
 import {
   SynthesizedStack,
   SynthStack as OriginalSynthStack,
-} from "../../bin/cmds/helper/synth-stack";
+} from "../../lib/synth-stack";
 
 import { mocked } from "ts-jest/utils";
 import { WatchClient, WatchState } from "../../lib/server/WatchClient";
 import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
-import { TerraformCli as OriginalTerraformCli } from "../../bin/cmds/ui/models/terraform-cli";
+import { TerraformCli as OriginalTerraformCli } from "../../lib/models/terraform-cli";
 
 jest.mock("../../bin/cmds/helper/synth-stack");
 const SynthStack = mocked(OriginalSynthStack);

@@ -8,7 +8,7 @@ import {
   DeployingResource,
   PlannedResourceAction,
   TerraformPlan,
-} from "./models/terraform";
+} from "../../../lib/models/terraform";
 import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
 import { ErrorComponent } from "./components/error";

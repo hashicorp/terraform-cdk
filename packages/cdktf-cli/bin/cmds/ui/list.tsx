@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import { useRunSynth, Status } from "./terraform-context";
+import { CdktfProject, Status, SynthesizedStack } from "../../../lib";
+import { ErrorComponent } from "./components/error";
 
 interface ListConfig {
   targetDir: string;
@@ -12,25 +13,27 @@ export const List = ({
   targetDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
-  const { status, errors, stacks } = useRunSynth({ targetDir, synthCommand });
+  const [projectStatus, setProjectStatus] = useState<Status>();
+  const [stacks, setStacks] = useState<SynthesizedStack[] | undefined>(
+    undefined
+  );
+  const [error, setError] = useState<string | null>(null);
 
-  const isSynthesizing: boolean = status != Status.SYNTHESIZED;
-  const statusText = `${status}...`;
+  useEffect(() => {
+    const project = new CdktfProject({
+      targetDir,
+      synthCommand,
+      onUpdate: () => {
+        setProjectStatus(project.status);
+      },
+    });
 
-  if (errors) return <Box>{errors}</Box>;
+    project.synth().then(() => setStacks(project.stacks), setError);
+  }, [setStacks, setError]);
 
-  return (
-    <Box>
-      {isSynthesizing ? (
-        <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
-          </Box>
-        </Fragment>
-      ) : (
+  if (stacks !== undefined) {
+    return (
+      <Box>
         <Fragment>
           <Box flexDirection="column" width={80}>
             <Box>
@@ -53,7 +56,22 @@ export const List = ({
             ))}
           </Box>
         </Fragment>
-      )}
+      </Box>
+    );
+  }
+
+  if (error) return <ErrorComponent error={error} />;
+
+  return (
+    <Box>
+      <Fragment>
+        <Text color="green">
+          <Spinner type="dots" />
+        </Text>
+        <Box paddingLeft={1}>
+          <Text>{projectStatus}...</Text>
+        </Box>
+      </Fragment>
     </Box>
   );
 };

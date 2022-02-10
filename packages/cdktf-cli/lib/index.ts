@@ -5,17 +5,15 @@
 export { init, Project, InitArgs } from "./init";
 export { get, GetStatus } from "./get";
 import { interpret, InterpreterFrom } from "xstate";
-import { SynthesizedStack } from "../bin/cmds/helper/synth-stack";
+import { SynthesizedStack } from "./synth-stack";
 import { projectExecutionMachine } from "./project-execution";
 import {
   PlannedResource,
   DeployingResourceApplyState,
-} from "../bin/cmds/ui/models/terraform";
-import {
   DeployingResource,
   TerraformPlan,
-} from "../bin/cmds/ui/models/terraform";
-import { NestedTerraformOutputs } from "../bin/cmds/ui/terraform-context";
+} from "./models/terraform";
+import { NestedTerraformOutputs } from "./output";
 
 // TODO: move files around to all be under lib
 export { SynthesizedStack };
