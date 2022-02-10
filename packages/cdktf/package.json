@@ -87,8 +87,8 @@
     "constructs": "^10.0.25",
     "eslint": "^7.32.0",
     "jest": "^26.6.3",
-    "jsii": "^1.52.1",
-    "jsii-pacmak": "^1.52.1",
+    "jsii": "^1.53.0",
+    "jsii-pacmak": "^1.53.0",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"
   },
