@@ -104,7 +104,97 @@ describe("cross stack references", () => {
   });
 
   onWindows("synth generates JSON on Windows", () => {
-    expect(driver.manifest()).toMatchInlineSnapshot();
+    expect(driver.manifest()).toMatchInlineSnapshot(`
+"{
+  \\"version\\": \\"stubbed\\",
+  \\"stacks\\": {
+    \\"origin\\": {
+      \\"name\\": \\"origin\\",
+      \\"constructPath\\": \\"origin\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\origin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\origin\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"passthrough\\": {
+      \\"name\\": \\"passthrough\\",
+      \\"constructPath\\": \\"passthrough\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"sink\\": {
+      \\"name\\": \\"sink\\",
+      \\"constructPath\\": \\"sink\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"fns\\": {
+      \\"name\\": \\"fns\\",
+      \\"constructPath\\": \\"fns\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutput\\": {
+      \\"name\\": \\"functionOutput\\",
+      \\"constructPath\\": \\"functionOutput\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"pinnedFns\\": {
+      \\"name\\": \\"pinnedFns\\",
+      \\"constructPath\\": \\"pinnedFns\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\pinnedFns\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutputPinned\\": {
+      \\"name\\": \\"functionOutputPinned\\",
+      \\"constructPath\\": \\"functionOutputPinned\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutputPinned\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"pinnedFns\\"
+      ]
+    },
+    \\"secondOrigin\\": {
+      \\"name\\": \\"secondOrigin\\",
+      \\"constructPath\\": \\"secondOrigin\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\secondOrigin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\secondOrigin\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"switchedStack\\": {
+      \\"name\\": \\"switchedStack\\",
+      \\"constructPath\\": \\"switchedStack\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\switchedStack\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\switchedStack\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    }
+  }
+}"
+`);
   });
 
   describe("deployed", () => {
@@ -372,12 +462,194 @@ describe("cross stack references", () => {
         console.log(driver.workingDirectory);
         await driver.deploy("secondOrigin");
         await driver.deploy("switchedStack");
-        expect(driver.manifest()).toMatchInlineSnapshot();
+        expect(driver.manifest()).toMatchInlineSnapshot(`
+"{
+  \\"version\\": \\"stubbed\\",
+  \\"stacks\\": {
+    \\"origin\\": {
+      \\"name\\": \\"origin\\",
+      \\"constructPath\\": \\"origin\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\origin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\origin\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"passthrough\\": {
+      \\"name\\": \\"passthrough\\",
+      \\"constructPath\\": \\"passthrough\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"sink\\": {
+      \\"name\\": \\"sink\\",
+      \\"constructPath\\": \\"sink\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"fns\\": {
+      \\"name\\": \\"fns\\",
+      \\"constructPath\\": \\"fns\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutput\\": {
+      \\"name\\": \\"functionOutput\\",
+      \\"constructPath\\": \\"functionOutput\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"pinnedFns\\": {
+      \\"name\\": \\"pinnedFns\\",
+      \\"constructPath\\": \\"pinnedFns\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\pinnedFns\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutputPinned\\": {
+      \\"name\\": \\"functionOutputPinned\\",
+      \\"constructPath\\": \\"functionOutputPinned\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutputPinned\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"pinnedFns\\"
+      ]
+    },
+    \\"secondOrigin\\": {
+      \\"name\\": \\"secondOrigin\\",
+      \\"constructPath\\": \\"secondOrigin\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\secondOrigin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\secondOrigin\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"switchedStack\\": {
+      \\"name\\": \\"switchedStack\\",
+      \\"constructPath\\": \\"switchedStack\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\switchedStack\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\switchedStack\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"secondOrigin\\"
+      ]
+    }
+  }
+}"
+`);
 
         driver.setEnv("SWITCH_STACK", undefined);
         await driver.deploy("secondOrigin");
         await driver.deploy("switchedStack");
-        expect(driver.manifest()).toMatchInlineSnapshot();
+        expect(driver.manifest()).toMatchInlineSnapshot(`
+"{
+  \\"version\\": \\"stubbed\\",
+  \\"stacks\\": {
+    \\"origin\\": {
+      \\"name\\": \\"origin\\",
+      \\"constructPath\\": \\"origin\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\origin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\origin\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"passthrough\\": {
+      \\"name\\": \\"passthrough\\",
+      \\"constructPath\\": \\"passthrough\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"sink\\": {
+      \\"name\\": \\"sink\\",
+      \\"constructPath\\": \\"sink\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"fns\\": {
+      \\"name\\": \\"fns\\",
+      \\"constructPath\\": \\"fns\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutput\\": {
+      \\"name\\": \\"functionOutput\\",
+      \\"constructPath\\": \\"functionOutput\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"pinnedFns\\": {
+      \\"name\\": \\"pinnedFns\\",
+      \\"constructPath\\": \\"pinnedFns\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\pinnedFns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\pinnedFns\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"origin\\"
+      ]
+    },
+    \\"functionOutputPinned\\": {
+      \\"name\\": \\"functionOutputPinned\\",
+      \\"constructPath\\": \\"functionOutputPinned\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutputPinned\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutputPinned\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"pinnedFns\\"
+      ]
+    },
+    \\"secondOrigin\\": {
+      \\"name\\": \\"secondOrigin\\",
+      \\"constructPath\\": \\"secondOrigin\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\secondOrigin\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\secondOrigin\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"switchedStack\\": {
+      \\"name\\": \\"switchedStack\\",
+      \\"constructPath\\": \\"switchedStack\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\switchedStack\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\switchedStack\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    }
+  }
+}"
+`);
       }
     );
 
