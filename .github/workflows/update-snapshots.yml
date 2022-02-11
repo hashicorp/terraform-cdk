@@ -57,7 +57,7 @@ jobs:
 
   teardown:
     runs-on: ubuntu-latest
-    needs: [update-snapshots-linux, update-snapshots-windows]
+    needs: update-snapshots-windows
     if: always()
     steps:
       - uses: actions-ecosystem/action-remove-labels@v1
@@ -134,7 +134,10 @@ jobs:
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
 
   update-snapshots-windows:
-    needs: setup
+    # running after linux will base this run on those results
+    # which circumvents issues where new and similar snapshots
+    # are written by both runs and will overwrite each other
+    needs: [setup, update-snapshots-linux]
     runs-on: windows-latest
     permissions:
       contents: write
