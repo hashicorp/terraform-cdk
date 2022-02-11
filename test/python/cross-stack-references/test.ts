@@ -10,7 +10,61 @@ describe("python cross stack references", () => {
   });
 
   onPosix("synth generates JSON on POSIX", () => {
-    expect(driver.manifest()).toMatchInlineSnapshot();
+    expect(driver.manifest()).toMatchInlineSnapshot(`
+      "{
+        \\"version\\": \\"stubbed\\",
+        \\"stacks\\": {
+          \\"source\\": {
+            \\"name\\": \\"source\\",
+            \\"constructPath\\": \\"source\\",
+            \\"workingDirectory\\": \\"stacks/source\\",
+            \\"synthesizedStackPath\\": \\"stacks/source/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": []
+          },
+          \\"passthrough\\": {
+            \\"name\\": \\"passthrough\\",
+            \\"constructPath\\": \\"passthrough\\",
+            \\"workingDirectory\\": \\"stacks/passthrough\\",
+            \\"synthesizedStackPath\\": \\"stacks/passthrough/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          },
+          \\"sink\\": {
+            \\"name\\": \\"sink\\",
+            \\"constructPath\\": \\"sink\\",
+            \\"workingDirectory\\": \\"stacks/sink\\",
+            \\"synthesizedStackPath\\": \\"stacks/sink/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          },
+          \\"fns\\": {
+            \\"name\\": \\"fns\\",
+            \\"constructPath\\": \\"fns\\",
+            \\"workingDirectory\\": \\"stacks/fns\\",
+            \\"synthesizedStackPath\\": \\"stacks/fns/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          },
+          \\"functionOutput\\": {
+            \\"name\\": \\"functionOutput\\",
+            \\"constructPath\\": \\"functionOutput\\",
+            \\"workingDirectory\\": \\"stacks/functionOutput\\",
+            \\"synthesizedStackPath\\": \\"stacks/functionOutput/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          }
+        }
+      }"
+    `);
   });
 
   onWindows("synth generates JSON on Windows", () => {
