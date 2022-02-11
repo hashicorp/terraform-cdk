@@ -21,13 +21,13 @@ describe("full integration test", () => {
     await driver.synth();
     expect(
       driver.synthesizedStack("hello-modules").toString()
-    ).toMatchSnapshot();
+    ).toMatchInlineSnapshot();
   });
 
   onWindows("build modules windows", async () => {
     await driver.synth();
     expect(
       driver.synthesizedStack("hello-modules").toString()
-    ).toMatchSnapshot();
+    ).toMatchInlineSnapshot();
   });
 });

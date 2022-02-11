@@ -10,11 +10,11 @@ describe("python cross stack references", () => {
   });
 
   onPosix("synth generates JSON on POSIX", () => {
-    expect(driver.manifest()).toMatchSnapshot();
+    expect(driver.manifest()).toMatchInlineSnapshot();
   });
 
   onWindows("synth generates JSON on Windows", () => {
-    expect(driver.manifest()).toMatchSnapshot();
+    expect(driver.manifest()).toMatchInlineSnapshot();
   });
 
   describe("deployed", () => {
