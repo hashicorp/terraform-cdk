@@ -971,7 +971,8 @@ new cdktf.RemoteBackend(this, {
 `;
 
 exports[`convert remote state snapshot 1`] = `
-"new cdktf.DataTerraformRemoteState(this, \\"vpc\\", {
+"import * as cdktf from \\"cdktf\\";
+new cdktf.DataTerraformRemoteState(this, \\"vpc\\", {
   backend: \\"remote\\",
   config: [
     {
@@ -988,7 +989,8 @@ exports[`convert remote state snapshot 1`] = `
 `;
 
 exports[`convert remote state types snapshot 1`] = `
-"new cdktf.DataTerraformRemoteStateEtcdV3(this, \\"etcdv3\\", {
+"import * as cdktf from \\"cdktf\\";
+new cdktf.DataTerraformRemoteStateEtcdV3(this, \\"etcdv3\\", {
   backend: \\"etcdv3\\",
   config: [
     {

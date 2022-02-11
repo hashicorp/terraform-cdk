@@ -205,6 +205,16 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
     terraform: {},
   };
 
+  if (targets.length === 0) {
+    return {
+      providerSchema: {
+        format_version: "1.0" as "1.0",
+        provider_schemas: {},
+      },
+      moduleSchema: {},
+    };
+  }
+
   for (const target of targets) {
     if (target.isModule) {
       if (!config.module) config.module = {};
