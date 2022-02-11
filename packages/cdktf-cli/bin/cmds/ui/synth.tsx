@@ -30,8 +30,10 @@ const SynthOutput = ({
       {jsonOutput ? (
         <Box>
           <Text>
-            {stacks.find((stack) => stack.name === targetStackName)?.content ||
-              "{}"}
+            {(
+              stacks.find((stack) => stack.name === targetStackName) ||
+              stacks[0]
+            )?.content || "{}"}
           </Text>
         </Box>
       ) : (
