@@ -70,6 +70,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      checks: write
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -142,6 +143,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      checks: write
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
