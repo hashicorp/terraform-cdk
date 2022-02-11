@@ -8,10 +8,10 @@ import { WatchClient, WatchState } from "../../lib/server/WatchClient";
 import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
 import { TerraformCli as OriginalTerraformCli } from "../../lib/models/terraform-cli";
 
-jest.mock("../../bin/cmds/helper/synth-stack");
+jest.mock("../../lib/synth-stack");
 const SynthStack = mocked(OriginalSynthStack);
 
-jest.mock("../../bin/cmds/ui/models/terraform-cli");
+jest.mock("../../lib/models/terraform-cli");
 const TerraformCli = mocked(OriginalTerraformCli);
 
 describe("WatchClient", () => {

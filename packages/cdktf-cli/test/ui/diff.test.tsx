@@ -5,7 +5,7 @@ import { stripAnsi } from "../test-helper";
 import {
   PlannedResource,
   PlannedResourceAction,
-} from "../../bin/cmds/ui/models/terraform";
+} from "../../lib/models/terraform";
 
 test("Diff", async () => {
   const resource: PlannedResource = {
