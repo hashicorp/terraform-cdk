@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import React from "react";
+import React, { useEffect } from "react";
 
 function extractError(error: any) {
   if (typeof error === "string") {
@@ -15,7 +15,18 @@ function extractError(error: any) {
   return JSON.stringify(error);
 }
 
-export function ErrorComponent({ error }: { error: any }) {
+export function ErrorComponent({
+  error,
+  setExitCode = true,
+}: {
+  error: any;
+  setExitCode?: boolean;
+}) {
+  useEffect(() => {
+    if (setExitCode) {
+      process.exitCode = 1;
+    }
+  });
   return (
     <Box>
       <Text>An error occured: {extractError(error)}</Text>
