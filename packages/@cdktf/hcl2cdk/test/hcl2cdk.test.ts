@@ -21,7 +21,6 @@ const providers = [
 
 enum Synth {
   yes,
-  needsAFix_MissingCdktfImport, // https://github.com/hashicorp/terraform-cdk/issues/1548
   needsAFix_SingleItemBlocksAreTreatedAsArrays, // https://github.com/hashicorp/terraform-cdk/issues/1549
   needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
   needsAFix_MaximumCallStackSizeExceeded, // https://github.com/hashicorp/terraform-cdk/issues/1551
@@ -1145,7 +1144,7 @@ describe("convert", () => {
         }
       }
       `,
-      Synth.needsAFix_MissingCdktfImport,
+      Synth.yes,
     ],
     [
       "remote state types",
@@ -1166,7 +1165,7 @@ describe("convert", () => {
         }
       }
       `,
-      Synth.needsAFix_MissingCdktfImport,
+      Synth.yes,
     ],
   ])("%s", (name, hcl, shouldPlan) => {
     let result: ReturnType<typeof convert>;
@@ -1220,7 +1219,6 @@ describe("convert", () => {
 
     if (
       [
-        Synth.needsAFix_MissingCdktfImport,
         Synth.needsAFix_BooleanAsIResolvable,
         Synth.needsAFix_MaximumCallStackSizeExceeded,
         Synth.needsAFix_SingleItemBlocksAreTreatedAsArrays,
