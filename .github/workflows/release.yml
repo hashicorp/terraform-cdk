@@ -31,7 +31,7 @@ jobs:
           yarn build
       - name: test
         run: |
-          yarn test
+          yarn test:ci
       - name: create bundle
         run: yarn package
       - name: Upload artifact
@@ -76,7 +76,7 @@ jobs:
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
-        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
+        run: cd test && ./run-against-dist npx jest --ci ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
