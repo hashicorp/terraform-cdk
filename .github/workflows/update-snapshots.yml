@@ -139,7 +139,7 @@ jobs:
     # which circumvents issues where new and similar snapshots
     # are written by both runs and will overwrite each other
     needs: [setup, update-snapshots-linux]
-    runs-on: windows-latest
+    runs-on: windows-2019
     permissions:
       contents: write
       pull-requests: write
