@@ -1153,7 +1153,9 @@ describe("convert", () => {
         backend = "etcdv3"
 
         config = {
-          prefix = "terraform-state/"
+          endpoints = ["etcd-1:2379", "etcd-2:2379", "etcd-3:2379"]
+          lock      = true
+          prefix    = "terraform-state/"
         }
       }
 
@@ -1162,6 +1164,8 @@ describe("convert", () => {
 
         config = {
           bucket = "mybucket"
+          key    = "path/to/my/key"
+          region = "us-east-1"
         }
       }
       `,
