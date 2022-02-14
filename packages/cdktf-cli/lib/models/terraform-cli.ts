@@ -27,7 +27,7 @@ export class TerraformCli implements Terraform {
 
   constructor(
     public readonly stack: SynthesizedStack,
-    sendLog = (_stdout: string, _isErr = false) => {}
+    sendLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
     this.onStdOut = (stdout: Buffer) => sendLog(stdout.toString());
@@ -56,12 +56,17 @@ export class TerraformCli implements Terraform {
       options.push("-destroy");
     }
     await this.setUserAgent();
-    await exec(terraformBinaryName, options, {
-      cwd: this.workdir,
-      env: process.env,
-    }),
+    await exec(
+      terraformBinaryName,
+      options,
+      {
+        cwd: this.workdir,
+        env: process.env,
+      },
       this.onStdOut,
-      this.onStdErr;
+      this.onStdErr
+    );
+
     const jsonPlan = await exec(
       terraformBinaryName,
       ["show", "-json", planFile],

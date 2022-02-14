@@ -61,7 +61,7 @@ export const Synth = ({
     const project = new CdktfProject({
       targetDir,
       synthCommand,
-      onUpdate: () => {},
+      onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
     });
 
     project.synth().then(() => setStacks(project.stacks), setError);

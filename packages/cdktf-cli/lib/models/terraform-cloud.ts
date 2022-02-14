@@ -118,7 +118,7 @@ export class TerraformCloud implements Terraform {
     public readonly config: TerraformJsonConfigBackendRemote,
     isSpeculative = false,
     // TODO: find out how to forward logs from terraform cloud (only public to ignore ts error)
-    public readonly sendLog = (_stdout: string, _isErr = false) => {}
+    public readonly sendLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     if (!config.workspaces.name)
       throw new Error("Please provide a workspace name for Terraform Cloud");
