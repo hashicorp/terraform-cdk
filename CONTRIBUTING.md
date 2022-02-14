@@ -232,6 +232,7 @@ When developing new features it can be helpful to enable logging. By setting `CD
 - [Docker E2E](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript)
 - [Serverless E2E](https://github.com/hashicorp/cdktf-integration-serverless-example)
 - [Learn Lambda Demo](https://github.com/hashicorp/learn-cdktf-assets-stacks-lambda)
+- [AWS Adapter](https://github.com/hashicorp/cdktf-aws-cdk)
 
 ### Helper for creating the changelog
 
