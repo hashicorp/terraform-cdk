@@ -29,11 +29,11 @@ jobs:
         run: |
           tools/align-version.sh
           yarn build
+      - name: create bundle
+        run: yarn package
       - name: test
         run: |
           yarn test:ci
-      - name: create bundle
-        run: yarn package
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
