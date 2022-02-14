@@ -119,9 +119,11 @@ yargs
     handler: (argv) => {
       const cmd = argv._[0];
       console.error(
-        cmd ? `Could not find command "${cmd}"` : `Please pass a command`
+        cmd
+          ? `Could not find command "${cmd}", here are all available ones:`
+          : `Please pass a command to cdktf, here are all available ones:`
       );
-      console.error(`Please run "${argv.$0} help" to get a list of commands.`);
+      yargs.showHelp();
       process.exit(1);
     },
   })

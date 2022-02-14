@@ -33,8 +33,8 @@ jobs:
           yarn prepare-next-release
           tools/align-version.sh
       - run: yarn build
-      - run: yarn test
       - run: yarn package
+      - run: yarn test:ci
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -79,7 +79,7 @@ jobs:
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
-        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
+        run: cd test && ./run-against-dist npx jest --ci ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}

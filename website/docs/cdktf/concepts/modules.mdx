@@ -87,6 +87,8 @@ For local modules, use the object format.
 }
 ```
 
+For performance reasons, we don't automatically generate bindings for submodules. To generate bindings for submodules, specify the module source as `terraform-aws-modules/vpc/aws//submodules/vpc-endpoints`, where after the `//` is the path to the submodule in the modules repository. Refer to [the Terraform source specification](/language/modules/sources) for more details.
+
 ### Generate Module Bindings
 
 Go to the working directory and run `cdktf get`. CDKTF automatically creates the appropriate module bindings in the `./.gen` directory for you to use in your application.

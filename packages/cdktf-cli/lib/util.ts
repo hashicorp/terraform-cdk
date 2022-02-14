@@ -149,7 +149,10 @@ export async function downloadFile(
   url: string,
   targetFilename: string
 ): Promise<void> {
-  const client = url.startsWith("http://") ? http : https;
+  // if the type is inferred to be "http|https" calling .get() is not possible
+  // because the options parameter (which we don't use anyway) for get is
+  // not compatible between http and https -> so we treat it as http
+  const client = (url.startsWith("http://") ? http : https) as typeof http;
   const file = fs.createWriteStream(targetFilename);
   return new Promise((ok, ko) => {
     const request = client.get(url, (response) => {
@@ -167,7 +170,7 @@ export async function downloadFile(
 
     file.on("finish", () => ok());
 
-    request.on("error", (err) => {
+    request.on("error", (err: Error) => {
       fs.unlink(targetFilename, () => ko(err));
     });
 
