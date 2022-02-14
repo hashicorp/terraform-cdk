@@ -56,6 +56,6 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: test
         run: |
-          yarn test
+          yarn test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
