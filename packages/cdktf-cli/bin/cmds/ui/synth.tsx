@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import { CdktfProject, Status, SynthesizedStack } from "../../../lib";
+import { CdktfProject, SynthesizedStack } from "../../../lib";
 import { ErrorComponent } from "./components/error";
 
 interface CommonSynthConfig {
@@ -52,7 +52,6 @@ export const Synth = ({
   synthCommand,
   jsonOutput,
 }: SynthConfig): React.ReactElement => {
-  const [projectStatus, setProjectStatus] = useState<Status>();
   const [stacks, setStacks] = useState<SynthesizedStack[] | undefined>(
     undefined
   );
@@ -62,9 +61,7 @@ export const Synth = ({
     const project = new CdktfProject({
       targetDir,
       synthCommand,
-      onUpdate: () => {
-        setProjectStatus(project.status);
-      },
+      onUpdate: () => {},
     });
 
     project.synth().then(() => setStacks(project.stacks), setError);
@@ -93,7 +90,7 @@ export const Synth = ({
           <Spinner type="dots" />
         </Text>
         <Box paddingLeft={1}>
-          <Text>{projectStatus}...</Text>
+          <Text>Sythesizing...</Text>
         </Box>
       </Fragment>
     </Box>

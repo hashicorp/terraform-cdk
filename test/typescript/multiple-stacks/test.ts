@@ -6,6 +6,7 @@ describe("full integration test", () => {
   beforeAll(async () => {
     driver = new TestDriver(__dirname);
     await driver.setupTypescriptProject();
+    console.log(driver.workingDirectory);
   });
 
   test("synth", async () => {

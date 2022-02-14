@@ -263,6 +263,7 @@ export class CdktfProject {
   private waitOnMachineDone(): Promise<string> {
     return new Promise((resolve, reject) => {
       this.stateMachine.onTransition((state) => {
+        console.log("Next state", ...state.toStrings());
         if (state.matches("error")) {
           reject(state.context.message);
         } else if (state.matches("done")) {

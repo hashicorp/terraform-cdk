@@ -2,7 +2,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import ConfirmInput from "@skorfmann/ink-confirm-input";
 import { DeployingElement, Outputs } from "./components";
 import {
   DeployingResource,
@@ -14,6 +13,7 @@ import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { ErrorComponent } from "./components/error";
+import { Confirm } from "./components/confirm";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -48,27 +48,6 @@ export const DeploySummary = ({
         </Box>
       ))}
     </>
-  );
-};
-
-interface ConfirmConfig {
-  callback: (value: any) => any;
-}
-
-const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
-  const [value, setValue] = useState("");
-
-  return (
-    <Box flexDirection="column" marginTop={1}>
-      <Text bold>Do you want to perform these actions?</Text>
-      <Text> CDK for Terraform will perform the actions described above.</Text>
-      <Text> Only 'yes' will be accepted to approve.</Text>
-
-      <Box flexDirection="row" marginTop={1}>
-        <Text bold> Enter a value:</Text>
-        <ConfirmInput value={value} onChange={setValue} onSubmit={callback} />
-      </Box>
-    </Box>
   );
 };
 
@@ -213,7 +192,7 @@ export const Deploy = ({
         <Box>
           <Box flexDirection="column">
             <Plan currentStackName={stackName || ""} plan={plan!} />
-            <Confirm callback={projectUpdate.approve} />
+            <Confirm onApprove={projectUpdate.approve} />
           </Box>
         </Box>
       );
@@ -237,9 +216,13 @@ export const Deploy = ({
           <Box flexDirection="column">
             <Box>
               <>
-                <Text color="green">
-                  <Spinner type="dots" />
-                </Text>
+                {projectUpdate?.type !== "deployed" ? (
+                  <Text color="green">
+                    <Spinner type="dots" />
+                  </Text>
+                ) : (
+                  <></>
+                )}
                 <Box paddingLeft={1}>
                   <Text>Deploying Stack: </Text>
                   <Text bold>{stackName}</Text>

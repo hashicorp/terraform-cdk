@@ -2,7 +2,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import ConfirmInput from "@skorfmann/ink-confirm-input";
 import { DeployingElement } from "./components";
 import {
   DeployingResource,
@@ -12,6 +11,7 @@ import {
 import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdates } from "../../../lib";
 import { ErrorComponent } from "./components/error";
+import { Confirm } from "./components/confirm";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -44,27 +44,6 @@ export const DeploySummary = ({
         </Box>
       ))}
     </>
-  );
-};
-
-interface ConfirmConfig {
-  callback: (value: any) => any;
-}
-
-const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
-  const [value, setValue] = useState("");
-
-  return (
-    <Box flexDirection="column" marginTop={1}>
-      <Text bold>Do you want to perform these actions?</Text>
-      <Text> CDK for Terraform will perform the actions described above.</Text>
-      <Text> Only 'yes' will be accepted to approve.</Text>
-
-      <Box flexDirection="row" marginTop={1}>
-        <Text bold> Enter a value:</Text>
-        <ConfirmInput value={value} onChange={setValue} onSubmit={callback} />
-      </Box>
-    </Box>
   );
 };
 
@@ -148,7 +127,7 @@ export const Destroy = ({
         <Box>
           <Box flexDirection="column">
             <Plan currentStackName={stackName || ""} plan={plan!} />
-            <Confirm callback={projectUpdate.approve} />
+            <Confirm onApprove={projectUpdate.approve} />
           </Box>
         </Box>
       );

@@ -145,8 +145,8 @@ const services = {
       true,
       getLogCallbackForStack(context, "plan")
     );
-    await terraform.init(); // TODO: send logs from init
-    return terraform.plan(context.targetAction === "destroy"); // TODO: send logs from plan
+    await terraform.init();
+    return terraform.plan(context.targetAction === "destroy");
   },
   deploy: async (context: ProjectContext) => {
     const planFile = context.targetStackPlan?.planFile;
