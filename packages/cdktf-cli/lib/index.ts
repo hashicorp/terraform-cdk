@@ -2,9 +2,9 @@
 // While this is the closest we have to a programmatic API, please understand that the interfaces in this file are not stable.
 // Convert is not included here since it's published independently as @cdktf/hcl2cdk.
 
+import { interpret, InterpreterFrom } from "xstate";
 export { init, Project, InitArgs } from "./init";
 export { get, GetStatus } from "./get";
-import { interpret, InterpreterFrom } from "xstate";
 import { SynthesizedStack } from "./synth-stack";
 import { projectExecutionMachine } from "./project-execution";
 import {
@@ -15,7 +15,6 @@ import {
 } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 
-// TODO: move files around to all be under lib
 export { SynthesizedStack };
 
 export enum Status {
@@ -119,6 +118,9 @@ export class CdktfProject {
         onProgress: (event) => {
           switch (event.type) {
             case "LOG":
+              console.log(
+                `[${event.stackName}](${event.stateName}): ${event.message}`
+              );
               break;
 
             case "STACK_SELECTED":

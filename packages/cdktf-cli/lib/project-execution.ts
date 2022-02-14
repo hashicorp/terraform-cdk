@@ -36,7 +36,8 @@ type ProgressEvent =
       type: "LOG";
       stackName: string;
       stateName: string;
-      stdout: string;
+      message: string;
+      isError: boolean;
     }
   | {
       type: "RESOURCE_UPDATE";
@@ -85,9 +86,26 @@ function getStack(
   return context.synthesizedStacks[0];
 }
 
+function getLogCallbackForStack(
+  context: ProjectContext,
+  stateName: string
+): (message: string, isError?: boolean) => void {
+  const stack = getStack(context);
+  return (message: string, isError = false) => {
+    context.onProgress({
+      type: "LOG",
+      stackName: stack.name,
+      stateName,
+      message,
+      isError,
+    });
+  };
+}
+
 async function getTerraformClient(
   stack: SynthesizedStack,
-  isSpeculative: boolean
+  isSpeculative: boolean,
+  sendLog: (message: string, isError?: boolean) => void
 ): Promise<Terraform> {
   const parsedStack = JSON.parse(stack.content) as TerraformJson;
 
@@ -95,13 +113,14 @@ async function getTerraformClient(
     const tfClient = new TerraformCloud(
       stack,
       parsedStack.terraform?.backend?.remote,
-      isSpeculative
+      isSpeculative,
+      sendLog
     );
     if (await tfClient.isRemoteWorkspace()) {
       return tfClient;
     }
   }
-  return new TerraformCli(stack);
+  return new TerraformCli(stack, sendLog);
 }
 
 const services = {
@@ -121,7 +140,11 @@ const services = {
       type: "STACK_SELECTED",
       stackName: stack.name,
     });
-    const terraform = await getTerraformClient(stack, true);
+    const terraform = await getTerraformClient(
+      stack,
+      true,
+      getLogCallbackForStack(context, "plan")
+    );
     await terraform.init(); // TODO: send logs from init
     return terraform.plan(context.targetAction === "destroy"); // TODO: send logs from plan
   },
@@ -132,16 +155,14 @@ const services = {
     }
 
     const stack = getStack(context);
-    const terraform = await getTerraformClient(stack, false);
+    const terraform = await getTerraformClient(
+      stack,
+      false,
+      getLogCallbackForStack(context, "apply")
+    );
 
     await terraform.deploy(planFile, (chunk: Buffer) => {
       const stdout = chunk.toString("utf8");
-      context.onProgress({
-        type: "LOG",
-        stackName: stack.name,
-        stateName: "deploy",
-        stdout,
-      });
 
       context.onProgress({
         type: "RESOURCE_UPDATE",
@@ -159,14 +180,21 @@ const services = {
     }
 
     const stack = getStack(context);
-    const terraform = await getTerraformClient(stack, false);
+    const terraform = await getTerraformClient(
+      stack,
+      false,
+      getLogCallbackForStack(context, "destroy")
+    );
 
     await terraform.destroy((chunk: Buffer) => {
+      const stdout = chunk.toString("utf8");
+
       context.onProgress({
-        type: "LOG",
+        type: "RESOURCE_UPDATE",
         stackName: stack.name,
-        stateName: "destroy",
-        stdout: chunk.toString("utf8"),
+        stateName: "deploy",
+        stdout,
+        updatedResources: parseOutput(stdout),
       });
     });
   },
@@ -176,7 +204,11 @@ const services = {
     }
 
     const stack = getStack(context);
-    const terraform = await getTerraformClient(stack, false);
+    const terraform = await getTerraformClient(
+      stack,
+      false,
+      getLogCallbackForStack(context, "output")
+    );
     const outputs = await terraform.output();
     const outputsByConstructId = getConstructIdsForOutputs(
       JSON.parse(stack.content),

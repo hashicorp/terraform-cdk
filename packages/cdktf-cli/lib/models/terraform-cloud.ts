@@ -116,7 +116,9 @@ export class TerraformCloud implements Terraform {
   constructor(
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
-    isSpeculative = false
+    isSpeculative = false,
+    // TODO: find out how to forward logs from terraform cloud (only public to ignore ts error)
+    public readonly sendLog = (_stdout: string, _isErr = false) => {}
   ) {
     if (!config.workspaces.name)
       throw new Error("Please provide a workspace name for Terraform Cloud");
@@ -160,6 +162,7 @@ export class TerraformCloud implements Terraform {
       throw new Error(
         'Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state'
       );
+
     const workspace = await this.workspace();
     const version = await this.client.ConfigurationVersion.create(
       workspace.id,

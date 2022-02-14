@@ -22,17 +22,31 @@ export class TerraformCliPlan
 
 export class TerraformCli implements Terraform {
   public readonly workdir: string;
+  private readonly onStdOut: (stdout: Buffer) => void;
+  private readonly onStdErr: (stderr: string | Uint8Array) => void;
 
-  constructor(public readonly stack: SynthesizedStack) {
+  constructor(
+    public readonly stack: SynthesizedStack,
+    sendLog = (_stdout: string, _isErr = false) => {}
+  ) {
     this.workdir = stack.workingDirectory;
+    this.onStdOut = (stdout: Buffer) => sendLog(stdout.toString());
+    this.onStdErr = (stderr: string | Uint8Array) =>
+      sendLog(stderr.toString(), true);
   }
 
   public async init(): Promise<void> {
     await this.setUserAgent();
-    await exec(terraformBinaryName, ["init", "-input=false"], {
-      cwd: this.workdir,
-      env: process.env,
-    });
+    await exec(
+      terraformBinaryName,
+      ["init", "-input=false"],
+      {
+        cwd: this.workdir,
+        env: process.env,
+      },
+      this.onStdOut,
+      this.onStdErr
+    );
   }
 
   public async plan(destroy = false): Promise<TerraformPlan> {
@@ -45,11 +59,15 @@ export class TerraformCli implements Terraform {
     await exec(terraformBinaryName, options, {
       cwd: this.workdir,
       env: process.env,
-    });
+    }),
+      this.onStdOut,
+      this.onStdErr;
     const jsonPlan = await exec(
       terraformBinaryName,
       ["show", "-json", planFile],
-      { cwd: this.workdir, env: process.env }
+      { cwd: this.workdir, env: process.env },
+      this.onStdOut,
+      this.onStdErr
     );
     return new TerraformCliPlan(planFile, JSON.parse(jsonPlan));
   }
@@ -72,7 +90,11 @@ export class TerraformCli implements Terraform {
         ...(planFile ? [planFile] : []),
       ],
       { cwd: this.workdir, env: process.env },
-      stdout
+      (buffer: Buffer) => {
+        this.onStdOut(buffer);
+        stdout(buffer);
+      },
+      this.onStdErr
     );
   }
 
@@ -82,16 +104,26 @@ export class TerraformCli implements Terraform {
       terraformBinaryName,
       ["destroy", "-auto-approve", "-input=false"],
       { cwd: this.workdir, env: process.env },
-      stdout
+      (buffer: Buffer) => {
+        this.onStdOut(buffer);
+        stdout(buffer);
+      },
+      this.onStdErr
     );
   }
 
   public async version(): Promise<string> {
     try {
-      return await exec(terraformBinaryName, ["-v"], {
-        cwd: this.workdir,
-        env: process.env,
-      });
+      return await exec(
+        terraformBinaryName,
+        ["-v"],
+        {
+          cwd: this.workdir,
+          env: process.env,
+        },
+        this.onStdOut,
+        this.onStdErr
+      );
     } catch {
       throw new Error(
         "Terraform CLI not present - Please install a current version https://learn.hashicorp.com/terraform/getting-started/install.html"
@@ -100,10 +132,16 @@ export class TerraformCli implements Terraform {
   }
 
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
-    const output = await exec(terraformBinaryName, ["output", "-json"], {
-      cwd: this.workdir,
-      env: process.env,
-    });
+    const output = await exec(
+      terraformBinaryName,
+      ["output", "-json"],
+      {
+        cwd: this.workdir,
+        env: process.env,
+      },
+      this.onStdOut,
+      this.onStdErr
+    );
     return JSON.parse(output);
   }
 
