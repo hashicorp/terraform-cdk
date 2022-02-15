@@ -11,9 +11,11 @@ import * as local from "./.gen/providers/local";
 import { RandomProvider, Password } from "./.gen/providers/random";
 import * as path from "path";
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
-const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
+const sourceName = process.env.TERRAFORM_CLOUD_SOURCE_WORKSPACE_NAME;
+const consumerName = process.env.TERRAFORM_CLOUD_CONSUMER_WORKSPACE_NAME;
 const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
-const localExecution = process.env.TF_EXECUTE_LOCAL === "true";
+const localSourceExecution = process.env.TF_EXECUTE_SOURCE_LOCAL === "true";
+const localConsumerExecution = process.env.TF_EXECUTE_CONSUMER_LOCAL === "true";
 
 export class SourceStack extends TerraformStack {
   public password: Password;
@@ -44,12 +46,12 @@ export class SourceStack extends TerraformStack {
       },
     ]);
 
-    if (!localExecution) {
+    if (!localSourceExecution) {
       this.addOverride("terraform.backend", {
         remote: {
           organization,
           workspaces: {
-            name,
+            name: sourceName,
           },
           token,
         },
@@ -75,6 +77,18 @@ export class ConsumerStack extends TerraformStack {
     super(scope, id);
 
     new local.LocalProvider(this, "local", {});
+
+    if (!localConsumerExecution) {
+      this.addOverride("terraform.backend", {
+        remote: {
+          organization,
+          workspaces: {
+            name: consumerName,
+          },
+          token,
+        },
+      });
+    }
 
     new local.File(this, "file", {
       filename: "../../../consumer-file.txt",
