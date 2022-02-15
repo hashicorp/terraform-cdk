@@ -13,7 +13,7 @@ type TFValueValidator = (value: any) => TFValue;
 type ExecutableTfFunction = (...args: any[]) => IResolvable;
 
 function hasUnescapedDoubleQuotes(str: string) {
-  return /\\([\s\S])|(")/.test(str);
+  return /(^|[^\\])([\\]{2})*"/.test(str);
 }
 
 // Validators
