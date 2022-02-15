@@ -226,6 +226,14 @@ function resourceType(provider: string, name: string[], item: Resource) {
   }
 }
 
+function mapConfigPerResourceType(resource: string, item: Resource[0]) {
+  // Backends have a slightly different API
+  if (resource.startsWith("cdktf.data_terraform_")) {
+    return item.config;
+  }
+  return item;
+}
+
 export function resource(
   scope: Scope,
   type: string,
@@ -239,7 +247,8 @@ export function resource(
   const resource = resourceType(provider, name, item);
 
   const { for_each, count, ...config } = item[0];
-  const dynBlocks = extractDynamicBlocks(config);
+  const mappedConfig = mapConfigPerResourceType(resource, config);
+  const dynBlocks = extractDynamicBlocks(mappedConfig);
   const overrideReference =
     dynBlocks.length || count || for_each
       ? {
@@ -257,7 +266,7 @@ export function resource(
       scope,
       resource,
       key,
-      config,
+      mappedConfig,
       nodeIds,
       false,
       false,

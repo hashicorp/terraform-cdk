@@ -973,15 +973,10 @@ new cdktf.RemoteBackend(this, {
 exports[`convert remote state snapshot 1`] = `
 "import * as cdktf from \\"cdktf\\";
 new cdktf.DataTerraformRemoteState(this, \\"vpc\\", {
-  backend: \\"remote\\",
-  config: [
+  organization: \\"hashicorp\\",
+  workspaces: [
     {
-      organization: \\"hashicorp\\",
-      workspaces: [
-        {
-          name: \\"vpc-prod\\",
-        },
-      ],
+      name: \\"vpc-prod\\",
     },
   ],
 });
@@ -991,20 +986,14 @@ new cdktf.DataTerraformRemoteState(this, \\"vpc\\", {
 exports[`convert remote state types snapshot 1`] = `
 "import * as cdktf from \\"cdktf\\";
 new cdktf.DataTerraformRemoteStateEtcdV3(this, \\"etcdv3\\", {
-  backend: \\"etcdv3\\",
-  config: [
-    {
-      prefix: \\"terraform-state/\\",
-    },
-  ],
+  endpoints: [\\"etcd-1:2379\\", \\"etcd-2:2379\\", \\"etcd-3:2379\\"],
+  lock: true,
+  prefix: \\"terraform-state/\\",
 });
 new cdktf.DataTerraformRemoteStateS3(this, \\"s3\\", {
-  backend: \\"s3\\",
-  config: [
-    {
-      bucket: \\"mybucket\\",
-    },
-  ],
+  bucket: \\"mybucket\\",
+  key: \\"path/to/my/key\\",
+  region: \\"us-east-1\\",
 });
 "
 `;
