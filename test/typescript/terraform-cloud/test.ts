@@ -12,19 +12,15 @@ if (!TERRAFORM_CLOUD_TOKEN) {
 // Below tests are disabled on windows because they fail due to networking issues
 describe("full integration test", () => {
   let driver: TestDriver;
-  let sourceWorkspaceName: string;
-  let consumerWorkspaceName: string;
+  let workspaceName: string;
   const orgName = "cdktf";
 
   beforeEach(async () => {
-    const baseName = `${GITHUB_RUN_NUMBER}-${crypto
+    workspaceName = `${GITHUB_RUN_NUMBER}-${crypto
       .randomBytes(10)
       .toString("hex")}`;
-    sourceWorkspaceName = `${baseName}-source`;
-    consumerWorkspaceName = `${baseName}-consumer`;
     driver = new TestDriver(__dirname, {
-      TERRAFORM_CLOUD_SOURCE_WORKSPACE_NAME: sourceWorkspaceName,
-      TERRAFORM_CLOUD_CONSUMER_WORKSPACE_NAME: consumerWorkspaceName,
+      TERRAFORM_CLOUD_WORKSPACE_NAME: workspaceName,
       TERRAFORM_CLOUD_ORGANIZATION: orgName,
     });
     await driver.setupTypescriptProject();
@@ -37,7 +33,7 @@ describe("full integration test", () => {
     await client.Workspaces.create(orgName, {
       data: {
         attributes: {
-          name: sourceWorkspaceName,
+          name: workspaceName,
           executionMode: "remote",
           terraformVersion: TERRAFORM_VERSION,
         },
@@ -46,7 +42,7 @@ describe("full integration test", () => {
     });
 
     expect(driver.deploy("source-stack")).toMatchSnapshot();
-    await client.Workspaces.deleteByName(orgName, sourceWorkspaceName);
+    await client.Workspaces.deleteByName(orgName, workspaceName);
   });
 
   withAuth("deploy locally and then in Terraform Cloud", async () => {
@@ -55,7 +51,7 @@ describe("full integration test", () => {
     await client.Workspaces.create(orgName, {
       data: {
         attributes: {
-          name: sourceWorkspaceName,
+          name: workspaceName,
           executionMode: "remote",
           terraformVersion: TERRAFORM_VERSION,
         },
@@ -63,23 +59,24 @@ describe("full integration test", () => {
       },
     });
 
-    process.env.TF_EXECUTE_SOURCE_LOCAL = "true";
+    process.env.TF_EXECUTE_LOCAL = "true";
     driver.deploy("source-stack");
-    process.env.TF_EXECUTE_SOURCE_LOCAL = undefined;
+    process.env.TF_EXECUTE_LOCAL = undefined;
     driver.deploy("source-stack");
 
-    await client.Workspaces.deleteByName(orgName, sourceWorkspaceName);
+    await client.Workspaces.deleteByName(orgName, workspaceName);
   });
 
+  // Only the origin stack is in TFC, the consumer stack is local
   withAuth(
-    "deploy with cross stack reference origin in Terraform Cloud and consumer locally",
+    "deploy with cross stack reference origin in Terraform Cloud",
     async () => {
       const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
 
       await client.Workspaces.create(orgName, {
         data: {
           attributes: {
-            name: sourceWorkspaceName,
+            name: workspaceName,
             executionMode: "remote",
             terraformVersion: TERRAFORM_VERSION,
           },
@@ -88,51 +85,13 @@ describe("full integration test", () => {
       });
 
       driver.deploy("source-stack");
-      process.env.TF_EXECUTE_CONSUMER_LOCAL = "true";
       driver.deploy("consumer-stack");
-      process.env.TF_EXECUTE_CONSUMER_LOCAL = undefined;
 
-      await client.Workspaces.deleteByName(orgName, sourceWorkspaceName);
+      await client.Workspaces.deleteByName(orgName, workspaceName);
 
       expect(driver.readLocalFile("origin-file.txt")).toEqual(
         driver.readLocalFile("consumer-file.txt")
       );
-    }
-  );
-
-  withAuth(
-    "deploy with cross stack reference origin and consumer in Terraform Cloud",
-    async () => {
-      const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-      await client.Workspaces.create(orgName, {
-        data: {
-          attributes: {
-            name: sourceWorkspaceName,
-            executionMode: "remote",
-            terraformVersion: TERRAFORM_VERSION,
-            globalRemoteState: true,
-          } as any,
-          type: "workspaces",
-        },
-      });
-
-      await client.Workspaces.create(orgName, {
-        data: {
-          attributes: {
-            name: consumerWorkspaceName,
-            executionMode: "remote",
-            terraformVersion: TERRAFORM_VERSION,
-          },
-          type: "workspaces",
-        },
-      });
-
-      driver.deploy("source-stack");
-      driver.deploy("consumer-stack");
-
-      await client.Workspaces.deleteByName(orgName, sourceWorkspaceName);
-      await client.Workspaces.deleteByName(orgName, consumerWorkspaceName);
     }
   );
 });
