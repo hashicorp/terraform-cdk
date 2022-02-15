@@ -439,16 +439,55 @@ test("undefined and null", () => {
 });
 
 test("throws error on unescaped double quote string inputs", () => {
-  expect(() => {
+  const testsNotOk = ['"', '\\\\"', '\\\\\\\\"', '\\ \\\\"'];
+
+  for (const testNotOk of testsNotOk) {
+    expect(() => {
+      const app = Testing.app();
+      const stack = new TerraformStack(app, "test");
+      new TerraformOutput(stack, "test-output", {
+        value: Fn.md5(testNotOk),
+      });
+      Testing.synth(stack);
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"'${testNotOk.replace(
+        /([\\"])/g,
+        "\\$1"
+      )}' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
+    );
+  }
+});
+
+test("throws no error on valid escaped double quote string inputs", () => {
+  const testsOk = [
+    "",
+    '\\"',
+    '\\\\\\"',
+    '\\ \\\\\\"',
+    '\\ \\"',
+    "\\abc\\def\\",
+    "\\\\abc\\\\def\\\\",
+  ];
+
+  for (const testOk of testsOk) {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
     new TerraformOutput(stack, "test-output", {
-      value: Fn.md5(`"`),
+      value: Fn.md5(testOk),
     });
-    Testing.synth(stack);
-  }).toThrowErrorMatchingInlineSnapshot(
-    `"'\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
-  );
+    expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+      "{
+        \\"output\\": {
+          \\"test-output\\": {
+            \\"value\\": \\"\${md5(\\\\\\"${testOk.replace(
+              /([\\"])/g,
+              "\\\\\\$1"
+            )}\\\\\\")}\\"
+          }
+        }
+      }"
+    `);
+  }
 });
 
 test("throws no error when wrapping unescaped double quotes in Fn.rawString", () => {
