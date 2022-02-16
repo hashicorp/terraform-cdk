@@ -27,18 +27,10 @@ import {
   LANGUAGES,
   config,
 } from "@cdktf/provider-generator";
-import { readPackageJson, projectRootPath } from "./utilities";
+import { readPackageJson } from "./utilities";
+import { templates, templatesDir } from "./init-templates";
 
 const chalkColour = new chalk.Instance();
-
-const templatesDir = path.join(projectRootPath(), "templates");
-const availableTemplates = fs
-  .readdirSync(templatesDir)
-  .filter((x) => !x.startsWith("."));
-export const templates: string[] = [];
-for (const template of availableTemplates) {
-  templates.push(template);
-}
 
 const pkg = readPackageJson();
 const constructsVersion = pkg.dependencies.constructs;
@@ -302,12 +294,14 @@ async function gatherInfo(
   if (!projectName) {
     questions.push({
       name: "projectName",
+      message: "Project Name",
       default: currentDirectory,
     });
   }
   if (!projectDescription) {
     questions.push({
       name: "projectDescription",
+      message: "Project Description",
       default: projectDescriptionDefault,
     });
   }

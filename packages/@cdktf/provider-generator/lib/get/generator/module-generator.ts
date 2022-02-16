@@ -1,5 +1,6 @@
 import { CodeMaker, toCamelCase } from "codemaker";
 import { ConstructsMakerModuleTarget } from "../constructs-maker";
+import { AttributeModel } from "./models";
 
 export class ModuleGenerator {
   constructor(
@@ -41,9 +42,9 @@ export class ModuleGenerator {
       }
       this.code.line(` */`);
       this.code.line(
-        `readonly ${toCamelCase(input.name)}${optional}: ${parseType(
-          input.type
-        )};`
+        `readonly ${AttributeModel.escapeName(
+          toCamelCase(input.name)
+        )}${optional}: ${parseType(input.type)};`
       );
     }
     this.code.closeBlock();
@@ -65,14 +66,14 @@ export class ModuleGenerator {
     this.code.close(`});`);
 
     for (const input of spec.inputs) {
-      const inputName = toCamelCase(input.name);
+      const inputName = AttributeModel.escapeName(toCamelCase(input.name));
       this.code.line(`this.${inputName} = options.${inputName};`);
     }
 
     this.code.close(`}`); // ctor
 
     for (const input of spec.inputs) {
-      const inputName = toCamelCase(input.name);
+      const inputName = AttributeModel.escapeName(toCamelCase(input.name));
       const inputType =
         parseType(input.type) +
         (input.required && input.default === undefined ? "" : " | undefined");
@@ -88,7 +89,7 @@ export class ModuleGenerator {
     for (const output of spec.outputs) {
       const outputName = toCamelCase(output.name);
       this.code.openBlock(`public get ${outputName}Output()`);
-      this.code.line(`return this.interpolationForOutput('${output.name}')`);
+      this.code.line(`return this.getString('${output.name}')`);
       this.code.closeBlock();
     }
 
@@ -130,7 +131,7 @@ function parseType(type: string) {
 }
 
 function parseComplexType(type: string): string | undefined {
-  const complex = /^(object|list|map)\(([\s\S]+)\)/;
+  const complex = /^(object|list|map|set)\(([\s\S]+)\)/;
   const match = complex.exec(type);
   if (!match) {
     return undefined;
@@ -142,7 +143,7 @@ function parseComplexType(type: string): string | undefined {
     return `any`;
   }
 
-  if (kind === "list") {
+  if (kind === "list" || kind === "set") {
     return `${parseType(innerType)}[]`;
   }
 

@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, Fn, TerraformStack, Testing } from "cdktf";
+import { App, Fn, TerraformStack, Testing, TerraformLocal } from "cdktf";
 import {
   RandomProvider,
   Integer as NumericResource,
@@ -66,6 +66,7 @@ export class ConsumerStack extends TerraformStack {
     scope: Construct,
     id: string,
     inputs: {
+      useLocalsForAllValues?: boolean;
       numericResource?: NumericResource;
       stringResource?: StringResource;
       listResource?: ListResource;
@@ -101,6 +102,26 @@ export class ConsumerStack extends TerraformStack {
     if (list) {
       writeToFile(this, `${id}List`, list);
     }
+
+    if (inputs.useLocalsForAllValues) {
+      this.numericValue = new TerraformLocal(
+        this,
+        "local_numeric_value",
+        inputs.numericValue
+      ).expression;
+
+      this.stringValue = new TerraformLocal(
+        this,
+        "local_string_value",
+        inputs.stringValue
+      ).expression;
+
+      this.listValue = new TerraformLocal(
+        this,
+        "local_list_value",
+        inputs.listValue
+      ).expression;
+    }
   }
 }
 
@@ -135,6 +156,25 @@ new ConsumerStack(app, "functionOutput", {
   // From function output
   numericValue: fns.numericValue,
   stringValue: fns.stringValue,
+});
+
+const pinnedFns = new ConsumerStack(app, "pinnedFns", {
+  useLocalsForAllValues: true,
+  // From one stack
+  numericValue: Fn.sum([
+    src.numericResource.result,
+    src.numericResource.result,
+  ]),
+  // From two stacks
+  stringValue: Fn.join(",", [
+    src.stringResource.result,
+    passthrough.stringResource!.result,
+  ]),
+});
+new ConsumerStack(app, "functionOutputPinned", {
+  // From pinned function output
+  numericValue: pinnedFns.numericValue,
+  stringValue: pinnedFns.stringValue,
 });
 
 // Check for Deadly embrace scenario: https://github.com/aws/aws-cdk/pull/12778

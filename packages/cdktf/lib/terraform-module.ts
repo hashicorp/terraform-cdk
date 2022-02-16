@@ -4,9 +4,8 @@ import { TerraformProvider } from "./terraform-provider";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
-import * as path from "path";
-import { ref } from "./tfExpression";
-import { TokenMap } from "./tokens/private/token-map";
+import { ref, insideTfExpression } from "./tfExpression";
+import { TerraformAsset } from "./terraform-asset";
 
 export interface TerraformModuleOptions {
   readonly source: string;
@@ -28,12 +27,19 @@ export abstract class TerraformModule
   public readonly version?: string;
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
   public dependsOn?: string[];
+  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id);
 
     if (options.source.startsWith("./") || options.source.startsWith("../")) {
-      this.source = path.join("../../..", options.source);
+      // Create an asset for the local module for better TFC support
+      const asset = new TerraformAsset(scope, `local-module-${id}`, {
+        path: options.source,
+      });
+
+      // Despite being a relative path already, further indicate it as such for Terraform handling
+      this.source = `./${asset.path}`;
     } else {
       this.source = options.source;
     }
@@ -41,8 +47,14 @@ export abstract class TerraformModule
     this._providers = options.providers;
     this.validateIfProvidersHaveUniqueKeys();
     if (Array.isArray(options.dependsOn)) {
-      this.dependsOn = options.dependsOn.map((dependency) => dependency.fqn);
+      this.dependsOn = options.dependsOn.map((dependency) =>
+        insideTfExpression(dependency.fqn)
+      );
     }
+
+    this.fqn = Token.asString(
+      ref(`module.${this.friendlyUniqueId}`, this.cdktfStack)
+    );
   }
 
   // jsii can't handle abstract classes?
@@ -50,14 +62,15 @@ export abstract class TerraformModule
     return {};
   }
 
-  public interpolationForOutput(moduleOutput: string): string {
-    return TokenMap.instance().registerString(
-      ref(`module.${this.friendlyUniqueId}.${moduleOutput}`, this.cdktfStack)
+  public interpolationForOutput(moduleOutput: string) {
+    return ref(
+      `module.${this.friendlyUniqueId}.${moduleOutput}`,
+      this.cdktfStack
     );
   }
 
-  public get fqn(): string {
-    return Token.asString(`module.${this.friendlyUniqueId}`);
+  public getString(output: string): string {
+    return Token.asString(this.interpolationForOutput(output));
   }
 
   public get providers() {

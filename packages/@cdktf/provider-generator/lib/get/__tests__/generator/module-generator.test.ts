@@ -70,3 +70,7 @@ test("generate multiple aws modules", async () => {
   );
   expect(rdsOutput).toMatchSnapshot();
 });
+
+expectModuleToMatchSnapshot("getX variables", "generator", [
+  "module-get-x.test.fixture.tf",
+]);

@@ -4,25 +4,11 @@ exports[`java full integration synth generates JSON 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
+      \\"backend\\": \\"local\\",
       \\"stackName\\": \\"java-simple\\",
-      \\"backend\\": \\"local\\"
-    }
-  },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/null\\"
-      },
-      \\"random\\": {
-        \\"version\\": \\"~> 3.1.0\\",
-        \\"source\\": \\"hashicorp/random\\"
-      }
+      \\"version\\": \\"stubbed\\"
     },
-    \\"backend\\": {
-      \\"local\\": {}
-    }
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
@@ -45,13 +31,30 @@ exports[`java full integration synth generates JSON 1`] = `
     },
     \\"random_string\\": {
       \\"RandomString\\": {
-        \\"length\\": 42,
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"java-simple/RandomString\\",
             \\"uniqueId\\": \\"RandomString\\"
           }
-        }
+        },
+        \\"length\\": 42
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"null\\": {
+        \\"source\\": \\"hashicorp/null\\",
+        \\"version\\": \\"~> 3.1.0\\"
+      },
+      \\"random\\": {
+        \\"source\\": \\"hashicorp/random\\",
+        \\"version\\": \\"~> 3.1.0\\"
       }
     }
   }

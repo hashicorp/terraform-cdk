@@ -24,6 +24,9 @@ import { TerraformBackend } from "./terraform-backend";
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Constructor<T> = Function & { prototype: T };
 type StackIdentifier = string;
+type OutputIdMap =
+  | { [constructId: string]: string }
+  | { [stackOrConstructId: string]: OutputIdMap };
 
 export interface TerraformStackMetadata {
   readonly stackName: string;
@@ -219,7 +222,25 @@ export class TerraformStack extends Construct {
       deepMerge(metadata, meta);
     }
 
-    (tf as any)["//"] = { metadata };
+    const outputs: OutputIdMap = elements.reduce((carry, item) => {
+      if (!TerraformOutput.isTerrafromOutput(item)) {
+        return carry;
+      }
+
+      deepMerge(
+        carry,
+        item.node.path.split("/").reduceRight((innerCarry, part) => {
+          if (Object.keys(innerCarry).length === 0) {
+            return { [part]: item.friendlyUniqueId };
+          }
+          return { [part]: innerCarry };
+        }, {})
+      );
+
+      return carry;
+    }, {});
+
+    (tf as any)["//"] = { metadata, outputs };
 
     const fragments = elements.map((e) => resolve(this, e.toTerraform()));
     for (const fragment of fragments) {

@@ -16,7 +16,7 @@
     "upgrade:next": "npm i cdktf@next cdktf-cli@next"
   },
   "engines": {
-    "node": ">=12.16"
+    "node": ">=14.0"
   },
   "dependencies": {
     "cdktf": "0.0.0",
@@ -24,9 +24,9 @@
   },
   "devDependencies": {
     "@types/jest": "27.4.0",
-    "@types/node": "^14.18.5",
+    "@types/node": "^14.18.10",
     "cdktf-cli": "0.0.0",
-    "jest": "^27.4.7",
+    "jest": "^27.5.0",
     "ts-node": "^10.4.0",
     "typescript": "^3.9.10"
   }

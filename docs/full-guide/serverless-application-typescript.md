@@ -7,7 +7,7 @@ powered by AWS APIGateway and AWS Lambda.
 
 The repository can be found here:
 https://github.com/hashicorp/cdktf-integration-serverless-example  
-(includes screenhots)
+(includes screenshots)
 
 There are also examples available using Docker containers on
 [AWS ECS](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript)
@@ -15,7 +15,7 @@ or [GCP K8S](https://github.com/hashicorp/kubernetes-on-gcp-with-terraform-cdk).
 
 ## Preface
 
-This guide assumes basic familarity with the CDK for Terraform and that you have
+This guide assumes basic familiarity with the CDK for Terraform and that you have
 it installed already. If you are new to the CDKTF it is recommended to first
 have a look at the [getting started guide](../getting-started/typescript.md)
 which explains the CDK for Terraform itself in more detail and the commands used
@@ -156,7 +156,7 @@ output to our S3 bucket.
 
 ## Posts API
 
-The infrastructure and code for the serverless function for the posts api is
+The infrastructure and code for the serverless function for the posts api are
 defined inside the `posts` directory.
 
 The infrastructure code is split into multiple files. The main entrypoint is
@@ -239,56 +239,6 @@ The build output is uploaded and linked to the Lambda function by Terraform.
 The posts API is located inside the `posts` directory. Naming it after its
 business domain was inspired by the style of the
 [AWS ecommerce platform example](https://github.com/aws-samples/aws-serverless-ecommerce-platform).
-
-## Cross Stack References
-
-The CDK for Terraform currently does not manage cross stack references
-automatically. So we have to connect our two stacks (`FrontendStack` and
-`PostsStack`) manually.  
-As separate stacks have separate Terraform states we have to expose values
-inside one stack via `TerraformOutput`s to be able to refer to them (via a
-terraform remote state resource) in the other stack.
-
-You can see this in `main.ts` in the `PostsStack`:
-
-```typescript
-const output = new TerraformOutput(this, "apiEndpoint", {
-  value: posts.apiEndpoint,
-});
-this.apiEndpointOutputId = output.friendlyUniqueId;
-```
-
-Where we create an output with the (stack local) id `apiEndpoint` and expose its
-global "`friendlyUniqueId`" on the stack itself. This `apiEndpointOutputId` in
-turn can then be used to access that value in the `FrontendStack`:
-
-```typescript
-const apiState = options.createApiRemoteState(this, "api");
-const apiEndpoint = apiState.getString(options.apiEndpointOutputId);
-```
-
-with `createApiRemoteState` and `apiEndpointOutputId` being passed like this:
-
-```typescript
-...
-apiEndpointOutputId: postsDev.apiEndpointOutputId,
-createApiRemoteState: (scope, id) => new DataTerraformRemoteStateLocal(scope, id, {
-      path: path.resolve(__dirname, `terraform.${postsDev.name}.tfstate`),
-    })
-...
-```
-
-While the `DataTerraformRemoteStateLocal` resource could also have been
-specified inside the constructor of the `FrontendStack` this pattern allows us
-colocate its creation with the instantiation of the Stack. If we would use a
-RemoteStateResource that tracks the Terraform state via e.g. Terraform Cloud or
-AWS S3 instead of in a local file, we could switch the
-`DataTerraformRemoteStateLocal` resource with the respective other resource to
-refer to the right state.
-
-You can upvote and subscribe to
-[this issue](https://github.com/hashicorp/terraform-cdk/issues/651) which tracks
-support for cross stack references.
 
 ## Feedback
 

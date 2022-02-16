@@ -1,11 +1,6 @@
 import yargs from "yargs";
-import React from "react";
-import { List } from "./ui/list";
 import { config as cfg } from "@cdktf/provider-generator";
-import { renderInk } from "./helper/render-ink";
-import { displayVersionMessage } from "./helper/version-check";
-import { throwIfNotProjectDirectory } from "./helper/check-directory";
-import { checkEnvironment } from "./helper/check-environment";
+import { requireHandlers } from "./helper/utilities";
 
 const config = cfg.readConfigSync();
 
@@ -22,21 +17,15 @@ class Command implements yargs.CommandModule {
       })
       .option("output", {
         default: config.output,
-        desc: "Output directory",
+        desc: "Output directory for the synthesized Terraform config",
         alias: "o",
       })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
-    throwIfNotProjectDirectory("list");
-    await displayVersionMessage();
-    await checkEnvironment("list");
-    const command = argv.app;
-    const outdir = argv.output;
-
-    await renderInk(
-      React.createElement(List, { targetDir: outdir, synthCommand: command })
-    );
+    // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
+    const api = requireHandlers();
+    api.list(argv);
   }
 }
 

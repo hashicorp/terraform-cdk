@@ -16,13 +16,11 @@ export class HttpBackend extends TerraformBackend {
   }
 
   public getRemoteStateDataSource(
-    _scope: Construct,
-    _name: string,
+    scope: Construct,
+    name: string,
     _fromStack: string
   ): TerraformRemoteState {
-    throw new Error(
-      "The HttpBackend does not yet implement cross stack references"
-    );
+    return new DataTerraformRemoteStateHttp(scope, name, this.props);
   }
 }
 

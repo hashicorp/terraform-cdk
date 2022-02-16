@@ -1,6 +1,7 @@
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
+import stringify = require("json-stable-stringify");
 import { App } from "../../lib";
 import { TerraformStack } from "../terraform-stack";
 import { Manifest } from "../manifest";
@@ -13,6 +14,21 @@ export interface IScopeCallback {
   (scope: Construct): void;
 }
 
+export interface TestingAppOptions {
+  readonly outdir?: string;
+  readonly stackTraces?: boolean;
+  readonly stubVersion?: boolean;
+  readonly enableFutureFlags?: boolean;
+  readonly fakeCdktfJsonPath?: boolean;
+}
+
+const DefaultTestingAppOptions: TestingAppOptions = {
+  stackTraces: false,
+  stubVersion: true,
+  enableFutureFlags: true,
+  fakeCdktfJsonPath: false,
+};
+
 /**
  * Testing utilities for cdktf applications.
  */
@@ -21,15 +37,40 @@ export class Testing {
    * Returns an app for testing with the following properties:
    * - Output directory is a temp dir.
    */
-  public static app(): App {
-    const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-    const app = new App({ outdir, stackTraces: false });
-    return this.stubVersion(this.enableFutureFlags(app));
+  public static app(options: TestingAppOptions = {}): App {
+    const appOptions = { ...DefaultTestingAppOptions, ...options };
+    if (!appOptions.outdir) {
+      appOptions.outdir = fs.mkdtempSync(
+        path.join(os.tmpdir(), "cdktf.outdir.")
+      );
+    }
+
+    const app = new App({
+      outdir: appOptions.outdir,
+      stackTraces: appOptions.stackTraces,
+    });
+
+    if (appOptions.stubVersion) {
+      this.stubVersion(app);
+    }
+    if (appOptions.enableFutureFlags) {
+      this.enableFutureFlags(app);
+    }
+    if (appOptions.fakeCdktfJsonPath) {
+      this.fakeCdktfJsonPath(app);
+    }
+
+    return app;
   }
 
   public static stubVersion(app: App): App {
     app.node.setContext("cdktfVersion", "stubbed");
     (app.manifest.version as string) = "stubbed";
+    return app;
+  }
+
+  public static fakeCdktfJsonPath(app: App): App {
+    app.node.setContext("cdktfJsonPath", `${process.cwd()}/cdktf.json`);
     return app;
   }
 
@@ -77,7 +118,7 @@ export class Testing {
     }
     const cleaned = removeMetadata(tfConfig);
 
-    return JSON.stringify(cleaned, null, 2);
+    return stringify(cleaned, { space: 2 });
   }
 
   public static fullSynth(stack: TerraformStack): string {

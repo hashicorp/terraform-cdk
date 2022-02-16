@@ -1,5 +1,12 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, TerraformOutput, Testing, Fn } from "cdktf";
+import {
+  App,
+  TerraformStack,
+  TerraformOutput,
+  Testing,
+  Fn,
+  LocalBackend,
+} from "cdktf";
 import { AwsProvider, sns } from "./.gen/providers/aws";
 import { Instance } from "./.gen/providers/aws/ec2";
 import { Wafv2WebAcl } from "./.gen/providers/aws/wafv2";
@@ -7,6 +14,9 @@ import { Wafv2WebAcl } from "./.gen/providers/aws/wafv2";
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+    new LocalBackend(this, {
+      path: "terraform.tfstate",
+    });
 
     new AwsProvider(this, "aws", {
       region: "eu-central-1",

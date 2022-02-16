@@ -438,17 +438,40 @@ test("undefined and null", () => {
   `);
 });
 
-test("throws error on unescaped double quote string inputs", () => {
-  expect(() => {
+describe("throws error on unescaped double quote string inputs", () => {
+  const testsNotOk = ['"', '\\\\"', '\\\\\\\\"', '\\ \\\\"'];
+
+  it.each(testsNotOk)("%s", (testNotOk) => {
+    expect(() => {
+      const app = Testing.app();
+      const stack = new TerraformStack(app, "test");
+      new TerraformOutput(stack, "test-output", {
+        value: Fn.md5(testNotOk),
+      });
+      Testing.synth(stack);
+    }).toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe("throws no error on valid escaped double quote string inputs", () => {
+  const testsOk = [
+    "",
+    '\\"',
+    '\\\\\\"',
+    '\\ \\\\\\"',
+    '\\ \\"',
+    "\\abc\\def\\",
+    "\\\\abc\\\\def\\\\",
+  ];
+
+  it.each(testsOk)("%s", (testOk) => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
     new TerraformOutput(stack, "test-output", {
-      value: Fn.md5(`"`),
+      value: Fn.md5(testOk),
     });
-    Testing.synth(stack);
-  }).toThrowErrorMatchingInlineSnapshot(
-    `"'\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
-  );
+    expect(Testing.synth(stack)).toMatchSnapshot();
+  });
 });
 
 test("throws no error when wrapping unescaped double quotes in Fn.rawString", () => {

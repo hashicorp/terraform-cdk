@@ -21,10 +21,8 @@ export class RemoteBackend extends TerraformBackend {
     _fromStack: string
   ): TerraformRemoteState {
     return new DataTerraformRemoteState(scope, name, {
-      organization: this.props.organization,
-      workspaces: this.props.workspaces,
-      hostname: this.props.hostname,
-      token: this.props.token,
+      ...this.props,
+      workspace: "${terraform.workspace}",
     });
   }
 }

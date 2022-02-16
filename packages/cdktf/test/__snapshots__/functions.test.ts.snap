@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`throws error on unescaped double quote string inputs " 1`] = `"'\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+
+exports[`throws error on unescaped double quote string inputs \\ \\\\" 1`] = `"'\\\\ \\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+
+exports[`throws error on unescaped double quote string inputs \\\\" 1`] = `"'\\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+
+exports[`throws error on unescaped double quote string inputs \\\\\\\\" 1`] = `"'\\\\\\\\\\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+
+exports[`throws no error on valid escaped double quote string inputs  1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${md5(\\\\\\"\\\\\\")}\\"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\ \\" 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\ \\\\\\\\\\\\\\"\\\\\\")}\\"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\ \\\\\\" 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"\\\\\\")}\\"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\" 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\\\\\\\"\\\\\\")}\\"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\\\\\" 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"\\\\\\")}\\"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\\\abc\\\\def\\\\ 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\\\\\\\\\abc\\\\\\\\\\\\\\\\def\\\\\\\\\\\\\\\\\\\\\\")}\\"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\abc\\def\\ 1`] = `
+"{
+  \\"output\\": {
+    \\"test-output\\": {
+      \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\abc\\\\\\\\def\\\\\\\\\\\\\\")}\\"
+    }
+  }
+}"
+`;

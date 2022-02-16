@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
-- [Node.js](https://nodejs.org) >= v12.16
+- [Node.js](https://nodejs.org) >= v14.0
 - [Go](https://golang.org/dl/) >= 1.16 (CDK for Terraform uses [go modules](https://golang.org/doc/go1.11#modules) and JSII requires Go 1.16)
 
 ### Install CDK for Terraform CLI

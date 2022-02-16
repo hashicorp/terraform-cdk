@@ -19,7 +19,7 @@ class MyStack extends TerraformStack {
     });
 
     const rg = new ResourceGroup(this, "cdktf-rg", {
-      name: "demo2020",
+      name: "cdktf-demo-rg",
       location: "westeurope",
     });
 
@@ -28,28 +28,25 @@ class MyStack extends TerraformStack {
       reserved: true,
       resourceGroupName: rg.name,
       location: rg.location,
-      name: "DockerCDKTF",
+      name: "cdktf-demo-plan",
       sku: { size: "F1", tier: "Free" },
-      dependsOn: [rg],
     });
 
-    const appsvc = new AppService(this, "docker-cdktf", {
-      name: "cdktfdemoneil",
-      appServicePlanId: `${asp.id}`,
+    const app = new AppService(this, "cdktf-app", {
+      name: "cdktf-demo-app",
       location: rg.location,
+      appServicePlanId: asp.id,
       resourceGroupName: rg.name,
       clientAffinityEnabled: false,
       httpsOnly: true,
-      dependsOn: [asp],
-    });
-    appsvc.addOverride("site_config", [
-      {
-        linux_fx_version: `DOCKER|${imagename}`,
-        use_32_bit_worker_process: true,
+      siteConfig: {
+        linuxFxVersion: `DOCKER|${imagename}`,
+        use32BitWorkerProcess: true, // Required for free tier
       },
-    ]);
-    new TerraformOutput(this, "appweburl", {
-      value: `https://${appsvc.name}.azurewebsites.net/`,
+    });
+
+    new TerraformOutput(this, "cdktf-app-url", {
+      value: `https://${app.name}.azurewebsites.net/`,
     });
   }
 }

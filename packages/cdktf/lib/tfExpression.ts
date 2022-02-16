@@ -193,6 +193,13 @@ function markAsInner(arg: any) {
     }
   }
 }
+/**
+ * marks the argument as being used in a terraform expression
+ */
+export function insideTfExpression(arg: any) {
+  markAsInner(arg);
+  return arg;
+}
 
 class PropertyAccess extends TFExpression {
   constructor(private target: Expression, private args: Expression[]) {

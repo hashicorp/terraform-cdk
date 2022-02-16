@@ -49,6 +49,15 @@ describe("edge provider test", () => {
       expect(l.singlereq.reqstr).toBe("reqstr");
     });
 
+    it("renders plain values in sets", () => {
+      const s = stack.byId("set_block");
+
+      expect(s.set).toEqual([
+        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+      ]);
+    });
+
     it("references plain values", () => {
       expect(stack.byId("plain").str).toEqual(
         "${optional_attribute_resource.test.str}"
@@ -58,6 +67,15 @@ describe("edge provider test", () => {
       );
       expect(stack.byId("plain").bool).toEqual(
         "${optional_attribute_resource.test.bool}"
+      );
+      expect(stack.byId("plain").strList).toEqual(
+        "${optional_attribute_resource.test.strList}"
+      );
+      expect(stack.byId("plain").numList).toEqual(
+        "${optional_attribute_resource.test.numList}"
+      );
+      expect(stack.byId("plain").boolList).toEqual(
+        "${optional_attribute_resource.test.boolList}"
       );
     });
 
@@ -73,6 +91,15 @@ describe("edge provider test", () => {
       expect(item.num).toEqual(
         "${list_block_resource.list.singlereq[0].reqnum}"
       );
+      expect(item.boolList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqbool}",
+      ]);
+      expect(item.strList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqstr}",
+      ]);
+      expect(item.numList).toEqual([
+        "${list_block_resource.list.singlereq[0].reqnum}",
+      ]);
     });
 
     it("item references required values from multi-item lists", () => {
@@ -88,6 +115,15 @@ describe("edge provider test", () => {
       expect(item.num).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
       );
+      expect(item.boolList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}',
+      ]);
+      expect(item.strList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}',
+      ]);
+      expect(item.numList).toEqual([
+        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}',
+      ]);
     });
 
     it("item references a required single item list", () => {
@@ -133,6 +169,50 @@ describe("edge provider test", () => {
           "reqstr": "\${list_block_resource.list.singlereq[0].reqstr}",
         }
       `);
+    });
+
+    it("item references a map", () => {
+      const item = stack.byId("from_map");
+
+      // Expands map references
+      expect(item.bool).toEqual(
+        '${lookup(map_resource.map.reqMap, "key1", false)}'
+      );
+      expect(item.str).toEqual(
+        '${lookup(map_resource.map.optMap, "key1", "missing")}'
+      );
+      expect(item.num).toEqual(
+        '${lookup(map_resource.map.computedMap, "key1", 0)}'
+      );
+      expect(item.boolList).toEqual([
+        '${lookup(map_resource.map.reqMap, "key1", false)}',
+      ]);
+      expect(item.strList).toEqual([
+        '${lookup(map_resource.map.optMap, "key1", "missing")}',
+      ]);
+      expect(item.numList).toEqual([
+        '${lookup(map_resource.map.computedMap, "key1", 0)}',
+      ]);
+    });
+
+    it("item references a full map", () => {
+      const item = stack.byId("map_reference");
+
+      // Expands map references
+      expect(item.reqMap).toEqual("${map_resource.map.reqMap}");
+      expect(item.optMap).toEqual("${map_resource.map.optMap}");
+    });
+
+    it("item references set from multi-item list", () => {
+      const item = stack.byId("set_from_list");
+
+      expect(item.set).toEqual("${list_block_resource.list.req}");
+    });
+
+    it("item references multi-item list from set", () => {
+      const item = stack.byId("list_from_set");
+
+      expect(item.req).toEqual("${tolist(set_block_resource.setblock.set)}");
     });
   });
 });

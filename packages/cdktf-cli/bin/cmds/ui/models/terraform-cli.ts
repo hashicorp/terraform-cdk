@@ -1,4 +1,3 @@
-import * as path from "path";
 import { exec, readCDKTFVersion } from "cdktf-cli/lib/util";
 import {
   Terraform,
@@ -38,13 +37,7 @@ export class TerraformCli implements Terraform {
 
   public async plan(destroy = false): Promise<TerraformPlan> {
     const planFile = "plan";
-    const options = [
-      "plan",
-      "-input=false",
-      "-out",
-      planFile,
-      ...this.stateFileOption,
-    ];
+    const options = ["plan", "-input=false", "-out", planFile];
     if (destroy) {
       options.push("-destroy");
     }
@@ -73,7 +66,6 @@ export class TerraformCli implements Terraform {
         "apply",
         "-auto-approve",
         "-input=false",
-        ...this.stateFileOption,
         ...extraOptions,
         // only appends planFile if not empty
         // this allows deploying without a plan (as used in watch)
@@ -88,7 +80,7 @@ export class TerraformCli implements Terraform {
     await this.setUserAgent();
     await exec(
       terraformBinaryName,
-      ["destroy", "-auto-approve", "-input=false", ...this.stateFileOption],
+      ["destroy", "-auto-approve", "-input=false"],
       { cwd: this.workdir, env: process.env },
       stdout
     );
@@ -108,19 +100,11 @@ export class TerraformCli implements Terraform {
   }
 
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
-    const output = await exec(
-      terraformBinaryName,
-      ["output", "-json", ...this.stateFileOption],
-      { cwd: this.workdir, env: process.env }
-    );
+    const output = await exec(terraformBinaryName, ["output", "-json"], {
+      cwd: this.workdir,
+      env: process.env,
+    });
     return JSON.parse(output);
-  }
-
-  private get stateFileOption() {
-    return [
-      "-state",
-      path.join(process.cwd(), `terraform.${this.stack.name}.tfstate`),
-    ];
   }
 
   public async setUserAgent(): Promise<void> {
