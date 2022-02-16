@@ -52,7 +52,7 @@ async function checkGoVersion(command: string) {
 
 async function checkNodeVersion(command: string) {
   const out = await getBinaryVersion(command, "node", "--version");
-  throwIfLowerVersion(command, "Node.js", "12.16.0", out);
+  throwIfLowerVersion(command, "Node.js", "14.0.0", out);
 }
 
 export async function checkEnvironment(
