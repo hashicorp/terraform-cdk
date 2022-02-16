@@ -78,7 +78,7 @@ describe("full integration test", () => {
 
   test("deploy", () => {
     expect(driver.deploy("first")).toMatchInlineSnapshot(`
-      "Deploying Stack: first
+      " Deploying Stack: first
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
 
@@ -88,7 +88,7 @@ describe("full integration test", () => {
     `);
 
     expect(driver.deploy("second")).toMatchInlineSnapshot(`
-      "Deploying Stack: second
+      " Deploying Stack: second
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
 
@@ -104,7 +104,7 @@ describe("full integration test", () => {
 
   test("destroy", () => {
     expect(driver.destroy("first")).toMatchInlineSnapshot(`
-      "Destroying Stack: first
+      " Destroying Stack: first
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
 
@@ -114,7 +114,7 @@ describe("full integration test", () => {
     `);
 
     expect(driver.destroy("second")).toMatchInlineSnapshot(`
-      "Destroying Stack: second
+      " Destroying Stack: second
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
 

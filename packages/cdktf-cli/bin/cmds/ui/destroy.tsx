@@ -64,6 +64,7 @@ export const Destroy = ({
   const [stackName, setStackName] = useState<string>();
   const [plan, setPlan] = useState<TerraformPlan>();
   const [error, setError] = useState<unknown>(null);
+  const [resources, setResources] = useState<DeployingResource[]>([]);
 
   useEffect(() => {
     const project = new CdktfProject({
@@ -73,6 +74,10 @@ export const Destroy = ({
         setStackName(project.stackName || "");
         setProjectUpdate(event);
         setPlan(project.currentPlan!);
+
+        if ("resources" in event) {
+          setResources(event.resources);
+        }
       },
       autoApprove,
     });
@@ -135,8 +140,6 @@ export const Destroy = ({
     case "destroying":
     case "destroy update":
     case "destroyed": {
-      const resources =
-        "resources" in projectUpdate ? projectUpdate.resources : [];
       const applyActions = [
         PlannedResourceAction.UPDATE,
         PlannedResourceAction.CREATE,

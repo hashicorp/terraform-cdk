@@ -102,6 +102,7 @@ export const Deploy = ({
   const [plan, setPlan] = useState<TerraformPlan>();
   const [error, setError] = useState<unknown>(null);
   const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
+  const [resources, setResources] = useState<DeployingResource[]>([]);
 
   useEffect(() => {
     const project = new CdktfProject({
@@ -114,6 +115,9 @@ export const Deploy = ({
         setPlan(project.currentPlan!);
         if (event.type === "deployed") {
           onOutputsRetrieved(event.outputsByConstructId);
+        }
+        if ("resources" in event) {
+          setResources(event.resources);
         }
       },
       autoApprove,
@@ -200,8 +204,6 @@ export const Deploy = ({
     case "deploying":
     case "deploy update":
     case "deployed": {
-      const resources =
-        "resources" in projectUpdate ? projectUpdate.resources : [];
       const applyActions = [
         PlannedResourceAction.UPDATE,
         PlannedResourceAction.CREATE,

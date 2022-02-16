@@ -65,13 +65,14 @@ function getStack(
   context: ProjectContext,
   stackName = context.targetStack
 ): SynthesizedStack {
-  if (!context.synthesizedStacks) {
+  const stacks = context.synthesizedStacks;
+  if (!stacks) {
     throw Errors.Internal(
       "Trying to access a stack before it has been synthesized"
     );
   }
   if (stackName) {
-    const stack = context.synthesizedStacks.find((s) => s.name === stackName);
+    const stack = stacks.find((s) => s.name === stackName);
     if (!stack) {
       throw Errors.Usage("Unknown stack: " + stackName);
     }
@@ -79,11 +80,15 @@ function getStack(
     return stack;
   }
 
-  if (context.synthesizedStacks.length !== 1) {
-    throw Errors.Usage("Please select a stack to use");
+  if (stacks.length !== 1) {
+    throw Errors.Usage(
+      `Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: ${stacks
+        .map((s) => s.name)
+        .join(", ")} `
+    );
   }
 
-  return context.synthesizedStacks[0];
+  return stacks[0];
 }
 
 function getLogCallbackForStack(
