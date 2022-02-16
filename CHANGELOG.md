@@ -76,7 +76,7 @@ As a result of some standardization, there is a minor breaking change:
 ### fix
 
 - fix(lib): don't treat strings as maps [\#1467](https://github.com/hashicorp/terraform-cdk/pull/1467)
-- fix: update specified nodejs version to >=12.16 to reflect our actual requirements [\#1466](https://github.com/hashicorp/terraform-cdk/pull/1466)
+- fix: update specified nodejs version to >=14.0 to reflect our actual requirements [\#1466](https://github.com/hashicorp/terraform-cdk/pull/1466)
 
 ### Other
 

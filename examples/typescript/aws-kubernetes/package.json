@@ -16,7 +16,7 @@
     "upgrade:next": "npm i cdktf@next cdktf-cli@next"
   },
   "engines": {
-    "node": ">=10.12"
+    "node": ">=14.0"
   },
   "dependencies": {
     "cdktf": "0.0.0",
