@@ -1,4 +1,4 @@
-import { Box, Text } from "ink";
+import { Box, Text, useStderr } from "ink";
 import React, { useEffect } from "react";
 
 function extractError(error: any) {
@@ -17,19 +17,22 @@ function extractError(error: any) {
 
 export function ErrorComponent({
   error,
-  setExitCode = true,
+  fatal = true,
 }: {
   error: any;
-  setExitCode?: boolean;
+  fatal?: boolean;
 }) {
+  const { write } = useStderr();
   useEffect(() => {
-    if (setExitCode) {
+    if (fatal) {
       process.exitCode = 1;
+      write(`\n${extractError(error)}\n`);
     }
-  });
+  }, []);
+
   return (
     <Box>
-      <Text>An error occured: {extractError(error)}</Text>
+      <Text></Text>
     </Box>
   );
 }
