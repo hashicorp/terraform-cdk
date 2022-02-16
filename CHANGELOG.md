@@ -1,3 +1,37 @@
+## 0.9.1
+
+### feat
+
+- feat(cli): show help when no command is passed [\#1540](https://github.com/hashicorp/terraform-cdk/pull/1540)
+
+### fix
+
+- fix(tests): run package before running unit tests in release pipelines [\#1563](https://github.com/hashicorp/terraform-cdk/pull/1563)
+- fix(hcl2cdk): handle no providers passed and add cdktf import for remote state data sources [\#1561](https://github.com/hashicorp/terraform-cdk/pull/1561)
+- fix(cli): Fix template for Go not adding jsii import when using Terraform Cloud [\#1556](https://github.com/hashicorp/terraform-cdk/pull/1556)
+- fix(lib): Add missing regex Function [\#1531](https://github.com/hashicorp/terraform-cdk/pull/1531)
+- fix(cli): add better messaging on inint [\#1524](https://github.com/hashicorp/terraform-cdk/pull/1524)
+- fix(docs): fix a typo in serverless-application-typescript.md [\#1517](https://github.com/hashicorp/terraform-cdk/pull/1517)
+- fix(provider-generator): Replace jsii incompatible names [\#1516](https://github.com/hashicorp/terraform-cdk/pull/1516)
+- fix(provider-generator): don't build generated edge provider output as part of building the provider-generator [\#1509](https://github.com/hashicorp/terraform-cdk/pull/1509)
+- fix(tests): add `--ci` flag to jest invocations when in CI [\#1498](https://github.com/hashicorp/terraform-cdk/pull/1498)
+- fix: stringValue rated valid strings as unescaped double quotes [\#1566](https://github.com/hashicorp/terraform-cdk/pull/1566)
+- chore(deps): upgrade jsii (substantially improves cdktf get performance for Go) [\#1558](https://github.com/hashicorp/terraform-cdk/pull/1558)
+- fix(cli): reflect correct node version requirement [\#1573](https://github.com/hashicorp/terraform-cdk/pull/1573)
+
+### chore
+
+- chore(docs): we now support cross stack refs, the section is no longer needed [\#1571](https://github.com/hashicorp/terraform-cdk/pull/1571)
+- chore(docs): remove old docs files [\#1542](https://github.com/hashicorp/terraform-cdk/pull/1542)
+- chore(docs): Update main from stable-website [\#1529](https://github.com/hashicorp/terraform-cdk/pull/1529)
+- chore(docs): remove old layouts folder [\#1522](https://github.com/hashicorp/terraform-cdk/pull/1522)
+- chore(docs): Merge stable-website into main [\#1515](https://github.com/hashicorp/terraform-cdk/pull/1515)
+- chore(docs): add 0.9 upgrade guide [\#1512](https://github.com/hashicorp/terraform-cdk/pull/1512)
+
+### test
+
+- test(hcl2cdk): check if produced code can generate HCL [\#1539](https://github.com/hashicorp/terraform-cdk/pull/1539)
+
 ## 0.9.0
 
 **Breaking Changes**
