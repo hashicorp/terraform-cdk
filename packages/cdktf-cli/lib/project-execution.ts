@@ -17,7 +17,7 @@ import { printAnnotations } from "./synth";
 export type ProjectEvent =
   | {
       type: "START";
-      targetAction?: "synth" | "diff" | "deploy" | "destroy";
+      targetAction?: "synth" | "diff" | "deploy" | "destroy" | "output";
       targetStack?: string;
     }
   | {

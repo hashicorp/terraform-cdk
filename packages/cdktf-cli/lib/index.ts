@@ -322,7 +322,7 @@ export class CdktfProject {
   public async fetchOutputs(stackName?: string) {
     this.stateMachine.send({
       type: "START",
-      targetAction: "destroy",
+      targetAction: "output",
       targetStack: stackName,
     });
 
