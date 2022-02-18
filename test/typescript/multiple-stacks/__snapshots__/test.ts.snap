@@ -1,6 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`full integration test synth 1`] = `
+exports[`multiple stacks API-driven workflow deploy a stack 1`] = `
+Array [
+  "synthing",
+  "synthed",
+  "diffing",
+  "diffed",
+  "deploying",
+  "deploy update",
+  "deploy update",
+  "deploy update",
+  "deploy update",
+  "deploy update",
+  "deployed",
+]
+`;
+
+exports[`multiple stacks API-driven workflow destoy a stack 1`] = `
+Array [
+  "synthing",
+  "synthed",
+  "diffing",
+  "diffed",
+  "destroying",
+  "deploy update",
+  "deploy update",
+  "deploy update",
+  "deploy update",
+  "deploy update",
+  "deploy update",
+  "destroyed",
+]
+`;
+
+exports[`multiple stacks API-driven workflow get outputs for a stack 1`] = `
+Array [
+  "synthing",
+  "synthed",
+]
+`;
+
+exports[`multiple stacks CLI-driven workflow synth 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
@@ -13,7 +53,16 @@ exports[`full integration test synth 1`] = `
       \\"stackName\\": \\"first\\",
       \\"version\\": \\"stubbed\\"
     },
-    \\"outputs\\": {}
+    \\"outputs\\": {
+      \\"first\\": {
+        \\"output\\": \\"output\\"
+      }
+    }
+  },
+  \\"output\\": {
+    \\"output\\": {
+      \\"value\\": \\"first\\"
+    }
   },
   \\"provider\\": {
     \\"null\\": [
@@ -55,7 +104,7 @@ exports[`full integration test synth 1`] = `
 }"
 `;
 
-exports[`full integration test synth 2`] = `
+exports[`multiple stacks CLI-driven workflow synth 2`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
@@ -68,7 +117,16 @@ exports[`full integration test synth 2`] = `
       \\"stackName\\": \\"second\\",
       \\"version\\": \\"stubbed\\"
     },
-    \\"outputs\\": {}
+    \\"outputs\\": {
+      \\"second\\": {
+        \\"output\\": \\"output\\"
+      }
+    }
+  },
+  \\"output\\": {
+    \\"output\\": {
+      \\"value\\": \\"second\\"
+    }
   },
   \\"provider\\": {
     \\"null\\": [
@@ -110,7 +168,7 @@ exports[`full integration test synth 2`] = `
 }"
 `;
 
-exports[`full integration test synth with json output 1`] = `
+exports[`multiple stacks CLI-driven workflow synth with json output 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
@@ -123,7 +181,16 @@ exports[`full integration test synth with json output 1`] = `
       \\"stackName\\": \\"first\\",
       \\"version\\": \\"stubbed\\"
     },
-    \\"outputs\\": {}
+    \\"outputs\\": {
+      \\"first\\": {
+        \\"output\\": \\"output\\"
+      }
+    }
+  },
+  \\"output\\": {
+    \\"output\\": {
+      \\"value\\": \\"first\\"
+    }
   },
   \\"provider\\": {
     \\"null\\": [

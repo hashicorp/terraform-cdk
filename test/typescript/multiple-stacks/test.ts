@@ -1,4 +1,5 @@
 import { TestDriver, onPosix, onWindows } from "../../test-helper";
+import { CdktfProject } from "../../../packages/cdktf-cli/lib/index";
 
 describe("multiple stacks", () => {
   let driver: TestDriver;
@@ -21,44 +22,44 @@ describe("multiple stacks", () => {
 
     test("diff", () => {
       expect(driver.diff("first")).toMatchInlineSnapshot(`
-      "Stack: first
-      Resources
-       + NULL_RESOURCE       test                null_resource.test
+              "Stack: first
+              Resources
+               + NULL_RESOURCE       test                null_resource.test
 
 
-      Diff: 1 to create, 0 to update, 0 to delete.
-      "
-    `);
+              Diff: 1 to create, 0 to update, 0 to delete.
+              "
+          `);
 
       expect(driver.diff("second")).toMatchInlineSnapshot(`
-      "Stack: second
-      Resources
-       + NULL_RESOURCE       test                null_resource.test
+              "Stack: second
+              Resources
+               + NULL_RESOURCE       test                null_resource.test
 
 
-      Diff: 1 to create, 0 to update, 0 to delete.
-      "
-    `);
+              Diff: 1 to create, 0 to update, 0 to delete.
+              "
+          `);
 
       expect(() => driver.diff()).toThrowError("Found more than one stack");
     });
 
     onPosix("list posix", () => {
       expect(driver.list()).toMatchInlineSnapshot(`
-      "Stack name                      Path
-      first                           cdktf.out/stacks/first
-      second                          cdktf.out/stacks/second
-      "
-    `);
+              "Stack name                      Path
+              first                           cdktf.out/stacks/first
+              second                          cdktf.out/stacks/second
+              "
+          `);
     });
 
     onWindows("list windows", () => {
       expect(driver.list()).toMatchInlineSnapshot(`
-      "Stack name                      Path
-      first                           cdktf.out\\\\stacks\\\\first
-      second                          cdktf.out\\\\stacks\\\\second
-      "
-    `);
+              "Stack name                      Path
+              first                           cdktf.out\\\\stacks\\\\first
+              second                          cdktf.out\\\\stacks\\\\second
+              "
+          `);
     });
 
     // completions for stacks relies on a manifest.json being present
@@ -78,24 +79,28 @@ describe("multiple stacks", () => {
 
     test("deploy", () => {
       expect(driver.deploy("first")).toMatchInlineSnapshot(`
-      " Deploying Stack: first
-      Resources
-       ✔ NULL_RESOURCE       test                null_resource.test
+        " Deploying Stack: first
+        Resources
+         ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      Summary: 1 created, 0 updated, 0 destroyed.
-      "
-    `);
+        Summary: 1 created, 0 updated, 0 destroyed.
+
+        Output: output = first
+        "
+      `);
 
       expect(driver.deploy("second")).toMatchInlineSnapshot(`
-      " Deploying Stack: second
-      Resources
-       ✔ NULL_RESOURCE       test                null_resource.test
+        " Deploying Stack: second
+        Resources
+         ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      Summary: 1 created, 0 updated, 0 destroyed.
-      "
-    `);
+        Summary: 1 created, 0 updated, 0 destroyed.
+
+        Output: output = second
+        "
+      `);
 
       expect(() => driver.deploy()).toThrowError(
         "Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: first, second"
@@ -104,28 +109,84 @@ describe("multiple stacks", () => {
 
     test("destroy", () => {
       expect(driver.destroy("first")).toMatchInlineSnapshot(`
-      " Destroying Stack: first
-      Resources
-       ✔ NULL_RESOURCE       test                null_resource.test
+              " Destroying Stack: first
+              Resources
+               ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      Summary: 1 destroyed.
-      "
-    `);
+              Summary: 1 destroyed.
+              "
+          `);
 
       expect(driver.destroy("second")).toMatchInlineSnapshot(`
-      " Destroying Stack: second
-      Resources
-       ✔ NULL_RESOURCE       test                null_resource.test
+              " Destroying Stack: second
+              Resources
+               ✔ NULL_RESOURCE       test                null_resource.test
 
 
-      Summary: 1 destroyed.
-      "
-    `);
+              Summary: 1 destroyed.
+              "
+          `);
 
       expect(() => driver.destroy()).toThrowError(
         "Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: first, second"
       );
+    });
+  });
+
+  describe("API-driven workflow", () => {
+    test("deploy a stack", async () => {
+      const events = [];
+      const project = new CdktfProject({
+        synthCommand: "npx ts-node main.ts",
+        targetDir: driver.workingDirectory,
+        autoApprove: true,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      await project.deploy("first");
+      expect(events.map((event) => event.type)).toMatchSnapshot();
+    });
+
+    test("get outputs for a stack", async () => {
+      const events = [];
+      const project = new CdktfProject({
+        synthCommand: "npx ts-node main.ts",
+        targetDir: driver.workingDirectory,
+        autoApprove: true,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      const outputs = await project.fetchOutputs("first");
+      expect(events.map((event) => event.type)).toMatchSnapshot();
+      expect(outputs).toMatchInlineSnapshot(`
+        Object {
+          "output": Object {
+            "sensitive": false,
+            "type": "string",
+            "value": "first",
+          },
+        }
+      `);
+    });
+
+    test("destoy a stack", async () => {
+      const events = [];
+      const project = new CdktfProject({
+        synthCommand: "npx ts-node main.ts",
+        targetDir: driver.workingDirectory,
+        autoApprove: true,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      await project.destroy("first");
+      expect(events.map((event) => event.type)).toMatchSnapshot();
     });
   });
 });
