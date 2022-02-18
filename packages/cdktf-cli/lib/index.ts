@@ -14,6 +14,7 @@ import {
   TerraformPlan,
 } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
+import { logger } from "./logging";
 
 export { SynthesizedStack };
 
@@ -118,9 +119,10 @@ export class CdktfProject {
         onProgress: (event) => {
           switch (event.type) {
             case "LOG":
-              // console.log(
-              //   `[${event.stackName}](${event.stateName}): ${event.message}`
-              // );
+              logger.debug(
+                `[${event.stackName}](${event.stateName}): ${event.message}`
+              );
+
               break;
 
             case "STACK_SELECTED":
@@ -156,6 +158,12 @@ export class CdktfProject {
 
       this.currentState = state.toStrings()[0];
       const lastState = (state.history?.toStrings() || [])[0];
+
+      logger.debug(
+        `ProjectExecution State machine transitions: ${
+          lastState || "unknown"
+        } -> ${this.currentState}`
+      );
       const ctx = state.context;
 
       switch (lastState) {
