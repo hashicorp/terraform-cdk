@@ -1,3 +1,14 @@
+## 0.9.2
+
+### fix
+
+- fix: cross-stack references in terraform cloud remote execution mode [\#1574](https://github.com/hashicorp/terraform-cdk/pull/1574)
+
+### chore
+
+- chore: npm-check-updates && yarn upgrade [\#1579](https://github.com/hashicorp/terraform-cdk/pull/1579)
+- chore: npm-check-updates && yarn upgrade [\#1565](https://github.com/hashicorp/terraform-cdk/pull/1565)
+
 ## 0.9.1
 
 ### feat
