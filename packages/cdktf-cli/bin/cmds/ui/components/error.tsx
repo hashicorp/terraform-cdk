@@ -1,7 +1,7 @@
 import { Box, Text, useStderr } from "ink";
 import React, { useEffect } from "react";
 
-function extractError(error: string | Error | { stderr: any } | object) {
+function extractError(error: string | Error | { stderr: any }) {
   if (typeof error === "string") {
     return error;
   }
@@ -19,7 +19,7 @@ export function ErrorComponent({
   error,
   fatal = true,
 }: {
-  error: string | Error | { stderr: any } | object;
+  error: string | Error | { stderr: any };
   fatal?: boolean;
 }) {
   const { write } = useStderr();
