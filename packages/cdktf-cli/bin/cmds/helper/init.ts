@@ -88,24 +88,34 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const projectId = uuid();
   telemetryData.projectId = projectId;
 
-  // Check if token is set so we can set up Terraform Cloud workspace
-  // only set with the '--local' option is specified the user.
-  if (token != "") {
-    telemetryData.isRemote = Boolean(token);
-    console.log(
-      chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
-    );
-    try {
-      await terraformCloudClient.createWorkspace(
-        projectInfo.OrganizationName,
-        projectInfo.WorkspaceName,
-        token
+  if (!argv.local) {
+    if (!("OrganizationName" in projectInfo)) {
+      throw new Error(`Missing organization name in project info`);
+    }
+
+    if (!("WorkspaceName" in projectInfo)) {
+      throw new Error(`Missing organization name in project info`);
+    }
+
+    // Check if token is set so we can set up Terraform Cloud workspace
+    // only set with the '--local' option is specified the user.
+    if (token != "") {
+      telemetryData.isRemote = Boolean(token);
+      console.log(
+        chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
       );
-    } catch (error) {
-      console.error(
-        chalkColour`{redBright ERROR: Could not create Terraform Cloud Workspace: ${error.message}}`
-      );
-      process.exit(1);
+      try {
+        await terraformCloudClient.createWorkspace(
+          projectInfo.OrganizationName,
+          projectInfo.WorkspaceName,
+          token
+        );
+      } catch (error) {
+        console.error(
+          chalkColour`{redBright ERROR: Could not create Terraform Cloud Workspace: ${error.message}}`
+        );
+        process.exit(1);
+      }
     }
   }
 

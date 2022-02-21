@@ -3,6 +3,7 @@
 // Convert is not included here since it's published independently as @cdktf/hcl2cdk.
 
 import { interpret, InterpreterFrom } from "xstate";
+import { Language } from "@cdktf/provider-generator";
 export { init, Project, InitArgs } from "./init";
 export { get, GetStatus } from "./get";
 import { SynthesizedStack } from "./synth-stack";
@@ -16,7 +17,7 @@ import {
 import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 
-export { SynthesizedStack };
+export { SynthesizedStack, Language };
 
 export enum Status {
   STARTING = "starting",

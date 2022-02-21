@@ -9,12 +9,17 @@ import { FUTURE_FLAGS } from "cdktf/lib/features";
 const pkg = readPackageJson();
 const constructsVersion = pkg.dependencies.constructs;
 
-export interface Project {
+export interface LocalProject {
   Description: string;
   Name: string;
+}
+
+export interface RemoteProject extends LocalProject {
   OrganizationName: string;
   WorkspaceName: string;
 }
+export type Project = LocalProject | RemoteProject;
+
 export type InitArgs = {
   cdktfVersion?: string;
   destination: string;

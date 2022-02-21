@@ -1,21 +1,24 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
-import { execSync } from "child_process";
-import { CdktfProject } from "../../lib/index";
+import { CdktfProject, get, init, Language } from "../../lib/index";
 
 jest.setTimeout(30000);
 describe("CdktfProject", () => {
   let workingDirectory: string;
   let outDir: string;
-  beforeAll(() => {
+  beforeAll(async () => {
     workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
-    execSync(
-      `cdktf init --template typescript --project-name="typescript-test" --project-description="typescript test app" --local`,
-      {
-        cwd: workingDirectory,
-      }
-    );
+    await init({
+      destination: workingDirectory,
+      templatePath: path.join(__dirname, "../../templates/typescript"),
+      projectId: "test",
+      projectInfo: {
+        Description: "cdktf-api-test",
+        Name: "cdktf-api-test",
+      },
+      dist: path.join(__dirname, "../../../../dist"),
+    });
 
     fs.copyFileSync(
       path.resolve(__dirname, "fixtures/main.ts.fixture"),
@@ -26,8 +29,19 @@ describe("CdktfProject", () => {
       path.resolve(workingDirectory, "cdktf.json")
     );
 
-    execSync(`cdktf get`, {
-      cwd: workingDirectory,
+    await get({
+      constraints: [
+        {
+          name: "null",
+          version: "3.1.0",
+          source: "null",
+          fqn: "hashicorp/null",
+        },
+      ],
+      constructsOptions: {
+        codeMakerOutput: path.resolve(workingDirectory, ".gen"),
+        targetLanguage: Language.TYPESCRIPT,
+      },
     });
 
     outDir = path.resolve(workingDirectory, "out");

@@ -16,8 +16,8 @@ type DependencyConstraint =
 interface GetConfig {
   constraints: DependencyConstraint[];
   constructsOptions: GetOptions;
-  onUpdate: (payload: GetStatus) => void;
-  reportTelemetry: (telemetry: {
+  onUpdate?: (payload: GetStatus) => void;
+  reportTelemetry?: (telemetry: {
     targetLanguage: string;
     trackingPayload: Record<string, any>;
   }) => void;
@@ -26,8 +26,8 @@ interface GetConfig {
 export async function get({
   constructsOptions,
   constraints,
-  onUpdate,
-  reportTelemetry,
+  onUpdate = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+  reportTelemetry = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
 }: GetConfig) {
   await fs.remove(constructsOptions.codeMakerOutput);
   const constructsMaker = new ConstructsMaker(
