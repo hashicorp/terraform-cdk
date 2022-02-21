@@ -28,6 +28,7 @@ export class SynthStack {
   public static async synth(
     command: string,
     outdir: string,
+    workingDirectory = process.cwd(),
     graceful = false, // will not exit the process but rethrow the error instead
     synthOrigin?: SynthOrigin
   ): Promise<SynthesizedStack[]> {
@@ -55,6 +56,7 @@ export class SynthStack {
           CDKTF_OUTDIR: outdir,
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
         },
+        cwd: workingDirectory,
       });
     } catch (e) {
       const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}

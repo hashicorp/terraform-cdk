@@ -100,21 +100,24 @@ export class CdktfProject {
 
   constructor({
     synthCommand,
-    targetDir,
+    outDir,
     onUpdate,
     autoApprove,
+    workingDirectory = process.cwd(),
   }: {
     synthCommand: string;
-    targetDir: string;
+    outDir: string;
     onUpdate: (update: ProjectUpdates) => void;
     autoApprove?: boolean;
+    workingDirectory?: string;
   }) {
     this.status = Status.STARTING;
     this.stateMachine = interpret(
       projectExecutionMachine.withContext({
         synthCommand,
-        targetDir,
+        outDir: outDir,
         autoApprove,
+        workingDirectory,
 
         onProgress: (event) => {
           switch (event.type) {
@@ -262,6 +265,7 @@ export class CdktfProject {
               this.stateMachine.send("APPROVAL_ABORTED");
             },
           });
+          break;
       }
     });
 

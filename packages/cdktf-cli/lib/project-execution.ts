@@ -55,7 +55,8 @@ export interface ProjectContext {
   targetStackPlan?: TerraformPlan;
   autoApprove?: boolean;
   synthCommand: string;
-  targetDir: string;
+  outDir: string;
+  workingDirectory: string;
   outputs?: Record<string, any>;
   outputsByConstructId?: Record<string, any>;
   onProgress: (event: ProgressEvent) => void;
@@ -132,7 +133,8 @@ const services = {
   synthProject: async (context: ProjectContext) => {
     const stacks = await SynthStack.synth(
       context.synthCommand,
-      context.targetDir
+      context.outDir,
+      context.workingDirectory
     );
 
     printAnnotations(stacks);
@@ -243,14 +245,11 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
     initial: "idle",
     context: {
       onProgress: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+      // Mandantorily set by withContext
       targetAction: "synth",
-      targetStack: "stackName",
-      message: undefined,
-      autoApprove: false,
-      synthCommand: "", // TODO: how do we handle unset values?
-      targetDir: "",
-      outputs: {},
-      outputsByConstructId: {},
+      synthCommand: "",
+      workingDirectory: "",
+      outDir: "",
     },
     states: {
       idle: {

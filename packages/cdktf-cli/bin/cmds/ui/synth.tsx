@@ -5,7 +5,7 @@ import { CdktfProject, SynthesizedStack } from "../../../lib";
 import { ErrorComponent } from "./components/error";
 
 interface CommonSynthConfig {
-  targetDir: string;
+  outDir: string;
   targetStack: string;
   jsonOutput: boolean;
 }
@@ -47,7 +47,7 @@ const SynthOutput = ({
 };
 
 export const Synth = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
   jsonOutput,
@@ -59,7 +59,7 @@ export const Synth = ({
 
   useEffect(() => {
     const project = new CdktfProject({
-      targetDir,
+      outDir,
       synthCommand,
       onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
     });

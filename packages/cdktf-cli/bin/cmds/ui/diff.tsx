@@ -7,7 +7,7 @@ import { CdktfProject, Status } from "../../../lib";
 import { ErrorComponent } from "./components/error";
 
 interface DiffConfig {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
 }
@@ -102,7 +102,7 @@ export const Plan = ({
 };
 
 export const Diff = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
 }: DiffConfig): React.ReactElement => {
@@ -113,7 +113,7 @@ export const Diff = ({
 
   useEffect(() => {
     const project = new CdktfProject({
-      targetDir,
+      outDir,
       synthCommand,
       onUpdate: () => {
         setStackName(project.stackName || "");

@@ -5,12 +5,12 @@ import { CdktfProject, Status, SynthesizedStack } from "../../../lib";
 import { ErrorComponent } from "./components/error";
 
 interface ListConfig {
-  targetDir: string;
+  outDir: string;
   synthCommand: string;
 }
 
 export const List = ({
-  targetDir,
+  outDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
   const [projectStatus, setProjectStatus] = useState<Status>();
@@ -21,7 +21,7 @@ export const List = ({
 
   useEffect(() => {
     const project = new CdktfProject({
-      targetDir,
+      outDir,
       synthCommand,
       onUpdate: () => {
         setProjectStatus(project.status);

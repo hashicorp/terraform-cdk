@@ -48,14 +48,14 @@ export const DeploySummary = ({
 };
 
 interface DestroyConfig {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
 }
 
 export const Destroy = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
   autoApprove,
@@ -68,7 +68,7 @@ export const Destroy = ({
 
   useEffect(() => {
     const project = new CdktfProject({
-      targetDir,
+      outDir,
       synthCommand,
       onUpdate: (event) => {
         setStackName(project.stackName || "");

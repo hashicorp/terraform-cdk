@@ -9,7 +9,7 @@ import { TerraformOutput } from "../../../lib/models/terraform";
 import { ErrorComponent } from "./components/error";
 
 type OutputConfig = {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
@@ -17,7 +17,7 @@ type OutputConfig = {
 };
 
 export const Output = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
   onOutputsRetrieved,
@@ -31,7 +31,7 @@ export const Output = ({
 
   useEffect(() => {
     const project = new CdktfProject({
-      targetDir,
+      outDir,
       synthCommand,
       onUpdate: (event) => {
         setStackName(project.stackName || "");

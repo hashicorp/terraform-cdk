@@ -119,7 +119,13 @@ export class WatchClient {
     this.updateState({ status: "SYNTHESIZING", error: undefined });
     try {
       const stacks = (
-        await SynthStack.synth(this.synthCommand, this.targetDir, true, "watch")
+        await SynthStack.synth(
+          this.synthCommand,
+          this.targetDir,
+          process.cwd(),
+          true,
+          "watch"
+        )
       ).map<Stack>((stack) => {
         return {
           ...stack,

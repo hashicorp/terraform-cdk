@@ -81,7 +81,7 @@ const ApplyableResources = ({
 };
 
 interface DeployConfig {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
@@ -90,7 +90,7 @@ interface DeployConfig {
 }
 
 export const Deploy = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
   autoApprove,
@@ -106,7 +106,7 @@ export const Deploy = ({
 
   useEffect(() => {
     const project = new CdktfProject({
-      targetDir,
+      outDir,
       synthCommand,
       onUpdate: (event) => {
         setStackName(project.stackName || "");
