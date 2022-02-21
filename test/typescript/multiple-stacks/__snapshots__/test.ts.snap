@@ -1,45 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`multiple stacks API-driven workflow deploy a stack 1`] = `
-Array [
-  "synthesizing",
-  "synthesized",
-  "planning",
-  "planned",
-  "deploying",
-  "deploy update",
-  "deploy update",
-  "deploy update",
-  "deploy update",
-  "deploy update",
-  "deployed",
-]
-`;
-
-exports[`multiple stacks API-driven workflow destoy a stack 1`] = `
-Array [
-  "synthesizing",
-  "synthesized",
-  "planning",
-  "planned",
-  "destroying",
-  "deploy update",
-  "deploy update",
-  "deploy update",
-  "deploy update",
-  "deploy update",
-  "deploy update",
-  "destroyed",
-]
-`;
-
-exports[`multiple stacks API-driven workflow get outputs for a stack 1`] = `
-Array [
-  "synthesizing",
-  "synthesized",
-]
-`;
-
 exports[`multiple stacks CLI-driven workflow synth 1`] = `
 "{
   \\"//\\": {

@@ -1,6 +1,4 @@
 import { TestDriver, onPosix, onWindows } from "../../test-helper";
-import { CdktfProject } from "../../../packages/cdktf-cli/lib/index";
-import * as path from "path";
 
 describe("multiple stacks", () => {
   let driver: TestDriver;
@@ -132,65 +130,6 @@ describe("multiple stacks", () => {
       expect(() => driver.destroy()).toThrowError(
         "Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: first, second"
       );
-    });
-  });
-
-  describe("API-driven workflow", () => {
-    test("deploy a stack", async () => {
-      const events = [];
-      const project = new CdktfProject({
-        synthCommand: "npx ts-node main.ts",
-        outDir: path.join(driver.workingDirectory, "cdktf.out"),
-        workingDirectory: driver.workingDirectory,
-        autoApprove: true,
-        onUpdate: (event) => {
-          events.push(event);
-        },
-      });
-
-      await project.deploy("first");
-      expect(events.map((event) => event.type)).toMatchSnapshot();
-    });
-
-    test("get outputs for a stack", async () => {
-      const events = [];
-      const project = new CdktfProject({
-        synthCommand: "npx ts-node main.ts",
-        outDir: path.join(driver.workingDirectory, "cdktf.out"),
-        workingDirectory: driver.workingDirectory,
-        autoApprove: true,
-        onUpdate: (event) => {
-          events.push(event);
-        },
-      });
-
-      const outputs = await project.fetchOutputs("first");
-      expect(events.map((event) => event.type)).toMatchSnapshot();
-      expect(outputs).toMatchInlineSnapshot(`
-        Object {
-          "output": Object {
-            "sensitive": false,
-            "type": "string",
-            "value": "first",
-          },
-        }
-      `);
-    });
-
-    test("destoy a stack", async () => {
-      const events = [];
-      const project = new CdktfProject({
-        synthCommand: "npx ts-node main.ts",
-        outDir: path.join(driver.workingDirectory, "cdktf.out"),
-        workingDirectory: driver.workingDirectory,
-        autoApprove: true,
-        onUpdate: (event) => {
-          events.push(event);
-        },
-      });
-
-      await project.destroy("first");
-      expect(events.map((event) => event.type)).toMatchSnapshot();
     });
   });
 });
