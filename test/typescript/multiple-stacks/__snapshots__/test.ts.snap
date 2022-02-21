@@ -2,10 +2,10 @@
 
 exports[`multiple stacks API-driven workflow deploy a stack 1`] = `
 Array [
-  "synthing",
-  "synthed",
-  "diffing",
-  "diffed",
+  "synthesizing",
+  "synthesized",
+  "planning",
+  "planned",
   "deploying",
   "deploy update",
   "deploy update",
@@ -18,10 +18,10 @@ Array [
 
 exports[`multiple stacks API-driven workflow destoy a stack 1`] = `
 Array [
-  "synthing",
-  "synthed",
-  "diffing",
-  "diffed",
+  "synthesizing",
+  "synthesized",
+  "planning",
+  "planned",
   "destroying",
   "deploy update",
   "deploy update",
@@ -35,8 +35,8 @@ Array [
 
 exports[`multiple stacks API-driven workflow get outputs for a stack 1`] = `
 Array [
-  "synthing",
-  "synthed",
+  "synthesizing",
+  "synthesized",
 ]
 `;
 

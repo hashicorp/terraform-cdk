@@ -97,10 +97,10 @@ export const Deploy = ({
   onOutputsRetrieved,
   outputsPath,
 }: DeployConfig): React.ReactElement => {
-  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
+  const [lastProjectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
   const [stackName, setStackName] = useState<string>();
   const [plan, setPlan] = useState<TerraformPlan>();
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState<Error>();
   const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
   const [resources, setResources] = useState<DeployingResource[]>([]);
 
@@ -134,7 +134,7 @@ export const Deploy = ({
   ]);
 
   if (error) {
-    return <ErrorComponent error={error} />;
+    return <ErrorComponent fatal error={error} />;
   }
 
   if (plan && !plan.needsApply) {
@@ -162,13 +162,13 @@ export const Deploy = ({
     );
   }
 
-  switch (projectUpdate?.type) {
+  switch (lastProjectUpdate?.type) {
     case undefined: // starting
-    case "synthing":
-    case "synthed":
-    case "diffing":
-    case "diffed": {
-      const status = projectUpdate?.type || "starting";
+    case "synthesizing":
+    case "synthesized":
+    case "planning":
+    case "planned": {
+      const status = lastProjectUpdate?.type || "starting";
       return (
         <Box>
           <>
@@ -195,8 +195,8 @@ export const Deploy = ({
       return (
         <Box>
           <Box flexDirection="column">
-            <Plan currentStackName={stackName || ""} plan={plan!} />
-            <Confirm onApprove={projectUpdate.approve} />
+            <Plan currentStackName={stackName} plan={plan!} />
+            <Confirm onApprove={lastProjectUpdate.approve} />
           </Box>
         </Box>
       );
@@ -218,7 +218,7 @@ export const Deploy = ({
           <Box flexDirection="column">
             <Box>
               <>
-                {projectUpdate?.type !== "deployed" ? (
+                {lastProjectUpdate?.type !== "deployed" ? (
                   <Text color="green">
                     <Spinner type="dots" />
                   </Text>
@@ -256,7 +256,7 @@ export const Deploy = ({
     }
     default:
       return (
-        <Text>{`Trying to render unknown state: ${projectUpdate?.type}`}</Text>
+        <Text>{`An unknown state occured: ${lastProjectUpdate?.type}`}</Text>
       );
   }
 };

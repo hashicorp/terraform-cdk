@@ -26,7 +26,7 @@ export const Output = ({
   const [done, setDone] = useState(false);
   const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
   const [stackName, setStackName] = useState<string>();
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState<Error>();
   const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export const Output = ({
   ]);
 
   if (error) {
-    return <ErrorComponent error={error} />;
+    return <ErrorComponent fatal error={error} />;
   }
   const statusText =
     stackName === "" ? (

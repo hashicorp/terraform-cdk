@@ -3,7 +3,7 @@ import { Box, Text, useApp } from "ink";
 import ConfirmInput from "@skorfmann/ink-confirm-input";
 
 interface ConfirmConfig {
-  onApprove: (value: any) => any;
+  onApprove: () => any;
 }
 
 export const Confirm = ({ onApprove }: ConfirmConfig): React.ReactElement => {
@@ -22,9 +22,8 @@ export const Confirm = ({ onApprove }: ConfirmConfig): React.ReactElement => {
           value={value}
           onChange={setValue}
           onSubmit={(value: string) => {
-            console.log("value", typeof value);
             if (value) {
-              onApprove(value);
+              onApprove();
             } else {
               exit();
             }

@@ -33,19 +33,19 @@ export enum Status {
 
 export type ProjectUpdates =
   | {
-      type: "synthing";
+      type: "synthesizing";
     }
   | {
-      type: "synthed";
+      type: "synthesized";
       stacks: SynthesizedStack[];
       errorMessage?: string;
     }
   | {
-      type: "diffing";
+      type: "planning";
       stackName: string;
     }
   | {
-      type: "diffed";
+      type: "planned";
       stackName: string;
       plan: TerraformPlan;
     }
@@ -171,7 +171,7 @@ export class CdktfProject {
           this.stacks = ctx.synthesizedStacks || [];
           this.status = Status.SYNTHESIZED;
           onUpdate({
-            type: "synthed",
+            type: "synthesized",
             stacks: this.stacks,
             errorMessage: ctx.message,
           });
@@ -190,7 +190,7 @@ export class CdktfProject {
             );
           }
           onUpdate({
-            type: "diffed",
+            type: "planned",
             stackName: ctx.targetStack!,
             plan: ctx.targetStackPlan!,
           });
@@ -223,7 +223,7 @@ export class CdktfProject {
         case "synth":
           this.status = Status.SYNTHESIZING;
           onUpdate({
-            type: "synthing",
+            type: "synthesizing",
           });
           break;
 
@@ -246,7 +246,7 @@ export class CdktfProject {
         case "diff":
           this.status = Status.PLANNING;
           onUpdate({
-            type: "diffing",
+            type: "planning",
             stackName: this.stackName!,
           });
           break;

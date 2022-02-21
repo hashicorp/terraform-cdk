@@ -60,7 +60,7 @@ export const List = ({
     );
   }
 
-  if (error) return <ErrorComponent error={error} />;
+  if (error) return <ErrorComponent fatal error={error} />;
 
   return (
     <Box>

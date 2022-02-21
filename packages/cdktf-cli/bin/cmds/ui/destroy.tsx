@@ -63,7 +63,7 @@ export const Destroy = ({
   const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
   const [stackName, setStackName] = useState<string>();
   const [plan, setPlan] = useState<TerraformPlan>();
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState<Error>();
   const [resources, setResources] = useState<DeployingResource[]>([]);
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export const Destroy = ({
   }, [setPlan, setError, setStackName, setProjectUpdate]);
 
   if (error) {
-    return <ErrorComponent error={error} />;
+    return <ErrorComponent fatal error={error} />;
   }
 
   if (plan && !plan.needsApply) {
@@ -99,10 +99,10 @@ export const Destroy = ({
 
   switch (projectUpdate?.type) {
     case undefined: // starting
-    case "synthing":
-    case "synthed":
-    case "diffing":
-    case "diffed": {
+    case "synthesizing":
+    case "synthesized":
+    case "planning":
+    case "planned": {
       const status = projectUpdate?.type || "starting";
       return (
         <Box>
@@ -183,8 +183,6 @@ export const Destroy = ({
       );
     }
     default:
-      return (
-        <Text>{`Trying to render unknown state: ${projectUpdate?.type}`}</Text>
-      );
+      return <Text>{`An unknown state occured: ${projectUpdate?.type}`}</Text>;
   }
 };

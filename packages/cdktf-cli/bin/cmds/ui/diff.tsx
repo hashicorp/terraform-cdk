@@ -51,7 +51,6 @@ export const CloudRunInfo = ({ url }: { url?: string }): React.ReactElement => {
 
   const staticElements = [url];
 
-  // TODO: create follow up issue to use https://github.com/sindresorhus/ink-link
   return (
     <Static items={staticElements}>
       {(e) => (
@@ -72,16 +71,20 @@ export const Plan = ({
   currentStackName,
 }: {
   plan: TerraformPlan;
-  currentStackName: string;
+  currentStackName?: string;
 }): React.ReactElement => {
   return (
     <Fragment>
       <Box flexDirection="column">
         <CloudRunInfo url={"url" in plan ? (plan as any).url : undefined} />
-        <Box>
-          <Text>Stack: </Text>
-          <Text bold>{currentStackName}</Text>
-        </Box>
+        {currentStackName ? (
+          <Box>
+            <Text>Stack: </Text>
+            <Text bold>{currentStackName}</Text>
+          </Box>
+        ) : (
+          <></>
+        )}
         {plan?.needsApply ? <Text bold>Resources</Text> : <></>}
         {plan?.applyableResources.map((resource) => (
           <Box key={resource.id} marginLeft={1}>
@@ -124,7 +127,7 @@ export const Diff = ({
   }, [setPlan, setError]);
 
   if (error) {
-    return <ErrorComponent error={error} />;
+    return <ErrorComponent fatal error={error} />;
   }
 
   if (plan) {

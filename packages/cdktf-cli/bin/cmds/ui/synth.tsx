@@ -81,7 +81,7 @@ export const Synth = ({
     );
   }
 
-  if (error) return <ErrorComponent error={error} />;
+  if (error) return <ErrorComponent fatal error={error} />;
 
   return (
     <Box>
