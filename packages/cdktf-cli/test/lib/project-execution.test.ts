@@ -25,7 +25,8 @@ function getStateMachine({
       .withContext({
         onProgress: jest.fn(),
         synthCommand: "npx ts-node my-app.ts",
-        targetDir: "/tmp/cdktf-project",
+        outDir: "/tmp/cdktf-project/out",
+        workingDirectory: "/tmp/cdktf-project/",
       })
       .withConfig({
         services: {
