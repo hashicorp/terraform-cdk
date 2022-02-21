@@ -1,5 +1,6 @@
 import { TestDriver, onPosix, onWindows } from "../../test-helper";
 import { CdktfProject } from "../../../packages/cdktf-cli/lib/index";
+import * as path from "path";
 
 describe("multiple stacks", () => {
   let driver: TestDriver;
@@ -139,7 +140,8 @@ describe("multiple stacks", () => {
       const events = [];
       const project = new CdktfProject({
         synthCommand: "npx ts-node main.ts",
-        targetDir: driver.workingDirectory,
+        outDir: path.join(driver.workingDirectory, "cdktf.out"),
+        workingDirectory: driver.workingDirectory,
         autoApprove: true,
         onUpdate: (event) => {
           events.push(event);
@@ -154,7 +156,8 @@ describe("multiple stacks", () => {
       const events = [];
       const project = new CdktfProject({
         synthCommand: "npx ts-node main.ts",
-        targetDir: driver.workingDirectory,
+        outDir: path.join(driver.workingDirectory, "cdktf.out"),
+        workingDirectory: driver.workingDirectory,
         autoApprove: true,
         onUpdate: (event) => {
           events.push(event);
@@ -178,7 +181,8 @@ describe("multiple stacks", () => {
       const events = [];
       const project = new CdktfProject({
         synthCommand: "npx ts-node main.ts",
-        targetDir: driver.workingDirectory,
+        outDir: path.join(driver.workingDirectory, "cdktf.out"),
+        workingDirectory: driver.workingDirectory,
         autoApprove: true,
         onUpdate: (event) => {
           events.push(event);
