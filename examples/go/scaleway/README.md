@@ -3,7 +3,7 @@
 - Reserve an IP address
 - Create a Compute Instance with the reserved IP address
 
-Don't forget to export your credentials as environement variables
+Don't forget to export your credentials as environment variables
 
 | Provider Argument | Environment Variables | Description                                                                                                                             | Mandatory |
 |-------------------|-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-----------|
