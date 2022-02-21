@@ -42,7 +42,8 @@ const config = cfg.readConfigSync();
 export async function convert({ language }: any) {
   await displayVersionMessage();
 
-  const providerRequirements: string[] = yargs.argv.provider as string[];
+  const providerRequirements: string[] = (yargs.argv.provider ||
+    []) as string[];
   const cdktfJsonPath = findFileAboveCwd("cdktf.json");
   if (cdktfJsonPath) {
     const cdktfJson = await fs.readJson(cdktfJsonPath);
