@@ -138,7 +138,6 @@ export const Diff = ({
     );
   }
 
-  // TODO: remove useTerraformState
   return (
     <Box>
       <Fragment>
