@@ -22,17 +22,21 @@ export class TerraformCliPlan
 
 export class TerraformCli implements Terraform {
   public readonly workdir: string;
-  private readonly onStdout: (stdout: Buffer) => void;
-  private readonly onStderr: (stderr: string | Uint8Array) => void;
+  private readonly onStdout: (stateName: string) => (stdout: Buffer) => void;
+  private readonly onStderr: (
+    stateName: string
+  ) => (stderr: string | Uint8Array) => void;
 
   constructor(
     public readonly stack: SynthesizedStack,
-    onLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    onLog = (_stateName: string) =>
+      (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
-    this.onStdout = (stdout: Buffer) => onLog(stdout.toString());
-    this.onStderr = (stderr: string | Uint8Array) =>
-      onLog(stderr.toString(), true);
+    this.onStdout = (stateName: string) => (stdout: Buffer) =>
+      onLog(stateName)(stdout.toString());
+    this.onStderr = (stateName: string) => (stderr: string | Uint8Array) =>
+      onLog(stateName)(stderr.toString(), true);
   }
 
   public async init(): Promise<void> {
@@ -44,8 +48,8 @@ export class TerraformCli implements Terraform {
         cwd: this.workdir,
         env: process.env,
       },
-      this.onStdout,
-      this.onStderr
+      this.onStdout("init"),
+      this.onStderr("init")
     );
   }
 
@@ -63,16 +67,16 @@ export class TerraformCli implements Terraform {
         cwd: this.workdir,
         env: process.env,
       },
-      this.onStdout,
-      this.onStderr
+      this.onStdout("plan"),
+      this.onStderr("plan")
     );
 
     const jsonPlan = await exec(
       terraformBinaryName,
       ["show", "-json", planFile],
       { cwd: this.workdir, env: process.env },
-      this.onStdout,
-      this.onStderr
+      this.onStdout("plan"),
+      this.onStderr("plan")
     );
     return new TerraformCliPlan(planFile, JSON.parse(jsonPlan));
   }
@@ -96,10 +100,10 @@ export class TerraformCli implements Terraform {
       ],
       { cwd: this.workdir, env: process.env },
       (buffer: Buffer) => {
-        this.onStdout(buffer);
+        this.onStdout("deploy")(buffer);
         stdout(buffer);
       },
-      this.onStderr
+      this.onStderr("deploy")
     );
   }
 
@@ -110,10 +114,10 @@ export class TerraformCli implements Terraform {
       ["destroy", "-auto-approve", "-input=false"],
       { cwd: this.workdir, env: process.env },
       (buffer: Buffer) => {
-        this.onStdout(buffer);
+        this.onStdout("destroy")(buffer);
         stdout(buffer);
       },
-      this.onStderr
+      this.onStderr("destroy")
     );
   }
 
@@ -126,8 +130,8 @@ export class TerraformCli implements Terraform {
           cwd: this.workdir,
           env: process.env,
         },
-        this.onStdout,
-        this.onStderr
+        this.onStdout("version"),
+        this.onStderr("version")
       );
     } catch {
       throw new Error(
@@ -144,8 +148,8 @@ export class TerraformCli implements Terraform {
         cwd: this.workdir,
         env: process.env,
       },
-      this.onStdout,
-      this.onStderr
+      this.onStdout("output"),
+      this.onStderr("output")
     );
     return JSON.parse(output);
   }

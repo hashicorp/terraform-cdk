@@ -117,7 +117,8 @@ export class TerraformCloud implements Terraform {
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
     isSpeculative = false,
-    private readonly sendLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    private readonly sendLog = (_phase: string) =>
+      (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     if (!config.workspaces.name)
       throw new Error("Please provide a workspace name for Terraform Cloud");
@@ -278,7 +279,7 @@ export class TerraformCloud implements Terraform {
     _planFile: string,
     stdout: (chunk: Buffer) => any
   ): Promise<void> {
-    const sendLog = this.sendLog;
+    const sendLog = this.sendLog("deploy");
     if (!this.run)
       throw new Error(
         "Please create a ConfigurationVersion / Plan before deploying"
@@ -326,7 +327,7 @@ export class TerraformCloud implements Terraform {
         "Please create a ConfigurationVersion / Plan before destroying"
       );
 
-    const sendLog = this.sendLog;
+    const sendLog = this.sendLog("destroy");
     const destroyingStates = ["confirmed", "apply_queued", "applying"];
     const runId = this.run.id;
     await this.client.Runs.action("apply", runId);

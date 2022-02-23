@@ -96,26 +96,25 @@ function getStack(
 }
 
 function getLogCallbackForStack(
-  context: ProjectContext,
-  // TODO: put statename in thunk
-  stateName: string
-): (message: string, isError?: boolean) => void {
+  context: ProjectContext
+): (stateName: string) => (message: string, isError?: boolean) => void {
   const stack = getStack(context);
-  return (message: string, isError = false) => {
-    context.onProgress({
-      type: "LOG",
-      stackName: stack.name,
-      stateName,
-      message,
-      isError,
-    });
-  };
+  return (stateName: string) =>
+    (message: string, isError = false) => {
+      context.onProgress({
+        type: "LOG",
+        stackName: stack.name,
+        stateName,
+        message,
+        isError,
+      });
+    };
 }
 
 async function getTerraformClient(
   stack: SynthesizedStack,
   isSpeculative: boolean,
-  sendLog: (message: string, isError?: boolean) => void
+  sendLog: (stateName: string) => (message: string, isError?: boolean) => void
 ): Promise<Terraform> {
   const parsedStack = JSON.parse(stack.content) as TerraformJson;
 
@@ -154,7 +153,7 @@ const services = {
     const terraform = await getTerraformClient(
       stack,
       true,
-      getLogCallbackForStack(context, "plan")
+      getLogCallbackForStack(context)
     );
     await terraform.init();
     return terraform;
