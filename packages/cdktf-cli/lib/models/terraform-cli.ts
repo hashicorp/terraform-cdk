@@ -22,16 +22,16 @@ export class TerraformCliPlan
 
 export class TerraformCli implements Terraform {
   public readonly workdir: string;
-  private readonly onStdOut: (stdout: Buffer) => void;
-  private readonly onStdErr: (stderr: string | Uint8Array) => void;
+  private readonly onStdout: (stdout: Buffer) => void;
+  private readonly onStderr: (stderr: string | Uint8Array) => void;
 
   constructor(
     public readonly stack: SynthesizedStack,
     sendLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
-    this.onStdOut = (stdout: Buffer) => sendLog(stdout.toString());
-    this.onStdErr = (stderr: string | Uint8Array) =>
+    this.onStdout = (stdout: Buffer) => sendLog(stdout.toString());
+    this.onStderr = (stderr: string | Uint8Array) =>
       sendLog(stderr.toString(), true);
   }
 
@@ -44,8 +44,8 @@ export class TerraformCli implements Terraform {
         cwd: this.workdir,
         env: process.env,
       },
-      this.onStdOut,
-      this.onStdErr
+      this.onStdout,
+      this.onStderr
     );
   }
 
@@ -63,16 +63,16 @@ export class TerraformCli implements Terraform {
         cwd: this.workdir,
         env: process.env,
       },
-      this.onStdOut,
-      this.onStdErr
+      this.onStdout,
+      this.onStderr
     );
 
     const jsonPlan = await exec(
       terraformBinaryName,
       ["show", "-json", planFile],
       { cwd: this.workdir, env: process.env },
-      this.onStdOut,
-      this.onStdErr
+      this.onStdout,
+      this.onStderr
     );
     return new TerraformCliPlan(planFile, JSON.parse(jsonPlan));
   }
@@ -96,10 +96,10 @@ export class TerraformCli implements Terraform {
       ],
       { cwd: this.workdir, env: process.env },
       (buffer: Buffer) => {
-        this.onStdOut(buffer);
+        this.onStdout(buffer);
         stdout(buffer);
       },
-      this.onStdErr
+      this.onStderr
     );
   }
 
@@ -110,10 +110,10 @@ export class TerraformCli implements Terraform {
       ["destroy", "-auto-approve", "-input=false"],
       { cwd: this.workdir, env: process.env },
       (buffer: Buffer) => {
-        this.onStdOut(buffer);
+        this.onStdout(buffer);
         stdout(buffer);
       },
-      this.onStdErr
+      this.onStderr
     );
   }
 
@@ -126,8 +126,8 @@ export class TerraformCli implements Terraform {
           cwd: this.workdir,
           env: process.env,
         },
-        this.onStdOut,
-        this.onStdErr
+        this.onStdout,
+        this.onStderr
       );
     } catch {
       throw new Error(
@@ -144,8 +144,8 @@ export class TerraformCli implements Terraform {
         cwd: this.workdir,
         env: process.env,
       },
-      this.onStdOut,
-      this.onStdErr
+      this.onStdout,
+      this.onStderr
     );
     return JSON.parse(output);
   }
