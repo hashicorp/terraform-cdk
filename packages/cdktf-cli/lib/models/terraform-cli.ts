@@ -27,12 +27,12 @@ export class TerraformCli implements Terraform {
 
   constructor(
     public readonly stack: SynthesizedStack,
-    sendLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    onLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
-    this.onStdout = (stdout: Buffer) => sendLog(stdout.toString());
+    this.onStdout = (stdout: Buffer) => onLog(stdout.toString());
     this.onStderr = (stderr: string | Uint8Array) =>
-      sendLog(stderr.toString(), true);
+      onLog(stderr.toString(), true);
   }
 
   public async init(): Promise<void> {
