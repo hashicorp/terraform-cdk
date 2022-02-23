@@ -90,7 +90,6 @@ export type ProjectUpdate =
 
 export class CdktfProject {
   public stateMachine: InterpreterFrom<typeof projectExecutionMachine>;
-  public currentState: string;
   public stackName?: string;
   public currentPlan?: TerraformPlan;
   public status: Status;
@@ -154,13 +153,11 @@ export class CdktfProject {
       })
     );
 
-    this.currentState = "idle";
     this.stateMachine.onTransition((state) => {
       if (!state) {
         return;
       }
 
-      this.currentState = state.toStrings()[0];
       const lastState = (state.history?.toStrings() || [])[0];
 
       logger.debug(
@@ -271,6 +268,10 @@ export class CdktfProject {
     });
 
     this.stateMachine.start();
+  }
+
+  public get currentState(): string {
+    return this.stateMachine.state.toStrings()[0] || "idle";
   }
 
   private waitOnMachineDone(): Promise<string> {
