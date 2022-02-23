@@ -274,13 +274,13 @@ export class CdktfProject {
     return this.stateMachine.state.toStrings()[0] || "idle";
   }
 
-  private waitOnMachineDone(): Promise<string> {
+  private waitOnMachineDone(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.stateMachine.onTransition((state) => {
         if (state.matches("error")) {
           reject(state.context.message);
         } else if (state.matches("done")) {
-          resolve("done");
+          resolve();
         }
       });
     });
