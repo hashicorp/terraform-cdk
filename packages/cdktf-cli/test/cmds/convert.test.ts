@@ -74,4 +74,134 @@ describe("convert command", () => {
       );
     });
   }, 30_000);
+
+  it("works with a singular provider flag passed", async () => {
+    await mkdtemp(async (cwd) => {
+      const result = await execa(
+        cdktfBin,
+        ["convert", "--provider=kubernetes"],
+        {
+          stdio: "pipe",
+          cwd,
+          input: `resource "kubernetes_deployment" "myapp" {
+            metadata {
+              name = "myapp-frontend-dev"
+              labels = {
+                app = "myapp"
+                component = "frontend"
+                environment = "dev"
+              }
+            }
+          
+            spec {
+              replicas = "1"
+          
+              selector {
+                match_labels = {
+                  app = "myapp"
+                  component = "frontend"
+                  environment = "dev"
+                }
+              }
+          
+              template {
+                metadata {
+                  labels = {
+                    app = "myapp"
+                    component = "frontend"
+                    environment = "dev"
+                  }
+                }
+          
+                spec {
+                  container {
+                    image = "nginx:latest"
+                    name  = "myapp-frontend-dev"
+                    # ports {
+                    #   containerPort = 80
+                    # }
+                  }
+                }
+              }
+            }
+          }`,
+        }
+      );
+      expect(result.stderr).toEqual("");
+      expect(result.stdout).not.toContain(
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly: null.`
+      );
+      expect(result.stdout).toContain(
+        `import * as kubernetes from "./.gen/providers/kubernetes";`
+      );
+      expect(result.stdout).toContain(
+        `new kubernetes.Deployment(this, "myapp", {`
+      );
+    });
+  }, 30_000);
+
+  it("works with multiple provider flag passed", async () => {
+    await mkdtemp(async (cwd) => {
+      const result = await execa(
+        cdktfBin,
+        ["convert", "--provider=kubernetes", "--provider=null"],
+        {
+          stdio: "pipe",
+          cwd,
+          input: `resource "kubernetes_deployment" "myapp" {
+            metadata {
+              name = "myapp-frontend-dev"
+              labels = {
+                app = "myapp"
+                component = "frontend"
+                environment = "dev"
+              }
+            }
+          
+            spec {
+              replicas = "1"
+          
+              selector {
+                match_labels = {
+                  app = "myapp"
+                  component = "frontend"
+                  environment = "dev"
+                }
+              }
+          
+              template {
+                metadata {
+                  labels = {
+                    app = "myapp"
+                    component = "frontend"
+                    environment = "dev"
+                  }
+                }
+          
+                spec {
+                  container {
+                    image = "nginx:latest"
+                    name  = "myapp-frontend-dev"
+                    # ports {
+                    #   containerPort = 80
+                    # }
+                  }
+                }
+              }
+            }
+          }`,
+        }
+      );
+      expect(result.stderr).toEqual("");
+      expect(result.stdout).not.toContain(
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly: null.`
+      );
+      expect(result.stdout).toContain(
+        `import * as kubernetes from "./.gen/providers/kubernetes";`
+      );
+      expect(result.stdout).toContain(
+        `new kubernetes.Deployment(this, "myapp", {`
+      );
+    });
+  }, 30_000);
 });

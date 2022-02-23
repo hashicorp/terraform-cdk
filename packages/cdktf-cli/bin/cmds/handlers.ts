@@ -47,7 +47,10 @@ export async function convert({ language }: any) {
   const cdktfJsonPath = findFileAboveCwd("cdktf.json");
   if (cdktfJsonPath) {
     const cdktfJson = await fs.readJson(cdktfJsonPath);
-    providerRequirements.push(...cdktfJson.terraformProviders);
+
+    if (Array.isArray(cdktfJson.terraformProviders)) {
+      providerRequirements.push(...cdktfJson.terraformProviders);
+    }
   }
   // Get all the provider schemas
   const { providerSchema } = await readSchema(
