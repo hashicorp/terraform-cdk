@@ -28,7 +28,7 @@ export enum Status {
   PLANNED = "planned",
   DEPLOYING = "deploying",
   DESTROYING = "destroying",
-  OUTPUT_FETCHED = "output fetched",
+  OUTPUTS_FETCHED = "output fetched",
   DONE = "done",
 }
 
@@ -201,7 +201,7 @@ export class CdktfProject {
           break;
 
         case "gatherOutput": {
-          this.status = Status.OUTPUT_FETCHED;
+          this.status = Status.OUTPUTS_FETCHED;
           this.outputs = state.context.outputs!;
           this.outputsByConstructId = state.context.outputsByConstructId!;
 
