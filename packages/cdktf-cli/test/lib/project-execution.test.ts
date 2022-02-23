@@ -15,7 +15,7 @@ function getStateMachine({
   diff = mockAsyncFunction({ needsApply: true }),
   deploy = mockAsyncFunction(null),
   destroy = mockAsyncFunction(null),
-  gatherOutputss = mockAsyncFunction({ outputs: {}, outputsByConstructId: {} }),
+  gatherOutputs = mockAsyncFunction({ outputs: {}, outputsByConstructId: {} }),
   targetActionIs = guards.targetActionIs,
   autoApprove = guards.autoApprove,
   planNeedsNoApply = guards.planNeedsNoApply,
@@ -34,7 +34,7 @@ function getStateMachine({
           diff,
           deploy,
           destroy,
-          gatherOutputss,
+          gatherOutputs,
         },
         guards: {
           targetActionIs: targetActionIs as any, // since it's a custom guard

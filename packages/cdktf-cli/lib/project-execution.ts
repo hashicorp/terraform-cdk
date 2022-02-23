@@ -220,7 +220,7 @@ const services = {
       });
     });
   },
-  gatherOutputss: async (context: ProjectContext) => {
+  gatherOutputs: async (context: ProjectContext) => {
     const stack = getStack(context);
 
     const tf = context.terraform;
@@ -318,7 +318,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           },
           onDone: [
             {
-              target: "gatherOutputss",
+              target: "gatherOutputs",
               actions: assign({
                 terraform: (_context, event) => event.data,
               }),
@@ -367,7 +367,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
               actions: assign({
                 targetStackPlan: (_context, event) => event.data,
               }),
-              target: "gatherOutputss",
+              target: "gatherOutputs",
               cond: "planNeedsNoApply",
             },
             {
@@ -427,7 +427,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             }),
           },
           onDone: {
-            target: "gatherOutputss",
+            target: "gatherOutputs",
           },
         },
       },
@@ -446,10 +446,10 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           },
         },
       },
-      gatherOutputss: {
+      gatherOutputs: {
         invoke: {
-          id: "gatherOutputss",
-          src: "gatherOutputss",
+          id: "gatherOutputs",
+          src: "gatherOutputs",
           onError: {
             target: "error",
             actions: assign({
