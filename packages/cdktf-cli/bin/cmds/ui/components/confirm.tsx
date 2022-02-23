@@ -22,7 +22,7 @@ export const Confirm = ({ onApprove }: ConfirmConfig): React.ReactElement => {
           value={value}
           onChange={setValue}
           onSubmit={(value: string) => {
-            if (value) {
+            if (value === "yes") {
               onApprove();
             } else {
               exit();
