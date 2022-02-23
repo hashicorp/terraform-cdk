@@ -137,6 +137,7 @@ describe("convert command", () => {
       expect(result.stdout).toContain(
         `new kubernetes.Deployment(this, "myapp", {`
       );
+      expect(result.stdout).toContain(`template: {`);
     });
   }, 30_000);
 
@@ -202,6 +203,7 @@ describe("convert command", () => {
       expect(result.stdout).toContain(
         `new kubernetes.Deployment(this, "myapp", {`
       );
+      expect(result.stdout).toContain(`template: {`);
     });
   }, 30_000);
 });

@@ -39,19 +39,23 @@ import { NestedTerraformOutputs } from "./ui/terraform-context";
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
 
-export async function convert({ language }: any) {
-  await displayVersionMessage();
-
-  const providerRequirements: string[] = (yargs.argv.provider ||
-    []) as string[];
+async function getProviderRequirements(provider: string[]) {
+  const items: string[] = provider;
   const cdktfJsonPath = findFileAboveCwd("cdktf.json");
   if (cdktfJsonPath) {
     const cdktfJson = await fs.readJson(cdktfJsonPath);
 
     if (Array.isArray(cdktfJson.terraformProviders)) {
-      providerRequirements.push(...cdktfJson.terraformProviders);
+      items.push(...cdktfJson.terraformProviders);
     }
   }
+  return items;
+}
+
+export async function convert({ language, provider }: any) {
+  await displayVersionMessage();
+
+  const providerRequirements = await getProviderRequirements(provider);
   // Get all the provider schemas
   const { providerSchema } = await readSchema(
     providerRequirements.map((spec) =>
