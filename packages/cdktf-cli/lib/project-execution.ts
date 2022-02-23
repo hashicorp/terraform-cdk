@@ -150,9 +150,12 @@ const services = {
       type: "STACK_SELECTED",
       stackName: stack.name,
     });
+    const isSpeculative = !["deploy", "destroy"].includes(
+      context.targetAction!
+    );
     const terraform = await getTerraformClient(
       stack,
-      true,
+      isSpeculative,
       getLogCallbackForStack(context)
     );
     await terraform.init();

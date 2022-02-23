@@ -198,6 +198,7 @@ export class TerraformCloud implements Terraform {
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
       throw new Error("Please create a ConfigurationVersion before planning");
+    const sendLog = this.sendLog("plan");
     const workspace = await this.workspace();
     const workspaceUrl = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}`;
 
@@ -263,10 +264,13 @@ export class TerraformCloud implements Terraform {
       throw new Error(`Error planning the run, please take a look at ${url}`);
     }
 
+    sendLog(`Starting plan at ${url}`);
     const plan = await this.client.Plans.jsonOutput(
       result.relationships.plan.data.id
     );
+
     this.run = result;
+    sendLog(`Plan finished, see ${url}. Result is ${JSON.stringify(result)}`);
     return new TerraformCloudPlan(
       "terraform-cloud",
       plan as unknown as any,
