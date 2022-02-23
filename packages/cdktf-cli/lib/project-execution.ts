@@ -207,7 +207,7 @@ const services = {
       });
     });
   },
-  gatherOutput: async (context: ProjectContext) => {
+  gatherOutputss: async (context: ProjectContext) => {
     if (context.targetAction === "destroy") {
       return Promise.resolve({});
     }
@@ -229,7 +229,7 @@ const services = {
 };
 
 const guards = {
-  onTargetAction: (
+  targetActionIs: (
     context: ProjectContext,
     _event: any,
     state: { cond: { value: string } } // https://xstate.js.org/docs/guides/guards.html#custom-guards
@@ -281,18 +281,18 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
                 synthesizedStacks: (_context, event) => event.data,
               }),
               cond: {
-                type: "onTargetAction",
+                type: "targetActionIs",
                 name: "actionIsSynth",
                 value: "synth",
               },
             },
             {
-              target: "gatherOutput",
+              target: "gatherOutputss",
               actions: assign({
                 synthesizedStacks: (_context, event) => event.data,
               }),
               cond: {
-                type: "onTargetAction",
+                type: "targetActionIs",
                 name: "actionIsOutput",
                 value: "output",
               },
@@ -326,7 +326,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
                 targetStackPlan: (_context, event) => event.data,
               }),
               cond: {
-                type: "onTargetAction",
+                type: "targetActionIs",
                 name: "actionIsDiff",
                 value: "diff",
               },
@@ -336,7 +336,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
               actions: assign({
                 targetStackPlan: (_context, event) => event.data,
               }),
-              target: "gatherOutput",
+              target: "gatherOutputss",
               cond: "planNeedsNoApply",
             },
             {
@@ -370,7 +370,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           {
             target: "deploy",
             cond: {
-              type: "onTargetAction",
+              type: "targetActionIs",
               name: "actionIsDiff",
               value: "deploy",
             },
@@ -378,7 +378,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           {
             target: "destroy",
             cond: {
-              type: "onTargetAction",
+              type: "targetActionIs",
               name: "actionIsDiff",
               value: "destroy",
             },
@@ -396,7 +396,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             }),
           },
           onDone: {
-            target: "gatherOutput",
+            target: "gatherOutputss",
           },
         },
       },
@@ -411,14 +411,14 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             }),
           },
           onDone: {
-            target: "gatherOutput",
+            target: "gatherOutputss",
           },
         },
       },
-      gatherOutput: {
+      gatherOutputss: {
         invoke: {
-          id: "gatherOutput",
-          src: "gatherOutput",
+          id: "gatherOutputss",
+          src: "gatherOutputss",
           onError: {
             target: "error",
             actions: assign({

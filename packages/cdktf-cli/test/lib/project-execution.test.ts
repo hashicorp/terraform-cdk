@@ -15,8 +15,8 @@ function getStateMachine({
   diff = mockAsyncFunction({ needsApply: true }),
   deploy = mockAsyncFunction(null),
   destroy = mockAsyncFunction(null),
-  gatherOutput = mockAsyncFunction({ outputs: {}, outputsByConstructId: {} }),
-  onTargetAction = guards.onTargetAction,
+  gatherOutputss = mockAsyncFunction({ outputs: {}, outputsByConstructId: {} }),
+  targetActionIs = guards.targetActionIs,
   autoApprove = guards.autoApprove,
   planNeedsNoApply = guards.planNeedsNoApply,
 }: Partial<StateMachineConfig>) {
@@ -34,10 +34,10 @@ function getStateMachine({
           diff,
           deploy,
           destroy,
-          gatherOutput,
+          gatherOutputss,
         },
         guards: {
-          onTargetAction: onTargetAction as any, // since it's a custom guard
+          targetActionIs: targetActionIs as any, // since it's a custom guard
           autoApprove,
           planNeedsNoApply: planNeedsNoApply as any, // needs a second arg, types are off here
         },

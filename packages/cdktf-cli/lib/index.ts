@@ -196,7 +196,7 @@ export class CdktfProject {
           });
           break;
 
-        case "gatherOutput": {
+        case "gatherOutputss": {
           this.outputs = state.context.outputs!;
           this.outputsByConstructId = state.context.outputsByConstructId!;
 
