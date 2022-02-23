@@ -52,6 +52,7 @@ export interface ProjectContext {
   targetStack?: string;
   message?: string;
   synthesizedStacks?: SynthesizedStack[];
+  terraform?: Terraform;
   targetStackPlan?: TerraformPlan;
   autoApprove?: boolean;
   synthCommand: string;
@@ -96,6 +97,7 @@ function getStack(
 
 function getLogCallbackForStack(
   context: ProjectContext,
+  // TODO: put statename in thunk
   stateName: string
 ): (message: string, isError?: boolean) => void {
   const stack = getStack(context);
@@ -143,7 +145,7 @@ const services = {
 
     return stacks;
   },
-  diff: async (context: ProjectContext) => {
+  initializeTerraform: async (context: ProjectContext) => {
     const stack = getStack(context);
     context.onProgress({
       type: "STACK_SELECTED",
@@ -155,22 +157,32 @@ const services = {
       getLogCallbackForStack(context, "plan")
     );
     await terraform.init();
-    return terraform.plan(context.targetAction === "destroy");
+    return terraform;
+  },
+  diff: async (context: ProjectContext) => {
+    const tf = context.terraform;
+    if (!tf) {
+      throw Errors.Internal(
+        "No terraform cli found, initializeTerraform needs to be run first"
+      );
+    }
+
+    return tf.plan(context.targetAction === "destroy");
   },
   deploy: async (context: ProjectContext) => {
+    const stack = getStack(context);
     const planFile = context.targetStackPlan?.planFile;
     if (!planFile) {
       throw Errors.Internal("No plan file found, diff needs to be run first");
     }
+    const tf = context.terraform;
+    if (!tf) {
+      throw Errors.Internal(
+        "No terraform cli found, initializeTerraform needs to be run first"
+      );
+    }
 
-    const stack = getStack(context);
-    const terraform = await getTerraformClient(
-      stack,
-      false,
-      getLogCallbackForStack(context, "apply")
-    );
-
-    await terraform.deploy(planFile, (chunk: Buffer) => {
+    await tf.deploy(planFile, (chunk: Buffer) => {
       const stdout = chunk.toString("utf8");
 
       context.onProgress({
@@ -183,19 +195,20 @@ const services = {
     });
   },
   destroy: async (context: ProjectContext) => {
+    const stack = getStack(context);
     const planFile = context.targetStackPlan?.planFile;
     if (!planFile) {
       throw Errors.Internal("No plan file found, diff needs to be run first");
     }
 
-    const stack = getStack(context);
-    const terraform = await getTerraformClient(
-      stack,
-      false,
-      getLogCallbackForStack(context, "destroy")
-    );
+    const tf = context.terraform;
+    if (!tf) {
+      throw Errors.Internal(
+        "No terraform cli found, initializeTerraform needs to be run first"
+      );
+    }
 
-    await terraform.destroy((chunk: Buffer) => {
+    await tf.destroy((chunk: Buffer) => {
       const stdout = chunk.toString("utf8");
 
       context.onProgress({
@@ -208,17 +221,15 @@ const services = {
     });
   },
   gatherOutputss: async (context: ProjectContext) => {
-    if (context.targetAction === "destroy") {
-      return Promise.resolve({});
-    }
-
     const stack = getStack(context);
-    const terraform = await getTerraformClient(
-      stack,
-      false,
-      getLogCallbackForStack(context, "output")
-    );
-    const outputs = await terraform.output();
+
+    const tf = context.terraform;
+    if (!tf) {
+      throw Errors.Internal(
+        "No terraform cli found, initializeTerraform needs to be run first"
+      );
+    }
+    const outputs = await tf.output();
     const outputsByConstructId = getConstructIdsForOutputs(
       JSON.parse(stack.content),
       outputs
@@ -287,9 +298,29 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
               },
             },
             {
-              target: "gatherOutputss",
+              target: "init",
               actions: assign({
                 synthesizedStacks: (_context, event) => event.data,
+              }),
+            },
+          ],
+        },
+      },
+      init: {
+        invoke: {
+          id: "initializeTerraform",
+          src: "initializeTerraform",
+          onError: {
+            target: "error",
+            actions: assign({
+              message: (_context, event) => event.data,
+            }),
+          },
+          onDone: [
+            {
+              target: "gatherOutputss",
+              actions: assign({
+                terraform: (_context, event) => event.data,
               }),
               cond: {
                 type: "targetActionIs",
@@ -300,7 +331,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             {
               target: "diff",
               actions: assign({
-                synthesizedStacks: (_context, event) => event.data,
+                terraform: (_context, event) => event.data,
               }),
             },
           ],
@@ -411,7 +442,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             }),
           },
           onDone: {
-            target: "gatherOutputss",
+            target: "done",
           },
         },
       },
