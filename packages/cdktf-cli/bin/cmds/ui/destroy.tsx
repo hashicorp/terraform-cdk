@@ -9,7 +9,7 @@ import {
   TerraformPlan,
 } from "../../../lib/models/terraform";
 import { Plan } from "./diff";
-import { CdktfProject, ProjectUpdates } from "../../../lib";
+import { CdktfProject, ProjectUpdate } from "../../../lib";
 import { ErrorComponent } from "./components/error";
 import { Confirm } from "./components/confirm";
 
@@ -60,7 +60,7 @@ export const Destroy = ({
   synthCommand,
   autoApprove,
 }: DestroyConfig): React.ReactElement => {
-  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
   const [stackName, setStackName] = useState<string>();
   const [plan, setPlan] = useState<TerraformPlan>();
   const [error, setError] = useState<Error>();

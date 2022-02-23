@@ -10,7 +10,7 @@ import {
   TerraformOutput,
 } from "../../../lib/models/terraform";
 import { Plan } from "./diff";
-import { CdktfProject, ProjectUpdates } from "../../../lib";
+import { CdktfProject, ProjectUpdate } from "../../../lib";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { ErrorComponent } from "./components/error";
 import { Confirm } from "./components/confirm";
@@ -97,7 +97,7 @@ export const Deploy = ({
   onOutputsRetrieved,
   outputsPath,
 }: DeployConfig): React.ReactElement => {
-  const [lastProjectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
+  const [lastProjectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
   const [stackName, setStackName] = useState<string>();
   const [plan, setPlan] = useState<TerraformPlan>();
   const [error, setError] = useState<Error>();

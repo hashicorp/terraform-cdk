@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { Outputs as OutputComponent } from "./components";
-import { CdktfProject, ProjectUpdates } from "../../../lib";
+import { CdktfProject, ProjectUpdate } from "../../../lib";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { TerraformOutput } from "../../../lib/models/terraform";
 import { ErrorComponent } from "./components/error";
@@ -24,7 +24,7 @@ export const Output = ({
   outputsPath,
 }: OutputConfig): React.ReactElement => {
   const [done, setDone] = useState(false);
-  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdates>();
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
   const [stackName, setStackName] = useState<string>();
   const [error, setError] = useState<Error>();
   const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();

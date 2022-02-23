@@ -32,7 +32,7 @@ export enum Status {
   DONE = "done",
 }
 
-export type ProjectUpdates =
+export type ProjectUpdate =
   | {
       type: "synthesizing";
     }
@@ -108,7 +108,7 @@ export class CdktfProject {
   }: {
     synthCommand: string;
     outDir: string;
-    onUpdate: (update: ProjectUpdates) => void;
+    onUpdate: (update: ProjectUpdate) => void;
     autoApprove?: boolean;
     workingDirectory?: string;
   }) {
