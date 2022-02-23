@@ -124,7 +124,7 @@ describe("CdktfProject", () => {
   });
 
   describe("deploy", () => {
-    it("runs synth and diff once and waits in for approval", async () => {
+    it("runs synth and diff once and waits for approval", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
@@ -179,7 +179,7 @@ describe("CdktfProject", () => {
   });
 
   describe("destroy", () => {
-    it("runs synth and diff once and waits in for approval", async () => {
+    it("runs synth and diff once and waits for approval", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",

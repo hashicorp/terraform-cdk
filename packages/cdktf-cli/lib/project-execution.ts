@@ -83,7 +83,9 @@ function getStack(
 
   if (stacks.length !== 1) {
     throw Errors.Usage(
-      `Found more than one stack, please specify a target stack. Run cdktf <verb> <stack> with one of these stacks: ${stacks
+      `Found more than one stack, please specify a target stack. Run cdktf ${
+        context.targetAction || "<verb>"
+      } <stack> with one of these stacks: ${stacks
         .map((s) => s.name)
         .join(", ")} `
     );
@@ -118,7 +120,7 @@ async function getTerraformClient(
   if (parsedStack.terraform?.backend?.remote) {
     const tfClient = new TerraformCloud(
       stack,
-      parsedStack.terraform?.backend?.remote,
+      parsedStack.terraform.backend.remote,
       isSpeculative,
       sendLog
     );
