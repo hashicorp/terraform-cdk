@@ -22,7 +22,7 @@ describe("convert command", () => {
       });
       expect(result.stderr).toEqual("");
       expect(result.stdout).toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly: null.`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly.`
       );
       expect(result.stdout).toContain(
         `import * as NullProvider from "./.gen/providers/null";`
@@ -45,7 +45,7 @@ describe("convert command", () => {
       });
       expect(result.stderr).toEqual("");
       expect(result.stdout).not.toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly: null.`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly.`
       );
       expect(result.stdout).toContain(
         `import * as NullProvider from "./.gen/providers/null";`
@@ -64,7 +64,7 @@ describe("convert command", () => {
       });
       expect(result.stderr).toEqual("");
       expect(result.stdout).toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly: null.`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly.`
       );
       expect(result.stdout).toContain(
         `import * as NullProvider from "./.gen/providers/null";`
@@ -129,7 +129,7 @@ describe("convert command", () => {
       );
       expect(result.stderr).toEqual("");
       expect(result.stdout).not.toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly: null.`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly.`
       );
       expect(result.stdout).toContain(
         `import * as kubernetes from "./.gen/providers/kubernetes";`
@@ -195,7 +195,7 @@ describe("convert command", () => {
       );
       expect(result.stderr).toEqual("");
       expect(result.stdout).not.toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly: null.`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly.`
       );
       expect(result.stdout).toContain(
         `import * as kubernetes from "./.gen/providers/kubernetes";`
