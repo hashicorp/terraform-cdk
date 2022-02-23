@@ -55,13 +55,15 @@ export class TerraformProviderGenerator {
     }
 
     for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
+      const providerVersion = schema.provider_versions?.fqpn;
+
       if (
         this.providerConstraints &&
         this.providerConstraints.find((p) => isMatching(p, fqpn))
       ) {
-        this.emitProvider(fqpn, provider);
+        this.emitProvider(fqpn, provider, providerVersion);
       } else if (!this.providerConstraints) {
-        this.emitProvider(fqpn, provider);
+        this.emitProvider(fqpn, provider, providerVersion);
       }
     }
   }
@@ -70,10 +72,22 @@ export class TerraformProviderGenerator {
     await this.code.save(outdir);
   }
 
-  private emitProvider(fqpn: string, provider: Provider) {
+  private emitProvider(
+    fqpn: string,
+    provider: Provider,
+    providerVersion?: string
+  ) {
     const name = fqpn.split("/").pop();
     if (!name) {
       throw new Error(`can't handle ${fqpn}`);
+    }
+
+    let constraint: ConstructsMakerTarget | undefined;
+    if (this.providerConstraints) {
+      constraint = this.providerConstraints.find((p) => isMatching(p, fqpn));
+      if (!constraint) {
+        throw new Error(`can't handle ${fqpn}`);
+      }
     }
 
     const resourceModels: ResourceModel[] = [];
@@ -96,6 +110,12 @@ export class TerraformProviderGenerator {
     const namespacedResources: Record<NamespaceName, ResourceModel[]> = {};
     const files: string[] = [];
     resourceModels.forEach((resourceModel) => {
+      if (constraint) {
+        resourceModel.providerVersionConstraint = constraint.version;
+        resourceModel.terraformProviderSource = constraint.source;
+      }
+      resourceModel.providerVersion = providerVersion;
+
       if (resourceModel.namespace) {
         const namespace = resourceModel.namespace.name;
         if (!namespacedResources[namespace]) {
@@ -120,16 +140,11 @@ export class TerraformProviderGenerator {
         provider.provider,
         "provider"
       );
-      if (this.providerConstraints) {
-        const constraint = this.providerConstraints.find((p) =>
-          isMatching(p, fqpn)
-        );
-        if (!constraint) {
-          throw new Error(`can't handle ${fqpn}`);
-        }
+      if (constraint) {
         providerResource.providerVersionConstraint = constraint.version;
         providerResource.terraformProviderSource = constraint.source;
       }
+      providerResource.providerVersion = providerVersion;
       files.push(this.emitResourceFile(providerResource));
     }
 

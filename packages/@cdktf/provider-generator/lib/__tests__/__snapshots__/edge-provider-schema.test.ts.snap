@@ -79,8 +79,7 @@ export class EdgeProvider extends cdktf.TerraformProvider {
     super(scope, id, {
       terraformResourceType: 'edge',
       terraformGeneratorMetadata: {
-        providerName: 'edge',
-        providerVersionConstraint: 'undefined'
+        providerName: 'edge'
       },
       terraformProviderSource: 'undefined'
     });
