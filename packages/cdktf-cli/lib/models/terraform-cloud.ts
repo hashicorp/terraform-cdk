@@ -117,8 +117,7 @@ export class TerraformCloud implements Terraform {
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
     isSpeculative = false,
-    // TODO: find out how to forward logs from terraform cloud (only public to ignore ts error)
-    public readonly sendLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    private readonly sendLog = (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     if (!config.workspaces.name)
       throw new Error("Please provide a workspace name for Terraform Cloud");
@@ -279,6 +278,7 @@ export class TerraformCloud implements Terraform {
     _planFile: string,
     stdout: (chunk: Buffer) => any
   ): Promise<void> {
+    const sendLog = this.sendLog;
     if (!this.run)
       throw new Error(
         "Please create a ConfigurationVersion / Plan before deploying"
@@ -297,7 +297,9 @@ export class TerraformCloud implements Terraform {
         ({ data }) => {
           // In rare cases the backend sends an empty chunk of data back.
           if (data && data.length) {
-            stdout(Buffer.from(data, "utf8"));
+            const buffer = Buffer.from(data, "utf8");
+            stdout(buffer);
+            sendLog(buffer.toString("utf8"), false);
           }
         }
       );
@@ -324,6 +326,7 @@ export class TerraformCloud implements Terraform {
         "Please create a ConfigurationVersion / Plan before destroying"
       );
 
+    const sendLog = this.sendLog;
     const destroyingStates = ["confirmed", "apply_queued", "applying"];
     const runId = this.run.id;
     await this.client.Runs.action("apply", runId);
@@ -333,8 +336,12 @@ export class TerraformCloud implements Terraform {
       const res = await client.Runs.show(runId);
 
       // fetch logs and update UI in the background
-      client.Applies.logs(result.relationships.apply.data.id).then(({ data }) =>
-        stdout(Buffer.from(data, "utf8"))
+      client.Applies.logs(result.relationships.apply.data.id).then(
+        ({ data }) => {
+          const buffer = Buffer.from(data, "utf8");
+          stdout(buffer);
+          sendLog(buffer.toString("utf8"), false);
+        }
       );
       return res;
     }
