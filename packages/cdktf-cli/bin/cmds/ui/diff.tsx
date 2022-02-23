@@ -3,7 +3,7 @@ import { Text, Box, Static } from "ink";
 import Spinner from "ink-spinner";
 import { PlannedResource, TerraformPlan } from "../../../lib/models/terraform";
 import { PlanElement } from "./components";
-import { CdktfProject, Status } from "../../../lib";
+import { CdktfProject, ProjectUpdate } from "../../../lib";
 import { ErrorComponent } from "./components/error";
 
 interface DiffConfig {
@@ -106,7 +106,7 @@ export const Diff = ({
   targetStack,
   synthCommand,
 }: DiffConfig): React.ReactElement => {
-  const [projectStatus, setProjectStatus] = useState<Status>();
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
   const [stackName, setStackName] = useState<string>();
   const [plan, setPlan] = useState<TerraformPlan>();
   const [error, setError] = useState<string | null>(null);
@@ -115,9 +115,9 @@ export const Diff = ({
     const project = new CdktfProject({
       outDir,
       synthCommand,
-      onUpdate: () => {
+      onUpdate: (update: ProjectUpdate) => {
         setStackName(project.stackName || "");
-        setProjectStatus(project.status);
+        setProjectUpdate(update);
       },
     });
 
@@ -147,10 +147,10 @@ export const Diff = ({
         <Box paddingLeft={1}>
           <Text>
             {stackName === "" ? (
-              `${projectStatus}...`
+              `${projectUpdate?.type}...`
             ) : (
               <Text>
-                {projectStatus}
+                {projectUpdate?.type}
                 <Text bold>&nbsp;{stackName}</Text>...
               </Text>
             )}

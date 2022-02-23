@@ -27,9 +27,12 @@ export enum Status {
   PLANNING = "planning",
   PLANNED = "planned",
   DEPLOYING = "deploying",
+  DEPLOYED = "deployed",
   DESTROYING = "destroying",
+  DESTROYED = "destroyed",
   OUTPUTS_FETCHED = "output fetched",
-  DONE = "done",
+  ERROR = "error",
+  WAITING_FOR_APPROVAL = "waiting for approval",
 }
 
 export type ProjectUpdate =
@@ -92,7 +95,6 @@ export class CdktfProject {
   public stateMachine: InterpreterFrom<typeof projectExecutionMachine>;
   public stackName?: string;
   public currentPlan?: TerraformPlan;
-  public status: Status;
   public stacks?: SynthesizedStack[];
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
@@ -111,7 +113,6 @@ export class CdktfProject {
     autoApprove?: boolean;
     workingDirectory?: string;
   }) {
-    this.status = Status.STARTING;
     this.stateMachine = interpret(
       projectExecutionMachine.withContext({
         synthCommand,
@@ -170,7 +171,6 @@ export class CdktfProject {
       switch (lastState) {
         case "synth":
           this.stacks = ctx.synthesizedStacks || [];
-          this.status = Status.SYNTHESIZED;
           onUpdate({
             type: "synthesized",
             stacks: this.stacks,
@@ -181,7 +181,6 @@ export class CdktfProject {
 
         case "diff":
           this.currentPlan = ctx.targetStackPlan;
-          this.status = Status.PLANNED;
           if (this.currentPlan?.needsApply && ctx.targetAction !== "diff") {
             this.deployingResources = this.currentPlan?.applyableResources.map(
               (r: PlannedResource) =>
@@ -198,7 +197,6 @@ export class CdktfProject {
           break;
 
         case "gatherOutput": {
-          this.status = Status.OUTPUTS_FETCHED;
           this.outputs = state.context.outputs!;
           this.outputsByConstructId = state.context.outputsByConstructId!;
 
@@ -222,14 +220,12 @@ export class CdktfProject {
 
       switch (this.currentState) {
         case "synth":
-          this.status = Status.SYNTHESIZING;
           onUpdate({
             type: "synthesizing",
           });
           break;
 
         case "deploy":
-          this.status = Status.DEPLOYING;
           onUpdate({
             type: "deploying",
             stackName: this.stackName!,
@@ -237,7 +233,6 @@ export class CdktfProject {
           break;
 
         case "destroy":
-          this.status = Status.DEPLOYING;
           onUpdate({
             type: "destroying",
             stackName: this.stackName!,
@@ -245,7 +240,6 @@ export class CdktfProject {
           break;
 
         case "diff":
-          this.status = Status.PLANNING;
           onUpdate({
             type: "planning",
             stackName: this.stackName!,

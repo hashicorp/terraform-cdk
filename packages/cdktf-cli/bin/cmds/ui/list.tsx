@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import { CdktfProject, Status, SynthesizedStack } from "../../../lib";
+import { CdktfProject, SynthesizedStack } from "../../../lib";
 import { ErrorComponent } from "./components/error";
+import { ProjectUpdate } from "../../../lib/index";
 
 interface ListConfig {
   outDir: string;
@@ -13,7 +14,7 @@ export const List = ({
   outDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
-  const [projectStatus, setProjectStatus] = useState<Status>();
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
   const [stacks, setStacks] = useState<SynthesizedStack[] | undefined>(
     undefined
   );
@@ -23,8 +24,8 @@ export const List = ({
     const project = new CdktfProject({
       outDir,
       synthCommand,
-      onUpdate: () => {
-        setProjectStatus(project.status);
+      onUpdate: (update: ProjectUpdate) => {
+        setProjectUpdate(update);
       },
     });
 
@@ -69,7 +70,7 @@ export const List = ({
           <Spinner type="dots" />
         </Text>
         <Box paddingLeft={1}>
-          <Text>{projectStatus}...</Text>
+          <Text>{projectUpdate?.type}...</Text>
         </Box>
       </Fragment>
     </Box>
