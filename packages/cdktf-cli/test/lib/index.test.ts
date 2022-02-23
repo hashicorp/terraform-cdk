@@ -3,6 +3,12 @@ import * as path from "path";
 import * as os from "os";
 import { CdktfProject, get, init, Language } from "../../lib/index";
 
+function eventNames(events: any[]) {
+  return events
+    .map((event) => event.type)
+    .filter((name) => !name.includes("update"));
+}
+
 jest.setTimeout(30000);
 describe("CdktfProject", () => {
   let workingDirectory: string;
@@ -71,9 +77,7 @@ describe("CdktfProject", () => {
 
       await cdktfProject.synth();
 
-      expect(events.map((event) => event.type)).toEqual(
-        expect.arrayContaining(["synthesizing", "synthesized"])
-      );
+      expect(eventNames(events)).toEqual(["synthesizing", "synthesized"]);
     });
   });
 
@@ -92,14 +96,12 @@ describe("CdktfProject", () => {
 
       await cdktfProject.diff("first");
 
-      expect(events.map((event) => event.type)).toEqual(
-        expect.arrayContaining([
-          "synthesizing",
-          "synthesized",
-          "planning",
-          "planned",
-        ])
-      );
+      expect(eventNames(events)).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+      ]);
       return expect(cdktfProject.currentPlan?.resources.length).toEqual(1);
     });
 
@@ -139,17 +141,15 @@ describe("CdktfProject", () => {
 
       await cdktfProject.deploy("first");
 
-      return expect(events.map((event) => event.type)).toEqual(
-        expect.arrayContaining([
-          "synthesizing",
-          "synthesized",
-          "planning",
-          "planned",
-          "deploying",
-          "waiting for approval",
-          "deployed",
-        ])
-      );
+      return expect(eventNames(events)).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "waiting for approval",
+        "deploying",
+        "deployed",
+      ]);
     });
 
     it("runs synth and diff once and deploys on autoApprove", async () => {
@@ -166,17 +166,14 @@ describe("CdktfProject", () => {
 
       await cdktfProject.deploy("first");
 
-      const eventTypes = events.map((event) => event.type);
-      expect(eventTypes).toEqual(
-        expect.arrayContaining([
-          "synthesizing",
-          "synthesized",
-          "planning",
-          "planned",
-          // "deploying", // WHYYYY??
-          "deployed",
-        ])
-      );
+      const eventTypes = eventNames(events);
+      expect(eventTypes).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "deployed",
+      ]);
       return expect(eventTypes.includes("waiting for approval")).toBeFalsy();
     });
   });
@@ -199,17 +196,15 @@ describe("CdktfProject", () => {
 
       await cdktfProject.destroy("first");
 
-      return expect(events.map((event) => event.type)).toEqual(
-        expect.arrayContaining([
-          "synthesizing",
-          "synthesized",
-          "planning",
-          "planned",
-          "destroying",
-          "waiting for approval",
-          "destroyed",
-        ])
-      );
+      return expect(eventNames(events)).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "waiting for approval",
+        "destroying",
+        "destroyed",
+      ]);
     });
 
     it("runs synth and diff once and destroys on autoApprove", async () => {
@@ -226,17 +221,15 @@ describe("CdktfProject", () => {
 
       await cdktfProject.destroy("first");
 
-      const eventTypes = events.map((event) => event.type);
-      expect(eventTypes).toEqual(
-        expect.arrayContaining([
-          "synthesizing",
-          "synthesized",
-          "planning",
-          "planned",
-          "destroying",
-          "destroyed",
-        ])
-      );
+      const eventTypes = eventNames(events);
+      expect(eventTypes).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "destroying",
+        "destroyed",
+      ]);
       return expect(eventTypes.includes("waiting for approval")).toBeFalsy();
     });
   });
