@@ -124,14 +124,7 @@ export const Deploy = ({
     });
 
     project.deploy(targetStack).catch(setError);
-  }, [
-    setPlan,
-    setError,
-    setOutputs,
-    setStackName,
-    setProjectUpdate,
-    onOutputsRetrieved,
-  ]);
+  }, []);
 
   if (error) {
     return <ErrorComponent fatal error={error} />;

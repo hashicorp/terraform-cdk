@@ -47,13 +47,7 @@ export const Output = ({
         setDone(true);
       })
       .catch(setError);
-  }, [
-    setError,
-    setOutputs,
-    setStackName,
-    setProjectUpdate,
-    onOutputsRetrieved,
-  ]);
+  }, []);
 
   if (error) {
     return <ErrorComponent fatal error={error} />;

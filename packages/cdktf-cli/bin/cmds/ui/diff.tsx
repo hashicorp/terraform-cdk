@@ -124,7 +124,7 @@ export const Diff = ({
     project
       .diff(targetStack)
       .then(() => setPlan(project.currentPlan!), setError);
-  }, [setPlan, setError]);
+  }, []);
 
   if (error) {
     return <ErrorComponent fatal error={error} />;

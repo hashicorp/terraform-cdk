@@ -83,7 +83,7 @@ export const Destroy = ({
     });
 
     project.destroy(targetStack).catch(setError);
-  }, [setPlan, setError, setStackName, setProjectUpdate]);
+  }, []);
 
   if (error) {
     return <ErrorComponent fatal error={error} />;

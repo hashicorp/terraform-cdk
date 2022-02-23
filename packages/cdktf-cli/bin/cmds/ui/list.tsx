@@ -29,7 +29,7 @@ export const List = ({
     });
 
     project.synth().then(() => setStacks(project.stacks), setError);
-  }, [setStacks, setError]);
+  }, []);
 
   if (stacks !== undefined) {
     return (
