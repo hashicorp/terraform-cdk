@@ -1,3 +1,13 @@
+## 0.9.4
+
+### fix
+
+- fix(lib): check for null objects and don't try to reverse undefined or null [\#1592](https://github.com/hashicorp/terraform-cdk/pull/1592)
+
+### chore
+
+- chore(cli): fix typo in test assertion [\#1591](https://github.com/hashicorp/terraform-cdk/pull/1591)
+
 ## 0.9.3
 
 ### feat
