@@ -55,7 +55,9 @@ export class TerraformProviderGenerator {
     }
 
     for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
-      const providerVersion = schema.provider_versions?.fqpn;
+      const providerVersion = schema.provider_versions
+        ? schema.provider_versions[fqpn]
+        : undefined;
 
       if (
         this.providerConstraints &&
