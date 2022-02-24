@@ -15,6 +15,72 @@ describe("full integration test", () => {
   let sourceWorkspaceName: string;
   let consumerWorkspaceName: string;
   const orgName = "cdktf";
+  function getTestEnvironmentVariables(
+    sourceExecutionType,
+    consumerExecutionType
+  ) {
+    return {
+      TERRAFORM_CLOUD_SOURCE_WORKSPACE_NAME: sourceWorkspaceName,
+      TERRAFORM_CLOUD_SOURCE_EXECUTION_TYPE: sourceExecutionType,
+      TERRAFORM_CLOUD_CONSUMER_WORKSPACE_NAME: consumerWorkspaceName,
+      TERRAFORM_CLOUD_CONSUMER_EXECUTION_TYPE: consumerExecutionType,
+      TERRAFORM_CLOUD_ORGANIZATION: orgName,
+    };
+  }
+
+  function ifNotLocal(executionType, promiseThunk) {
+    return executionType === "local" ? Promise.resolve() : promiseThunk();
+  }
+
+  async function createWorkspaces(sourceExecutionType, consumerExecutionType) {
+    const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
+
+    await Promise.all([
+      ifNotLocal(sourceExecutionType, () =>
+        client.Workspaces.create(orgName, {
+          data: {
+            attributes: {
+              name: sourceWorkspaceName,
+              executionMode:
+                sourceExecutionType === "tfc-remote" ? "remote" : "local",
+              terraformVersion: TERRAFORM_VERSION,
+              // the consumer needs access
+              globalRemoteState: true,
+            },
+            type: "workspaces",
+          },
+        })
+      ),
+      ifNotLocal(consumerExecutionType, () =>
+        client.Workspaces.create(orgName, {
+          data: {
+            attributes: {
+              name: consumerWorkspaceName,
+              executionMode:
+                consumerExecutionType === "tfc-remote" ? "remote" : "local",
+              terraformVersion: TERRAFORM_VERSION,
+              // the consumer needs access
+              globalRemoteState: true,
+            },
+            type: "workspaces",
+          },
+        })
+      ),
+    ]);
+  }
+
+  async function deleteWorkspaces(sourceExecutionType, consumerExecutionType) {
+    const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
+
+    return await Promise.all([
+      ifNotLocal(sourceExecutionType, () =>
+        client.Workspaces.deleteByName(orgName, sourceWorkspaceName)
+      ),
+      ifNotLocal(consumerExecutionType, () =>
+        client.Workspaces.deleteByName(orgName, consumerWorkspaceName)
+      ),
+    ]);
+  }
 
   beforeEach(async () => {
     const baseName = `${GITHUB_RUN_NUMBER}-${crypto
@@ -22,80 +88,69 @@ describe("full integration test", () => {
       .toString("hex")}`;
     sourceWorkspaceName = `${baseName}-source`;
     consumerWorkspaceName = `${baseName}-consumer`;
-    driver = new TestDriver(__dirname, {
-      TERRAFORM_CLOUD_SOURCE_WORKSPACE_NAME: sourceWorkspaceName,
-      TERRAFORM_CLOUD_CONSUMER_WORKSPACE_NAME: consumerWorkspaceName,
-      TERRAFORM_CLOUD_ORGANIZATION: orgName,
-    });
+    driver = new TestDriver(__dirname);
     await driver.setupTypescriptProject();
+    console.log(driver.workingDirectory);
     driver.copyFolders("fixtures");
   });
 
-  withAuth("deploy in Terraform Cloud", async () => {
-    const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-    await client.Workspaces.create(orgName, {
-      data: {
-        attributes: {
-          name: sourceWorkspaceName,
-          executionMode: "remote",
-          terraformVersion: TERRAFORM_VERSION,
-        },
-        type: "workspaces",
-      },
+  describe("single stack", () => {
+    beforeEach(async () => {
+      await createWorkspaces("tfc-remote", "local");
     });
 
-    expect(driver.deploy("source-stack")).toMatchSnapshot();
-    await client.Workspaces.deleteByName(orgName, sourceWorkspaceName);
-  });
-
-  withAuth("deploy locally and then in Terraform Cloud", async () => {
-    const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-    await client.Workspaces.create(orgName, {
-      data: {
-        attributes: {
-          name: sourceWorkspaceName,
-          executionMode: "remote",
-          terraformVersion: TERRAFORM_VERSION,
-        },
-        type: "workspaces",
-      },
+    afterEach(async () => {
+      await deleteWorkspaces("tfc-remote", "local");
     });
 
-    process.env.TF_EXECUTE_LOCAL = "true";
-    driver.deploy("source-stack");
-    process.env.TF_EXECUTE_LOCAL = undefined;
-    driver.deploy("source-stack");
+    withAuth("deploy in Terraform Cloud", async () => {
+      driver.env = {
+        ...driver.env,
+        ...getTestEnvironmentVariables("tfc-remote", "local"),
+      };
+      expect(driver.deploy("source-stack")).toMatchSnapshot();
+    });
 
-    await client.Workspaces.deleteByName(orgName, sourceWorkspaceName);
-  });
-
-  // Only the origin stack is in TFC, the consumer stack is local
-  withAuth(
-    "deploy with cross stack reference origin in Terraform Cloud",
-    async () => {
-      const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-      await client.Workspaces.create(orgName, {
-        data: {
-          attributes: {
-            name: sourceWorkspaceName,
-            executionMode: "remote",
-            terraformVersion: TERRAFORM_VERSION,
-          },
-          type: "workspaces",
-        },
-      });
-
+    withAuth("deploy locally and then in Terraform Cloud", async () => {
+      driver.env = {
+        ...driver.env,
+        ...getTestEnvironmentVariables("local", "local"),
+      };
       driver.deploy("source-stack");
-      driver.deploy("consumer-stack");
+      driver.env = {
+        ...driver.env,
+        ...getTestEnvironmentVariables("tfc-remote", "local"),
+      };
+      driver.deploy("source-stack");
+    });
+  });
 
-      await client.Workspaces.deleteByName(orgName, sourceWorkspaceName);
+  describe("multiple stacks", () => {
+    withAuth.each([
+      // ["source-mode", "consumer-mode"],
+      ["tfc-remote", "local"],
+      ["tfc-remote", "tfc-local"],
+      ["tfc-remote", "tfc-remote"],
+      ["tfc-local", "tfc-remote"],
+      ["tfc-local", "tfc-local"],
+      // ["local", "tfc-*"], is not supported as it would require accessing local state from within TFC
+    ])(
+      "cross-stack reference from %s to %s",
+      async (sourceExecutionType, consumerExecutionType) => {
+        await createWorkspaces(sourceExecutionType, consumerExecutionType);
 
-      expect(driver.readLocalFile("origin-file.txt")).toEqual(
-        driver.readLocalFile("consumer-file.txt")
-      );
-    }
-  );
+        driver.env = {
+          ...driver.env,
+          ...getTestEnvironmentVariables(
+            sourceExecutionType,
+            consumerExecutionType
+          ),
+        };
+        driver.deploy("source-stack");
+        driver.deploy("consumer-stack");
+
+        await deleteWorkspaces(sourceExecutionType, consumerExecutionType);
+      }
+    );
+  });
 });

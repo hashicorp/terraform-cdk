@@ -5,6 +5,8 @@ import {
   Testing,
   TerraformAsset,
   TerraformOutput,
+  RemoteBackend,
+  LocalBackend,
 } from "cdktf";
 import * as NullProvider from "./.gen/providers/null";
 import * as local from "./.gen/providers/local";
@@ -14,8 +16,9 @@ const token = process.env.TERRAFORM_CLOUD_TOKEN;
 const sourceName = process.env.TERRAFORM_CLOUD_SOURCE_WORKSPACE_NAME;
 const consumerName = process.env.TERRAFORM_CLOUD_CONSUMER_WORKSPACE_NAME;
 const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
-const localSourceExecution = process.env.TF_EXECUTE_SOURCE_LOCAL === "true";
-const localConsumerExecution = process.env.TF_EXECUTE_CONSUMER_LOCAL === "true";
+const sourceExecutionMode = process.env.TERRAFORM_CLOUD_SOURCE_EXECUTION_TYPE;
+const consumerExecutionMode =
+  process.env.TERRAFORM_CLOUD_CONSUMER_EXECUTION_TYPE;
 
 export class SourceStack extends TerraformStack {
   public password: Password;
@@ -46,16 +49,20 @@ export class SourceStack extends TerraformStack {
       },
     ]);
 
-    if (!localSourceExecution) {
-      this.addOverride("terraform.backend", {
-        remote: {
-          organization,
+    switch (sourceExecutionMode) {
+      case "local":
+        new LocalBackend(this);
+        break;
+      case "tfc-remote":
+      case "tfc-local":
+        new RemoteBackend(this, {
+          token,
+          organization: organization!,
           workspaces: {
             name: sourceName,
           },
-          token,
-        },
-      });
+        });
+        break;
     }
 
     new TerraformOutput(this, "output", {
@@ -78,16 +85,20 @@ export class ConsumerStack extends TerraformStack {
 
     new local.LocalProvider(this, "local", {});
 
-    if (!localConsumerExecution) {
-      this.addOverride("terraform.backend", {
-        remote: {
-          organization,
+    switch (consumerExecutionMode) {
+      case "local":
+        new LocalBackend(this);
+        break;
+      case "tfc-remote":
+      case "tfc-local":
+        new RemoteBackend(this, {
+          token,
+          organization: organization!,
           workspaces: {
             name: consumerName,
           },
-          token,
-        },
-      });
+        });
+        break;
     }
 
     new local.File(this, "file", {
