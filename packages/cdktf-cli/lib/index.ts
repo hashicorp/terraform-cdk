@@ -20,22 +20,6 @@ import { logger } from "./logging";
 
 export { SynthesizedStack, Language };
 
-export enum Status {
-  STARTING = "starting",
-  SYNTHESIZING = "synthesizing",
-  SYNTHESIZED = "synthesized",
-  INITIALIZING = "initializing",
-  PLANNING = "planning",
-  PLANNED = "planned",
-  DEPLOYING = "deploying",
-  DEPLOYED = "deployed",
-  DESTROYING = "destroying",
-  DESTROYED = "destroyed",
-  OUTPUTS_FETCHED = "output fetched",
-  ERROR = "error",
-  WAITING_FOR_APPROVAL = "waiting for approval",
-}
-
 export type ProjectUpdate =
   | {
       type: "synthesizing";
@@ -105,12 +89,15 @@ export class CdktfProject {
     synthCommand,
     outDir,
     onUpdate,
+    onLog,
     autoApprove,
     workingDirectory = process.cwd(),
   }: {
     synthCommand: string;
     outDir: string;
     onUpdate: (update: ProjectUpdate) => void;
+    // TODO: should this be onUpdate?
+    onLog?: (log: { stackName: string; message: string }) => void;
     autoApprove?: boolean;
     workingDirectory?: string;
   }) {
@@ -127,6 +114,9 @@ export class CdktfProject {
               logger.debug(
                 `[${event.stackName}](${event.stateName}): ${event.message}`
               );
+              if (onLog) {
+                onLog({ stackName: event.stackName, message: event.message });
+              }
 
               break;
 

@@ -9,7 +9,6 @@ import {
   TerraformPlan,
   TerraformOutput,
 } from "../../../lib/models/terraform";
-import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdate } from "../../../lib";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { ErrorComponent } from "./components/error";
@@ -188,7 +187,7 @@ export const Deploy = ({
       return (
         <Box>
           <Box flexDirection="column">
-            <Plan currentStackName={stackName} plan={plan!} />
+            {/* <Plan currentStackName={stackName} plan={plan!} /> */}
             <Confirm onApprove={lastProjectUpdate.approve} />
           </Box>
         </Box>

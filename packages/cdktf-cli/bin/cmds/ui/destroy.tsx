@@ -8,7 +8,7 @@ import {
   PlannedResourceAction,
   TerraformPlan,
 } from "../../../lib/models/terraform";
-import { Plan } from "./diff";
+// import { Plan } from "./diff";
 import { CdktfProject, ProjectUpdate } from "../../../lib";
 import { ErrorComponent } from "./components/error";
 import { Confirm } from "./components/confirm";
@@ -131,7 +131,7 @@ export const Destroy = ({
       return (
         <Box>
           <Box flexDirection="column">
-            <Plan currentStackName={stackName || ""} plan={plan!} />
+            {/* <Plan currentStackName={stackName || ""} plan={plan!} /> */}
             <Confirm onApprove={projectUpdate.approve} />
           </Box>
         </Box>
