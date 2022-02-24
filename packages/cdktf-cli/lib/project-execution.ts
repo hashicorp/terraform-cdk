@@ -315,7 +315,10 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           onError: {
             target: "error",
             actions: assign({
-              message: (_context, event) => event.data,
+              message: (_context, event) => {
+                const errorMessage = event.data.stderr || event.data;
+                return `terraform init errored with: \n${errorMessage}`;
+              },
             }),
           },
           onDone: [

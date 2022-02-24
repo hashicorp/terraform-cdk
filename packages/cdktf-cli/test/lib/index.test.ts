@@ -117,7 +117,7 @@ describe("CdktfProject", () => {
       });
 
       return expect(cdktfProject.diff()).rejects.toMatchInlineSnapshot(`
-                "terraform plan errored with: 
+                "terraform init errored with: 
                 Error: Usage Error: Found more than one stack, please specify a target stack. Run cdktf diff <stack> with one of these stacks: first, second "
               `);
     });
