@@ -161,6 +161,9 @@ describe("CdktfProject", () => {
         autoApprove: true,
         onUpdate: (event) => {
           events.push(event);
+          if (event.type === "waiting for approval") {
+            event.approve();
+          }
         },
       });
 
