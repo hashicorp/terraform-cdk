@@ -12,6 +12,7 @@ function mockAsyncFunction(returnValue: any) {
 type StateMachineConfig = typeof services & typeof guards;
 function getStateMachine({
   synthProject = mockAsyncFunction(null),
+  initializeTerraform = mockAsyncFunction(null),
   diff = mockAsyncFunction({ needsApply: true }),
   deploy = mockAsyncFunction(null),
   destroy = mockAsyncFunction(null),
@@ -31,6 +32,7 @@ function getStateMachine({
       .withConfig({
         services: {
           synthProject,
+          initializeTerraform,
           diff,
           deploy,
           destroy,
