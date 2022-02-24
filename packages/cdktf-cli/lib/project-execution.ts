@@ -216,7 +216,7 @@ const services = {
       context.onProgress({
         type: "RESOURCE_UPDATE",
         stackName: stack.name,
-        stateName: "deploy",
+        stateName: "destroy",
         stdout,
         updatedResources: parseOutput(stdout),
       });

@@ -141,12 +141,23 @@ export class CdktfProject {
                 event.updatedResources.forEach((r) => map.set(r.id, r));
                 this.deployingResources = Array.from(map.values());
 
-                onUpdate({
-                  type: "deploy update",
-                  stackName: event.stackName,
-                  deployOutput: event.stdout,
-                  resources: this.deployingResources,
-                });
+                if (event.stateName === "deploy") {
+                  onUpdate({
+                    type: "deploy update",
+                    stackName: event.stackName,
+                    deployOutput: event.stdout,
+                    resources: this.deployingResources,
+                  });
+                } else if (event.stateName === "destroy") {
+                  onUpdate({
+                    type: "destroy update",
+                    stackName: event.stackName,
+                    destroyOutput: event.stdout,
+                    resources: this.deployingResources,
+                  });
+                } else {
+                  logger.error("Unknown state name: " + event.stateName);
+                }
               }
               break;
           }
@@ -216,6 +227,12 @@ export class CdktfProject {
           }
           break;
         }
+
+        case "destroy":
+          onUpdate({
+            type: "destroyed",
+            stackName: this.stackName!,
+          });
       }
 
       switch (this.currentState) {
