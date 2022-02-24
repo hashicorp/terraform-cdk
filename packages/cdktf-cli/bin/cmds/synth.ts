@@ -13,7 +13,7 @@ class Command implements yargs.CommandModule {
   public readonly builder = (args: yargs.Argv) =>
     args
       .positional("stack", {
-        desc: "Stack to output when using --json flag",
+        desc: "Stack to output when using --json flag ",
         type: "string",
       })
       .option("app", {
