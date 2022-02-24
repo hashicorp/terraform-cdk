@@ -4,7 +4,7 @@ import Spinner from "ink-spinner";
 import {
   DeployingResourceApplyState,
   DeployingResource,
-} from "../models/terraform";
+} from "../../../../lib/models/terraform";
 import { ResourceName } from "./resource-name";
 
 interface DeployingElementStatusProps {

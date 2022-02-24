@@ -8,12 +8,12 @@ import {
   TerraformOutput,
   AbstractTerraformPlan,
 } from "./terraform";
-import { TerraformJsonConfigBackendRemote } from "../terraform-json";
+import { TerraformJsonConfigBackendRemote } from "../../bin/cmds/ui/terraform-json";
 import * as TerraformCloudClient from "@skorfmann/terraform-cloud";
 import archiver from "archiver";
 import { WritableStreamBuffer } from "stream-buffers";
-import { SynthesizedStack } from "../../helper/synth-stack";
-import { logger } from "../../../../lib/logging";
+import { SynthesizedStack } from "../synth-stack";
+import { logger } from "../logging";
 export class TerraformCloudPlan
   extends AbstractTerraformPlan
   implements TerraformPlan
@@ -116,7 +116,9 @@ export class TerraformCloud implements Terraform {
   constructor(
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
-    isSpeculative = false
+    isSpeculative = false,
+    private readonly sendLog = (_phase: string) =>
+      (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     if (!config.workspaces.name)
       throw new Error("Please provide a workspace name for Terraform Cloud");
@@ -160,6 +162,7 @@ export class TerraformCloud implements Terraform {
       throw new Error(
         'Found a "terraform.tfstate" file in your current working directory. Please migrate the state manually to Terraform Cloud and delete the file afterwards. https://cdk.tf/migrate-state'
       );
+
     const workspace = await this.workspace();
     const version = await this.client.ConfigurationVersion.create(
       workspace.id,
@@ -195,6 +198,7 @@ export class TerraformCloud implements Terraform {
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
       throw new Error("Please create a ConfigurationVersion before planning");
+    const sendLog = this.sendLog("plan");
     const workspace = await this.workspace();
     const workspaceUrl = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}`;
 
@@ -260,10 +264,13 @@ export class TerraformCloud implements Terraform {
       throw new Error(`Error planning the run, please take a look at ${url}`);
     }
 
+    sendLog(`Starting plan at ${url}`);
     const plan = await this.client.Plans.jsonOutput(
       result.relationships.plan.data.id
     );
+
     this.run = result;
+    sendLog(`Plan finished, see ${url}. Result is ${JSON.stringify(result)}`);
     return new TerraformCloudPlan(
       "terraform-cloud",
       plan as unknown as any,
@@ -276,6 +283,7 @@ export class TerraformCloud implements Terraform {
     _planFile: string,
     stdout: (chunk: Buffer) => any
   ): Promise<void> {
+    const sendLog = this.sendLog("deploy");
     if (!this.run)
       throw new Error(
         "Please create a ConfigurationVersion / Plan before deploying"
@@ -294,7 +302,9 @@ export class TerraformCloud implements Terraform {
         ({ data }) => {
           // In rare cases the backend sends an empty chunk of data back.
           if (data && data.length) {
-            stdout(Buffer.from(data, "utf8"));
+            const buffer = Buffer.from(data, "utf8");
+            stdout(buffer);
+            sendLog(buffer.toString("utf8"), false);
           }
         }
       );
@@ -321,6 +331,7 @@ export class TerraformCloud implements Terraform {
         "Please create a ConfigurationVersion / Plan before destroying"
       );
 
+    const sendLog = this.sendLog("destroy");
     const destroyingStates = ["confirmed", "apply_queued", "applying"];
     const runId = this.run.id;
     await this.client.Runs.action("apply", runId);
@@ -330,8 +341,12 @@ export class TerraformCloud implements Terraform {
       const res = await client.Runs.show(runId);
 
       // fetch logs and update UI in the background
-      client.Applies.logs(result.relationships.apply.data.id).then(({ data }) =>
-        stdout(Buffer.from(data, "utf8"))
+      client.Applies.logs(result.relationships.apply.data.id).then(
+        ({ data }) => {
+          const buffer = Buffer.from(data, "utf8");
+          stdout(buffer);
+          sendLog(buffer.toString("utf8"), false);
+        }
       );
       return res;
     }

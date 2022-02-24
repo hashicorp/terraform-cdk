@@ -1,17 +1,19 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
-import ConfirmInput from "@skorfmann/ink-confirm-input";
 import { DeployingElement, Outputs } from "./components";
-import { DeployingResource, PlannedResourceAction } from "./models/terraform";
 import {
-  Status,
-  useTerraformState,
-  useRunDeploy,
-  NestedTerraformOutputs,
-} from "./terraform-context";
+  DeployingResource,
+  PlannedResourceAction,
+  TerraformPlan,
+  TerraformOutput,
+} from "../../../lib/models/terraform";
 import { Plan } from "./diff";
+import { CdktfProject, ProjectUpdate } from "../../../lib";
+import { NestedTerraformOutputs } from "../../../lib/output";
+import { ErrorComponent } from "./components/error";
+import { Confirm } from "./components/confirm";
 
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -49,27 +51,6 @@ export const DeploySummary = ({
   );
 };
 
-interface ConfirmConfig {
-  callback: (value: any) => any;
-}
-
-const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
-  const [value, setValue] = useState("");
-
-  return (
-    <Box flexDirection="column" marginTop={1}>
-      <Text bold>Do you want to perform these actions?</Text>
-      <Text> CDK for Terraform will perform the actions described above.</Text>
-      <Text> Only 'yes' will be accepted to approve.</Text>
-
-      <Box flexDirection="row" marginTop={1}>
-        <Text bold> Enter a value:</Text>
-        <ConfirmInput value={value} onChange={setValue} onSubmit={callback} />
-      </Box>
-    </Box>
-  );
-};
-
 interface ApplyableResourcesConfig {
   resources: DeployingResource[];
   stackName: string;
@@ -99,68 +80,8 @@ const ApplyableResources = ({
   );
 };
 
-export const Apply = ({
-  outputsPath,
-}: {
-  outputsPath?: string;
-}): React.ReactElement => {
-  const { resources, status, currentStack, outputs } = useTerraformState();
-  const applyActions = [
-    PlannedResourceAction.UPDATE,
-    PlannedResourceAction.CREATE,
-    PlannedResourceAction.DELETE,
-    PlannedResourceAction.READ,
-  ];
-  const applyableResources = resources.filter((resource) =>
-    applyActions.includes(resource.action)
-  );
-  return (
-    <Fragment>
-      <Box flexDirection="column">
-        <Box>
-          {Status.DEPLOYING == status ? (
-            <>
-              <Text color="green">
-                <Spinner type="dots" />
-              </Text>
-              <Box paddingLeft={1}>
-                <Text>Deploying Stack: </Text>
-                <Text bold>{currentStack.name}</Text>
-              </Box>
-            </>
-          ) : (
-            <>
-              <Text>Deploying Stack: </Text>
-              <Text bold>{currentStack.name}</Text>
-            </>
-          )}
-        </Box>
-        <ApplyableResources
-          resources={applyableResources}
-          stackName={currentStack.name}
-        />
-        {outputs && Object.keys(outputs).length > 0 && (
-          <Box flexDirection="column">
-            <Box marginTop={1}>
-              <Text bold>Output: </Text>
-              <Outputs outputs={outputs} />
-            </Box>
-            <Box>
-              {outputsPath && outputs ? (
-                <Text>The outputs have been written to {outputsPath}</Text>
-              ) : (
-                <Text></Text>
-              )}
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </Fragment>
-  );
-};
-
 interface DeployConfig {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
   autoApprove: boolean;
@@ -169,49 +90,51 @@ interface DeployConfig {
 }
 
 export const Deploy = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
   autoApprove,
   onOutputsRetrieved,
   outputsPath,
 }: DeployConfig): React.ReactElement => {
-  const {
-    state: { status, currentStack, errors, plan, outputs },
-    confirmation,
-    isConfirmed,
-  } = useRunDeploy({
-    targetDir,
-    targetStack,
-    synthCommand,
-    autoApprove,
-    onOutputsRetrieved,
-  });
+  const [lastProjectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
+  const [stackName, setStackName] = useState<string>();
+  const [plan, setPlan] = useState<TerraformPlan>();
+  const [error, setError] = useState<Error>();
+  const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
+  const [resources, setResources] = useState<DeployingResource[]>([]);
 
-  const planStages = [
-    Status.INITIALIZING,
-    Status.PLANNING,
-    Status.SYNTHESIZING,
-    Status.SYNTHESIZED,
-    Status.STARTING,
-  ];
-  const isPlanning = planStages.includes(status);
-  const statusText =
-    currentStack.name === "" ? (
-      <Text>{status}...</Text>
-    ) : (
-      <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
-      </Text>
-    );
+  useEffect(() => {
+    const project = new CdktfProject({
+      outDir,
+      synthCommand,
+      onUpdate: (event) => {
+        setStackName(project.stackName || "");
+        setProjectUpdate(event);
+        setOutputs(project.outputs);
+        setPlan(project.currentPlan!);
+        if (event.type === "deployed") {
+          onOutputsRetrieved(event.outputsByConstructId);
+        }
+        if ("resources" in event) {
+          setResources(event.resources);
+        }
+      },
+      autoApprove,
+    });
 
-  if (errors) return <Box>{errors.map((e: any) => e.message)}</Box>;
-  if (plan && !plan.needsApply)
+    project.deploy(targetStack).catch(setError);
+  }, []);
+
+  if (error) {
+    return <ErrorComponent fatal error={error} />;
+  }
+
+  if (plan && !plan.needsApply) {
     return (
       <>
         <Text>
-          No changes for Stack: <Text bold>{currentStack.name}</Text>
+          No changes for Stack: <Text bold>{stackName}</Text>
         </Text>
         {outputs && Object.keys(outputs).length > 0 && (
           <Box flexDirection="column">
@@ -230,29 +153,103 @@ export const Deploy = ({
         )}
       </>
     );
+  }
 
-  return (
-    <Box>
-      {isPlanning ? (
+  switch (lastProjectUpdate?.type) {
+    case undefined: // starting
+    case "synthesizing":
+    case "synthesized":
+    case "planning":
+    case "planned": {
+      const status = lastProjectUpdate?.type || "starting";
+      return (
+        <Box>
+          <>
+            <Text color="green">
+              <Spinner type="dots" />
+            </Text>
+            <Box paddingLeft={1}>
+              <Text>
+                {stackName === "" ? (
+                  <Text>{status}...</Text>
+                ) : (
+                  <Text>
+                    {status}
+                    <Text bold>&nbsp;{stackName}</Text>...
+                  </Text>
+                )}
+              </Text>
+            </Box>
+          </>
+        </Box>
+      );
+    }
+    case "waiting for approval":
+      return (
+        <Box>
+          <Box flexDirection="column">
+            <Plan currentStackName={stackName} plan={plan!} />
+            <Confirm onApprove={lastProjectUpdate.approve} />
+          </Box>
+        </Box>
+      );
+
+    case "deploying":
+    case "deploy update":
+    case "deployed": {
+      const applyActions = [
+        PlannedResourceAction.UPDATE,
+        PlannedResourceAction.CREATE,
+        PlannedResourceAction.DELETE,
+        PlannedResourceAction.READ,
+      ];
+      const applyableResources = resources.filter((resource) =>
+        applyActions.includes(resource.action)
+      );
+      return (
         <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
+          <Box flexDirection="column">
+            <Box>
+              <>
+                {lastProjectUpdate?.type !== "deployed" ? (
+                  <Text color="green">
+                    <Spinner type="dots" />
+                  </Text>
+                ) : (
+                  <></>
+                )}
+                <Box paddingLeft={1}>
+                  <Text>Deploying Stack: </Text>
+                  <Text bold>{stackName}</Text>
+                </Box>
+              </>
+            </Box>
+            <ApplyableResources
+              resources={applyableResources}
+              stackName={stackName || ""}
+            />
+            {outputs && Object.keys(outputs).length > 0 && (
+              <Box flexDirection="column">
+                <Box marginTop={1}>
+                  <Text bold>Output: </Text>
+                  <Outputs outputs={outputs} />
+                </Box>
+                <Box>
+                  {outputsPath && outputs ? (
+                    <Text>The outputs have been written to {outputsPath}</Text>
+                  ) : (
+                    <Text></Text>
+                  )}
+                </Box>
+              </Box>
+            )}
           </Box>
         </Fragment>
-      ) : (
-        <>
-          {!isConfirmed && (
-            <Box flexDirection="column">
-              <Plan />
-              <Confirm callback={confirmation} />
-            </Box>
-          )}
-          {isConfirmed && <Apply outputsPath={outputsPath} />}
-        </>
-      )}
-    </Box>
-  );
+      );
+    }
+    default:
+      return (
+        <Text>{`An unknown state occured: ${lastProjectUpdate?.type}`}</Text>
+      );
+  }
 };

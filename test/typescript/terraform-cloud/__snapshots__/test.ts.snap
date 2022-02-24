@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`full integration test deploy in Terraform Cloud 1`] = `
-"Deploying Stack: source-stack
+" Deploying Stack: source-stack
 Resources
  ✔ LOCAL_FILE          file                local_file.file
 

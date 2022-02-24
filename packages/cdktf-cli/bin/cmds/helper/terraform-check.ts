@@ -1,6 +1,6 @@
-import { TerraformCli } from "../ui/models/terraform-cli";
+import { TerraformCli } from "../../../lib/models/terraform-cli";
 import * as semver from "semver";
-import { SynthesizedStack } from "./synth-stack";
+import { SynthesizedStack } from "../../../lib/synth-stack";
 import { existsSync } from "fs-extra";
 import * as path from "path";
 

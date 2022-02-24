@@ -1,4 +1,5 @@
 import yargs from "yargs";
+import { Errors } from "../../lib/errors";
 import { requireHandlers } from "./helper/utilities";
 
 class Command implements yargs.CommandModule {
@@ -33,6 +34,7 @@ class Command implements yargs.CommandModule {
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
+    Errors.setScope("convert");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
 

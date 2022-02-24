@@ -2,6 +2,7 @@ import yargs from "yargs";
 
 import { templates } from "./helper/init-templates";
 import { readPackageJson, requireHandlers } from "./helper/utilities";
+import { Errors } from "../../lib/errors";
 
 const pkg = readPackageJson();
 
@@ -46,6 +47,7 @@ class Command implements yargs.CommandModule {
       .strict();
 
   public async handler(argv: any) {
+    Errors.setScope("init");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
     api.init(argv);

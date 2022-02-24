@@ -1,12 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Text, Box, Static } from "ink";
 import Spinner from "ink-spinner";
-import { PlannedResource } from "./models/terraform";
+import { PlannedResource, TerraformPlan } from "../../../lib/models/terraform";
 import { PlanElement } from "./components";
-import { Status, useTerraformState, useRunDiff } from "./terraform-context";
+import { CdktfProject, ProjectUpdate } from "../../../lib";
+import { ErrorComponent } from "./components/error";
 
 interface DiffConfig {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
 }
@@ -45,39 +46,49 @@ const PlanSummary = ({ resources }: PlanSummaryConfig): React.ReactElement => {
   );
 };
 
-export const CloudRunInfo = (): React.ReactElement => {
-  const { url } = useTerraformState();
-  if (url == undefined) return <></>;
+export const CloudRunInfo = ({ url }: { url?: string }): React.ReactElement => {
+  if (url === undefined) return <></>;
 
   const staticElements = [url];
 
   return (
     <Static items={staticElements}>
       {(e) => (
-        <Text key={e}>
-          Running plan in the remote backend. To view this run in a browser,
-          visit: {e}
-        </Text>
+        <Fragment key={e}>
+          <Text>
+            Running plan in the remote backend. To view this run in a browser,
+            visit:
+          </Text>
+          <Text key={e}>{e}</Text>
+        </Fragment>
       )}
     </Static>
   );
 };
 
-export const Plan = (): React.ReactElement => {
-  const { plan, currentStack } = useTerraformState();
-
+export const Plan = ({
+  plan,
+  currentStackName,
+}: {
+  plan: TerraformPlan;
+  currentStackName?: string;
+}): React.ReactElement => {
   return (
     <Fragment>
       <Box flexDirection="column">
-        <CloudRunInfo />
-        <Box>
-          <Text>Stack: </Text>
-          <Text bold>{currentStack.name}</Text>
-        </Box>
+        <CloudRunInfo url={"url" in plan ? (plan as any).url : undefined} />
+        {currentStackName ? (
+          <Box>
+            <Text>Stack: </Text>
+            <Text bold>{currentStackName}</Text>
+          </Box>
+        ) : (
+          <></>
+        )}
         {plan?.needsApply ? <Text bold>Resources</Text> : <></>}
         {plan?.applyableResources.map((resource) => (
           <Box key={resource.id} marginLeft={1}>
-            <PlanElement resource={resource} stackName={currentStack.name} />
+            <PlanElement resource={resource} stackName={currentStackName} />
           </Box>
         ))}
         <Box marginTop={1}>
@@ -91,45 +102,61 @@ export const Plan = (): React.ReactElement => {
 };
 
 export const Diff = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
 }: DiffConfig): React.ReactElement => {
-  const { status, currentStack, errors } = useRunDiff({
-    targetDir,
-    targetStack,
-    synthCommand,
-    isSpeculative: true,
-  });
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
+  const [stackName, setStackName] = useState<string>();
+  const [plan, setPlan] = useState<TerraformPlan>();
+  const [error, setError] = useState<string | null>(null);
 
-  const isPlanning: boolean = status != Status.PLANNED;
-  const statusText =
-    currentStack.name === "" ? (
-      `${status}...`
-    ) : (
-      <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
-      </Text>
+  useEffect(() => {
+    const project = new CdktfProject({
+      outDir,
+      synthCommand,
+      onUpdate: (update: ProjectUpdate) => {
+        setStackName(project.stackName || "");
+        setProjectUpdate(update);
+      },
+    });
+
+    project
+      .diff(targetStack)
+      .then(() => setPlan(project.currentPlan!), setError);
+  }, []);
+
+  if (error) {
+    return <ErrorComponent fatal error={error} />;
+  }
+
+  if (plan) {
+    return (
+      <Box>
+        <Plan currentStackName={stackName || ""} plan={plan!} />
+      </Box>
     );
-
-  if (errors) return <Box>{errors}</Box>;
+  }
 
   return (
     <Box>
-      <CloudRunInfo />
-      {isPlanning ? (
-        <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
+      <Fragment>
+        <Text color="green">
+          <Spinner type="dots" />
+        </Text>
+        <Box paddingLeft={1}>
+          <Text>
+            {stackName === "" ? (
+              `${projectUpdate?.type}...`
+            ) : (
+              <Text>
+                {projectUpdate?.type}
+                <Text bold>&nbsp;{stackName}</Text>...
+              </Text>
+            )}
           </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
-          </Box>
-        </Fragment>
-      ) : (
-        <Plan />
-      )}
+        </Box>
+      </Fragment>
     </Box>
   );
 };
