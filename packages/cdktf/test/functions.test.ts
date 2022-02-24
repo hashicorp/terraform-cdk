@@ -423,6 +423,9 @@ test("undefined and null", () => {
   new TerraformOutput(stack, "test-output", {
     value: Fn.coalesce([null, local.asString, undefined, 42, false]),
   });
+  new TerraformOutput(stack, "json-object", {
+    value: Fn.jsonencode({ a: "hello", b: 123, c: null, d: undefined }),
+  });
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
@@ -430,6 +433,9 @@ test("undefined and null", () => {
         \\"value\\": \\"hello world\\"
       },
       \\"output\\": {
+        \\"json-object\\": {
+          \\"value\\": \\"\${jsonencode({a = \\\\\\"hello\\\\\\", b = 123, c = null})}\\"
+        },
         \\"test-output\\": {
           \\"value\\": \\"\${coalesce(local.value, 42, false)}\\"
         }

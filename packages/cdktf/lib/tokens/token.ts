@@ -190,9 +190,12 @@ export class Tokenization {
       const reversedNumber = Tokenization.reverseNumber(x);
       return reversedNumber ? [reversedNumber] : [];
     }
+    if (typeof x === "object" && x !== null) {
+      const reversedMap = Tokenization.reverseMap(x);
+      return reversedMap ? [reversedMap] : [];
+    }
 
-    const reversedMap = Tokenization.reverseMap(x);
-    return reversedMap ? [reversedMap] : [];
+    return []; // null or undefined cannot be reversed
   }
 
   /**
