@@ -407,7 +407,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             target: "deploy",
             cond: {
               type: "targetActionIs",
-              name: "actionIsDiff",
+              name: "actionIsDeploy",
               value: "deploy",
             },
           },
@@ -415,7 +415,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             target: "destroy",
             cond: {
               type: "targetActionIs",
-              name: "actionIsDiff",
+              name: "actionIsDestroy",
               value: "destroy",
             },
           },
