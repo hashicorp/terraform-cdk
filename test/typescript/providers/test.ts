@@ -4,7 +4,7 @@ describe("full integration test", () => {
   describe("deploy", () => {
     test("build providers", async () => {
       // We have an arcane bug where the deploy is invoked twice although it's just called once.
-      // This is a workaround for that, by havig a new driver every run we don't have this bug.
+      // This is a workaround for that, by having a new driver every run we don't have this bug.
       const deployDriver = new TestDriver(__dirname);
       await deployDriver.setupTypescriptProject();
       expect(deployDriver.deploy("using-all-providers")).toMatchSnapshot();
