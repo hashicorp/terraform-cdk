@@ -103,15 +103,15 @@ describe("full integration test", () => {
       await deleteWorkspaces("tfc-remote", "local");
     });
 
-    withAuth("deploy in Terraform Cloud", async () => {
+    withAuth("deploy in Terraform Cloud", () => {
       driver.env = {
         ...driver.env,
         ...getTestEnvironmentVariables("tfc-remote", "local"),
       };
-      expect(driver.deploy("source-stack")).toMatchSnapshot();
+      driver.deploy("source-stack");
     });
 
-    withAuth("deploy locally and then in Terraform Cloud", async () => {
+    withAuth("deploy locally and then in Terraform Cloud", () => {
       driver.env = {
         ...driver.env,
         ...getTestEnvironmentVariables("local", "local"),
