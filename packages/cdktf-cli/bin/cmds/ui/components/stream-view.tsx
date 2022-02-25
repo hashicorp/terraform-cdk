@@ -23,7 +23,7 @@ export function StreamView({
                 <StreamPrefix stackName={stackName} />
               </Box>
               <Box>
-                <Text>{content}</Text>
+                <Text>{content.trim()}</Text>
               </Box>
             </Box>
           )}

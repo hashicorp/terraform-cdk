@@ -1,9 +1,13 @@
 import React from "react";
 import { Text, Box } from "ink";
-import { TerraformOutput } from "../../../../lib/models/terraform";
+import { NestedTerraformOutputs } from "../../../../lib/output";
+import {
+  TerraformOutput,
+  isTerraformOutput,
+} from "../../../../lib/models/terraform";
 
 export interface OutputsConfig {
-  outputs: { [key: string]: TerraformOutput };
+  outputs: NestedTerraformOutputs;
 }
 function sanitize(value: any) {
   if (typeof value === "object") {
@@ -13,17 +17,64 @@ function sanitize(value: any) {
   return value;
 }
 
+function Output({ name, value }: { name: string; value: TerraformOutput }) {
+  return (
+    <Box key={name}>
+      <Text>
+        {name} = {value.sensitive ? "<sensitive>" : sanitize(value.value)}
+      </Text>
+    </Box>
+  );
+}
+
+function NestedOutput({
+  name,
+  value,
+}: {
+  name: string;
+  value: NestedTerraformOutputs;
+}) {
+  if (isTerraformOutput(value)) {
+    return (
+      <Box key={name}>
+        <Output name={name} value={value} />
+      </Box>
+    );
+  }
+
+  return (
+    <Box flexDirection="column" key={name} marginLeft={2} marginBottom={1}>
+      <Text bold>{name}</Text>
+      <Box marginLeft={2} flexDirection="column">
+        {Object.entries(value)
+          .sort(([k1], [k2]) => {
+            if (isTerraformOutput(value[k1]) && isTerraformOutput(value[k2])) {
+              return k1.localeCompare(k2);
+            }
+
+            if (isTerraformOutput(value[k1])) {
+              return -1;
+            }
+
+            if (isTerraformOutput(value[k2])) {
+              return 1;
+            }
+            return k1.localeCompare(k2);
+          })
+          .map(([k, v]) => (
+            <NestedOutput key={k} name={k} value={v} />
+          ))}
+      </Box>
+    </Box>
+  );
+}
+
 export const Outputs = ({ outputs }: OutputsConfig): React.ReactElement => {
   return (
     <Box flexDirection="column">
-      {Object.keys(outputs).map((key) => (
+      {Object.entries(outputs).map(([key, value]) => (
         <Box key={key}>
-          <Text>
-            {key} ={" "}
-            {outputs[key].sensitive
-              ? "<sensitive>"
-              : sanitize(outputs[key].value)}
-          </Text>
+          <NestedOutput name={key} value={value} />
         </Box>
       ))}
     </Box>

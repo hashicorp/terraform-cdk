@@ -58,7 +58,7 @@ export type ProjectUpdate =
   | {
       type: "deployed";
       stackName: string;
-      outputsByConstructId: Record<string, any>;
+      outputsByConstructId: NestedTerraformOutputs;
       outputs: Record<string, any>;
     }
   | {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CdktfProject, ProjectUpdate } from "../../../../lib/";
+import { NestedTerraformOutputs } from "../../../../lib/output";
 
 export type LogEntry = {
   content: string;
@@ -8,28 +9,39 @@ export type LogEntry = {
 };
 
 type CdktfProjectOpts = {
+  autoApprove?: boolean;
+  onOutputsRetrieved?: (outputs: any) => void;
   outDir: string;
   synthCommand: string;
 };
+
 export function useCdktfProject<T>(
   opts: CdktfProjectOpts,
   projectCallback: (project: CdktfProject) => Promise<T>
 ) {
   const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
-  const [stackName, setStackName] = useState<string>();
+  const [done, setDone] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [id, setID] = useState<number>(0);
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
-  const [done, setDone] = useState<boolean>(false);
+  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const [returnValue, setReturnValue] = useState<T>();
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [stackName, setStackName] = useState<string>();
 
   useEffect(() => {
     const project = new CdktfProject({
       outDir: opts.outDir,
       synthCommand: opts.synthCommand,
+      autoApprove: opts.autoApprove,
       onUpdate: (update: ProjectUpdate) => {
         setStackName(project.stackName || "");
         setProjectUpdate(update);
+        if (update.type === "deployed") {
+          setOutputs(update.outputsByConstructId);
+          if (opts.onOutputsRetrieved) {
+            opts.onOutputsRetrieved(update.outputsByConstructId);
+          }
+        }
       },
       onLog: ({
         stackName,
@@ -56,11 +68,12 @@ export function useCdktfProject<T>(
   }, []);
 
   return {
-    projectUpdate,
-    stackName,
-    logEntries,
-    returnValue,
-    errorMessage,
     done,
+    errorMessage,
+    logEntries,
+    outputs,
+    projectUpdate,
+    returnValue,
+    stackName,
   };
 }

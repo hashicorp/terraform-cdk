@@ -1,7 +1,10 @@
 import React from "react";
-import { Text } from "ink";
+import { Confirm } from "../confirm";
 
-type Props = {};
-export function ApproveBottomBar({}: Props) {
-  return <Text>TODO: implement approve bottom bar</Text>;
+type Props = {
+  onApprove: () => void;
+  onReject: () => void;
+};
+export function ApproveBottomBar({ onApprove }: Props) {
+  return <Confirm onApprove={onApprove} />;
 }
