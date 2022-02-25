@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, Box } from "ink";
-import { TerraformOutput } from "../models/terraform";
+import { TerraformOutput } from "../../../../lib/models/terraform";
 
 export interface OutputsConfig {
   outputs: { [key: string]: TerraformOutput };

@@ -24,7 +24,7 @@ describe("full integration test", () => {
 
   test("deploy", () => {
     expect(driver.deploy()).toMatchInlineSnapshot(`
-      "Deploying Stack: hello-deploy
+      " Deploying Stack: hello-deploy
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
 
@@ -73,7 +73,7 @@ describe("full integration test", () => {
 
   test("destroy", () => {
     expect(driver.destroy()).toMatchInlineSnapshot(`
-      "Destroying Stack: hello-deploy
+      " Destroying Stack: hello-deploy
       Resources
        ✔ NULL_RESOURCE       test                null_resource.test
 

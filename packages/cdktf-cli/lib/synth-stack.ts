@@ -1,11 +1,11 @@
-import { shell } from "../../../lib/util";
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as chalk from "chalk";
 import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
-import { sendTelemetry } from "../../../lib/checkpoint";
 import { performance } from "perf_hooks";
+import { sendTelemetry } from "./checkpoint";
+import { shell } from "./util";
 
 const chalkColour = new chalk.Instance();
 
@@ -28,6 +28,7 @@ export class SynthStack {
   public static async synth(
     command: string,
     outdir: string,
+    workingDirectory = process.cwd(),
     graceful = false, // will not exit the process but rethrow the error instead
     synthOrigin?: SynthOrigin
   ): Promise<SynthesizedStack[]> {
@@ -55,6 +56,7 @@ export class SynthStack {
           CDKTF_OUTDIR: outdir,
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
         },
+        cwd: workingDirectory,
       });
     } catch (e) {
       const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}

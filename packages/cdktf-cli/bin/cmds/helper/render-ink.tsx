@@ -1,13 +1,14 @@
 import { render } from "ink";
-import React from "react";
+import React, { Fragment } from "react";
 import { exit } from "process";
-import { App } from "../ui/app";
 import { terraformCheck } from "../helper/terraform-check";
 
 export const renderInk = async (component: React.ReactElement) => {
   await terraformCheck();
 
-  const { waitUntilExit } = render(React.createElement(App, {}, component));
+  const { waitUntilExit } = render(
+    React.createElement(Fragment, {}, component)
+  );
 
   try {
     await waitUntilExit();

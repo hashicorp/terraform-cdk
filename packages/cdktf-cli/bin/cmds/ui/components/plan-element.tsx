@@ -1,6 +1,9 @@
 import React from "react";
 import { Text } from "ink";
-import { PlannedResource, PlannedResourceAction } from "../models/terraform";
+import {
+  PlannedResource,
+  PlannedResourceAction,
+} from "../../../../lib/models/terraform";
 import { ResourceName } from "./resource-name";
 
 interface PlanElementStatusProps {

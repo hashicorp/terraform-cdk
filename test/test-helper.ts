@@ -180,10 +180,8 @@ export class TestDriver {
 
   deploy = (stackName?: string, outputsFilePath?: string) => {
     return execSync(
-      `cdktf deploy ${
-        stackName ? stackName : ""
-      } --auto-approve --outputs-file=${
-        outputsFilePath ? outputsFilePath : ""
+      `cdktf deploy ${stackName ? stackName : ""} --auto-approve ${
+        outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
       }`,
       { env: this.env }
     ).toString();
@@ -191,8 +189,8 @@ export class TestDriver {
 
   output = (stackName?: string, outputsFilePath?: string) => {
     return execSync(
-      `cdktf output ${stackName ? stackName : ""} --outputs-file=${
-        outputsFilePath ? outputsFilePath : ""
+      `cdktf output ${stackName ? stackName : ""} ${
+        outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
       }`,
       { env: this.env }
     ).toString();

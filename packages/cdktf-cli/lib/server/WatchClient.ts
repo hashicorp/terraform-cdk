@@ -1,17 +1,11 @@
 import * as chokidar from "chokidar";
 import { DeepReadonly } from "utility-types";
 import isDeepEqual from "lodash.isequal";
-import {
-  SynthesizedStack,
-  SynthStack,
-} from "../../bin/cmds/helper/synth-stack";
-import {
-  DeployingResource,
-  Terraform,
-} from "../../bin/cmds/ui/models/terraform";
-import { TerraformCli } from "../../bin/cmds/ui/models/terraform-cli";
-import { TerraformCloud } from "../../bin/cmds/ui/models/terraform-cloud";
-import { parseOutput } from "../../bin/cmds/ui/terraform-context";
+import { SynthesizedStack, SynthStack } from "../synth-stack";
+import { DeployingResource, Terraform } from "../models/terraform";
+import { TerraformCli } from "../models/terraform-cli";
+import { TerraformCloud } from "../models/terraform-cloud";
+import { parseOutput } from "../output";
 import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
 import { readGitignore } from "./util";
 import { hashPath } from "cdktf/lib/private/fs";
@@ -125,7 +119,13 @@ export class WatchClient {
     this.updateState({ status: "SYNTHESIZING", error: undefined });
     try {
       const stacks = (
-        await SynthStack.synth(this.synthCommand, this.targetDir, true, "watch")
+        await SynthStack.synth(
+          this.synthCommand,
+          this.targetDir,
+          process.cwd(),
+          true,
+          "watch"
+        )
       ).map<Stack>((stack) => {
         return {
           ...stack,

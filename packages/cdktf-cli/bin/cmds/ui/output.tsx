@@ -1,17 +1,15 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { Outputs as OutputComponent } from "./components";
-
-import {
-  Status,
-  useRunOutput,
-  NestedTerraformOutputs,
-} from "./terraform-context";
+import { CdktfProject, ProjectUpdate } from "../../../lib";
+import { NestedTerraformOutputs } from "../../../lib/output";
+import { TerraformOutput } from "../../../lib/models/terraform";
+import { ErrorComponent } from "./components/error";
 
 type OutputConfig = {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
@@ -19,40 +17,54 @@ type OutputConfig = {
 };
 
 export const Output = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const { status, currentStack, errors, outputs } = useRunOutput({
-    targetDir,
-    targetStack,
-    synthCommand,
-    onOutputsRetrieved,
-  });
+  const [done, setDone] = useState(false);
+  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
+  const [stackName, setStackName] = useState<string>();
+  const [error, setError] = useState<Error>();
+  const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
 
-  const planStages = [
-    Status.INITIALIZING,
-    Status.SYNTHESIZING,
-    Status.SYNTHESIZED,
-  ];
-  const isPlanning = planStages.includes(status);
+  useEffect(() => {
+    const project = new CdktfProject({
+      outDir,
+      synthCommand,
+      onUpdate: (event) => {
+        setStackName(project.stackName || "");
+        setProjectUpdate(event);
+      },
+    });
+
+    project
+      .fetchOutputs(targetStack)
+      .then((outputData) => {
+        setOutputs(outputData);
+        onOutputsRetrieved(project.outputsByConstructId!);
+        setDone(true);
+      })
+      .catch(setError);
+  }, []);
+
+  if (error) {
+    return <ErrorComponent fatal error={error} />;
+  }
   const statusText =
-    currentStack.name === "" ? (
-      <Text>{status}...</Text>
+    stackName === "" ? (
+      <Text>{projectUpdate?.type}...</Text>
     ) : (
       <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
+        {projectUpdate?.type}
+        <Text bold>&nbsp;{stackName}</Text>...
       </Text>
     );
 
-  if (errors) return <Box>{errors.map((e: any) => e.message)}</Box>;
-
   return (
     <Box>
-      {isPlanning ? (
+      {!done ? (
         <Fragment>
           <Text color="green">
             <Spinner type="dots" />

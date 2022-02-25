@@ -4,7 +4,6 @@ import { Errors } from "../../../lib/errors";
 import { exec } from "../../../lib/util";
 
 function throwIfLowerVersion(
-  command: string,
   language: string,
   minVersion: string,
   stdout: string
@@ -12,10 +11,7 @@ function throwIfLowerVersion(
   const version = semver.coerce(stdout);
   if (!version || !semver.valid(version)) {
     console.error(
-      Errors.Internal(
-        command,
-        `Unable to parse ${language} version "${stdout}"`
-      )
+      Errors.Internal(`Unable to parse ${language} version "${stdout}"`)
     );
     return;
   }
@@ -23,7 +19,6 @@ function throwIfLowerVersion(
   if (semver.lt(version, minVersion)) {
     console.error(
       Errors.Usage(
-        command,
         `${language} version "${version}" is not supported. Please upgrade to at least ${minVersion}`
       )
     );
@@ -31,7 +26,6 @@ function throwIfLowerVersion(
 }
 
 function getBinaryVersion(
-  command: string,
   binary: string,
   versionCommand: string
 ): Promise<string> {
@@ -39,27 +33,23 @@ function getBinaryVersion(
     return exec(binary, [versionCommand], { env: process.env });
   } catch (e) {
     throw Errors.Usage(
-      command,
       `Unable to run ${binary} ${versionCommand}, please check if ${binary} is installed: ${e}`
     );
   }
 }
 
-async function checkGoVersion(command: string) {
-  const out = await getBinaryVersion(command, "go", "version");
-  throwIfLowerVersion(command, "Go", "1.16.0", out);
+async function checkGoVersion() {
+  const out = await getBinaryVersion("go", "version");
+  throwIfLowerVersion("Go", "1.16.0", out);
 }
 
-async function checkNodeVersion(command: string) {
-  const out = await getBinaryVersion(command, "node", "--version");
-  throwIfLowerVersion(command, "Node.js", "14.0.0", out);
+async function checkNodeVersion() {
+  const out = await getBinaryVersion("node", "--version");
+  throwIfLowerVersion("Node.js", "14.0.0", out);
 }
 
-export async function checkEnvironment(
-  command: string,
-  projectPath = process.cwd()
-) {
-  await checkNodeVersion(command);
+export async function checkEnvironment(projectPath = process.cwd()) {
+  await checkNodeVersion();
 
   let language: string | undefined;
   try {
@@ -71,6 +61,6 @@ export async function checkEnvironment(
 
   switch (language) {
     case "go":
-      await checkGoVersion(command);
+      await checkGoVersion();
   }
 }
