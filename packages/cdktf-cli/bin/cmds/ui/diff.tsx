@@ -1,8 +1,7 @@
 import React from "react";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { StreamView } from "./components/stream-view";
-import { StatusBottomBar } from "./components/bottom-bars/status";
+import { StreamView, StatusBottomBar } from "./components";
 
 interface DiffConfig {
   outDir: string;

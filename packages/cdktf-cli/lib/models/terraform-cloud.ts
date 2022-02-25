@@ -8,7 +8,7 @@ import {
   TerraformOutput,
   AbstractTerraformPlan,
 } from "./terraform";
-import { TerraformJsonConfigBackendRemote } from "../../bin/cmds/ui/terraform-json";
+import { TerraformJsonConfigBackendRemote } from "../terraform-json";
 import * as TerraformCloudClient from "@skorfmann/terraform-cloud";
 import archiver from "archiver";
 import { WritableStreamBuffer } from "stream-buffers";

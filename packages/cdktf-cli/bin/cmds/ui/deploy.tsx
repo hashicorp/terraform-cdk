@@ -4,10 +4,12 @@ import { Text, Box } from "ink";
 import { DeployingResource } from "../../../lib/models/terraform";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { StreamView } from "./components/stream-view";
-import { StatusBottomBar } from "./components/bottom-bars/status";
-import { OutputsBottomBar } from "./components/bottom-bars/outputs";
-import { ApproveBottomBar } from "./components/bottom-bars/approve";
+import {
+  StreamView,
+  StatusBottomBar,
+  OutputsBottomBar,
+  ApproveBottomBar,
+} from "./components";
 interface DeploySummaryConfig {
   resources: DeployingResource[];
 }

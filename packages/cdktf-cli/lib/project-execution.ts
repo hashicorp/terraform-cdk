@@ -3,7 +3,7 @@
 import { assign, createMachine } from "xstate";
 import { SynthStack, SynthesizedStack } from "./synth-stack";
 import { Errors } from "./errors";
-import { TerraformJson } from "../bin/cmds/ui/terraform-json";
+import { TerraformJson } from "./terraform-json";
 import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";
 import {

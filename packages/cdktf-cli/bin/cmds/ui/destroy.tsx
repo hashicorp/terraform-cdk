@@ -2,9 +2,7 @@
 import React from "react";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { ApproveBottomBar } from "./components/bottom-bars/approve";
-import { StatusBottomBar } from "./components/bottom-bars/status";
-import { StreamView } from "./components/stream-view";
+import { StreamView, StatusBottomBar, ApproveBottomBar } from "./components";
 
 interface DestroyConfig {
   outDir: string;

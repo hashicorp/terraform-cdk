@@ -2,9 +2,7 @@
 import React from "react";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { OutputsBottomBar } from "./components/bottom-bars/outputs";
-import { StatusBottomBar } from "./components/bottom-bars/status";
-import { StreamView } from "./components/stream-view";
+import { StreamView, OutputsBottomBar, StatusBottomBar } from "./components";
 
 type OutputConfig = {
   outDir: string;

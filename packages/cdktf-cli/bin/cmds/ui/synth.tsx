@@ -1,10 +1,9 @@
 import React from "react";
+import { Box, Text } from "ink";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { StreamView } from "./components/stream-view";
-import { StatusBottomBar } from "./components/bottom-bars/status";
+import { StreamView, StatusBottomBar } from "./components";
 import { SynthesizedStack } from "../../../lib";
-import { Box, Text } from "ink";
 
 interface CommonSynthConfig {
   outDir: string;

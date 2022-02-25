@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
 import { Text, Box } from "ink";
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { StreamView } from "./components/stream-view";
-import { StatusBottomBar } from "./components/bottom-bars/status";
+import { StreamView, StatusBottomBar } from "./components";
 
 interface ListConfig {
   outDir: string;
