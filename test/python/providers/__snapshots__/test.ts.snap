@@ -66,7 +66,7 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
     \\"required_providers\\": {
       \\"docker\\": {
         \\"source\\": \\"kreuzwerker/docker\\",
-        \\"version\\": \\"~> 2.15\\"
+        \\"version\\": \\"2.16.0\\"
       }
     }
   }
