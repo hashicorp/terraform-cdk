@@ -23,7 +23,7 @@ export const Diff = ({
   return (
     <StreamView logs={logEntries}>
       <StatusBottomBar
-        status={projectUpdate?.type}
+        latestUpdate={projectUpdate}
         done={done}
         errorMessage={errorMessage}
       />

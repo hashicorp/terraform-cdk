@@ -76,7 +76,7 @@ export const Deploy = ({
     />
   ) : (
     <StatusBottomBar
-      status={projectUpdate?.type}
+      latestUpdate={projectUpdate}
       done={done}
       errorMessage={errorMessage}
     />

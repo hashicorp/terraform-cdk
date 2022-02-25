@@ -30,9 +30,11 @@ function Output({ name, value }: { name: string; value: TerraformOutput }) {
 function NestedOutput({
   name,
   value,
+  indentationLevel = 0,
 }: {
   name: string;
   value: NestedTerraformOutputs;
+  indentationLevel?: number;
 }) {
   if (isTerraformOutput(value)) {
     return (
@@ -45,7 +47,7 @@ function NestedOutput({
   return (
     <Box flexDirection="column" key={name} marginLeft={2} marginBottom={1}>
       <Text bold>{name}</Text>
-      <Box marginLeft={2} flexDirection="column">
+      <Box marginLeft={indentationLevel * 2} flexDirection="column">
         {Object.entries(value)
           .sort(([k1], [k2]) => {
             if (isTerraformOutput(value[k1]) && isTerraformOutput(value[k2])) {
@@ -62,7 +64,12 @@ function NestedOutput({
             return k1.localeCompare(k2);
           })
           .map(([k, v]) => (
-            <NestedOutput key={k} name={k} value={v} />
+            <NestedOutput
+              indentationLevel={indentationLevel + 1}
+              key={k}
+              name={k}
+              value={v}
+            />
           ))}
       </Box>
     </Box>

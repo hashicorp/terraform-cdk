@@ -1,8 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import { CdktfProject, SynthesizedStack } from "../../../lib";
-import { ErrorComponent } from "./components/error";
+import React from "react";
+
+import { useCdktfProject } from "./hooks/cdktf-project";
+import { StreamView } from "./components/stream-view";
+import { StatusBottomBar } from "./components/bottom-bars/status";
+import { SynthesizedStack } from "../../../lib";
+import { Box, Text } from "ink";
 
 interface CommonSynthConfig {
   outDir: string;
@@ -10,30 +12,25 @@ interface CommonSynthConfig {
   jsonOutput: boolean;
 }
 
-type SynthOutputConfig = {
-  jsonOutput: boolean;
-  targetStackName: string;
-  stacks: SynthesizedStack[];
-};
-
 interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
 }
-
+type SynthOutputConfig = {
+  jsonOutput: boolean;
+  currentStackName: string;
+  stacks: SynthesizedStack[];
+};
 const SynthOutput = ({
   jsonOutput,
+  currentStackName,
   stacks,
-  targetStackName,
 }: SynthOutputConfig): React.ReactElement => {
   return (
     <>
       {jsonOutput ? (
         <Box>
           <Text>
-            {(
-              stacks.find((stack) => stack.name === targetStackName) ||
-              stacks[0]
-            )?.content || "{}"}
+            {stacks.find((item) => item.name === currentStackName)?.content}
           </Text>
         </Box>
       ) : (
@@ -48,51 +45,30 @@ const SynthOutput = ({
 
 export const Synth = ({
   outDir,
-  targetStack,
   synthCommand,
   jsonOutput,
+  targetStack,
 }: SynthConfig): React.ReactElement => {
-  const [stacks, setStacks] = useState<SynthesizedStack[] | undefined>(
-    undefined
+  const { projectUpdate, logEntries, done, errorMessage } = useCdktfProject(
+    { outDir, synthCommand },
+    (project) => project.synth()
   );
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const project = new CdktfProject({
-      outDir,
-      synthCommand,
-      onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-    });
-
-    project.synth().then(() => setStacks(project.stacks), setError);
-  }, []);
-
-  if (stacks !== undefined) {
-    return (
-      <Fragment>
-        <Box>
-          <SynthOutput
-            targetStackName={targetStack}
-            stacks={stacks}
-            jsonOutput={jsonOutput}
-          />
-        </Box>
-      </Fragment>
-    );
-  }
-
-  if (error) return <ErrorComponent fatal error={error} />;
 
   return (
-    <Box>
-      <Fragment>
-        <Text color="green">
-          <Spinner type="dots" />
-        </Text>
-        <Box paddingLeft={1}>
-          <Text>Sythesizing...</Text>
-        </Box>
-      </Fragment>
-    </Box>
+    <StreamView logs={logEntries}>
+      <StatusBottomBar
+        latestUpdate={projectUpdate}
+        done={done}
+        errorMessage={errorMessage}
+      >
+        <SynthOutput
+          jsonOutput={jsonOutput}
+          currentStackName={targetStack}
+          stacks={
+            projectUpdate?.type === "synthesized" ? projectUpdate.stacks : []
+          }
+        />
+      </StatusBottomBar>
+    </StreamView>
   );
 };

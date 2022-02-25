@@ -30,7 +30,7 @@ export const Output = ({
     <OutputsBottomBar outputs={outputs} outputsPath={outputsPath} />
   ) : (
     <StatusBottomBar
-      status={projectUpdate?.type}
+      latestUpdate={projectUpdate}
       done={done}
       errorMessage={errorMessage}
     />

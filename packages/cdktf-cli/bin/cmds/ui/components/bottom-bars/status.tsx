@@ -5,8 +5,9 @@ import Spinner from "ink-spinner";
 
 type Props = {
   done: boolean;
-  status?: ProjectUpdate["type"];
+  latestUpdate?: ProjectUpdate;
   errorMessage?: string;
+  children?: any;
 };
 
 type Status = {
@@ -15,7 +16,11 @@ type Status = {
   showSpinner?: boolean;
 };
 
-function getStatus({ status, done, errorMessage }: Props): Status {
+function getStatus({
+  latestUpdate,
+  done,
+  errorMessage,
+}: Omit<Props, "children">): Status {
   if (errorMessage) {
     return {
       text: errorMessage,
@@ -32,7 +37,7 @@ function getStatus({ status, done, errorMessage }: Props): Status {
     };
   }
 
-  switch (status) {
+  switch (latestUpdate?.type) {
     case undefined:
       return {
         text: "Initializing",
@@ -78,9 +83,18 @@ function getStatus({ status, done, errorMessage }: Props): Status {
   }
 }
 
-export function StatusBottomBar({ status, done, errorMessage }: Props) {
+export function StatusBottomBar({
+  latestUpdate,
+  done,
+  errorMessage,
+  children,
+}: Props) {
+  if (done && children) {
+    return children;
+  }
+
   const { text, showSpinner, color } = getStatus({
-    status,
+    latestUpdate,
     done,
     errorMessage,
   });
