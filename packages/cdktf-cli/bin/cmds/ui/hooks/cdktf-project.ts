@@ -36,7 +36,8 @@ export function useCdktfProject<T>(
       onUpdate: (update: ProjectUpdate) => {
         setStackName(project.stackName || "");
         setProjectUpdate(update);
-        if (update.type === "deployed") {
+
+        if (update.type === "deployed" || update.type === "outputs fetched") {
           setOutputs(update.outputsByConstructId);
           if (opts.onOutputsRetrieved) {
             opts.onOutputsRetrieved(update.outputsByConstructId);

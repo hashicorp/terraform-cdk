@@ -74,6 +74,12 @@ export type ProjectUpdate =
   | {
       type: "destroyed";
       stackName: string;
+    }
+  | {
+      type: "outputs fetched";
+      stackName: string;
+      outputsByConstructId: NestedTerraformOutputs;
+      outputs: Record<string, any>;
     };
 
 export class CdktfProject {
@@ -214,6 +220,14 @@ export class CdktfProject {
             onUpdate({
               type: "destroyed",
               stackName: ctx.targetStack!,
+            });
+          }
+          if (state.context.targetAction === "output") {
+            onUpdate({
+              type: "outputs fetched",
+              stackName: this.stackName!,
+              outputs: this.outputs,
+              outputsByConstructId: this.outputsByConstructId,
             });
           }
           break;
