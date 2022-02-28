@@ -75,7 +75,8 @@ export class TerraformCli implements Terraform {
       terraformBinaryName,
       ["show", "-json", planFile],
       { cwd: this.workdir, env: process.env },
-      this.onStdout("plan"),
+      // we don't care about the output, this is just internally to compose a plan
+      () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       this.onStderr("plan")
     );
     return new TerraformCliPlan(planFile, JSON.parse(jsonPlan));
