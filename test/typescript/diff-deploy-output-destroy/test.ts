@@ -11,15 +11,7 @@ describe("full integration test", () => {
   });
 
   test("diff", () => {
-    expect(driver.diff()).toMatchInlineSnapshot(`
-      "Stack: hello-deploy
-      Resources
-       + NULL_RESOURCE       test                null_resource.test
-
-
-      Diff: 1 to create, 0 to update, 0 to delete.
-      "
-    `);
+    expect(driver.diff()).toContain(`1 to add, 0 to change, 0 to destroy.`);
   });
 
   test("deploy", () => {
