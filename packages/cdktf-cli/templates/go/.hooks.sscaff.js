@@ -49,7 +49,7 @@ exports.post = options => {
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.go', 'utf-8');
 
-  result = template.replace(`NewMyStack(app, "${baseName}")`, `stack := NewMyStack(app, "{{ $base }}")
+  result = template.replace(`NewMyStack(app, "${baseName}")`, `stack := NewMyStack(app, "${baseName}")
 	cdktf.NewRemoteBackend(stack, &cdktf.RemoteBackendProps{
 		Hostname:     jsii.String("app.terraform.io"),
 		Organization: jsii.String("${organizationName}"),
