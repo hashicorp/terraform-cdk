@@ -72,7 +72,6 @@ function extractError(prefix: string): (context: any, event: any) => string {
         return `${prefix}: ${data.stderr}`;
       } else {
         const x = `${prefix}: ${data}`;
-        console.log("returnuing", x);
         return x;
       }
     }

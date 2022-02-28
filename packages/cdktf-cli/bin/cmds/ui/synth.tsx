@@ -48,18 +48,14 @@ export const Synth = ({
   jsonOutput,
   targetStack,
 }: SynthConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, errorMessage } = useCdktfProject(
+  const { projectUpdate, logEntries, done } = useCdktfProject(
     { outDir, synthCommand },
     (project) => project.synth()
   );
 
   return (
     <StreamView logs={logEntries}>
-      <StatusBottomBar
-        latestUpdate={projectUpdate}
-        done={done}
-        errorMessage={errorMessage}
-      >
+      <StatusBottomBar latestUpdate={projectUpdate} done={done}>
         <SynthOutput
           jsonOutput={jsonOutput}
           currentStackName={targetStack}

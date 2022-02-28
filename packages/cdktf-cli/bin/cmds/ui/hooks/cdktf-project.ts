@@ -1,3 +1,4 @@
+import { useApp } from "ink";
 import { useEffect, useState } from "react";
 import { CdktfProject, ProjectUpdate } from "../../../../lib/";
 import { NestedTerraformOutputs } from "../../../../lib/output";
@@ -19,9 +20,9 @@ export function useCdktfProject<T>(
   opts: CdktfProjectOpts,
   projectCallback: (project: CdktfProject) => Promise<T>
 ) {
+  const { exit } = useApp();
   const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
   const [done, setDone] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [id, setID] = useState<number>(0);
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
@@ -65,13 +66,12 @@ export function useCdktfProject<T>(
         setDone(true);
       })
       .catch((err) => {
-        setErrorMessage(`${err}`);
+        exit(err);
       });
   }, []);
 
   return {
     done,
-    errorMessage,
     logEntries,
     outputs,
     projectUpdate,

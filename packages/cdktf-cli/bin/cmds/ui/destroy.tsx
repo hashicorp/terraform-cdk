@@ -17,7 +17,7 @@ export const Destroy = ({
   synthCommand,
   autoApprove,
 }: DestroyConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, errorMessage } = useCdktfProject(
+  const { projectUpdate, logEntries, done } = useCdktfProject(
     { outDir, synthCommand, autoApprove },
     (project) => project.destroy(targetStack)
   );
@@ -29,11 +29,7 @@ export const Destroy = ({
         onReject={projectUpdate.reject}
       />
     ) : (
-      <StatusBottomBar
-        latestUpdate={projectUpdate}
-        done={done}
-        errorMessage={errorMessage}
-      />
+      <StatusBottomBar latestUpdate={projectUpdate} done={done} />
     );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;

@@ -266,6 +266,7 @@ export class TerraformCloud implements Terraform {
     sendLog(`Created speculative Terraform Cloud run: ${url}`);
 
     const pendingStates = ["pending", "plan_queued", "planning"];
+
     while (pendingStates.includes(result.attributes.status)) {
       result = await this.update(this.client, result.id, "plan", () => {}); // eslint-disable-line @typescript-eslint/no-empty-function
       await wait(1000);

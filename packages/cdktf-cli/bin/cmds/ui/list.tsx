@@ -12,18 +12,14 @@ export const List = ({
   outDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, errorMessage } = useCdktfProject(
+  const { projectUpdate, logEntries, done } = useCdktfProject(
     { outDir, synthCommand },
     (project) => project.synth()
   );
 
   return (
     <StreamView logs={logEntries}>
-      <StatusBottomBar
-        latestUpdate={projectUpdate}
-        done={done}
-        errorMessage={errorMessage}
-      >
+      <StatusBottomBar latestUpdate={projectUpdate} done={done}>
         {projectUpdate?.type === "synthesized" ? (
           <Box>
             <Fragment>

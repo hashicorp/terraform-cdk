@@ -63,11 +63,10 @@ export const Deploy = ({
   onOutputsRetrieved,
   outputsPath,
 }: DeployConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, errorMessage, outputs } =
-    useCdktfProject(
-      { outDir, synthCommand, onOutputsRetrieved, autoApprove },
-      (project) => project.deploy(targetStack)
-    );
+  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
+    { outDir, synthCommand, onOutputsRetrieved, autoApprove },
+    (project) => project.deploy(targetStack)
+  );
 
   const bottomBar = done ? (
     <OutputsBottomBar outputs={outputs} outputsPath={outputsPath} />
@@ -77,11 +76,7 @@ export const Deploy = ({
       onReject={projectUpdate.reject}
     />
   ) : (
-    <StatusBottomBar
-      latestUpdate={projectUpdate}
-      done={done}
-      errorMessage={errorMessage}
-    />
+    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
   );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
