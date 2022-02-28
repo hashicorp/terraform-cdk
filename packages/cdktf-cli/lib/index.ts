@@ -294,7 +294,7 @@ export class CdktfProject {
     return new Promise((resolve, reject) => {
       this.stateMachine.onTransition((state) => {
         if (state.matches("error")) {
-          reject(state.context.message);
+          reject(new Error(state.context.message));
         } else if (state.matches("done")) {
           resolve();
         }
