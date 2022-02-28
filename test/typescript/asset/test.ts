@@ -122,8 +122,6 @@ describe("full integration test", () => {
       "1 to add, 0 to change, 0 to destroy"
     );
     await driver.deploy("normal");
-    expect(await driver.diff("normal")).toContain(
-      "0 to add, 0 to change, 0 to destroy"
-    );
+    expect(await driver.diff("normal")).toContain("No changes");
   });
 });
