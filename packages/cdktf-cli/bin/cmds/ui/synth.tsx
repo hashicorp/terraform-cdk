@@ -24,13 +24,18 @@ const SynthOutput = ({
   currentStackName,
   stacks,
 }: SynthOutputConfig): React.ReactElement => {
+  console.log({
+    jsonOutput,
+    currentStackName,
+    stacks,
+  });
+  const stack =
+    stacks.find((item) => item.name === currentStackName) || stacks[0];
   return (
     <>
-      {jsonOutput ? (
+      {jsonOutput && stack ? (
         <Box>
-          <Text>
-            {stacks.find((item) => item.name === currentStackName)?.content}
-          </Text>
+          <Text>{stack.content}</Text>
         </Box>
       ) : (
         <Text>
