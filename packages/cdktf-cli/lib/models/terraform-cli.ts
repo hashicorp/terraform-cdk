@@ -149,7 +149,8 @@ export class TerraformCli implements Terraform {
         cwd: this.workdir,
         env: process.env,
       },
-      this.onStdout("output"),
+      // We don't need to log the output here since we use it later on
+      () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       this.onStderr("output")
     );
     return JSON.parse(output);
