@@ -32,21 +32,23 @@ describe("multiple stacks", () => {
     });
 
     onPosix("list posix", () => {
-      expect(driver.list()).toMatchInlineSnapshot(`"
-              Stack name                      Path
-              first                           cdktf.out/stacks/first
-              second                          cdktf.out/stacks/second
-              "
-          `);
+      expect(driver.list()).toMatchInlineSnapshot(`
+        "
+        Stack name                      Path
+        first                           cdktf.out/stacks/first
+        second                          cdktf.out/stacks/second
+        "
+      `);
     });
 
     onWindows("list windows", () => {
-      expect(driver.list()).toMatchInlineSnapshot(`"
-              Stack name                      Path
-              first                           cdktf.out\\\\stacks\\\\first
-              second                          cdktf.out\\\\stacks\\\\second
-              "
-          `);
+      expect(driver.list()).toMatchInlineSnapshot(`
+      "
+      Stack name                      Path
+      first                           cdktf.out\\\\stacks\\\\first
+      second                          cdktf.out\\\\stacks\\\\second
+      "
+    `);
     });
 
     // completions for stacks relies on a manifest.json being present

@@ -129,7 +129,8 @@ exports[`multiple stacks CLI-driven workflow synth 2`] = `
 `;
 
 exports[`multiple stacks CLI-driven workflow synth with json output 1`] = `
-"{
+"
+{
   \\"//\\": {
     \\"metadata\\": {
       \\"backend\\": \\"local\\",
