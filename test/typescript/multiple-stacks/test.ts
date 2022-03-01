@@ -21,20 +21,19 @@ describe("multiple stacks", () => {
 
     test("diff", () => {
       expect(driver.diff("first")).toContain(
-        `+ NULL_RESOURCE       test                null_resource.test`
+        `first    # null_resource.test will be created`
       );
 
       expect(driver.diff("second")).toContain(
-        `+ NULL_RESOURCE       test                null_resource.test`
+        `second    # null_resource.test will be created`
       );
 
       expect(() => driver.diff()).toThrowError("Found more than one stack");
     });
 
     onPosix("list posix", () => {
-      expect(driver.list()).toMatchInlineSnapshot(`
-
-              "Stack name                      Path
+      expect(driver.list()).toMatchInlineSnapshot(`"
+              Stack name                      Path
               first                           cdktf.out/stacks/first
               second                          cdktf.out/stacks/second
               "
@@ -42,9 +41,8 @@ describe("multiple stacks", () => {
     });
 
     onWindows("list windows", () => {
-      expect(driver.list()).toMatchInlineSnapshot(`
-
-              "Stack name                      Path
+      expect(driver.list()).toMatchInlineSnapshot(`"
+              Stack name                      Path
               first                           cdktf.out\\\\stacks\\\\first
               second                          cdktf.out\\\\stacks\\\\second
               "
