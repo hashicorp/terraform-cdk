@@ -36,6 +36,10 @@ function NestedOutput({
   value: NestedTerraformOutputs;
   indentationLevel?: number;
 }) {
+  // This is a safe-guard against infinite recursion
+  if (indentationLevel > 500) {
+    return <></>;
+  }
   if (isTerraformOutput(value)) {
     return (
       <Box key={name}>
