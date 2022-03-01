@@ -20,13 +20,15 @@ describe("multiple stacks", () => {
     });
 
     test("diff", () => {
-      expect(driver.diff("first")).toContain(
-        `first    # null_resource.test will be created`
-      );
+      const firstOut = driver.diff("first");
+      expect(firstOut).toContain(`null_resource.test`);
+      expect(firstOut).toContain(`first`);
+      expect(firstOut).not.toContain(`second`);
 
-      expect(driver.diff("second")).toContain(
-        `second    # null_resource.test will be created`
-      );
+      const secondOut = driver.diff("second");
+      expect(secondOut).toContain(`null_resource.test`);
+      expect(secondOut).toContain(`first`);
+      expect(secondOut).not.toContain(`second`);
 
       expect(() => driver.diff()).toThrowError("Found more than one stack");
     });
