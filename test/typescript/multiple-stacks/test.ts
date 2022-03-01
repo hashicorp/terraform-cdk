@@ -27,8 +27,8 @@ describe("multiple stacks", () => {
 
       const secondOut = driver.diff("second");
       expect(secondOut).toContain(`null_resource.test`);
-      expect(secondOut).toContain(`first`);
-      expect(secondOut).not.toContain(`second`);
+      expect(secondOut).toContain(`second`);
+      expect(secondOut).not.toContain(`first`);
 
       expect(() => driver.diff()).toThrowError("Found more than one stack");
     });
