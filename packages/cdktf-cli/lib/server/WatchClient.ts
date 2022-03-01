@@ -84,6 +84,8 @@ export class WatchClient {
 
   private sourceFileWatcher?: chokidar.FSWatcher;
   private outDirWatcher?: chokidar.FSWatcher;
+  private abortSignal: AbortSignal;
+  public abort: () => void;
 
   constructor(options: WatchClientOptions) {
     this.targetDir = options.targetDir;
@@ -95,6 +97,9 @@ export class WatchClient {
       );
     this.autoApprove = options.autoApprove;
     this.targetStack = options.targetStack;
+    const ac = new AbortController();
+    this.abortSignal = ac.signal;
+    this.abort = ac.abort;
   }
 
   public isRunning(): boolean {
@@ -120,6 +125,7 @@ export class WatchClient {
     try {
       const stacks = (
         await SynthStack.synth(
+          this.abortSignal,
           this.synthCommand,
           this.targetDir,
           process.cwd(),
@@ -244,9 +250,12 @@ export class WatchClient {
 
   // todo: optimization: cache instance as long as backend does not change
   private async getTerraform(): Promise<Terraform> {
+    // TOOD: implement abort properly for watch
+    const ac = new AbortController();
     const stack = await this.getTargetStack();
     if (stack.json.terraform?.backend?.remote) {
       const terraformCloud = new TerraformCloud(
+        ac.signal,
         stack as Stack,
         stack.json.terraform?.backend?.remote
       );
@@ -258,7 +267,7 @@ export class WatchClient {
         // return terraformCloud;
       }
     }
-    return new TerraformCli(stack as Stack);
+    return new TerraformCli(ac.signal, stack as Stack);
   }
 
   public async start() {

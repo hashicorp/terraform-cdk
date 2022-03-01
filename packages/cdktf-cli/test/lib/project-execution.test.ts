@@ -21,9 +21,11 @@ function getStateMachine({
   autoApprove = guards.autoApprove,
   planNeedsNoApply = guards.planNeedsNoApply,
 }: Partial<StateMachineConfig>) {
+  const abort = new AbortController();
   const stateMachine = interpret(
     projectExecutionMachine
       .withContext({
+        abortSignal: abort.signal,
         onProgress: jest.fn(),
         synthCommand: "npx ts-node my-app.ts",
         outDir: "/tmp/cdktf-project/out",

@@ -61,6 +61,7 @@ export interface ProjectContext {
   outputs?: Record<string, any>;
   outputsByConstructId?: Record<string, any>;
   onProgress: (event: ProgressEvent) => void;
+  abortSignal: AbortSignal;
 }
 
 function extractError(_context: any, event: any): string {
@@ -132,6 +133,7 @@ function getLogCallbackForStack(
 }
 
 async function getTerraformClient(
+  abortSignal: AbortSignal,
   stack: SynthesizedStack,
   isSpeculative: boolean,
   sendLog: (stateName: string) => (message: string, isError?: boolean) => void
@@ -140,6 +142,7 @@ async function getTerraformClient(
 
   if (parsedStack.terraform?.backend?.remote) {
     const tfClient = new TerraformCloud(
+      abortSignal,
       stack,
       parsedStack.terraform.backend.remote,
       isSpeculative,
@@ -149,12 +152,13 @@ async function getTerraformClient(
       return tfClient;
     }
   }
-  return new TerraformCli(stack, sendLog);
+  return new TerraformCli(abortSignal, stack, sendLog);
 }
 
 const services = {
   synthProject: async (context: ProjectContext) => {
     const stacks = await SynthStack.synth(
+      context.abortSignal,
       context.synthCommand,
       context.outDir,
       context.workingDirectory
@@ -174,6 +178,7 @@ const services = {
       context.targetAction!
     );
     const terraform = await getTerraformClient(
+      context.abortSignal,
       stack,
       isSpeculative,
       getLogCallbackForStack(context)
@@ -286,6 +291,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
       synthCommand: "",
       workingDirectory: "",
       outDir: "",
+      abortSignal: new AbortController().signal,
     },
     states: {
       idle: {

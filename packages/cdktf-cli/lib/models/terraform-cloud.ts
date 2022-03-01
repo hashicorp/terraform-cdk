@@ -114,6 +114,8 @@ export class TerraformCloud implements Terraform {
   public run?: TerraformCloudClient.Run;
 
   constructor(
+    // TODO: teach TerraformCloudClient abort signals
+    public readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
     isSpeculative = false,

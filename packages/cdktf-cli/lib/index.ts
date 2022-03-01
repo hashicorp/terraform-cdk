@@ -90,6 +90,7 @@ export class CdktfProject {
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
   public deployingResources?: DeployingResource[];
+  public hardAbort: () => void;
 
   constructor({
     synthCommand,
@@ -106,12 +107,17 @@ export class CdktfProject {
     autoApprove?: boolean;
     workingDirectory?: string;
   }) {
+    const ac = new AbortController();
+    const abortSignal = ac.signal;
+
+    this.hardAbort = ac.abort;
     this.stateMachine = interpret(
       projectExecutionMachine.withContext({
         synthCommand,
         outDir: outDir,
         autoApprove,
         workingDirectory,
+        abortSignal,
 
         onProgress: (event) => {
           switch (event.type) {

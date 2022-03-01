@@ -29,7 +29,7 @@ export const terraformCheck = async (): Promise<void> => {
       dependencies: [],
     };
 
-    const terraform = new TerraformCli(fakeStack);
+    const terraform = new TerraformCli(new AbortController().signal, fakeStack);
 
     const terraformVersion = await terraform.version();
     const terraformVersionMatches = terraformVersion.match(VERSION_REGEXP);
