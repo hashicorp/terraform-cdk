@@ -110,7 +110,7 @@ export class CdktfProject {
     const ac = new AbortController();
     const abortSignal = ac.signal;
 
-    this.hardAbort = ac.abort;
+    this.hardAbort = ac.abort.bind(ac);
     this.stateMachine = interpret(
       projectExecutionMachine.withContext({
         synthCommand,
