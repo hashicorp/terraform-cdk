@@ -69,12 +69,9 @@ export const Deploy = ({
   );
 
   const bottomBar = done ? (
-    <OutputsBottomBar outputs={outputs} outputsPath={outputsPath} />
+    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
   ) : projectUpdate?.type === "waiting for approval" ? (
-    <ApproveBottomBar
-      onApprove={projectUpdate.approve}
-      onReject={projectUpdate.reject}
-    />
+    <ApproveBottomBar onApprove={projectUpdate.approve} />
   ) : (
     <StatusBottomBar latestUpdate={projectUpdate} done={done} />
   );

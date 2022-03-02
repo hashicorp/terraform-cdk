@@ -117,7 +117,7 @@ export class TerraformCloud implements Terraform {
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
     isSpeculative = false,
-    private readonly sendLog = (_phase: string) =>
+    private readonly createLogSender = (_phase: string) =>
       (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     if (!config.workspaces.name)
@@ -154,7 +154,7 @@ export class TerraformCloud implements Terraform {
 
   @BeautifyErrors("Init")
   public async init(): Promise<void> {
-    const sendLog = this.sendLog("init");
+    const sendLog = this.createLogSender("init");
     if (
       fs.existsSync(
         path.join(process.cwd(), `terraform.${this.stack.name}.tfstate`)
@@ -207,7 +207,7 @@ export class TerraformCloud implements Terraform {
   public async plan(destroy = false): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
       throw new Error("Please create a ConfigurationVersion before planning");
-    const sendLog = this.sendLog("plan");
+    const sendLog = this.createLogSender("plan");
     const workspace = await this.workspace();
     const workspaceUrl = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}`;
 
@@ -296,7 +296,7 @@ export class TerraformCloud implements Terraform {
     phase: string,
     stdout: (chunk: Buffer) => any
   ) {
-    const sendLog = this.sendLog(phase);
+    const sendLog = this.createLogSender(phase);
     const res = await client.Runs.show(runId);
 
     // fetch logs and update UI in the background
@@ -316,7 +316,7 @@ export class TerraformCloud implements Terraform {
     _planFile: string,
     stdout: (chunk: Buffer) => any
   ): Promise<void> {
-    const sendLog = this.sendLog("deploy");
+    const sendLog = this.createLogSender("deploy");
     if (!this.run)
       throw new Error(
         "Please create a ConfigurationVersion / Plan before deploying"
@@ -348,7 +348,7 @@ export class TerraformCloud implements Terraform {
         "Please create a ConfigurationVersion / Plan before destroying"
       );
 
-    const sendLog = this.sendLog("destroy");
+    const sendLog = this.createLogSender("destroy");
     const destroyingStates = ["confirmed", "apply_queued", "applying"];
     const runId = this.run.id;
     sendLog(`Applying Terraform Cloud run`);
@@ -376,7 +376,7 @@ export class TerraformCloud implements Terraform {
 
   @BeautifyErrors("Output")
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
-    const sendLog = this.sendLog("output");
+    const sendLog = this.createLogSender("output");
     sendLog("Fetching Terraform Cloud outputs");
     const stateVersion = await this.client.StateVersions.current(
       (

@@ -102,7 +102,6 @@ export class CdktfProject {
     synthCommand: string;
     outDir: string;
     onUpdate: (update: ProjectUpdate) => void;
-    // TODO: should this be onUpdate?
     onLog?: (log: { stackName: string; message: string }) => void;
     autoApprove?: boolean;
     workingDirectory?: string;

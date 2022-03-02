@@ -27,6 +27,24 @@ function Output({ name, value }: { name: string; value: TerraformOutput }) {
   );
 }
 
+// Puts the top-level outputs before the nested outputs
+const compareOutputs =
+  (value: NestedTerraformOutputs) =>
+  ([k1]: [string, any], [k2]: [string, any]): number => {
+    if (isTerraformOutput(value[k1]) && isTerraformOutput(value[k2])) {
+      return k1.localeCompare(k2);
+    }
+
+    if (isTerraformOutput(value[k1])) {
+      return -1;
+    }
+
+    if (isTerraformOutput(value[k2])) {
+      return 1;
+    }
+    return k1.localeCompare(k2);
+  };
+
 function NestedOutput({
   name,
   value,
@@ -53,20 +71,7 @@ function NestedOutput({
       <Text bold>{name}</Text>
       <Box marginLeft={indentationLevel * 2} flexDirection="column">
         {Object.entries(value)
-          .sort(([k1], [k2]) => {
-            if (isTerraformOutput(value[k1]) && isTerraformOutput(value[k2])) {
-              return k1.localeCompare(k2);
-            }
-
-            if (isTerraformOutput(value[k1])) {
-              return -1;
-            }
-
-            if (isTerraformOutput(value[k2])) {
-              return 1;
-            }
-            return k1.localeCompare(k2);
-          })
+          .sort(compareOutputs(value))
           .map(([k, v]) => (
             <NestedOutput
               indentationLevel={indentationLevel + 1}

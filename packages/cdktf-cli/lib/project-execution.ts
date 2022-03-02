@@ -63,21 +63,24 @@ export interface ProjectContext {
   onProgress: (event: ProgressEvent) => void;
 }
 
-function extractError(prefix: string): (context: any, event: any) => string {
-  return (_context: any, event: any) => {
-    if (typeof event === "object" && event !== null && "data" in event) {
-      const data = event.data;
+function extractError(_context: any, event: any): string {
+  if (typeof event === "object" && event !== null && "data" in event) {
+    const data = event.data;
 
-      if ("stderr" in data) {
-        return `${prefix}: ${data.stderr}`;
-      } else {
-        const x = `${prefix}: ${data}`;
-        return x;
-      }
+    if ("stderr" in data) {
+      return data.stderr;
+    } else {
+      return data;
     }
+  } else if (
+    typeof event === "object" &&
+    event !== null &&
+    "message" in event
+  ) {
+    return event.message;
+  }
 
-    return `${prefix}: ${event}`;
-  };
+  return event;
 }
 
 function getStack(
@@ -303,8 +306,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           onError: {
             target: "error",
             actions: assign({
-              message: (_context, event) =>
-                extractError("Synth errors")(_context, event),
+              message: (_context, event) => extractError(_context, event),
             }),
           },
           onDone: [
@@ -335,8 +337,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           onError: {
             target: "error",
             actions: assign({
-              message: (_context, event) =>
-                extractError("terraform init errored with")(_context, event),
+              message: (_context, event) => extractError(_context, event),
             }),
           },
           onDone: [
@@ -367,8 +368,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           onError: {
             target: "error",
             actions: assign({
-              message: (_context, event) =>
-                extractError("terraform plan errored with")(_context, event),
+              message: (_context, event) => extractError(_context, event),
             }),
           },
           onDone: [
@@ -444,8 +444,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           onError: {
             target: "error",
             actions: assign({
-              message: (_context, event) =>
-                extractError("terraform deploy errored with")(_context, event),
+              message: (_context, event) => extractError(_context, event),
             }),
           },
           onDone: {
@@ -460,8 +459,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           onError: {
             target: "error",
             actions: assign({
-              message: (_context, event) =>
-                extractError("terraform destroy errored with")(_context, event),
+              message: (_context, event) => extractError(_context, event),
             }),
           },
           onDone: {
@@ -476,8 +474,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
           onError: {
             target: "error",
             actions: assign({
-              message: (_context, event) =>
-                extractError("terraform output errored with")(_context, event),
+              message: (_context, event) => extractError(_context, event),
             }),
           },
           onDone: {

@@ -25,7 +25,7 @@ export const Output = ({
   );
 
   const bottomBar = done ? (
-    <OutputsBottomBar outputs={outputs} outputsPath={outputsPath} />
+    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
   ) : (
     <StatusBottomBar latestUpdate={projectUpdate} done={done} />
   );

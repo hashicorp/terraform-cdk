@@ -5,15 +5,15 @@ import { NestedTerraformOutputs } from "../../../../../lib/output";
 
 type Props = {
   outputs?: NestedTerraformOutputs;
-  outputsPath?: string;
+  outputsFile?: string;
 };
-export function OutputsBottomBar({ outputs, outputsPath }: Props) {
+export function OutputsBottomBar({ outputs, outputsFile }: Props) {
   if (outputs && Object.keys(outputs).length > 0) {
-    if (outputsPath) {
+    if (outputsFile) {
       return (
         <Box>
           <Outputs outputs={outputs} />
-          <Text>The outputs have been written to {outputsPath}</Text>
+          <Text>The outputs have been written to {outputsFile}</Text>
         </Box>
       );
     }
