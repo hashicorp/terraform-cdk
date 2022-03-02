@@ -445,7 +445,7 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
             target: "error",
             actions: assign({
               message: (_context, event) =>
-                extractError("terraform depoly errored with")(_context, event),
+                extractError("terraform deploy errored with")(_context, event),
             }),
           },
           onDone: {
