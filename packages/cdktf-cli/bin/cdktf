@@ -1,2 +1,2 @@
-#!/usr/bin/env node
-require('./cdktf.js');
+#!/usr/bin/env node --experimental-abortcontroller
+require("./cdktf.js");
