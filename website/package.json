@@ -5,6 +5,6 @@
     "build": "./scripts/website-build.sh"
   },
   "devDependencies": {
-    "next": "latest"
+    "next": "^12.1.0"
   }
 }
