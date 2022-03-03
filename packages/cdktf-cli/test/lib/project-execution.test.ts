@@ -4,6 +4,7 @@ import {
   guards,
 } from "../../lib/project-execution";
 import { interpret } from "xstate";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 
 function mockAsyncFunction(returnValue: any) {
   return jest.fn(() => Promise.resolve(returnValue));

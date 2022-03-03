@@ -5,6 +5,7 @@
 
 import { interpret, InterpreterFrom } from "xstate";
 import { Language } from "@cdktf/provider-generator";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 export { init, Project, InitArgs } from "./init";
 export { get, GetStatus } from "./get";
 import { SynthesizedStack } from "./synth-stack";

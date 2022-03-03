@@ -1,6 +1,7 @@
 import * as chokidar from "chokidar";
 import { DeepReadonly } from "utility-types";
 import isDeepEqual from "lodash.isequal";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack, SynthStack } from "../synth-stack";
 import { DeployingResource, Terraform } from "../models/terraform";
 import { TerraformCli } from "../models/terraform-cli";

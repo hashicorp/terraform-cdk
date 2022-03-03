@@ -1,6 +1,7 @@
 // Each action drives itself to completion and exposes updates to the user.
 
 import { assign, createMachine } from "xstate";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthStack, SynthesizedStack } from "./synth-stack";
 import { Errors } from "./errors";
 import { TerraformJson } from "./terraform-json";
