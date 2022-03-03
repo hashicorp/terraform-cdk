@@ -8,6 +8,8 @@ fi
 # cd into the preview directory project
 cd "$PREVIEW_DIR"
 
+npm -v
+
 npm install --production=false
 
 # Run the terraform-website content-repo start script
