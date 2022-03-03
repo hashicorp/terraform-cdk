@@ -1,0 +1,7 @@
+{
+  "name": "terraform-cdk-docs-preview",
+  "private": "true",
+  "scripts": {
+    "build": "./scripts/website-build.sh"
+  }
+}
