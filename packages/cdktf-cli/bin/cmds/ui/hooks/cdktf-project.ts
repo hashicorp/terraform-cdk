@@ -60,6 +60,13 @@ export function useCdktfProject<T>(
       },
     });
 
+    const onAbort = () => {
+      project.hardAbort();
+    };
+    process.on("SIGINT", onAbort);
+    process.on("SIGTERM", onAbort);
+    process.on("SIGQUIT", onAbort);
+
     projectCallback(project)
       .then((value) => {
         setReturnValue(value);

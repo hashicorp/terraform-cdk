@@ -114,6 +114,8 @@ export class TerraformCloud implements Terraform {
   public run?: TerraformCloudClient.Run;
 
   constructor(
+    // TFC does not support abort yet: https://github.com/hashicorp/terraform-cdk/issues/1607
+    public readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
     isSpeculative = false,

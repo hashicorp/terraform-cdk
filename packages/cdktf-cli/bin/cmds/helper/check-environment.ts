@@ -45,7 +45,7 @@ async function checkGoVersion() {
 
 async function checkNodeVersion() {
   const out = await getBinaryVersion("node", "--version");
-  throwIfLowerVersion("Node.js", "14.0.0", out);
+  throwIfLowerVersion("Node.js", "14.17.0", out);
 }
 
 export async function checkEnvironment(projectPath = process.cwd()) {

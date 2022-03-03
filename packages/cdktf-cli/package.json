@@ -37,6 +37,7 @@
     "constructs": "^10.0.25",
     "jsii": "^1.54.0",
     "jsii-pacmak": "^1.54.0",
+    "node-abort-controller": "^3.0.1",
     "yargs": "^17.3"
   },
   "eslintConfig": {

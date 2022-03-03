@@ -5,6 +5,7 @@
 
 import { interpret, InterpreterFrom } from "xstate";
 import { Language } from "@cdktf/provider-generator";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 export { init, Project, InitArgs } from "./init";
 export { get, GetStatus } from "./get";
 import { SynthesizedStack } from "./synth-stack";
@@ -90,6 +91,7 @@ export class CdktfProject {
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
   public deployingResources?: DeployingResource[];
+  public hardAbort: () => void;
 
   constructor({
     synthCommand,
@@ -106,12 +108,17 @@ export class CdktfProject {
     autoApprove?: boolean;
     workingDirectory?: string;
   }) {
+    const ac = new AbortController();
+    const abortSignal = ac.signal;
+
+    this.hardAbort = ac.abort.bind(ac);
     this.stateMachine = interpret(
       projectExecutionMachine.withContext({
         synthCommand,
         outDir: outDir,
         autoApprove,
         workingDirectory,
+        abortSignal,
 
         onProgress: (event) => {
           switch (event.type) {

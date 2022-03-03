@@ -26,6 +26,7 @@ type SynthOrigin = "watch";
 
 export class SynthStack {
   public static async synth(
+    abortSignal: AbortSignal,
     command: string,
     outdir: string,
     workingDirectory = process.cwd(),
@@ -57,6 +58,7 @@ export class SynthStack {
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
         },
         cwd: workingDirectory,
+        signal: abortSignal,
       });
     } catch (e) {
       const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}

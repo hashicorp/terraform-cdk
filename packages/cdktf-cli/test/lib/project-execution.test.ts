@@ -4,6 +4,7 @@ import {
   guards,
 } from "../../lib/project-execution";
 import { interpret } from "xstate";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 
 function mockAsyncFunction(returnValue: any) {
   return jest.fn(() => Promise.resolve(returnValue));
@@ -21,9 +22,11 @@ function getStateMachine({
   autoApprove = guards.autoApprove,
   planNeedsNoApply = guards.planNeedsNoApply,
 }: Partial<StateMachineConfig>) {
+  const abort = new AbortController();
   const stateMachine = interpret(
     projectExecutionMachine
       .withContext({
+        abortSignal: abort.signal,
         onProgress: jest.fn(),
         synthCommand: "npx ts-node my-app.ts",
         outDir: "/tmp/cdktf-project/out",

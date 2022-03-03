@@ -28,6 +28,7 @@ export class TerraformCli implements Terraform {
   ) => (stderr: string | Uint8Array) => void;
 
   constructor(
+    private readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
     onLog = (_stateName: string) =>
       (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
@@ -47,6 +48,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
+        signal: this.abortSignal,
       },
       this.onStdout("init"),
       this.onStderr("init")
@@ -66,6 +68,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
+        signal: this.abortSignal,
       },
       this.onStdout("plan"),
       this.onStderr("plan")
@@ -74,7 +77,7 @@ export class TerraformCli implements Terraform {
     const jsonPlan = await exec(
       terraformBinaryName,
       ["show", "-json", planFile],
-      { cwd: this.workdir, env: process.env },
+      { cwd: this.workdir, env: process.env, signal: this.abortSignal },
       // we don't care about the output, this is just internally to compose a plan
       () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       this.onStderr("plan")
@@ -94,12 +97,13 @@ export class TerraformCli implements Terraform {
         "apply",
         "-auto-approve",
         "-input=false",
+
         ...extraOptions,
         // only appends planFile if not empty
         // this allows deploying without a plan (as used in watch)
         ...(planFile ? [planFile] : []),
       ],
-      { cwd: this.workdir, env: process.env },
+      { cwd: this.workdir, env: process.env, signal: this.abortSignal },
       (buffer: Buffer) => {
         this.onStdout("deploy")(buffer);
         stdout(buffer);
@@ -113,7 +117,7 @@ export class TerraformCli implements Terraform {
     await exec(
       terraformBinaryName,
       ["destroy", "-auto-approve", "-input=false"],
-      { cwd: this.workdir, env: process.env },
+      { cwd: this.workdir, env: process.env, signal: this.abortSignal },
       (buffer: Buffer) => {
         this.onStdout("destroy")(buffer);
         stdout(buffer);
@@ -130,6 +134,7 @@ export class TerraformCli implements Terraform {
         {
           cwd: this.workdir,
           env: process.env,
+          signal: this.abortSignal,
         },
         this.onStdout("version"),
         this.onStderr("version")
@@ -148,6 +153,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
+        signal: this.abortSignal,
       },
       // We don't need to log the output here since we use it later on
       () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
