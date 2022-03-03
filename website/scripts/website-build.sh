@@ -6,7 +6,7 @@ if [ ! -d "$PREVIEW_DIR" ]; then
     git clone --depth=1 --branch=brk.feat/tfcdk-remote-content https://github.com/hashicorp/terraform-website.git "$PREVIEW_DIR"
 fi
 
-ls ./node_modules/next/dist/server
+ls ./node_modules/next/dist/server/api-utils
 
 # cd into the preview directory project
 cd "$PREVIEW_DIR"
