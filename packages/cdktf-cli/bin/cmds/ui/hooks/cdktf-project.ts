@@ -10,7 +10,6 @@ export type LogEntry = {
 };
 
 type CdktfProjectOpts = {
-  autoApprove?: boolean;
   onOutputsRetrieved?: (outputs: any) => void;
   outDir: string;
   synthCommand: string;
@@ -27,15 +26,12 @@ export function useCdktfProject<T>(
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const [returnValue, setReturnValue] = useState<T>();
-  const [stackName, setStackName] = useState<string>();
 
   useEffect(() => {
     const project = new CdktfProject({
       outDir: opts.outDir,
       synthCommand: opts.synthCommand,
-      autoApprove: opts.autoApprove,
       onUpdate: (update: ProjectUpdate) => {
-        setStackName(project.stackName || "");
         setProjectUpdate(update);
 
         if (update.type === "deployed" || update.type === "outputs fetched") {
@@ -83,6 +79,5 @@ export function useCdktfProject<T>(
     outputs,
     projectUpdate,
     returnValue,
-    stackName,
   };
 }

@@ -2,7 +2,7 @@
 
 import { assign, createMachine } from "xstate";
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
-import { SynthStack, SynthesizedStack } from "./synth-stack";
+import { SynthesizedStack } from "./synth-stack";
 import { Errors } from "./errors";
 import { TerraformJson } from "./terraform-json";
 import { TerraformCloud } from "./models/terraform-cloud";
@@ -13,12 +13,11 @@ import {
   DeployingResource,
 } from "./models/terraform";
 import { getConstructIdsForOutputs, parseOutput } from "./output";
-import { printAnnotations } from "./synth";
 
-export type ProjectEvent =
+export type StackEvent =
   | {
       type: "START";
-      targetAction?: "synth" | "diff" | "deploy" | "destroy" | "output";
+      targetAction?: "diff" | "deploy" | "destroy" | "output";
       targetStack?: string;
     }
   | {
@@ -48,17 +47,13 @@ type ProgressEvent =
       updatedResources: DeployingResource[];
     };
 
-export interface ProjectContext {
-  targetAction?: "synth" | "diff" | "deploy" | "destroy" | "output";
-  targetStack?: string;
+export interface StackContext {
+  targetAction?: "diff" | "deploy" | "destroy" | "output";
   message?: string;
-  synthesizedStacks?: SynthesizedStack[];
+  stack?: SynthesizedStack;
   terraform?: Terraform;
   targetStackPlan?: TerraformPlan;
   autoApprove?: boolean;
-  synthCommand: string;
-  outDir: string;
-  workingDirectory: string;
   outputs?: Record<string, any>;
   outputsByConstructId?: Record<string, any>;
   onProgress: (event: ProgressEvent) => void;
@@ -84,41 +79,15 @@ function extractError(_context: any, event: any): string {
 
   return event;
 }
-
-function getStack(
-  context: ProjectContext,
-  stackName = context.targetStack
-): SynthesizedStack {
-  const stacks = context.synthesizedStacks;
-  if (!stacks) {
-    throw Errors.Internal(
-      "Trying to access a stack before it has been synthesized"
-    );
+function getStack(context: StackContext): SynthesizedStack {
+  if (context.stack) {
+    return context.stack;
   }
-  if (stackName) {
-    const stack = stacks.find((s) => s.name === stackName);
-    if (!stack) {
-      throw Errors.Usage("Unknown stack: " + stackName);
-    }
-
-    return stack;
-  }
-
-  if (stacks.length !== 1) {
-    throw Errors.Usage(
-      `Found more than one stack, please specify a target stack. Run cdktf ${
-        context.targetAction || "<verb>"
-      } <stack> with one of these stacks: ${stacks
-        .map((s) => s.name)
-        .join(", ")} `
-    );
-  }
-
-  return stacks[0];
+  throw new Error("No stack selected (add some more data here)");
 }
 
 function getLogCallbackForStack(
-  context: ProjectContext
+  context: StackContext
 ): (stateName: string) => (message: string, isError?: boolean) => void {
   const stack = getStack(context);
   return (stateName: string) =>
@@ -157,19 +126,7 @@ async function getTerraformClient(
 }
 
 const services = {
-  synthProject: async (context: ProjectContext) => {
-    const stacks = await SynthStack.synth(
-      context.abortSignal,
-      context.synthCommand,
-      context.outDir,
-      context.workingDirectory
-    );
-
-    printAnnotations(stacks);
-
-    return stacks;
-  },
-  initializeTerraform: async (context: ProjectContext) => {
+  initializeTerraform: async (context: StackContext) => {
     const stack = getStack(context);
     context.onProgress({
       type: "STACK_SELECTED",
@@ -189,7 +146,7 @@ const services = {
 
     return terraform;
   },
-  diff: async (context: ProjectContext) => {
+  diff: async (context: StackContext) => {
     const tf = context.terraform;
     if (!tf) {
       throw Errors.Internal(
@@ -199,7 +156,7 @@ const services = {
 
     return tf.plan(context.targetAction === "destroy");
   },
-  deploy: async (context: ProjectContext) => {
+  deploy: async (context: StackContext) => {
     const stack = getStack(context);
     const planFile = context.targetStackPlan?.planFile;
     if (!planFile) {
@@ -224,7 +181,7 @@ const services = {
       });
     });
   },
-  destroy: async (context: ProjectContext) => {
+  destroy: async (context: StackContext) => {
     const stack = getStack(context);
     const planFile = context.targetStackPlan?.planFile;
     if (!planFile) {
@@ -250,7 +207,7 @@ const services = {
       });
     });
   },
-  gatherOutputs: async (context: ProjectContext) => {
+  gatherOutputs: async (context: StackContext) => {
     const stack = getStack(context);
 
     const tf = context.terraform;
@@ -271,70 +228,31 @@ const services = {
 
 const guards = {
   targetActionIs: (
-    context: ProjectContext,
+    context: StackContext,
     _event: any,
     state: { cond: { value: string } } // https://xstate.js.org/docs/guides/guards.html#custom-guards
   ) => context.targetAction === state.cond.value,
-  autoApprove: (context: ProjectContext) => Boolean(context.autoApprove),
-  planNeedsNoApply: (
-    _context: ProjectContext,
-    event: { data: TerraformPlan }
-  ) => event.data.needsApply === false,
+  autoApprove: (context: StackContext) => Boolean(context.autoApprove),
+  planNeedsNoApply: (_context: StackContext, event: { data: TerraformPlan }) =>
+    event.data.needsApply === false,
 };
 
-const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
+const stackExecutionMachine = createMachine<StackContext, StackEvent>(
   {
-    id: "project",
     initial: "idle",
     context: {
       onProgress: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-      // Mandatorily set by withContext
-      synthCommand: "",
-      workingDirectory: "",
-      outDir: "",
       abortSignal: new AbortController().signal,
     },
     states: {
       idle: {
         on: {
           START: {
-            target: "synth",
+            target: "init",
             actions: assign({
               targetAction: (_context, event) => event.targetAction,
-              targetStack: (_context, event) => event.targetStack,
             }),
           },
-        },
-      },
-      synth: {
-        invoke: {
-          id: "synth",
-          src: "synthProject",
-          onError: {
-            target: "error",
-            actions: assign({
-              message: (_context, event) => extractError(_context, event),
-            }),
-          },
-          onDone: [
-            {
-              target: "done",
-              actions: assign({
-                synthesizedStacks: (_context, event) => event.data,
-              }),
-              cond: {
-                type: "targetActionIs",
-                name: "actionIsSynth",
-                value: "synth",
-              },
-            },
-            {
-              target: "init",
-              actions: assign({
-                synthesizedStacks: (_context, event) => event.data,
-              }),
-            },
-          ],
         },
       },
       init: {
@@ -505,4 +423,4 @@ const projectExecutionMachine = createMachine<ProjectContext, ProjectEvent>(
   { services, guards: guards as any }
 );
 
-export { projectExecutionMachine, guards, services };
+export { stackExecutionMachine, guards, services };

@@ -64,8 +64,8 @@ export const Deploy = ({
   outputsPath,
 }: DeployConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
-    { outDir, synthCommand, onOutputsRetrieved, autoApprove },
-    (project) => project.deploy(targetStack)
+    { outDir, synthCommand, onOutputsRetrieved },
+    (project) => project.deploy({ stackName: targetStack, autoApprove })
   );
 
   const bottomBar = done ? (

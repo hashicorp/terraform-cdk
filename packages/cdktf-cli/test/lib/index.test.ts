@@ -94,7 +94,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.diff("first");
+      const plan = await cdktfProject.diff({ stackName: "first" });
 
       expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -102,7 +102,7 @@ describe("CdktfProject", () => {
         "planning",
         "planned",
       ]);
-      return expect(cdktfProject.currentPlan?.resources.length).toEqual(1);
+      return expect(plan!.resources.length).toEqual(1);
     });
 
     it("fails if no stack specified", () => {
@@ -138,7 +138,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy("first");
+      await cdktfProject.deploy({ stackName: "first" });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -157,7 +157,6 @@ describe("CdktfProject", () => {
         synthCommand: "npx ts-node ./main.ts",
         outDir,
         workingDirectory,
-        autoApprove: true,
         onUpdate: (event) => {
           events.push(event);
           if (event.type === "waiting for approval") {
@@ -166,7 +165,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy("first");
+      await cdktfProject.deploy({ stackName: "first", autoApprove: true });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([
@@ -196,7 +195,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy("first");
+      await cdktfProject.destroy({ stackName: "first" });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -215,13 +214,12 @@ describe("CdktfProject", () => {
         synthCommand: "npx ts-node ./main.ts",
         outDir,
         workingDirectory,
-        autoApprove: true,
         onUpdate: (event) => {
           events.push(event);
         },
       });
 
-      await cdktfProject.destroy("first");
+      await cdktfProject.destroy({ stackName: "first", autoApprove: true });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([

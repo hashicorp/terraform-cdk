@@ -18,8 +18,8 @@ export const Destroy = ({
   autoApprove,
 }: DestroyConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done } = useCdktfProject(
-    { outDir, synthCommand, autoApprove },
-    (project) => project.destroy(targetStack)
+    { outDir, synthCommand },
+    (project) => project.destroy({ stackName: targetStack, autoApprove })
   );
 
   const bottomBar =

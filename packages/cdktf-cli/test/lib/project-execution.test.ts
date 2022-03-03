@@ -1,8 +1,8 @@
 import {
-  projectExecutionMachine,
+  stackExecutionMachine,
   services,
   guards,
-} from "../../lib/project-execution";
+} from "../../lib/stack-execution";
 import { interpret } from "xstate";
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 
@@ -12,7 +12,6 @@ function mockAsyncFunction(returnValue: any) {
 
 type StateMachineConfig = typeof services & typeof guards;
 function getStateMachine({
-  synthProject = mockAsyncFunction(null),
   initializeTerraform = mockAsyncFunction(null),
   diff = mockAsyncFunction({ needsApply: true }),
   deploy = mockAsyncFunction(null),
@@ -24,17 +23,22 @@ function getStateMachine({
 }: Partial<StateMachineConfig>) {
   const abort = new AbortController();
   const stateMachine = interpret(
-    projectExecutionMachine
+    stackExecutionMachine
       .withContext({
         abortSignal: abort.signal,
         onProgress: jest.fn(),
-        synthCommand: "npx ts-node my-app.ts",
-        outDir: "/tmp/cdktf-project/out",
-        workingDirectory: "/tmp/cdktf-project/",
+        stack: {
+          name: "StackA",
+          constructPath: "A",
+          synthesizedStackPath: "B",
+          workingDirectory: "C",
+          content: "null",
+          annotations: [],
+          dependencies: [],
+        },
       })
       .withConfig({
         services: {
-          synthProject,
           initializeTerraform,
           diff,
           deploy,
@@ -52,34 +56,17 @@ function getStateMachine({
   return stateMachine;
 }
 
-describe("projectExecutionMachine", () => {
-  it("synth", async () => {
-    const synthProject = mockAsyncFunction(null);
-    const diff = mockAsyncFunction({ needsApply: true });
-    const stateMachine = getStateMachine({ synthProject, diff });
-    stateMachine.send({
-      type: "START",
-      targetAction: "synth",
-    });
-
-    await new Promise((resolve) => stateMachine.onDone(resolve));
-    expect(synthProject).toHaveBeenCalled();
-    expect(diff).not.toHaveBeenCalled();
-    expect(stateMachine.state.matches("done")).toBe(true);
-  });
-
+describe("stackExecutionMachine", () => {
   it("diff", async () => {
-    const synthProject = mockAsyncFunction(null);
     const diff = mockAsyncFunction({ needsApply: true });
     const deploy = mockAsyncFunction(null);
-    const stateMachine = getStateMachine({ synthProject, diff, deploy });
+    const stateMachine = getStateMachine({ diff, deploy });
     stateMachine.send({
       type: "START",
       targetAction: "diff",
     });
 
     await new Promise((resolve) => stateMachine.onDone(resolve));
-    expect(synthProject).toHaveBeenCalled();
     expect(diff).toHaveBeenCalled();
     expect(deploy).not.toHaveBeenCalled();
     expect(stateMachine.state.matches("done")).toBe(true);
@@ -88,11 +75,9 @@ describe("projectExecutionMachine", () => {
   describe("autoApprove", () => {
     describe.each(["deploy", "destroy"])("%s", (targetAction) => {
       it("with auto approve", async () => {
-        const synthProject = mockAsyncFunction(null);
         const diff = mockAsyncFunction({ needsApply: true });
         const execution = mockAsyncFunction(null);
         const stateMachine = getStateMachine({
-          synthProject,
           diff,
           [targetAction]: execution,
         });
@@ -103,18 +88,15 @@ describe("projectExecutionMachine", () => {
         });
 
         await new Promise((resolve) => stateMachine.onDone(resolve));
-        expect(synthProject).toHaveBeenCalled();
         expect(diff).toHaveBeenCalled();
         expect(execution).toHaveBeenCalled();
         expect(stateMachine.state.matches("done")).toBe(true);
       });
 
       it("without auto approve", async () => {
-        const synthProject = mockAsyncFunction(null);
         const diff = mockAsyncFunction({ needsApply: true });
         const execution = mockAsyncFunction(null);
         const stateMachine = getStateMachine({
-          synthProject,
           diff,
           [targetAction]: execution,
         });
@@ -146,11 +128,9 @@ describe("projectExecutionMachine", () => {
       });
 
       it("without auto approve and no approval", async () => {
-        const synthProject = mockAsyncFunction(null);
         const diff = mockAsyncFunction({ needsApply: true });
         const execution = mockAsyncFunction(null);
         const stateMachine = getStateMachine({
-          synthProject,
           diff,
           [targetAction]: execution,
         });
@@ -184,11 +164,9 @@ describe("projectExecutionMachine", () => {
   });
 
   it("does not deploy if the plan needs no apply", async () => {
-    const synthProject = mockAsyncFunction(null);
     const diff = mockAsyncFunction({ needsApply: false });
     const deploy = mockAsyncFunction(null);
     const stateMachine = getStateMachine({
-      synthProject,
       diff,
       deploy,
       planNeedsNoApply: function (context: any, event: any) {
@@ -201,7 +179,6 @@ describe("projectExecutionMachine", () => {
     });
 
     await new Promise((resolve) => stateMachine.onDone(resolve));
-    expect(synthProject).toHaveBeenCalled();
     expect(diff).toHaveBeenCalled();
     expect(deploy).not.toHaveBeenCalled();
     expect(stateMachine.state.matches("done")).toBe(true);
