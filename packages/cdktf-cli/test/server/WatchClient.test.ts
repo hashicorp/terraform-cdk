@@ -5,7 +5,7 @@ import {
 
 import { mocked } from "ts-jest/utils";
 import { WatchClient, WatchState } from "../../lib/server/WatchClient";
-import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
+import { TerraformJson } from "../../lib/terraform-json";
 import { TerraformCli as OriginalTerraformCli } from "../../lib/models/terraform-cli";
 
 jest.mock("../../lib/synth-stack");

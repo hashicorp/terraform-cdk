@@ -6,7 +6,7 @@ import { DeployingResource, Terraform } from "../models/terraform";
 import { TerraformCli } from "../models/terraform-cli";
 import { TerraformCloud } from "../models/terraform-cloud";
 import { parseOutput } from "../output";
-import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
+import { TerraformJson } from "../terraform-json";
 import { readGitignore } from "./util";
 import { hashPath } from "cdktf/lib/private/fs";
 import { logger } from "../logging";

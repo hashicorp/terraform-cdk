@@ -7,7 +7,10 @@ describe("full integration test", () => {
       // This is a workaround for that, by having a new driver every run we don't have this bug.
       const deployDriver = new TestDriver(__dirname);
       await deployDriver.setupTypescriptProject();
-      expect(deployDriver.deploy("using-all-providers")).toMatchSnapshot();
+      const deployLog = deployDriver.deploy("using-all-providers");
+      expect(deployLog).toContain("null_resource.test will be created");
+      expect(deployLog).toContain("1 to add");
+      expect(deployLog).toContain("Apply complete!");
     });
   });
 
