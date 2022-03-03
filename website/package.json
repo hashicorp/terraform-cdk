@@ -3,5 +3,8 @@
   "private": "true",
   "scripts": {
     "build": "./scripts/website-build.sh"
+  },
+  "devDependencies": {
+    "next": "latest"
   }
 }
