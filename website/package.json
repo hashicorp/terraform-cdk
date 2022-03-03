@@ -5,7 +5,7 @@
     "build": "./scripts/website-build.sh"
   },
   "devDependencies": {
-    "next": "12.0.7"
+    "next": "^12.1.0"
   },
   "engines": {
     "npm": ">=7.0.0"
