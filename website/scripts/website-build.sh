@@ -22,5 +22,7 @@ fi
 # cd into the preview directory project
 cd "$PREVIEW_DIR"
 
+echo $NEXT_PRIVATE_OUTPUT_TRACE_ROOT
+
 # Run the terraform-website content-repo start script
 REPO=cdktf IS_CONTENT_PREVIEW=true npm run build:deploy-preview
