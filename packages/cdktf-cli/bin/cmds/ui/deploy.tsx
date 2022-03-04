@@ -48,7 +48,7 @@ export const DeploySummary = ({
 
 interface DeployConfig {
   outDir: string;
-  targetStack?: string;
+  targetStacks?: string[];
   synthCommand: string;
   autoApprove: boolean;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
@@ -57,7 +57,7 @@ interface DeployConfig {
 
 export const Deploy = ({
   outDir,
-  targetStack,
+  targetStacks,
   synthCommand,
   autoApprove,
   onOutputsRetrieved,
@@ -65,7 +65,7 @@ export const Deploy = ({
 }: DeployConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
     { outDir, synthCommand, onOutputsRetrieved },
-    (project) => project.deploy({ stackName: targetStack, autoApprove })
+    (project) => project.deploy({ stackNames: targetStacks, autoApprove })
   );
 
   const bottomBar = done ? (

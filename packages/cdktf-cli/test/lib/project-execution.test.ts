@@ -1,186 +1,389 @@
-import {
-  stackExecutionMachine,
-  services,
-  guards,
-} from "../../lib/stack-execution";
-import { interpret } from "xstate";
-import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
+import * as fs from "fs";
+import * as path from "path";
+import * as os from "os";
+import { CdktfProject, get, init, Language } from "../../lib/index";
 
-function mockAsyncFunction(returnValue: any) {
-  return jest.fn(() => Promise.resolve(returnValue));
+function eventNames(events: any[]) {
+  return events
+    .map((event) => event.type)
+    .filter((name) => !name.includes("update"));
 }
 
-type StateMachineConfig = typeof services & typeof guards;
-function getStateMachine({
-  initializeTerraform = mockAsyncFunction(null),
-  diff = mockAsyncFunction({ needsApply: true }),
-  deploy = mockAsyncFunction(null),
-  destroy = mockAsyncFunction(null),
-  gatherOutputs = mockAsyncFunction({ outputs: {}, outputsByConstructId: {} }),
-  targetActionIs = guards.targetActionIs,
-  autoApprove = guards.autoApprove,
-  planNeedsNoApply = guards.planNeedsNoApply,
-}: Partial<StateMachineConfig>) {
-  const abort = new AbortController();
-  const stateMachine = interpret(
-    stackExecutionMachine
-      .withContext({
-        abortSignal: abort.signal,
-        onProgress: jest.fn(),
-        stack: {
-          name: "StackA",
-          constructPath: "A",
-          synthesizedStackPath: "B",
-          workingDirectory: "C",
-          content: "null",
-          annotations: [],
-          dependencies: [],
-        },
-      })
-      .withConfig({
-        services: {
-          initializeTerraform,
-          diff,
-          deploy,
-          destroy,
-          gatherOutputs,
-        },
-        guards: {
-          targetActionIs: targetActionIs as any, // since it's a custom guard
-          autoApprove,
-          planNeedsNoApply: planNeedsNoApply as any, // needs a second arg, types are off here
-        },
-      })
-  );
-  stateMachine.start();
-  return stateMachine;
-}
-
-describe("stackExecutionMachine", () => {
-  it("diff", async () => {
-    const diff = mockAsyncFunction({ needsApply: true });
-    const deploy = mockAsyncFunction(null);
-    const stateMachine = getStateMachine({ diff, deploy });
-    stateMachine.send({
-      type: "START",
-      targetAction: "diff",
+jest.setTimeout(30000);
+describe("CdktfProject", () => {
+  let workingDirectory: string;
+  let outDir: string;
+  beforeAll(async () => {
+    workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
+    await init({
+      destination: workingDirectory,
+      templatePath: path.join(__dirname, "../../templates/typescript"),
+      projectId: "test",
+      projectInfo: {
+        Description: "cdktf-api-test",
+        Name: "cdktf-api-test",
+      },
+      dist: path.join(__dirname, "../../../../dist"),
     });
 
-    await new Promise((resolve) => stateMachine.onDone(resolve));
-    expect(diff).toHaveBeenCalled();
-    expect(deploy).not.toHaveBeenCalled();
-    expect(stateMachine.state.matches("done")).toBe(true);
-  });
+    fs.copyFileSync(
+      path.resolve(__dirname, "fixtures/main.ts.fixture"),
+      path.resolve(workingDirectory, "main.ts")
+    );
+    fs.copyFileSync(
+      path.resolve(__dirname, "fixtures/cdktf.json"),
+      path.resolve(workingDirectory, "cdktf.json")
+    );
 
-  describe("autoApprove", () => {
-    describe.each(["deploy", "destroy"])("%s", (targetAction) => {
-      it("with auto approve", async () => {
-        const diff = mockAsyncFunction({ needsApply: true });
-        const execution = mockAsyncFunction(null);
-        const stateMachine = getStateMachine({
-          diff,
-          [targetAction]: execution,
-        });
-        stateMachine.machine.context.autoApprove = true;
-        stateMachine.send({
-          type: "START",
-          targetAction: targetAction as any,
-        });
-
-        await new Promise((resolve) => stateMachine.onDone(resolve));
-        expect(diff).toHaveBeenCalled();
-        expect(execution).toHaveBeenCalled();
-        expect(stateMachine.state.matches("done")).toBe(true);
-      });
-
-      it("without auto approve", async () => {
-        const diff = mockAsyncFunction({ needsApply: true });
-        const execution = mockAsyncFunction(null);
-        const stateMachine = getStateMachine({
-          diff,
-          [targetAction]: execution,
-        });
-        stateMachine.send({
-          type: "START",
-          targetAction: targetAction as any,
-        });
-
-        await new Promise((resolve, reject) =>
-          stateMachine.onTransition((state) => {
-            if (state.matches("waitingForApproval")) {
-              resolve(null);
-            }
-            if (state.matches("execute")) {
-              reject("should not be in execute state");
-            }
-          })
-        );
-        expect(execution).not.toHaveBeenCalled();
-
-        const promise = new Promise((resolve) => stateMachine.onDone(resolve));
-        stateMachine.send({
-          type: "APPROVAL_GIVEN",
-        });
-        await promise;
-
-        expect(execution).toHaveBeenCalled();
-        expect(stateMachine.state.matches("done")).toBe(true);
-      });
-
-      it("without auto approve and no approval", async () => {
-        const diff = mockAsyncFunction({ needsApply: true });
-        const execution = mockAsyncFunction(null);
-        const stateMachine = getStateMachine({
-          diff,
-          [targetAction]: execution,
-        });
-        stateMachine.send({
-          type: "START",
-          targetAction: targetAction as any,
-        });
-
-        await new Promise((resolve, reject) =>
-          stateMachine.onTransition((state) => {
-            if (state.matches("waitingForApproval")) {
-              resolve(null);
-            }
-            if (state.matches("execute")) {
-              reject("should not be in execute state");
-            }
-          })
-        );
-        expect(execution).not.toHaveBeenCalled();
-
-        const promise = new Promise((resolve) => stateMachine.onDone(resolve));
-        stateMachine.send({
-          type: "APPROVAL_ABORTED",
-        });
-        await promise;
-
-        expect(execution).not.toHaveBeenCalled();
-        expect(stateMachine.state.matches("done")).toBe(true);
-      });
-    });
-  });
-
-  it("does not deploy if the plan needs no apply", async () => {
-    const diff = mockAsyncFunction({ needsApply: false });
-    const deploy = mockAsyncFunction(null);
-    const stateMachine = getStateMachine({
-      diff,
-      deploy,
-      planNeedsNoApply: function (context: any, event: any) {
-        return guards.planNeedsNoApply(context, event);
+    await get({
+      constraints: [
+        {
+          name: "null",
+          version: "3.1.0",
+          source: "null",
+          fqn: "hashicorp/null",
+        },
+      ],
+      constructsOptions: {
+        codeMakerOutput: path.resolve(workingDirectory, ".gen"),
+        targetLanguage: Language.TYPESCRIPT,
       },
     });
-    stateMachine.send({
-      type: "START",
-      targetAction: "deploy",
+
+    outDir = path.resolve(workingDirectory, "out");
+  });
+
+  it("should be able to create a CdktfProject", () => {
+    const cdktfProject = new CdktfProject({
+      synthCommand: "npx ts-node main.ts",
+      outDir,
+      workingDirectory,
+      onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    });
+    expect(cdktfProject).toBeTruthy();
+  });
+
+  describe("synth", () => {
+    it("runs synth command in the target dir and is done", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      await cdktfProject.synth();
+
+      expect(eventNames(events)).toEqual(["synthesizing", "synthesized"]);
+    });
+  });
+
+  describe("diff", () => {
+    it("diffs successfully", async () => {
+      expect.assertions(2);
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      const plan = await cdktfProject.diff({ stackName: "first" });
+
+      expect(eventNames(events)).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+      ]);
+      return expect(plan!.resources.length).toEqual(1);
     });
 
-    await new Promise((resolve) => stateMachine.onDone(resolve));
-    expect(diff).toHaveBeenCalled();
-    expect(deploy).not.toHaveBeenCalled();
-    expect(stateMachine.state.matches("done")).toBe(true);
+    it("fails if no stack specified", () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      return expect(cdktfProject.diff()).rejects.toMatchInlineSnapshot(
+        `[Error: Usage Error: Found more than one stack, please specify a target stack. Run cdktf diff <stack> with one of these stacks: first, second, third ]`
+      );
+    });
+  });
+
+  describe("deploy", () => {
+    it("runs synth and diff once and waits for approval", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            event.approve();
+          }
+        },
+      });
+
+      await cdktfProject.deploy({ stackName: "first" });
+
+      return expect(eventNames(events)).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "waiting for approval",
+        "deploying",
+        "deployed",
+      ]);
+    });
+
+    it("runs synth and diff once and deploys on autoApprove", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+          if (event.type === "waiting for approval") {
+            event.approve();
+          }
+        },
+      });
+
+      await cdktfProject.deploy({ stackName: "first", autoApprove: true });
+
+      const eventTypes = eventNames(events);
+      expect(eventTypes).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "deployed",
+      ]);
+      return expect(eventTypes.includes("waiting for approval")).toBeFalsy();
+    });
+  });
+
+  describe("destroy", () => {
+    it("runs synth and diff once and waits for approval", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            event.approve();
+          }
+        },
+      });
+
+      await cdktfProject.destroy({ stackName: "first" });
+
+      return expect(eventNames(events)).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "waiting for approval",
+        "destroying",
+        "destroyed",
+      ]);
+    });
+
+    it("runs synth and diff once and destroys on autoApprove", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      await cdktfProject.destroy({ stackName: "first", autoApprove: true });
+
+      const eventTypes = eventNames(events);
+      expect(eventTypes).toEqual([
+        "synthesizing",
+        "synthesized",
+        "planning",
+        "planned",
+        "destroying",
+        "destroyed",
+      ]);
+      return expect(eventTypes.includes("waiting for approval")).toBeFalsy();
+    });
+  });
+
+  describe("multi-stack", () => {
+    it("Errors if a stack can not be found", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      await expect(
+        cdktfProject.deploy({ stackNames: ["not-found"] })
+      ).rejects.toMatchInlineSnapshot(
+        `[Error: Usage Error: Could not find stack: not-found]`
+      );
+    });
+
+    it("Errors if a dependent stack can not be found", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      await expect(
+        cdktfProject.deploy({ stackNames: ["third"] })
+      ).rejects.toMatchInlineSnapshot(
+        `[Error: Usage Error: The following dependencies are not included in the stacks to run: first.]`
+      );
+    });
+
+    it("deploys stacks in the right order", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            event.approve();
+          }
+        },
+      });
+
+      // Random order to implicitly test out sorting
+      await cdktfProject.deploy({ stackNames: ["third", "first", "second"] });
+
+      expect(
+        events
+          .filter((e) => !e.type.includes("update"))
+          .map((e) => `${e.stackName || "global"}: ${e.type}`)
+      ).toEqual([
+        "global: synthesizing",
+        "global: synthesized",
+        "first: planning",
+        "first: planned",
+        "first: waiting for approval",
+        "first: deploying",
+        "first: deployed",
+        "third: planning",
+        "third: planned",
+        "third: waiting for approval",
+        "third: deploying",
+        "third: deployed",
+        "second: planning",
+        "second: planned",
+        "second: waiting for approval",
+        "second: deploying",
+        "second: deployed",
+      ]);
+    });
+
+    it("deploys stacks in the right order with auto approve", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      // Random order to implicitly test out sorting
+      await cdktfProject.deploy({
+        stackNames: ["third", "first", "second"],
+        autoApprove: true,
+      });
+
+      expect(
+        events
+          .filter((e) => !e.type.includes("update"))
+          .map((e) => `${e.stackName || "global"}: ${e.type}`)
+      ).toEqual([
+        "global: synthesizing",
+        "global: synthesized",
+        "first: planning",
+        "first: planned",
+        "first: deployed",
+        "third: planning",
+        "third: planned",
+        "third: deployed",
+        "second: planning",
+        "second: planned",
+        "second: deployed",
+      ]);
+    });
+
+    it.skip("destroys stacks in the right order", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        outDir,
+        workingDirectory,
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      // Random order to implicitly test out sorting
+      await cdktfProject.deploy({
+        stackNames: ["third", "first", "second"],
+        autoApprove: true,
+      });
+
+      expect(
+        events
+          .filter((e) => !e.type.includes("update"))
+          .map((e) => `${e.stackName || "global"}: ${e.type}`)
+      ).toEqual([
+        "global: synthesizing",
+        "global: synthesized",
+        "third: planning",
+        "third: planned",
+        "third: destroyed",
+        "second: planning",
+        "second: planned",
+        "second: destroyed",
+        "first: planning",
+        "first: planned",
+        "first: destroyed",
+      ]);
+    });
   });
 });

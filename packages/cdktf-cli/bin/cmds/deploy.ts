@@ -6,14 +6,14 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "deploy [stack] [OPTIONS]";
-  public readonly describe = "Deploy the given stack";
+  public readonly command = "deploy [OPTIONS] <stacks..>";
+  public readonly describe = "Deploy the given stacks";
   public readonly aliases = ["apply"];
 
   public readonly builder = (args: yargs.Argv) =>
     args
-      .positional("stack", {
-        desc: "Deploy stack which matches the given id only. Required when more than one stack is present in the app",
+      .positional("stacks", {
+        desc: "Deploy stacks matching the given ids. Required when more than one stack is present in the app",
         type: "string",
       })
       .option("app", {

@@ -92,7 +92,7 @@ export async function deploy(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
 
   let outputsPath: string | undefined = undefined;
@@ -108,7 +108,7 @@ export async function deploy(argv: any) {
   await renderInk(
     React.createElement(Deploy, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       autoApprove,
       onOutputsRetrieved,
@@ -124,12 +124,12 @@ export async function destroy(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
 
   await renderInk(
     React.createElement(Destroy, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       autoApprove,
     })

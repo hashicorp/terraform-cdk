@@ -3,5 +3,6 @@
   "app": "npx ts-node main.ts",
   "terraformProviders": [
     "kreuzwerker/docker@~> 2.0"
-  ]
+  ],
+  "projectId": "8291e166-2e19-498e-ae1e-6db816770650"
 }
