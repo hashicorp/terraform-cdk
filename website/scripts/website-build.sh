@@ -16,7 +16,7 @@ git clone --depth=1 --branch=brk.feat/tfcdk-remote-content https://github.com/ha
 
 if [ "$from_cache" = true ]; then
   echo "Setting up $PREVIEW_DIR"
-  cp -R "./$CLONE_DIR/" "./$PREVIEW_DIR"
+  cp -R "./$CLONE_DIR/." "./$PREVIEW_DIR"
 fi
 
 # cd into the preview directory project
