@@ -78,8 +78,9 @@ describe("multiple stacks", () => {
     });
 
     test("destroy", () => {
-      expect(driver.destroy(["second"])).toContain(`Destroy complete!`);
-      expect(driver.destroy(["first"])).toContain(`Destroy complete!`);
+      expect(driver.destroy(["first", "second"])).toContain(
+        `Destroy complete!`
+      );
 
       expect(() => driver.destroy()).toThrowError(
         "Found more than one stack, please specify a target stack. Run cdktf destroy <stack> with one of these stacks: first, second"

@@ -350,7 +350,7 @@ describe("CdktfProject", () => {
       ]);
     });
 
-    it.skip("destroys stacks in the right order", async () => {
+    it("destroys stacks in the right order", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
@@ -362,7 +362,7 @@ describe("CdktfProject", () => {
       });
 
       // Random order to implicitly test out sorting
-      await cdktfProject.deploy({
+      await cdktfProject.destroy({
         stackNames: ["third", "first", "second"],
         autoApprove: true,
       });
@@ -376,13 +376,16 @@ describe("CdktfProject", () => {
         "global: synthesized",
         "third: planning",
         "third: planned",
+        "third: destroying",
         "third: destroyed",
-        "second: planning",
-        "second: planned",
-        "second: destroyed",
         "first: planning",
         "first: planned",
+        "first: destroying",
         "first: destroyed",
+        "second: planning",
+        "second: planned",
+        "second: destroying",
+        "second: destroyed",
       ]);
     });
   });

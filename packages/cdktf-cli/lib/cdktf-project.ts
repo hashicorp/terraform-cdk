@@ -97,6 +97,21 @@ function getStackWithNoUnmetDependencies(
     );
 }
 
+// Returns the first stack that has no dependents that need to be destroyed first
+function getStackWithNoUnmetDependants(
+  stackExecutors: CdktfStack[]
+): CdktfStack | undefined {
+  return stackExecutors
+    .filter((executor) => executor.currentState !== "done")
+    .find((executor) => {
+      const dependantStacks = stackExecutors.filter((innerExecutor) =>
+        innerExecutor.stack.dependencies.includes(executor.stack.name)
+      );
+
+      return dependantStacks.every((stack) => stack.currentState === "done");
+    });
+}
+
 export type StackOptions = {
   stackName?: string;
   stackNames?: string[];
@@ -240,16 +255,27 @@ export class CdktfProject {
   public async destroy(opts: ExecutionOptions = {}) {
     const stacks = await this.synth();
     const stacksToRun = getStacks(stacks, opts, "destroy");
-    // TODO: implement multi-stack destroy
-    if (stacksToRun.length > 1) {
-      throw Errors.Usage(
-        `Multi-stack destroy is not yet supported, please only pass one stack into deploy instead of multiple: ${stacksToRun
-          .map((stack) => stack.name)
-          .join(", ")}`
+    const stackExecutors = stacksToRun.map((stack) =>
+      this.getStackExecutor(stack, opts)
+    );
+
+    let nextRunningExecutor = getStackWithNoUnmetDependants(stackExecutors);
+
+    while (nextRunningExecutor) {
+      await nextRunningExecutor.destroy();
+      nextRunningExecutor = getStackWithNoUnmetDependants(stackExecutors);
+    }
+
+    const unprocessedStacks = stackExecutors.filter(
+      (executor) => executor.currentState !== "done"
+    );
+    if (unprocessedStacks.length > 0) {
+      throw Errors.External(
+        `Some stacks failed to destroy: ${unprocessedStacks
+          .map((s) => s.stackName)
+          .join(", ")}. Please check the logs for more information.`
       );
     }
-    const stack = this.getStackExecutor(stacks[0], opts);
-    return await stack.destroy();
   }
 
   public async fetchOutputs(opts?: StackOptions) {
