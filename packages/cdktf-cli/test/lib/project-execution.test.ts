@@ -384,7 +384,7 @@ describe("CdktfProject", () => {
       new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
         ...inNewWorkingDirectory(),
-        onUpdate: () => {},
+        onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       }).deploy({
         stackNames: ["third", "first", "second"],
         autoApprove: true,
