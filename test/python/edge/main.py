@@ -98,6 +98,11 @@ class ReferenceStack(TerraformStack):
             singlereq={"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}
         )
 
+        # passing an element of a list ref of a complex list type (no block) into a resource
+        edge.OptionalAttributeResource(self, "list_item_from_list_type_ref",
+            str=list.computed_list_of_object.get(5).str,        
+        )
+
 # CDKTF supports referencing inputs from providers (Terraform does not)
 class ProviderStack(TerraformStack):
     def __init__(self, scope, id):

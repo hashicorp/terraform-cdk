@@ -109,6 +109,11 @@ class ReferenceStack extends TerraformStack {
                 .req(Token.asAny(set.getSet()))
                 .singlereq(ListBlockResourceSinglereq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build())
                 .build();
+
+        // passing an element of a list ref of a complex list type (no block) into a resource
+        OptionalAttributeResource.Builder.create(this, "list_item_from_list_type_ref")
+                .str(list.getComputedListOfObject().get(5).getStr())
+                .build();
     }
 }
 

@@ -105,6 +105,11 @@ namespace MyCompany.MyApp
                 Req = set.Set,
                 Singlereq = new ListBlockResourceSinglereq { Reqbool = true, Reqnum = 1, Reqstr = "reqstr" }
             });
+
+            // passing an element of a list ref of a complex list type (no block) into a resource
+            new OptionalAttributeResource(this, "list_item_from_list_type_ref", new OptionalAttributeResourceConfig {
+                Str = list.ComputedListOfObject.Get(5).Str
+            });
         }
     }
 
