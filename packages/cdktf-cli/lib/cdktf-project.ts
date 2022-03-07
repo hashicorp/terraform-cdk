@@ -58,7 +58,7 @@ function getMultipleStacks(
       return [stacks[0]];
     }
     throw Errors.Usage(
-      `Found more than one stack, please specify a target stacks. Run cdktf ${
+      `Found more than one stack, please specify a target stack. Run cdktf ${
         targetAction || "<verb>"
       } <stack> with one or more of these stacks: ${stacks
         .map((s) => s.name)
