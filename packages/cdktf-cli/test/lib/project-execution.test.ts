@@ -138,7 +138,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy({ stackName: "first" });
+      await cdktfProject.deploy({ stackNames: ["first"] });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -165,7 +165,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy({ stackName: "first", autoApprove: true });
+      await cdktfProject.deploy({ stackNames: ["first"], autoApprove: true });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([
@@ -195,7 +195,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy({ stackName: "first" });
+      await cdktfProject.destroy({ stackNames: ["first"] });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -219,7 +219,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy({ stackName: "first", autoApprove: true });
+      await cdktfProject.destroy({ stackNames: ["first"], autoApprove: true });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([

@@ -69,18 +69,6 @@ function getMultipleStacks(
   return stackNames.map((stackName) => getSingleStack(stacks, stackName));
 }
 
-function getStacks(
-  stacks: SynthesizedStack[],
-  opts: StackOptions,
-  targetAction?: string
-) {
-  if (opts.stackNames && opts.stackNames.length) {
-    return getMultipleStacks(stacks, opts.stackNames, targetAction);
-  }
-
-  return [getSingleStack(stacks, opts.stackName, targetAction)];
-}
-
 // Returns the first stack that has no unmet dependencies
 // An unmet dependency is a dependency that has not been deployed yet
 function getStackWithNoUnmetDependencies(
@@ -112,12 +100,15 @@ function getStackWithNoUnmetDependants(
     });
 }
 
-export type StackOptions = {
+export type SingleStackOptions = {
   stackName?: string;
+};
+
+export type MultipleStackOptions = {
   stackNames?: string[];
 };
 
-export type ExecutionOptions = StackOptions & {
+export type ExecutionOptions = MultipleStackOptions & {
   autoApprove?: boolean;
 };
 
@@ -190,7 +181,7 @@ export class CdktfProject {
     return stacks;
   }
 
-  public async diff(opts?: StackOptions) {
+  public async diff(opts?: SingleStackOptions) {
     const stacks = await this.synth();
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
@@ -226,7 +217,7 @@ export class CdktfProject {
 
   public async deploy(opts: ExecutionOptions = {}) {
     const stacks = await this.synth();
-    const stacksToRun = getStacks(stacks, opts, "deploy");
+    const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     this.checkIfAllDependenciesAreIncluded(stacksToRun);
 
     const stackExecutors = stacksToRun.map((stack) =>
@@ -254,7 +245,7 @@ export class CdktfProject {
 
   public async destroy(opts: ExecutionOptions = {}) {
     const stacks = await this.synth();
-    const stacksToRun = getStacks(stacks, opts, "destroy");
+    const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
     const stackExecutors = stacksToRun.map((stack) =>
       this.getStackExecutor(stack, opts)
     );
@@ -278,7 +269,7 @@ export class CdktfProject {
     }
   }
 
-  public async fetchOutputs(opts?: StackOptions) {
+  public async fetchOutputs(opts?: SingleStackOptions) {
     const stacks = await this.synth();
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "output")
