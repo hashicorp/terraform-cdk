@@ -1,6 +1,9 @@
-import { Token, IResolvable } from "./tokens";
-import { IInterpolatingParent } from "./terraform-addressable";
-import { Fn, propertyAccess } from ".";
+import { IResolvable, Token } from "./tokens";
+import {
+  IInterpolatingParent,
+  ITerraformAddressable,
+} from "./terraform-addressable";
+import { propertyAccess, Fn } from ".";
 
 abstract class ComplexComputedAttribute implements IInterpolatingParent {
   constructor(
@@ -113,6 +116,10 @@ export class AnyMap {
   }
 }
 
+/**
+ * @deprecated Going to be replaced by Array of ComplexListItem
+ * and will be removed in the future
+ */
 export class ComplexComputedList extends ComplexComputedAttribute {
   constructor(
     protected terraformResource: IInterpolatingParent,
@@ -121,6 +128,9 @@ export class ComplexComputedList extends ComplexComputedAttribute {
     protected wrapsSet?: boolean
   ) {
     super(terraformResource, terraformAttribute);
+    throw new Error(
+      "Version mismatch detected: The provider bindings seem to have been built for an older version of CDKTF. Upgrade your pre-built provider or re-run cdktf get with a more recent version (>= 0.10) of the cdktf-cli."
+    );
   }
 
   public interpolationForAttribute(property: string) {
@@ -136,28 +146,62 @@ export class ComplexComputedList extends ComplexComputedAttribute {
     }
 
     return this.terraformResource.interpolationForAttribute(
-      `${this.terraformAttribute}.${this.complexComputedListIndex}.${property}`
+      `${this.terraformAttribute}[${this.complexComputedListIndex}].${property}`
+    );
+  }
+}
+
+export abstract class ComplexList implements ITerraformAddressable {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {}
+
+  get fqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
     );
   }
 }
 
 export class ComplexObject extends ComplexComputedAttribute {
+  /**
+   * @param terraformResource
+   * @param terraformAttribute
+   * @param complexObjectIndex the index of the complex object in a list
+   * @param complexObjectIsFromSet set to true if this item is from inside a set and needs tolist() for accessing it
+   *                               set to "0" for single list items
+   */
   constructor(
     protected terraformResource: IInterpolatingParent,
-    protected terraformAttribute: string
+    protected terraformAttribute: string,
+    protected complexObjectIndex: number,
+    protected complexObjectIsFromSet: boolean
   ) {
     super(terraformResource, terraformAttribute);
   }
 
   public interpolationForAttribute(property: string) {
+    if (this.complexObjectIsFromSet) {
+      return propertyAccess(
+        Fn.tolist(
+          this.terraformResource.interpolationForAttribute(
+            this.terraformAttribute
+          )
+        ),
+        [this.complexObjectIndex, property]
+      );
+    }
+
     return this.terraformResource.interpolationForAttribute(
-      `${this.terraformAttribute}[0].${property}`
+      `${this.terraformAttribute}[${this.complexObjectIndex}].${property}`
     );
   }
 
   protected interpolationAsList() {
     return this.terraformResource.interpolationForAttribute(
-      `${this.terraformAttribute}.*`
+      `${this.terraformAttribute}`
     );
   }
 }
