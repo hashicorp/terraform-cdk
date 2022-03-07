@@ -259,7 +259,7 @@ exports[`with complex computed list 1`] = `
     },
     \\"test_resource\\": {
       \\"test\\": {
-        \\"name\\": \\"\${other_test_resource.othertest.complex_computed_list.0.id}\\"
+        \\"name\\": \\"\${other_test_resource.othertest.complex_computed_list[0].id}\\"
       }
     }
   },

@@ -1,12 +1,8 @@
-import {
-  TerraformResource,
-  TerraformMetaArguments,
-  ComplexComputedList,
-} from "../../lib";
+import { TerraformResource, TerraformMetaArguments } from "../../lib";
 import { Construct } from "constructs";
 import { TestProviderMetadata } from "./provider";
 import { stringToTerraform } from "../../lib/runtime";
-import { ComplexObject } from "../../lib/complex-computed-list";
+import { ComplexList, ComplexObject } from "../../lib/complex-computed-list";
 import { ITerraformResource } from "../../lib/terraform-resource";
 
 export interface TestResourceConfig extends TerraformMetaArguments {
@@ -74,13 +70,12 @@ export class TestOutputReference extends ComplexObject {
   /**
    * @param terraformResource The parent resource
    * @param terraformAttribute The attribute on the parent resource this class is referencing
-   * @param isSingleItem True if this is a block, false if it's a list
    */
   public constructor(
     terraformResource: ITerraformResource,
     terraformAttribute: string
   ) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get value() {
@@ -108,8 +103,8 @@ export class OtherTestResource extends TerraformResource {
     return this.getListAttribute("names");
   }
 
-  public complexComputedList(index: string) {
-    return new TestComplexComputedList(this, "complex_computed_list", index);
+  public get complexComputedList() {
+    return new TestComplexList(this, "complex_computed_list", false);
   }
 
   public get outputRef() {
@@ -121,9 +116,20 @@ export class OtherTestResource extends TerraformResource {
   }
 }
 
-class TestComplexComputedList extends ComplexComputedList {
+class TestComplexObject extends ComplexObject {
   public get id() {
     return this.getStringAttribute("id");
+  }
+}
+
+class TestComplexList extends ComplexList {
+  public get(index: number): TestComplexObject {
+    return new TestComplexObject(
+      this.terraformResource,
+      this.terraformAttribute,
+      index,
+      this.wrapsSet
+    );
   }
 }
 

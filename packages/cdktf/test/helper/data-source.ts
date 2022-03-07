@@ -1,12 +1,13 @@
 import { Construct } from "constructs";
 import {
-  ComplexComputedList,
   TerraformDataSource,
   TerraformMetaArguments,
   StringMap,
   NumberMap,
   BooleanMap,
   AnyMap,
+  ComplexObject,
+  ComplexList,
 } from "../../lib";
 import { TestProviderMetadata } from "./provider";
 import { stringToTerraform } from "../../lib/runtime";
@@ -34,8 +35,8 @@ export class TestDataSource extends TerraformDataSource {
     this.name = config.name;
   }
 
-  public complexComputedList(index: string) {
-    return new TestComplexComputedList(this, "complex_computed_list", index);
+  public get complexComputedList() {
+    return new TestComplexList(this, "complex_computed_list", false);
   }
 
   public stringMap(key: string) {
@@ -61,8 +62,19 @@ export class TestDataSource extends TerraformDataSource {
   }
 }
 
-class TestComplexComputedList extends ComplexComputedList {
+class TestComplexObject extends ComplexObject {
   public get id() {
     return this.getStringAttribute("id");
+  }
+}
+
+class TestComplexList extends ComplexList {
+  public get(index: number): TestComplexObject {
+    return new TestComplexObject(
+      this.terraformResource,
+      this.terraformAttribute,
+      index,
+      this.wrapsSet
+    );
   }
 }
