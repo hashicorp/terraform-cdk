@@ -9,6 +9,7 @@ interface DestroyConfig {
   targetStacks?: string[];
   synthCommand: string;
   autoApprove: boolean;
+  ignoreMissingStackDependencies?: boolean;
 }
 
 export const Destroy = ({
@@ -16,10 +17,16 @@ export const Destroy = ({
   targetStacks,
   synthCommand,
   autoApprove,
+  ignoreMissingStackDependencies,
 }: DestroyConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done } = useCdktfProject(
     { outDir, synthCommand },
-    (project) => project.destroy({ stackNames: targetStacks, autoApprove })
+    (project) =>
+      project.destroy({
+        stackNames: targetStacks,
+        autoApprove,
+        ignoreMissingStackDependencies,
+      })
   );
 
   const bottomBar =

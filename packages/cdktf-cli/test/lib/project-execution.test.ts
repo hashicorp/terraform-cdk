@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import * as path from "path";
 import * as os from "os";
 import { CdktfProject, get, init, Language } from "../../lib/index";
@@ -11,10 +11,9 @@ function eventNames(events: any[]) {
 
 jest.setTimeout(30000);
 describe("CdktfProject", () => {
-  let workingDirectory: string;
-  let outDir: string;
+  let inNewWorkingDirectory: () => { workingDirectory: string; outDir: string };
   beforeAll(async () => {
-    workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
+    const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
     await init({
       destination: workingDirectory,
       templatePath: path.join(__dirname, "../../templates/typescript"),
@@ -50,14 +49,23 @@ describe("CdktfProject", () => {
       },
     });
 
-    outDir = path.resolve(workingDirectory, "out");
+    inNewWorkingDirectory = function inNewWorkspace() {
+      const wd = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
+      const outDir = path.resolve(wd, "out");
+
+      fs.copySync(workingDirectory, wd);
+
+      return {
+        workingDirectory: wd,
+        outDir,
+      };
+    };
   });
 
   it("should be able to create a CdktfProject", () => {
     const cdktfProject = new CdktfProject({
       synthCommand: "npx ts-node main.ts",
-      outDir,
-      workingDirectory,
+      ...inNewWorkingDirectory(),
       onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
     });
     expect(cdktfProject).toBeTruthy();
@@ -68,8 +76,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
@@ -87,8 +94,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
@@ -109,8 +115,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
@@ -127,8 +132,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
 
@@ -155,8 +159,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
           if (event.type === "waiting for approval") {
@@ -173,6 +176,7 @@ describe("CdktfProject", () => {
         "synthesized",
         "planning",
         "planned",
+        "deploying",
         "deployed",
       ]);
       return expect(eventTypes.includes("waiting for approval")).toBeFalsy();
@@ -184,8 +188,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
 
@@ -195,7 +198,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy({ stackNames: ["first"] });
+      await cdktfProject.destroy({ stackNames: ["second"] });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -212,14 +215,13 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
       });
 
-      await cdktfProject.destroy({ stackNames: ["first"], autoApprove: true });
+      await cdktfProject.destroy({ stackNames: ["second"], autoApprove: true });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([
@@ -239,8 +241,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
@@ -257,8 +258,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
@@ -271,12 +271,30 @@ describe("CdktfProject", () => {
       );
     });
 
+    it("Does not error if a dependent stack can not be found but the ignore option is passed", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...inNewWorkingDirectory(),
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      await cdktfProject.deploy({
+        stackNames: ["third"],
+        autoApprove: true,
+        ignoreMissingStackDependencies: true,
+      });
+
+      return expect(events.length).toBeGreaterThan(3);
+    });
+
     it("deploys stacks in the right order", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
 
@@ -318,8 +336,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
@@ -340,12 +357,15 @@ describe("CdktfProject", () => {
         "global: synthesized",
         "first: planning",
         "first: planned",
+        "first: deploying",
         "first: deployed",
         "third: planning",
         "third: planned",
+        "third: deploying",
         "third: deployed",
         "second: planning",
         "second: planned",
+        "second: deploying",
         "second: deployed",
       ]);
     });
@@ -354,11 +374,20 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        outDir,
-        workingDirectory,
+        ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
         },
+      });
+
+      // To destroy sth we need to deploy first, with a different project to not polute the event list
+      new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...inNewWorkingDirectory(),
+        onUpdate: () => {},
+      }).deploy({
+        stackNames: ["third", "first", "second"],
+        autoApprove: true,
       });
 
       // Random order to implicitly test out sorting

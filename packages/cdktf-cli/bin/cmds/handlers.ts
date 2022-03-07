@@ -113,6 +113,8 @@ export async function deploy(argv: any) {
       autoApprove,
       onOutputsRetrieved,
       outputsPath,
+      ignoreMissingStackDependencies:
+        argv.ignoreMissingStackDependencies || false,
     })
   );
 }
@@ -132,6 +134,8 @@ export async function destroy(argv: any) {
       targetStacks: stacks,
       synthCommand: command,
       autoApprove,
+      ignoreMissingStackDependencies:
+        argv.ignoreMissingStackDependencies || false,
     })
   );
 }

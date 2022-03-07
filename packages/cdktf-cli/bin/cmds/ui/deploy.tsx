@@ -53,6 +53,7 @@ interface DeployConfig {
   autoApprove: boolean;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
+  ignoreMissingStackDependencies?: boolean;
 }
 
 export const Deploy = ({
@@ -62,10 +63,16 @@ export const Deploy = ({
   autoApprove,
   onOutputsRetrieved,
   outputsPath,
+  ignoreMissingStackDependencies,
 }: DeployConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
     { outDir, synthCommand, onOutputsRetrieved },
-    (project) => project.deploy({ stackNames: targetStacks, autoApprove })
+    (project) =>
+      project.deploy({
+        stackNames: targetStacks,
+        autoApprove,
+        ignoreMissingStackDependencies,
+      })
   );
 
   const bottomBar = done ? (

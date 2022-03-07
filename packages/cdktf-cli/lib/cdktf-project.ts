@@ -100,6 +100,58 @@ function getStackWithNoUnmetDependants(
     });
 }
 
+// Throws an error if there is a dependant stack that is not included
+function checkIfAllDependantsAreIncluded(
+  stacksToRun: SynthesizedStack[],
+  allStacks: SynthesizedStack[]
+) {
+  const allDependants = new Set<string>();
+  stacksToRun
+    .map((stack) =>
+      allStacks.filter((s) => s.dependencies.includes(stack.name))
+    )
+    .flat()
+    .forEach((dependant) => allDependants.add(dependant.name));
+
+  const stackNames = stacksToRun.map((stack) => stack.name);
+  const missingDependants = [...allDependants].filter(
+    (dependant) => !stackNames.includes(dependant)
+  );
+
+  if (missingDependants.length > 0) {
+    throw Errors.Usage(
+      `The following dependant stacks are not included in the stacks to run: ${missingDependants.join(
+        ", "
+      )}.`
+    );
+  }
+}
+
+// Throws an error if there is a dependency that is not included
+// Cycles are detected on dependency creation at synthesis time
+// Running this prevents us from being in a situation where we have to wait for a stack to be deployed
+// that is not included to be run
+function checkIfAllDependenciesAreIncluded(stacksToRun: SynthesizedStack[]) {
+  const allDependencies = new Set<string>();
+  stacksToRun
+    .map((stack) => stack.dependencies)
+    .flat()
+    .forEach((dependency) => allDependencies.add(dependency));
+
+  const stackNames = stacksToRun.map((stack) => stack.name);
+  const missingDependencies = [...allDependencies].filter(
+    (dependency) => !stackNames.includes(dependency)
+  );
+
+  if (missingDependencies.length > 0) {
+    throw Errors.Usage(
+      `The following dependencies are not included in the stacks to run: ${missingDependencies.join(
+        ", "
+      )}.`
+    );
+  }
+}
+
 export type SingleStackOptions = {
   stackName?: string;
 };
@@ -110,6 +162,7 @@ export type MultipleStackOptions = {
 
 export type ExecutionOptions = MultipleStackOptions & {
   autoApprove?: boolean;
+  ignoreMissingStackDependencies?: boolean;
 };
 
 export class CdktfProject {
@@ -190,45 +243,25 @@ export class CdktfProject {
     return stack.currentPlan;
   }
 
-  // Throws an error if there is a dependency that is not included
-  // Cycles are detected on dependency creation at synthesis time
-  // Running this prevents us from being in a situation where we have to wait for a stack to be deployed
-  // that is not included to be run
-  private checkIfAllDependenciesAreIncluded(stacksToRun: SynthesizedStack[]) {
-    const allDependencies = new Set<string>();
-    stacksToRun
-      .map((stack) => stack.dependencies)
-      .flat()
-      .forEach((dependency) => allDependencies.add(dependency));
-
-    const stackNames = stacksToRun.map((stack) => stack.name);
-    const missingDependencies = [...allDependencies].filter(
-      (dependency) => !stackNames.includes(dependency)
-    );
-
-    if (missingDependencies.length > 0) {
-      throw Errors.Usage(
-        `The following dependencies are not included in the stacks to run: ${missingDependencies.join(
-          ", "
-        )}.`
-      );
-    }
-  }
-
   public async deploy(opts: ExecutionOptions = {}) {
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
-    this.checkIfAllDependenciesAreIncluded(stacksToRun);
+    if (!opts.ignoreMissingStackDependencies) {
+      checkIfAllDependenciesAreIncluded(stacksToRun);
+    }
 
     const stackExecutors = stacksToRun.map((stack) =>
       this.getStackExecutor(stack, opts)
     );
+    const next = opts.ignoreMissingStackDependencies
+      ? () => stackExecutors.filter((stack) => stack.currentState !== "done")[0]
+      : () => getStackWithNoUnmetDependencies(stackExecutors);
 
-    let nextRunningExecutor = getStackWithNoUnmetDependencies(stackExecutors);
+    let nextRunningExecutor = next();
 
     while (nextRunningExecutor) {
       await nextRunningExecutor.deploy();
-      nextRunningExecutor = getStackWithNoUnmetDependencies(stackExecutors);
+      nextRunningExecutor = next();
     }
 
     const unprocessedStacks = stackExecutors.filter(
@@ -246,15 +279,22 @@ export class CdktfProject {
   public async destroy(opts: ExecutionOptions = {}) {
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
+
+    if (!opts.ignoreMissingStackDependencies) {
+      checkIfAllDependantsAreIncluded(stacksToRun, stacks);
+    }
     const stackExecutors = stacksToRun.map((stack) =>
       this.getStackExecutor(stack, opts)
     );
+    const next = opts.ignoreMissingStackDependencies
+      ? () => stackExecutors.filter((stack) => stack.currentState !== "done")[0]
+      : () => getStackWithNoUnmetDependants(stackExecutors);
 
-    let nextRunningExecutor = getStackWithNoUnmetDependants(stackExecutors);
+    let nextRunningExecutor = next();
 
     while (nextRunningExecutor) {
       await nextRunningExecutor.destroy();
-      nextRunningExecutor = getStackWithNoUnmetDependants(stackExecutors);
+      nextRunningExecutor = next();
     }
 
     const unprocessedStacks = stackExecutors.filter(

@@ -33,6 +33,12 @@ class Command implements yargs.CommandModule {
         required: false,
         desc: "Auto approve",
       })
+      .option("ignore-missing-stack-dependencies", {
+        type: "boolean",
+        required: false,
+        desc: "Don't check if all stacks specified in the command have their dependencies included as well",
+        default: false,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {

@@ -46,6 +46,12 @@ class Command implements yargs.CommandModule {
         desc: "Whether to include sensitive outputs in the output file",
         default: false,
       })
+      .option("ignore-missing-stack-dependencies", {
+        type: "boolean",
+        required: false,
+        desc: "Don't check if all stacks specified in the command have their dependencies included as well",
+        default: false,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
