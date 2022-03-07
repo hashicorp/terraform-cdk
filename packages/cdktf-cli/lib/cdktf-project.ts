@@ -53,7 +53,7 @@ function getMultipleStacks(
   stackNames?: string[],
   targetAction?: string
 ) {
-  if (!stackNames) {
+  if (!stackNames || !stackNames.length) {
     if (stacks.length === 1) {
       return [stacks[0]];
     }
