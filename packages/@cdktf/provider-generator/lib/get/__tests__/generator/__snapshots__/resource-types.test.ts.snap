@@ -139,7 +139,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputRefe
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionCacheBehaviorForwardedValuesCookies | undefined {
@@ -240,7 +240,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionCacheBehaviorForwardedValues | undefined {
@@ -328,7 +328,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies = new CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\", true);
+  private _cookies = new CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\");
   public get cookies() {
     return this._cookies;
   }
@@ -515,7 +515,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOut
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies | undefined {
@@ -616,7 +616,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorForwardedValues | undefined {
@@ -704,7 +704,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\", true);
+  private _cookies = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\");
   public get cookies() {
     return this._cookies;
   }
@@ -832,7 +832,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionDefaultCacheBehavior | undefined {
@@ -1093,7 +1093,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // forwarded_values - computed: false, optional: false, required: true
-  private _forwardedValues = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference(this, \\"forwarded_values\\", true);
+  private _forwardedValues = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference(this, \\"forwarded_values\\");
   public get forwardedValues() {
     return this._forwardedValues;
   }
@@ -1157,7 +1157,7 @@ export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.Co
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionLoggingConfig | undefined {
@@ -1268,7 +1268,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOut
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies | undefined {
@@ -1369,7 +1369,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorForwardedValues | undefined {
@@ -1457,7 +1457,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\", true);
+  private _cookies = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\");
   public get cookies() {
     return this._cookies;
   }
@@ -1654,7 +1654,7 @@ export class CloudfrontDistributionOriginCustomOriginConfigOutputReference exten
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionOriginCustomOriginConfig | undefined {
@@ -1817,7 +1817,7 @@ export class CloudfrontDistributionOriginS3OriginConfigOutputReference extends c
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionOriginS3OriginConfig | undefined {
@@ -1927,7 +1927,7 @@ export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference ex
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionOriginGroupFailoverCriteria | undefined {
@@ -2042,7 +2042,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionRestrictionsGeoRestriction | undefined {
@@ -2128,7 +2128,7 @@ export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.Com
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionRestrictions | undefined {
@@ -2153,7 +2153,7 @@ export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.Com
   }
 
   // geo_restriction - computed: false, optional: false, required: true
-  private _geoRestriction = new CloudfrontDistributionRestrictionsGeoRestrictionOutputReference(this, \\"geo_restriction\\", true);
+  private _geoRestriction = new CloudfrontDistributionRestrictionsGeoRestrictionOutputReference(this, \\"geo_restriction\\");
   public get geoRestriction() {
     return this._geoRestriction;
   }
@@ -2210,7 +2210,7 @@ export class CloudfrontDistributionViewerCertificateOutputReference extends cdkt
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): CloudfrontDistributionViewerCertificate | undefined {
@@ -2655,7 +2655,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // default_cache_behavior - computed: false, optional: false, required: true
-  private _defaultCacheBehavior = new CloudfrontDistributionDefaultCacheBehaviorOutputReference(this, \\"default_cache_behavior\\", true);
+  private _defaultCacheBehavior = new CloudfrontDistributionDefaultCacheBehaviorOutputReference(this, \\"default_cache_behavior\\");
   public get defaultCacheBehavior() {
     return this._defaultCacheBehavior;
   }
@@ -2668,7 +2668,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // logging_config - computed: false, optional: true, required: false
-  private _loggingConfig = new CloudfrontDistributionLoggingConfigOutputReference(this, \\"logging_config\\", true);
+  private _loggingConfig = new CloudfrontDistributionLoggingConfigOutputReference(this, \\"logging_config\\");
   public get loggingConfig() {
     return this._loggingConfig;
   }
@@ -2732,7 +2732,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // restrictions - computed: false, optional: false, required: true
-  private _restrictions = new CloudfrontDistributionRestrictionsOutputReference(this, \\"restrictions\\", true);
+  private _restrictions = new CloudfrontDistributionRestrictionsOutputReference(this, \\"restrictions\\");
   public get restrictions() {
     return this._restrictions;
   }
@@ -2745,7 +2745,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // viewer_certificate - computed: false, optional: false, required: true
-  private _viewerCertificate = new CloudfrontDistributionViewerCertificateOutputReference(this, \\"viewer_certificate\\", true);
+  private _viewerCertificate = new CloudfrontDistributionViewerCertificateOutputReference(this, \\"viewer_certificate\\");
   public get viewerCertificate() {
     return this._viewerCertificate;
   }
@@ -3102,7 +3102,7 @@ export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.Comple
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketLifecycleRuleExpiration | undefined {
@@ -3211,7 +3211,7 @@ export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference ext
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketLifecycleRuleNoncurrentVersionExpiration | undefined {
@@ -3421,7 +3421,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketObjectLockConfigurationRuleDefaultRetention | undefined {
@@ -3529,7 +3529,7 @@ export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.Co
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketObjectLockConfigurationRule | undefined {
@@ -3554,7 +3554,7 @@ export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.Co
   }
 
   // default_retention - computed: false, optional: false, required: true
-  private _defaultRetention = new S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference(this, \\"default_retention\\", true);
+  private _defaultRetention = new S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference(this, \\"default_retention\\");
   public get defaultRetention() {
     return this._defaultRetention;
   }
@@ -3598,7 +3598,7 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketObjectLockConfiguration | undefined {
@@ -3642,7 +3642,7 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
   }
 
   // rule - computed: false, optional: true, required: false
-  private _rule = new S3BucketObjectLockConfigurationRuleOutputReference(this, \\"rule\\", true);
+  private _rule = new S3BucketObjectLockConfigurationRuleOutputReference(this, \\"rule\\");
   public get rule() {
     return this._rule;
   }
@@ -3682,7 +3682,7 @@ export class S3BucketReplicationConfigurationRulesDestinationAccessControlTransl
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation | undefined {
@@ -3766,7 +3766,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketReplicationConfigurationRulesDestination | undefined {
@@ -3876,7 +3876,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
 
   // access_control_translation - computed: false, optional: true, required: false
-  private _accessControlTranslation = new S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference(this, \\"access_control_translation\\", true);
+  private _accessControlTranslation = new S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference(this, \\"access_control_translation\\");
   public get accessControlTranslation() {
     return this._accessControlTranslation;
   }
@@ -3921,7 +3921,7 @@ export class S3BucketReplicationConfigurationRulesFilterOutputReference extends 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketReplicationConfigurationRulesFilter | undefined {
@@ -4008,7 +4008,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsE
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects | undefined {
@@ -4072,7 +4072,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputR
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketReplicationConfigurationRulesSourceSelectionCriteria | undefined {
@@ -4097,7 +4097,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputR
   }
 
   // sse_kms_encrypted_objects - computed: false, optional: true, required: false
-  private _sseKmsEncryptedObjects = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference(this, \\"sse_kms_encrypted_objects\\", true);
+  private _sseKmsEncryptedObjects = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference(this, \\"sse_kms_encrypted_objects\\");
   public get sseKmsEncryptedObjects() {
     return this._sseKmsEncryptedObjects;
   }
@@ -4197,7 +4197,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketReplicationConfiguration | undefined {
@@ -4284,7 +4284,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault | undefined {
@@ -4370,7 +4370,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extend
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketServerSideEncryptionConfigurationRule | undefined {
@@ -4395,7 +4395,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extend
   }
 
   // apply_server_side_encryption_by_default - computed: false, optional: false, required: true
-  private _applyServerSideEncryptionByDefault = new S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference(this, \\"apply_server_side_encryption_by_default\\", true);
+  private _applyServerSideEncryptionByDefault = new S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference(this, \\"apply_server_side_encryption_by_default\\");
   public get applyServerSideEncryptionByDefault() {
     return this._applyServerSideEncryptionByDefault;
   }
@@ -4434,7 +4434,7 @@ export class S3BucketServerSideEncryptionConfigurationOutputReference extends cd
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketServerSideEncryptionConfiguration | undefined {
@@ -4459,7 +4459,7 @@ export class S3BucketServerSideEncryptionConfigurationOutputReference extends cd
   }
 
   // rule - computed: false, optional: false, required: true
-  private _rule = new S3BucketServerSideEncryptionConfigurationRuleOutputReference(this, \\"rule\\", true);
+  private _rule = new S3BucketServerSideEncryptionConfigurationRuleOutputReference(this, \\"rule\\");
   public get rule() {
     return this._rule;
   }
@@ -4501,7 +4501,7 @@ export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketVersioning | undefined {
@@ -4603,7 +4603,7 @@ export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): S3BucketWebsite | undefined {
@@ -5050,7 +5050,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // object_lock_configuration - computed: false, optional: true, required: false
-  private _objectLockConfiguration = new S3BucketObjectLockConfigurationOutputReference(this, \\"object_lock_configuration\\", true);
+  private _objectLockConfiguration = new S3BucketObjectLockConfigurationOutputReference(this, \\"object_lock_configuration\\");
   public get objectLockConfiguration() {
     return this._objectLockConfiguration;
   }
@@ -5066,7 +5066,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // replication_configuration - computed: false, optional: true, required: false
-  private _replicationConfiguration = new S3BucketReplicationConfigurationOutputReference(this, \\"replication_configuration\\", true);
+  private _replicationConfiguration = new S3BucketReplicationConfigurationOutputReference(this, \\"replication_configuration\\");
   public get replicationConfiguration() {
     return this._replicationConfiguration;
   }
@@ -5082,7 +5082,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // server_side_encryption_configuration - computed: false, optional: true, required: false
-  private _serverSideEncryptionConfiguration = new S3BucketServerSideEncryptionConfigurationOutputReference(this, \\"server_side_encryption_configuration\\", true);
+  private _serverSideEncryptionConfiguration = new S3BucketServerSideEncryptionConfigurationOutputReference(this, \\"server_side_encryption_configuration\\");
   public get serverSideEncryptionConfiguration() {
     return this._serverSideEncryptionConfiguration;
   }
@@ -5098,7 +5098,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // versioning - computed: false, optional: true, required: false
-  private _versioning = new S3BucketVersioningOutputReference(this, \\"versioning\\", true);
+  private _versioning = new S3BucketVersioningOutputReference(this, \\"versioning\\");
   public get versioning() {
     return this._versioning;
   }
@@ -5114,7 +5114,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // website - computed: false, optional: true, required: false
-  private _website = new S3BucketWebsiteOutputReference(this, \\"website\\", true);
+  private _website = new S3BucketWebsiteOutputReference(this, \\"website\\");
   public get website() {
     return this._website;
   }
@@ -5355,7 +5355,7 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute);
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): SecurityGroupTimeouts | undefined {
@@ -5611,7 +5611,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts = new SecurityGroupTimeoutsOutputReference(this, \\"timeouts\\", true);
+  private _timeouts = new SecurityGroupTimeoutsOutputReference(this, \\"timeouts\\");
   public get timeouts() {
     return this._timeouts;
   }
