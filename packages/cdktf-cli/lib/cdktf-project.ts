@@ -122,7 +122,7 @@ function checkIfAllDependantsAreIncluded(
     throw Errors.Usage(
       `The following dependant stacks are not included in the stacks to run: ${missingDependants.join(
         ", "
-      )}.`
+      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`
     );
   }
 }
@@ -147,7 +147,7 @@ function checkIfAllDependenciesAreIncluded(stacksToRun: SynthesizedStack[]) {
     throw Errors.Usage(
       `The following dependencies are not included in the stacks to run: ${missingDependencies.join(
         ", "
-      )}.`
+      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`
     );
   }
 }

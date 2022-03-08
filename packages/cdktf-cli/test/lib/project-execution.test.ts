@@ -267,7 +267,7 @@ describe("CdktfProject", () => {
       await expect(
         cdktfProject.deploy({ stackNames: ["third"] })
       ).rejects.toMatchInlineSnapshot(
-        `[Error: Usage Error: The following dependencies are not included in the stacks to run: first.]`
+        `[Error: Usage Error: The following dependencies are not included in the stacks to run: first. Either add them or add the --ignore-missing-stack-dependencies flag.]`
       );
     });
 
