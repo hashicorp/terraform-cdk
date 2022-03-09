@@ -21,6 +21,23 @@ import { logger } from "./logging";
 
 export { SynthesizedStack, Language };
 
+function extractJsonLogLineIfPresent(logLine: string): string {
+  try {
+    const extractedMessage = JSON.parse(logLine)["@message"];
+    return extractedMessage ? extractedMessage : logLine;
+  } catch {
+    return logLine;
+  }
+}
+
+function extractJsonLogIfPresent(logLines: string): string {
+  return logLines
+    .split("\n")
+    .map(extractJsonLogLineIfPresent)
+    .map((line) => line.trim())
+    .join("\n");
+}
+
 export type ProjectUpdate =
   | {
       type: "synthesizing";
@@ -122,16 +139,17 @@ export class CdktfProject {
 
         onProgress: (event) => {
           switch (event.type) {
-            case "LOG":
+            case "LOG": {
+              const message = extractJsonLogIfPresent(event.message);
               logger.debug(
-                `[${event.stackName}](${event.stateName}): ${event.message}`
+                `[${event.stackName}](${event.stateName}): ${message}`
               );
               if (onLog) {
-                onLog({ stackName: event.stackName, message: event.message });
+                onLog({ stackName: event.stackName, message });
               }
 
               break;
-
+            }
             case "STACK_SELECTED":
               this.stackName = event.stackName;
               break;
