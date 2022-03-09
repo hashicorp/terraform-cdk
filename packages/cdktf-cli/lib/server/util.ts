@@ -5,7 +5,7 @@ import { WatchErrorOrigin, WatchState } from "./WatchClient";
 import {
   DeployingResourceApplyState,
   PlannedResourceAction,
-} from "../../bin/cmds/ui/models/terraform";
+} from "../models/terraform";
 
 export async function readGitignore(directory: string): Promise<string[]> {
   const content = await fs.readFile(path.join(directory, ".gitignore"));

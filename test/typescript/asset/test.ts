@@ -119,11 +119,9 @@ describe("full integration test", () => {
 
   test("without asset changes there should be no redeployment", async () => {
     expect(await driver.diff("normal")).toContain(
-      "1 to create, 0 to update, 0 to delete"
+      "1 to add, 0 to change, 0 to destroy"
     );
     await driver.deploy("normal");
-    expect(await driver.diff("normal")).toContain(
-      "0 to create, 0 to update, 0 to delete"
-    );
+    expect(await driver.diff("normal")).toContain("No changes");
   });
 });

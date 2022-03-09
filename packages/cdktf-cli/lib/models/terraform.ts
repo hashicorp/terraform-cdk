@@ -45,7 +45,7 @@ export interface ResourceChanges {
 
 export interface TerraformOutput {
   sensitive: boolean;
-  type: string;
+  type: string | Array<any>;
   value: string | Record<string, unknown> | Array<any>;
 }
 
@@ -53,7 +53,7 @@ export function isTerraformOutput(output: any): output is TerraformOutput {
   return (
     typeof output === "object" &&
     typeof output.sensitive === "boolean" &&
-    typeof output.type === "string"
+    (typeof output.type === "string" || Array.isArray(output.type))
   );
 }
 

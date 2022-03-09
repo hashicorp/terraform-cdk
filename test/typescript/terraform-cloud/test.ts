@@ -41,7 +41,7 @@ describe("full integration test", () => {
       },
     });
 
-    expect(driver.deploy("source-stack")).toMatchSnapshot();
+    expect(driver.deploy("source-stack")).toContain("Apply complete!");
     await client.Workspaces.deleteByName(orgName, workspaceName);
   });
 

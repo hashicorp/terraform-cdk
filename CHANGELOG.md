@@ -1,3 +1,69 @@
+## 0.9.4
+
+### fix
+
+- fix(lib): check for null objects and don't try to reverse undefined or null [\#1592](https://github.com/hashicorp/terraform-cdk/pull/1592)
+
+### chore
+
+- chore(cli): fix typo in test assertion [\#1591](https://github.com/hashicorp/terraform-cdk/pull/1591)
+
+## 0.9.3
+
+### feat
+
+- feat(examples): Add Scaleway Golang example [\#1576](https://github.com/hashicorp/terraform-cdk/pull/1576)
+
+### fix
+
+- fix(cli): convert failed with a single provider passed [\#1588](https://github.com/hashicorp/terraform-cdk/pull/1588)
+- fix(tests): Windows needs special docker host override to work [\#1567](https://github.com/hashicorp/terraform-cdk/pull/1567)
+
+## 0.9.2
+
+### fix
+
+- fix: cross-stack references in terraform cloud remote execution mode [\#1574](https://github.com/hashicorp/terraform-cdk/pull/1574)
+
+### chore
+
+- chore: npm-check-updates && yarn upgrade [\#1579](https://github.com/hashicorp/terraform-cdk/pull/1579)
+- chore: npm-check-updates && yarn upgrade [\#1565](https://github.com/hashicorp/terraform-cdk/pull/1565)
+
+## 0.9.1
+
+### feat
+
+- feat(cli): show help when no command is passed [\#1540](https://github.com/hashicorp/terraform-cdk/pull/1540)
+
+### fix
+
+- fix(tests): run package before running unit tests in release pipelines [\#1563](https://github.com/hashicorp/terraform-cdk/pull/1563)
+- fix(hcl2cdk): handle no providers passed and add cdktf import for remote state data sources [\#1561](https://github.com/hashicorp/terraform-cdk/pull/1561)
+- fix(cli): Fix template for Go not adding jsii import when using Terraform Cloud [\#1556](https://github.com/hashicorp/terraform-cdk/pull/1556)
+- fix(lib): Add missing regex Function [\#1531](https://github.com/hashicorp/terraform-cdk/pull/1531)
+- fix(cli): add better messaging on inint [\#1524](https://github.com/hashicorp/terraform-cdk/pull/1524)
+- fix(docs): fix a typo in serverless-application-typescript.md [\#1517](https://github.com/hashicorp/terraform-cdk/pull/1517)
+- fix(provider-generator): Replace jsii incompatible names [\#1516](https://github.com/hashicorp/terraform-cdk/pull/1516)
+- fix(provider-generator): don't build generated edge provider output as part of building the provider-generator [\#1509](https://github.com/hashicorp/terraform-cdk/pull/1509)
+- fix(tests): add `--ci` flag to jest invocations when in CI [\#1498](https://github.com/hashicorp/terraform-cdk/pull/1498)
+- fix: stringValue rated valid strings as unescaped double quotes [\#1566](https://github.com/hashicorp/terraform-cdk/pull/1566)
+- chore(deps): upgrade jsii (substantially improves cdktf get performance for Go) [\#1558](https://github.com/hashicorp/terraform-cdk/pull/1558)
+- fix(cli): reflect correct node version requirement [\#1573](https://github.com/hashicorp/terraform-cdk/pull/1573)
+
+### chore
+
+- chore(docs): we now support cross stack refs, the section is no longer needed [\#1571](https://github.com/hashicorp/terraform-cdk/pull/1571)
+- chore(docs): remove old docs files [\#1542](https://github.com/hashicorp/terraform-cdk/pull/1542)
+- chore(docs): Update main from stable-website [\#1529](https://github.com/hashicorp/terraform-cdk/pull/1529)
+- chore(docs): remove old layouts folder [\#1522](https://github.com/hashicorp/terraform-cdk/pull/1522)
+- chore(docs): Merge stable-website into main [\#1515](https://github.com/hashicorp/terraform-cdk/pull/1515)
+- chore(docs): add 0.9 upgrade guide [\#1512](https://github.com/hashicorp/terraform-cdk/pull/1512)
+
+### test
+
+- test(hcl2cdk): check if produced code can generate HCL [\#1539](https://github.com/hashicorp/terraform-cdk/pull/1539)
+
 ## 0.9.0
 
 **Breaking Changes**
@@ -76,7 +142,7 @@ As a result of some standardization, there is a minor breaking change:
 ### fix
 
 - fix(lib): don't treat strings as maps [\#1467](https://github.com/hashicorp/terraform-cdk/pull/1467)
-- fix: update specified nodejs version to >=12.16 to reflect our actual requirements [\#1466](https://github.com/hashicorp/terraform-cdk/pull/1466)
+- fix: update specified nodejs version to >=14.0 to reflect our actual requirements [\#1466](https://github.com/hashicorp/terraform-cdk/pull/1466)
 
 ### Other
 

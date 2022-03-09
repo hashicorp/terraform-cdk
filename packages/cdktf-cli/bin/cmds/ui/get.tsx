@@ -1,20 +1,10 @@
 import React, { Fragment } from "react";
-import * as fs from "fs-extra";
+
 import { Text, Box, useApp, Newline } from "ink";
 import Spinner from "ink-spinner";
-import {
-  Language,
-  ConstructsMaker,
-  GetOptions,
-  config,
-} from "@cdktf/provider-generator";
+import { Language, GetOptions, config } from "@cdktf/provider-generator";
 import { sendTelemetry } from "../../../lib/checkpoint";
-
-enum Status {
-  STARTING = "starting",
-  DOWNLOADING = "downloading and generating modules and providers",
-  DONE = "done",
-}
+import { get, GetStatus as Status } from "../../../lib";
 
 interface GetConfig {
   codeMakerOutput: string;
@@ -38,38 +28,42 @@ export const Get = ({
   };
 
   React.useEffect(() => {
-    const get = async () => {
+    const runGet = async () => {
       try {
-        await fs.remove(constructsOptions.codeMakerOutput);
-        const constructsMaker = new ConstructsMaker(
-          constructsOptions,
+        await get({
           constraints,
-          (payload: {
+          constructsOptions,
+          onUpdate: setCurrentStatus,
+          reportTelemetry: (payload: {
             targetLanguage: string;
             trackingPayload: Record<string, any>;
           }) =>
             sendTelemetry("get", {
               language: payload.targetLanguage,
               ...payload.trackingPayload,
-            })
-        );
-        setCurrentStatus(Status.DOWNLOADING);
-        await constructsMaker.generate();
-        setCurrentStatus(Status.DONE);
-        if (!(await fs.pathExists(codeMakerOutput))) {
-          console.error(
-            `ERROR: synthesis failed, app expected to create "${codeMakerOutput}"`
-          );
-          process.exit(1);
-        }
+            }),
+        });
       } catch (e) {
         console.error(e);
         exit(e);
       }
     };
-    get();
+    runGet();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // only once, we don't expect props to change
+
+  React.useEffect(() => {
+    if (currentStatus === Status.DONE) {
+      exit();
+    }
+    if (currentStatus === Status.ERROR) {
+      exit(
+        new Error(
+          `ERROR: synthesis failed, app expected to create "${codeMakerOutput}"`
+        )
+      );
+    }
+  }, [currentStatus]);
 
   const isGenerating: boolean = currentStatus != Status.DONE;
   const statusText = `${currentStatus}...`;

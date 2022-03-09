@@ -1,6 +1,7 @@
 import yargs from "yargs";
 import { LANGUAGES, config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
+import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
@@ -27,6 +28,7 @@ class Command implements yargs.CommandModule {
       });
 
   public async handler(argv: any) {
+    Errors.setScope("get");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
     api.get(argv);

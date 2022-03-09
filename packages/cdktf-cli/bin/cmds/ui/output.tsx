@@ -1,17 +1,11 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment } from "react";
-import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import { Outputs as OutputComponent } from "./components";
-
-import {
-  Status,
-  useRunOutput,
-  NestedTerraformOutputs,
-} from "./terraform-context";
+import React from "react";
+import { NestedTerraformOutputs } from "../../../lib/output";
+import { useCdktfProject } from "./hooks/cdktf-project";
+import { StreamView, OutputsBottomBar, StatusBottomBar } from "./components";
 
 type OutputConfig = {
-  targetDir: string;
+  outDir: string;
   targetStack?: string;
   synthCommand: string;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
@@ -19,69 +13,22 @@ type OutputConfig = {
 };
 
 export const Output = ({
-  targetDir,
+  outDir,
   targetStack,
   synthCommand,
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const { status, currentStack, errors, outputs } = useRunOutput({
-    targetDir,
-    targetStack,
-    synthCommand,
-    onOutputsRetrieved,
-  });
-
-  const planStages = [
-    Status.INITIALIZING,
-    Status.SYNTHESIZING,
-    Status.SYNTHESIZED,
-  ];
-  const isPlanning = planStages.includes(status);
-  const statusText =
-    currentStack.name === "" ? (
-      <Text>{status}...</Text>
-    ) : (
-      <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
-      </Text>
-    );
-
-  if (errors) return <Box>{errors.map((e: any) => e.message)}</Box>;
-
-  return (
-    <Box>
-      {isPlanning ? (
-        <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
-          </Box>
-        </Fragment>
-      ) : (
-        <Box flexDirection="column">
-          {outputs && Object.keys(outputs).length > 0 ? (
-            <Fragment>
-              <Box marginTop={1}>
-                <Text bold>Output: </Text>
-                <OutputComponent outputs={outputs} />
-              </Box>
-            </Fragment>
-          ) : (
-            <Text>No output found</Text>
-          )}
-          <Box>
-            {outputsPath && outputs ? (
-              <Text>The outputs have been written to {outputsPath}</Text>
-            ) : (
-              <Text></Text>
-            )}
-          </Box>
-        </Box>
-      )}
-    </Box>
+  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
+    { outDir, synthCommand, onOutputsRetrieved },
+    (project) => project.fetchOutputs(targetStack)
   );
+
+  const bottomBar = done ? (
+    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+  ) : (
+    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
+  );
+
+  return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };
