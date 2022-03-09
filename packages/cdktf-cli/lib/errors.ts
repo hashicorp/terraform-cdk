@@ -14,8 +14,8 @@ async function report(command: string, payload: Record<string, any>) {
   await ReportRequest(reportParams);
 }
 
-function reportPrefixedError(type: string) {
-  return (command: string, message: string, context?: Record<string, any>) => {
+function reportPrefixedError(type: string, command: string) {
+  return (message: string, context?: Record<string, any>) => {
     report(command, { ...context, message, type });
     const err: any = new Error(`${type} Error: ${message}`);
     Object.entries(context || {}).forEach(([key, value]) => {
@@ -25,9 +25,17 @@ function reportPrefixedError(type: string) {
   };
 }
 
+// The CLI only deals with one command at a time, so we can just use the same
+// scope for all errors and set it once during initialization.
+let errorScope = "unknown";
 export const Errors = {
   // Error within our control
-  Internal: reportPrefixedError("Internal"),
+  Internal: reportPrefixedError("Internal", errorScope),
   // Error in the usage
-  Usage: reportPrefixedError("Usage"),
+  Usage: reportPrefixedError("Usage", errorScope),
+
+  // Set the scope for all errors
+  setScope(scope: string) {
+    errorScope = scope;
+  },
 };

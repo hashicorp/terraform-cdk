@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
-- [Node.js](https://nodejs.org) >= v12.16
+- [Node.js](https://nodejs.org) >= v14.0
 - Java ([Amazon Corretto](https://aws.amazon.com/corretto/), any [OpenJDK](https://openjdk.java.net/install/index.html) distribution, or [Oracle's JDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)) >= 8
 - [Maven](https://maven.apache.org/download.cgi) >= 3.5
 

@@ -1,30 +1,36 @@
-import React, { Fragment } from "react";
-import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import { useRunSynth, Status, useTerraformState } from "./terraform-context";
+import React from "react";
+import { Box, Text } from "ink";
+
+import { useCdktfProject } from "./hooks/cdktf-project";
+import { StreamView, StatusBottomBar } from "./components";
+import { SynthesizedStack } from "../../../lib";
 
 interface CommonSynthConfig {
-  targetDir: string;
+  outDir: string;
   targetStack: string;
   jsonOutput: boolean;
 }
 
-type SynthOutputConfig = {
-  jsonOutput: boolean;
-};
-
 interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
 }
-
-const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
-  const { currentStack, stacks } = useTerraformState();
-
+type SynthOutputConfig = {
+  jsonOutput: boolean;
+  currentStackName: string;
+  stacks: SynthesizedStack[];
+};
+const SynthOutput = ({
+  jsonOutput,
+  currentStackName,
+  stacks,
+}: SynthOutputConfig): React.ReactElement => {
+  const stack =
+    stacks.find((item) => item.name === currentStackName) || stacks[0];
   return (
     <>
-      {jsonOutput ? (
+      {jsonOutput && stack ? (
         <Box>
-          <Text>{currentStack.content}</Text>
+          <Text>{stack.content}</Text>
         </Box>
       ) : (
         <Text>
@@ -37,48 +43,27 @@ const SynthOutput = ({ jsonOutput }: SynthOutputConfig): React.ReactElement => {
 };
 
 export const Synth = ({
-  targetDir,
-  targetStack,
+  outDir,
   synthCommand,
   jsonOutput,
+  targetStack,
 }: SynthConfig): React.ReactElement => {
-  const { status, currentStack, errors } = useRunSynth({
-    targetDir,
-    targetStack,
-    synthCommand,
-  });
-
-  const isSynthesizing: boolean = status != Status.SYNTHESIZED;
-  const statusText =
-    currentStack.name === "" ? (
-      `${status}...`
-    ) : (
-      <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
-      </Text>
-    );
-
-  if (errors) return <Box>{errors}</Box>;
+  const { projectUpdate, logEntries, done } = useCdktfProject(
+    { outDir, synthCommand },
+    (project) => project.synth()
+  );
 
   return (
-    <Box>
-      {isSynthesizing ? (
-        <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
-          </Box>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <Box>
-            <SynthOutput jsonOutput={jsonOutput} />
-          </Box>
-        </Fragment>
-      )}
-    </Box>
+    <StreamView logs={logEntries}>
+      <StatusBottomBar latestUpdate={projectUpdate} done={done}>
+        <SynthOutput
+          jsonOutput={jsonOutput}
+          currentStackName={targetStack}
+          stacks={
+            projectUpdate?.type === "synthesized" ? projectUpdate.stacks : []
+          }
+        />
+      </StatusBottomBar>
+    </StreamView>
   );
 };
