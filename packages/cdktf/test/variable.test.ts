@@ -179,7 +179,7 @@ test("validation block variable", () => {
     validation: [
       {
         errorMessage: "Validation failed..",
-        condition: Fn.regex("mickey_mouse", "mickey_mouse"),
+        condition: Fn.can(Fn.regex("^ami-", "ami-test")),
       },
     ],
   });
