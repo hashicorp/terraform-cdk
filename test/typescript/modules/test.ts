@@ -79,9 +79,8 @@ describe("full integration test", () => {
 
   onWindows("build modules windows", async () => {
     await driver.synth();
-    expect(
-driver.synthesizedStack("hello-modules").toString()).
-toMatchInlineSnapshot(`
+    expect(driver.synthesizedStack("hello-modules").toString())
+      .toMatchInlineSnapshot(`
 "{
   \\"//\\": {
     \\"metadata\\": {
