@@ -201,7 +201,7 @@ export class ComplexObject extends ComplexComputedAttribute {
 
   protected interpolationAsList() {
     return this.terraformResource.interpolationForAttribute(
-      `${this.terraformAttribute}`
+      `${this.terraformAttribute}.*`
     );
   }
 }
