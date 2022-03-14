@@ -183,10 +183,12 @@ export class TestDriver {
     );
   };
 
-  deploy = (stackName?: string, outputsFilePath?: string) => {
+  deploy = (stackNames?: string[], outputsFilePath?: string) => {
     return stripAnsi(
       execSync(
-        `cdktf deploy ${stackName ? stackName : ""} --auto-approve ${
+        `cdktf deploy ${
+          stackNames ? stackNames.join(" ") : ""
+        } --auto-approve ${
           outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
         }`,
         { env: this.env }
@@ -205,11 +207,16 @@ export class TestDriver {
     );
   };
 
-  destroy = (stackName?: string) => {
+  destroy = (stackNames?: string[]) => {
     return stripAnsi(
-      execSync(`cdktf destroy ${stackName ? stackName : ""} --auto-approve`, {
-        env: this.env,
-      }).toString()
+      execSync(
+        `cdktf destroy ${
+          stackNames ? stackNames.join(" ") : ""
+        } --auto-approve`,
+        {
+          env: this.env,
+        }
+      ).toString()
     );
   };
 

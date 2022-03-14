@@ -16,7 +16,7 @@ export const Diff = ({
 }: DiffConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done } = useCdktfProject(
     { outDir, synthCommand },
-    (project) => project.diff(targetStack)
+    (project) => project.diff({ stackName: targetStack })
   );
 
   return (

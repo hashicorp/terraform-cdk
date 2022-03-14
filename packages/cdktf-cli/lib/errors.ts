@@ -33,6 +33,8 @@ export const Errors = {
   Internal: reportPrefixedError("Internal", errorScope),
   // Error in the usage
   Usage: reportPrefixedError("Usage", errorScope),
+  // Error outside of our control (e.g. terraform failed)
+  External: reportPrefixedError("External", errorScope),
 
   // Set the scope for all errors
   setScope(scope: string) {
