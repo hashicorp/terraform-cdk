@@ -84,6 +84,12 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	// Singlereq: list.Singlereq(),
 	// })
 
+	// passing a list ref of a complex list type (no block) into an output
+	cdktf.NewTerraformOutput(stack, jsii.String("list_from_list_type_ref"), &cdktf.TerraformOutputConfig{
+		Value:    list.ComputedListOfObject(),
+		StaticId: jsii.Bool(true),
+	})
+
 	// passing an element of a list ref of a complex list type (no block) into a resource
 	edge.NewOptionalAttributeResource(stack, jsii.String("list_item_from_list_type_ref"), &edge.OptionalAttributeResourceConfig{
 		Str: list.ComputedListOfObject().Get(jsii.Number(5)).Str(),

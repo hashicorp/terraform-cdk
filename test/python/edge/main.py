@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 from constructs import Construct
-from cdktf import App, Fn, TerraformStack, Token
+from cdktf import App, Fn, TerraformStack, Token, TerraformOutput
 import imports.edge as edge
 
 # Using references to resource attributes as resource arguments
@@ -98,6 +98,12 @@ class ReferenceStack(TerraformStack):
             singlereq={"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}
         )
 
+        # passing a list ref of a complex list type (no block) into an output
+        TerraformOutput(self, "list_from_list_type_ref", 
+            value=list.computed_list_of_object,
+            static_id=True,
+        )
+        
         # passing an element of a list ref of a complex list type (no block) into a resource
         edge.OptionalAttributeResource(self, "list_item_from_list_type_ref",
             str=list.computed_list_of_object.get(5).str,        

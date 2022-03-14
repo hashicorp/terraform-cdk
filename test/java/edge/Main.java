@@ -110,6 +110,12 @@ class ReferenceStack extends TerraformStack {
                 .singlereq(ListBlockResourceSinglereq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build())
                 .build();
 
+        // passing a list ref of a complex list type (no block) into an output
+        TerraformOutput.Builder.create(this, "list_from_list_type_ref")
+                .value(list.getComputedListOfObject())
+                .staticId(true)
+                .build();
+
         // passing an element of a list ref of a complex list type (no block) into a resource
         OptionalAttributeResource.Builder.create(this, "list_item_from_list_type_ref")
                 .str(list.getComputedListOfObject().get(5).getStr())
