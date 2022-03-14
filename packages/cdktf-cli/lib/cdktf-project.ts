@@ -1,8 +1,18 @@
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";
-import { CdktfStack, StackUpdate } from "./cdktf-stack";
+import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
 import { Errors } from "./errors";
+import { TerraformPlan } from "./models/terraform";
+
+type MultiStackApprovalUpdate = {
+  type: "waiting for approval";
+  stackName: string;
+  plan: TerraformPlan;
+  approve: () => void;
+  dismiss: () => void;
+  stop: () => void;
+};
 
 export type ProjectUpdate =
   | {
@@ -13,7 +23,8 @@ export type ProjectUpdate =
       stacks: SynthesizedStack[];
       errorMessage?: string;
     }
-  | StackUpdate;
+  | StackUpdate
+  | MultiStackApprovalUpdate;
 
 function getSingleStack(
   stacks: SynthesizedStack[],
@@ -75,7 +86,7 @@ function getStackWithNoUnmetDependencies(
   stackExecutors: CdktfStack[]
 ): CdktfStack | undefined {
   return stackExecutors
-    .filter((executor) => executor.currentState !== "done")
+    .filter((executor) => executor.isPending)
     .find((executor) =>
       executor.stack.dependencies.every(
         (dependency) =>
@@ -85,17 +96,50 @@ function getStackWithNoUnmetDependencies(
     );
 }
 
+function findAllDependantStacks(
+  stackExecutors: CdktfStack[],
+  stackName: string
+): CdktfStack[] {
+  return stackExecutors.filter((innerExecutor) =>
+    innerExecutor.stack.dependencies.includes(stackName)
+  );
+}
+
+function findAllNestedDependantStacks(
+  stackExecutors: CdktfStack[],
+  stackName: string,
+  knownDependantStackNames: Set<string> = new Set()
+): CdktfStack[] {
+  const dependantStacks = findAllDependantStacks(stackExecutors, stackName);
+  dependantStacks.forEach((stack) => {
+    if (knownDependantStackNames.has(stack.stackName)) {
+      return;
+    }
+
+    knownDependantStackNames.add(stack.stackName);
+    findAllNestedDependantStacks(
+      stackExecutors,
+      stack.stackName,
+      knownDependantStackNames
+    );
+  });
+
+  return stackExecutors.filter((executor) =>
+    knownDependantStackNames.has(executor.stackName)
+  );
+}
+
 // Returns the first stack that has no dependents that need to be destroyed first
 function getStackWithNoUnmetDependants(
   stackExecutors: CdktfStack[]
 ): CdktfStack | undefined {
   return stackExecutors
-    .filter((executor) => executor.currentState !== "done")
+    .filter((executor) => executor.isPending)
     .find((executor) => {
-      const dependantStacks = stackExecutors.filter((innerExecutor) =>
-        innerExecutor.stack.dependencies.includes(executor.stack.name)
+      const dependantStacks = findAllDependantStacks(
+        stackExecutors,
+        executor.stack.name
       );
-
       return dependantStacks.every((stack) => stack.currentState === "done");
     });
 }
@@ -176,6 +220,11 @@ export class CdktfProject {
   private onLog?: (log: { stackName: string; message: string }) => void;
   private abortSignal: AbortSignal;
 
+  // Set during deploy / destroy, may be mutated by approve / stop actions
+  private stacksToRun: CdktfStack[] = [];
+  // This means sth different in deploy / destroy
+  private stopAllStacksThatCanNotRunWithout: (stackName: string) => void =
+    () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
   constructor({
     synthCommand,
     outDir,
@@ -200,6 +249,39 @@ export class CdktfProject {
     this.hardAbort = ac.abort.bind(ac);
   }
 
+  private stopAllStacks() {
+    this.stacksToRun.forEach((stack) => stack.stop());
+  }
+
+  private handleApprovalProcess(cb: (updateToSend: ProjectUpdate) => void) {
+    const callbacks = (update: StackApprovalUpdate) => ({
+      approve: () => {
+        update.approve();
+      },
+      dismiss: () => {
+        update.reject();
+
+        this.stopAllStacksThatCanNotRunWithout(update.stackName);
+      },
+      stop: () => {
+        update.reject();
+        this.stopAllStacks();
+      },
+    });
+    return (update: StackUpdate | StackApprovalUpdate) => {
+      if (update.type === "waiting for stack approval") {
+        cb({
+          type: "waiting for approval",
+          stackName: update.stackName,
+          plan: update.plan,
+          ...callbacks(update),
+        });
+      } else {
+        cb(update);
+      }
+    };
+  }
+
   public getStackExecutor(
     stack: SynthesizedStack,
     opts: ExecutionOptions = {}
@@ -207,7 +289,7 @@ export class CdktfProject {
     return new CdktfStack({
       ...opts,
       stack,
-      onUpdate: this.onUpdate,
+      onUpdate: this.handleApprovalProcess(this.onUpdate),
       onLog: this.onLog,
       abortSignal: this.abortSignal,
     });
@@ -250,12 +332,18 @@ export class CdktfProject {
       checkIfAllDependenciesAreIncluded(stacksToRun);
     }
 
-    const stackExecutors = stacksToRun.map((stack) =>
+    this.stopAllStacksThatCanNotRunWithout = (stackName: string) => {
+      findAllNestedDependantStacks(this.stacksToRun, stackName).forEach(
+        (stack) => stack.stop()
+      );
+    };
+
+    this.stacksToRun = stacksToRun.map((stack) =>
       this.getStackExecutor(stack, opts)
     );
     const next = opts.ignoreMissingStackDependencies
-      ? () => stackExecutors.filter((stack) => stack.currentState !== "done")[0]
-      : () => getStackWithNoUnmetDependencies(stackExecutors);
+      ? () => this.stacksToRun.filter((stack) => stack.isPending)[0]
+      : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
     let nextRunningExecutor = next();
 
@@ -264,8 +352,8 @@ export class CdktfProject {
       nextRunningExecutor = next();
     }
 
-    const unprocessedStacks = stackExecutors.filter(
-      (executor) => executor.currentState !== "done"
+    const unprocessedStacks = this.stacksToRun.filter(
+      (executor) => executor.isPending
     );
     if (unprocessedStacks.length > 0) {
       throw Errors.External(
@@ -283,12 +371,39 @@ export class CdktfProject {
     if (!opts.ignoreMissingStackDependencies) {
       checkIfAllDependantsAreIncluded(stacksToRun, stacks);
     }
-    const stackExecutors = stacksToRun.map((stack) =>
+
+    this.stopAllStacksThatCanNotRunWithout = (stackName: string) => {
+      const stackExecutor = this.stacksToRun.find(
+        (s) => s.stackName === stackName
+      );
+      if (!stackExecutor) {
+        throw Errors.Internal(
+          `Could not find stack "${stackName}" that was stopped`
+        );
+      }
+
+      stackExecutor.stack.dependencies.forEach((dependant) => {
+        this.stopAllStacksThatCanNotRunWithout(dependant);
+
+        const dependantStack = this.stacksToRun.find(
+          (s) => s.stackName === dependant
+        );
+        if (!dependantStack) {
+          throw Errors.Internal(
+            `Could not find stack "${dependant}" that was stopped`
+          );
+        }
+
+        dependantStack.stop();
+      });
+    };
+    this.stacksToRun = stacksToRun.map((stack) =>
       this.getStackExecutor(stack, opts)
     );
     const next = opts.ignoreMissingStackDependencies
-      ? () => stackExecutors.filter((stack) => stack.currentState !== "done")[0]
-      : () => getStackWithNoUnmetDependants(stackExecutors);
+      ? () =>
+          this.stacksToRun.filter((stack) => stack.currentState !== "done")[0]
+      : () => getStackWithNoUnmetDependants(this.stacksToRun);
 
     let nextRunningExecutor = next();
 
@@ -297,8 +412,8 @@ export class CdktfProject {
       nextRunningExecutor = next();
     }
 
-    const unprocessedStacks = stackExecutors.filter(
-      (executor) => executor.currentState !== "done"
+    const unprocessedStacks = this.stacksToRun.filter(
+      (executor) => executor.isPending
     );
     if (unprocessedStacks.length > 0) {
       throw Errors.External(

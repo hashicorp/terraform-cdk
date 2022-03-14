@@ -31,7 +31,11 @@ export const Destroy = ({
 
   const bottomBar =
     projectUpdate?.type === "waiting for approval" ? (
-      <ApproveBottomBar onApprove={projectUpdate.approve} />
+      <ApproveBottomBar
+        onApprove={projectUpdate.approve}
+        onDismiss={projectUpdate.dismiss}
+        onStop={projectUpdate.stop}
+      />
     ) : (
       <StatusBottomBar latestUpdate={projectUpdate} done={done} />
     );

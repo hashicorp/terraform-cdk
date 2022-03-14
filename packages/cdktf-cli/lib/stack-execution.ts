@@ -58,6 +58,7 @@ export interface StackContext {
   outputsByConstructId?: Record<string, any>;
   onProgress: (event: ProgressEvent) => void;
   abortSignal: AbortSignal;
+  cancelationReason?: string;
 }
 
 function extractError(_context: any, event: any): string {

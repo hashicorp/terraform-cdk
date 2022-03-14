@@ -22,13 +22,6 @@ export type StackUpdate =
       plan: TerraformPlan;
     }
   | {
-      type: "waiting for approval";
-      stackName: string;
-      plan: TerraformPlan;
-      approve: () => void;
-      reject: () => void;
-    }
-  | {
       type: "deploying";
       stackName: string;
     }
@@ -65,6 +58,14 @@ export type StackUpdate =
       outputs: Record<string, any>;
     };
 
+export type StackApprovalUpdate = {
+  type: "waiting for stack approval";
+  stackName: string;
+  plan: TerraformPlan;
+  approve: () => void;
+  reject: () => void;
+};
+
 function extractJsonLogLineIfPresent(logLine: string): string {
   try {
     const extractedMessage = JSON.parse(logLine)["@message"];
@@ -90,6 +91,7 @@ export class CdktfStack {
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
   public deployingResources?: DeployingResource[];
+  public stopped = false;
 
   constructor({
     stack,
@@ -99,7 +101,7 @@ export class CdktfStack {
     abortSignal = new AbortController().signal,
   }: {
     stack: SynthesizedStack;
-    onUpdate: (update: StackUpdate) => void;
+    onUpdate: (update: StackUpdate | StackApprovalUpdate) => void;
     onLog?: (log: { stackName: string; message: string }) => void;
     autoApprove?: boolean;
     abortSignal: AbortSignal;
@@ -253,17 +255,23 @@ export class CdktfStack {
           });
           break;
         case "waitingForApproval":
-          onUpdate({
-            type: "waiting for approval",
-            stackName: this.stackName!,
-            plan: this.currentPlan!,
-            approve: () => {
-              this.stateMachine.send("APPROVAL_GIVEN");
-            },
-            reject: () => {
+          {
+            if (this.stopped) {
               this.stateMachine.send("APPROVAL_ABORTED");
-            },
-          });
+            } else {
+              onUpdate({
+                type: "waiting for stack approval",
+                stackName: this.stackName!,
+                plan: this.currentPlan!,
+                approve: () => {
+                  this.stateMachine.send("APPROVAL_GIVEN");
+                },
+                reject: () => {
+                  this.stateMachine.send("APPROVAL_ABORTED");
+                },
+              });
+            }
+          }
           break;
       }
     });
@@ -273,6 +281,9 @@ export class CdktfStack {
 
   public get currentState(): string {
     return this.stateMachine.state.toStrings()[0] || "idle";
+  }
+  public get isPending(): boolean {
+    return this.currentState !== "done" && !this.stopped;
   }
 
   private waitOnMachineDone(): Promise<void> {
@@ -327,5 +338,15 @@ export class CdktfStack {
     await this.waitOnMachineDone();
 
     return this.outputs;
+  }
+
+  public async stop() {
+    // when we reach waiting for approval this will auto-reject
+    this.stopped = true;
+
+    // If we have not started yet, we can directly abort
+    if (this.stateMachine.state.matches("idle")) {
+      this.stateMachine.stop();
+    }
   }
 }

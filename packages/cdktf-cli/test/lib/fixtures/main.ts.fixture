@@ -31,9 +31,25 @@ export class HelloTerra extends TerraformStack {
   }
 }
 
+//               ┌──────┐
+//           ┌──▶│third │───┐
+//           │   └──────┘   │
+// ┌──────┐  │              │
+// │first │──┤              │    ┌─────┐
+// └──────┘  │   ┌──────┐   ├──▶ │fifth│
+//           └──▶│fourth│───┘    └─────┘
+//               └──────┘
+// ┌──────┐
+// │second│
+// └──────┘
 const app = Testing.stubVersion(new App({ stackTraces: false }));
 const first = new HelloTerra(app, "first");
 new HelloTerra(app, "second");
 const third = new HelloTerra(app, "third");
 third.addDependency(first);
+const fourth = new HelloTerra(app, "fourth");
+fourth.addDependency(first);
+const fifth = new HelloTerra(app, "fifth");
+fifth.addDependency(third);
+fifth.addDependency(fourth);
 app.synth();
