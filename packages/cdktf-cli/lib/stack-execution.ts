@@ -83,7 +83,13 @@ function getStack(context: StackContext): SynthesizedStack {
   if (context.stack) {
     return context.stack;
   }
-  throw new Error("No stack selected (add some more data here)");
+  throw Errors.Internal(
+    `The stack execution expects "stack" property in the context, found ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
+  );
 }
 
 function getLogCallbackForStack(
