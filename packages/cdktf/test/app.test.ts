@@ -610,7 +610,6 @@ describe("Cross Stack references", () => {
     const targetOutput = Object.values(
       JSON.parse(targetStackSynth).output as { value: string }[]
     )[0].value;
-    console.log(targetStackSynth);
     expect(targetOutput).toMatchInlineSnapshot(
       `"\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CEoutputRef0value_F44633B1}"`
     );
