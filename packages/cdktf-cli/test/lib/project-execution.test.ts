@@ -122,7 +122,7 @@ describe("CdktfProject", () => {
       });
 
       return expect(cdktfProject.diff()).rejects.toMatchInlineSnapshot(
-        `[Error: Usage Error: Found more than one stack, please specify a target stack. Run cdktf diff <stack> with one of these stacks: first, second, third ]`
+        `[Error: Usage Error: Found more than one stack, please specify a target stack. Run cdktf diff <stack> with one of these stacks: first, second, third, fourth, fifth ]`
       );
     });
   });
@@ -370,6 +370,57 @@ describe("CdktfProject", () => {
       ]);
     });
 
+    it("only aborts dependant stacks when deploying", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...inNewWorkingDirectory(),
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            if (event.stackName === "third") {
+              event.dismiss();
+            } else {
+              event.approve();
+            }
+          }
+        },
+      });
+
+      // Random order to implicitly test out sorting
+      await cdktfProject.deploy({
+        stackNames: ["third", "first", "second", "fourth", "fifth"],
+      });
+
+      expect(
+        events
+          .filter((e) => !e.type.includes("update"))
+          .map((e) => `${e.stackName || "global"}: ${e.type}`)
+      ).toEqual([
+        "global: synthesizing",
+        "global: synthesized",
+        "first: planning",
+        "first: planned",
+        "first: waiting for approval",
+        "first: deploying",
+        "first: deployed",
+        "third: planning",
+        "third: planned",
+        "third: waiting for approval",
+        "second: planning",
+        "second: planned",
+        "second: waiting for approval",
+        "second: deploying",
+        "second: deployed",
+        "fourth: planning",
+        "fourth: planned",
+        "fourth: waiting for approval",
+        "fourth: deploying",
+        "fourth: deployed",
+      ]);
+    });
+
     it("destroys stacks in the right order", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
@@ -386,13 +437,13 @@ describe("CdktfProject", () => {
         ...inNewWorkingDirectory(),
         onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       }).deploy({
-        stackNames: ["third", "first", "second"],
+        stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
       });
 
       // Random order to implicitly test out sorting
       await cdktfProject.destroy({
-        stackNames: ["third", "first", "second"],
+        stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
       });
 
@@ -403,18 +454,87 @@ describe("CdktfProject", () => {
       ).toEqual([
         "global: synthesizing",
         "global: synthesized",
-        "third: planning",
-        "third: planned",
-        "third: destroying",
-        "third: destroyed",
-        "first: planning",
-        "first: planned",
-        "first: destroying",
-        "first: destroyed",
         "second: planning",
         "second: planned",
         "second: destroying",
         "second: destroyed",
+        "fifth: planning",
+        "fifth: planned",
+        "fifth: destroying",
+        "fifth: destroyed",
+        "third: planning",
+        "third: planned",
+        "third: destroying",
+        "third: destroyed",
+        "fourth: planning",
+        "fourth: planned",
+        "fourth: destroying",
+        "fourth: destroyed",
+        "first: planning",
+        "first: planned",
+        "first: destroying",
+        "first: destroyed",
+      ]);
+    });
+
+    it("only aborts dependant when destroying", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...inNewWorkingDirectory(),
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            if (event.stackName === "third") {
+              event.dismiss();
+            } else {
+              event.approve();
+            }
+          }
+        },
+      });
+
+      // To destroy sth we need to deploy first, with a different project to not polute the event list
+      new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...inNewWorkingDirectory(),
+        onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+      }).deploy({
+        stackNames: ["third", "first", "second", "fourth", "fifth"],
+        autoApprove: true,
+      });
+
+      // Random order to implicitly test out sorting
+      await cdktfProject.destroy({
+        stackNames: ["third", "first", "second", "fourth", "fifth"],
+      });
+
+      expect(
+        events
+          .filter((e) => !e.type.includes("update"))
+          .map((e) => `${e.stackName || "global"}: ${e.type}`)
+      ).toEqual([
+        "global: synthesizing",
+        "global: synthesized",
+        "second: planning",
+        "second: planned",
+        "second: waiting for approval",
+        "second: destroying",
+        "second: destroyed",
+        "fifth: planning",
+        "fifth: planned",
+        "fifth: waiting for approval",
+        "fifth: destroying",
+        "fifth: destroyed",
+        "third: planning",
+        "third: planned",
+        "third: waiting for approval",
+        "fourth: planning",
+        "fourth: planned",
+        "fourth: waiting for approval",
+        "fourth: destroying",
+        "fourth: destroyed",
       ]);
     });
   });
