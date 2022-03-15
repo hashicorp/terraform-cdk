@@ -1,118 +1,97 @@
 import React from "react";
 import { Text, Box } from "ink";
-import { ProjectUpdate } from "../../../../../lib/index";
 import Spinner from "ink-spinner";
+import { Status } from "../../hooks/cdktf-project";
 
 type Props = {
-  done: boolean;
-  latestUpdate?: ProjectUpdate;
+  status: Status;
   errorMessage?: string;
   children?: any;
+  actionName: "deploying" | "destroying";
 };
 
-type Status = {
-  text: string;
-  color?: string;
-  showSpinner?: boolean;
-};
+export function StatusBottomBar({
+  status,
+  children,
+}: Omit<Props, "actionName">) {
+  switch (status.type) {
+    case "done": {
+      if (children) {
+        return children;
+      }
+      return <></>;
+    }
 
-function getStatus({
-  latestUpdate,
-  done,
-  errorMessage,
-}: Omit<Props, "children">): Status {
-  if (errorMessage) {
-    return {
-      text: errorMessage,
-      color: "red",
-      showSpinner: false,
-    };
-  }
+    case "waiting for approval of stack":
+      return <Text>Not implemented yet</Text>;
 
-  if (done) {
-    return {
-      text: "Done",
-      color: "green",
-      showSpinner: false,
-    };
-  }
-
-  switch (latestUpdate?.type) {
-    case undefined:
-      return {
-        text: "Initializing",
-        showSpinner: true,
-      };
+    case "starting":
+      return (
+        <Box>
+          <Box marginRight={2}>
+            <Text>
+              <Spinner type="dots" />
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Starting</Text>
+          </Box>
+        </Box>
+      );
 
     case "synthesizing":
-    case "synthesized":
-      return {
-        text: "Synthesizing",
-        showSpinner: true,
-      };
+      return (
+        <Box>
+          <Box marginRight={2}>
+            <Text>
+              <Spinner type="dots" />
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Synthesizing</Text>
+          </Box>
+        </Box>
+      );
 
-    case "planning":
-    case "planned":
-      return {
-        text: "Planning",
-        showSpinner: true,
-      };
-
-    case "deploy update":
-    case "deploying":
-    case "deployed":
-      return {
-        text: "Deploying",
-        showSpinner: true,
-      };
-
-    case "destroy update":
-    case "destroying":
-    case "destroyed":
-      return {
-        text: "Destroying",
-        showSpinner: true,
-      };
-
-    default:
-      return {
-        text: `An unknown status occured: {status}`,
-        showSpinner: false,
-        color: "red",
-      };
+    case "running":
+      return (
+        <Box>
+          <Box marginRight={2}>
+            <Text>
+              <Spinner type="dots" />
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Processing</Text>
+          </Box>
+        </Box>
+      );
   }
 }
 
-export function StatusBottomBar({
-  latestUpdate,
-  done,
-  errorMessage,
+export function ExecutionStatusBottomBar({
+  status,
   children,
+  actionName,
 }: Props) {
-  if (done && children) {
-    return children;
+  if (status?.type !== "running") {
+    return <StatusBottomBar status={status}>{children}</StatusBottomBar>;
   }
+  const { inProgress, finished, pending } = status;
 
-  const { text, showSpinner, color } = getStatus({
-    latestUpdate,
-    done,
-    errorMessage,
-  });
-
-  if (showSpinner) {
-    return (
-      <Box>
-        <Box marginRight={2}>
-          <Text color={color}>
-            <Spinner type="dots" />
-          </Text>
-        </Box>
-        <Box>
-          <Text bold>{text}</Text>
-        </Box>
+  return (
+    <Box marginTop={1}>
+      <Box marginRight={5}>
+        <Text>
+          {inProgress.length} Stacks {actionName}
+        </Text>
       </Box>
-    );
-  }
-
-  return <Text color={color}>{text}</Text>;
+      <Box marginRight={5}>
+        <Text>{finished.length} Stacks done</Text>
+      </Box>
+      <Box>
+        <Text>{pending.length} Stacks waiting</Text>
+      </Box>
+    </Box>
+  );
 }

@@ -12,15 +12,15 @@ export const List = ({
   outDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done } = useCdktfProject(
+  const { status, logEntries, done, returnValue } = useCdktfProject(
     { outDir, synthCommand },
     (project) => project.synth()
   );
 
   return (
     <StreamView logs={logEntries}>
-      <StatusBottomBar latestUpdate={projectUpdate} done={done}>
-        {projectUpdate?.type === "synthesized" ? (
+      <StatusBottomBar status={status}>
+        {done ? (
           <Box>
             <Fragment>
               <Box flexDirection="column" width={80}>
@@ -32,7 +32,7 @@ export const List = ({
                     <Text bold>Path</Text>
                   </Box>
                 </Box>
-                {projectUpdate.stacks.map((stack) => (
+                {returnValue!.map((stack) => (
                   <Box key={stack.name}>
                     <Box width="40%">
                       <Text>{stack.name}</Text>

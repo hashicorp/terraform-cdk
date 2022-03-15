@@ -115,6 +115,7 @@ export async function deploy(argv: any) {
       outputsPath,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism || 1,
     })
   );
 }

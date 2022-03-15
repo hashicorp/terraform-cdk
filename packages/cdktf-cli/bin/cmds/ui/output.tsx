@@ -19,7 +19,7 @@ export const Output = ({
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
+  const { status, logEntries, done, outputs } = useCdktfProject(
     { outDir, synthCommand, onOutputsRetrieved },
     (project) => project.fetchOutputs({ stackName: targetStack })
   );
@@ -27,7 +27,7 @@ export const Output = ({
   const bottomBar = done ? (
     <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
   ) : (
-    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
+    <StatusBottomBar status={status} />
   );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;

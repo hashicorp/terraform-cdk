@@ -3,6 +3,7 @@ import SelectInput from "ink-select-input";
 import { Box, Text } from "ink";
 
 type Props = {
+  stackName: string;
   onApprove: () => void;
   onDismiss: () => void;
   onStop: () => void;
@@ -24,7 +25,12 @@ const options: Record<string, Option> = {
     description: `Does not apply the changes. Currently running stacks will be finished, but no new ones will be started.`,
   },
 };
-export function ApproveBottomBar({ onApprove, onDismiss, onStop }: Props) {
+export function ApproveBottomBar({
+  stackName,
+  onApprove,
+  onDismiss,
+  onStop,
+}: Props) {
   const selectOptions: TransformedOption[] = Object.keys(options).map(
     (key) => ({
       ...options[key],
@@ -50,14 +56,20 @@ export function ApproveBottomBar({ onApprove, onDismiss, onStop }: Props) {
   };
 
   return (
-    <Box>
-      <SelectInput
-        items={selectOptions}
-        onSelect={handleSelect}
-        onHighlight={handleHighlight}
-      />
-      <Box paddingLeft={2}>
-        <Text>{options[highlighted].description}</Text>
+    <Box flexDirection="column">
+      <Box>
+        <Text>Please review the diff output above for </Text>
+        <Text bold>{stackName}</Text>
+      </Box>
+      <Box>
+        <SelectInput
+          items={selectOptions}
+          onSelect={handleSelect}
+          onHighlight={handleHighlight}
+        />
+        <Box paddingLeft={2}>
+          <Text>{options[highlighted].description}</Text>
+        </Box>
       </Box>
     </Box>
   );

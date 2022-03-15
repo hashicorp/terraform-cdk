@@ -11,7 +11,10 @@ function eventNames(events: any[]) {
 
 jest.setTimeout(30000);
 describe("CdktfProject", () => {
-  let inNewWorkingDirectory: () => { workingDirectory: string; outDir: string };
+  let inNewWorkingDirectory: () => {
+    workingDirectory: string;
+    outDir: string;
+  };
   beforeAll(async () => {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
     await init({
@@ -26,11 +29,11 @@ describe("CdktfProject", () => {
     });
 
     fs.copyFileSync(
-      path.resolve(__dirname, "fixtures/main.ts.fixture"),
+      path.resolve(__dirname, "fixtures/default/main.ts.fixture"),
       path.resolve(workingDirectory, "main.ts")
     );
     fs.copyFileSync(
-      path.resolve(__dirname, "fixtures/cdktf.json"),
+      path.resolve(__dirname, "fixtures/default/cdktf.json"),
       path.resolve(workingDirectory, "cdktf.json")
     );
 
@@ -221,7 +224,10 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy({ stackNames: ["second"], autoApprove: true });
+      await cdktfProject.destroy({
+        stackNames: ["second"],
+        autoApprove: true,
+      });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([
@@ -536,6 +542,55 @@ describe("CdktfProject", () => {
         "fourth: destroying",
         "fourth: destroyed",
       ]);
+    });
+  });
+
+  describe("highly parallel", () => {
+    let workingDirectory: string;
+    let outDir: string;
+
+    beforeEach(() => {
+      const env = inNewWorkingDirectory();
+      workingDirectory = env.workingDirectory;
+      outDir = env.outDir;
+      fs.copyFileSync(
+        path.resolve(__dirname, "fixtures/parallel/main.ts.fixture"),
+        path.resolve(workingDirectory, "main.ts")
+      );
+    });
+
+    it("stalls logs and updates while waiting for approval", async () => {
+      let events: any[] = [];
+      let eventsDuringWaitForApprove: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        workingDirectory,
+        outDir,
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            events = [];
+            setTimeout(() => {
+              eventsDuringWaitForApprove = [
+                ...eventsDuringWaitForApprove,
+                ...events,
+              ];
+              event.approve();
+            }, 50);
+          }
+        },
+        onLog: (event) => {
+          events.push(event);
+        },
+      });
+
+      await cdktfProject.deploy({
+        stackNames: new Array(5).fill(0).map((_, i) => `stack-${i}`),
+        parallelism: 100,
+      });
+
+      expect(eventsDuringWaitForApprove.length).toBe(0);
     });
   });
 });

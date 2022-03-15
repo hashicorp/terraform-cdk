@@ -6,9 +6,9 @@ import { NestedTerraformOutputs } from "../../../lib/output";
 import { useCdktfProject } from "./hooks/cdktf-project";
 import {
   StreamView,
-  StatusBottomBar,
   OutputsBottomBar,
   ApproveBottomBar,
+  ExecutionStatusBottomBar,
 } from "./components";
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -54,6 +54,7 @@ interface DeployConfig {
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
   ignoreMissingStackDependencies?: boolean;
+  parallelism?: number;
 }
 
 export const Deploy = ({
@@ -64,27 +65,30 @@ export const Deploy = ({
   onOutputsRetrieved,
   outputsPath,
   ignoreMissingStackDependencies,
+  parallelism,
 }: DeployConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
+  const { status, logEntries, done, outputs } = useCdktfProject(
     { outDir, synthCommand, onOutputsRetrieved },
     (project) =>
       project.deploy({
         stackNames: targetStacks,
         autoApprove,
         ignoreMissingStackDependencies,
+        parallelism,
       })
   );
 
   const bottomBar = done ? (
     <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
-  ) : projectUpdate?.type === "waiting for approval" ? (
+  ) : status?.type === "waiting for approval of stack" ? (
     <ApproveBottomBar
-      onApprove={projectUpdate.approve}
-      onDismiss={projectUpdate.dismiss}
-      onStop={projectUpdate.stop}
+      stackName={status.stackName}
+      onApprove={status.approve}
+      onDismiss={status.dismiss}
+      onStop={status.stop}
     />
   ) : (
-    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
+    <ExecutionStatusBottomBar status={status} actionName="deploying" />
   );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
