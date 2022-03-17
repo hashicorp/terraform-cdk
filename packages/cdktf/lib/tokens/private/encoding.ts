@@ -136,7 +136,7 @@ export class NullConcat implements IFragmentConcatenator {
   }
 }
 
-export function containsListTokenElement(xs: any[]) {
+export function containsStringListTokenElement(xs: any[]) {
   return xs.some(
     (x) => typeof x === "string" && TokenString.forListToken(x).test()
   );

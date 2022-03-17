@@ -82,15 +82,9 @@ describe("Golang edge provider test", () => {
       const item = stack.byId("from_list");
 
       // Direct access is not supported, we have to go through terraform functions
-      expect(item.bool).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}'
-      );
-      expect(item.str).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}'
-      );
-      expect(item.num).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
-      );
+      expect(item.bool).toEqual("${list_block_resource.list.req[0].reqbool}");
+      expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
+      expect(item.num).toEqual("${list_block_resource.list.req[0].reqnum}");
     });
 
     // TODO: references to multi item lists are currently not supported in Go
@@ -142,6 +136,22 @@ describe("Golang edge provider test", () => {
           "reqstr": "\${list_block_resource.list.singlereq[0].reqstr}",
         }
       `);
+    });
+
+    it("output references to complex list type (no block)", () => {
+      const output = stack.output("list_from_list_type_ref");
+
+      expect(output).toEqual(
+        "${list_block_resource.list.computedListOfObject}"
+      );
+    });
+
+    it("item references string attribute of element of complex list type (no block)", () => {
+      const item = stack.byId("list_item_from_list_type_ref");
+
+      expect(item.str).toEqual(
+        "${list_block_resource.list.computedListOfObject[5].str}"
+      );
     });
   });
 });

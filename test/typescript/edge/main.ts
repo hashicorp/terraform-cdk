@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, Fn, TerraformStack } from "cdktf";
+import { App, Fn, TerraformOutput, TerraformStack } from "cdktf";
 import * as edge from "./.gen/providers/edge";
 
 // Using references to resource attributes as resource arguments
@@ -98,6 +98,17 @@ export class ReferenceStack extends TerraformStack {
     new edge.ListBlockResource(this, "list_from_set", {
       req: set.set,
       singlereq: { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+    });
+
+    // passing a list ref of a complex list type (no block) into an output
+    new TerraformOutput(this, "list_from_list_type_ref", {
+      value: list.computedListOfObject,
+      staticId: true,
+    });
+
+    // passing an element of a list ref of a complex list type (no block) into a resource
+    new edge.OptionalAttributeResource(this, "list_item_from_list_type_ref", {
+      str: list.computedListOfObject.get(5).str,
     });
   }
 }
