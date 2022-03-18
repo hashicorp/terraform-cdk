@@ -49,12 +49,19 @@ export function useCdktfProject<T>(
   const [returnValue, setReturnValue] = useState<T>();
   const [status, setStatus] = useState<Status>({ type: "starting" });
 
+  const updateRunningStatus = (project: CdktfProject) => {
+    const inProgress = project.stacksToRun.filter((s) => s.isRunning);
+    const finished = project.stacksToRun.filter((s) => s.isDone);
+    const pending = project.stacksToRun.filter((s) => s.isPending);
+    setStatus({ type: "running", inProgress, finished, pending });
+  };
+
   useEffect(() => {
     const project = new CdktfProject({
       outDir: opts.outDir,
       synthCommand: opts.synthCommand,
       onUpdate: (update: ProjectUpdate) => {
-        if (["synthesizing", "synthesized"].includes(update.type)) {
+        if (["synthesizing"].includes(update.type)) {
           setStatus({ type: "synthesizing" });
         } else if (update.type === "waiting for approval") {
           setStatus({
@@ -65,10 +72,7 @@ export function useCdktfProject<T>(
             stop: update.stop,
           });
         } else {
-          const inProgress = project.stacksToRun.filter((s) => s.isRunning);
-          const finished = project.stacksToRun.filter((s) => s.isDone);
-          const pending = project.stacksToRun.filter((s) => s.isPending);
-          setStatus({ type: "running", inProgress, finished, pending });
+          updateRunningStatus(project);
         }
       },
       onLog: ({
@@ -83,6 +87,9 @@ export function useCdktfProject<T>(
           { id: `${stackName}-${id}`, stackName, content: message },
         ]);
         setID((current) => current + 1);
+
+        // We only sent logs when the project is running.
+        updateRunningStatus(project);
       },
     });
 
