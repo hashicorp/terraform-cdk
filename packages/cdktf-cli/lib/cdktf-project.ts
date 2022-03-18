@@ -4,6 +4,7 @@ import { printAnnotations } from "./synth";
 import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
 import { Errors } from "./errors";
 import { TerraformPlan } from "./models/terraform";
+import { NestedTerraformOutputs } from "./output";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -423,6 +424,16 @@ export class CdktfProject {
     });
   }
 
+  public get outputsByConstructId() {
+    return this.stacksToRun.reduce(
+      (acc, stack) => ({
+        ...acc,
+        ...stack.outputsByConstructId,
+      }),
+      {} as NestedTerraformOutputs
+    );
+  }
+
   public async synth() {
     this.onUpdate({
       type: "synthesizing",
@@ -590,6 +601,7 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "output")
     );
-    return await stack.fetchOutputs();
+    await stack.fetchOutputs();
+    return stack.outputsByConstructId;
   }
 }

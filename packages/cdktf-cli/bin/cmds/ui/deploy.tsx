@@ -1,5 +1,5 @@
 /* eslint-disable no-control-regex */
-import React from "react";
+import React, { useState } from "react";
 import { Text, Box } from "ink";
 import { DeployingResource } from "../../../lib/models/terraform";
 import { NestedTerraformOutputs } from "../../../lib/output";
@@ -67,15 +67,22 @@ export const Deploy = ({
   ignoreMissingStackDependencies,
   parallelism,
 }: DeployConfig): React.ReactElement => {
-  const { status, logEntries, done, outputs } = useCdktfProject(
-    { outDir, synthCommand, onOutputsRetrieved },
-    (project) =>
-      project.deploy({
+  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
+  const { status, logEntries, done } = useCdktfProject(
+    { outDir, synthCommand },
+    async (project) => {
+      await project.deploy({
         stackNames: targetStacks,
         autoApprove,
         ignoreMissingStackDependencies,
         parallelism,
-      })
+      });
+
+      if (onOutputsRetrieved) {
+        onOutputsRetrieved(project.outputsByConstructId);
+      }
+      setOutputs(project.outputsByConstructId);
+    }
   );
 
   const bottomBar = done ? (

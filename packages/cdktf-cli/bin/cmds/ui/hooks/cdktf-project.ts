@@ -2,7 +2,6 @@ import { useApp } from "ink";
 import { useEffect, useState } from "react";
 import { CdktfProject, ProjectUpdate } from "../../../../lib/";
 import { CdktfStack } from "../../../../lib/cdktf-stack";
-import { NestedTerraformOutputs } from "../../../../lib/output";
 
 export type LogEntry = {
   content: string;
@@ -11,7 +10,6 @@ export type LogEntry = {
 };
 
 type CdktfProjectOpts = {
-  onOutputsRetrieved?: (outputs: any) => void;
   outDir: string;
   synthCommand: string;
 };
@@ -47,7 +45,7 @@ export function useCdktfProject<T>(
   const { exit } = useApp();
   const [id, setID] = useState<number>(0);
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
-  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
+
   const [returnValue, setReturnValue] = useState<T>();
   const [status, setStatus] = useState<Status>({ type: "starting" });
 
@@ -71,13 +69,6 @@ export function useCdktfProject<T>(
           const finished = project.stacksToRun.filter((s) => s.isDone);
           const pending = project.stacksToRun.filter((s) => s.isPending);
           setStatus({ type: "running", inProgress, finished, pending });
-        }
-
-        if (update.type === "deployed" || update.type === "outputs fetched") {
-          setOutputs(update.outputsByConstructId);
-          if (opts.onOutputsRetrieved) {
-            opts.onOutputsRetrieved(update.outputsByConstructId);
-          }
         }
       },
       onLog: ({
@@ -115,7 +106,6 @@ export function useCdktfProject<T>(
   return {
     done: status.type === "done", // TODO: replace boolean done flag with this
     logEntries,
-    outputs,
     returnValue,
     status,
   };
