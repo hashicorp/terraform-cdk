@@ -157,18 +157,41 @@ function findAllNestedDependantStacks(
 }
 
 // Returns the first stack that has no dependents that need to be destroyed first
-function getStackWithNoUnmetDependants(
+async function getStackWithNoUnmetDependants(
   stackExecutors: CdktfStack[]
-): CdktfStack | undefined {
-  return stackExecutors
-    .filter((executor) => executor.isPending)
-    .find((executor) => {
-      const dependantStacks = findAllDependantStacks(
-        stackExecutors,
-        executor.stack.name
-      );
-      return dependantStacks.every((stack) => stack.currentState === "done");
-    });
+): Promise<CdktfStack | undefined> {
+  const pendingStacks = stackExecutors.filter((executor) => executor.isPending);
+
+  if (pendingStacks.length === 0) {
+    return undefined;
+  }
+
+  const currentlyReadyStack = pendingStacks.find((executor) => {
+    const dependantStacks = findAllDependantStacks(
+      stackExecutors,
+      executor.stack.name
+    );
+    return dependantStacks.every((stack) => stack.currentState === "done");
+  });
+
+  if (currentlyReadyStack) {
+    return currentlyReadyStack;
+  }
+  const stackExecutionPromises = stackExecutors.reduce((carry, executor) => {
+    const promise = executor.currentWorkPromise;
+    if (promise) {
+      return [...carry, promise];
+    } else {
+      return carry;
+    }
+  }, [] as Promise<void>[]);
+
+  if (!stackExecutionPromises.length) {
+    return undefined;
+  }
+
+  await Promise.race(stackExecutionPromises);
+  return await getStackWithNoUnmetDependants(stackExecutors);
 }
 
 // Throws an error if there is a dependant stack that is not included
@@ -430,6 +453,40 @@ export class CdktfProject {
     return stack.currentPlan;
   }
 
+  private async execute(
+    method: "deploy" | "destroy",
+    next: () => Promise<CdktfStack | undefined>,
+    parallelism: number
+  ) {
+    while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
+      const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
+      if (runningStacks.length >= parallelism) {
+        await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
+      } else {
+        const nextRunningExecutor = await next();
+        if (!nextRunningExecutor) {
+          // In this case we have no pending stacks, but we also can not find a new executor
+          break;
+        }
+
+        method === "deploy"
+          ? nextRunningExecutor.deploy()
+          : nextRunningExecutor.destroy();
+      }
+    }
+
+    // We end the loop when all stacks are started, not we need to wait for them to be done
+    await Promise.all(
+      this.stacksToRun.reduce((carry, stack) => {
+        const promise = stack.currentWorkPromise;
+        if (promise) {
+          carry.push(promise);
+        }
+        return carry;
+      }, [] as Promise<void>[])
+    );
+  }
+
   public async deploy(opts: ExecutionOptions = {}) {
     const parallelism = opts.parallelism || 1;
     const stacks = await this.synth();
@@ -455,31 +512,7 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
-    while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
-      const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
-      if (runningStacks.length >= parallelism) {
-        await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
-      } else {
-        const nextRunningExecutor = await next();
-        if (!nextRunningExecutor) {
-          // In this case we have no pending stacks, but we also can not find a new executor
-          break;
-        }
-
-        nextRunningExecutor.deploy();
-      }
-    }
-
-    // We end the loop when all stacks are started, not we need to wait for them to be done
-    await Promise.all(
-      this.stacksToRun.reduce((carry, stack) => {
-        const promise = stack.currentWorkPromise;
-        if (promise) {
-          carry.push(promise);
-        }
-        return carry;
-      }, [] as Promise<void>[])
-    );
+    await this.execute("deploy", next, parallelism);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -494,6 +527,7 @@ export class CdktfProject {
   }
 
   public async destroy(opts: ExecutionOptions = {}) {
+    const parallelism = opts.parallelism || 1;
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
@@ -531,15 +565,12 @@ export class CdktfProject {
     );
     const next = opts.ignoreMissingStackDependencies
       ? () =>
-          this.stacksToRun.filter((stack) => stack.currentState !== "done")[0]
+          Promise.resolve(
+            this.stacksToRun.filter((stack) => stack.currentState !== "done")[0]
+          )
       : () => getStackWithNoUnmetDependants(this.stacksToRun);
 
-    let nextRunningExecutor = next();
-
-    while (nextRunningExecutor) {
-      await nextRunningExecutor.destroy();
-      nextRunningExecutor = next();
-    }
+    await this.execute("destroy", next, parallelism);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending

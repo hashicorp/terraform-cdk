@@ -39,10 +39,17 @@ class Command implements yargs.CommandModule {
         desc: "Don't check if all stacks specified in the command have their dependencies included as well",
         default: false,
       })
+      .option("parallelism", {
+        type: "number",
+        required: false,
+        desc: "Number of concurrent CDKTF stacks to run",
+        default: 1,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
     Errors.setScope("destroy");
+
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
     api.destroy(argv);

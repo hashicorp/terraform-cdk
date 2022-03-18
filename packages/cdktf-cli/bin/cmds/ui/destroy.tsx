@@ -14,6 +14,7 @@ interface DestroyConfig {
   synthCommand: string;
   autoApprove: boolean;
   ignoreMissingStackDependencies?: boolean;
+  parallelism?: number;
 }
 
 export const Destroy = ({
@@ -22,6 +23,7 @@ export const Destroy = ({
   synthCommand,
   autoApprove,
   ignoreMissingStackDependencies,
+  parallelism,
 }: DestroyConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -30,6 +32,7 @@ export const Destroy = ({
         stackNames: targetStacks,
         autoApprove,
         ignoreMissingStackDependencies,
+        parallelism,
       })
   );
 

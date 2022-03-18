@@ -137,6 +137,7 @@ export async function destroy(argv: any) {
       autoApprove,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism || 1,
     })
   );
 }
