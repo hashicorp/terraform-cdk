@@ -145,7 +145,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy({ stackNames: ["first"] });
+      await cdktfProject.deploy({ stackNames: ["first"], parallelism: 1 });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -171,7 +171,11 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy({ stackNames: ["first"], autoApprove: true });
+      await cdktfProject.deploy({
+        stackNames: ["first"],
+        autoApprove: true,
+        parallelism: 1,
+      });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([
@@ -201,7 +205,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy({ stackNames: ["second"] });
+      await cdktfProject.destroy({ stackNames: ["second"], parallelism: 1 });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -227,6 +231,7 @@ describe("CdktfProject", () => {
       await cdktfProject.destroy({
         stackNames: ["second"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       const eventTypes = eventNames(events);
@@ -254,7 +259,7 @@ describe("CdktfProject", () => {
       });
 
       await expect(
-        cdktfProject.deploy({ stackNames: ["not-found"] })
+        cdktfProject.deploy({ stackNames: ["not-found"], parallelism: 1 })
       ).rejects.toMatchInlineSnapshot(
         `[Error: Usage Error: Could not find stack: not-found]`
       );
@@ -271,7 +276,7 @@ describe("CdktfProject", () => {
       });
 
       await expect(
-        cdktfProject.deploy({ stackNames: ["third"] })
+        cdktfProject.deploy({ stackNames: ["third"], parallelism: 1 })
       ).rejects.toMatchInlineSnapshot(
         `[Error: Usage Error: The following dependencies are not included in the stacks to run: first. Either add them or add the --ignore-missing-stack-dependencies flag.]`
       );
@@ -291,6 +296,7 @@ describe("CdktfProject", () => {
         stackNames: ["third"],
         autoApprove: true,
         ignoreMissingStackDependencies: true,
+        parallelism: 1,
       });
 
       return expect(events.length).toBeGreaterThan(3);
@@ -311,7 +317,10 @@ describe("CdktfProject", () => {
       });
 
       // Random order to implicitly test out sorting
-      await cdktfProject.deploy({ stackNames: ["third", "first", "second"] });
+      await cdktfProject.deploy({
+        stackNames: ["third", "first", "second"],
+        parallelism: 1,
+      });
 
       expect(
         events
@@ -352,6 +361,7 @@ describe("CdktfProject", () => {
       await cdktfProject.deploy({
         stackNames: ["third", "first", "second"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       expect(
@@ -397,6 +407,7 @@ describe("CdktfProject", () => {
       // Random order to implicitly test out sorting
       await cdktfProject.deploy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
+        parallelism: 1,
       });
 
       expect(
@@ -445,12 +456,14 @@ describe("CdktfProject", () => {
       }).deploy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       // Random order to implicitly test out sorting
       await cdktfProject.destroy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       expect(
@@ -509,11 +522,13 @@ describe("CdktfProject", () => {
       }).deploy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       // Random order to implicitly test out sorting
       await cdktfProject.destroy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
+        parallelism: 1,
       });
 
       expect(

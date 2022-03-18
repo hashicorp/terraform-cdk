@@ -458,9 +458,10 @@ export class CdktfProject {
     next: () => Promise<CdktfStack | undefined>,
     parallelism: number
   ) {
+    const maxParallelRuns = parallelism === -1 ? Infinity : parallelism;
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
-      if (runningStacks.length >= parallelism) {
+      if (runningStacks.length >= maxParallelRuns) {
         await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
       } else {
         const nextRunningExecutor = await next();
@@ -488,7 +489,7 @@ export class CdktfProject {
   }
 
   public async deploy(opts: ExecutionOptions = {}) {
-    const parallelism = opts.parallelism || 1;
+    const parallelism = opts.parallelism || -1;
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     if (!opts.ignoreMissingStackDependencies) {
@@ -527,7 +528,7 @@ export class CdktfProject {
   }
 
   public async destroy(opts: ExecutionOptions = {}) {
-    const parallelism = opts.parallelism || 1;
+    const parallelism = opts.parallelism || -1;
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 

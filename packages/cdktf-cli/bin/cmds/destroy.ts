@@ -42,8 +42,8 @@ class Command implements yargs.CommandModule {
       .option("parallelism", {
         type: "number",
         required: false,
-        desc: "Number of concurrent CDKTF stacks to run",
-        default: 1,
+        desc: "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1",
+        default: -1,
       })
       .showHelpOnFail(true);
 
