@@ -104,8 +104,6 @@ class Parser {
     scope: Scope[],
     attributeType: AttributeType | AttributeNestedType
   ): AttributeTypeModel {
-    console.log("renderAttributeType", scope, attributeType);
-
     const parent = scope[scope.length - 1];
     const level = scope.length;
     const isComputed = !!scope.find((e) => e.isComputed === true);
@@ -199,13 +197,15 @@ class Parser {
 
     if (isAttributeNestedType(attributeType)) {
       let isList = undefined;
+      let isSet = undefined;
       let isMap = undefined;
       switch (attributeType.nesting_mode) {
         case "list":
-        case "set": {
-          isList = true; // FIXME: check required / optional based on min_items
+          isList = true;
           break;
-        }
+        case "set":
+          isSet = true;
+          break;
         case "map":
           isMap = true;
           break;
@@ -221,13 +221,14 @@ class Parser {
           );
         }
       }
-      const struct = this.addAnonymousStruct(scope, attributeType.attributes); // FIXME: don't make anonymous?
+      const struct = this.addAnonymousStruct(scope, attributeType.attributes);
       const model = new AttributeTypeModel(struct.name, {
         struct,
         isOptional,
         isRequired,
         level,
         isList,
+        isSet,
         isMap,
       });
       return model;
@@ -238,7 +239,6 @@ class Parser {
 
   public renderAttributesForBlock(parentType: Scope, block: Block) {
     const attributes = new Array<AttributeModel>();
-    console.log(block);
 
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}

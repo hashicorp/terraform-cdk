@@ -38,8 +38,6 @@ type AttributeNestedTypeNesting = "invalid" | "single" | "list" | "set" | "map";
 export interface AttributeNestedType {
   attributes: { [name: string]: Attribute };
   nesting_mode: AttributeNestedTypeNesting;
-  min_items: number;
-  max_items: number;
 }
 
 export function isAttributeNestedType(
