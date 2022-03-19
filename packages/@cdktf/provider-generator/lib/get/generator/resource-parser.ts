@@ -5,7 +5,8 @@ import {
   AttributeType,
   Block,
   BlockType,
-  isAttributesNestedType,
+  isAttributeNestedType,
+  isNestedTypeAttribute,
   Schema,
 } from "./provider-schema";
 import {
@@ -108,8 +109,8 @@ class Parser {
     const parent = scope[scope.length - 1];
     const level = scope.length;
     const isComputed = !!scope.find((e) => e.isComputed === true);
-    const isOptional = parent.isOptional; // FIXME: adjust var depending on attributeType
-    const isRequired = parent.isRequired; // FIXME: adjust var depending on attributeType
+    const isOptional = parent.isOptional;
+    const isRequired = parent.isRequired;
 
     if (typeof attributeType === "string") {
       switch (attributeType) {
@@ -196,18 +197,40 @@ class Parser {
       }
     }
 
-    if (isAttributesNestedType(attributeType)) {
-      // FIXME: handle
-      console.log("encountered nested_type");
+    if (isAttributeNestedType(attributeType)) {
+      let isList = undefined;
+      let isMap = undefined;
       switch (attributeType.nesting_mode) {
-        case "invalid":
-        case "group":
-          throw new Error(); //FIXME: write error msg
         case "list":
+        case "set": {
+          isList = true; // FIXME: check required / optional based on min_items
+          break;
+        }
         case "map":
-        case "set":
+          isMap = true;
+          break;
         case "single":
+          break;
+        default: {
+          throw new Error(
+            `nested_type with nesting_mode "${
+              attributeType.nesting_mode
+            }" not supported (attribute scope: ${scope
+              .map((s) => s.fullName)
+              .join(",")}`
+          );
+        }
       }
+      const struct = this.addAnonymousStruct(scope, attributeType.attributes); // FIXME: don't make anonymous?
+      const model = new AttributeTypeModel(struct.name, {
+        struct,
+        isOptional,
+        isRequired,
+        level,
+        isList,
+        isMap,
+      });
+      return model;
     }
 
     throw new Error(`unknown type ${JSON.stringify(attributeType)}`);
@@ -230,6 +253,7 @@ class Parser {
             isComputed: !!att.computed,
             isOptional: !!att.optional,
             isRequired: !!att.required,
+            isNestedType: isNestedTypeAttribute(att),
           }),
         ],
         att.type || att.nested_type
@@ -372,10 +396,17 @@ class Parser {
   ) {
     const attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
-    const computed = !!parent.isComputed;
-    const optional = !!parent.isOptional;
-    const required = !!parent.isRequired;
     for (const [terraformName, att] of Object.entries(attrs)) {
+      // nested types support computed, optional and required on attribute level
+      // if parent is computed, child always is computed as well
+      const computed =
+        !!parent.isComputed || (parent.isNestedType && !!att.computed);
+      const optional = parent.isNestedType
+        ? !!att.optional
+        : !!parent.isOptional;
+      const required = parent.isNestedType
+        ? !!att.required
+        : !!parent.isRequired;
       const name = toCamelCase(terraformName);
       attributes.push(
         new AttributeModel({
@@ -396,6 +427,7 @@ class Parser {
                 isComputed: computed,
                 isOptional: optional,
                 isRequired: required,
+                isNestedType: parent.isNestedType,
               }),
             ],
             att.type || att.nested_type
