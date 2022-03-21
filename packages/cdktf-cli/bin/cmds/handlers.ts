@@ -24,7 +24,7 @@ import { Deploy } from "./ui/deploy";
 import { Destroy } from "./ui/destroy";
 import { Get } from "./ui/get";
 import { List } from "./ui/list";
-import { Synth } from "./ui/synth";
+import { Synth, synthToJSON } from "./ui/synth";
 import { Watch } from "./ui/watch";
 
 import { sendTelemetry } from "../../lib/checkpoint";
@@ -256,7 +256,7 @@ export async function synth(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const jsonOutput = argv.json;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
 
   if (checkCodeMakerOutput && !(await fs.pathExists(config.codeMakerOutput))) {
     console.error(
@@ -265,14 +265,23 @@ export async function synth(argv: any) {
     process.exit(1);
   }
 
-  await renderInk(
-    React.createElement(Synth, {
+  if (jsonOutput) {
+    // We don't want to render ink because we want to output JSON
+    const json = await synthToJSON({
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
-      jsonOutput: jsonOutput,
-    })
-  );
+    });
+    console.log(JSON.stringify(json, null, 2));
+  } else {
+    await renderInk(
+      React.createElement(Synth, {
+        outDir,
+        targetStacks: stacks,
+        synthCommand: command,
+      })
+    );
+  }
 }
 
 export async function watch(argv: any) {

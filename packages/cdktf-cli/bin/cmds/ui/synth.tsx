@@ -1,43 +1,59 @@
 import React from "react";
-import { Box, Text } from "ink";
+import { Text } from "ink";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
 import { StreamView, StatusBottomBar } from "./components";
-import { SynthesizedStack } from "../../../lib";
+import { CdktfProject, SynthesizedStack } from "../../../lib";
 
 interface CommonSynthConfig {
   outDir: string;
-  targetStack: string;
-  jsonOutput: boolean;
+  targetStacks: string[];
 }
 
 interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
 }
 type SynthOutputConfig = {
-  jsonOutput: boolean;
-  currentStackName: string;
+  targetStacks: string[];
   stacks: SynthesizedStack[];
 };
-const SynthOutput = ({
-  jsonOutput,
-  currentStackName,
-  stacks,
-}: SynthOutputConfig): React.ReactElement => {
-  const stack =
-    stacks.find((item) => item.name === currentStackName) || stacks[0];
+
+export async function synthToJSON({
+  outDir,
+  synthCommand,
+  targetStacks,
+}: SynthConfig) {
+  const project = new CdktfProject({
+    synthCommand,
+    outDir,
+    onUpdate: () => {}, //eslint-disable-line @typescript-eslint/no-empty-function
+  });
+
+  const stacks = await project.synth();
+  const stacksToDisplay = targetStacks.map((targetStack) => {
+    const stack = stacks.find((stack) => stack.name === targetStack);
+    if (!stack) {
+      throw new Error(`Stack ${targetStack} not found`);
+    }
+    return stack;
+  });
+
+  return stacksToDisplay.reduce(
+    (carry, item) => ({
+      ...carry,
+      [item.name]: JSON.parse(item.content),
+    }),
+    {}
+  );
+}
+
+const SynthOutput = ({ stacks }: SynthOutputConfig): React.ReactElement => {
   return (
     <>
-      {jsonOutput && stack ? (
-        <Box>
-          <Text>{stack.content}</Text>
-        </Box>
-      ) : (
-        <Text>
-          Generated Terraform code for the stacks:{" "}
-          {stacks?.map((s) => s.name).join(", ")}
-        </Text>
-      )}
+      <Text>
+        Generated Terraform code for the stacks:{" "}
+        {stacks?.map((s) => s.name).join(", ")}
+      </Text>
     </>
   );
 };
@@ -45,8 +61,7 @@ const SynthOutput = ({
 export const Synth = ({
   outDir,
   synthCommand,
-  jsonOutput,
-  targetStack,
+  targetStacks,
 }: SynthConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done } = useCdktfProject(
     { outDir, synthCommand },
@@ -57,8 +72,7 @@ export const Synth = ({
     <StreamView logs={logEntries}>
       <StatusBottomBar latestUpdate={projectUpdate} done={done}>
         <SynthOutput
-          jsonOutput={jsonOutput}
-          currentStackName={targetStack}
+          targetStacks={targetStacks}
           stacks={
             projectUpdate?.type === "synthesized" ? projectUpdate.stacks : []
           }

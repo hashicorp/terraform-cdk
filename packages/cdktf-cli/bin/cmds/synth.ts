@@ -6,15 +6,15 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "synth [stack] [OPTIONS]";
+  public readonly command = "synth [OPTIONS] <stacks..>";
   public readonly describe =
     "Synthesizes Terraform code for the given app in a directory.";
   public readonly aliases = ["synthesize"];
 
   public readonly builder = (args: yargs.Argv) =>
     args
-      .positional("stack", {
-        desc: "Stack to output when using --json flag",
+      .positional("stacks", {
+        desc: "Stacks to output when using --json flag",
         type: "string",
       })
       .option("app", {
