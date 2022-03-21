@@ -28,7 +28,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@babel/generator": "^7.17.3",
+    "@babel/generator": "^7.17.7",
     "@babel/template": "^7.16.7",
     "@babel/types": "^7.17.0",
     "@cdktf/hcl2json": "0.0.0",
@@ -37,8 +37,8 @@
     "glob": "7.2.0",
     "graphology": "^0.24.1",
     "graphology-types": "^0.21.2",
-    "jsii-rosetta": "^1.54.0",
-    "prettier": "^2.5.1",
+    "jsii-rosetta": "^1.55.1",
+    "prettier": "^2.6.0",
     "reserved-words": "^0.1.2",
     "zod": "^1.11.17"
   },
