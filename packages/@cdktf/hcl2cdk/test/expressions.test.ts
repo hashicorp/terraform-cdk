@@ -394,7 +394,7 @@ describe("expressions", () => {
   describe("#referenceToAst", () => {
     it("property access", () => {
       const scope: Scope = {
-        providerSchema: { format_version: "1.0" },
+        providerSchema: { format_version: "0.1" },
         constructs: new Set<string>(),
         variables: {},
       };
@@ -422,7 +422,7 @@ describe("expressions", () => {
   describe("#referencesToAst", () => {
     it("nested terraform expressions without space", () => {
       const scope: Scope = {
-        providerSchema: { format_version: "1.0" },
+        providerSchema: { format_version: "0.1" },
         constructs: new Set<string>(),
         variables: {},
       };
