@@ -2,6 +2,8 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as os from "os";
 import { CdktfProject, get, init, Language } from "../../lib/index";
+import { SynthesizedStack } from "../../lib/synth-stack";
+import { getMultipleStacks } from "../../lib/cdktf-project";
 
 function eventNames(events: any[]) {
   return events
@@ -606,6 +608,82 @@ describe("CdktfProject", () => {
       });
 
       expect(eventsDuringWaitForApprove.length).toBe(0);
+    });
+  });
+});
+
+describe("getMultipleStacks", () => {
+  describe("no stack name selection", () => {
+    it("returns the only stack if no option passed", () => {
+      const synthesizedStacks = [{ name: "StackA" }] as SynthesizedStack[];
+
+      expect(getMultipleStacks(synthesizedStacks)).toEqual(synthesizedStacks);
+    });
+    it("throws if multiple stacks are passed", () => {
+      const synthesizedStacks = [
+        { name: "StackA" },
+        { name: "StackB" },
+      ] as SynthesizedStack[];
+
+      expect(() => getMultipleStacks(synthesizedStacks)).toThrow();
+    });
+  });
+
+  describe("stack name selection", () => {
+    it("returns the stack selected by name", () => {
+      const synthesizedStacks = [
+        { name: "StackA" },
+        { name: "StackB" },
+        { name: "StackC" },
+      ] as SynthesizedStack[];
+
+      expect(
+        getMultipleStacks(synthesizedStacks, ["StackB", "StackC"])
+      ).toEqual([{ name: "StackB" }, { name: "StackC" }]);
+    });
+
+    it("throws when a selected stack is not there", () => {
+      const synthesizedStacks = [
+        { name: "StackA" },
+        { name: "StackB" },
+        { name: "StackC" },
+      ] as SynthesizedStack[];
+
+      expect(() =>
+        getMultipleStacks(synthesizedStacks, ["StackD", "StackC"])
+      ).toThrow();
+    });
+  });
+
+  // This should work similar to https://docs.aws.amazon.com/cdk/v2/guide/cli.html#cli-stacks
+  describe("glob name selection", () => {
+    it("?", () => {
+      const synthesizedStacks = [
+        { name: "StackA" },
+        { name: "StackB" },
+        { name: "StackC" },
+        { name: "AnotherA" },
+      ] as SynthesizedStack[];
+
+      expect(getMultipleStacks(synthesizedStacks, ["Stack?"])).toEqual([
+        { name: "StackA" },
+        { name: "StackB" },
+        { name: "StackC" },
+      ]);
+    });
+
+    it("*", () => {
+      const synthesizedStacks = [
+        { name: "StackA" },
+        { name: "StackB" },
+        { name: "StackC" },
+        { name: "AnotherA" },
+      ] as SynthesizedStack[];
+
+      expect(getMultipleStacks(synthesizedStacks, ["*A"])).toEqual([
+        { name: "StackA" },
+        { name: "AnotherA" },
+      ]);
     });
   });
 });
