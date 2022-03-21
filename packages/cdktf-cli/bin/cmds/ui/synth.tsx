@@ -18,7 +18,7 @@ type SynthOutputConfig = {
   stacks: SynthesizedStack[];
 };
 
-export async function synthToJSON({
+export async function synthToJson({
   outDir,
   synthCommand,
   targetStacks,

@@ -24,7 +24,7 @@ import { Deploy } from "./ui/deploy";
 import { Destroy } from "./ui/destroy";
 import { Get } from "./ui/get";
 import { List } from "./ui/list";
-import { Synth, synthToJSON } from "./ui/synth";
+import { Synth, synthToJson } from "./ui/synth";
 import { Watch } from "./ui/watch";
 
 import { sendTelemetry } from "../../lib/checkpoint";
@@ -38,6 +38,7 @@ import {
 } from "../../lib/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 import { checkEnvironment } from "./helper/check-environment";
+import stringify = require("json-stable-stringify");
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -267,12 +268,12 @@ export async function synth(argv: any) {
 
   if (jsonOutput) {
     // We don't want to render ink because we want to output JSON
-    const json = await synthToJSON({
+    const json = await synthToJson({
       outDir,
       targetStacks: stacks,
       synthCommand: command,
     });
-    console.log(JSON.stringify(json, null, 2));
+    console.log(stringify(json, { space: 2 }));
   } else {
     await renderInk(
       React.createElement(Synth, {

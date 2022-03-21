@@ -33,11 +33,13 @@
   "dependencies": {
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
+    
     "cdktf": "0.0.0",
     "constructs": "^10.0.25",
     "ink-select-input": "^4.2.1",
     "jsii": "^1.55.1",
     "jsii-pacmak": "^1.55.1",
+    "json-stable-stringify": "^1.0.1",
     "node-abort-controller": "^3.0.1",
     "yargs": "^17.4"
   },
@@ -97,6 +99,7 @@
     "@types/inquirer": "^7.3.3",
     "@types/jest": "^25.2.3",
     "@types/json-schema": "^7.0.10",
+    "@types/json-stable-stringify": "^1.0.34",
     "@types/lodash.isequal": "^4.5.5",
     "@types/nock": "^11.1.0",
     "@types/node": "^14.18.12",
