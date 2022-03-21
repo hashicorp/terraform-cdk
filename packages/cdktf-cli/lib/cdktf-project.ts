@@ -600,12 +600,35 @@ export class CdktfProject {
     }
   }
 
-  public async fetchOutputs(opts?: SingleStackOptions) {
+  public async fetchOutputs(opts: MultipleStackOptions) {
     const stacks = await this.synth();
-    const stack = this.getStackExecutor(
-      getSingleStack(stacks, opts?.stackName, "output")
+
+    const stacksToRun = getMultipleStacks(
+      stacks,
+      opts.stackNames || [],
+      "deploy"
     );
-    await stack.fetchOutputs();
-    return stack.outputsByConstructId;
+
+    if (stacksToRun.length === 0) {
+      throw new Error("No stacks to fetch outputs for specified");
+    }
+
+    this.stacksToRun = stacksToRun.map((stack) =>
+      this.getStackExecutor(stack, opts)
+    );
+
+    const outputs = await Promise.all(
+      this.stacksToRun.map(async (s) => {
+        const output = await s.fetchOutputs();
+        return {
+          [s.stackName]: output,
+        };
+      })
+    );
+
+    return outputs.reduce(
+      (acc, curr) => ({ ...acc, ...curr }),
+      {}
+    ) as NestedTerraformOutputs;
   }
 }
