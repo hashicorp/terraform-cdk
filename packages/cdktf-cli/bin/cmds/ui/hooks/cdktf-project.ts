@@ -88,7 +88,7 @@ export function useCdktfProject<T>(
         ]);
         setID((current) => current + 1);
 
-        // We only sent logs when the project is running.
+        // We only send logs when the project is running.
         updateRunningStatus(project);
       },
     });
@@ -111,7 +111,6 @@ export function useCdktfProject<T>(
   }, []);
 
   return {
-    done: status.type === "done", // TODO: replace boolean done flag with this
     logEntries,
     returnValue,
     status,

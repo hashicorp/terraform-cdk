@@ -68,7 +68,7 @@ export const Deploy = ({
   parallelism,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
-  const { status, logEntries, done } = useCdktfProject(
+  const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
     async (project) => {
       await project.deploy({
@@ -85,18 +85,19 @@ export const Deploy = ({
     }
   );
 
-  const bottomBar = done ? (
-    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
-  ) : status?.type === "waiting for approval of stack" ? (
-    <ApproveBottomBar
-      stackName={status.stackName}
-      onApprove={status.approve}
-      onDismiss={status.dismiss}
-      onStop={status.stop}
-    />
-  ) : (
-    <ExecutionStatusBottomBar status={status} actionName="deploying" />
-  );
+  const bottomBar =
+    status.type === "done" ? (
+      <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+    ) : status?.type === "waiting for approval of stack" ? (
+      <ApproveBottomBar
+        stackName={status.stackName}
+        onApprove={status.approve}
+        onDismiss={status.dismiss}
+        onStop={status.stop}
+      />
+    ) : (
+      <ExecutionStatusBottomBar status={status} actionName="deploying" />
+    );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

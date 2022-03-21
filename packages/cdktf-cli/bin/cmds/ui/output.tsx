@@ -20,7 +20,7 @@ export const Output = ({
   outputsPath,
 }: OutputConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
-  const { status, logEntries, done } = useCdktfProject(
+  const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
     async (project) => {
       const out = await project.fetchOutputs({ stackName: targetStack });
@@ -31,11 +31,12 @@ export const Output = ({
     }
   );
 
-  const bottomBar = done ? (
-    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
-  ) : (
-    <StatusBottomBar status={status} />
-  );
+  const bottomBar =
+    status.type === "done" ? (
+      <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+    ) : (
+      <StatusBottomBar status={status} />
+    );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

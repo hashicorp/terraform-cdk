@@ -12,7 +12,7 @@ export const List = ({
   outDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
-  const { status, logEntries, done, returnValue } = useCdktfProject(
+  const { status, logEntries, returnValue } = useCdktfProject(
     { outDir, synthCommand },
     (project) => project.synth()
   );
@@ -20,7 +20,7 @@ export const List = ({
   return (
     <StreamView logs={logEntries}>
       <StatusBottomBar status={status}>
-        {done ? (
+        {status.type === "done" ? (
           <Box>
             <Fragment>
               <Box flexDirection="column" width={80}>

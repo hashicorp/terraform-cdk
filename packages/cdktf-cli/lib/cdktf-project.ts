@@ -5,6 +5,7 @@ import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
 import { Errors } from "./errors";
 import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
+import { logger } from "./logging";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -84,11 +85,14 @@ function getMultipleStacks(
 // Returns the first stack that has no unmet dependencies
 // An unmet dependency is a dependency that has not been deployed yet
 // If there is no unfinished stack, returns undefined
-// If there is no stack ready to be worked on, it returns a promise
+// If there is no stack ready to be worked on, it returns a promise that will resolve as soon as there is a follow-up stack available
 export async function getStackWithNoUnmetDependencies(
   stackExecutors: CdktfStack[]
 ): Promise<CdktfStack | undefined> {
+  logger.debug("Checking for stacks with unmet dependencies");
+  logger.debug("stack executors:", stackExecutors);
   const pendingStacks = stackExecutors.filter((executor) => executor.isPending);
+  logger.debug("pending stacks:", stackExecutors);
 
   if (pendingStacks.length === 0) {
     return undefined;
@@ -103,17 +107,17 @@ export async function getStackWithNoUnmetDependencies(
   );
 
   if (currentlyReadyStack) {
+    logger.debug("Found a stack with no unmet dependencies");
     return currentlyReadyStack;
   }
 
-  const stackExecutionPromises = stackExecutors.reduce((carry, executor) => {
-    const promise = executor.currentWorkPromise;
-    if (promise) {
-      return [...carry, promise];
-    } else {
-      return carry;
-    }
-  }, [] as Promise<void>[]);
+  const stackExecutionPromises = stackExecutors
+    .filter((ex) => ex.currentWorkPromise)
+    .map((ex) => ex.currentWorkPromise);
+
+  logger.debug(
+    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`
+  );
 
   if (!stackExecutionPromises.length) {
     return undefined;
@@ -161,7 +165,10 @@ function findAllNestedDependantStacks(
 async function getStackWithNoUnmetDependants(
   stackExecutors: CdktfStack[]
 ): Promise<CdktfStack | undefined> {
+  logger.debug("Checking for stacks with unmet dependants");
+  logger.debug("stack executors:", stackExecutors);
   const pendingStacks = stackExecutors.filter((executor) => executor.isPending);
+  logger.debug("pending stacks:", stackExecutors);
 
   if (pendingStacks.length === 0) {
     return undefined;
@@ -176,17 +183,16 @@ async function getStackWithNoUnmetDependants(
   });
 
   if (currentlyReadyStack) {
+    logger.debug("Found a stack with no unmet dependants");
     return currentlyReadyStack;
   }
-  const stackExecutionPromises = stackExecutors.reduce((carry, executor) => {
-    const promise = executor.currentWorkPromise;
-    if (promise) {
-      return [...carry, promise];
-    } else {
-      return carry;
-    }
-  }, [] as Promise<void>[]);
+  const stackExecutionPromises = stackExecutors
+    .filter((ex) => ex.currentWorkPromise)
+    .map((ex) => ex.currentWorkPromise);
 
+  logger.debug(
+    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`
+  );
   if (!stackExecutionPromises.length) {
     return undefined;
   }
@@ -266,6 +272,7 @@ type LogMessage = {
   message: string;
 };
 
+// Stores a log value of a certain type until it can be sent
 type Buffered<T, V> = {
   cb: (item: T) => void;
   value: T;
@@ -289,7 +296,8 @@ export class CdktfProject {
   private stopAllStacksThatCanNotRunWithout: (stackName: string) => void =
     () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
   // Pauses all progress / status events from being forwarded to the user
-  // If set from true to false, the events will be sent (until a waiting for approval event is sent)
+  // If set from true to false, the events will be sent through the channels they came in
+  // (until a waiting for approval event is sent)
   private waitingForApproval = false;
   private eventBuffer: Array<
     | Buffered<ProjectUpdate, "projectUpdate">
@@ -487,15 +495,11 @@ export class CdktfProject {
       }
     }
 
-    // We end the loop when all stacks are started, not we need to wait for them to be done
+    // We end the loop when all stacks are started, now we need to wait for them to be done
     await Promise.all(
-      this.stacksToRun.reduce((carry, stack) => {
-        const promise = stack.currentWorkPromise;
-        if (promise) {
-          carry.push(promise);
-        }
-        return carry;
-      }, [] as Promise<void>[])
+      this.stacksToRun
+        .filter((ex) => ex.currentWorkPromise)
+        .map((ex) => ex.currentWorkPromise)
     );
   }
 

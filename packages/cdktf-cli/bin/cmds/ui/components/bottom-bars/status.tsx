@@ -22,8 +22,9 @@ export function StatusBottomBar({
       return <></>;
     }
 
+    // This is handled on the outside of this component
     case "waiting for approval of stack":
-      return <Text>Not implemented yet</Text>;
+      return <></>;
 
     case "starting":
       return (
@@ -69,6 +70,13 @@ export function StatusBottomBar({
   }
 }
 
+export function localizeStacks(num: number) {
+  if (num === 1) {
+    return "1 Stack";
+  }
+  return `${num} Stacks`;
+}
+
 export function ExecutionStatusBottomBar({
   status,
   children,
@@ -83,14 +91,14 @@ export function ExecutionStatusBottomBar({
     <Box marginTop={1}>
       <Box marginRight={5}>
         <Text>
-          {inProgress.length} Stacks {actionName}
+          {localizeStacks(inProgress.length)} {actionName}
         </Text>
       </Box>
       <Box marginRight={5}>
-        <Text>{finished.length} Stacks done</Text>
+        <Text>{localizeStacks(finished.length)} done</Text>
       </Box>
       <Box>
-        <Text>{pending.length} Stacks waiting</Text>
+        <Text>{localizeStacks(pending.length)} waiting</Text>
       </Box>
     </Box>
   );

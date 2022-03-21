@@ -49,7 +49,7 @@ export const Synth = ({
   jsonOutput,
   targetStack,
 }: SynthConfig): React.ReactElement => {
-  const { returnValue, logEntries, done, status } = useCdktfProject(
+  const { returnValue, logEntries, status } = useCdktfProject(
     { outDir, synthCommand },
     (project) => project.synth()
   );
@@ -60,7 +60,7 @@ export const Synth = ({
         <SynthOutput
           jsonOutput={jsonOutput}
           currentStackName={targetStack}
-          stacks={done ? returnValue! : []}
+          stacks={status.type === "done" ? returnValue! : []}
         />
       </StatusBottomBar>
     </StreamView>

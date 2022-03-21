@@ -4,12 +4,12 @@ import { LogEntry } from "../hooks/cdktf-project";
 
 const possibleColors = [
   "red",
-  "green",
   "yellow",
   "blue",
   "magenta",
   "cyan",
   "white",
+  "green",
 ];
 
 let colorPointer = 0;
