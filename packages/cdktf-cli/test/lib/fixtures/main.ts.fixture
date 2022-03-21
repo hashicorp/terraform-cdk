@@ -1,0 +1,55 @@
+import { Construct } from "constructs";
+import {
+  App,
+  TerraformStack,
+  Testing,
+  LocalBackend,
+  TerraformOutput,
+} from "cdktf";
+import * as NullProvider from "./.gen/providers/null";
+
+export class HelloTerra extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+    new NullProvider.NullProvider(this, "null", {});
+    new LocalBackend(this);
+
+    const nullResouce = new NullProvider.Resource(this, "test", {});
+
+    nullResouce.addOverride("provisioner", [
+      {
+        "local-exec": {
+          command: `echo "hello deploy"`,
+        },
+      },
+    ]);
+
+    new TerraformOutput(this, "output", {
+      staticId: true,
+      value: id,
+    });
+  }
+}
+
+//               ┌──────┐
+//           ┌──▶│third │───┐
+//           │   └──────┘   │
+// ┌──────┐  │              │
+// │first │──┤              │    ┌─────┐
+// └──────┘  │   ┌──────┐   ├──▶ │fifth│
+//           └──▶│fourth│───┘    └─────┘
+//               └──────┘
+// ┌──────┐
+// │second│
+// └──────┘
+const app = Testing.stubVersion(new App({ stackTraces: false }));
+const first = new HelloTerra(app, "first");
+new HelloTerra(app, "second");
+const third = new HelloTerra(app, "third");
+third.addDependency(first);
+const fourth = new HelloTerra(app, "fourth");
+fourth.addDependency(first);
+const fifth = new HelloTerra(app, "fifth");
+fifth.addDependency(third);
+fifth.addDependency(fourth);
+app.synth();

@@ -127,9 +127,7 @@ describe("python cross stack references", () => {
 
   describe("deployed", () => {
     beforeAll(async () => {
-      await driver.deploy("source");
-      await driver.deploy("passthrough");
-      await driver.deploy("sink");
+      await driver.deploy(["source", "passthrough", "sink"]);
     });
 
     it("references primitive values", () => {
@@ -158,8 +156,13 @@ describe("python cross stack references", () => {
 
     describe("terraform functions", () => {
       beforeAll(async () => {
-        await driver.deploy("fns");
-        await driver.deploy("functionOutput");
+        await driver.deploy([
+          "source",
+          "passthrough",
+          "sink",
+          "fns",
+          "functionOutput",
+        ]);
       });
 
       it("can use reference in terraform function", () => {

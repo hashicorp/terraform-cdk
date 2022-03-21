@@ -12,10 +12,10 @@
     "apply": "terraform apply ./cdktf.out"
   },
   "devDependencies": {
-    "@types/jest": "27.4.0",
-    "@types/node": "^14.18.10",
+    "@types/jest": "27.4.1",
+    "@types/node": "^14.18.12",
     "typescript": "^3.9.10",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.7.0",
     "cdktf-cli": "0.0.0"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 name: update-snapshots
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - edited
@@ -29,6 +29,8 @@ jobs:
           DEFAULT_TERRAFORM_VERSION=$(cat .terraform.versions.json | jq -r '.default')
           echo "::set-output name=default::$DEFAULT_TERRAFORM_VERSION"
       - uses: actions/checkout@v2
+        with:
+          ref: "refs/pull/${{ github.event.number }}/merge"
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"

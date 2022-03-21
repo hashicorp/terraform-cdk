@@ -76,6 +76,7 @@ export const exec = async (
     if (stdout !== undefined) {
       child.stdout?.on("data", (chunk: Buffer) => {
         processLoggerDebug(chunk);
+        out.push(chunk);
         stdout(chunk);
       });
     } else {
@@ -88,6 +89,7 @@ export const exec = async (
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
         processLoggerError(chunk);
         stderr(chunk);
+        err.push(chunk);
       });
     } else {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
