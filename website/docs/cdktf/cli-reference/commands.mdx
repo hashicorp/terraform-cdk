@@ -380,9 +380,12 @@ $ cdktf synth --help
 **Help Output**
 
 ```
-cdktf synth [OPTIONS]
+cdktf synth [OPTIONS] <stacks..>
 
 Synthesizes Terraform code for the given app in a directory.
+
+Positionals:
+  stacks  Stacks to output when using --json flag
 
 Options:
   --version          Show version number                                                                                                                                           [boolean]
@@ -408,10 +411,10 @@ Synthesize code when providing a custom command to execute and an output directo
 $ cdktf synth --app="npm compile && node main.js" --output="dirname"
 ```
 
-Synthesize code for an application and output the Terraform JSON configuration.
+Synthesize code for an application and output the Terraform JSON configuration for two stacks.
 
 ```bash
-$ cdktf synth --json
+$ cdktf synth --json stackA stackB
 ```
 
 ## watch

@@ -1,3 +1,11 @@
+## 0.10.0
+
+### Breaking Changes
+
+#### CLI changes
+
+- `cdktf synth myStack --json` now has a different output format. Instead of the confiuration for myStack as JSON on the root level, it's now nested under `myStack`, so `{"myStack": {...}}`. This allows us to get the output of multiple stacks in one go: `cdktf synth myStack myOtherStack --json`.
+
 ## 0.9.4
 
 ### fix
