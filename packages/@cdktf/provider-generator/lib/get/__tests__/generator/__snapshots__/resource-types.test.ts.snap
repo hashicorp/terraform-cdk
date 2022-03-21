@@ -2347,7 +2347,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_cloudfront_distribution\\";
+  public static readonly tfResourceType = \\"aws_cloudfront_distribution\\";
 
   // ===========
   // INITIALIZER
@@ -2820,7 +2820,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_fms_admin_account\\";
+  public static readonly tfResourceType = \\"aws_fms_admin_account\\";
 
   // ===========
   // INITIALIZER
@@ -4718,7 +4718,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_s3_bucket\\";
+  public static readonly tfResourceType = \\"aws_s3_bucket\\";
 
   // ===========
   // INITIALIZER
@@ -5426,7 +5426,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_security_group\\";
+  public static readonly tfResourceType = \\"aws_security_group\\";
 
   // ===========
   // INITIALIZER
