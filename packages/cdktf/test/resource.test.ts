@@ -98,7 +98,7 @@ test("with complex computed list", () => {
   const otherResource = new OtherTestResource(stack, "othertest", {});
 
   new TestResource(stack, "test", {
-    name: otherResource.complexComputedList("0").id,
+    name: otherResource.complexComputedList.get(0).id,
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();

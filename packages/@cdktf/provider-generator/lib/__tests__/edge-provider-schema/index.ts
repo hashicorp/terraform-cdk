@@ -61,6 +61,20 @@ const list_block_resource = new S()
     minItems: 0,
     maxItems: 1,
   })
+  .attribute({
+    name: "computedListOfObject",
+    type: [
+      "list",
+      [
+        "object",
+        {
+          str: "string",
+        },
+      ],
+    ],
+    computed: true,
+    optional: false,
+  })
   .build();
 
 const map_resource = new S()

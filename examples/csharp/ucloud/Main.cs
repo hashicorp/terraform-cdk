@@ -25,7 +25,7 @@ namespace MyCompany.MyApp
 
 	    new Instance(this, "web", new InstanceConfig {
                 AvailabilityZone = "cn-bj2-04",
-                ImageId = images.Images("0").Id,
+                ImageId = images.Images.Get(0).Id,
                 InstanceType = "n-basic-2",
                 RootPassword = "wA1234567",
                 Name = "cdktf-example-instance",

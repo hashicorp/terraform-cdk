@@ -6,7 +6,6 @@ import stripAnsi from "strip-ansi";
 import useStdoutDimensions from "ink-use-stdout-dimensions";
 import { gql, useSubscription } from "@apollo/client";
 import { GraphQLWatchState } from "../../../lib/server/util";
-import format from "date-fns/format";
 
 const StatusBox = ({
   status,
@@ -116,7 +115,9 @@ const DeployedResource = ({
         {icon} {resource.id}
       </Text>
       <Spacer />
-      <Text color="gray">{format(new Date(resource.changedAt), "pp")}</Text>
+      <Text color="gray">
+        {new Date(resource.changedAt).toLocaleTimeString()}
+      </Text>
     </Box>
   );
 };

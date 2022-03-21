@@ -37,8 +37,14 @@ async function get(url: string, token: string) {
       { headers: { Authorization: `Bearer ${token}` } },
       (res) => {
         if (res.statusCode !== 200) {
-          console.log("\nERROR: couldn't validate token.");
-          return ko(new Error(res.statusMessage));
+          if (res.statusCode === 401) {
+            console.log(
+              "ERROR: Your existing token for Terraform Cloud is invalid."
+            );
+          }
+          const error = new Error(res.statusMessage);
+          (error as any).statusCode = res.statusCode;
+          return ko(error);
         }
         const data = new Array<Buffer>();
         res.on("data", (chunk) => data.push(chunk));

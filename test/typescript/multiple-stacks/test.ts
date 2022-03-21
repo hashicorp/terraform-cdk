@@ -69,8 +69,8 @@ describe("multiple stacks", () => {
     });
 
     test("deploy", () => {
-      expect(driver.deploy("first")).toContain(`Apply complete!`);
-      expect(driver.deploy("second")).toContain(`Apply complete!`);
+      expect(driver.deploy(["first"])).toContain(`Apply complete!`);
+      expect(driver.deploy(["first", "second"])).toContain(`Apply complete!`);
 
       expect(() => driver.deploy()).toThrowError(
         "Found more than one stack, please specify a target stack. Run cdktf deploy <stack> with one of these stacks: first, second"
@@ -78,8 +78,9 @@ describe("multiple stacks", () => {
     });
 
     test("destroy", () => {
-      expect(driver.destroy("first")).toContain(`Destroy complete!`);
-      expect(driver.destroy("second")).toContain(`Destroy complete!`);
+      expect(driver.destroy(["first", "second"])).toContain(
+        `Destroy complete!`
+      );
 
       expect(() => driver.destroy()).toThrowError(
         "Found more than one stack, please specify a target stack. Run cdktf destroy <stack> with one of these stacks: first, second"

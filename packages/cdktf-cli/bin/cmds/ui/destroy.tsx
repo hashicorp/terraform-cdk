@@ -6,25 +6,36 @@ import { StreamView, StatusBottomBar, ApproveBottomBar } from "./components";
 
 interface DestroyConfig {
   outDir: string;
-  targetStack?: string;
+  targetStacks?: string[];
   synthCommand: string;
   autoApprove: boolean;
+  ignoreMissingStackDependencies?: boolean;
 }
 
 export const Destroy = ({
   outDir,
-  targetStack,
+  targetStacks,
   synthCommand,
   autoApprove,
+  ignoreMissingStackDependencies,
 }: DestroyConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done } = useCdktfProject(
-    { outDir, synthCommand, autoApprove },
-    (project) => project.destroy(targetStack)
+    { outDir, synthCommand },
+    (project) =>
+      project.destroy({
+        stackNames: targetStacks,
+        autoApprove,
+        ignoreMissingStackDependencies,
+      })
   );
 
   const bottomBar =
     projectUpdate?.type === "waiting for approval" ? (
-      <ApproveBottomBar onApprove={projectUpdate.approve} />
+      <ApproveBottomBar
+        onApprove={projectUpdate.approve}
+        onDismiss={projectUpdate.dismiss}
+        onStop={projectUpdate.stop}
+      />
     ) : (
       <StatusBottomBar latestUpdate={projectUpdate} done={done} />
     );

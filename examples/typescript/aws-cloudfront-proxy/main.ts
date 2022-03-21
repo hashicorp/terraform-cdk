@@ -81,9 +81,9 @@ class MyStack extends TerraformStack {
     // })
 
     const record = new route53.Route53Record(this, "CertValidationRecord", {
-      name: cert.domainValidationOptions("0").resourceRecordName,
-      type: cert.domainValidationOptions("0").resourceRecordType,
-      records: [cert.domainValidationOptions("0").resourceRecordValue],
+      name: cert.domainValidationOptions.get(0).resourceRecordName,
+      type: cert.domainValidationOptions.get(0).resourceRecordType,
+      records: [cert.domainValidationOptions.get(0).resourceRecordValue],
       // zoneId: zone.zoneId,
       zoneId: "123",
       ttl: 60,

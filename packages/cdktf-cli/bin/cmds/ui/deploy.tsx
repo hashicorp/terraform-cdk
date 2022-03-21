@@ -48,30 +48,41 @@ export const DeploySummary = ({
 
 interface DeployConfig {
   outDir: string;
-  targetStack?: string;
+  targetStacks?: string[];
   synthCommand: string;
   autoApprove: boolean;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
+  ignoreMissingStackDependencies?: boolean;
 }
 
 export const Deploy = ({
   outDir,
-  targetStack,
+  targetStacks,
   synthCommand,
   autoApprove,
   onOutputsRetrieved,
   outputsPath,
+  ignoreMissingStackDependencies,
 }: DeployConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
-    { outDir, synthCommand, onOutputsRetrieved, autoApprove },
-    (project) => project.deploy(targetStack)
+    { outDir, synthCommand, onOutputsRetrieved },
+    (project) =>
+      project.deploy({
+        stackNames: targetStacks,
+        autoApprove,
+        ignoreMissingStackDependencies,
+      })
   );
 
   const bottomBar = done ? (
     <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
   ) : projectUpdate?.type === "waiting for approval" ? (
-    <ApproveBottomBar onApprove={projectUpdate.approve} />
+    <ApproveBottomBar
+      onApprove={projectUpdate.approve}
+      onDismiss={projectUpdate.dismiss}
+      onStop={projectUpdate.stop}
+    />
   ) : (
     <StatusBottomBar latestUpdate={projectUpdate} done={done} />
   );

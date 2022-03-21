@@ -10,7 +10,7 @@ import {
 } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
 import {
-  containsListTokenElement,
+  containsStringListTokenElement,
   TokenString,
   unresolved,
   containsNumberListTokenElement,
@@ -184,7 +184,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
   //
 
   if (Array.isArray(obj)) {
-    if (containsListTokenElement(obj)) {
+    if (containsStringListTokenElement(obj)) {
       return options.resolver.resolveList(obj, makeContext()[0]);
     }
 

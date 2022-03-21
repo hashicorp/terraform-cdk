@@ -16,7 +16,6 @@ describe("parseConfig", () => {
   it("provides default with no input", async () => {
     expect(parseConfig()).toMatchInlineSnapshot(`
       Object {
-        "checkCodeMakerOutput": false,
         "codeMakerOutput": ".gen",
         "output": "cdktf.out",
       }
@@ -31,7 +30,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformProviders": Array [
@@ -54,7 +52,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformProviders": Array [
@@ -82,7 +79,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformProviders": Array [
@@ -107,7 +103,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -147,7 +142,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -177,7 +171,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -208,7 +201,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -251,7 +243,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -276,7 +267,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -299,7 +289,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -322,7 +311,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -345,7 +333,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -368,7 +355,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -391,7 +377,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -416,7 +401,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -439,7 +423,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -462,7 +445,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -485,7 +467,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -508,7 +489,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -531,7 +511,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -556,7 +535,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -581,7 +559,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -604,7 +581,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -627,7 +603,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -652,7 +627,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -677,7 +651,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -702,7 +675,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
@@ -727,7 +699,6 @@ describe("parseConfig", () => {
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
         Object {
-          "checkCodeMakerOutput": true,
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
           "terraformModules": Array [
