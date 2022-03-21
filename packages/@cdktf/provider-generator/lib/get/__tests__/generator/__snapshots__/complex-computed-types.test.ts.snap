@@ -203,7 +203,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_acm_certificate\\";
+  public static readonly tfResourceType = \\"aws_acm_certificate\\";
 
   // ===========
   // INITIALIZER

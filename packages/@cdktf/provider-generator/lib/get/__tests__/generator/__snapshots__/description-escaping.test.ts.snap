@@ -30,7 +30,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"description_escaping\\";
+  public static readonly tfResourceType = \\"description_escaping\\";
 
   // ===========
   // INITIALIZER
@@ -113,7 +113,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"code_blocks\\";
+  public static readonly tfResourceType = \\"code_blocks\\";
 
   // ===========
   // INITIALIZER
