@@ -327,6 +327,71 @@ export interface ListBlockResourceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly singleComputedBlock?: ListBlockResourceSingleComputedBlock;
 }
+export interface ListBlockResourceComputedListOfObject {
+}
+
+export function listBlockResourceComputedListOfObjectToTerraform(struct?: ListBlockResourceComputedListOfObject): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+  }
+}
+
+export class ListBlockResourceComputedListOfObjectOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+  }
+
+  public get internalValue(): ListBlockResourceComputedListOfObject | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ListBlockResourceComputedListOfObject | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // str - computed: true, optional: false, required: false
+  public get str() {
+    return this.getStringAttribute('str');
+  }
+}
+
+export class ListBlockResourceComputedListOfObjectList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public get(index: number): ListBlockResourceComputedListOfObjectOutputReference {
+    return new ListBlockResourceComputedListOfObjectOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface ListBlockResourceOpt {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
@@ -504,10 +569,9 @@ export class ListBlockResourceSingleoptOutputReference extends cdktf.ComplexObje
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
-  * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
-    super(terraformResource, terraformAttribute, isSingleItem);
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): ListBlockResourceSingleopt | undefined {
@@ -777,10 +841,9 @@ export class ListBlockResourceSinglereqOutputReference extends cdktf.ComplexObje
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
-  * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
-    super(terraformResource, terraformAttribute, isSingleItem);
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): ListBlockResourceSinglereq | undefined {
@@ -1010,10 +1073,9 @@ export class ListBlockResourceSingleComputedBlockOutputReference extends cdktf.C
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
-  * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
-    super(terraformResource, terraformAttribute, isSingleItem);
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): ListBlockResourceSingleComputedBlock | undefined {
@@ -1102,6 +1164,12 @@ export class ListBlockResource extends cdktf.TerraformResource {
   // ATTRIBUTES
   // ==========
 
+  // computedListOfObject - computed: true, optional: false, required: false
+  private _computedListOfObject = new ListBlockResourceComputedListOfObjectList(this, \\"computedListOfObject\\", false);
+  public get computedListOfObject() {
+    return this._computedListOfObject;
+  }
+
   // opt - computed: false, optional: true, required: false
   private _opt?: ListBlockResourceOpt[] | cdktf.IResolvable; 
   public get opt() {
@@ -1134,7 +1202,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // singleopt - computed: false, optional: true, required: false
-  private _singleopt = new ListBlockResourceSingleoptOutputReference(this, \\"singleopt\\", true);
+  private _singleopt = new ListBlockResourceSingleoptOutputReference(this, \\"singleopt\\");
   public get singleopt() {
     return this._singleopt;
   }
@@ -1150,7 +1218,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // singlereq - computed: false, optional: false, required: true
-  private _singlereq = new ListBlockResourceSinglereqOutputReference(this, \\"singlereq\\", true);
+  private _singlereq = new ListBlockResourceSinglereqOutputReference(this, \\"singlereq\\");
   public get singlereq() {
     return this._singlereq;
   }
@@ -1163,7 +1231,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // singleComputedBlock - computed: false, optional: true, required: false
-  private _singleComputedBlock = new ListBlockResourceSingleComputedBlockOutputReference(this, \\"singleComputedBlock\\", true);
+  private _singleComputedBlock = new ListBlockResourceSingleComputedBlockOutputReference(this, \\"singleComputedBlock\\");
   public get singleComputedBlock() {
     return this._singleComputedBlock;
   }

@@ -1,7 +1,7 @@
 import {
   DeployingResourceApplyState,
   PlannedResourceAction,
-} from "../../bin/cmds/ui/models/terraform";
+} from "../../lib/models/terraform";
 import { mapWatchState, readGitignore } from "../../lib/server/util";
 import {
   TimestampedDeployingResource,

@@ -10,7 +10,7 @@ import {
 export function expectImportMatchSnapshot(
   constraint: TerraformDependencyConstraint
 ) {
-  jest.setTimeout(240_000);
+  jest.setTimeout(600_000);
 
   test(constraint.name, async () => {
     await mkdtemp(async (workdir) => {

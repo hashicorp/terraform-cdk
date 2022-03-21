@@ -199,9 +199,7 @@ describe("cross stack references", () => {
 
   describe("deployed", () => {
     beforeAll(async () => {
-      await driver.deploy("origin");
-      await driver.deploy("passthrough");
-      await driver.deploy("sink");
+      await driver.deploy(["origin", "passthrough", "sink"]);
     });
 
     it("references primitive values", () => {
@@ -230,8 +228,13 @@ describe("cross stack references", () => {
 
     describe("terraform functions", () => {
       beforeAll(async () => {
-        await driver.deploy("fns");
-        await driver.deploy("functionOutput");
+        await driver.deploy([
+          "origin",
+          "passthrough",
+          "sink",
+          "fns",
+          "functionOutput",
+        ]);
       });
 
       it("can use reference in terraform function", () => {
@@ -263,8 +266,8 @@ describe("cross stack references", () => {
     onPosix("can remove references to deployed stacks on POSIX", async () => {
       driver.setEnv("SWITCH_STACK", "on");
       console.log(driver.workingDirectory);
-      await driver.deploy("secondOrigin");
-      await driver.deploy("switchedStack");
+      await driver.deploy(["secondOrigin", "switchedStack"]);
+
       expect(driver.manifest()).toMatchInlineSnapshot(`
         "{
           \\"version\\": \\"stubbed\\",
@@ -360,8 +363,7 @@ describe("cross stack references", () => {
       `);
 
       driver.setEnv("SWITCH_STACK", undefined);
-      await driver.deploy("secondOrigin");
-      await driver.deploy("switchedStack");
+      await driver.deploy(["secondOrigin", "switchedStack"]);
       expect(driver.manifest()).toMatchInlineSnapshot(`
         "{
           \\"version\\": \\"stubbed\\",
@@ -460,8 +462,7 @@ describe("cross stack references", () => {
       async () => {
         driver.setEnv("SWITCH_STACK", "on");
         console.log(driver.workingDirectory);
-        await driver.deploy("secondOrigin");
-        await driver.deploy("switchedStack");
+        await driver.deploy(["secondOrigin", "switchedStack"]);
         expect(driver.manifest()).toMatchInlineSnapshot(`
 "{
   \\"version\\": \\"stubbed\\",
@@ -557,8 +558,7 @@ describe("cross stack references", () => {
 `);
 
         driver.setEnv("SWITCH_STACK", undefined);
-        await driver.deploy("secondOrigin");
-        await driver.deploy("switchedStack");
+        await driver.deploy(["secondOrigin", "switchedStack"]);
         expect(driver.manifest()).toMatchInlineSnapshot(`
 "{
   \\"version\\": \\"stubbed\\",
@@ -654,8 +654,7 @@ describe("cross stack references", () => {
     );
 
     it("can pin function outputs to a stack by using terraform locals", async () => {
-      await driver.deploy("pinnedFns");
-      await driver.deploy("functionOutputPinned");
+      await driver.deploy(["origin", "pinnedFns", "functionOutputPinned"]);
 
       const pinnedStr = driver.readLocalFile("pinnedFnsStr");
       const outputPinnedStr = driver.readLocalFile("functionOutputPinnedStr");

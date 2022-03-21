@@ -41,7 +41,7 @@ describe("full integration test", () => {
       },
     });
 
-    expect(driver.deploy("source-stack")).toMatchSnapshot();
+    expect(driver.deploy(["source-stack"])).toContain("Apply complete!");
     await client.Workspaces.deleteByName(orgName, workspaceName);
   });
 
@@ -60,9 +60,9 @@ describe("full integration test", () => {
     });
 
     process.env.TF_EXECUTE_LOCAL = "true";
-    driver.deploy("source-stack");
+    driver.deploy(["source-stack"]);
     process.env.TF_EXECUTE_LOCAL = undefined;
-    driver.deploy("source-stack");
+    driver.deploy(["source-stack"]);
 
     await client.Workspaces.deleteByName(orgName, workspaceName);
   });
@@ -84,8 +84,7 @@ describe("full integration test", () => {
         },
       });
 
-      driver.deploy("source-stack");
-      driver.deploy("consumer-stack");
+      driver.deploy(["source-stack", "consumer-stack"]);
 
       await client.Workspaces.deleteByName(orgName, workspaceName);
 

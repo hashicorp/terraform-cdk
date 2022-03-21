@@ -1,6 +1,7 @@
 import yargs from "yargs";
 import { config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
+import { Errors } from "../../lib/errors";
 
 const config = cfg.readConfigSync();
 
@@ -31,9 +32,15 @@ class Command implements yargs.CommandModule {
         desc: "Provide JSON output for the generated Terraform configuration.",
         default: false,
       })
+      .option("check-code-maker-output", {
+        type: "boolean",
+        desc: "Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or modules are configured.",
+        default: cfg.shouldCheckCodeMakerOutput(config),
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
+    Errors.setScope("synth");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
     api.synth(argv);

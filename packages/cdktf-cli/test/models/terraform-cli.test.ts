@@ -1,4 +1,4 @@
-import { TerraformCliPlan } from "../../bin/cmds/ui/models/terraform-cli";
+import { TerraformCliPlan } from "../../lib/models/terraform-cli";
 
 describe("terraform-cli", () => {
   describe("TerraformCliPlan", () => {

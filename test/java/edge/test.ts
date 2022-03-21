@@ -227,5 +227,21 @@ describe("java full integration", () => {
 
       expect(item.req).toEqual("${tolist(set_block_resource.setblock.set)}");
     });
+
+    it("output references to complex list type (no block)", () => {
+      const output = stack.output("list_from_list_type_ref");
+
+      expect(output).toEqual(
+        "${list_block_resource.list.computedListOfObject}"
+      );
+    });
+
+    it("item references string attribute of element of complex list type (no block)", () => {
+      const item = stack.byId("list_item_from_list_type_ref");
+
+      expect(item.str).toEqual(
+        "${list_block_resource.list.computedListOfObject[5].str}"
+      );
+    });
   });
 });

@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - [Terraform](https://www.terraform.io/downloads.html) >= v0.12
-- [Node.js](https://nodejs.org) >= v12.16
+- [Node.js](https://nodejs.org) >= v14.0
 - [Python](https://www.python.org/downloads/) >= v3.7
 
 ### Install CDK for Terraform CLI

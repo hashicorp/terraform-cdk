@@ -1,5 +1,11 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, Testing, LocalBackend } from "cdktf";
+import {
+  App,
+  TerraformStack,
+  Testing,
+  LocalBackend,
+  TerraformOutput,
+} from "cdktf";
 import * as NullProvider from "./.gen/providers/null";
 
 export class HelloTerra extends TerraformStack {
@@ -19,6 +25,11 @@ export class HelloTerra extends TerraformStack {
         },
       },
     ]);
+
+    new TerraformOutput(this, "output", {
+      staticId: true,
+      value: id,
+    });
   }
 }
 

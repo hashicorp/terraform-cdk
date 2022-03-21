@@ -1,5 +1,5 @@
 import { StackDependencies } from "../../bin/cmds/helper/stack-dependencies";
-import { SynthesizedStack } from "../../bin/cmds/helper/synth-stack";
+import { SynthesizedStack } from "../../lib/synth-stack";
 
 function createStack(
   name: string,
