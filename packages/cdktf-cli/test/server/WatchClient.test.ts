@@ -1,17 +1,17 @@
 import {
   SynthesizedStack,
   SynthStack as OriginalSynthStack,
-} from "../../bin/cmds/helper/synth-stack";
+} from "../../lib/synth-stack";
 
 import { mocked } from "ts-jest/utils";
 import { WatchClient, WatchState } from "../../lib/server/WatchClient";
-import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
-import { TerraformCli as OriginalTerraformCli } from "../../bin/cmds/ui/models/terraform-cli";
+import { TerraformJson } from "../../lib/terraform-json";
+import { TerraformCli as OriginalTerraformCli } from "../../lib/models/terraform-cli";
 
-jest.mock("../../bin/cmds/helper/synth-stack");
+jest.mock("../../lib/synth-stack");
 const SynthStack = mocked(OriginalSynthStack);
 
-jest.mock("../../bin/cmds/ui/models/terraform-cli");
+jest.mock("../../lib/models/terraform-cli");
 const TerraformCli = mocked(OriginalTerraformCli);
 
 describe("WatchClient", () => {
@@ -88,6 +88,7 @@ describe("WatchClient", () => {
               workingDirectory: "C",
               content: "null",
               annotations: [],
+              dependencies: [],
             },
           ];
         });
@@ -120,6 +121,7 @@ describe("WatchClient", () => {
               workingDirectory: "C",
               content: "null",
               annotations: [],
+              dependencies: [],
             },
             {
               name: "StackB",
@@ -128,6 +130,7 @@ describe("WatchClient", () => {
               workingDirectory: "C",
               content: "null",
               annotations: [],
+              dependencies: [],
             },
           ];
         });
@@ -160,6 +163,7 @@ describe("WatchClient", () => {
               workingDirectory: __dirname,
               content: JSON.stringify({ terraform: {} } as TerraformJson),
               annotations: [],
+              dependencies: [],
             },
           ];
         });

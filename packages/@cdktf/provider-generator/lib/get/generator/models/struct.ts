@@ -10,9 +10,9 @@ export class Struct {
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
-    const attributes = this.isAnonymous
-      ? this.attributes
-      : this.attributes.filter((attribute) => attribute.isAssignable);
+    const attributes = this.attributes.filter(
+      (attribute) => attribute.isAssignable
+    );
     return this.filterIgnoredAttributes(attributes);
   }
 
@@ -52,6 +52,10 @@ export class Struct {
 
   public get outputReferenceName(): string {
     return `${this.name}OutputReference`;
+  }
+
+  public get listName(): string {
+    return `${this.name}List`;
   }
 
   public get isProvider(): boolean {

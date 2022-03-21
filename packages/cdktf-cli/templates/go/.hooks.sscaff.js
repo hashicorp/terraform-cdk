@@ -49,12 +49,15 @@ exports.post = options => {
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.go', 'utf-8');
 
-  result = template.replace(`NewMyStack(app, "${baseName}")`, `stack := NewMyStack(app, "{{ $base }}")
+  result = template.replace(`NewMyStack(app, "${baseName}")`, `stack := NewMyStack(app, "${baseName}")
 	cdktf.NewRemoteBackend(stack, &cdktf.RemoteBackendProps{
 		Hostname:     jsii.String("app.terraform.io"),
 		Organization: jsii.String("${organizationName}"),
 		Workspaces:   cdktf.NewNamedRemoteWorkspace(jsii.String("${workspaceName}")),
 	})`);
+
+  // add import for jsii helper used above
+  result = result.replace(`"github.com/aws/constructs-go/constructs/v10"`, `"github.com/aws/constructs-go/constructs/v10"\n	"github.com/aws/jsii-runtime-go"`);
 
   writeFileSync('./main.go', result, 'utf-8');
 }

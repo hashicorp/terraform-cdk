@@ -81,6 +81,11 @@ export interface TerraformVariableConfig {
   readonly type?: string;
 
   readonly sensitive?: boolean;
+
+  /*
+   * The nullable argument in a variable block controls whether the module caller may assign the value null to the variable.
+   */
+  readonly nullable?: boolean;
 }
 
 export class TerraformVariable
@@ -91,6 +96,9 @@ export class TerraformVariable
   public readonly description?: string;
   public readonly type?: string;
   public readonly sensitive?: boolean;
+  public readonly nullable?: boolean;
+
+  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
     super(scope, id);
@@ -99,6 +107,8 @@ export class TerraformVariable
     this.description = config.description;
     this.type = config.type;
     this.sensitive = config.sensitive;
+    this.nullable = config.nullable;
+    this.fqn = Token.asString(this.interpolation());
   }
 
   public get stringValue(): string {
@@ -113,8 +123,8 @@ export class TerraformVariable
     return Token.asList(this.interpolation());
   }
 
-  public get booleanValue(): boolean {
-    return Token.asString(this.interpolation()) as any as boolean;
+  public get booleanValue(): IResolvable {
+    return this.interpolation();
   }
 
   public get value(): any {
@@ -122,11 +132,7 @@ export class TerraformVariable
   }
 
   private interpolation(): IResolvable {
-    return ref(`var.${this.friendlyUniqueId}`);
-  }
-
-  public get fqn() {
-    return `var.${this.friendlyUniqueId}`;
+    return ref(`var.${this.friendlyUniqueId}`, this.cdktfStack);
   }
 
   public synthesizeAttributes(): { [key: string]: any } {
@@ -135,6 +141,7 @@ export class TerraformVariable
       description: this.description,
       type: this.type,
       sensitive: this.sensitive,
+      nullable: this.nullable,
     };
   }
 

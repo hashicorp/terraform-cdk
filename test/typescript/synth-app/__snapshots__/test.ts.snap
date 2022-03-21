@@ -4,69 +4,61 @@ exports[`full integration test synth synth generates JSON 1`] = `
 "{
   \\"//\\": {
     \\"metadata\\": {
-      \\"version\\": \\"stubbed\\",
-      \\"stackName\\": \\"hello-terra\\",
       \\"backend\\": \\"local\\",
       \\"overrides\\": {
-        \\"stack\\": [
-          \\"terraform\\"
-        ],
         \\"aws_sns_topic\\": [
           \\"display_name\\",
           \\"provider\\",
           \\"lifecycle\\"
+        ],
+        \\"stack\\": [
+          \\"terraform\\"
         ]
+      },
+      \\"stackName\\": \\"hello-terra\\",
+      \\"version\\": \\"stubbed\\"
+    },
+    \\"outputs\\": {
+      \\"hello-terra\\": {
+        \\"instance-http-endpoint\\": \\"instancehttpendpoint\\",
+        \\"instance-password\\": \\"instancepassword\\",
+        \\"sns-topic-arn\\": \\"snstopicarn\\"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"version\\": \\"~> 2.0\\",
-        \\"source\\": \\"aws\\"
-      }
+  \\"output\\": {
+    \\"instancehttpendpoint\\": {
+      \\"value\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
     },
-    \\"backend\\": {
-      \\"remote\\": {
-        \\"organization\\": \\"test\\",
-        \\"workspaces\\": {
-          \\"name\\": \\"test\\"
-        }
-      }
+    \\"instancepassword\\": {
+      \\"value\\": \\"\${base64decode(aws_instance.Instance.password_data)}\\"
+    },
+    \\"snstopicarn\\": {
+      \\"value\\": \\"\${aws_sns_topic.Topic.arn}\\"
     }
   },
   \\"provider\\": {
     \\"aws\\": [
       {
-        \\"region\\": \\"eu-central-1\\",
         \\"ignore_tags\\": {
           \\"keys\\": [
             \\"foo\\"
           ]
-        }
+        },
+        \\"region\\": \\"eu-central-1\\"
       }
     ]
   },
   \\"resource\\": {
-    \\"aws_sns_topic\\": {
-      \\"Topic\\": {
-        \\"display_name\\": \\"topic\\",
-        \\"provider\\": \\"aws\\",
-        \\"lifecycle\\": {
-          \\"create_before_destroy\\": true
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-terra/Topic\\",
-            \\"uniqueId\\": \\"Topic\\"
-          }
-        }
-      }
-    },
     \\"aws_instance\\": {
       \\"Instance\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-terra/Instance\\",
+            \\"uniqueId\\": \\"Instance\\"
+          }
+        },
         \\"ami\\": \\"ami-12345678\\",
-        \\"instance_type\\": \\"t2.micro\\",
         \\"credit_specification\\": {
           \\"cpu_credits\\": \\"standard\\"
         },
@@ -76,51 +68,64 @@ exports[`full integration test synth synth generates JSON 1`] = `
             \\"volume_size\\": 100
           }
         ],
+        \\"instance_type\\": \\"t2.micro\\",
         \\"metadata_options\\": {
           \\"http_endpoint\\": \\"true\\"
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-terra/Instance\\",
-            \\"uniqueId\\": \\"Instance\\"
-          }
         }
       },
       \\"Instance2\\": {
-        \\"ami\\": \\"ami-12345678\\",
-        \\"instance_type\\": \\"t2.micro\\",
-        \\"credit_specification\\": {
-          \\"cpu_credits\\": \\"\${aws_instance.Instance.credit_specification[0].cpu_credits}\\"
-        },
-        \\"metadata_options\\": {
-          \\"http_endpoint\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
-        },
         \\"//\\": {
           \\"metadata\\": {
             \\"path\\": \\"hello-terra/Instance2\\",
             \\"uniqueId\\": \\"Instance2\\"
           }
+        },
+        \\"ami\\": \\"ami-12345678\\",
+        \\"credit_specification\\": {
+          \\"cpu_credits\\": \\"\${aws_instance.Instance.credit_specification[0].cpu_credits}\\"
+        },
+        \\"instance_type\\": \\"t2.micro\\",
+        \\"metadata_options\\": {
+          \\"http_endpoint\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
         }
+      }
+    },
+    \\"aws_sns_topic\\": {
+      \\"Topic\\": {
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-terra/Topic\\",
+            \\"uniqueId\\": \\"Topic\\"
+          }
+        },
+        \\"display_name\\": \\"topic\\",
+        \\"lifecycle\\": {
+          \\"create_before_destroy\\": true
+        },
+        \\"provider\\": \\"aws\\"
       }
     },
     \\"aws_wafv2_web_acl\\": {
       \\"wafv2\\": {
-        \\"name\\": \\"managed-rule-example\\",
-        \\"scope\\": \\"REGIONAL\\",
+        \\"//\\": {
+          \\"metadata\\": {
+            \\"path\\": \\"hello-terra/wafv2\\",
+            \\"uniqueId\\": \\"wafv2\\"
+          }
+        },
         \\"default_action\\": {
           \\"allow\\": {}
         },
+        \\"name\\": \\"managed-rule-example\\",
         \\"rule\\": [
           {
             \\"name\\": \\"managed-rule-example\\",
-            \\"priority\\": 1,
             \\"override_action\\": {
               \\"count\\": {}
             },
+            \\"priority\\": 1,
             \\"statement\\": {
               \\"managed_rule_group_statement\\": {
-                \\"name\\": \\"managed-rule-example\\",
-                \\"vendor_name\\": \\"AWS\\",
                 \\"excluded_rule\\": [
                   {
                     \\"name\\": \\"SizeRestrictions_QUERYSTRING\\"
@@ -128,7 +133,9 @@ exports[`full integration test synth synth generates JSON 1`] = `
                   {
                     \\"name\\": \\"SQLInjection_QUERYSTRING\\"
                   }
-                ]
+                ],
+                \\"name\\": \\"managed-rule-example\\",
+                \\"vendor_name\\": \\"AWS\\"
               }
             },
             \\"visibility_config\\": {
@@ -138,29 +145,32 @@ exports[`full integration test synth synth generates JSON 1`] = `
             }
           }
         ],
+        \\"scope\\": \\"REGIONAL\\",
         \\"visibility_config\\": {
           \\"cloudwatch_metrics_enabled\\": true,
           \\"metric_name\\": \\"managed-rule-example\\",
           \\"sampled_requests_enabled\\": true
-        },
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-terra/wafv2\\",
-            \\"uniqueId\\": \\"wafv2\\"
-          }
         }
       }
     }
   },
-  \\"output\\": {
-    \\"snstopicarn\\": {
-      \\"value\\": \\"\${aws_sns_topic.Topic.arn}\\"
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"terraform.tfstate\\"
+      },
+      \\"remote\\": {
+        \\"organization\\": \\"test\\",
+        \\"workspaces\\": {
+          \\"name\\": \\"test\\"
+        }
+      }
     },
-    \\"instancepassword\\": {
-      \\"value\\": \\"\${base64decode(aws_instance.Instance.password_data)}\\"
-    },
-    \\"instancehttpendpoint\\": {
-      \\"value\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"~> 2.0\\"
+      }
     }
   }
 }"

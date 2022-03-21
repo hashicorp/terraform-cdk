@@ -1,0 +1,523 @@
+---
+page_title: CLI Commands
+description: >-
+  Use the CLI to initialize a new project, deploy your CDKTF app, generate
+  Terraform configuration files, and more.
+---
+
+# CLI Commands
+
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness).
+
+The CDK for Terraform CLI has the following commands:
+
+- [completion](/cdktf/cli-reference/commands#completion)
+- [convert](/cdktf/cli-reference/commands#convert)
+- [deploy](/cdktf/cli-reference/commands#deploy)
+- [destroy](/cdktf/cli-reference/commands#destroy)
+- [diff](/cdktf/cli-reference/commands#diff)
+- [get](/cdktf/cli-reference/commands#get)
+- [init](/cdktf/cli-reference/commands#init)
+- [login](/cdktf/cli-reference/commands#login)
+- [synth](/cdktf/cli-reference/commands#synth)
+- [watch](/cdktf/cli-reference/commands#watch)
+- [output](/cdktf/cli-reference/commands#output)
+
+## completion
+
+This command outputs a script that you can use to set up autocompletion for bash or zsh.
+
+```
+> cdktf completion
+
+#compdef cdktf
+###-begin-cdktf-completions-###
+#
+# yargs command completion script
+#
+# Installation: cdktf completion >> ~/.zshrc
+#    or cdktf completion >> ~/.zsh_profile on OSX.
+#
+_cdktf_yargs_completions()
+{
+  local reply
+  local si=$IFS
+  IFS=$'
+' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" cdktf --get-yargs-completions "${words[@]}"))
+  IFS=$si
+  _describe 'values' reply
+}
+compdef _cdktf_yargs_completions cdktf
+###-end-cdktf-completions-###
+
+```
+
+The output also contains the installation instructions. For example, here are the instructions for Mac OSX:
+
+```
+cdktf completion >> ~/.bash_profile on OSX.
+# or if using zsh instead of bash
+cdktf completion >> ~/.zshrc
+```
+
+After you configure auto completion, reload your shell by running `source ~/.zshrc`, `source ~/.bash_profile` or opening a new terminal window. You can now autocomplete `cdktf` commands by pressing the `<TAB>` key. You may need to enter a space after `cdktf` for autocomplete to take effect.
+
+```
+> cdktf <TAB>
+completion  -- generate completion script
+convert     -- Converts a single file of HCL configuration to CDK for Terraform. Takes the file to be converted on stdin.
+deploy      -- Deploy the given stack
+destroy     -- Destroy the given stack
+diff        -- Perform a diff (terraform plan) for the given stack
+get         -- Generate CDK Constructs for Terraform providers and modules.
+init        -- Create a new cdktf project from a template.
+list        -- List stacks in app.
+login       -- Retrieves an API token to connect to Terraform Cloud.
+synth       -- Synthesizes Terraform code for the given app in a directory.
+watch       -- [experimental] Watch for file changes and automatically trigger a deploy
+```
+
+## convert
+
+This command converts Terraform configuration written in HCL to the equivalent configuration in your preferred language.
+
+->**Note**: The `convert` command is only functional for Terraform 1.0 and above. There are also [known limitations](https://cdk.tf/convert-limitations).
+
+```
+cdktf convert [OPTIONS]
+
+Converts a single file of HCL configuration to Terraform CDK. Takes the file to be converted on stdin.
+
+Options:
+  --version                   Show version number                                                   [boolean]
+  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.
+                                                                                    [boolean] [default: true]
+  --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin
+                              cache is configured differently. Supported using the env
+                              CDKTF_DISABLE_PLUGIN_CACHE_ENV.                      [boolean] [default: false]
+  --log-level                 Which log level should be written. Only supported via setting the env
+                              CDKTF_LOG_LEVEL                                                        [string]
+  --language                      [choices: "typescript", "python", "csharp", "java"] [default: "typescript"]
+  -h, --help                  Show help                                                             [boolean]
+```
+
+**Examples**
+
+Convert a local file.
+
+```bash
+cat main.tf | cdktf convert > imported.ts`
+```
+
+Convert HCL in your clipboard to Python on OSX.
+
+```bash
+pbpaste | cdktf convert --language python | pbcopy
+```
+
+Convert HCL in your clipboard to Python on OSX.
+
+```bash
+pbpaste | cdktf convert --language python | pbcopy
+```
+
+## deploy
+
+This command deploys a given application.
+
+```bash
+$ cdktf deploy --help
+```
+
+**Help Output**
+
+```
+cdktf deploy [stack] [OPTIONS]
+
+Deploy the given stack
+
+Positionals:
+  stack  Deploy stack which matches the given id only. Required when more than one stack is present in the app                                                                                                        [string]
+
+Options:
+      --version                                 Show version number                                                                                                                                                  [boolean]
+      --disable-logging                         Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                 [boolean] [default: true]
+      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                                                                                                                                    [boolean] [default: false]
+      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                 [string]
+  -a, --app                                     Command to use in order to execute cdktf app                                                                                       [required] [default: "npx ts-node main.ts"]
+  -o, --output                                  Output directory                                                                                                                             [required] [default: "cdktf.out"]
+      --auto-approve                            Auto approve                                                                                                                                        [boolean] [default: false]
+      --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                              [string]
+      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                             [boolean] [default: false]
+  -h, --help                                    Show help                                                                                                                                                            [boolean]
+```
+
+**Examples**
+
+Deploy an application.
+
+```bash
+$ cdktf deploy
+```
+
+Deploy an application with automatic approval of the diff (Terraform plan).
+
+```bash
+$ cdktf deploy --auto-approve
+```
+
+For more info on the `--outputs-file` option, [see the `output` command below](/cdktf/cli-reference/commands#output).
+
+## destroy
+
+This command destroys a given application.
+
+```bash
+$ cdktf destroy --help
+```
+
+Help output:
+
+```
+cdktf destroy [OPTIONS]
+
+Destroy the given stack
+
+Options:
+  --version          Show version number                                                                                                                                           [boolean]
+  --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                          [boolean] [default: true]
+  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
+  --app, -a          Command to use in order to execute cdktf app                                                                                                                 [required]
+  --output, -o       Output directory                                                                                                                      [required] [default: "cdktf.out"]
+  --auto-approve     Auto approve                                                                                                                                 [boolean] [default: false]
+  -h, --help         Show help                                                                                                                                                     [boolean]
+```
+
+**Examples**
+
+Destroy an application.
+
+```bash
+$ cdktf destroy
+```
+
+Destroy an application with automatic approval of the diff (Terraform plan).
+
+```bash
+$ cdktf destroy --auto-approve
+```
+
+## diff
+
+This command generates a diff for a given application by running Terraform plan.
+
+```bash
+$ cdktf diff --help
+```
+
+Help output:
+
+```
+cdktf diff [OPTIONS]
+
+Perform a diff (terraform plan) for the given stack
+
+Options:
+  --version          Show version number                                                                                                                                           [boolean]
+  --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                          [boolean] [default: true]
+  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
+  --app, -a          Command to use in order to execute cdktf app                                                                                                                 [required]
+  --output, -o       Output directory                                                                                                                      [required] [default: "cdktf.out"]
+  -h, --help         Show help                                                                                                                                                     [boolean]
+```
+
+Examples:
+
+Generate a diff for a given application.
+
+```bash
+$ cdktf diff
+```
+
+## get
+
+This command downloads the providers and modules for an application and
+generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers and modules.
+
+```bash
+$ cdktf get --help
+```
+
+**Help Output**
+
+```
+cdktf get [OPTIONS]
+
+Generate CDK Constructs for Terraform providers and modules.
+
+Options:
+  --version          Show version number                                                                                                            [boolean]
+  --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                           [boolean] [default: true]
+  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                           [string]
+  --output, -o       Output directory for generated Constructs                                                                     [string] [default: ".gen"]
+  --language, -l     Output programming language                                [string] [required] [choices: "typescript", "python", "java", "csharp", "go"]
+  -h, --help         Show help                                                                                                                      [boolean]
+```
+
+**Examples**
+
+Download the providers and modules defined in the `cdktf.json` configuration file.
+
+```bash
+$ cat cdktf.json
+{
+  "language": "typescript",
+  "app": "node main.js",
+  "terraformProviders": ["aws@~> 2.0"]
+}
+```
+
+```bash
+$ cdktf get
+```
+
+## init
+
+This command creates a new CDK for Terraform project using a template.
+
+```sh
+$ cdktf init --help
+```
+
+**Help Output**
+
+```
+cdktf init [OPTIONS]
+
+Create a new cdktf project from a template.
+
+Options:
+  --version                   Show version number                                                         [boolean]
+  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.
+                                                                                          [boolean] [default: true]
+  --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is
+                              configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                         [boolean] [default: false]
+  --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL
+                                                                                                           [string]
+  --template                  The template to be used to create a new project. Either URL to zip file or one of the
+                              built-in templates: ["csharp", "go", "java", "python", "python-pip", "typescript"]
+                                                                                                           [string]
+  --project-name              The name of the project.                                                     [string]
+  --project-description       The description of the project.                                              [string]
+  --dist                      Install dependencies from a "dist" directory (for development)               [string]
+  --local                     Use local state storage for generated Terraform.           [boolean] [default: false]
+  --cdktf-version             The cdktf version to use while creating a new project.    [string] [default: "0.0.0"]
+  --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the
+                              .tf files in the path                                                        [string]
+  -h, --help                  Show help                                                                   [boolean]
+```
+
+**Examples**
+
+Create a new Typescript project.
+
+```bash
+$ cdktf init --template="typescript"
+```
+
+Create a new Python project and use a specific version of the `cdktf` package.
+
+```bash
+$ cdktf init --template="python" --cdktf-version="0.0.1"
+```
+
+Create a new Typescript project from an existing Terraform codebase. Currently, you can only use the `--from-terraform-project` flag with TypeScript, and there are some known limitations.
+
+```bash
+$ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
+```
+
+## login
+
+This command helps log in to Terraform Cloud by fetching a Terraform Cloud API token.
+
+```bash
+$ cdktf login --help
+```
+
+**Help Output**
+
+```
+cdktf login
+
+Retrieves an API token to connect to Terraform Cloud.
+
+Options:
+  --version          Show version number                                                                                                                                           [boolean]
+  --disable-logging  Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                          [boolean] [default: true]
+  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
+  -h, --help         Show help                                                                                                                                                     [boolean]
+```
+
+**Examples**
+
+Fetch an API token from Terraform Cloud.
+
+```bash
+$ cdktf login
+```
+
+## synth
+
+This command synthesizes Terraform configuration for an application. CDKTF stores the synthesized configuration in the `cdktf.out` directory, unless you use the `--output` flag to specify a different location. The output folder is ephemeral and might be erased for each `synth` that you run manually or that happens automatically when you run `deploy`, `diff`, or `destroy`.
+
+```sh
+$ cdktf synth --help
+```
+
+**Help Output**
+
+```
+cdktf synth [OPTIONS]
+
+Synthesizes Terraform code for the given app in a directory.
+
+Options:
+  --version          Show version number                                                                                                                                           [boolean]
+  --disable-logging  Don't write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                          [boolean] [default: true]
+  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
+  --app, -a          Command to use in order to execute cdktf app
+  --output, -o       Output directory                                                                                                                                 [default: "cdktf.out"]
+  --json             Provide JSON output for the generated Terraform configuration.                                                                               [boolean] [default: false]
+  -h, --help         Show help                                                                                                                                                     [boolean]
+```
+
+**Examples**
+
+Synthesize code for an application.
+
+```bash
+$ cdktf synth
+```
+
+Synthesize code when providing a custom command to execute and an output directory.
+
+```bash
+$ cdktf synth --app="npm compile && node main.js" --output="dirname"
+```
+
+Synthesize code for an application and output the Terraform JSON configuration.
+
+```bash
+$ cdktf synth --json
+```
+
+## watch
+
+~> **Warning:** The `watch` command is experimental, so you should only use it in development environments. It also automatically deploys all changes without asking for confirmation.
+
+The `watch` command watches a directory for changes and automatically synthesizes and deploys changes as they happen. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. It currently supports only one stack at a time and automatically deploys changes without asking for confirmation.
+
+Watch reads your root `.gitignore` file to determine which files trigger a `synth` and it uses the `outdir` of your `cdktf.json` (or the default `cdktf.out`) to do so for a deploy. It will generate a checksum of the subdirectory containing the Terraform code for your stack to skip deploys if the synthesized Terraform config did not change.
+
+### Requirements
+
+Before using `watch` you should:
+
+- **Check your root `.gitignore` file.** Your root `.gitignore` must contain all files that are generated by `synth` and `deploy`. If that is not the case, the `watch` command will trigger itself and continuously try to deploy. Although Git supports nesting `.gitignore` files, the `watch` command currently only reads the root `.gitignore` file.
+
+- **Check your environment.** The `watch` command should only be used for development environments. We recommend making sure that the terminal where you want to run `watch` has no access keys that allow the `cdktf-cli` to deploy to your production environment.
+
+### Run watch
+
+```sh
+$ cdktf watch --help
+```
+
+**Help Output**
+
+```
+cdktf watch [stack] [OPTIONS]
+
+[experimental] Watch for file changes and automatically trigger a deploy
+
+Positionals:
+  stack  Deploy stack which matches the given id only. Required when more than one stack is present in the app                                                                                                                                                                                                                                                      [string]
+
+Options:
+      --version                   Show version number                                                                                                                                                                                                                                                                                                              [boolean]
+      --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                                                                                                                                                                             [boolean] [default: true]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                                                                             [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                                                                                                                                                                             [string]
+  -a, --app                       Command to use in order to execute cdktf app                                                                                                                                                                                                                                                                                    [required]
+  -o, --output                    Output directory                                                                                                                                                                                                                                                                                         [required] [default: "cdktf.out"]
+      --auto-approve              Auto approve                                                                                                                                                                                                                                                                                                 [boolean] [default: false]
+  -h, --help                      Show help
+```
+
+**Examples**
+
+Run `watch` on the development stack (dev). The `--auto-approve` flag skips the explicit plan approval step and is currently always required.
+
+```
+cdktf watch dev --auto-approve
+```
+
+### Troubleshoot watch
+
+Set the `CDKTF_LOG_LEVEL` environment variable to `all` and set `CDKTF_DISABLE_LOGGING` to `false`.
+
+The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
+
+The debug output is directed to a `cdktf.log` file in your projects root directory. The log contains information about detected file system changes and the actions they triggered.
+
+## output
+
+This command gets the outputs defined in the Terraform configuration of the given stack. It uses `terraform output` under the hood.
+
+```sh
+$ cdktf output --help
+```
+
+**Help Output**
+
+```
+cdktf output [stack] [OPTIONS]
+
+Prints the output of a stack
+
+Positionals:
+  stack  Get outputs of stack which matches the given id only. Required when more than one stack is present in the app                                                                                                [string]
+
+Options:
+      --version                                 Show version number                                                                                                                                                  [boolean]
+      --disable-logging                         Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                 [boolean] [default: true]
+      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                                                                                                                                    [boolean] [default: false]
+      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                 [string]
+  -a, --app                                     Command to use in order to execute cdktf app                                                                                       [required] [default: "npx ts-node main.ts"]
+  -o, --output                                  Output directory                                                                                                                             [required] [default: "cdktf.out"]
+      --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                              [string]
+      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                             [boolean] [default: false]
+  -h, --help                                    Show help                                                                                                                                                            [boolean]
+```
+
+### `--outputs-file`
+
+The `--outputs-file` option allows you to specify a file where the stack outputs will be written as JSON.
+The JSONs structure is matching your construct structure, the name of each construct is used as a key.
+
+```jsonc
+{
+  "MyStack": {
+    "MyConstructInstance": {
+      "MyOutput": "my-value",
+      "MySecretOutput": "my-secret-value" // not present if --outputs-file-include-sensitive-outputs is not set
+    }
+  }
+}
+```
+
+Please be aware that sensitive outputs are only written to the file if the `--outputs-file-include-sensitive-outputs` option is used.

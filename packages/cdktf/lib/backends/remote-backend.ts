@@ -14,6 +14,16 @@ export class RemoteBackend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
+
+  public getRemoteStateDataSource(
+    scope: Construct,
+    name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    return new DataTerraformRemoteState(scope, name, {
+      ...this.props,
+    });
+  }
 }
 
 export class DataTerraformRemoteState extends TerraformRemoteState {

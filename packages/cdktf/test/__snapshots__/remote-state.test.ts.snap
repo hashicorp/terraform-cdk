@@ -341,7 +341,8 @@ exports[`s3 reference 1`] = `
   },
   \\"provider\\": {
     \\"test\\": [
-      {}
+      {
+      }
     ]
   },
   \\"resource\\": {

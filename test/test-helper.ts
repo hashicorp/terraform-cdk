@@ -7,8 +7,9 @@ const os = require("os");
 const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra");
+const stripAnsi = require("strip-ansi");
 
-class QueryableStack {
+export class QueryableStack {
   private readonly stack: Record<string, any>;
   constructor(stackInput: string) {
     this.stack = JSON.parse(stackInput);
@@ -19,6 +20,7 @@ class QueryableStack {
    * it's a data source or resource and which type it has
    */
   public byId(id: string): Record<string, any> {
+    const sanitizedId = id.replace(/_/g, "");
     const constructs = (
       [
         ...Object.values(this.stack.resource || {}),
@@ -29,14 +31,18 @@ class QueryableStack {
       {} as Record<string, any>
     );
 
-    return constructs[id];
+    return constructs[sanitizedId];
   }
 
   public output(id: string): string {
     return this.stack.output[id].value;
   }
 
-  public toString(): string {
+  public toString(removeMetadata = false): string {
+    if (removeMetadata) {
+      return JSON.stringify({ ...this.stack, ["//"]: undefined }, null, 2);
+    }
+
     return JSON.stringify(this.stack, null, 2);
   }
 }
@@ -71,16 +77,16 @@ export class TestDriver {
         process.on("close", (code) => {
           if (code === 0) {
             resolve({
-              stdout: stdout.join("\n"),
-              stderr: stderr.join("\n"),
+              stdout: stripAnsi(stdout.join("\n")),
+              stderr: stripAnsi(stderr.join("\n")),
             });
           } else {
             const error = new Error(
               `spawned command ${command} with args ${args} failed with exit code ${code}`
             );
             (error as any).code = code;
-            (error as any).stdout = stdout.join("\n");
-            (error as any).stderr = stderr.join("\n");
+            (error as any).stdout = stripAnsi(stdout.join("\n"));
+            (error as any).stderr = stripAnsi(stderr.join("\n"));
             reject(error);
           }
         });
@@ -119,8 +125,23 @@ export class TestDriver {
     fse.copySync(path.join(this.rootDir, source), dest);
   };
 
+  addFile = (dest, content) => {
+    fse.writeFileSync(dest, content);
+  };
+
+  setEnv = (key, value) => {
+    this.env[key] = value;
+  };
+
   stackDirectory = (stackName: string) => {
     return path.join(this.workingDirectory, "cdktf.out", "stacks", stackName);
+  };
+
+  manifest = () => {
+    return fs.readFileSync(
+      path.join(this.workingDirectory, "cdktf.out", "manifest.json"),
+      "utf8"
+    );
   };
 
   synthesizedStack = (stackName: string) => {
@@ -147,29 +168,56 @@ export class TestDriver {
   };
 
   list = (flags?: string) => {
-    return execSync(`cdktf list ${flags ? flags : ""}`, {
-      env: this.env,
-    }).toString();
+    return stripAnsi(
+      execSync(`cdktf list ${flags ? flags : ""}`, {
+        env: this.env,
+      }).toString()
+    );
   };
 
   diff = (stackName?: string) => {
-    return execSync(`cdktf diff ${stackName ? stackName : ""}`, {
-      env: this.env,
-    }).toString();
+    return stripAnsi(
+      execSync(`cdktf diff ${stackName ? stackName : ""}`, {
+        env: this.env,
+      }).toString()
+    );
   };
 
-  deploy = (stackName?: string) => {
-    return execSync(
-      `cdktf deploy ${stackName ? stackName : ""} --auto-approve`,
-      { env: this.env }
-    ).toString();
+  deploy = (stackNames?: string[], outputsFilePath?: string) => {
+    return stripAnsi(
+      execSync(
+        `cdktf deploy ${
+          stackNames ? stackNames.join(" ") : ""
+        } --auto-approve ${
+          outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
+        }`,
+        { env: this.env }
+      ).toString()
+    );
   };
 
-  destroy = (stackName?: string) => {
-    return execSync(
-      `cdktf destroy ${stackName ? stackName : ""} --auto-approve`,
-      { env: this.env }
-    ).toString();
+  output = (stackName?: string, outputsFilePath?: string) => {
+    return stripAnsi(
+      execSync(
+        `cdktf output ${stackName ? stackName : ""} ${
+          outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
+        }`,
+        { env: this.env }
+      ).toString()
+    );
+  };
+
+  destroy = (stackNames?: string[]) => {
+    return stripAnsi(
+      execSync(
+        `cdktf destroy ${
+          stackNames ? stackNames.join(" ") : ""
+        } --auto-approve`,
+        {
+          env: this.env,
+        }
+      ).toString()
+    );
   };
 
   watch = () => {
@@ -216,13 +264,15 @@ export class TestDriver {
     await this.get();
   };
 
-  setupGoProject = async () => {
+  setupGoProject = async (cb?: (workingDirectory) => void) => {
     this.switchToTempDir();
+    console.log(this.workingDirectory);
     await this.init("go");
     this.copyFiles("cdktf.json");
     this.copyFile("main.go", "main.go");
 
     await this.get();
+    cb && cb(this.workingDirectory);
 
     // automatically retrieves required jsii-runtime module (used in generated providers)
     await this.exec("go mod tidy");
@@ -241,6 +291,10 @@ export class TestDriver {
     } finally {
       await templateServer.stop();
     }
+  };
+
+  readLocalFile = (fileName: string): string => {
+    return fs.readFileSync(path.join(this.workingDirectory, fileName), "utf8");
   };
 }
 

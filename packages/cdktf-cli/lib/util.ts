@@ -4,7 +4,7 @@ import { https, http } from "follow-redirects";
 import * as os from "os";
 import * as path from "path";
 import { processLoggerError, processLoggerDebug } from "./logging";
-import { IManifest, Manifest } from "cdktf/lib/manifest";
+import { IManifest, Manifest } from "cdktf";
 import { config } from "@cdktf/provider-generator";
 
 export async function shell(
@@ -76,6 +76,7 @@ export const exec = async (
     if (stdout !== undefined) {
       child.stdout?.on("data", (chunk: Buffer) => {
         processLoggerDebug(chunk);
+        out.push(chunk);
         stdout(chunk);
       });
     } else {
@@ -88,6 +89,7 @@ export const exec = async (
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
         processLoggerError(chunk);
         stderr(chunk);
+        err.push(chunk);
       });
     } else {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
@@ -149,7 +151,10 @@ export async function downloadFile(
   url: string,
   targetFilename: string
 ): Promise<void> {
-  const client = url.startsWith("http://") ? http : https;
+  // if the type is inferred to be "http|https" calling .get() is not possible
+  // because the options parameter (which we don't use anyway) for get is
+  // not compatible between http and https -> so we treat it as http
+  const client = (url.startsWith("http://") ? http : https) as typeof http;
   const file = fs.createWriteStream(targetFilename);
   return new Promise((ok, ko) => {
     const request = client.get(url, (response) => {
@@ -167,7 +172,7 @@ export async function downloadFile(
 
     file.on("finish", () => ok());
 
-    request.on("error", (err) => {
+    request.on("error", (err: Error) => {
       fs.unlink(targetFilename, () => ko(err));
     });
 

@@ -5,6 +5,7 @@ on:
       - "**.md"
       - "docs/**"
       - "website/**"
+      - "tools/update-github-project-board/**"
 
 jobs:
   build-tf-matrix:
@@ -50,10 +51,11 @@ jobs:
         run: |
           tools/align-version.sh
           yarn build
+          yarn package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: test
         run: |
-          yarn test
+          yarn test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"

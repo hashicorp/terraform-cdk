@@ -33,7 +33,7 @@ class MyStack extends TerraformStack {
     // Reference Remote State
     new s3.DataAwsS3BucketObject(this, "object", {
       bucket: "objectbucket",
-      key: otherState.get("bucket_key"),
+      key: otherState.getString("bucket_key"),
     });
 
     // define resources here

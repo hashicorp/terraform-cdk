@@ -2,9 +2,12 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { Expression, ref, Tokenization } from ".";
+import { Expression } from ".";
 import { isArray } from "util";
 import { ITerraformAddressable } from "./terraform-addressable";
+import { Token } from "./tokens";
+
+const TERRAFORM_OUTPUT_SYMBOL = Symbol.for("cdktf/TerraformOutput");
 
 export interface TerraformOutputConfig {
   readonly value: Expression | ITerraformDependable;
@@ -34,6 +37,11 @@ export class TerraformOutput extends TerraformElement {
     this.sensitive = config.sensitive;
     this.dependsOn = config.dependsOn;
     this.staticId = config.staticId || false;
+    Object.defineProperty(this, TERRAFORM_OUTPUT_SYMBOL, { value: true });
+  }
+
+  public static isTerrafromOutput(x: any): x is TerraformOutput {
+    return x !== null && typeof x === "object" && TERRAFORM_OUTPUT_SYMBOL in x;
   }
 
   public set staticId(staticId: boolean) {
@@ -57,12 +65,12 @@ export class TerraformOutput extends TerraformElement {
   }
 
   private synthesizeValue(arg: any): any {
-    if (Tokenization.isResolvable(arg)) {
+    if (Token.isUnresolved(arg)) {
       return arg;
     }
 
     if (this.isITerraformAddressable(arg)) {
-      return ref(arg.fqn);
+      return arg.fqn;
     }
 
     if (Array.isArray(arg)) {
@@ -84,7 +92,7 @@ export class TerraformOutput extends TerraformElement {
       value: this.synthesizeValue(this.value),
       description: this.description,
       sensitive: this.sensitive,
-      depends_on: this.dependsOn?.map((resource) => `\${${resource.fqn}}`),
+      depends_on: this.dependsOn?.map((resource) => resource.fqn),
     };
   }
 

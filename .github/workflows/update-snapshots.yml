@@ -1,0 +1,222 @@
+name: update-snapshots
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - reopened
+jobs:
+  update-snapshots-setup:
+    if: contains(github.event.pull_request.labels.*.name, 'ci/update-snapshots')
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    outputs:
+      terraformVersion: ${{ steps.tf-version.outputs.default }}
+    steps:
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: ci/updating-snapshots
+      - uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: ci/update-snapshots
+      - id: tf-version
+        run: |
+          DEFAULT_TERRAFORM_VERSION=$(cat .terraform.versions.json | jq -r '.default')
+          echo "::set-output name=default::$DEFAULT_TERRAFORM_VERSION"
+      - uses: actions/checkout@v2
+        with:
+          ref: "refs/pull/${{ github.event.number }}/merge"
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: installing dependencies and build
+        run: |
+          yarn install
+          yarn build
+          yarn package
+      - name: Upload dist # needed for running the integration tests on windows
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Upload edge-provider bindings # needed for running the integration tests on windows
+        uses: actions/upload-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: packages/@cdktf/provider-generator/edge-provider-bindings
+
+  update-snapshots-teardown:
+    runs-on: ubuntu-latest
+    needs: update-snapshots-windows
+    if: always()
+    steps:
+      - uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: ci/updating-snapshots
+
+  update-snapshots-linux:
+    needs: update-snapshots-setup
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Set git identity
+        run: |-
+          git config user.name github-team-tf-cdk
+          git config user.email github-team-tf-cdk@hashicorp.com
+
+      - name: installing dependencies and build
+        run: |
+          yarn install
+          yarn build
+          yarn package
+
+      - name: formatting code
+        run: |
+          yarn format
+
+      - name: updating unit tests
+        run: |
+          yarn test:update
+
+      - name: updating integration tests
+        env:
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          TERRAFORM_BINARY_NAME: "terraform${{ needs.update-snapshots-setup.outputs.terraformVersion }}"
+        run: |
+          yarn integration:update
+
+      - id: self_mutation
+        name: Find mutations
+        run: |
+          git add .
+          git diff --cached --exit-code || echo "::set-output name=self_mutation_happened::true"
+
+      - name: Commit changes
+        if: steps.self_mutation.outputs.self_mutation_happened
+        run: |
+          git fetch
+          git add .
+          git commit -s -m "chore: update snapshots (posix)"
+          git pull --rebase --strategy recursive --strategy-option theirs
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
+  update-snapshots-windows:
+    # running after linux will base this run on those results
+    # which circumvents issues where new and similar snapshots
+    # are written by both runs and will overwrite each other
+    needs: [update-snapshots-setup, update-snapshots-linux]
+    runs-on: windows-2019
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    env:
+      CHECKPOINT_DISABLE: "1"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      # windows env setup (we use a Docker image for Linux version above)
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+          terraform_version: ${{ needs.update-snapshots-setup.outputs.terraformVersion }}
+      - name: Install pipenv
+        run: pip install pipenv
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.x
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Set git identity
+        run: |-
+          git config user.name github-team-tf-cdk
+          git config user.email github-team-tf-cdk@hashicorp.com
+
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Download edge-provider bindings
+        uses: actions/download-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: test/edge-provider-bindings
+
+      - name: install test dependencies
+        run: cd test && yarn
+
+      - name: updating integration tests
+        env:
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=7168"
+        run: cd test && ./run-against-dist.bat "npx jest -u --runInBand"
+
+      - id: self_mutation
+        name: Find mutations
+        shell: bash # run in Git bash shell (makes '||' work)
+        run: |
+          git add .
+          git diff --cached --exit-code || echo "::set-output name=self_mutation_happened::true"
+
+      - name: Commit changes
+        if: steps.self_mutation.outputs.self_mutation_happened
+        run: |
+          git fetch
+          git add .
+          git commit -s -m "chore: update snapshots (windows)"
+          git pull --rebase --strategy recursive --strategy-option theirs
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}

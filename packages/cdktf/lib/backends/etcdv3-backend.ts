@@ -14,6 +14,17 @@ export class EtcdV3Backend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
+
+  public getRemoteStateDataSource(
+    scope: Construct,
+    name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    return new DataTerraformRemoteStateEtcdV3(scope, name, {
+      ...this.props,
+      workspace: "${terraform.workspace}",
+    });
+  }
 }
 
 export class DataTerraformRemoteStateEtcdV3 extends TerraformRemoteState {

@@ -1,17 +1,15 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useState } from "react";
+import React from "react";
 import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import ConfirmInput from "@skorfmann/ink-confirm-input";
-import { DeployingElement } from "./components";
+import { DeployingResource } from "../../../lib/models/terraform";
+import { NestedTerraformOutputs } from "../../../lib/output";
+import { useCdktfProject } from "./hooks/cdktf-project";
 import {
-  DeployingResource,
-  TerraformOutput,
-  PlannedResourceAction,
-} from "./models/terraform";
-import { Status, useTerraformState, useRunDeploy } from "./terraform-context";
-import { Plan } from "./diff";
-
+  StreamView,
+  StatusBottomBar,
+  OutputsBottomBar,
+  ApproveBottomBar,
+} from "./components";
 interface DeploySummaryConfig {
   resources: DeployingResource[];
 }
@@ -48,204 +46,46 @@ export const DeploySummary = ({
   );
 };
 
-interface OutputConfig {
-  output: { [key: string]: TerraformOutput };
-}
-function sanitize(value: any) {
-  if (typeof value === "object") {
-    return JSON.stringify(value, null, 2);
-  }
-
-  return value;
-}
-export const Output = ({ output }: OutputConfig): React.ReactElement => {
-  return (
-    <Box flexDirection="column">
-      {Object.keys(output).map((key) => (
-        <Box key={key}>
-          <Text>
-            {key} ={" "}
-            {output[key].sensitive
-              ? "<sensitive>"
-              : sanitize(output[key].value)}
-          </Text>
-        </Box>
-      ))}
-    </Box>
-  );
-};
-
-interface ConfirmConfig {
-  callback: (value: any) => any;
-}
-
-const Confirm = ({ callback }: ConfirmConfig): React.ReactElement => {
-  const [value, setValue] = useState("");
-
-  return (
-    <Box flexDirection="column" marginTop={1}>
-      <Text bold>Do you want to perform these actions?</Text>
-      <Text> CDK for Terraform will perform the actions described above.</Text>
-      <Text> Only 'yes' will be accepted to approve.</Text>
-
-      <Box flexDirection="row" marginTop={1}>
-        <Text bold> Enter a value:</Text>
-        <ConfirmInput value={value} onChange={setValue} onSubmit={callback} />
-      </Box>
-    </Box>
-  );
-};
-
-interface ApplyableResourcesConfig {
-  resources: DeployingResource[];
-  stackName: string;
-}
-const ApplyableResources = ({
-  resources,
-  stackName,
-}: ApplyableResourcesConfig): React.ReactElement => {
-  if (!resources.length) {
-    return <></>;
-  }
-
-  return (
-    <>
-      <Text bold>Resources</Text>
-      {resources.map((resource: any) => (
-        <Box key={resource.id} marginLeft={1}>
-          <DeployingElement resource={resource} stackName={stackName} />
-        </Box>
-      ))}
-      <Box marginTop={1}>
-        <Text bold>Summary: </Text>
-        <DeploySummary resources={resources} />
-        <Text>.</Text>
-      </Box>
-    </>
-  );
-};
-
-export const Apply = (): React.ReactElement => {
-  const { resources, status, currentStack, output } = useTerraformState();
-  const applyActions = [
-    PlannedResourceAction.UPDATE,
-    PlannedResourceAction.CREATE,
-    PlannedResourceAction.DELETE,
-    PlannedResourceAction.READ,
-  ];
-  const applyableResources = resources.filter((resource) =>
-    applyActions.includes(resource.action)
-  );
-  return (
-    <Fragment>
-      <Box flexDirection="column">
-        <Box>
-          {Status.DEPLOYING == status ? (
-            <>
-              <Text color="green">
-                <Spinner type="dots" />
-              </Text>
-              <Box paddingLeft={1}>
-                <Text>Deploying Stack: </Text>
-                <Text bold>{currentStack.name}</Text>
-              </Box>
-            </>
-          ) : (
-            <>
-              <Text>Deploying Stack: </Text>
-              <Text bold>{currentStack.name}</Text>
-            </>
-          )}
-        </Box>
-        <ApplyableResources
-          resources={applyableResources}
-          stackName={currentStack.name}
-        />
-        {output && Object.keys(output).length > 0 && (
-          <Box marginTop={1}>
-            <Text bold>Output: </Text>
-            <Output output={output} />
-          </Box>
-        )}
-      </Box>
-    </Fragment>
-  );
-};
-
 interface DeployConfig {
-  targetDir: string;
-  targetStack?: string;
+  outDir: string;
+  targetStacks?: string[];
   synthCommand: string;
   autoApprove: boolean;
+  onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
+  outputsPath?: string;
+  ignoreMissingStackDependencies?: boolean;
 }
 
 export const Deploy = ({
-  targetDir,
-  targetStack,
+  outDir,
+  targetStacks,
   synthCommand,
   autoApprove,
+  onOutputsRetrieved,
+  outputsPath,
+  ignoreMissingStackDependencies,
 }: DeployConfig): React.ReactElement => {
-  const {
-    state: { status, currentStack, errors, plan },
-    confirmation,
-    isConfirmed,
-  } = useRunDeploy({
-    targetDir,
-    targetStack,
-    synthCommand,
-    autoApprove,
-  });
-
-  const planStages = [
-    Status.INITIALIZING,
-    Status.PLANNING,
-    Status.SYNTHESIZING,
-    Status.SYNTHESIZED,
-    Status.STARTING,
-  ];
-  const isPlanning = planStages.includes(status);
-  const statusText =
-    currentStack.name === "" ? (
-      <Text>{status}...</Text>
-    ) : (
-      <Text>
-        {status}
-        <Text bold>&nbsp;{currentStack.name}</Text>...
-      </Text>
-    );
-
-  if (errors) return <Box>{errors.map((e: any) => e.message)}</Box>;
-  if (plan && !plan.needsApply)
-    return (
-      <>
-        <Text>
-          No changes for Stack: <Text bold>{currentStack.name}</Text>
-        </Text>
-      </>
-    );
-
-  return (
-    <Box>
-      {isPlanning ? (
-        <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
-          </Box>
-        </Fragment>
-      ) : (
-        <>
-          {!isConfirmed && (
-            <Box flexDirection="column">
-              <Plan />
-              <Confirm callback={confirmation} />
-            </Box>
-          )}
-          {isConfirmed && <Apply />}
-        </>
-      )}
-    </Box>
+  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
+    { outDir, synthCommand, onOutputsRetrieved },
+    (project) =>
+      project.deploy({
+        stackNames: targetStacks,
+        autoApprove,
+        ignoreMissingStackDependencies,
+      })
   );
+
+  const bottomBar = done ? (
+    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+  ) : projectUpdate?.type === "waiting for approval" ? (
+    <ApproveBottomBar
+      onApprove={projectUpdate.approve}
+      onDismiss={projectUpdate.dismiss}
+      onStop={projectUpdate.stop}
+    />
+  ) : (
+    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
+  );
+
+  return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

@@ -11,45 +11,83 @@ import * as cdktf from 'cdktf';
 */
 export interface AcmCertificateConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#certificate_authority_arn AcmCertificate#certificate_authority_arn}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#certificate_authority_arn AcmCertificate#certificate_authority_arn}
   */
   readonly certificateAuthorityArn?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#certificate_body AcmCertificate#certificate_body}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#certificate_body AcmCertificate#certificate_body}
   */
   readonly certificateBody?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#certificate_chain AcmCertificate#certificate_chain}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#certificate_chain AcmCertificate#certificate_chain}
   */
   readonly certificateChain?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#domain_name AcmCertificate#domain_name}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#domain_name AcmCertificate#domain_name}
   */
   readonly domainName?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#private_key AcmCertificate#private_key}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#private_key AcmCertificate#private_key}
   */
   readonly privateKey?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#subject_alternative_names AcmCertificate#subject_alternative_names}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#subject_alternative_names AcmCertificate#subject_alternative_names}
   */
   readonly subjectAlternativeNames?: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#tags AcmCertificate#tags}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#tags AcmCertificate#tags}
   */
-  readonly tags?: { [key: string]: string } | cdktf.IResolvable;
+  readonly tags?: { [key: string]: string };
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#validation_method AcmCertificate#validation_method}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#validation_method AcmCertificate#validation_method}
   */
   readonly validationMethod?: string;
   /**
   * options block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#options AcmCertificate#options}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#options AcmCertificate#options}
   */
   readonly options?: AcmCertificateOptions;
 }
-export class AcmCertificateDomainValidationOptions extends cdktf.ComplexComputedList {
+export interface AcmCertificateDomainValidationOptions {
+}
+
+export function acmCertificateDomainValidationOptionsToTerraform(struct?: AcmCertificateDomainValidationOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+  }
+}
+
+export class AcmCertificateDomainValidationOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+  }
+
+  public get internalValue(): AcmCertificateDomainValidationOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: AcmCertificateDomainValidationOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
 
   // domain_name - computed: true, optional: false, required: false
   public get domainName() {
@@ -71,15 +109,35 @@ export class AcmCertificateDomainValidationOptions extends cdktf.ComplexComputed
     return this.getStringAttribute('resource_record_value');
   }
 }
+
+export class AcmCertificateDomainValidationOptionsList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public get(index: number): AcmCertificateDomainValidationOptionsOutputReference {
+    return new AcmCertificateDomainValidationOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface AcmCertificateOptions {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#certificate_transparency_logging_preference AcmCertificate#certificate_transparency_logging_preference}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate#certificate_transparency_logging_preference AcmCertificate#certificate_transparency_logging_preference}
   */
   readonly certificateTransparencyLoggingPreference?: string;
 }
 
 export function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptionsOutputReference | AcmCertificateOptions): any {
-  if (!cdktf.canInspect(struct)) { return struct; }
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
@@ -94,16 +152,15 @@ export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
-  * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.ITerraformResource, terraformAttribute: string, isSingleItem: boolean) {
-    super(terraformResource, terraformAttribute, isSingleItem);
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): AcmCertificateOptions | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
-    if (this._certificateTransparencyLoggingPreference) {
+    if (this._certificateTransparencyLoggingPreference !== undefined) {
       hasAnyValues = true;
       internalValueResult.certificateTransparencyLoggingPreference = this._certificateTransparencyLoggingPreference;
     }
@@ -139,7 +196,7 @@ export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html aws_acm_certificate}
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate aws_acm_certificate}
 */
 export class AcmCertificate extends cdktf.TerraformResource {
 
@@ -153,7 +210,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate.html aws_acm_certificate} Resource
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/acm_certificate aws_acm_certificate} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -255,8 +312,9 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // domain_validation_options - computed: true, optional: false, required: false
-  public domainValidationOptions(index: string) {
-    return new AcmCertificateDomainValidationOptions(this, 'domain_validation_options', index);
+  private _domainValidationOptions = new AcmCertificateDomainValidationOptionsList(this, \\"domain_validation_options\\", false);
+  public get domainValidationOptions() {
+    return this._domainValidationOptions;
   }
 
   // id - computed: true, optional: true, required: false
@@ -297,12 +355,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // tags - computed: false, optional: true, required: false
-  private _tags?: { [key: string]: string } | cdktf.IResolvable; 
+  private _tags?: { [key: string]: string }; 
   public get tags() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('tags') as any;
+    return this.getStringMapAttribute('tags');
   }
-  public set tags(value: { [key: string]: string } | cdktf.IResolvable) {
+  public set tags(value: { [key: string]: string }) {
     this._tags = value;
   }
   public resetTags() {
@@ -335,7 +392,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // options - computed: false, optional: true, required: false
-  private _options = new AcmCertificateOptionsOutputReference(this as any, \\"options\\", true);
+  private _options = new AcmCertificateOptionsOutputReference(this, \\"options\\");
   public get options() {
     return this._options;
   }
@@ -362,7 +419,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
       domain_name: cdktf.stringToTerraform(this._domainName),
       private_key: cdktf.stringToTerraform(this._privateKey),
       subject_alternative_names: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNames),
-      tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       validation_method: cdktf.stringToTerraform(this._validationMethod),
       options: acmCertificateOptionsToTerraform(this._options.internalValue),
     };

@@ -298,7 +298,7 @@ test("s3 reference", () => {
   });
 
   new TestResource(stack, "test_resource", {
-    name: remoteState.get("name"),
+    name: remoteState.getString("name"),
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();

@@ -2,7 +2,7 @@
 
 To build and install `terraform-cdk` locally you need to install:
 
-- Node version 12.16+
+- Node version 14.0+
 - Go 1.16+
 - dotnet (v3.1.0)
 - mvn
@@ -215,12 +215,24 @@ When developing new features it can be helpful to enable logging. By setting `CD
 
 #### Terraform CDK
 
-1. Create a new branch (e.g. `prepare-release-0.5.0`)
-2. Update the version in the root `package.json`
-3. Update the [CHANGELOG](./CHANGELOG.md)
-4. Create a PR to merge the new branch into `main`
-5. Merge the PR
-6. A new release will be build and published because the version changed
+1. Create a new branch (e.g. `prepare-release-0.9.0`)
+2. Update the [CHANGELOG](./CHANGELOG.md)
+3. Update the version in the root `package.json`
+4. Write an [upgrade guide](website/docs/cdktf/release/)
+5. Create a PR to merge the new branch into `main`
+6. Merge the PR
+7. A new release will be build and published because the version changed
+8. Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`)
+9. Run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
+10. Update the learn examples and the end to end examples
+11. Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
+
+### Repositories to update
+
+- [Docker E2E](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript)
+- [Serverless E2E](https://github.com/hashicorp/cdktf-integration-serverless-example)
+- [Learn Lambda Demo](https://github.com/hashicorp/learn-cdktf-assets-stacks-lambda)
+- [AWS Adapter](https://github.com/hashicorp/cdktf-aws-cdk)
 
 ### Helper for creating the changelog
 
@@ -232,13 +244,6 @@ Just run the following script before bumping the version, it'll create a ready t
 
 Other than that, you can get a list of commits since the last release you can e.g. visit a link like this: `https://github.com/hashicorp/terraform-cdk/compare/v0.4.1...main`. You'll find the PR numbers there as links.
 
-#### Prebuilt Providers
-
-We have a bunch of prebuilt providers which are depending on the current minor version of `cdktf`, e.g. `~> 0.5`. In case the minor version gets bumped (e.g. from `0.7.x` to `0.8.x`), the prebuilt providers need to be updated. This can be achieved by:
-
-1. Create, review and merge a PR which updates the relevant version in https://github.com/hashicorp/cdktf-repository-manager/blob/main/projenrc.template.js
-2. Trigger a manual run of this workflow https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml
-
 ## Issue Grooming
 
 To ensure we can properly prioritize new features and bugs we aim to keep our issues prioritized and sorted. We label new issues both in size (`size/small`, ..., `size/x-large`) and priority (`priority/awaiting-more-evidence`, ..., `priority/critical-urgent`) and we add labels for the affected part of the code base / effect (`cdktf-cli`, ..., `ux/cli`).
@@ -248,3 +253,7 @@ Here are GitHub links that help this process:
 - [All new issues](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+label%3Anew)
 - [All unprioritized issues (that are not waiting for an answer)](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+-label%3Apriority%2Fawaiting-more-evidence+-label%3Apriority%2Fbacklog+-label%3Apriority%2Fcritical-urgent+-label%3Apriority%2Fimportant-longterm+-label%3Apriority%2Fimportant-soon+-label%3Aneeds-priority+-label%3Awaiting-on-answer+-label%3Anew)
 - [Issues to follow up on](https://github.com/hashicorp/terraform-cdk/issues?q=is%3Aopen+is%3Aissue+label%3Awaiting-on-answer+updated%3A%3C2021-11-01) (Query needs manual adjustment of the date)
+
+## Reproducing Bugs on Windows
+
+A good way to tackle windows related things is to use an AWS EC2 instance running Windows. Here's a Terraform repo with a bit of guideline on how to connect via Remote Desktop or VS Code Remote SSH https://github.com/skorfmann/windows-test-machine

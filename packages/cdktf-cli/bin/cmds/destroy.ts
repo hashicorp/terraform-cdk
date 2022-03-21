@@ -1,22 +1,18 @@
 import * as yargs from "yargs";
-import React from "react";
-import { Destroy } from "./ui/destroy";
 import { config as cfg } from "@cdktf/provider-generator";
-import { renderInk } from "./helper/render-ink";
-import { displayVersionMessage } from "./helper/version-check";
-import { throwIfNotProjectDirectory } from "./helper/check-directory";
-import { checkEnvironment } from "./helper/check-environment";
+import { requireHandlers } from "./helper/utilities";
+import { Errors } from "../../lib/errors";
 
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "destroy [stack] [OPTIONS]";
-  public readonly describe = "Destroy the given stack";
+  public readonly command = "destroy [OPTIONS] <stacks..>";
+  public readonly describe = "Destroy the given stacks";
 
   public readonly builder = (args: yargs.Argv) =>
     args
-      .positional("stack", {
-        desc: "Destroy stack which matches the given id only. Required when more than one stack is present in the app",
+      .positional("stacks", {
+        desc: "Destroy stacks matching the given ids. Required when more than one stack is present in the app",
         type: "string",
       })
       .option("app", {
@@ -28,7 +24,7 @@ class Command implements yargs.CommandModule {
       .option("output", {
         default: config.output,
         required: true,
-        desc: "Output directory",
+        desc: "Output directory for the synthesized Terraform config",
         alias: "o",
       })
       .option("auto-approve", {
@@ -37,25 +33,19 @@ class Command implements yargs.CommandModule {
         required: false,
         desc: "Auto approve",
       })
+      .option("ignore-missing-stack-dependencies", {
+        type: "boolean",
+        required: false,
+        desc: "Don't check if all stacks specified in the command have their dependencies included as well",
+        default: false,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
-    throwIfNotProjectDirectory("destroy");
-    await displayVersionMessage();
-    await checkEnvironment("destroy");
-    const command = argv.app;
-    const outdir = argv.output;
-    const autoApprove = argv.autoApprove;
-    const stack = argv.stack;
-
-    await renderInk(
-      React.createElement(Destroy, {
-        targetDir: outdir,
-        targetStack: stack,
-        synthCommand: command,
-        autoApprove,
-      })
-    );
+    Errors.setScope("destroy");
+    // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
+    const api = requireHandlers();
+    api.destroy(argv);
   }
 }
 

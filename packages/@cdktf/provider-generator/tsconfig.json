@@ -33,5 +33,6 @@
   "exclude": [
     "node_modules",
     "**/*.d.ts",
+    "edge-provider-bindings/**",
   ],
 }

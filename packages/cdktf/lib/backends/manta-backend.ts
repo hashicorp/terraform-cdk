@@ -14,6 +14,17 @@ export class MantaBackend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
+
+  public getRemoteStateDataSource(
+    scope: Construct,
+    name: string,
+    _fromStack: string
+  ): TerraformRemoteState {
+    return new DataTerraformRemoteStateManta(scope, name, {
+      ...this.props,
+      workspace: "${terraform.workspace}",
+    });
+  }
 }
 
 export class DataTerraformRemoteStateManta extends TerraformRemoteState {

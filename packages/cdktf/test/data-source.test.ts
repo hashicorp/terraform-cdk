@@ -23,7 +23,7 @@ test("with complex computed list", () => {
         name: "foo",
       });
       new TestResource(stack, "test-resource", {
-        name: dataSource.complexComputedList("0").id,
+        name: dataSource.complexComputedList.get(0).id,
       });
     })
   ).toMatchSnapshot();
@@ -69,6 +69,21 @@ test("with boolean map", () => {
       });
       new TestResource(stack, "test-resource", {
         name: dataSource.booleanMap("id").toString(),
+      });
+    })
+  ).toMatchSnapshot();
+});
+
+test("with any map", () => {
+  expect(
+    Testing.synthScope((stack) => {
+      new TestProvider(stack, "provider", {});
+
+      const dataSource = new TestDataSource(stack, "test", {
+        name: "foo",
+      });
+      new TestResource(stack, "test-resource", {
+        name: Token.asString(dataSource.anyMap("id")),
       });
     })
   ).toMatchSnapshot();

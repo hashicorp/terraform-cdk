@@ -1,6 +1,8 @@
 import { Testing, TerraformStack, TerraformOutput, Fn } from "../lib";
 import { TerraformVariable } from "../lib/terraform-variable";
 import { TerraformLocal } from "../lib/terraform-local";
+import { ref } from "../lib/tfExpression";
+import { Token } from "../lib/tokens/token";
 
 test("static values", () => {
   const app = Testing.app();
@@ -421,6 +423,9 @@ test("undefined and null", () => {
   new TerraformOutput(stack, "test-output", {
     value: Fn.coalesce([null, local.asString, undefined, 42, false]),
   });
+  new TerraformOutput(stack, "json-object", {
+    value: Fn.jsonencode({ a: "hello", b: 123, c: null, d: undefined }),
+  });
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
@@ -428,6 +433,9 @@ test("undefined and null", () => {
         \\"value\\": \\"hello world\\"
       },
       \\"output\\": {
+        \\"json-object\\": {
+          \\"value\\": \\"\${jsonencode({a = \\\\\\"hello\\\\\\", b = 123, c = null})}\\"
+        },
         \\"test-output\\": {
           \\"value\\": \\"\${coalesce(local.value, 42, false)}\\"
         }
@@ -436,17 +444,40 @@ test("undefined and null", () => {
   `);
 });
 
-test("throws error on unescaped double quote string inputs", () => {
-  expect(() => {
+describe("throws error on unescaped double quote string inputs", () => {
+  const testsNotOk = ['"', '\\\\"', '\\\\\\\\"', '\\ \\\\"'];
+
+  it.each(testsNotOk)("%s", (testNotOk) => {
+    expect(() => {
+      const app = Testing.app();
+      const stack = new TerraformStack(app, "test");
+      new TerraformOutput(stack, "test-output", {
+        value: Fn.md5(testNotOk),
+      });
+      Testing.synth(stack);
+    }).toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe("throws no error on valid escaped double quote string inputs", () => {
+  const testsOk = [
+    "",
+    '\\"',
+    '\\\\\\"',
+    '\\ \\\\\\"',
+    '\\ \\"',
+    "\\abc\\def\\",
+    "\\\\abc\\\\def\\\\",
+  ];
+
+  it.each(testsOk)("%s", (testOk) => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
     new TerraformOutput(stack, "test-output", {
-      value: Fn.md5(`"`),
+      value: Fn.md5(testOk),
     });
-    Testing.synth(stack);
-  }).toThrowErrorMatchingInlineSnapshot(
-    `"'\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
-  );
+    expect(Testing.synth(stack)).toMatchSnapshot();
+  });
 });
 
 test("throws no error when wrapping unescaped double quotes in Fn.rawString", () => {
@@ -489,4 +520,26 @@ test("rawString escapes correctly", () => {
   expect(json.locals.test).toHaveProperty("quotes", `${bslsh}"`);
   expect(json.locals.test).toHaveProperty("doublequotes", `${bslsh}"${bslsh}"`);
   expect(json.locals.test).toHaveProperty("template", "$${TEMPLATE}");
+});
+
+test("tomap does not destroy incoming ref", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  expect(
+    Testing.synthScope(
+      (scope) =>
+        new TerraformLocal(
+          scope,
+          "test",
+          Fn.tomap(Token.asString(ref("test.instance.attr", stack)))
+        )
+    )
+  ).toMatchInlineSnapshot(`
+    "{
+      \\"locals\\": {
+        \\"test\\": \\"\${tomap(test.instance.attr)}\\"
+      }
+    }"
+  `);
 });

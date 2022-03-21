@@ -28,6 +28,19 @@ export const LANGUAGES = [
   Language.GO,
 ];
 
+export async function generateJsiiLanguage(
+  code: CodeMaker,
+  opts: srcmak.Options
+) {
+  await mkdtemp(async (staging) => {
+    // this is not typescript, so we generate in a staging directory and
+    // use jsii-srcmak to compile and extract the language-specific source
+    // into our project.
+    await code.save(staging);
+    await srcmak.srcmak(staging, opts);
+  });
+}
+
 export interface GetOptions {
   readonly targetLanguage: Language;
   readonly codeMakerOutput: string;
@@ -244,83 +257,75 @@ export class ConstructsMaker {
 
     if (!this.isJavascriptTarget || this.options.outputJsii) {
       for (const target of this.targets) {
-        await mkdtemp(async (staging) => {
-          // this is not typescript, so we generate in a staging directory and
-          // use jsii-srcmak to compile and extract the language-specific source
-          // into our project.
-          await this.save(staging);
+        // these are the module dependencies we compile against
+        const deps = ["@types/node", "constructs", "cdktf"];
+        const opts: srcmak.Options = {
+          entrypoint: target.fileName,
+          deps: deps.map((dep) =>
+            path.dirname(require.resolve(`${dep}/package.json`))
+          ),
+          moduleKey: target.moduleKey,
+        };
 
-          // these are the module dependencies we compile against
-          const deps = ["@types/node", "constructs", "cdktf"];
+        // used for testing.
+        if (this.options.outputJsii) {
+          opts.jsii = { path: this.options.outputJsii };
+        }
 
-          const opts: srcmak.Options = {
-            entrypoint: target.fileName,
-            deps: deps.map((dep) =>
-              path.dirname(require.resolve(`${dep}/package.json`))
-            ),
-            moduleKey: target.moduleKey,
+        if (this.isPythonTarget) {
+          opts.python = {
+            outdir: this.codeMakerOutdir,
+            moduleName: target.srcMakName,
           };
+        }
 
-          // used for testing.
-          if (this.options.outputJsii) {
-            opts.jsii = { path: this.options.outputJsii };
-          }
+        if (this.isJavaTarget) {
+          opts.java = {
+            outdir: ".", // generated java files aren't packaged, so just include directly in app
+            package: `imports.${target.srcMakName}`,
+          };
+        }
 
-          if (this.isPythonTarget) {
-            opts.python = {
-              outdir: this.codeMakerOutdir,
-              moduleName: target.srcMakName,
-            };
-          }
+        if (this.isCsharpTarget) {
+          opts.csharp = {
+            outdir: this.codeMakerOutdir,
+            namespace: target.srcMakName,
+          };
+        }
 
-          if (this.isJavaTarget) {
-            opts.java = {
-              outdir: ".", // generated java files aren't packaged, so just include directly in app
-              package: `imports.${target.srcMakName}`,
-            };
-          }
+        if (this.isGoTarget) {
+          // TODO: check if needed for modules somehow
+          // const targetType = target.isProvider ? 'provider' : 'module';
 
-          if (this.isCsharpTarget) {
-            opts.csharp = {
-              outdir: this.codeMakerOutdir,
-              namespace: target.srcMakName,
-            };
-          }
+          // jsii-srcmac will produce a folder inside this dir named after "packageName"
+          // so this results in e.g. .gen/hashicorp/random
+          const outdir = path.join(
+            this.codeMakerOutdir,
+            target.namespace ?? ""
+          );
 
-          if (this.isGoTarget) {
-            // TODO: check if needed for modules somehow
-            // const targetType = target.isProvider ? 'provider' : 'module';
+          opts.golang = {
+            outdir,
+            moduleName: await determineGoModuleName(outdir), // e.g. `github.com/org/userproject/.gen/hashicorp`
+            packageName: target.srcMakName, // package will be named e.g. random for hashicorp/random
+          };
+        }
 
-            // jsii-srcmac will produce a folder inside this dir named after "packageName"
-            // so this results in e.g. .gen/hashicorp/random
-            const outdir = path.join(
-              this.codeMakerOutdir,
-              target.namespace ?? ""
-            );
-
-            opts.golang = {
-              outdir,
-              moduleName: await determineGoModuleName(outdir), // e.g. `github.com/org/userproject/.gen/hashicorp`
-              packageName: target.srcMakName, // package will be named e.g. random for hashicorp/random
-            };
-          }
-
-          if (
-            process.env.NODE_OPTIONS &&
-            !process.env.NODE_OPTIONS.includes(`--max-old-space-size`)
-          ) {
-            console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
+        if (
+          process.env.NODE_OPTIONS &&
+          !process.env.NODE_OPTIONS.includes(`--max-old-space-size`)
+        ) {
+          console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
 The provider generation needs a substantial amount of memory (~13GB) for some providers and languages.
 So cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=16384" by default. As your environment already contains
 a NODE_OPTIONS variable, we won't override it. Hence, the provider generation might fail with an out of memory error.`);
-          } else {
-            // increase memory to allow generating large providers (i.e. aws or azurerm for Go)
-            // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
-            process.env.NODE_OPTIONS = "--max-old-space-size=16384";
-          }
+        } else {
+          // increase memory to allow generating large providers (i.e. aws or azurerm for Go)
+          // srcmak is going to spawn a childprocess (for jsii-pacmak) which is going to be affected by this env var
+          process.env.NODE_OPTIONS = "--max-old-space-size=16384";
+        }
 
-          await srcmak.srcmak(staging, opts);
-        });
+        await generateJsiiLanguage(this.code, opts);
       }
     }
 

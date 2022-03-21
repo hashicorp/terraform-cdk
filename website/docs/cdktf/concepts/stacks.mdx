@@ -1,0 +1,234 @@
+---
+page_title: Stacks
+description: >-
+  Use stacks to specify separate collections of infrastructure for different
+  environments, like test and production.
+---
+
+# Stacks
+
+-> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness).
+
+A stack represents a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
+
+> **Hands-on:** Try the [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS) tutorial on HashiCorp Learn.
+
+## Scope
+
+You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same `stack` parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
+
+Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for more details and an example.
+
+## Single Stack
+
+The example below generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, EC2 } from "./.gen/providers/aws";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    new EC2.Instance(this, "Hello", {
+      ami: "ami-2757f631",
+      instanceType: "t2.micro",
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "a-single-stack");
+app.synth();
+```
+
+## Multiple Stacks
+
+> **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial on HashiCorp Learn. This tutorial guides you through a multi-stack application.
+
+You can specify multiple stacks in your application. For example, you may want a separate configuration for development, testing, and production environments.
+
+The example below synthesizes multiple Terraform configurations in the configured output folder.
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider, EC2 } from "./.gen/providers/aws";
+
+interface MyStackConfig {
+  environment: string;
+  region?: string;
+}
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string, config: MyStackConfig) {
+    super(scope, id);
+
+    const { region = "us-east-1" } = config;
+
+    new AwsProvider(this, "aws", {
+      region,
+    });
+
+    new EC2.Instance(this, "Hello", {
+      ami: "ami-2757f631",
+      instanceType: "t2.micro",
+      tags: {
+        environment: config.environment,
+      },
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "multiple-stacks-dev", { environment: "dev" });
+new MyStack(app, "multiple-stacks-staging", { environment: "staging" });
+new MyStack(app, "multiple-stacks-production-us", {
+  environment: "production",
+  region: "us-east-1",
+});
+new MyStack(app, "multiple-stacks-production-eu", {
+  environment: "production",
+  region: "eu-central-1",
+});
+app.synth();
+```
+
+Running `cdktf synth` produces the following synthesized stacks.
+
+```
+$ cdktf list
+
+Stack name                      Path
+multiple-stacks-dev             cdktf.out/stacks/multiple-stacks-dev
+multiple-stacks-staging         cdktf.out/stacks/multiple-stacks-staging
+multiple-stacks-production-us   cdktf.out/stacks/multiple-stacks-production-us
+multiple-stacks-production-eu   cdktf.out/stacks/multiple-stacks-production-eu
+```
+
+All Terraform operations are currently limited to a single stack, so you must specify a target stack directory to run `diff`, `deploy` or `destroy`. CDKTF emits an error if you omit the target stack and run a plain `cdktf deploy`. Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) if you're interested in deploying multiple stacks at once.
+
+To run multiple stacks at once, move them into the same directory and run `cdktf deploy`. For example, you could create a combined directory called `multiple-stacks-dev`, run `cdktf deploy multiple-stacks-dev`, and all Terraform operations will run in the folder `cdktf.out/stacks/multiple-stacks-dev`.
+
+### Cross-Stack References
+
+When you reference resources from one stack in another stack, you can do so by exposing the resource in the source stack and referencing it in the target stack.
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider } from "./.gen/providers/aws";
+import { Vpc } from "./my-aws-vpc-construct";
+import { DockerBackend } from "./my-docker-backend-construct";
+
+class VPCStack extends TerraformStack {
+  public vpc: Vpc;
+  constructor(scope: Construct, id: string, public region = "us-east-1") {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region,
+    });
+
+    this.vpc = new Vpc(this, "vpc", {});
+  }
+}
+
+interface BackendStackConfig {
+  region: string;
+  vpcId: string;
+  dockerImage: string;
+}
+class BackendStack extends TerraformStack {
+  constructor(scope: Construct, id: string, config: BackendStackConfig) {
+    super(scope, id);
+
+    const { region, vpcId, dockerImage } = config;
+
+    new AwsProvider(this, "aws", {
+      region,
+    });
+
+    new DockerBackend(this, "docker-backend", {
+      vpcId,
+      dockerImage,
+    });
+  }
+}
+
+const app = new App();
+const origin = new VPCStack(app, "origin-stack");
+new BackendStack(app, "target-stack", {
+  region: origin.region,
+  vpcId: origin.vpc.id,
+  dockerImage: "org/my-image:latest",
+});
+
+app.synth();
+```
+
+From a usage perspective it looks like we are accessing the `id` value of `vpc` from the `origin-stack` instance of `VpcStack` and then referencing it in the `target-stack` instance of `BackendStack`.
+Accessing a value from a different stack causes the value to be exported as `TerraformOutput` in the origin stack.
+The value is than accessed through a `TerraformRemoteState` in the target stack.
+Both are automatically added to the respective stacks to make the process seemless.
+
+When you are using Terraform Cloud it's necessary for each stack to be it's own workspace.
+This means that you need to create a separate workspace for each stack and you need to [set the permissions to allow access between the stacks](/cloud-docs/workspaces/state#remote-state-access-controls).
+
+### Stack Dependencies
+
+We add the stack dependencies in the `cdktf.out/manifest.json` file for each stack under `dependencies`.
+By default a stack is dependant on another stack when the data used origins in that stack.
+If you e.g. write `this.allResources = Fn.merge(resourceFromStackA.items, resourceFromStackB.items)` in Stack C and use `stackC.allResources` in Stack D, Stack D will be dependant on Stack A and B, but not C since that is not the origin of the data.
+
+In case you don't want the "middleman" to be cut out you can run `stackD.addDependency(stackC)` to make the dependency explicit.
+If you want to keep the result of the function attached to one stack (and saved its state) you can use a `TerraformLocal` and expose it instead: `this.allResources = TerraformLocal(this, "merged_items", Fn.merge(resourceFromStackA.items, resourceFromStackB.items)`.
+
+There are currently no safe-guards around this feature, it's your responsibility to deploy the stacks in the respective order.
+
+### Migration from `<= 0.2`
+
+Until version `0.2`, CDKTF only supported a single stack. For local state handling, CDKTF used a `terraform.tfstate` in the project root folder. With version `>= 0.3`, the local state file reflects the stack name it belongs to in its file name. When a `terraform.tfstate` file is still present in the project root folder, it has to be renamed to match the schema `terraform.<stack-name>.tfstate` manually.
+
+## Escape Hatch
+
+For anything on the top-level `terraform` block that is not natively implemented, use the **stack escape hatch** to define a configuration. For example, define remote backend using the `addOverride` method in TypeScript.
+
+~> **Important**: Escape hatches **must not** have empty arguments or objects, as they will be removed from the synthesized JSON configuration.
+
+```typescript
+stack.addOverride("terraform.backend", {
+  remote: {
+    organization: "test",
+    workspaces: {
+      name: "test",
+    },
+  },
+});
+```
+
+The example above synthesizes a Terraform configuration with the remote backend included in the `terraform` block.
+
+```json
+{
+  "terraform": {
+    "required_providers": {
+      "aws": "~> 2.0"
+    },
+    "backend": {
+      "remote": {
+        "organization": "test",
+        "workspaces": {
+          "name": "test"
+        }
+      }
+    }
+  }
+}
+```

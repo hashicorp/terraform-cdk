@@ -87,7 +87,7 @@ export class ResourceModel {
       return `https://www.terraform.io/docs/providers/${this.provider}`;
     return `https://www.terraform.io/docs/providers/${this.provider}/${
       this.isDataSource ? "d" : "r"
-    }/${this.terraformDocName}.html`;
+    }/${this.terraformDocName}`;
   }
 
   public get isProvider(): boolean {
