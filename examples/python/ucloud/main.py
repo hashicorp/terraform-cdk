@@ -1,6 +1,6 @@
 import os
 from constructs import Construct
-from cdktf import App, TerraformStack
+from cdktf import App, TerraformStack, Fn, Token
 from imports.ucloud import DataUcloudImages, Instance, UcloudProvider
 
 
@@ -22,7 +22,7 @@ class MyStack(TerraformStack):
         Instance(
             self, "web",
             availability_zone="cn-bj2-04",
-            image_id=images.images("0").id,
+            image_id=images.images.get(0).id,
             instance_type="n-basic-2",
             root_password="wA1234567",
             name="cdktf-example-instance",

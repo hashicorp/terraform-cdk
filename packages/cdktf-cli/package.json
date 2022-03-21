@@ -35,6 +35,7 @@
     "@cdktf/hcl2json": "0.0.0",
     "cdktf": "0.0.0",
     "constructs": "^10.0.25",
+    "ink-select-input": "^4.2.1",
     "jsii": "^1.54.0",
     "jsii-pacmak": "^1.54.0",
     "node-abort-controller": "^3.0.1",

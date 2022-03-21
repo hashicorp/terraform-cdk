@@ -32,6 +32,11 @@ class Command implements yargs.CommandModule {
         desc: "Provide JSON output for the generated Terraform configuration.",
         default: false,
       })
+      .option("check-code-maker-output", {
+        type: "boolean",
+        desc: "Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or modules are configured.",
+        default: cfg.shouldCheckCodeMakerOutput(config),
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {

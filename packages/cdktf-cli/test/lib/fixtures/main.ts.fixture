@@ -12,9 +12,7 @@ export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
     new NullProvider.NullProvider(this, "null", {});
-    new LocalBackend(this, {
-      path: "terraform.tfstate",
-    });
+    new LocalBackend(this);
 
     const nullResouce = new NullProvider.Resource(this, "test", {});
 
@@ -33,7 +31,25 @@ export class HelloTerra extends TerraformStack {
   }
 }
 
+//               ┌──────┐
+//           ┌──▶│third │───┐
+//           │   └──────┘   │
+// ┌──────┐  │              │
+// │first │──┤              │    ┌─────┐
+// └──────┘  │   ┌──────┐   ├──▶ │fifth│
+//           └──▶│fourth│───┘    └─────┘
+//               └──────┘
+// ┌──────┐
+// │second│
+// └──────┘
 const app = Testing.stubVersion(new App({ stackTraces: false }));
-new HelloTerra(app, "first");
+const first = new HelloTerra(app, "first");
 new HelloTerra(app, "second");
+const third = new HelloTerra(app, "third");
+third.addDependency(first);
+const fourth = new HelloTerra(app, "fourth");
+fourth.addDependency(first);
+const fifth = new HelloTerra(app, "fifth");
+fifth.addDependency(third);
+fifth.addDependency(fourth);
 app.synth();
