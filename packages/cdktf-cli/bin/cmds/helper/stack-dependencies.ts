@@ -1,4 +1,4 @@
-import { SynthesizedStack } from "./synth-stack";
+import { SynthesizedStack } from "../../../lib/synth-stack";
 
 export class StackDependencies {
   public pendingStacks: SynthesizedStack[] = [];

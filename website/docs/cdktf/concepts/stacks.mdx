@@ -178,7 +178,8 @@ Accessing a value from a different stack causes the value to be exported as `Ter
 The value is than accessed through a `TerraformRemoteState` in the target stack.
 Both are automatically added to the respective stacks to make the process seemless.
 
-Cross Stack References are also only supported for the local and remote backend as of right now.
+When you are using Terraform Cloud it's necessary for each stack to be it's own workspace.
+This means that you need to create a separate workspace for each stack and you need to [set the permissions to allow access between the stacks](/cloud-docs/workspaces/state#remote-state-access-controls).
 
 ### Stack Dependencies
 

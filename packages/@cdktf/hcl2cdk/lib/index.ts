@@ -230,9 +230,18 @@ export async function convertToTypescript(
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
+  const hasBackend = plan.terraform?.some(
+    (tf) => Object.keys(tf.backend || {}).length > 0
+  );
+  const hasPlanOrOutputOrTerraformRemoteState =
+    Object.keys({
+      ...plan.variable,
+      ...plan.output,
+      ...(plan.data?.terraform_remote_state || {}),
+    }).length > 0;
+
   const cdktfImports =
-    plan.terraform?.some((tf) => Object.keys(tf.backend || {}).length > 0) ||
-    Object.keys({ ...plan.variable, ...plan.output }).length > 0
+    hasBackend || hasPlanOrOutputOrTerraformRemoteState
       ? [cdktfImport]
       : ([] as t.Statement[]);
 

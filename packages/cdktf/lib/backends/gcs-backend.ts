@@ -43,6 +43,8 @@ export interface GcsBackendProps {
   readonly accessToken?: string;
   readonly prefix?: string;
   readonly encryptionKey?: string;
+  readonly impersonateServiceAccount?: string;
+  readonly impersonateServiceAccountDelegates?: string[];
 }
 
 export interface DataTerraformRemoteStateGcsConfig

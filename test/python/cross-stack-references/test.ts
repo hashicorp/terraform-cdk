@@ -1,4 +1,4 @@
-import { TestDriver } from "../../test-helper";
+import { onPosix, onWindows, TestDriver } from "../../test-helper";
 
 describe("python cross stack references", () => {
   let driver: TestDriver;
@@ -9,15 +9,125 @@ describe("python cross stack references", () => {
     await driver.synth();
   });
 
-  test("synth generates JSON", () => {
-    expect(driver.manifest()).toMatchSnapshot();
+  onPosix("synth generates JSON on POSIX", () => {
+    expect(driver.manifest()).toMatchInlineSnapshot(`
+      "{
+        \\"version\\": \\"stubbed\\",
+        \\"stacks\\": {
+          \\"source\\": {
+            \\"name\\": \\"source\\",
+            \\"constructPath\\": \\"source\\",
+            \\"workingDirectory\\": \\"stacks/source\\",
+            \\"synthesizedStackPath\\": \\"stacks/source/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": []
+          },
+          \\"passthrough\\": {
+            \\"name\\": \\"passthrough\\",
+            \\"constructPath\\": \\"passthrough\\",
+            \\"workingDirectory\\": \\"stacks/passthrough\\",
+            \\"synthesizedStackPath\\": \\"stacks/passthrough/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          },
+          \\"sink\\": {
+            \\"name\\": \\"sink\\",
+            \\"constructPath\\": \\"sink\\",
+            \\"workingDirectory\\": \\"stacks/sink\\",
+            \\"synthesizedStackPath\\": \\"stacks/sink/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          },
+          \\"fns\\": {
+            \\"name\\": \\"fns\\",
+            \\"constructPath\\": \\"fns\\",
+            \\"workingDirectory\\": \\"stacks/fns\\",
+            \\"synthesizedStackPath\\": \\"stacks/fns/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          },
+          \\"functionOutput\\": {
+            \\"name\\": \\"functionOutput\\",
+            \\"constructPath\\": \\"functionOutput\\",
+            \\"workingDirectory\\": \\"stacks/functionOutput\\",
+            \\"synthesizedStackPath\\": \\"stacks/functionOutput/cdk.tf.json\\",
+            \\"annotations\\": [],
+            \\"dependencies\\": [
+              \\"source\\"
+            ]
+          }
+        }
+      }"
+    `);
+  });
+
+  onWindows("synth generates JSON on Windows", () => {
+    expect(driver.manifest()).toMatchInlineSnapshot(`
+"{
+  \\"version\\": \\"stubbed\\",
+  \\"stacks\\": {
+    \\"source\\": {
+      \\"name\\": \\"source\\",
+      \\"constructPath\\": \\"source\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\source\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\source\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": []
+    },
+    \\"passthrough\\": {
+      \\"name\\": \\"passthrough\\",
+      \\"constructPath\\": \\"passthrough\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\passthrough\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\passthrough\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    },
+    \\"sink\\": {
+      \\"name\\": \\"sink\\",
+      \\"constructPath\\": \\"sink\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\sink\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\sink\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    },
+    \\"fns\\": {
+      \\"name\\": \\"fns\\",
+      \\"constructPath\\": \\"fns\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\fns\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\fns\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    },
+    \\"functionOutput\\": {
+      \\"name\\": \\"functionOutput\\",
+      \\"constructPath\\": \\"functionOutput\\",
+      \\"workingDirectory\\": \\"stacks\\\\\\\\functionOutput\\",
+      \\"synthesizedStackPath\\": \\"stacks\\\\\\\\functionOutput\\\\\\\\cdk.tf.json\\",
+      \\"annotations\\": [],
+      \\"dependencies\\": [
+        \\"source\\"
+      ]
+    }
+  }
+}"
+`);
   });
 
   describe("deployed", () => {
     beforeAll(async () => {
-      await driver.deploy("source");
-      await driver.deploy("passthrough");
-      await driver.deploy("sink");
+      await driver.deploy(["source", "passthrough", "sink"]);
     });
 
     it("references primitive values", () => {
@@ -46,8 +156,13 @@ describe("python cross stack references", () => {
 
     describe("terraform functions", () => {
       beforeAll(async () => {
-        await driver.deploy("fns");
-        await driver.deploy("functionOutput");
+        await driver.deploy([
+          "source",
+          "passthrough",
+          "sink",
+          "fns",
+          "functionOutput",
+        ]);
       });
 
       it("can use reference in terraform function", () => {

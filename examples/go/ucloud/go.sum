@@ -2,10 +2,14 @@ github.com/Masterminds/semver/v3 v3.1.1 h1:hLg3sBzpNErnxhQtUy/mmLR2I9foDujNK030I
 github.com/Masterminds/semver/v3 v3.1.1/go.mod h1:VPu/7SZ7ePZ3QOrcuXROw5FAcLl4a0cBrbBpGY/8hQs=
 github.com/aws/constructs-go/constructs/v10 v10.0.5 h1:oZMlODZsCKlkBZs4KA8O210MqK2XdrakhGpmBfZKzbE=
 github.com/aws/constructs-go/constructs/v10 v10.0.5/go.mod h1:l9g2pvi6/NDTGfjih3Zocwk3K4ASge77Pf5KZ2j2484=
+github.com/aws/constructs-go/constructs/v10 v10.0.43 h1:+itzaWTWmMVEQcUq6c/6e9W5LMitbkLwCtHZbVJYqU0=
+github.com/aws/constructs-go/constructs/v10 v10.0.43/go.mod h1:CXfshhgiSI0x1i4yrL5WrkgFn7SmZPcwtsLG/Hn3Rz0=
 github.com/aws/jsii-runtime-go v1.28.0/go.mod h1:6tZnlstx8bAB3vnLFF9n8bbkI//LDblAek9zFyMXV3E=
 github.com/aws/jsii-runtime-go v1.29.0/go.mod h1:6tZnlstx8bAB3vnLFF9n8bbkI//LDblAek9zFyMXV3E=
 github.com/aws/jsii-runtime-go v1.30.0 h1:KEQ0G78/VVmgRyXKwKdRTbJF2O9VVG39Hv1Y/iROGbo=
 github.com/aws/jsii-runtime-go v1.30.0/go.mod h1:6tZnlstx8bAB3vnLFF9n8bbkI//LDblAek9zFyMXV3E=
+github.com/aws/jsii-runtime-go v1.52.1 h1:Q/PBLVRbvRHaXUjQCCHw+TKsYY2yn6zM/iRMkluWR0I=
+github.com/aws/jsii-runtime-go v1.52.1/go.mod h1:6tZnlstx8bAB3vnLFF9n8bbkI//LDblAek9zFyMXV3E=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

@@ -54,6 +54,10 @@ export class Struct {
     return `${this.name}OutputReference`;
   }
 
+  public get listName(): string {
+    return `${this.name}List`;
+  }
+
   public get isProvider(): boolean {
     return this.attributes.some((att) => att.isProvider);
   }

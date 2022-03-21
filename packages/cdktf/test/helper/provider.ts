@@ -57,5 +57,10 @@ export class DockerProvider extends TerraformProvider {
       },
       terraformProviderSource: "kreuzwerker/docker",
     });
+
+    // Windows needs the special docker host configuration to work
+    if (process.platform === "win32") {
+      this.addOverride("host", "npipe:////.//pipe//docker_engine");
+    }
   }
 }
