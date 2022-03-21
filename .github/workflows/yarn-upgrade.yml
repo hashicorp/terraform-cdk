@@ -74,9 +74,6 @@ jobs:
   pr:
     name: Create Pull Request
     needs: upgrade
-    permissions:
-      contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Check Out
@@ -107,3 +104,4 @@ jobs:
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           labels: dependencies,auto-approve
           team-reviewers: cdktf
+          token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}

@@ -106,7 +106,7 @@ exports[`reference 1`] = `
   \\"resource\\": {
     \\"test_resource\\": {
       \\"test-resource\\": {
-        \\"name\\": \\"\${var.test-variable}\\"
+        \\"name\\": \\"\${var.test-variablasdasdadse}\\"
       }
     }
   },

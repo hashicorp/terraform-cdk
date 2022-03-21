@@ -69,10 +69,6 @@ jobs:
   update-snapshots-linux:
     needs: update-snapshots-setup
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      checks: write
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -133,8 +129,13 @@ jobs:
           git fetch
           git add .
           git commit -s -m "chore: update snapshots (posix)"
-          git pull --rebase --strategy recursive --strategy-option theirs
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
+      - name: Push changes
+        if: steps.self_mutation.outputs.self_mutation_happened
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
+          branch: ${{ github.event.pull_request.head.ref }}
 
   update-snapshots-windows:
     # running after linux will base this run on those results
@@ -218,5 +219,10 @@ jobs:
           git fetch
           git add .
           git commit -s -m "chore: update snapshots (windows)"
-          git pull --rebase --strategy recursive --strategy-option theirs
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
+      - name: Push changes
+        if: steps.self_mutation.outputs.self_mutation_happened
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
+          branch: ${{ github.event.pull_request.head.ref }}
