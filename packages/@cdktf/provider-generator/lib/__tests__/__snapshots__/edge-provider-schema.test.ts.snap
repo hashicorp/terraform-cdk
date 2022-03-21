@@ -62,7 +62,7 @@ export class EdgeProvider extends cdktf.TerraformProvider {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"edge\\";
+  public static readonly tfResourceType = \\"edge\\";
 
   // ===========
   // INITIALIZER
@@ -1129,7 +1129,7 @@ export class ListBlockResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"list_block_resource\\";
+  public static readonly tfResourceType = \\"list_block_resource\\";
 
   // ===========
   // INITIALIZER
@@ -1295,7 +1295,7 @@ export class MapResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"map_resource\\";
+  public static readonly tfResourceType = \\"map_resource\\";
 
   // ===========
   // INITIALIZER
@@ -1432,7 +1432,7 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"optional_attribute_resource\\";
+  public static readonly tfResourceType = \\"optional_attribute_resource\\";
 
   // ===========
   // INITIALIZER
@@ -1627,7 +1627,7 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"optional_computed_attribute_resource\\";
+  public static readonly tfResourceType = \\"optional_computed_attribute_resource\\";
 
   // ===========
   // INITIALIZER
@@ -1822,7 +1822,7 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"required_attribute_resource\\";
+  public static readonly tfResourceType = \\"required_attribute_resource\\";
 
   // ===========
   // INITIALIZER
@@ -2038,7 +2038,7 @@ export class SetBlockResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"set_block_resource\\";
+  public static readonly tfResourceType = \\"set_block_resource\\";
 
   // ===========
   // INITIALIZER

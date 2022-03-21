@@ -1168,7 +1168,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws\\";
+  public static readonly tfResourceType = \\"aws\\";
 
   // ===========
   // INITIALIZER
