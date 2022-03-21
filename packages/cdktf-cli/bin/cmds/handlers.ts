@@ -252,15 +252,13 @@ export async function synth(argv: any) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
+  const checkCodeMakerOutput = argv.checkCodeMakerOutput;
   const command = argv.app;
   const outDir = argv.output;
   const jsonOutput = argv.json;
   const stack = argv.stack;
 
-  if (
-    config.checkCodeMakerOutput &&
-    !(await fs.pathExists(config.codeMakerOutput))
-  ) {
+  if (checkCodeMakerOutput && !(await fs.pathExists(config.codeMakerOutput))) {
     console.error(
       `ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`
     );
