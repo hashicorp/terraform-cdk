@@ -280,6 +280,7 @@ export type ExecutionOptions = MultipleStackOptions & {
 
 type LogMessage = {
   stackName: string;
+  messageWithConstructPath: string;
   message: string;
 };
 
@@ -290,6 +291,69 @@ type Buffered<T, V> = {
   type: V;
 };
 
+type TFIdentifier = string;
+type CDKTFResourcePath = string;
+type TfResource = Record<
+  string,
+  {
+    ["//"]?: {
+      metadata?: {
+        path?: string;
+      };
+    };
+  }
+>;
+type TfResourceType = Record<string, TfResource>;
+type TFJson = {
+  data: TfResourceType;
+  resource: TfResourceType;
+};
+export function enhanceLogMessage(message: string, stack: SynthesizedStack) {
+  // we never want to throw, if it does not work we just do as if it did not happen
+  try {
+    const json = JSON.parse(stack.content) as TFJson;
+    const pathMapping: Record<TFIdentifier, CDKTFResourcePath> = {};
+
+    ["data", "resource"].forEach((type) => {
+      Object.entries(json[type as "data" | "resource"] || {}).forEach(
+        ([resourceType, resourceInstances]) => {
+          Object.entries(resourceInstances || {}).forEach(
+            ([resourceName, resource]) => {
+              // Some constructs don't have this metadata
+              if (
+                resource["//"] &&
+                resource["//"].metadata &&
+                resource["//"].metadata.path
+              ) {
+                pathMapping[`${resourceType}.${resourceName}`] = resource[
+                  "//"
+                ].metadata.path.replace(`${stack.name}/`, "");
+              }
+            }
+          );
+        }
+      );
+    });
+
+    return message
+      .split("\n")
+      .map((line) => {
+        const matchingEntry = Object.entries(pathMapping).find(
+          ([tfIdentifier]) => line.includes(tfIdentifier)
+        );
+        if (!matchingEntry) {
+          return line;
+        }
+        const [id, cdkPath] = matchingEntry;
+        return line.replace(id, `${id} (${cdkPath})`);
+      })
+      .join("\n");
+  } catch (e) {
+    logger.debug(`Could not enhance log message: ${e}`);
+    return message;
+  }
+}
+
 export class CdktfProject {
   public stacks?: SynthesizedStack[];
   public hardAbort: () => void;
@@ -298,7 +362,7 @@ export class CdktfProject {
   private outDir: string;
   private workingDirectory: string;
   private onUpdate: (update: ProjectUpdate) => void;
-  private onLog?: (log: { stackName: string; message: string }) => void;
+  private onLog?: (log: LogMessage) => void;
   private abortSignal: AbortSignal;
 
   // Set during deploy / destroy
@@ -434,11 +498,19 @@ export class CdktfProject {
     stack: SynthesizedStack,
     opts: ExecutionOptions = {}
   ) {
+    const onLog = this.bufferWhileWaitingForApproval(this.onLog);
     return new CdktfStack({
       ...opts,
       stack,
       onUpdate: this.handleApprovalProcess(this.onUpdate),
-      onLog: this.bufferWhileWaitingForApproval(this.onLog),
+      onLog: onLog
+        ? ({ message }) =>
+            onLog({
+              stackName: stack.name,
+              message,
+              messageWithConstructPath: enhanceLogMessage(message, stack),
+            })
+        : undefined,
       abortSignal: this.abortSignal,
     });
   }
