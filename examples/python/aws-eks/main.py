@@ -30,7 +30,7 @@ class MyStack(TerraformStack):
             subnets=Token().as_list(my_vpc.private_subnets_output),
             vpc_id=Token().as_string(my_vpc.vpc_id_output),
             manage_aws_auth=False,
-            cluster_version='1.17'
+            cluster_version='1.21'
         )
 
         TerraformOutput(self, 'cluster_endpoint',
