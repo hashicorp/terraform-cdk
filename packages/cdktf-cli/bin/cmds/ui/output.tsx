@@ -21,7 +21,7 @@ export const Output = ({
 }: OutputConfig): React.ReactElement => {
   const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
     { outDir, synthCommand, onOutputsRetrieved },
-    (project) => project.fetchOutputs(targetStack)
+    (project) => project.fetchOutputs({ stackName: targetStack })
   );
 
   const bottomBar = done ? (

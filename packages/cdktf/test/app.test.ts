@@ -541,7 +541,7 @@ describe("Cross Stack references", () => {
   it("resolves complex computed list values with cross stack references", () => {
     const other = new OtherTestResource(originStack, "other", {});
     new TestResource(testStack, "Resource", {
-      name: other.complexComputedList("42").id,
+      name: other.complexComputedList.get(42).id,
     });
 
     app.synth();
@@ -551,13 +551,19 @@ describe("Cross Stack references", () => {
     const originOutput = Object.values(
       JSON.parse(originStackSynth).output as { value: string }[]
     )[0].value;
-    expect(originOutput).toContain(".complex_computed_list.42.id");
+    const originOutputName = Object.keys(
+      JSON.parse(originStackSynth).output as { value: string }[]
+    )[0];
+    expect(originOutput).toContain(".complex_computed_list[42].id");
+    expect(targetStackSynth).toHaveResourceWithProperties(TestResource, {
+      name: expect.stringContaining(originOutputName),
+    });
   });
 
   it("resolves complex computed lists as fqn with cross stack references", () => {
     const other = new OtherTestResource(originStack, "other", {});
     new TerraformOutput(testStack, "fqn", {
-      value: other.complexComputedList("42"),
+      value: other.complexComputedList.get(42),
     });
 
     app.synth();
@@ -576,7 +582,8 @@ describe("Cross Stack references", () => {
     )[0].value;
     expect(targetOutput).toMatchInlineSnapshot(`
       Object {
-        "complexComputedListIndex": "42",
+        "complexObjectIndex": 42,
+        "complexObjectIsFromSet": false,
         "terraformAttribute": "complex_computed_list",
         "terraformResource": "\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CE_FB44ED5E}",
       }
@@ -586,7 +593,7 @@ describe("Cross Stack references", () => {
   it("resolves output reference as fqn with cross stack references", () => {
     const other = new OtherTestResource(originStack, "other", {});
     new TerraformOutput(testStack, "fqn", {
-      value: other.outputRef,
+      value: other.outputRef.value,
     });
 
     app.synth();
@@ -597,19 +604,15 @@ describe("Cross Stack references", () => {
       JSON.parse(originStackSynth).output as { value: string }[]
     )[0].value;
     expect(originOutput).toMatchInlineSnapshot(
-      `"\${other_test_resource.OriginStack_other_935318CE}"`
+      `"\${other_test_resource.OriginStack_other_935318CE.outputRef[0].value}"`
     );
     expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
     const targetOutput = Object.values(
       JSON.parse(targetStackSynth).output as { value: string }[]
     )[0].value;
-    expect(targetOutput).toMatchInlineSnapshot(`
-      Object {
-        "isSingleItem": true,
-        "terraformAttribute": "outputRef",
-        "terraformResource": "\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CE_FB44ED5E}",
-      }
-    `);
+    expect(targetOutput).toMatchInlineSnapshot(
+      `"\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CEoutputRef0value_F44633B1}"`
+    );
   });
 
   it("resolves resource as fqn with cross stack referencess", () => {
