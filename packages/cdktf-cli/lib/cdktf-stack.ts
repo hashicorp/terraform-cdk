@@ -364,11 +364,11 @@ export class CdktfStack {
     return this.waitOnMachineDone();
   }
 
-  public async fetchOutputs(stackName?: string) {
+  public async fetchOutputs() {
     this.stateMachine.send({
       type: "START",
       targetAction: "output",
-      targetStack: stackName,
+      targetStack: this.stackName,
     });
 
     await this.waitOnMachineDone();

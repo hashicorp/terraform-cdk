@@ -1,12 +1,12 @@
 /* eslint-disable no-control-regex */
-import React, { useState } from "react";
+import React from "react";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { useCdktfProject } from "./hooks/cdktf-project";
 import { StreamView, OutputsBottomBar, StatusBottomBar } from "./components";
 
 type OutputConfig = {
   outDir: string;
-  targetStack?: string;
+  targetStacks?: string[];
   synthCommand: string;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
@@ -14,26 +14,23 @@ type OutputConfig = {
 
 export const Output = ({
   outDir,
-  targetStack,
+  targetStacks,
   synthCommand,
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
-  const { status, logEntries } = useCdktfProject(
+  const { status, logEntries, returnValue } = useCdktfProject(
     { outDir, synthCommand },
     async (project) => {
-      const out = await project.fetchOutputs({ stackName: targetStack });
-      setOutputs(out);
-      if (out && onOutputsRetrieved) {
-        onOutputsRetrieved(out);
-      }
+      const outputs = await project.fetchOutputs({ stackNames: targetStacks });
+      onOutputsRetrieved(outputs);
+      return outputs;
     }
   );
 
   const bottomBar =
     status.type === "done" ? (
-      <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+      <OutputsBottomBar outputs={returnValue} outputsFile={outputsPath} />
     ) : (
       <StatusBottomBar status={status} />
     );

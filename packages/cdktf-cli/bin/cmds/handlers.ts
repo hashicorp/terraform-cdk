@@ -312,7 +312,7 @@ export async function output(argv: any) {
   await checkEnvironment();
   const command = argv.app;
   const outDir = argv.output;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -327,7 +327,7 @@ export async function output(argv: any) {
   await renderInk(
     React.createElement(Output, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       onOutputsRetrieved,
       outputsPath,
