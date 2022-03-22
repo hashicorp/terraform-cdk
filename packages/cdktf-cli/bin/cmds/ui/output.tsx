@@ -1,5 +1,5 @@
 /* eslint-disable no-control-regex */
-import React from "react";
+import React, { useState } from "react";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { useCdktfProject } from "./hooks/cdktf-project";
 import { StreamView, OutputsBottomBar, StatusBottomBar } from "./components";
@@ -19,16 +19,24 @@ export const Output = ({
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
-    { outDir, synthCommand, onOutputsRetrieved },
-    (project) => project.fetchOutputs({ stackName: targetStack })
+  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
+  const { status, logEntries } = useCdktfProject(
+    { outDir, synthCommand },
+    async (project) => {
+      const out = await project.fetchOutputs({ stackName: targetStack });
+      setOutputs(out);
+      if (out && onOutputsRetrieved) {
+        onOutputsRetrieved(out);
+      }
+    }
   );
 
-  const bottomBar = done ? (
-    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
-  ) : (
-    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
-  );
+  const bottomBar =
+    status.type === "done" ? (
+      <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+    ) : (
+      <StatusBottomBar status={status} />
+    );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

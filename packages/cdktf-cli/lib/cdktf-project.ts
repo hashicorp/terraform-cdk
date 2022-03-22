@@ -4,6 +4,8 @@ import { printAnnotations } from "./synth";
 import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
 import { Errors } from "./errors";
 import { TerraformPlan } from "./models/terraform";
+import { NestedTerraformOutputs } from "./output";
+import { logger } from "./logging";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -82,18 +84,48 @@ function getMultipleStacks(
 
 // Returns the first stack that has no unmet dependencies
 // An unmet dependency is a dependency that has not been deployed yet
-function getStackWithNoUnmetDependencies(
+// If there is no unfinished stack, returns undefined
+// If there is no stack ready to be worked on, it returns a promise that will resolve as soon as there is a follow-up stack available
+export async function getStackWithNoUnmetDependencies(
   stackExecutors: CdktfStack[]
-): CdktfStack | undefined {
-  return stackExecutors
-    .filter((executor) => executor.isPending)
-    .find((executor) =>
-      executor.stack.dependencies.every(
-        (dependency) =>
-          stackExecutors.find((executor) => executor.stack.name === dependency)
-            ?.currentState === "done"
-      )
-    );
+): Promise<CdktfStack | undefined> {
+  logger.debug("Checking for stacks with unmet dependencies");
+  logger.debug("stack executors:", stackExecutors);
+  const pendingStacks = stackExecutors.filter((executor) => executor.isPending);
+  logger.debug("pending stacks:", stackExecutors);
+
+  if (pendingStacks.length === 0) {
+    return undefined;
+  }
+
+  const currentlyReadyStack = pendingStacks.find((executor) =>
+    executor.stack.dependencies.every(
+      (dependency) =>
+        stackExecutors.find((executor) => executor.stack.name === dependency)
+          ?.currentState === "done"
+    )
+  );
+
+  if (currentlyReadyStack) {
+    logger.debug("Found a stack with no unmet dependencies");
+    return currentlyReadyStack;
+  }
+
+  const stackExecutionPromises = stackExecutors
+    .filter((ex) => ex.currentWorkPromise)
+    .map((ex) => ex.currentWorkPromise);
+
+  logger.debug(
+    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`
+  );
+
+  if (!stackExecutionPromises.length) {
+    return undefined;
+  }
+
+  await Promise.race(stackExecutionPromises);
+
+  return await getStackWithNoUnmetDependencies(stackExecutors);
 }
 
 function findAllDependantStacks(
@@ -130,18 +162,43 @@ function findAllNestedDependantStacks(
 }
 
 // Returns the first stack that has no dependents that need to be destroyed first
-function getStackWithNoUnmetDependants(
+async function getStackWithNoUnmetDependants(
   stackExecutors: CdktfStack[]
-): CdktfStack | undefined {
-  return stackExecutors
-    .filter((executor) => executor.isPending)
-    .find((executor) => {
-      const dependantStacks = findAllDependantStacks(
-        stackExecutors,
-        executor.stack.name
-      );
-      return dependantStacks.every((stack) => stack.currentState === "done");
-    });
+): Promise<CdktfStack | undefined> {
+  logger.debug("Checking for stacks with unmet dependants");
+  logger.debug("stack executors:", stackExecutors);
+  const pendingStacks = stackExecutors.filter((executor) => executor.isPending);
+  logger.debug("pending stacks:", stackExecutors);
+
+  if (pendingStacks.length === 0) {
+    return undefined;
+  }
+
+  const currentlyReadyStack = pendingStacks.find((executor) => {
+    const dependantStacks = findAllDependantStacks(
+      stackExecutors,
+      executor.stack.name
+    );
+    return dependantStacks.every((stack) => stack.currentState === "done");
+  });
+
+  if (currentlyReadyStack) {
+    logger.debug("Found a stack with no unmet dependants");
+    return currentlyReadyStack;
+  }
+  const stackExecutionPromises = stackExecutors
+    .filter((ex) => ex.currentWorkPromise)
+    .map((ex) => ex.currentWorkPromise);
+
+  logger.debug(
+    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`
+  );
+  if (!stackExecutionPromises.length) {
+    return undefined;
+  }
+
+  await Promise.race(stackExecutionPromises);
+  return await getStackWithNoUnmetDependants(stackExecutors);
 }
 
 // Throws an error if there is a dependant stack that is not included
@@ -207,6 +264,19 @@ export type MultipleStackOptions = {
 export type ExecutionOptions = MultipleStackOptions & {
   autoApprove?: boolean;
   ignoreMissingStackDependencies?: boolean;
+  parallelism?: number;
+};
+
+type LogMessage = {
+  stackName: string;
+  message: string;
+};
+
+// Stores a log value of a certain type until it can be sent
+type Buffered<T, V> = {
+  cb: (item: T) => void;
+  value: T;
+  type: V;
 };
 
 export class CdktfProject {
@@ -220,11 +290,20 @@ export class CdktfProject {
   private onLog?: (log: { stackName: string; message: string }) => void;
   private abortSignal: AbortSignal;
 
-  // Set during deploy / destroy, may be mutated by approve / stop actions
-  private stacksToRun: CdktfStack[] = [];
+  // Set during deploy / destroy
+  public stacksToRun: CdktfStack[] = [];
   // This means sth different in deploy / destroy
   private stopAllStacksThatCanNotRunWithout: (stackName: string) => void =
     () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
+  // Pauses all progress / status events from being forwarded to the user
+  // If set from true to false, the events will be sent through the channels they came in
+  // (until a waiting for approval event is sent)
+  private waitingForApproval = false;
+  private eventBuffer: Array<
+    | Buffered<ProjectUpdate, "projectUpdate">
+    | Buffered<LogMessage, "logMessage">
+  > = [];
+
   constructor({
     synthCommand,
     outDir,
@@ -235,7 +314,7 @@ export class CdktfProject {
     synthCommand: string;
     outDir: string;
     onUpdate: (update: ProjectUpdate) => void;
-    onLog?: (log: { stackName: string; message: string }) => void;
+    onLog?: (log: LogMessage) => void;
     workingDirectory?: string;
   }) {
     this.synthCommand = synthCommand;
@@ -253,31 +332,89 @@ export class CdktfProject {
     this.stacksToRun.forEach((stack) => stack.stop());
   }
 
-  private handleApprovalProcess(cb: (updateToSend: ProjectUpdate) => void) {
-    const callbacks = (update: StackApprovalUpdate) => ({
-      approve: () => {
-        update.approve();
-      },
-      dismiss: () => {
-        update.reject();
+  private waitForApproval() {
+    this.waitingForApproval = true;
+  }
 
-        this.stopAllStacksThatCanNotRunWithout(update.stackName);
-      },
-      stop: () => {
-        update.reject();
-        this.stopAllStacks();
-      },
-    });
+  private resumeAfterApproval() {
+    // We first need to flush all events, we can not resume if there is a new waiting for approval update
+    let event = this.eventBuffer.shift();
+    while (event) {
+      if (event.type === "projectUpdate") {
+        event.cb(event.value);
+        if (event.value.type === "waiting for approval") {
+          // We have to wait for approval again, therefore we can not resume
+          return;
+        }
+      }
+      if (event.type === "logMessage") {
+        event.cb(event.value);
+      }
+
+      event = this.eventBuffer.shift();
+    }
+
+    // If we reach this point there was no waiting for approval event, so we can safely resume
+    this.waitingForApproval = false;
+  }
+
+  private handleApprovalProcess(cb: (updateToSend: ProjectUpdate) => void) {
     return (update: StackUpdate | StackApprovalUpdate) => {
+      const bufferCb = (bufferedUpdate: ProjectUpdate) => {
+        this.eventBuffer.push({
+          cb,
+          value: bufferedUpdate,
+          type: "projectUpdate",
+        });
+      };
+      const bufferableCb = this.waitingForApproval ? bufferCb : cb;
+
       if (update.type === "waiting for stack approval") {
-        cb({
+        const callbacks = (update: StackApprovalUpdate) => ({
+          approve: () => {
+            update.approve();
+            this.resumeAfterApproval();
+          },
+          dismiss: () => {
+            update.reject();
+
+            this.stopAllStacksThatCanNotRunWithout(update.stackName);
+            this.resumeAfterApproval();
+          },
+          stop: () => {
+            update.reject();
+            this.stopAllStacks();
+            this.resumeAfterApproval();
+          },
+        });
+        this.waitForApproval();
+
+        bufferableCb({
           type: "waiting for approval",
           stackName: update.stackName,
           plan: update.plan,
           ...callbacks(update),
         });
       } else {
-        cb(update);
+        bufferableCb(update);
+      }
+    };
+  }
+
+  private bufferWhileWaitingForApproval(cb?: (msg: LogMessage) => void) {
+    if (!cb) {
+      return undefined;
+    }
+
+    return (msg: LogMessage) => {
+      if (this.waitingForApproval) {
+        this.eventBuffer.push({
+          cb,
+          value: msg,
+          type: "logMessage",
+        });
+      } else {
+        cb(msg);
       }
     };
   }
@@ -290,9 +427,19 @@ export class CdktfProject {
       ...opts,
       stack,
       onUpdate: this.handleApprovalProcess(this.onUpdate),
-      onLog: this.onLog,
+      onLog: this.bufferWhileWaitingForApproval(this.onLog),
       abortSignal: this.abortSignal,
     });
+  }
+
+  public get outputsByConstructId() {
+    return this.stacksToRun.reduce(
+      (acc, stack) => ({
+        ...acc,
+        ...stack.outputsByConstructId,
+      }),
+      {} as NestedTerraformOutputs
+    );
   }
 
   public async synth() {
@@ -325,7 +472,39 @@ export class CdktfProject {
     return stack.currentPlan;
   }
 
+  private async execute(
+    method: "deploy" | "destroy",
+    next: () => Promise<CdktfStack | undefined>,
+    parallelism: number
+  ) {
+    const maxParallelRuns = parallelism === -1 ? Infinity : parallelism;
+    while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
+      const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
+      if (runningStacks.length >= maxParallelRuns) {
+        await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
+      } else {
+        const nextRunningExecutor = await next();
+        if (!nextRunningExecutor) {
+          // In this case we have no pending stacks, but we also can not find a new executor
+          break;
+        }
+
+        method === "deploy"
+          ? nextRunningExecutor.deploy()
+          : nextRunningExecutor.destroy();
+      }
+    }
+
+    // We end the loop when all stacks are started, now we need to wait for them to be done
+    await Promise.all(
+      this.stacksToRun
+        .filter((ex) => ex.currentWorkPromise)
+        .map((ex) => ex.currentWorkPromise)
+    );
+  }
+
   public async deploy(opts: ExecutionOptions = {}) {
+    const parallelism = opts.parallelism || -1;
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     if (!opts.ignoreMissingStackDependencies) {
@@ -341,16 +520,15 @@ export class CdktfProject {
     this.stacksToRun = stacksToRun.map((stack) =>
       this.getStackExecutor(stack, opts)
     );
+
     const next = opts.ignoreMissingStackDependencies
-      ? () => this.stacksToRun.filter((stack) => stack.isPending)[0]
+      ? () =>
+          Promise.resolve(
+            this.stacksToRun.filter((stack) => stack.isPending)[0]
+          )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
-    let nextRunningExecutor = next();
-
-    while (nextRunningExecutor) {
-      await nextRunningExecutor.deploy();
-      nextRunningExecutor = next();
-    }
+    await this.execute("deploy", next, parallelism);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -365,6 +543,7 @@ export class CdktfProject {
   }
 
   public async destroy(opts: ExecutionOptions = {}) {
+    const parallelism = opts.parallelism || -1;
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
@@ -402,15 +581,12 @@ export class CdktfProject {
     );
     const next = opts.ignoreMissingStackDependencies
       ? () =>
-          this.stacksToRun.filter((stack) => stack.currentState !== "done")[0]
+          Promise.resolve(
+            this.stacksToRun.filter((stack) => stack.currentState !== "done")[0]
+          )
       : () => getStackWithNoUnmetDependants(this.stacksToRun);
 
-    let nextRunningExecutor = next();
-
-    while (nextRunningExecutor) {
-      await nextRunningExecutor.destroy();
-      nextRunningExecutor = next();
-    }
+    await this.execute("destroy", next, parallelism);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -429,6 +605,7 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "output")
     );
-    return await stack.fetchOutputs();
+    await stack.fetchOutputs();
+    return stack.outputsByConstructId;
   }
 }

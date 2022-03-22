@@ -56,6 +56,11 @@ export type StackUpdate =
       stackName: string;
       outputsByConstructId: NestedTerraformOutputs;
       outputs: Record<string, any>;
+    }
+  | {
+      type: "errored";
+      stackName: string;
+      error: string;
     };
 
 export type StackApprovalUpdate = {
@@ -273,6 +278,12 @@ export class CdktfStack {
             }
           }
           break;
+        case "error":
+          onUpdate({
+            type: "errored",
+            stackName: this.stackName!,
+            error: ctx.message || "Unknown error",
+          });
       }
     });
 
@@ -283,11 +294,36 @@ export class CdktfStack {
     return this.stateMachine.state.toStrings()[0] || "idle";
   }
   public get isPending(): boolean {
-    return this.currentState !== "done" && !this.stopped;
+    return this.currentState === "idle" && !this.stopped;
+  }
+  public get isDone(): boolean {
+    return (
+      this.currentState === "done" ||
+      this.currentState === "error" ||
+      this.stopped
+    );
+  }
+  public get isRunning(): boolean {
+    return !this.isPending && !this.isDone;
+  }
+  public get currentWorkPromise(): Promise<void> | undefined {
+    if (!this.isRunning) {
+      return undefined;
+    }
+
+    return this.waitOnMachineDone();
   }
 
   private waitOnMachineDone(): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (this.currentState === "done") {
+        resolve();
+      }
+
+      if (this.currentState === "error") {
+        reject(new Error(this.stateMachine.state.context.message));
+      }
+
       this.stateMachine.onTransition((state) => {
         if (state.matches("error")) {
           reject(new Error(state.context.message));

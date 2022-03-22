@@ -11,7 +11,10 @@ function eventNames(events: any[]) {
 
 jest.setTimeout(30000);
 describe("CdktfProject", () => {
-  let inNewWorkingDirectory: () => { workingDirectory: string; outDir: string };
+  let inNewWorkingDirectory: () => {
+    workingDirectory: string;
+    outDir: string;
+  };
   beforeAll(async () => {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
     await init({
@@ -26,11 +29,11 @@ describe("CdktfProject", () => {
     });
 
     fs.copyFileSync(
-      path.resolve(__dirname, "fixtures/main.ts.fixture"),
+      path.resolve(__dirname, "fixtures/default/main.ts.fixture"),
       path.resolve(workingDirectory, "main.ts")
     );
     fs.copyFileSync(
-      path.resolve(__dirname, "fixtures/cdktf.json"),
+      path.resolve(__dirname, "fixtures/default/cdktf.json"),
       path.resolve(workingDirectory, "cdktf.json")
     );
 
@@ -142,7 +145,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy({ stackNames: ["first"] });
+      await cdktfProject.deploy({ stackNames: ["first"], parallelism: 1 });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -168,7 +171,11 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.deploy({ stackNames: ["first"], autoApprove: true });
+      await cdktfProject.deploy({
+        stackNames: ["first"],
+        autoApprove: true,
+        parallelism: 1,
+      });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([
@@ -198,7 +205,7 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy({ stackNames: ["second"] });
+      await cdktfProject.destroy({ stackNames: ["second"], parallelism: 1 });
 
       return expect(eventNames(events)).toEqual([
         "synthesizing",
@@ -221,7 +228,11 @@ describe("CdktfProject", () => {
         },
       });
 
-      await cdktfProject.destroy({ stackNames: ["second"], autoApprove: true });
+      await cdktfProject.destroy({
+        stackNames: ["second"],
+        autoApprove: true,
+        parallelism: 1,
+      });
 
       const eventTypes = eventNames(events);
       expect(eventTypes).toEqual([
@@ -248,7 +259,7 @@ describe("CdktfProject", () => {
       });
 
       await expect(
-        cdktfProject.deploy({ stackNames: ["not-found"] })
+        cdktfProject.deploy({ stackNames: ["not-found"], parallelism: 1 })
       ).rejects.toMatchInlineSnapshot(
         `[Error: Usage Error: Could not find stack: not-found]`
       );
@@ -265,7 +276,7 @@ describe("CdktfProject", () => {
       });
 
       await expect(
-        cdktfProject.deploy({ stackNames: ["third"] })
+        cdktfProject.deploy({ stackNames: ["third"], parallelism: 1 })
       ).rejects.toMatchInlineSnapshot(
         `[Error: Usage Error: The following dependencies are not included in the stacks to run: first. Either add them or add the --ignore-missing-stack-dependencies flag.]`
       );
@@ -285,6 +296,7 @@ describe("CdktfProject", () => {
         stackNames: ["third"],
         autoApprove: true,
         ignoreMissingStackDependencies: true,
+        parallelism: 1,
       });
 
       return expect(events.length).toBeGreaterThan(3);
@@ -305,7 +317,10 @@ describe("CdktfProject", () => {
       });
 
       // Random order to implicitly test out sorting
-      await cdktfProject.deploy({ stackNames: ["third", "first", "second"] });
+      await cdktfProject.deploy({
+        stackNames: ["third", "first", "second"],
+        parallelism: 1,
+      });
 
       expect(
         events
@@ -346,6 +361,7 @@ describe("CdktfProject", () => {
       await cdktfProject.deploy({
         stackNames: ["third", "first", "second"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       expect(
@@ -391,6 +407,7 @@ describe("CdktfProject", () => {
       // Random order to implicitly test out sorting
       await cdktfProject.deploy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
+        parallelism: 1,
       });
 
       expect(
@@ -439,12 +456,14 @@ describe("CdktfProject", () => {
       }).deploy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       // Random order to implicitly test out sorting
       await cdktfProject.destroy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       expect(
@@ -503,11 +522,13 @@ describe("CdktfProject", () => {
       }).deploy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
+        parallelism: 1,
       });
 
       // Random order to implicitly test out sorting
       await cdktfProject.destroy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
+        parallelism: 1,
       });
 
       expect(
@@ -536,6 +557,55 @@ describe("CdktfProject", () => {
         "fourth: destroying",
         "fourth: destroyed",
       ]);
+    });
+  });
+
+  describe("highly parallel", () => {
+    let workingDirectory: string;
+    let outDir: string;
+
+    beforeEach(() => {
+      const env = inNewWorkingDirectory();
+      workingDirectory = env.workingDirectory;
+      outDir = env.outDir;
+      fs.copyFileSync(
+        path.resolve(__dirname, "fixtures/parallel/main.ts.fixture"),
+        path.resolve(workingDirectory, "main.ts")
+      );
+    });
+
+    it("stalls logs and updates while waiting for approval", async () => {
+      let events: any[] = [];
+      let eventsDuringWaitForApprove: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        workingDirectory,
+        outDir,
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            events = [];
+            setTimeout(() => {
+              eventsDuringWaitForApprove = [
+                ...eventsDuringWaitForApprove,
+                ...events,
+              ];
+              event.approve();
+            }, 50);
+          }
+        },
+        onLog: (event) => {
+          events.push(event);
+        },
+      });
+
+      await cdktfProject.deploy({
+        stackNames: new Array(5).fill(0).map((_, i) => `stack-${i}`),
+        parallelism: 100,
+      });
+
+      expect(eventsDuringWaitForApprove.length).toBe(0);
     });
   });
 });

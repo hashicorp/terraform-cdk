@@ -2,8 +2,9 @@ import React from "react";
 import { Box, Text } from "ink";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { StreamView, StatusBottomBar } from "./components";
+import { StreamView } from "./components";
 import { SynthesizedStack } from "../../../lib";
+import { StatusBottomBar } from "./components/bottom-bars/status";
 
 interface CommonSynthConfig {
   outDir: string;
@@ -48,20 +49,18 @@ export const Synth = ({
   jsonOutput,
   targetStack,
 }: SynthConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done } = useCdktfProject(
+  const { returnValue, logEntries, status } = useCdktfProject(
     { outDir, synthCommand },
     (project) => project.synth()
   );
 
   return (
     <StreamView logs={logEntries}>
-      <StatusBottomBar latestUpdate={projectUpdate} done={done}>
+      <StatusBottomBar status={status}>
         <SynthOutput
           jsonOutput={jsonOutput}
           currentStackName={targetStack}
-          stacks={
-            projectUpdate?.type === "synthesized" ? projectUpdate.stacks : []
-          }
+          stacks={status.type === "done" ? returnValue! : []}
         />
       </StatusBottomBar>
     </StreamView>

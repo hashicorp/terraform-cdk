@@ -1,0 +1,38 @@
+import { Construct } from "constructs";
+import {
+  App,
+  TerraformStack,
+  Testing,
+  LocalBackend,
+  TerraformOutput,
+} from "cdktf";
+import * as NullProvider from "./.gen/providers/null";
+
+export class HelloTerra extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+    new NullProvider.NullProvider(this, "null", {});
+    new LocalBackend(this);
+
+    const nullResouce = new NullProvider.Resource(this, "test", {});
+
+    nullResouce.addOverride("provisioner", [
+      {
+        "local-exec": {
+          command: `echo "hello deploy"`,
+        },
+      },
+    ]);
+
+    new TerraformOutput(this, "output", {
+      staticId: true,
+      value: id,
+    });
+  }
+}
+
+const app = Testing.stubVersion(new App({ stackTraces: false }));
+new Array(100).fill(0).forEach((_,i)=>{
+  new HelloTerra(app, `stack-${i}`);
+});
+app.synth();

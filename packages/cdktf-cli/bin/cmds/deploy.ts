@@ -52,6 +52,12 @@ class Command implements yargs.CommandModule {
         desc: "Don't check if all stacks specified in the command have their dependencies included as well",
         default: false,
       })
+      .option("parallelism", {
+        type: "number",
+        required: false,
+        desc: "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1",
+        default: -1,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {

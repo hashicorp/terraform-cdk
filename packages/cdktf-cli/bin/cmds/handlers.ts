@@ -115,6 +115,7 @@ export async function deploy(argv: any) {
       outputsPath,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
@@ -136,6 +137,7 @@ export async function destroy(argv: any) {
       autoApprove,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
