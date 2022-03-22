@@ -263,7 +263,7 @@ describe("CdktfProject", () => {
       await expect(
         cdktfProject.deploy({ stackNames: ["not-found"], parallelism: 1 })
       ).rejects.toMatchInlineSnapshot(
-        `[Error: Usage Error: Could not find stack: not-found]`
+        `[Error: Usage Error: Could not find stack for pattern 'not-found']`
       );
     });
 
