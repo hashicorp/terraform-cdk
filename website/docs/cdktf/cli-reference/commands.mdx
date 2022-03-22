@@ -175,6 +175,18 @@ Deploy multiple stacks in one run.
 $ cdktf deploy my-first-stack my-second-stack my-third-stack
 ```
 
+Deploy all stacks in one run:
+
+```bash
+$ cdktf deploy '*'
+```
+
+Deploy all stacks ending with production in one run:
+
+```bash
+$ cdktf deploy '*-production'
+```
+
 If the stacks have dependencies (through cross stack references or by calling `myStack.addDependency(otherStack)`) deploy will figure out the right order to run.
 
 For more info on the `--outputs-file` option, [see the `output` command below](/cdktf/cli-reference/commands#output).
@@ -229,6 +241,18 @@ Destroy multiple stacks in one run.
 
 ```bash
 $ cdktf destroy my-first-stack my-second-stack my-third-stack
+```
+
+Destroy all stacks in one run:
+
+```bash
+$ cdktf destroy '*'
+```
+
+Destroy all stacks ending with production in one run:
+
+```bash
+$ cdktf destroy '*-production'
 ```
 
 If the stacks have dependencies (through cross stack references or by calling `myStack.addDependency(otherStack)`) deploy will figure out the right order to run.
