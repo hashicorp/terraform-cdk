@@ -439,7 +439,6 @@ Options:
   --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
   --app, -a          Command to use in order to execute cdktf app
   --output, -o       Output directory                                                                                                                                 [default: "cdktf.out"]
-  --json             Provide JSON output for the generated Terraform configuration.                                                                               [boolean] [default: false]
   -h, --help         Show help                                                                                                                                                     [boolean]
 ```
 
@@ -455,12 +454,6 @@ Synthesize code when providing a custom command to execute and an output directo
 
 ```bash
 $ cdktf synth --app="npm compile && node main.js" --output="dirname"
-```
-
-Synthesize code for an application and output the Terraform JSON configuration.
-
-```bash
-$ cdktf synth --json
 ```
 
 ## watch

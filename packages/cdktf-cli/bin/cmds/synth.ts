@@ -6,7 +6,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "synth [stack] [OPTIONS]";
+  public readonly command = "synth [OPTIONS]";
   public readonly describe =
     "Synthesizes Terraform code for the given app in a directory.";
   public readonly aliases = ["synthesize"];
@@ -26,11 +26,6 @@ class Command implements yargs.CommandModule {
         default: config.output,
         desc: "Output directory for the synthesized Terraform config",
         alias: "o",
-      })
-      .option("json", {
-        type: "boolean",
-        desc: "Provide JSON output for the generated Terraform configuration.",
-        default: false,
       })
       .option("check-code-maker-output", {
         type: "boolean",
