@@ -18,14 +18,13 @@ type TFJson = {
   resource: TfResourceType;
 };
 
-export function enhanceLogMessage(
-  message: string,
+export function createEnhanceLogMessage(
   stack: SynthesizedStack
-): string | undefined {
+): (message: string) => string | undefined {
   // we never want to throw, if it does not work we just do as if it did not happen
+  const pathMapping: Record<TFIdentifier, CDKTFResourcePath> = {};
   try {
     const json = JSON.parse(stack.content) as TFJson;
-    const pathMapping: Record<TFIdentifier, CDKTFResourcePath> = {};
 
     ["data", "resource"].forEach((type) => {
       Object.entries(json[type as "data" | "resource"] || {}).forEach(
@@ -47,7 +46,11 @@ export function enhanceLogMessage(
         }
       );
     });
+  } catch (e) {
+    logger.debug(`Could not enhance log message: ${e}`);
+  }
 
+  return (message: string) => {
     return message
       .split("\n")
       .map((line) => {
@@ -61,8 +64,5 @@ export function enhanceLogMessage(
         return line.replace(id, `${id} (${cdkPath})`);
       })
       .join("\n");
-  } catch (e) {
-    logger.debug(`Could not enhance log message: ${e}`);
-    return undefined;
-  }
+  };
 }

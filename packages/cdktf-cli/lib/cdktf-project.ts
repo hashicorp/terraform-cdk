@@ -7,7 +7,7 @@ import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 import minimatch from "minimatch";
-import { enhanceLogMessage } from "./execution-logs";
+import { createEnhanceLogMessage } from "./execution-logs";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -436,6 +436,7 @@ export class CdktfProject {
     stack: SynthesizedStack,
     opts: ExecutionOptions = {}
   ) {
+    const enhanceLogMessage = createEnhanceLogMessage(stack);
     const onLog = this.bufferWhileWaitingForApproval(this.onLog);
     return new CdktfStack({
       ...opts,
@@ -446,7 +447,7 @@ export class CdktfProject {
             onLog({
               stackName: stack.name,
               message,
-              messageWithConstructPath: enhanceLogMessage(message, stack),
+              messageWithConstructPath: enhanceLogMessage(message),
             })
         : undefined,
       abortSignal: this.abortSignal,
