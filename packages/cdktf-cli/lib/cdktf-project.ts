@@ -6,6 +6,7 @@ import { Errors } from "./errors";
 import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
+import minimatch from "minimatch";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -61,12 +62,12 @@ function getSingleStack(
   );
 }
 
-function getMultipleStacks(
+export function getMultipleStacks(
   stacks: SynthesizedStack[],
-  stackNames?: string[],
+  patterns?: string[],
   targetAction?: string
 ) {
-  if (!stackNames || !stackNames.length) {
+  if (!patterns || !patterns.length) {
     if (stacks.length === 1) {
       return [stacks[0]];
     }
@@ -79,7 +80,17 @@ function getMultipleStacks(
     );
   }
 
-  return stackNames.map((stackName) => getSingleStack(stacks, stackName));
+  return patterns.flatMap((pattern) => {
+    const matchingStacks = stacks.filter((stack) =>
+      minimatch(stack.name, pattern)
+    );
+
+    if (matchingStacks.length === 0) {
+      throw Errors.Usage(`Could not find stack for pattern '${pattern}'`);
+    }
+
+    return matchingStacks;
+  });
 }
 
 // Returns the first stack that has no unmet dependencies
