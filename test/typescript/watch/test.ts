@@ -71,10 +71,12 @@ const screenOutput = (
     | ((line: string | undefined, exit: boolean) => void)
     | undefined;
   let lines: string[] = [];
+  const allLines: string[] = [];
   let exited: boolean = false;
 
   disposables.push(
     pty.onData((line) => {
+      allLines.push(line);
       // buffer until we get a new subscriber
       if (subscriber === undefined) lines.push(line);
       else subscriber(line, false);
@@ -105,7 +107,9 @@ const screenOutput = (
         }
       };
       timeoutId = setTimeout(() => {
-        reject(new Error("waitForLine timed out"));
+        console.log(allLines.map((l) => stripAnsi(l)).join("\n"));
+        console.log("subscriber timeout");
+        reject(new Error(`waitForLine timed out: ${check.toString()}`));
       }, timeout);
       subscriber = subscription;
       // replay old lines that already happened
