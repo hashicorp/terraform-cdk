@@ -185,7 +185,29 @@ export class StructEmitter {
       this.code.openBlock(
         `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`
       );
-      this.code.line(`super(terraformResource, terraformAttribute, 0, false);`);
+      this.code.line(`super(terraformResource, terraformAttribute, false, 0);`);
+      this.code.closeBlock();
+    } else if (
+      struct.nestingMode === "single" ||
+      struct.nestingMode === "object"
+    ) {
+      this.code.line(`*/`);
+      this.code.openBlock(
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`
+      );
+      this.code.line(`super(terraformResource, terraformAttribute, false);`);
+      this.code.closeBlock();
+    } else if (struct.nestingMode === "map") {
+      this.code.line(
+        `* @param complexObjectKey the key of this item in the map`
+      );
+      this.code.line(`*/`);
+      this.code.openBlock(
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectKey: string)`
+      );
+      this.code.line(
+        `super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectKey);`
+      );
       this.code.closeBlock();
     } else {
       this.code.line(
@@ -199,7 +221,7 @@ export class StructEmitter {
         `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean)`
       );
       this.code.line(
-        `super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);`
+        `super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);`
       );
       this.code.closeBlock();
     }
@@ -222,7 +244,10 @@ export class StructEmitter {
 
     this.code.closeBlock();
 
-    if (!struct.isSingleItem) {
+    if (
+      !struct.isSingleItem &&
+      (struct.nestingMode === "list" || struct.nestingMode === "set")
+    ) {
       this.code.line();
       this.code.openBlock(
         `export class ${struct.listName} extends cdktf.ComplexList`
@@ -247,15 +272,44 @@ export class StructEmitter {
       this.code.line();
       this.code.line(`/**`);
       this.code.line(`* @param index the index of the item to return`);
-      this.code.line(
-        `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
-      );
       this.code.line(`*/`);
       this.code.openBlock(
         `public get(index: number): ${struct.outputReferenceName}`
       );
       this.code.line(
         `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);`
+      );
+      this.code.closeBlock();
+
+      this.code.closeBlock();
+    } else if (struct.nestingMode === "map") {
+      this.code.line();
+      this.code.openBlock(
+        `export class ${struct.mapName} extends cdktf.ComplexList`
+      );
+
+      this.code.line();
+      this.code.line(`/**`);
+      this.code.line(`* @param terraformResource The parent resource`);
+      this.code.line(
+        `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+      );
+      this.code.line(`*/`);
+      this.code.openBlock(
+        `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
+      );
+      this.code.line(`super(terraformResource, terraformAttribute, false)`);
+      this.code.closeBlock();
+
+      this.code.line();
+      this.code.line(`/**`);
+      this.code.line(`* @param key the key of the item to return`);
+      this.code.line(`*/`);
+      this.code.openBlock(
+        `public get(key: string): ${struct.outputReferenceName}`
+      );
+      this.code.line(
+        `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, key);`
       );
       this.code.closeBlock();
 
