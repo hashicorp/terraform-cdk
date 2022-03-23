@@ -8,7 +8,7 @@ describe("full integration test", () => {
       const deployDriver = new TestDriver(__dirname);
       await deployDriver.setupTypescriptProject();
       const deployLog = deployDriver.deploy(["using-all-providers"]);
-      expect(deployLog).toContain("null_resource.test will be created");
+      expect(deployLog).toContain("null_resource.test (test) will be created");
       expect(deployLog).toContain("1 to add");
       expect(deployLog).toContain("Apply complete!");
     });
