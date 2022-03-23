@@ -4,7 +4,7 @@
 
 ### Remove `cdktf synth --json` Opion [#1640](https://github.com/hashicorp/terraform-cdk/pull/1640)
 
-If you are using `cdktf synth --json` to get the synthesized JSON configuration for your Stack, you will now need to run `cdktf synth && cat ./cdktf.out/stacks/<stack-name>/cdk.tf.json` instead. The `./cdktf.out` part is your output directory (set by `cdktf.json` or via the `--output` flag).
+If you are using `cdktf synth --json <stack-name>` to get the synthesized JSON configuration for your Stack, you will now need to run `cdktf synth && cat ./cdktf.out/stacks/<stack-name>/cdk.tf.json` instead. The `./cdktf.out` part is your output directory (set by `cdktf.json` or via the `--output` flag).
 
 ## 0.9.4
 
