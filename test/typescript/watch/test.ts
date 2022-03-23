@@ -9,7 +9,7 @@ describe("full watch integration test", () => {
   let child: IPty;
   let childStopped: Promise<any> | undefined;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     driver = new TestDriver(__dirname, {
       // CDKTF_LOG_LEVEL: "all", // useful for debugging this testcase
       CI: "", // watch is supposed to be interactive
@@ -19,7 +19,7 @@ describe("full watch integration test", () => {
     driver.copyFiles(".gitignore");
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     child.kill();
     await childStopped;
   });
