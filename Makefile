@@ -15,3 +15,6 @@ website:
 
 .DEFAULT_GOAL := website
 .PHONY: website
+
+website-preview:
+	scripts/website-preview.sh
