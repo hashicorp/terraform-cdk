@@ -2,12 +2,7 @@ import { interpret, InterpreterFrom } from "xstate";
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack } from "./synth-stack";
 import { stackExecutionMachine } from "./stack-execution";
-import {
-  PlannedResource,
-  DeployingResourceApplyState,
-  DeployingResource,
-  TerraformPlan,
-} from "./models/terraform";
+import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 
@@ -29,7 +24,6 @@ export type StackUpdate =
       type: "deploy update";
       stackName: string;
       deployOutput: string;
-      resources: DeployingResource[];
     }
   | {
       type: "deployed";
@@ -45,7 +39,6 @@ export type StackUpdate =
       type: "destroy update";
       stackName: string;
       destroyOutput: string;
-      resources: DeployingResource[];
     }
   | {
       type: "destroyed";
@@ -95,7 +88,6 @@ export class CdktfStack {
   public stack: SynthesizedStack;
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
-  public deployingResources?: DeployingResource[];
   public stopped = false;
 
   constructor({
@@ -140,25 +132,17 @@ export class CdktfStack {
 
             case "RESOURCE_UPDATE":
               {
-                const map = new Map<string, DeployingResource>(
-                  (this.deployingResources || []).map((r) => [r.id, r])
-                );
-                event.updatedResources.forEach((r) => map.set(r.id, r));
-                this.deployingResources = Array.from(map.values());
-
                 if (event.stateName === "deploy") {
                   onUpdate({
                     type: "deploy update",
                     stackName: event.stackName,
                     deployOutput: event.stdout,
-                    resources: this.deployingResources,
                   });
                 } else if (event.stateName === "destroy") {
                   onUpdate({
                     type: "destroy update",
                     stackName: event.stackName,
                     destroyOutput: event.stdout,
-                    resources: this.deployingResources,
                   });
                 } else {
                   logger.error("Unknown state name: " + event.stateName);
@@ -187,14 +171,6 @@ export class CdktfStack {
       switch (lastState) {
         case "diff":
           this.currentPlan = ctx.targetStackPlan;
-          if (this.currentPlan?.needsApply && ctx.targetAction !== "diff") {
-            this.deployingResources = this.currentPlan?.applyableResources.map(
-              (r: PlannedResource) =>
-                Object.assign({}, r, {
-                  applyState: DeployingResourceApplyState.WAITING,
-                })
-            );
-          }
           onUpdate({
             type: "planned",
             stackName: this.stackName,
