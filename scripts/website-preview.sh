@@ -19,9 +19,9 @@ CONTENT_DIR_BIND_MOUNT="$(pwd)/website/docs/cdktf:/website/cdktf"
 
 IMAGE_NAME="hashicorp-terraform-website-local"
 
-echo "----------------------------"
+echo "----------------------------------------"
 echo "🐳 Building terraform.io docker image..."
-echo "----------------------------"
+echo "----------------------------------------"
 echo ""
 
 docker rmi $IMAGE_NAME:latest || true
