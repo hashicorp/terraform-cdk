@@ -228,7 +228,7 @@ const services = {
     const tf = context.terraform;
     if (!tf) {
       throw Errors.Internal(
-        "No terraform cli found, initializeTerraform needs to be run first"
+        "No Terraform CLI found, initializeTerraform needs to be run first"
       );
     }
 
