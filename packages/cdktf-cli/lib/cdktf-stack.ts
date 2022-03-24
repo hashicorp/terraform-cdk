@@ -2,12 +2,7 @@ import { interpret, InterpreterFrom } from "xstate";
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack } from "./synth-stack";
 import { stackExecutionMachine } from "./stack-execution";
-import {
-  PlannedResource,
-  DeployingResourceApplyState,
-  DeployingResource,
-  TerraformPlan,
-} from "./models/terraform";
+import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 
@@ -29,7 +24,6 @@ export type StackUpdate =
       type: "deploy update";
       stackName: string;
       deployOutput: string;
-      resources: DeployingResource[];
     }
   | {
       type: "deployed";
@@ -45,7 +39,6 @@ export type StackUpdate =
       type: "destroy update";
       stackName: string;
       destroyOutput: string;
-      resources: DeployingResource[];
     }
   | {
       type: "destroyed";
@@ -56,6 +49,11 @@ export type StackUpdate =
       stackName: string;
       outputsByConstructId: NestedTerraformOutputs;
       outputs: Record<string, any>;
+    }
+  | {
+      type: "errored";
+      stackName: string;
+      error: string;
     };
 
 export type StackApprovalUpdate = {
@@ -90,7 +88,6 @@ export class CdktfStack {
   public stack: SynthesizedStack;
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
-  public deployingResources?: DeployingResource[];
   public stopped = false;
 
   constructor({
@@ -102,7 +99,7 @@ export class CdktfStack {
   }: {
     stack: SynthesizedStack;
     onUpdate: (update: StackUpdate | StackApprovalUpdate) => void;
-    onLog?: (log: { stackName: string; message: string }) => void;
+    onLog?: (log: { message: string }) => void;
     autoApprove?: boolean;
     abortSignal: AbortSignal;
   }) {
@@ -123,7 +120,7 @@ export class CdktfStack {
                   `[${event.stackName}](${event.stateName}): ${message}`
                 );
                 if (onLog) {
-                  onLog({ stackName: event.stackName, message: event.message });
+                  onLog({ message: event.message });
                 }
               }
 
@@ -135,25 +132,17 @@ export class CdktfStack {
 
             case "RESOURCE_UPDATE":
               {
-                const map = new Map<string, DeployingResource>(
-                  (this.deployingResources || []).map((r) => [r.id, r])
-                );
-                event.updatedResources.forEach((r) => map.set(r.id, r));
-                this.deployingResources = Array.from(map.values());
-
                 if (event.stateName === "deploy") {
                   onUpdate({
                     type: "deploy update",
                     stackName: event.stackName,
                     deployOutput: event.stdout,
-                    resources: this.deployingResources,
                   });
                 } else if (event.stateName === "destroy") {
                   onUpdate({
                     type: "destroy update",
                     stackName: event.stackName,
                     destroyOutput: event.stdout,
-                    resources: this.deployingResources,
                   });
                 } else {
                   logger.error("Unknown state name: " + event.stateName);
@@ -182,14 +171,6 @@ export class CdktfStack {
       switch (lastState) {
         case "diff":
           this.currentPlan = ctx.targetStackPlan;
-          if (this.currentPlan?.needsApply && ctx.targetAction !== "diff") {
-            this.deployingResources = this.currentPlan?.applyableResources.map(
-              (r: PlannedResource) =>
-                Object.assign({}, r, {
-                  applyState: DeployingResourceApplyState.WAITING,
-                })
-            );
-          }
           onUpdate({
             type: "planned",
             stackName: this.stackName,
@@ -273,6 +254,12 @@ export class CdktfStack {
             }
           }
           break;
+        case "error":
+          onUpdate({
+            type: "errored",
+            stackName: this.stackName!,
+            error: ctx.message || "Unknown error",
+          });
       }
     });
 
@@ -283,11 +270,36 @@ export class CdktfStack {
     return this.stateMachine.state.toStrings()[0] || "idle";
   }
   public get isPending(): boolean {
-    return this.currentState !== "done" && !this.stopped;
+    return this.currentState === "idle" && !this.stopped;
+  }
+  public get isDone(): boolean {
+    return (
+      this.currentState === "done" ||
+      this.currentState === "error" ||
+      this.stopped
+    );
+  }
+  public get isRunning(): boolean {
+    return !this.isPending && !this.isDone;
+  }
+  public get currentWorkPromise(): Promise<void> | undefined {
+    if (!this.isRunning) {
+      return undefined;
+    }
+
+    return this.waitOnMachineDone();
   }
 
   private waitOnMachineDone(): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (this.currentState === "done") {
+        resolve();
+      }
+
+      if (this.currentState === "error") {
+        reject(new Error(this.stateMachine.state.context.message));
+      }
+
       this.stateMachine.onTransition((state) => {
         if (state.matches("error")) {
           reject(new Error(state.context.message));
@@ -328,11 +340,11 @@ export class CdktfStack {
     return this.waitOnMachineDone();
   }
 
-  public async fetchOutputs(stackName?: string) {
+  public async fetchOutputs() {
     this.stateMachine.send({
       type: "START",
       targetAction: "output",
-      targetStack: stackName,
+      targetStack: this.stackName,
     });
 
     await this.waitOnMachineDone();

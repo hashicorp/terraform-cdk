@@ -2,7 +2,11 @@
 import React from "react";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
-import { StreamView, StatusBottomBar, ApproveBottomBar } from "./components";
+import {
+  StreamView,
+  ExecutionStatusBottomBar,
+  ApproveBottomBar,
+} from "./components";
 
 interface DestroyConfig {
   outDir: string;
@@ -10,6 +14,7 @@ interface DestroyConfig {
   synthCommand: string;
   autoApprove: boolean;
   ignoreMissingStackDependencies?: boolean;
+  parallelism?: number;
 }
 
 export const Destroy = ({
@@ -18,26 +23,29 @@ export const Destroy = ({
   synthCommand,
   autoApprove,
   ignoreMissingStackDependencies,
+  parallelism,
 }: DestroyConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done } = useCdktfProject(
+  const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
     (project) =>
       project.destroy({
         stackNames: targetStacks,
         autoApprove,
         ignoreMissingStackDependencies,
+        parallelism,
       })
   );
 
   const bottomBar =
-    projectUpdate?.type === "waiting for approval" ? (
+    status?.type === "waiting for approval of stack" ? (
       <ApproveBottomBar
-        onApprove={projectUpdate.approve}
-        onDismiss={projectUpdate.dismiss}
-        onStop={projectUpdate.stop}
+        stackName={status.stackName}
+        onApprove={status.approve}
+        onDismiss={status.dismiss}
+        onStop={status.stop}
       />
     ) : (
-      <StatusBottomBar latestUpdate={projectUpdate} done={done} />
+      <ExecutionStatusBottomBar status={status} actionName="destroying" />
     );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;

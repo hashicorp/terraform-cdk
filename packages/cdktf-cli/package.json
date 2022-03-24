@@ -38,6 +38,7 @@
     "ink-select-input": "^4.2.1",
     "jsii": "^1.55.1",
     "jsii-pacmak": "^1.55.1",
+    "minimatch": "^5.0.1",
     "node-abort-controller": "^3.0.1",
     "yargs": "^17.4"
   },

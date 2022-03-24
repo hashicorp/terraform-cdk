@@ -7,12 +7,8 @@ import { Errors } from "./errors";
 import { TerraformJson } from "./terraform-json";
 import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";
-import {
-  TerraformPlan,
-  Terraform,
-  DeployingResource,
-} from "./models/terraform";
-import { getConstructIdsForOutputs, parseOutput } from "./output";
+import { TerraformPlan, Terraform } from "./models/terraform";
+import { getConstructIdsForOutputs } from "./output";
 
 export type StackEvent =
   | {
@@ -44,7 +40,6 @@ type ProgressEvent =
       stackName: string;
       stateName: string;
       stdout: string;
-      updatedResources: DeployingResource[];
     };
 
 export interface StackContext {
@@ -184,7 +179,6 @@ const services = {
         stackName: stack.name,
         stateName: "deploy",
         stdout,
-        updatedResources: parseOutput(stdout),
       });
     });
   },
@@ -210,7 +204,6 @@ const services = {
         stackName: stack.name,
         stateName: "destroy",
         stdout,
-        updatedResources: parseOutput(stdout),
       });
     });
   },

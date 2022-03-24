@@ -4,7 +4,7 @@ import stripAnsi = require("strip-ansi");
 
 const onPosix = process.platform !== "win32" ? test : test.skip;
 
-describe("full watch integration test", () => {
+describe.skip("full watch integration test", () => {
   let driver: TestDriver;
   let child: IPty;
   let childStopped: Promise<any> | undefined;

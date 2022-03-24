@@ -115,6 +115,7 @@ export async function deploy(argv: any) {
       outputsPath,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
@@ -136,6 +137,7 @@ export async function destroy(argv: any) {
       autoApprove,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
@@ -255,8 +257,6 @@ export async function synth(argv: any) {
   const checkCodeMakerOutput = argv.checkCodeMakerOutput;
   const command = argv.app;
   const outDir = argv.output;
-  const jsonOutput = argv.json;
-  const stack = argv.stack;
 
   if (checkCodeMakerOutput && !(await fs.pathExists(config.codeMakerOutput))) {
     console.error(
@@ -268,9 +268,7 @@ export async function synth(argv: any) {
   await renderInk(
     React.createElement(Synth, {
       outDir,
-      targetStack: stack,
       synthCommand: command,
-      jsonOutput: jsonOutput,
     })
   );
 }
@@ -310,7 +308,7 @@ export async function output(argv: any) {
   await checkEnvironment();
   const command = argv.app;
   const outDir = argv.output;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -325,7 +323,7 @@ export async function output(argv: any) {
   await renderInk(
     React.createElement(Output, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       onOutputsRetrieved,
       outputsPath,

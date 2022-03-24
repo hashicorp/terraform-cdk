@@ -14,14 +14,14 @@ export const Diff = ({
   targetStack,
   synthCommand,
 }: DiffConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done } = useCdktfProject(
+  const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
     (project) => project.diff({ stackName: targetStack })
   );
 
   return (
     <StreamView logs={logEntries}>
-      <StatusBottomBar latestUpdate={projectUpdate} done={done} />
+      <StatusBottomBar status={status} />
     </StreamView>
   );
 };
