@@ -104,7 +104,7 @@ export class CdktfStack {
                   `[${event.stackName}](${event.stateName}): ${message}`
                 );
                 if (onLog) {
-                  onLog({ message: event.message });
+                  onLog({ message });
                 }
               }
 
