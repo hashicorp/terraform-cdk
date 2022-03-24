@@ -38,7 +38,8 @@
     "prepare": "husky install",
     "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
     "prepare-release": "tools/prepare-release.sh",
-    "release": "standard-version"
+    "release": "standard-version",
+    "website-preview": "scripts/website-preview.sh"
   },
   "workspaces": {
     "packages": [
