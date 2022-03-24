@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# make pushd and popd "quiet"
+pushd () {
+    command pushd "$@" > /dev/null
+}
+popd () {
+    command popd "$@" > /dev/null
+}
+
 # This script runs a local preview of terraform.io (https://github.com/hashicorp/terraform-website)
 # and allows you to preview terraform-cdk content changes locally.
 
@@ -26,7 +34,7 @@ echo "----------------------------------------"
 echo ""
 
 if [ ! -d "$PREVIEW_DIR" ]; then
-    git clone --depth=1 --branch=$BRANCH https://github.com/hashicorp/terraform-website.git "$PREVIEW_DIR"
+    git clone --quiet --depth=1 --branch=$BRANCH https://github.com/hashicorp/terraform-website.git "$PREVIEW_DIR"
 else
     echo "--------------------------------------------------------"
     echo "📂 [terraform-website] already exists @ $(pwd)/$PREVIEW_DIR"
@@ -38,7 +46,7 @@ else
     echo ""
 
     pushd "$PREVIEW_DIR"
-    git pull
+    git pull --quiet
     
     if [ $? -ne 0 ]; then
         echo "-------------------------------------------------------------"
@@ -56,13 +64,13 @@ fi
 
 
 echo "----------------------------"
-echo "🐳  Building terraform.io docker image..."
+echo "🐳 Building terraform.io docker image..."
 echo "----------------------------"
 echo ""
 
 pushd "$PREVIEW_DIR"
 docker rmi $IMAGE_NAME:latest || true
-docker build -t $IMAGE_NAME:latest .
+docker build --quiet -t $IMAGE_NAME:latest .
 popd
 
 # This must be run from the `terraform-cdk` root
