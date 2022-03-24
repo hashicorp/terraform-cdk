@@ -34,5 +34,3 @@ bootstrap.json
 terraform-cdk.github-issues
 .idea
 tsconfig.tsbuildinfo
-
-website-preview
