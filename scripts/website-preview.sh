@@ -1,13 +1,5 @@
 #!/bin/bash
 
-# make pushd and popd "quiet"
-pushd () {
-    command pushd "$@" > /dev/null
-}
-popd () {
-    command popd "$@" > /dev/null
-}
-
 # This script runs a local preview of terraform.io (https://github.com/hashicorp/terraform-website)
 # and allows you to preview terraform-cdk content changes locally.
 
@@ -16,7 +8,6 @@ echo "🏎  Starting terraform.io local preview..."
 echo "------------------------------------------"
 echo ""
 
-PREVIEW_DIR=website-preview
 BRANCH=brk.feat/tfcdk-remote-content
 
 NAV_DATA_PATH="data/cdktf-nav-data.json"
@@ -28,50 +19,13 @@ CONTENT_DIR_BIND_MOUNT="$(pwd)/website/docs/cdktf:/website/cdktf"
 
 IMAGE_NAME="hashicorp-terraform-website-local"
 
-echo "----------------------------------------"
-echo "⏳ Cloning the terraform-website repo..."
-echo "----------------------------------------"
-echo ""
-
-if [ ! -d "$PREVIEW_DIR" ]; then
-    git clone --quiet --depth=1 --branch=$BRANCH https://github.com/hashicorp/terraform-website.git "$PREVIEW_DIR"
-else
-    echo "--------------------------------------------------------"
-    echo "📂 [terraform-website] already exists @ $(pwd)/$PREVIEW_DIR"
-    echo "--------------------------------------------------------"
-    echo ""
-    echo "----------------------------"
-    echo "⬇️ Pulling latest changes..."
-    echo "----------------------------"
-    echo ""
-
-    pushd "$PREVIEW_DIR"
-    git pull --quiet
-    
-    if [ $? -ne 0 ]; then
-        echo "-------------------------------------------------------------"
-        echo "🚨 Failed to pull latest changes from terraform-website repo."
-        echo "-------------------------------------------------------------"
-        echo ""
-        echo "  If you've manually updated $PREVIEW_DIR, consider undoing"
-        echo "  those changes so that the latest changes may be pulled."
-        echo ""
-    fi
-
-    popd
-fi
-
-
-
 echo "----------------------------"
 echo "🐳 Building terraform.io docker image..."
 echo "----------------------------"
 echo ""
 
-pushd "$PREVIEW_DIR"
 docker rmi $IMAGE_NAME:latest || true
-docker build --quiet -t $IMAGE_NAME:latest .
-popd
+docker build --quiet -t $IMAGE_NAME:latest https://github.com/hashicorp/terraform-website.git#$BRANCH
 
 # This must be run from the `terraform-cdk` root
 echo "---------------------------"
