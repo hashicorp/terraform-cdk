@@ -78,13 +78,21 @@ export function useCdktfProject<T>(
       onLog: ({
         stackName,
         message,
+        messageWithConstructPath,
       }: {
         stackName: string;
         message: string;
+        messageWithConstructPath?: string;
       }) => {
         setLogEntries((prev) => [
           ...prev,
-          { id: `${stackName}-${id}`, stackName, content: message },
+          {
+            id: `${stackName}-${id}`,
+            stackName: stackName,
+            content: messageWithConstructPath
+              ? messageWithConstructPath
+              : message,
+          },
         ]);
         setID((current) => current + 1);
 

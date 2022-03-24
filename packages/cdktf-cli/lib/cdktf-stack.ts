@@ -107,7 +107,7 @@ export class CdktfStack {
   }: {
     stack: SynthesizedStack;
     onUpdate: (update: StackUpdate | StackApprovalUpdate) => void;
-    onLog?: (log: { stackName: string; message: string }) => void;
+    onLog?: (log: { message: string }) => void;
     autoApprove?: boolean;
     abortSignal: AbortSignal;
   }) {
@@ -128,7 +128,7 @@ export class CdktfStack {
                   `[${event.stackName}](${event.stateName}): ${message}`
                 );
                 if (onLog) {
-                  onLog({ stackName: event.stackName, message: event.message });
+                  onLog({ message: event.message });
                 }
               }
 
