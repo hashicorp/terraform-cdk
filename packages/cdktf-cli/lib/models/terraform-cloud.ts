@@ -113,6 +113,7 @@ export class TerraformCloud implements Terraform {
   private configurationVersionId?: string;
   public readonly workDir: string;
   public run?: TerraformCloudClient.Run;
+  private lastLogMessage = "";
 
   constructor(
     public readonly abortSignal: AbortSignal,
@@ -309,8 +310,17 @@ export class TerraformCloud implements Terraform {
       // In rare cases the backend sends an empty chunk of data back.
       if (data && data.length) {
         const buffer = Buffer.from(data, "utf8");
+
         stdout(buffer);
-        sendLog(buffer.toString("utf8"), false);
+
+        // We only want to send what we have not seen yet.
+        const bufferWithoutLastKnown = buffer
+          .toString("utf8")
+          .replace(this.lastLogMessage, "");
+        if (bufferWithoutLastKnown.trim().length) {
+          sendLog(bufferWithoutLastKnown, false);
+          this.lastLogMessage = buffer.toString("utf8");
+        }
       }
     });
     return res;
