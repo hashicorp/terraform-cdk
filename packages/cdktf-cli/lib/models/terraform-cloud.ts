@@ -393,7 +393,7 @@ export class TerraformCloud implements Terraform {
   public async abort(): Promise<void> {
     if (!this.run) {
       throw Errors.Internal(
-        "No run is present to abort, this means we called abort before the plan wa started"
+        "No run is present to abort, this means we called abort before the plan was started"
       );
     }
 
