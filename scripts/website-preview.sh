@@ -25,7 +25,7 @@ echo "----------------------------------------"
 echo ""
 
 docker rmi $IMAGE_NAME:latest || true
-docker build --quiet -t $IMAGE_NAME:latest https://github.com/hashicorp/terraform-website.git#$BRANCH
+docker build -t $IMAGE_NAME:latest https://github.com/hashicorp/terraform-website.git#$BRANCH
 
 # This must be run from the `terraform-cdk` root
 echo "---------------------------"
