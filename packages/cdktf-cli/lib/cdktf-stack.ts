@@ -5,6 +5,7 @@ import { stackExecutionMachine } from "./stack-execution";
 import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
+import { extractJsonLogIfPresent } from "./server/terraform-logs";
 
 export type StackUpdate =
   | {
@@ -63,23 +64,6 @@ export type StackApprovalUpdate = {
   approve: () => void;
   reject: () => void;
 };
-
-function extractJsonLogLineIfPresent(logLine: string): string {
-  try {
-    const extractedMessage = JSON.parse(logLine)["@message"];
-    return extractedMessage ? extractedMessage : logLine;
-  } catch {
-    return logLine;
-  }
-}
-
-function extractJsonLogIfPresent(logLines: string): string {
-  return logLines
-    .split("\n")
-    .map(extractJsonLogLineIfPresent)
-    .map((line) => line.trim())
-    .join("\n");
-}
 
 export class CdktfStack {
   public stateMachine: InterpreterFrom<typeof stackExecutionMachine>;
