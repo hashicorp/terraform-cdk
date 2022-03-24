@@ -15,10 +15,6 @@ describe("multiple stacks", () => {
       expect(driver.synthesizedStack("second").toString()).toMatchSnapshot();
     });
 
-    test("synth with json output", async () => {
-      expect((await driver.synth("--json")).stdout).toMatchSnapshot();
-    });
-
     test("diff", () => {
       const firstOut = driver.diff("first");
       expect(firstOut).toContain(`null_resource.test`);

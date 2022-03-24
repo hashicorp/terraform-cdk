@@ -257,8 +257,6 @@ export async function synth(argv: any) {
   const checkCodeMakerOutput = argv.checkCodeMakerOutput;
   const command = argv.app;
   const outDir = argv.output;
-  const jsonOutput = argv.json;
-  const stack = argv.stack;
 
   if (checkCodeMakerOutput && !(await fs.pathExists(config.codeMakerOutput))) {
     console.error(
@@ -270,9 +268,7 @@ export async function synth(argv: any) {
   await renderInk(
     React.createElement(Synth, {
       outDir,
-      targetStack: stack,
       synthCommand: command,
-      jsonOutput: jsonOutput,
     })
   );
 }
