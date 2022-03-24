@@ -384,16 +384,19 @@ export interface VpcOptions {
   /**
    * Additional tags for the Customer Gateway
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly customerGatewayTags?: { [key: string]: string };
   /**
    * Maps of Customer Gateway's attributes (BGP ASN and Gateway's Internet-routable external IP address)
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly customerGateways?: { [key: string]: { [key: string]: any } };
   /**
    * Additional tags for the database subnets network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly databaseAclTags?: { [key: string]: string };
   /**
@@ -403,16 +406,19 @@ export interface VpcOptions {
   /**
    * Database subnets inbound network ACL rules
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly databaseInboundAclRules?: { [key: string]: string }[];
   /**
    * Database subnets outbound network ACL rules
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly databaseOutboundAclRules?: { [key: string]: string }[];
   /**
    * Additional tags for the database route tables
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly databaseRouteTableTags?: { [key: string]: string };
   /**
@@ -422,6 +428,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the database subnet group
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly databaseSubnetGroupTags?: { [key: string]: string };
   /**
@@ -437,6 +444,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the database subnets
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly databaseSubnetTags?: { [key: string]: string };
   /**
@@ -461,11 +469,13 @@ export interface VpcOptions {
   /**
    * List of maps of egress rules to set on the Default Network ACL
    * @default [object Object],[object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultNetworkAclEgress?: { [key: string]: string }[];
   /**
    * List of maps of ingress rules to set on the Default Network ACL
    * @default [object Object],[object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultNetworkAclIngress?: { [key: string]: string }[];
   /**
@@ -475,6 +485,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the Default Network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultNetworkAclTags?: { [key: string]: string };
   /**
@@ -485,19 +496,23 @@ export interface VpcOptions {
   /**
    * Configuration block of routes. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table#route
    * @default 
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultRouteTableRoutes?: { [key: string]: string }[];
   /**
    * Additional tags for the default route table
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultRouteTableTags?: { [key: string]: string };
   /**
    * List of maps of egress rules to set on the default security group
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultSecurityGroupEgress?: { [key: string]: string }[];
   /**
    * List of maps of ingress rules to set on the default security group
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultSecurityGroupIngress?: { [key: string]: string }[];
   /**
@@ -508,6 +523,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the default security group
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultSecurityGroupTags?: { [key: string]: string };
   /**
@@ -530,6 +546,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the Default VPC
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly defaultVpcTags?: { [key: string]: string };
   /**
@@ -558,6 +575,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the DHCP option set (requires enable_dhcp_options set to true)
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly dhcpOptionsTags?: { [key: string]: string };
   /**
@@ -774,6 +792,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the elasticache subnets network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly elasticacheAclTags?: { [key: string]: string };
   /**
@@ -783,16 +802,19 @@ export interface VpcOptions {
   /**
    * Elasticache subnets inbound network ACL rules
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly elasticacheInboundAclRules?: { [key: string]: string }[];
   /**
    * Elasticache subnets outbound network ACL rules
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly elasticacheOutboundAclRules?: { [key: string]: string }[];
   /**
    * Additional tags for the elasticache route tables
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly elasticacheRouteTableTags?: { [key: string]: string };
   /**
@@ -812,6 +834,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the elasticache subnets
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly elasticacheSubnetTags?: { [key: string]: string };
   /**
@@ -1304,6 +1327,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the internet gateway
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly igwTags?: { [key: string]: string };
   /**
@@ -1314,6 +1338,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the intra subnets network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly intraAclTags?: { [key: string]: string };
   /**
@@ -1323,16 +1348,19 @@ export interface VpcOptions {
   /**
    * Intra subnets inbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly intraInboundAclRules?: { [key: string]: string }[];
   /**
    * Intra subnets outbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly intraOutboundAclRules?: { [key: string]: string }[];
   /**
    * Additional tags for the intra route tables
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly intraRouteTableTags?: { [key: string]: string };
   /**
@@ -1352,6 +1380,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the intra subnets
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly intraSubnetTags?: { [key: string]: string };
   /**
@@ -1491,11 +1520,13 @@ export interface VpcOptions {
   /**
    * Additional tags for the NAT EIP
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly natEipTags?: { [key: string]: string };
   /**
    * Additional tags for the NAT gateways
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly natGatewayTags?: { [key: string]: string };
   /**
@@ -1505,6 +1536,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the outpost subnets network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly outpostAclTags?: { [key: string]: string };
   /**
@@ -1522,11 +1554,13 @@ export interface VpcOptions {
   /**
    * Outpost subnets inbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly outpostInboundAclRules?: { [key: string]: string }[];
   /**
    * Outpost subnets outbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly outpostOutboundAclRules?: { [key: string]: string }[];
   /**
@@ -1546,6 +1580,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the outpost subnets
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly outpostSubnetTags?: { [key: string]: string };
   /**
@@ -1556,6 +1591,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the private subnets network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly privateAclTags?: { [key: string]: string };
   /**
@@ -1565,16 +1601,19 @@ export interface VpcOptions {
   /**
    * Private subnets inbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly privateInboundAclRules?: { [key: string]: string }[];
   /**
    * Private subnets outbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly privateOutboundAclRules?: { [key: string]: string }[];
   /**
    * Additional tags for the private route tables
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly privateRouteTableTags?: { [key: string]: string };
   /**
@@ -1594,6 +1633,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the private subnets
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly privateSubnetTags?: { [key: string]: string };
   /**
@@ -1616,6 +1656,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the public subnets network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly publicAclTags?: { [key: string]: string };
   /**
@@ -1625,16 +1666,19 @@ export interface VpcOptions {
   /**
    * Public subnets inbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly publicInboundAclRules?: { [key: string]: string }[];
   /**
    * Public subnets outbound network ACLs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly publicOutboundAclRules?: { [key: string]: string }[];
   /**
    * Additional tags for the public route tables
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly publicRouteTableTags?: { [key: string]: string };
   /**
@@ -1654,6 +1698,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the public subnets
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly publicSubnetTags?: { [key: string]: string };
   /**
@@ -1692,6 +1737,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the redshift subnets network ACL
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly redshiftAclTags?: { [key: string]: string };
   /**
@@ -1701,16 +1747,19 @@ export interface VpcOptions {
   /**
    * Redshift subnets inbound network ACL rules
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly redshiftInboundAclRules?: { [key: string]: string }[];
   /**
    * Redshift subnets outbound network ACL rules
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly redshiftOutboundAclRules?: { [key: string]: string }[];
   /**
    * Additional tags for the redshift route tables
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly redshiftRouteTableTags?: { [key: string]: string };
   /**
@@ -1720,6 +1769,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the redshift subnet group
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly redshiftSubnetGroupTags?: { [key: string]: string };
   /**
@@ -1735,6 +1785,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the redshift subnets
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly redshiftSubnetTags?: { [key: string]: string };
   /**
@@ -2031,6 +2082,7 @@ export interface VpcOptions {
   /**
    * A map of tags to add to all resources
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly tags?: { [key: string]: string };
   /**
@@ -2078,6 +2130,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the VPC Endpoints
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly vpcEndpointTags?: { [key: string]: string };
   /**
@@ -2087,11 +2140,13 @@ export interface VpcOptions {
   /**
    * Additional tags for the VPC Flow Logs
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly vpcFlowLogTags?: { [key: string]: string };
   /**
    * Additional tags for the VPC
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly vpcTags?: { [key: string]: string };
   /**
@@ -2105,6 +2160,7 @@ export interface VpcOptions {
   /**
    * Additional tags for the VPN gateway
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly vpnGatewayTags?: { [key: string]: string };
   /**
@@ -6380,6 +6436,7 @@ export interface RdsAuroraOptions {
   /**
    * A map of tags to add to only the RDS cluster. Used for AWS Instance Scheduler tagging
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly clusterTags?: { [key: string]: string };
   /**
@@ -6511,6 +6568,7 @@ export interface RdsAuroraOptions {
   /**
    * Customized instance settings. Supported keys: \`instance_name\`, \`instance_type\`, \`instance_promotion_tier\`, \`publicly_accessible\`
    * @default 
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly instancesParameters?: { [key: string]: string }[];
   /**
@@ -6613,11 +6671,13 @@ export interface RdsAuroraOptions {
   readonly replicationSourceIdentifier?: string;
   /**
    * Configuration map used to restore from a Percona Xtrabackup in S3 (only MySQL is supported)
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly s3Import?: { [key: string]: string };
   /**
    * Map of nested attributes with scaling properties. Only valid when engine_mode is set to \`serverless\`
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly scalingConfiguration?: { [key: string]: string };
   /**
@@ -6628,6 +6688,7 @@ export interface RdsAuroraOptions {
   /**
    * Additional tags for the security group
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly securityGroupTags?: { [key: string]: string };
   /**
@@ -6655,6 +6716,7 @@ export interface RdsAuroraOptions {
   /**
    * A map of tags to add to all resources.
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly tags?: { [key: string]: string };
   /**
@@ -7355,6 +7417,7 @@ export interface EksOptions {
   /**
    * Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = \\"eks\\"}.
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly kubeconfigAwsAuthenticatorEnvVariables?: { [key: string]: string };
   /**
@@ -7412,6 +7475,7 @@ export interface EksOptions {
   /**
    * A map of tags to add to all resources.
    * @default [object Object]
+   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
   readonly tags?: { [key: string]: string };
   /**
