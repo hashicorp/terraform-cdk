@@ -285,7 +285,7 @@ export class StructEmitter {
     } else if (struct.nestingMode === "map") {
       this.code.line();
       this.code.openBlock(
-        `export class ${struct.mapName} extends cdktf.ComplexList`
+        `export class ${struct.mapName} extends cdktf.ComplexMap`
       );
 
       this.code.line();
@@ -298,7 +298,7 @@ export class StructEmitter {
       this.code.openBlock(
         `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
       );
-      this.code.line(`super(terraformResource, terraformAttribute, false)`);
+      this.code.line(`super(terraformResource, terraformAttribute)`);
       this.code.closeBlock();
 
       this.code.line();
