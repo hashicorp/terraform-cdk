@@ -34,7 +34,6 @@ echo "---------------------------"
 echo ""
 
 docker run \
-    -e DEBUG=@hashicorp* \
     -e "IS_CONTENT_PREVIEW=true" \
     -e "NAV_DATA_PATH=$NAV_DATA_PATH" \
     -e "CONTENT_DIR=$CONTENT_DIR" \
