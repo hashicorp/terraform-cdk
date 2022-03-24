@@ -14,6 +14,7 @@ import archiver from "archiver";
 import { WritableStreamBuffer } from "stream-buffers";
 import { SynthesizedStack } from "../synth-stack";
 import { logger } from "../logging";
+import { Errors } from "../errors";
 export class TerraformCloudPlan
   extends AbstractTerraformPlan
   implements TerraformPlan
@@ -114,7 +115,6 @@ export class TerraformCloud implements Terraform {
   public run?: TerraformCloudClient.Run;
 
   constructor(
-    // TFC does not support abort yet: https://github.com/hashicorp/terraform-cdk/issues/1607
     public readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
@@ -146,6 +146,9 @@ export class TerraformCloud implements Terraform {
     }
 
     this.client = new TerraformCloudClient.TerraformCloud(this.token);
+    this.abortSignal.addEventListener("abort", () => {
+      this.removeRun("cancel");
+    });
   }
 
   @BeautifyErrors("IsRemoteWorkspace")
@@ -376,6 +379,17 @@ export class TerraformCloud implements Terraform {
     return (await this.workspace()).attributes.terraformVersion;
   }
 
+  @BeautifyErrors("Abort")
+  public async abort(): Promise<void> {
+    if (!this.run) {
+      throw Errors.Internal(
+        "No run is present to abort, this means we called abort before the plan wa started"
+      );
+    }
+
+    await this.removeRun("discard");
+  }
+
   @BeautifyErrors("Output")
   public async output(): Promise<{ [key: string]: TerraformOutput }> {
     const sendLog = this.createLogSender("output");
@@ -452,6 +466,23 @@ export class TerraformCloud implements Terraform {
         );
         return false;
     }
+  }
+
+  private async removeRun(action: "cancel" | "discard") {
+    if (!this.run) {
+      logger.debug("No run to remove");
+      return;
+    }
+
+    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${this.run.id}`;
+    logger.info(`${action}ing run ${url}`);
+    this.client.Runs.action(action, this.run.id)
+      .then(() => {
+        logger.debug(`Cancelled run ${url}`);
+      })
+      .catch(() => {
+        logger.error(`Failed to cancel run, please cancel manually at ${url}`);
+      });
   }
 
   private async waitForConfigurationVersionToBeReady(

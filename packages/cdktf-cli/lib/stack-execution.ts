@@ -224,6 +224,16 @@ const services = {
 
     return Promise.resolve({ outputs, outputsByConstructId });
   },
+  abort: async (context: StackContext) => {
+    const tf = context.terraform;
+    if (!tf) {
+      throw Errors.Internal(
+        "No terraform cli found, initializeTerraform needs to be run first"
+      );
+    }
+
+    await tf.abort();
+  },
 };
 
 const guards = {
@@ -335,11 +345,28 @@ const stackExecutionMachine = createMachine<StackContext, StackEvent>(
       waitingForApproval: {
         on: {
           APPROVAL_ABORTED: {
-            target: "done",
+            target: "aborted",
           },
           APPROVAL_GIVEN: {
             target: "approved",
           },
+        },
+      },
+      aborted: {
+        invoke: {
+          id: "abort",
+          src: "abort",
+          onError: {
+            target: "error",
+            actions: assign({
+              message: (_context, event) => extractError(_context, event),
+            }),
+          },
+          onDone: [
+            {
+              target: "done",
+            },
+          ],
         },
       },
       approved: {

@@ -171,4 +171,9 @@ export class TerraformCli implements Terraform {
         "cdktf/" + version + " (+https://github.com/hashicorp/terraform-cdk)";
     }
   }
+
+  // We don't need to clean anything up for a running execution in the CLI
+  public async abort() {
+    return;
+  }
 }
