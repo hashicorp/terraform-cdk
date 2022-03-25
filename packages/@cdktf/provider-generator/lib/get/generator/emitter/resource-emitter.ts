@@ -45,7 +45,7 @@ export class ResourceEmitter {
 
   private emitStaticProperties(resource: ResourceModel) {
     this.code.line(
-      `public static readonly tfResourceType: string = "${resource.terraformResourceType}";`
+      `public static readonly tfResourceType = "${resource.terraformResourceType}";`
     );
   }
 
@@ -118,9 +118,7 @@ export class ResourceEmitter {
     this.code.line(
       `terraformResourceType: '${resource.terraformResourceType}',`
     );
-    this.code.open(`terraformGeneratorMetadata: {`);
-    this.code.line(`providerName: '${resource.provider}'`);
-    this.code.close(`},`);
+    this.emitTerraformGeneratorMetadata(resource);
     this.code.line(`provider: config.provider,`);
     this.code.line(`dependsOn: config.dependsOn,`);
     this.code.line(`count: config.count,`);
@@ -133,15 +131,37 @@ export class ResourceEmitter {
     this.code.line(
       `terraformResourceType: '${resource.terraformResourceType}',`
     );
-    this.code.open(`terraformGeneratorMetadata: {`);
-    this.code.line(`providerName: '${resource.provider}',`);
-    this.code.line(
-      `providerVersionConstraint: '${resource.providerVersionConstraint}'`
-    );
-    this.code.close(`},`);
+    this.emitTerraformGeneratorMetadata(resource);
     this.code.line(
       `terraformProviderSource: '${resource.terraformProviderSource}'`
     );
     this.code.close(`});`);
+  }
+
+  private emitTerraformGeneratorMetadata(resource: ResourceModel) {
+    this.code.open(`terraformGeneratorMetadata: {`);
+    this.code.line(
+      `providerName: '${resource.provider}'${
+        resource.providerVersion || resource.providerVersionConstraint
+          ? ","
+          : ""
+      }`
+    );
+
+    if (resource.providerVersion) {
+      this.code.line(
+        `providerVersion: '${resource.providerVersion}'${
+          resource.providerVersionConstraint ? "," : ""
+        }`
+      );
+    }
+
+    if (resource.providerVersionConstraint) {
+      this.code.line(
+        `providerVersionConstraint: '${resource.providerVersionConstraint}'`
+      );
+    }
+
+    this.code.close(`},`);
   }
 }

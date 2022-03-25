@@ -6,13 +6,13 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "destroy [stack] [OPTIONS]";
-  public readonly describe = "Destroy the given stack";
+  public readonly command = "destroy [OPTIONS] <stacks..>";
+  public readonly describe = "Destroy the given stacks";
 
   public readonly builder = (args: yargs.Argv) =>
     args
-      .positional("stack", {
-        desc: "Destroy stack which matches the given id only. Required when more than one stack is present in the app",
+      .positional("stacks", {
+        desc: "Destroy stacks matching the given ids. Required when more than one stack is present in the app",
         type: "string",
       })
       .option("app", {
@@ -33,10 +33,23 @@ class Command implements yargs.CommandModule {
         required: false,
         desc: "Auto approve",
       })
+      .option("ignore-missing-stack-dependencies", {
+        type: "boolean",
+        required: false,
+        desc: "Don't check if all stacks specified in the command have their dependencies included as well",
+        default: false,
+      })
+      .option("parallelism", {
+        type: "number",
+        required: false,
+        desc: "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1",
+        default: -1,
+      })
       .showHelpOnFail(true);
 
   public async handler(argv: any) {
     Errors.setScope("destroy");
+
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
     api.destroy(argv);

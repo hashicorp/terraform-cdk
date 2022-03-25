@@ -13,7 +13,7 @@
     "@types/node": "^14.18.12",
     "cdktf-cli": "0.0.0",
     "jest": "^27.5.1",
-    "ts-node": "^10.5.0",
+    "ts-node": "^10.7.0",
     "typescript": "^3.9.10"
   },
   "dependencies": {

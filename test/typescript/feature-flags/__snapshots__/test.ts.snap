@@ -50,7 +50,7 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
     \\"required_providers\\": {
       \\"null\\": {
         \\"source\\": \\"null\\",
-        \\"version\\": \\"undefined\\"
+        \\"version\\": \\"3.1.1\\"
       }
     }
   }
@@ -107,7 +107,7 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
     \\"required_providers\\": {
       \\"null\\": {
         \\"source\\": \\"null\\",
-        \\"version\\": \\"undefined\\"
+        \\"version\\": \\"3.1.1\\"
       }
     }
   }
@@ -164,7 +164,7 @@ exports[`full integration test without features 1`] = `
     \\"required_providers\\": {
       \\"null\\": {
         \\"source\\": \\"null\\",
-        \\"version\\": \\"undefined\\"
+        \\"version\\": \\"3.1.1\\"
       }
     }
   }

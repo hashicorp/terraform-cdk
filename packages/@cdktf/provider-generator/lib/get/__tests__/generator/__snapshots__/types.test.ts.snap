@@ -28,7 +28,7 @@ export class BooleanList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_boolean_list\\";
+  public static readonly tfResourceType = \\"aws_boolean_list\\";
 
   // ===========
   // INITIALIZER
@@ -133,7 +133,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_boolean_map\\";
+  public static readonly tfResourceType = \\"aws_boolean_map\\";
 
   // ===========
   // INITIALIZER
@@ -227,7 +227,45 @@ import * as cdktf from 'cdktf';
 
 export interface ComputedComplexConfig extends cdktf.TerraformMetaArguments {
 }
-export class ComputedComplexEgress extends cdktf.ComplexComputedList {
+export interface ComputedComplexEgress {
+}
+
+export function computedComplexEgressToTerraform(struct?: ComputedComplexEgress): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+  }
+}
+
+export class ComputedComplexEgressOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+  }
+
+  public get internalValue(): ComputedComplexEgress | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ComputedComplexEgress | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
 
   // cidr_blocks - computed: true, optional: false, required: false
   public get cidrBlocks() {
@@ -275,6 +313,26 @@ export class ComputedComplexEgress extends cdktf.ComplexComputedList {
   }
 }
 
+export class ComputedComplexEgressList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public get(index: number): ComputedComplexEgressOutputReference {
+    return new ComputedComplexEgressOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex aws_computed_complex}
 */
@@ -283,7 +341,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_computed_complex\\";
+  public static readonly tfResourceType = \\"aws_computed_complex\\";
 
   // ===========
   // INITIALIZER
@@ -314,8 +372,9 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: false, required: false
-  public egress(index: string) {
-    return new ComputedComplexEgress(this, 'egress', index, true);
+  private _egress = new ComputedComplexEgressList(this, \\"egress\\", true);
+  public get egress() {
+    return this._egress;
   }
 
   // =========
@@ -341,14 +400,110 @@ import * as cdktf from 'cdktf';
 
 export interface ComputedComplexNestedConfig extends cdktf.TerraformMetaArguments {
 }
-export class ComputedComplexNestedResourcesAutoscalingGroups extends cdktf.ComplexComputedList {
+export interface ComputedComplexNestedResourcesAutoscalingGroups {
+}
+
+export function computedComplexNestedResourcesAutoscalingGroupsToTerraform(struct?: ComputedComplexNestedResourcesAutoscalingGroups): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+  }
+}
+
+export class ComputedComplexNestedResourcesAutoscalingGroupsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+  }
+
+  public get internalValue(): ComputedComplexNestedResourcesAutoscalingGroups | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ComputedComplexNestedResourcesAutoscalingGroups | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
 
   // name - computed: true, optional: false, required: false
   public get name() {
     return this.getStringAttribute('name');
   }
 }
-export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
+
+export class ComputedComplexNestedResourcesAutoscalingGroupsList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public get(index: number): ComputedComplexNestedResourcesAutoscalingGroupsOutputReference {
+    return new ComputedComplexNestedResourcesAutoscalingGroupsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface ComputedComplexNestedResources {
+}
+
+export function computedComplexNestedResourcesToTerraform(struct?: ComputedComplexNestedResources): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+  }
+}
+
+export class ComputedComplexNestedResourcesOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+  }
+
+  public get internalValue(): ComputedComplexNestedResources | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ComputedComplexNestedResources | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
 
   // autoscaling_groups - computed: true, optional: false, required: false
   public get autoscalingGroups() {
@@ -362,6 +517,26 @@ export class ComputedComplexNestedResources extends cdktf.ComplexComputedList {
   }
 }
 
+export class ComputedComplexNestedResourcesList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public get(index: number): ComputedComplexNestedResourcesOutputReference {
+    return new ComputedComplexNestedResourcesOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/computed_complex_nested aws_computed_complex_nested}
 */
@@ -370,7 +545,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_computed_complex_nested\\";
+  public static readonly tfResourceType = \\"aws_computed_complex_nested\\";
 
   // ===========
   // INITIALIZER
@@ -401,8 +576,9 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // ==========
 
   // resources - computed: true, optional: false, required: false
-  public resources(index: string) {
-    return new ComputedComplexNestedResources(this, 'resources', index, false);
+  private _resources = new ComputedComplexNestedResourcesList(this, \\"resources\\", false);
+  public get resources() {
+    return this._resources;
   }
 
   // =========
@@ -434,11 +610,69 @@ export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaAr
   */
   readonly inputs?: BlockTypeNestedComputedListInputs[] | cdktf.IResolvable;
 }
-export class BlockTypeNestedComputedListInputsStartingPositionConfiguration extends cdktf.ComplexComputedList {
+export interface BlockTypeNestedComputedListInputsStartingPositionConfiguration {
+}
+
+export function blockTypeNestedComputedListInputsStartingPositionConfigurationToTerraform(struct?: BlockTypeNestedComputedListInputsStartingPositionConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+  }
+}
+
+export class BlockTypeNestedComputedListInputsStartingPositionConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+  }
+
+  public get internalValue(): BlockTypeNestedComputedListInputsStartingPositionConfiguration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: BlockTypeNestedComputedListInputsStartingPositionConfiguration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
 
   // starting_position - computed: true, optional: false, required: false
   public get startingPosition() {
     return this.getStringAttribute('starting_position');
+  }
+}
+
+export class BlockTypeNestedComputedListInputsStartingPositionConfigurationList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public get(index: number): BlockTypeNestedComputedListInputsStartingPositionConfigurationOutputReference {
+    return new BlockTypeNestedComputedListInputsStartingPositionConfigurationOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 export interface BlockTypeNestedComputedListInputs {
@@ -467,7 +701,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_block_type_nested_computed_list\\";
+  public static readonly tfResourceType = \\"aws_block_type_nested_computed_list\\";
 
   // ===========
   // INITIALIZER
@@ -609,7 +843,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_computed_optional_complex\\";
+  public static readonly tfResourceType = \\"aws_computed_optional_complex\\";
 
   // ===========
   // INITIALIZER
@@ -710,10 +944,9 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
-  * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
-    super(terraformResource, terraformAttribute, isSingleItem);
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined {
@@ -786,7 +1019,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_deeply_nested_block_types\\";
+  public static readonly tfResourceType = \\"aws_deeply_nested_block_types\\";
 
   // ===========
   // INITIALIZER
@@ -867,7 +1100,7 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_ignored_attributes\\";
+  public static readonly tfResourceType = \\"aws_ignored_attributes\\";
 
   // ===========
   // INITIALIZER
@@ -959,7 +1192,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_incompatible_attribute_names\\";
+  public static readonly tfResourceType = \\"aws_incompatible_attribute_names\\";
 
   // ===========
   // INITIALIZER
@@ -1099,7 +1332,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_list_of_string_map\\";
+  public static readonly tfResourceType = \\"aws_list_of_string_map\\";
 
   // ===========
   // INITIALIZER
@@ -1174,7 +1407,7 @@ export class NumberList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_number_list\\";
+  public static readonly tfResourceType = \\"aws_number_list\\";
 
   // ===========
   // INITIALIZER
@@ -1277,7 +1510,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_number_map\\";
+  public static readonly tfResourceType = \\"aws_number_map\\";
 
   // ===========
   // INITIALIZER
@@ -1392,7 +1625,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_boolean\\";
+  public static readonly tfResourceType = \\"aws_primitive_boolean\\";
 
   // ===========
   // INITIALIZER
@@ -1522,7 +1755,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_dynamic\\";
+  public static readonly tfResourceType = \\"aws_primitive_dynamic\\";
 
   // ===========
   // INITIALIZER
@@ -1652,7 +1885,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_number\\";
+  public static readonly tfResourceType = \\"aws_primitive_number\\";
 
   // ===========
   // INITIALIZER
@@ -1782,7 +2015,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_primitive_string\\";
+  public static readonly tfResourceType = \\"aws_primitive_string\\";
 
   // ===========
   // INITIALIZER
@@ -1916,7 +2149,7 @@ export class NameConflict extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_name_conflict\\";
+  public static readonly tfResourceType = \\"aws_name_conflict\\";
 
   // ===========
   // INITIALIZER
@@ -2096,7 +2329,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_block_type_set_list\\";
+  public static readonly tfResourceType = \\"aws_block_type_set_list\\";
 
   // ===========
   // INITIALIZER
@@ -2216,10 +2449,9 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   /**
   * @param terraformResource The parent resource
   * @param terraformAttribute The attribute on the parent resource this class is referencing
-  * @param isSingleItem True if this is a block, false if it's a list
   */
-  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, isSingleItem: boolean) {
-    super(terraformResource, terraformAttribute, isSingleItem);
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, 0, false);
   }
 
   public get internalValue(): SingleBlockTypeTimeouts | undefined {
@@ -2268,7 +2500,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_single_block_type\\";
+  public static readonly tfResourceType = \\"aws_single_block_type\\";
 
   // ===========
   // INITIALIZER
@@ -2300,7 +2532,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ==========
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts = new SingleBlockTypeTimeoutsOutputReference(this, \\"timeouts\\", true);
+  private _timeouts = new SingleBlockTypeTimeoutsOutputReference(this, \\"timeouts\\");
   public get timeouts() {
     return this._timeouts;
   }
@@ -2360,7 +2592,7 @@ export class StringList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_string_list\\";
+  public static readonly tfResourceType = \\"aws_string_list\\";
 
   // ===========
   // INITIALIZER
@@ -2486,7 +2718,7 @@ export class StringMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType: string = \\"aws_string_map\\";
+  public static readonly tfResourceType = \\"aws_string_map\\";
 
   // ===========
   // INITIALIZER

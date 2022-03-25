@@ -55,7 +55,9 @@ export abstract class TerraformProvider extends TerraformElement {
       terraform: {
         required_providers: {
           [this.terraformResourceType]: {
-            version: this.terraformGeneratorMetadata?.providerVersionConstraint,
+            version:
+              this.terraformGeneratorMetadata?.providerVersion ||
+              this.terraformGeneratorMetadata?.providerVersionConstraint, // fallback to previous to ease transition
             source: this.terraformProviderSource,
           },
         },

@@ -92,7 +92,7 @@ export async function deploy(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
 
   let outputsPath: string | undefined = undefined;
@@ -108,11 +108,14 @@ export async function deploy(argv: any) {
   await renderInk(
     React.createElement(Deploy, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       autoApprove,
       onOutputsRetrieved,
       outputsPath,
+      ignoreMissingStackDependencies:
+        argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
@@ -124,14 +127,17 @@ export async function destroy(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
 
   await renderInk(
     React.createElement(Destroy, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       autoApprove,
+      ignoreMissingStackDependencies:
+        argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
@@ -191,6 +197,12 @@ export async function init(argv: any) {
   await displayVersionMessage();
   await checkEnvironment();
 
+  if (["", ".", process.cwd()].includes(argv.fromTerraformProject)) {
+    throw Errors.Usage(
+      "--from-terraform-project requires a path to an existing Terraform project to be set, e.g. --from-terraform-project=../my-tf-codebase This folder can not be the same as the current working directory since cdktf init will initialize the new project in that folder."
+    );
+  }
+
   checkForEmptyDirectory(".");
 
   await runInit(argv);
@@ -248,15 +260,11 @@ export async function synth(argv: any) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
+  const checkCodeMakerOutput = argv.checkCodeMakerOutput;
   const command = argv.app;
   const outDir = argv.output;
-  const jsonOutput = argv.json;
-  const stack = argv.stack;
 
-  if (
-    config.checkCodeMakerOutput &&
-    !(await fs.pathExists(config.codeMakerOutput))
-  ) {
+  if (checkCodeMakerOutput && !(await fs.pathExists(config.codeMakerOutput))) {
     console.error(
       `ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`
     );
@@ -266,9 +274,7 @@ export async function synth(argv: any) {
   await renderInk(
     React.createElement(Synth, {
       outDir,
-      targetStack: stack,
       synthCommand: command,
-      jsonOutput: jsonOutput,
     })
   );
 }
@@ -308,7 +314,7 @@ export async function output(argv: any) {
   await checkEnvironment();
   const command = argv.app;
   const outDir = argv.output;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -323,7 +329,7 @@ export async function output(argv: any) {
   await renderInk(
     React.createElement(Output, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       onOutputsRetrieved,
       outputsPath,

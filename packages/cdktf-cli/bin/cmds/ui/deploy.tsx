@@ -1,20 +1,15 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import { DeployingElement, Outputs } from "./components";
-import {
-  DeployingResource,
-  PlannedResourceAction,
-  TerraformPlan,
-  TerraformOutput,
-} from "../../../lib/models/terraform";
-import { Plan } from "./diff";
-import { CdktfProject, ProjectUpdate } from "../../../lib";
+import { DeployingResource } from "../../../lib/models/terraform";
 import { NestedTerraformOutputs } from "../../../lib/output";
-import { ErrorComponent } from "./components/error";
-import { Confirm } from "./components/confirm";
-
+import { useCdktfProject } from "./hooks/cdktf-project";
+import {
+  StreamView,
+  OutputsBottomBar,
+  ApproveBottomBar,
+  ExecutionStatusBottomBar,
+} from "./components";
 interface DeploySummaryConfig {
   resources: DeployingResource[];
 }
@@ -51,205 +46,58 @@ export const DeploySummary = ({
   );
 };
 
-interface ApplyableResourcesConfig {
-  resources: DeployingResource[];
-  stackName: string;
-}
-const ApplyableResources = ({
-  resources,
-  stackName,
-}: ApplyableResourcesConfig): React.ReactElement => {
-  if (!resources.length) {
-    return <></>;
-  }
-
-  return (
-    <>
-      <Text bold>Resources</Text>
-      {resources.map((resource: any) => (
-        <Box key={resource.id} marginLeft={1}>
-          <DeployingElement resource={resource} stackName={stackName} />
-        </Box>
-      ))}
-      <Box marginTop={1}>
-        <Text bold>Summary: </Text>
-        <DeploySummary resources={resources} />
-        <Text>.</Text>
-      </Box>
-    </>
-  );
-};
-
 interface DeployConfig {
   outDir: string;
-  targetStack?: string;
+  targetStacks?: string[];
   synthCommand: string;
   autoApprove: boolean;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
+  ignoreMissingStackDependencies?: boolean;
+  parallelism?: number;
 }
 
 export const Deploy = ({
   outDir,
-  targetStack,
+  targetStacks,
   synthCommand,
   autoApprove,
   onOutputsRetrieved,
   outputsPath,
+  ignoreMissingStackDependencies,
+  parallelism,
 }: DeployConfig): React.ReactElement => {
-  const [lastProjectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
-  const [stackName, setStackName] = useState<string>();
-  const [plan, setPlan] = useState<TerraformPlan>();
-  const [error, setError] = useState<Error>();
-  const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
-  const [resources, setResources] = useState<DeployingResource[]>([]);
+  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
+  const { status, logEntries } = useCdktfProject(
+    { outDir, synthCommand },
+    async (project) => {
+      await project.deploy({
+        stackNames: targetStacks,
+        autoApprove,
+        ignoreMissingStackDependencies,
+        parallelism,
+      });
 
-  useEffect(() => {
-    const project = new CdktfProject({
-      outDir,
-      synthCommand,
-      onUpdate: (event) => {
-        setStackName(project.stackName || "");
-        setProjectUpdate(event);
-        setOutputs(project.outputs);
-        setPlan(project.currentPlan!);
-        if (event.type === "deployed") {
-          onOutputsRetrieved(event.outputsByConstructId);
-        }
-        if ("resources" in event) {
-          setResources(event.resources);
-        }
-      },
-      autoApprove,
-    });
+      if (onOutputsRetrieved) {
+        onOutputsRetrieved(project.outputsByConstructId);
+      }
+      setOutputs(project.outputsByConstructId);
+    }
+  );
 
-    project.deploy(targetStack).catch(setError);
-  }, []);
-
-  if (error) {
-    return <ErrorComponent fatal error={error} />;
-  }
-
-  if (plan && !plan.needsApply) {
-    return (
-      <>
-        <Text>
-          No changes for Stack: <Text bold>{stackName}</Text>
-        </Text>
-        {outputs && Object.keys(outputs).length > 0 && (
-          <Box flexDirection="column">
-            <Box marginTop={1}>
-              <Text bold>Output: </Text>
-              <Outputs outputs={outputs} />
-            </Box>
-            <Box>
-              {outputsPath && outputs ? (
-                <Text>The outputs have been written to {outputsPath}</Text>
-              ) : (
-                <Text></Text>
-              )}
-            </Box>
-          </Box>
-        )}
-      </>
+  const bottomBar =
+    status.type === "done" ? (
+      <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+    ) : status?.type === "waiting for approval of stack" ? (
+      <ApproveBottomBar
+        stackName={status.stackName}
+        onApprove={status.approve}
+        onDismiss={status.dismiss}
+        onStop={status.stop}
+      />
+    ) : (
+      <ExecutionStatusBottomBar status={status} actionName="deploying" />
     );
-  }
 
-  switch (lastProjectUpdate?.type) {
-    case undefined: // starting
-    case "synthesizing":
-    case "synthesized":
-    case "planning":
-    case "planned": {
-      const status = lastProjectUpdate?.type || "starting";
-      return (
-        <Box>
-          <>
-            <Text color="green">
-              <Spinner type="dots" />
-            </Text>
-            <Box paddingLeft={1}>
-              <Text>
-                {stackName === "" ? (
-                  <Text>{status}...</Text>
-                ) : (
-                  <Text>
-                    {status}
-                    <Text bold>&nbsp;{stackName}</Text>...
-                  </Text>
-                )}
-              </Text>
-            </Box>
-          </>
-        </Box>
-      );
-    }
-    case "waiting for approval":
-      return (
-        <Box>
-          <Box flexDirection="column">
-            <Plan currentStackName={stackName} plan={plan!} />
-            <Confirm onApprove={lastProjectUpdate.approve} />
-          </Box>
-        </Box>
-      );
-
-    case "deploying":
-    case "deploy update":
-    case "deployed": {
-      const applyActions = [
-        PlannedResourceAction.UPDATE,
-        PlannedResourceAction.CREATE,
-        PlannedResourceAction.DELETE,
-        PlannedResourceAction.READ,
-      ];
-      const applyableResources = resources.filter((resource) =>
-        applyActions.includes(resource.action)
-      );
-      return (
-        <Fragment>
-          <Box flexDirection="column">
-            <Box>
-              <>
-                {lastProjectUpdate?.type !== "deployed" ? (
-                  <Text color="green">
-                    <Spinner type="dots" />
-                  </Text>
-                ) : (
-                  <></>
-                )}
-                <Box paddingLeft={1}>
-                  <Text>Deploying Stack: </Text>
-                  <Text bold>{stackName}</Text>
-                </Box>
-              </>
-            </Box>
-            <ApplyableResources
-              resources={applyableResources}
-              stackName={stackName || ""}
-            />
-            {outputs && Object.keys(outputs).length > 0 && (
-              <Box flexDirection="column">
-                <Box marginTop={1}>
-                  <Text bold>Output: </Text>
-                  <Outputs outputs={outputs} />
-                </Box>
-                <Box>
-                  {outputsPath && outputs ? (
-                    <Text>The outputs have been written to {outputsPath}</Text>
-                  ) : (
-                    <Text></Text>
-                  )}
-                </Box>
-              </Box>
-            )}
-          </Box>
-        </Fragment>
-      );
-    }
-    default:
-      return (
-        <Text>{`An unknown state occured: ${lastProjectUpdate?.type}`}</Text>
-      );
-  }
+  return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

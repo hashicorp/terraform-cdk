@@ -107,9 +107,7 @@ export class AttributeModel {
       (this.type.isList || this.type.isSet)
     ) {
       getterType = {
-        _type: "args",
-        args: "index: string",
-        returnStatement: `new ${this.type.name}(this, '${this.terraformName}', index, ${this.type.isSet})`,
+        _type: "stored_class",
       };
     } else if (
       // Complex Computed Map
@@ -177,10 +175,13 @@ export class AttributeModel {
     }
 
     if (this.getterType._type === "stored_class") {
-      return {
-        _type: "stored_class",
-        type: this.type.name,
-      };
+      if (this.type.isSingleItem) {
+        return {
+          _type: "stored_class",
+          type: this.type.name,
+        };
+      }
+      return { _type: "none" }; // complex lists currently only support readonly attributes (aka computed & !optional)
     }
 
     return {

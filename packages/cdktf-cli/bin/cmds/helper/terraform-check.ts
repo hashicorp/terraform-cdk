@@ -3,6 +3,7 @@ import * as semver from "semver";
 import { SynthesizedStack } from "../../../lib/synth-stack";
 import { existsSync } from "fs-extra";
 import * as path from "path";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 14
 
 const MIN_SUPPORTED_VERSION = "0.13.0";
 const VERSION_REGEXP = /Terraform v\d+.\d+.\d+/;
@@ -29,7 +30,7 @@ export const terraformCheck = async (): Promise<void> => {
       dependencies: [],
     };
 
-    const terraform = new TerraformCli(fakeStack);
+    const terraform = new TerraformCli(new AbortController().signal, fakeStack);
 
     const terraformVersion = await terraform.version();
     const terraformVersionMatches = terraformVersion.match(VERSION_REGEXP);

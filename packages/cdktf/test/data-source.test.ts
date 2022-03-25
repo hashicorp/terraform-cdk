@@ -23,7 +23,7 @@ test("with complex computed list", () => {
         name: "foo",
       });
       new TestResource(stack, "test-resource", {
-        name: dataSource.complexComputedList("0").id,
+        name: dataSource.complexComputedList.get(0).id,
       });
     })
   ).toMatchSnapshot();

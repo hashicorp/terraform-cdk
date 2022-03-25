@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as inquirer from "inquirer";
 import * as open from "open";
 import * as chalk from "chalk";
+import * as terraformCloudClient from "./terraform-cloud-client";
 
 const chalkColour = new chalk.Instance();
 const homedir = require("os").homedir();
@@ -110,26 +111,40 @@ the following file for use by subsequent Terraform commands:
     return terraformCredentials;
   }
 
-  public async askToLogin(): Promise<string> {
-    const checkToken = await this.checkIfTerraformCredentialsExist();
-    // user login if not already
-    if (!checkToken) {
-      const shouldContinue = await this.askToContinue();
-      if (shouldContinue) {
-        const token = await this.askForToken();
-        if (token == "") {
-          console.error(`\nERROR: failed to gather token.\n`);
-          process.exit(1);
-        }
-        this.saveTerraformCredentials(token);
-        return token;
+  public async isTokenValid(token: string): Promise<boolean> {
+    try {
+      await terraformCloudClient.getAccountDetails(token);
+      return true;
+    } catch (e) {
+      if ((e as any).statusCode === 401) {
+        return false;
       }
-    } else {
-      const token = this.getTokenFromTerraformCredentialsFile();
+      throw e;
+    }
+  }
+
+  public async askToLogin(): Promise<string> {
+    const hasToken = await this.checkIfTerraformCredentialsExist();
+    const token: string | null = hasToken
+      ? await this.getTokenFromTerraformCredentialsFile()
+      : null;
+
+    if (token && (await this.isTokenValid(token))) {
       return token;
     }
 
-    return "";
+    // we either have no token or not a valid one
+    const shouldContinue = await this.askToContinue();
+    if (shouldContinue) {
+      const token = await this.askForToken();
+      if (token == "") {
+        console.error(`\nERROR: failed to gather token.\n`);
+        process.exit(1);
+      }
+      this.saveTerraformCredentials(token);
+      return token;
+    }
+    return ""; // cancel
   }
 }
 

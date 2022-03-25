@@ -1,9 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import { CdktfProject, SynthesizedStack } from "../../../lib";
-import { ErrorComponent } from "./components/error";
-import { ProjectUpdate } from "../../../lib/index";
+import { useCdktfProject } from "./hooks/cdktf-project";
+import { StreamView, StatusBottomBar } from "./components";
 
 interface ListConfig {
   outDir: string;
@@ -14,65 +12,43 @@ export const List = ({
   outDir,
   synthCommand,
 }: ListConfig): React.ReactElement => {
-  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
-  const [stacks, setStacks] = useState<SynthesizedStack[] | undefined>(
-    undefined
+  const { status, logEntries, returnValue } = useCdktfProject(
+    { outDir, synthCommand },
+    (project) => project.synth()
   );
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const project = new CdktfProject({
-      outDir,
-      synthCommand,
-      onUpdate: (update: ProjectUpdate) => {
-        setProjectUpdate(update);
-      },
-    });
-
-    project.synth().then(() => setStacks(project.stacks), setError);
-  }, []);
-
-  if (stacks !== undefined) {
-    return (
-      <Box>
-        <Fragment>
-          <Box flexDirection="column" width={80}>
-            <Box>
-              <Box width="40%">
-                <Text bold>Stack name</Text>
-              </Box>
-              <Box width="60%">
-                <Text bold>Path</Text>
-              </Box>
-            </Box>
-            {stacks?.map((stack) => (
-              <Box key={stack.name}>
-                <Box width="40%">
-                  <Text>{stack.name}</Text>
-                </Box>
-                <Box width="60%">
-                  <Text>{stack.workingDirectory}</Text>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </Fragment>
-      </Box>
-    );
-  }
-
-  if (error) return <ErrorComponent fatal error={error} />;
 
   return (
-    <Box>
-      <Fragment>
-        <Text color="green">
-          <Spinner type="dots" />
-        </Text>
-        <Box paddingLeft={1}>
-          <Text>{projectUpdate?.type}...</Text>
-        </Box>
-      </Fragment>
-    </Box>
+    <StreamView logs={logEntries}>
+      <StatusBottomBar status={status}>
+        {status.type === "done" ? (
+          <Box>
+            <Fragment>
+              <Box flexDirection="column" width={80}>
+                <Box>
+                  <Box width="40%">
+                    <Text bold>Stack name</Text>
+                  </Box>
+                  <Box width="60%">
+                    <Text bold>Path</Text>
+                  </Box>
+                </Box>
+                {returnValue!.map((stack) => (
+                  <Box key={stack.name}>
+                    <Box width="40%">
+                      <Text>{stack.name}</Text>
+                    </Box>
+                    <Box width="60%">
+                      <Text>{stack.workingDirectory}</Text>
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </Fragment>
+          </Box>
+        ) : (
+          <></>
+        )}
+      </StatusBottomBar>
+    </StreamView>
   );
 };

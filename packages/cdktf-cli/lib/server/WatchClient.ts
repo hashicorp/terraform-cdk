@@ -1,12 +1,13 @@
 import * as chokidar from "chokidar";
 import { DeepReadonly } from "utility-types";
 import isDeepEqual from "lodash.isequal";
+import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack, SynthStack } from "../synth-stack";
 import { DeployingResource, Terraform } from "../models/terraform";
 import { TerraformCli } from "../models/terraform-cli";
 import { TerraformCloud } from "../models/terraform-cloud";
 import { parseOutput } from "../output";
-import { TerraformJson } from "../../bin/cmds/ui/terraform-json";
+import { TerraformJson } from "../terraform-json";
 import { readGitignore } from "./util";
 import { hashPath } from "cdktf/lib/private/fs";
 import { logger } from "../logging";
@@ -84,6 +85,7 @@ export class WatchClient {
 
   private sourceFileWatcher?: chokidar.FSWatcher;
   private outDirWatcher?: chokidar.FSWatcher;
+  private abortSignal: AbortSignal;
 
   constructor(options: WatchClientOptions) {
     this.targetDir = options.targetDir;
@@ -95,6 +97,15 @@ export class WatchClient {
       );
     this.autoApprove = options.autoApprove;
     this.targetStack = options.targetStack;
+    const ac = new AbortController();
+    this.abortSignal = ac.signal;
+
+    const onAbort = () => {
+      ac.abort();
+    };
+    process.on("SIGINT", onAbort);
+    process.on("SIGTERM", onAbort);
+    process.on("SIGQUIT", onAbort);
   }
 
   public isRunning(): boolean {
@@ -120,6 +131,7 @@ export class WatchClient {
     try {
       const stacks = (
         await SynthStack.synth(
+          this.abortSignal,
           this.synthCommand,
           this.targetDir,
           process.cwd(),
@@ -244,9 +256,12 @@ export class WatchClient {
 
   // todo: optimization: cache instance as long as backend does not change
   private async getTerraform(): Promise<Terraform> {
+    // TOOD: implement abort properly for watch
+
     const stack = await this.getTargetStack();
     if (stack.json.terraform?.backend?.remote) {
       const terraformCloud = new TerraformCloud(
+        this.abortSignal,
         stack as Stack,
         stack.json.terraform?.backend?.remote
       );
@@ -258,7 +273,7 @@ export class WatchClient {
         // return terraformCloud;
       }
     }
-    return new TerraformCli(stack as Stack);
+    return new TerraformCli(this.abortSignal, stack as Stack);
   }
 
   public async start() {

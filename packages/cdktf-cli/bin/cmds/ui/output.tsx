@@ -1,16 +1,12 @@
 /* eslint-disable no-control-regex */
-import React, { Fragment, useEffect, useState } from "react";
-import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import { Outputs as OutputComponent } from "./components";
-import { CdktfProject, ProjectUpdate } from "../../../lib";
+import React from "react";
 import { NestedTerraformOutputs } from "../../../lib/output";
-import { TerraformOutput } from "../../../lib/models/terraform";
-import { ErrorComponent } from "./components/error";
+import { useCdktfProject } from "./hooks/cdktf-project";
+import { StreamView, OutputsBottomBar, StatusBottomBar } from "./components";
 
 type OutputConfig = {
   outDir: string;
-  targetStack?: string;
+  targetStacks?: string[];
   synthCommand: string;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
@@ -18,82 +14,26 @@ type OutputConfig = {
 
 export const Output = ({
   outDir,
-  targetStack,
+  targetStacks,
   synthCommand,
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const [done, setDone] = useState(false);
-  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
-  const [stackName, setStackName] = useState<string>();
-  const [error, setError] = useState<Error>();
-  const [outputs, setOutputs] = useState<{ [key: string]: TerraformOutput }>();
+  const { status, logEntries, returnValue } = useCdktfProject(
+    { outDir, synthCommand },
+    async (project) => {
+      const outputs = await project.fetchOutputs({ stackNames: targetStacks });
+      onOutputsRetrieved(outputs);
+      return outputs;
+    }
+  );
 
-  useEffect(() => {
-    const project = new CdktfProject({
-      outDir,
-      synthCommand,
-      onUpdate: (event) => {
-        setStackName(project.stackName || "");
-        setProjectUpdate(event);
-      },
-    });
-
-    project
-      .fetchOutputs(targetStack)
-      .then((outputData) => {
-        setOutputs(outputData);
-        onOutputsRetrieved(project.outputsByConstructId!);
-        setDone(true);
-      })
-      .catch(setError);
-  }, []);
-
-  if (error) {
-    return <ErrorComponent fatal error={error} />;
-  }
-  const statusText =
-    stackName === "" ? (
-      <Text>{projectUpdate?.type}...</Text>
+  const bottomBar =
+    status.type === "done" ? (
+      <OutputsBottomBar outputs={returnValue} outputsFile={outputsPath} />
     ) : (
-      <Text>
-        {projectUpdate?.type}
-        <Text bold>&nbsp;{stackName}</Text>...
-      </Text>
+      <StatusBottomBar status={status} />
     );
 
-  return (
-    <Box>
-      {!done ? (
-        <Fragment>
-          <Text color="green">
-            <Spinner type="dots" />
-          </Text>
-          <Box paddingLeft={1}>
-            <Text>{statusText}</Text>
-          </Box>
-        </Fragment>
-      ) : (
-        <Box flexDirection="column">
-          {outputs && Object.keys(outputs).length > 0 ? (
-            <Fragment>
-              <Box marginTop={1}>
-                <Text bold>Output: </Text>
-                <OutputComponent outputs={outputs} />
-              </Box>
-            </Fragment>
-          ) : (
-            <Text>No output found</Text>
-          )}
-          <Box>
-            {outputsPath && outputs ? (
-              <Text>The outputs have been written to {outputsPath}</Text>
-            ) : (
-              <Text></Text>
-            )}
-          </Box>
-        </Box>
-      )}
-    </Box>
-  );
+  return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

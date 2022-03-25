@@ -11,39 +11,22 @@ describe("full integration test", () => {
   });
 
   test("diff", () => {
-    expect(driver.diff()).toMatchInlineSnapshot(`
-      "Stack: hello-deploy
-      Resources
-       + NULL_RESOURCE       test                null_resource.test
-
-
-      Diff: 1 to create, 0 to update, 0 to delete.
-      "
-    `);
+    expect(driver.diff()).toContain(`1 to add, 0 to change, 0 to destroy.`);
   });
 
   test("deploy", () => {
-    expect(driver.deploy()).toMatchInlineSnapshot(`
-      " Deploying Stack: hello-deploy
-      Resources
-       ✔ NULL_RESOURCE       test                null_resource.test
-
-
-      Summary: 1 created, 0 updated, 0 destroyed.
-
-      Output: output = hello
-              output2 = <sensitive>
-      "
-    `);
+    const output = driver.deploy();
+    expect(output).toContain(`null_resource.test (test) will be created`);
+    expect(output).not.toContain(`"world"`);
+    expect(output).toContain(`output  = "hello"`);
+    expect(output).toContain(`output2 = <sensitive>`);
   });
 
   test("output", () => {
-    expect(driver.output()).toMatchInlineSnapshot(`
-      "
-      Output: output = hello
-              output2 = <sensitive>
-      "
-    `);
+    const output = driver.output();
+    expect(output).not.toContain(`"world"`);
+    expect(output).toContain(`output = hello`);
+    expect(output).toContain(`output2 = <sensitive>`);
   });
 
   it("deploy and output write the same outputs file", () => {
@@ -72,14 +55,8 @@ describe("full integration test", () => {
   });
 
   test("destroy", () => {
-    expect(driver.destroy()).toMatchInlineSnapshot(`
-      " Destroying Stack: hello-deploy
-      Resources
-       ✔ NULL_RESOURCE       test                null_resource.test
-
-
-      Summary: 1 destroyed.
-      "
-    `);
+    const output = driver.destroy();
+    expect(output).toContain(`null_resource.test (test) will be destroyed`);
+    expect(output).toContain(`Destroy complete! Resources: 1 destroyed.`);
   });
 });

@@ -7,6 +7,7 @@ const os = require("os");
 const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra");
+const stripAnsi = require("strip-ansi");
 
 export class QueryableStack {
   private readonly stack: Record<string, any>;
@@ -76,16 +77,16 @@ export class TestDriver {
         process.on("close", (code) => {
           if (code === 0) {
             resolve({
-              stdout: stdout.join("\n"),
-              stderr: stderr.join("\n"),
+              stdout: stripAnsi(stdout.join("\n")),
+              stderr: stripAnsi(stderr.join("\n")),
             });
           } else {
             const error = new Error(
               `spawned command ${command} with args ${args} failed with exit code ${code}`
             );
             (error as any).code = code;
-            (error as any).stdout = stdout.join("\n");
-            (error as any).stderr = stderr.join("\n");
+            (error as any).stdout = stripAnsi(stdout.join("\n"));
+            (error as any).stderr = stripAnsi(stderr.join("\n"));
             reject(error);
           }
         });
@@ -167,40 +168,56 @@ export class TestDriver {
   };
 
   list = (flags?: string) => {
-    return execSync(`cdktf list ${flags ? flags : ""}`, {
-      env: this.env,
-    }).toString();
+    return stripAnsi(
+      execSync(`cdktf list ${flags ? flags : ""}`, {
+        env: this.env,
+      }).toString()
+    );
   };
 
   diff = (stackName?: string) => {
-    return execSync(`cdktf diff ${stackName ? stackName : ""}`, {
-      env: this.env,
-    }).toString();
+    return stripAnsi(
+      execSync(`cdktf diff ${stackName ? stackName : ""}`, {
+        env: this.env,
+      }).toString()
+    );
   };
 
-  deploy = (stackName?: string, outputsFilePath?: string) => {
-    return execSync(
-      `cdktf deploy ${stackName ? stackName : ""} --auto-approve ${
-        outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
-      }`,
-      { env: this.env }
-    ).toString();
+  deploy = (stackNames?: string[], outputsFilePath?: string) => {
+    return stripAnsi(
+      execSync(
+        `cdktf deploy ${
+          stackNames ? stackNames.join(" ") : ""
+        } --auto-approve ${
+          outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
+        }`,
+        { env: this.env }
+      ).toString()
+    );
   };
 
   output = (stackName?: string, outputsFilePath?: string) => {
-    return execSync(
-      `cdktf output ${stackName ? stackName : ""} ${
-        outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
-      }`,
-      { env: this.env }
-    ).toString();
+    return stripAnsi(
+      execSync(
+        `cdktf output ${stackName ? stackName : ""} ${
+          outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
+        }`,
+        { env: this.env }
+      ).toString()
+    );
   };
 
-  destroy = (stackName?: string) => {
-    return execSync(
-      `cdktf destroy ${stackName ? stackName : ""} --auto-approve`,
-      { env: this.env }
-    ).toString();
+  destroy = (stackNames?: string[]) => {
+    return stripAnsi(
+      execSync(
+        `cdktf destroy ${
+          stackNames ? stackNames.join(" ") : ""
+        } --auto-approve`,
+        {
+          env: this.env,
+        }
+      ).toString()
+    );
   };
 
   watch = () => {

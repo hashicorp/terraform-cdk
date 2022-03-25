@@ -37,6 +37,7 @@ export interface TerraformMetaArguments {
 export interface TerraformProviderGeneratorMetadata {
   readonly providerName: string;
   readonly providerVersionConstraint?: string;
+  readonly providerVersion?: string;
 }
 
 export interface TerraformResourceConfig extends TerraformMetaArguments {
@@ -148,7 +149,10 @@ export class TerraformResource
       this.rawOverrides
     );
 
-    attributes["//"] = this.constructNodeMetadata;
+    attributes["//"] = {
+      ...(attributes["//"] ?? {}),
+      ...this.constructNodeMetadata,
+    };
 
     return {
       resource: {

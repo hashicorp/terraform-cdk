@@ -12,9 +12,7 @@ export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
     new NullProvider.NullProvider(this, "null", {});
-    new LocalBackend(this, {
-      path: "terraform.tfstate",
-    });
+    new LocalBackend(this);
 
     const nullResouce = new NullProvider.Resource(this, "test", {});
 
@@ -34,6 +32,7 @@ export class HelloTerra extends TerraformStack {
 }
 
 const app = Testing.stubVersion(new App({ stackTraces: false }));
-new HelloTerra(app, "first");
-new HelloTerra(app, "second");
+new Array(100).fill(0).forEach((_,i)=>{
+  new HelloTerra(app, `stack-${i}`);
+});
 app.synth();

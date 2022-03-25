@@ -65,7 +65,7 @@ class MyStack extends TerraformStack {
     });
 
     new TerraformOutput(this, "cdktfcloudrunUrlN", {
-      value: cloudrunsvcapp.status("0").url,
+      value: cloudrunsvcapp.status.get(0).url,
     });
   }
 }

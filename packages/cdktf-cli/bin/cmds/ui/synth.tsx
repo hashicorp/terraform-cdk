@@ -1,98 +1,44 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Text, Box } from "ink";
-import Spinner from "ink-spinner";
-import { CdktfProject, SynthesizedStack } from "../../../lib";
-import { ErrorComponent } from "./components/error";
+import React from "react";
+import { Text } from "ink";
+
+import { useCdktfProject } from "./hooks/cdktf-project";
+import { StreamView } from "./components";
+import { SynthesizedStack } from "../../../lib";
+import { StatusBottomBar } from "./components/bottom-bars/status";
 
 interface CommonSynthConfig {
   outDir: string;
-  targetStack: string;
-  jsonOutput: boolean;
 }
-
-type SynthOutputConfig = {
-  jsonOutput: boolean;
-  targetStackName: string;
-  stacks: SynthesizedStack[];
-};
 
 interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
 }
-
-const SynthOutput = ({
-  jsonOutput,
-  stacks,
-  targetStackName,
-}: SynthOutputConfig): React.ReactElement => {
+type SynthOutputConfig = {
+  stacks: SynthesizedStack[];
+};
+const SynthOutput = ({ stacks }: SynthOutputConfig): React.ReactElement => {
   return (
-    <>
-      {jsonOutput ? (
-        <Box>
-          <Text>
-            {(
-              stacks.find((stack) => stack.name === targetStackName) ||
-              stacks[0]
-            )?.content || "{}"}
-          </Text>
-        </Box>
-      ) : (
-        <Text>
-          Generated Terraform code for the stacks:{" "}
-          {stacks?.map((s) => s.name).join(", ")}
-        </Text>
-      )}
-    </>
+    <Text>
+      Generated Terraform code for the stacks:{" "}
+      {stacks?.map((s) => s.name).join(", ")}
+    </Text>
   );
 };
 
 export const Synth = ({
   outDir,
-  targetStack,
   synthCommand,
-  jsonOutput,
 }: SynthConfig): React.ReactElement => {
-  const [stacks, setStacks] = useState<SynthesizedStack[] | undefined>(
-    undefined
+  const { returnValue, logEntries, status } = useCdktfProject(
+    { outDir, synthCommand },
+    (project) => project.synth()
   );
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const project = new CdktfProject({
-      outDir,
-      synthCommand,
-      onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-    });
-
-    project.synth().then(() => setStacks(project.stacks), setError);
-  }, []);
-
-  if (stacks !== undefined) {
-    return (
-      <Fragment>
-        <Box>
-          <SynthOutput
-            targetStackName={targetStack}
-            stacks={stacks}
-            jsonOutput={jsonOutput}
-          />
-        </Box>
-      </Fragment>
-    );
-  }
-
-  if (error) return <ErrorComponent fatal error={error} />;
 
   return (
-    <Box>
-      <Fragment>
-        <Text color="green">
-          <Spinner type="dots" />
-        </Text>
-        <Box paddingLeft={1}>
-          <Text>Sythesizing...</Text>
-        </Box>
-      </Fragment>
-    </Box>
+    <StreamView logs={logEntries}>
+      <StatusBottomBar status={status}>
+        <SynthOutput stacks={status.type === "done" ? returnValue! : []} />
+      </StatusBottomBar>
+    </StreamView>
   );
 };
