@@ -93,11 +93,11 @@ For performance reasons, we don't automatically generate bindings for submodules
 
 Go to the working directory and run `cdktf get`. CDKTF automatically creates the appropriate module bindings in the `./.gen` directory for you to use in your application.
 
-### Configuring Modules
+## Configure Modules
 
-You can configure modules in the same way as [resources](/cdktf/concepts/providers-and-resources#resources), with one exception. 
+You can configure modules in the same way as [resources](/cdktf/concepts/providers-and-resources#resources), with one exception.
 
-For module inputs that use the `map` type, like `map(string)` or `list(map(string))`, you must specify the map values as strings. You must also ensure that these strings follow the required format listed in the module's documentation. For example, the module may specify that the keys must be in snake case. 
+For module inputs that use the `map` type, like `map(string)` or `list(map(string))`, you must specify the map values as strings. You must also ensure that the keys follow the required format listed in the module's documentation. For example, the module may specify that the keys must be in snake case.
 
 ## Work with Module Outputs
 
