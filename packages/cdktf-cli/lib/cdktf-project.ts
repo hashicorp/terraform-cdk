@@ -292,6 +292,13 @@ type Buffered<T, V> = {
   type: V;
 };
 
+export type CdktfProjectOptions = {
+  synthCommand: string;
+  outDir: string;
+  onUpdate: (update: ProjectUpdate) => void;
+  onLog?: (log: LogMessage) => void;
+  workingDirectory?: string;
+};
 export class CdktfProject {
   public stacks?: SynthesizedStack[];
   public hardAbort: () => void;
@@ -323,13 +330,7 @@ export class CdktfProject {
     onUpdate,
     onLog,
     workingDirectory = process.cwd(),
-  }: {
-    synthCommand: string;
-    outDir: string;
-    onUpdate: (update: ProjectUpdate) => void;
-    onLog?: (log: LogMessage) => void;
-    workingDirectory?: string;
-  }) {
+  }: CdktfProjectOptions) {
     this.synthCommand = synthCommand;
     this.outDir = outDir;
     this.workingDirectory = workingDirectory;
