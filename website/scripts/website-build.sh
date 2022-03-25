@@ -1,3 +1,5 @@
+# Repo which we are cloning and executing npm run build:deploy-preview within
+REPO_TO_CLONE=terraform-website
 # Set the subdirectory name for the terraform-website app
 PREVIEW_DIR=website-preview
 CLONE_DIR=website-preview
@@ -12,7 +14,7 @@ fi
 
 # Clone the terraform-website project, if needed
 echo "⏳ Cloning the terraform-website repo, this might take a while..."
-git clone --depth=1 --branch=brk.feat/tfcdk-remote-content https://github.com/hashicorp/terraform-website.git "$CLONE_DIR"
+git clone --depth=1 --branch=brk.feat/tfcdk-remote-content https://github.com/hashicorp/$REPO_TO_CLONE.git "$CLONE_DIR"
 
 if [ "$from_cache" = true ]; then
   echo "Setting up $PREVIEW_DIR"
