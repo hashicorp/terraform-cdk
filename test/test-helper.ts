@@ -196,11 +196,17 @@ export class TestDriver {
     );
   };
 
-  output = (stackName?: string, outputsFilePath?: string) => {
+  output = (
+    stackName?: string,
+    outputsFilePath?: string,
+    includeSensitive = false
+  ) => {
     return stripAnsi(
       execSync(
         `cdktf output ${stackName ? stackName : ""} ${
-          outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
+          outputsFilePath ? ` --outputs-file=${outputsFilePath}` : ""
+        }${
+          includeSensitive ? ` --outputs-file-include-sensitive-outputs` : ""
         }`,
         { env: this.env }
       ).toString()
