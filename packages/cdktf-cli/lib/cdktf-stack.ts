@@ -2,14 +2,10 @@ import { interpret, InterpreterFrom } from "xstate";
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack } from "./synth-stack";
 import { stackExecutionMachine } from "./stack-execution";
-import {
-  PlannedResource,
-  DeployingResourceApplyState,
-  DeployingResource,
-  TerraformPlan,
-} from "./models/terraform";
+import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
+import { extractJsonLogIfPresent } from "./server/terraform-logs";
 
 export type StackUpdate =
   | {
@@ -29,7 +25,6 @@ export type StackUpdate =
       type: "deploy update";
       stackName: string;
       deployOutput: string;
-      resources: DeployingResource[];
     }
   | {
       type: "deployed";
@@ -45,7 +40,6 @@ export type StackUpdate =
       type: "destroy update";
       stackName: string;
       destroyOutput: string;
-      resources: DeployingResource[];
     }
   | {
       type: "destroyed";
@@ -71,23 +65,6 @@ export type StackApprovalUpdate = {
   reject: () => void;
 };
 
-function extractJsonLogLineIfPresent(logLine: string): string {
-  try {
-    const extractedMessage = JSON.parse(logLine)["@message"];
-    return extractedMessage ? extractedMessage : logLine;
-  } catch {
-    return logLine;
-  }
-}
-
-function extractJsonLogIfPresent(logLines: string): string {
-  return logLines
-    .split("\n")
-    .map(extractJsonLogLineIfPresent)
-    .map((line) => line.trim())
-    .join("\n");
-}
-
 export class CdktfStack {
   public stateMachine: InterpreterFrom<typeof stackExecutionMachine>;
   public stackName: string;
@@ -95,7 +72,6 @@ export class CdktfStack {
   public stack: SynthesizedStack;
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
-  public deployingResources?: DeployingResource[];
   public stopped = false;
 
   constructor({
@@ -107,7 +83,7 @@ export class CdktfStack {
   }: {
     stack: SynthesizedStack;
     onUpdate: (update: StackUpdate | StackApprovalUpdate) => void;
-    onLog?: (log: { stackName: string; message: string }) => void;
+    onLog?: (log: { message: string }) => void;
     autoApprove?: boolean;
     abortSignal: AbortSignal;
   }) {
@@ -128,7 +104,7 @@ export class CdktfStack {
                   `[${event.stackName}](${event.stateName}): ${message}`
                 );
                 if (onLog) {
-                  onLog({ stackName: event.stackName, message: event.message });
+                  onLog({ message });
                 }
               }
 
@@ -140,25 +116,17 @@ export class CdktfStack {
 
             case "RESOURCE_UPDATE":
               {
-                const map = new Map<string, DeployingResource>(
-                  (this.deployingResources || []).map((r) => [r.id, r])
-                );
-                event.updatedResources.forEach((r) => map.set(r.id, r));
-                this.deployingResources = Array.from(map.values());
-
                 if (event.stateName === "deploy") {
                   onUpdate({
                     type: "deploy update",
                     stackName: event.stackName,
                     deployOutput: event.stdout,
-                    resources: this.deployingResources,
                   });
                 } else if (event.stateName === "destroy") {
                   onUpdate({
                     type: "destroy update",
                     stackName: event.stackName,
                     destroyOutput: event.stdout,
-                    resources: this.deployingResources,
                   });
                 } else {
                   logger.error("Unknown state name: " + event.stateName);
@@ -187,14 +155,6 @@ export class CdktfStack {
       switch (lastState) {
         case "diff":
           this.currentPlan = ctx.targetStackPlan;
-          if (this.currentPlan?.needsApply && ctx.targetAction !== "diff") {
-            this.deployingResources = this.currentPlan?.applyableResources.map(
-              (r: PlannedResource) =>
-                Object.assign({}, r, {
-                  applyState: DeployingResourceApplyState.WAITING,
-                })
-            );
-          }
           onUpdate({
             type: "planned",
             stackName: this.stackName,

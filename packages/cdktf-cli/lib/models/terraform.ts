@@ -117,4 +117,5 @@ export interface Terraform {
   deploy(planFile: string, stdout: (chunk: Buffer) => any): Promise<void>;
   destroy(stdout: (chunk: Buffer) => any): Promise<void>;
   output(): Promise<{ [key: string]: TerraformOutput }>;
+  abort: () => Promise<void>;
 }

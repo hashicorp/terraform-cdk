@@ -16,7 +16,7 @@ describe("full integration test", () => {
 
   test("deploy", () => {
     const output = driver.deploy();
-    expect(output).toContain(`null_resource.test will be created`);
+    expect(output).toContain(`null_resource.test (test) will be created`);
     expect(output).not.toContain(`"world"`);
     expect(output).toContain(`output  = "hello"`);
     expect(output).toContain(`output2 = <sensitive>`);
@@ -56,7 +56,7 @@ describe("full integration test", () => {
 
   test("destroy", () => {
     const output = driver.destroy();
-    expect(output).toContain(`null_resource.test will be destroyed`);
+    expect(output).toContain(`null_resource.test (test) will be destroyed`);
     expect(output).toContain(`Destroy complete! Resources: 1 destroyed.`);
   });
 });

@@ -7,12 +7,8 @@ import { Errors } from "./errors";
 import { TerraformJson } from "./terraform-json";
 import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";
-import {
-  TerraformPlan,
-  Terraform,
-  DeployingResource,
-} from "./models/terraform";
-import { getConstructIdsForOutputs, parseOutput } from "./output";
+import { TerraformPlan, Terraform } from "./models/terraform";
+import { getConstructIdsForOutputs } from "./output";
 
 export type StackEvent =
   | {
@@ -44,7 +40,6 @@ type ProgressEvent =
       stackName: string;
       stateName: string;
       stdout: string;
-      updatedResources: DeployingResource[];
     };
 
 export interface StackContext {
@@ -184,7 +179,6 @@ const services = {
         stackName: stack.name,
         stateName: "deploy",
         stdout,
-        updatedResources: parseOutput(stdout),
       });
     });
   },
@@ -210,7 +204,6 @@ const services = {
         stackName: stack.name,
         stateName: "destroy",
         stdout,
-        updatedResources: parseOutput(stdout),
       });
     });
   },
@@ -230,6 +223,16 @@ const services = {
     );
 
     return Promise.resolve({ outputs, outputsByConstructId });
+  },
+  abort: async (context: StackContext) => {
+    const tf = context.terraform;
+    if (!tf) {
+      throw Errors.Internal(
+        "No Terraform CLI found, initializeTerraform needs to be run first"
+      );
+    }
+
+    await tf.abort();
   },
 };
 
@@ -342,11 +345,28 @@ const stackExecutionMachine = createMachine<StackContext, StackEvent>(
       waitingForApproval: {
         on: {
           APPROVAL_ABORTED: {
-            target: "done",
+            target: "aborted",
           },
           APPROVAL_GIVEN: {
             target: "approved",
           },
+        },
+      },
+      aborted: {
+        invoke: {
+          id: "abort",
+          src: "abort",
+          onError: {
+            target: "error",
+            actions: assign({
+              message: (_context, event) => extractError(_context, event),
+            }),
+          },
+          onDone: [
+            {
+              target: "done",
+            },
+          ],
         },
       },
       approved: {

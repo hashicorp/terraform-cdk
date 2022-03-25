@@ -16,16 +16,17 @@ function getStateMachine({
   diff = mockAsyncFunction({ needsApply: true }),
   deploy = mockAsyncFunction(null),
   destroy = mockAsyncFunction(null),
+  abort = mockAsyncFunction(null),
   gatherOutputs = mockAsyncFunction({ outputs: {}, outputsByConstructId: {} }),
   targetActionIs = guards.targetActionIs,
   autoApprove = guards.autoApprove,
   planNeedsNoApply = guards.planNeedsNoApply,
 }: Partial<StateMachineConfig>) {
-  const abort = new AbortController();
+  const abortCtl = new AbortController();
   const stateMachine = interpret(
     stackExecutionMachine
       .withContext({
-        abortSignal: abort.signal,
+        abortSignal: abortCtl.signal,
         onProgress: jest.fn(),
         stack: {
           name: "StackA",
@@ -44,6 +45,7 @@ function getStateMachine({
           deploy,
           destroy,
           gatherOutputs,
+          abort,
         },
         guards: {
           targetActionIs: targetActionIs as any, // since it's a custom guard
