@@ -95,9 +95,9 @@ Go to the working directory and run `cdktf get`. CDKTF automatically creates the
 
 ### Configuring Modules
 
-In general modules can be configured like a resource, but there is a special case:
+You can configure modules in the same way as [resources](/cdktf/concepts/providers-and-resources#resources), with one exception. 
 
-When you have a module input that uses the `map` type, e.g. `map(string)` or `list(map(string))` you need to specify the values in the map as strings. The keys within the map must be as Terraform expects them, you need to follow the documentation of the HCL Module, so if it specifies snake cased keys they have to be snake cased in the module configuration as well.
+For module inputs that use the `map` type, like `map(string)` or `list(map(string))`, you must specify the map values as strings. You must also ensure that these strings follow the required format listed in the module's documentation. For example, the module may specify that the keys must be in snake case. 
 
 ## Work with Module Outputs
 
