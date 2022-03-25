@@ -43,11 +43,11 @@ function getOrWriteDefaultWatchConfig(projectPath = process.cwd()) {
   }
 
   const defaultWatchPattern = {
-    typescript: ["main.ts"],
-    python: ["main.py"],
+    typescript: ["./**/*.ts"],
+    python: ["./**/*.py"],
     java: ["src/**/*.java"],
-    csharp: ["Main.cs"],
-    go: ["main.go"],
+    csharp: ["./**/*.cs"],
+    go: ["./**/*.go"],
   }[language];
 
   fs.writeFileSync(
