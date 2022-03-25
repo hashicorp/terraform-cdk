@@ -13,7 +13,7 @@ DOCKER_RUN_FLAGS=--interactive \
 # Default: run this if working on the website locally to run in watch mode.
 website:
 	@echo "==> Downloading latest Docker image..."
-	@docker pull {DOCKER_IMAGE}
+	@docker pull ${DOCKER_IMAGE}
 	@echo "==> Starting website in Docker..."
 	@docker run ${DOCKER_RUN_FLAGS} ${DOCKER_IMAGE} npm start
 
