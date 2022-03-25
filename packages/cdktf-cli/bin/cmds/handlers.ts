@@ -197,7 +197,7 @@ export async function init(argv: any) {
   await displayVersionMessage();
   await checkEnvironment();
 
-  if (argv.fromTerraformProject === "") {
+  if (["", ".", process.cwd()].includes(argv.fromTerraformProject)) {
     throw Errors.Usage(
       "--from-terraform-project requires a path to an existing Terraform project to be set, e.g. --from-terraform-project=../my-tf-codebase This folder can not be the same as the current working directory since cdktf init will initialize the new project in that folder."
     );
