@@ -84,13 +84,30 @@ describe("full integration test", () => {
         },
       });
 
-      driver.deploy(["source-stack", "consumer-stack"]);
+      driver.deploy(["source-stack"]);
+      driver.output("source-stack", "./source-outputs.json", true);
+
+      driver.deploy(["consumer-stack"]);
+      driver.output("consumer-stack", "./consumer-outputs.json", true);
+
+      const sourceOutputs = JSON.parse(
+        driver.readLocalFile("./source-outputs.json")
+      );
+      const consumerOutputs = JSON.parse(
+        driver.readLocalFile("./consumer-outputs.json")
+      );
+
+      const sourcePassword =
+        sourceOutputs["source-stack"][
+          "cross-stack-output-random_password.password.result"
+        ];
+      const consumerPassword = consumerOutputs["consumer-stack"]["password"];
+
+      expect(sourcePassword).not.toBeNull();
+      expect(sourcePassword.length).toBeGreaterThan(5);
+      expect(sourcePassword).toEqual(consumerPassword);
 
       await client.Workspaces.deleteByName(orgName, workspaceName);
-
-      expect(driver.readLocalFile("origin-file.txt")).toEqual(
-        driver.readLocalFile("consumer-file.txt")
-      );
     }
   );
 });

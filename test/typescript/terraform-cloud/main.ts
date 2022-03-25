@@ -30,11 +30,6 @@ export class SourceStack extends TerraformStack {
       length: 32,
     });
 
-    new local.File(this, "file", {
-      filename: "../../../origin-file.txt",
-      content: this.password.result,
-    });
-
     const nullResouce = new NullProvider.Resource(this, "test", {});
 
     nullResouce.addOverride("provisioner", [
@@ -73,11 +68,9 @@ export class ConsumerStack extends TerraformStack {
   constructor(scope: Construct, id: string, password: Password) {
     super(scope, id);
 
-    new local.LocalProvider(this, "local", {});
-
-    new local.File(this, "file", {
-      filename: "../../../consumer-file.txt",
-      content: password.result,
+    new TerraformOutput(this, "password", {
+      value: password.result,
+      staticId: true,
     });
   }
 }
