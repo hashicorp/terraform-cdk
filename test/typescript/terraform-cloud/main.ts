@@ -5,6 +5,7 @@ import {
   Testing,
   TerraformAsset,
   TerraformOutput,
+  RemoteBackend,
 } from "cdktf";
 import * as NullProvider from "./.gen/providers/null";
 import * as local from "./.gen/providers/local";
@@ -12,7 +13,7 @@ import { RandomProvider, Password } from "./.gen/providers/random";
 import * as path from "path";
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
 const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
-const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
+const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION || "cdktf";
 const localExecution = process.env.TF_EXECUTE_LOCAL === "true";
 
 export class SourceStack extends TerraformStack {
@@ -45,14 +46,12 @@ export class SourceStack extends TerraformStack {
     ]);
 
     if (!localExecution) {
-      this.addOverride("terraform.backend", {
-        remote: {
-          organization,
-          workspaces: {
-            name,
-          },
-          token,
+      new RemoteBackend(this, {
+        organization,
+        workspaces: {
+          name,
         },
+        token,
       });
     }
 
