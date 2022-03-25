@@ -75,6 +75,7 @@ const mapActionToState = (action: ActionTypes, done: boolean) => {
       return DeployingResourceApplyState.WAITING;
   }
 };
+// This is deprecated and will be removed in a future version.
 const parseJsonOutputLine = (
   line: string
 ): Omit<DeployingResource, "action"> | undefined => {
@@ -90,7 +91,7 @@ const parseJsonOutputLine = (
     message = schema.parse(json);
   } catch (err) {
     if (err instanceof z.ZodError) {
-      logger.warn(
+      logger.trace(
         `Error parsing line into schema: ${JSON.stringify(
           err.errors
         )} => ${line}`

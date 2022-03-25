@@ -14,6 +14,7 @@ import archiver from "archiver";
 import { WritableStreamBuffer } from "stream-buffers";
 import { SynthesizedStack } from "../synth-stack";
 import { logger } from "../logging";
+import { Errors } from "../errors";
 export class TerraformCloudPlan
   extends AbstractTerraformPlan
   implements TerraformPlan
@@ -112,9 +113,9 @@ export class TerraformCloud implements Terraform {
   private configurationVersionId?: string;
   public readonly workDir: string;
   public run?: TerraformCloudClient.Run;
+  private lastLogMessageLength = 0;
 
   constructor(
-    // TFC does not support abort yet: https://github.com/hashicorp/terraform-cdk/issues/1607
     public readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
     public readonly config: TerraformJsonConfigBackendRemote,
@@ -146,6 +147,9 @@ export class TerraformCloud implements Terraform {
     }
 
     this.client = new TerraformCloudClient.TerraformCloud(this.token);
+    this.abortSignal.addEventListener("abort", () => {
+      this.removeRun("cancel");
+    });
   }
 
   @BeautifyErrors("IsRemoteWorkspace")
@@ -306,8 +310,17 @@ export class TerraformCloud implements Terraform {
       // In rare cases the backend sends an empty chunk of data back.
       if (data && data.length) {
         const buffer = Buffer.from(data, "utf8");
+
         stdout(buffer);
-        sendLog(buffer.toString("utf8"), false);
+
+        // We only want to send what we have not seen yet.
+        const bufferWithoutLastKnown = buffer
+          .subarray(this.lastLogMessageLength)
+          .toString("utf8");
+        if (bufferWithoutLastKnown.trim().length) {
+          sendLog(bufferWithoutLastKnown, false);
+          this.lastLogMessageLength = buffer.length;
+        }
       }
     });
     return res;
@@ -374,6 +387,17 @@ export class TerraformCloud implements Terraform {
   @BeautifyErrors("Version")
   public async version(): Promise<string> {
     return (await this.workspace()).attributes.terraformVersion;
+  }
+
+  @BeautifyErrors("Abort")
+  public async abort(): Promise<void> {
+    if (!this.run) {
+      throw Errors.Internal(
+        "No run is present to abort, this means we called abort before the plan was started"
+      );
+    }
+
+    await this.removeRun("discard");
   }
 
   @BeautifyErrors("Output")
@@ -452,6 +476,23 @@ export class TerraformCloud implements Terraform {
         );
         return false;
     }
+  }
+
+  private async removeRun(action: "cancel" | "discard") {
+    if (!this.run) {
+      logger.debug("No run to remove");
+      return;
+    }
+
+    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${this.run.id}`;
+    logger.info(`${action}ing run ${url}`);
+    this.client.Runs.action(action, this.run.id)
+      .then(() => {
+        logger.debug(`Cancelled run ${url}`);
+      })
+      .catch(() => {
+        logger.error(`Failed to cancel run, please cancel manually at ${url}`);
+      });
   }
 
   private async waitForConfigurationVersionToBeReady(
