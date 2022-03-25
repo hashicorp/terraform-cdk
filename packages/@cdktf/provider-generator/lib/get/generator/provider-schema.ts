@@ -10,6 +10,7 @@ const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 export interface ProviderSchema {
   format_version?: "1.0";
   provider_schemas?: { [type: string]: Provider };
+  provider_versions?: { [fqn: string]: string };
 }
 
 export interface Provider {
@@ -62,6 +63,11 @@ export interface Block {
 export interface TerraformSchema {
   providers: ProviderSchema;
   modules: ModuleSchema;
+}
+
+interface VersionSchema {
+  provider_selections: { [fqn: string]: string };
+  // other properties aren't used
 }
 
 interface ModuleIndexItem {
@@ -251,6 +257,14 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
           cwd: outdir,
         })
       ) as ProviderSchema;
+
+      const versionSchema = JSON.parse(
+        await exec(terraformBinaryName, ["version", "-json"], {
+          cwd: outdir,
+        })
+      ) as VersionSchema;
+
+      providerSchema.provider_versions = versionSchema.provider_selections;
     }
     if (config.module) {
       moduleSchema = await harvestModuleSchema(

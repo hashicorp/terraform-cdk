@@ -674,6 +674,9 @@ Object {
         }
       }
     }
+  },
+  "provider_versions": {
+    "registry.terraform.io/hashicorp/null": "3.1.0"
   }
 },
 }
