@@ -206,7 +206,7 @@ export class StructEmitter {
         `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectKey: string)`
       );
       this.code.line(
-        `super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectKey);`
+        `super(terraformResource, terraformAttribute, false, complexObjectKey);`
       );
       this.code.closeBlock();
     } else {
