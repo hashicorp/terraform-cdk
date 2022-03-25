@@ -148,6 +148,10 @@ const refreshComplete = baseMessage.extend({
   }),
 });
 
+const logMessage = baseMessage.extend({
+  type: z.literal("log"),
+});
+
 export const schema = z.union([
   version,
   plannedChange,
@@ -163,6 +167,7 @@ export const schema = z.union([
   provisionErrored,
   refreshStart,
   refreshComplete,
+  logMessage,
 ]);
 
 export type ActionTypes = z.infer<typeof action>;
