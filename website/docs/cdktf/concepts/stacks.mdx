@@ -190,7 +190,7 @@ If you e.g. write `this.allResources = Fn.merge(resourceFromStackA.items, resour
 In case you don't want the "middleman" to be cut out you can run `stackD.addDependency(stackC)` to make the dependency explicit.
 If you want to keep the result of the function attached to one stack (and saved its state) you can use a `TerraformLocal` and expose it instead: `this.allResources = TerraformLocal(this, "merged_items", Fn.merge(resourceFromStackA.items, resourceFromStackB.items)`.
 
-There are currently no safe-guards around this feature, it's your responsibility to deploy the stacks in the respective order.
+The CLI will error if you try to deploy something without deploying the dependencies first and if you try to destroy something without destroying the dependant stacks first. If you don't want these safe-guards you can add the `--ignore-missing-stack-dependencies` to deploy / destroy command.
 
 ### Migration from `<= 0.2`
 
