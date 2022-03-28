@@ -26,11 +26,11 @@ CDKTF includes two packages:
 
 Choose a language:
 
-- [TypeScript](./docs/getting-started/typescript.md)
-- [Python](./docs/getting-started/python.md)
-- [Java](./docs/getting-started/java.md)
-- [C#](./docs/getting-started/csharp.md)
-- [Go](./docs/getting-started/go.md)
+- [TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
+- [Python](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
+- [Java](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
+- [C#](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
+- [Go](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
 
 > **Hands-on:** Try the tutorials in the [CDK for Terraform](https://learn.hashicorp.com/collections/terraform/cdktf) collection on HashiCorp Learn.
 
