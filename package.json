@@ -73,7 +73,7 @@
     "husky": ">=6",
     "lerna": "^4.0.0",
     "lint-staged": ">=10",
-    "prettier": "^2.6.0",
+    "prettier": "^2.6.1",
     "standard-version": "^9.3.2"
   },
   "lint-staged": {
