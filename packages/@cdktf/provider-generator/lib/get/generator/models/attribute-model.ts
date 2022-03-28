@@ -117,10 +117,7 @@ export class AttributeModel {
       this.type.isMap
     ) {
       getterType = {
-        _type: "args",
-        args: "key: string",
-        returnType: this.mapReturnType,
-        returnStatement: `new ${this.type.name}(this, '${this.terraformName}').lookup(key)`,
+        _type: "stored_class",
       };
     }
 

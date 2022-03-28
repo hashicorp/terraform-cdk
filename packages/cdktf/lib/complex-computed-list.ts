@@ -58,7 +58,7 @@ abstract class ComplexComputedAttribute implements IInterpolatingParent {
   public abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 
-export class StringMap {
+export class StringMap implements ITerraformAddressable {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
@@ -71,9 +71,15 @@ export class StringMap {
       )
     );
   }
+
+  get fqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
+    );
+  }
 }
 
-export class NumberMap {
+export class NumberMap implements ITerraformAddressable {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
@@ -86,9 +92,15 @@ export class NumberMap {
       )
     );
   }
+
+  get fqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
+    );
+  }
 }
 
-export class BooleanMap {
+export class BooleanMap implements ITerraformAddressable {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
@@ -99,9 +111,15 @@ export class BooleanMap {
       `${this.terraformAttribute}["${key}"]`
     );
   }
+
+  get fqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
+    );
+  }
 }
 
-export class AnyMap {
+export class AnyMap implements ITerraformAddressable {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
@@ -112,6 +130,12 @@ export class AnyMap {
       this.terraformResource.interpolationForAttribute(
         `${this.terraformAttribute}["${key}"]`
       )
+    );
+  }
+
+  get fqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
     );
   }
 }
