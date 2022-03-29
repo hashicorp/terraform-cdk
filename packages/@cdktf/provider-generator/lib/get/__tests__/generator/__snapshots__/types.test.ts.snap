@@ -1360,8 +1360,9 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // ==========
 
   // keys - computed: true, optional: false, required: false
-  public keys(index: string, key: string): string | cdktf.IResolvable {
-    return new cdktf.StringMap(this, \`keys.\${index}\`).lookup(key);
+  private _keys = new cdktf.StringMapList(this, \\"keys\\", false);
+  public get keys() {
+    return this._keys;
   }
 
   // =========

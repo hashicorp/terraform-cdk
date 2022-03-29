@@ -244,3 +244,93 @@ export class ComplexObject extends ComplexComputedAttribute {
     );
   }
 }
+
+abstract class MapList implements ITerraformAddressable, IInterpolatingParent {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {}
+
+  get fqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
+    );
+  }
+
+  interpolationForAttribute(property: string): IResolvable {
+    if (this.wrapsSet) {
+      const matches = property.match(/\[([^\]]*)\]/); // need to extract out the index
+      if (matches) {
+        return propertyAccess(
+          Fn.tolist(
+            this.terraformResource.interpolationForAttribute(
+              this.terraformAttribute
+            )
+          ),
+          [matches[1], property]
+        );
+      }
+    }
+
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}${property}`
+    );
+  }
+}
+
+export class StringMapList extends MapList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    return new StringMap(this, `[${index}]`);
+  }
+}
+
+export class NumberMapList extends MapList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    return new NumberMap(this, `[${index}]`);
+  }
+}
+
+export class BooleanMapList extends MapList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    return new BooleanMap(this, `[${index}]`);
+  }
+}
+
+export class AnyMapList extends MapList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    return new AnyMap(this, `[${index}]`);
+  }
+}

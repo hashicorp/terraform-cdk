@@ -94,10 +94,7 @@ export class AttributeModel {
       this.type.isMap
     ) {
       getterType = {
-        _type: "args",
-        args: "index: string, key: string",
-        returnType: this.mapReturnType,
-        returnStatement: `new ${this.type.name}(this, \`${this.terraformName}.\${index}\`).lookup(key)`,
+        _type: "stored_class",
       };
     } else if (
       // Complex Computed List
