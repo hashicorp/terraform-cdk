@@ -119,6 +119,10 @@ Edit `cdktf.json` to disable flags for which you prefer the old behavior, or to 
 
 The [CHANGELOG on Github](https://github.com/hashicorp/terraform-cdk/blob/main/CHANGELOG.md) contains a description of new feature flags in each release, and the CDKTF source file [features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts) provides a complete list of all feature flags.
 
+## Configure Files to Watch
+
+When using `cdktf watch` we inspect the `cdktf.json`s `watchPattern` property to determine which files to watch. If you do not specify a `watchPattern` property, we will add the default watch pattern for your language on the first run. The `watchPattern` expects an array of glob patterns, e.g. `["main.ts", "../constructs/**/*.ts", "lib/*.ts"]`.
+
 ## Configuration Examples
 
 ### Change the Output Directory

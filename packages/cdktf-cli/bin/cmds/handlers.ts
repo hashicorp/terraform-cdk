@@ -28,7 +28,6 @@ import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
 
 import { sendTelemetry } from "../../lib/checkpoint";
-import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
 import { Output } from "./ui/output";
 import {
@@ -285,7 +284,7 @@ export async function watch(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
 
   if (!autoApprove) {
     console.error(
@@ -295,16 +294,12 @@ export async function watch(argv: any) {
   }
 
   await renderInk(
-    React.createElement(
-      GraphQLServerProvider,
-      undefined,
-      React.createElement(Watch, {
-        targetDir: outDir,
-        targetStack: stack,
-        synthCommand: command,
-        autoApprove,
-      })
-    )
+    React.createElement(Watch, {
+      targetDir: outDir,
+      targetStacks: stacks,
+      synthCommand: command,
+      autoApprove,
+    })
   );
 }
 

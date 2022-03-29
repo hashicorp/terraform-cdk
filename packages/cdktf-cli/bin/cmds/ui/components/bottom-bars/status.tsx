@@ -2,6 +2,8 @@ import React from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { Status } from "../../hooks/cdktf-project";
+import { WatchState } from "../../../../../lib";
+import { CdktfStack } from "../../../../../lib/cdktf-stack";
 
 type Props = {
   status: Status;
@@ -77,16 +79,16 @@ export function localizeStacks(num: number) {
   return `${num} Stacks`;
 }
 
-export function ExecutionStatusBottomBar({
-  status,
-  children,
+function Execution({
+  inProgress,
+  finished,
+  pending,
   actionName,
-}: Props) {
-  if (status?.type !== "running") {
-    return <StatusBottomBar status={status}>{children}</StatusBottomBar>;
-  }
-  const { inProgress, finished, pending } = status;
-
+}: Pick<Props, "actionName"> & {
+  inProgress: CdktfStack[];
+  finished: CdktfStack[];
+  pending: CdktfStack[];
+}) {
   return (
     <Box marginTop={1}>
       <Box marginRight={5}>
@@ -102,4 +104,76 @@ export function ExecutionStatusBottomBar({
       </Box>
     </Box>
   );
+}
+
+export function ExecutionStatusBottomBar({
+  status,
+  children,
+  actionName,
+}: Props) {
+  if (status?.type !== "running") {
+    return <StatusBottomBar status={status}>{children}</StatusBottomBar>;
+  }
+
+  return (
+    <Execution
+      inProgress={status.inProgress}
+      finished={status.finished}
+      pending={status.pending}
+      actionName={actionName}
+    />
+  );
+}
+
+export function WatchStatusBottomBar({
+  currentState,
+}: {
+  currentState: WatchState;
+}): React.ReactElement {
+  switch (currentState.type) {
+    case "waiting": {
+      return (
+        <Box marginTop={1}>
+          <Spinner />
+          <Box marginLeft={1}>
+            <Text>Waiting for changes...</Text>
+          </Box>
+        </Box>
+      );
+    }
+    case "stopped": {
+      return (
+        <Box marginTop={1}>
+          <Text>Watch was stopped</Text>
+        </Box>
+      );
+    }
+
+    case "running": {
+      if (
+        currentState.inProgress.length +
+          currentState.finished.length +
+          currentState.pending.length ===
+        0
+      ) {
+        return (
+          <Box marginTop={1}>
+            <Spinner />
+            <Box marginLeft={1}>
+              <Text>Synthesizing...</Text>
+            </Box>
+          </Box>
+        );
+      }
+
+      return (
+        <Execution
+          inProgress={currentState.inProgress}
+          finished={currentState.finished}
+          pending={currentState.pending}
+          actionName="deploying"
+        />
+      );
+    }
+  }
 }

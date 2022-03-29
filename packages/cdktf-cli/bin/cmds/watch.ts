@@ -6,14 +6,14 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "watch [stack] [OPTIONS]";
+  public readonly command = "watch [OPTIONS] <stacks..>";
   public readonly describe =
     "[experimental] Watch for file changes and automatically trigger a deploy";
 
   public readonly builder = (args: yargs.Argv) =>
     args
-      .positional("stack", {
-        desc: "Deploy stack which matches the given id only. Required when more than one stack is present in the app",
+      .positional("stacks", {
+        desc: "Deploy stacks matching the given ids. Required when more than one stack is present in the app",
         type: "string",
       })
       .option("app", {
@@ -33,6 +33,12 @@ class Command implements yargs.CommandModule {
         default: false,
         required: false,
         desc: "Auto approve",
+      })
+      .option("parallelism", {
+        type: "number",
+        required: false,
+        desc: "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1",
+        default: -1,
       })
       .showHelpOnFail(true);
 
