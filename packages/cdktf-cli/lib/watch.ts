@@ -13,6 +13,7 @@ import { CdktfStack } from "./cdktf-stack";
 // In this very first iteration we will find out which files to watch by asking the user to provide the files
 // We default to something reasonable per language and write it into the cdkt.json file
 // Mid-Term we might want to add a WatchFile / WatchDir construct that we can use (e.g. in assets) and that a user can use to specify their watch behaviour
+// See https://github.com/hashicorp/terraform-cdk/issues/1668
 function getOrWriteDefaultWatchConfig(projectPath = process.cwd()) {
   const cdktfJsonPath = path.resolve(projectPath, "cdktf.json");
   logger.debug(`Getting files to watch from cdktf.json at ${cdktfJsonPath}`);
