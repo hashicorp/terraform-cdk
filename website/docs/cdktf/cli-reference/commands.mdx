@@ -460,7 +460,7 @@ $ cdktf synth --app="npm compile && node main.js" --output="dirname"
 
 ~> **Warning:** The `watch` command is experimental, so you should only use it in development environments. It also automatically deploys all changes without asking for confirmation.
 
-When the watch command is first run it creates a `watchPattern` in your `cdktf.json` based on the language you configured. It's a list of glob patterns matching all files that should be watched.
+When the `watch` command is first run it creates a `watchPattern` in your `cdktf.json` based on the language you configured. It's a list of glob patterns matching all files that should be watched.
 
 Whenever a file matching the watch pattern is changed, the command will run `cdktf deploy --auto-approve` for you. It allows for rapid iterations when developing infrastructure, especially when working with serverless services. You can specify the stacks you want to deploy or you can use `cdktf watch --auto-approve '*'` to deploy all stacks.
 
