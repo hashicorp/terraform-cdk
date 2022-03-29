@@ -155,10 +155,14 @@ export class TerraformCloud implements Terraform {
       this.removeRun("cancel");
     });
 
-    const httpsProxy = process.env.https_proxy || process.env.HTTPS_PROXY;
-    if (httpsProxy) {
+    const httpProxy = process.env.http_proxy || process.env.HTTP_PROXY;
+    if (httpProxy) {
+      const url = new URL(httpProxy);
+      logger.debug(
+        `setting tunnel agent via hostname=${url.hostname} port=${url.port}`
+      );
       this.client.client.defaults.httpsAgent = agent.httpsOverHttp({
-        proxy: new URL(httpsProxy),
+        proxy: { host: url.hostname, port: url.port },
       });
     }
   }

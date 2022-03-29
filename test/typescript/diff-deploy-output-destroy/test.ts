@@ -14,8 +14,8 @@ describe("full integration test", () => {
     expect(driver.diff()).toContain(`1 to add, 0 to change, 0 to destroy.`);
   });
 
-  test("deploy", () => {
-    const output = driver.deploy();
+  test("deploy", async () => {
+    const output = await driver.deploy();
     expect(output).toContain(`null_resource.test (test) will be created`);
     expect(output).not.toContain(`"world"`);
     expect(output).toContain(`output  = "hello"`);
@@ -29,7 +29,7 @@ describe("full integration test", () => {
     expect(output).toContain(`output2 = <sensitive>`);
   });
 
-  it("deploy and output write the same outputs file", () => {
+  it("deploy and output write the same outputs file", async () => {
     const deployOutputsPath = path.resolve(
       driver.workingDirectory,
       "deploy.outputs.json"
@@ -39,9 +39,9 @@ describe("full integration test", () => {
       "output.outputs.json"
     );
 
-    driver.deploy(undefined, deployOutputsPath);
+    await driver.deploy(undefined, deployOutputsPath);
     const deployOutput = JSON.parse(fs.readFileSync(deployOutputsPath, "utf8"));
-    driver.output(undefined, outputOutputsPath);
+    await driver.output(undefined, outputOutputsPath);
     const outputOutput = JSON.parse(fs.readFileSync(outputOutputsPath, "utf8"));
 
     expect(deployOutput).toMatchInlineSnapshot(`
