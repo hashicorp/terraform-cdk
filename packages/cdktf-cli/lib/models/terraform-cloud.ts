@@ -290,7 +290,7 @@ export class TerraformCloud implements Terraform {
     const pendingStates = ["pending", "plan_queued", "planning"];
 
     while (pendingStates.includes(result.attributes.status)) {
-      result = await this.update(this.client, result.id, "plan", () => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+      result = await this.update(this.client, result.id, "plan");
       await wait(1000);
     }
 
@@ -315,8 +315,7 @@ export class TerraformCloud implements Terraform {
   private async update(
     client: TerraformCloudClient.TerraformCloud,
     runId: string,
-    phase: string,
-    stdout: (chunk: Buffer) => any
+    phase: string
   ) {
     const sendLog = this.createLogSender(phase);
     const res = await client.Runs.show(runId);
@@ -326,8 +325,6 @@ export class TerraformCloud implements Terraform {
       // In rare cases the backend sends an empty chunk of data back.
       if (data && data.length) {
         const buffer = Buffer.from(data, "utf8");
-
-        stdout(buffer);
 
         // We only want to send what we have not seen yet.
         const bufferWithoutLastKnown = buffer
@@ -343,10 +340,7 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Deploy")
-  public async deploy(
-    _planFile: string,
-    stdout: (chunk: Buffer) => any
-  ): Promise<void> {
+  public async deploy(_planFile: string): Promise<void> {
     const sendLog = this.createLogSender("deploy");
     if (!this.run)
       throw new Error(
@@ -360,7 +354,7 @@ export class TerraformCloud implements Terraform {
     let result = await this.client.Runs.show(runId);
 
     while (deployingStates.includes(result.attributes.status)) {
-      result = await this.update(this.client, runId, "deploy", stdout);
+      result = await this.update(this.client, runId, "deploy");
       await wait(1000);
     }
 
@@ -373,7 +367,7 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Destroy")
-  public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
+  public async destroy(): Promise<void> {
     if (!this.run)
       throw new Error(
         "Please create a ConfigurationVersion / Plan before destroying"
@@ -388,7 +382,7 @@ export class TerraformCloud implements Terraform {
     let result = await this.client.Runs.show(runId);
 
     while (destroyingStates.includes(result.attributes.status)) {
-      result = await this.update(this.client, runId, "destroy", stdout);
+      result = await this.update(this.client, runId, "destroy");
       await wait(1000);
     }
 

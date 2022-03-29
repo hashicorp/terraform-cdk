@@ -87,7 +87,6 @@ export class TerraformCli implements Terraform {
 
   public async deploy(
     planFile: string,
-    stdout: (chunk: Buffer) => any,
     extraOptions: string[] = []
   ): Promise<void> {
     await this.setUserAgent();
@@ -104,24 +103,18 @@ export class TerraformCli implements Terraform {
         ...(planFile ? [planFile] : []),
       ],
       { cwd: this.workdir, env: process.env, signal: this.abortSignal },
-      (buffer: Buffer) => {
-        this.onStdout("deploy")(buffer);
-        stdout(buffer);
-      },
+      this.onStdout("deploy"),
       this.onStderr("deploy")
     );
   }
 
-  public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
+  public async destroy(): Promise<void> {
     await this.setUserAgent();
     await exec(
       terraformBinaryName,
       ["destroy", "-auto-approve", "-input=false"],
       { cwd: this.workdir, env: process.env, signal: this.abortSignal },
-      (buffer: Buffer) => {
-        this.onStdout("destroy")(buffer);
-        stdout(buffer);
-      },
+      this.onStdout("destroy"),
       this.onStderr("destroy")
     );
   }
