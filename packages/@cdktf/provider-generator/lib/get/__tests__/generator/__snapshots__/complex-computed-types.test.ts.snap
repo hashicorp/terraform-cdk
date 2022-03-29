@@ -71,7 +71,7 @@ export class AcmCertificateDomainValidationOptionsOutputReference extends cdktf.
   * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
-    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
   public get internalValue(): AcmCertificateDomainValidationOptions | undefined {
@@ -123,7 +123,6 @@ export class AcmCertificateDomainValidationOptionsList extends cdktf.ComplexList
 
   /**
   * @param index the index of the item to return
-  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public get(index: number): AcmCertificateDomainValidationOptionsOutputReference {
     return new AcmCertificateDomainValidationOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
@@ -154,7 +153,7 @@ export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute, 0, false);
+    super(terraformResource, terraformAttribute, false, 0);
   }
 
   public get internalValue(): AcmCertificateOptions | undefined {

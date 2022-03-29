@@ -1,9 +1,12 @@
 import { toCamelCase, toPascalCase, toSnakeCase } from "codemaker";
 import {
   Attribute,
+  AttributeNestedType,
   AttributeType,
   Block,
   BlockType,
+  isAttributeNestedType,
+  isNestedTypeAttribute,
   Schema,
 } from "./provider-schema";
 import {
@@ -99,7 +102,8 @@ class Parser {
 
   private renderAttributeType(
     scope: Scope[],
-    attributeType: AttributeType
+    attributeType: AttributeType | AttributeNestedType,
+    parentKind?: string
   ): AttributeTypeModel {
     const parent = scope[scope.length - 1];
     const level = scope.length;
@@ -151,7 +155,11 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        const attrType = this.renderAttributeType(scope, type as AttributeType);
+        const attrType = this.renderAttributeType(
+          scope,
+          type as AttributeType,
+          kind
+        );
         attrType.isList = kind === "list";
         attrType.isSet = kind === "set";
         attrType.isComputed = isComputed;
@@ -164,7 +172,8 @@ class Parser {
       if (kind === "map") {
         const valueType = this.renderAttributeType(
           scope,
-          type as AttributeType
+          type as AttributeType,
+          kind
         );
         valueType.isMap = true;
         valueType.isComputed = isComputed;
@@ -180,7 +189,11 @@ class Parser {
         for (const [name, type] of Object.entries(objAttributes)) {
           attributes[name] = { type };
         }
-        const struct = this.addAnonymousStruct(scope, attributes);
+        const struct = this.addAnonymousStruct(
+          scope,
+          attributes,
+          parentKind ?? kind
+        );
         const model = new AttributeTypeModel(struct.name, {
           struct,
           isComputed,
@@ -192,7 +205,52 @@ class Parser {
       }
     }
 
-    throw new Error(`unknown type ${attributeType}`);
+    if (isAttributeNestedType(attributeType)) {
+      let isList = undefined;
+      let isSet = undefined;
+      let isMap = undefined;
+      switch (attributeType.nesting_mode) {
+        case "list":
+          isList = true;
+          break;
+        case "set":
+          isSet = true;
+          break;
+        case "map":
+          isMap = true;
+          break;
+        case "single":
+          break;
+        default: {
+          throw new Error(
+            `nested_type with nesting_mode "${
+              attributeType.nesting_mode
+            }" not supported (attribute scope: ${scope
+              .map((s) => s.fullName)
+              .join(",")}`
+          );
+        }
+      }
+      const struct = this.addAnonymousStruct(
+        scope,
+        attributeType.attributes,
+        attributeType.nesting_mode
+      );
+      const model = new AttributeTypeModel(struct.name, {
+        struct,
+        isComputed,
+        isOptional,
+        isRequired,
+        level,
+        isList,
+        isSet,
+        isMap,
+        isNested: true,
+      });
+      return model;
+    }
+
+    throw new Error(`unknown type ${JSON.stringify(attributeType)}`);
   }
 
   public renderAttributesForBlock(parentType: Scope, block: Block) {
@@ -211,9 +269,10 @@ class Parser {
             isComputed: !!att.computed,
             isOptional: !!att.optional,
             isRequired: !!att.required,
+            isNestedType: isNestedTypeAttribute(att),
           }),
         ],
-        att.type
+        att.type || att.nested_type
       );
       const name = toCamelCase(terraformAttributeName);
 
@@ -256,7 +315,10 @@ class Parser {
           }),
         ],
         blockAttributes,
-        blockType.nesting_mode === "list" && blockType.max_items === 1
+        blockType.nesting_mode,
+        (blockType.nesting_mode === "list" ||
+          blockType.nesting_mode === "set") &&
+          blockType.max_items === 1
       );
 
       // define the attribute
@@ -349,14 +411,22 @@ class Parser {
   }
   private addAnonymousStruct(
     scope: Scope[],
-    attrs: { [name: string]: Attribute }
+    attrs: { [name: string]: Attribute },
+    nesting_mode: string
   ) {
     const attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
-    const computed = !!parent.isComputed;
-    const optional = !!parent.isOptional;
-    const required = !!parent.isRequired;
     for (const [terraformName, att] of Object.entries(attrs)) {
+      // nested types support computed, optional and required on attribute level
+      // if parent is computed, child always is computed as well
+      const computed =
+        !!parent.isComputed || (parent.isNestedType && !!att.computed);
+      const optional = parent.isNestedType
+        ? !!att.optional
+        : !!parent.isOptional;
+      const required = parent.isNestedType
+        ? !!att.required
+        : !!parent.isRequired;
       const name = toCamelCase(terraformName);
       attributes.push(
         new AttributeModel({
@@ -377,9 +447,10 @@ class Parser {
                 isComputed: computed,
                 isOptional: optional,
                 isRequired: required,
+                isNestedType: parent.isNestedType,
               }),
             ],
-            att.type
+            att.type || att.nested_type
           ),
           provider: parent.isProvider,
           required: required,
@@ -387,12 +458,13 @@ class Parser {
       );
     }
 
-    return this.addStruct(scope, attributes);
+    return this.addStruct(scope, attributes, nesting_mode);
   }
 
   private addStruct(
     scope: Scope[],
     attributes: AttributeModel[],
+    nesting_mode: string,
     isSingleItem = false
   ) {
     const name = uniqueClassName(
@@ -402,7 +474,14 @@ class Parser {
     // blockType.nesting_mode => list/set & blockType.max_items === 1,
     const isClass = (parent.isComputed && !parent.isOptional) || isSingleItem;
     const isAnonymous = true;
-    const s = new Struct(name, attributes, isClass, isAnonymous, isSingleItem);
+    const s = new Struct(
+      name,
+      attributes,
+      isClass,
+      isAnonymous,
+      isSingleItem,
+      nesting_mode
+    );
     this.structs.push(s);
     return s;
   }

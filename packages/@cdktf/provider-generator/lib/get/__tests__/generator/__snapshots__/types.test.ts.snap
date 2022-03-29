@@ -249,7 +249,7 @@ export class ComputedComplexEgressOutputReference extends cdktf.ComplexObject {
   * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
-    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
   public get internalValue(): ComputedComplexEgress | undefined {
@@ -326,7 +326,6 @@ export class ComputedComplexEgressList extends cdktf.ComplexList {
 
   /**
   * @param index the index of the item to return
-  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public get(index: number): ComputedComplexEgressOutputReference {
     return new ComputedComplexEgressOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
@@ -422,7 +421,7 @@ export class ComputedComplexNestedResourcesAutoscalingGroupsOutputReference exte
   * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
-    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
   public get internalValue(): ComputedComplexNestedResourcesAutoscalingGroups | undefined {
@@ -459,7 +458,6 @@ export class ComputedComplexNestedResourcesAutoscalingGroupsList extends cdktf.C
 
   /**
   * @param index the index of the item to return
-  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public get(index: number): ComputedComplexNestedResourcesAutoscalingGroupsOutputReference {
     return new ComputedComplexNestedResourcesAutoscalingGroupsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
@@ -487,7 +485,7 @@ export class ComputedComplexNestedResourcesOutputReference extends cdktf.Complex
   * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
-    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
   public get internalValue(): ComputedComplexNestedResources | undefined {
@@ -506,9 +504,9 @@ export class ComputedComplexNestedResourcesOutputReference extends cdktf.Complex
   }
 
   // autoscaling_groups - computed: true, optional: false, required: false
+  private _autoscalingGroups = new ComputedComplexNestedResourcesAutoscalingGroupsList(this, \\"autoscaling_groups\\", false);
   public get autoscalingGroups() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('autoscaling_groups');
+    return this._autoscalingGroups;
   }
 
   // remote_access_security_group_id - computed: true, optional: false, required: false
@@ -530,7 +528,6 @@ export class ComputedComplexNestedResourcesList extends cdktf.ComplexList {
 
   /**
   * @param index the index of the item to return
-  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public get(index: number): ComputedComplexNestedResourcesOutputReference {
     return new ComputedComplexNestedResourcesOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
@@ -632,7 +629,7 @@ export class BlockTypeNestedComputedListInputsStartingPositionConfigurationOutpu
   * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
-    super(terraformResource, terraformAttribute, complexObjectIndex, complexObjectIsFromSet);
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
   public get internalValue(): BlockTypeNestedComputedListInputsStartingPositionConfiguration | undefined {
@@ -669,7 +666,6 @@ export class BlockTypeNestedComputedListInputsStartingPositionConfigurationList 
 
   /**
   * @param index the index of the item to return
-  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
   */
   public get(index: number): BlockTypeNestedComputedListInputsStartingPositionConfigurationOutputReference {
     return new BlockTypeNestedComputedListInputsStartingPositionConfigurationOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
@@ -928,7 +924,7 @@ export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
   readonly date?: string;
 }
 
-export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration | cdktf.IResolvable): any {
+export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -946,7 +942,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extend
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute, 0, false);
+    super(terraformResource, terraformAttribute, false, 0);
   }
 
   public get internalValue(): DeeplyNestedBlockTypesLifecycleRuleExpiration | undefined {
@@ -2451,7 +2447,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute, 0, false);
+    super(terraformResource, terraformAttribute, false, 0);
   }
 
   public get internalValue(): SingleBlockTypeTimeouts | undefined {

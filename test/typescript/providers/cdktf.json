@@ -13,7 +13,8 @@
     "external",
     "terraform-providers/openstack",
     "oci",
-    "DataDog/datadog@~> 3.0"
+    "DataDog/datadog@~> 3.0",
+    "awscc"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"

@@ -10,6 +10,7 @@ export interface AttributeTypeModelOptions {
   isSingleItem?: boolean;
   isMap?: boolean;
   level?: number;
+  isNested?: boolean;
 }
 
 export enum TokenizableTypes {
@@ -36,6 +37,7 @@ export class AttributeTypeModel {
   public struct?: Struct;
   public level?: number;
   public typeName: string;
+  public isNested?: boolean;
 
   constructor(private _type: string, options: AttributeTypeModelOptions) {
     this.typeName = _type;
@@ -48,6 +50,7 @@ export class AttributeTypeModel {
     this.isSingleItem = !!options.isSingleItem;
     this.level = options.level;
     this.struct = options.struct;
+    this.isNested = !!options.isNested;
     if (options.struct) {
       options.struct.isSingleItem = this.isSingleItem || false;
     }
@@ -210,7 +213,7 @@ export class AttributeTypeModel {
   }
 
   public get isComputedComplex(): boolean {
-    return this.isRootType && this.isComputed && this.isComplex;
+    return this.isComputed && this.isComplex;
   }
 
   public get isRootType(): boolean {

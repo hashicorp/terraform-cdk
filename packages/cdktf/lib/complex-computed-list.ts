@@ -165,6 +165,19 @@ export abstract class ComplexList implements ITerraformAddressable {
   }
 }
 
+export abstract class ComplexMap implements ITerraformAddressable {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {}
+
+  get fqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
+    );
+  }
+}
+
 export class ComplexObject extends ComplexComputedAttribute {
   /**
    * @param terraformResource
@@ -176,8 +189,8 @@ export class ComplexObject extends ComplexComputedAttribute {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
-    protected complexObjectIndex: number,
-    protected complexObjectIsFromSet: boolean
+    protected complexObjectIsFromSet: boolean,
+    protected complexObjectIndex?: number | string
   ) {
     super(terraformResource, terraformAttribute);
   }
@@ -195,7 +208,9 @@ export class ComplexObject extends ComplexComputedAttribute {
     }
 
     return this.terraformResource.interpolationForAttribute(
-      `${this.terraformAttribute}[${this.complexObjectIndex}].${property}`
+      this.complexObjectIndex !== undefined
+        ? `${this.terraformAttribute}[${this.complexObjectIndex}].${property}`
+        : `${this.terraformAttribute}.${property}`
     );
   }
 

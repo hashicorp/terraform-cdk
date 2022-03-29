@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate a resource with nested types 1`] = `
+"// https://www.terraform.io/docs/providers/test/r/nested_types_resource
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface NestedTypesResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * name of the resource
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#name NestedTypesResource#name}
+  */
+  readonly name?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#archive_rules NestedTypesResource#archive_rules}
+  */
+  readonly archiveRules?: NestedTypesResourceArchiveRules[] | cdktf.IResolvable;
+}
+export interface NestedTypesResourceArchiveRulesFilter {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#eq NestedTypesResource#eq}
+  */
+  readonly eq?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#exists NestedTypesResource#exists}
+  */
+  readonly exists?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#property NestedTypesResource#property}
+  */
+  readonly property: string;
+}
+
+export function nestedTypesResourceArchiveRulesFilterToTerraform(struct?: NestedTypesResourceArchiveRulesFilter | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+    eq: cdktf.listMapper(cdktf.stringToTerraform)(struct!.eq),
+    exists: cdktf.booleanToTerraform(struct!.exists),
+    property: cdktf.stringToTerraform(struct!.property),
+  }
+}
+
+export interface NestedTypesResourceArchiveRules {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#filter NestedTypesResource#filter}
+  */
+  readonly filter: NestedTypesResourceArchiveRulesFilter[] | cdktf.IResolvable;
+  /**
+  * The archive rule name
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#rule_name NestedTypesResource#rule_name}
+  */
+  readonly ruleName: string;
+}
+
+export function nestedTypesResourceArchiveRulesToTerraform(struct?: NestedTypesResourceArchiveRules | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+    filter: cdktf.listMapper(nestedTypesResourceArchiveRulesFilterToTerraform)(struct!.filter),
+    rule_name: cdktf.stringToTerraform(struct!.ruleName),
+  }
+}
+
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource nested_types_resource}
+*/
+export class NestedTypesResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = \\"nested_types_resource\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource nested_types_resource} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options NestedTypesResourceConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: NestedTypesResourceConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'nested_types_resource',
+      terraformGeneratorMetadata: {
+        providerName: 'test'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle
+    });
+    this._name = config.name;
+    this._archiveRules = config.archiveRules;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // name - computed: true, optional: true, required: false
+  private _name?: string; 
+  public get name() {
+    return this.getStringAttribute('name');
+  }
+  public set name(value: string) {
+    this._name = value;
+  }
+  public resetName() {
+    this._name = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nameInput() {
+    return this._name;
+  }
+
+  // archive_rules - computed: false, optional: true, required: false
+  private _archiveRules?: NestedTypesResourceArchiveRules[] | cdktf.IResolvable; 
+  public get archiveRules() {
+    // Getting the computed value is not yet implemented
+    return this.interpolationForAttribute('archive_rules');
+  }
+  public set archiveRules(value: NestedTypesResourceArchiveRules[] | cdktf.IResolvable) {
+    this._archiveRules = value;
+  }
+  public resetArchiveRules() {
+    this._archiveRules = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get archiveRulesInput() {
+    return this._archiveRules;
+  }
+
+  // id - computed: true, optional: false, required: false
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      name: cdktf.stringToTerraform(this._name),
+      archive_rules: cdktf.listMapper(nestedTypesResourceArchiveRulesToTerraform)(this._archiveRules),
+    };
+  }
+}
+"
+`;

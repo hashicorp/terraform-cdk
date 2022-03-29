@@ -73,8 +73,8 @@ class TestComplexList extends ComplexList {
     return new TestComplexObject(
       this.terraformResource,
       this.terraformAttribute,
-      index,
-      this.wrapsSet
+      this.wrapsSet,
+      index
     );
   }
 }

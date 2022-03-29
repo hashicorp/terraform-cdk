@@ -6,7 +6,8 @@ export class Struct {
     public readonly attributes: AttributeModel[],
     public readonly isClass = false,
     public readonly isAnonymous = false,
-    public isSingleItem = false
+    public isSingleItem = false,
+    public readonly nestingMode: string = ""
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
@@ -30,6 +31,10 @@ export class Struct {
 
   public get attributeType() {
     return `${this.name}${this.allOptional ? " = {}" : ""}`;
+  }
+
+  public get assignable() {
+    return !this.isClass || this.assignableAttributes.length > 0;
   }
 
   protected filterIgnoredAttributes(
@@ -56,6 +61,10 @@ export class Struct {
 
   public get listName(): string {
     return `${this.name}List`;
+  }
+
+  public get mapName(): string {
+    return `${this.name}Map`;
   }
 
   public get isProvider(): boolean {

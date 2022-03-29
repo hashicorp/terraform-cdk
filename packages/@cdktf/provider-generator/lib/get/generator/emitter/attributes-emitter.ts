@@ -127,11 +127,17 @@ export class AttributesEmitter {
 
   // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutputReference(this, "metadata")'
   private storedClassInit(att: AttributeModel) {
-    if (att.type.isSingleItem) {
-      return `new ${att.type.name}OutputReference(this, "${att.terraformName}")`;
-    } else {
+    if ((att.type.isList || att.type.isSet) && !att.type.isSingleItem) {
       // list
       return `new ${att.type.name}List(this, "${att.terraformName}", ${att.type.isSet})`;
+    } else if (att.type.isMap) {
+      if (att.type.struct) {
+        return `new ${att.type.struct.name}Map(this, "${att.terraformName}")`;
+      } else {
+        return `new ${att.type.name}(this, "${att.terraformName}")`;
+      }
+    } else {
+      return `new ${att.type.name}OutputReference(this, "${att.terraformName}")`;
     }
   }
 

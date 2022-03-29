@@ -8,7 +8,11 @@ import { convertFiles } from "@cdktf/hcl2json";
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
 export interface ProviderSchema {
-  format_version?: "1.0";
+  /*
+  0.1 is e.g. returned by Terraform 0.14
+  0.2 is e.g. returned by Terraform 1.0 (0.2 added support for nested_type / plugin protocol v6)
+  */
+  format_version?: "0.1" | "0.2";
   provider_schemas?: { [type: string]: Provider };
   provider_versions?: { [fqn: string]: string };
 }
@@ -24,13 +28,58 @@ export interface Schema {
   block: Block;
 }
 
-export interface Attribute {
-  type: AttributeType;
+type AttributeNestedTypeNesting = "invalid" | "single" | "list" | "set" | "map";
+
+/**
+ * In tfplugin6.0.proto this as called Object to avoid
+ * collisions with the native JavaScript Object we call it
+ * AttributeNestedType here
+ */
+export interface AttributeNestedType {
+  attributes: { [name: string]: Attribute };
+  nesting_mode: AttributeNestedTypeNesting;
+}
+
+export function isAttributeNestedType(
+  type: AttributeType | AttributeNestedType
+): type is AttributeNestedType {
+  return (
+    typeof type === "object" &&
+    !Array.isArray(type) &&
+    typeof type.nesting_mode === "string" &&
+    typeof type.attributes === "object"
+  );
+}
+
+interface BaseAttribute {
+  type?: AttributeType;
+  nested_type?: AttributeNestedType;
   description?: string;
   required?: boolean;
   optional?: boolean;
   computed?: boolean;
   sensitive?: boolean;
+}
+
+interface NestedTypeAttribute extends BaseAttribute {
+  type?: never;
+  nested_type: AttributeNestedType;
+}
+interface TypedAttribute extends BaseAttribute {
+  type: AttributeType;
+  nested_type?: never;
+}
+
+// to support either type or nested_type being set
+export type Attribute = NestedTypeAttribute | TypedAttribute;
+
+export function isNestedTypeAttribute(
+  att: Attribute
+): att is NestedTypeAttribute {
+  return (
+    typeof att.nested_type !== "undefined" &&
+    isAttributeNestedType(att.nested_type)
+  );
 }
 
 export type AttributeType =
@@ -214,7 +263,7 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
   if (targets.length === 0) {
     return {
       providerSchema: {
-        format_version: "1.0" as "1.0",
+        format_version: "0.1" as "0.1",
         provider_schemas: {},
       },
       moduleSchema: {},
@@ -242,7 +291,7 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
       };
     }
   }
-  let providerSchema: ProviderSchema = { format_version: "1.0" };
+  let providerSchema: ProviderSchema = { format_version: "0.1" };
   let moduleSchema: Record<string, ModuleSchema> = {};
 
   await withTempDir("fetchSchema", async () => {

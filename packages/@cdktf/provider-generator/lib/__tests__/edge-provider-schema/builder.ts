@@ -13,7 +13,7 @@ export function schema({
   dataSources: ResourceSchema;
 }): ProviderSchema {
   return {
-    format_version: "1.0",
+    format_version: "0.2",
     provider_schemas: {
       [`registry.terraform.io/cdktf/${name}`]: {
         provider: provider,
