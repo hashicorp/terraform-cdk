@@ -128,12 +128,7 @@ export class AttributeModel {
       getterType = { _type: "stored_class" };
     }
 
-    if (
-      this.type.isNested &&
-      !this.isAssignable &&
-      !this.isProvider &&
-      !this.type.isMap
-    ) {
+    if (this.type.isNested && !this.isAssignable && !this.isProvider) {
       getterType = { _type: "stored_class" };
     }
 

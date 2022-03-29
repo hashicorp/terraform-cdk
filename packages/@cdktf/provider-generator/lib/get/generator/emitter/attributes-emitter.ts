@@ -131,7 +131,11 @@ export class AttributesEmitter {
       // list
       return `new ${att.type.name}List(this, "${att.terraformName}", ${att.type.isSet})`;
     } else if (att.type.isMap) {
-      return `new ${att.type.name}Map(this, "${att.terraformName}")`;
+      if (att.type.struct) {
+        return `new ${att.type.struct.name}Map(this, "${att.terraformName}")`;
+      } else {
+        return `new ${att.type.name}(this, "${att.terraformName}")`;
+      }
     } else {
       return `new ${att.type.name}OutputReference(this, "${att.terraformName}")`;
     }
