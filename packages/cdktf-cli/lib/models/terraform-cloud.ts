@@ -156,7 +156,8 @@ export class TerraformCloud implements Terraform {
     });
 
     const httpProxy = process.env.http_proxy || process.env.HTTP_PROXY;
-    if (httpProxy) {
+    if (httpProxy && httpProxy !== "undefined") {
+      // ¯\_(ツ)_/¯
       const url = new URL(httpProxy);
       logger.debug(
         `setting tunnel agent via hostname=${url.hostname} port=${url.port}`
