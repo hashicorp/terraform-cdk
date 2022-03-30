@@ -65,6 +65,30 @@ firstItemId := resource.ListAttribute().Get(jsii.Number(0)).Id();
 firstItem := resource.ListAttribute().Get(jsii.Number(0)); // now possible
 ```
 
+### Referencing computed string map entries via function call [#1630](https://github.com/hashicorp/terraform-cdk/pull/1630)
+
+In preparation for a similar change as to the computed lists (section above), string map entries can now be accessed via a function call instead of using `Fn.lookup`. Accessing the whole map at once now requires a different function call in the meantime.
+
+#### Example
+
+```ts
+const bucket = new s3.S3Bucket(this, "bucket");
+
+// previously
+const firstRuleStage = Fn.lookup(
+  bucket.lifecycleRule("0").tags,
+  "stage",
+  "no-stage"
+);
+const firstRuleTags = bucket.lifecycleRule("0").tags;
+
+// new
+const firstRuleStage = bucket.lifecycleRule.get(0).tags("stage"); // tags is now a function
+const firstRuleTags = bucket.lifecycleRule
+  .get(0)
+  .interpolationForAttribute("tags"); // will be improved in a future iteration
+```
+
 ## 0.9.4
 
 ### fix
