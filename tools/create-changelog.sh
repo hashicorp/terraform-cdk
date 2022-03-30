@@ -13,12 +13,17 @@ const json = JSON.parse(
   exec("gh pr list --state merged --json number,title --limit 200")
 ); // just a high enough limit
 
+const allowedTypes = [
+  "feat",
+  "fix",
+  "chore",
+  "refactor",
+  "revert",
+  "test",
+  "perf",
+];
 function getType(prTitle) {
-  if (prTitle.indexOf("(") !== -1) {
-    return prTitle.slice(0, prTitle.indexOf("("));
-  } else {
-    return "Other";
-  }
+  return allowedTypes.find((type) => prTitle.startsWith(type)) || "Other";
 }
 const titleMap = json.reduce(
   (map, pr) => ({ ...map, [pr.number]: pr.title }),
