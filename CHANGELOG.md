@@ -6,6 +6,89 @@
 
 If you are using `cdktf synth --json <stack-name>` to get the synthesized JSON configuration for your Stack, you will now need to run `cdktf synth && cat ./cdktf.out/stacks/<stack-name>/cdk.tf.json` instead. The `./cdktf.out` part is your output directory (set by `cdktf.json` or via the `--output` flag).
 
+### Model ComplexComputedLists as ComplexLists and ComputedObjects [#1499](https://github.com/hashicorp/terraform-cdk/pull/1499)
+
+In an effort to streamline the interfaces of resources, computed attributes of the type list and set are now modeled as a separate `ComplexList` type instead of being a method that directly takes an index and returns an item. This change also did change the type of the index from `string` to `number`.
+
+#### Typescript
+
+```ts
+// previously
+const firstItemId = resource.listAttribute("0").id;
+
+// new
+const firstItemId = resource.listAttribute.get(0).id;
+const firstItem = resource.listAttribute.get(0); // now possible
+```
+
+#### Python
+
+```python
+# previously
+first_item_id = resource.list_attribute("0").id;
+
+# new
+first_item_id = resource.list_attribute.get(0).id;
+first_item = resource.list_attribute.get(0); # now possible
+```
+
+#### CSharp
+
+```csharp
+// previously
+string firstItemId = resource.ListAttribute("0").Id;
+
+// new
+string firstItemId = resource.ListAttribute.Get(0).Id;
+ListAttributeItem firstItem = resource.ListAttribute.Get(0); // now possible
+```
+
+#### Java
+
+```java
+// previously
+String firstItemId = resource.listAttribute("0").getId();
+
+// new
+String firstItemId = resource.getListAttribute().get(0).getId();
+ListAttributeItem firstItem = resource.getListAttribute().get(0); // now possible
+```
+
+#### Go
+
+```golang
+// previously
+firstItemId := resource.ListAttribute(jsii.String("0")).Id();
+
+// new
+firstItemId := resource.ListAttribute().Get(jsii.Number(0)).Id();
+firstItem := resource.ListAttribute().Get(jsii.Number(0)); // now possible
+```
+
+### Referencing computed string map entries via function call [#1630](https://github.com/hashicorp/terraform-cdk/pull/1630)
+
+In preparation for a similar change as to the computed lists (section above), string map entries can now be accessed via a function call instead of using `Fn.lookup`. Accessing the whole map at once now requires a different function call in the meantime.
+
+#### Example
+
+```ts
+const bucket = new s3.S3Bucket(this, "bucket");
+
+// previously
+const firstRuleStage = Fn.lookup(
+  bucket.lifecycleRule("0").tags,
+  "stage",
+  "no-stage"
+);
+const firstRuleTags = bucket.lifecycleRule("0").tags;
+
+// new
+const firstRuleStage = bucket.lifecycleRule.get(0).tags("stage"); // tags is now a function
+const firstRuleTags = bucket.lifecycleRule
+  .get(0)
+  .interpolationForAttribute("tags"); // will be improved in a future iteration
+```
+
 ## 0.9.4
 
 ### fix
