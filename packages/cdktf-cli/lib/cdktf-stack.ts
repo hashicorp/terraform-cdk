@@ -73,7 +73,9 @@ async function getTerraformClient(
   abortSignal: AbortSignal,
   stack: SynthesizedStack,
   isSpeculative: boolean,
-  sendLog: (stateName: string) => (message: string, isError?: boolean) => void
+  createTerraformLogHandler: (
+    phase: string
+  ) => (message: string, isError?: boolean) => void
 ): Promise<Terraform> {
   const parsedStack = JSON.parse(stack.content) as TerraformJson;
 
@@ -83,13 +85,13 @@ async function getTerraformClient(
       stack,
       parsedStack.terraform.backend.remote,
       isSpeculative,
-      sendLog
+      createTerraformLogHandler
     );
     if (await tfClient.isRemoteWorkspace()) {
       return tfClient;
     }
   }
-  return new TerraformCli(abortSignal, stack, sendLog);
+  return new TerraformCli(abortSignal, stack, createTerraformLogHandler);
 }
 
 type CdktfStackOptions = {
@@ -166,13 +168,13 @@ export class CdktfStack {
     }
   }
 
-  private logCallback(
-    stateName: string
+  private createTerraformLogHandler(
+    phase: string
   ): (message: string, isError?: boolean) => void {
     const onLog = this.options.onLog;
     return (msg: string, isError = false) => {
       const message = extractJsonLogIfPresent(msg);
-      logger.debug(`[${this.options.stack.name}](${stateName}): ${msg}`);
+      logger.debug(`[${this.options.stack.name}](${phase}): ${msg}`);
       if (onLog) {
         onLog({ message, isError });
       }
@@ -204,7 +206,7 @@ export class CdktfStack {
       this.options.abortSignal,
       this.options.stack,
       isSpeculative,
-      this.logCallback.bind(this)
+      this.createTerraformLogHandler.bind(this)
     );
 
     await terraform.init();

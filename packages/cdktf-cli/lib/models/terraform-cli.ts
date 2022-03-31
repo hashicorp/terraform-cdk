@@ -30,14 +30,14 @@ export class TerraformCli implements Terraform {
   constructor(
     private readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
-    createTerraformLogHandler = (_stateName: string) =>
+    createTerraformLogHandler = (_phase: string) =>
       (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
-    this.onStdout = (stateName: string) => (stdout: Buffer) =>
-      createTerraformLogHandler(stateName)(stdout.toString());
-    this.onStderr = (stateName: string) => (stderr: string | Uint8Array) =>
-      createTerraformLogHandler(stateName)(stderr.toString(), true);
+    this.onStdout = (phase: string) => (stdout: Buffer) =>
+      createTerraformLogHandler(phase)(stdout.toString());
+    this.onStderr = (phase: string) => (stderr: string | Uint8Array) =>
+      createTerraformLogHandler(phase)(stderr.toString(), true);
   }
 
   public async init(): Promise<void> {
