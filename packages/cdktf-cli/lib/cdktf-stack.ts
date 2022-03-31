@@ -107,7 +107,6 @@ type CdktfStackStates =
   | "error";
 
 export class CdktfStack {
-  public stackName: string;
   public currentPlan?: TerraformPlan;
   public stack: SynthesizedStack;
   public outputs?: Record<string, any>;
@@ -117,7 +116,6 @@ export class CdktfStack {
   public readonly currentState: CdktfStackStates = "idle";
 
   constructor(public options: CdktfStackOptions) {
-    this.stackName = options.stack.name;
     this.stack = options.stack;
   }
 
@@ -143,7 +141,7 @@ export class CdktfStack {
       | { type: "done" }
       | { type: "error" }
   ) {
-    logger.debug(`[${this.stackName}]: ${update.type}`);
+    logger.debug(`[${this.stack.name}]: ${update.type}`);
     (this.currentState as CdktfStackStates) = update.type;
     switch (update.type) {
       case "idle":
