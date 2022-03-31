@@ -2,7 +2,7 @@ function extractJsonLogLineIfPresent(logLine: string): string {
   try {
     const extractedMessage = JSON.parse(logLine)["@message"];
     return extractedMessage ? extractedMessage : logLine;
-  } catch {
+  } catch (e) {
     return logLine;
   }
 }
