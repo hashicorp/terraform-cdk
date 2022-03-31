@@ -99,6 +99,13 @@ type CdktfStackOptions = {
   autoApprove?: boolean;
   abortSignal: AbortSignal;
 };
+type CdktfStackStates =
+  | StackUpdate["type"]
+  | StackApprovalUpdate["type"]
+  | "idle"
+  | "done"
+  | "error";
+
 export class CdktfStack {
   public stackName: string;
   public currentPlan?: TerraformPlan;
@@ -107,12 +114,7 @@ export class CdktfStack {
   public outputsByConstructId?: NestedTerraformOutputs;
   public stopped = false;
   public currentWorkPromise: Promise<void> | undefined;
-  public currentState:
-    | StackUpdate["type"]
-    | StackApprovalUpdate["type"]
-    | "idle"
-    | "done"
-    | "error" = "idle";
+  public readonly currentState: CdktfStackStates = "idle";
 
   constructor(public context: CdktfStackOptions) {
     this.stackName = context.stack.name;
@@ -142,7 +144,7 @@ export class CdktfStack {
       | { type: "error" }
   ) {
     logger.debug(`[${this.stackName}]: ${update.type}`);
-    this.currentState = update.type;
+    (this.currentState as CdktfStackStates) = update.type;
     switch (update.type) {
       case "idle":
       case "done":
