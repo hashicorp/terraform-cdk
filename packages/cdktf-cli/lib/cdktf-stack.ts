@@ -133,7 +133,7 @@ export class CdktfStack {
     return !this.isPending && !this.isDone;
   }
 
-  private notifyState(
+  private updateState(
     update:
       | StackUpdate
       | StackApprovalUpdate
@@ -181,7 +181,7 @@ export class CdktfStack {
 
   private waitForApproval(plan: TerraformPlan) {
     return new Promise<boolean>((resolve) => {
-      this.notifyState({
+      this.updateState({
         type: "waiting for stack approval",
         stackName: this.stack.name,
         plan: plan,
@@ -220,10 +220,10 @@ export class CdktfStack {
     try {
       this.currentWorkPromise = cb();
       await this.currentWorkPromise;
-      this.notifyState({ type: "done" });
+      this.updateState({ type: "done" });
     } catch (e) {
       this.currentWorkPromise = undefined;
-      this.notifyState({
+      this.updateState({
         type: "errored",
         stackName: this.stack.name,
         error: String(e),
@@ -234,33 +234,33 @@ export class CdktfStack {
 
   public async diff() {
     await this.handleState(async () => {
-      this.notifyState({ type: "planning", stackName: this.stack.name });
+      this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
       const plan = await terraform.plan(false);
       this.currentPlan = plan;
-      this.notifyState({ type: "planned", stackName: this.stack.name, plan });
+      this.updateState({ type: "planned", stackName: this.stack.name, plan });
     });
   }
 
   public async deploy() {
     await this.handleState(async () => {
-      this.notifyState({ type: "planning", stackName: this.stack.name });
+      this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
       const plan = await terraform.plan(false);
-      this.notifyState({ type: "planned", stackName: this.stack.name, plan });
+      this.updateState({ type: "planned", stackName: this.stack.name, plan });
 
       const approved = this.options.autoApprove
         ? true
         : await this.waitForApproval(plan);
 
       if (!approved) {
-        this.notifyState({ type: "dismissed", stackName: this.stack.name });
+        this.updateState({ type: "dismissed", stackName: this.stack.name });
         return;
       }
 
-      this.notifyState({ type: "deploying", stackName: this.stack.name });
+      this.updateState({ type: "deploying", stackName: this.stack.name });
       if (plan.needsApply) {
         await terraform.deploy(plan.planFile);
       }
@@ -271,7 +271,7 @@ export class CdktfStack {
         outputs
       );
 
-      this.notifyState({
+      this.updateState({
         type: "deployed",
         stackName: this.stack.name,
         outputs,
@@ -282,24 +282,24 @@ export class CdktfStack {
 
   public async destroy() {
     await this.handleState(async () => {
-      this.notifyState({ type: "planning", stackName: this.stack.name });
+      this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
       const plan = await terraform.plan(true);
-      this.notifyState({ type: "planned", stackName: this.stack.name, plan });
+      this.updateState({ type: "planned", stackName: this.stack.name, plan });
 
       const approved = this.options.autoApprove
         ? true
         : await this.waitForApproval(plan);
       if (!approved) {
-        this.notifyState({ type: "dismissed", stackName: this.stack.name });
+        this.updateState({ type: "dismissed", stackName: this.stack.name });
         return;
       }
 
-      this.notifyState({ type: "destroying", stackName: this.stack.name });
+      this.updateState({ type: "destroying", stackName: this.stack.name });
       await terraform.destroy();
 
-      this.notifyState({
+      this.updateState({
         type: "destroyed",
         stackName: this.stack.name,
       });
@@ -315,7 +315,7 @@ export class CdktfStack {
         JSON.parse(this.stack.content),
         outputs
       );
-      this.notifyState({
+      this.updateState({
         type: "outputs fetched",
         stackName: this.stack.name,
         outputs,
