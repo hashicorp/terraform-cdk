@@ -35,7 +35,12 @@ class Command implements yargs.CommandModule {
     Errors.setScope("diff");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
-    api.diff(argv);
+    try {
+      await api.diff(argv);
+    } catch (e) {
+      console.error(e);
+      process.exit(1);
+    }
   }
 }
 
