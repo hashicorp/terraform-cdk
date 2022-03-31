@@ -212,7 +212,7 @@ export class CdktfStack {
     return terraform;
   }
 
-  private async handleState(cb: () => Promise<void>) {
+  private async run(cb: () => Promise<void>) {
     if (this.stopped) {
       return;
     }
@@ -233,7 +233,7 @@ export class CdktfStack {
   }
 
   public async diff() {
-    await this.handleState(async () => {
+    await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
@@ -244,7 +244,7 @@ export class CdktfStack {
   }
 
   public async deploy() {
-    await this.handleState(async () => {
+    await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
@@ -281,7 +281,7 @@ export class CdktfStack {
   }
 
   public async destroy() {
-    await this.handleState(async () => {
+    await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
@@ -307,7 +307,7 @@ export class CdktfStack {
   }
 
   public async fetchOutputs() {
-    await this.handleState(async () => {
+    await this.run(async () => {
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
       const outputs = await terraform.output();
