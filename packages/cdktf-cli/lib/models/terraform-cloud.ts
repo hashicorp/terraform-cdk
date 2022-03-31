@@ -15,6 +15,9 @@ import { WritableStreamBuffer } from "stream-buffers";
 import { SynthesizedStack } from "../synth-stack";
 import { logger } from "../logging";
 import { Errors } from "../errors";
+import * as agent from "tunnel-agent";
+import { URL } from "url";
+
 export class TerraformCloudPlan
   extends AbstractTerraformPlan
   implements TerraformPlan
@@ -147,9 +150,22 @@ export class TerraformCloud implements Terraform {
     }
 
     this.client = new TerraformCloudClient.TerraformCloud(this.token);
+
     this.abortSignal.addEventListener("abort", () => {
       this.removeRun("cancel");
     });
+
+    const httpProxy = process.env.http_proxy || process.env.HTTP_PROXY;
+    if (httpProxy && httpProxy !== "undefined") {
+      // ¯\_(ツ)_/¯
+      const url = new URL(httpProxy);
+      logger.debug(
+        `setting tunnel agent via hostname=${url.hostname} port=${url.port}`
+      );
+      this.client.client.defaults.httpsAgent = agent.httpsOverHttp({
+        proxy: { host: url.hostname, port: url.port },
+      });
+    }
   }
 
   @BeautifyErrors("IsRemoteWorkspace")
