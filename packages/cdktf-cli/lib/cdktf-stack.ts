@@ -116,9 +116,9 @@ export class CdktfStack {
   public currentWorkPromise: Promise<void> | undefined;
   public readonly currentState: CdktfStackStates = "idle";
 
-  constructor(public context: CdktfStackOptions) {
-    this.stackName = context.stack.name;
-    this.stack = context.stack;
+  constructor(public options: CdktfStackOptions) {
+    this.stackName = options.stack.name;
+    this.stack = options.stack;
   }
 
   public get isPending(): boolean {
@@ -159,11 +159,11 @@ export class CdktfStack {
         );
         this.outputs = update.outputs;
         this.outputsByConstructId = update.outputsByConstructId;
-        this.context.onUpdate(update);
+        this.options.onUpdate(update);
         break;
 
       default:
-        this.context.onUpdate(update);
+        this.options.onUpdate(update);
         break;
     }
   }
@@ -171,10 +171,10 @@ export class CdktfStack {
   private logCallback(
     stateName: string
   ): (message: string, isError?: boolean) => void {
-    const onLog = this.context.onLog;
+    const onLog = this.options.onLog;
     return (msg: string, isError = false) => {
       const message = extractJsonLogIfPresent(msg);
-      logger.debug(`[${this.context.stack.name}](${stateName}): ${msg}`);
+      logger.debug(`[${this.options.stack.name}](${stateName}): ${msg}`);
       if (onLog) {
         onLog({ message, isError });
       }
@@ -203,8 +203,8 @@ export class CdktfStack {
     isSpeculative: boolean;
   }) {
     const terraform = await getTerraformClient(
-      this.context.abortSignal,
-      this.context.stack,
+      this.options.abortSignal,
+      this.options.stack,
       isSpeculative,
       this.logCallback.bind(this)
     );
@@ -253,7 +253,7 @@ export class CdktfStack {
       const plan = await terraform.plan(false);
       this.notifyState({ type: "planned", stackName: this.stack.name, plan });
 
-      const approved = this.context.autoApprove
+      const approved = this.options.autoApprove
         ? true
         : await this.waitForApproval(plan);
 
@@ -290,7 +290,7 @@ export class CdktfStack {
       const plan = await terraform.plan(true);
       this.notifyState({ type: "planned", stackName: this.stack.name, plan });
 
-      const approved = this.context.autoApprove
+      const approved = this.options.autoApprove
         ? true
         : await this.waitForApproval(plan);
       if (!approved) {
