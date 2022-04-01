@@ -139,12 +139,12 @@ you need to keep this like it is.*/
 awsRoute53RecordExample.addOverride(
   \\"for_each\\",
   \`\\\\\${{
-          for dvo in \${awsAcmCertificateExample.domainValidationOptions} : dvo.domain_name => {
-            name   = dvo.resource_record_name
-            record = dvo.resource_record_value
-            type   = dvo.resource_record_type
-          }
-        }}\`
+      for dvo in \${awsAcmCertificateExample.domainValidationOptions} : dvo.domain_name => {
+        name   = dvo.resource_record_name
+        record = dvo.resource_record_value
+        type   = dvo.resource_record_type
+      }
+    }}\`
 );
 const awsAcmCertificateValidationExample = new aws.acm.AcmCertificateValidation(
   this,
@@ -531,8 +531,8 @@ exports[`convert for expression 2 snapshot 1`] = `
 You can read more about this at https://cdk.tf/variables*/
 const users = new cdktf.TerraformVariable(this, \\"users\\", {});
 const usersByRole = \`\\\\\${{
-            for name, user in \${users.value} : user.role => name...
-          }}\`;
+          for name, user in \${users.value} : user.role => name...
+        }}\`;
 new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
   value: usersByRole,
 });
