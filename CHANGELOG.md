@@ -1,3 +1,25 @@
+## 0.10.1
+
+### fix
+
+- fix(cli): fix convert single blocks as array bug [\#1680](https://github.com/hashicorp/terraform-cdk/pull/1680)
+- fix(cli): Only print error that's thrown [\#1678](https://github.com/hashicorp/terraform-cdk/pull/1678)
+
+### refactor
+
+- refactor(tests): move from table driven tests to functional way [\#1679](https://github.com/hashicorp/terraform-cdk/pull/1679)
+- refactor(cli): remove xstate as state machine [\#1670](https://github.com/hashicorp/terraform-cdk/pull/1670)
+
+### chore
+
+- chore(docs): update project maturity statement [\#1676](https://github.com/hashicorp/terraform-cdk/pull/1676)
+- chore(docs): add sidebar link [\#1674](https://github.com/hashicorp/terraform-cdk/pull/1674)
+- chore: add extra column for PRs outside our main repo [\#1673](https://github.com/hashicorp/terraform-cdk/pull/1673)
+
+### feat
+
+- feat(cli): support HTTP_PROXY for Terraform Cloud [\#1507](https://github.com/hashicorp/terraform-cdk/pull/1507)
+
 ## 0.10.0
 
 **Breaking Changes**
