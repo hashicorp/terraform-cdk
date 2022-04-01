@@ -21,7 +21,6 @@ const providers = [
 
 enum Synth {
   yes,
-  needsAFix_SingleItemBlocksAreTreatedAsArrays, // https://github.com/hashicorp/terraform-cdk/issues/1549
   needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
   needsAFix_MaximumCallStackSizeExceeded, // https://github.com/hashicorp/terraform-cdk/issues/1551
   needsAFix_UnforseenRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
@@ -92,7 +91,6 @@ const createTestCase =
         [
           Synth.needsAFix_BooleanAsIResolvable,
           Synth.needsAFix_MaximumCallStackSizeExceeded,
-          Synth.needsAFix_SingleItemBlocksAreTreatedAsArrays,
         ].includes(shouldSynth)
       ) {
         it.todo("plans");
@@ -1057,9 +1055,14 @@ describe("convert", () => {
   testCase.test(
     "blocks should be arrays",
     `
+    provider "google" {
+      project = "my-project"
+      region  = "us-central1"
+    }
     resource "google_compute_autoscaler" "example" {
       name   = "example-autoscaler"
       zone   = "us-east1-b"
+      target = "target-for-example-autoscaler"
     
       autoscaling_policy = {
         max_replicas    = 8
@@ -1072,7 +1075,7 @@ describe("convert", () => {
       }
     }
     `,
-    Synth.needsAFix_SingleItemBlocksAreTreatedAsArrays
+    Synth.yes
   );
 
   testCase.test(
