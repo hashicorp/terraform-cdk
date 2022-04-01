@@ -21,7 +21,6 @@ const providers = [
 
 enum Synth {
   yes,
-  needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
   needsAFix_MaximumCallStackSizeExceeded, // https://github.com/hashicorp/terraform-cdk/issues/1551
   needsAFix_UnforseenRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
   needsAFix_StringIsNotAssignableToListOfString, // https://github.com/hashicorp/terraform-cdk/issues/1553
@@ -88,10 +87,7 @@ const createTestCase =
       }
 
       if (
-        [
-          Synth.needsAFix_BooleanAsIResolvable,
-          Synth.needsAFix_MaximumCallStackSizeExceeded,
-        ].includes(shouldSynth)
+        [Synth.needsAFix_MaximumCallStackSizeExceeded].includes(shouldSynth)
       ) {
         it.todo("plans");
       }
@@ -210,7 +206,7 @@ describe("convert", () => {
       }
     }
   `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -222,7 +218,7 @@ describe("convert", () => {
     resource "aws_vpc" "example" {
       cidr_block = "10.0.0.0/16"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -335,7 +331,7 @@ describe("convert", () => {
         cloudfront_default_certificate = true
       }
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -347,7 +343,7 @@ describe("convert", () => {
     data "aws_subnet" "selected" {
       vpc_id = "subnet_id"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -407,7 +403,7 @@ describe("convert", () => {
       source     = "index.html"
       kms_key_id = aws_kms_key.examplekms.arn
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -425,7 +421,7 @@ describe("convert", () => {
       bucket = local.bucket_name
       acl    = "private"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -443,7 +439,7 @@ describe("convert", () => {
       bucket = var.bucket_name
       acl    = "private"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -466,7 +462,7 @@ describe("convert", () => {
       bucket     = data.aws_s3_bucket.examplebucket.arn
       source     = "index.html"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -487,7 +483,7 @@ describe("convert", () => {
         tag-key = var.bucket_name
       }
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -597,7 +593,7 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -693,7 +689,7 @@ describe("convert", () => {
         source     = "index.html"
         kms_key_id = aws_kms_key.examplekms.arn
       }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -727,7 +723,7 @@ describe("convert", () => {
         kms_key_id = aws_kms_key.examplekms.arn
       }
       `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -741,7 +737,6 @@ describe("convert", () => {
         for_each = var.users
         name = each.key
         path = "/system/"
-      
         tags = {
           tag-key = "tag-value"
         }
@@ -751,7 +746,7 @@ describe("convert", () => {
   );
 
   testCase.test(
-    "property access through []",
+    "property access through brackets",
     `
       provider "aws" {
         region                      = "us-east-1"
@@ -765,7 +760,7 @@ describe("convert", () => {
         acl    = "private"
       }
       `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -783,7 +778,7 @@ describe("convert", () => {
         acl    = "private"
       }
       `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -805,7 +800,7 @@ describe("convert", () => {
             tag-key = "tag-value"
           }
         }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -825,7 +820,7 @@ describe("convert", () => {
       }
     }
     `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -898,7 +893,7 @@ describe("convert", () => {
         Name = "allow_tls"
       }
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
