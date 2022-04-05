@@ -6,7 +6,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "list [OPTIONS]";
+  public readonly command = "list";
   public readonly describe = "List stacks in app.";
 
   public readonly builder = (args: yargs.Argv) =>

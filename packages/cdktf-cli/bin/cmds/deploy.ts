@@ -6,7 +6,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "deploy [OPTIONS] [stacks..]";
+  public readonly command = "deploy [stacks...]";
   public readonly describe = "Deploy the given stacks";
   public readonly aliases = ["apply"];
 

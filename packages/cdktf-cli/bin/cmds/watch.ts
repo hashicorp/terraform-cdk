@@ -6,7 +6,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "watch [OPTIONS] [stacks..]";
+  public readonly command = "watch [stacks..]";
   public readonly describe =
     "[experimental] Watch for file changes and automatically trigger a deploy";
 

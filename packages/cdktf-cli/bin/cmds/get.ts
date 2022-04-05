@@ -5,7 +5,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "get [OPTIONS]";
+  public readonly command = "get";
   public readonly describe =
     "Generate CDK Constructs for Terraform providers and modules.";
 

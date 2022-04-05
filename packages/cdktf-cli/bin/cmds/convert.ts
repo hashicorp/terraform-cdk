@@ -3,7 +3,7 @@ import { Errors } from "../../lib/errors";
 import { requireHandlers } from "./helper/utilities";
 
 class Command implements yargs.CommandModule {
-  public readonly command = "convert [OPTIONS]";
+  public readonly command = "convert";
   public readonly describe =
     "Converts a single file of HCL configuration to CDK for Terraform. Takes the file to be converted on stdin.";
 

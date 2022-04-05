@@ -7,7 +7,7 @@ import { Errors } from "../../lib/errors";
 const pkg = readPackageJson();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "init [OPTIONS]";
+  public readonly command = "init";
   public readonly describe = "Create a new cdktf project from a template.";
   public readonly builder = (args: yargs.Argv) =>
     args

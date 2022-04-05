@@ -6,7 +6,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "synth [OPTIONS]";
+  public readonly command = "synth";
   public readonly describe =
     "Synthesizes Terraform code for the given app in a directory.";
   public readonly aliases = ["synthesize"];

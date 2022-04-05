@@ -6,7 +6,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "diff [stack] [OPTIONS]";
+  public readonly command = "diff [stack]";
   public readonly describe =
     "Perform a diff (terraform plan) for the given stack";
   public readonly aliases = ["plan"];
