@@ -6,7 +6,7 @@ import { Errors } from "../../lib/errors";
 const config = cfg.readConfigSync();
 
 class Command implements yargs.CommandModule {
-  public readonly command = "destroy [OPTIONS] <stacks..>";
+  public readonly command = "destroy [OPTIONS] [stacks..]";
   public readonly describe = "Destroy the given stacks";
 
   public readonly builder = (args: yargs.Argv) =>
