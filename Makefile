@@ -24,7 +24,7 @@ website/local:
 .PHONY: website/build-local
 website/build-local:
 	@echo "==> Building local Docker image"
-	@docker build https://github.com/hashicorp/terraform-website.git\#brk.feat/tfcdk-remote-content \
+	@docker build https://github.com/hashicorp/terraform-website.git\#master \
 		-t $(DOCKER_IMAGE_LOCAL)
 
 .DEFAULT_GOAL := website
