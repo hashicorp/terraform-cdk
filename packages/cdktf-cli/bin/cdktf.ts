@@ -83,6 +83,7 @@ yargs
   .command(require("./cmds/watch"))
   .command(require("./cmds/output"))
   .recommendCommands()
+  .exitProcess(false)
   .wrap(yargs.terminalWidth())
   .showHelpOnFail(false)
   .env("CDKTF")
