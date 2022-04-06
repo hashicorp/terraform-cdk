@@ -2,9 +2,10 @@ import yargs from "yargs";
 import { LANGUAGES, config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
 import { Errors } from "../../lib/errors";
+import { BaseCommand } from "./helper/base-command";
 const config = cfg.readConfigSync();
 
-class Command implements yargs.CommandModule {
+class Command extends BaseCommand {
   public readonly command = "get";
   public readonly describe =
     "Generate CDK Constructs for Terraform providers and modules.";
@@ -27,7 +28,7 @@ class Command implements yargs.CommandModule {
         choices: LANGUAGES,
       });
 
-  public async handler(argv: any) {
+  public async handleCommand(argv: any) {
     Errors.setScope("get");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
