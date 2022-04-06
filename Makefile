@@ -7,8 +7,8 @@ DOCKER_RUN_FLAGS=--interactive \
 		--volume "$(shell pwd)/website:/website/preview" \
 		--publish "3000:3000" \
 		-e "IS_CONTENT_PREVIEW=true" \
-		-e "NAV_DATA_PATH=./preview/data/cdktf-nav-data.json" \
-		-e "CONTENT_DIR=./preview/docs/cdktf"
+		-e "NAV_DATA_DIRNAME=./preview/data" \
+		-e "CONTENT_DIRNAME=./preview/docs"
 
 # Default: run this if working on the website locally to run in watch mode.
 website:
@@ -24,7 +24,7 @@ website/local:
 .PHONY: website/build-local
 website/build-local:
 	@echo "==> Building local Docker image"
-	@docker build https://github.com/hashicorp/terraform-website.git\#master \
+	@docker build https://github.com/hashicorp/terraform-website.git\#kevin/terraform-split \
 		-t $(DOCKER_IMAGE_LOCAL)
 
 .DEFAULT_GOAL := website
