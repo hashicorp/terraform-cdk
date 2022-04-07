@@ -530,7 +530,7 @@ export class TerraformCloud implements Terraform {
 
   private removeLocalTerraformDirectory() {
     try {
-      fs.rmSync(path.resolve(this.stack.synthesizedStackPath, ".terraform"), {
+      fs.rmSync(path.resolve(this.stack.workingDirectory, ".terraform"), {
         recursive: true,
       });
     } catch (error) {
