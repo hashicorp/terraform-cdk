@@ -8,6 +8,7 @@ import * as fs from "fs-extra";
 import { terraformVersion } from "./cmds/helper/terraform";
 import { DISPLAY_VERSION } from "./cmds/helper/version-check";
 import { readCDKTFManifest } from "../lib/util";
+import { IsErrorType } from "../lib/errors";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
@@ -83,6 +84,7 @@ yargs
   .command(require("./cmds/watch"))
   .command(require("./cmds/output"))
   .recommendCommands()
+  .exitProcess(false)
   .wrap(yargs.terminalWidth())
   .showHelpOnFail(false)
   .env("CDKTF")
@@ -127,15 +129,27 @@ yargs
       process.exit(1);
     },
   })
-  .fail((_message, error) => {
-    if (error) {
-      console.error(error.stack);
+  .fail(async (message, error) => {
+    // will not stop the process, but stops further execution of the handler function
+    // this is called first because yargs is not waiting for this async function
+    yargs.exit(1, error);
+
+    // set if e.g. the validation of command arguments failed
+    if (message) {
+      console.log(message);
     }
 
-    terraformVersion.then((tfVersion) => {
+    // set if e.g. an handler threw an error while being invoked
+    if (IsErrorType(error, "Usage")) {
+      console.error(error.message);
+    } else if (error) {
+      console.error(error.stack);
+      const tfVersion = await terraformVersion;
       console.error(`
-Debug Information:
-    Terraform CDK version: ${DISPLAY_VERSION}
-    Terraform version: ${tfVersion}`);
-    });
+  Debug Information:
+      Terraform CDK version: ${DISPLAY_VERSION}
+      Terraform version: ${tfVersion}`);
+    }
+
+    process.exit(1);
   }).argv;

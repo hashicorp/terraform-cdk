@@ -2,11 +2,12 @@ import yargs from "yargs";
 import { config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
 import { Errors } from "../../lib/errors";
+import { BaseCommand } from "./helper/base-command";
 
 const config = cfg.readConfigSync();
 
-class Command implements yargs.CommandModule {
-  public readonly command = "synth [OPTIONS]";
+class Command extends BaseCommand {
+  public readonly command = "synth";
   public readonly describe =
     "Synthesizes Terraform code for the given app in a directory.";
   public readonly aliases = ["synthesize"];
@@ -34,16 +35,11 @@ class Command implements yargs.CommandModule {
       })
       .showHelpOnFail(true);
 
-  public async handler(argv: any) {
+  public async handleCommand(argv: any) {
     Errors.setScope("synth");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
-    try {
-      await api.synth(argv);
-    } catch (e) {
-      console.error(e);
-      process.exit(1);
-    }
+    await api.synth(argv);
   }
 }
 
