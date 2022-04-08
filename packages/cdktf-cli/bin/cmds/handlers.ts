@@ -36,7 +36,10 @@ import {
   normalizeOutputPath,
 } from "../../lib/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
-import { checkEnvironment } from "./helper/check-environment";
+import {
+  checkEnvironment,
+  verifySimilarLibraryVersion,
+} from "./helper/check-environment";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -162,6 +165,7 @@ export async function get(argv: any) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
+  await verifySimilarLibraryVersion();
   const args = argv as {
     output: string;
     language: Language;
