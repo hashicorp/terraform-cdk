@@ -544,7 +544,7 @@ test("tomap does not destroy incoming ref", () => {
   `);
 });
 
-it.only("errors mentioning function name and argument", () => {
+it("errors mentioning function name and argument", () => {
   expect(() =>
     Fn.replace("this value is ok", `this one " not`, "this is okay")
   ).toThrowErrorMatchingInlineSnapshot(

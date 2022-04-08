@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`throws error on unescaped double quote string inputs " 1`] = `"'\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+exports[`throws error on unescaped double quote string inputs " 1`] = `"Argument 0 of md5 failed the validation: Error: '\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
 
-exports[`throws error on unescaped double quote string inputs \\ \\\\" 1`] = `"'\\\\ \\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+exports[`throws error on unescaped double quote string inputs \\ \\\\" 1`] = `"Argument 0 of md5 failed the validation: Error: '\\\\ \\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
 
-exports[`throws error on unescaped double quote string inputs \\\\" 1`] = `"'\\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+exports[`throws error on unescaped double quote string inputs \\\\" 1`] = `"Argument 0 of md5 failed the validation: Error: '\\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
 
-exports[`throws error on unescaped double quote string inputs \\\\\\\\" 1`] = `"'\\\\\\\\\\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
+exports[`throws error on unescaped double quote string inputs \\\\\\\\" 1`] = `"Argument 0 of md5 failed the validation: Error: '\\\\\\\\\\\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`;
 
 exports[`throws no error on valid escaped double quote string inputs  1`] = `
 "{
