@@ -176,10 +176,9 @@ export async function get(argv: any) {
   ];
 
   if (constraints.length === 0) {
-    console.error(
-      `ERROR: Please specify providers or modules in "cdktf.json" config file`
+    throw Errors.Usage(
+      `Please specify providers or modules in "cdktf.json" config file`
     );
-    process.exit(1);
   }
 
   await renderInk(

@@ -2,11 +2,12 @@ import yargs from "yargs";
 import { config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
 import { Errors } from "../../lib/errors";
+import { BaseCommand } from "./helper/base-command";
 
 const config = cfg.readConfigSync();
 
-class Command implements yargs.CommandModule {
-  public readonly command = "diff [stack] [OPTIONS]";
+class Command extends BaseCommand {
+  public readonly command = "diff [stack]";
   public readonly describe =
     "Perform a diff (terraform plan) for the given stack";
   public readonly aliases = ["plan"];
@@ -31,16 +32,11 @@ class Command implements yargs.CommandModule {
       })
       .showHelpOnFail(true);
 
-  public async handler(argv: any) {
+  public async handleCommand(argv: any) {
     Errors.setScope("diff");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
-    try {
-      await api.diff(argv);
-    } catch (e) {
-      console.error(e);
-      process.exit(1);
-    }
+    await api.diff(argv);
   }
 }
 
