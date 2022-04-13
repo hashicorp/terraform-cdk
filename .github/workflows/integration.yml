@@ -32,7 +32,7 @@ jobs:
       - name: installing dependencies and build
         run: |
           yarn install
-          tools/align-version.sh
+          tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
       - name: Upload dist
