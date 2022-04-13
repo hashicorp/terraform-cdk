@@ -76,6 +76,10 @@ jobs:
         with:
           name: edge-provider-bindings
           path: test/edge-provider-bindings
+      - name: get pipenv version
+        run: pipenv --version
+      - name: get pipenv pip version
+        run: pipenv run pip --version
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
@@ -105,6 +109,10 @@ jobs:
           terraform_version: ${{ matrix.terraform }}
       - name: Install pipenv
         run: pip install pipenv
+      - name: get pipenv version
+        run: pipenv --version
+      - name: get pipenv pip version
+        run: pipenv run pip --version
       - name: Install Go
         uses: actions/setup-go@v2
         with:
