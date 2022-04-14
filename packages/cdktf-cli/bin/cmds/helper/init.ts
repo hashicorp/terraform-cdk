@@ -32,9 +32,13 @@ import { init, Project } from "../../../lib";
 
 const chalkColour = new chalk.Instance();
 
+const isReadme = (file: string) => file.toLowerCase() === "readme.md";
+
 export function checkForEmptyDirectory(dir: string) {
   if (
-    fs.readdirSync(dir).filter((f) => !f.startsWith(".") && f !== logFileName)
+    fs
+      .readdirSync(dir)
+      .filter((f) => !f.startsWith(".") && f !== logFileName && !isReadme(f))
       .length > 0
   ) {
     console.error(
