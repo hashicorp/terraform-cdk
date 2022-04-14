@@ -14,13 +14,19 @@ async function report(command: string, payload: Record<string, any>) {
   await ReportRequest(reportParams);
 }
 
-function reportPrefixedError(type: string, command: string) {
+type ErrorType = "Internal" | "External" | "Usage";
+export function IsErrorType(error: any, type: ErrorType): boolean {
+  return error && error.__type === type;
+}
+
+function reportPrefixedError(type: ErrorType, command: string) {
   return (message: string, context?: Record<string, any>) => {
     report(command, { ...context, message, type });
     const err: any = new Error(`${type} Error: ${message}`);
     Object.entries(context || {}).forEach(([key, value]) => {
       err[key] = value;
     });
+    err.__type = type;
     return err;
   };
 }

@@ -23,7 +23,8 @@ enum Synth {
   yes,
   needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
   needsAFix_MaximumCallStackSizeExceeded, // https://github.com/hashicorp/terraform-cdk/issues/1551
-  needsAFix_UnforseenRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
+  needsAFix_UnforseenClassRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
+  needsAFix_UnforseenPropertyRename, // https://github.com/hashicorp/terraform-cdk/issues/1708
   needsAFix_StringIsNotAssignableToListOfString, // https://github.com/hashicorp/terraform-cdk/issues/1553
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
@@ -1150,7 +1151,7 @@ describe("convert", () => {
         display_name        = each.key
       }
       `,
-    Synth.needsAFix_UnforseenRename
+    Synth.needsAFix_UnforseenClassRename
   );
 
   testCase.test(
@@ -1292,6 +1293,45 @@ describe("convert", () => {
       }
       `,
     Synth.yes
+  );
+
+  testCase.test(
+    "property level renamings",
+    `
+    provider "aws" {
+      region                      = "us-east-1"
+    }
+    resource "aws_guardduty_filter" "MyFilter" {
+      name        = "MyFilter"
+      action      = "ARCHIVE"
+      detector_id = "id"
+      rank        = 1
+    
+      finding_criteria {
+        criterion {
+          field  = "region"
+          equals = ["eu-west-1"]
+        }
+    
+        criterion {
+          field      = "service.additionalInfo.threatListName"
+          not_equals = ["some-threat", "another-threat"]
+        }
+    
+        criterion {
+          field        = "updatedAt"
+          greater_than = "2020-01-01T00:00:00Z"
+          less_than    = "2020-02-01T00:00:00Z"
+        }
+    
+        criterion {
+          field                 = "severity"
+          greater_than_or_equal = "4"
+        }
+      }
+    }
+      `,
+    Synth.needsAFix_UnforseenPropertyRename
   );
 
   const targetLanguages = ["typescript", "python", "csharp", "java"];

@@ -1,6 +1,6 @@
 # Terraform Documentation
 
-This directory contains the portions of [the Terraform website](https://www.terraform.io/) that pertain to the Terraform CDK.
+This directory contains the portions of [the Terraform website][terraform.io] that pertain to the Terraform CDK.
 
 The files in this directory are intended to be used in conjunction with
 [the `terraform-website` repository](https://github.com/hashicorp/terraform-website), which brings all of the
@@ -9,7 +9,7 @@ a whole.
 
 ## Modifying Sidebar Navigation
 
-Updates to the sidebar navigation of Terraform docs need to be made in the [`terraform-website`](https://github.com/hashicorp/terraform-website/) repository (preferrably in a PR also updating the submodule commit). You can read more about how to make modifications to the navigation in the [README for `terraform-website`](https://github.com/hashicorp/terraform-website#editing-navigation-sidebars).
+Updates to the sidebar navigation of Terraform docs can be made in the [nav-data][nav-data] file. For details on structuring of sidebar navigation, see https://github.com/hashicorp/terraform-website#editing-navigation-sidebars
 
 ## Previewing Changes
 
@@ -28,4 +28,7 @@ You should preview all of your changes locally before creating a pull request. T
 
 ### Deployment
 
-New commits in `hashicorp/terraform` and `hashicorp/terraform-cdk` don't automatically deploy the site. To use the latest upstream content, you'll need to open a PR bumping the submodule commit. If your changes aren't being deployed, it's very likely that you need to open a PR to update the submodule commit.
+New commits to the `stable-website` branch of `hashicorp/terraform-cdk` will be reflected on [terraform.io] within an hour.
+
+[nav-data]: https://github.com/hashicorp/terraform-cdk/blob/main/website/data/cdktf-nav-data.json
+[terraform.io]: https://www.terraform.io/
