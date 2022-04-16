@@ -220,16 +220,25 @@ async function run() {
     issue.repository_url.includes("hashicorp/cdktf-provider-")
   );
 
+  const openCommunityPRs = openPRs.filter((issue: Issue) =>
+    [
+      "hashicorp/cdktf-repository-manager",
+      "hashicorp/cdktf-aws-cdk",
+      "hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript",
+      "hashicorp/cdktf-integration-serverless-example",
+    ].some((url) => issue.repository_url.includes(url))
+  );
+
   console.log("Fetching Project Items...");
   const allIssueIdsPresent = await getCurrentProjectItemIds();
 
   console.log("Updating Project...");
-  console.log("Clearing out issues...");
   const allIssuesToBeAdded = [
     ...unlabeledIssues,
     ...newIssues,
     ...needsPriorityIssues,
     ...openPrsInProviderRepos,
+    ...openCommunityPRs,
   ].map((issue) => issue.node_id);
 
   const issuesToRemove = allIssueIdsPresent.filter(
@@ -241,7 +250,7 @@ async function run() {
     await removeItemFromProject(projectId, issueId);
   }
 
-  console.log("Adding issues...");
+  console.log(`Adding ${unlabeledIssues.length} unlabeled issues...`);
   for (const issue of unlabeledIssues) {
     await addToProject(
       projectId,
@@ -251,10 +260,12 @@ async function run() {
     );
   }
 
+  console.log(`Adding ${newIssues.length} new issues...`);
   for (const issue of newIssues) {
     await addToProject(projectId, issue, statusColumn.id, statusIdByName.New);
   }
 
+  console.log(`Adding ${needsPriorityIssues.length} needs-priority issues...`);
   for (const issue of needsPriorityIssues) {
     await addToProject(
       projectId,
@@ -264,12 +275,25 @@ async function run() {
     );
   }
 
+  console.log(
+    `Adding ${openPrsInProviderRepos.length} open PRs in Provider Repos...`
+  );
   for (const pr of openPrsInProviderRepos) {
     await addToProject(
       projectId,
       pr,
       statusColumn.id,
       statusIdByName["Unmerged Provider PRs"]
+    );
+  }
+
+  console.log(`Adding ${openCommunityPRs.length} open community PRs...`);
+  for (const pr of openCommunityPRs) {
+    await addToProject(
+      projectId,
+      pr,
+      statusColumn.id,
+      statusIdByName["Community PRs"]
     );
   }
 }

@@ -1,3 +1,25 @@
+## 0.10.1
+
+### fix
+
+- fix(cli): fix convert single blocks as array bug [\#1680](https://github.com/hashicorp/terraform-cdk/pull/1680)
+- fix(cli): Only print error that's thrown [\#1678](https://github.com/hashicorp/terraform-cdk/pull/1678)
+
+### refactor
+
+- refactor(tests): move from table driven tests to functional way [\#1679](https://github.com/hashicorp/terraform-cdk/pull/1679)
+- refactor(cli): remove xstate as state machine [\#1670](https://github.com/hashicorp/terraform-cdk/pull/1670)
+
+### chore
+
+- chore(docs): update project maturity statement [\#1676](https://github.com/hashicorp/terraform-cdk/pull/1676)
+- chore(docs): add sidebar link [\#1674](https://github.com/hashicorp/terraform-cdk/pull/1674)
+- chore: add extra column for PRs outside our main repo [\#1673](https://github.com/hashicorp/terraform-cdk/pull/1673)
+
+### feat
+
+- feat(cli): support HTTP_PROXY for Terraform Cloud [\#1507](https://github.com/hashicorp/terraform-cdk/pull/1507)
+
 ## 0.10.0
 
 **Breaking Changes**
@@ -5,6 +27,143 @@
 ### Remove `cdktf synth --json` Option [#1640](https://github.com/hashicorp/terraform-cdk/pull/1640)
 
 If you are using `cdktf synth --json <stack-name>` to get the synthesized JSON configuration for your Stack, you will now need to run `cdktf synth && cat ./cdktf.out/stacks/<stack-name>/cdk.tf.json` instead. The `./cdktf.out` part is your output directory (set by `cdktf.json` or via the `--output` flag).
+
+### Model ComplexComputedLists as ComplexLists and ComputedObjects [#1499](https://github.com/hashicorp/terraform-cdk/pull/1499)
+
+In an effort to streamline the interfaces of resources, computed attributes of the type list and set are now modeled as a separate `ComplexList` type instead of being a method that directly takes an index and returns an item. This change also did change the type of the index from `string` to `number`.
+
+#### Typescript
+
+```ts
+// previously
+const firstItemId = resource.listAttribute("0").id;
+
+// new
+const firstItemId = resource.listAttribute.get(0).id;
+const firstItem = resource.listAttribute.get(0); // now possible
+```
+
+#### Python
+
+```python
+# previously
+first_item_id = resource.list_attribute("0").id;
+
+# new
+first_item_id = resource.list_attribute.get(0).id;
+first_item = resource.list_attribute.get(0); # now possible
+```
+
+#### CSharp
+
+```csharp
+// previously
+string firstItemId = resource.ListAttribute("0").Id;
+
+// new
+string firstItemId = resource.ListAttribute.Get(0).Id;
+ListAttributeItem firstItem = resource.ListAttribute.Get(0); // now possible
+```
+
+#### Java
+
+```java
+// previously
+String firstItemId = resource.listAttribute("0").getId();
+
+// new
+String firstItemId = resource.getListAttribute().get(0).getId();
+ListAttributeItem firstItem = resource.getListAttribute().get(0); // now possible
+```
+
+#### Go
+
+```golang
+// previously
+firstItemId := resource.ListAttribute(jsii.String("0")).Id();
+
+// new
+firstItemId := resource.ListAttribute().Get(jsii.Number(0)).Id();
+firstItem := resource.ListAttribute().Get(jsii.Number(0)); // now possible
+```
+
+### Referencing computed string map entries via function call [#1630](https://github.com/hashicorp/terraform-cdk/pull/1630)
+
+In preparation for a similar change as to the computed lists (section above), string map entries can now be accessed via a function call instead of using `Fn.lookup`. Accessing the whole map at once now requires a different function call in the meantime.
+
+#### Example
+
+```ts
+const bucket = new s3.S3Bucket(this, "bucket");
+
+// previously
+const firstRuleStage = Fn.lookup(
+  bucket.lifecycleRule("0").tags,
+  "stage",
+  "no-stage"
+);
+const firstRuleTags = bucket.lifecycleRule("0").tags;
+
+// new
+const firstRuleStage = bucket.lifecycleRule.get(0).tags("stage"); // tags is now a function
+const firstRuleTags = bucket.lifecycleRule
+  .get(0)
+  .interpolationForAttribute("tags"); // will be improved in a future iteration
+```
+
+### feat
+
+- feat(cli): rewrite watch using explicit file globs [\#1658](https://github.com/hashicorp/terraform-cdk/pull/1658)
+- feat(cli): stop TFC plans when we discard / stop / ctrl-c [\#1650](https://github.com/hashicorp/terraform-cdk/pull/1650)
+- feat(cli): throw clearer error if --from-terraform-project misses an arg [\#1646](https://github.com/hashicorp/terraform-cdk/pull/1646)
+- feat(cli): enhance logs with path to construct [\#1635](https://github.com/hashicorp/terraform-cdk/pull/1635)
+- feat(cli): match multiple stacks with patterns [\#1634](https://github.com/hashicorp/terraform-cdk/pull/1634)
+- feat(cli): allow multiple stacks in the output command [\#1633](https://github.com/hashicorp/terraform-cdk/pull/1633)
+- feat(cli): Support nested_type in generator [\#1630](https://github.com/hashicorp/terraform-cdk/pull/1630)
+- feat(cli): check whether an existing token is still valid when running login command [\#1627](https://github.com/hashicorp/terraform-cdk/pull/1627)
+- feat(cli): parallelize cdktf deploy/destroy [\#1625](https://github.com/hashicorp/terraform-cdk/pull/1625)
+- feat(cli): handle dismissing a single stack vs stopping all stacks [\#1621](https://github.com/hashicorp/terraform-cdk/pull/1621)
+- feat(lib): Support `impersonate_service_account` and `_delegate` on `gcs` backend [\#1615](https://github.com/hashicorp/terraform-cdk/pull/1615)
+- feat(cli): serial multi-stack deploys [\#1609](https://github.com/hashicorp/terraform-cdk/pull/1609)
+- feat(cli): properly shutdown subprocesses on abort [\#1605](https://github.com/hashicorp/terraform-cdk/pull/1605)
+- feat: stream terraform output on diff, deploy, and destroy [\#1596](https://github.com/hashicorp/terraform-cdk/pull/1596)
+- feat(lib): update attributes['//'] instead of assigning to it [\#1543](https://github.com/hashicorp/terraform-cdk/pull/1543)
+- feat(provider-generator): allow tfResourceType to be narrowly typed [\#1535](https://github.com/hashicorp/terraform-cdk/pull/1535)
+- feat: Model ComplexComputedLists as ComplexLists and ComputedObjects [\#1499](https://github.com/hashicorp/terraform-cdk/pull/1499)
+
+### fix
+
+- fix(readme): update links to getting started guides [\#1664](https://github.com/hashicorp/terraform-cdk/pull/1664)
+- fix: ignore vercel for PRs as it currently fails on branches of forks [\#1649](https://github.com/hashicorp/terraform-cdk/pull/1649)
+- fix(docs): improve documentation of module map inputs [\#1647](https://github.com/hashicorp/terraform-cdk/pull/1647)
+- fix: fix snapshot tests [\#1636](https://github.com/hashicorp/terraform-cdk/pull/1636)
+- fix(cli): parse JSON log lines if possible [\#1617](https://github.com/hashicorp/terraform-cdk/pull/1617)
+- fix(cli): fix go template stack name replacing for Terraform Cloud [\#1598](https://github.com/hashicorp/terraform-cdk/pull/1598)
+- fix: Support Auto Updating Snapshots for forks [\#1595](https://github.com/hashicorp/terraform-cdk/pull/1595)
+- fix(examples): update eks python example [\#1400](https://github.com/hashicorp/terraform-cdk/pull/1400)
+
+### chore
+
+- chore(docs): sync up changelog and upgrade guide [\#1671](https://github.com/hashicorp/terraform-cdk/pull/1671)
+- chore(docs): update cross stack ref docs for multi-stack deployment story [\#1665](https://github.com/hashicorp/terraform-cdk/pull/1665)
+- chore: npm-check-updates && yarn upgrade [\#1663](https://github.com/hashicorp/terraform-cdk/pull/1663)
+- chore(cli): remove deploying resource overview [\#1648](https://github.com/hashicorp/terraform-cdk/pull/1648)
+- chore(docs): Update README and remove old files [\#1643](https://github.com/hashicorp/terraform-cdk/pull/1643)
+- chore(cli): remove json flag from synth [\#1640](https://github.com/hashicorp/terraform-cdk/pull/1640)
+- chore: disable watch test [\#1638](https://github.com/hashicorp/terraform-cdk/pull/1638)
+- chore: use distinct GitHub token to push changes [\#1623](https://github.com/hashicorp/terraform-cdk/pull/1623)
+- chore: npm-check-updates && yarn upgrade [\#1622](https://github.com/hashicorp/terraform-cdk/pull/1622)
+- chore: npm-check-updates && yarn upgrade [\#1614](https://github.com/hashicorp/terraform-cdk/pull/1614)
+- chore(docs): add vercel config [\#1611](https://github.com/hashicorp/terraform-cdk/pull/1611)
+- chore(docs): Update page title and description [\#1603](https://github.com/hashicorp/terraform-cdk/pull/1603)
+- chore: npm-check-updates && yarn upgrade [\#1600](https://github.com/hashicorp/terraform-cdk/pull/1600)
+- chore(docs): Remove broken link on overview page [\#1594](https://github.com/hashicorp/terraform-cdk/pull/1594)
+- chore(provider-generator): Include Provider Version in Generated Bindings [\#1586](https://github.com/hashicorp/terraform-cdk/pull/1586)
+- chore(cli): remove date-fns dependency [\#1492](https://github.com/hashicorp/terraform-cdk/pull/1492)
+
+### refactor
+
+- refactor: separate logic from UI layer [\#1511](https://github.com/hashicorp/terraform-cdk/pull/1511)
 
 ## 0.9.4
 

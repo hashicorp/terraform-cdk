@@ -30,14 +30,14 @@ export class TerraformCli implements Terraform {
   constructor(
     private readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
-    onLog = (_stateName: string) =>
+    createTerraformLogHandler = (_phase: string) =>
       (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
-    this.onStdout = (stateName: string) => (stdout: Buffer) =>
-      onLog(stateName)(stdout.toString());
-    this.onStderr = (stateName: string) => (stderr: string | Uint8Array) =>
-      onLog(stateName)(stderr.toString(), true);
+    this.onStdout = (phase: string) => (stdout: Buffer) =>
+      createTerraformLogHandler(phase)(stdout.toString());
+    this.onStderr = (phase: string) => (stderr: string | Uint8Array) =>
+      createTerraformLogHandler(phase)(stderr.toString(), true);
   }
 
   public async init(): Promise<void> {
@@ -87,7 +87,6 @@ export class TerraformCli implements Terraform {
 
   public async deploy(
     planFile: string,
-    stdout: (chunk: Buffer) => any,
     extraOptions: string[] = []
   ): Promise<void> {
     await this.setUserAgent();
@@ -104,24 +103,18 @@ export class TerraformCli implements Terraform {
         ...(planFile ? [planFile] : []),
       ],
       { cwd: this.workdir, env: process.env, signal: this.abortSignal },
-      (buffer: Buffer) => {
-        this.onStdout("deploy")(buffer);
-        stdout(buffer);
-      },
+      this.onStdout("deploy"),
       this.onStderr("deploy")
     );
   }
 
-  public async destroy(stdout: (chunk: Buffer) => any): Promise<void> {
+  public async destroy(): Promise<void> {
     await this.setUserAgent();
     await exec(
       terraformBinaryName,
       ["destroy", "-auto-approve", "-input=false"],
       { cwd: this.workdir, env: process.env, signal: this.abortSignal },
-      (buffer: Buffer) => {
-        this.onStdout("destroy")(buffer);
-        stdout(buffer);
-      },
+      this.onStdout("destroy"),
       this.onStderr("destroy")
     );
   }

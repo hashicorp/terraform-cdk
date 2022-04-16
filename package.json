@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.9.4",
+  "version": "0.10.1",
   "private": true,
   "scripts": {
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
@@ -73,7 +73,7 @@
     "husky": ">=6",
     "lerna": "^4.0.0",
     "lint-staged": ">=10",
-    "prettier": "^2.6.1",
+    "prettier": "^2.6.2",
     "standard-version": "^9.3.2"
   },
   "lint-staged": {

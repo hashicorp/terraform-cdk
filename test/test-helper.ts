@@ -1,13 +1,23 @@
 import { TemplateServer } from "./template-server";
-import { spawn } from "child_process";
+import { spawn, execSync } from "child_process";
+import * as execa from "execa";
 import { spawn as ptySpawn } from "node-pty";
 
-const { execSync } = require("child_process");
 const os = require("os");
 const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra");
 const stripAnsi = require("strip-ansi");
+
+function execSyncLogErrors(...args: Parameters<typeof execSync>) {
+  try {
+    return execSync(...args);
+  } catch (e) {
+    console.log(e.stdout?.toString());
+    console.error(e.stderr?.toString());
+    throw e;
+  }
+}
 
 export class QueryableStack {
   private readonly stack: Record<string, any>;
@@ -169,7 +179,7 @@ export class TestDriver {
 
   list = (flags?: string) => {
     return stripAnsi(
-      execSync(`cdktf list ${flags ? flags : ""}`, {
+      execSyncLogErrors(`cdktf list ${flags ? flags : ""}`, {
         env: this.env,
       }).toString()
     );
@@ -177,30 +187,39 @@ export class TestDriver {
 
   diff = (stackName?: string) => {
     return stripAnsi(
-      execSync(`cdktf diff ${stackName ? stackName : ""}`, {
+      execSyncLogErrors(`cdktf diff ${stackName ? stackName : ""}`, {
         env: this.env,
       }).toString()
     );
   };
 
-  deploy = (stackNames?: string[], outputsFilePath?: string) => {
-    return stripAnsi(
-      execSync(
-        `cdktf deploy ${
-          stackNames ? stackNames.join(" ") : ""
-        } --auto-approve ${
-          outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
-        }`,
-        { env: this.env }
-      ).toString()
+  deploy = async (stackNames?: string[], outputsFilePath?: string) => {
+    const result = await execa(
+      "cdktf",
+      [
+        "deploy",
+        ...(stackNames || []),
+        "--auto-approve",
+        ...(outputsFilePath ? [`--outputs-file=${outputsFilePath}`] : []),
+      ],
+      { env: { ...process.env, ...this.env } } // make sure env is up to date
     );
+    return stripAnsi(result.stdout);
   };
 
-  output = (stackName?: string, outputsFilePath?: string) => {
+  output = (
+    stackName?: string,
+    outputsFilePath?: string,
+    includeSensitiveOutputs?: boolean
+  ) => {
     return stripAnsi(
-      execSync(
+      execSyncLogErrors(
         `cdktf output ${stackName ? stackName : ""} ${
           outputsFilePath ? `--outputs-file=${outputsFilePath}` : ""
+        } ${
+          includeSensitiveOutputs
+            ? `--outputs-file-include-sensitive-outputs=true`
+            : ""
         }`,
         { env: this.env }
       ).toString()
@@ -209,7 +228,7 @@ export class TestDriver {
 
   destroy = (stackNames?: string[]) => {
     return stripAnsi(
-      execSync(
+      execSyncLogErrors(
         `cdktf destroy ${
           stackNames ? stackNames.join(" ") : ""
         } --auto-approve`,
@@ -250,10 +269,13 @@ export class TestDriver {
     await this.init("csharp");
     this.copyFiles("Main.cs", "cdktf.json");
     await this.get();
-    execSync("dotnet add reference .gen/Providers.Null/Providers.Null.csproj", {
-      stdio: "inherit",
-      env: this.env,
-    });
+    execSyncLogErrors(
+      "dotnet add reference .gen/Providers.Null/Providers.Null.csproj",
+      {
+        stdio: "inherit",
+        env: this.env,
+      }
+    );
   };
 
   setupJavaProject = async () => {

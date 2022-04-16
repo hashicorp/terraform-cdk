@@ -2,11 +2,12 @@ import * as yargs from "yargs";
 import { config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
 import { Errors } from "../../lib/errors";
+import { BaseCommand } from "./helper/base-command";
 
 const config = cfg.readConfigSync();
 
-class Command implements yargs.CommandModule {
-  public readonly command = "watch [OPTIONS] <stacks..>";
+class Command extends BaseCommand {
+  public readonly command = "watch [stacks..]";
   public readonly describe =
     "[experimental] Watch for file changes and automatically trigger a deploy";
 
@@ -42,11 +43,11 @@ class Command implements yargs.CommandModule {
       })
       .showHelpOnFail(true);
 
-  public async handler(argv: any) {
+  public async handleCommand(argv: any) {
     Errors.setScope("watch");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
-    api.watch(argv);
+    await api.watch(argv);
   }
 }
 

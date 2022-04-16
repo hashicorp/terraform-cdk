@@ -98,6 +98,8 @@ export const valueToTs = (
             const shouldBeArray =
               typeof value === "object" &&
               !Array.isArray(value) &&
+              getBlockTypeAtPath(scope.providerSchema, itemPath)?.max_items !==
+                1 &&
               key !== "tags";
 
             return t.objectProperty(

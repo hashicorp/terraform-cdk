@@ -1,11 +1,11 @@
-import { interpret, InterpreterFrom } from "xstate";
-import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack } from "./synth-stack";
-import { stackExecutionMachine } from "./stack-execution";
-import { TerraformPlan } from "./models/terraform";
-import { NestedTerraformOutputs } from "./output";
+import { Terraform, TerraformPlan } from "./models/terraform";
+import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
+import { TerraformJson } from "./terraform-json";
+import { TerraformCloud } from "./models/terraform-cloud";
+import { TerraformCli } from "./models/terraform-cli";
 
 export type StackUpdate =
   | {
@@ -55,6 +55,10 @@ export type StackUpdate =
       type: "errored";
       stackName: string;
       error: string;
+    }
+  | {
+      type: "dismissed";
+      stackName: string;
     };
 
 export type StackApprovalUpdate = {
@@ -65,194 +69,58 @@ export type StackApprovalUpdate = {
   reject: () => void;
 };
 
+async function getTerraformClient(
+  abortSignal: AbortSignal,
+  stack: SynthesizedStack,
+  isSpeculative: boolean,
+  createTerraformLogHandler: (
+    phase: string
+  ) => (message: string, isError?: boolean) => void
+): Promise<Terraform> {
+  const parsedStack = JSON.parse(stack.content) as TerraformJson;
+
+  if (parsedStack.terraform?.backend?.remote) {
+    const tfClient = new TerraformCloud(
+      abortSignal,
+      stack,
+      parsedStack.terraform.backend.remote,
+      isSpeculative,
+      createTerraformLogHandler
+    );
+    if (await tfClient.isRemoteWorkspace()) {
+      return tfClient;
+    }
+  }
+  return new TerraformCli(abortSignal, stack, createTerraformLogHandler);
+}
+
+type CdktfStackOptions = {
+  stack: SynthesizedStack;
+  onUpdate: (update: StackUpdate | StackApprovalUpdate) => void;
+  onLog?: (log: { message: string; isError: boolean }) => void;
+  autoApprove?: boolean;
+  abortSignal: AbortSignal;
+};
+type CdktfStackStates =
+  | StackUpdate["type"]
+  | StackApprovalUpdate["type"]
+  | "idle"
+  | "done"
+  | "error";
+
 export class CdktfStack {
-  public stateMachine: InterpreterFrom<typeof stackExecutionMachine>;
-  public stackName: string;
   public currentPlan?: TerraformPlan;
   public stack: SynthesizedStack;
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
   public stopped = false;
+  public currentWorkPromise: Promise<void> | undefined;
+  public readonly currentState: CdktfStackStates = "idle";
 
-  constructor({
-    stack,
-    onUpdate,
-    onLog,
-    autoApprove,
-    abortSignal = new AbortController().signal,
-  }: {
-    stack: SynthesizedStack;
-    onUpdate: (update: StackUpdate | StackApprovalUpdate) => void;
-    onLog?: (log: { message: string }) => void;
-    autoApprove?: boolean;
-    abortSignal: AbortSignal;
-  }) {
-    this.stack = stack;
-    this.stackName = stack.name;
-    this.stateMachine = interpret(
-      stackExecutionMachine.withContext({
-        stack,
-        autoApprove,
-        abortSignal,
-
-        onProgress: (event) => {
-          switch (event.type) {
-            case "LOG":
-              {
-                const message = extractJsonLogIfPresent(event.message);
-                logger.debug(
-                  `[${event.stackName}](${event.stateName}): ${message}`
-                );
-                if (onLog) {
-                  onLog({ message });
-                }
-              }
-
-              break;
-
-            case "STACK_SELECTED":
-              this.stackName = event.stackName;
-              break;
-
-            case "RESOURCE_UPDATE":
-              {
-                if (event.stateName === "deploy") {
-                  onUpdate({
-                    type: "deploy update",
-                    stackName: event.stackName,
-                    deployOutput: event.stdout,
-                  });
-                } else if (event.stateName === "destroy") {
-                  onUpdate({
-                    type: "destroy update",
-                    stackName: event.stackName,
-                    destroyOutput: event.stdout,
-                  });
-                } else {
-                  logger.error("Unknown state name: " + event.stateName);
-                }
-              }
-              break;
-          }
-        },
-      })
-    );
-
-    this.stateMachine.onTransition((state) => {
-      if (!state) {
-        return;
-      }
-
-      const lastState = (state.history?.toStrings() || [])[0];
-
-      logger.debug(
-        `StackExecution State machine for ${this.stackName} transitions: ${
-          lastState || "unknown"
-        } -> ${this.currentState}`
-      );
-      const ctx = state.context;
-
-      switch (lastState) {
-        case "diff":
-          this.currentPlan = ctx.targetStackPlan;
-          onUpdate({
-            type: "planned",
-            stackName: this.stackName,
-            plan: ctx.targetStackPlan!,
-          });
-          break;
-
-        case "gatherOutputs": {
-          this.outputs = state.context.outputs!;
-          this.outputsByConstructId = state.context.outputsByConstructId!;
-
-          if (state.context.targetAction === "deploy") {
-            onUpdate({
-              type: "deployed",
-              stackName: this.stackName,
-              outputs: this.outputs,
-              outputsByConstructId: this.outputsByConstructId,
-            });
-          }
-          if (state.context.targetAction === "destroy") {
-            onUpdate({
-              type: "destroyed",
-              stackName: this.stackName,
-            });
-          }
-          if (state.context.targetAction === "output") {
-            onUpdate({
-              type: "outputs fetched",
-              stackName: this.stackName!,
-              outputs: this.outputs,
-              outputsByConstructId: this.outputsByConstructId,
-            });
-          }
-          break;
-        }
-
-        case "destroy":
-          onUpdate({
-            type: "destroyed",
-            stackName: this.stackName!,
-          });
-      }
-
-      switch (this.currentState) {
-        case "deploy":
-          onUpdate({
-            type: "deploying",
-            stackName: this.stackName!,
-          });
-          break;
-
-        case "destroy":
-          onUpdate({
-            type: "destroying",
-            stackName: this.stackName!,
-          });
-          break;
-
-        case "diff":
-          onUpdate({
-            type: "planning",
-            stackName: this.stackName!,
-          });
-          break;
-        case "waitingForApproval":
-          {
-            if (this.stopped) {
-              this.stateMachine.send("APPROVAL_ABORTED");
-            } else {
-              onUpdate({
-                type: "waiting for stack approval",
-                stackName: this.stackName!,
-                plan: this.currentPlan!,
-                approve: () => {
-                  this.stateMachine.send("APPROVAL_GIVEN");
-                },
-                reject: () => {
-                  this.stateMachine.send("APPROVAL_ABORTED");
-                },
-              });
-            }
-          }
-          break;
-        case "error":
-          onUpdate({
-            type: "errored",
-            stackName: this.stackName!,
-            error: ctx.message || "Unknown error",
-          });
-      }
-    });
-
-    this.stateMachine.start();
+  constructor(public options: CdktfStackOptions) {
+    this.stack = options.stack;
   }
 
-  public get currentState(): string {
-    return this.stateMachine.state.toStrings()[0] || "idle";
-  }
   public get isPending(): boolean {
     return this.currentState === "idle" && !this.stopped;
   }
@@ -266,83 +134,201 @@ export class CdktfStack {
   public get isRunning(): boolean {
     return !this.isPending && !this.isDone;
   }
-  public get currentWorkPromise(): Promise<void> | undefined {
-    if (!this.isRunning) {
-      return undefined;
-    }
 
-    return this.waitOnMachineDone();
+  private updateState(
+    update:
+      | StackUpdate
+      | StackApprovalUpdate
+      | { type: "idle" }
+      | { type: "done" }
+      | { type: "error" }
+  ) {
+    logger.debug(`[${this.stack.name}]: ${update.type}`);
+    (this.currentState as CdktfStackStates) = update.type;
+    switch (update.type) {
+      case "idle":
+      case "done":
+      case "error":
+        break;
+
+      case "outputs fetched":
+      case "deployed":
+        logger.debug(`Outputs: ${JSON.stringify(update.outputs)}`);
+        logger.debug(
+          `OutputsByConstructId: ${JSON.stringify(update.outputsByConstructId)}`
+        );
+        this.outputs = update.outputs;
+        this.outputsByConstructId = update.outputsByConstructId;
+        this.options.onUpdate(update);
+        break;
+
+      default:
+        this.options.onUpdate(update);
+        break;
+    }
   }
 
-  private waitOnMachineDone(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (this.currentState === "done") {
-        resolve();
+  private createTerraformLogHandler(
+    phase: string
+  ): (message: string, isError?: boolean) => void {
+    const onLog = this.options.onLog;
+    return (msg: string, isError = false) => {
+      const message = extractJsonLogIfPresent(msg);
+      logger.debug(`[${this.options.stack.name}](${phase}): ${msg}`);
+      if (onLog) {
+        onLog({ message, isError });
       }
+    };
+  }
 
-      if (this.currentState === "error") {
-        reject(new Error(this.stateMachine.state.context.message));
-      }
-
-      this.stateMachine.onTransition((state) => {
-        if (state.matches("error")) {
-          reject(new Error(state.context.message));
-        } else if (state.matches("done")) {
-          resolve();
-        }
+  private waitForApproval(plan: TerraformPlan) {
+    return new Promise<boolean>((resolve) => {
+      this.updateState({
+        type: "waiting for stack approval",
+        stackName: this.stack.name,
+        plan: plan,
+        approve: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        },
       });
     });
   }
 
-  public async diff(stackName?: string) {
-    this.stateMachine.send({
-      type: "START",
-      targetAction: "diff",
-      targetStack: stackName,
-    });
+  private async initalizeTerraform({
+    isSpeculative,
+  }: {
+    isSpeculative: boolean;
+  }) {
+    const terraform = await getTerraformClient(
+      this.options.abortSignal,
+      this.options.stack,
+      isSpeculative,
+      this.createTerraformLogHandler.bind(this)
+    );
 
-    return this.waitOnMachineDone();
+    await terraform.init();
+
+    return terraform;
   }
 
-  public async deploy(stackName?: string) {
-    this.stateMachine.send({
-      type: "START",
-      targetAction: "deploy",
-      targetStack: stackName,
-    });
+  private async run(cb: () => Promise<void>) {
+    if (this.stopped) {
+      return;
+    }
 
-    return this.waitOnMachineDone();
+    try {
+      this.currentWorkPromise = cb();
+      await this.currentWorkPromise;
+      this.updateState({ type: "done" });
+    } catch (e) {
+      this.currentWorkPromise = undefined;
+      this.updateState({
+        type: "errored",
+        stackName: this.stack.name,
+        error: String(e),
+      });
+    }
+    this.currentWorkPromise = undefined;
   }
 
-  public async destroy(stackName?: string) {
-    this.stateMachine.send({
-      type: "START",
-      targetAction: "destroy",
-      targetStack: stackName,
-    });
+  public async diff() {
+    await this.run(async () => {
+      this.updateState({ type: "planning", stackName: this.stack.name });
+      const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
-    return this.waitOnMachineDone();
+      const plan = await terraform.plan(false);
+      this.currentPlan = plan;
+      this.updateState({ type: "planned", stackName: this.stack.name, plan });
+    });
+  }
+
+  public async deploy() {
+    await this.run(async () => {
+      this.updateState({ type: "planning", stackName: this.stack.name });
+      const terraform = await this.initalizeTerraform({ isSpeculative: false });
+
+      const plan = await terraform.plan(false);
+      this.updateState({ type: "planned", stackName: this.stack.name, plan });
+
+      const approved = this.options.autoApprove
+        ? true
+        : await this.waitForApproval(plan);
+
+      if (!approved) {
+        this.updateState({ type: "dismissed", stackName: this.stack.name });
+        return;
+      }
+
+      this.updateState({ type: "deploying", stackName: this.stack.name });
+      if (plan.needsApply) {
+        await terraform.deploy(plan.planFile);
+      }
+
+      const outputs = await terraform.output();
+      const outputsByConstructId = getConstructIdsForOutputs(
+        JSON.parse(this.stack.content),
+        outputs
+      );
+
+      this.updateState({
+        type: "deployed",
+        stackName: this.stack.name,
+        outputs,
+        outputsByConstructId,
+      });
+    });
+  }
+
+  public async destroy() {
+    await this.run(async () => {
+      this.updateState({ type: "planning", stackName: this.stack.name });
+      const terraform = await this.initalizeTerraform({ isSpeculative: false });
+
+      const plan = await terraform.plan(true);
+      this.updateState({ type: "planned", stackName: this.stack.name, plan });
+
+      const approved = this.options.autoApprove
+        ? true
+        : await this.waitForApproval(plan);
+      if (!approved) {
+        this.updateState({ type: "dismissed", stackName: this.stack.name });
+        return;
+      }
+
+      this.updateState({ type: "destroying", stackName: this.stack.name });
+      await terraform.destroy();
+
+      this.updateState({
+        type: "destroyed",
+        stackName: this.stack.name,
+      });
+    });
   }
 
   public async fetchOutputs() {
-    this.stateMachine.send({
-      type: "START",
-      targetAction: "output",
-      targetStack: this.stackName,
-    });
+    await this.run(async () => {
+      const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
-    await this.waitOnMachineDone();
+      const outputs = await terraform.output();
+      const outputsByConstructId = getConstructIdsForOutputs(
+        JSON.parse(this.stack.content),
+        outputs
+      );
+      this.updateState({
+        type: "outputs fetched",
+        stackName: this.stack.name,
+        outputs,
+        outputsByConstructId,
+      });
+    });
 
     return this.outputs;
   }
 
   public async stop() {
-    // when we reach waiting for approval this will auto-reject
     this.stopped = true;
-
-    // If we have not started yet, we can directly abort
-    if (this.stateMachine.state.matches("idle")) {
-      this.stateMachine.stop();
-    }
   }
 }

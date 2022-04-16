@@ -5,6 +5,8 @@ import {
   Testing,
   TerraformAsset,
   TerraformOutput,
+  RemoteBackend,
+  NamedRemoteWorkspace,
 } from "cdktf";
 import * as NullProvider from "./.gen/providers/null";
 import * as local from "./.gen/providers/local";
@@ -29,11 +31,6 @@ export class SourceStack extends TerraformStack {
       length: 32,
     });
 
-    new local.File(this, "file", {
-      filename: "../../../origin-file.txt",
-      content: this.password.result,
-    });
-
     const nullResouce = new NullProvider.Resource(this, "test", {});
 
     nullResouce.addOverride("provisioner", [
@@ -45,19 +42,21 @@ export class SourceStack extends TerraformStack {
     ]);
 
     if (!localExecution) {
-      this.addOverride("terraform.backend", {
-        remote: {
-          organization,
-          workspaces: {
-            name,
-          },
-          token,
-        },
+      new RemoteBackend(this, {
+        organization: organization!,
+        workspaces: new NamedRemoteWorkspace(name!),
+        token,
       });
     }
 
     new TerraformOutput(this, "output", {
       value: "constant value",
+    });
+
+    new TerraformOutput(this, "password_output", {
+      value: this.password.result,
+      staticId: true,
+      sensitive: true,
     });
 
     const asset = new TerraformAsset(this, "asset-a", {

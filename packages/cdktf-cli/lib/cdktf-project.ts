@@ -156,20 +156,20 @@ function findAllNestedDependantStacks(
 ): CdktfStack[] {
   const dependantStacks = findAllDependantStacks(stackExecutors, stackName);
   dependantStacks.forEach((stack) => {
-    if (knownDependantStackNames.has(stack.stackName)) {
+    if (knownDependantStackNames.has(stack.stack.name)) {
       return;
     }
 
-    knownDependantStackNames.add(stack.stackName);
+    knownDependantStackNames.add(stack.stack.name);
     findAllNestedDependantStacks(
       stackExecutors,
-      stack.stackName,
+      stack.stack.name,
       knownDependantStackNames
     );
   });
 
   return stackExecutors.filter((executor) =>
-    knownDependantStackNames.has(executor.stackName)
+    knownDependantStackNames.has(executor.stack.name)
   );
 }
 
@@ -559,7 +559,7 @@ export class CdktfProject {
     if (unprocessedStacks.length > 0) {
       throw Errors.External(
         `Some stacks failed to deploy: ${unprocessedStacks
-          .map((s) => s.stackName)
+          .map((s) => s.stack.name)
           .join(", ")}. Please check the logs for more information.`
       );
     }
@@ -576,7 +576,7 @@ export class CdktfProject {
 
     this.stopAllStacksThatCanNotRunWithout = (stackName: string) => {
       const stackExecutor = this.stacksToRun.find(
-        (s) => s.stackName === stackName
+        (s) => s.stack.name === stackName
       );
       if (!stackExecutor) {
         throw Errors.Internal(
@@ -588,7 +588,7 @@ export class CdktfProject {
         this.stopAllStacksThatCanNotRunWithout(dependant);
 
         const dependantStack = this.stacksToRun.find(
-          (s) => s.stackName === dependant
+          (s) => s.stack.name === dependant
         );
         if (!dependantStack) {
           throw Errors.Internal(
@@ -617,7 +617,7 @@ export class CdktfProject {
     if (unprocessedStacks.length > 0) {
       throw Errors.External(
         `Some stacks failed to destroy: ${unprocessedStacks
-          .map((s) => s.stackName)
+          .map((s) => s.stack.name)
           .join(", ")}. Please check the logs for more information.`
       );
     }
@@ -644,7 +644,7 @@ export class CdktfProject {
       this.stacksToRun.map(async (s) => {
         const output = await s.fetchOutputs();
         return {
-          [s.stackName]: output,
+          [s.stack.name]: output,
         };
       })
     );

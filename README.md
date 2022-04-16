@@ -20,7 +20,7 @@ CDKTF includes two packages:
 - [cdktf-cli](./packages/cdktf-cli) - A CLI that allows users to run commands to initialize, import, and synthesize CDK for Terraform applications.
 - [cdktf](./packages/cdktf) - A library for defining Terraform resources using programming constructs.
 
-> **Note:** CDK for Terraform is under active development, and we are still iterating on key workflows and best practices. [Learn more about maturity and production readiness below](#maturity).
+> **Note:** CDK for Terraform is under active development, and we are still iterating on key workflows and best practices. [Learn more about the project's maturity below](#maturity).
 
 ## Get Started
 
@@ -48,11 +48,9 @@ Refer to the [CDKTF documentation](https://www.terraform.io/docs/cdktf/index.htm
 
 <a name="maturity"></a>
 
-## Project Maturity and Production Readiness
+## Project Maturity
 
-CDK for Terraform is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product.
-
-This tool can be used with Terraform Cloud and Terraform Enterprise, but is not eligible for commercial support, and is not officially recommended for production use cases. Like other HashiCorp pre-1.0 tools, some early-adopter users are already using CDK for Terraform in production, and we are working with those users to validate and improve workflows.
+CDK for Terraform is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product. Like other HashiCorp pre-1.0 tools, some early-adopter users are already using CDK for Terraform in production, and we are working with those users to validate and improve workflows.
 
 Early adopters of CDK for Terraform should expect to encounter and work around bugs occasionally, may need to refactor their codebase with each major release, and will intermittently need to use HCL and understand how JSON Terraform configurations are generated, for example to use [overrides](https://github.com/hashicorp/terraform-cdk/blob/main/docs/working-with-cdk-for-terraform/escape-hatch.md) to use Terraform functionality that cannot currently be expressed using CDK for Terraform. Our goal is to provide a user experience where this is an exceptional edge case. If you’re comfortable with this level of troubleshooting, we’re very interested in your feedback and practical experience.
 

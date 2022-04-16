@@ -136,7 +136,15 @@ function terraformFunction(
       }
       return call(
         name,
-        args.map((arg, i) => argValidators[i](arg))
+        args.map((arg, i) => {
+          try {
+            return argValidators[i](arg);
+          } catch (error) {
+            throw new Error(
+              `Argument ${i} of ${name} failed the validation: ${error}`
+            );
+          }
+        })
       );
     } else {
       return call(name, argValidators(args));
