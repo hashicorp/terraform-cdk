@@ -8,7 +8,8 @@ DOCKER_RUN_FLAGS=--interactive \
 		--publish "3000:3000" \
 		-e "IS_CONTENT_PREVIEW=true" \
 		-e "NAV_DATA_DIRNAME=./preview/data" \
-		-e "CONTENT_DIRNAME=./preview/docs"
+		-e "CONTENT_DIRNAME=./preview/docs" \
+		-e "CURRENT_GIT_BRANCH=$$(git rev-parse --abbrev-ref HEAD)"
 
 # Default: run this if working on the website locally to run in watch mode.
 website:
