@@ -22,7 +22,6 @@ const providers = [
 enum Synth {
   yes,
   needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
-  needsAFix_MaximumCallStackSizeExceeded, // https://github.com/hashicorp/terraform-cdk/issues/1551
   needsAFix_UnforseenClassRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
   needsAFix_UnforseenPropertyRename, // https://github.com/hashicorp/terraform-cdk/issues/1708
   needsAFix_StringIsNotAssignableToListOfString, // https://github.com/hashicorp/terraform-cdk/issues/1553
@@ -88,12 +87,7 @@ const createTestCase =
         });
       }
 
-      if (
-        [
-          Synth.needsAFix_BooleanAsIResolvable,
-          Synth.needsAFix_MaximumCallStackSizeExceeded,
-        ].includes(shouldSynth)
-      ) {
+      if ([Synth.needsAFix_BooleanAsIResolvable].includes(shouldSynth)) {
         it.todo("plans");
       }
     });
@@ -734,6 +728,9 @@ describe("convert", () => {
   testCase.test(
     "for_each loops",
     `
+    provider "aws" {
+      region                      = "us-east-1"
+    }
       variable "users" {
         type = set(string)
       }
@@ -748,7 +745,7 @@ describe("convert", () => {
         }
       }
       `,
-    Synth.needsAFix_MaximumCallStackSizeExceeded
+    Synth.yes
   );
 
   testCase.test(
@@ -832,6 +829,9 @@ describe("convert", () => {
   testCase.test(
     "dynamic blocks",
     `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       variable "settings" {
         type = list(map(string))
       }
@@ -854,7 +854,7 @@ describe("convert", () => {
           }
         }
       }`,
-    Synth.needsAFix_MaximumCallStackSizeExceeded
+    Synth.yes
   );
 
   testCase.test(
