@@ -85,10 +85,13 @@ export class AttributeModel {
   public get getterType(): GetterType {
     let getterType: GetterType = { _type: "plain" };
 
+    if (this.isProvider) {
+      return getterType;
+    }
+
     if (
       // Complex Computed List Map
-      this.computed &&
-      !this.isOptional &&
+      !this.isAssignable &&
       this.type.isComputedComplex &&
       this.type.isList &&
       this.type.isMap
@@ -97,20 +100,25 @@ export class AttributeModel {
         _type: "stored_class",
       };
     } else if (
-      // Complex Computed List
-      this.computed &&
-      !this.isOptional &&
-      this.type.isComputedComplex &&
+      // Complex List/Set
+      this.type.isComplex &&
       (this.type.isList || this.type.isSet)
     ) {
       getterType = {
         _type: "stored_class",
       };
     } else if (
-      // Complex Computed Map
-      this.computed &&
-      !this.isOptional &&
-      this.type.isComputedComplex &&
+      // Complex Map
+      this.type.isComplex &&
+      this.type.isMap
+    ) {
+      getterType = {
+        _type: "stored_class",
+      };
+    } else if (
+      // Computed Map
+      this.type.isComputed &&
+      !this.isAssignable &&
       this.type.isMap
     ) {
       getterType = {
@@ -118,11 +126,11 @@ export class AttributeModel {
       };
     }
 
-    if (this.type.isSingleItem && this.type.isComplex && !this.isProvider) {
+    if (this.type.isSingleItem) {
       getterType = { _type: "stored_class" };
     }
 
-    if (this.type.isNested && !this.isAssignable && !this.isProvider) {
+    if (this.type.isNested) {
       getterType = { _type: "stored_class" };
     }
 
@@ -161,10 +169,7 @@ export class AttributeModel {
   }
 
   public get isStored(): boolean {
-    return (
-      (this.isAssignable && !this.isConfigIgnored) ||
-      this.getterType._type === "stored_class"
-    );
+    return this.isAssignable && !this.isConfigIgnored;
   }
 
   public get setterType(): SetterType {
@@ -173,13 +178,10 @@ export class AttributeModel {
     }
 
     if (this.getterType._type === "stored_class") {
-      if (this.type.isSingleItem) {
-        return {
-          _type: "stored_class",
-          type: this.type.name,
-        };
-      }
-      return { _type: "none" }; // complex lists currently only support readonly attributes (aka computed & !optional)
+      return {
+        _type: "stored_class",
+        type: this.type.name,
+      };
     }
 
     return {

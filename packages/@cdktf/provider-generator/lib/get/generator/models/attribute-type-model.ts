@@ -124,7 +124,7 @@ export class AttributeTypeModel {
   }
 
   public get isComplex(): boolean {
-    return !!this.struct || (this.isMap && this.isComputed);
+    return !!this.struct;
   }
 
   public get isPrimitive(): boolean {

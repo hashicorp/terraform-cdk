@@ -23,14 +23,12 @@ export class AttributesEmitter {
 
     const getterType = att.getterType;
 
-    if (isStored) {
-      if (getterType._type === "stored_class") {
-        this.code.line(
-          `private ${att.storageName} = ${this.storedClassInit(att)};`
-        );
-      } else {
-        this.code.line(`private ${att.storageName}?: ${att.type.name}; `);
-      }
+    if (getterType._type === "stored_class") {
+      this.code.line(
+        `private ${att.storageName} = ${this.storedClassInit(att)};`
+      );
+    } else if (isStored) {
+      this.code.line(`private ${att.storageName}?: ${att.type.name}; `);
     }
 
     switch (getterType._type) {
@@ -80,11 +78,7 @@ export class AttributesEmitter {
         this.code.openBlock(
           `public put${titleCase(att.name)}(value: ${setterType.type})`
         );
-        if ((att.type.isList || att.type.isSet) && !att.type.isSingleItem) {
-          this.code.line(`this.${att.storageName}[0].internalValue = value;`);
-        } else {
-          this.code.line(`this.${att.storageName}.internalValue = value;`);
-        }
+        this.code.line(`this.${att.storageName}.internalValue = value;`);
         this.code.closeBlock();
         break;
     }
@@ -95,13 +89,7 @@ export class AttributesEmitter {
       );
 
       if (setterType._type === "stored_class") {
-        if ((att.type.isList || att.type.isSet) && !att.type.isSingleItem) {
-          this.code.line(
-            `this.${att.storageName}[0].internalValue = undefined;`
-          );
-        } else {
-          this.code.line(`this.${att.storageName}.internalValue = undefined;`);
-        }
+        this.code.line(`this.${att.storageName}.internalValue = undefined;`);
       } else {
         this.code.line(`this.${att.storageName} = undefined;`);
       }
@@ -128,8 +116,12 @@ export class AttributesEmitter {
   // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutputReference(this, "metadata")'
   private storedClassInit(att: AttributeModel) {
     if ((att.type.isList || att.type.isSet) && !att.type.isSingleItem) {
-      // list
-      return `new ${att.type.name}List(this, "${att.terraformName}", ${att.type.isSet})`;
+      // list/set
+      if (att.type.struct) {
+        return `new ${att.type.struct.name}List(this, "${att.terraformName}", ${att.type.isSet})`;
+      } else {
+        return `new ${att.type.name}List(this, "${att.terraformName}", ${att.type.isSet})`;
+      }
     } else if (att.type.isMap) {
       if (att.type.struct) {
         return `new ${att.type.struct.name}Map(this, "${att.terraformName}")`;
@@ -236,7 +228,9 @@ export class AttributesEmitter {
     const name = isStruct ? att.name : att.storageName;
     const customDefault = CUSTOM_DEFAULTS[att.terraformFullName];
 
-    const varReference = `${context}.${name}`;
+    const varReference = `${context}.${name}${
+      !isStruct && type.isComplex && !att.isProvider ? ".internalValue" : ""
+    }`;
     const defaultCheck =
       customDefault !== undefined
         ? `${varReference} === undefined ? ${customDefault} : `
@@ -310,14 +304,10 @@ export class AttributesEmitter {
         );
         break;
       case !isStruct && att.getterType._type === "stored_class":
-        const index =
-          (att.type.isList || att.type.isSet) && !att.type.isSingleItem
-            ? "[0]"
-            : "";
         this.code.line(
           `${att.terraformName}: ${defaultCheck}${downcaseFirst(
             type.name
-          )}ToTerraform(${varReference}${index}.internalValue),`
+          )}ToTerraform(${varReference}),`
         );
         break;
       case type.isComplex && !type.struct?.isClass && !type.isSingleItem:
