@@ -14,7 +14,7 @@
     "terraform-providers/openstack",
     "oci",
     "DataDog/datadog@~> 3.0",
-    "awscc"
+    "awscc@= 0.17.0"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
