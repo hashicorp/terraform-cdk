@@ -134,3 +134,22 @@ export async function getPackageVersion(
   );
   return libVersion ?? undefined;
 }
+
+export async function collectDebugInformation() {
+  const debugOutput: Record<string, string | null> = {};
+  const language = getLanguage();
+  debugOutput["language"] = language ?? null;
+  debugOutput["node"] = (await getNodeVersion()) ?? null;
+  if (language) {
+    debugOutput["cdktf"] = (await getPackageVersion(language, "cdktf")) ?? null;
+    debugOutput["constructs"] =
+      (await getPackageVersion(language, "constructs")) ?? null;
+    debugOutput["jsii"] = (await getPackageVersion(language, "jsii")) ?? null;
+  }
+
+  switch (language) {
+    case "go":
+      debugOutput["go"] = (await getGoVersion()) ?? null;
+  }
+  return debugOutput;
+}

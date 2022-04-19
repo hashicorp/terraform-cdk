@@ -40,12 +40,7 @@ import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
-import {
-  getGoVersion,
-  getLanguage,
-  getNodeVersion,
-  getPackageVersion,
-} from "../../lib/debug";
+import { collectDebugInformation } from "../../lib/debug";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -343,22 +338,7 @@ export async function output(argv: any) {
 
 export async function debug(argv: any) {
   const jsonOutput = argv.json;
-  const debugOutput: Record<string, string | null> = {};
-
-  const language = getLanguage();
-  debugOutput["language"] = language ?? null;
-  debugOutput["node"] = (await getNodeVersion()) ?? null;
-  if (language) {
-    debugOutput["cdktf"] = (await getPackageVersion(language, "cdktf")) ?? null;
-    debugOutput["constructs"] =
-      (await getPackageVersion(language, "constructs")) ?? null;
-    debugOutput["jsii"] = (await getPackageVersion(language, "jsii")) ?? null;
-  }
-
-  switch (language) {
-    case "go":
-      debugOutput["go"] = (await getGoVersion()) ?? null;
-  }
+  const debugOutput = await collectDebugInformation();
 
   if (jsonOutput) {
     console.log(JSON.stringify(debugOutput, null, 2));
