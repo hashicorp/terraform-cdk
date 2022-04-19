@@ -492,6 +492,10 @@ export class CdktfProject {
       getSingleStack(stacks, opts?.stackName, "diff")
     );
     await stack.diff();
+    if (!stack.currentPlan)
+      throw Errors.External(
+        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
+      );
     return stack.currentPlan;
   }
 
