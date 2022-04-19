@@ -83,6 +83,7 @@ yargs
   .command(require("./cmds/synth"))
   .command(require("./cmds/watch"))
   .command(require("./cmds/output"))
+  .command(require("./cmds/debug"))
   .recommendCommands()
   .exitProcess(false)
   .wrap(yargs.terminalWidth())
