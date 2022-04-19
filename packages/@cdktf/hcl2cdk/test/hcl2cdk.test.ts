@@ -22,10 +22,8 @@ const providers = [
 enum Synth {
   yes,
   needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
-  needsAFix_MaximumCallStackSizeExceeded, // https://github.com/hashicorp/terraform-cdk/issues/1551
   needsAFix_UnforseenClassRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
   needsAFix_UnforseenPropertyRename, // https://github.com/hashicorp/terraform-cdk/issues/1708
-  needsAFix_StringIsNotAssignableToListOfString, // https://github.com/hashicorp/terraform-cdk/issues/1553
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
@@ -88,12 +86,7 @@ const createTestCase =
         });
       }
 
-      if (
-        [
-          Synth.needsAFix_BooleanAsIResolvable,
-          Synth.needsAFix_MaximumCallStackSizeExceeded,
-        ].includes(shouldSynth)
-      ) {
+      if ([Synth.needsAFix_BooleanAsIResolvable].includes(shouldSynth)) {
         it.todo("plans");
       }
     });
@@ -734,6 +727,9 @@ describe("convert", () => {
   testCase.test(
     "for_each loops",
     `
+    provider "aws" {
+      region                      = "us-east-1"
+    }
       variable "users" {
         type = set(string)
       }
@@ -748,7 +744,7 @@ describe("convert", () => {
         }
       }
       `,
-    Synth.needsAFix_MaximumCallStackSizeExceeded
+    Synth.yes
   );
 
   testCase.test(
@@ -832,6 +828,9 @@ describe("convert", () => {
   testCase.test(
     "dynamic blocks",
     `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       variable "settings" {
         type = list(map(string))
       }
@@ -854,7 +853,7 @@ describe("convert", () => {
           }
         }
       }`,
-    Synth.needsAFix_MaximumCallStackSizeExceeded
+    Synth.yes
   );
 
   testCase.test(
@@ -943,6 +942,10 @@ describe("convert", () => {
   testCase.test(
     "complex for each loops",
     `
+  provider "aws" {
+    region = "us-east-1"
+  }
+
   resource "aws_acm_certificate" "example" {
     domain_name       = "example.com"
     validation_method = "DNS"
@@ -987,7 +990,7 @@ describe("convert", () => {
   }
           
   `,
-    Synth.needsAFix_StringIsNotAssignableToListOfString
+    Synth.yes
   );
 
   testCase.test(
