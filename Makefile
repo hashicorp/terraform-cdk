@@ -7,6 +7,7 @@ DOCKER_RUN_FLAGS=--interactive \
 		--volume "$(shell pwd)/website:/website/preview" \
 		--publish "3000:3000" \
 		-e "IS_CONTENT_PREVIEW=true" \
+		-e "PREVIEW_FROM_REPO=terraform-cdk" \
 		-e "NAV_DATA_DIRNAME=./preview/data" \
 		-e "CONTENT_DIRNAME=./preview/docs" \
 		-e "CURRENT_GIT_BRANCH=$$(git rev-parse --abbrev-ref HEAD)"
