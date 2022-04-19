@@ -7,7 +7,7 @@ import {
 } from "../../../lib/debug";
 import { Errors } from "../../../lib/errors";
 import { logger } from "../../../lib/logging";
-import { versionNumber } from "./version-check";
+import { versionNumber } from "../../../lib/version";
 
 function throwIfLowerVersion(
   language: string,

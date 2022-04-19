@@ -1,5 +1,5 @@
 import { ReportParams, ReportRequest } from "./checkpoint";
-import { versionNumber } from "../bin/cmds/helper/version-check";
+import { versionNumber } from "./version";
 
 // Errors that will emit telemetry events
 async function report(command: string, payload: Record<string, any>) {

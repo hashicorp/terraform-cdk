@@ -6,17 +6,11 @@ import * as path from "path";
 import * as os from "os";
 import * as semver from "semver";
 import { promisify } from "util";
+import { versionNumber } from "../../../lib/version";
 
 const ONE_DAY_IN_SECONDS = 1 * 24 * 60 * 60;
 
 const exec = promisify(_exec);
-
-export const DISPLAY_VERSION = `${versionNumber()}`;
-
-export function versionNumber(): string {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  return require("../../../package.json").version.replace(/\+[0-9a-f]+$/, "");
-}
 
 export class VersionCheckTTL {
   public static timestampFilePath(): string {

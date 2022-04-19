@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
 import ciDetect from "@npmcli/ci-detect";
 import { logger, processLoggerError } from "./logging";
-import { versionNumber } from "../bin/cmds/helper/version-check";
 import * as path from "path";
 import * as fs from "fs-extra";
+import { versionNumber } from "./version";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 

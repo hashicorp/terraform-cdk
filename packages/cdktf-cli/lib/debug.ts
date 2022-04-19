@@ -1,6 +1,8 @@
 import * as path from "path";
 import { logger } from "./logging";
 import { exec } from "./util";
+import { terraformVersion } from "./terraform";
+import { DISPLAY_VERSION } from "./version";
 
 export function getLanguage(projectPath = process.cwd()): string | undefined {
   try {
@@ -139,6 +141,7 @@ export async function collectDebugInformation() {
   const debugOutput: Record<string, string | null> = {};
   const language = getLanguage();
   debugOutput["language"] = language ?? null;
+  debugOutput["cdktf-cli"] = DISPLAY_VERSION;
   debugOutput["node"] = (await getNodeVersion()) ?? null;
   if (language) {
     debugOutput["cdktf"] = (await getPackageVersion(language, "cdktf")) ?? null;
@@ -146,6 +149,7 @@ export async function collectDebugInformation() {
       (await getPackageVersion(language, "constructs")) ?? null;
     debugOutput["jsii"] = (await getPackageVersion(language, "jsii")) ?? null;
   }
+  debugOutput["terraform"] = await terraformVersion;
 
   switch (language) {
     case "go":
