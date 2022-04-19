@@ -22,6 +22,7 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
+  isListExpression,
 } from "./expressions";
 import { TerraformModuleConstraint } from "@cdktf/provider-generator";
 import { getBlockTypeAtPath } from "./provider";
@@ -49,12 +50,15 @@ export const valueToTs = (
 ): t.Expression => {
   switch (typeof item) {
     case "string":
-      return referencesToAst(
+      const wrapInArray = isListExpression(item);
+      const ast = referencesToAst(
         scope,
         item,
         extractReferencesFromExpression(item, nodeIds, scopedIds),
         scopedIds
       );
+      return wrapInArray ? t.arrayExpression([ast]) : ast;
+
     case "boolean":
       return t.booleanLiteral(item);
     case "number":
