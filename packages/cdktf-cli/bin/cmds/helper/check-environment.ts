@@ -101,10 +101,51 @@ async function getNodeModuleVersion(): Promise<string | undefined> {
   return json.dependencies.cdktf.version;
 }
 
+async function getPipenvPackageVersion(): Promise<string | undefined> {
+  let output;
+  try {
+    output = await exec("pipenv", ["run", "pip", "show", "cdktf"], {
+      env: process.env,
+    });
+  } catch (e) {
+    logger.info(`Unable to run 'pipenv run pip show cdktf': ${e}`);
+  }
+
+  // If we couldn't get the output using pipenv, try to get it using pip directly
+  if (!output) {
+    try {
+      output = await exec("pip", ["show", "cdktf"], {
+        env: process.env,
+      });
+    } catch (e) {
+      logger.info(`Unable to run 'pip show cdktf': ${e}`);
+    }
+  }
+
+  if (!output) {
+    return undefined;
+  }
+
+  const versionInfo = output
+    .split("\n")
+    .find((line) => line.startsWith("Version:"));
+
+  if (!versionInfo) {
+    logger.info(
+      `Unable to find version in output of 'pipenv run pip show cdktf' / 'pip show cdktf': ${output}`
+    );
+    return undefined;
+  }
+
+  const version = versionInfo.split(":")[1].trim();
+  return version;
+}
+
 export async function verifySimilarLibraryVersion() {
   const language = getLanguage();
   if (!language) {
     // We could not detect the language, disabling the check
+    logger.debug("Unable to detect language, skipping version check");
     return;
   }
 
@@ -114,8 +155,8 @@ export async function verifySimilarLibraryVersion() {
     () => Promise<string | undefined | void>
   > = {
     typescript: getNodeModuleVersion,
+    python: getPipenvPackageVersion,
     go: noOp,
-    python: noOp,
     csharp: noOp,
     java: noOp,
   };
@@ -123,6 +164,7 @@ export async function verifySimilarLibraryVersion() {
   const libVersion = await (getLibraryVersionMap[language] || noOp)();
   if (!libVersion) {
     // We could not detect the library version, disabling the check
+    logger.debug(`Unable to detect library version for ${language}`);
     return;
   }
 
@@ -130,11 +172,18 @@ export async function verifySimilarLibraryVersion() {
 
   if (!libVersion) {
     // We could not detect the library version, disabling the check
+    logger.debug(`Unable to detect library version for ${language}`);
     return;
   }
 
+  logger.debug(`CLI version: ${cliVersion}`);
+  logger.debug(`${language} package version: ${libVersion}`);
+
   if (cliVersion === "0.0.0") {
     // We are running a development version
+    logger.debug(
+      `Running a development version of cdktf, skipping version check`
+    );
     return;
   }
 
