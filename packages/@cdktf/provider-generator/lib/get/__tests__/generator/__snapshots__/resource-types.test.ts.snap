@@ -367,6 +367,114 @@ export function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTe
   }
 }
 
+export class CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._eventType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.eventType = this._eventType;
+    }
+    if (this._includeBody !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.includeBody = this._includeBody;
+    }
+    if (this._lambdaArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.lambdaArn = this._lambdaArn;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._eventType = undefined;
+      this._includeBody = undefined;
+      this._lambdaArn = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._eventType = value.eventType;
+      this._includeBody = value.includeBody;
+      this._lambdaArn = value.lambdaArn;
+    }
+  }
+
+  // event_type - computed: false, optional: false, required: true
+  private _eventType?: string; 
+  public get eventType() {
+    return this.getStringAttribute('event_type');
+  }
+  public set eventType(value: string) {
+    this._eventType = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get eventTypeInput() {
+    return this._eventType;
+  }
+
+  // include_body - computed: false, optional: true, required: false
+  private _includeBody?: boolean | cdktf.IResolvable; 
+  public get includeBody() {
+    return this.getBooleanAttribute('include_body');
+  }
+  public set includeBody(value: boolean | cdktf.IResolvable) {
+    this._includeBody = value;
+  }
+  public resetIncludeBody() {
+    this._includeBody = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get includeBodyInput() {
+    return this._includeBody;
+  }
+
+  // lambda_arn - computed: false, optional: false, required: true
+  private _lambdaArn?: string; 
+  public get lambdaArn() {
+    return this.getStringAttribute('lambda_arn');
+  }
+  public set lambdaArn(value: string) {
+    this._lambdaArn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get lambdaArnInput() {
+    return this._lambdaArn;
+  }
+}
+
+export class CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputReference {
+    return new CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionCacheBehavior {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#allowed_methods CloudfrontDistribution#allowed_methods}
@@ -453,6 +561,344 @@ export function cloudfrontDistributionCacheBehaviorToTerraform(struct?: Cloudfro
   }
 }
 
+export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionCacheBehavior | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._allowedMethods !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.allowedMethods = this._allowedMethods;
+    }
+    if (this._cachedMethods !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.cachedMethods = this._cachedMethods;
+    }
+    if (this._compress !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.compress = this._compress;
+    }
+    if (this._defaultTtl !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.defaultTtl = this._defaultTtl;
+    }
+    if (this._fieldLevelEncryptionId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.fieldLevelEncryptionId = this._fieldLevelEncryptionId;
+    }
+    if (this._maxTtl !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.maxTtl = this._maxTtl;
+    }
+    if (this._minTtl !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.minTtl = this._minTtl;
+    }
+    if (this._pathPattern !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.pathPattern = this._pathPattern;
+    }
+    if (this._smoothStreaming !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.smoothStreaming = this._smoothStreaming;
+    }
+    if (this._targetOriginId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.targetOriginId = this._targetOriginId;
+    }
+    if (this._trustedSigners !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.trustedSigners = this._trustedSigners;
+    }
+    if (this._viewerProtocolPolicy !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.viewerProtocolPolicy = this._viewerProtocolPolicy;
+    }
+    if (this._forwardedValues?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.forwardedValues = this._forwardedValues?.internalValue;
+    }
+    if (this._lambdaFunctionAssociation?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.lambdaFunctionAssociation = this._lambdaFunctionAssociation?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionCacheBehavior | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._allowedMethods = undefined;
+      this._cachedMethods = undefined;
+      this._compress = undefined;
+      this._defaultTtl = undefined;
+      this._fieldLevelEncryptionId = undefined;
+      this._maxTtl = undefined;
+      this._minTtl = undefined;
+      this._pathPattern = undefined;
+      this._smoothStreaming = undefined;
+      this._targetOriginId = undefined;
+      this._trustedSigners = undefined;
+      this._viewerProtocolPolicy = undefined;
+      this._forwardedValues.internalValue = undefined;
+      this._lambdaFunctionAssociation.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._allowedMethods = value.allowedMethods;
+      this._cachedMethods = value.cachedMethods;
+      this._compress = value.compress;
+      this._defaultTtl = value.defaultTtl;
+      this._fieldLevelEncryptionId = value.fieldLevelEncryptionId;
+      this._maxTtl = value.maxTtl;
+      this._minTtl = value.minTtl;
+      this._pathPattern = value.pathPattern;
+      this._smoothStreaming = value.smoothStreaming;
+      this._targetOriginId = value.targetOriginId;
+      this._trustedSigners = value.trustedSigners;
+      this._viewerProtocolPolicy = value.viewerProtocolPolicy;
+      this._forwardedValues.internalValue = value.forwardedValues;
+      this._lambdaFunctionAssociation.internalValue = value.lambdaFunctionAssociation;
+    }
+  }
+
+  // allowed_methods - computed: false, optional: false, required: true
+  private _allowedMethods?: string[]; 
+  public get allowedMethods() {
+    return this.getListAttribute('allowed_methods');
+  }
+  public set allowedMethods(value: string[]) {
+    this._allowedMethods = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allowedMethodsInput() {
+    return this._allowedMethods;
+  }
+
+  // cached_methods - computed: false, optional: false, required: true
+  private _cachedMethods?: string[]; 
+  public get cachedMethods() {
+    return this.getListAttribute('cached_methods');
+  }
+  public set cachedMethods(value: string[]) {
+    this._cachedMethods = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get cachedMethodsInput() {
+    return this._cachedMethods;
+  }
+
+  // compress - computed: false, optional: true, required: false
+  private _compress?: boolean | cdktf.IResolvable; 
+  public get compress() {
+    return this.getBooleanAttribute('compress');
+  }
+  public set compress(value: boolean | cdktf.IResolvable) {
+    this._compress = value;
+  }
+  public resetCompress() {
+    this._compress = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get compressInput() {
+    return this._compress;
+  }
+
+  // default_ttl - computed: false, optional: true, required: false
+  private _defaultTtl?: number; 
+  public get defaultTtl() {
+    return this.getNumberAttribute('default_ttl');
+  }
+  public set defaultTtl(value: number) {
+    this._defaultTtl = value;
+  }
+  public resetDefaultTtl() {
+    this._defaultTtl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get defaultTtlInput() {
+    return this._defaultTtl;
+  }
+
+  // field_level_encryption_id - computed: false, optional: true, required: false
+  private _fieldLevelEncryptionId?: string; 
+  public get fieldLevelEncryptionId() {
+    return this.getStringAttribute('field_level_encryption_id');
+  }
+  public set fieldLevelEncryptionId(value: string) {
+    this._fieldLevelEncryptionId = value;
+  }
+  public resetFieldLevelEncryptionId() {
+    this._fieldLevelEncryptionId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get fieldLevelEncryptionIdInput() {
+    return this._fieldLevelEncryptionId;
+  }
+
+  // max_ttl - computed: false, optional: true, required: false
+  private _maxTtl?: number; 
+  public get maxTtl() {
+    return this.getNumberAttribute('max_ttl');
+  }
+  public set maxTtl(value: number) {
+    this._maxTtl = value;
+  }
+  public resetMaxTtl() {
+    this._maxTtl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maxTtlInput() {
+    return this._maxTtl;
+  }
+
+  // min_ttl - computed: false, optional: true, required: false
+  private _minTtl?: number; 
+  public get minTtl() {
+    return this.getNumberAttribute('min_ttl');
+  }
+  public set minTtl(value: number) {
+    this._minTtl = value;
+  }
+  public resetMinTtl() {
+    this._minTtl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get minTtlInput() {
+    return this._minTtl;
+  }
+
+  // path_pattern - computed: false, optional: false, required: true
+  private _pathPattern?: string; 
+  public get pathPattern() {
+    return this.getStringAttribute('path_pattern');
+  }
+  public set pathPattern(value: string) {
+    this._pathPattern = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get pathPatternInput() {
+    return this._pathPattern;
+  }
+
+  // smooth_streaming - computed: false, optional: true, required: false
+  private _smoothStreaming?: boolean | cdktf.IResolvable; 
+  public get smoothStreaming() {
+    return this.getBooleanAttribute('smooth_streaming');
+  }
+  public set smoothStreaming(value: boolean | cdktf.IResolvable) {
+    this._smoothStreaming = value;
+  }
+  public resetSmoothStreaming() {
+    this._smoothStreaming = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get smoothStreamingInput() {
+    return this._smoothStreaming;
+  }
+
+  // target_origin_id - computed: false, optional: false, required: true
+  private _targetOriginId?: string; 
+  public get targetOriginId() {
+    return this.getStringAttribute('target_origin_id');
+  }
+  public set targetOriginId(value: string) {
+    this._targetOriginId = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get targetOriginIdInput() {
+    return this._targetOriginId;
+  }
+
+  // trusted_signers - computed: false, optional: true, required: false
+  private _trustedSigners?: string[]; 
+  public get trustedSigners() {
+    return this.getListAttribute('trusted_signers');
+  }
+  public set trustedSigners(value: string[]) {
+    this._trustedSigners = value;
+  }
+  public resetTrustedSigners() {
+    this._trustedSigners = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get trustedSignersInput() {
+    return this._trustedSigners;
+  }
+
+  // viewer_protocol_policy - computed: false, optional: false, required: true
+  private _viewerProtocolPolicy?: string; 
+  public get viewerProtocolPolicy() {
+    return this.getStringAttribute('viewer_protocol_policy');
+  }
+  public set viewerProtocolPolicy(value: string) {
+    this._viewerProtocolPolicy = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get viewerProtocolPolicyInput() {
+    return this._viewerProtocolPolicy;
+  }
+
+  // forwarded_values - computed: false, optional: false, required: true
+  private _forwardedValues = new CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference(this, \\"forwarded_values\\");
+  public get forwardedValues() {
+    return this._forwardedValues;
+  }
+  public putForwardedValues(value: CloudfrontDistributionCacheBehaviorForwardedValues) {
+    this._forwardedValues.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get forwardedValuesInput() {
+    return this._forwardedValues.internalValue;
+  }
+
+  // lambda_function_association - computed: false, optional: true, required: false
+  private _lambdaFunctionAssociation = new CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationList(this, \\"lambda_function_association\\", true);
+  public get lambdaFunctionAssociation() {
+    return this._lambdaFunctionAssociation;
+  }
+  public putLambdaFunctionAssociation(value: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable) {
+    this._lambdaFunctionAssociation.internalValue = value;
+  }
+  public resetLambdaFunctionAssociation() {
+    this._lambdaFunctionAssociation.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get lambdaFunctionAssociationInput() {
+    return this._lambdaFunctionAssociation.internalValue;
+  }
+}
+
+export class CloudfrontDistributionCacheBehaviorList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionCacheBehavior[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionCacheBehaviorOutputReference {
+    return new CloudfrontDistributionCacheBehaviorOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionCustomErrorResponse {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#error_caching_min_ttl CloudfrontDistribution#error_caching_min_ttl}
@@ -485,6 +931,139 @@ export function cloudfrontDistributionCustomErrorResponseToTerraform(struct?: Cl
   }
 }
 
+export class CloudfrontDistributionCustomErrorResponseOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionCustomErrorResponse | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._errorCachingMinTtl !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.errorCachingMinTtl = this._errorCachingMinTtl;
+    }
+    if (this._errorCode !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.errorCode = this._errorCode;
+    }
+    if (this._responseCode !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.responseCode = this._responseCode;
+    }
+    if (this._responsePagePath !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.responsePagePath = this._responsePagePath;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionCustomErrorResponse | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._errorCachingMinTtl = undefined;
+      this._errorCode = undefined;
+      this._responseCode = undefined;
+      this._responsePagePath = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._errorCachingMinTtl = value.errorCachingMinTtl;
+      this._errorCode = value.errorCode;
+      this._responseCode = value.responseCode;
+      this._responsePagePath = value.responsePagePath;
+    }
+  }
+
+  // error_caching_min_ttl - computed: false, optional: true, required: false
+  private _errorCachingMinTtl?: number; 
+  public get errorCachingMinTtl() {
+    return this.getNumberAttribute('error_caching_min_ttl');
+  }
+  public set errorCachingMinTtl(value: number) {
+    this._errorCachingMinTtl = value;
+  }
+  public resetErrorCachingMinTtl() {
+    this._errorCachingMinTtl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get errorCachingMinTtlInput() {
+    return this._errorCachingMinTtl;
+  }
+
+  // error_code - computed: false, optional: false, required: true
+  private _errorCode?: number; 
+  public get errorCode() {
+    return this.getNumberAttribute('error_code');
+  }
+  public set errorCode(value: number) {
+    this._errorCode = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get errorCodeInput() {
+    return this._errorCode;
+  }
+
+  // response_code - computed: false, optional: true, required: false
+  private _responseCode?: number; 
+  public get responseCode() {
+    return this.getNumberAttribute('response_code');
+  }
+  public set responseCode(value: number) {
+    this._responseCode = value;
+  }
+  public resetResponseCode() {
+    this._responseCode = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get responseCodeInput() {
+    return this._responseCode;
+  }
+
+  // response_page_path - computed: false, optional: true, required: false
+  private _responsePagePath?: string; 
+  public get responsePagePath() {
+    return this.getStringAttribute('response_page_path');
+  }
+  public set responsePagePath(value: string) {
+    this._responsePagePath = value;
+  }
+  public resetResponsePagePath() {
+    this._responsePagePath = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get responsePagePathInput() {
+    return this._responsePagePath;
+  }
+}
+
+export class CloudfrontDistributionCustomErrorResponseList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionCustomErrorResponse[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionCustomErrorResponseOutputReference {
+    return new CloudfrontDistributionCustomErrorResponseOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#forward CloudfrontDistribution#forward}
@@ -743,6 +1322,114 @@ export function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociat
   }
 }
 
+export class CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._eventType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.eventType = this._eventType;
+    }
+    if (this._includeBody !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.includeBody = this._includeBody;
+    }
+    if (this._lambdaArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.lambdaArn = this._lambdaArn;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._eventType = undefined;
+      this._includeBody = undefined;
+      this._lambdaArn = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._eventType = value.eventType;
+      this._includeBody = value.includeBody;
+      this._lambdaArn = value.lambdaArn;
+    }
+  }
+
+  // event_type - computed: false, optional: false, required: true
+  private _eventType?: string; 
+  public get eventType() {
+    return this.getStringAttribute('event_type');
+  }
+  public set eventType(value: string) {
+    this._eventType = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get eventTypeInput() {
+    return this._eventType;
+  }
+
+  // include_body - computed: false, optional: true, required: false
+  private _includeBody?: boolean | cdktf.IResolvable; 
+  public get includeBody() {
+    return this.getBooleanAttribute('include_body');
+  }
+  public set includeBody(value: boolean | cdktf.IResolvable) {
+    this._includeBody = value;
+  }
+  public resetIncludeBody() {
+    this._includeBody = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get includeBodyInput() {
+    return this._includeBody;
+  }
+
+  // lambda_arn - computed: false, optional: false, required: true
+  private _lambdaArn?: string; 
+  public get lambdaArn() {
+    return this.getStringAttribute('lambda_arn');
+  }
+  public set lambdaArn(value: string) {
+    this._lambdaArn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get lambdaArnInput() {
+    return this._lambdaArn;
+  }
+}
+
+export class CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationOutputReference {
+    return new CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionDefaultCacheBehavior {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#allowed_methods CloudfrontDistribution#allowed_methods}
@@ -886,9 +1573,9 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
       hasAnyValues = true;
       internalValueResult.forwardedValues = this._forwardedValues?.internalValue;
     }
-    if (this._lambdaFunctionAssociation !== undefined) {
+    if (this._lambdaFunctionAssociation?.internalValue !== undefined) {
       hasAnyValues = true;
-      internalValueResult.lambdaFunctionAssociation = this._lambdaFunctionAssociation;
+      internalValueResult.lambdaFunctionAssociation = this._lambdaFunctionAssociation?.internalValue;
     }
     return hasAnyValues ? internalValueResult : undefined;
   }
@@ -908,7 +1595,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
       this._trustedSigners = undefined;
       this._viewerProtocolPolicy = undefined;
       this._forwardedValues.internalValue = undefined;
-      this._lambdaFunctionAssociation = undefined;
+      this._lambdaFunctionAssociation.internalValue = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
@@ -924,7 +1611,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
       this._trustedSigners = value.trustedSigners;
       this._viewerProtocolPolicy = value.viewerProtocolPolicy;
       this._forwardedValues.internalValue = value.forwardedValues;
-      this._lambdaFunctionAssociation = value.lambdaFunctionAssociation;
+      this._lambdaFunctionAssociation.internalValue = value.lambdaFunctionAssociation;
     }
   }
 
@@ -1106,20 +1793,19 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // lambda_function_association - computed: false, optional: true, required: false
-  private _lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable; 
+  private _lambdaFunctionAssociation = new CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationList(this, \\"lambda_function_association\\", true);
   public get lambdaFunctionAssociation() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('lambda_function_association')));
+    return this._lambdaFunctionAssociation;
   }
-  public set lambdaFunctionAssociation(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable) {
-    this._lambdaFunctionAssociation = value;
+  public putLambdaFunctionAssociation(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable) {
+    this._lambdaFunctionAssociation.internalValue = value;
   }
   public resetLambdaFunctionAssociation() {
-    this._lambdaFunctionAssociation = undefined;
+    this._lambdaFunctionAssociation.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get lambdaFunctionAssociationInput() {
-    return this._lambdaFunctionAssociation;
+    return this._lambdaFunctionAssociation.internalValue;
   }
 }
 export interface CloudfrontDistributionLoggingConfig {
@@ -1496,6 +2182,114 @@ export function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociat
   }
 }
 
+export class CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._eventType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.eventType = this._eventType;
+    }
+    if (this._includeBody !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.includeBody = this._includeBody;
+    }
+    if (this._lambdaArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.lambdaArn = this._lambdaArn;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._eventType = undefined;
+      this._includeBody = undefined;
+      this._lambdaArn = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._eventType = value.eventType;
+      this._includeBody = value.includeBody;
+      this._lambdaArn = value.lambdaArn;
+    }
+  }
+
+  // event_type - computed: false, optional: false, required: true
+  private _eventType?: string; 
+  public get eventType() {
+    return this.getStringAttribute('event_type');
+  }
+  public set eventType(value: string) {
+    this._eventType = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get eventTypeInput() {
+    return this._eventType;
+  }
+
+  // include_body - computed: false, optional: true, required: false
+  private _includeBody?: boolean | cdktf.IResolvable; 
+  public get includeBody() {
+    return this.getBooleanAttribute('include_body');
+  }
+  public set includeBody(value: boolean | cdktf.IResolvable) {
+    this._includeBody = value;
+  }
+  public resetIncludeBody() {
+    this._includeBody = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get includeBodyInput() {
+    return this._includeBody;
+  }
+
+  // lambda_arn - computed: false, optional: false, required: true
+  private _lambdaArn?: string; 
+  public get lambdaArn() {
+    return this.getStringAttribute('lambda_arn');
+  }
+  public set lambdaArn(value: string) {
+    this._lambdaArn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get lambdaArnInput() {
+    return this._lambdaArn;
+  }
+}
+
+export class CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationOutputReference {
+    return new CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionOrderedCacheBehavior {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#allowed_methods CloudfrontDistribution#allowed_methods}
@@ -1582,6 +2376,344 @@ export function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: C
   }
 }
 
+export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionOrderedCacheBehavior | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._allowedMethods !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.allowedMethods = this._allowedMethods;
+    }
+    if (this._cachedMethods !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.cachedMethods = this._cachedMethods;
+    }
+    if (this._compress !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.compress = this._compress;
+    }
+    if (this._defaultTtl !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.defaultTtl = this._defaultTtl;
+    }
+    if (this._fieldLevelEncryptionId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.fieldLevelEncryptionId = this._fieldLevelEncryptionId;
+    }
+    if (this._maxTtl !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.maxTtl = this._maxTtl;
+    }
+    if (this._minTtl !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.minTtl = this._minTtl;
+    }
+    if (this._pathPattern !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.pathPattern = this._pathPattern;
+    }
+    if (this._smoothStreaming !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.smoothStreaming = this._smoothStreaming;
+    }
+    if (this._targetOriginId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.targetOriginId = this._targetOriginId;
+    }
+    if (this._trustedSigners !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.trustedSigners = this._trustedSigners;
+    }
+    if (this._viewerProtocolPolicy !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.viewerProtocolPolicy = this._viewerProtocolPolicy;
+    }
+    if (this._forwardedValues?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.forwardedValues = this._forwardedValues?.internalValue;
+    }
+    if (this._lambdaFunctionAssociation?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.lambdaFunctionAssociation = this._lambdaFunctionAssociation?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOrderedCacheBehavior | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._allowedMethods = undefined;
+      this._cachedMethods = undefined;
+      this._compress = undefined;
+      this._defaultTtl = undefined;
+      this._fieldLevelEncryptionId = undefined;
+      this._maxTtl = undefined;
+      this._minTtl = undefined;
+      this._pathPattern = undefined;
+      this._smoothStreaming = undefined;
+      this._targetOriginId = undefined;
+      this._trustedSigners = undefined;
+      this._viewerProtocolPolicy = undefined;
+      this._forwardedValues.internalValue = undefined;
+      this._lambdaFunctionAssociation.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._allowedMethods = value.allowedMethods;
+      this._cachedMethods = value.cachedMethods;
+      this._compress = value.compress;
+      this._defaultTtl = value.defaultTtl;
+      this._fieldLevelEncryptionId = value.fieldLevelEncryptionId;
+      this._maxTtl = value.maxTtl;
+      this._minTtl = value.minTtl;
+      this._pathPattern = value.pathPattern;
+      this._smoothStreaming = value.smoothStreaming;
+      this._targetOriginId = value.targetOriginId;
+      this._trustedSigners = value.trustedSigners;
+      this._viewerProtocolPolicy = value.viewerProtocolPolicy;
+      this._forwardedValues.internalValue = value.forwardedValues;
+      this._lambdaFunctionAssociation.internalValue = value.lambdaFunctionAssociation;
+    }
+  }
+
+  // allowed_methods - computed: false, optional: false, required: true
+  private _allowedMethods?: string[]; 
+  public get allowedMethods() {
+    return cdktf.Fn.tolist(this.getListAttribute('allowed_methods'));
+  }
+  public set allowedMethods(value: string[]) {
+    this._allowedMethods = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allowedMethodsInput() {
+    return this._allowedMethods;
+  }
+
+  // cached_methods - computed: false, optional: false, required: true
+  private _cachedMethods?: string[]; 
+  public get cachedMethods() {
+    return cdktf.Fn.tolist(this.getListAttribute('cached_methods'));
+  }
+  public set cachedMethods(value: string[]) {
+    this._cachedMethods = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get cachedMethodsInput() {
+    return this._cachedMethods;
+  }
+
+  // compress - computed: false, optional: true, required: false
+  private _compress?: boolean | cdktf.IResolvable; 
+  public get compress() {
+    return this.getBooleanAttribute('compress');
+  }
+  public set compress(value: boolean | cdktf.IResolvable) {
+    this._compress = value;
+  }
+  public resetCompress() {
+    this._compress = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get compressInput() {
+    return this._compress;
+  }
+
+  // default_ttl - computed: false, optional: true, required: false
+  private _defaultTtl?: number; 
+  public get defaultTtl() {
+    return this.getNumberAttribute('default_ttl');
+  }
+  public set defaultTtl(value: number) {
+    this._defaultTtl = value;
+  }
+  public resetDefaultTtl() {
+    this._defaultTtl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get defaultTtlInput() {
+    return this._defaultTtl;
+  }
+
+  // field_level_encryption_id - computed: false, optional: true, required: false
+  private _fieldLevelEncryptionId?: string; 
+  public get fieldLevelEncryptionId() {
+    return this.getStringAttribute('field_level_encryption_id');
+  }
+  public set fieldLevelEncryptionId(value: string) {
+    this._fieldLevelEncryptionId = value;
+  }
+  public resetFieldLevelEncryptionId() {
+    this._fieldLevelEncryptionId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get fieldLevelEncryptionIdInput() {
+    return this._fieldLevelEncryptionId;
+  }
+
+  // max_ttl - computed: false, optional: true, required: false
+  private _maxTtl?: number; 
+  public get maxTtl() {
+    return this.getNumberAttribute('max_ttl');
+  }
+  public set maxTtl(value: number) {
+    this._maxTtl = value;
+  }
+  public resetMaxTtl() {
+    this._maxTtl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maxTtlInput() {
+    return this._maxTtl;
+  }
+
+  // min_ttl - computed: false, optional: true, required: false
+  private _minTtl?: number; 
+  public get minTtl() {
+    return this.getNumberAttribute('min_ttl');
+  }
+  public set minTtl(value: number) {
+    this._minTtl = value;
+  }
+  public resetMinTtl() {
+    this._minTtl = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get minTtlInput() {
+    return this._minTtl;
+  }
+
+  // path_pattern - computed: false, optional: false, required: true
+  private _pathPattern?: string; 
+  public get pathPattern() {
+    return this.getStringAttribute('path_pattern');
+  }
+  public set pathPattern(value: string) {
+    this._pathPattern = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get pathPatternInput() {
+    return this._pathPattern;
+  }
+
+  // smooth_streaming - computed: false, optional: true, required: false
+  private _smoothStreaming?: boolean | cdktf.IResolvable; 
+  public get smoothStreaming() {
+    return this.getBooleanAttribute('smooth_streaming');
+  }
+  public set smoothStreaming(value: boolean | cdktf.IResolvable) {
+    this._smoothStreaming = value;
+  }
+  public resetSmoothStreaming() {
+    this._smoothStreaming = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get smoothStreamingInput() {
+    return this._smoothStreaming;
+  }
+
+  // target_origin_id - computed: false, optional: false, required: true
+  private _targetOriginId?: string; 
+  public get targetOriginId() {
+    return this.getStringAttribute('target_origin_id');
+  }
+  public set targetOriginId(value: string) {
+    this._targetOriginId = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get targetOriginIdInput() {
+    return this._targetOriginId;
+  }
+
+  // trusted_signers - computed: false, optional: true, required: false
+  private _trustedSigners?: string[]; 
+  public get trustedSigners() {
+    return this.getListAttribute('trusted_signers');
+  }
+  public set trustedSigners(value: string[]) {
+    this._trustedSigners = value;
+  }
+  public resetTrustedSigners() {
+    this._trustedSigners = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get trustedSignersInput() {
+    return this._trustedSigners;
+  }
+
+  // viewer_protocol_policy - computed: false, optional: false, required: true
+  private _viewerProtocolPolicy?: string; 
+  public get viewerProtocolPolicy() {
+    return this.getStringAttribute('viewer_protocol_policy');
+  }
+  public set viewerProtocolPolicy(value: string) {
+    this._viewerProtocolPolicy = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get viewerProtocolPolicyInput() {
+    return this._viewerProtocolPolicy;
+  }
+
+  // forwarded_values - computed: false, optional: false, required: true
+  private _forwardedValues = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputReference(this, \\"forwarded_values\\");
+  public get forwardedValues() {
+    return this._forwardedValues;
+  }
+  public putForwardedValues(value: CloudfrontDistributionOrderedCacheBehaviorForwardedValues) {
+    this._forwardedValues.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get forwardedValuesInput() {
+    return this._forwardedValues.internalValue;
+  }
+
+  // lambda_function_association - computed: false, optional: true, required: false
+  private _lambdaFunctionAssociation = new CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationList(this, \\"lambda_function_association\\", true);
+  public get lambdaFunctionAssociation() {
+    return this._lambdaFunctionAssociation;
+  }
+  public putLambdaFunctionAssociation(value: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable) {
+    this._lambdaFunctionAssociation.internalValue = value;
+  }
+  public resetLambdaFunctionAssociation() {
+    this._lambdaFunctionAssociation.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get lambdaFunctionAssociationInput() {
+    return this._lambdaFunctionAssociation.internalValue;
+  }
+}
+
+export class CloudfrontDistributionOrderedCacheBehaviorList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionOrderedCacheBehavior[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionOrderedCacheBehaviorOutputReference {
+    return new CloudfrontDistributionOrderedCacheBehaviorOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionOriginCustomHeader {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#name CloudfrontDistribution#name}
@@ -1604,6 +2736,92 @@ export function cloudfrontDistributionOriginCustomHeaderToTerraform(struct?: Clo
   }
 }
 
+export class CloudfrontDistributionOriginCustomHeaderOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionOriginCustomHeader | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._name !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.name = this._name;
+    }
+    if (this._value !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.value = this._value;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOriginCustomHeader | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._name = undefined;
+      this._value = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._name = value.name;
+      this._value = value.value;
+    }
+  }
+
+  // name - computed: false, optional: false, required: true
+  private _name?: string; 
+  public get name() {
+    return this.getStringAttribute('name');
+  }
+  public set name(value: string) {
+    this._name = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nameInput() {
+    return this._name;
+  }
+
+  // value - computed: false, optional: false, required: true
+  private _value?: string; 
+  public get value() {
+    return this.getStringAttribute('value');
+  }
+  public set value(value: string) {
+    this._value = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get valueInput() {
+    return this._value;
+  }
+}
+
+export class CloudfrontDistributionOriginCustomHeaderList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionOriginCustomHeader[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionOriginCustomHeaderOutputReference {
+    return new CloudfrontDistributionOriginCustomHeaderOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionOriginCustomOriginConfig {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#http_port CloudfrontDistribution#http_port}
@@ -1902,6 +3120,180 @@ export function cloudfrontDistributionOriginToTerraform(struct?: CloudfrontDistr
   }
 }
 
+export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionOrigin | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._domainName !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.domainName = this._domainName;
+    }
+    if (this._originId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.originId = this._originId;
+    }
+    if (this._originPath !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.originPath = this._originPath;
+    }
+    if (this._customHeader?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.customHeader = this._customHeader?.internalValue;
+    }
+    if (this._customOriginConfig?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.customOriginConfig = this._customOriginConfig?.internalValue;
+    }
+    if (this._s3OriginConfig?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.s3OriginConfig = this._s3OriginConfig?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOrigin | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._domainName = undefined;
+      this._originId = undefined;
+      this._originPath = undefined;
+      this._customHeader.internalValue = undefined;
+      this._customOriginConfig.internalValue = undefined;
+      this._s3OriginConfig.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._domainName = value.domainName;
+      this._originId = value.originId;
+      this._originPath = value.originPath;
+      this._customHeader.internalValue = value.customHeader;
+      this._customOriginConfig.internalValue = value.customOriginConfig;
+      this._s3OriginConfig.internalValue = value.s3OriginConfig;
+    }
+  }
+
+  // domain_name - computed: false, optional: false, required: true
+  private _domainName?: string; 
+  public get domainName() {
+    return this.getStringAttribute('domain_name');
+  }
+  public set domainName(value: string) {
+    this._domainName = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get domainNameInput() {
+    return this._domainName;
+  }
+
+  // origin_id - computed: false, optional: false, required: true
+  private _originId?: string; 
+  public get originId() {
+    return this.getStringAttribute('origin_id');
+  }
+  public set originId(value: string) {
+    this._originId = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get originIdInput() {
+    return this._originId;
+  }
+
+  // origin_path - computed: false, optional: true, required: false
+  private _originPath?: string; 
+  public get originPath() {
+    return this.getStringAttribute('origin_path');
+  }
+  public set originPath(value: string) {
+    this._originPath = value;
+  }
+  public resetOriginPath() {
+    this._originPath = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get originPathInput() {
+    return this._originPath;
+  }
+
+  // custom_header - computed: false, optional: true, required: false
+  private _customHeader = new CloudfrontDistributionOriginCustomHeaderList(this, \\"custom_header\\", true);
+  public get customHeader() {
+    return this._customHeader;
+  }
+  public putCustomHeader(value: CloudfrontDistributionOriginCustomHeader[] | cdktf.IResolvable) {
+    this._customHeader.internalValue = value;
+  }
+  public resetCustomHeader() {
+    this._customHeader.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get customHeaderInput() {
+    return this._customHeader.internalValue;
+  }
+
+  // custom_origin_config - computed: false, optional: true, required: false
+  private _customOriginConfig = new CloudfrontDistributionOriginCustomOriginConfigOutputReference(this, \\"custom_origin_config\\");
+  public get customOriginConfig() {
+    return this._customOriginConfig;
+  }
+  public putCustomOriginConfig(value: CloudfrontDistributionOriginCustomOriginConfig) {
+    this._customOriginConfig.internalValue = value;
+  }
+  public resetCustomOriginConfig() {
+    this._customOriginConfig.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get customOriginConfigInput() {
+    return this._customOriginConfig.internalValue;
+  }
+
+  // s3_origin_config - computed: false, optional: true, required: false
+  private _s3OriginConfig = new CloudfrontDistributionOriginS3OriginConfigOutputReference(this, \\"s3_origin_config\\");
+  public get s3OriginConfig() {
+    return this._s3OriginConfig;
+  }
+  public putS3OriginConfig(value: CloudfrontDistributionOriginS3OriginConfig) {
+    this._s3OriginConfig.internalValue = value;
+  }
+  public resetS3OriginConfig() {
+    this._s3OriginConfig.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get s3OriginConfigInput() {
+    return this._s3OriginConfig.internalValue;
+  }
+}
+
+export class CloudfrontDistributionOriginList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionOrigin[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionOriginOutputReference {
+    return new CloudfrontDistributionOriginOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionOriginGroupFailoverCriteria {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#status_codes CloudfrontDistribution#status_codes}
@@ -1981,6 +3373,73 @@ export function cloudfrontDistributionOriginGroupMemberToTerraform(struct?: Clou
   }
 }
 
+export class CloudfrontDistributionOriginGroupMemberOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionOriginGroupMember | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._originId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.originId = this._originId;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOriginGroupMember | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._originId = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._originId = value.originId;
+    }
+  }
+
+  // origin_id - computed: false, optional: false, required: true
+  private _originId?: string; 
+  public get originId() {
+    return this.getStringAttribute('origin_id');
+  }
+  public set originId(value: string) {
+    this._originId = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get originIdInput() {
+    return this._originId;
+  }
+}
+
+export class CloudfrontDistributionOriginGroupMemberList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionOriginGroupMember[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionOriginGroupMemberOutputReference {
+    return new CloudfrontDistributionOriginGroupMemberOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionOriginGroup {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#origin_id CloudfrontDistribution#origin_id}
@@ -2012,6 +3471,111 @@ export function cloudfrontDistributionOriginGroupToTerraform(struct?: Cloudfront
   }
 }
 
+export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): CloudfrontDistributionOriginGroup | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._originId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.originId = this._originId;
+    }
+    if (this._failoverCriteria?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.failoverCriteria = this._failoverCriteria?.internalValue;
+    }
+    if (this._member?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.member = this._member?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudfrontDistributionOriginGroup | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._originId = undefined;
+      this._failoverCriteria.internalValue = undefined;
+      this._member.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._originId = value.originId;
+      this._failoverCriteria.internalValue = value.failoverCriteria;
+      this._member.internalValue = value.member;
+    }
+  }
+
+  // origin_id - computed: false, optional: false, required: true
+  private _originId?: string; 
+  public get originId() {
+    return this.getStringAttribute('origin_id');
+  }
+  public set originId(value: string) {
+    this._originId = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get originIdInput() {
+    return this._originId;
+  }
+
+  // failover_criteria - computed: false, optional: false, required: true
+  private _failoverCriteria = new CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference(this, \\"failover_criteria\\");
+  public get failoverCriteria() {
+    return this._failoverCriteria;
+  }
+  public putFailoverCriteria(value: CloudfrontDistributionOriginGroupFailoverCriteria) {
+    this._failoverCriteria.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get failoverCriteriaInput() {
+    return this._failoverCriteria.internalValue;
+  }
+
+  // member - computed: false, optional: false, required: true
+  private _member = new CloudfrontDistributionOriginGroupMemberList(this, \\"member\\", false);
+  public get member() {
+    return this._member;
+  }
+  public putMember(value: CloudfrontDistributionOriginGroupMember[] | cdktf.IResolvable) {
+    this._member.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get memberInput() {
+    return this._member.internalValue;
+  }
+}
+
+export class CloudfrontDistributionOriginGroupList extends cdktf.ComplexList {
+  public internalValue? : CloudfrontDistributionOriginGroup[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): CloudfrontDistributionOriginGroupOutputReference {
+    return new CloudfrontDistributionOriginGroupOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface CloudfrontDistributionRestrictionsGeoRestriction {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#locations CloudfrontDistribution#locations}
@@ -2382,13 +3946,13 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
     this._tags = config.tags;
     this._waitForDeployment = config.waitForDeployment;
     this._webAclId = config.webAclId;
-    this._cacheBehavior = config.cacheBehavior;
-    this._customErrorResponse = config.customErrorResponse;
+    this._cacheBehavior.internalValue = config.cacheBehavior;
+    this._customErrorResponse.internalValue = config.customErrorResponse;
     this._defaultCacheBehavior.internalValue = config.defaultCacheBehavior;
     this._loggingConfig.internalValue = config.loggingConfig;
-    this._orderedCacheBehavior = config.orderedCacheBehavior;
-    this._origin = config.origin;
-    this._originGroup = config.originGroup;
+    this._orderedCacheBehavior.internalValue = config.orderedCacheBehavior;
+    this._origin.internalValue = config.origin;
+    this._originGroup.internalValue = config.originGroup;
     this._restrictions.internalValue = config.restrictions;
     this._viewerCertificate.internalValue = config.viewerCertificate;
   }
@@ -2622,37 +4186,35 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // cache_behavior - computed: false, optional: true, required: false
-  private _cacheBehavior?: CloudfrontDistributionCacheBehavior[] | cdktf.IResolvable; 
+  private _cacheBehavior = new CloudfrontDistributionCacheBehaviorList(this, \\"cache_behavior\\", true);
   public get cacheBehavior() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('cache_behavior')));
+    return this._cacheBehavior;
   }
-  public set cacheBehavior(value: CloudfrontDistributionCacheBehavior[] | cdktf.IResolvable) {
-    this._cacheBehavior = value;
+  public putCacheBehavior(value: CloudfrontDistributionCacheBehavior[] | cdktf.IResolvable) {
+    this._cacheBehavior.internalValue = value;
   }
   public resetCacheBehavior() {
-    this._cacheBehavior = undefined;
+    this._cacheBehavior.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get cacheBehaviorInput() {
-    return this._cacheBehavior;
+    return this._cacheBehavior.internalValue;
   }
 
   // custom_error_response - computed: false, optional: true, required: false
-  private _customErrorResponse?: CloudfrontDistributionCustomErrorResponse[] | cdktf.IResolvable; 
+  private _customErrorResponse = new CloudfrontDistributionCustomErrorResponseList(this, \\"custom_error_response\\", true);
   public get customErrorResponse() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('custom_error_response')));
+    return this._customErrorResponse;
   }
-  public set customErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | cdktf.IResolvable) {
-    this._customErrorResponse = value;
+  public putCustomErrorResponse(value: CloudfrontDistributionCustomErrorResponse[] | cdktf.IResolvable) {
+    this._customErrorResponse.internalValue = value;
   }
   public resetCustomErrorResponse() {
-    this._customErrorResponse = undefined;
+    this._customErrorResponse.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get customErrorResponseInput() {
-    return this._customErrorResponse;
+    return this._customErrorResponse.internalValue;
   }
 
   // default_cache_behavior - computed: false, optional: false, required: true
@@ -2685,51 +4247,48 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // ordered_cache_behavior - computed: false, optional: true, required: false
-  private _orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[] | cdktf.IResolvable; 
+  private _orderedCacheBehavior = new CloudfrontDistributionOrderedCacheBehaviorList(this, \\"ordered_cache_behavior\\", false);
   public get orderedCacheBehavior() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('ordered_cache_behavior');
+    return this._orderedCacheBehavior;
   }
-  public set orderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] | cdktf.IResolvable) {
-    this._orderedCacheBehavior = value;
+  public putOrderedCacheBehavior(value: CloudfrontDistributionOrderedCacheBehavior[] | cdktf.IResolvable) {
+    this._orderedCacheBehavior.internalValue = value;
   }
   public resetOrderedCacheBehavior() {
-    this._orderedCacheBehavior = undefined;
+    this._orderedCacheBehavior.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get orderedCacheBehaviorInput() {
-    return this._orderedCacheBehavior;
+    return this._orderedCacheBehavior.internalValue;
   }
 
   // origin - computed: false, optional: false, required: true
-  private _origin?: CloudfrontDistributionOrigin[] | cdktf.IResolvable; 
+  private _origin = new CloudfrontDistributionOriginList(this, \\"origin\\", true);
   public get origin() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin')));
+    return this._origin;
   }
-  public set origin(value: CloudfrontDistributionOrigin[] | cdktf.IResolvable) {
-    this._origin = value;
+  public putOrigin(value: CloudfrontDistributionOrigin[] | cdktf.IResolvable) {
+    this._origin.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get originInput() {
-    return this._origin;
+    return this._origin.internalValue;
   }
 
   // origin_group - computed: false, optional: true, required: false
-  private _originGroup?: CloudfrontDistributionOriginGroup[] | cdktf.IResolvable; 
+  private _originGroup = new CloudfrontDistributionOriginGroupList(this, \\"origin_group\\", true);
   public get originGroup() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('origin_group')));
+    return this._originGroup;
   }
-  public set originGroup(value: CloudfrontDistributionOriginGroup[] | cdktf.IResolvable) {
-    this._originGroup = value;
+  public putOriginGroup(value: CloudfrontDistributionOriginGroup[] | cdktf.IResolvable) {
+    this._originGroup.internalValue = value;
   }
   public resetOriginGroup() {
-    this._originGroup = undefined;
+    this._originGroup.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get originGroupInput() {
-    return this._originGroup;
+    return this._originGroup.internalValue;
   }
 
   // restrictions - computed: false, optional: false, required: true
@@ -2775,13 +4334,13 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       wait_for_deployment: cdktf.booleanToTerraform(this._waitForDeployment),
       web_acl_id: cdktf.stringToTerraform(this._webAclId),
-      cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform)(this._cacheBehavior),
-      custom_error_response: cdktf.listMapper(cloudfrontDistributionCustomErrorResponseToTerraform)(this._customErrorResponse),
+      cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform)(this._cacheBehavior.internalValue),
+      custom_error_response: cdktf.listMapper(cloudfrontDistributionCustomErrorResponseToTerraform)(this._customErrorResponse.internalValue),
       default_cache_behavior: cloudfrontDistributionDefaultCacheBehaviorToTerraform(this._defaultCacheBehavior.internalValue),
       logging_config: cloudfrontDistributionLoggingConfigToTerraform(this._loggingConfig.internalValue),
-      ordered_cache_behavior: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorToTerraform)(this._orderedCacheBehavior),
-      origin: cdktf.listMapper(cloudfrontDistributionOriginToTerraform)(this._origin),
-      origin_group: cdktf.listMapper(cloudfrontDistributionOriginGroupToTerraform)(this._originGroup),
+      ordered_cache_behavior: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorToTerraform)(this._orderedCacheBehavior.internalValue),
+      origin: cdktf.listMapper(cloudfrontDistributionOriginToTerraform)(this._origin.internalValue),
+      origin_group: cdktf.listMapper(cloudfrontDistributionOriginGroupToTerraform)(this._originGroup.internalValue),
       restrictions: cloudfrontDistributionRestrictionsToTerraform(this._restrictions.internalValue),
       viewer_certificate: cloudfrontDistributionViewerCertificateToTerraform(this._viewerCertificate.internalValue),
     };
@@ -3040,6 +4599,158 @@ export function s3BucketCorsRuleToTerraform(struct?: S3BucketCorsRule | cdktf.IR
   }
 }
 
+export class S3BucketCorsRuleOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): S3BucketCorsRule | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._allowedHeaders !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.allowedHeaders = this._allowedHeaders;
+    }
+    if (this._allowedMethods !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.allowedMethods = this._allowedMethods;
+    }
+    if (this._allowedOrigins !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.allowedOrigins = this._allowedOrigins;
+    }
+    if (this._exposeHeaders !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.exposeHeaders = this._exposeHeaders;
+    }
+    if (this._maxAgeSeconds !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.maxAgeSeconds = this._maxAgeSeconds;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketCorsRule | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._allowedHeaders = undefined;
+      this._allowedMethods = undefined;
+      this._allowedOrigins = undefined;
+      this._exposeHeaders = undefined;
+      this._maxAgeSeconds = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._allowedHeaders = value.allowedHeaders;
+      this._allowedMethods = value.allowedMethods;
+      this._allowedOrigins = value.allowedOrigins;
+      this._exposeHeaders = value.exposeHeaders;
+      this._maxAgeSeconds = value.maxAgeSeconds;
+    }
+  }
+
+  // allowed_headers - computed: false, optional: true, required: false
+  private _allowedHeaders?: string[]; 
+  public get allowedHeaders() {
+    return this.getListAttribute('allowed_headers');
+  }
+  public set allowedHeaders(value: string[]) {
+    this._allowedHeaders = value;
+  }
+  public resetAllowedHeaders() {
+    this._allowedHeaders = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allowedHeadersInput() {
+    return this._allowedHeaders;
+  }
+
+  // allowed_methods - computed: false, optional: false, required: true
+  private _allowedMethods?: string[]; 
+  public get allowedMethods() {
+    return this.getListAttribute('allowed_methods');
+  }
+  public set allowedMethods(value: string[]) {
+    this._allowedMethods = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allowedMethodsInput() {
+    return this._allowedMethods;
+  }
+
+  // allowed_origins - computed: false, optional: false, required: true
+  private _allowedOrigins?: string[]; 
+  public get allowedOrigins() {
+    return this.getListAttribute('allowed_origins');
+  }
+  public set allowedOrigins(value: string[]) {
+    this._allowedOrigins = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allowedOriginsInput() {
+    return this._allowedOrigins;
+  }
+
+  // expose_headers - computed: false, optional: true, required: false
+  private _exposeHeaders?: string[]; 
+  public get exposeHeaders() {
+    return this.getListAttribute('expose_headers');
+  }
+  public set exposeHeaders(value: string[]) {
+    this._exposeHeaders = value;
+  }
+  public resetExposeHeaders() {
+    this._exposeHeaders = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get exposeHeadersInput() {
+    return this._exposeHeaders;
+  }
+
+  // max_age_seconds - computed: false, optional: true, required: false
+  private _maxAgeSeconds?: number; 
+  public get maxAgeSeconds() {
+    return this.getNumberAttribute('max_age_seconds');
+  }
+  public set maxAgeSeconds(value: number) {
+    this._maxAgeSeconds = value;
+  }
+  public resetMaxAgeSeconds() {
+    this._maxAgeSeconds = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maxAgeSecondsInput() {
+    return this._maxAgeSeconds;
+  }
+}
+
+export class S3BucketCorsRuleList extends cdktf.ComplexList {
+  public internalValue? : S3BucketCorsRule[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): S3BucketCorsRuleOutputReference {
+    return new S3BucketCorsRuleOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface S3BucketGrant {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#id S3Bucket#id}
@@ -3072,6 +4783,136 @@ export function s3BucketGrantToTerraform(struct?: S3BucketGrant | cdktf.IResolva
   }
 }
 
+export class S3BucketGrantOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): S3BucketGrant | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._id !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.id = this._id;
+    }
+    if (this._permissions !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.permissions = this._permissions;
+    }
+    if (this._type !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.type = this._type;
+    }
+    if (this._uri !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.uri = this._uri;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketGrant | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._id = undefined;
+      this._permissions = undefined;
+      this._type = undefined;
+      this._uri = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._id = value.id;
+      this._permissions = value.permissions;
+      this._type = value.type;
+      this._uri = value.uri;
+    }
+  }
+
+  // id - computed: false, optional: true, required: false
+  private _id?: string; 
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
+  }
+
+  // permissions - computed: false, optional: false, required: true
+  private _permissions?: string[]; 
+  public get permissions() {
+    return cdktf.Fn.tolist(this.getListAttribute('permissions'));
+  }
+  public set permissions(value: string[]) {
+    this._permissions = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get permissionsInput() {
+    return this._permissions;
+  }
+
+  // type - computed: false, optional: false, required: true
+  private _type?: string; 
+  public get type() {
+    return this.getStringAttribute('type');
+  }
+  public set type(value: string) {
+    this._type = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get typeInput() {
+    return this._type;
+  }
+
+  // uri - computed: false, optional: true, required: false
+  private _uri?: string; 
+  public get uri() {
+    return this.getStringAttribute('uri');
+  }
+  public set uri(value: string) {
+    this._uri = value;
+  }
+  public resetUri() {
+    this._uri = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get uriInput() {
+    return this._uri;
+  }
+}
+
+export class S3BucketGrantList extends cdktf.ComplexList {
+  public internalValue? : S3BucketGrant[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): S3BucketGrantOutputReference {
+    return new S3BucketGrantOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface S3BucketLifecycleRuleExpiration {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#date S3Bucket#date}
@@ -3278,6 +5119,95 @@ export function s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform(stru
   }
 }
 
+export class S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): S3BucketLifecycleRuleNoncurrentVersionTransition | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._days !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.days = this._days;
+    }
+    if (this._storageClass !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.storageClass = this._storageClass;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketLifecycleRuleNoncurrentVersionTransition | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._days = undefined;
+      this._storageClass = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._days = value.days;
+      this._storageClass = value.storageClass;
+    }
+  }
+
+  // days - computed: false, optional: true, required: false
+  private _days?: number; 
+  public get days() {
+    return this.getNumberAttribute('days');
+  }
+  public set days(value: number) {
+    this._days = value;
+  }
+  public resetDays() {
+    this._days = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get daysInput() {
+    return this._days;
+  }
+
+  // storage_class - computed: false, optional: false, required: true
+  private _storageClass?: string; 
+  public get storageClass() {
+    return this.getStringAttribute('storage_class');
+  }
+  public set storageClass(value: string) {
+    this._storageClass = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get storageClassInput() {
+    return this._storageClass;
+  }
+}
+
+export class S3BucketLifecycleRuleNoncurrentVersionTransitionList extends cdktf.ComplexList {
+  public internalValue? : S3BucketLifecycleRuleNoncurrentVersionTransition[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference {
+    return new S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface S3BucketLifecycleRuleTransition {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#date S3Bucket#date}
@@ -3305,6 +5235,117 @@ export function s3BucketLifecycleRuleTransitionToTerraform(struct?: S3BucketLife
   }
 }
 
+export class S3BucketLifecycleRuleTransitionOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): S3BucketLifecycleRuleTransition | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._date !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.date = this._date;
+    }
+    if (this._days !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.days = this._days;
+    }
+    if (this._storageClass !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.storageClass = this._storageClass;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketLifecycleRuleTransition | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._date = undefined;
+      this._days = undefined;
+      this._storageClass = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._date = value.date;
+      this._days = value.days;
+      this._storageClass = value.storageClass;
+    }
+  }
+
+  // date - computed: false, optional: true, required: false
+  private _date?: string; 
+  public get date() {
+    return this.getStringAttribute('date');
+  }
+  public set date(value: string) {
+    this._date = value;
+  }
+  public resetDate() {
+    this._date = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dateInput() {
+    return this._date;
+  }
+
+  // days - computed: false, optional: true, required: false
+  private _days?: number; 
+  public get days() {
+    return this.getNumberAttribute('days');
+  }
+  public set days(value: number) {
+    this._days = value;
+  }
+  public resetDays() {
+    this._days = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get daysInput() {
+    return this._days;
+  }
+
+  // storage_class - computed: false, optional: false, required: true
+  private _storageClass?: string; 
+  public get storageClass() {
+    return this.getStringAttribute('storage_class');
+  }
+  public set storageClass(value: string) {
+    this._storageClass = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get storageClassInput() {
+    return this._storageClass;
+  }
+}
+
+export class S3BucketLifecycleRuleTransitionList extends cdktf.ComplexList {
+  public internalValue? : S3BucketLifecycleRuleTransition[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): S3BucketLifecycleRuleTransitionOutputReference {
+    return new S3BucketLifecycleRuleTransitionOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface S3BucketLifecycleRule {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#abort_incomplete_multipart_upload_days S3Bucket#abort_incomplete_multipart_upload_days}
@@ -3369,6 +5410,232 @@ export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule 
   }
 }
 
+export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): S3BucketLifecycleRule | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._abortIncompleteMultipartUploadDays !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.abortIncompleteMultipartUploadDays = this._abortIncompleteMultipartUploadDays;
+    }
+    if (this._enabled !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.enabled = this._enabled;
+    }
+    if (this._prefix !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.prefix = this._prefix;
+    }
+    if (this._tags !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.tags = this._tags;
+    }
+    if (this._expiration?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.expiration = this._expiration?.internalValue;
+    }
+    if (this._noncurrentVersionExpiration?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.noncurrentVersionExpiration = this._noncurrentVersionExpiration?.internalValue;
+    }
+    if (this._noncurrentVersionTransition?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.noncurrentVersionTransition = this._noncurrentVersionTransition?.internalValue;
+    }
+    if (this._transition?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.transition = this._transition?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketLifecycleRule | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._abortIncompleteMultipartUploadDays = undefined;
+      this._enabled = undefined;
+      this._prefix = undefined;
+      this._tags = undefined;
+      this._expiration.internalValue = undefined;
+      this._noncurrentVersionExpiration.internalValue = undefined;
+      this._noncurrentVersionTransition.internalValue = undefined;
+      this._transition.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._abortIncompleteMultipartUploadDays = value.abortIncompleteMultipartUploadDays;
+      this._enabled = value.enabled;
+      this._prefix = value.prefix;
+      this._tags = value.tags;
+      this._expiration.internalValue = value.expiration;
+      this._noncurrentVersionExpiration.internalValue = value.noncurrentVersionExpiration;
+      this._noncurrentVersionTransition.internalValue = value.noncurrentVersionTransition;
+      this._transition.internalValue = value.transition;
+    }
+  }
+
+  // abort_incomplete_multipart_upload_days - computed: false, optional: true, required: false
+  private _abortIncompleteMultipartUploadDays?: number; 
+  public get abortIncompleteMultipartUploadDays() {
+    return this.getNumberAttribute('abort_incomplete_multipart_upload_days');
+  }
+  public set abortIncompleteMultipartUploadDays(value: number) {
+    this._abortIncompleteMultipartUploadDays = value;
+  }
+  public resetAbortIncompleteMultipartUploadDays() {
+    this._abortIncompleteMultipartUploadDays = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get abortIncompleteMultipartUploadDaysInput() {
+    return this._abortIncompleteMultipartUploadDays;
+  }
+
+  // enabled - computed: false, optional: false, required: true
+  private _enabled?: boolean | cdktf.IResolvable; 
+  public get enabled() {
+    return this.getBooleanAttribute('enabled');
+  }
+  public set enabled(value: boolean | cdktf.IResolvable) {
+    this._enabled = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enabledInput() {
+    return this._enabled;
+  }
+
+  // id - computed: true, optional: true, required: false
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // prefix - computed: false, optional: true, required: false
+  private _prefix?: string; 
+  public get prefix() {
+    return this.getStringAttribute('prefix');
+  }
+  public set prefix(value: string) {
+    this._prefix = value;
+  }
+  public resetPrefix() {
+    this._prefix = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get prefixInput() {
+    return this._prefix;
+  }
+
+  // tags - computed: false, optional: true, required: false
+  private _tags?: { [key: string]: string }; 
+  public get tags() {
+    return this.getStringMapAttribute('tags');
+  }
+  public set tags(value: { [key: string]: string }) {
+    this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsInput() {
+    return this._tags;
+  }
+
+  // expiration - computed: false, optional: true, required: false
+  private _expiration = new S3BucketLifecycleRuleExpirationOutputReference(this, \\"expiration\\");
+  public get expiration() {
+    return this._expiration;
+  }
+  public putExpiration(value: S3BucketLifecycleRuleExpiration) {
+    this._expiration.internalValue = value;
+  }
+  public resetExpiration() {
+    this._expiration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get expirationInput() {
+    return this._expiration.internalValue;
+  }
+
+  // noncurrent_version_expiration - computed: false, optional: true, required: false
+  private _noncurrentVersionExpiration = new S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference(this, \\"noncurrent_version_expiration\\");
+  public get noncurrentVersionExpiration() {
+    return this._noncurrentVersionExpiration;
+  }
+  public putNoncurrentVersionExpiration(value: S3BucketLifecycleRuleNoncurrentVersionExpiration) {
+    this._noncurrentVersionExpiration.internalValue = value;
+  }
+  public resetNoncurrentVersionExpiration() {
+    this._noncurrentVersionExpiration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get noncurrentVersionExpirationInput() {
+    return this._noncurrentVersionExpiration.internalValue;
+  }
+
+  // noncurrent_version_transition - computed: false, optional: true, required: false
+  private _noncurrentVersionTransition = new S3BucketLifecycleRuleNoncurrentVersionTransitionList(this, \\"noncurrent_version_transition\\", true);
+  public get noncurrentVersionTransition() {
+    return this._noncurrentVersionTransition;
+  }
+  public putNoncurrentVersionTransition(value: S3BucketLifecycleRuleNoncurrentVersionTransition[] | cdktf.IResolvable) {
+    this._noncurrentVersionTransition.internalValue = value;
+  }
+  public resetNoncurrentVersionTransition() {
+    this._noncurrentVersionTransition.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get noncurrentVersionTransitionInput() {
+    return this._noncurrentVersionTransition.internalValue;
+  }
+
+  // transition - computed: false, optional: true, required: false
+  private _transition = new S3BucketLifecycleRuleTransitionList(this, \\"transition\\", true);
+  public get transition() {
+    return this._transition;
+  }
+  public putTransition(value: S3BucketLifecycleRuleTransition[] | cdktf.IResolvable) {
+    this._transition.internalValue = value;
+  }
+  public resetTransition() {
+    this._transition.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get transitionInput() {
+    return this._transition.internalValue;
+  }
+}
+
+export class S3BucketLifecycleRuleList extends cdktf.ComplexList {
+  public internalValue? : S3BucketLifecycleRule[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): S3BucketLifecycleRuleOutputReference {
+    return new S3BucketLifecycleRuleOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface S3BucketLogging {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#target_bucket S3Bucket#target_bucket}
@@ -3391,6 +5658,95 @@ export function s3BucketLoggingToTerraform(struct?: S3BucketLogging | cdktf.IRes
   }
 }
 
+export class S3BucketLoggingOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): S3BucketLogging | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._targetBucket !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.targetBucket = this._targetBucket;
+    }
+    if (this._targetPrefix !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.targetPrefix = this._targetPrefix;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketLogging | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._targetBucket = undefined;
+      this._targetPrefix = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._targetBucket = value.targetBucket;
+      this._targetPrefix = value.targetPrefix;
+    }
+  }
+
+  // target_bucket - computed: false, optional: false, required: true
+  private _targetBucket?: string; 
+  public get targetBucket() {
+    return this.getStringAttribute('target_bucket');
+  }
+  public set targetBucket(value: string) {
+    this._targetBucket = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get targetBucketInput() {
+    return this._targetBucket;
+  }
+
+  // target_prefix - computed: false, optional: true, required: false
+  private _targetPrefix?: string; 
+  public get targetPrefix() {
+    return this.getStringAttribute('target_prefix');
+  }
+  public set targetPrefix(value: string) {
+    this._targetPrefix = value;
+  }
+  public resetTargetPrefix() {
+    this._targetPrefix = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get targetPrefixInput() {
+    return this._targetPrefix;
+  }
+}
+
+export class S3BucketLoggingList extends cdktf.ComplexList {
+  public internalValue? : S3BucketLogging[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): S3BucketLoggingOutputReference {
+    return new S3BucketLoggingOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface S3BucketObjectLockConfigurationRuleDefaultRetention {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#days S3Bucket#days}
@@ -4170,6 +6526,202 @@ export function s3BucketReplicationConfigurationRulesToTerraform(struct?: S3Buck
   }
 }
 
+export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): S3BucketReplicationConfigurationRules | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._id !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.id = this._id;
+    }
+    if (this._prefix !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.prefix = this._prefix;
+    }
+    if (this._priority !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.priority = this._priority;
+    }
+    if (this._status !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.status = this._status;
+    }
+    if (this._destination?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.destination = this._destination?.internalValue;
+    }
+    if (this._filter?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.filter = this._filter?.internalValue;
+    }
+    if (this._sourceSelectionCriteria?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.sourceSelectionCriteria = this._sourceSelectionCriteria?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: S3BucketReplicationConfigurationRules | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._id = undefined;
+      this._prefix = undefined;
+      this._priority = undefined;
+      this._status = undefined;
+      this._destination.internalValue = undefined;
+      this._filter.internalValue = undefined;
+      this._sourceSelectionCriteria.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._id = value.id;
+      this._prefix = value.prefix;
+      this._priority = value.priority;
+      this._status = value.status;
+      this._destination.internalValue = value.destination;
+      this._filter.internalValue = value.filter;
+      this._sourceSelectionCriteria.internalValue = value.sourceSelectionCriteria;
+    }
+  }
+
+  // id - computed: false, optional: true, required: false
+  private _id?: string; 
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
+  }
+
+  // prefix - computed: false, optional: true, required: false
+  private _prefix?: string; 
+  public get prefix() {
+    return this.getStringAttribute('prefix');
+  }
+  public set prefix(value: string) {
+    this._prefix = value;
+  }
+  public resetPrefix() {
+    this._prefix = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get prefixInput() {
+    return this._prefix;
+  }
+
+  // priority - computed: false, optional: true, required: false
+  private _priority?: number; 
+  public get priority() {
+    return this.getNumberAttribute('priority');
+  }
+  public set priority(value: number) {
+    this._priority = value;
+  }
+  public resetPriority() {
+    this._priority = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get priorityInput() {
+    return this._priority;
+  }
+
+  // status - computed: false, optional: false, required: true
+  private _status?: string; 
+  public get status() {
+    return this.getStringAttribute('status');
+  }
+  public set status(value: string) {
+    this._status = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get statusInput() {
+    return this._status;
+  }
+
+  // destination - computed: false, optional: false, required: true
+  private _destination = new S3BucketReplicationConfigurationRulesDestinationOutputReference(this, \\"destination\\");
+  public get destination() {
+    return this._destination;
+  }
+  public putDestination(value: S3BucketReplicationConfigurationRulesDestination) {
+    this._destination.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get destinationInput() {
+    return this._destination.internalValue;
+  }
+
+  // filter - computed: false, optional: true, required: false
+  private _filter = new S3BucketReplicationConfigurationRulesFilterOutputReference(this, \\"filter\\");
+  public get filter() {
+    return this._filter;
+  }
+  public putFilter(value: S3BucketReplicationConfigurationRulesFilter) {
+    this._filter.internalValue = value;
+  }
+  public resetFilter() {
+    this._filter.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get filterInput() {
+    return this._filter.internalValue;
+  }
+
+  // source_selection_criteria - computed: false, optional: true, required: false
+  private _sourceSelectionCriteria = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputReference(this, \\"source_selection_criteria\\");
+  public get sourceSelectionCriteria() {
+    return this._sourceSelectionCriteria;
+  }
+  public putSourceSelectionCriteria(value: S3BucketReplicationConfigurationRulesSourceSelectionCriteria) {
+    this._sourceSelectionCriteria.internalValue = value;
+  }
+  public resetSourceSelectionCriteria() {
+    this._sourceSelectionCriteria.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sourceSelectionCriteriaInput() {
+    return this._sourceSelectionCriteria.internalValue;
+  }
+}
+
+export class S3BucketReplicationConfigurationRulesList extends cdktf.ComplexList {
+  public internalValue? : S3BucketReplicationConfigurationRules[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): S3BucketReplicationConfigurationRulesOutputReference {
+    return new S3BucketReplicationConfigurationRulesOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface S3BucketReplicationConfiguration {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#role S3Bucket#role}
@@ -4212,9 +6764,9 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
       hasAnyValues = true;
       internalValueResult.role = this._role;
     }
-    if (this._rules !== undefined) {
+    if (this._rules?.internalValue !== undefined) {
       hasAnyValues = true;
-      internalValueResult.rules = this._rules;
+      internalValueResult.rules = this._rules?.internalValue;
     }
     return hasAnyValues ? internalValueResult : undefined;
   }
@@ -4223,12 +6775,12 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
     if (value === undefined) {
       this.isEmptyObject = false;
       this._role = undefined;
-      this._rules = undefined;
+      this._rules.internalValue = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._role = value.role;
-      this._rules = value.rules;
+      this._rules.internalValue = value.rules;
     }
   }
 
@@ -4246,17 +6798,16 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   }
 
   // rules - computed: false, optional: false, required: true
-  private _rules?: S3BucketReplicationConfigurationRules[] | cdktf.IResolvable; 
+  private _rules = new S3BucketReplicationConfigurationRulesList(this, \\"rules\\", true);
   public get rules() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('rules')));
+    return this._rules;
   }
-  public set rules(value: S3BucketReplicationConfigurationRules[] | cdktf.IResolvable) {
-    this._rules = value;
+  public putRules(value: S3BucketReplicationConfigurationRules[] | cdktf.IResolvable) {
+    this._rules.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get rulesInput() {
-    return this._rules;
+    return this._rules.internalValue;
   }
 }
 export interface S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault {
@@ -4760,10 +7311,10 @@ export class S3Bucket extends cdktf.TerraformResource {
     this._tags = config.tags;
     this._websiteDomain = config.websiteDomain;
     this._websiteEndpoint = config.websiteEndpoint;
-    this._corsRule = config.corsRule;
-    this._grant = config.grant;
-    this._lifecycleRule = config.lifecycleRule;
-    this._logging = config.logging;
+    this._corsRule.internalValue = config.corsRule;
+    this._grant.internalValue = config.grant;
+    this._lifecycleRule.internalValue = config.lifecycleRule;
+    this._logging.internalValue = config.logging;
     this._objectLockConfiguration.internalValue = config.objectLockConfiguration;
     this._replicationConfiguration.internalValue = config.replicationConfiguration;
     this._serverSideEncryptionConfiguration.internalValue = config.serverSideEncryptionConfiguration;
@@ -4999,71 +7550,67 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // cors_rule - computed: false, optional: true, required: false
-  private _corsRule?: S3BucketCorsRule[] | cdktf.IResolvable; 
+  private _corsRule = new S3BucketCorsRuleList(this, \\"cors_rule\\", false);
   public get corsRule() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('cors_rule');
+    return this._corsRule;
   }
-  public set corsRule(value: S3BucketCorsRule[] | cdktf.IResolvable) {
-    this._corsRule = value;
+  public putCorsRule(value: S3BucketCorsRule[] | cdktf.IResolvable) {
+    this._corsRule.internalValue = value;
   }
   public resetCorsRule() {
-    this._corsRule = undefined;
+    this._corsRule.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get corsRuleInput() {
-    return this._corsRule;
+    return this._corsRule.internalValue;
   }
 
   // grant - computed: false, optional: true, required: false
-  private _grant?: S3BucketGrant[] | cdktf.IResolvable; 
+  private _grant = new S3BucketGrantList(this, \\"grant\\", true);
   public get grant() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('grant')));
+    return this._grant;
   }
-  public set grant(value: S3BucketGrant[] | cdktf.IResolvable) {
-    this._grant = value;
+  public putGrant(value: S3BucketGrant[] | cdktf.IResolvable) {
+    this._grant.internalValue = value;
   }
   public resetGrant() {
-    this._grant = undefined;
+    this._grant.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get grantInput() {
-    return this._grant;
+    return this._grant.internalValue;
   }
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule?: S3BucketLifecycleRule[] | cdktf.IResolvable; 
+  private _lifecycleRule = new S3BucketLifecycleRuleList(this, \\"lifecycle_rule\\", false);
   public get lifecycleRule() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('lifecycle_rule');
+    return this._lifecycleRule;
   }
-  public set lifecycleRule(value: S3BucketLifecycleRule[] | cdktf.IResolvable) {
-    this._lifecycleRule = value;
+  public putLifecycleRule(value: S3BucketLifecycleRule[] | cdktf.IResolvable) {
+    this._lifecycleRule.internalValue = value;
   }
   public resetLifecycleRule() {
-    this._lifecycleRule = undefined;
+    this._lifecycleRule.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get lifecycleRuleInput() {
-    return this._lifecycleRule;
+    return this._lifecycleRule.internalValue;
   }
 
   // logging - computed: false, optional: true, required: false
-  private _logging?: S3BucketLogging[] | cdktf.IResolvable; 
+  private _logging = new S3BucketLoggingList(this, \\"logging\\", true);
   public get logging() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('logging')));
+    return this._logging;
   }
-  public set logging(value: S3BucketLogging[] | cdktf.IResolvable) {
-    this._logging = value;
+  public putLogging(value: S3BucketLogging[] | cdktf.IResolvable) {
+    this._logging.internalValue = value;
   }
   public resetLogging() {
-    this._logging = undefined;
+    this._logging.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get loggingInput() {
-    return this._logging;
+    return this._logging.internalValue;
   }
 
   // object_lock_configuration - computed: false, optional: true, required: false
@@ -5165,10 +7712,10 @@ export class S3Bucket extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       website_domain: cdktf.stringToTerraform(this._websiteDomain),
       website_endpoint: cdktf.stringToTerraform(this._websiteEndpoint),
-      cors_rule: cdktf.listMapper(s3BucketCorsRuleToTerraform)(this._corsRule),
-      grant: cdktf.listMapper(s3BucketGrantToTerraform)(this._grant),
-      lifecycle_rule: cdktf.listMapper(s3BucketLifecycleRuleToTerraform)(this._lifecycleRule),
-      logging: cdktf.listMapper(s3BucketLoggingToTerraform)(this._logging),
+      cors_rule: cdktf.listMapper(s3BucketCorsRuleToTerraform)(this._corsRule.internalValue),
+      grant: cdktf.listMapper(s3BucketGrantToTerraform)(this._grant.internalValue),
+      lifecycle_rule: cdktf.listMapper(s3BucketLifecycleRuleToTerraform)(this._lifecycleRule.internalValue),
+      logging: cdktf.listMapper(s3BucketLoggingToTerraform)(this._logging.internalValue),
       object_lock_configuration: s3BucketObjectLockConfigurationToTerraform(this._objectLockConfiguration.internalValue),
       replication_configuration: s3BucketReplicationConfigurationToTerraform(this._replicationConfiguration.internalValue),
       server_side_encryption_configuration: s3BucketServerSideEncryptionConfigurationToTerraform(this._serverSideEncryptionConfiguration.internalValue),
@@ -5286,6 +7833,252 @@ export function securityGroupEgressToTerraform(struct?: SecurityGroupEgress | cd
   }
 }
 
+export class SecurityGroupEgressOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): SecurityGroupEgress | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._cidrBlocks !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.cidrBlocks = this._cidrBlocks;
+    }
+    if (this._description !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.description = this._description;
+    }
+    if (this._fromPort !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.fromPort = this._fromPort;
+    }
+    if (this._ipv6CidrBlocks !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.ipv6CidrBlocks = this._ipv6CidrBlocks;
+    }
+    if (this._prefixListIds !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.prefixListIds = this._prefixListIds;
+    }
+    if (this._protocol !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.protocol = this._protocol;
+    }
+    if (this._securityGroups !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.securityGroups = this._securityGroups;
+    }
+    if (this._self !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.selfAttribute = this._self;
+    }
+    if (this._toPort !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.toPort = this._toPort;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SecurityGroupEgress | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._cidrBlocks = undefined;
+      this._description = undefined;
+      this._fromPort = undefined;
+      this._ipv6CidrBlocks = undefined;
+      this._prefixListIds = undefined;
+      this._protocol = undefined;
+      this._securityGroups = undefined;
+      this._self = undefined;
+      this._toPort = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._cidrBlocks = value.cidrBlocks;
+      this._description = value.description;
+      this._fromPort = value.fromPort;
+      this._ipv6CidrBlocks = value.ipv6CidrBlocks;
+      this._prefixListIds = value.prefixListIds;
+      this._protocol = value.protocol;
+      this._securityGroups = value.securityGroups;
+      this._self = value.selfAttribute;
+      this._toPort = value.toPort;
+    }
+  }
+
+  // cidr_blocks - computed: true, optional: true, required: false
+  private _cidrBlocks?: string[]; 
+  public get cidrBlocks() {
+    return this.getListAttribute('cidr_blocks');
+  }
+  public set cidrBlocks(value: string[]) {
+    this._cidrBlocks = value;
+  }
+  public resetCidrBlocks() {
+    this._cidrBlocks = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get cidrBlocksInput() {
+    return this._cidrBlocks;
+  }
+
+  // description - computed: true, optional: true, required: false
+  private _description?: string; 
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+  public set description(value: string) {
+    this._description = value;
+  }
+  public resetDescription() {
+    this._description = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get descriptionInput() {
+    return this._description;
+  }
+
+  // from_port - computed: true, optional: true, required: false
+  private _fromPort?: number; 
+  public get fromPort() {
+    return this.getNumberAttribute('from_port');
+  }
+  public set fromPort(value: number) {
+    this._fromPort = value;
+  }
+  public resetFromPort() {
+    this._fromPort = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get fromPortInput() {
+    return this._fromPort;
+  }
+
+  // ipv6_cidr_blocks - computed: true, optional: true, required: false
+  private _ipv6CidrBlocks?: string[]; 
+  public get ipv6CidrBlocks() {
+    return this.getListAttribute('ipv6_cidr_blocks');
+  }
+  public set ipv6CidrBlocks(value: string[]) {
+    this._ipv6CidrBlocks = value;
+  }
+  public resetIpv6CidrBlocks() {
+    this._ipv6CidrBlocks = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ipv6CidrBlocksInput() {
+    return this._ipv6CidrBlocks;
+  }
+
+  // prefix_list_ids - computed: true, optional: true, required: false
+  private _prefixListIds?: string[]; 
+  public get prefixListIds() {
+    return this.getListAttribute('prefix_list_ids');
+  }
+  public set prefixListIds(value: string[]) {
+    this._prefixListIds = value;
+  }
+  public resetPrefixListIds() {
+    this._prefixListIds = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get prefixListIdsInput() {
+    return this._prefixListIds;
+  }
+
+  // protocol - computed: true, optional: true, required: false
+  private _protocol?: string; 
+  public get protocol() {
+    return this.getStringAttribute('protocol');
+  }
+  public set protocol(value: string) {
+    this._protocol = value;
+  }
+  public resetProtocol() {
+    this._protocol = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get protocolInput() {
+    return this._protocol;
+  }
+
+  // security_groups - computed: true, optional: true, required: false
+  private _securityGroups?: string[]; 
+  public get securityGroups() {
+    return cdktf.Fn.tolist(this.getListAttribute('security_groups'));
+  }
+  public set securityGroups(value: string[]) {
+    this._securityGroups = value;
+  }
+  public resetSecurityGroups() {
+    this._securityGroups = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get securityGroupsInput() {
+    return this._securityGroups;
+  }
+
+  // self - computed: true, optional: true, required: false
+  private _self?: boolean | cdktf.IResolvable; 
+  public get selfAttribute() {
+    return this.getBooleanAttribute('self');
+  }
+  public set selfAttribute(value: boolean | cdktf.IResolvable) {
+    this._self = value;
+  }
+  public resetSelfAttribute() {
+    this._self = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get selfAttributeInput() {
+    return this._self;
+  }
+
+  // to_port - computed: true, optional: true, required: false
+  private _toPort?: number; 
+  public get toPort() {
+    return this.getNumberAttribute('to_port');
+  }
+  public set toPort(value: number) {
+    this._toPort = value;
+  }
+  public resetToPort() {
+    this._toPort = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get toPortInput() {
+    return this._toPort;
+  }
+}
+
+export class SecurityGroupEgressList extends cdktf.ComplexList {
+  public internalValue? : SecurityGroupEgress[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): SecurityGroupEgressOutputReference {
+    return new SecurityGroupEgressOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface SecurityGroupIngress {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#cidr_blocks SecurityGroup#cidr_blocks}
@@ -5343,6 +8136,252 @@ export function securityGroupIngressToTerraform(struct?: SecurityGroupIngress | 
   }
 }
 
+export class SecurityGroupIngressOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): SecurityGroupIngress | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._cidrBlocks !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.cidrBlocks = this._cidrBlocks;
+    }
+    if (this._description !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.description = this._description;
+    }
+    if (this._fromPort !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.fromPort = this._fromPort;
+    }
+    if (this._ipv6CidrBlocks !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.ipv6CidrBlocks = this._ipv6CidrBlocks;
+    }
+    if (this._prefixListIds !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.prefixListIds = this._prefixListIds;
+    }
+    if (this._protocol !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.protocol = this._protocol;
+    }
+    if (this._securityGroups !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.securityGroups = this._securityGroups;
+    }
+    if (this._self !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.selfAttribute = this._self;
+    }
+    if (this._toPort !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.toPort = this._toPort;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SecurityGroupIngress | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._cidrBlocks = undefined;
+      this._description = undefined;
+      this._fromPort = undefined;
+      this._ipv6CidrBlocks = undefined;
+      this._prefixListIds = undefined;
+      this._protocol = undefined;
+      this._securityGroups = undefined;
+      this._self = undefined;
+      this._toPort = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._cidrBlocks = value.cidrBlocks;
+      this._description = value.description;
+      this._fromPort = value.fromPort;
+      this._ipv6CidrBlocks = value.ipv6CidrBlocks;
+      this._prefixListIds = value.prefixListIds;
+      this._protocol = value.protocol;
+      this._securityGroups = value.securityGroups;
+      this._self = value.selfAttribute;
+      this._toPort = value.toPort;
+    }
+  }
+
+  // cidr_blocks - computed: true, optional: true, required: false
+  private _cidrBlocks?: string[]; 
+  public get cidrBlocks() {
+    return this.getListAttribute('cidr_blocks');
+  }
+  public set cidrBlocks(value: string[]) {
+    this._cidrBlocks = value;
+  }
+  public resetCidrBlocks() {
+    this._cidrBlocks = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get cidrBlocksInput() {
+    return this._cidrBlocks;
+  }
+
+  // description - computed: true, optional: true, required: false
+  private _description?: string; 
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+  public set description(value: string) {
+    this._description = value;
+  }
+  public resetDescription() {
+    this._description = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get descriptionInput() {
+    return this._description;
+  }
+
+  // from_port - computed: true, optional: true, required: false
+  private _fromPort?: number; 
+  public get fromPort() {
+    return this.getNumberAttribute('from_port');
+  }
+  public set fromPort(value: number) {
+    this._fromPort = value;
+  }
+  public resetFromPort() {
+    this._fromPort = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get fromPortInput() {
+    return this._fromPort;
+  }
+
+  // ipv6_cidr_blocks - computed: true, optional: true, required: false
+  private _ipv6CidrBlocks?: string[]; 
+  public get ipv6CidrBlocks() {
+    return this.getListAttribute('ipv6_cidr_blocks');
+  }
+  public set ipv6CidrBlocks(value: string[]) {
+    this._ipv6CidrBlocks = value;
+  }
+  public resetIpv6CidrBlocks() {
+    this._ipv6CidrBlocks = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ipv6CidrBlocksInput() {
+    return this._ipv6CidrBlocks;
+  }
+
+  // prefix_list_ids - computed: true, optional: true, required: false
+  private _prefixListIds?: string[]; 
+  public get prefixListIds() {
+    return this.getListAttribute('prefix_list_ids');
+  }
+  public set prefixListIds(value: string[]) {
+    this._prefixListIds = value;
+  }
+  public resetPrefixListIds() {
+    this._prefixListIds = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get prefixListIdsInput() {
+    return this._prefixListIds;
+  }
+
+  // protocol - computed: true, optional: true, required: false
+  private _protocol?: string; 
+  public get protocol() {
+    return this.getStringAttribute('protocol');
+  }
+  public set protocol(value: string) {
+    this._protocol = value;
+  }
+  public resetProtocol() {
+    this._protocol = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get protocolInput() {
+    return this._protocol;
+  }
+
+  // security_groups - computed: true, optional: true, required: false
+  private _securityGroups?: string[]; 
+  public get securityGroups() {
+    return cdktf.Fn.tolist(this.getListAttribute('security_groups'));
+  }
+  public set securityGroups(value: string[]) {
+    this._securityGroups = value;
+  }
+  public resetSecurityGroups() {
+    this._securityGroups = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get securityGroupsInput() {
+    return this._securityGroups;
+  }
+
+  // self - computed: true, optional: true, required: false
+  private _self?: boolean | cdktf.IResolvable; 
+  public get selfAttribute() {
+    return this.getBooleanAttribute('self');
+  }
+  public set selfAttribute(value: boolean | cdktf.IResolvable) {
+    this._self = value;
+  }
+  public resetSelfAttribute() {
+    this._self = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get selfAttributeInput() {
+    return this._self;
+  }
+
+  // to_port - computed: true, optional: true, required: false
+  private _toPort?: number; 
+  public get toPort() {
+    return this.getNumberAttribute('to_port');
+  }
+  public set toPort(value: number) {
+    this._toPort = value;
+  }
+  public resetToPort() {
+    this._toPort = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get toPortInput() {
+    return this._toPort;
+  }
+}
+
+export class SecurityGroupIngressList extends cdktf.ComplexList {
+  public internalValue? : SecurityGroupIngress[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): SecurityGroupIngressOutputReference {
+    return new SecurityGroupIngressOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface SecurityGroupTimeouts {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#create SecurityGroup#create}
@@ -5469,8 +8508,8 @@ export class SecurityGroup extends cdktf.TerraformResource {
       lifecycle: config.lifecycle
     });
     this._description = config.description;
-    this._egress = config.egress;
-    this._ingress = config.ingress;
+    this._egress.internalValue = config.egress;
+    this._ingress.internalValue = config.ingress;
     this._name = config.name;
     this._namePrefix = config.namePrefix;
     this._revokeRulesOnDelete = config.revokeRulesOnDelete;
@@ -5505,20 +8544,19 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // egress - computed: true, optional: true, required: false
-  private _egress?: SecurityGroupEgress[] | cdktf.IResolvable; 
+  private _egress = new SecurityGroupEgressList(this, \\"egress\\", true);
   public get egress() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('egress')));
+    return this._egress;
   }
-  public set egress(value: SecurityGroupEgress[] | cdktf.IResolvable) {
-    this._egress = value;
+  public putEgress(value: SecurityGroupEgress[] | cdktf.IResolvable) {
+    this._egress.internalValue = value;
   }
   public resetEgress() {
-    this._egress = undefined;
+    this._egress.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get egressInput() {
-    return this._egress;
+    return this._egress.internalValue;
   }
 
   // id - computed: true, optional: true, required: false
@@ -5527,20 +8565,19 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // ingress - computed: true, optional: true, required: false
-  private _ingress?: SecurityGroupIngress[] | cdktf.IResolvable; 
+  private _ingress = new SecurityGroupIngressList(this, \\"ingress\\", true);
   public get ingress() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('ingress')));
+    return this._ingress;
   }
-  public set ingress(value: SecurityGroupIngress[] | cdktf.IResolvable) {
-    this._ingress = value;
+  public putIngress(value: SecurityGroupIngress[] | cdktf.IResolvable) {
+    this._ingress.internalValue = value;
   }
   public resetIngress() {
-    this._ingress = undefined;
+    this._ingress.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get ingressInput() {
-    return this._ingress;
+    return this._ingress.internalValue;
   }
 
   // name - computed: true, optional: true, required: false
@@ -5651,8 +8688,8 @@ export class SecurityGroup extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       description: cdktf.stringToTerraform(this._description),
-      egress: cdktf.listMapper(securityGroupEgressToTerraform)(this._egress),
-      ingress: cdktf.listMapper(securityGroupIngressToTerraform)(this._ingress),
+      egress: cdktf.listMapper(securityGroupEgressToTerraform)(this._egress.internalValue),
+      ingress: cdktf.listMapper(securityGroupIngressToTerraform)(this._ingress.internalValue),
       name: cdktf.stringToTerraform(this._name),
       name_prefix: cdktf.stringToTerraform(this._namePrefix),
       revoke_rules_on_delete: cdktf.booleanToTerraform(this._revokeRulesOnDelete),
