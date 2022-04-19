@@ -543,3 +543,11 @@ test("tomap does not destroy incoming ref", () => {
     }"
   `);
 });
+
+it("errors mentioning function name and argument", () => {
+  expect(() =>
+    Fn.replace("this value is ok", `this one " not`, "this is okay")
+  ).toThrowErrorMatchingInlineSnapshot(
+    `"Argument 1 of replace failed the validation: Error: 'this one \\" not' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
+  );
+});
