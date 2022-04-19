@@ -24,7 +24,6 @@ enum Synth {
   needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
   needsAFix_UnforseenClassRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
   needsAFix_UnforseenPropertyRename, // https://github.com/hashicorp/terraform-cdk/issues/1708
-  needsAFix_StringIsNotAssignableToListOfString, // https://github.com/hashicorp/terraform-cdk/issues/1553
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
@@ -943,6 +942,10 @@ describe("convert", () => {
   testCase.test(
     "complex for each loops",
     `
+  provider "aws" {
+    region = "us-east-1"
+  }
+
   resource "aws_acm_certificate" "example" {
     domain_name       = "example.com"
     validation_method = "DNS"
@@ -987,7 +990,7 @@ describe("convert", () => {
   }
           
   `,
-    Synth.needsAFix_StringIsNotAssignableToListOfString
+    Synth.yes
   );
 
   testCase.test(
