@@ -1,4 +1,5 @@
 import * as path from "path";
+import * as os from "os";
 import { logger } from "./logging";
 import { exec } from "./util";
 import { terraformVersion } from "./terraform";
@@ -150,6 +151,8 @@ export async function collectDebugInformation() {
     debugOutput["jsii"] = (await getPackageVersion(language, "jsii")) ?? null;
   }
   debugOutput["terraform"] = await terraformVersion;
+  debugOutput["arch"] = os.arch();
+  debugOutput["os"] = `${os.platform()} ${os.release()}`;
 
   switch (language) {
     case "go":
