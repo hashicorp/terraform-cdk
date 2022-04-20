@@ -8,6 +8,13 @@ describe("java full integration", () => {
     await driver.setupJavaProject();
   });
 
+  test("debug command", async () => {
+    const { stdout } = await driver.exec(`cdktf debug --json`);
+    const { cdktf, constructs } = JSON.parse(stdout);
+    expect(cdktf.length).not.toBe(0);
+    expect(constructs.length).not.toBe(0);
+  });
+
   test("synth generates JSON", async () => {
     await driver.synth();
     expect(driver.synthesizedStack("java-simple").toString()).toMatchSnapshot();

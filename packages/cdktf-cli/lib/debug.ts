@@ -67,10 +67,10 @@ async function getNodeModuleVersion(
   let output;
   try {
     output = await exec("npm", ["list", packageName, "--json"], {
-      env: process.env,
+      env: { ...process.env },
     });
   } catch (e) {
-    logger.info(`Unable to run 'npm list ${packageName} --json': ${e}`);
+    logger.debug(`Unable to run 'npm list ${packageName} --json': ${e}`);
     return undefined;
   }
 
@@ -78,7 +78,7 @@ async function getNodeModuleVersion(
   try {
     json = JSON.parse(output);
   } catch (e) {
-    logger.info(
+    logger.debug(
       `Unable to parse output of 'npm list ${packageName} --json': ${e}`
     );
     return undefined;
@@ -89,7 +89,7 @@ async function getNodeModuleVersion(
     !json.dependencies[packageName] ||
     !json.dependencies[packageName].version
   ) {
-    logger.info(
+    logger.debug(
       `Unable to find '${packageName}' in 'npm list ${packageName} --json': ${output}`
     );
     return undefined;
@@ -107,7 +107,7 @@ async function getPythonPackageVersion(
       env: process.env,
     });
   } catch (e) {
-    logger.info(`Unable to run 'pipenv run pip show ${packageName}': ${e}`);
+    logger.debug(`Unable to run 'pipenv run pip show ${packageName}': ${e}`);
   }
 
   // If we couldn't get the output using pipenv, try to get it using pip directly
@@ -117,7 +117,7 @@ async function getPythonPackageVersion(
         env: process.env,
       });
     } catch (e) {
-      logger.info(`Unable to run 'pip show ${packageName}': ${e}`);
+      logger.debug(`Unable to run 'pip show ${packageName}': ${e}`);
     }
   }
 
@@ -130,7 +130,7 @@ async function getPythonPackageVersion(
     .find((line) => line.startsWith("Version:"));
 
   if (!versionInfo) {
-    logger.info(
+    logger.debug(
       `Unable to find version in output of 'pipenv run pip show ${packageName}' / 'pip show ${packageName}': ${output}`
     );
     return undefined;
@@ -155,7 +155,7 @@ async function getCSharpPackageVersion(packageName: string) {
       env: process.env,
     });
   } catch (e) {
-    logger.info(
+    logger.debug(
       `Unable to run 'dotnet list package --include-transitive': ${e}`
     );
     return undefined;
@@ -166,7 +166,7 @@ async function getCSharpPackageVersion(packageName: string) {
     .find((line) => line.includes(`> ${cSharpPackageName}`));
 
   if (!versionLine) {
-    logger.info(
+    logger.debug(
       `Unable to find version for '${cSharpPackageName}' in output of 'dotnet list package --include-transitive': ${output}`
     );
     return undefined;
@@ -191,7 +191,7 @@ async function getGoPackageVersion(packageName: string) {
       env: process.env,
     });
   } catch (e) {
-    logger.info(`Unable to run 'go list -m all': ${e}`);
+    logger.debug(`Unable to run 'go list -m all': ${e}`);
     return undefined;
   }
 
@@ -200,7 +200,7 @@ async function getGoPackageVersion(packageName: string) {
     .find((line) => line.includes(goPackageName));
 
   if (!versionLine) {
-    logger.info(
+    logger.debug(
       `Unable to find version for '${goPackageName}' in output of 'go list -m all': ${output}`
     );
     return undefined;
