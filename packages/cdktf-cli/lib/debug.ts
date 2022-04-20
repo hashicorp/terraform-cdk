@@ -215,6 +215,52 @@ async function getGoPackageVersion(packageName: string) {
   return versionLine.split(" ").pop();
 }
 
+async function getJavaPackageVersion(packageName: string) {
+  const translationMap: Record<string, string> = {
+    jsii: "jsii-runtime",
+  };
+  const javaPackageName = translationMap[packageName] || packageName;
+
+  let output;
+  try {
+    output = await exec("mvn", ["dependency:list"], {
+      env: process.env,
+    });
+  } catch (e) {
+    logger.info(`Unable to run 'mvn dependency:list': ${e}`);
+    return undefined;
+  }
+
+  const resolutionPart = output.split(
+    "The following files have been resolved"
+  )[1];
+  if (!resolutionPart) {
+    logger.info(
+      `Unable to find resolution passage in output of 'mvn dependency:list': ${output}`
+    );
+    return undefined;
+  }
+
+  const versionLine = resolutionPart
+    .split("\n")
+    .find((line) => line.includes(javaPackageName));
+
+  if (!versionLine) {
+    logger.info(
+      `Unable to find version for '${javaPackageName}' in output of 'mvn dependency:list': ${output}`
+    );
+    return undefined;
+  }
+
+  // Example line: [INFO]    com.hashicorp:cdktf:jar:0.0.0:compile
+  const versionStartDelimiter = `${javaPackageName}:jar:`;
+  const versionStart =
+    versionLine.indexOf(versionStartDelimiter) + versionStartDelimiter.length;
+  const versionEndDelemiter = ":compile";
+  const versionEnd = versionLine.indexOf(versionEndDelemiter);
+  return versionLine.substring(versionStart, versionEnd);
+}
+
 export async function getPackageVersion(
   language: string,
   packageName: string
@@ -228,7 +274,7 @@ export async function getPackageVersion(
     python: getPythonPackageVersion,
     go: getGoPackageVersion,
     csharp: getCSharpPackageVersion,
-    java: noOp,
+    java: getJavaPackageVersion,
   };
 
   const libVersion = await (getLibraryVersionMap[language] || noOp)(
