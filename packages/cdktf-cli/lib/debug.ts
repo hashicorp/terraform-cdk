@@ -34,7 +34,7 @@ export function getDotnetVersion() {
 }
 
 export function getJavaVersion() {
-  return getBinaryVersion("java", "--version");
+  return getBinaryVersion("java", "-version");
 }
 export function getMavenVersion() {
   return getBinaryVersion("mvn", "--version");
