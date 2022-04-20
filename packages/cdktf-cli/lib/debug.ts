@@ -179,6 +179,11 @@ async function getCSharpPackageVersion(packageName: string) {
     return undefined;
   }
 
+  // A line might look like this:
+  //   Transitive Package                                           Resolved
+  //   > Amazon.JSII.Runtime                                        1.17.1
+  // Therefore we reverse split by whitespace and reverse
+  // so that the first thing we find is the version number
   return versionLine
     .split(" ")
     .reverse()
