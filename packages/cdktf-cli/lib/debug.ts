@@ -29,6 +29,13 @@ async function getBinaryVersion(
   }
 }
 
+export function getJavaVersion() {
+  return getBinaryVersion("java", "--version");
+}
+export function getMavenVersion() {
+  return getBinaryVersion("mvn", "--version");
+}
+
 export async function getPythonVersion() {
   return (
     (await getBinaryVersion("python3", "--version")) ||
@@ -172,6 +179,10 @@ export async function collectDebugInformation() {
       debugOutput["python"] = (await getPythonVersion()) ?? null;
       debugOutput["pip"] = (await getPipVersion()) ?? null;
       debugOutput["pipenv"] = (await getPipenvVersion()) ?? null;
+      break;
+    case "java":
+      debugOutput["java"] = (await getJavaVersion()) ?? null;
+      debugOutput["maven"] = (await getMavenVersion()) ?? null;
       break;
     case "go":
       debugOutput["go"] = (await getGoVersion()) ?? null;
