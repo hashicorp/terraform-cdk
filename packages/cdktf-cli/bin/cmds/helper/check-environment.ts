@@ -80,7 +80,7 @@ export async function verifySimilarLibraryVersion() {
   logger.debug(`CLI version: ${cliVersion}`);
   logger.debug(`${language} package version: ${libVersion}`);
 
-  if (cliVersion === "0.0.0") {
+  if (cliVersion === "0.0.0" || cliVersion.includes("-dev")) {
     // We are running a development version
     logger.debug(
       `Running a development version of cdktf, skipping version check`
