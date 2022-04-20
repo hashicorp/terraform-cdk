@@ -10,6 +10,8 @@ describe("full integration test synth", () => {
   });
 
   test("debug command", async () => {
+    const debug = await driver.exec(`CDKTF_LOG_LEVEL=debug cdktf debug --json`);
+    console.log("debug", debug);
     const { stdout } = await driver.exec(`cdktf debug --json`);
     const { cdktf, constructs } = JSON.parse(stdout);
     expect(cdktf.length).not.toBe(0);
