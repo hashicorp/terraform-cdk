@@ -24,7 +24,7 @@ async function getBinaryVersion(
     const result = await exec(binary, [versionCommand], { env: process.env });
     return result.trim().replace(/\r?\n|\r/g, "");
   } catch (e) {
-    logger.info(`Failed to run ${binary} ${versionCommand}: ${e}`);
+    logger.debug(`Failed to run ${binary} ${versionCommand}: ${e}`);
     return undefined;
   }
 }
@@ -227,7 +227,7 @@ async function getJavaPackageVersion(packageName: string) {
       env: process.env,
     });
   } catch (e) {
-    logger.info(`Unable to run 'mvn dependency:list': ${e}`);
+    logger.debug(`Unable to run 'mvn dependency:list': ${e}`);
     return undefined;
   }
 
@@ -235,7 +235,7 @@ async function getJavaPackageVersion(packageName: string) {
     "The following files have been resolved"
   )[1];
   if (!resolutionPart) {
-    logger.info(
+    logger.debug(
       `Unable to find resolution passage in output of 'mvn dependency:list': ${output}`
     );
     return undefined;
@@ -246,7 +246,7 @@ async function getJavaPackageVersion(packageName: string) {
     .find((line) => line.includes(javaPackageName));
 
   if (!versionLine) {
-    logger.info(
+    logger.debug(
       `Unable to find version for '${javaPackageName}' in output of 'mvn dependency:list': ${output}`
     );
     return undefined;
