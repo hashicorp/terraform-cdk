@@ -29,6 +29,10 @@ async function getBinaryVersion(
   }
 }
 
+export function getDotnetVersion() {
+  return getBinaryVersion("dotnet", "--version");
+}
+
 export function getJavaVersion() {
   return getBinaryVersion("java", "--version");
 }
@@ -183,6 +187,9 @@ export async function collectDebugInformation() {
     case "java":
       debugOutput["java"] = (await getJavaVersion()) ?? null;
       debugOutput["maven"] = (await getMavenVersion()) ?? null;
+      break;
+    case "csharp":
+      debugOutput["dotnet"] = (await getDotnetVersion()) ?? null;
       break;
     case "go":
       debugOutput["go"] = (await getGoVersion()) ?? null;
