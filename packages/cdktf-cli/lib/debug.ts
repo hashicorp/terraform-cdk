@@ -25,7 +25,7 @@ async function getBinaryVersion(
     const result = await exec(
       binary,
       [versionCommand],
-      { env: process.env },
+      { env: process.env, shell: true, stdio: "ignore" },
       noOp,
       noOp
     );
