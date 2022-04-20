@@ -6,7 +6,7 @@ import * as path from "path";
 import * as os from "os";
 import * as semver from "semver";
 import { promisify } from "util";
-import { versionNumber } from "../../../lib/version";
+import { DISPLAY_VERSION } from "../../../lib/version";
 
 const ONE_DAY_IN_SECONDS = 1 * 24 * 60 * 60;
 
@@ -100,7 +100,7 @@ export async function displayVersionMessage(): Promise<void> {
   try {
     const versionCheckCache = new VersionCheckTTL();
     const laterVersion = await latestVersionIfHigher(
-      versionNumber(),
+      `${DISPLAY_VERSION}`,
       versionCheckCache
     );
     if (laterVersion) {

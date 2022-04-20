@@ -7,7 +7,7 @@ import {
 } from "../../../lib/debug";
 import { Errors } from "../../../lib/errors";
 import { logger } from "../../../lib/logging";
-import { versionNumber } from "../../../lib/version";
+import { DISPLAY_VERSION } from "../../../lib/version";
 
 function throwIfLowerVersion(
   language: string,
@@ -69,7 +69,7 @@ export async function verifySimilarLibraryVersion() {
     return;
   }
 
-  const cliVersion = versionNumber();
+  const cliVersion = `${DISPLAY_VERSION}`;
 
   if (!libVersion) {
     // We could not detect the library version, disabling the check

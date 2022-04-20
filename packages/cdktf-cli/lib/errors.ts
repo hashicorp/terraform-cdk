@@ -1,12 +1,12 @@
 import { ReportParams, ReportRequest } from "./checkpoint";
-import { versionNumber } from "./version";
+import { DISPLAY_VERSION } from "./version";
 
 // Errors that will emit telemetry events
 async function report(command: string, payload: Record<string, any>) {
   const reportParams: ReportParams = {
     command,
     product: "cdktf",
-    version: versionNumber(),
+    version: `${DISPLAY_VERSION}`,
     dateTime: new Date(),
     payload,
   };
