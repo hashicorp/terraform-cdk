@@ -20,8 +20,15 @@ async function getBinaryVersion(
   binary: string,
   versionCommand: string
 ): Promise<string | undefined> {
+  const noOp = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
   try {
-    const result = await exec(binary, [versionCommand], { env: process.env });
+    const result = await exec(
+      binary,
+      [versionCommand],
+      { env: process.env },
+      noOp,
+      noOp
+    );
     return result.trim().replace(/\r?\n|\r/g, "");
   } catch (e) {
     logger.debug(`Failed to run ${binary} ${versionCommand}: ${e}`);
