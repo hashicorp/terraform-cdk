@@ -78,18 +78,23 @@ export class StructEmitter {
     // drop configStruct from resource.structs to avoid double import
     const structsWithoutConfigStruct = resource.structs.slice(1);
 
+    const structSplits: Struct[][] = [[]];
+    structsWithoutConfigStruct.forEach((struct) => {
+      if (
+        structSplits[structSplits.length - 1].length + struct.exportCount <=
+        STRUCT_SHARDING_THRESHOLD
+      ) {
+        structSplits[structSplits.length - 1].push(struct);
+      } else {
+        structSplits.push([struct]);
+      }
+    });
+
     const structPaths = [];
-    for (
-      let i = 0;
-      i < structsWithoutConfigStruct.length;
-      i += STRUCT_SHARDING_THRESHOLD
-    ) {
+    for (let i = 0; i < structSplits.length; i++) {
       const structsToImport: Record<string, string[]> = {};
-      const structs = structsWithoutConfigStruct.slice(
-        i,
-        i + STRUCT_SHARDING_THRESHOLD
-      );
-      const structFilename = `structs${i}.ts`;
+      const structs = structSplits[i];
+      const structFilename = `structs${i * STRUCT_SHARDING_THRESHOLD}.ts`;
       structPaths.push(structFilename);
 
       // find all structs that need to be imported in this file
@@ -110,7 +115,7 @@ export class StructEmitter {
             );
 
             if (
-              !att.type.isSingleItem &&
+              !attTypeStruct.isSingleItem &&
               (attTypeStruct.nestingMode === "list" ||
                 attTypeStruct.nestingMode === "set")
             ) {

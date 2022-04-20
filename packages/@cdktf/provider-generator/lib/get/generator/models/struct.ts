@@ -76,6 +76,25 @@ export class Struct {
       .filter((a) => a.type.struct?.isClass)
       .map((a) => a.type.typeName);
   }
+
+  public get exportCount(): number {
+    let count = 1; // self
+    count += 1; // toTerraform function
+
+    if (
+      this.nestingMode === "list" ||
+      this.nestingMode === "set" ||
+      this.nestingMode === "map"
+    ) {
+      count += 1; // output reference
+
+      if (!this.isSingleItem) {
+        count += 1; // complex collection
+      }
+    }
+
+    return count;
+  }
 }
 
 export class ConfigStruct extends Struct {

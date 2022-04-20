@@ -224,6 +224,11 @@ export class TerraformProviderGenerator {
             ",\n"
           )} } from './${resource.structsFolderName}'`
         );
+        this.code.line(
+          `import { ${resource.importableCollections.join(",\n")} } from './${
+            resource.structsFolderName
+          }'`
+        );
 
         resource.importStatements.forEach((statement) =>
           this.code.line(statement)
@@ -305,6 +310,14 @@ export class TerraformProviderGenerator {
           `import { ${resource.importableOutputReferences.join(
             ",\n"
           )} } from './${resource.structsFolderName}'`
+        );
+      }
+
+      if (resource.importableCollections.length > 0) {
+        this.code.line(
+          `import { ${resource.importableCollections.join(",\n")} } from './${
+            resource.structsFolderName
+          }'`
         );
       }
 
