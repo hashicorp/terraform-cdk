@@ -1,3 +1,33 @@
+## 0.10.2
+
+### fix
+
+- fix(tests): pin awscc version [\#1727](https://github.com/hashicorp/terraform-cdk/pull/1727)
+- fix(cli): return non-zero exit code in case of error when using cdktf diff [\#1726](https://github.com/hashicorp/terraform-cdk/pull/1726)
+- fix(cli): allow init command to run in a directory containing a README.md [\#1722](https://github.com/hashicorp/terraform-cdk/pull/1722)
+- fix(provider-generator): Include "arn" when assignable [\#1716](https://github.com/hashicorp/terraform-cdk/pull/1716)
+- fix(hcl2cdk): detect list extensions in strings and wrap them in an array [\#1707](https://github.com/hashicorp/terraform-cdk/pull/1707)
+- fix(lib): override values containing intrinsic tokens caused an infinite loop [\#1702](https://github.com/hashicorp/terraform-cdk/pull/1702)
+- fix(lib): contextualize error messages in terraform functions [\#1699](https://github.com/hashicorp/terraform-cdk/pull/1699)
+- fix(cli): fix path for `.terraform` directory [\#1694](https://github.com/hashicorp/terraform-cdk/pull/1694)
+- fix(cli): improve cli error handling [\#1687](https://github.com/hashicorp/terraform-cdk/pull/1687)
+
+### chore
+
+- chore: align versions to an unpublished version [\#1718](https://github.com/hashicorp/terraform-cdk/pull/1718)
+- chore(docs): update convert docs [\#1701](https://github.com/hashicorp/terraform-cdk/pull/1701)
+- chore(docs): update aspect docs [\#1690](https://github.com/hashicorp/terraform-cdk/pull/1690)
+- chore: npm-check-updates && yarn upgrade [\#1683](https://github.com/hashicorp/terraform-cdk/pull/1683)
+
+### test
+
+- test(hcl2cdk): add test case for property renaming [\#1709](https://github.com/hashicorp/terraform-cdk/pull/1709)
+
+### feat
+
+- feat(cli): warn users about misaligned CLI and library versions [\#1700](https://github.com/hashicorp/terraform-cdk/pull/1700)
+- feat(lib): improve error messages around misused list mutation [\#1691](https://github.com/hashicorp/terraform-cdk/pull/1691)
+
 ## 0.10.1
 
 ### fix

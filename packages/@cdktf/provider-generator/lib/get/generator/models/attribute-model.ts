@@ -218,7 +218,7 @@ export class AttributeModel {
     if (this.isAssignable && !this.computed) {
       return false;
     }
-    const ignoreList = ["arn", "id"];
+    const ignoreList = ["id"];
     return ignoreList.includes(this.name);
   }
 }
