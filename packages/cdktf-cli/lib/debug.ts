@@ -29,6 +29,19 @@ async function getBinaryVersion(
   }
 }
 
+export async function getPythonVersion() {
+  return (
+    (await getBinaryVersion("python3", "--version")) ||
+    (await getBinaryVersion("python", "--version"))
+  );
+}
+export function getPipVersion() {
+  return getBinaryVersion("pip", "--version");
+}
+export function getPipenvVersion() {
+  return getBinaryVersion("pipenv", "--version");
+}
+
 export function getGoVersion() {
   return getBinaryVersion("go", "version");
 }
@@ -155,8 +168,14 @@ export async function collectDebugInformation() {
   debugOutput["os"] = `${os.platform()} ${os.release()}`;
 
   switch (language) {
+    case "python":
+      debugOutput["python"] = (await getPythonVersion()) ?? null;
+      debugOutput["pip"] = (await getPipVersion()) ?? null;
+      debugOutput["pipenv"] = (await getPipenvVersion()) ?? null;
+      break;
     case "go":
       debugOutput["go"] = (await getGoVersion()) ?? null;
+      break;
   }
   return debugOutput;
 }
