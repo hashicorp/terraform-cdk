@@ -178,6 +178,43 @@ async function getCSharpPackageVersion(packageName: string) {
     .find((part) => part !== "");
 }
 
+async function getGoPackageVersion(packageName: string) {
+  const translationMap: Record<string, string> = {
+    jsii: "jsii-runtime-go",
+    cdktf: "github.com/hashicorp/terraform-cdk-go",
+  };
+  const goPackageName = translationMap[packageName] || packageName;
+
+  let output;
+  try {
+    output = await exec("go", ["list", "-m", "all"], {
+      env: process.env,
+    });
+  } catch (e) {
+    logger.info(`Unable to run 'go list -m all': ${e}`);
+    return undefined;
+  }
+
+  let versionLine = output
+    .split("\n")
+    .find((line) => line.includes(goPackageName));
+
+  if (!versionLine) {
+    logger.info(
+      `Unable to find version for '${goPackageName}' in output of 'go list -m all': ${output}`
+    );
+    return undefined;
+  }
+
+  // We are dealing with a local version
+  if (versionLine.includes("=>")) {
+    logger.debug(`Found local version for '${goPackageName}': ${versionLine}`);
+    versionLine = versionLine.split("=>")[0].trim();
+  }
+
+  return versionLine.split(" ").pop();
+}
+
 export async function getPackageVersion(
   language: string,
   packageName: string
@@ -189,7 +226,7 @@ export async function getPackageVersion(
   > = {
     typescript: getNodeModuleVersion,
     python: getPythonPackageVersion,
-    go: noOp,
+    go: getGoPackageVersion,
     csharp: getCSharpPackageVersion,
     java: noOp,
   };
