@@ -98,7 +98,7 @@ async function getNodeModuleVersion(
   return json.dependencies[packageName].version;
 }
 
-async function getPipenvPackageVersion(
+async function getPythonPackageVersion(
   packageName: string
 ): Promise<string | undefined> {
   let output;
@@ -140,6 +140,44 @@ async function getPipenvPackageVersion(
   return version;
 }
 
+// Once https://github.com/NuGet/Home/issues/7752 gets resolved we can also try with --json
+async function getCSharpPackageVersion(packageName: string) {
+  const translationMap: Record<string, string> = {
+    jsii: "Amazon.JSII.Runtime",
+    constructs: "Constructs",
+    cdktf: "HashiCorp.Cdktf",
+  };
+  const cSharpPackageName = translationMap[packageName] || packageName;
+
+  let output;
+  try {
+    output = await exec("dotnet", ["list", "package", "--include-transitive"], {
+      env: process.env,
+    });
+  } catch (e) {
+    logger.info(
+      `Unable to run 'dotnet list package --include-transitive': ${e}`
+    );
+    return undefined;
+  }
+
+  const versionLine = output
+    .split("\n")
+    .find((line) => line.includes(`> ${cSharpPackageName}`));
+
+  if (!versionLine) {
+    logger.info(
+      `Unable to find version for '${cSharpPackageName}' in output of 'dotnet list package --include-transitive': ${output}`
+    );
+    return undefined;
+  }
+
+  return versionLine
+    .split(" ")
+    .reverse()
+    .find((part) => part !== "");
+}
+
 export async function getPackageVersion(
   language: string,
   packageName: string
@@ -150,9 +188,9 @@ export async function getPackageVersion(
     (name: string) => Promise<string | undefined>
   > = {
     typescript: getNodeModuleVersion,
-    python: getPipenvPackageVersion,
+    python: getPythonPackageVersion,
     go: noOp,
-    csharp: noOp,
+    csharp: getCSharpPackageVersion,
     java: noOp,
   };
 
