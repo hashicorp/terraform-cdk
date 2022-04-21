@@ -369,6 +369,7 @@ export function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTe
 
 export class CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -380,7 +381,10 @@ export class CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputR
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | undefined {
+  public get internalValue(): CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._eventType !== undefined) {
@@ -398,15 +402,21 @@ export class CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputR
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | undefined) {
+  public set internalValue(value: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._eventType = undefined;
       this._includeBody = undefined;
       this._lambdaArn = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._eventType = value.eventType;
       this._includeBody = value.includeBody;
       this._lambdaArn = value.lambdaArn;
@@ -563,6 +573,7 @@ export function cloudfrontDistributionCacheBehaviorToTerraform(struct?: Cloudfro
 
 export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -574,7 +585,10 @@ export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.Co
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionCacheBehavior | undefined {
+  public get internalValue(): CloudfrontDistributionCacheBehavior | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._allowedMethods !== undefined) {
@@ -636,9 +650,10 @@ export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.Co
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionCacheBehavior | undefined) {
+  public set internalValue(value: CloudfrontDistributionCacheBehavior | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._allowedMethods = undefined;
       this._cachedMethods = undefined;
       this._compress = undefined;
@@ -654,8 +669,13 @@ export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.Co
       this._forwardedValues.internalValue = undefined;
       this._lambdaFunctionAssociation.internalValue = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._allowedMethods = value.allowedMethods;
       this._cachedMethods = value.cachedMethods;
       this._compress = value.compress;
@@ -933,6 +953,7 @@ export function cloudfrontDistributionCustomErrorResponseToTerraform(struct?: Cl
 
 export class CloudfrontDistributionCustomErrorResponseOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -944,7 +965,10 @@ export class CloudfrontDistributionCustomErrorResponseOutputReference extends cd
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionCustomErrorResponse | undefined {
+  public get internalValue(): CloudfrontDistributionCustomErrorResponse | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._errorCachingMinTtl !== undefined) {
@@ -966,16 +990,22 @@ export class CloudfrontDistributionCustomErrorResponseOutputReference extends cd
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionCustomErrorResponse | undefined) {
+  public set internalValue(value: CloudfrontDistributionCustomErrorResponse | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._errorCachingMinTtl = undefined;
       this._errorCode = undefined;
       this._responseCode = undefined;
       this._responsePagePath = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._errorCachingMinTtl = value.errorCachingMinTtl;
       this._errorCode = value.errorCode;
       this._responseCode = value.responseCode;
@@ -1324,6 +1354,7 @@ export function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociat
 
 export class CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -1335,7 +1366,10 @@ export class CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | undefined {
+  public get internalValue(): CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._eventType !== undefined) {
@@ -1353,15 +1387,21 @@ export class CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | undefined) {
+  public set internalValue(value: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._eventType = undefined;
       this._includeBody = undefined;
       this._lambdaArn = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._eventType = value.eventType;
       this._includeBody = value.includeBody;
       this._lambdaArn = value.lambdaArn;
@@ -2184,6 +2224,7 @@ export function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociat
 
 export class CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -2195,7 +2236,10 @@ export class CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | undefined {
+  public get internalValue(): CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._eventType !== undefined) {
@@ -2213,15 +2257,21 @@ export class CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | undefined) {
+  public set internalValue(value: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._eventType = undefined;
       this._includeBody = undefined;
       this._lambdaArn = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._eventType = value.eventType;
       this._includeBody = value.includeBody;
       this._lambdaArn = value.lambdaArn;
@@ -2378,6 +2428,7 @@ export function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: C
 
 export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -2389,7 +2440,10 @@ export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends c
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionOrderedCacheBehavior | undefined {
+  public get internalValue(): CloudfrontDistributionOrderedCacheBehavior | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._allowedMethods !== undefined) {
@@ -2451,9 +2505,10 @@ export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends c
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionOrderedCacheBehavior | undefined) {
+  public set internalValue(value: CloudfrontDistributionOrderedCacheBehavior | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._allowedMethods = undefined;
       this._cachedMethods = undefined;
       this._compress = undefined;
@@ -2469,8 +2524,13 @@ export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends c
       this._forwardedValues.internalValue = undefined;
       this._lambdaFunctionAssociation.internalValue = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._allowedMethods = value.allowedMethods;
       this._cachedMethods = value.cachedMethods;
       this._compress = value.compress;
@@ -2738,6 +2798,7 @@ export function cloudfrontDistributionOriginCustomHeaderToTerraform(struct?: Clo
 
 export class CloudfrontDistributionOriginCustomHeaderOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -2749,7 +2810,10 @@ export class CloudfrontDistributionOriginCustomHeaderOutputReference extends cdk
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionOriginCustomHeader | undefined {
+  public get internalValue(): CloudfrontDistributionOriginCustomHeader | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._name !== undefined) {
@@ -2763,14 +2827,20 @@ export class CloudfrontDistributionOriginCustomHeaderOutputReference extends cdk
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionOriginCustomHeader | undefined) {
+  public set internalValue(value: CloudfrontDistributionOriginCustomHeader | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._name = undefined;
       this._value = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._name = value.name;
       this._value = value.value;
     }
@@ -3122,6 +3192,7 @@ export function cloudfrontDistributionOriginToTerraform(struct?: CloudfrontDistr
 
 export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -3133,7 +3204,10 @@ export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexOb
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionOrigin | undefined {
+  public get internalValue(): CloudfrontDistributionOrigin | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._domainName !== undefined) {
@@ -3163,9 +3237,10 @@ export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexOb
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionOrigin | undefined) {
+  public set internalValue(value: CloudfrontDistributionOrigin | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._domainName = undefined;
       this._originId = undefined;
       this._originPath = undefined;
@@ -3173,8 +3248,13 @@ export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexOb
       this._customOriginConfig.internalValue = undefined;
       this._s3OriginConfig.internalValue = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._domainName = value.domainName;
       this._originId = value.originId;
       this._originPath = value.originPath;
@@ -3375,6 +3455,7 @@ export function cloudfrontDistributionOriginGroupMemberToTerraform(struct?: Clou
 
 export class CloudfrontDistributionOriginGroupMemberOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -3386,7 +3467,10 @@ export class CloudfrontDistributionOriginGroupMemberOutputReference extends cdkt
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionOriginGroupMember | undefined {
+  public get internalValue(): CloudfrontDistributionOriginGroupMember | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._originId !== undefined) {
@@ -3396,13 +3480,19 @@ export class CloudfrontDistributionOriginGroupMemberOutputReference extends cdkt
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionOriginGroupMember | undefined) {
+  public set internalValue(value: CloudfrontDistributionOriginGroupMember | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._originId = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._originId = value.originId;
     }
   }
@@ -3473,6 +3563,7 @@ export function cloudfrontDistributionOriginGroupToTerraform(struct?: Cloudfront
 
 export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -3484,7 +3575,10 @@ export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.Comp
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): CloudfrontDistributionOriginGroup | undefined {
+  public get internalValue(): CloudfrontDistributionOriginGroup | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._originId !== undefined) {
@@ -3502,15 +3596,21 @@ export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.Comp
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: CloudfrontDistributionOriginGroup | undefined) {
+  public set internalValue(value: CloudfrontDistributionOriginGroup | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._originId = undefined;
       this._failoverCriteria.internalValue = undefined;
       this._member.internalValue = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._originId = value.originId;
       this._failoverCriteria.internalValue = value.failoverCriteria;
       this._member.internalValue = value.member;
@@ -4601,6 +4701,7 @@ export function s3BucketCorsRuleToTerraform(struct?: S3BucketCorsRule | cdktf.IR
 
 export class S3BucketCorsRuleOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -4612,7 +4713,10 @@ export class S3BucketCorsRuleOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): S3BucketCorsRule | undefined {
+  public get internalValue(): S3BucketCorsRule | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._allowedHeaders !== undefined) {
@@ -4638,17 +4742,23 @@ export class S3BucketCorsRuleOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: S3BucketCorsRule | undefined) {
+  public set internalValue(value: S3BucketCorsRule | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._allowedHeaders = undefined;
       this._allowedMethods = undefined;
       this._allowedOrigins = undefined;
       this._exposeHeaders = undefined;
       this._maxAgeSeconds = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._allowedHeaders = value.allowedHeaders;
       this._allowedMethods = value.allowedMethods;
       this._allowedOrigins = value.allowedOrigins;
@@ -4785,6 +4895,7 @@ export function s3BucketGrantToTerraform(struct?: S3BucketGrant | cdktf.IResolva
 
 export class S3BucketGrantOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -4796,7 +4907,10 @@ export class S3BucketGrantOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): S3BucketGrant | undefined {
+  public get internalValue(): S3BucketGrant | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._id !== undefined) {
@@ -4818,16 +4932,22 @@ export class S3BucketGrantOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: S3BucketGrant | undefined) {
+  public set internalValue(value: S3BucketGrant | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._id = undefined;
       this._permissions = undefined;
       this._type = undefined;
       this._uri = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._id = value.id;
       this._permissions = value.permissions;
       this._type = value.type;
@@ -5121,6 +5241,7 @@ export function s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform(stru
 
 export class S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -5132,7 +5253,10 @@ export class S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference ext
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): S3BucketLifecycleRuleNoncurrentVersionTransition | undefined {
+  public get internalValue(): S3BucketLifecycleRuleNoncurrentVersionTransition | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._days !== undefined) {
@@ -5146,14 +5270,20 @@ export class S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference ext
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: S3BucketLifecycleRuleNoncurrentVersionTransition | undefined) {
+  public set internalValue(value: S3BucketLifecycleRuleNoncurrentVersionTransition | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._days = undefined;
       this._storageClass = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._days = value.days;
       this._storageClass = value.storageClass;
     }
@@ -5237,6 +5367,7 @@ export function s3BucketLifecycleRuleTransitionToTerraform(struct?: S3BucketLife
 
 export class S3BucketLifecycleRuleTransitionOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -5248,7 +5379,10 @@ export class S3BucketLifecycleRuleTransitionOutputReference extends cdktf.Comple
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): S3BucketLifecycleRuleTransition | undefined {
+  public get internalValue(): S3BucketLifecycleRuleTransition | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._date !== undefined) {
@@ -5266,15 +5400,21 @@ export class S3BucketLifecycleRuleTransitionOutputReference extends cdktf.Comple
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: S3BucketLifecycleRuleTransition | undefined) {
+  public set internalValue(value: S3BucketLifecycleRuleTransition | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._date = undefined;
       this._days = undefined;
       this._storageClass = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._date = value.date;
       this._days = value.days;
       this._storageClass = value.storageClass;
@@ -5412,6 +5552,7 @@ export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule 
 
 export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -5423,7 +5564,10 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): S3BucketLifecycleRule | undefined {
+  public get internalValue(): S3BucketLifecycleRule | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._abortIncompleteMultipartUploadDays !== undefined) {
@@ -5461,9 +5605,10 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: S3BucketLifecycleRule | undefined) {
+  public set internalValue(value: S3BucketLifecycleRule | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._abortIncompleteMultipartUploadDays = undefined;
       this._enabled = undefined;
       this._prefix = undefined;
@@ -5473,8 +5618,13 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
       this._noncurrentVersionTransition.internalValue = undefined;
       this._transition.internalValue = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._abortIncompleteMultipartUploadDays = value.abortIncompleteMultipartUploadDays;
       this._enabled = value.enabled;
       this._prefix = value.prefix;
@@ -5660,6 +5810,7 @@ export function s3BucketLoggingToTerraform(struct?: S3BucketLogging | cdktf.IRes
 
 export class S3BucketLoggingOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -5671,7 +5822,10 @@ export class S3BucketLoggingOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): S3BucketLogging | undefined {
+  public get internalValue(): S3BucketLogging | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._targetBucket !== undefined) {
@@ -5685,14 +5839,20 @@ export class S3BucketLoggingOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: S3BucketLogging | undefined) {
+  public set internalValue(value: S3BucketLogging | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._targetBucket = undefined;
       this._targetPrefix = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._targetBucket = value.targetBucket;
       this._targetPrefix = value.targetPrefix;
     }
@@ -6528,6 +6688,7 @@ export function s3BucketReplicationConfigurationRulesToTerraform(struct?: S3Buck
 
 export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -6539,7 +6700,10 @@ export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): S3BucketReplicationConfigurationRules | undefined {
+  public get internalValue(): S3BucketReplicationConfigurationRules | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._id !== undefined) {
@@ -6573,9 +6737,10 @@ export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: S3BucketReplicationConfigurationRules | undefined) {
+  public set internalValue(value: S3BucketReplicationConfigurationRules | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._id = undefined;
       this._prefix = undefined;
       this._priority = undefined;
@@ -6584,8 +6749,13 @@ export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.
       this._filter.internalValue = undefined;
       this._sourceSelectionCriteria.internalValue = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._id = value.id;
       this._prefix = value.prefix;
       this._priority = value.priority;
@@ -7835,6 +8005,7 @@ export function securityGroupEgressToTerraform(struct?: SecurityGroupEgress | cd
 
 export class SecurityGroupEgressOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -7846,7 +8017,10 @@ export class SecurityGroupEgressOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): SecurityGroupEgress | undefined {
+  public get internalValue(): SecurityGroupEgress | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._cidrBlocks !== undefined) {
@@ -7888,9 +8062,10 @@ export class SecurityGroupEgressOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: SecurityGroupEgress | undefined) {
+  public set internalValue(value: SecurityGroupEgress | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._cidrBlocks = undefined;
       this._description = undefined;
       this._fromPort = undefined;
@@ -7901,8 +8076,13 @@ export class SecurityGroupEgressOutputReference extends cdktf.ComplexObject {
       this._self = undefined;
       this._toPort = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._cidrBlocks = value.cidrBlocks;
       this._description = value.description;
       this._fromPort = value.fromPort;
@@ -8138,6 +8318,7 @@ export function securityGroupIngressToTerraform(struct?: SecurityGroupIngress | 
 
 export class SecurityGroupIngressOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -8149,7 +8330,10 @@ export class SecurityGroupIngressOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): SecurityGroupIngress | undefined {
+  public get internalValue(): SecurityGroupIngress | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._cidrBlocks !== undefined) {
@@ -8191,9 +8375,10 @@ export class SecurityGroupIngressOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: SecurityGroupIngress | undefined) {
+  public set internalValue(value: SecurityGroupIngress | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._cidrBlocks = undefined;
       this._description = undefined;
       this._fromPort = undefined;
@@ -8204,8 +8389,13 @@ export class SecurityGroupIngressOutputReference extends cdktf.ComplexObject {
       this._self = undefined;
       this._toPort = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._cidrBlocks = value.cidrBlocks;
       this._description = value.description;
       this._fromPort = value.fromPort;
@@ -8406,6 +8596,7 @@ export function securityGroupTimeoutsToTerraform(struct?: SecurityGroupTimeoutsO
 
 export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -8415,7 +8606,10 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, false, 0);
   }
 
-  public get internalValue(): SecurityGroupTimeouts | undefined {
+  public get internalValue(): SecurityGroupTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._create !== undefined) {
@@ -8429,14 +8623,20 @@ export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: SecurityGroupTimeouts | undefined) {
+  public set internalValue(value: SecurityGroupTimeouts | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._create = undefined;
       this._delete = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._create = value.create;
       this._delete = value.delete;
     }

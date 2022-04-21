@@ -223,4 +223,32 @@ export class AttributeModel {
     const ignoreList = ["id"];
     return ignoreList.includes(this.name);
   }
+
+  public getReferencedTypes(isConfigStruct: boolean): string[] | undefined {
+    const attTypeStruct = this.type.struct;
+    if (!attTypeStruct) {
+      return undefined;
+    }
+
+    const types: string[] = [];
+
+    if (this.isAssignable) {
+      types.push(this.type.typeName);
+      types.push(attTypeStruct.mapperName);
+    }
+
+    if (
+      !attTypeStruct.isSingleItem &&
+      (attTypeStruct.nestingMode === "list" ||
+        attTypeStruct.nestingMode === "set")
+    ) {
+      types.push(attTypeStruct.listName);
+    } else if (attTypeStruct.nestingMode === "map") {
+      types.push(attTypeStruct.mapName);
+    } else if (!isConfigStruct) {
+      types.push(attTypeStruct.outputReferenceName);
+    }
+
+    return types;
+  }
 }

@@ -129,7 +129,11 @@ export class AttributesEmitter {
         return `new ${att.type.name}(this, "${att.terraformName}")`;
       }
     } else {
-      return `new ${att.type.name}OutputReference(this, "${att.terraformName}")`;
+      if (att.type.name.includes("IResolvable")) {
+        return `new ${att.type.innerType}OutputReference(this, "${att.terraformName}")`;
+      } else {
+        return `new ${att.type.name}OutputReference(this, "${att.terraformName}")`;
+      }
     }
   }
 
@@ -301,13 +305,6 @@ export class AttributesEmitter {
       case type.isBoolean:
         this.code.line(
           `${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`
-        );
-        break;
-      case !isStruct && att.getterType._type === "stored_class":
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
-            type.name
-          )}ToTerraform(${varReference}),`
         );
         break;
       case type.isComplex && !type.struct?.isClass && !type.isSingleItem:

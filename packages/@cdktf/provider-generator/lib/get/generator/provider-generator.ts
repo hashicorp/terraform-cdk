@@ -210,22 +210,7 @@ export class TerraformProviderGenerator {
 
       if (resource.structsRequireSharding) {
         this.code.line(
-          `import { ${resource.importableTypes.join(", \n")}} from './${
-            resource.structsFolderName
-          }'`
-        );
-        this.code.line(
-          `import { ${resource.importableStructMapper.join(", \n")}} from './${
-            resource.structsFolderName
-          }'`
-        );
-        this.code.line(
-          `import { ${resource.importableOutputReferences.join(
-            ",\n"
-          )} } from './${resource.structsFolderName}'`
-        );
-        this.code.line(
-          `import { ${resource.importableCollections.join(",\n")} } from './${
+          `import { ${resource.referencedTypes.join(", \n")}} from './${
             resource.structsFolderName
           }'`
         );
@@ -289,33 +274,9 @@ export class TerraformProviderGenerator {
     this.code.line();
 
     if (resource.structsRequireSharding) {
-      if (resource.importableTypes.length > 0) {
+      if (resource.referencedTypes.length > 0) {
         this.code.line(
-          `import { ${resource.importableTypes.join(", \n")}} from './${
-            resource.structsFolderName
-          }'`
-        );
-      }
-
-      if (resource.importableStructMapper.length > 0) {
-        this.code.line(
-          `import { ${resource.importableStructMapper.join(", \n")}} from './${
-            resource.structsFolderName
-          }'`
-        );
-      }
-
-      if (resource.importableOutputReferences.length > 0) {
-        this.code.line(
-          `import { ${resource.importableOutputReferences.join(
-            ",\n"
-          )} } from './${resource.structsFolderName}'`
-        );
-      }
-
-      if (resource.importableCollections.length > 0) {
-        this.code.line(
-          `import { ${resource.importableCollections.join(",\n")} } from './${
+          `import { ${resource.referencedTypes.join(", \n")}} from './${
             resource.structsFolderName
           }'`
         );

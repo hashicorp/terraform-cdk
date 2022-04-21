@@ -79,14 +79,17 @@ export class StructEmitter {
     const structsWithoutConfigStruct = resource.structs.slice(1);
 
     const structSplits: Struct[][] = [[]];
+    const splitCounts: number[] = [0];
     structsWithoutConfigStruct.forEach((struct) => {
       if (
-        structSplits[structSplits.length - 1].length + struct.exportCount <=
+        splitCounts[splitCounts.length - 1] + struct.exportCount <=
         STRUCT_SHARDING_THRESHOLD
       ) {
         structSplits[structSplits.length - 1].push(struct);
+        splitCounts[splitCounts.length - 1] += struct.exportCount;
       } else {
         structSplits.push([struct]);
+        splitCounts.push(struct.exportCount);
       }
     });
 
@@ -110,22 +113,12 @@ export class StructEmitter {
 
             structsToImport[fileToImport] ??
               (structsToImport[fileToImport] = []);
-            structsToImport[fileToImport].push(
-              ...[structTypeName, attTypeStruct.mapperName]
-            );
 
-            if (
-              !attTypeStruct.isSingleItem &&
-              (attTypeStruct.nestingMode === "list" ||
-                attTypeStruct.nestingMode === "set")
-            ) {
-              structsToImport[fileToImport].push(attTypeStruct.listName);
-            } else if (attTypeStruct.nestingMode === "map") {
-              structsToImport[fileToImport].push(attTypeStruct.mapName);
-            } else if (!(struct instanceof ConfigStruct)) {
-              structsToImport[fileToImport].push(
-                attTypeStruct.outputReferenceName
-              );
+            const attReferences = att.getReferencedTypes(
+              struct instanceof ConfigStruct
+            );
+            if (attReferences) {
+              structsToImport[fileToImport].push(...attReferences);
             }
           }
         });
@@ -183,6 +176,9 @@ export class StructEmitter {
     );
 
     this.code.line("private isEmptyObject = false;");
+    if (!struct.isClass) {
+      this.code.line("private resolvableValue?: cdktf.IResolvable;");
+    }
     this.code.line();
 
     this.code.line(`/**`);
@@ -346,8 +342,16 @@ export class StructEmitter {
 
   private emitInternalValueGetter(struct: Struct) {
     this.code.openBlock(
-      `public get internalValue(): ${struct.name} | undefined`
+      `public get internalValue(): ${struct.name}${
+        !struct.isClass ? " | cdktf.IResolvable" : ""
+      } | undefined`
     );
+
+    if (!struct.isClass) {
+      this.code.openBlock("if (this.resolvableValue)");
+      this.code.line("return this.resolvableValue;");
+      this.code.closeBlock();
+    }
 
     this.code.line("let hasAnyValues = this.isEmptyObject;");
     this.code.line("const internalValueResult: any = {};");
@@ -379,11 +383,16 @@ export class StructEmitter {
 
   private emitInternalValueSetter(struct: Struct) {
     this.code.openBlock(
-      `public set internalValue(value: ${struct.name} | undefined)`
+      `public set internalValue(value: ${struct.name}${
+        !struct.isClass ? " | cdktf.IResolvable" : ""
+      } | undefined)`
     );
 
     this.code.openBlock("if (value === undefined)");
     this.code.line("this.isEmptyObject = false;");
+    if (!struct.isClass) {
+      this.code.line("this.resolvableValue = undefined;");
+    }
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {
@@ -394,8 +403,17 @@ export class StructEmitter {
       }
     }
     this.code.closeBlock();
+    if (!struct.isClass) {
+      this.code.openBlock("else if (cdktf.Tokenization.isResolvable(value))");
+      this.code.line("this.isEmptyObject = false;");
+      this.code.line("this.resolvableValue = value;");
+      this.code.closeBlock();
+    }
     this.code.openBlock("else");
     this.code.line("this.isEmptyObject = Object.keys(value).length === 0;");
+    if (!struct.isClass) {
+      this.code.line("this.resolvableValue = undefined;");
+    }
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {

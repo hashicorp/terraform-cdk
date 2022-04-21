@@ -1,6 +1,5 @@
 import { toSnakeCase } from "codemaker";
 import path from "path";
-import { downcaseFirst } from "../../../util";
 import {
   ResourceNamespace,
   getResourceNamespace,
@@ -133,73 +132,12 @@ export class ResourceModel {
     );
   }
 
-  public get importableTypes(): string[] {
-    const structNames = this.structNames;
-    const result = [
-      ...this.configStruct.attributeTypeNames,
-      ...this.attributeTypeNames,
-    ].filter((t) => structNames.includes(t));
-
-    return Array.from(new Set(result));
-  }
-
-  public get importableTypesFromClasses(): string[] {
-    const structNames = this.structNames;
-    const result = [
-      ...this.configStruct.attributeTypeNamesFromClasses,
-      ...this.attributeTypeNamesFromClasses,
-    ].filter((t) => structNames.includes(t));
-
-    return Array.from(new Set(result));
-  }
-
-  public get importableOutputReferences(): string[] {
-    return this.importableTypesFromClasses.map(
-      (type) => `${type}OutputReference`
-    );
-  }
-
-  public get importableCollections(): string[] {
-    const result = this.attributes
-      .filter(
-        (a) =>
-          a.type.struct &&
-          !a.type.isSingleItem &&
-          (a.type.struct.nestingMode === "list" ||
-            a.type.struct.nestingMode === "set" ||
-            a.type.struct.nestingMode === "map")
-      )
-      .map((a) =>
-        a.type.struct!.nestingMode === "map"
-          ? a.type.struct!.mapName
-          : a.type.struct!.listName
-      );
-
-    return Array.from(new Set(result));
-  }
-
-  public get importableStructMapper(): string[] {
-    return this.importableTypes.map(
-      (type) => `${downcaseFirst(type)}ToTerraform`
-    );
-  }
-
-  public get structNames(): string[] {
-    return this.structs.map((s) => s.name);
+  public get referencedTypes(): string[] {
+    return this.configStruct.referencedTypes;
   }
 
   public get structsFolderName(): string {
     return `${path.basename(this.fileName, ".ts")}-structs`;
-  }
-
-  public get attributeTypeNames(): string[] {
-    return this.attributes.map((a) => a.type.typeName);
-  }
-
-  public get attributeTypeNamesFromClasses(): string[] {
-    return this.attributes
-      .filter((a) => a.type.struct?.isClass)
-      .map((a) => a.type.typeName);
   }
 
   public get structsFolderPath(): string {
