@@ -1,0 +1,39 @@
+---
+page_title: Feature Flags
+description: >-
+  You can use feature flags to enable or disable features that effect how code is synthesized.
+---
+
+# Feature Flags
+
+You can use feature flags to enable or disable features that effect how code is synthesized.
+They can be configured in the `cdktf.json` file:
+
+```json
+{
+  "language": "java",
+  "app": "mvn -e -q compile exec:java",
+  "terraformProviders": ["aws@~> 3.0"],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}
+```
+
+All feature flags are disabled if not set explicitly.
+
+## `excludeStackIdFromLogicalIds`
+
+When set, the stack id is excluded from generated logical ids for constructs within the stack. This means constructs that are top-level to the stack will have a logical id that is the same as their construct id.
+When you use nested constructs the mechanism will add a suffix to the logical id to make it unique.
+
+## `allowSepCharsInLogicalIds`
+
+When set, '\_' and '-' are allowed in logical ids.
+
+## Lifecycle
+
+Feature flags can only be used to change the logic when synthesizing code or CLI features. Since we have prebuilt providers we can not change the logic of the provider generation.
+
+A feature flag will be introduced in a release, adding it with a default `true` value to the templates used in `cdktf init`. We will print a warning if it's false or not set. The feature flag will be removed in the next minor release.

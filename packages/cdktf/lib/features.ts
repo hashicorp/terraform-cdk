@@ -1,12 +1,3 @@
-// --------------------------------------------------------------------------------
-// This file defines context keys that enable certain features that are
-// implemented behind a flag in order to preserve backwards compatibility for
-// existing apps. When a new app is initialized through `cdk init`, the CLI will
-// automatically add enable these features by adding them to the generated
-// `cdktf.json` file. In the next major release of the CDK for Terraform, these feature flags
-// will be removed and will become the default behavior.
-// --------------------------------------------------------------------------------
-
 /**
  * When set, the stack id is excluded from generated logical ids for constructs within the stack.
  */
