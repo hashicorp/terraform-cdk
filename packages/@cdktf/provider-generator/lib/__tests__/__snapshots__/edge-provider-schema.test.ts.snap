@@ -449,6 +449,7 @@ export function listBlockResourceOptToTerraform(struct?: ListBlockResourceOpt | 
 
 export class ListBlockResourceOptOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -460,7 +461,10 @@ export class ListBlockResourceOptOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): ListBlockResourceOpt | undefined {
+  public get internalValue(): ListBlockResourceOpt | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._optstr !== undefined) {
@@ -502,9 +506,10 @@ export class ListBlockResourceOptOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: ListBlockResourceOpt | undefined) {
+  public set internalValue(value: ListBlockResourceOpt | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._optstr = undefined;
       this._optnum = undefined;
       this._optbool = undefined;
@@ -515,8 +520,13 @@ export class ListBlockResourceOptOutputReference extends cdktf.ComplexObject {
       this._computednum = undefined;
       this._computedbool = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._optstr = value.optstr;
       this._optnum = value.optnum;
       this._optbool = value.optbool;
@@ -743,6 +753,7 @@ export function listBlockResourceReqToTerraform(struct?: ListBlockResourceReq | 
 
 export class ListBlockResourceReqOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -754,7 +765,10 @@ export class ListBlockResourceReqOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): ListBlockResourceReq | undefined {
+  public get internalValue(): ListBlockResourceReq | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._optstr !== undefined) {
@@ -796,9 +810,10 @@ export class ListBlockResourceReqOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: ListBlockResourceReq | undefined) {
+  public set internalValue(value: ListBlockResourceReq | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._optstr = undefined;
       this._optnum = undefined;
       this._optbool = undefined;
@@ -809,8 +824,13 @@ export class ListBlockResourceReqOutputReference extends cdktf.ComplexObject {
       this._computednum = undefined;
       this._computedbool = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._optstr = value.optstr;
       this._optnum = value.optnum;
       this._optbool = value.optbool;
@@ -2501,6 +2521,7 @@ export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet | cd
 
 export class SetBlockResourceSetOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -2512,7 +2533,10 @@ export class SetBlockResourceSetOutputReference extends cdktf.ComplexObject {
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): SetBlockResourceSet | undefined {
+  public get internalValue(): SetBlockResourceSet | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._optstr !== undefined) {
@@ -2554,9 +2578,10 @@ export class SetBlockResourceSetOutputReference extends cdktf.ComplexObject {
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: SetBlockResourceSet | undefined) {
+  public set internalValue(value: SetBlockResourceSet | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._optstr = undefined;
       this._optnum = undefined;
       this._optbool = undefined;
@@ -2567,8 +2592,13 @@ export class SetBlockResourceSetOutputReference extends cdktf.ComplexObject {
       this._computednum = undefined;
       this._computedbool = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._optstr = value.optstr;
       this._optnum = value.optnum;
       this._optbool = value.optbool;

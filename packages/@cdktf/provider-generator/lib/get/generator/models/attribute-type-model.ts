@@ -102,7 +102,7 @@ export class AttributeTypeModel {
 
     // complex computed list
     if (hasListRepresentation && this.isComputed && this.isComplex)
-      return `${this._type}`;
+      return `${this._type}[]`;
 
     // boolean
     if (this._type === TokenizableTypes.BOOLEAN)

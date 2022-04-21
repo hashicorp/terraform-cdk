@@ -691,6 +691,7 @@ export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeN
 
 export class BlockTypeNestedComputedListInputsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -702,7 +703,10 @@ export class BlockTypeNestedComputedListInputsOutputReference extends cdktf.Comp
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): BlockTypeNestedComputedListInputs | undefined {
+  public get internalValue(): BlockTypeNestedComputedListInputs | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._namePrefix !== undefined) {
@@ -712,13 +716,19 @@ export class BlockTypeNestedComputedListInputsOutputReference extends cdktf.Comp
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: BlockTypeNestedComputedListInputs | undefined) {
+  public set internalValue(value: BlockTypeNestedComputedListInputs | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._namePrefix = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._namePrefix = value.namePrefix;
     }
   }
@@ -915,6 +925,7 @@ export function computedOptionalComplexEgressToTerraform(struct?: ComputedOption
 
 export class ComputedOptionalComplexEgressOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -926,7 +937,10 @@ export class ComputedOptionalComplexEgressOutputReference extends cdktf.ComplexO
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): ComputedOptionalComplexEgress | undefined {
+  public get internalValue(): ComputedOptionalComplexEgress | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._cidrBlocks !== undefined) {
@@ -968,9 +982,10 @@ export class ComputedOptionalComplexEgressOutputReference extends cdktf.ComplexO
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: ComputedOptionalComplexEgress | undefined) {
+  public set internalValue(value: ComputedOptionalComplexEgress | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._cidrBlocks = undefined;
       this._description = undefined;
       this._fromPort = undefined;
@@ -981,8 +996,13 @@ export class ComputedOptionalComplexEgressOutputReference extends cdktf.ComplexO
       this._self = undefined;
       this._toPort = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._cidrBlocks = value.cidrBlocks;
       this._description = value.description;
       this._fromPort = value.fromPort;
@@ -1336,6 +1356,7 @@ export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNe
 
 export class DeeplyNestedBlockTypesLifecycleRuleOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -1347,7 +1368,10 @@ export class DeeplyNestedBlockTypesLifecycleRuleOutputReference extends cdktf.Co
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): DeeplyNestedBlockTypesLifecycleRule | undefined {
+  public get internalValue(): DeeplyNestedBlockTypesLifecycleRule | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._abortIncompleteMultipartUploadDays !== undefined) {
@@ -1361,14 +1385,20 @@ export class DeeplyNestedBlockTypesLifecycleRuleOutputReference extends cdktf.Co
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: DeeplyNestedBlockTypesLifecycleRule | undefined) {
+  public set internalValue(value: DeeplyNestedBlockTypesLifecycleRule | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._abortIncompleteMultipartUploadDays = undefined;
       this._expiration.internalValue = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._abortIncompleteMultipartUploadDays = value.abortIncompleteMultipartUploadDays;
       this._expiration.internalValue = value.expiration;
     }
@@ -2723,6 +2753,7 @@ export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetList
 
 export class BlockTypeSetListTimeoutsSetOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -2734,7 +2765,10 @@ export class BlockTypeSetListTimeoutsSetOutputReference extends cdktf.ComplexObj
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): BlockTypeSetListTimeoutsSet | undefined {
+  public get internalValue(): BlockTypeSetListTimeoutsSet | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._create !== undefined) {
@@ -2744,13 +2778,19 @@ export class BlockTypeSetListTimeoutsSetOutputReference extends cdktf.ComplexObj
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: BlockTypeSetListTimeoutsSet | undefined) {
+  public set internalValue(value: BlockTypeSetListTimeoutsSet | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._create = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._create = value.create;
     }
   }
@@ -2810,6 +2850,7 @@ export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetLis
 
 export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -2821,7 +2862,10 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): BlockTypeSetListTimeoutsList | undefined {
+  public get internalValue(): BlockTypeSetListTimeoutsList | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._create !== undefined) {
@@ -2831,13 +2875,19 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: BlockTypeSetListTimeoutsList | undefined) {
+  public set internalValue(value: BlockTypeSetListTimeoutsList | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._create = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._create = value.create;
     }
   }
@@ -3001,6 +3051,7 @@ export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeo
 
 export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -3010,7 +3061,10 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
     super(terraformResource, terraformAttribute, false, 0);
   }
 
-  public get internalValue(): SingleBlockTypeTimeouts | undefined {
+  public get internalValue(): SingleBlockTypeTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._create !== undefined) {
@@ -3020,13 +3074,19 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: SingleBlockTypeTimeouts | undefined) {
+  public set internalValue(value: SingleBlockTypeTimeouts | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._create = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._create = value.create;
     }
   }

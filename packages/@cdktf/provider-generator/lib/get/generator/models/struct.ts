@@ -47,10 +47,6 @@ export class Struct {
     return "";
   }
 
-  public get attributeTypeNames(): string[] {
-    return this.attributes.map((a) => a.type.typeName);
-  }
-
   public get mapperName(): string {
     return `${downcaseFirst(this.name)}ToTerraform`;
   }
@@ -71,10 +67,17 @@ export class Struct {
     return this.attributes.some((att) => att.isProvider);
   }
 
-  public get attributeTypeNamesFromClasses(): string[] {
-    return this.attributes
-      .filter((a) => a.type.struct?.isClass)
-      .map((a) => a.type.typeName);
+  public get referencedTypes(): string[] {
+    const types: string[] = [];
+
+    this.attributes.forEach((att) => {
+      const attReferences = att.getReferencedTypes(false); // This may be a config struct, but still need the references in this context
+      if (attReferences) {
+        types.push(...attReferences);
+      }
+    });
+
+    return types;
   }
 
   public get exportCount(): number {

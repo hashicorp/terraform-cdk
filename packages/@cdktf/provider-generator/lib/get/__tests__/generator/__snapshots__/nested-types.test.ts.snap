@@ -50,6 +50,7 @@ export function nestedTypesResourceArchiveRulesFilterToTerraform(struct?: Nested
 
 export class NestedTypesResourceArchiveRulesFilterOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -61,7 +62,10 @@ export class NestedTypesResourceArchiveRulesFilterOutputReference extends cdktf.
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): NestedTypesResourceArchiveRulesFilter | undefined {
+  public get internalValue(): NestedTypesResourceArchiveRulesFilter | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._eq !== undefined) {
@@ -79,15 +83,21 @@ export class NestedTypesResourceArchiveRulesFilterOutputReference extends cdktf.
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: NestedTypesResourceArchiveRulesFilter | undefined) {
+  public set internalValue(value: NestedTypesResourceArchiveRulesFilter | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._eq = undefined;
       this._exists = undefined;
       this._property = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._eq = value.eq;
       this._exists = value.exists;
       this._property = value.property;
@@ -185,6 +195,7 @@ export function nestedTypesResourceArchiveRulesToTerraform(struct?: NestedTypesR
 
 export class NestedTypesResourceArchiveRulesOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -196,7 +207,10 @@ export class NestedTypesResourceArchiveRulesOutputReference extends cdktf.Comple
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): NestedTypesResourceArchiveRules | undefined {
+  public get internalValue(): NestedTypesResourceArchiveRules | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     if (this._filter?.internalValue !== undefined) {
@@ -210,14 +224,20 @@ export class NestedTypesResourceArchiveRulesOutputReference extends cdktf.Comple
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: NestedTypesResourceArchiveRules | undefined) {
+  public set internalValue(value: NestedTypesResourceArchiveRules | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this.resolvableValue = undefined;
       this._filter.internalValue = undefined;
       this._ruleName = undefined;
     }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
       this._filter.internalValue = value.filter;
       this._ruleName = value.ruleName;
     }
