@@ -9,7 +9,9 @@ describe("java full integration", () => {
   });
 
   test("debug command", async () => {
-    const debug = await driver.exec(`CDKTF_LOG_LEVEL=debug cdktf debug --json`);
+    driver.setEnv("CDKTF_LOG_LEVEL", "debug");
+    const debug = await driver.exec(`cdktf debug --json`);
+    driver.setEnv("CDKTF_LOG_LEVEL", "warning");
     console.log("debug", debug);
     const { stdout } = await driver.exec(`cdktf debug --json`);
     console.log(stdout);

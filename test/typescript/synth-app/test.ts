@@ -10,6 +10,8 @@ describe("full integration test synth", () => {
   });
 
   test("debug command", async () => {
+    const { stdout: foo } = await driver.exec(`npm list cdktf --json`);
+    console.log("foo", foo);
     driver.setEnv("CDKTF_LOG_LEVEL", "debug");
     const debug = await driver.exec(`cdktf debug --json`);
     driver.setEnv("CDKTF_LOG_LEVEL", "warning");
