@@ -5,6 +5,7 @@
     "null@ ~> 3.1.0"
   ],
   "context": {
-    "excludeStackIdFromLogicalIds": "true"
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
   }
 }

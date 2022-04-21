@@ -1,6 +1,7 @@
 import { SynthesizedStack } from "./synth-stack";
-import { AnnotationMetadataEntryType } from "cdktf";
+import { AnnotationMetadataEntryType, CONTEXT_ENV } from "cdktf";
 import * as chalk from "chalk";
+import { DEPRECATED_FLAGS } from "cdktf/lib/features";
 
 const chalkColour = new chalk.Instance();
 
@@ -48,6 +49,32 @@ export function printAnnotations(stacks: SynthesizedStack[]) {
   if (encounteredAnnotationError) {
     throw new Error(
       "While synthesizing one or more error annotations have been encountered. Please check the log output above."
+    );
+  }
+}
+
+export function printWarningsForDeprecatedFlags() {
+  const context: Record<string, boolean | undefined> = JSON.parse(
+    process.env[CONTEXT_ENV] || "{}"
+  );
+
+  // We want to print a warning for every deprecated flag that is set to false or not set
+  const deprecatedFlagsInUse = DEPRECATED_FLAGS.filter(
+    (flag) => context[flag] === false || context[flag] === undefined
+  );
+
+  if (deprecatedFlagsInUse.length > 0) {
+    const plural = deprecatedFlagsInUse.length > 1;
+    console.log(
+      chalkColour.yellow(
+        `WARNING: The flag${plural ? "s" : ""} ${deprecatedFlagsInUse.join(
+          " & "
+        )} ${
+          plural ? "are" : "is"
+        } deprecated and will be removed in the next minor release. Please set ${
+          plural ? "them" : "it"
+        } to true in your cdktf.json's context map.`
+      )
     );
   }
 }
