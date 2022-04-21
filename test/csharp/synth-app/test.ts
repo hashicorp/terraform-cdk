@@ -8,6 +8,14 @@ describe("csharp full integration test synth", () => {
     await driver.setupCsharpProject();
   });
 
+  test("debug command", async () => {
+    const { stdout } = await driver.exec(`cdktf debug --json`);
+    const { cdktf, jsii, constructs } = JSON.parse(stdout);
+    expect(cdktf).toBeDefined();
+    expect(jsii).toBeDefined();
+    expect(constructs).toBeDefined();
+  });
+
   test("synth generates JSON", async () => {
     await driver.synth();
     expect(

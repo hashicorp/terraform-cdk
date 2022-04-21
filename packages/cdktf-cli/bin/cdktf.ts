@@ -5,10 +5,9 @@ import * as semver from "semver";
 import * as path from "path";
 import * as os from "os";
 import * as fs from "fs-extra";
-import { terraformVersion } from "./cmds/helper/terraform";
-import { DISPLAY_VERSION } from "./cmds/helper/version-check";
 import { readCDKTFManifest } from "../lib/util";
 import { IsErrorType } from "../lib/errors";
+import { collectDebugInformation } from "../lib/debug";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
@@ -83,6 +82,7 @@ yargs
   .command(require("./cmds/synth"))
   .command(require("./cmds/watch"))
   .command(require("./cmds/output"))
+  .command(require("./cmds/debug"))
   .recommendCommands()
   .exitProcess(false)
   .wrap(yargs.terminalWidth())
@@ -144,11 +144,12 @@ yargs
       console.error(error.message);
     } else if (error) {
       console.error(error.stack);
-      const tfVersion = await terraformVersion;
-      console.error(`
-  Debug Information:
-      Terraform CDK version: ${DISPLAY_VERSION}
-      Terraform version: ${tfVersion}`);
+      console.error("Collecting Debug Information...");
+      const debugOutput = await collectDebugInformation();
+      console.error("Debug Information:");
+      Object.entries(debugOutput).forEach(([key, value]) => {
+        console.log(`${key}: ${value === null ? "null" : value}`);
+      });
     }
 
     process.exit(1);
