@@ -1,15 +1,23 @@
-import * as path from "path";
 import * as semver from "semver";
+import {
+  getGoVersion,
+  getLanguage,
+  getNodeVersion,
+  getPackageVersion,
+} from "../../../lib/debug";
 import { Errors } from "../../../lib/errors";
 import { logger } from "../../../lib/logging";
-import { exec } from "../../../lib/util";
-import { versionNumber } from "./version-check";
+import { DISPLAY_VERSION } from "../../../lib/version";
 
 function throwIfLowerVersion(
   language: string,
   minVersion: string,
-  stdout: string
+  stdout: string | undefined
 ) {
+  if (!stdout) {
+    throw Errors.Usage(`${language} version could not be determined`);
+  }
+
   const version = semver.coerce(stdout);
   if (!version || !semver.valid(version)) {
     console.error(
@@ -27,38 +35,14 @@ function throwIfLowerVersion(
   }
 }
 
-function getBinaryVersion(
-  binary: string,
-  versionCommand: string
-): Promise<string> {
-  try {
-    return exec(binary, [versionCommand], { env: process.env });
-  } catch (e) {
-    throw Errors.Usage(
-      `Unable to run ${binary} ${versionCommand}, please check if ${binary} is installed: ${e}`
-    );
-  }
-}
-
 async function checkGoVersion() {
-  const out = await getBinaryVersion("go", "version");
+  const out = await getGoVersion();
   throwIfLowerVersion("Go", "1.16.0", out);
 }
 
 async function checkNodeVersion() {
-  const out = await getBinaryVersion("node", "--version");
+  const out = await getNodeVersion();
   throwIfLowerVersion("Node.js", "14.17.0", out);
-}
-
-function getLanguage(projectPath = process.cwd()): string | undefined {
-  try {
-    const cdktfJson = require(path.resolve(projectPath, "cdktf.json"));
-    return cdktfJson.language;
-  } catch {
-    // We can not detect the language
-    logger.debug(`Unable to detect language in ${projectPath}`);
-    return undefined;
-  }
 }
 
 export async function checkEnvironment() {
@@ -70,71 +54,37 @@ export async function checkEnvironment() {
   }
 }
 
-async function getNodeModuleVersion(): Promise<string | undefined> {
-  let output;
-  try {
-    output = await exec("npm", ["list", "cdktf", "--json"], {
-      env: process.env,
-    });
-  } catch (e) {
-    logger.info(`Unable to run 'npm list cdktf --json': ${e}`);
-    return undefined;
-  }
-
-  let json;
-  try {
-    json = JSON.parse(output);
-  } catch (e) {
-    logger.info(`Unable to parse output of 'npm list cdktf --json': ${e}`);
-    return undefined;
-  }
-
-  if (
-    !json.dependencies ||
-    !json.dependencies.cdktf ||
-    !json.dependencies.cdktf.version
-  ) {
-    logger.info(`Unable to find 'cdktf' in 'npm list cdktf --json': ${output}`);
-    return undefined;
-  }
-
-  return json.dependencies.cdktf.version;
-}
-
 export async function verifySimilarLibraryVersion() {
   const language = getLanguage();
   if (!language) {
     // We could not detect the language, disabling the check
+    logger.debug("Unable to detect language, skipping version check");
     return;
   }
 
-  const noOp = async () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
-  const getLibraryVersionMap: Record<
-    string,
-    () => Promise<string | undefined | void>
-  > = {
-    typescript: getNodeModuleVersion,
-    go: noOp,
-    python: noOp,
-    csharp: noOp,
-    java: noOp,
-  };
-
-  const libVersion = await (getLibraryVersionMap[language] || noOp)();
+  const libVersion = await getPackageVersion(language, "cdktf");
   if (!libVersion) {
     // We could not detect the library version, disabling the check
+    logger.debug(`Unable to detect library version for ${language}`);
     return;
   }
 
-  const cliVersion = versionNumber();
+  const cliVersion = `${DISPLAY_VERSION}`;
 
   if (!libVersion) {
     // We could not detect the library version, disabling the check
+    logger.debug(`Unable to detect library version for ${language}`);
     return;
   }
 
-  if (cliVersion === "0.0.0") {
+  logger.debug(`CLI version: ${cliVersion}`);
+  logger.debug(`${language} package version: ${libVersion}`);
+
+  if (cliVersion === "0.0.0" || cliVersion.includes("-dev")) {
     // We are running a development version
+    logger.debug(
+      `Running a development version of cdktf, skipping version check`
+    );
     return;
   }
 

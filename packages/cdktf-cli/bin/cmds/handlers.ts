@@ -40,6 +40,7 @@ import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
+import { collectDebugInformation } from "../../lib/debug";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -333,4 +334,19 @@ export async function output(argv: any) {
       outputsPath,
     })
   );
+}
+
+export async function debug(argv: any) {
+  const jsonOutput = argv.json;
+  const debugOutput = await collectDebugInformation();
+
+  if (jsonOutput) {
+    console.log(JSON.stringify(debugOutput, null, 2));
+  } else {
+    console.log(chalkColour`{bold {greenBright cdktf debug}}`);
+
+    Object.entries(debugOutput).forEach(([key, value]) => {
+      console.log(`${key}: ${value === null ? "null" : value}`);
+    });
+  }
 }
