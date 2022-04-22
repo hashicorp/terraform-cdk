@@ -344,6 +344,12 @@ export class CdktfProject {
 
   private stopAllStacks() {
     this.stacksToRun.forEach((stack) => stack.stop());
+    this.eventBuffer = this.eventBuffer.filter(
+      (event) =>
+        event.type === "projectUpdate"
+          ? event.value.type !== "waiting for approval" // we want to filter out the waiting for approval events
+          : true // we want all other types
+    );
   }
 
   private waitForApproval() {
