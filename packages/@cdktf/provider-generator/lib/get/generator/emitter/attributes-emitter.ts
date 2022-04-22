@@ -233,7 +233,12 @@ export class AttributesEmitter {
     const customDefault = CUSTOM_DEFAULTS[att.terraformFullName];
 
     const varReference = `${context}.${name}${
-      !isStruct && type.isComplex && !att.isProvider ? ".internalValue" : ""
+      !isStruct &&
+      type.isComplex &&
+      !att.isProvider &&
+      (type.struct?.isClass || att.getterType._type === "stored_class")
+        ? ".internalValue"
+        : ""
     }`;
     const defaultCheck =
       customDefault !== undefined
