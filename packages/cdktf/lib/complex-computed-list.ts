@@ -1,15 +1,43 @@
-import { IResolvable, Token } from "./tokens";
+import { IResolvable, Token, IResolveContext } from "./tokens";
 import {
   IInterpolatingParent,
   ITerraformAddressable,
 } from "./terraform-addressable";
 import { propertyAccess, Fn } from ".";
+import { captureStackTrace } from "./tokens/private/stack-trace";
 
-abstract class ComplexComputedAttribute implements IInterpolatingParent {
+abstract class ComplexResolvable implements IResolvable, ITerraformAddressable {
+  public readonly creationStack: string[];
+
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
-  ) {}
+  ) {
+    this.creationStack = captureStackTrace();
+  }
+
+  abstract fqn: string;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  resolve(_context: IResolveContext): any {
+    return this.fqn;
+  }
+
+  toString(): string {
+    return Token.asString(this);
+  }
+}
+
+abstract class ComplexComputedAttribute
+  extends ComplexResolvable
+  implements IInterpolatingParent
+{
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
@@ -58,11 +86,16 @@ abstract class ComplexComputedAttribute implements IInterpolatingParent {
   public abstract interpolationForAttribute(terraformAttribute: string): any;
 }
 
-export class StringMap implements ITerraformAddressable {
+export class StringMap
+  extends ComplexResolvable
+  implements ITerraformAddressable
+{
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
-  ) {}
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   public lookup(key: string): string {
     return Token.asString(
@@ -79,11 +112,16 @@ export class StringMap implements ITerraformAddressable {
   }
 }
 
-export class NumberMap implements ITerraformAddressable {
+export class NumberMap
+  extends ComplexResolvable
+  implements ITerraformAddressable
+{
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
-  ) {}
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   public lookup(key: string): number {
     return Token.asNumber(
@@ -100,11 +138,16 @@ export class NumberMap implements ITerraformAddressable {
   }
 }
 
-export class BooleanMap implements ITerraformAddressable {
+export class BooleanMap
+  extends ComplexResolvable
+  implements ITerraformAddressable
+{
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
-  ) {}
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   public lookup(key: string): IResolvable {
     return this.terraformResource.interpolationForAttribute(
@@ -119,11 +162,13 @@ export class BooleanMap implements ITerraformAddressable {
   }
 }
 
-export class AnyMap implements ITerraformAddressable {
+export class AnyMap extends ComplexResolvable implements ITerraformAddressable {
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
-  ) {}
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   public lookup(key: string): any {
     return Token.asAny(
@@ -173,14 +218,40 @@ export class ComplexComputedList extends ComplexComputedAttribute {
       `${this.terraformAttribute}[${this.complexComputedListIndex}].${property}`
     );
   }
+
+  get fqn(): string {
+    if (this.wrapsSet) {
+      return Token.asString(
+        propertyAccess(
+          Fn.tolist(
+            this.terraformResource.interpolationForAttribute(
+              this.terraformAttribute
+            )
+          ),
+          [this.complexComputedListIndex]
+        )
+      );
+    }
+
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}[${this.complexComputedListIndex}]`
+      )
+    );
+  }
 }
 
-export abstract class ComplexList implements ITerraformAddressable {
+export abstract class ComplexList
+  extends ComplexResolvable
+  implements ITerraformAddressable
+{
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
     protected wrapsSet: boolean
-  ) {}
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   get fqn(): string {
     return Token.asString(
@@ -189,11 +260,16 @@ export abstract class ComplexList implements ITerraformAddressable {
   }
 }
 
-export abstract class ComplexMap implements ITerraformAddressable {
+export abstract class ComplexMap
+  extends ComplexResolvable
+  implements ITerraformAddressable
+{
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string
-  ) {}
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   get fqn(): string {
     return Token.asString(
@@ -243,14 +319,42 @@ export class ComplexObject extends ComplexComputedAttribute {
       `${this.terraformAttribute}.*`
     );
   }
+
+  get fqn(): string {
+    if (this.complexObjectIsFromSet) {
+      return Token.asString(
+        propertyAccess(
+          Fn.tolist(
+            this.terraformResource.interpolationForAttribute(
+              this.terraformAttribute
+            )
+          ),
+          [this.complexObjectIndex]
+        )
+      );
+    }
+
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(
+        this.complexObjectIndex !== undefined
+          ? `${this.terraformAttribute}[${this.complexObjectIndex}]`
+          : this.terraformAttribute
+      )
+    );
+  }
 }
 
-abstract class MapList implements ITerraformAddressable, IInterpolatingParent {
+abstract class MapList
+  extends ComplexResolvable
+  implements ITerraformAddressable, IInterpolatingParent
+{
   constructor(
     protected terraformResource: IInterpolatingParent,
     protected terraformAttribute: string,
     protected wrapsSet: boolean
-  ) {}
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
 
   get fqn(): string {
     return Token.asString(
