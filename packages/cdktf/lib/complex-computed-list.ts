@@ -8,6 +8,7 @@ import { captureStackTrace } from "./tokens/private/stack-trace";
 
 abstract class ComplexResolvable implements IResolvable, ITerraformAddressable {
   public readonly creationStack: string[];
+  protected savedFqn?: string;
 
   constructor(
     protected terraformResource: IInterpolatingParent,
@@ -20,7 +21,7 @@ abstract class ComplexResolvable implements IResolvable, ITerraformAddressable {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   resolve(_context: IResolveContext): any {
-    return this.fqn;
+    return this.savedFqn;
   }
 
   toString(): string {
@@ -95,6 +96,7 @@ export class StringMap
     protected terraformAttribute: string
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   public lookup(key: string): string {
@@ -121,6 +123,7 @@ export class NumberMap
     protected terraformAttribute: string
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   public lookup(key: string): number {
@@ -147,6 +150,7 @@ export class BooleanMap
     protected terraformAttribute: string
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   public lookup(key: string): IResolvable {
@@ -168,6 +172,7 @@ export class AnyMap extends ComplexResolvable implements ITerraformAddressable {
     protected terraformAttribute: string
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   public lookup(key: string): any {
@@ -251,6 +256,7 @@ export abstract class ComplexList
     protected wrapsSet: boolean
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   get fqn(): string {
@@ -269,6 +275,7 @@ export abstract class ComplexMap
     protected terraformAttribute: string
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   get fqn(): string {
@@ -293,6 +300,7 @@ export class ComplexObject extends ComplexComputedAttribute {
     protected complexObjectIndex?: number | string
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   public interpolationForAttribute(property: string) {
@@ -354,6 +362,7 @@ abstract class MapList
     protected wrapsSet: boolean
   ) {
     super(terraformResource, terraformAttribute);
+    this.savedFqn = this.fqn;
   }
 
   get fqn(): string {
