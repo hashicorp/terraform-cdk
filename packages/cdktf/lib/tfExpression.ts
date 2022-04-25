@@ -4,6 +4,7 @@ import { Tokenization } from "./tokens/token";
 import { LazyBase } from "./tokens/lazy";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
+import { Construct } from "constructs";
 
 class TFExpression extends Intrinsic implements IResolvable {
   public isInnerTerraformExpression = false;
@@ -168,6 +169,11 @@ export function ref(identifier: string, stack: TerraformStack): IResolvable {
 function markAsInner(arg: any) {
   if (arg instanceof TFExpression) {
     arg.isInnerTerraformExpression = true;
+    return;
+  }
+
+  if (arg instanceof Construct) {
+    // This will trigger an infinite loop and nothing needs to be checked anyways.
     return;
   }
 
