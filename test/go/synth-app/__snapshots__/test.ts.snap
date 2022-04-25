@@ -37,7 +37,7 @@ exports[`Go full integration test synth synth generates JSON 1`] = `
     \\"required_providers\\": {
       \\"random\\": {
         \\"source\\": \\"hashicorp/random\\",
-        \\"version\\": \\"3.1.2\\"
+        \\"version\\": \\"3.1.3\\"
       }
     }
   }
