@@ -68,6 +68,10 @@
     "routes": [
       { "title": "Project Setup", "path": "create-and-deploy/project-setup" },
       {
+        "title": "Deployment Patterns",
+        "path": "create-and-deploy/deployment-patterns"
+      },
+      {
         "title": "Configuration File",
         "path": "create-and-deploy/configuration-file"
       },
