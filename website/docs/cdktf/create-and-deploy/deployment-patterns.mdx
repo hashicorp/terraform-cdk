@@ -1,0 +1,70 @@
+---
+page_title: Deployment Patterns
+description: >-
+  Learn how to continioulsy deploy your applications with CDKTF.
+---
+
+# Deployment Patterns
+
+The best way to deploy your CDKTF application depends on your setup and environment, but the goal stays the same: Trigger a pipeline by pushing a new version to your version control system, resulting in an automated deployment of your infrastructure.
+
+## Approach 1: Commit and Deploy
+
+If you have one stack to deploy and want to use Terraform Cloud you can use a pre-commit step that runs `cdktf synth`. This will create a Terraform configuration file under `cdktf.out/stacks/<stack-name>`, configuring Terraform Cloud set up with VCS to this path will set up the automated deployment workflow.
+
+You can use the same technique to deploy multiple independent stacks by configuring a Terraform Cloud workspace for each stack with the same VCS configuration, but a different target path.
+
+A great side-effect of using this approach is that you can review the current state of your infrastructure in the Terraform Cloud UI and proposed changes can be easily reviewed in PRs.
+
+If you use Cross-Stack dependencies you can not use this method since one stack depends on another stack and the dependency can not be properly configured. In this case you should take the second approach.
+
+## Approach 2: Run `cdktf deploy` in CI
+
+If you have a general purpose CI like GitHub Actions or CircleCI setup already you can use the `cdktf deploy --auto-approve <your stacks>` command to trigger a deployment. This will run the deployment of your stacks in the right order and in parallel.
+
+To set this up you need to have Node in version 14.0+ and the `cdktf-cli` CLI installed. If you are using a language that is not Node you need to install it as well. You also need to have Terraform installed, at least in version `1.0`.
+
+### Github Actions
+
+A configuration for Github Actions might look like this:
+
+```yaml
+name: CDKTF Deployment
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "npm"
+      - name: Install CDKTF CLI
+        run: npm install -g cdktf-cli
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+      - name: Install dependencies
+        run: npm ci
+      # If you use providers or modules that are not pre-built, you can install them here
+      - name: Generate bindings for providers and modules
+        run: cdktf get
+      - name: Run Tests
+        run: npm test
+      - name: Deploy
+        run: cdktf deploy --auto-approve '*' # Deploys all stacks
+        env:
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
+```
+
+You might put this under `.github/workflows/cdktf-deploy.yml`. We set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows our CDKTF stacks `RemoteBackend` to connect to Terraform Cloud, we can configure all secrets we need for a successful deployment there. If you use another Backend you would need to specify the secrets here instead of the `TERRAFORM_CLOUD_TOKEN`.
