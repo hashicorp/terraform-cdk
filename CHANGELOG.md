@@ -6,7 +6,7 @@
 
 These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](https://www.terraform.io/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
 
-### Stack ids can no longer contain a whitespace
+### Stack ids can no longer contain whitespaces
 
 A `TerraformStack` may no longer contain whitespace characters, since we rely on paths being whitespace free. If you have a stack with an ID containing a whitespace, please replace it with a hyphen.
 
