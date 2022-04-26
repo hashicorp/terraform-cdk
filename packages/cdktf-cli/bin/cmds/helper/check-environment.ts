@@ -102,7 +102,7 @@ export async function verifySimilarLibraryVersion() {
   }
 
   if (!semver.valid(libVersion)) {
-    logger.info("Could not determine library version, skipping version check");
+    logger.info("Could not determine library version, skipping version compatibility check");
     return;
   }
 
