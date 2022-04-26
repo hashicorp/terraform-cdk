@@ -89,7 +89,7 @@ export async function verifySimilarLibraryVersion() {
 
   if (cliVersion.includes(".dev")) {
     logger.debug(
-      `Running a pre-release version of cdktf-cli, skipping version check`
+      `Running a pre-release version of cdktf-cli, skipping version compatibility check`
     );
     return;
   }
