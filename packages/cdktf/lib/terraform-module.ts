@@ -4,7 +4,7 @@ import { TerraformProvider } from "./terraform-provider";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
-import { ref, insideTfExpression } from "./tfExpression";
+import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
 
 export interface TerraformModuleOptions {
@@ -47,7 +47,7 @@ export abstract class TerraformModule
     this.validateIfProvidersHaveUniqueKeys();
     if (Array.isArray(options.dependsOn)) {
       this.dependsOn = options.dependsOn.map((dependency) =>
-        insideTfExpression(dependency.fqn)
+        dependable(dependency)
       );
     }
   }

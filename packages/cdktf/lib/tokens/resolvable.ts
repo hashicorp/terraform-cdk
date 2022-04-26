@@ -19,6 +19,11 @@ export interface IResolveContext {
   readonly preparing: boolean;
 
   /**
+   * True when ${} should be ommitted (because already inside them), false otherwise
+   */
+  suppressBraces?: boolean;
+
+  /**
    * Resolve an inner object
    */
   resolve(x: any): any;

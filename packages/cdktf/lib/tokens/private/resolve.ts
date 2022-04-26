@@ -36,6 +36,7 @@ export interface IResolveOptions {
   preparing: boolean;
   resolver: ITokenResolver;
   prefix?: string[];
+  previousContext?: IResolveContext;
 }
 
 /**
@@ -61,11 +62,16 @@ export function resolve(obj: any, options: IResolveOptions): any {
     const context: IResolveContext = {
       preparing: options.preparing,
       scope: options.scope,
+      suppressBraces: options.previousContext?.suppressBraces,
       registerPostProcessor(pp) {
         postProcessor = pp;
       },
       resolve(x: any) {
-        return resolve(x, { ...options, prefix: newPrefix });
+        return resolve(x, {
+          ...options,
+          prefix: newPrefix,
+          previousContext: context,
+        });
       },
     };
 

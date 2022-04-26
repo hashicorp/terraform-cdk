@@ -441,7 +441,7 @@ describe("Cross Stack references", () => {
     expect(
       resources[resourceWithoutFunctionKey as string].name
     ).toMatchInlineSnapshot(
-      `"data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputtestresourceOriginStackresource3C7D7739stringvalue_362449F3"`
+      `"\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputtestresourceOriginStackresource3C7D7739stringvalue_362449F3}"`
     );
 
     expect(resourceWithFunctionKey).toBeDefined();
