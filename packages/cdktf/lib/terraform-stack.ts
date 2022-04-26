@@ -45,6 +45,14 @@ function throwIfIdIsGlobCharacter(str: string): void {
   });
 }
 
+function throwIfIdContainsWhitespace(str: string): void {
+  if (str.includes(" ")) {
+    throw new Error(
+      `Can not create Terraform stack with id "${str}". It contains a whitespace.`
+    );
+  }
+}
+
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
@@ -58,6 +66,7 @@ export class TerraformStack extends Construct {
     super(scope, id);
 
     throwIfIdIsGlobCharacter(id);
+    throwIfIdContainsWhitespace(id);
     this.cdktfVersion = this.node.tryGetContext("cdktfVersion");
     this.synthesizer = new StackSynthesizer(
       this,
