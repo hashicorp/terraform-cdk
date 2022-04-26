@@ -107,7 +107,7 @@ export async function verifySimilarLibraryVersion() {
   }
 
   if (!semver.valid(cliVersion)) {
-    logger.info("Could not determine CLI version, skipping version check");
+    logger.info("Could not determine CLI version, skipping version compatibility check");
     return;
   }
 
