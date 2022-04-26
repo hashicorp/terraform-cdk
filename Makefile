@@ -7,8 +7,10 @@ DOCKER_RUN_FLAGS=--interactive \
 		--volume "$(shell pwd)/website:/website/preview" \
 		--publish "3000:3000" \
 		-e "IS_CONTENT_PREVIEW=true" \
-		-e "NAV_DATA_PATH=./preview/data/cdktf-nav-data.json" \
-		-e "CONTENT_DIR=./preview/docs/cdktf"
+		-e "PREVIEW_FROM_REPO=terraform-cdk" \
+		-e "NAV_DATA_DIRNAME=./preview/data" \
+		-e "CONTENT_DIRNAME=./preview/docs" \
+		-e "CURRENT_GIT_BRANCH=$$(git rev-parse --abbrev-ref HEAD)"
 
 # Default: run this if working on the website locally to run in watch mode.
 website:

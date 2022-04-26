@@ -5,6 +5,6 @@
   "terraformProviders": [],
   "terraformModules": [],
   "context": {
-    {{futureFlags}}
+{{futureFlags}}
   }
 }

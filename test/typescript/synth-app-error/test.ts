@@ -20,9 +20,8 @@ describe("full integration test synth", () => {
       );
 
       expect(errorString).toContain(
-        `Synth command: npm run --silent compile && node thisFileDoesNotExist.js`
+        `npm run --silent compile && node thisFileDoesNotExist.js`
       );
-      expect(errorString).toContain(`Error:         non-zero exit code 1`);
     }
   });
 });

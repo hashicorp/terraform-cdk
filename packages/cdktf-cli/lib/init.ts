@@ -40,7 +40,7 @@ export async function init({
   const deps: any = await determineDeps(cdktfVersion, dist);
 
   const futureFlags = Object.entries(FUTURE_FLAGS)
-    .map(([key, value]) => `"${key}": "${value}"`)
+    .map(([key, value]) => `    "${key}": "${value}"`)
     .join(`,\n`);
 
   await sscaff(templatePath, destination, {

@@ -6,6 +6,6 @@
   "terraformModules": [],
   "codeMakerOutput": "imports",
   "context": {
-    {{futureFlags}}
+{{futureFlags}}
   }
 }

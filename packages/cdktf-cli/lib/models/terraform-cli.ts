@@ -6,7 +6,7 @@ import {
   AbstractTerraformPlan,
 } from "./terraform";
 import { SynthesizedStack } from "../synth-stack";
-import { terraformBinaryName } from "../../bin/cmds/helper/terraform";
+import { terraformBinaryName } from "../terraform";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan

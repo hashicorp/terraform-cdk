@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
 import ciDetect from "@npmcli/ci-detect";
 import { logger, processLoggerError } from "./logging";
-import { versionNumber } from "../bin/cmds/helper/version-check";
 import * as path from "path";
 import * as fs from "fs-extra";
+import { DISPLAY_VERSION } from "./version";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
@@ -69,7 +69,7 @@ export async function sendTelemetry(
   const reportParams: ReportParams = {
     command,
     product: "cdktf",
-    version: versionNumber(),
+    version: `${DISPLAY_VERSION}`,
     dateTime: new Date(),
     language: payload.language,
     payload,
