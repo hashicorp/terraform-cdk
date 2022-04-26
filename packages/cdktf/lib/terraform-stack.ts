@@ -48,7 +48,7 @@ function throwIfIdIsGlobCharacter(str: string): void {
 function throwIfIdContainsWhitespace(str: string): void {
   if (str.includes(" ")) {
     throw new Error(
-      `Can not create Terraform stack with id "${str}". It contains a whitespace.`
+      `Can not create TerraformStack with id "${str}". It contains a whitespace.`
     );
   }
 }
