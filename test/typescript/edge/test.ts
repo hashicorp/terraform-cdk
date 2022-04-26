@@ -109,9 +109,7 @@ describe("edge provider test", () => {
       expect(item.bool).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}'
       );
-      expect(item.str).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}'
-      );
+      expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
       expect(item.num).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
       );
@@ -119,7 +117,7 @@ describe("edge provider test", () => {
         '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}',
       ]);
       expect(item.strList).toEqual([
-        '${lookup(element(list_block_resource.list.req, 0), "reqstr", "fallback")}',
+        "${list_block_resource.list.req[0].reqstr}",
       ]);
       expect(item.numList).toEqual([
         '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}',
@@ -156,19 +154,7 @@ describe("edge provider test", () => {
       const item = stack.byId("list_literal");
 
       // Expands single item references
-      expect(item.req[0]).toMatchInlineSnapshot(`
-        Object {
-          "computedbool": "\${list_block_resource.list.singlereq[0].computedbool}",
-          "computednum": "\${list_block_resource.list.singlereq[0].computednum}",
-          "computedstr": "\${list_block_resource.list.singlereq[0].computedstr}",
-          "optbool": "\${list_block_resource.list.singlereq[0].optbool}",
-          "optnum": "\${list_block_resource.list.singlereq[0].optnum}",
-          "optstr": "\${list_block_resource.list.singlereq[0].optstr}",
-          "reqbool": "\${list_block_resource.list.singlereq[0].reqbool}",
-          "reqnum": "\${list_block_resource.list.singlereq[0].reqnum}",
-          "reqstr": "\${list_block_resource.list.singlereq[0].reqstr}",
-        }
-      `);
+      expect(item.req[0]).toEqual("${list_block_resource.list.singlereq[0]}");
     });
 
     it("item references a map", () => {
