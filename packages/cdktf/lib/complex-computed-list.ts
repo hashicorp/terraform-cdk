@@ -260,9 +260,21 @@ export abstract class ComplexList
   }
 
   get fqn(): string {
-    return Token.asString(
-      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
-    );
+    if (this.wrapsSet) {
+      return Token.asString(
+        Fn.tolist(
+          this.terraformResource.interpolationForAttribute(
+            this.terraformAttribute
+          )
+        )
+      );
+    } else {
+      return Token.asString(
+        this.terraformResource.interpolationForAttribute(
+          this.terraformAttribute
+        )
+      );
+    }
   }
 }
 
@@ -366,9 +378,21 @@ abstract class MapList
   }
 
   get fqn(): string {
-    return Token.asString(
-      this.terraformResource.interpolationForAttribute(this.terraformAttribute)
-    );
+    if (this.wrapsSet) {
+      return Token.asString(
+        Fn.tolist(
+          this.terraformResource.interpolationForAttribute(
+            this.terraformAttribute
+          )
+        )
+      );
+    } else {
+      return Token.asString(
+        this.terraformResource.interpolationForAttribute(
+          this.terraformAttribute
+        )
+      );
+    }
   }
 
   interpolationForAttribute(property: string): IResolvable {
