@@ -8,7 +8,7 @@ These environment variables will now be filtered out in the synth phase since th
 
 ### Stack ids can no longer contain whitespaces
 
-A `TerraformStack` may no longer contain whitespace characters, since we rely on paths being whitespace free. If you have a stack with an id containing a whitespace, please replace it with a hyphen.
+A `TerraformStack` may no longer contain whitespace characters, since we rely on paths being whitespace free. If you have a stack with an id containing a whitespace, please replace it with a hyphen. If the stack was already deployed with the default `LocalBackend` you might need to rename your statefile to match the new stack id.
 
 ## 0.10.4
 
