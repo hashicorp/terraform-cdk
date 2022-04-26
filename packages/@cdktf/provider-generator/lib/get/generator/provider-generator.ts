@@ -54,20 +54,22 @@ export class TerraformProviderGenerator {
       return;
     }
 
+    const versions: { [fqpn: string]: string | undefined } = {};
     for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
       const providerVersion = schema.provider_versions
         ? schema.provider_versions[fqpn]
         : undefined;
 
       if (
-        this.providerConstraints &&
-        this.providerConstraints.find((p) => isMatching(p, fqpn))
+        (this.providerConstraints &&
+          this.providerConstraints.find((p) => isMatching(p, fqpn))) ||
+        !this.providerConstraints
       ) {
         this.emitProvider(fqpn, provider, providerVersion);
-      } else if (!this.providerConstraints) {
-        this.emitProvider(fqpn, provider, providerVersion);
+        versions[fqpn] = providerVersion;
       }
     }
+    this.emitVersionsFile(versions);
   }
 
   public async save(outdir: string) {
@@ -342,5 +344,14 @@ export class TerraformProviderGenerator {
     this.code.line();
     this.code.line("// Configuration");
     this.code.line();
+  }
+
+  // emits a versions.json file with a map of the used version for each provider fqpn
+  private emitVersionsFile(versions: { [fqpn: string]: string | undefined }) {
+    const filePath = "versions.json";
+    this.code.openFile(filePath);
+    this.code.line(JSON.stringify(versions, null, 2));
+    this.code.closeFile(filePath);
+    return filePath;
   }
 }
