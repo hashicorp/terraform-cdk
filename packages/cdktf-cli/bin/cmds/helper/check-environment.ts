@@ -96,7 +96,7 @@ export async function verifySimilarLibraryVersion() {
 
   if (libVersion.includes(".dev")) {
     logger.debug(
-      `Running a pre-release version of cdktf, skipping version check`
+      `Running a pre-release version of cdktf, skipping version compatibility check`
     );
     return;
   }
