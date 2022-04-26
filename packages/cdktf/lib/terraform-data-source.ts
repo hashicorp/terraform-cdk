@@ -10,7 +10,7 @@ import {
 } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { ref, insideTfExpression } from "./tfExpression";
+import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
 
 export class TerraformDataSource
@@ -35,7 +35,7 @@ export class TerraformDataSource
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
       this.dependsOn = config.dependsOn.map((dependency) =>
-        insideTfExpression(dependency.fqn)
+        dependable(dependency)
       );
     }
     this.count = config.count;

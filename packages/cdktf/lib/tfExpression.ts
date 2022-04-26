@@ -1,14 +1,11 @@
 import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
-import { Tokenization } from "./tokens/token";
-import { LazyBase } from "./tokens/lazy";
+import { Tokenization, Token } from "./tokens/token";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
-import { Construct } from "constructs";
+import { ITerraformDependable } from "./terraform-dependable";
 
 class TFExpression extends Intrinsic implements IResolvable {
-  public isInnerTerraformExpression = false;
-
   protected resolveArg(context: IResolveContext, arg: any): string {
     const resolvedArg = context.resolve(arg);
     if (Tokenization.isResolvable(arg)) {
@@ -102,8 +99,8 @@ class RawString extends TFExpression {
     super(str);
   }
 
-  public resolve() {
-    const qts = this.isInnerTerraformExpression ? `"` : ``;
+  public resolve(context: IResolveContext) {
+    const qts = context.suppressBraces ? `"` : ``;
     return `${qts}${this.escapeString(this.str).replace(/\"/g, '\\"')}${qts}`; // eslint-disable-line no-useless-escape
   }
 
@@ -132,6 +129,8 @@ class Reference extends TFExpression {
     // We check for cross stack references on preparation, setting a new identifier
     const resolutionStack = TerraformStack.of(context.scope);
     const stackName = resolutionStack.toString();
+    const suppressBraces = context.suppressBraces;
+    context.suppressBraces = true;
 
     if (context.preparing) {
       // Cross stack reference
@@ -143,22 +142,18 @@ class Reference extends TFExpression {
           this.identifier
         );
 
-        if (this.isInnerTerraformExpression) {
-          markAsInner(csr);
-        }
-
         this.crossStackIdentifier[stackName] = csr;
       }
     }
 
     // If this is a cross stack reference we will resolve to a reference within this stack.
     if (this.crossStackIdentifier[stackName]) {
-      return this.crossStackIdentifier[stackName];
+      return suppressBraces
+        ? this.crossStackIdentifier[stackName]
+        : `\${${this.crossStackIdentifier[stackName]}}`;
     }
 
-    return this.isInnerTerraformExpression
-      ? this.identifier
-      : `\${${this.identifier}}`;
+    return suppressBraces ? this.identifier : `\${${this.identifier}}`;
   }
 }
 
@@ -166,44 +161,11 @@ export function ref(identifier: string, stack: TerraformStack): IResolvable {
   return new Reference(identifier, stack);
 }
 
-function markAsInner(arg: any) {
-  if (arg instanceof TFExpression) {
-    arg.isInnerTerraformExpression = true;
-    return;
-  }
-
-  if (arg instanceof Construct) {
-    // This will trigger an infinite loop and nothing needs to be checked anyways.
-    return;
-  }
-
-  // reverese tokens here and set inner tf expression flag
-  Tokenization.reverse(arg).map((resolvable) => {
-    if (resolvable instanceof TFExpression) {
-      resolvable.isInnerTerraformExpression = true;
-    } else if (resolvable instanceof LazyBase) {
-      resolvable.addPostProcessor({
-        postProcess: (value) => {
-          markAsInner(value);
-          return value;
-        },
-      });
-    }
-  });
-
-  if (typeof arg === "object" && arg !== null) {
-    if (Array.isArray(arg)) {
-      arg.forEach(markAsInner);
-    } else {
-      Object.keys(arg).forEach((key) => markAsInner(arg[key]));
-    }
-  }
-}
 /**
  * marks the argument as being used in a terraform expression
+ * @deprecated
  */
 export function insideTfExpression(arg: any) {
-  markAsInner(arg);
   return arg;
 }
 
@@ -213,8 +175,8 @@ class PropertyAccess extends TFExpression {
   }
 
   public resolve(context: IResolveContext): string {
-    markAsInner(this.target);
-    this.args.forEach(markAsInner);
+    const suppressBraces = context.suppressBraces;
+    context.suppressBraces = true;
 
     const serializedArgs = this.args
       .map((arg) => this.resolveArg(context, arg))
@@ -223,7 +185,7 @@ class PropertyAccess extends TFExpression {
 
     const expr = `${this.resolveArg(context, this.target)}${serializedArgs}`;
 
-    return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
+    return suppressBraces ? expr : `\${${expr}}`;
   }
 }
 
@@ -241,9 +203,8 @@ class ConditionalExpression extends TFExpression {
   }
 
   public resolve(context: IResolveContext): string {
-    markAsInner(this.condition);
-    markAsInner(this.trueValue);
-    markAsInner(this.falseValue);
+    const suppressBraces = context.suppressBraces;
+    context.suppressBraces = true;
 
     const condition = this.resolveArg(context, this.condition);
     const trueValue = this.resolveArg(context, this.trueValue);
@@ -251,7 +212,7 @@ class ConditionalExpression extends TFExpression {
 
     const expr = `${condition} ? ${trueValue} : ${falseValue}`;
 
-    return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
+    return suppressBraces ? expr : `\${${expr}}`;
   }
 }
 
@@ -292,8 +253,9 @@ class OperatorExpression extends TFExpression {
   }
 
   public resolve(context: IResolveContext): string {
-    markAsInner(this.left);
-    if (this.right) markAsInner(this.right);
+    const suppressBraces = context.suppressBraces;
+    context.suppressBraces = true;
+
     const left = this.resolveArg(context, this.left);
     const right = this.right ? this.resolveArg(context, this.right) : undefined;
 
@@ -318,7 +280,7 @@ class OperatorExpression extends TFExpression {
       }
     }
 
-    return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
+    return suppressBraces ? expr : `\${${expr}}`;
   }
 }
 
@@ -387,7 +349,8 @@ class FunctionCall extends TFExpression {
   }
 
   public resolve(context: IResolveContext): string {
-    this.args.forEach(markAsInner);
+    const suppressBraces = context.suppressBraces;
+    context.suppressBraces = true;
 
     const serializedArgs = this.args
       .map((arg) => this.resolveArg(context, arg))
@@ -395,11 +358,26 @@ class FunctionCall extends TFExpression {
 
     const expr = `${this.name}(${serializedArgs})`;
 
-    return this.isInnerTerraformExpression ? expr : `\${${expr}}`;
+    return suppressBraces ? expr : `\${${expr}}`;
   }
 }
 export function call(name: string, args: Expression[]) {
   return new FunctionCall(name, args) as IResolvable;
+}
+
+class Dependable extends TFExpression {
+  constructor(private dependable: ITerraformDependable) {
+    super(dependable);
+  }
+
+  public resolve(context: IResolveContext): string {
+    context.suppressBraces = true;
+
+    return this.dependable.fqn;
+  }
+}
+export function dependable(dependable: ITerraformDependable): string {
+  return Token.asString(new Dependable(dependable));
 }
 
 export type Expression =
@@ -408,6 +386,7 @@ export type Expression =
   | PropertyAccess
   | ConditionalExpression
   | OperatorExpression
+  | Dependable
   | string
   | string[]
   | number
