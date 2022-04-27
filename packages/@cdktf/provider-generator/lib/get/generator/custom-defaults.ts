@@ -29,6 +29,7 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "aws.default_route_table.route.vpc_endpoint_id": null,
   "aws.default_route_table.route.vpc_peering_connection_id": null,
   "aws.default_route_table.route.destination_prefix_list_id": null,
+  "aws.default_route_table.route.core_network_arn": null,
 
   "aws.emr_cluster.step.action_on_failure": null,
   "aws.emr_cluster.step.hadoop_jar_step": null,
