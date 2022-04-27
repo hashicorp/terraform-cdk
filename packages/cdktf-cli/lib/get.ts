@@ -1,5 +1,7 @@
 import { ConstructsMaker, GetOptions, config } from "@cdktf/provider-generator";
+import { setLogger } from "@cdktf/provider-generator/lib/config";
 import * as fs from "fs-extra";
+import { logger } from "./logging";
 
 export enum GetStatus {
   STARTING = "starting",
@@ -29,6 +31,10 @@ export async function get({
   onUpdate = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
   reportTelemetry = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
 }: GetConfig) {
+  setLogger(logger as any);
+  logger.debug(
+    `Starting get, removing output directory: '${constructsOptions.codeMakerOutput}'`
+  );
   await fs.remove(constructsOptions.codeMakerOutput);
   const constructsMaker = new ConstructsMaker(
     constructsOptions,
@@ -36,11 +42,15 @@ export async function get({
     reportTelemetry
   );
   onUpdate(GetStatus.DOWNLOADING);
+  logger.debug("Generating provider bindings");
   await constructsMaker.generate();
+  logger.debug("Provider bindings generated");
 
   if (!(await fs.pathExists(constructsOptions.codeMakerOutput))) {
     onUpdate(GetStatus.ERROR);
+    logger.debug("Failed tgo generate provider bindings");
   } else {
     onUpdate(GetStatus.DONE);
+    logger.debug("Provider bindings generated");
   }
 }
