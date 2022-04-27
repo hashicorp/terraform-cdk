@@ -19,6 +19,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
+      DISABLE_VERSION_CHECK: "1"
     steps:
       - uses: actions/checkout@v2
         with:
