@@ -65,4 +65,8 @@ jobs:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
 ```
 
-You might put this under `.github/workflows/cdktf-deploy.yml`. We set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows our CDKTF stacks `RemoteBackend` to connect to Terraform Cloud, we can configure all secrets we need for a successful deployment there. If you use another Backend you would need to specify the secrets here instead of the `TERRAFORM_CLOUD_TOKEN`.
+You might put this under `.github/workflows/cdktf-deploy.yml`.
+In this example our CDKTF Application is deployed from the `main` branch and uses Terraform Cloud.
+We set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows our CDKTF stacks `RemoteBackend` to connect to Terraform Cloud, we can configure all secrets we need for a successful deployment there.
+
+In order to use secrets you need to enable [remote execution](/cloud-docs/run#remote-operations) in your Terraform Cloud workspace, this is not possible if you rely on local build steps that run as part of CDKTF. If you the local execution mode or any other backend you would need to specify the credentials for your providers in the `env:` block in the Deploy step.
