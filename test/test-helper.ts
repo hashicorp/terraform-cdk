@@ -170,7 +170,11 @@ export class TestDriver {
   };
 
   get = async () => {
-    await this.exec(`cdktf get`);
+    const res = await this.exec(`cdktf get`);
+    console.log("cdktf get stdout");
+    console.log(res.stdout);
+    console.log("cdktf get stderr");
+    console.log(res.stderr);
   };
 
   synth = async (flags?: string) => {
