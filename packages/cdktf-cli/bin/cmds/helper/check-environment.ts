@@ -55,16 +55,19 @@ export async function checkEnvironment() {
 }
 
 export async function verifySimilarLibraryVersion() {
+  if (process.env.DISABLE_VERSION_CHECK) {
+    logger.debug("Version check disabled via Environment variable");
+    return;
+  }
+
   const language = getLanguage();
   if (!language) {
-    // We could not detect the language, disabling the check
     logger.debug("Unable to detect language, skipping version check");
     return;
   }
 
   const libVersion = await getPackageVersion(language, "cdktf");
   if (!libVersion) {
-    // We could not detect the library version, disabling the check
     logger.debug(`Unable to detect library version for ${language}`);
     return;
   }
@@ -72,7 +75,6 @@ export async function verifySimilarLibraryVersion() {
   const cliVersion = `${DISPLAY_VERSION}`;
 
   if (!libVersion) {
-    // We could not detect the library version, disabling the check
     logger.debug(`Unable to detect library version for ${language}`);
     return;
   }
@@ -87,14 +89,14 @@ export async function verifySimilarLibraryVersion() {
     return;
   }
 
-  if (cliVersion.includes(".dev")) {
+  if (cliVersion.includes(".dev") || cliVersion.includes("-pre.")) {
     logger.debug(
       `Running a pre-release version of cdktf-cli, skipping version compatibility check`
     );
     return;
   }
 
-  if (libVersion.includes(".dev")) {
+  if (libVersion.includes(".dev") || libVersion.includes("-pre.")) {
     logger.debug(
       `Running a pre-release version of cdktf, skipping version compatibility check`
     );
@@ -102,12 +104,16 @@ export async function verifySimilarLibraryVersion() {
   }
 
   if (!semver.valid(libVersion)) {
-    logger.info("Could not determine library version, skipping version compatibility check");
+    logger.info(
+      "Could not determine library version, skipping version compatibility check"
+    );
     return;
   }
 
   if (!semver.valid(cliVersion)) {
-    logger.info("Could not determine CLI version, skipping version compatibility check");
+    logger.info(
+      "Could not determine CLI version, skipping version compatibility check"
+    );
     return;
   }
 
