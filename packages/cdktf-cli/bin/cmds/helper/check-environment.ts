@@ -56,7 +56,7 @@ export async function checkEnvironment() {
 
 export async function verifySimilarLibraryVersion() {
   if (process.env.DISABLE_VERSION_CHECK) {
-    logger.debug("Version check disabled via Environment variable");
+    logger.debug("Version check disabled via environment variable");
     return;
   }
 
