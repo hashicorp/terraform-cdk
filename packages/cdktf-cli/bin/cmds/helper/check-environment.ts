@@ -81,10 +81,33 @@ export async function verifySimilarLibraryVersion() {
   logger.debug(`${language} package version: ${libVersion}`);
 
   if (cliVersion === "0.0.0" || cliVersion.includes("-dev")) {
-    // We are running a development version
     logger.debug(
       `Running a development version of cdktf, skipping version check`
     );
+    return;
+  }
+
+  if (cliVersion.includes(".dev")) {
+    logger.debug(
+      `Running a pre-release version of cdktf-cli, skipping version compatibility check`
+    );
+    return;
+  }
+
+  if (libVersion.includes(".dev")) {
+    logger.debug(
+      `Running a pre-release version of cdktf, skipping version compatibility check`
+    );
+    return;
+  }
+
+  if (!semver.valid(libVersion)) {
+    logger.info("Could not determine library version, skipping version compatibility check");
+    return;
+  }
+
+  if (!semver.valid(cliVersion)) {
+    logger.info("Could not determine CLI version, skipping version compatibility check");
     return;
   }
 
