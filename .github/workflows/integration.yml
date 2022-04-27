@@ -63,6 +63,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
+      CDKTF_LOG_LEVEL: "all" # FIXME: don't merge this!
 
     steps:
       - uses: actions/checkout@v2
