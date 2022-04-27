@@ -1,4 +1,5 @@
 import { AttributeTypeModel } from "./attribute-type-model";
+import { logger } from "../../../config";
 
 export type GetterType =
   | { _type: "plain" }
@@ -143,11 +144,11 @@ export class AttributeModel {
     if (type.isAnyMap) {
       return `any`;
     }
-    if (process.env.DEBUG) {
-      console.error(
-        `The attribute ${JSON.stringify(this)} isn't implemented yet`
-      );
-    }
+
+    logger.debug(
+      `The attribute isn't implemented yet: ${JSON.stringify(this)}`
+    );
+
     return `any`;
   }
 

@@ -5,6 +5,7 @@ import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";
 import { ConstructsMakerTarget } from "../constructs-maker";
 import * as path from "path";
+import { logger } from "../../config";
 interface ProviderData {
   name: string;
   source: string;
@@ -50,7 +51,7 @@ export class TerraformProviderGenerator {
     this.structEmitter = new StructEmitter(this.code);
 
     if (!schema.provider_schemas) {
-      console.info("no providers - nothing to do");
+      logger.info("no providers - nothing to do");
       return;
     }
 

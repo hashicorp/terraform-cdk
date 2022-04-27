@@ -1,4 +1,5 @@
 import { ConstructsMaker, GetOptions, config } from "@cdktf/provider-generator";
+import { setLogger } from "@cdktf/provider-generator/lib/config";
 import * as fs from "fs-extra";
 import { logger } from "./logging";
 
@@ -30,6 +31,7 @@ export async function get({
   onUpdate = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
   reportTelemetry = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
 }: GetConfig) {
+  setLogger(logger as any);
   logger.debug(
     `Getting constructs for ${JSON.stringify(
       constraints
@@ -48,14 +50,18 @@ export async function get({
     reportTelemetry
   );
   onUpdate(GetStatus.DOWNLOADING);
-  logger.debug(`Generating constructs`);
+
+  logger.debug("Generating provider bindings");
   await constructsMaker.generate();
+  logger.debug("Provider bindings generated");
 
   if (!(await fs.pathExists(constructsOptions.codeMakerOutput))) {
     logger.debug(`There were no constructs to generate`);
     onUpdate(GetStatus.ERROR);
+    logger.debug("Failed tgo generate provider bindings");
   } else {
     logger.debug(`Successfully generated constructs`);
     onUpdate(GetStatus.DONE);
+    logger.debug("Provider bindings generated");
   }
 }

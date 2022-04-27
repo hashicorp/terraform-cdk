@@ -280,3 +280,8 @@ export function shouldCheckCodeMakerOutput(config: Config): boolean {
     isPresent(config.terraformModules) || isPresent(config.terraformProviders)
   );
 }
+
+export let logger = console;
+export function setLogger(log: Console) {
+  logger = log;
+}
