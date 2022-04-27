@@ -8,6 +8,7 @@ import * as fs from "fs-extra";
 import { readCDKTFManifest } from "../lib/util";
 import { IsErrorType } from "../lib/errors";
 import { collectDebugInformation } from "../lib/debug";
+import { CDKTF_DISABLE_PLUGIN_CACHE_ENV } from "../lib/environment";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
@@ -19,7 +20,7 @@ const ensurePluginCache = (): string => {
   return pluginCachePath;
 };
 
-if (!process.env.CDKTF_DISABLE_PLUGIN_CACHE_ENV) {
+if (!CDKTF_DISABLE_PLUGIN_CACHE_ENV) {
   process.env.TF_PLUGIN_CACHE_DIR = ensurePluginCache();
 }
 

@@ -9,13 +9,9 @@ description: >-
 
 These are all environment variables that you can use to configure the behavior of CDKTF.
 
-## DEBUG
-
-If set to a not-empty value you will get more logs for the provider generation process.
-
 ## CDKTF_DISABLE_PLUGIN_CACHE_ENV
 
-If set to a not-empty value, the [plugin cache](/cli/config/config-file#provider-plugin-cache) will be disabled. Otherwise `cdktf` will set the `TF_PLUGIN_CACHE_DIR` and create the required directory in `~/.terraform.d/plugin-cache` if it's not already present.
+If set to `true` or `1`, the [plugin cache](/cli/config/config-file#provider-plugin-cache) will be disabled. Otherwise `cdktf` will set the `TF_PLUGIN_CACHE_DIR` and create the required directory in `~/.terraform.d/plugin-cache` if it's not already present.
 
 ## CDKTF_HOME
 
@@ -23,7 +19,7 @@ If set overwrites where CDKTF stores cache and configuration files, defaults to 
 
 ## CHECKPOINT_DISABLE
 
-If set to a not-empty value, no [telemetry](/cdktf/telemetry) will be send.
+If set to `true` or `1`, no [telemetry](/cdktf/telemetry) will be send.
 
 ## CDKTF_LOG_LEVEL
 
@@ -57,4 +53,4 @@ If set this proxy will be used for all HTTP requests.
 
 ## DISABLE_VERSION_CHECK
 
-If set to a non-empty value, no version check will be performed. If it is not set we will verify your installed library version matches the CLI version and warn if they do not match.
+If set to `true` or `1`, no version check will be performed. If it is not set we will verify your installed library version matches the CLI version and warn if they do not match.
