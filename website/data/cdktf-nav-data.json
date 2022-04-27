@@ -99,6 +99,7 @@
       { "title": "Commands", "path": "cli-reference/commands" }
     ]
   },
+   { "title": "Debugging", "path": "debugging" },
   {
     "title": "Release",
     "routes": [

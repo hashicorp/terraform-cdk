@@ -1,0 +1,28 @@
+---
+page_title: Debugging
+description: >-
+  Learn how to troubleshoot problems in your CDKTF application.
+---
+
+# Debugging
+
+## Increasing the verbosity
+
+To get more information about what CDKTF is doing and what problems have occured by setting the `CDKTF_LOG_LEVEL` environment variable to `DEBUG`. If you want to share the logs you can set `CDKTF_LOG_FILE_DIRECTORY` to a file path, a `cdktf.log` file with all logs will be written.
+
+## Troubleshooting
+
+- Find out if the error is during synth or during execution
+- Find the construct that is causing the error during synth
+- Find the terraform resource and its construct that is causing the error during execution
+
+## Common problems
+
+### CDKTF CLI and library are on different versions
+
+- `cdktf debug` to the rescue
+
+## What to do if nothing helped
+
+- CDKTF Slack
+- Create a GH issue
