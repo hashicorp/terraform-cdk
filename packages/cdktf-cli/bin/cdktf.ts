@@ -93,12 +93,6 @@ yargs
   )
   .help()
   .alias("h", "help")
-  .option("disable-logging", {
-    type: "boolean",
-    default: true,
-    required: false,
-    desc: "Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.",
-  })
   .option("disable-plugin-cache-env", {
     type: "boolean",
     default: false,
