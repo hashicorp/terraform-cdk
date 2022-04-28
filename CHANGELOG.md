@@ -1,3 +1,25 @@
+## 0.10.3
+
+### feat
+
+- feat(provider-generator): emit a versions.json file to the output directory, containing the used provider versions [\#1749](https://github.com/hashicorp/terraform-cdk/pull/1749)
+- feat(cli): debug command [\#1731](https://github.com/hashicorp/terraform-cdk/pull/1731)
+
+### chore
+
+- chore(cli): add environment variable to disable version checks [\#1757](https://github.com/hashicorp/terraform-cdk/pull/1757)
+- chore: drop Terraform v0.15.7 from Docker image and replace with v1.1.9 for running tests [\#1747](https://github.com/hashicorp/terraform-cdk/pull/1747)
+- chore: add Terraform v1.1.9 to Docker image [\#1743](https://github.com/hashicorp/terraform-cdk/pull/1743)
+- chore(docs): update env var usage [\#1693](https://github.com/hashicorp/terraform-cdk/pull/1693)
+
+### fix
+
+- fix(lib): Add new optional AWS route attributes [\#1755](https://github.com/hashicorp/terraform-cdk/pull/1755)
+- fix(cli): handle version check more defensively [\#1753](https://github.com/hashicorp/terraform-cdk/pull/1753)
+- fix(cli): we should not send wait for approval if a stop has been issued [\#1740](https://github.com/hashicorp/terraform-cdk/pull/1740)
+- fix(cli): Fix indentation of RemoteBackend in CSharp and Java template [\#1733](https://github.com/hashicorp/terraform-cdk/pull/1733)
+- fix(cli): fix templates to properly indent cdktf.json and add RemoteBackend in TS template [\#1732](https://github.com/hashicorp/terraform-cdk/pull/1732)
+
 ## 0.10.2
 
 ### fix
