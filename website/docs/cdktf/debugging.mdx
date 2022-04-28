@@ -12,17 +12,48 @@ To get more information about what CDKTF is doing and what problems have occured
 
 ## Troubleshooting
 
-- Find out if the error is during synth or during execution
-- Find the construct that is causing the error during synth
-- Find the terraform resource and its construct that is causing the error during execution
+To understand where the problem is coming from it's a good first step to see if it's a synth-time issue or an execution-time issue.
+If `cdktf synth` fails you have a synth-time issue, otherwise it's an execution-time issue.
+
+### Synth-time issues
+
+The most important thing is to understand which construct is causing the problem. The error message thrown might hint you towards it, if not you will need to search for it. If you have a last version that successfully synthesized you can search through the new changes, otherwise you need to search through all changes. To search it you need to repeatedly run `cdktf synth` and comment parts out until you find the error. The synthesized code does not need to make any logical sense since we don't plan to apply it.
+
+Once you find the construct causing the problem you need to try to isolate the problem. If you use variables in your constructs configuration, try to temporarily replace them with static values to ensure the problem is on the construct itself. If the problem persists try looking at the type to identfy missing or mistyped fields. Looking at the resource in the terraform provider might help to understand the structure better as well.
+
+If this does not help, please create an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.
+
+### Execution-time issues
+
+Execution-time issues can arise from misconfigured synthesized code or from the provider itself.
+As a first step you can check if the synthesized code looks like you would expect it. You can check through the Terraform documentation for the resource to see if there are misconfigured values. You can also search for the resource name, terraform and the error to find issues Terraform users had with the resource or look at the providers github repository for issues similar to yours. Keep in mind that in CDKTF renames resources and fields in most languages to be camel case, whereas terraform uses snake case.
+
+If this does not help, please create an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.
 
 ## Common problems
 
 ### CDKTF CLI and library are on different versions
 
-- `cdktf debug` to the rescue
+If you are using the CDKTF CLI and library on different versions you are likely to run into problems.
+A newer library version might expect data from the CLI being passed to the program.
+A newer CLI version might generate provider bindings generated in `cdktf get` that rely on functionality the older library does not support.
+
+To check if these versions align you can use the `cdktf debug` command, the output might look like this:
+
+```
+language: typescript
+cdktf-cli: 0.11.0
+node: v16.13.1
+cdktf: 0.10.0
+constructs: 10.0.63
+jsii: null
+terraform: 1.1.8
+arch: x64
+os: darwin 21.4.0
+```
+
+As you can see the `cdktf-cli` version is newer than the `cdktf` version. This means you either need to downgrade the CLI version or update the library version.
 
 ## What to do if nothing helped
 
-- CDKTF Slack
-- Create a GH issue
+You can ask about your problem in the [cdk.dev](https://cdk.dev/) slack in the `#terraform-cdk` channel. Alternatively you can open an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.
