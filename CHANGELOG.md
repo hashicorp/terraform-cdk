@@ -1,3 +1,11 @@
+## 0.11.0
+
+**Breaking Changes**
+
+### Using `TF_VAR_` prefixed environment variables no longer allowed to e used at synth time
+
+These environment variables will now be filtered out in the synth phase since they might include secrets. To access values from these environment variables, you can use [`TerraformVariable`](https://www.terraform.io/cdktf/concepts/variables-and-outputs#input-variables).
+
 ## 0.10.3
 
 ### feat
