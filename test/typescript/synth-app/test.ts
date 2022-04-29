@@ -22,7 +22,7 @@ describe("full integration test synth", () => {
     expect(driver.synthesizedStack("hello-terra").toString()).toMatchSnapshot();
   });
 
-  test("should not pass TF_VAR environment vaiables", () => {
+  test("should not pass TF_VAR environment variables", () => {
     expect(
       driver.synthesizedStack("hello-terra").output("tfenvvaroutput")
     ).toBe("no-value-found");
