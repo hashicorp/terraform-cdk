@@ -15,7 +15,8 @@
     "lint": "eslint . --ext .ts",
     "test": "jest --passWithNoTests && yarn lint",
     "test:ci": "jest --ci --passWithNoTests && yarn lint",
-    "dist-clean": "rm -rf dist"
+    "dist-clean": "rm -rf dist",
+    "docs": "npx typedoc --emit both lib/index.ts"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -91,6 +92,7 @@
     "jsii": "^1.55.1",
     "jsii-pacmak": "^1.55.1",
     "ts-jest": "^26.5.6",
+    "typedoc": "^0.22.15",
     "typescript": "^3.9.10"
   },
   "dependencies": {
