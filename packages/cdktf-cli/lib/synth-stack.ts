@@ -49,12 +49,12 @@ export class SynthStack {
       path.join(outdir, Manifest.stacksFolder)
     );
 
-    const env = Object.entries(process.env)
-      .filter(
+    const env = Object.fromEntries(
+      Object.entries(process.env).filter(
         // We don't want to pass Terraform variables to the synth command since they should only be used at execution time
         ([key]) => !key.startsWith("TF_VAR_")
       )
-      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    );
 
     try {
       await shell(command, [], {
