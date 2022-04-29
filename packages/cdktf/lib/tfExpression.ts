@@ -60,7 +60,7 @@ class TFExpression extends Intrinsic implements IResolvable {
     }
 
     // String literal + token reference combination
-    return `"${tokenList.join({
+    const joinResult = tokenList.join({
       join: (left, right) => {
         const leftTokens = Tokenization.reverse(left);
         const leftTokenList = Tokenization.reverseString(left);
@@ -89,7 +89,13 @@ class TFExpression extends Intrinsic implements IResolvable {
 
         return `${leftValue}${rightValue}`;
       },
-    })}"`;
+    });
+
+    return joinResult !== `"` &&
+      joinResult.startsWith('"') &&
+      joinResult.endsWith('"')
+      ? joinResult
+      : `"${joinResult}"`;
   }
 }
 

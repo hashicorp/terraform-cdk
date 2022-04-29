@@ -219,6 +219,13 @@ test("using the same reference in two contexts", () => {
     name: `inFunction:${Fn.lower(reference)}|plain:${reference}`,
   });
 
+  new TestResource(stack, "join", {
+    name: `first:${Fn.join(",", [
+      reference,
+      `this is the ref: ${reference}`,
+    ])}|second:${Fn.join(",", [`this is the ref: ${reference}`, reference])}`,
+  });
+
   const q = JSON.parse(Testing.synth(stack)).resource.test_resource;
 
   expect(q["plain-function"].name).toBe(
@@ -226,5 +233,8 @@ test("using the same reference in two contexts", () => {
   );
   expect(q["function-plain"].name).toBe(
     "inFunction:${lower(test_resource.resource.string_value)}|plain:${test_resource.resource.string_value}"
+  );
+  expect(q["join"].name).toBe(
+    `first:\${join(",", [test_resource.resource.string_value, "this is the ref: \${test_resource.resource.string_value}"])}|second:\${join(",", ["this is the ref: \${test_resource.resource.string_value}", test_resource.resource.string_value])}`
   );
 });
