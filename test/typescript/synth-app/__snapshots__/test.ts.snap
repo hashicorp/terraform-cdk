@@ -22,7 +22,8 @@ exports[`full integration test synth synth generates JSON 1`] = `
       \\"hello-terra\\": {
         \\"instance-http-endpoint\\": \\"instancehttpendpoint\\",
         \\"instance-password\\": \\"instancepassword\\",
-        \\"sns-topic-arn\\": \\"snstopicarn\\"
+        \\"sns-topic-arn\\": \\"snstopicarn\\",
+        \\"tf-env-var-output\\": \\"tfenvvaroutput\\"
       }
     }
   },
@@ -35,6 +36,9 @@ exports[`full integration test synth synth generates JSON 1`] = `
     },
     \\"snstopicarn\\": {
       \\"value\\": \\"\${aws_sns_topic.Topic.arn}\\"
+    },
+    \\"tfenvvaroutput\\": {
+      \\"value\\": \\"no-value-found\\"
     }
   },
   \\"provider\\": {

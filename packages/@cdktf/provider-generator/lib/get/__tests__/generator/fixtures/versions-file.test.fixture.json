@@ -1,0 +1,51 @@
+{
+  "provider_schemas": {
+    "registry.terraform.io/hashicorp/aws": {
+      "provider": {
+        "version": 0,
+        "block": {
+          "attributes": {
+            "demo": {
+              "type": "string",
+              "description": "dummy",
+              "optional": true
+            }
+          }
+        }
+      }
+    },
+    "registry.terraform.io/hashicorp/random": {
+      "provider": {
+        "version": 0,
+        "block": {
+          "attributes": {
+            "demo": {
+              "type": "string",
+              "description": "dummy",
+              "optional": true
+            }
+          }
+        }
+      }
+    },
+    "registry.terraform.io/kreuzwerker/docker": {
+      "provider": {
+        "version": 0,
+        "block": {
+          "attributes": {
+            "demo": {
+              "type": "string",
+              "description": "dummy",
+              "optional": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "provider_versions": {
+    "registry.terraform.io/hashicorp/aws": "4.0.0",
+    "registry.terraform.io/hashicorp/random": "3.1.3",
+    "registry.terraform.io/kreuzwerker/docker": "2.16.0"
+  }
+}

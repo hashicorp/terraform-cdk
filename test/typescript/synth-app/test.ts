@@ -4,18 +4,14 @@ describe("full integration test synth", () => {
   let driver: TestDriver;
 
   beforeAll(async () => {
+    process.env.TF_VAR_myvar =
+      "If you see this value we pass runtime information into the synth";
     driver = new TestDriver(__dirname);
     await driver.setupTypescriptProject();
     await driver.synth();
   });
 
   test("debug command", async () => {
-    const { stdout: foo } = await driver.exec(`npm list cdktf --json`);
-    console.log("foo", foo);
-    driver.setEnv("CDKTF_LOG_LEVEL", "debug");
-    const debug = await driver.exec(`cdktf debug --json`);
-    driver.setEnv("CDKTF_LOG_LEVEL", "warning");
-    console.log("debug", debug);
     const { stdout } = await driver.exec(`cdktf debug --json`);
     const { cdktf, constructs } = JSON.parse(stdout);
     expect(cdktf.length).not.toBe(0);
@@ -24,5 +20,11 @@ describe("full integration test synth", () => {
 
   test("synth generates JSON", () => {
     expect(driver.synthesizedStack("hello-terra").toString()).toMatchSnapshot();
+  });
+
+  test("should not pass TF_VAR environment variables", () => {
+    expect(
+      driver.synthesizedStack("hello-terra").output("tfenvvaroutput")
+    ).toBe("no-value-found");
   });
 });

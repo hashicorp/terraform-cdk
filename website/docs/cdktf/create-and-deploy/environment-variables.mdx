@@ -1,0 +1,60 @@
+---
+page_title: Environment Variables
+description: >-
+  There are some environment variables that can be used to configure the
+  behavior of CDKTF.
+---
+
+# Environment Variables
+
+These are all environment variables that you can use to configure the behavior of CDKTF.
+
+## DEBUG
+
+If set to a not-empty value you will get more logs for the provider generation process.
+
+## CDKTF_DISABLE_PLUGIN_CACHE_ENV
+
+If set to a not-empty value, the [plugin cache](/cli/config/config-file#provider-plugin-cache) will be disabled. Otherwise `cdktf` will set the `TF_PLUGIN_CACHE_DIR` and create the required directory in `~/.terraform.d/plugin-cache` if it's not already present.
+
+## CDKTF_HOME
+
+If set overwrites where CDKTF stores cache and configuration files, defaults to `~/.cdktf`.
+
+## CHECKPOINT_DISABLE
+
+If set to a not-empty value, no [telemetry](/cdktf/telemetry) will be send.
+
+## CDKTF_LOG_LEVEL
+
+Can be set to one of the following values:
+
+- `all`
+- `debug`
+- `verbose`
+- `info`
+- `warn`
+- `error`
+- `fatal`
+
+It controls how much debug information gets printed to the console.
+
+## CDKTF_DISABLE_LOGGING
+
+If set to `"false"` the logs will be written to local log files.
+
+## TERRAFORM_BINARY_NAME
+
+If set you can overwrite the Terraform binary to use. If it's not set the terraform binary in path will be used.
+
+## TERRAFORM_CLOUD_TOKEN
+
+If set this token will be used to authenticate against Terraform Cloud, it needs to be set to a valid [Terraform Cloud API token](/cloud-docs/users-teams-organizations/api-tokens).
+
+## http_proxy or HTTP_PROXY
+
+If set this proxy will be used for all HTTP requests.
+
+## DISABLE_VERSION_CHECK
+
+If set to a non-empty value, no version check will be performed. If it is not set we will verify your installed library version matches the CLI version and warn if they do not match.

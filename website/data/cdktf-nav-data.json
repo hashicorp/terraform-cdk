@@ -72,6 +72,10 @@
         "path": "create-and-deploy/configuration-file"
       },
       {
+        "title": "Environment Variables",
+        "path": "create-and-deploy/environment-variables"
+      },
+      {
         "title": "Remote Templates",
         "path": "create-and-deploy/remote-templates"
       },
