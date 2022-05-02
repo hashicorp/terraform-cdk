@@ -2398,8 +2398,9 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // ==========
 
   // active_trusted_signers - computed: true, optional: false, required: false
-  public activeTrustedSigners(key: string): string | cdktf.IResolvable {
-    return new cdktf.StringMap(this, 'active_trusted_signers').lookup(key);
+  private _activeTrustedSigners = new cdktf.StringMap(this, \\"active_trusted_signers\\");
+  public get activeTrustedSigners() {
+    return this._activeTrustedSigners;
   }
 
   // aliases - computed: false, optional: true, required: false

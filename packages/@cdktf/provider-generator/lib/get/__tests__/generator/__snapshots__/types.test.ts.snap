@@ -166,8 +166,9 @@ export class BooleanMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): boolean | cdktf.IResolvable {
-    return new cdktf.BooleanMap(this, 'foo_computed').lookup(key);
+  private _fooComputed = new cdktf.BooleanMap(this, \\"foo_computed\\");
+  public get fooComputed() {
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
@@ -1359,8 +1360,9 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // ==========
 
   // keys - computed: true, optional: false, required: false
-  public keys(index: string, key: string): string | cdktf.IResolvable {
-    return new cdktf.StringMap(this, \`keys.\${index}\`).lookup(key);
+  private _keys = new cdktf.StringMapList(this, \\"keys\\", false);
+  public get keys() {
+    return this._keys;
   }
 
   // =========
@@ -1539,8 +1541,9 @@ export class NumberMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): number | cdktf.IResolvable {
-    return new cdktf.NumberMap(this, 'foo_computed').lookup(key);
+  private _fooComputed = new cdktf.NumberMap(this, \\"foo_computed\\");
+  public get fooComputed() {
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
@@ -1785,8 +1788,9 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  public fooComputed(key: string): any | cdktf.IResolvable {
-    return new cdktf.AnyMap(this, 'foo_computed').lookup(key);
+  private _fooComputed = new cdktf.AnyMap(this, \\"foo_computed\\");
+  public get fooComputed() {
+    return this._fooComputed;
   }
 
   // foo_computed_optional - computed: true, optional: true, required: false
@@ -2747,8 +2751,9 @@ export class StringMap extends cdktf.TerraformResource {
   // ==========
 
   // subject_alternative_names_computed - computed: true, optional: false, required: false
-  public subjectAlternativeNamesComputed(key: string): string | cdktf.IResolvable {
-    return new cdktf.StringMap(this, 'subject_alternative_names_computed').lookup(key);
+  private _subjectAlternativeNamesComputed = new cdktf.StringMap(this, \\"subject_alternative_names_computed\\");
+  public get subjectAlternativeNamesComputed() {
+    return this._subjectAlternativeNamesComputed;
   }
 
   // subject_alternative_names_computed_optional - computed: true, optional: true, required: false
