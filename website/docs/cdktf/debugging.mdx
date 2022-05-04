@@ -17,16 +17,16 @@ If `cdktf synth` fails you have a synth-time issue, otherwise it's an execution-
 
 ### Synth-time issues
 
-The most important thing is to understand which construct is causing the problem. The error message thrown might hint you towards it, if not you will need to search for it. If you have a last version that successfully synthesized you can search through the new changes, otherwise you need to search through all changes. To search it you need to repeatedly run `cdktf synth` and comment parts out until you find the error. The synthesized code does not need to make any logical sense since we don't plan to apply it.
+The most important thing is to understand which construct is causing the problem. The error message thrown might hint you towards it, if not you will need to search for it. If you have a last version that successfully synthesized you can search through the new changes, otherwise you need to search through all changes. To search it you can repeatedly run `cdktf synth` and comment parts out until you find the error. The synthesized code does not need to make any logical sense since we don't plan to apply it.
 
-Once you find the construct causing the problem you need to try to isolate the problem. If you use variables in your constructs configuration, try to temporarily replace them with static values to ensure the problem is on the construct itself. If the problem persists try looking at the type to identfy missing or mistyped fields. Looking at the resource in the terraform provider might help to understand the structure better as well.
+Once you find the construct causing the problem you need to try to isolate the problem. If you use variables in your constructs configuration, try to temporarily replace them with static values to ensure the problem is on the construct itself. If the problem persists try looking at the type to identfy missing or mistyped fields. Looking at the resource in the Terraform provider might help to understand the structure better as well.
 
 If this does not help, please create an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.
 
 ### Execution-time issues
 
 Execution-time issues can arise from misconfigured synthesized code or from the provider itself.
-As a first step you can check if the synthesized code looks like you would expect it. You can check through the Terraform documentation for the resource to see if there are misconfigured values. You can also search for the resource name, terraform and the error to find issues Terraform users had with the resource or look at the providers github repository for issues similar to yours. Keep in mind that in CDKTF renames resources and fields in most languages to be camel case, whereas terraform uses snake case.
+As a first step you can check if the synthesized code looks like you would expect it. You can check through the Terraform documentation for the resource to see if there are misconfigured values. You can also search for the resource name, Terraform and the error to find issues Terraform users had with the resource or look at the providers Github repository for issues similar to yours. Keep in mind that in CDKTF renames resources and fields in most languages to be camel case, whereas Terraform uses snake case.
 
 If this does not help, please create an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.
 

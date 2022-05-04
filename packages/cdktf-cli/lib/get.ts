@@ -48,7 +48,7 @@ export async function get({
 
   if (!(await fs.pathExists(constructsOptions.codeMakerOutput))) {
     onUpdate(GetStatus.ERROR);
-    logger.debug("Failed tgo generate provider bindings");
+    logger.debug("Failed to generate provider bindings");
   } else {
     onUpdate(GetStatus.DONE);
     logger.debug("Provider bindings generated");
