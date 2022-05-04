@@ -1,5 +1,10 @@
-import { ConstructsMaker, GetOptions, config } from "@cdktf/provider-generator";
-import { setLogger } from "@cdktf/provider-generator/lib/config";
+import {
+  ConstructsMaker,
+  GetOptions,
+  config,
+  setLogger,
+} from "@cdktf/provider-generator";
+import {} from "@cdktf/provider-generator/lib/config";
 import * as fs from "fs-extra";
 import { logger } from "./logging";
 

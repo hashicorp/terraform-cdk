@@ -11,7 +11,7 @@ These environment variables will now be filtered out in the synth phase since th
 - `DEBUG` is replaced by setting `CDKTF_LOG_LEVEL=debug`, setting the `CDKTF_LOG_LEVEL` to debug will now also behave like `DEBUG=1` and include logs from the provider generation
 - `CDKTF_DISABLE_LOGGING=false` is replaced by setting `CDKTF_LOG_FILE_DIRECTORY=/path/to/logs/directory`. If left empty no logs will be written.
 - `--disable-logging` was removed, instead use the environment variable `CDKTF_LOG_LEVEL=off`
-- `DISABLE_VERSION_CHECK`, `CHECKPOINT_DISABLE`, `CDKTF_DISABLE_PLUGIN_CACHE_ENV` need to be set to `true` or `1`, before anything worked.
+- `DISABLE_VERSION_CHECK`, `CDKTF_DISABLE_PLUGIN_CACHE_ENV` need to be set to `true` or `1`, before anything worked.
 
 ### Stack ids can no longer contain whitespaces
 
