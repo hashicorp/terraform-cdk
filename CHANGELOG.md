@@ -1,3 +1,9 @@
+## 0.10.4
+
+### fix
+
+- fix(cli): Stop pinning jest in TS init template [\#1769](https://github.com/hashicorp/terraform-cdk/pull/1769)
+
 ## 0.10.3
 
 ### feat
