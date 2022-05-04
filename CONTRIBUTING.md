@@ -226,6 +226,7 @@ When developing new features it can be helpful to enable logging. By setting `CD
 9. Run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
 10. Update the learn examples and the end to end examples
 11. Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
+12. Prepare the next release by commiting a section for the next release in the [CHANGELOG](./CHANGELOG.md) (e.g. `## 0.12.0 (unreleased)`) with a `**Breaking changes**` section.
 
 ### Repositories to update
 
