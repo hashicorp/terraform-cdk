@@ -6,6 +6,12 @@
 
 These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](https://www.terraform.io/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
 
+## 0.10.4
+
+### fix
+
+- fix(cli): Stop pinning jest in TS init template [\#1769](https://github.com/hashicorp/terraform-cdk/pull/1769)
+
 ## 0.10.3
 
 ### feat
