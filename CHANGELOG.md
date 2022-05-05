@@ -10,6 +10,12 @@ These environment variables will now be filtered out in the synth phase since th
 
 A `TerraformStack` may no longer contain whitespace characters, since we rely on paths being whitespace free. If you have a stack with an id containing a whitespace, please replace it with a hyphen. If the stack was already deployed with the default `LocalBackend` you might need to rename your statefile to match the new stack id.
 
+### Computed Map References are referenced through getter
+
+For computed maps, the reference is now through a getter.
+
+To access `{ property = "value" }`, instead of `resource.mapAttribute("property")` you can now use `resource.mapAttribute.lookup("property")`.
+
 ## 0.10.4
 
 ### fix
