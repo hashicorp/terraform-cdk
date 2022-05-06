@@ -7,6 +7,7 @@ import { logger, processLoggerError } from "./logging";
 import * as path from "path";
 import * as fs from "fs-extra";
 import { DISPLAY_VERSION } from "./version";
+import { homeDir } from "../bin/cmds/helper/version-check";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
@@ -125,7 +126,7 @@ function getProjectId(projectPath = process.cwd()): string {
 
 function getUserId(): string {
   return getId(
-    path.resolve(os.homedir(), ".cdktf", "config.json"),
+    path.resolve(homeDir(), "config.json"),
     "userId",
     true,
     `This signature is a randomly generated UUID used to anonymously differentiate users in telemetry data order to inform product direction.
