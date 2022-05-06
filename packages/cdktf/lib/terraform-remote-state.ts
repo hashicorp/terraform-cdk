@@ -16,7 +16,6 @@ export abstract class TerraformRemoteState
   implements ITerraformAddressable
 {
   public static readonly tfResourceType = "terraform_remote_state";
-  public readonly fqn: string;
 
   constructor(
     scope: Construct,
@@ -24,13 +23,7 @@ export abstract class TerraformRemoteState
     private readonly backend: string,
     private readonly config: DataTerraformRemoteStateConfig
   ) {
-    super(scope, id);
-    this.fqn = Token.asString(
-      ref(
-        `data.terraform_remote_state.${this.friendlyUniqueId}`,
-        this.cdktfStack
-      )
-    );
+    super(scope, id, "data.terraform_remote_state");
   }
 
   public getString(output: string): string {

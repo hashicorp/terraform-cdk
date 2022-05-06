@@ -26,10 +26,9 @@ export class TerraformDataSource
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
-  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
-    super(scope, id);
+    super(scope, id, `data.${config.terraformResourceType}`);
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
@@ -41,12 +40,6 @@ export class TerraformDataSource
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
-    this.fqn = Token.asString(
-      ref(
-        `data.${this.terraformResourceType}.${this.friendlyUniqueId}`,
-        this.cdktfStack
-      )
-    );
   }
 
   public getStringAttribute(terraformAttribute: string) {

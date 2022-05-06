@@ -98,17 +98,14 @@ export class TerraformVariable
   public readonly sensitive?: boolean;
   public readonly nullable?: boolean;
 
-  public readonly fqn: string;
-
   constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
-    super(scope, id);
+    super(scope, id, "var");
 
     this.default = config.default;
     this.description = config.description;
     this.type = config.type;
     this.sensitive = config.sensitive;
     this.nullable = config.nullable;
-    this.fqn = Token.asString(this.interpolation());
   }
 
   public get stringValue(): string {

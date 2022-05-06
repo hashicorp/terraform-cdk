@@ -1,6 +1,8 @@
+import { ok } from "assert";
 import { Construct } from "constructs";
 import { Token } from ".";
 import { TerraformStack } from "./terraform-stack";
+import { ref } from "./tfExpression";
 
 export interface TerraformElementMetadata {
   readonly path: string;
@@ -17,8 +19,14 @@ export class TerraformElement extends Construct {
    */
   private _logicalIdOverride?: string;
 
-  constructor(scope: Construct, id: string) {
+  /**
+   * Type of this element, used for fqn
+   */
+  private readonly _elementType?: string;
+
+  constructor(scope: Construct, id: string, elementType?: string) {
     super(scope, id);
+    this._elementType = elementType;
 
     if (Token.isUnresolved(id)) {
       throw new Error(
@@ -38,12 +46,29 @@ export class TerraformElement extends Construct {
     return {};
   }
 
-  public get friendlyUniqueId() {
-    if (this._logicalIdOverride) {
-      return this._logicalIdOverride;
-    } else {
-      return this.cdktfStack.getLogicalId(this);
+  private _fqnToken?: string;
+
+  public get fqn() {
+    if (!this._fqnToken) {
+      ok(!!this._elementType, "Element type not set");
+      this._fqnToken = Token.asString(
+        ref(`${this._elementType}.${this.friendlyUniqueId}`, this.cdktfStack)
+      );
     }
+    return this._fqnToken;
+  }
+
+  private _friendlyUniqueId?: string;
+
+  public get friendlyUniqueId() {
+    if (!this._friendlyUniqueId) {
+      if (this._logicalIdOverride) {
+        this._friendlyUniqueId = this._logicalIdOverride;
+      } else {
+        this._friendlyUniqueId = this.cdktfStack.getLogicalId(this);
+      }
+    }
+    return this._friendlyUniqueId;
   }
 
   /**
@@ -51,6 +76,10 @@ export class TerraformElement extends Construct {
    * @param newLogicalId The new logical ID to use for this stack element.
    */
   public overrideLogicalId(newLogicalId: string) {
+    ok(
+      !this._fqnToken,
+      "Logical ID may not be overriden once .fqn has been requested"
+    );
     this._logicalIdOverride = newLogicalId;
   }
 
@@ -58,6 +87,10 @@ export class TerraformElement extends Construct {
    * Resets a previously passed logical Id to use the auto-generated logical id again
    */
   public resetOverrideLogicalId() {
+    ok(
+      !this._fqnToken,
+      "Logical ID may not be overriden once .fqn has been requested"
+    );
     this._logicalIdOverride = undefined;
   }
 
