@@ -1,5 +1,6 @@
 import { ConstructsMaker, GetOptions, config } from "@cdktf/provider-generator";
 import * as fs from "fs-extra";
+import { logger } from "./logging";
 
 export enum GetStatus {
   STARTING = "starting",
@@ -29,18 +30,32 @@ export async function get({
   onUpdate = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
   reportTelemetry = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
 }: GetConfig) {
+  logger.debug(
+    `Getting constructs for ${JSON.stringify(
+      constraints
+    )} with options: ${JSON.stringify(constructsOptions)}`
+  );
+
+  logger.debug(
+    `Removing old constructs from ${constructsOptions.codeMakerOutput}`
+  );
   await fs.remove(constructsOptions.codeMakerOutput);
+  logger.debug(`Successfully removed old constructs`);
+
   const constructsMaker = new ConstructsMaker(
     constructsOptions,
     constraints as config.TerraformDependencyConstraint[], // ConstructsMaker handles both string and extended form, but is not consistent type wise
     reportTelemetry
   );
   onUpdate(GetStatus.DOWNLOADING);
+  logger.debug(`Generating constructs`);
   await constructsMaker.generate();
 
   if (!(await fs.pathExists(constructsOptions.codeMakerOutput))) {
+    logger.debug(`There were no constructs to generate`);
     onUpdate(GetStatus.ERROR);
   } else {
+    logger.debug(`Successfully generated constructs`);
     onUpdate(GetStatus.DONE);
   }
 }
