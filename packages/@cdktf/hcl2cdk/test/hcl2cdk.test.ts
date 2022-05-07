@@ -3,7 +3,7 @@
 import { convert } from "../lib/index";
 
 describe("convert", () => {
-  const targetLanguages = ["typescript", "python", "csharp", "java"];
+  const targetLanguages = ["typescript", "python", "csharp", "java", "go"];
   describe("Cross-Language Support", () => {
     it.each(targetLanguages)("supports %s", async (language) => {
       const hcl = `

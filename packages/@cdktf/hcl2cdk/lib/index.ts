@@ -14,6 +14,7 @@ import * as glob from "glob";
 import * as fs from "fs";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
+import { GoVisitor } from "jsii-rosetta/lib/languages/go";
 import * as z from "zod";
 
 import { schema } from "./schema";
@@ -404,6 +405,8 @@ const translations = {
     rosetta.translateTypeScript(file, new rosetta.JavaVisitor()).translation,
   csharp: (file: File) =>
     rosetta.translateTypeScript(file, new rosetta.CSharpVisitor()).translation,
+  go: (file: File) =>
+    rosetta.translateTypeScript(file, new GoVisitor()).translation,
 };
 
 type ConvertOptions = {
