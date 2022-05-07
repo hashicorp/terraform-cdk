@@ -36,7 +36,7 @@ class Command extends BaseCommand {
         "Takes the HCL content of main.tf and converts it to CDK for Terraform content in imported.ts"
       )
       .option("language", {
-        choices: ["typescript", "python", "csharp", "java"],
+        choices: ["typescript", "python", "csharp", "java", "go"],
         default: readCdktfJson()?.language || "typescript",
       })
       .option("provider", {
