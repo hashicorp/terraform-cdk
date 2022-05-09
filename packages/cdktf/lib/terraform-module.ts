@@ -27,10 +27,9 @@ export abstract class TerraformModule
   public readonly version?: string;
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
   public dependsOn?: string[];
-  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
-    super(scope, id);
+    super(scope, id, "module");
 
     if (options.source.startsWith("./") || options.source.startsWith("../")) {
       // Create an asset for the local module for better TFC support
@@ -51,10 +50,6 @@ export abstract class TerraformModule
         insideTfExpression(dependency.fqn)
       );
     }
-
-    this.fqn = Token.asString(
-      ref(`module.${this.friendlyUniqueId}`, this.cdktfStack)
-    );
   }
 
   // jsii can't handle abstract classes?

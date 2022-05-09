@@ -1,4 +1,4 @@
-import { Testing, TerraformStack } from "../lib";
+import { Testing, TerraformStack, TerraformElement } from "../lib";
 import { TestProvider, TestResource, OtherTestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
 import { TerraformOutput } from "../lib/terraform-output";
@@ -67,6 +67,22 @@ test("resource fqn", () => {
   expect(JSON.parse(Testing.synth(stack) as any).output.result.value).toEqual(
     "${test_resource.test}"
   );
+});
+
+test("fqn is stable", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const elementWithFQN = new TerraformElement(stack, "test", "valid_type");
+  const fqn = elementWithFQN.fqn;
+  expect(elementWithFQN.fqn).toBe(fqn);
+
+  // May not override logical id after fqn has been requested
+  expect(() => elementWithFQN.overrideLogicalId("new-id")).toThrow();
+
+  const elementWithoutFQN = new TerraformElement(stack, "test2");
+  // May not request fqn on element without element type
+  expect(() => elementWithoutFQN.fqn).toThrow();
 });
 
 test("serialize list interpolation", () => {
