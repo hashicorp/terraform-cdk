@@ -20,7 +20,10 @@ export class TerraformElement extends Construct {
   private _logicalIdOverride?: string;
 
   /**
-   * Type of this element, used for fqn
+   * Type of this element, used for fqn.
+   * This is undefined for
+   * - elements not referable, like TerraformOutput
+   * - elements using their own fqn implementation, like TerraformProvider
    */
   private readonly _elementType?: string;
 
