@@ -34,7 +34,7 @@ If this does not help, please create an issue in the [hashicorp/terraform-cdk](h
 
 ### CDKTF CLI and library are on different versions
 
-If you are using the CDKTF CLI and library on different versions you are likely to run into problems.
+We recommend keeping CDKTF CLI and the CDKTF library on the same version.
 A newer library version might expect data from the CLI being passed to the program.
 A newer CLI version might generate provider bindings generated in `cdktf get` that rely on functionality the older library does not support.
 

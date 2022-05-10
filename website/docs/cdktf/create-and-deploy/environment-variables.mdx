@@ -23,6 +23,7 @@ If set to a not-empty value, no [telemetry](/cdktf/telemetry) will be send.
 
 ## CDKTF_LOG_LEVEL
 
+It controls how much debug information gets printed to the console.
 Can be set to one of the following values:
 
 - `all`
@@ -33,11 +34,9 @@ Can be set to one of the following values:
 - `fatal`
 - `off`
 
-It controls how much debug information gets printed to the console.
-
 ## CDKTF_LOG_FILE_DIRECTORY
 
-If set to a path of a directory a log file (`cdktf.log`) will be created in that directory containing debug level logs.
+If set to a path of a directory a log file (`cdktf.log`) will be created in that directory containing debug level logs. If not set, the logs will be written to standard out. The log level set with `CDKTF_LOG_LEVEL` will be used.
 
 ## TERRAFORM_BINARY_NAME
 
