@@ -161,6 +161,5 @@
     ]
   },
   { "title": "Community", "path": "community" },
-  { "title": "Telemetry", "path": "telemetry" },
-  { "title": "Feature Flags", "path": "feature-flags" }
+  { "title": "Telemetry", "path": "telemetry" }
 ]
