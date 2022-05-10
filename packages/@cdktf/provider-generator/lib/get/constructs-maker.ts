@@ -222,6 +222,7 @@ export class ConstructsMaker {
   }
 
   private async generateTypeScript() {
+    logger.debug(`Reading schema for ${JSON.stringify(this.targets)}`);
     const schema = await readSchema(this.targets);
 
     const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(
@@ -250,6 +251,7 @@ export class ConstructsMaker {
   }
 
   public async generate() {
+    logger.debug("Starting provider binding generation process");
     await this.generateTypeScript();
 
     if (this.isJavascriptTarget) {

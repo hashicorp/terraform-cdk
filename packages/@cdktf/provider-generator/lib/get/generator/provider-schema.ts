@@ -4,6 +4,7 @@ import { exec, withTempDir } from "../../util";
 import { ModuleSchema, Input } from "./module-schema";
 import { ConstructsMakerTarget } from "../constructs-maker";
 import { convertFiles } from "@cdktf/hcl2json";
+import { logger } from "../../config";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
@@ -218,14 +219,21 @@ const harvestModuleSchema = async (
     fs.readFileSync(fileName, "utf-8")
   ) as ModuleIndex;
 
+  logger.debug(`Found module index: ${JSON.stringify(moduleIndex)}`);
+
   for (const mod of modules) {
+    logger.debug(`Searching for module ${mod}`);
     const m = moduleIndex.Modules.find((other) => mod === other.Key);
+
+    logger.debug(`Found module ${mod}: ${JSON.stringify(m)}`);
 
     if (!m) {
       throw new Error(`Couldn't find ${m}`);
     }
 
-    const parsed = await convertFiles(path.join(workingDirectory, m.Dir));
+    const targetPath = path.join(workingDirectory, m.Dir);
+    logger.debug(`Converting module files for ${mod} at ${targetPath}`);
+    const parsed = await convertFiles(targetPath);
 
     if (!parsed) {
       throw new Error(
@@ -233,6 +241,9 @@ const harvestModuleSchema = async (
       );
     }
 
+    logger.debug(
+      `Converted module files for ${mod}: ${JSON.stringify(parsed)}`
+    );
     const schema: ModuleSchema = {
       inputs: transformVariables(parsed.variable),
       outputs: transformOutputs(parsed.output),
@@ -297,25 +308,44 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
   await withTempDir("fetchSchema", async () => {
     const outdir = process.cwd();
     const filePath = path.join(outdir, "main.tf.json");
+    logger.debug(
+      `Creating temporary Terraform config for generation at ${filePath}, ${JSON.stringify(
+        config
+      )}`
+    );
     await fs.writeFile(filePath, JSON.stringify(config));
 
+    logger.debug(`Running terraform init in ${outdir}`);
     await exec(terraformBinaryName, ["init"], { cwd: outdir });
     if (config.provider) {
-      providerSchema = JSON.parse(
-        await exec(terraformBinaryName, ["providers", "schema", "-json"], {
+      logger.debug(`Running 'terraform providers schema -json' in ${outdir}`);
+      const providerSchemaString = await exec(
+        terraformBinaryName,
+        ["providers", "schema", "-json"],
+        {
           cwd: outdir,
-        })
-      ) as ProviderSchema;
+        }
+      );
+      logger.debug(`Got provider schema: ${providerSchemaString}`);
+      providerSchema = JSON.parse(providerSchemaString) as ProviderSchema;
 
-      const versionSchema = JSON.parse(
-        await exec(terraformBinaryName, ["version", "-json"], {
+      logger.debug(`Running 'terraform version -json' in ${outdir}`);
+      const versionSchemaString = await exec(
+        terraformBinaryName,
+        ["version", "-json"],
+        {
           cwd: outdir,
-        })
-      ) as VersionSchema;
+        }
+      );
+      logger.debug(`Got version schema: ${versionSchemaString}`);
+      const versionSchema = JSON.parse(versionSchemaString) as VersionSchema;
 
       providerSchema.provider_versions = versionSchema.provider_selections;
     }
     if (config.module) {
+      logger.debug(
+        `Harvesting module schema for ${Object.keys(config.module)}`
+      );
       moduleSchema = await harvestModuleSchema(
         outdir,
         Object.keys(config.module)
