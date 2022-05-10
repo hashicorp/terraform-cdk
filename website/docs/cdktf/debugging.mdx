@@ -6,7 +6,7 @@ description: >-
 
 # Debugging
 
-## Increasing the verbosity
+## Logging
 
 You can get more information about what CDKTF is doing and what problems have occured by setting the `CDKTF_LOG_LEVEL` environment variable to `debug`. If you want the logs written to a file you can set `CDKTF_LOG_FILE_DIRECTORY` to a file path, a `cdktf.log` file with all logs will be written. This can be helpful if you need to share them in e.g. a bug report.
 
@@ -15,7 +15,7 @@ You can get more information about what CDKTF is doing and what problems have oc
 To understand where the problem is coming from it's a good first step to see if it's a synth-time issue or an execution-time issue.
 If `cdktf synth` fails you have a synth-time issue, otherwise it's an execution-time issue.
 
-### Synth-time issues
+## Synth-time issues
 
 The most important thing is to understand which construct is causing the problem. The error message thrown might hint you towards it, if not you will need to search for it. If you have a last version that successfully synthesized you can search through the new changes, otherwise you need to search through all changes. To search it you can repeatedly run `cdktf synth` and comment parts out until you find the error. The synthesized code does not need to make any logical sense since we don't plan to apply it.
 
@@ -23,7 +23,7 @@ Once you find the construct causing the problem you need to try to isolate the p
 
 If this does not help, please create an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.
 
-### Execution-time issues
+## Execution-time issues
 
 Execution-time issues can arise from misconfigured synthesized code or from the provider itself.
 As a first step you can check if the synthesized code looks like you would expect it. You can check through the Terraform documentation for the resource to see if there are misconfigured values. You can also search for the resource name, Terraform and the error to find issues Terraform users had with the resource or look at the providers Github repository for issues similar to yours. Keep in mind that in CDKTF renames resources and fields in most languages to be camel case, whereas Terraform uses snake case.
@@ -58,6 +58,6 @@ As you can see the `cdktf-cli` version is newer than the `cdktf` version. This m
 
 The following resources can help you debug your CDKTF application:
 
-- Ask questions in [HashiCorp Discuss](https://discuss.hashicorp.com/) or in the `#terraform-cdk` channel 
- in [the cdk.dev Slack](https://cdk.dev/) .
+- Ask questions in [HashiCorp Discuss](https://discuss.hashicorp.com/) or in the `#terraform-cdk` channel
+  in [the cdk.dev Slack](https://cdk.dev/) .
 - Open an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.
