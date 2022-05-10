@@ -5,7 +5,7 @@ exports[`generate multiple aws modules 1`] = `
 // terraform-aws-modules/vpc/aws
 import { TerraformModule, TerraformModuleOptions } from 'cdktf';
 import { Construct } from 'constructs';
-export interface VpcOptions extends TerraformModuleOptions {
+export interface VpcOptions extends Omit<TerraformModuleOptions, 'source'> {
   /**
    * A policy to attach to the endpoint that controls access to the service. Defaults to full access
    */
@@ -6395,7 +6395,7 @@ exports[`generate multiple aws modules 2`] = `
 // terraform-aws-modules/rds-aurora/aws
 import { TerraformModule, TerraformModuleOptions } from 'cdktf';
 import { Construct } from 'constructs';
-export interface RdsAuroraOptions extends TerraformModuleOptions {
+export interface RdsAuroraOptions extends Omit<TerraformModuleOptions, 'source'> {
   /**
    * Determines whether major engine upgrades are allowed when changing engine version
    */
@@ -8002,7 +8002,7 @@ exports[`getX variables 1`] = `
 // ./module
 import { TerraformModule, TerraformModuleOptions } from 'cdktf';
 import { Construct } from 'constructs';
-export interface ModuleOptions extends TerraformModuleOptions {
+export interface ModuleOptions extends Omit<TerraformModuleOptions, 'source'> {
   /**
    * Whether to get AWS account ID, User ID, and ARN in which Terraform is authorized
    * @default true
@@ -8035,7 +8035,7 @@ exports[`no module outputs 1`] = `
 // ./module
 import { TerraformModule, TerraformModuleOptions } from 'cdktf';
 import { Construct } from 'constructs';
-export interface ModuleOptions extends TerraformModuleOptions {
+export interface ModuleOptions extends Omit<TerraformModuleOptions, 'source'> {
   /**
    * Flag to optionally disable usage of this module.
    * @default true
@@ -8068,7 +8068,7 @@ exports[`no newline 1`] = `
 // ./module
 import { TerraformModule, TerraformModuleOptions } from 'cdktf';
 import { Construct } from 'constructs';
-export interface ModuleOptions extends TerraformModuleOptions {
+export interface ModuleOptions extends Omit<TerraformModuleOptions, 'source'> {
 }
 export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
@@ -8089,7 +8089,7 @@ exports[`typeless variables 1`] = `
 // ./module
 import { TerraformModule, TerraformModuleOptions } from 'cdktf';
 import { Construct } from 'constructs';
-export interface ModuleOptions extends TerraformModuleOptions {
+export interface ModuleOptions extends Omit<TerraformModuleOptions, 'source'> {
   /**
    * My example var without type set, but with default
    * @default 1

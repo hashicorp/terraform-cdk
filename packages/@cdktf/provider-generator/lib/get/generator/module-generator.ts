@@ -35,7 +35,7 @@ export class ModuleGenerator {
     const optionsType = `${baseName}Options`;
 
     this.code.openBlock(
-      `export interface ${optionsType} extends TerraformModuleOptions`
+      `export interface ${optionsType} extends Omit<TerraformModuleOptions, 'source'>`
     );
     for (const input of spec.inputs) {
       const optional = input.required && input.default === undefined ? "" : "?";
