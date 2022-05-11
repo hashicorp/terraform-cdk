@@ -59,7 +59,8 @@
       {
         "title": "Stacks",
         "path": "concepts/stacks"
-      }
+      },
+      { "title": "Best Practices", "path": "concepts/best-practices" }
     ]
   },
   { "title": "Examples and Guides", "path": "examples" },
@@ -79,6 +80,7 @@
         "title": "Remote Templates",
         "path": "create-and-deploy/remote-templates"
       },
+      
       {
         "title": "AWS Adapter [preview]",
         "path": "create-and-deploy/aws-adapter"
