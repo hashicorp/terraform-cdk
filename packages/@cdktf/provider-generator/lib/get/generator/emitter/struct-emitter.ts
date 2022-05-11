@@ -58,15 +58,15 @@ export class StructEmitter {
 
   private emitStructs(resource: ResourceModel) {
     resource.structs.forEach((struct) => {
-      if (struct.isSingleItem || struct.isClass) {
+      if (struct instanceof ConfigStruct) {
+        this.emitInterface(resource, struct);
+      } else {
         // We use the interface here for the configuration / inputs of a resource / nested block
         this.emitInterface(resource, struct);
         // And we use the class for the attributes / outputs of a resource / nested block
         if (!struct.isProvider) {
           this.emitClass(struct);
         }
-      } else {
-        this.emitInterface(resource, struct);
       }
     });
   }
@@ -78,18 +78,26 @@ export class StructEmitter {
     // drop configStruct from resource.structs to avoid double import
     const structsWithoutConfigStruct = resource.structs.slice(1);
 
+    const structSplits: Struct[][] = [[]];
+    const splitCounts: number[] = [0];
+    structsWithoutConfigStruct.forEach((struct) => {
+      if (
+        splitCounts[splitCounts.length - 1] + struct.exportCount <=
+        STRUCT_SHARDING_THRESHOLD
+      ) {
+        structSplits[structSplits.length - 1].push(struct);
+        splitCounts[splitCounts.length - 1] += struct.exportCount;
+      } else {
+        structSplits.push([struct]);
+        splitCounts.push(struct.exportCount);
+      }
+    });
+
     const structPaths = [];
-    for (
-      let i = 0;
-      i < structsWithoutConfigStruct.length;
-      i += STRUCT_SHARDING_THRESHOLD
-    ) {
+    for (let i = 0; i < structSplits.length; i++) {
       const structsToImport: Record<string, string[]> = {};
-      const structs = structsWithoutConfigStruct.slice(
-        i,
-        i + STRUCT_SHARDING_THRESHOLD
-      );
-      const structFilename = `structs${i}.ts`;
+      const structs = structSplits[i];
+      const structFilename = `structs${i * STRUCT_SHARDING_THRESHOLD}.ts`;
       structPaths.push(structFilename);
 
       // find all structs that need to be imported in this file
@@ -105,17 +113,12 @@ export class StructEmitter {
 
             structsToImport[fileToImport] ??
               (structsToImport[fileToImport] = []);
-            structsToImport[fileToImport].push(
-              ...[structTypeName, attTypeStruct.mapperName]
-            );
 
-            // OutputReferences are only used in the current file
-            // if both the imported type and the referencing type
-            // within this file are class based accessors (complex objects)
-            if (att.type.struct?.isClass && struct.isClass) {
-              structsToImport[fileToImport].push(
-                attTypeStruct.outputReferenceName
-              );
+            const attReferences = att.getReferencedTypes(
+              struct instanceof ConfigStruct
+            );
+            if (attReferences) {
+              structsToImport[fileToImport].push(...attReferences);
             }
           }
         });
@@ -143,15 +146,15 @@ export class StructEmitter {
       });
 
       structs.forEach((struct) => {
-        if (struct.isSingleItem || struct.isClass) {
+        if (struct instanceof ConfigStruct) {
+          this.emitInterface(resource, struct);
+        } else {
           // We use the interface here for the configuration / inputs of a resource / nested block
           this.emitInterface(resource, struct);
           // And we use the class for the attributes / outputs of a resource / nested block
           if (!struct.isProvider) {
             this.emitClass(struct);
           }
-        } else {
-          this.emitInterface(resource, struct);
         }
       });
       this.code.closeFile(namespacedFilePath);
@@ -173,6 +176,9 @@ export class StructEmitter {
     );
 
     this.code.line("private isEmptyObject = false;");
+    if (!struct.isClass) {
+      this.code.line("private resolvableValue?: cdktf.IResolvable;");
+    }
     this.code.line();
 
     this.code.line(`/**`);
@@ -227,12 +233,9 @@ export class StructEmitter {
     }
 
     this.code.line();
-    if (struct.attributeType !== "stored_class" || struct.isSingleItem) {
-      this.emitInternalValueGetter(struct);
-      this.code.line();
-      this.emitInternalValueSetter(struct);
-    } // else: complex computed lists have no internal value since they are only computed now
-    // and thereby cannot be set by the user at all
+    this.emitInternalValueGetter(struct);
+    this.code.line();
+    this.emitInternalValueSetter(struct);
 
     for (const att of struct.attributes) {
       this.attributesEmitter.emit(
@@ -248,88 +251,111 @@ export class StructEmitter {
       !struct.isSingleItem &&
       (struct.nestingMode === "list" || struct.nestingMode === "set")
     ) {
-      this.code.line();
-      this.code.openBlock(
-        `export class ${struct.listName} extends cdktf.ComplexList`
-      );
-
-      this.code.line();
-      this.code.line(`/**`);
-      this.code.line(`* @param terraformResource The parent resource`);
-      this.code.line(
-        `* @param terraformAttribute The attribute on the parent resource this class is referencing`
-      );
-      this.code.line(
-        `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
-      );
-      this.code.line(`*/`);
-      this.code.openBlock(
-        `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
-      );
-      this.code.line(`super(terraformResource, terraformAttribute, wrapsSet)`);
-      this.code.closeBlock();
-
-      this.code.line();
-      this.code.line(`/**`);
-      this.code.line(`* @param index the index of the item to return`);
-      this.code.line(`*/`);
-      this.code.openBlock(
-        `public get(index: number): ${struct.outputReferenceName}`
-      );
-      this.code.line(
-        `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);`
-      );
-      this.code.closeBlock();
-
-      this.code.closeBlock();
+      this.emitComplexListClass(struct);
     } else if (struct.nestingMode === "map") {
-      this.code.line();
-      this.code.openBlock(
-        `export class ${struct.mapName} extends cdktf.ComplexMap`
-      );
-
-      this.code.line();
-      this.code.line(`/**`);
-      this.code.line(`* @param terraformResource The parent resource`);
-      this.code.line(
-        `* @param terraformAttribute The attribute on the parent resource this class is referencing`
-      );
-      this.code.line(`*/`);
-      this.code.openBlock(
-        `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
-      );
-      this.code.line(`super(terraformResource, terraformAttribute)`);
-      this.code.closeBlock();
-
-      this.code.line();
-      this.code.line(`/**`);
-      this.code.line(`* @param key the key of the item to return`);
-      this.code.line(`*/`);
-      this.code.openBlock(
-        `public get(key: string): ${struct.outputReferenceName}`
-      );
-      this.code.line(
-        `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, key);`
-      );
-      this.code.closeBlock();
-
-      this.code.closeBlock();
+      this.emitComplexMapClass(struct);
     }
+  }
+
+  private emitComplexListClass(struct: Struct) {
+    this.code.line();
+    this.code.openBlock(
+      `export class ${struct.listName} extends cdktf.ComplexList`
+    );
+
+    if (struct.assignable) {
+      this.code.line(
+        `public internalValue? : ${struct.name}[] | cdktf.IResolvable`
+      );
+    }
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param terraformResource The parent resource`);
+    this.code.line(
+      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+    );
+    this.code.line(
+      `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+    );
+    this.code.line(`*/`);
+    this.code.openBlock(
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
+    );
+    this.code.line(`super(terraformResource, terraformAttribute, wrapsSet)`);
+    this.code.closeBlock();
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param index the index of the item to return`);
+    this.code.line(`*/`);
+    this.code.openBlock(
+      `public get(index: number): ${struct.outputReferenceName}`
+    );
+    this.code.line(
+      `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);`
+    );
+    this.code.closeBlock();
+
+    this.code.closeBlock();
+  }
+
+  private emitComplexMapClass(struct: Struct) {
+    this.code.line();
+    this.code.openBlock(
+      `export class ${struct.mapName} extends cdktf.ComplexMap`
+    );
+
+    if (struct.assignable) {
+      this.code.line(
+        `public internalValue? : { [key: string]: ${struct.name} } | cdktf.IResolvable`
+      );
+    }
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param terraformResource The parent resource`);
+    this.code.line(
+      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+    );
+    this.code.line(`*/`);
+    this.code.openBlock(
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
+    );
+    this.code.line(`super(terraformResource, terraformAttribute)`);
+    this.code.closeBlock();
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param key the key of the item to return`);
+    this.code.line(`*/`);
+    this.code.openBlock(
+      `public get(key: string): ${struct.outputReferenceName}`
+    );
+    this.code.line(
+      `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, key);`
+    );
+    this.code.closeBlock();
+
+    this.code.closeBlock();
   }
 
   private emitInternalValueGetter(struct: Struct) {
     this.code.openBlock(
-      `public get internalValue(): ${struct.name} | undefined`
+      `public get internalValue(): ${struct.name}${
+        !struct.isClass ? " | cdktf.IResolvable" : ""
+      } | undefined`
     );
+
+    if (!struct.isClass) {
+      this.code.openBlock("if (this.resolvableValue)");
+      this.code.line("return this.resolvableValue;");
+      this.code.closeBlock();
+    }
 
     this.code.line("let hasAnyValues = this.isEmptyObject;");
     this.code.line("const internalValueResult: any = {};");
     for (const att of struct.attributes) {
-      if (att.getterType._type === "stored_class" && !att.type.isSingleItem) {
-        // complex computed lists have no internal value since they are only computed now
-        // and thereby cannot be set by the user at all
-        break;
-      }
       if (att.isStored) {
         if (att.getterType._type === "stored_class") {
           this.code.openBlock(
@@ -357,11 +383,16 @@ export class StructEmitter {
 
   private emitInternalValueSetter(struct: Struct) {
     this.code.openBlock(
-      `public set internalValue(value: ${struct.name} | undefined)`
+      `public set internalValue(value: ${struct.name}${
+        !struct.isClass ? " | cdktf.IResolvable" : ""
+      } | undefined)`
     );
 
     this.code.openBlock("if (value === undefined)");
     this.code.line("this.isEmptyObject = false;");
+    if (!struct.isClass) {
+      this.code.line("this.resolvableValue = undefined;");
+    }
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {
@@ -372,8 +403,17 @@ export class StructEmitter {
       }
     }
     this.code.closeBlock();
+    if (!struct.isClass) {
+      this.code.openBlock("else if (cdktf.Tokenization.isResolvable(value))");
+      this.code.line("this.isEmptyObject = false;");
+      this.code.line("this.resolvableValue = value;");
+      this.code.closeBlock();
+    }
     this.code.openBlock("else");
     this.code.line("this.isEmptyObject = Object.keys(value).length === 0;");
+    if (!struct.isClass) {
+      this.code.line("this.resolvableValue = undefined;");
+    }
     for (const att of struct.attributes) {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {

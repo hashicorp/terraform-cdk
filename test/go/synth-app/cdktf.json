@@ -1,7 +1,7 @@
 {
   "language": "go",
   "app": "go run main.go",
-  "terraformProviders": ["hashicorp/random@~> 3.1.0"],
+  "terraformProviders": ["hashicorp/random@= 3.1.3"],
   "codeMakerOutput": "generated",
   "context": {
     "excludeStackIdFromLogicalIds": "true"

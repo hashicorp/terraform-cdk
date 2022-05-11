@@ -447,6 +447,253 @@ export function listBlockResourceOptToTerraform(struct?: ListBlockResourceOpt | 
   }
 }
 
+export class ListBlockResourceOptOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): ListBlockResourceOpt | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._optstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optstr = this._optstr;
+    }
+    if (this._optnum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optnum = this._optnum;
+    }
+    if (this._optbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optbool = this._optbool;
+    }
+    if (this._reqstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqstr = this._reqstr;
+    }
+    if (this._reqnum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqnum = this._reqnum;
+    }
+    if (this._reqbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqbool = this._reqbool;
+    }
+    if (this._computedstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computedstr = this._computedstr;
+    }
+    if (this._computednum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computednum = this._computednum;
+    }
+    if (this._computedbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computedbool = this._computedbool;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ListBlockResourceOpt | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._optstr = undefined;
+      this._optnum = undefined;
+      this._optbool = undefined;
+      this._reqstr = undefined;
+      this._reqnum = undefined;
+      this._reqbool = undefined;
+      this._computedstr = undefined;
+      this._computednum = undefined;
+      this._computedbool = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._optstr = value.optstr;
+      this._optnum = value.optnum;
+      this._optbool = value.optbool;
+      this._reqstr = value.reqstr;
+      this._reqnum = value.reqnum;
+      this._reqbool = value.reqbool;
+      this._computedstr = value.computedstr;
+      this._computednum = value.computednum;
+      this._computedbool = value.computedbool;
+    }
+  }
+
+  // optstr - computed: false, optional: true, required: false
+  private _optstr?: string; 
+  public get optstr() {
+    return this.getStringAttribute('optstr');
+  }
+  public set optstr(value: string) {
+    this._optstr = value;
+  }
+  public resetOptstr() {
+    this._optstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optstrInput() {
+    return this._optstr;
+  }
+
+  // optnum - computed: false, optional: true, required: false
+  private _optnum?: number; 
+  public get optnum() {
+    return this.getNumberAttribute('optnum');
+  }
+  public set optnum(value: number) {
+    this._optnum = value;
+  }
+  public resetOptnum() {
+    this._optnum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optnumInput() {
+    return this._optnum;
+  }
+
+  // optbool - computed: false, optional: true, required: false
+  private _optbool?: boolean | cdktf.IResolvable; 
+  public get optbool() {
+    return this.getBooleanAttribute('optbool');
+  }
+  public set optbool(value: boolean | cdktf.IResolvable) {
+    this._optbool = value;
+  }
+  public resetOptbool() {
+    this._optbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optboolInput() {
+    return this._optbool;
+  }
+
+  // reqstr - computed: false, optional: false, required: true
+  private _reqstr?: string; 
+  public get reqstr() {
+    return this.getStringAttribute('reqstr');
+  }
+  public set reqstr(value: string) {
+    this._reqstr = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqstrInput() {
+    return this._reqstr;
+  }
+
+  // reqnum - computed: false, optional: false, required: true
+  private _reqnum?: number; 
+  public get reqnum() {
+    return this.getNumberAttribute('reqnum');
+  }
+  public set reqnum(value: number) {
+    this._reqnum = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqnumInput() {
+    return this._reqnum;
+  }
+
+  // reqbool - computed: false, optional: false, required: true
+  private _reqbool?: boolean | cdktf.IResolvable; 
+  public get reqbool() {
+    return this.getBooleanAttribute('reqbool');
+  }
+  public set reqbool(value: boolean | cdktf.IResolvable) {
+    this._reqbool = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqboolInput() {
+    return this._reqbool;
+  }
+
+  // computedstr - computed: true, optional: true, required: false
+  private _computedstr?: string; 
+  public get computedstr() {
+    return this.getStringAttribute('computedstr');
+  }
+  public set computedstr(value: string) {
+    this._computedstr = value;
+  }
+  public resetComputedstr() {
+    this._computedstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedstrInput() {
+    return this._computedstr;
+  }
+
+  // computednum - computed: true, optional: true, required: false
+  private _computednum?: number; 
+  public get computednum() {
+    return this.getNumberAttribute('computednum');
+  }
+  public set computednum(value: number) {
+    this._computednum = value;
+  }
+  public resetComputednum() {
+    this._computednum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computednumInput() {
+    return this._computednum;
+  }
+
+  // computedbool - computed: true, optional: true, required: false
+  private _computedbool?: boolean | cdktf.IResolvable; 
+  public get computedbool() {
+    return this.getBooleanAttribute('computedbool');
+  }
+  public set computedbool(value: boolean | cdktf.IResolvable) {
+    this._computedbool = value;
+  }
+  public resetComputedbool() {
+    this._computedbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedboolInput() {
+    return this._computedbool;
+  }
+}
+
+export class ListBlockResourceOptList extends cdktf.ComplexList {
+  public internalValue? : ListBlockResourceOpt[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): ListBlockResourceOptOutputReference {
+    return new ListBlockResourceOptOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface ListBlockResourceReq {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
@@ -504,6 +751,253 @@ export function listBlockResourceReqToTerraform(struct?: ListBlockResourceReq | 
   }
 }
 
+export class ListBlockResourceReqOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): ListBlockResourceReq | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._optstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optstr = this._optstr;
+    }
+    if (this._optnum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optnum = this._optnum;
+    }
+    if (this._optbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optbool = this._optbool;
+    }
+    if (this._reqstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqstr = this._reqstr;
+    }
+    if (this._reqnum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqnum = this._reqnum;
+    }
+    if (this._reqbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqbool = this._reqbool;
+    }
+    if (this._computedstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computedstr = this._computedstr;
+    }
+    if (this._computednum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computednum = this._computednum;
+    }
+    if (this._computedbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computedbool = this._computedbool;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ListBlockResourceReq | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._optstr = undefined;
+      this._optnum = undefined;
+      this._optbool = undefined;
+      this._reqstr = undefined;
+      this._reqnum = undefined;
+      this._reqbool = undefined;
+      this._computedstr = undefined;
+      this._computednum = undefined;
+      this._computedbool = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._optstr = value.optstr;
+      this._optnum = value.optnum;
+      this._optbool = value.optbool;
+      this._reqstr = value.reqstr;
+      this._reqnum = value.reqnum;
+      this._reqbool = value.reqbool;
+      this._computedstr = value.computedstr;
+      this._computednum = value.computednum;
+      this._computedbool = value.computedbool;
+    }
+  }
+
+  // optstr - computed: false, optional: true, required: false
+  private _optstr?: string; 
+  public get optstr() {
+    return this.getStringAttribute('optstr');
+  }
+  public set optstr(value: string) {
+    this._optstr = value;
+  }
+  public resetOptstr() {
+    this._optstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optstrInput() {
+    return this._optstr;
+  }
+
+  // optnum - computed: false, optional: true, required: false
+  private _optnum?: number; 
+  public get optnum() {
+    return this.getNumberAttribute('optnum');
+  }
+  public set optnum(value: number) {
+    this._optnum = value;
+  }
+  public resetOptnum() {
+    this._optnum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optnumInput() {
+    return this._optnum;
+  }
+
+  // optbool - computed: false, optional: true, required: false
+  private _optbool?: boolean | cdktf.IResolvable; 
+  public get optbool() {
+    return this.getBooleanAttribute('optbool');
+  }
+  public set optbool(value: boolean | cdktf.IResolvable) {
+    this._optbool = value;
+  }
+  public resetOptbool() {
+    this._optbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optboolInput() {
+    return this._optbool;
+  }
+
+  // reqstr - computed: false, optional: false, required: true
+  private _reqstr?: string; 
+  public get reqstr() {
+    return this.getStringAttribute('reqstr');
+  }
+  public set reqstr(value: string) {
+    this._reqstr = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqstrInput() {
+    return this._reqstr;
+  }
+
+  // reqnum - computed: false, optional: false, required: true
+  private _reqnum?: number; 
+  public get reqnum() {
+    return this.getNumberAttribute('reqnum');
+  }
+  public set reqnum(value: number) {
+    this._reqnum = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqnumInput() {
+    return this._reqnum;
+  }
+
+  // reqbool - computed: false, optional: false, required: true
+  private _reqbool?: boolean | cdktf.IResolvable; 
+  public get reqbool() {
+    return this.getBooleanAttribute('reqbool');
+  }
+  public set reqbool(value: boolean | cdktf.IResolvable) {
+    this._reqbool = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqboolInput() {
+    return this._reqbool;
+  }
+
+  // computedstr - computed: true, optional: true, required: false
+  private _computedstr?: string; 
+  public get computedstr() {
+    return this.getStringAttribute('computedstr');
+  }
+  public set computedstr(value: string) {
+    this._computedstr = value;
+  }
+  public resetComputedstr() {
+    this._computedstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedstrInput() {
+    return this._computedstr;
+  }
+
+  // computednum - computed: true, optional: true, required: false
+  private _computednum?: number; 
+  public get computednum() {
+    return this.getNumberAttribute('computednum');
+  }
+  public set computednum(value: number) {
+    this._computednum = value;
+  }
+  public resetComputednum() {
+    this._computednum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computednumInput() {
+    return this._computednum;
+  }
+
+  // computedbool - computed: true, optional: true, required: false
+  private _computedbool?: boolean | cdktf.IResolvable; 
+  public get computedbool() {
+    return this.getBooleanAttribute('computedbool');
+  }
+  public set computedbool(value: boolean | cdktf.IResolvable) {
+    this._computedbool = value;
+  }
+  public resetComputedbool() {
+    this._computedbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedboolInput() {
+    return this._computedbool;
+  }
+}
+
+export class ListBlockResourceReqList extends cdktf.ComplexList {
+  public internalValue? : ListBlockResourceReq[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): ListBlockResourceReqOutputReference {
+    return new ListBlockResourceReqOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface ListBlockResourceSingleopt {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge/r/list_block_resource#optstr ListBlockResource#optstr}
@@ -1151,8 +1645,8 @@ export class ListBlockResource extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._opt = config.opt;
-    this._req = config.req;
+    this._opt.internalValue = config.opt;
+    this._req.internalValue = config.req;
     this._singleopt.internalValue = config.singleopt;
     this._singlereq.internalValue = config.singlereq;
     this._singleComputedBlock.internalValue = config.singleComputedBlock;
@@ -1169,34 +1663,32 @@ export class ListBlockResource extends cdktf.TerraformResource {
   }
 
   // opt - computed: false, optional: true, required: false
-  private _opt?: ListBlockResourceOpt[] | cdktf.IResolvable; 
+  private _opt = new ListBlockResourceOptList(this, \\"opt\\", false);
   public get opt() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('opt');
+    return this._opt;
   }
-  public set opt(value: ListBlockResourceOpt[] | cdktf.IResolvable) {
-    this._opt = value;
+  public putOpt(value: ListBlockResourceOpt[] | cdktf.IResolvable) {
+    this._opt.internalValue = value;
   }
   public resetOpt() {
-    this._opt = undefined;
+    this._opt.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get optInput() {
-    return this._opt;
+    return this._opt.internalValue;
   }
 
   // req - computed: false, optional: false, required: true
-  private _req?: ListBlockResourceReq[] | cdktf.IResolvable; 
+  private _req = new ListBlockResourceReqList(this, \\"req\\", false);
   public get req() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('req');
+    return this._req;
   }
-  public set req(value: ListBlockResourceReq[] | cdktf.IResolvable) {
-    this._req = value;
+  public putReq(value: ListBlockResourceReq[] | cdktf.IResolvable) {
+    this._req.internalValue = value;
   }
   // Temporarily expose input value. Use with caution.
   public get reqInput() {
-    return this._req;
+    return this._req.internalValue;
   }
 
   // singleopt - computed: false, optional: true, required: false
@@ -1250,8 +1742,8 @@ export class ListBlockResource extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      opt: cdktf.listMapper(listBlockResourceOptToTerraform)(this._opt),
-      req: cdktf.listMapper(listBlockResourceReqToTerraform)(this._req),
+      opt: cdktf.listMapper(listBlockResourceOptToTerraform)(this._opt.internalValue),
+      req: cdktf.listMapper(listBlockResourceReqToTerraform)(this._req.internalValue),
       singleopt: listBlockResourceSingleoptToTerraform(this._singleopt.internalValue),
       singlereq: listBlockResourceSinglereqToTerraform(this._singlereq.internalValue),
       singleComputedBlock: listBlockResourceSingleComputedBlockToTerraform(this._singleComputedBlock.internalValue),
@@ -2027,6 +2519,253 @@ export function setBlockResourceSetToTerraform(struct?: SetBlockResourceSet | cd
   }
 }
 
+export class SetBlockResourceSetOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): SetBlockResourceSet | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._optstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optstr = this._optstr;
+    }
+    if (this._optnum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optnum = this._optnum;
+    }
+    if (this._optbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.optbool = this._optbool;
+    }
+    if (this._reqstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqstr = this._reqstr;
+    }
+    if (this._reqnum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqnum = this._reqnum;
+    }
+    if (this._reqbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.reqbool = this._reqbool;
+    }
+    if (this._computedstr !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computedstr = this._computedstr;
+    }
+    if (this._computednum !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computednum = this._computednum;
+    }
+    if (this._computedbool !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.computedbool = this._computedbool;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SetBlockResourceSet | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._optstr = undefined;
+      this._optnum = undefined;
+      this._optbool = undefined;
+      this._reqstr = undefined;
+      this._reqnum = undefined;
+      this._reqbool = undefined;
+      this._computedstr = undefined;
+      this._computednum = undefined;
+      this._computedbool = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._optstr = value.optstr;
+      this._optnum = value.optnum;
+      this._optbool = value.optbool;
+      this._reqstr = value.reqstr;
+      this._reqnum = value.reqnum;
+      this._reqbool = value.reqbool;
+      this._computedstr = value.computedstr;
+      this._computednum = value.computednum;
+      this._computedbool = value.computedbool;
+    }
+  }
+
+  // optstr - computed: false, optional: true, required: false
+  private _optstr?: string; 
+  public get optstr() {
+    return this.getStringAttribute('optstr');
+  }
+  public set optstr(value: string) {
+    this._optstr = value;
+  }
+  public resetOptstr() {
+    this._optstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optstrInput() {
+    return this._optstr;
+  }
+
+  // optnum - computed: false, optional: true, required: false
+  private _optnum?: number; 
+  public get optnum() {
+    return this.getNumberAttribute('optnum');
+  }
+  public set optnum(value: number) {
+    this._optnum = value;
+  }
+  public resetOptnum() {
+    this._optnum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optnumInput() {
+    return this._optnum;
+  }
+
+  // optbool - computed: false, optional: true, required: false
+  private _optbool?: boolean | cdktf.IResolvable; 
+  public get optbool() {
+    return this.getBooleanAttribute('optbool');
+  }
+  public set optbool(value: boolean | cdktf.IResolvable) {
+    this._optbool = value;
+  }
+  public resetOptbool() {
+    this._optbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optboolInput() {
+    return this._optbool;
+  }
+
+  // reqstr - computed: false, optional: false, required: true
+  private _reqstr?: string; 
+  public get reqstr() {
+    return this.getStringAttribute('reqstr');
+  }
+  public set reqstr(value: string) {
+    this._reqstr = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqstrInput() {
+    return this._reqstr;
+  }
+
+  // reqnum - computed: false, optional: false, required: true
+  private _reqnum?: number; 
+  public get reqnum() {
+    return this.getNumberAttribute('reqnum');
+  }
+  public set reqnum(value: number) {
+    this._reqnum = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqnumInput() {
+    return this._reqnum;
+  }
+
+  // reqbool - computed: false, optional: false, required: true
+  private _reqbool?: boolean | cdktf.IResolvable; 
+  public get reqbool() {
+    return this.getBooleanAttribute('reqbool');
+  }
+  public set reqbool(value: boolean | cdktf.IResolvable) {
+    this._reqbool = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqboolInput() {
+    return this._reqbool;
+  }
+
+  // computedstr - computed: true, optional: true, required: false
+  private _computedstr?: string; 
+  public get computedstr() {
+    return this.getStringAttribute('computedstr');
+  }
+  public set computedstr(value: string) {
+    this._computedstr = value;
+  }
+  public resetComputedstr() {
+    this._computedstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedstrInput() {
+    return this._computedstr;
+  }
+
+  // computednum - computed: true, optional: true, required: false
+  private _computednum?: number; 
+  public get computednum() {
+    return this.getNumberAttribute('computednum');
+  }
+  public set computednum(value: number) {
+    this._computednum = value;
+  }
+  public resetComputednum() {
+    this._computednum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computednumInput() {
+    return this._computednum;
+  }
+
+  // computedbool - computed: true, optional: true, required: false
+  private _computedbool?: boolean | cdktf.IResolvable; 
+  public get computedbool() {
+    return this.getBooleanAttribute('computedbool');
+  }
+  public set computedbool(value: boolean | cdktf.IResolvable) {
+    this._computedbool = value;
+  }
+  public resetComputedbool() {
+    this._computedbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedboolInput() {
+    return this._computedbool;
+  }
+}
+
+export class SetBlockResourceSetList extends cdktf.ComplexList {
+  public internalValue? : SetBlockResourceSet[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): SetBlockResourceSetOutputReference {
+    return new SetBlockResourceSetOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/edge/r/set_block_resource set_block_resource}
@@ -2060,7 +2799,7 @@ export class SetBlockResource extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
-    this._set = config.set;
+    this._set.internalValue = config.set;
   }
 
   // ==========
@@ -2068,20 +2807,19 @@ export class SetBlockResource extends cdktf.TerraformResource {
   // ==========
 
   // set - computed: false, optional: true, required: false
-  private _set?: SetBlockResourceSet[] | cdktf.IResolvable; 
+  private _set = new SetBlockResourceSetList(this, \\"set\\", true);
   public get set() {
-    // Getting the computed value is not yet implemented
-    return cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('set')));
+    return this._set;
   }
-  public set set(value: SetBlockResourceSet[] | cdktf.IResolvable) {
-    this._set = value;
+  public putSet(value: SetBlockResourceSet[] | cdktf.IResolvable) {
+    this._set.internalValue = value;
   }
   public resetSet() {
-    this._set = undefined;
+    this._set.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get setInput() {
-    return this._set;
+    return this._set.internalValue;
   }
 
   // =========
@@ -2090,7 +2828,7 @@ export class SetBlockResource extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      set: cdktf.listMapper(setBlockResourceSetToTerraform)(this._set),
+      set: cdktf.listMapper(setBlockResourceSetToTerraform)(this._set.internalValue),
     };
   }
 }

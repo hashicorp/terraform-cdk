@@ -60,9 +60,9 @@ class ReferenceStack extends TerraformStack {
         // required values FROM required multi item lists
         RequiredAttributeResource.Builder.create(this, "from_list")
                 .bool(Token.asAny(Fn.lookup(Fn.element(list.getReq(), 0), "reqbool", false)))
-                .str(Token.asString(Fn.lookup(Fn.element(list.getReq(), 0), "reqstr", "fallback")))
+                .str(list.getReq().get(0).getReqstr())
                 .num(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0)))
-                .strList(Collections.singletonList(Token.asString(Fn.lookup(Fn.element(list.getReq(), 0), "reqstr", "fallback"))))
+                .strList(Collections.singletonList(list.getReq().get(0).getReqstr()))
                 .numList(Collections.singletonList(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0))))
                 .boolList(Collections.singletonList(Token.asAny(Fn.lookup(Fn.element(list.getReq(), 0), "reqbool", false))))
                 .build();

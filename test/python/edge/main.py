@@ -52,9 +52,9 @@ class ReferenceStack(TerraformStack):
         # required values FROM required multi item lists
         edge.RequiredAttributeResource(self, "from_list",
             bool=Token().as_any(Fn.lookup(Fn.element(list.req, 0), "reqbool", False)),
-            str=Token().as_string(Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback")),
+            str=list.req.get(0).reqstr,
             num=Token().as_number(Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)),
-            str_list=[Token().as_string(Fn.lookup(Fn.element(list.req, 0), "reqstr", "fallback"))],
+            str_list=[list.req.get(0).reqstr],
             num_list=[Token().as_number(Fn.lookup(Fn.element(list.req, 0), "reqnum", 0))],
             bool_list=[Token().as_any(Fn.lookup(Fn.element(list.req, 0), "reqbool", False))]
         )
