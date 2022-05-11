@@ -21,11 +21,12 @@ CDKTF includes upgrade guides for releases that have breaking changes.
 
 ## Enable Features
 
-CDKTF uses feature flags to enable potentially breaking behaviors in a release. Feature flags are disabled by default, so existing projects that do not specify the flag will continue to work as expected with later CDKTF releases. New projects created using `cdktf init` include flags enabling all features available in the release that created the project.
+
+CDKTF uses feature flags to enable potentially breaking behaviors in a release. You can use them to change the logic when synthesizing code or CLI features, but they cannot change the logic of the provider generation.
+
+Feature flags are disabled by default, so existing projects that do not specify the flag will continue to work as expected with later CDKTF releases. However, new projects created using `cdktf init` include flags enabling all features available in the release that created the project. 
 
 Edit the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuration-file#enable-features) to disable flags for which you prefer the old behavior, or to add flags to enable new behaviors after upgrading. The CHANGELOG contains a description of new feature flags in each release, and the CDKTF source file [features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts) provides a complete list of all feature flags.
-
-All feature flags are disabled if not set explicitly.
 
 ### `excludeStackIdFromLogicalIds`
 
@@ -36,8 +37,3 @@ When you use nested constructs the mechanism will add a suffix to the logical id
 
 When set, '\_' and '-' are allowed in logical ids.
 
-### Lifecycle
-
-Feature flags can only be used to change the logic when synthesizing code or CLI features. Since we have prebuilt providers we can not change the logic of the provider generation.
-
-A feature flag will be introduced in a release, adding it with a default `true` value to the templates used in `cdktf init`. We will print a warning if it's false or not set. The feature flag will be removed in the next minor release.
