@@ -7,7 +7,7 @@ description: >-
 
 # Environment Variables
 
-These are all environment variables that you can use to configure the behavior of CDKTF.
+Use these environment variables to configure CDK for Terraform behavior.
 
 ## CDKTF_DISABLE_PLUGIN_CACHE_ENV
 
@@ -23,8 +23,7 @@ If set to a not-empty value, no [telemetry](/cdktf/telemetry) will be send.
 
 ## CDKTF_LOG_LEVEL
 
-It controls how much debug information gets printed to the console.
-Can be set to one of the following values:
+If set, this variable controls how much debug information gets printed to the console. You can set it to one of the following values:
 
 - `all`
 - `debug`
@@ -36,7 +35,7 @@ Can be set to one of the following values:
 
 ## CDKTF_LOG_FILE_DIRECTORY
 
-If set to a path of a directory a log file (`cdktf.log`) will be created in that directory containing debug level logs. If not set, the logs will be written to standard out. The log level set with `CDKTF_LOG_LEVEL` will be used.
+If set to a path of a directory a log file, CDKTF creates (`cdktf.log`) in that directory and prints logs at the debug level. If not set, CDKTF writes logs to standard out at the level specified in `CDKTF_LOG_LEVEL`.
 
 ## TERRAFORM_BINARY_NAME
 
@@ -52,4 +51,4 @@ If set this proxy will be used for all HTTP requests.
 
 ## DISABLE_VERSION_CHECK
 
-If set to `true` or `1`, no version check will be performed. If it is not set we will verify your installed library version matches the CLI version and warn if they do not match.
+If set to `true` or `1`, CDKTF will not perform a version check. If it is not set, CDKTF verifies that your installed library version matches the CLI version. If they do not match, CDKTF displays a warning.
