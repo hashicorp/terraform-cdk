@@ -1,32 +1,72 @@
 ---
 page_title: Deployment Patterns
 description: >-
-  Learn how to continioulsy deploy your applications with CDKTF.
+  Continuously deploy your applications with CDKTF.
 ---
 
 # Deployment Patterns
 
-The best way to deploy your CDKTF application depends on your setup and environment, but the goal stays the same: Trigger a pipeline by pushing a new version to your version control system, resulting in an automated deployment of your infrastructure.
+Intro TODO.
 
-## Approach 1: Commit and Deploy
+## Deployment Methods
 
-If you have one stack to deploy and want to use Terraform Cloud you can use a pre-commit step that runs `cdktf synth`. This will create a Terraform configuration file under `cdktf.out/stacks/<stack-name>`, configuring Terraform Cloud set up with VCS to this path will set up the automated deployment workflow.
+You can provision your infrastructure using either CDKTF CLI commands (e.g., `cdktf deploy`) or by synthesizing your application into a Terraform configuration file and using Terraform directly. Both approaches allow you to use Terraform Cloud and integrate with a Continous Integration (CI) pipeline.
 
-You can use the same technique to deploy multiple independent stacks by configuring a Terraform Cloud workspace for each stack with the same VCS configuration, but a different target path.
+### Run CDKTF CLI Commands
 
-A great side-effect of using this approach is that you can review the current state of your infrastructure in the Terraform Cloud UI and proposed changes can be easily reviewed in PRs.
+We recommend using [CDKTF CLI commands](/cdktf/cli-reference/commands) in the following use cases:
 
-If you use Cross-Stack dependencies you can not use this method since one stack depends on another stack and the dependency can not be properly configured. In this case you should take the second approach.
+- **Your application defines more than infrastructure.** For example, you may build a Docker image or start a build pipeline locally. Running `cdktf deploy` triggers all of these actions at runtime in addition to using Terraform to provision your infrastructure.
 
-## Approach 2: Run `cdktf deploy` in CI
+- **Your application contains stacks with complex dependencies.** Each [stack](/cdktf/concepts/stacks) in a CDKTF application is like a separate Terraform working directory. Terraform respects complex dependencies within the same configuration, but it is not designed to manage complex dependencies between multiple working directories. For example, if you define a stack A that depends on data from stack B and stack C, Terraform runs will fail because Terraform is unable to understand that it must wait to build stack A until both stack B and stack C are completed.
+
+### Run Terraform Directly
+
+We recommend synthesizing your CDKTF application and using Terraform directly in the following use cases:
+
+- **You need to integrate into existing Terraform workflows:** Your organization may already use Terraform Cloud or have integrated Terraform into CI pipelines. In these cases, you may want to run `cdktf synth` and set the output folder to a particular directory that you can reference in your existing pieplines.
+- **Any other reason???** TBD
+
+## Using Terraform Cloud
+
+WIP - why use terraform cloud.
+
+- Review the current state of your infrastructure and run progress in the Terraform Cloud UI
+- Use [workspace variables] to manage secrets. This requires enabling [remote execution](/cloud-docs/run#remote-operations) in your Terraform Cloud workspace. If you use the local execution mode or any other backend you would need to specify the credentials for your providers in the `env:` block in the Deploy step.
+
+## Automating Deployment
 
 If you have a general purpose CI like GitHub Actions or CircleCI setup already you can use the `cdktf deploy --auto-approve <your stacks>` command to trigger a deployment. This will run the deployment of your stacks in the right order and in parallel.
 
+TODO:
+
+- First, can we talk about how you would connect to a CI pipeline in both cases --> the case wher eyou want to deploy with cdktf cli and the case where you want to synth and use Terraform directly?
+- Second, the auto-approve flag has some significant considerations attached. Mainly that it means that you will not be prompted to review changes to your infrastructure before Terraform applies the plan. If we are going to recommend that, we need to help people understand this and guide them towards another way to review their infrastructure before it's deployed. I feel like this will be really important for production use cases.
+
 To set this up you need to have Node in version 14.0+ and the `cdktf-cli` CLI installed. If you are using a language that is not Node you need to install it as well. You also need to have Terraform installed, at least in version `1.0`.
 
-### Github Actions
+## Managing Secrets and Sensitive Data
 
-A configuration for Github Actions might look like this:
+TODO:
+
+- Mention both variables and outputs, when you would use each, and link to the Variables and Outputs page where users can get additional details.
+- Talk a bit about data security → do we have any recommendations?
+
+## Example Workflows
+
+### Terraform Cloud
+
+Add a pre-commit step that runs `cdktf synth`. This creates Terraform configuration files under `cdktf.out/stacks/<stack-name>`. Then, configure the VCS integration for a Terraform cloud workspace to point to the appropriate path. You can use the same technique to deploy multiple independent stacks by configuring a Terraform Cloud workspace for each stack with the same VCS configuration, but a different target path.
+
+Refer to [UI/VCS-Driven Run Workflow](/cloud-docs/run/ui) in the Terraform Cloud documentation for details.
+
+[diagram?]
+
+### GitHub Actions CI and Terraform Cloud
+
+Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `RemoteBackend` to connect to Terraform Cloud.
+
+The following example shows a GitHub Actions configuration where the CDKTF application is deployed from the `main` branch and uses Terraform Cloud. This file could be stored in `.github/workflows/cdktf-deploy.yml`.
 
 ```yaml
 name: CDKTF Deployment
@@ -65,8 +105,10 @@ jobs:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
 ```
 
-You might put this under `.github/workflows/cdktf-deploy.yml`.
-In this example our CDKTF Application is deployed from the `main` branch and uses Terraform Cloud.
-We set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows our CDKTF stacks `RemoteBackend` to connect to Terraform Cloud, we can configure all secrets we need for a successful deployment there.
+### Another example
 
-In order to use secrets you need to enable [remote execution](/cloud-docs/run#remote-operations) in your Terraform Cloud workspace, this is not possible if you rely on local build steps that run as part of CDKTF. If you the local execution mode or any other backend you would need to specify the credentials for your providers in the `env:` block in the Deploy step.
+TODO: I think what would be helpful here is if we actually walked through an example setup for a few of the possible permutatioins:
+
+- We deploy with CDKTF CLI but want to use Terraform cloud
+- We synth, and our TFC workspaces
+- We connect to our CI pipeline AND Terraform Cloud and our infrastructure gets provisioned automatically.
