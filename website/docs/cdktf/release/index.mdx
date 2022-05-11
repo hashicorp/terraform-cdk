@@ -21,10 +21,9 @@ CDKTF includes upgrade guides for releases that have breaking changes.
 
 ## Enable Features
 
-
 CDKTF uses feature flags to enable potentially breaking behaviors in a release. You can use them to change the logic when synthesizing code or CLI features, but they cannot change the logic of the provider generation.
 
-Feature flags are disabled by default, so existing projects that do not specify the flag will continue to work as expected with later CDKTF releases. However, new projects created using `cdktf init` include flags enabling all features available in the release that created the project. 
+Feature flags are disabled by default, so existing projects that do not specify the flag will continue to work as expected with later CDKTF releases. However, new projects created using `cdktf init` include flags enabling all features available in the release that created the project.
 
 Edit the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuration-file#enable-features) to disable flags for which you prefer the old behavior, or to add flags to enable new behaviors after upgrading. The CHANGELOG contains a description of new feature flags in each release, and the CDKTF source file [features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts) provides a complete list of all feature flags.
 
@@ -36,4 +35,3 @@ When you use nested constructs the mechanism will add a suffix to the logical id
 ### `allowSepCharsInLogicalIds`
 
 When set, '\_' and '-' are allowed in logical ids.
-
