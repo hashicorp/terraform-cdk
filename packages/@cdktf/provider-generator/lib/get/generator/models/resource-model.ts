@@ -1,6 +1,5 @@
 import { toSnakeCase } from "codemaker";
 import path from "path";
-import { downcaseFirst } from "../../../util";
 import {
   ResourceNamespace,
   getResourceNamespace,
@@ -9,7 +8,11 @@ import { Schema } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
 
+// Limit is 1200 to prevent stack size error.
+// Could increase now that calculation is more accurate;
+// however, probably better to have smaller
 export const STRUCT_SHARDING_THRESHOLD = 400;
+
 interface ResourceModelOptions {
   terraformType: string;
   className: string;
@@ -40,6 +43,7 @@ export class ResourceModel {
   private dependencies: string[];
   private terraformSchemaType: string;
   private configStructName: string;
+  public readonly structsRequireSharding: boolean;
 
   constructor(options: ResourceModelOptions) {
     this.className = options.className;
@@ -57,10 +61,10 @@ export class ResourceModel {
       `import { Construct } from 'constructs';`,
       `import * as cdktf from 'cdktf';`,
     ];
-  }
 
-  public get structsRequireSharding(): boolean {
-    return this._structs.length > STRUCT_SHARDING_THRESHOLD;
+    this.structsRequireSharding =
+      this._structs.reduce((partialSum, s) => partialSum + s.exportCount, 0) >
+      STRUCT_SHARDING_THRESHOLD;
   }
 
   public get structs(): Struct[] {
@@ -128,54 +132,12 @@ export class ResourceModel {
     );
   }
 
-  public get importableTypes(): string[] {
-    const structNames = this.structNames;
-    const result = [
-      ...this.configStruct.attributeTypeNames,
-      ...this.attributeTypeNames,
-    ].filter((t) => structNames.includes(t));
-
-    return Array.from(new Set(result));
-  }
-
-  public get importableTypesFromClasses(): string[] {
-    const structNames = this.structNames;
-    const result = [
-      ...this.configStruct.attributeTypeNamesFromClasses,
-      ...this.attributeTypeNamesFromClasses,
-    ].filter((t) => structNames.includes(t));
-
-    return Array.from(new Set(result));
-  }
-
-  public get importableOutputReferences(): string[] {
-    return this.importableTypesFromClasses.map(
-      (type) => `${type}OutputReference`
-    );
-  }
-
-  public get importableStructMapper(): string[] {
-    return this.importableTypes.map(
-      (type) => `${downcaseFirst(type)}ToTerraform`
-    );
-  }
-
-  public get structNames(): string[] {
-    return this.structs.map((s) => s.name);
+  public get referencedTypes(): string[] {
+    return this.configStruct.referencedTypes;
   }
 
   public get structsFolderName(): string {
     return `${path.basename(this.fileName, ".ts")}-structs`;
-  }
-
-  public get attributeTypeNames(): string[] {
-    return this.attributes.map((a) => a.type.typeName);
-  }
-
-  public get attributeTypeNamesFromClasses(): string[] {
-    return this.attributes
-      .filter((a) => a.type.struct?.isClass)
-      .map((a) => a.type.typeName);
   }
 
   public get structsFolderPath(): string {

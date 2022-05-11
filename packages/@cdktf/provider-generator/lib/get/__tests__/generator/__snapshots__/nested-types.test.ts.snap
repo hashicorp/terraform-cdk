@@ -48,6 +48,127 @@ export function nestedTypesResourceArchiveRulesFilterToTerraform(struct?: Nested
   }
 }
 
+export class NestedTypesResourceArchiveRulesFilterOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): NestedTypesResourceArchiveRulesFilter | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._eq !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.eq = this._eq;
+    }
+    if (this._exists !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.exists = this._exists;
+    }
+    if (this._property !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.property = this._property;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NestedTypesResourceArchiveRulesFilter | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._eq = undefined;
+      this._exists = undefined;
+      this._property = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._eq = value.eq;
+      this._exists = value.exists;
+      this._property = value.property;
+    }
+  }
+
+  // eq - computed: false, optional: true, required: false
+  private _eq?: string[]; 
+  public get eq() {
+    return this.getListAttribute('eq');
+  }
+  public set eq(value: string[]) {
+    this._eq = value;
+  }
+  public resetEq() {
+    this._eq = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get eqInput() {
+    return this._eq;
+  }
+
+  // exists - computed: false, optional: true, required: false
+  private _exists?: boolean | cdktf.IResolvable; 
+  public get exists() {
+    return this.getBooleanAttribute('exists');
+  }
+  public set exists(value: boolean | cdktf.IResolvable) {
+    this._exists = value;
+  }
+  public resetExists() {
+    this._exists = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get existsInput() {
+    return this._exists;
+  }
+
+  // property - computed: false, optional: false, required: true
+  private _property?: string; 
+  public get property() {
+    return this.getStringAttribute('property');
+  }
+  public set property(value: string) {
+    this._property = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get propertyInput() {
+    return this._property;
+  }
+}
+
+export class NestedTypesResourceArchiveRulesFilterList extends cdktf.ComplexList {
+  public internalValue? : NestedTypesResourceArchiveRulesFilter[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): NestedTypesResourceArchiveRulesFilterOutputReference {
+    return new NestedTypesResourceArchiveRulesFilterOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface NestedTypesResourceArchiveRules {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#filter NestedTypesResource#filter}
@@ -72,6 +193,102 @@ export function nestedTypesResourceArchiveRulesToTerraform(struct?: NestedTypesR
   }
 }
 
+export class NestedTypesResourceArchiveRulesOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): NestedTypesResourceArchiveRules | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._filter?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.filter = this._filter?.internalValue;
+    }
+    if (this._ruleName !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.ruleName = this._ruleName;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NestedTypesResourceArchiveRules | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._filter.internalValue = undefined;
+      this._ruleName = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._filter.internalValue = value.filter;
+      this._ruleName = value.ruleName;
+    }
+  }
+
+  // filter - computed: false, optional: false, required: true
+  private _filter = new NestedTypesResourceArchiveRulesFilterList(this, \\"filter\\", false);
+  public get filter() {
+    return this._filter;
+  }
+  public putFilter(value: NestedTypesResourceArchiveRulesFilter[] | cdktf.IResolvable) {
+    this._filter.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get filterInput() {
+    return this._filter.internalValue;
+  }
+
+  // rule_name - computed: false, optional: false, required: true
+  private _ruleName?: string; 
+  public get ruleName() {
+    return this.getStringAttribute('rule_name');
+  }
+  public set ruleName(value: string) {
+    this._ruleName = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ruleNameInput() {
+    return this._ruleName;
+  }
+}
+
+export class NestedTypesResourceArchiveRulesList extends cdktf.ComplexList {
+  public internalValue? : NestedTypesResourceArchiveRules[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): NestedTypesResourceArchiveRulesOutputReference {
+    return new NestedTypesResourceArchiveRulesOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource nested_types_resource}
@@ -106,7 +323,7 @@ export class NestedTypesResource extends cdktf.TerraformResource {
       lifecycle: config.lifecycle
     });
     this._name = config.name;
-    this._archiveRules = config.archiveRules;
+    this._archiveRules.internalValue = config.archiveRules;
   }
 
   // ==========
@@ -130,20 +347,19 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   }
 
   // archive_rules - computed: false, optional: true, required: false
-  private _archiveRules?: NestedTypesResourceArchiveRules[] | cdktf.IResolvable; 
+  private _archiveRules = new NestedTypesResourceArchiveRulesList(this, \\"archive_rules\\", false);
   public get archiveRules() {
-    // Getting the computed value is not yet implemented
-    return this.interpolationForAttribute('archive_rules');
+    return this._archiveRules;
   }
-  public set archiveRules(value: NestedTypesResourceArchiveRules[] | cdktf.IResolvable) {
-    this._archiveRules = value;
+  public putArchiveRules(value: NestedTypesResourceArchiveRules[] | cdktf.IResolvable) {
+    this._archiveRules.internalValue = value;
   }
   public resetArchiveRules() {
-    this._archiveRules = undefined;
+    this._archiveRules.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get archiveRulesInput() {
-    return this._archiveRules;
+    return this._archiveRules.internalValue;
   }
 
   // id - computed: true, optional: false, required: false
@@ -158,7 +374,7 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       name: cdktf.stringToTerraform(this._name),
-      archive_rules: cdktf.listMapper(nestedTypesResourceArchiveRulesToTerraform)(this._archiveRules),
+      archive_rules: cdktf.listMapper(nestedTypesResourceArchiveRulesToTerraform)(this._archiveRules.internalValue),
     };
   }
 }

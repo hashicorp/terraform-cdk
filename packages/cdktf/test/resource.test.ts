@@ -1,4 +1,4 @@
-import { Testing, TerraformStack, TerraformElement } from "../lib";
+import { Testing, TerraformStack, TerraformElement, Fn } from "../lib";
 import { TestProvider, TestResource, OtherTestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
 import { TerraformOutput } from "../lib/terraform-output";
@@ -215,4 +215,42 @@ test("number[] attributes", () => {
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("using the same reference in two contexts", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const foo = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+  const reference = foo.stringValue;
+
+  new TestResource(stack, "plain-function", {
+    name: `plain:${reference}|inFunction:${Fn.lower(reference)}`,
+  });
+
+  new TestResource(stack, "function-plain", {
+    name: `inFunction:${Fn.lower(reference)}|plain:${reference}`,
+  });
+
+  new TestResource(stack, "join", {
+    name: `first:${Fn.join(",", [
+      reference,
+      `this is the ref: ${reference}`,
+    ])}|second:${Fn.join(",", [`this is the ref: ${reference}`, reference])}`,
+  });
+
+  const q = JSON.parse(Testing.synth(stack)).resource.test_resource;
+
+  expect(q["plain-function"].name).toBe(
+    "plain:${test_resource.resource.string_value}|inFunction:${lower(test_resource.resource.string_value)}"
+  );
+  expect(q["function-plain"].name).toBe(
+    "inFunction:${lower(test_resource.resource.string_value)}|plain:${test_resource.resource.string_value}"
+  );
+  expect(q["join"].name).toBe(
+    `first:\${join(",", [test_resource.resource.string_value, "this is the ref: \${test_resource.resource.string_value}"])}|second:\${join(",", ["this is the ref: \${test_resource.resource.string_value}", test_resource.resource.string_value])}`
+  );
 });
