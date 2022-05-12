@@ -47,7 +47,7 @@ export abstract class TerraformModule
     ) {
       if (options.source.startsWith("./") || options.source.startsWith("../")) {
         // Create an asset for the local module for better TFC support
-        const asset = new TerraformAsset(scope, "local-module-${id}", {
+        const asset = new TerraformAsset(scope, `local-module-${id}`, {
           path: options.source,
         });
         // Despite being a relative path already, further indicate it as such for Terraform handling
