@@ -169,7 +169,7 @@ export class AttributeModel {
   }
 
   public get isStored(): boolean {
-    return this.isAssignable && !this.isConfigIgnored;
+    return this.isAssignable;
   }
 
   public get setterType(): SetterType {
@@ -214,14 +214,6 @@ export class AttributeModel {
     return this._description
       ?.replace(/(\*\/)/gi, `*\\/`)
       .replace(/'''/gi, "```");
-  }
-
-  public get isConfigIgnored(): boolean {
-    if (this.isAssignable && !this.computed) {
-      return false;
-    }
-    const ignoreList = ["id"];
-    return ignoreList.includes(this.name);
   }
 
   public getReferencedTypes(isConfigStruct: boolean): string[] | undefined {
