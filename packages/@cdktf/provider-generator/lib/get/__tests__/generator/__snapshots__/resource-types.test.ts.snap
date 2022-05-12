@@ -31,6 +31,10 @@ export interface CloudfrontDistributionConfig extends cdktf.TerraformMetaArgumen
   */
   readonly httpVersion?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#id CloudfrontDistribution#id}
+  */
+  readonly id?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution#is_ipv6_enabled CloudfrontDistribution#is_ipv6_enabled}
   */
   readonly isIpv6Enabled?: boolean | cdktf.IResolvable;
@@ -4040,6 +4044,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
     this._defaultRootObject = config.defaultRootObject;
     this._enabled = config.enabled;
     this._httpVersion = config.httpVersion;
+    this._id = config.id;
     this._isIpv6Enabled = config.isIpv6Enabled;
     this._priceClass = config.priceClass;
     this._retainOnDelete = config.retainOnDelete;
@@ -4170,8 +4175,19 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // id - computed: true, optional: true, required: false
+  private _id?: string; 
   public get id() {
     return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
   }
 
   // in_progress_validation_batches - computed: true, optional: false, required: false
@@ -4428,6 +4444,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       default_root_object: cdktf.stringToTerraform(this._defaultRootObject),
       enabled: cdktf.booleanToTerraform(this._enabled),
       http_version: cdktf.stringToTerraform(this._httpVersion),
+      id: cdktf.stringToTerraform(this._id),
       is_ipv6_enabled: cdktf.booleanToTerraform(this._isIpv6Enabled),
       price_class: cdktf.stringToTerraform(this._priceClass),
       retain_on_delete: cdktf.booleanToTerraform(this._retainOnDelete),
@@ -4470,6 +4487,10 @@ export interface FmsAdminAccountConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account#account_id FmsAdminAccount#account_id}
   */
   readonly accountId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_admin_account#id FmsAdminAccount#id}
+  */
+  readonly id?: string;
 }
 
 /**
@@ -4505,6 +4526,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
       lifecycle: config.lifecycle
     });
     this._accountId = config.accountId;
+    this._id = config.id;
   }
 
   // ==========
@@ -4528,8 +4550,19 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   }
 
   // id - computed: true, optional: true, required: false
+  private _id?: string; 
   public get id() {
     return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
   }
 
   // =========
@@ -4539,6 +4572,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       account_id: cdktf.stringToTerraform(this._accountId),
+      id: cdktf.stringToTerraform(this._id),
     };
   }
 }
@@ -4583,6 +4617,10 @@ export interface S3BucketConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#hosted_zone_id S3Bucket#hosted_zone_id}
   */
   readonly hostedZoneId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#id S3Bucket#id}
+  */
+  readonly id?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/s3_bucket#policy S3Bucket#policy}
   */
@@ -5541,6 +5579,7 @@ export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule 
   return {
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
     enabled: cdktf.booleanToTerraform(struct!.enabled),
+    id: cdktf.stringToTerraform(struct!.id),
     prefix: cdktf.stringToTerraform(struct!.prefix),
     tags: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.tags),
     expiration: s3BucketLifecycleRuleExpirationToTerraform(struct!.expiration),
@@ -5578,6 +5617,10 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
       hasAnyValues = true;
       internalValueResult.enabled = this._enabled;
     }
+    if (this._id !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.id = this._id;
+    }
     if (this._prefix !== undefined) {
       hasAnyValues = true;
       internalValueResult.prefix = this._prefix;
@@ -5611,6 +5654,7 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
       this.resolvableValue = undefined;
       this._abortIncompleteMultipartUploadDays = undefined;
       this._enabled = undefined;
+      this._id = undefined;
       this._prefix = undefined;
       this._tags = undefined;
       this._expiration.internalValue = undefined;
@@ -5627,6 +5671,7 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
       this.resolvableValue = undefined;
       this._abortIncompleteMultipartUploadDays = value.abortIncompleteMultipartUploadDays;
       this._enabled = value.enabled;
+      this._id = value.id;
       this._prefix = value.prefix;
       this._tags = value.tags;
       this._expiration.internalValue = value.expiration;
@@ -5666,8 +5711,19 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
   }
 
   // id - computed: true, optional: true, required: false
+  private _id?: string; 
   public get id() {
     return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
   }
 
   // prefix - computed: false, optional: true, required: false
@@ -7475,6 +7531,7 @@ export class S3Bucket extends cdktf.TerraformResource {
     this._bucketPrefix = config.bucketPrefix;
     this._forceDestroy = config.forceDestroy;
     this._hostedZoneId = config.hostedZoneId;
+    this._id = config.id;
     this._policy = config.policy;
     this._region = config.region;
     this._requestPayer = config.requestPayer;
@@ -7619,8 +7676,19 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // id - computed: true, optional: true, required: false
+  private _id?: string; 
   public get id() {
     return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
   }
 
   // policy - computed: false, optional: true, required: false
@@ -7876,6 +7944,7 @@ export class S3Bucket extends cdktf.TerraformResource {
       bucket_prefix: cdktf.stringToTerraform(this._bucketPrefix),
       force_destroy: cdktf.booleanToTerraform(this._forceDestroy),
       hosted_zone_id: cdktf.stringToTerraform(this._hostedZoneId),
+      id: cdktf.stringToTerraform(this._id),
       policy: cdktf.stringToTerraform(this._policy),
       region: cdktf.stringToTerraform(this._region),
       request_payer: cdktf.stringToTerraform(this._requestPayer),
@@ -7915,6 +7984,10 @@ export interface SecurityGroupConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#egress SecurityGroup#egress}
   */
   readonly egress?: SecurityGroupEgress[] | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#id SecurityGroup#id}
+  */
+  readonly id?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#ingress SecurityGroup#ingress}
   */
@@ -8709,6 +8782,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
     });
     this._description = config.description;
     this._egress.internalValue = config.egress;
+    this._id = config.id;
     this._ingress.internalValue = config.ingress;
     this._name = config.name;
     this._namePrefix = config.namePrefix;
@@ -8760,8 +8834,19 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // id - computed: true, optional: true, required: false
+  private _id?: string; 
   public get id() {
     return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
   }
 
   // ingress - computed: true, optional: true, required: false
@@ -8889,6 +8974,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
     return {
       description: cdktf.stringToTerraform(this._description),
       egress: cdktf.listMapper(securityGroupEgressToTerraform)(this._egress.internalValue),
+      id: cdktf.stringToTerraform(this._id),
       ingress: cdktf.listMapper(securityGroupIngressToTerraform)(this._ingress.internalValue),
       name: cdktf.stringToTerraform(this._name),
       name_prefix: cdktf.stringToTerraform(this._namePrefix),

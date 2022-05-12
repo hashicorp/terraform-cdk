@@ -11,10 +11,7 @@ export class Struct {
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
-    const attributes = this.attributes.filter(
-      (attribute) => attribute.isAssignable
-    );
-    return this.filterIgnoredAttributes(attributes);
+    return this.attributes.filter((attribute) => attribute.isAssignable);
   }
 
   public get optionalAttributes(): AttributeModel[] {
@@ -35,12 +32,6 @@ export class Struct {
 
   public get assignable() {
     return !this.isClass || this.assignableAttributes.length > 0;
-  }
-
-  protected filterIgnoredAttributes(
-    attributes: AttributeModel[]
-  ): AttributeModel[] {
-    return attributes;
   }
 
   public get extends(): string {
@@ -101,12 +92,6 @@ export class Struct {
 }
 
 export class ConfigStruct extends Struct {
-  protected filterIgnoredAttributes(
-    attributes: AttributeModel[]
-  ): AttributeModel[] {
-    return attributes.filter((attribute) => !attribute.isConfigIgnored);
-  }
-
   public get extends(): string {
     return ` extends cdktf.TerraformMetaArguments`;
   }
