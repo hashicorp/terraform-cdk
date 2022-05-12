@@ -449,9 +449,7 @@ export class StructEmitter {
 
     this.code.openBlock("return");
     for (const att of struct.assignableAttributes) {
-      if (!att.isConfigIgnored) {
-        this.attributesEmitter.emitToTerraform(att, true);
-      }
+      this.attributesEmitter.emitToTerraform(att, true);
     }
     this.code.closeBlock(";");
     this.code.closeBlock();
