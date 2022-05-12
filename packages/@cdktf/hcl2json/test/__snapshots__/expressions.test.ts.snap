@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getReferencesInExpression fails on malformed expressions 1`] = `[Error: :0,0-2: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the file. This might be caused by incorrect nesting inside the given expression.]`;
+
+exports[`getReferencesInExpression list expressions 1`] = `
+Array [
+  Object {
+    "endPosition": 16,
+    "startPosition": 4,
+    "value": "var.tags.app",
+  },
+  Object {
+    "endPosition": 30,
+    "startPosition": 18,
+    "value": "var.tags.env",
+  },
+]
+`;
+
+exports[`getReferencesInExpression mixed property access 1`] = `
+Array [
+  Object {
+    "endPosition": 14,
+    "startPosition": 3,
+    "value": "var.setting",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses a reference string 1`] = `
+Array [
+  Object {
+    "endPosition": 9,
+    "startPosition": 2,
+    "value": "var.foo",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses a simple string 1`] = `Array []`;
+
+exports[`getReferencesInExpression parses a terraform function 1`] = `
+Array [
+  Object {
+    "endPosition": 27,
+    "startPosition": 10,
+    "value": "module.foo.output",
+  },
+  Object {
+    "endPosition": 41,
+    "startPosition": 34,
+    "value": "var.bar",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses embedded vars 1`] = `
+Array [
+  Object {
+    "endPosition": 43,
+    "startPosition": 26,
+    "value": "module.foo.output",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses for in loops 1`] = `
+Array [
+  Object {
+    "endPosition": 31,
+    "startPosition": 22,
+    "value": "var.users",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses four part references 1`] = `
+Array [
+  Object {
+    "endPosition": 21,
+    "startPosition": 2,
+    "value": "data.type.name.attr",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses lists 1`] = `
+Array [
+  Object {
+    "endPosition": 23,
+    "startPosition": 6,
+    "value": "module.foo.output",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses maps 1`] = `
+Array [
+  Object {
+    "endPosition": 25,
+    "startPosition": 8,
+    "value": "module.foo.output",
+  },
+  Object {
+    "endPosition": 80,
+    "startPosition": 63,
+    "value": "module.foo.output",
+  },
+  Object {
+    "endPosition": 94,
+    "startPosition": 87,
+    "value": "var.bar",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses multi-line for loops 1`] = `
+Array [
+  Object {
+    "endPosition": 43,
+    "startPosition": 34,
+    "value": "var.users",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses nested terraform functions 1`] = `
+Array [
+  Object {
+    "endPosition": 21,
+    "startPosition": 8,
+    "value": "var.separator",
+  },
+  Object {
+    "endPosition": 54,
+    "startPosition": 37,
+    "value": "module.foo.output",
+  },
+  Object {
+    "endPosition": 68,
+    "startPosition": 61,
+    "value": "var.bar",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses splat expressions 1`] = `
+Array [
+  Object {
+    "endPosition": 36,
+    "startPosition": 9,
+    "value": "aws_s3_bucket.examplebucket",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses ternary expressions 1`] = `
+Array [
+  Object {
+    "endPosition": 48,
+    "startPosition": 2,
+    "value": "aws_kms_key.examplekms.deletion_window_in_days",
+  },
+  Object {
+    "endPosition": 85,
+    "startPosition": 55,
+    "value": "aws_s3_bucket.examplebucket.id",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses terraform functions with file access 1`] = `
+Array [
+  Object {
+    "endPosition": 42,
+    "startPosition": 11,
+    "value": "aws_s3_bucket.examplebucket_two",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses three part references 1`] = `
+Array [
+  Object {
+    "endPosition": 19,
+    "startPosition": 2,
+    "value": "module.foo.output",
+  },
+]
+`;
+
+exports[`getReferencesInExpression parses variable arithmetics 1`] = `
+Array [
+  Object {
+    "endPosition": 13,
+    "startPosition": 2,
+    "value": "var.members",
+  },
+  Object {
+    "endPosition": 26,
+    "startPosition": 16,
+    "value": "var.admins",
+  },
+]
+`;
+
+exports[`getReferencesInExpression partial variable property access 1`] = `
+Array [
+  Object {
+    "endPosition": 15,
+    "startPosition": 3,
+    "value": "var.settings",
+  },
+  Object {
+    "endPosition": 29,
+    "startPosition": 19,
+    "value": "var.prefix",
+  },
+]
+`;
+
+exports[`getReferencesInExpression property access 1`] = `
+Array [
+  Object {
+    "endPosition": 14,
+    "startPosition": 3,
+    "value": "var.setting",
+  },
+]
+`;
+
+exports[`getReferencesInExpression variable property access 1`] = `
+Array [
+  Object {
+    "endPosition": 15,
+    "startPosition": 3,
+    "value": "var.settings",
+  },
+  Object {
+    "endPosition": 35,
+    "startPosition": 16,
+    "value": "var.bucket_name_key",
+  },
+]
+`;
