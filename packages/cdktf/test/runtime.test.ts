@@ -2,6 +2,7 @@ import { resolve } from "../lib/_tokens";
 import { listMapper, hashMapper, anyToTerraform } from "../lib/runtime";
 import { Token } from "../lib/tokens/token";
 import { Intrinsic } from "../lib/tokens/private/intrinsic";
+import { deepMerge } from "../lib/util";
 
 const resolveExpression = (expr: any) => resolve(null as any, expr);
 describe("Runtime", () => {
@@ -140,6 +141,25 @@ describe("Runtime", () => {
           ],
         }
       `);
+    });
+
+    it("throws an error when a value a token is overwriten", () => {
+      const reference = new Intrinsic(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
+
+      expect(() =>
+        resolveExpression(
+          deepMerge(
+            {
+              x: reference,
+            },
+            { x: { foo: "bar" } }
+          )
+        )
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Invalid usage. Target (\\"<unresolved-token>\\") can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value."`
+      );
     });
   });
 });
