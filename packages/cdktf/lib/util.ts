@@ -7,9 +7,7 @@ import { Tokenization } from "./tokens/token";
 export function deepMerge(target: any, ...sources: any[]) {
   if (Tokenization.isResolvable(target) && sources.length > 0) {
     throw new Error(
-      `Invalid usage. Target (${JSON.stringify(
-        target
-      )}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.`
+      `Invalid usage. Target (${target.toString()}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.`
     );
   }
 

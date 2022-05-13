@@ -158,7 +158,7 @@ describe("Runtime", () => {
           )
         )
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Invalid usage. Target (\\"<unresolved-token>\\") can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value."`
+        `"Invalid usage. Target (\${TfToken[TOKEN.2]}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value."`
       );
     });
   });
