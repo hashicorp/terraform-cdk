@@ -27,7 +27,7 @@ export class StructEmitter {
     if (att.name === "id") {
       this.code.line(`*`);
       this.code.line(
-        `* Please be aware that the id field is automatically added to all resources in providers using a SDK version below 2.`
+        `* Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.`
       );
       this.code.line(
         `* If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.`
