@@ -7,11 +7,11 @@ description: "We discuss patterns and strategies for building and maintaining in
 
 ## Use `TerraformVariable` to read secrets
 
-If you read a secret from the environment or out of a file with normal file system access and you use them in your CDKTF code, they will end up in the synthesized Terraform code. The problem with that is that it might leak if an attacker can get access to your Terraform code. To mitigate this, you should [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets.
+If you read a secret from the environment or out of a file with normal file system access and you use it in your CDKTF code, it will end up in the synthesized Terraform code. The problem with that is that it might leak if an attacker can get access to your Terraform code. To mitigate this, you should [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets.
 
 ## Use pre-built provider bindings if possible
 
-Pre-built provider bindings are available for many popular providers, they have the same code as if you'd run `cdktf get` for this provider. [You can find a complete list through Github](https://github.com/topics/pre-built-provider). They help you by reducing the time `cdktf get` takes and they can be used as a peer dependency if you use open source constructs.
+Pre-built provider bindings are available for many popular providers, they have the same code as if you'd run `cdktf get` for this provider. [You can find a complete list through Github](https://github.com/orgs/hashicorp/repositories?q=cdktf-provider-). They help you by reducing the time `cdktf get` takes and they can be used as a peer dependency if you use open source constructs.
 
 ## Build extensible constructs
 
