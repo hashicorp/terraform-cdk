@@ -12,7 +12,7 @@ To debug your CDKTF application, we recommend first turning on logging. Then, de
 
 Set the `CDKTF_LOG_LEVEL` environment variable to `debug`. This produces more detailed information about each execution step. If you want to create a bug report or share the result, set `CDKTF_LOG_FILE_DIRECTORY` to the file path where you want CDKTF to write the `cdktf.log` file.
 
-## Synth-time issues
+## Synth-Time Issues
 
 When you run `cdktf synth`, CDKTF translates your CDKTF application code into a JSON Terraform configuration file. Your application has a synth-time issue if `cdktf synth` fails. Otherwise, assume the issue occurs at execution time.
 
