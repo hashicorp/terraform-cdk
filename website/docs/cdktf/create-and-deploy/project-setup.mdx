@@ -55,7 +55,7 @@ Terraform Cloud supports [connecting to VCS providers](/cloud-docs/vcs). To use 
 
 Refer to [Stacks](/cdktf/concepts/stacks) for more information about using stacks to separate the state management for multiple environments in an application.
 
-~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data that was provided as input for the `cdktf` application.
+~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data that was provided as input for the `cdktf` application. Use [Terraform input variables](/cdktf/concepts/variables-and-outputs#input-variables) to pass secrets configured as [workspace-specific variables](cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables) in TerraformCloud.
 
 #### External CI service
 
