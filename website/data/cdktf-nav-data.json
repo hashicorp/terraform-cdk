@@ -86,8 +86,11 @@
     ]
   },
   {
-    "title": "Test",
-    "routes": [{ "title": "Unit Tests", "path": "test/unit-tests" }]
+    "title": "Test and Debug",
+    "routes": [
+      { "title": "Unit Tests", "path": "test/unit-tests" },
+      { "title": "Debugging", "path": "test/debugging" }
+    ]
   },
   {
     "title": "CLI Reference",

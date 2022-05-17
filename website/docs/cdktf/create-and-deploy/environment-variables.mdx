@@ -7,15 +7,11 @@ description: >-
 
 # Environment Variables
 
-These are all environment variables that you can use to configure the behavior of CDKTF.
-
-## DEBUG
-
-If set to a not-empty value you will get more logs for the provider generation process.
+Use these environment variables to configure CDK for Terraform behavior.
 
 ## CDKTF_DISABLE_PLUGIN_CACHE_ENV
 
-If set to a not-empty value, the [plugin cache](/cli/config/config-file#provider-plugin-cache) will be disabled. Otherwise `cdktf` will set the `TF_PLUGIN_CACHE_DIR` and create the required directory in `~/.terraform.d/plugin-cache` if it's not already present.
+If set to `true` or `1`, CDKTF disables the [plugin cache](/cli/config/config-file#provider-plugin-cache). Otherwise, CDKTF creates the required plugin cache directory in `~/.terraform.d/plugin-cache` if it is not already present.
 
 ## CDKTF_HOME
 
@@ -27,21 +23,19 @@ If set to a not-empty value, no [telemetry](/cdktf/telemetry) will be send.
 
 ## CDKTF_LOG_LEVEL
 
-Can be set to one of the following values:
+If set, this variable controls how much debug information gets printed to the console. You can set it to one of the following values:
 
 - `all`
 - `debug`
-- `verbose`
 - `info`
 - `warn`
 - `error`
 - `fatal`
+- `off`
 
-It controls how much debug information gets printed to the console.
+## CDKTF_LOG_FILE_DIRECTORY
 
-## CDKTF_DISABLE_LOGGING
-
-If set to `"false"` the logs will be written to local log files.
+If set to a path of a directory a log file, CDKTF creates (`cdktf.log`) in that directory and prints logs at the debug level. If not set, CDKTF writes logs to standard out at the level specified in `CDKTF_LOG_LEVEL`.
 
 ## TERRAFORM_BINARY_NAME
 
@@ -57,4 +51,4 @@ If set this proxy will be used for all HTTP requests.
 
 ## DISABLE_VERSION_CHECK
 
-If set to a non-empty value, no version check will be performed. If it is not set we will verify your installed library version matches the CLI version and warn if they do not match.
+If set to `true` or `1`, CDKTF will not perform a version check. If it is not set, CDKTF verifies that your installed library version matches the CLI version. If they do not match, CDKTF displays a warning.

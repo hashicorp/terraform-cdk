@@ -38,9 +38,9 @@ export class DataTerraformRemoteStateEtcdV3 extends TerraformRemoteState {
 }
 /**
  * Stores the state in the etcd KV store with a given prefix.
- * 
+ *
  * This backend supports state locking.
- * 
+ *
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/etcdv3
  */
@@ -58,7 +58,7 @@ export interface EtcdV3BackendProps {
    */
   readonly password?: string;
   /**
-   * (Optional) An optional prefix to be added to keys when to storing state in etcd. 
+   * (Optional) An optional prefix to be added to keys when to storing state in etcd.
    * Defaults to "".
    */
   readonly prefix?: string;
@@ -67,12 +67,12 @@ export interface EtcdV3BackendProps {
    */
   readonly lock?: boolean;
   /**
-   * (Optional) The path to a PEM-encoded CA bundle 
+   * (Optional) The path to a PEM-encoded CA bundle
    * with which to verify certificates of TLS-enabled etcd servers.
    */
   readonly cacertPath?: string;
   /**
-   * (Optional) The path to a PEM-encoded certificate to provide to etcd 
+   * (Optional) The path to a PEM-encoded certificate to provide to etcd
    * for secure client identification.
    */
   readonly certPath?: string;
