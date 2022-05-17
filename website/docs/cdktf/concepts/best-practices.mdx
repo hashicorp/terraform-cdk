@@ -11,13 +11,44 @@ If you read a secret from the environment or out of a file with normal file syst
 
 ## Use pre-built provider bindings if possible
 
-Pre-built provider bindings are available for many popular providers, they have the same code as if you'd run `cdktf get` for this provider. [You can find a complete list through Github](https://github.com/orgs/hashicorp/repositories?q=cdktf-provider-). They help you by reducing the time `cdktf get` takes and they can be used as a peer dependency if you use open source constructs.
+Pre-built provider bindings are available for many popular providers, they have the same code as if you'd run `cdktf get` for this provider. [You can find a complete list through Github](https://github.com/orgs/hashicorp/repositories?q=cdktf-provider-). They help you by reducing the time `cdktf get` takes and they can be used as a peer dependency if you use open source custom constructs.
 
 ## Build extensible constructs
 
 No matter if you are building constructs for your organization or as open source code: Constructs are a great way to abstract common behaviour into reusable classes. If you have no reason to limit the extensibility of a construct you should default to making it as easy to the user as possible to overwrite custom behaviour, while still providing good defaults for the standard behaviour.
 You can use interfaces from the generated provider bindings to allow users to overwrite configuration you write if the number of configurations is limited enough.
 In very complex constructs it can be useful to encapsulate overwritable behaviour into methods. This way a user can extend the base class and overwrite the behaviour in a single place.
+
+```ts
+import { Construct } from "constructs";
+import { S3Bucket, S3BucketConfig } from "@cdktf/provider-aws/lib/s3";
+
+class MyS3Bucket extends Construct {
+  constructor(
+    protected scope: Construct,
+    protected id: string,
+    protected s3Options: S3BucketConfig
+  ) {
+    super(scope, id);
+    new s3.Bucket(this, "MyBucket", {
+      ...s3Options,
+      bucketName: this.getBucketName(),
+      versioned: true,
+    });
+  }
+
+  public getBucketName() {
+    return this.s3Options.bucketName || `${this.id}-bucket`;
+  }
+}
+
+class SimpleS3Bucket extends MyS3Bucket {
+  // New behaviour was patched in by overwriting
+  public getBucketName() {
+    return this.id;
+  }
+}
+```
 
 ## Use projen to distribute constructs
 
