@@ -58,4 +58,10 @@ If you want to deploy your CDKTF construct as a Terraform module we recommend ch
 
 ## Seperate business units in stacks
 
-When it comes to the question where to split stacks we recommend creating one class that encapsulates the logic for all environments. An environment might be a deployment stage (development / staging / production), a region (eu-west-1 / us-east-1), or an application (e-commerce / blog / data warehouse). This way you share the benefit of quickly changing the logic between all stacks (you only need to write the code once), but you maintain a clear seperation and a small blast radius.
+When it comes to the question where to split stacks we recommend making a cut between
+
+- different deployment stages (development / staging / production)
+- different applications (e-commerce / blog / data warehouse)
+- different regions (eu-west-1 / us-east-1) if they deploy similar infrastructure, e.g. for high availability
+
+While each application should be it's own stack, deployment stages and regions can be passed as arguments to the stack. This way you share the benefit of quickly changing the logic (you only need to write the code once), but you maintain a clear seperation and a small blast radius.
