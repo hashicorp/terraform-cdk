@@ -63,5 +63,7 @@ When it comes to the question where to split stacks we recommend making a cut be
 - different deployment stages (development / staging / production)
 - different applications (e-commerce / blog / data warehouse)
 - different regions (eu-west-1 / us-east-1) if they deploy similar infrastructure, e.g. for high availability
+- different layers of your stack (network / db / compute)
+- different deployment cycles (databases and domain names / applications)
 
 While each application should be it's own stack, deployment stages and regions can be passed as arguments to the stack. This way you share the benefit of quickly changing the logic (you only need to write the code once), but you maintain a clear seperation and a small blast radius.
