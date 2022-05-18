@@ -59,8 +59,7 @@
       {
         "title": "Stacks",
         "path": "concepts/stacks"
-      },
-      { "title": "Best Practices", "path": "concepts/best-practices" }
+      }
     ]
   },
   { "title": "Examples and Guides", "path": "examples" },
@@ -72,6 +71,7 @@
         "title": "Configuration File",
         "path": "create-and-deploy/configuration-file"
       },
+      { "title": "Best Practices", "path": "create-and-deploy/best-practices" },
       {
         "title": "Environment Variables",
         "path": "create-and-deploy/environment-variables"
@@ -80,7 +80,6 @@
         "title": "Remote Templates",
         "path": "create-and-deploy/remote-templates"
       },
-      
       {
         "title": "AWS Adapter [preview]",
         "path": "create-and-deploy/aws-adapter"
