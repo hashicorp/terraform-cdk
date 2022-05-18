@@ -60,9 +60,6 @@ export interface LocalBackendProps {
   /**
    * Path where the state file is stored.
    * @default - defaults to terraform.${stackId}.tfstate
-   * 
-   * (Optional) The path to the tfstate file. 
-   * This defaults to "terraform.tfstate" relative to the root module by default.
    */
   readonly path?: string;
   /**
