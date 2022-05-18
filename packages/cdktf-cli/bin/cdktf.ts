@@ -1,7 +1,6 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 import * as yargs from "yargs";
-import * as semver from "semver";
 import * as path from "path";
 import * as os from "os";
 import * as fs from "fs-extra";
@@ -9,6 +8,7 @@ import { readCDKTFManifest } from "../lib/util";
 import { IsErrorType } from "../lib/errors";
 import { collectDebugInformation } from "../lib/debug";
 import { CDKTF_DISABLE_PLUGIN_CACHE_ENV } from "../lib/environment";
+import * as Sentry from "@sentry/node";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
@@ -22,11 +22,6 @@ const ensurePluginCache = (): string => {
 
 if (!CDKTF_DISABLE_PLUGIN_CACHE_ENV) {
   process.env.TF_PLUGIN_CACHE_DIR = ensurePluginCache();
-}
-
-if (semver.lt(process.version, "10.12.0")) {
-  console.error("Need at least Node v10.12 to run");
-  process.exit(1);
 }
 
 const customCompletion = function (
@@ -141,11 +136,13 @@ yargs
       console.error(error.stack);
       console.error("Collecting Debug Information...");
       const debugOutput = await collectDebugInformation();
+
       console.error("Debug Information:");
       Object.entries(debugOutput).forEach(([key, value]) => {
         console.log(`${key}: ${value === null ? "null" : value}`);
       });
     }
 
+    await Sentry.close(4000);
     process.exit(1);
   }).argv;

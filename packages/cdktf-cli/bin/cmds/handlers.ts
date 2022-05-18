@@ -41,6 +41,7 @@ import {
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
 import { collectDebugInformation } from "../../lib/debug";
+import { initializErrorReporting } from "../../lib/error-reporting";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -59,6 +60,7 @@ async function getProviderRequirements(provider: string[]) {
 }
 
 export async function convert({ language, provider }: any) {
+  await initializErrorReporting();
   await displayVersionMessage();
 
   const providerRequirements = await getProviderRequirements(provider);
@@ -89,6 +91,7 @@ export async function convert({ language, provider }: any) {
 }
 
 export async function deploy(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -124,6 +127,7 @@ export async function deploy(argv: any) {
 }
 
 export async function destroy(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -146,6 +150,7 @@ export async function destroy(argv: any) {
 }
 
 export async function diff(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -165,6 +170,7 @@ export async function diff(argv: any) {
 export async function get(argv: any) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
+  await initializErrorReporting(true);
   await checkEnvironment();
   await verifySimilarLibraryVersion();
   const args = argv as {
@@ -212,6 +218,7 @@ export async function init(argv: any) {
 }
 
 export async function list(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -260,6 +267,7 @@ export async function login(argv: any) {
 }
 
 export async function synth(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -283,6 +291,7 @@ export async function synth(argv: any) {
 }
 
 export async function watch(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   const command = argv.app;
@@ -308,6 +317,7 @@ export async function watch(argv: any) {
 }
 
 export async function output(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();

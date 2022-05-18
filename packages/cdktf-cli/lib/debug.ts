@@ -300,12 +300,18 @@ export async function collectDebugInformation() {
   const language = getLanguage();
   debugOutput["language"] = language ?? null;
   debugOutput["cdktf-cli"] = DISPLAY_VERSION;
-  debugOutput["node"] = (await getNodeVersion()) ?? null;
+
+  const node = getNodeVersion();
+
+  debugOutput["node"] = (await node) ?? null;
   if (language) {
-    debugOutput["cdktf"] = (await getPackageVersion(language, "cdktf")) ?? null;
-    debugOutput["constructs"] =
-      (await getPackageVersion(language, "constructs")) ?? null;
-    debugOutput["jsii"] = (await getPackageVersion(language, "jsii")) ?? null;
+    const cdktf = getPackageVersion(language, "cdktf");
+    const constructs = getPackageVersion(language, "constructs");
+    const jsii = getPackageVersion(language, "jsii");
+
+    debugOutput["cdktf"] = (await cdktf) ?? null;
+    debugOutput["constructs"] = (await constructs) ?? null;
+    debugOutput["jsii"] = (await jsii) ?? null;
   }
   debugOutput["terraform"] = await terraformVersion;
   debugOutput["arch"] = os.arch();
@@ -313,13 +319,22 @@ export async function collectDebugInformation() {
 
   switch (language) {
     case "python":
-      debugOutput["python"] = (await getPythonVersion()) ?? null;
-      debugOutput["pip"] = (await getPipVersion()) ?? null;
-      debugOutput["pipenv"] = (await getPipenvVersion()) ?? null;
+      {
+        const python = getPythonVersion();
+        const pip = getPipVersion();
+        const pipenv = getPipenvVersion();
+        debugOutput["python"] = (await python) ?? null;
+        debugOutput["pip"] = (await pip) ?? null;
+        debugOutput["pipenv"] = (await pipenv) ?? null;
+      }
       break;
     case "java":
-      debugOutput["java"] = (await getJavaVersion()) ?? null;
-      debugOutput["maven"] = (await getMavenVersion()) ?? null;
+      {
+        const java = getJavaVersion();
+        const maven = getMavenVersion();
+        debugOutput["java"] = (await java) ?? null;
+        debugOutput["maven"] = (await maven) ?? null;
+      }
       break;
     case "csharp":
       debugOutput["dotnet"] = (await getDotnetVersion()) ?? null;
@@ -328,5 +343,6 @@ export async function collectDebugInformation() {
       debugOutput["go"] = (await getGoVersion()) ?? null;
       break;
   }
+
   return debugOutput;
 }

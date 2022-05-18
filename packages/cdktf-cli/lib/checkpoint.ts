@@ -121,11 +121,11 @@ function getId(
   }
 }
 
-function getProjectId(projectPath = process.cwd()): string {
+export function getProjectId(projectPath = process.cwd()): string {
   return getId(path.resolve(projectPath, "cdktf.json"), "projectId");
 }
 
-function getUserId(): string {
+export function getUserId(): string {
   return getId(
     path.resolve(homeDir(), "config.json"),
     "userId",

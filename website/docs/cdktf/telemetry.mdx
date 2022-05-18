@@ -14,3 +14,14 @@ Starting with CDK for Terraform 0.6, this information includes a random UUID tha
 CDK for Terraform fingerprints the type of CI used and includes that in telemetry instead of the UUID when CDK for Terraform runs in a Continuous Integration tool, such as GitHub Actions, Jenkins, or GitLab. The only information submitted is the type of CI system, and no unique information about accounts, paths, workspaces, environment variables, or other potentially private information is shared. This data helps the team plan where to focus future efforts, because running infrastructure as code tools in CI is a key workflow we seek to improve.
 
 The information that is sent to Checkpoint is anonymous and cannot be used to identify the user or host. The use of Checkpoint is completely optional and it can be disabled at any time by setting the `CHECKPOINT_DISABLE` environment variable to a non-empty value.
+
+## Crash Reporting
+
+To improve the stability of the [CDK for Terraform CLI](/cdktf/cli-reference/cli-configuration) we also use [Sentry](https://sentry.io/) for error reporting.
+
+The error reports sent include a stack trace and log events that happened before the error. This information only gets sent if there is an error. If no error happens a session is tracked, so that we can calculate the percentage of crash free sessions as a metric.
+
+The error reporting is scoped to the CLI and no environment variables are tracked, limiting the risk of sending secret information by accident.
+
+We won't track any errors as long as the [`sendCrashReports`](/cdktf/create-and-deploy/configuration-file#enable-crash-reporting-for-the-cli) property in the `cdktf.json` file is not set or is set to `false`. If it is not set we will ask you if you want to enable crash reporting and persist the answer in your `cdktf.json` file.
+If you change your mind, change the [`sendCrashReports`](/cdktf/create-and-deploy/configuration-file#enable-crash-reporting-for-the-cli) property in your `cdktf.json` file to false to disable error reporting.
