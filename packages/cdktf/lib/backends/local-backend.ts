@@ -54,10 +54,13 @@ export class DataTerraformRemoteStateLocal extends TerraformRemoteState {
  * locks that state using system APIs, and performs operations locally.
  * 
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/http
+ * https://www.terraform.io/language/settings/backends/local
  */
 export interface LocalBackendProps {
   /**
+   * Path where the state file is stored.
+   * @default - defaults to terraform.${stackId}.tfstate
+   * 
    * (Optional) The path to the tfstate file. 
    * This defaults to "terraform.tfstate" relative to the root module by default.
    */
