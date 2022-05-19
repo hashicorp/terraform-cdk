@@ -5,23 +5,30 @@ description: Build robust applications for production use cases. How to manage s
 
 # CDK for Terraform Best Practices
 
-TODO - we need an introduction. Is this to help folks build production applications? I think we need to say something about how CDKTF is extremely flexible, but that we recommend the following to build robust production-ready applications.
+How your CDK application should be structured is largely depending on the engineering best practices of the programming language you use. There is no one way to structure your CDK application, what works for you and your team also depends on the problems you are trying to solve. So instead of one golden way we list here a set of best practices to follow when building production-ready CDK applications.
 
-## Secrets
-
-### Read Secrets with Terraform Variables
+## Read Secrets with Terraform Variables
 
 Secrets appear in your synthesized CDKTF code when you read them directly from environment variables or from files with normal system access. This introduces risk, especially if you are checking the synthesized configuration into a version control system. To mitigate this, [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets.
 
-TODO: Can you provide a quick code example?
+```ts
+const adminPassword = new TerraformVariable(this, "adminPassword", {
+  type: "string",
+  description: "Admin password for the instance",
+  sensitive: true,
+});
+new MyResource(this, "hello", {
+  adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
+});
+```
 
-TODO: Are there any instances where they can't use TerraformVariable for secrets? IN those cases, what do we recommend?
+In the example above if we had used `adminPassword: process.env.ADMIN_PASSWORD` the admin password environment variable set at synthesization time would have been written to the `cdk.tf.json` file for your stack. This would have been a security risk.
 
-TODO: Why? Does TerraformVariable know now to print them? Do they get transformed before the code is synthesized? Can we explain why this is ssafer?
+In contrast the `TerraformVariable` construct synthesizes a Terraform input. This input is not written to the `cdk.tf.json` file, so it is not a security risk. Instead it's only used at execution time by Terraform directly.
 
-### Manage Secrets with Terraform Cloud
+To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name) you would need to set `TF_VAR_adminPasword='<your password>'` in the execution environment.
 
-TODO: Can you draft some content about how folks can use Terraform Cloud and how it's  helpful for secrets? I'm assuming it's because of things like Variable Sets and the fact that you can keep variables in Terraform Cloud workspaces, outside of version control and/or your Terraform config entirely?
+If you use Terraform Cloud with [remote execution](/cloud-docs/run#remote-operations) turned on you can store your secrets in Terraform Cloud. You can read more information about this in the [Terraform Cloud documentation](/cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables).
 
 ## Providers
 
@@ -43,12 +50,50 @@ A [stack](/cdktf/concepts/stacks) represents a collection of infrastructure that
 - Software components (network / db / compute)
 - Deployment cycles (databases and domain names / applications)
 
-While each application should be its own stack, deployment stages and regions can be passed as arguments to the stack. This way you share the benefit of quickly changing the logic (you only need to write the code once), but you maintain a clear seperation and a small blast radius.
+While each of the criterias above warants a new stack, not all of them justify a new class for the stack.
+Deployment stages and regions can be passed as arguments to the constructor of the stack class. All other criterias most likely influence the infrastructure of the stack by a degree that justifies a new stack class.
 
-TODO: What do you mean by "Each application should be its own stack?"
-TODO: Do we actually need to separate this out? It's sounding like we may need to clarify when we actually need SEPARATE stacks vs. when we can have one stack but pass in different parameters (e.g. deployment stages, regions, etc.)
+Your CDKTF entrypoint might look like this:
 
-TODO: Could we have a simple example of a single stack where we pass in different params for region, etc.? Also do we have any existing multi-stack examples where we can link folks to show a use case?
+```ts
+const devNetworking = new NetworkingStack(this, "networking-development", {
+  // ...
+});
+
+// A development environment for each of our products, a single region is enough
+new Ecommerce(this, "ecommerce-development", {
+  vpcId: devNetworking.vpcId,
+  subnets: devNetworking.subnets,
+  region: "us-west-1",
+});
+new Blog(this, "ecommerce-development", {
+  vpcId: devNetworking.vpcId,
+  subnets: devNetworking.subnets,
+  region: "us-west-1",
+});
+
+// For our staging environments we want to have two ecommerce stacks in different regions
+// to test the high availability features of our infrastructure
+const stageNetworking = new NetworkingStack(this, "networking-staging", {
+  // ...
+});
+const ecommerceStaging = new Ecommerce(this, "ecommerce-staging-us", {
+  vpcId: stageNetworking.vpcId,
+  subnets: stageNetworking.subnets,
+  region: "us-west-1",
+});
+new Ecommerce(this, "ecommerce-staging-eu", {
+  vpcId: stageNetworking.vpcId,
+  subnets: stageNetworking.subnets,
+  region: "eu-central-1",
+  databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
+});
+new Blog(this, "ecommerce-staging", {
+  vpcId: stageNetworking.vpcId,
+  subnets: stageNetworking.subnets,
+  region: "us-west-1",
+});
+```
 
 ### Create Extensible Constructs
 
@@ -56,9 +101,10 @@ TODO: Could we have a simple example of a single stack where we pass in differen
 
 You can use interfaces from the generated provider bindings to allow users to overwrite configuration you write if the number of configurations is limited enough. In very complex constructs, we recommend using methods to encapsulate behaviour that the user can overwrite. This lets users extend the base class and overwrite the behaviour in a single place.
 
-TODO: Is there an example of the above? (or even can we give a description of a use case "For example, you could encapsulate XX behavior into a method...")
+For example you can move behaviour where you derive default values from config values into methods, so that this logic is easily overwritable by users.
 
-TODO: Please describe what's going on in this example. "The following example..."
+In this example we expose configuration options for the S3 bucket resource our construct contains.
+We also create a second construct class that overwrites the default naming behaviour as an example on how behaviour can be changed.
 
 ```ts
 import { Construct } from "constructs";
