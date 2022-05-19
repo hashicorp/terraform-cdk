@@ -8,6 +8,7 @@ import {
 import { Errors } from "../../../lib/errors";
 import { logger } from "../../../lib/logging";
 import { DISPLAY_VERSION } from "../../../lib/version";
+import { DISABLE_VERSION_CHECK } from "../../../lib/environment";
 
 function throwIfLowerVersion(
   language: string,
@@ -55,7 +56,7 @@ export async function checkEnvironment() {
 }
 
 export async function verifySimilarLibraryVersion() {
-  if (process.env.DISABLE_VERSION_CHECK) {
+  if (DISABLE_VERSION_CHECK) {
     logger.debug("Version check disabled via environment variable");
     return;
   }

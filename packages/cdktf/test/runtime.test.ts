@@ -1,6 +1,8 @@
 import { resolve } from "../lib/_tokens";
 import { listMapper, hashMapper, anyToTerraform } from "../lib/runtime";
 import { Token } from "../lib/tokens/token";
+import { Intrinsic } from "../lib/tokens/private/intrinsic";
+import { deepMerge } from "../lib/util";
 
 const resolveExpression = (expr: any) => resolve(null as any, expr);
 describe("Runtime", () => {
@@ -84,6 +86,80 @@ describe("Runtime", () => {
           "match_labels": "\${some_resource.my_resource.some_attribute_array}",
         }
       `);
+    });
+
+    it("can be passed tokenized resolvables", () => {
+      const identity = jest.fn().mockImplementation((x: any) => x);
+      const reference = Token.asList(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
+
+      expect(
+        resolveExpression({
+          x: listMapper(identity)(reference),
+        })
+      ).toMatchInlineSnapshot(`
+        Object {
+          "x": "\${some_resource.my_resource.some_attribute_array}",
+        }
+      `);
+    });
+
+    it("can be passed untokenized resolvables", () => {
+      const identity = jest.fn().mockImplementation((x: any) => x);
+      const reference = new Intrinsic(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
+
+      expect(
+        resolveExpression({
+          x: listMapper(identity)(reference),
+        })
+      ).toMatchInlineSnapshot(`
+        Object {
+          "x": "\${some_resource.my_resource.some_attribute_array}",
+        }
+      `);
+    });
+
+    it("can be passed untokenized resolvables in a mixed list ", () => {
+      const identity = jest.fn().mockImplementation((x: any) => x);
+      const reference = new Intrinsic(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
+
+      expect(
+        resolveExpression({
+          x: listMapper(identity)(["a", reference, "b"]),
+        })
+      ).toMatchInlineSnapshot(`
+        Object {
+          "x": Array [
+            "a",
+            "\${some_resource.my_resource.some_attribute_array}",
+            "b",
+          ],
+        }
+      `);
+    });
+
+    it("throws an error when a value a token is overwriten", () => {
+      const reference = new Intrinsic(
+        "${some_resource.my_resource.some_attribute_array}"
+      );
+
+      expect(() =>
+        resolveExpression(
+          deepMerge(
+            {
+              x: reference,
+            },
+            { x: { foo: "bar" } }
+          )
+        )
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Invalid usage. Target (\${TfToken[TOKEN.2]}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value."`
+      );
     });
   });
 });

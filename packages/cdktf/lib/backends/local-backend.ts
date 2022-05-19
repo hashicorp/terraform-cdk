@@ -49,13 +49,22 @@ export class DataTerraformRemoteStateLocal extends TerraformRemoteState {
     super(scope, id, "local", config);
   }
 }
-
+/**
+ * The local backend stores state on the local filesystem, 
+ * locks that state using system APIs, and performs operations locally.
+ * 
+ * Read more about this backend in the Terraform docs:
+ * https://www.terraform.io/language/settings/backends/local
+ */
 export interface LocalBackendProps {
   /**
    * Path where the state file is stored.
    * @default - defaults to terraform.${stackId}.tfstate
    */
   readonly path?: string;
+  /**
+   * (Optional) The path to non-default workspaces.
+   */
   readonly workspaceDir?: string;
 }
 

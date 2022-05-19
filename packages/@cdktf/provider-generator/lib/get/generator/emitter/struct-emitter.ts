@@ -4,6 +4,7 @@ import { AttributesEmitter } from "./attributes-emitter";
 import { downcaseFirst } from "../../../util";
 import * as path from "path";
 import { STRUCT_SHARDING_THRESHOLD } from "../models/resource-model";
+import { AttributeModel } from "../models/attribute-model";
 export class StructEmitter {
   attributesEmitter: AttributesEmitter;
 
@@ -16,6 +17,21 @@ export class StructEmitter {
       this.emitNamespacedStructs(resource);
     } else {
       this.emitStructs(resource);
+    }
+  }
+
+  // Due to https://github.com/hashicorp/terraform-plugin-sdk/commit/2387eb85e32c064b4a62718c9f5c80bf00dc7fb9 all
+  // resources from providers using the old SDK have the id field by default
+  // We have no way to distinguish them through the provider schema, so a word of warning for our users
+  private warnAboutIdField(att: AttributeModel) {
+    if (att.name === "id") {
+      this.code.line(`*`);
+      this.code.line(
+        `* Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.`
+      );
+      this.code.line(
+        `* If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.`
+      );
     }
   }
 
@@ -38,12 +54,14 @@ export class StructEmitter {
         this.code.line(
           `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
         );
+        this.warnAboutIdField(att);
         this.code.line(`*/`);
       } else {
         this.code.line(`/**`);
         this.code.line(
           `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
         );
+        this.warnAboutIdField(att);
         this.code.line(`*/`);
       }
 

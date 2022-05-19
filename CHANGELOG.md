@@ -1,10 +1,17 @@
-## 0.11.0
+## 0.11.0 (Unreleased)
 
 **Breaking Changes**
 
 ### `TF_VAR_` prefixed environment variables can no longer be accessed at synth time
 
 These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](https://www.terraform.io/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
+
+### Environment variable and CLI option changes
+
+- `DEBUG` is replaced by setting `CDKTF_LOG_LEVEL=debug`, setting the `CDKTF_LOG_LEVEL` to debug will now also behave like `DEBUG=1` and include logs from the provider generation
+- `CDKTF_DISABLE_LOGGING=false` is replaced by setting `CDKTF_LOG_FILE_DIRECTORY=/path/to/logs/directory`. If left empty no logs will be written.
+- `--disable-logging` was removed, instead use the environment variable `CDKTF_LOG_LEVEL=off`
+- `DISABLE_VERSION_CHECK`, `CDKTF_DISABLE_PLUGIN_CACHE_ENV` need to be set to `true` or `1`, before anything worked.
 
 ### Stack ids can no longer contain whitespaces
 
