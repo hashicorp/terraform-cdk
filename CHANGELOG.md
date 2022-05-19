@@ -2,6 +2,8 @@
 
 **Breaking Changes**
 
+Abbreviated version below, for a guide see [Upgrade Guide for 0.11](./docs/upgrade-guide/upgrading-to-0.11.md)
+
 ### `TF_VAR_` prefixed environment variables can no longer be accessed at synth time
 
 These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](https://www.terraform.io/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
