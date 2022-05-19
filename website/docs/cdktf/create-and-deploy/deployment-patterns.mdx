@@ -64,8 +64,6 @@ Add a pre-commit step that runs `cdktf synth`. This creates Terraform configurat
 
 Refer to [UI/VCS-Driven Run Workflow](/cloud-docs/run/ui) in the Terraform Cloud documentation for details.
 
-[diagram?]
-
 ### GitHub Actions CI and Terraform Cloud
 
 Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `RemoteBackend` to connect to Terraform Cloud.
@@ -135,17 +133,21 @@ jobs:
           node-version: "14"
 
       - run: yarn install
-      - name: Plan
+
+      # We run the plan here, you need to fill in the name of your stack
+      - name: plan
         run: cdktf plan <stack name>
         env:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
-        continue-on-error: true
+        continue-on-error: true # We want to see the plan output even if the plan fails
+
+      # You can replace this step with any workflow you like, e.g. posting a message in a slack channel
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}" # We get the output from the last step
         with:
-          github-token: ${{ secrets.GH_COMMENT_TOKEN }}
+          github-token: ${{ secrets.GH_COMMENT_TOKEN }} # You need to create a secret with a github token that can comment on PRs
           script: |
             const output = `#### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             <details><summary>Show Plan</summary>
@@ -160,21 +162,14 @@ jobs:
             })
 ```
 
+Please be aware that you need a job like this for every stack you have as you have to pass the stack name into `cdktf diff <stack name>`. None of the stacks can be dependent on another one since you can only reliably plan a stack if the stack(s) it depends on are already deployed in their latest version. This is also the reason why `cdktf diff` only support a single stack and not multiple like `cdktf deploy` or `cdktf destroy` do.
+
 ### Running the CDKTF CLI on a general purpose CI
 
 If you have a general purpose CI like GitHub Actions or CircleCI setup already you can use the `cdktf deploy --auto-approve <your stacks>` command to trigger a deployment. This will run the deployment of your stacks in the right order and in parallel.
 
-TODO:
-
-- First, can we talk about how you would connect to a CI pipeline in both cases --> the case wher eyou want to deploy with cdktf cli and the case where you want to synth and use Terraform directly?
-- Second, the auto-approve flag has some significant considerations attached. Mainly that it means that you will not be prompted to review changes to your infrastructure before Terraform applies the plan. If we are going to recommend that, we need to help people understand this and guide them towards another way to review their infrastructure before it's deployed. I feel like this will be really important for production use cases.
-
 To set this up you need to have Node in version 14.0+ and the `cdktf-cli` CLI installed. If you are using a language that is not Node you need to install it as well. You also need to have Terraform installed, at least in version `1.0`.
 
-### Another example
+### My CI solution / workflow is missing
 
-TODO: I think what would be helpful here is if we actually walked through an example setup for a few of the possible permutatioins:
-
-- We deploy with CDKTF CLI but want to use Terraform cloud
-- We synth, and our TFC workspaces
-- We connect to our CI pipeline AND Terraform Cloud and our infrastructure gets provisioned automatically.
+We are continuously improving this page. If you have a solution that is missing, please [open an issue](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2C+new&template=feature-request.md&title=). We are also happy to accept pull requests to extend this page.
