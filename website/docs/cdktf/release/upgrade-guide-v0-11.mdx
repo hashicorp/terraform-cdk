@@ -36,7 +36,7 @@ To access `{ property = "value" }`, instead of `resource.mapAttribute("property"
 const bucket = new s3.S3Bucket(this, "bucket");
 
 // previously
-const firstRuleStage = bucket.lifecycleRule.get(0).tags("stage")
+const firstRuleStage = bucket.lifecycleRule.get(0).tags("stage");
 const firstRuleTags = bucket.get(0).interpolationForAttribute("tags");
 
 // new
@@ -52,12 +52,12 @@ Assignable properties of the form `Object[]` or `{ [key: string]: Object }` no l
 
 ```ts
 // previously
-list.req = ["value"]
-Fn.lookup(Fn.element(list.req, 0), "reqstr", "default")
+list.req = ["value"];
+Fn.lookup(Fn.element(list.req, 0), "reqstr", "default");
 
 // new
-list.putReq(["value"])
-list.req.get(0).reqstr
+list.putReq(["value"]);
+list.req.get(0).reqstr;
 ```
 
 #### Python
