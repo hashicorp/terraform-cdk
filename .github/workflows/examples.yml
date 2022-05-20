@@ -7,6 +7,10 @@ on:
       - "website/**"
       - "tools/update-github-project-board/**"
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build-example-matrix:
     runs-on: ubuntu-latest
