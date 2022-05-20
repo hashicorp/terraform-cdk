@@ -20,6 +20,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v2
@@ -67,6 +68,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v2
@@ -99,6 +101,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v2
