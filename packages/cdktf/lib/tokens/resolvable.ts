@@ -19,6 +19,11 @@ export interface IResolveContext {
   readonly preparing: boolean;
 
   /**
+   * True when ${} should be ommitted (because already inside them), false otherwise
+   */
+  suppressBraces?: boolean;
+
+  /**
    * Resolve an inner object
    */
   resolve(x: any): any;
@@ -185,7 +190,9 @@ export class DefaultTokenResolver implements ITokenResolver {
   public resolveList(xs: string[], context: IResolveContext) {
     // Must be a singleton list token, because concatenation is not allowed.
     if (xs.length !== 1) {
-      throw new Error(`Cannot add elements to list token, got: ${xs}`);
+      throw new Error(
+        `Cannot add elements to list token, got: ${xs}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, ["my", "new", "items"]]).`
+      );
     }
 
     const str = TokenString.forListToken(xs[0]);
@@ -203,7 +210,9 @@ export class DefaultTokenResolver implements ITokenResolver {
   public resolveNumberList(xs: number[], context: IResolveContext) {
     // Must be a singleton list token, because concatenation is not allowed.
     if (xs.length !== 1) {
-      throw new Error(`Cannot add elements to list token, got: ${xs}`);
+      throw new Error(
+        `Cannot add elements to list token, got: ${xs}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, [42, 43, 44]]).`
+      );
     }
 
     const token = TokenMap.instance().lookupNumberList(xs);
@@ -216,7 +225,11 @@ export class DefaultTokenResolver implements ITokenResolver {
   public resolveMap(xs: { [key: string]: any }, context: IResolveContext) {
     const keys = Object.keys(xs);
     if (keys.length !== 1) {
-      throw new Error(`Cannot add elements to map token, got: ${xs}`);
+      throw new Error(
+        `Cannot add elements to map token, got: ${JSON.stringify(
+          xs
+        )}. You tried to add a value to a referenced map, instead use Fn.merge([yourReferencedMap, { your: 'value' }]).`
+      );
     }
 
     const str = TokenString.forMapToken(keys[0]);

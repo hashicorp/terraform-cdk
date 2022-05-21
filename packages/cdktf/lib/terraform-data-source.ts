@@ -10,7 +10,7 @@ import {
 } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { ref, insideTfExpression } from "./tfExpression";
+import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
 
 export class TerraformDataSource
@@ -26,27 +26,20 @@ export class TerraformDataSource
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
-  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
-    super(scope, id);
+    super(scope, id, `data.${config.terraformResourceType}`);
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
       this.dependsOn = config.dependsOn.map((dependency) =>
-        insideTfExpression(dependency.fqn)
+        dependable(dependency)
       );
     }
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
-    this.fqn = Token.asString(
-      ref(
-        `data.${this.terraformResourceType}.${this.friendlyUniqueId}`,
-        this.cdktfStack
-      )
-    );
   }
 
   public getStringAttribute(terraformAttribute: string) {

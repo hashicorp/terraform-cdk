@@ -6,7 +6,7 @@ import { StreamView, OutputsBottomBar, StatusBottomBar } from "./components";
 
 type OutputConfig = {
   outDir: string;
-  targetStack?: string;
+  targetStacks?: string[];
   synthCommand: string;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
@@ -14,21 +14,26 @@ type OutputConfig = {
 
 export const Output = ({
   outDir,
-  targetStack,
+  targetStacks,
   synthCommand,
   onOutputsRetrieved,
   outputsPath,
 }: OutputConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
-    { outDir, synthCommand, onOutputsRetrieved },
-    (project) => project.fetchOutputs({ stackName: targetStack })
+  const { status, logEntries, returnValue } = useCdktfProject(
+    { outDir, synthCommand },
+    async (project) => {
+      const outputs = await project.fetchOutputs({ stackNames: targetStacks });
+      onOutputsRetrieved(outputs);
+      return outputs;
+    }
   );
 
-  const bottomBar = done ? (
-    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
-  ) : (
-    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
-  );
+  const bottomBar =
+    status.type === "done" ? (
+      <OutputsBottomBar outputs={returnValue} outputsFile={outputsPath} />
+    ) : (
+      <StatusBottomBar status={status} />
+    );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

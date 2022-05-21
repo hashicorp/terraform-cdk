@@ -75,7 +75,7 @@ export class TestOutputReference extends ComplexObject {
     terraformResource: ITerraformResource,
     terraformAttribute: string
   ) {
-    super(terraformResource, terraformAttribute, 0, false);
+    super(terraformResource, terraformAttribute, false, 0);
   }
 
   public get value() {
@@ -127,8 +127,8 @@ class TestComplexList extends ComplexList {
     return new TestComplexObject(
       this.terraformResource,
       this.terraformAttribute,
-      index,
-      this.wrapsSet
+      this.wrapsSet,
+      index
     );
   }
 }

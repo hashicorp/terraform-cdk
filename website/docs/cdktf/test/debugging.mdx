@@ -1,0 +1,57 @@
+---
+page_title: Debugging
+description: >-
+  Turn on logging and troubleshoot problems in your CDKTF application.
+---
+
+# Debugging
+
+To debug your CDKTF application, we recommend first turning on logging. Then, determine whether the issue occurs when your configuration is synthesized or when Terraform attempts to provision your infrastructure.
+
+## Logging
+
+Set the `CDKTF_LOG_LEVEL` environment variable to `debug`. This produces more detailed information about each execution step. If you want to create a bug report or share the result, set `CDKTF_LOG_FILE_DIRECTORY` to the file path where you want CDKTF to write the `cdktf.log` file.
+
+## Synth-Time Issues
+
+When you run `cdktf synth`, CDKTF translates your CDKTF application code into a JSON Terraform configuration file. Your application has a synth-time issue if `cdktf synth` fails. Otherwise, assume the issue occurs at execution time.
+
+When you encounter a synth issue, you must identify the construct causing the error. Check the error message for information about which construct is affected. If you cannot determine this from the error message, you must search the synthesized configuration.
+
+We recommend repeatedly running `cdktf synth` with different sections of the application file commented out until you find the error. If possible, focus your search on changes since the last time you successfully synthesized the application.
+
+Once you find the problem, you must isolate it. If you use variables in your constructs configuration, try to temporarily replace them with static values to ensure the problem is with the construct itself. If the problem persists, examine the type to identify missing or mistyped fields. We also recommend consulting each infrastructure provider's documentation to ensure that you included all required attributes, adhered to formatting requirements, etc.
+
+## Execution-Time Issues
+
+Execution-time issues happen when Terraform cannot successfully provision infrastructure with the synthesized configuration file. They can occur when you misconfigure Terraform resources in your CDKTF application, resulting in a misconfigured or incomplete Terraform configuration. They can also occur because of issues with the infrastructure provider itself.
+
+When you encounter an execution-time issue, we recommend first examining the synthesized code. Review the Terraform documentation for the resource to see if there are misconfigured values. Remember that CDKTF renames resources and fields in most languages must be camel case, whereas Terraform uses snake case. You can also search for the resource name, Terraform, and the error to find similar issues in user forums and search the provider's Github repository for related issues.
+
+## Common Problems
+
+### CDKTF CLI and Library on Different Versions
+
+We recommend keeping CDKTF CLI and the CDKTF library on the same version. A newer library version might expect the CLI to pass additional or different data to your CDKTF application. A newer CLI version might generate provider bindings in `cdktf get` that rely on functionality that the older library does not support.
+
+To check whether the versions align, run `cdktf debug`. The following example output shows a case where the `cdktf-cli` version (0.11.0) is newer than the `cdtf` version (0.10.0).
+
+```
+language: typescript
+cdktf-cli: 0.11.0
+node: v16.13.1
+cdktf: 0.10.0
+constructs: 10.0.63
+jsii: null
+terraform: 1.1.8
+arch: x64
+os: darwin 21.4.0
+```
+
+## Get Support
+
+The following resources can help you debug your CDKTF application:
+
+- Ask questions in [HashiCorp Discuss](https://discuss.hashicorp.com/) or in the `#terraform-cdk` channel
+  in [the cdk.dev Slack](https://cdk.dev/) .
+- Open an issue in the [hashicorp/terraform-cdk](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new&template=bug-report.md&title=) repository.

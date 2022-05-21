@@ -17,6 +17,7 @@ import * as Vault from "./.gen/providers/vault";
 import * as Consul from "./.gen/providers/consul";
 import * as External from "./.gen/providers/external";
 import * as Datadog from "./.gen/providers/datadog";
+import * as Awscc from "./.gen/providers/awscc";
 
 export class UsingAllProviders extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -44,6 +45,7 @@ export class UsingAllProviders extends TerraformStack {
       Consul,
       External,
       Datadog,
+      Awscc,
     ];
   }
 }

@@ -3,11 +3,12 @@ import yargs from "yargs";
 import { templates } from "./helper/init-templates";
 import { readPackageJson, requireHandlers } from "./helper/utilities";
 import { Errors } from "../../lib/errors";
+import { BaseCommand } from "./helper/base-command";
 
 const pkg = readPackageJson();
 
-class Command implements yargs.CommandModule {
-  public readonly command = "init [OPTIONS]";
+class Command extends BaseCommand {
+  public readonly command = "init";
   public readonly describe = "Create a new cdktf project from a template.";
   public readonly builder = (args: yargs.Argv) =>
     args
@@ -46,11 +47,11 @@ class Command implements yargs.CommandModule {
       })
       .strict();
 
-  public async handler(argv: any) {
+  public async handleCommand(argv: any) {
     Errors.setScope("init");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
-    api.init(argv);
+    await api.init(argv);
   }
 }
 

@@ -163,7 +163,7 @@ export interface AwsProviderAssumeRole {
   readonly sessionName?: string;
 }
 
-export function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole | cdktf.IResolvable): any {
+export function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -1185,8 +1185,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
     super(scope, id, {
       terraformResourceType: 'aws',
       terraformGeneratorMetadata: {
-        providerName: 'aws',
-        providerVersionConstraint: 'undefined'
+        providerName: 'aws'
       },
       terraformProviderSource: 'undefined'
     });

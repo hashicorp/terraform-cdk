@@ -34,6 +34,25 @@ export interface TerraformStackMetadata {
   readonly backend: string;
 }
 
+function throwIfIdIsGlobCharacter(str: string): void {
+  const err = (char: string) =>
+    `Can not create Terraform stack with id "${str}". It contains a glob character: "${char}"`;
+
+  ["*", "?", "[", "]", "{", "}", "!"].forEach((char) => {
+    if (str.includes(char)) {
+      throw new Error(err(char));
+    }
+  });
+}
+
+function throwIfIdContainsWhitespace(str: string): void {
+  if (/\s/.test(str)) {
+    throw new Error(
+      `Can not create TerraformStack with id "${str}". It contains a whitespace character.`
+    );
+  }
+}
+
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
@@ -46,6 +65,8 @@ export class TerraformStack extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
+    throwIfIdIsGlobCharacter(id);
+    throwIfIdContainsWhitespace(id);
     this.cdktfVersion = this.node.tryGetContext("cdktfVersion");
     this.synthesizer = new StackSynthesizer(
       this,

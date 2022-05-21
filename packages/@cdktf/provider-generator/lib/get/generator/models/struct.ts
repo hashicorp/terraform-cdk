@@ -6,14 +6,12 @@ export class Struct {
     public readonly attributes: AttributeModel[],
     public readonly isClass = false,
     public readonly isAnonymous = false,
-    public isSingleItem = false
+    public isSingleItem = false,
+    public readonly nestingMode: string = ""
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
-    const attributes = this.attributes.filter(
-      (attribute) => attribute.isAssignable
-    );
-    return this.filterIgnoredAttributes(attributes);
+    return this.attributes.filter((attribute) => attribute.isAssignable);
   }
 
   public get optionalAttributes(): AttributeModel[] {
@@ -32,18 +30,12 @@ export class Struct {
     return `${this.name}${this.allOptional ? " = {}" : ""}`;
   }
 
-  protected filterIgnoredAttributes(
-    attributes: AttributeModel[]
-  ): AttributeModel[] {
-    return attributes;
+  public get assignable() {
+    return !this.isClass || this.assignableAttributes.length > 0;
   }
 
   public get extends(): string {
     return "";
-  }
-
-  public get attributeTypeNames(): string[] {
-    return this.attributes.map((a) => a.type.typeName);
   }
 
   public get mapperName(): string {
@@ -58,24 +50,48 @@ export class Struct {
     return `${this.name}List`;
   }
 
+  public get mapName(): string {
+    return `${this.name}Map`;
+  }
+
   public get isProvider(): boolean {
     return this.attributes.some((att) => att.isProvider);
   }
 
-  public get attributeTypeNamesFromClasses(): string[] {
-    return this.attributes
-      .filter((a) => a.type.struct?.isClass)
-      .map((a) => a.type.typeName);
+  public get referencedTypes(): string[] {
+    const types: string[] = [];
+
+    this.attributes.forEach((att) => {
+      const attReferences = att.getReferencedTypes(false); // This may be a config struct, but still need the references in this context
+      if (attReferences) {
+        types.push(...attReferences);
+      }
+    });
+
+    return types;
+  }
+
+  public get exportCount(): number {
+    let count = 1; // self
+    count += 1; // toTerraform function
+
+    if (
+      this.nestingMode === "list" ||
+      this.nestingMode === "set" ||
+      this.nestingMode === "map"
+    ) {
+      count += 1; // output reference
+
+      if (!this.isSingleItem) {
+        count += 1; // complex collection
+      }
+    }
+
+    return count;
   }
 }
 
 export class ConfigStruct extends Struct {
-  protected filterIgnoredAttributes(
-    attributes: AttributeModel[]
-  ): AttributeModel[] {
-    return attributes.filter((attribute) => !attribute.isConfigIgnored);
-  }
-
   public get extends(): string {
     return ` extends cdktf.TerraformMetaArguments`;
   }

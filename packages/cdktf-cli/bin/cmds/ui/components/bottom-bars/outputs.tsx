@@ -11,7 +11,7 @@ export function OutputsBottomBar({ outputs, outputsFile }: Props) {
   if (outputs && Object.keys(outputs).length > 0) {
     if (outputsFile) {
       return (
-        <Box>
+        <Box flexDirection="column">
           <Outputs outputs={outputs} />
           <Text>The outputs have been written to {outputsFile}</Text>
         </Box>

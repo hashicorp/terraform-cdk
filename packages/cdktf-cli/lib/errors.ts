@@ -1,12 +1,12 @@
 import { ReportParams, ReportRequest } from "./checkpoint";
-import { versionNumber } from "../bin/cmds/helper/version-check";
+import { DISPLAY_VERSION } from "./version";
 
 // Errors that will emit telemetry events
 async function report(command: string, payload: Record<string, any>) {
   const reportParams: ReportParams = {
     command,
     product: "cdktf",
-    version: versionNumber(),
+    version: `${DISPLAY_VERSION}`,
     dateTime: new Date(),
     payload,
   };
@@ -14,13 +14,19 @@ async function report(command: string, payload: Record<string, any>) {
   await ReportRequest(reportParams);
 }
 
-function reportPrefixedError(type: string, command: string) {
+type ErrorType = "Internal" | "External" | "Usage";
+export function IsErrorType(error: any, type: ErrorType): boolean {
+  return error && error.__type === type;
+}
+
+function reportPrefixedError(type: ErrorType, command: string) {
   return (message: string, context?: Record<string, any>) => {
     report(command, { ...context, message, type });
     const err: any = new Error(`${type} Error: ${message}`);
     Object.entries(context || {}).forEach(([key, value]) => {
       err[key] = value;
     });
+    err.__type = type;
     return err;
   };
 }

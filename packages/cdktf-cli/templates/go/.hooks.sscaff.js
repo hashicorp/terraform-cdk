@@ -35,7 +35,9 @@ exports.post = options => {
   if (go_cdktf.endsWith('cdktf')) {
     const gomod = readFileSync('./go.mod', 'utf-8');
 
-    let result = gomod.replace(go_cdktf, 'v0.0.0');
+    // set the version of the package to the version of the CDKTF CLI as the package itself
+    // will be replaced and have no version on its own
+    let result = gomod.replace(go_cdktf, `v${cdktf_version}`);
     result += `\n\nreplace github.com/hashicorp/terraform-cdk-go/cdktf => ${go_cdktf}\n`;
 
     writeFileSync('./go.mod', result, 'utf-8');

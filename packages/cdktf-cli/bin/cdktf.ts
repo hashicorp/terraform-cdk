@@ -5,9 +5,10 @@ import * as semver from "semver";
 import * as path from "path";
 import * as os from "os";
 import * as fs from "fs-extra";
-import { terraformVersion } from "./cmds/helper/terraform";
-import { DISPLAY_VERSION } from "./cmds/helper/version-check";
 import { readCDKTFManifest } from "../lib/util";
+import { IsErrorType } from "../lib/errors";
+import { collectDebugInformation } from "../lib/debug";
+import { CDKTF_DISABLE_PLUGIN_CACHE_ENV } from "../lib/environment";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
@@ -19,7 +20,7 @@ const ensurePluginCache = (): string => {
   return pluginCachePath;
 };
 
-if (!process.env.CDKTF_DISABLE_PLUGIN_CACHE_ENV) {
+if (!CDKTF_DISABLE_PLUGIN_CACHE_ENV) {
   process.env.TF_PLUGIN_CACHE_DIR = ensurePluginCache();
 }
 
@@ -82,7 +83,9 @@ yargs
   .command(require("./cmds/synth"))
   .command(require("./cmds/watch"))
   .command(require("./cmds/output"))
+  .command(require("./cmds/debug"))
   .recommendCommands()
+  .exitProcess(false)
   .wrap(yargs.terminalWidth())
   .showHelpOnFail(false)
   .env("CDKTF")
@@ -91,12 +94,6 @@ yargs
   )
   .help()
   .alias("h", "help")
-  .option("disable-logging", {
-    type: "boolean",
-    default: true,
-    required: false,
-    desc: "Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.",
-  })
   .option("disable-plugin-cache-env", {
     type: "boolean",
     default: false,
@@ -127,15 +124,28 @@ yargs
       process.exit(1);
     },
   })
-  .fail((_message, error) => {
-    if (error) {
-      console.error(error.stack);
+  .fail(async (message, error) => {
+    // will not stop the process, but stops further execution of the handler function
+    // this is called first because yargs is not waiting for this async function
+    yargs.exit(1, error);
+
+    // set if e.g. the validation of command arguments failed
+    if (message) {
+      console.log(message);
     }
 
-    terraformVersion.then((tfVersion) => {
-      console.error(`
-Debug Information:
-    Terraform CDK version: ${DISPLAY_VERSION}
-    Terraform version: ${tfVersion}`);
-    });
+    // set if e.g. an handler threw an error while being invoked
+    if (IsErrorType(error, "Usage")) {
+      console.error(error.message);
+    } else if (error) {
+      console.error(error.stack);
+      console.error("Collecting Debug Information...");
+      const debugOutput = await collectDebugInformation();
+      console.error("Debug Information:");
+      Object.entries(debugOutput).forEach(([key, value]) => {
+        console.log(`${key}: ${value === null ? "null" : value}`);
+      });
+    }
+
+    process.exit(1);
   }).argv;

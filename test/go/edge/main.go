@@ -32,42 +32,50 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 			},
 		},
 		Singlereq: &edge.ListBlockResourceSinglereq{
-			Reqbool: jsii.Bool(true),
+			Reqbool: jsii.Bool(false),
 			Reqnum:  jsii.Number(1),
 			Reqstr:  jsii.String(("reqstr")),
 		},
 	})
 
+	mapRes := edge.NewMapResource(stack, jsii.String("map"), &edge.MapResourceConfig{
+		OptMap: &map[string]*string{ "Key1": jsii.String("value1") },
+		ReqMap: &map[string]interface{}{ "Key1": jsii.Bool(true) },
+	})
+
+	set := edge.NewSetBlockResource(stack, jsii.String("set_block"), &edge.SetBlockResourceConfig{
+		Set: &[]*edge.SetBlockResourceSet{ &edge.SetBlockResourceSet{ Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr") }, &edge.SetBlockResourceSet{ Reqbool: jsii.Bool(false), Reqnum: jsii.Number(0), Reqstr: jsii.String("reqstr2") } },
+	})
+
 	// plain values
 	edge.NewRequiredAttributeResource(stack, jsii.String("plain"), &edge.RequiredAttributeResourceConfig{
-		// Bool: res.Bool(), TODO: references to Booleans currently do not work (see #1363)
-		Bool:     jsii.Bool(true),
+		Bool:     res.Bool(),
 		Str:      res.Str(),
 		Num:      res.Num(),
 		StrList:  res.StrList(),
 		NumList:  res.NumList(),
-		BoolList: &[]*bool{jsii.Bool(true)}, //res.BoolList(),
+		BoolList: res.BoolList(),
 	})
 
 	// required values FROM required single item lists
 	edge.NewRequiredAttributeResource(stack, jsii.String("from_single_list"), &edge.RequiredAttributeResourceConfig{
-		// Bool: list.Singlereq().Reqbool(), TODO: references to Booleans currently do not work (see #1363)
-		Bool:     jsii.Bool(true),
+		Bool: 	  list.Singlereq().Reqbool(),
 		Str:      list.Singlereq().Reqstr(),
 		Num:      list.Singlereq().Reqnum(),
 		StrList:  &[]*string{list.Singlereq().Reqstr()},
 		NumList:  &[]*float64{list.Singlereq().Reqnum()},
-		BoolList: &[]*bool{jsii.Bool(true)}, //list.Singlereq().Reqbool()},
+		BoolList: &[]interface{}{list.Singlereq().Reqbool()},
 	})
 
 	// required values FROM required multi item lists
-	// edge.NewRequiredAttributeResource(stack, jsii.String("from_list"), &edge.RequiredAttributeResourceConfig{
-	// TODO: this compiles, but currently does not work (fails at synth) (see #1371)
-	// Bool: cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req, 0), "reqbool", false),
-	// TODO: this compiles but fails with "Expected array type, got \"<unresolved-token>\""
-	// Num: cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), 0), "reqnum", 0).(*float64),
-	// Str: cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), 0), "reqstr", "fallback").(*string),
-	// })
+	edge.NewRequiredAttributeResource(stack, jsii.String("from_list"), &edge.RequiredAttributeResourceConfig{
+		Bool: cdktf.Token_AsAny(cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), jsii.Number(0)), jsii.String("reqbool"), jsii.Bool(false))),
+		Str: list.Req().Get(jsii.Number(0)).Reqstr(),
+		Num: cdktf.Token_AsNumber(cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), jsii.Number(0)), jsii.String("reqnum"), jsii.Number(0))),
+		StrList: &[]*string{ list.Req().Get(jsii.Number(0)).Reqstr() },
+		NumList: &[]*float64{ cdktf.Token_AsNumber(cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), jsii.Number(0)), jsii.String("reqnum"), jsii.Number(0))) },
+		BoolList: &[]interface{}{ cdktf.Token_AsAny(cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), jsii.Number(0)), jsii.String("reqbool"), jsii.Bool(false))) },
+	})
 
 	// passing a reference to a complete list
 	// edge.NewListBlockResource(stack, jsii.String("list_reference"), &edge.ListBlockResourceConfig{
@@ -83,6 +91,33 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	// Req: &[]*edge.ListBlockResourceReq{list.Singlereq()},
 	// Singlereq: list.Singlereq(),
 	// })
+
+	// required values FROM map
+	edge.NewRequiredAttributeResource(stack, jsii.String("from_map"), &edge.RequiredAttributeResourceConfig{
+		Bool: cdktf.Token_AsAny(cdktf.Fn_Lookup(mapRes.ReqMap(), jsii.String("key1"), jsii.Bool(false))),
+		Str: cdktf.Token_AsString(cdktf.Fn_Lookup(mapRes.OptMap(), jsii.String("key1"), jsii.String("missing")), &cdktf.EncodingOptions{}),
+		Num: cdktf.Token_AsNumber(cdktf.Fn_Lookup(mapRes.ComputedMap(), jsii.String("key1"), jsii.Number(0))),
+		StrList: &[]*string{ cdktf.Token_AsString(cdktf.Fn_Lookup(mapRes.OptMap(), jsii.String("key1"), jsii.String("missing")), &cdktf.EncodingOptions{}) },
+		NumList: &[]*float64{ cdktf.Token_AsNumber(cdktf.Fn_Lookup(mapRes.ComputedMap(), jsii.String("key1"), jsii.Number(0))) },
+		BoolList: &[]interface{}{ cdktf.Token_AsAny(cdktf.Fn_Lookup(mapRes.ReqMap(), jsii.String("key1"), jsii.Bool(false))) },
+	})
+
+	// passing a reference to a complete map
+	edge.NewMapResource(stack, jsii.String("map_reference"), &edge.MapResourceConfig{
+		OptMap: mapRes.OptMap(),
+		ReqMap: mapRes.ReqMap(),
+	})
+
+	// passing a list ref into a set
+	edge.NewSetBlockResource(stack, jsii.String("set_from_list"), &edge.SetBlockResourceConfig{
+		Set: list.Req(),
+	})
+
+	// passing a set ref into a list
+	edge.NewListBlockResource(stack, jsii.String("list_from_set"), &edge.ListBlockResourceConfig{
+		Req: set.Set(),
+		Singlereq: &edge.ListBlockResourceSinglereq{ Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr") },
+	})
 
 	// passing a list ref of a complex list type (no block) into an output
 	cdktf.NewTerraformOutput(stack, jsii.String("list_from_list_type_ref"), &cdktf.TerraformOutputConfig{
@@ -126,7 +161,7 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Str:      providerOpt.Reqstr(),
 		StrList:  &[]*string{providerOpt.Reqstr()},
 		NumList:  &[]*float64{providerOpt.Reqnum()},
-		BoolList: &[]*bool{jsii.Bool(true)}, //providerOpt.Reqbool()},
+		BoolList: &[]interface{}{providerOpt.Reqbool()},
 	})
 
 	edge.NewOptionalAttributeResource(stack, jsii.String("optOpt"), &edge.OptionalAttributeResourceConfig{
@@ -147,7 +182,7 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Str:      providerFull.Reqstr(),
 		StrList:  &[]*string{providerFull.Reqstr()},
 		NumList:  &[]*float64{providerFull.Reqnum()},
-		BoolList: &[]*bool{jsii.Bool(true)}, //providerFull.Reqbool()},
+		BoolList: &[]interface{}{providerFull.Reqbool()},
 	})
 
 	edge.NewOptionalAttributeResource(stack, jsii.String("optFull"), &edge.OptionalAttributeResourceConfig{

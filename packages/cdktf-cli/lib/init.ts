@@ -40,7 +40,7 @@ export async function init({
   const deps: any = await determineDeps(cdktfVersion, dist);
 
   const futureFlags = Object.entries(FUTURE_FLAGS)
-    .map(([key, value]) => `"${key}": "${value}"`)
+    .map(([key, value]) => `    "${key}": "${value}"`)
     .join(`,\n`);
 
   await sscaff(templatePath, destination, {
@@ -65,7 +65,11 @@ export async function determineDeps(
   version: string = pkg.version,
   dist?: string
 ): Promise<Deps> {
-  const pythonVersion = version.replace(/-pre\./g, ".dev");
+  // TS: cdktf-0.10.1-dev.2160938258
+  // Py: cdktf-0.10.1.dev1658821493.tar.gz
+  const pythonVersion = version
+    .replace(/-pre\./g, ".dev")
+    .replace(/-dev\./g, ".dev");
 
   if (dist) {
     const ret = {

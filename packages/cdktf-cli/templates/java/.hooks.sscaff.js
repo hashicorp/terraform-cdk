@@ -47,7 +47,7 @@ import com.hashicorp.cdktf.NamedRemoteWorkspace;
 import com.hashicorp.cdktf.RemoteBackend;
 import com.hashicorp.cdktf.RemoteBackendProps;`);
   result = result.replace(`new Main(app, "${baseName}");`, `Main stack = new Main(app, "${baseName}");
-new RemoteBackend(stack, RemoteBackendProps.builder().hostname("app.terraform.io").organization("${organizationName}").workspaces(new NamedRemoteWorkspace("${workspaceName}")).build());`);
+        new RemoteBackend(stack, RemoteBackendProps.builder().hostname("app.terraform.io").organization("${organizationName}").workspaces(new NamedRemoteWorkspace("${workspaceName}")).build());`);
 
   writeFileSync('./src/main/java/com/mycompany/app/Main.java', result, 'utf-8');
 }

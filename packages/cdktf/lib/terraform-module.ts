@@ -4,7 +4,7 @@ import { TerraformProvider } from "./terraform-provider";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
-import { ref, insideTfExpression } from "./tfExpression";
+import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
 
 export interface TerraformModuleOptions {
@@ -27,10 +27,9 @@ export abstract class TerraformModule
   public readonly version?: string;
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
   public dependsOn?: string[];
-  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
-    super(scope, id);
+    super(scope, id, "module");
 
     if (options.source.startsWith("./") || options.source.startsWith("../")) {
       // Create an asset for the local module for better TFC support
@@ -48,13 +47,9 @@ export abstract class TerraformModule
     this.validateIfProvidersHaveUniqueKeys();
     if (Array.isArray(options.dependsOn)) {
       this.dependsOn = options.dependsOn.map((dependency) =>
-        insideTfExpression(dependency.fqn)
+        dependable(dependency)
       );
     }
-
-    this.fqn = Token.asString(
-      ref(`module.${this.friendlyUniqueId}`, this.cdktfStack)
-    );
   }
 
   // jsii can't handle abstract classes?

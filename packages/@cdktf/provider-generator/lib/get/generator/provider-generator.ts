@@ -5,6 +5,7 @@ import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";
 import { ConstructsMakerTarget } from "../constructs-maker";
 import * as path from "path";
+import { logger } from "../../config";
 interface ProviderData {
   name: string;
   source: string;
@@ -50,30 +51,48 @@ export class TerraformProviderGenerator {
     this.structEmitter = new StructEmitter(this.code);
 
     if (!schema.provider_schemas) {
-      console.info("no providers - nothing to do");
+      logger.info("no providers - nothing to do");
       return;
     }
 
+    const versions: { [fqpn: string]: string | undefined } = {};
     for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
+      const providerVersion = schema.provider_versions
+        ? schema.provider_versions[fqpn]
+        : undefined;
+
       if (
-        this.providerConstraints &&
-        this.providerConstraints.find((p) => isMatching(p, fqpn))
+        (this.providerConstraints &&
+          this.providerConstraints.find((p) => isMatching(p, fqpn))) ||
+        !this.providerConstraints
       ) {
-        this.emitProvider(fqpn, provider);
-      } else if (!this.providerConstraints) {
-        this.emitProvider(fqpn, provider);
+        this.emitProvider(fqpn, provider, providerVersion);
+        versions[fqpn] = providerVersion;
       }
     }
+    this.emitVersionsFile(versions);
   }
 
   public async save(outdir: string) {
     await this.code.save(outdir);
   }
 
-  private emitProvider(fqpn: string, provider: Provider) {
+  private emitProvider(
+    fqpn: string,
+    provider: Provider,
+    providerVersion?: string
+  ) {
     const name = fqpn.split("/").pop();
     if (!name) {
       throw new Error(`can't handle ${fqpn}`);
+    }
+
+    let constraint: ConstructsMakerTarget | undefined;
+    if (this.providerConstraints) {
+      constraint = this.providerConstraints.find((p) => isMatching(p, fqpn));
+      if (!constraint) {
+        throw new Error(`can't handle ${fqpn}`);
+      }
     }
 
     const resourceModels: ResourceModel[] = [];
@@ -96,6 +115,12 @@ export class TerraformProviderGenerator {
     const namespacedResources: Record<NamespaceName, ResourceModel[]> = {};
     const files: string[] = [];
     resourceModels.forEach((resourceModel) => {
+      if (constraint) {
+        resourceModel.providerVersionConstraint = constraint.version;
+        resourceModel.terraformProviderSource = constraint.source;
+      }
+      resourceModel.providerVersion = providerVersion;
+
       if (resourceModel.namespace) {
         const namespace = resourceModel.namespace.name;
         if (!namespacedResources[namespace]) {
@@ -120,16 +145,11 @@ export class TerraformProviderGenerator {
         provider.provider,
         "provider"
       );
-      if (this.providerConstraints) {
-        const constraint = this.providerConstraints.find((p) =>
-          isMatching(p, fqpn)
-        );
-        if (!constraint) {
-          throw new Error(`can't handle ${fqpn}`);
-        }
+      if (constraint) {
         providerResource.providerVersionConstraint = constraint.version;
         providerResource.terraformProviderSource = constraint.source;
       }
+      providerResource.providerVersion = providerVersion;
       files.push(this.emitResourceFile(providerResource));
     }
 
@@ -191,19 +211,9 @@ export class TerraformProviderGenerator {
 
       if (resource.structsRequireSharding) {
         this.code.line(
-          `import { ${resource.importableTypes.join(", \n")}} from './${
+          `import { ${resource.referencedTypes.join(", \n")}} from './${
             resource.structsFolderName
           }'`
-        );
-        this.code.line(
-          `import { ${resource.importableStructMapper.join(", \n")}} from './${
-            resource.structsFolderName
-          }'`
-        );
-        this.code.line(
-          `import { ${resource.importableOutputReferences.join(
-            ",\n"
-          )} } from './${resource.structsFolderName}'`
         );
 
         resource.importStatements.forEach((statement) =>
@@ -265,27 +275,11 @@ export class TerraformProviderGenerator {
     this.code.line();
 
     if (resource.structsRequireSharding) {
-      if (resource.importableTypes.length > 0) {
+      if (resource.referencedTypes.length > 0) {
         this.code.line(
-          `import { ${resource.importableTypes.join(", \n")}} from './${
+          `import { ${resource.referencedTypes.join(", \n")}} from './${
             resource.structsFolderName
           }'`
-        );
-      }
-
-      if (resource.importableStructMapper.length > 0) {
-        this.code.line(
-          `import { ${resource.importableStructMapper.join(", \n")}} from './${
-            resource.structsFolderName
-          }'`
-        );
-      }
-
-      if (resource.importableOutputReferences.length > 0) {
-        this.code.line(
-          `import { ${resource.importableOutputReferences.join(
-            ",\n"
-          )} } from './${resource.structsFolderName}'`
         );
       }
 
@@ -325,5 +319,14 @@ export class TerraformProviderGenerator {
     this.code.line();
     this.code.line("// Configuration");
     this.code.line();
+  }
+
+  // emits a versions.json file with a map of the used version for each provider fqpn
+  private emitVersionsFile(versions: { [fqpn: string]: string | undefined }) {
+    const filePath = "versions.json";
+    this.code.openFile(filePath);
+    this.code.line(JSON.stringify(versions, null, 2));
+    this.code.closeFile(filePath);
+    return filePath;
   }
 }

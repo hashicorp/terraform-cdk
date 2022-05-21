@@ -70,6 +70,11 @@ export class HelloTerra extends TerraformStack {
       value: instance.metadataOptions?.httpEndpoint,
     });
 
+    // This env var is stripped for security reasons
+    new TerraformOutput(this, "tf-env-var-output", {
+      value: process.env.TF_VAR_myvar || "no-value-found",
+    });
+
     this.addOverride("terraform.backend", {
       remote: {
         organization: "test",

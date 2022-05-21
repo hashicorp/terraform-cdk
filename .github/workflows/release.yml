@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - backport-release-*
     paths-ignore:
       - "**.md"
       - "docs/**"
@@ -19,7 +20,6 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
-
     steps:
       - uses: actions/checkout@v2
       - name: installing dependencies
@@ -61,6 +61,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
+      TERRAFORM_VERSION: ${{ matrix.terraform }}
     steps:
       - uses: actions/checkout@v2
       - name: Download dist
@@ -80,6 +81,7 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           NODE_OPTIONS: "--max-old-space-size=7168"
 
   release_github:

@@ -12,8 +12,9 @@
     "nomad",
     "external",
     "terraform-providers/openstack",
-    "oci",
-    "DataDog/datadog@~> 3.0"
+    "hashicorp/oci@= 4.75.0",
+    "DataDog/datadog@~> 3.0",
+    "awscc@= 0.17.0"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"

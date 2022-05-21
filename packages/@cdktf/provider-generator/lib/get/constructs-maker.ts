@@ -6,6 +6,7 @@ import * as srcmak from "jsii-srcmak";
 import {
   TerraformModuleConstraint,
   TerraformDependencyConstraint,
+  logger,
 } from "../config";
 import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
@@ -315,7 +316,7 @@ export class ConstructsMaker {
           process.env.NODE_OPTIONS &&
           !process.env.NODE_OPTIONS.includes(`--max-old-space-size`)
         ) {
-          console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
+          logger.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
 The provider generation needs a substantial amount of memory (~13GB) for some providers and languages.
 So cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=16384" by default. As your environment already contains
 a NODE_OPTIONS variable, we won't override it. Hence, the provider generation might fail with an out of memory error.`);

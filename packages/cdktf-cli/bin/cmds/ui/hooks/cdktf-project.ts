@@ -1,7 +1,7 @@
 import { useApp } from "ink";
 import { useEffect, useState } from "react";
 import { CdktfProject, ProjectUpdate } from "../../../../lib/";
-import { NestedTerraformOutputs } from "../../../../lib/output";
+import { CdktfStack } from "../../../../lib/cdktf-stack";
 
 export type LogEntry = {
   content: string;
@@ -10,49 +10,94 @@ export type LogEntry = {
 };
 
 type CdktfProjectOpts = {
-  onOutputsRetrieved?: (outputs: any) => void;
   outDir: string;
   synthCommand: string;
 };
+
+export type Status =
+  | {
+      type: "starting";
+    }
+  | {
+      type: "synthesizing";
+    }
+  | {
+      type: "running";
+      inProgress: CdktfStack[];
+      finished: CdktfStack[];
+      pending: CdktfStack[];
+    }
+  | {
+      type: "waiting for approval of stack";
+      stackName: string;
+      approve: () => void;
+      dismiss: () => void;
+      stop: () => void;
+    }
+  | {
+      type: "done";
+    };
 
 export function useCdktfProject<T>(
   opts: CdktfProjectOpts,
   projectCallback: (project: CdktfProject) => Promise<T>
 ) {
   const { exit } = useApp();
-  const [projectUpdate, setProjectUpdate] = useState<ProjectUpdate>();
-  const [done, setDone] = useState<boolean>(false);
   const [id, setID] = useState<number>(0);
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
-  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
+
   const [returnValue, setReturnValue] = useState<T>();
+  const [status, setStatus] = useState<Status>({ type: "starting" });
+
+  const updateRunningStatus = (project: CdktfProject) => {
+    const inProgress = project.stacksToRun.filter((s) => s.isRunning);
+    const finished = project.stacksToRun.filter((s) => s.isDone);
+    const pending = project.stacksToRun.filter((s) => s.isPending);
+    setStatus({ type: "running", inProgress, finished, pending });
+  };
 
   useEffect(() => {
     const project = new CdktfProject({
       outDir: opts.outDir,
       synthCommand: opts.synthCommand,
       onUpdate: (update: ProjectUpdate) => {
-        setProjectUpdate(update);
-
-        if (update.type === "deployed" || update.type === "outputs fetched") {
-          setOutputs(update.outputsByConstructId);
-          if (opts.onOutputsRetrieved) {
-            opts.onOutputsRetrieved(update.outputsByConstructId);
-          }
+        if (["synthesizing"].includes(update.type)) {
+          setStatus({ type: "synthesizing" });
+        } else if (update.type === "waiting for approval") {
+          setStatus({
+            type: "waiting for approval of stack",
+            stackName: update.stackName,
+            approve: update.approve,
+            dismiss: update.dismiss,
+            stop: update.stop,
+          });
+        } else {
+          updateRunningStatus(project);
         }
       },
       onLog: ({
         stackName,
         message,
+        messageWithConstructPath,
       }: {
         stackName: string;
         message: string;
+        messageWithConstructPath?: string;
       }) => {
         setLogEntries((prev) => [
           ...prev,
-          { id: `${stackName}-${id}`, stackName, content: message },
+          {
+            id: `${stackName}-${id}`,
+            stackName: stackName,
+            content: messageWithConstructPath
+              ? messageWithConstructPath
+              : message,
+          },
         ]);
         setID((current) => current + 1);
+
+        // We only send logs when the project is running.
+        updateRunningStatus(project);
       },
     });
 
@@ -66,7 +111,7 @@ export function useCdktfProject<T>(
     projectCallback(project)
       .then((value) => {
         setReturnValue(value);
-        setDone(true);
+        setStatus({ type: "done" });
       })
       .catch((err) => {
         exit(err);
@@ -74,10 +119,8 @@ export function useCdktfProject<T>(
   }, []);
 
   return {
-    done,
     logEntries,
-    outputs,
-    projectUpdate,
     returnValue,
+    status,
   };
 }

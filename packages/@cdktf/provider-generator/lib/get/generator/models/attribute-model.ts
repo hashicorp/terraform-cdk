@@ -1,4 +1,5 @@
 import { AttributeTypeModel } from "./attribute-type-model";
+import { logger } from "../../../config";
 
 export type GetterType =
   | { _type: "plain" }
@@ -85,46 +86,52 @@ export class AttributeModel {
   public get getterType(): GetterType {
     let getterType: GetterType = { _type: "plain" };
 
+    if (this.isProvider) {
+      return getterType;
+    }
+
     if (
       // Complex Computed List Map
-      this.computed &&
-      !this.isOptional &&
+      !this.isAssignable &&
       this.type.isComputedComplex &&
       this.type.isList &&
       this.type.isMap
     ) {
       getterType = {
-        _type: "args",
-        args: "index: string, key: string",
-        returnType: this.mapReturnType,
-        returnStatement: `new ${this.type.name}(this, \`${this.terraformName}.\${index}\`).lookup(key)`,
+        _type: "stored_class",
       };
     } else if (
-      // Complex Computed List
-      this.computed &&
-      !this.isOptional &&
-      this.type.isComputedComplex &&
+      // Complex List/Set
+      this.type.isComplex &&
       (this.type.isList || this.type.isSet)
     ) {
       getterType = {
         _type: "stored_class",
       };
     } else if (
-      // Complex Computed Map
-      this.computed &&
-      !this.isOptional &&
-      this.type.isComputedComplex &&
+      // Complex Map
+      this.type.isComplex &&
       this.type.isMap
     ) {
       getterType = {
-        _type: "args",
-        args: "key: string",
-        returnType: this.mapReturnType,
-        returnStatement: `new ${this.type.name}(this, '${this.terraformName}').lookup(key)`,
+        _type: "stored_class",
+      };
+    } else if (
+      // Computed Map
+      this.type.isComputed &&
+      !this.isAssignable &&
+      this.type.isMap
+    ) {
+      getterType = {
+        _type: "stored_class",
       };
     }
 
-    if (this.type.isSingleItem && this.type.isComplex && !this.isProvider) {
+    if (this.type.isSingleItem) {
+      getterType = { _type: "stored_class" };
+    }
+
+    if (this.type.isNested) {
       getterType = { _type: "stored_class" };
     }
 
@@ -145,11 +152,11 @@ export class AttributeModel {
     if (type.isAnyMap) {
       return `any`;
     }
-    if (process.env.DEBUG) {
-      console.error(
-        `The attribute ${JSON.stringify(this)} isn't implemented yet`
-      );
-    }
+
+    logger.debug(
+      `The attribute isn't implemented yet: ${JSON.stringify(this)}`
+    );
+
     return `any`;
   }
 
@@ -163,10 +170,7 @@ export class AttributeModel {
   }
 
   public get isStored(): boolean {
-    return (
-      (this.isAssignable && !this.isConfigIgnored) ||
-      this.getterType._type === "stored_class"
-    );
+    return this.isAssignable;
   }
 
   public get setterType(): SetterType {
@@ -175,13 +179,10 @@ export class AttributeModel {
     }
 
     if (this.getterType._type === "stored_class") {
-      if (this.type.isSingleItem) {
-        return {
-          _type: "stored_class",
-          type: this.type.name,
-        };
-      }
-      return { _type: "none" }; // complex lists currently only support readonly attributes (aka computed & !optional)
+      return {
+        _type: "stored_class",
+        type: this.type.name,
+      };
     }
 
     return {
@@ -216,11 +217,31 @@ export class AttributeModel {
       .replace(/'''/gi, "```");
   }
 
-  public get isConfigIgnored(): boolean {
-    if (this.isAssignable && !this.computed) {
-      return false;
+  public getReferencedTypes(isConfigStruct: boolean): string[] | undefined {
+    const attTypeStruct = this.type.struct;
+    if (!attTypeStruct) {
+      return undefined;
     }
-    const ignoreList = ["arn", "id"];
-    return ignoreList.includes(this.name);
+
+    const types: string[] = [];
+
+    if (this.isAssignable) {
+      types.push(this.type.typeName);
+      types.push(attTypeStruct.mapperName);
+    }
+
+    if (
+      !attTypeStruct.isSingleItem &&
+      (attTypeStruct.nestingMode === "list" ||
+        attTypeStruct.nestingMode === "set")
+    ) {
+      types.push(attTypeStruct.listName);
+    } else if (attTypeStruct.nestingMode === "map") {
+      types.push(attTypeStruct.mapName);
+    } else if (!isConfigStruct) {
+      types.push(attTypeStruct.outputReferenceName);
+    }
+
+    return types;
   }
 }

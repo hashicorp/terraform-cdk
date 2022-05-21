@@ -441,7 +441,7 @@ describe("Cross Stack references", () => {
     expect(
       resources[resourceWithoutFunctionKey as string].name
     ).toMatchInlineSnapshot(
-      `"data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputtestresourceOriginStackresource3C7D7739stringvalue_362449F3"`
+      `"\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputtestresourceOriginStackresource3C7D7739stringvalue_362449F3}"`
     );
 
     expect(resourceWithFunctionKey).toBeDefined();
@@ -538,7 +538,7 @@ describe("Cross Stack references", () => {
     );
   });
 
-  it("resolves complex computed list values with cross stack references", () => {
+  it("resolves complex computed list object values with cross stack references", () => {
     const other = new OtherTestResource(originStack, "other", {});
     new TestResource(testStack, "Resource", {
       name: other.complexComputedList.get(42).id,
@@ -556,11 +556,13 @@ describe("Cross Stack references", () => {
     )[0];
     expect(originOutput).toContain(".complex_computed_list[42].id");
     expect(targetStackSynth).toHaveResourceWithProperties(TestResource, {
-      name: expect.stringContaining(originOutputName),
+      name:
+        expect.stringContaining(originOutputName) &&
+        expect.stringContaining("data.terraform_remote_state"),
     });
   });
 
-  it("resolves complex computed lists as fqn with cross stack references", () => {
+  it("resolves complex computed list values as fqn with cross stack references", () => {
     const other = new OtherTestResource(originStack, "other", {});
     new TerraformOutput(testStack, "fqn", {
       value: other.complexComputedList.get(42),
@@ -574,20 +576,40 @@ describe("Cross Stack references", () => {
       JSON.parse(originStackSynth).output as { value: string }[]
     )[0].value;
     expect(originOutput).toMatchInlineSnapshot(
-      `"\${other_test_resource.OriginStack_other_935318CE}"`
+      `"\${other_test_resource.OriginStack_other_935318CE.complex_computed_list[42]}"`
     );
     expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
     const targetOutput = Object.values(
       JSON.parse(targetStackSynth).output as { value: string }[]
     )[0].value;
-    expect(targetOutput).toMatchInlineSnapshot(`
-      Object {
-        "complexObjectIndex": 42,
-        "complexObjectIsFromSet": false,
-        "terraformAttribute": "complex_computed_list",
-        "terraformResource": "\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CE_FB44ED5E}",
-      }
-    `);
+    expect(targetOutput).toMatchInlineSnapshot(
+      `"\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CEcomplexcomputedlist42_0F4BEB95}"`
+    );
+  });
+
+  it("resolves complex computed lists as fqn with cross stack references", () => {
+    const other = new OtherTestResource(originStack, "other", {});
+    new TerraformOutput(testStack, "fqn", {
+      value: other.complexComputedList,
+    });
+
+    app.synth();
+    const { originStackSynth, targetStackSynth } = getStackSynths(app);
+
+    expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
+    const originOutput = Object.values(
+      JSON.parse(originStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(originOutput).toMatchInlineSnapshot(
+      `"\${other_test_resource.OriginStack_other_935318CE.complex_computed_list}"`
+    );
+    expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
+    const targetOutput = Object.values(
+      JSON.parse(targetStackSynth).output as { value: string }[]
+    )[0].value;
+    expect(targetOutput).toMatchInlineSnapshot(
+      `"\${data.terraform_remote_state.TestStack_crossstackreferenceinputOriginStack_EB91482E.outputs.OriginStack_crossstackoutputothertestresourceOriginStackother935318CEcomplexcomputedlist_FBDEFB6A}"`
+    );
   });
 
   it("resolves output reference as fqn with cross stack references", () => {

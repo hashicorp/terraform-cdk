@@ -28,7 +28,6 @@ import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
 
 import { sendTelemetry } from "../../lib/checkpoint";
-import { GraphQLServerProvider } from "../../lib/client/react";
 import { Errors } from "../../lib/errors";
 import { Output } from "./ui/output";
 import {
@@ -37,7 +36,11 @@ import {
   normalizeOutputPath,
 } from "../../lib/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
-import { checkEnvironment } from "./helper/check-environment";
+import {
+  checkEnvironment,
+  verifySimilarLibraryVersion,
+} from "./helper/check-environment";
+import { collectDebugInformation } from "../../lib/debug";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -115,6 +118,7 @@ export async function deploy(argv: any) {
       outputsPath,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
@@ -136,6 +140,7 @@ export async function destroy(argv: any) {
       autoApprove,
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
+      parallelism: argv.parallelism,
     })
   );
 }
@@ -161,6 +166,7 @@ export async function get(argv: any) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
+  await verifySimilarLibraryVersion();
   const args = argv as {
     output: string;
     language: Language;
@@ -175,10 +181,9 @@ export async function get(argv: any) {
   ];
 
   if (constraints.length === 0) {
-    console.error(
-      `ERROR: Please specify providers or modules in "cdktf.json" config file`
+    throw Errors.Usage(
+      `Please specify providers or modules in "cdktf.json" config file`
     );
-    process.exit(1);
   }
 
   await renderInk(
@@ -194,6 +199,12 @@ export async function init(argv: any) {
   await terraformCheck();
   await displayVersionMessage();
   await checkEnvironment();
+
+  if (["", ".", process.cwd()].includes(argv.fromTerraformProject)) {
+    throw Errors.Usage(
+      "--from-terraform-project requires a path to an existing Terraform project to be set, e.g. --from-terraform-project=../my-tf-codebase This folder can not be the same as the current working directory since cdktf init will initialize the new project in that folder."
+    );
+  }
 
   checkForEmptyDirectory(".");
 
@@ -255,8 +266,6 @@ export async function synth(argv: any) {
   const checkCodeMakerOutput = argv.checkCodeMakerOutput;
   const command = argv.app;
   const outDir = argv.output;
-  const jsonOutput = argv.json;
-  const stack = argv.stack;
 
   if (checkCodeMakerOutput && !(await fs.pathExists(config.codeMakerOutput))) {
     console.error(
@@ -268,9 +277,7 @@ export async function synth(argv: any) {
   await renderInk(
     React.createElement(Synth, {
       outDir,
-      targetStack: stack,
       synthCommand: command,
-      jsonOutput: jsonOutput,
     })
   );
 }
@@ -281,7 +288,7 @@ export async function watch(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
 
   if (!autoApprove) {
     console.error(
@@ -291,16 +298,12 @@ export async function watch(argv: any) {
   }
 
   await renderInk(
-    React.createElement(
-      GraphQLServerProvider,
-      undefined,
-      React.createElement(Watch, {
-        targetDir: outDir,
-        targetStack: stack,
-        synthCommand: command,
-        autoApprove,
-      })
-    )
+    React.createElement(Watch, {
+      targetDir: outDir,
+      targetStacks: stacks,
+      synthCommand: command,
+      autoApprove,
+    })
   );
 }
 
@@ -310,7 +313,7 @@ export async function output(argv: any) {
   await checkEnvironment();
   const command = argv.app;
   const outDir = argv.output;
-  const stack = argv.stack;
+  const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -325,10 +328,25 @@ export async function output(argv: any) {
   await renderInk(
     React.createElement(Output, {
       outDir,
-      targetStack: stack,
+      targetStacks: stacks,
       synthCommand: command,
       onOutputsRetrieved,
       outputsPath,
     })
   );
+}
+
+export async function debug(argv: any) {
+  const jsonOutput = argv.json;
+  const debugOutput = await collectDebugInformation();
+
+  if (jsonOutput) {
+    console.log(JSON.stringify(debugOutput, null, 2));
+  } else {
+    console.log(chalkColour`{bold {greenBright cdktf debug}}`);
+
+    Object.entries(debugOutput).forEach(([key, value]) => {
+      console.log(`${key}: ${value === null ? "null" : value}`);
+    });
+  }
 }

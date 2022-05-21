@@ -4,7 +4,7 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { ref, insideTfExpression } from "./tfExpression";
+import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
 
@@ -37,6 +37,7 @@ export interface TerraformMetaArguments {
 export interface TerraformProviderGeneratorMetadata {
   readonly providerName: string;
   readonly providerVersionConstraint?: string;
+  readonly providerVersion?: string;
 }
 
 export interface TerraformResourceConfig extends TerraformMetaArguments {
@@ -57,27 +58,20 @@ export class TerraformResource
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
-  public readonly fqn: string;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
-    super(scope, id);
+    super(scope, id, config.terraformResourceType);
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
       this.dependsOn = config.dependsOn.map((dependency) =>
-        insideTfExpression(dependency.fqn)
+        dependable(dependency)
       );
     }
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
-    this.fqn = Token.asString(
-      ref(
-        `${this.terraformResourceType}.${this.friendlyUniqueId}`,
-        this.cdktfStack
-      )
-    );
   }
 
   public getStringAttribute(terraformAttribute: string) {

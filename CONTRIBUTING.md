@@ -205,7 +205,7 @@ reset the `FEATURE_FLAGS` map for the next cycle.
 
 ## Debugging
 
-When developing new features it can be helpful to enable logging. By setting `CDKTF_LOG_LEVEL` to verbose you can see more information in general. When working with the provider generation you can set `DEBUG=true` to see which types of attributes are not supported yet.
+We recommend enabling logging when you develop new features. To get detailed information about CDKTF operations, set `CDKTF_LOG_LEVEL` to `verbose`.
 
 ## Releasing
 
@@ -243,6 +243,56 @@ Just run the following script before bumping the version, it'll create a ready t
 ```
 
 Other than that, you can get a list of commits since the last release you can e.g. visit a link like this: `https://github.com/hashicorp/terraform-cdk/compare/v0.4.1...main`. You'll find the PR numbers there as links.
+
+## Backporting releases
+
+The following section describes how to release a fix without releasing everything that had been merged to `main` since the previous release. If you want to backport a fix to an earlier major version, you can skip the last step that brings `main` back in sync with after releasing a version that `main` would normally have released to next.
+
+You should always base your backported release on the previous release tag.
+
+Create a branch for the new release (in this case it's going to become v0.10.4) based on the tag of the previous release (v0.10.3)
+
+```
+git checkout -b backport-release-0.10.4 v0.10.3
+```
+
+Push the newly created branch
+
+```
+git push --set-upstream origin backport-release-0.10.4
+```
+
+Create a new branch based of that backport branch to cherry pick your fixes into
+
+```
+gco -b backport-pr-1767-stop-pinning-jest
+```
+
+Add your fixes (you can use `git cherry-pick` or you can manually edit code and create commits)
+
+```
+git cherry-pick c59e5b342a4a264869c1327e64ecd6ac3010bf46 # commit hash from pr-1767
+```
+
+Create a PR against the backport-release branch (e.g. using the Github CLI)
+
+```
+gh pr create --base backport-release-0.10.4
+```
+
+It is recommended to include something along the lines of "Backported from #1767." in the PR description for future reference.
+
+Have coworkers review the branch & merge it.
+
+Create a release PR as you normally would do for regular releases **except basing it on your backport-release branch (e.g. `gh pr create --base backport-release-0.10.4`) and adjusting the changelog to only include backported fixes**.
+
+Merge the Release PR and make sure that it is released successfully before proceeding with the next step.
+
+To bring the version number back in sync with the main branch, post a PR against the `main` branch containing the changelog and incremented version from this release. Make sure that you don't drop possible "unreleased" entries (i.e. notes about breaking behaviour) that have been added to the `main` branch in the meantime. You really only want to bring the `CHANGELOG.md` and the version number in the `package.json` on `main` back in sync, so that future Release PRs will already be based on the correct version that was last released (e.g. the `create-changelog.sh` script depends on that version to be correct). The Release Github Action will only release if the version did not exist yet, so you don't need to be scared to overwrite an existing release (but also, you wouldn't be able to release another version if you tried to use the version of a backported release as that will already exist).
+
+### Example
+
+You can have a look at this branch and its commits / PRs for an example: [backport-release-0.10.4](https://github.com/hashicorp/terraform-cdk/commits/backport-release-0.10.4)
 
 ## Issue Grooming
 

@@ -56,9 +56,9 @@ namespace MyCompany.MyApp
             // required values FROM required multi item lists
             new RequiredAttributeResource(this, "from_list", new RequiredAttributeResourceConfig {
                 Bool = Token.AsAny(Fn.Lookup(Fn.Element(list.Req, 0), "reqbool", false)),
-                Str = Token.AsString(Fn.Lookup(Fn.Element(list.Req, 0), "reqstr", "fallback")),
+                Str = list.Req.Get(0).Reqstr,
                 Num = Token.AsNumber(Fn.Lookup(Fn.Element(list.Req, 0), "reqnum", 0)),
-                StrList = new [] { Token.AsString(Fn.Lookup(Fn.Element(list.Req, 0), "reqstr", "fallback")) },
+                StrList = new [] { list.Req.Get(0).Reqstr },
                 NumList = new [] { Token.AsNumber(Fn.Lookup(Fn.Element(list.Req, 0), "reqnum", 0)) },
                 BoolList = new [] { Token.AsAny(Fn.Lookup(Fn.Element(list.Req, 0), "reqbool", false)) }
             });

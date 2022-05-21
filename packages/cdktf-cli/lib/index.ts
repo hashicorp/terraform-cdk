@@ -10,3 +10,4 @@ import { SynthesizedStack } from "./synth-stack";
 
 export { SynthesizedStack, Language };
 export { CdktfProject, ProjectUpdate } from "./cdktf-project";
+export { watch, State as WatchState } from "./watch";

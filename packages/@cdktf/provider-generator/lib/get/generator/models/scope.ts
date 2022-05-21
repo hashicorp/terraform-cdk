@@ -5,6 +5,7 @@ export interface ScopeProps {
   readonly isOptional?: boolean;
   readonly isRequired?: boolean;
   readonly inBlockType?: boolean;
+  readonly isNestedType?: boolean;
   readonly parent?: Scope;
 }
 
@@ -16,6 +17,7 @@ export class Scope {
   public isOptional: boolean;
   public isRequired: boolean;
   public inBlockType: boolean;
+  public isNestedType: boolean;
 
   constructor(props: ScopeProps) {
     this.name = props.name;
@@ -25,6 +27,7 @@ export class Scope {
     this.isOptional = props.isOptional ?? true;
     this.isRequired = props.isRequired ?? false;
     this.inBlockType = props.inBlockType ?? false;
+    this.isNestedType = props.isNestedType ?? false;
   }
 
   public fullName(attributeName: string) {

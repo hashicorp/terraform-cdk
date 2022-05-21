@@ -1,14 +1,14 @@
 /* eslint-disable no-control-regex */
-import React from "react";
+import React, { useState } from "react";
 import { Text, Box } from "ink";
 import { DeployingResource } from "../../../lib/models/terraform";
 import { NestedTerraformOutputs } from "../../../lib/output";
 import { useCdktfProject } from "./hooks/cdktf-project";
 import {
   StreamView,
-  StatusBottomBar,
   OutputsBottomBar,
   ApproveBottomBar,
+  ExecutionStatusBottomBar,
 } from "./components";
 interface DeploySummaryConfig {
   resources: DeployingResource[];
@@ -54,6 +54,7 @@ interface DeployConfig {
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
   ignoreMissingStackDependencies?: boolean;
+  parallelism?: number;
 }
 
 export const Deploy = ({
@@ -64,28 +65,39 @@ export const Deploy = ({
   onOutputsRetrieved,
   outputsPath,
   ignoreMissingStackDependencies,
+  parallelism,
 }: DeployConfig): React.ReactElement => {
-  const { projectUpdate, logEntries, done, outputs } = useCdktfProject(
-    { outDir, synthCommand, onOutputsRetrieved },
-    (project) =>
-      project.deploy({
+  const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
+  const { status, logEntries } = useCdktfProject(
+    { outDir, synthCommand },
+    async (project) => {
+      await project.deploy({
         stackNames: targetStacks,
         autoApprove,
         ignoreMissingStackDependencies,
-      })
+        parallelism,
+      });
+
+      if (onOutputsRetrieved) {
+        onOutputsRetrieved(project.outputsByConstructId);
+      }
+      setOutputs(project.outputsByConstructId);
+    }
   );
 
-  const bottomBar = done ? (
-    <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
-  ) : projectUpdate?.type === "waiting for approval" ? (
-    <ApproveBottomBar
-      onApprove={projectUpdate.approve}
-      onDismiss={projectUpdate.dismiss}
-      onStop={projectUpdate.stop}
-    />
-  ) : (
-    <StatusBottomBar latestUpdate={projectUpdate} done={done} />
-  );
+  const bottomBar =
+    status.type === "done" ? (
+      <OutputsBottomBar outputs={outputs} outputsFile={outputsPath} />
+    ) : status?.type === "waiting for approval of stack" ? (
+      <ApproveBottomBar
+        stackName={status.stackName}
+        onApprove={status.approve}
+        onDismiss={status.dismiss}
+        onStop={status.stop}
+      />
+    ) : (
+      <ExecutionStatusBottomBar status={status} actionName="deploying" />
+    );
 
   return <StreamView logs={logEntries}>{bottomBar}</StreamView>;
 };

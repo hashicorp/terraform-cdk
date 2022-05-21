@@ -1,4 +1,5 @@
-import { spawn, SpawnOptions } from "child_process";
+import { SpawnOptions } from "child_process";
+import { spawn } from "cross-spawn";
 import * as fs from "fs-extra";
 import { https, http } from "follow-redirects";
 import * as os from "os";
@@ -67,7 +68,8 @@ export const exec = async (
   args: string[],
   options: SpawnOptions,
   stdout?: (chunk: Buffer) => any,
-  stderr?: (chunk: string | Uint8Array) => any
+  stderr?: (chunk: string | Uint8Array) => any,
+  sendToStderr = true
 ): Promise<string> => {
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
@@ -88,13 +90,17 @@ export const exec = async (
     if (stderr !== undefined) {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
         processLoggerError(chunk);
-        stderr(chunk);
+        if (sendToStderr) {
+          stderr(chunk);
+        }
         err.push(chunk);
       });
     } else {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
         processLoggerError(chunk);
-        process.stderr.write(chunk);
+        if (sendToStderr) {
+          process.stderr.write(chunk);
+        }
         err.push(chunk);
       });
     }

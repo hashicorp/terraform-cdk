@@ -5,8 +5,6 @@ description: Install and configure the CDKTF Command Line Interface.
 
 # CLI Configuration
 
--> **Note:** CDK for Terraform is currently in [beta](/cdktf#project-maturity-and-production-readiness).
-
 The CDK for Terraform (CDKTF) CLI allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available [`cdktf cli` commands](/cdktf/cli-reference/commands) where possible.
 
 ## Install
@@ -25,22 +23,21 @@ Help output:
 
 ```
 Commands:
-  cdktf convert [OPTIONS]          Converts a single file of HCL configuration to Terraform CDK. Takes the file to be converted on stdin.
-  cdktf deploy [stack] [OPTIONS]   Deploy the given stack                                                                                                                                                   [aliases: apply]
-  cdktf destroy [stack] [OPTIONS]  Destroy the given stack
-  cdktf diff [stack] [OPTIONS]     Perform a diff (terraform plan) for the given stack                                                                                                                       [aliases: plan]
-  cdktf get [OPTIONS]              Generate CDK Constructs for Terraform providers and modules.
-  cdktf init [OPTIONS]             Create a new cdktf project from a template.
-  cdktf list [OPTIONS]             List stacks in app.
-  cdktf login                      Retrieves an API token to connect to Terraform Cloud.
-  cdktf synth [stack] [OPTIONS]    Synthesizes Terraform code for the given app in a directory.                                                                                                        [aliases: synthesize]
-  cdktf watch [stack] [OPTIONS]    [experimental] Watch for file changes and automatically trigger a deploy
-  cdktf output [stack] [OPTIONS]   Prints the output of a stack                                                                                                                                             [aliases: outputs]
-  cdktf completion                 generate completion script
+  cdktf init [OPTIONS]                Create a new cdktf project from a template.
+  cdktf get [OPTIONS]                 Generate CDK Constructs for Terraform providers and modules.
+  cdktf convert [OPTIONS]             Converts a single file of HCL configuration to CDK for Terraform. Takes the file to be converted on stdin.
+  cdktf deploy [OPTIONS] <stacks..>   Deploy the given stacks                                                                                                                                    [aliases: apply]
+  cdktf destroy [OPTIONS] <stacks..>  Destroy the given stacks
+  cdktf diff [stack] [OPTIONS]        Perform a diff (terraform plan) for the given stack                                                                                                         [aliases: plan]
+  cdktf list [OPTIONS]                List stacks in app.
+  cdktf login                         Retrieves an API token to connect to Terraform Cloud.
+  cdktf synth [stack] [OPTIONS]       Synthesizes Terraform code for the given app in a directory.                                                                                          [aliases: synthesize]
+  cdktf watch [stack] [OPTIONS]       [experimental] Watch for file changes and automatically trigger a deploy
+  cdktf output [stack] [OPTIONS]      Prints the output of a stack                                                                                                                             [aliases: outputs]
+  cdktf completion                    generate completion script
 
 Options:
   --version                   Show version number                                                                                                                                                                  [boolean]
-  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                                 [boolean] [default: true]
   --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV. [boolean] [default: false]
   --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                                 [string]
   -h, --help                  Show help                                                                                                                                                                            [boolean]

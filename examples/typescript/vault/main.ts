@@ -30,7 +30,7 @@ class MyStack extends TerraformStack {
     });
 
     new TerraformOutput(this, "keyId", {
-      value: key.keys("0", "id"),
+      value: key.keys.get(0).lookup("id"),
     });
   }
 }

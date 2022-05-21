@@ -3,7 +3,14 @@ import { Tokenization } from "./tokens/token";
  * Merges `source` into `target`, overriding any existing values.
  * `undefined` will cause a value to be deleted.
  */
+
 export function deepMerge(target: any, ...sources: any[]) {
+  if (Tokenization.isResolvable(target) && sources.length > 0) {
+    throw new Error(
+      `Invalid usage. Target (${target.toString()}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.`
+    );
+  }
+
   for (const source of sources) {
     if (typeof source !== "object" || typeof target !== "object") {
       throw new Error(
@@ -20,6 +27,12 @@ export function deepMerge(target: any, ...sources: any[]) {
         // object so we can continue the recursion
         if (typeof target[key] !== "object") {
           target[key] = {};
+        }
+
+        // if the value is a resolvable we don't want to recurse into it
+        if (Tokenization.isResolvable(value)) {
+          target[key] = value;
+          continue;
         }
 
         deepMerge(target[key], value);

@@ -1,118 +1,179 @@
 import React from "react";
 import { Text, Box } from "ink";
-import { ProjectUpdate } from "../../../../../lib/index";
 import Spinner from "ink-spinner";
+import { Status } from "../../hooks/cdktf-project";
+import { WatchState } from "../../../../../lib";
+import { CdktfStack } from "../../../../../lib/cdktf-stack";
 
 type Props = {
-  done: boolean;
-  latestUpdate?: ProjectUpdate;
+  status: Status;
   errorMessage?: string;
   children?: any;
+  actionName: "deploying" | "destroying";
 };
 
-type Status = {
-  text: string;
-  color?: string;
-  showSpinner?: boolean;
-};
+export function StatusBottomBar({
+  status,
+  children,
+}: Omit<Props, "actionName">) {
+  switch (status.type) {
+    case "done": {
+      if (children) {
+        return children;
+      }
+      return <></>;
+    }
 
-function getStatus({
-  latestUpdate,
-  done,
-  errorMessage,
-}: Omit<Props, "children">): Status {
-  if (errorMessage) {
-    return {
-      text: errorMessage,
-      color: "red",
-      showSpinner: false,
-    };
-  }
+    // This is handled on the outside of this component
+    case "waiting for approval of stack":
+      return <></>;
 
-  if (done) {
-    return {
-      text: "Done",
-      color: "green",
-      showSpinner: false,
-    };
-  }
-
-  switch (latestUpdate?.type) {
-    case undefined:
-      return {
-        text: "Initializing",
-        showSpinner: true,
-      };
+    case "starting":
+      return (
+        <Box>
+          <Box marginRight={2}>
+            <Text>
+              <Spinner type="dots" />
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Starting</Text>
+          </Box>
+        </Box>
+      );
 
     case "synthesizing":
-    case "synthesized":
-      return {
-        text: "Synthesizing",
-        showSpinner: true,
-      };
+      return (
+        <Box>
+          <Box marginRight={2}>
+            <Text>
+              <Spinner type="dots" />
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Synthesizing</Text>
+          </Box>
+        </Box>
+      );
 
-    case "planning":
-    case "planned":
-      return {
-        text: "Planning",
-        showSpinner: true,
-      };
-
-    case "deploy update":
-    case "deploying":
-    case "deployed":
-      return {
-        text: "Deploying",
-        showSpinner: true,
-      };
-
-    case "destroy update":
-    case "destroying":
-    case "destroyed":
-      return {
-        text: "Destroying",
-        showSpinner: true,
-      };
-
-    default:
-      return {
-        text: `An unknown status occured: {status}`,
-        showSpinner: false,
-        color: "red",
-      };
+    case "running":
+      return (
+        <Box>
+          <Box marginRight={2}>
+            <Text>
+              <Spinner type="dots" />
+            </Text>
+          </Box>
+          <Box>
+            <Text bold>Processing</Text>
+          </Box>
+        </Box>
+      );
   }
 }
 
-export function StatusBottomBar({
-  latestUpdate,
-  done,
-  errorMessage,
-  children,
-}: Props) {
-  if (done && children) {
-    return children;
+export function localizeStacks(num: number) {
+  if (num === 1) {
+    return "1 Stack";
   }
+  return `${num} Stacks`;
+}
 
-  const { text, showSpinner, color } = getStatus({
-    latestUpdate,
-    done,
-    errorMessage,
-  });
-
-  if (showSpinner) {
-    return (
-      <Box>
-        <Box marginRight={2}>
-          <Text color={color}>
-            <Spinner type="dots" />
-          </Text>
-        </Box>
-        <Box>
-          <Text bold>{text}</Text>
-        </Box>
+function Execution({
+  inProgress,
+  finished,
+  pending,
+  actionName,
+}: Pick<Props, "actionName"> & {
+  inProgress: CdktfStack[];
+  finished: CdktfStack[];
+  pending: CdktfStack[];
+}) {
+  return (
+    <Box marginTop={1}>
+      <Box marginRight={5}>
+        <Text>
+          {localizeStacks(inProgress.length)} {actionName}
+        </Text>
       </Box>
-    );
+      <Box marginRight={5}>
+        <Text>{localizeStacks(finished.length)} done</Text>
+      </Box>
+      <Box>
+        <Text>{localizeStacks(pending.length)} waiting</Text>
+      </Box>
+    </Box>
+  );
+}
+
+export function ExecutionStatusBottomBar({
+  status,
+  children,
+  actionName,
+}: Props) {
+  if (status?.type !== "running") {
+    return <StatusBottomBar status={status}>{children}</StatusBottomBar>;
   }
 
-  return <Text color={color}>{text}</Text>;
+  return (
+    <Execution
+      inProgress={status.inProgress}
+      finished={status.finished}
+      pending={status.pending}
+      actionName={actionName}
+    />
+  );
+}
+
+export function WatchStatusBottomBar({
+  currentState,
+}: {
+  currentState: WatchState;
+}): React.ReactElement {
+  switch (currentState.type) {
+    case "waiting": {
+      return (
+        <Box marginTop={1}>
+          <Spinner />
+          <Box marginLeft={1}>
+            <Text>Waiting for changes...</Text>
+          </Box>
+        </Box>
+      );
+    }
+    case "stopped": {
+      return (
+        <Box marginTop={1}>
+          <Text>Watch was stopped</Text>
+        </Box>
+      );
+    }
+
+    case "running": {
+      if (
+        currentState.inProgress.length +
+          currentState.finished.length +
+          currentState.pending.length ===
+        0
+      ) {
+        return (
+          <Box marginTop={1}>
+            <Spinner />
+            <Box marginLeft={1}>
+              <Text>Synthesizing...</Text>
+            </Box>
+          </Box>
+        );
+      }
+
+      return (
+        <Execution
+          inProgress={currentState.inProgress}
+          finished={currentState.finished}
+          pending={currentState.pending}
+          actionName="deploying"
+        />
+      );
+    }
+  }
 }

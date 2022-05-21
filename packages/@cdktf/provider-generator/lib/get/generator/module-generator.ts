@@ -40,6 +40,11 @@ export class ModuleGenerator {
       if (input.default) {
         this.code.line(` * @default ${input.default}`);
       }
+      if (input.type.includes("map(")) {
+        this.code.line(
+          ` * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}`
+        );
+      }
       this.code.line(` */`);
       this.code.line(
         `readonly ${AttributeModel.escapeName(

@@ -15,10 +15,6 @@ describe("multiple stacks", () => {
       expect(driver.synthesizedStack("second").toString()).toMatchSnapshot();
     });
 
-    test("synth with json output", async () => {
-      expect((await driver.synth("--json")).stdout).toMatchSnapshot();
-    });
-
     test("diff", () => {
       const firstOut = driver.diff("first");
       expect(firstOut).toContain(`null_resource.test`);
@@ -68,11 +64,13 @@ describe("multiple stacks", () => {
       expect(stderr).toEqual("");
     });
 
-    test("deploy", () => {
-      expect(driver.deploy(["first"])).toContain(`Apply complete!`);
-      expect(driver.deploy(["first", "second"])).toContain(`Apply complete!`);
+    test("deploy", async () => {
+      expect(await driver.deploy(["first"])).toContain(`Apply complete!`);
+      expect(await driver.deploy(["first", "second"])).toContain(
+        `Apply complete!`
+      );
 
-      expect(() => driver.deploy()).toThrowError(
+      expect(driver.deploy()).rejects.toThrowError(
         "Found more than one stack, please specify a target stack. Run cdktf deploy <stack> with one of these stacks: first, second"
       );
     });
