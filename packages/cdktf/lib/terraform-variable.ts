@@ -107,7 +107,7 @@ export class TerraformVariable
   public readonly type?: string;
   public readonly sensitive?: boolean;
   public readonly nullable?: boolean;
-  public readonly validation?: TerraformVariableValidationConfig[];
+  private _validation?: TerraformVariableValidationConfig[];
 
   constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
     super(scope, id, "var");
@@ -117,7 +117,7 @@ export class TerraformVariable
     this.type = config.type;
     this.sensitive = config.sensitive;
     this.nullable = config.nullable;
-    this.validation = config.validation;
+    this._validation = config.validation;
   }
 
   public get stringValue(): string {
@@ -138,6 +138,18 @@ export class TerraformVariable
 
   public get value(): any {
     return Token.asAny(this.interpolation());
+  }
+
+  public get validation(): TerraformVariableValidationConfig[] | undefined {
+    return this._validation;
+  }
+
+  public addValidation(validation: TerraformVariableValidationConfig) {
+    if (!this._validation) {
+      this._validation = [];
+    }
+
+    this._validation.push(validation);
   }
 
   private interpolation(): IResolvable {

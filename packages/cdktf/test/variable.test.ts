@@ -185,3 +185,22 @@ test("validation block variable", () => {
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test("validation block variable self reference", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const variable = new TerraformVariable(stack, "test-variable", {
+    type: "string",
+  });
+  variable.addValidation({
+    condition: `${Fn.lengthOf(variable.fqn)} > 4 && ${Fn.substr(
+      variable.fqn,
+      0,
+      4
+    )} == "ami-"`,
+    errorMessage:
+      'The image_id value must be a valid AMI id, starting with "ami-".',
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
