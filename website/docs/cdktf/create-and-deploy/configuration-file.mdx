@@ -33,6 +33,7 @@ export interface Config {
   readonly output: string; // Default: 'cdktf.out'. Where the synthesized JSON should go. Also will be the working directory for Terraform operations
   readonly codeMakerOutput: string; // Default: '.gen'. Path where generated provider bindings will be rendered to.
   readonly projectId: string; // Default: generated UUID. Unique identifier for the project used to differentiate projects
+  readonly sendCrashReports: boolean; // Default: false. Whether to send crash reports to the CDKTF team
   readonly terraformProviders?: RequirementDefinition[]; // Terraform Providers to build
   readonly terraformModules?: RequirementDefinition[]; // Terraform Modules to build
 }
@@ -204,5 +205,17 @@ This generates the `aws` provider bindings in the folder `./imports`. This is us
   "app": "pipenv run ./main.py",
   "terraformProviders": ["aws@~> 2.0"],
   "codeMakerOutput": "imports"
+}
+```
+
+### Enable Crash Reporting for the CLI
+
+You can enable or disable crash reporting by setting the `sendCrashReports` property to `true` or `false`. Sending crash reports helps our team improve the CLI faster, you can learn more about what we track on our [telemetry page](/cdktf/telemetry#crash-reporting).
+
+```json
+{
+  "language": "typescript",
+  "app": "npm run --silent compile && node main.js",
+  "sendCrashReports": true
 }
 ```

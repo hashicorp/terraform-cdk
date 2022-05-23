@@ -33,6 +33,7 @@
   "dependencies": {
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
+    "@sentry/node": "^6.19.7",
     "@types/yargs": "^17.0.10",
     "cdktf": "0.0.0",
     "constructs": "^10.0.25",
