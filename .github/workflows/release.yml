@@ -30,7 +30,7 @@ jobs:
         run: |
           yarn install
       - name: Install the Sentry CLI
-        run: sudo npm install -g @sentry/cli --unsafe-perm
+        run: npm install -g @sentry/cli --unsafe-perm
       - name: version
         id: get_version
         run: |
@@ -245,7 +245,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install the Sentry CLI
-        run: sudo npm install -g @sentry/cli --unsafe-perm
+        run: npm install -g @sentry/cli --unsafe-perm
       - name: version
         id: get_version
         run: |
