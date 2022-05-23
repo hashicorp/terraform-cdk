@@ -37,7 +37,7 @@ jobs:
           yarn prepare-next-release
           tools/align-version.sh
       - name: Install the Sentry CLI
-        run: curl -sL https://sentry.io/get-cli/ | bash
+        run: sudo npm install -g @sentry/cli --unsafe-perm
       - name: version
         id: get_version
         run: |
@@ -226,7 +226,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install the Sentry CLI
-        run: curl -sL https://sentry.io/get-cli/ | bash
+        run: sudo npm install -g @sentry/cli --unsafe-perm
       - name: version
         id: get_version
         run: |
