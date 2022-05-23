@@ -31,8 +31,6 @@ jobs:
       - name: installing dependencies
         run: |
           yarn install
-      - name: Install the Sentry CLI
-        run: npm install -g @sentry/cli --unsafe-perm
       - name: version
         id: get_version
         run: |
@@ -248,8 +246,6 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - uses: actions/checkout@v2
-      - name: Install the Sentry CLI
-        run: npm install -g @sentry/cli --unsafe-perm
       - name: version
         id: get_version
         run: |
