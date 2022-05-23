@@ -9,6 +9,10 @@ on:
       - "website/**"
       - "tools/update-github-project-board/**"
 
+env:
+  SENTRY_ORG: hashicorp
+  SENTRY_PROJECT: cdktf-cli
+
 jobs:
   prepare-release:
     if: github.repository == 'hashicorp/terraform-cdk'
@@ -40,14 +44,14 @@ jobs:
           version=$(node -p "require('./package.json').version")
           echo "::set-output name=version::${version}"
       - name: Create a release
-        run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }} --org=hashicorp
+        run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - run: yarn build
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Add sourcemaps
-        run: sentry-cli releases files cdktf-cli-${{ steps.get_version.outputs.version }} upload-sourcemaps ./packages/cdktf-cli/bundle --org=hashicorp --org=hashicorp
+        run: sentry-cli releases files cdktf-cli-${{ steps.get_version.outputs.version }} upload-sourcemaps ./packages/cdktf-cli/bundle
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - run: yarn package
@@ -233,6 +237,6 @@ jobs:
           version=$(node -p "require('./package.json').version")
           echo "::set-output name=version::${version}"
       - name: Create a release
-        run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }} --org=hashicorp
+        run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
