@@ -548,13 +548,54 @@ The JSONs structure is matching your construct structure, the name of each const
 
 Please be aware that sensitive outputs are only written to the file if the `--outputs-file-include-sensitive-outputs` option is used.
 
+## debug
+
+This command gets debug information about the current project and environment to help troubleshoot issues.
+
+**Help Output**
+
+```sh
+$ cdktf debug --help
+
+cdktf debug
+
+Get debug information about the current project and environment
+
+Options:
+      --version                   Show version number                                                                                                          [boolean]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                             [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                         [string]
+      --json                      If set, output will be in JSON format.                                                                      [boolean] [default: false]
+  -h, --help                      Show help                                                                                                                    [boolean]
+```
+
+The debug information collected depends on the language used in the current project in which the command is run.
+In this case it is a Java project, therefore we collect information about java and maven and detect the installed cdktf / constructs version through maven.
+
+````
+$ cdktf debug
+
+language: java
+cdktf-cli: 0.10.4
+node: v16.15.0
+cdktf: 0.10.4
+constructs: 10.0.5
+jsii: 1.59.0
+terraform: 1.1.8
+arch: x64
+os: darwin 21.4.0
+java: 17.0.1
+maven: Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)Maven home: /usr/local/Cellar/maven/3.8.2/libexecJava version: 17.0.1, vendor: Homebrew, runtime: /usr/local/Cellar/openjdk/17.0.1_1/libexec/openjdk.jdk/Contents/HomeDefault locale: en_DE, platform encoding: UTF-8OS name: "mac os x", version: "12.3.1", arch: "x86_64", family: "mac"
+
+
 ## provider add
 
 This command facilitates adding Terraform providers to a CDKTF project. If a [pre-built provider](/cdktf/concepts/providers-and-resources#install-pre-built-providers) is available for the CDKTF version you are using and the Terraform provider version you requested (if any), it will be installed using e.g. `npm install` or `dotnet add` depending on the language you are using. Otherwise, the provider will be added to the `cdktf.json` config and `cdktf get` will be automatically invoked to generate [local provider bindings](/cdktf/concepts/providers-and-resources#add-provider-to-cdktf-json).
 
 ```sh
 $ cdktf provider add --help
-```
+````
 
 **Help Output**
 
