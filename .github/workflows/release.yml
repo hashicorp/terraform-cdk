@@ -36,7 +36,15 @@ jobs:
         run: |
           version=$(node -p "require('./package.json').version")
           echo "::set-output name=version::${version}"
+      - name: release status
+        id: get_release_status
+        run: |
+          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          echo "::set-output name=release::${status}"
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
+        if: steps.get_release_status.outputs.release == 'unreleased'
         run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
@@ -47,6 +55,7 @@ jobs:
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Add sourcemap and commit info to sentry
+        if: steps.get_release_status.outputs.release == 'unreleased'
         run: |
           sentry-cli releases files cdktf-cli-${{ steps.get_version.outputs.version }} upload-sourcemaps ./packages/cdktf-cli/bundle
           sentry-cli releases set-commits --auto cdktf-cli-${{ steps.get_version.outputs.version }}
@@ -251,7 +260,15 @@ jobs:
         run: |
           version=$(node -p "require('./package.json').version")
           echo "::set-output name=version::${version}"
+      - name: release status
+        id: get_release_status
+        run: |
+          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          echo "::set-output name=release::${status}"
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
+        if: steps.get_release_status.outputs.release == 'unreleased'
         run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
