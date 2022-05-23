@@ -4,7 +4,7 @@ ARG DEFAULT_TERRAFORM_VERSION
 ARG AVAILABLE_TERRAFORM_VERSIONS
 
 RUN yum install -y unzip jq gcc gcc-c++ && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
-RUN curl -sL https://sentry.io/get-cli/ | bash
+RUN npm install -g @sentry/cli --unsafe-perm
 
 ENV TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
     # MAVEN_OPTS is set in jsii/superchain with -Xmx512m. This isn't enough memory for provider generation.
