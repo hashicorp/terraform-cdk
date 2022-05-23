@@ -5,11 +5,13 @@ description: Build robust applications for production use cases. How to manage s
 
 # CDK for Terraform Best Practices
 
-How your CDK application should be structured is largely depending on the engineering best practices of the programming language you use. There is no one way to structure your CDK application, what works for you and your team also depends on the problems you are trying to solve. So instead of one golden way we list here a set of best practices to follow when building production-ready CDK applications.
+There are many ways to structure your CDK for Terraform (CDKTF) application. The structure you choose depends largely on the best practices for your chosen programming language and your use case. However, we recommend using the following principles to build robust, production-ready applications. 
 
 ## Read Secrets with Terraform Variables
 
-Secrets appear in your synthesized CDKTF code when you read them directly from environment variables or from files with normal system access. This introduces risk, especially if you are checking the synthesized configuration into a version control system. To mitigate this, [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets.
+Secrets appear in your synthesized CDKTF code when you read them directly from environment variables or from files with normal system access. This introduces risk, especially if you are checking the synthesized configuration into a version control system. To mitigate this, [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets. Terraform uses the values in `TerraformVariable` directly at execution time, so CDKTF does not write them to the synthesized `cdktf.json` file.
+
+The following example uses a Terraform variable to read the sensitive admin password instead of reading it directly from an environment variable. 
 
 ```ts
 const adminPassword = new TerraformVariable(this, "adminPassword", {
@@ -20,16 +22,10 @@ const adminPassword = new TerraformVariable(this, "adminPassword", {
 new MyResource(this, "hello", {
   adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
 });
-```
 
-In the example above if we had used `adminPassword: process.env.ADMIN_PASSWORD` the admin password environment variable set at synthesization time would have been written to the `cdk.tf.json` file for your stack. This would have been a security risk.
+To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name), name the environment variable `TF_VAR_NAME`. For example, set `TF_VAR_adminPasword='<your password>'` in the execution environment.
 
-In contrast the `TerraformVariable` construct synthesizes a Terraform input. This input is not written to the `cdk.tf.json` file, so it is not a security risk. Instead it's only used at execution time by Terraform directly.
-
-To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name) you would need to set `TF_VAR_adminPasword='<your password>'` in the execution environment.
-
-If you use Terraform Cloud with [remote execution](/cloud-docs/run#remote-operations) turned on you can store your secrets in Terraform Cloud. You can read more information about this in the [Terraform Cloud documentation](/cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables).
-
+If you use Terraform Cloud with [remote execution](/cloud-docs/run#remote-operations), you can store your secrets in Terraform Cloud. Refer to the Terraform Cloud documentation about [workspace variables](/cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables) for more details.
 ## Providers
 
 A provider is a Terraform plugin that allows users to manage an external API. Provider plugins like the AWS provider or the cloud-init provider act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
@@ -42,25 +38,25 @@ Refer to the [CDKTF Provider GitHub repositories](https://github.com/orgs/hashic
 
 ### Separate Business Units with Stacks
 
-A [stack](/cdktf/concepts/stacks) represents a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. We recommend creating separate stacks for the following use cases:
+A [stack](/cdktf/concepts/stacks) represents a collection of infrastructure that CDKTF synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. We recommend creating separate stacks for the following use cases:
 
 - Deployment stages (development / staging / production)
-- Business Purposes (e-commerce / blog / data warehouse)
+- Business purposes (e-commerce / blog / data warehouse)
 - Regions (eu-west-1 / us-east-1) if they deploy similar infrastructure, e.g. for high availability
 - Software components (network / db / compute)
 - Deployment cycles (databases and domain names / applications)
 
-While each of the criterias above warants a new stack, not all of them justify a new class for the stack.
-Deployment stages and regions can be passed as arguments to the constructor of the stack class. All other criterias most likely influence the infrastructure of the stack by a degree that justifies a new stack class.
+You do not always need to create a new class for each stack. For some use cases, it is more efficient to create a single stack class to define similar infrastructure and then pass arguments into the stack that customize the deployment. For example, you might create a class that creates AWS EC2 instances and then pass different regions and other configuration details based on the team or production stage that requires the infrastructure.
 
-Your CDKTF entrypoint might look like this:
+
+The following example customizes the same base stack for different business purposes and staging environment.
 
 ```ts
 const devNetworking = new NetworkingStack(this, "networking-development", {
   // ...
 });
 
-// A development environment for each of our products, a single region is enough
+// A single region is enough to create a development environment for each product.
 new Ecommerce(this, "ecommerce-development", {
   vpcId: devNetworking.vpcId,
   subnets: devNetworking.subnets,
@@ -72,8 +68,8 @@ new Blog(this, "ecommerce-development", {
   region: "us-west-1",
 });
 
-// For our staging environments we want to have two ecommerce stacks in different regions
-// to test the high availability features of our infrastructure
+// Staging environments require two ecommerce stacks in different regions
+// to test the high availability features of the infrastructure.
 const stageNetworking = new NetworkingStack(this, "networking-staging", {
   // ...
 });
@@ -97,14 +93,11 @@ new Blog(this, "ecommerce-staging", {
 
 ### Create Extensible Constructs
 
-[Constructs](/cdktf/concepts/constructs) let you abstract common behaviour into reusable classes. If you have no reason to limit the extensibility of a construct you should default to making it as easy to the user as possible to overwrite custom behaviour, while still providing good defaults for the standard behaviour.
+[Constructs](/cdktf/concepts/constructs) let you abstract common behavior into reusable classes. If you have no reason to limit the extensibility of a construct, you should default to making it as easy as possible to overwrite custom behavior, while still providing good standard defaults.
 
-You can use interfaces from the generated provider bindings to allow users to overwrite configuration you write if the number of configurations is limited enough. In very complex constructs, we recommend using methods to encapsulate behaviour that the user can overwrite. This lets users extend the base class and overwrite the behaviour in a single place.
+In some cases, you can use interfaces from the generated provider bindings to allow users to customize the configuration. In very complex constructs, we recommend using methods to encapsulate behavior. For example, you can create a method that derives default values for the configuration. This lets users extend the base class and overwrite the behavior in a central location.
 
-For example you can move behaviour where you derive default values from config values into methods, so that this logic is easily overwritable by users.
-
-In this example we expose configuration options for the S3 bucket resource our construct contains.
-We also create a second construct class that overwrites the default naming behaviour as an example on how behaviour can be changed.
+The following example exposes configuration options for the S3 bucket resource within the construct. It also creates a second construct class that overwrites the default naming behavior.
 
 ```ts
 import { Construct } from "constructs";
