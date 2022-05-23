@@ -40,14 +40,14 @@ jobs:
           version=$(node -p "require('./package.json').version")
           echo "::set-output name=version::${version}"
       - name: Create a release
-        run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }}
+        run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }} --org=hashicorp
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - run: yarn build
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Add sourcemaps
-        run: sentry-cli releases files cdktf-cli-${{ steps.get_version.outputs.version }} upload-sourcemaps ./packages/cdktf-cli/bundle
+        run: sentry-cli releases files cdktf-cli-${{ steps.get_version.outputs.version }} upload-sourcemaps ./packages/cdktf-cli/bundle --org=hashicorp --org=hashicorp
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - run: yarn package
@@ -233,6 +233,6 @@ jobs:
           version=$(node -p "require('./package.json').version")
           echo "::set-output name=version::${version}"
       - name: Create a release
-        run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }}
+        run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }} --org=hashicorp
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
