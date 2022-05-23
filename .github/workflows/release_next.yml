@@ -224,11 +224,7 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
-      - name: Download dist
-        uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: dist
+      - uses: actions/checkout@v2
       - name: Install the Sentry CLI
         run: curl -sL https://sentry.io/get-cli/ | bash
       - name: version
