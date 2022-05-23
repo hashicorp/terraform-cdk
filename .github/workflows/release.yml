@@ -26,6 +26,8 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # gives sentry access to all previous commits
       - name: installing dependencies
         run: |
           yarn install
@@ -46,8 +48,10 @@ jobs:
           yarn build
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      - name: Add sourcemaps
-        run: sentry-cli releases files cdktf-cli-${{ steps.get_version.outputs.version }} upload-sourcemaps ./packages/cdktf-cli/bundle
+      - name: Add sourcemap and commit info to sentry
+        run: |
+          sentry-cli releases files cdktf-cli-${{ steps.get_version.outputs.version }} upload-sourcemaps ./packages/cdktf-cli/bundle
+          sentry-cli releases set-commits --auto cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: create bundle
