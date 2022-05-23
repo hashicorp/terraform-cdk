@@ -8,7 +8,7 @@ on:
       - "tools/update-github-project-board/**"
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: examples-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
