@@ -27,6 +27,8 @@ describe("provider add command", () => {
 
         Found pre-built provider.
 
+        Adding package @cdktf/provider-random @ 0.2.55
+
         Installing package @cdktf/provider-random @ 0.2.55 using npm.
 
         Package installed.
@@ -55,14 +57,14 @@ describe("provider add command", () => {
         const res = await driver.exec("cdktf", [
           "provider",
           "add",
-          "local@=2.2",
+          "local@=2.2.3",
           "--force-local",
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
         Array [
           "null@ ~> 3.1.0",
-          "hashicorp/local@=2.2",
+          "hashicorp/local@=2.2.3",
         ]
       `);
 
@@ -72,7 +74,7 @@ describe("provider add command", () => {
 
         expect(
           genVersionsFile["registry.terraform.io/hashicorp/local"]
-        ).toEqual("2.2.0");
+        ).toEqual("2.2.3");
       },
       120_000
     );
@@ -83,14 +85,14 @@ describe("provider add command", () => {
         const res = await driver.exec("cdktf", [
           "provider",
           "add",
-          "local@=2.2",
+          "local@=2.2.3",
           "--force-local",
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
         Array [
           "null@ ~> 3.1.0",
-          "hashicorp/local@=2.2",
+          "hashicorp/local@=2.2.3",
         ]
       `);
 
@@ -100,7 +102,7 @@ describe("provider add command", () => {
 
         expect(
           genVersionsFile["registry.terraform.io/hashicorp/local"]
-        ).toEqual("2.2.0");
+        ).toEqual("2.2.3");
       },
       120_000
     );
