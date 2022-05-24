@@ -68,6 +68,9 @@ const nativeNodeModulesPlugin = {
       "constructs",
     ],
     plugins: [nativeNodeModulesPlugin],
+    define: {
+      "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN),
+    },
     tsconfig: "tsconfig.json",
   });
 

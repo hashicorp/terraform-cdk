@@ -19,6 +19,7 @@ Everything within a CDKTF application descends from the `Construct` class, so yo
 The TypeScript example below defines an aspect to add tags to resources.
 
 ```ts
+import { IConstruct } from "constructs";
 import { Aspects, IAspect } from "cdktf";
 
 // Not all constructs are taggable, so we need to filter it
@@ -48,15 +49,16 @@ Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 You can also use aspects for validation. The TypeScript example below defines an aspect that checks whether all S3 Buckets start with the correct prefix.
 
 ```ts
+import { IConstruct } from "constructs";
 import { Aspects, IAspect, Annotations } from "cdktf";
-import { S3 } from "./.gen/providers/aws/lib/s3";
+import { s3 } from "./.gen/providers/aws";
 
 export class ValidateS3IsPrefixed implements IAspect {
   constructor(private prefix: string) {}
 
   // This method is called on every Construct within the defined scope (resource, data sources, etc.).
   visit(node: IConstruct) {
-    if (node instanceof S3.S3Bucket) {
+    if (node instanceof s3.S3Bucket) {
       if (node.bucket && !node.bucket.startsWith(this.prefix)) {
         // You can include `addInfo`, `addWarning`, and `addError`.
         // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.

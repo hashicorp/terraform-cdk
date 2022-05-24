@@ -1,0 +1,109 @@
+---
+page_title: Upgrading to CDKTF Version 0.11
+description: >-
+  We changed how assignable list and map properties are accessed after resource construction
+---
+
+# Upgrading to CDK for Terraform Version 0.11
+
+0.11 includes improvements to the provider code bindings, to allow referencing maps of computed attributes as a whole map instead of just individual items of that map.
+Both lists and maps now allow accessing all computed attributes of an assignable property. More control over logging was also added.
+
+### `TF_VAR_` prefixed environment variables can no longer be accessed at synth time
+
+These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](https://www.terraform.io/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
+
+### Environment variable and CLI option changes
+
+- `DEBUG` is replaced by setting `CDKTF_LOG_LEVEL=debug`, setting the `CDKTF_LOG_LEVEL` to debug will now also behave like `DEBUG=1` and include logs from the provider generation
+- `CDKTF_DISABLE_LOGGING=false` is replaced by setting `CDKTF_LOG_FILE_DIRECTORY=/path/to/logs/directory`. If left empty no logs will be written.
+- `--disable-logging` was removed, instead use the environment variable `CDKTF_LOG_LEVEL=off`
+- `DISABLE_VERSION_CHECK`, `CDKTF_DISABLE_PLUGIN_CACHE_ENV` need to be set to `true` or `1`, before anything worked.
+
+### Stack ids can no longer contain whitespaces
+
+A `TerraformStack` may no longer contain whitespace characters, since we rely on paths being whitespace free. If you have a stack with an id containing a whitespace, please replace it with a hyphen. If the stack was already deployed with the default `LocalBackend` you might need to rename your statefile to match the new stack id.
+
+### Computed Map References are referenced through getter
+
+For computed maps, the reference is now through a getter.
+
+To access `{ property = "value" }`, instead of `resource.mapAttribute("property")` you can now use `resource.mapAttribute.lookup("property")`.
+
+#### Example
+
+```ts
+const bucket = new s3.S3Bucket(this, "bucket");
+
+// previously
+const firstRuleStage = bucket.lifecycleRule.get(0).tags("stage");
+const firstRuleTags = bucket.get(0).interpolationForAttribute("tags");
+
+// new
+const firstRuleStage = bucket.lifecycleRule.get(0).tags.lookup("stage");
+const firstRuleTags = bucket.lifecycleRule.get(0).tags;
+```
+
+### Use ComplexLists and ComplexMaps for complex assignable properties [#1725](https://github.com/hashicorp/terraform-cdk/pull/1725)
+
+Assignable properties of the form `Object[]` or `{ [key: string]: Object }` no longer have setters; they instead have `putX` methods. The getter return type is also changed to be a derivative of either `ComplexList` or `ComplexMap`.
+
+#### Typescript
+
+```ts
+// previously
+list.req = ["value"];
+Fn.lookup(Fn.element(list.req, 0), "reqstr", "default");
+
+// new
+list.putReq(["value"]);
+list.req.get(0).reqstr;
+```
+
+#### Python
+
+```python
+# previously
+list.req = ["value"]
+Token().as_string(Fn.lookup(Fn.element(list.req, 0), "reqstr", "default"))
+
+# new
+list.put_req(["value"])
+list.req.get(0).reqstr
+```
+
+#### CSharp
+
+```csharp
+// previously
+list.Req = new [] {"value"}
+Token.AsString(Fn.Lookup(Fn.Element(list.Req, 0), "reqstr", "default"))
+
+// new
+list.PutReq(new [] {"value"})
+list.Req.Get(0).Reqstr
+```
+
+#### Java
+
+```java
+// previously
+list.setReq(new string[] {"value"})
+Token.asString(Fn.lookup(Fn.element(list.getReq(), 0), "reqstr", "default"))
+
+// new
+list.putReq(new string[] {"value"})
+list.getReq().get(0).getReqstr()
+```
+
+#### Go
+
+```golang
+// previously
+list.Req(&[]*string{jsii.String("value"}))
+cdktf.Token_AsString(cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), jsii.Number(0)), jsii.String("reqstr"), jsii.String("default")))
+
+// new
+list.PutReq(&[]*string{jsii.String("value"}))
+list.Req().Get(jsii.Number(0)).Reqstr()
+```

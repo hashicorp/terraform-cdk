@@ -116,7 +116,7 @@ describe("convert", () => {
     // Initialize a new project
     projectDir = fs.mkdtempSync("cdktf-convert-test");
     execSync(
-      `cd ${projectDir} && ${cdktfBin} init --local --dist=${cdktfDist} --project-name="hello" --project-description="world" --template=typescript`
+      `cd ${projectDir} && ${cdktfBin} init --local --dist=${cdktfDist} --project-name="hello" --project-description="world" --template=typescript --enable-crash-reporting=false`
     );
     const cdktfJson = JSON.parse(
       fs.readFileSync(path.join(projectDir, "cdktf.json"), "utf8")

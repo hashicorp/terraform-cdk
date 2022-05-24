@@ -27,6 +27,7 @@ describe("CdktfProject", () => {
         Description: "cdktf-api-test",
         Name: "cdktf-api-test",
       },
+      sendCrashReports: false,
       dist: path.join(__dirname, "../../../../dist"),
     });
 

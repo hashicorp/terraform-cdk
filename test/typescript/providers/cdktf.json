@@ -12,7 +12,7 @@
     "nomad",
     "external",
     "terraform-providers/openstack",
-    "oci",
+    "hashicorp/oci@= 4.75.0",
     "DataDog/datadog@~> 3.0",
     "awscc@= 0.17.0"
   ],

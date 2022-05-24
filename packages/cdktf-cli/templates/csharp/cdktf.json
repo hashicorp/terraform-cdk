@@ -2,6 +2,7 @@
   "language": "csharp",
   "app": "dotnet run -p MyTerraformStack.csproj",
   "projectId": "{{projectId}}",
+  "sendCrashReports": "{{sendCrashReports}}",
   "terraformProviders": [],
   "terraformModules": [],
   "context": {

@@ -45,6 +45,10 @@ class Command extends BaseCommand {
         type: "string",
         desc: "Use a terraform project as the basis, CDK constructs will be generated based on the .tf files in the path",
       })
+      .option("enable-crash-reporting", {
+        type: "boolean",
+        desc: "Enable crash reporting for the CLI, see https://www.terraform.io/cdktf/telemetry#crash-reporting for more details",
+      })
       .strict();
 
   public async handleCommand(argv: any) {
