@@ -573,7 +573,7 @@ Options:
 The debug information collected depends on the language used in the current project in which the command is run.
 In this case it is a Java project, therefore we collect information about Java and Maven and detect the installed cdktf / constructs version through Maven.
 
-````
+```
 $ cdktf debug
 
 language: java
@@ -587,7 +587,7 @@ arch: x64
 os: darwin 21.4.0
 java: 17.0.1
 maven: Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)Maven home: /usr/local/Cellar/maven/3.8.2/libexecJava version: 17.0.1, vendor: Homebrew, runtime: /usr/local/Cellar/openjdk/17.0.1_1/libexec/openjdk.jdk/Contents/HomeDefault locale: en_DE, platform encoding: UTF-8OS name: "mac os x", version: "12.3.1", arch: "x86_64", family: "mac"
-
+```
 
 ## provider add
 
@@ -595,7 +595,7 @@ This command facilitates adding Terraform providers to a CDKTF project. If a [pr
 
 ```sh
 $ cdktf provider add --help
-````
+```
 
 **Help Output**
 
@@ -640,4 +640,8 @@ Add a provider from a private registry to the project.
 
 ```bash
 $ cdktf provider add registry.example.com/acme/my-provider
+```
+
+```
+
 ```
