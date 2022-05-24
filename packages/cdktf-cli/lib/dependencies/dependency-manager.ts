@@ -236,7 +236,9 @@ export class DependencyManager {
   private convertPackageName(name: string): string {
     switch (this.targetLanguage) {
       case Language.GO:
-        throw new Error("pre-built providers are not supported for Go yet");
+        throw Errors.Internal(
+          "pre-built providers are not supported for Go yet"
+        );
       case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
         return name; // already the correct name
       case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
