@@ -190,7 +190,7 @@ export class TerraformProviderConstraint
   public readonly fqn: string;
   public readonly namespace?: string;
 
-  constructor(item: TerraformDependencyConstraint | string) {
+  constructor(item: Omit<TerraformDependencyConstraint, "fqn"> | string) {
     if (typeof item === "string") {
       const parsed = this.parseDependencyConstraint(item);
       this.name = parsed.name;

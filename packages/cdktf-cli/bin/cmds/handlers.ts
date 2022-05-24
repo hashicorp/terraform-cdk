@@ -16,7 +16,7 @@ import { renderInk } from "./helper/render-ink";
 import { terraformCheck } from "./helper/terraform-check";
 import * as terraformCloudClient from "./helper/terraform-cloud-client";
 import { TerraformLogin } from "./helper/terraform-login";
-import { findFileAboveCwd, readStreamAsString } from "./helper/utilities";
+import { readStreamAsString } from "./helper/utilities";
 import { displayVersionMessage } from "./helper/version-check";
 
 import { Diff } from "./ui/diff";
@@ -28,7 +28,7 @@ import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
 
 import { sendTelemetry } from "../../lib/checkpoint";
-import { Errors } from "../../lib/errors";
+import { Errors, IsErrorType } from "../../lib/errors";
 import { Output } from "./ui/output";
 import {
   NestedTerraformOutputs,
@@ -46,23 +46,25 @@ import {
   DependencyManager,
   ProviderConstraint,
 } from "../../lib/dependencies/dependency-manager";
-import { CdktfConfig } from "../../lib/cdktf-config";
+import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
 
 async function getProviderRequirements(provider: string[]) {
-  // TODO: replace with CdktfConfig calls
-  const items: string[] = provider;
-  const cdktfJsonPath = findFileAboveCwd("cdktf.json");
-  if (cdktfJsonPath) {
-    const cdktfJson = await fs.readJson(cdktfJsonPath);
+  let providersFromConfig: (string | ProviderDependencySpec)[] = [];
 
-    if (Array.isArray(cdktfJson.terraformProviders)) {
-      items.push(...cdktfJson.terraformProviders);
+  try {
+    const config = CdktfConfig.read();
+    providersFromConfig = config.terraformProviders;
+  } catch (e) {
+    if (IsErrorType(e, "External")) {
+      // do nothing, expected if run in a different directory
+    } else {
+      throw e;
     }
   }
-  return items;
+  return [...provider, ...providersFromConfig];
 }
 
 export async function convert({ language, provider }: any) {
