@@ -9,7 +9,7 @@ describe("provider add command", () => {
       await driver.setupCsharpProject({
         init: { additionalOptions: "--cdktf-version 0.10.4" },
       });
-    });
+    }, 500_000);
 
     test("installs pre-built provider using nuget", async () => {
       const res = await driver.exec("cdktf", [
