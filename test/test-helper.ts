@@ -250,23 +250,29 @@ export class TestDriver {
     return child;
   };
 
-  setupTypescriptProject = async () => {
+  setupTypescriptProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("typescript");
+    await this.init("typescript", options?.init?.additionalOptions);
     this.copyFiles("main.ts", "cdktf.json");
     await this.get();
   };
 
-  setupPythonProject = async () => {
+  setupPythonProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("python");
+    await this.init("python", options?.init?.additionalOptions);
     this.copyFiles("main.py", "cdktf.json");
     await this.get();
   };
 
-  setupCsharpProject = async () => {
+  setupCsharpProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("csharp");
+    await this.init("csharp", options?.init?.additionalOptions);
     this.copyFiles("Main.cs", "cdktf.json");
     await this.get();
     execSyncLogErrors(
@@ -278,9 +284,11 @@ export class TestDriver {
     );
   };
 
-  setupJavaProject = async () => {
+  setupJavaProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("java");
+    await this.init("java", options?.init?.additionalOptions);
     this.copyFiles("cdktf.json");
     this.copyFile("Main.java", "src/main/java/com/mycompany/app/Main.java");
     await this.get();
