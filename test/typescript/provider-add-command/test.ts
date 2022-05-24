@@ -1,9 +1,8 @@
 import { TestDriver, onPosix, onWindows } from "../../test-helper";
 
 describe("provider add command", () => {
-  let driver: TestDriver;
-
   describe("pre-built", () => {
+    let driver: TestDriver;
     beforeEach(async () => {
       driver = new TestDriver(__dirname, { CDKTF_DIST: "" }); // reset CDKTF_DIST set by run-against-dist script
       await driver.setupTypescriptProject({
@@ -17,23 +16,21 @@ describe("provider add command", () => {
         "add",
         "random@=3.1.3", // this is not the latest version, but theres v0.2.55 of the pre-built provider resulting in exactly this package
       ]);
-      expect(res.stdout).toMatchInlineSnapshot(`
-        "Checking whether pre-built provider exists for the following constraints:
-          provider: random
-          version : =3.1.3
-          language: typescript
-          cdktf   : 0.10.4
-
-
-        Found pre-built provider.
-
-        Adding package @cdktf/provider-random @ 0.2.55
-
-        Installing package @cdktf/provider-random @ 0.2.55 using npm.
-
-        Package installed.
-        "
-      `);
+      expect(res.stdout).toContain(
+        `Checking whether pre-built provider exists for the following constraints:`
+      );
+      expect(res.stdout).toContain(`provider: random`);
+      expect(res.stdout).toContain(`version : =3.1.3`);
+      expect(res.stdout).toContain(`language: typescript`);
+      expect(res.stdout).toContain(`cdktf   : 0.10.4`);
+      expect(res.stdout).toContain(`Found pre-built provider.`);
+      expect(res.stdout).toContain(
+        `Adding package @cdktf/provider-random @ 0.2.55`
+      );
+      expect(res.stdout).toContain(
+        `Installing package @cdktf/provider-random @ 0.2.55 using npm.`
+      );
+      expect(res.stdout).toContain(`Package installed.`);
 
       const packageJson = JSON.parse(driver.readLocalFile("package.json"));
 
@@ -45,7 +42,8 @@ describe("provider add command", () => {
     }, 120_000);
   });
 
-  describe("local", () => {
+  describe.only("local", () => {
+    let driver: TestDriver;
     beforeEach(async () => {
       driver = new TestDriver(__dirname);
       await driver.setupTypescriptProject();
@@ -67,6 +65,12 @@ describe("provider add command", () => {
           "hashicorp/local@=2.2.3",
         ]
       `);
+
+        expect(res.stdout).toContain(
+          `Local providers have been updated. Running cdktf get to update...`
+        );
+
+        await new Promise((r) => setTimeout(r, 10000));
 
         const genVersionsFile = JSON.parse(
           driver.readLocalFile(".gen/versions.json")
@@ -95,6 +99,10 @@ describe("provider add command", () => {
           "hashicorp/local@=2.2.3",
         ]
       `);
+
+        expect(res.stdout).toContain(
+          `Local providers have been updated. Running cdktf get to update...`
+        );
 
         const genVersionsFile = JSON.parse(
           driver.readLocalFile(".gen/versions.json")
