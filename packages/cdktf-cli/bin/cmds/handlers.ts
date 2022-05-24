@@ -40,13 +40,19 @@ import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
-import { collectDebugInformation } from "../../lib/debug";
+import { collectDebugInformation, getPackageVersion } from "../../lib/debug";
 import { initializErrorReporting } from "../../lib/error-reporting";
+import {
+  DependencyManager,
+  ProviderConstraint,
+} from "../../lib/dependencies/dependency-manager";
+import { CdktfConfig } from "../../lib/cdktf-config";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
 
 async function getProviderRequirements(provider: string[]) {
+  // TODO: replace with CdktfConfig calls
   const items: string[] = provider;
   const cdktfJsonPath = findFileAboveCwd("cdktf.json");
   if (cdktfJsonPath) {
@@ -167,19 +173,15 @@ export async function diff(argv: any) {
   );
 }
 
-export async function get(argv: any) {
+export async function get(argv: { output: string; language: Language }) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await initializErrorReporting(true);
   await checkEnvironment();
   await verifySimilarLibraryVersion();
-  const args = argv as {
-    output: string;
-    language: Language;
-  };
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
-  const { output, language } = args;
+  const { output, language } = argv;
 
   const constraints: cfg.TerraformDependencyConstraint[] = [
     ...providers,
@@ -358,5 +360,43 @@ export async function debug(argv: any) {
     Object.entries(debugOutput).forEach(([key, value]) => {
       console.log(`${key}: ${value === null ? "null" : value}`);
     });
+  }
+}
+
+export async function providerAdd(argv: any) {
+  const config = CdktfConfig.read();
+
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+
+  if (!cdktfVersion) throw Errors.External("Could not determine cdktf version"); // TODO: allow this? Only use local then?
+
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+
+  let needsGet = false;
+
+  for (const provider of argv.provider) {
+    const constraint = ProviderConstraint.fromConfigEntry(provider);
+
+    if (argv.forceLocal) {
+      needsGet = true;
+      await manager.addLocalProvider(constraint);
+    } else {
+      const { addedLocalProvider } = await manager.addProvider(constraint);
+      if (addedLocalProvider) {
+        needsGet = true;
+      }
+    }
+  }
+
+  if (needsGet) {
+    console.log(
+      "Local providers have been updated. Running cdktf get to update..."
+    );
+    await get({ language: language, output: config.codeMakerOutput });
   }
 }

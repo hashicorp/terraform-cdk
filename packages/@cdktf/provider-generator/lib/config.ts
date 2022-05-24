@@ -8,7 +8,7 @@ import { toPascalCase } from "codemaker";
 const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
 
 const CONFIG_FILE = "cdktf.json";
-const DEFAULTS = {
+export const CONFIG_DEFAULTS = {
   output: "cdktf.out",
   codeMakerOutput: ".gen",
 };
@@ -240,7 +240,7 @@ export interface Config {
 
 export const parseConfig = (configJSON?: string) => {
   const config: Config = {
-    ...DEFAULTS,
+    ...CONFIG_DEFAULTS,
     ...JSON.parse(configJSON || "{}"),
   };
 

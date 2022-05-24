@@ -79,6 +79,7 @@ yargs
   .command(require("./cmds/watch"))
   .command(require("./cmds/output"))
   .command(require("./cmds/debug"))
+  .command(require("./cmds/provider"))
   .recommendCommands()
   .exitProcess(false)
   .wrap(yargs.terminalWidth())
