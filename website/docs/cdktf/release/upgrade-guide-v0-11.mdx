@@ -1,13 +1,13 @@
 ---
 page_title: Upgrading to CDKTF Version 0.11
 description: >-
-  We changed how lists of computed attributes work to allow referencing the whole list
+  We changed how assignable list and map properties are accessed after resource construction
 ---
 
 # Upgrading to CDK for Terraform Version 0.11
 
-0.10 includes improvements to the provider code bindings, to allow referencing lists of computed attributes as a whole list instead of just individual items of that list.
-We also shipped a lot of CLI improvements in 0.10, including support for multiple stacks in `cdktf deploy`, `cdktf output`, and `cdktf destroy`.
+0.11 includes improvements to the provider code bindings, to allow referencing maps of computed attributes as a whole map instead of just individual items of that map.
+Both lists and maps now allow accessing all computed attributes of an assignable property. More control over logging was also added.
 
 ### `TF_VAR_` prefixed environment variables can no longer be accessed at synth time
 
