@@ -369,7 +369,10 @@ export async function providerAdd(argv: any) {
   const language = config.language;
   const cdktfVersion = await getPackageVersion(language, "cdktf");
 
-  if (!cdktfVersion) throw Errors.External("Could not determine cdktf version"); // TODO: allow this? Only use local then?
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+    );
 
   const manager = new DependencyManager(
     language,
