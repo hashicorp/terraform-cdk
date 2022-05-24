@@ -15,6 +15,7 @@ export type ProviderDependencySpec = {
 
 // TODO: move this to some common package from where it is used by @cdktf/provider-generator, cdktf, and cdktf-cli
 // (might end up in cdktf)
+// tracked here https://github.com/hashicorp/terraform-cdk/issues/1814
 export class CdktfConfig {
   constructor(private cdktfConfigPath: string) {}
 
