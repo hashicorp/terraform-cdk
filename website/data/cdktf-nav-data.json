@@ -71,6 +71,7 @@
         "title": "Configuration File",
         "path": "create-and-deploy/configuration-file"
       },
+      { "title": "Best Practices", "path": "create-and-deploy/best-practices" },
       {
         "title": "Environment Variables",
         "path": "create-and-deploy/environment-variables"
