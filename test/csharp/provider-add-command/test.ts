@@ -39,6 +39,6 @@ describe("provider add command", () => {
       expect(proj).toContain(
         '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="0.2.55" />'
       );
-    }, 180_000);
+    }, 300_000);
   });
 });
