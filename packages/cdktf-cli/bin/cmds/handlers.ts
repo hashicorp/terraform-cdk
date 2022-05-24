@@ -181,6 +181,7 @@ export async function get(argv: { output: string; language: Language }) {
   await initializErrorReporting(true);
   await checkEnvironment();
   await verifySimilarLibraryVersion();
+  const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
   const { output, language } = argv;

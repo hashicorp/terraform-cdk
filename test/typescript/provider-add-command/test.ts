@@ -8,7 +8,7 @@ describe("provider add command", () => {
       await driver.setupTypescriptProject({
         init: { additionalOptions: "--cdktf-version 0.10.4" },
       });
-    });
+    }, 500_000);
 
     test("installs pre-built provider using npm", async () => {
       const res = await driver.exec("cdktf", [
@@ -42,12 +42,12 @@ describe("provider add command", () => {
     }, 120_000);
   });
 
-  describe.only("local", () => {
+  describe("local", () => {
     let driver: TestDriver;
     beforeEach(async () => {
       driver = new TestDriver(__dirname);
       await driver.setupTypescriptProject();
-    });
+    }, 500_000);
 
     onPosix(
       "adds local provider on posix",
@@ -80,7 +80,7 @@ describe("provider add command", () => {
           genVersionsFile["registry.terraform.io/hashicorp/local"]
         ).toEqual("2.2.3");
       },
-      120_000
+      240_000
     );
 
     onWindows(
