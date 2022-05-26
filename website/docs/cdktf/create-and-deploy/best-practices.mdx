@@ -13,7 +13,7 @@ Secrets appear in your synthesized CDKTF code when you read them directly from e
 
 The following example uses a Terraform variable to read the sensitive admin password instead of reading it directly from an environment variable.
 
-````ts
+```ts
 const adminPassword = new TerraformVariable(this, "adminPassword", {
   type: "string",
   description: "Admin password for the instance",
@@ -22,6 +22,7 @@ const adminPassword = new TerraformVariable(this, "adminPassword", {
 new MyResource(this, "hello", {
   adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
 });
+```
 
 To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name), name the environment variable `TF_VAR_NAME`. For example, set `TF_VAR_adminPasword='<your password>'` in the execution environment.
 
@@ -91,7 +92,7 @@ new Blog(this, "ecommerce-staging", {
   subnets: stageNetworking.subnets,
   region: "us-west-1",
 });
-````
+```
 
 ### Create Extensible Constructs
 
