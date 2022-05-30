@@ -47,7 +47,7 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a string
    */
   getString(attribute: string): string {
-    return Token.asString(propertyAccess(this.value, [attribute]));
+    return Token.asString(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
@@ -55,7 +55,7 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a number
    */
   getNumber(attribute: string): number {
-    return Token.asNumber(propertyAccess(this.value, [attribute]));
+    return Token.asNumber(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
@@ -63,7 +63,7 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a (string) list
    */
   getList(attribute: string): string[] {
-    return Token.asList(propertyAccess(this.value, [attribute]));
+    return Token.asList(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
@@ -71,7 +71,7 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a number list
    */
   getNumberList(attribute: string): number[] {
-    return Token.asNumberList(propertyAccess(this.value, [attribute]));
+    return Token.asNumberList(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
@@ -79,7 +79,7 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a map
    */
   getMap(attribute: string): { [key: string]: any } {
-    return Token.asAnyMap(propertyAccess(this.value, [attribute]));
+    return Token.asAnyMap(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
@@ -87,7 +87,7 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a map of strings
    */
   getStringMap(attribute: string): { [key: string]: string } {
-    return Token.asStringMap(propertyAccess(this.value, [attribute]));
+    return Token.asStringMap(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
@@ -95,7 +95,7 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a map of numbers
    */
   getNumberMap(attribute: string): { [key: string]: number } {
-    return Token.asNumberMap(propertyAccess(this.value, [attribute]));
+    return Token.asNumberMap(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
@@ -103,13 +103,13 @@ export abstract class Iterator implements IIterator {
    * @returns the given attribute of the current item iterated over as a map of booleans
    */
   getBooleanMap(attribute: string): { [key: string]: boolean } {
-    return Token.asBooleanMap(propertyAccess(this.value, [attribute]));
+    return Token.asBooleanMap(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
-   * Returns the value of the current item iterated over.
+   * @internal
    */
-  public get value(): any {
+  protected _getValue(): any {
     return Lazy.anyValue(
       {
         produce: (context) =>
@@ -119,7 +119,10 @@ export abstract class Iterator implements IIterator {
     );
   }
 
-  public get key(): any {
+  /**
+   * @internal
+   */
+  protected _getKey(): any {
     return Lazy.anyValue(
       {
         produce: (context) => ref("each.key", TerraformStack.of(context.scope)),
@@ -141,7 +144,14 @@ export class ListIterator extends Iterator {
    * https://www.terraform.io/cdktf/concepts/providers-and-resources#escape-hatch
    */
   public get key(): any {
-    return super.key;
+    return this._getKey();
+  }
+
+  /**
+   * Returns the value of the current item iterated over.
+   */
+  public get value(): any {
+    return this._getValue();
   }
 
   /**
@@ -176,6 +186,13 @@ export class MapIterator extends Iterator {
    * Returns the key of the current entry in the map that is being iterated over.
    */
   public get key(): string {
-    return super.key;
+    return this._getKey();
+  }
+
+  /**
+   * Returns the value of the current item iterated over.
+   */
+  public get value(): any {
+    return this._getValue();
   }
 }
