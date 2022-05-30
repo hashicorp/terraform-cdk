@@ -133,7 +133,7 @@ async function getPythonPackageVersion(
   }
 
   const versionInfo = output
-    .split("\n")
+    .split(/\r\n|\r|\n/)
     .find((line) => line.startsWith("Version:"));
 
   if (!versionInfo) {
@@ -169,7 +169,7 @@ async function getCSharpPackageVersion(packageName: string) {
   }
 
   const versionLine = output
-    .split("\n")
+    .split(/\r\n|\r|\n/)
     .find((line) => line.includes(`> ${cSharpPackageName}`));
 
   if (!versionLine) {
@@ -208,7 +208,7 @@ async function getGoPackageVersion(packageName: string) {
   }
 
   let versionLine = output
-    .split("\n")
+    .split(/\r\n|\r|\n/)
     .find((line) => line.includes(goPackageName));
 
   if (!versionLine) {
@@ -254,7 +254,7 @@ async function getJavaPackageVersion(packageName: string) {
   }
 
   const versionLine = resolutionPart
-    .split("\n")
+    .split(/\r\n|\r|\n/)
     .find((line) => line.includes(javaPackageName));
 
   if (!versionLine) {
