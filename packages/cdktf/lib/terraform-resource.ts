@@ -129,7 +129,7 @@ export class TerraformResource
       count: this.count,
       provider: this.provider?.fqn,
       lifecycle: this.lifecycle,
-      forEach: this.forEach?.getForEachExpression(),
+      forEach: this.forEach?._getForEachExpression(),
     };
   }
 

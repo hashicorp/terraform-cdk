@@ -8,11 +8,14 @@ export interface IIterator {
   /**
    * @internal used by TerraformResource to set the for_each expression
    */
-  getForEachExpression(): any;
+  _getForEachExpression(): any;
 }
 
 export abstract class Iterator implements IIterator {
-  abstract getForEachExpression(): any;
+  /**
+   * @internal used by TerraformResource to set the for_each expression
+   */
+  abstract _getForEachExpression(): any;
 
   /**
    * Creates a new iterator from a list
@@ -144,7 +147,7 @@ export class ListIterator extends Iterator {
   /**
    * @internal used by TerraformResource to set the for_each expression
    */
-  public getForEachExpression(): any {
+  public _getForEachExpression(): any {
     // needs to be wrapped in a set as Terraform only allows sets in for_each
     return Fn.toset(this.list);
   }
@@ -164,7 +167,7 @@ export class MapIterator extends Iterator {
   /**
    * @internal used by TerraformResource to set the for_each expression
    */
-  public getForEachExpression(): any {
+  public _getForEachExpression(): any {
     // explicit wrapping to circumvent "Found an encoded map token in a scalar string context." error
     return Token.asString(this.map);
   }
