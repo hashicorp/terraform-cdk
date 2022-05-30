@@ -12,6 +12,7 @@ import { keysToSnakeCase, deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
+import { IIterator } from "./iterator";
 
 export class TerraformDataSource
   extends TerraformElement
@@ -26,6 +27,7 @@ export class TerraformDataSource
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
+  public forEach?: IIterator;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, `data.${config.terraformResourceType}`);
@@ -40,6 +42,7 @@ export class TerraformDataSource
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
+    this.forEach = config.forEach;
   }
 
   public getStringAttribute(terraformAttribute: string) {
