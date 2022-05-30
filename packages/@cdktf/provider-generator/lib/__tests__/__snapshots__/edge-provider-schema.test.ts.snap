@@ -1643,7 +1643,8 @@ export class ListBlockResource extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      forEach: config.forEach
     });
     this._opt.internalValue = config.opt;
     this._req.internalValue = config.req;
@@ -1807,7 +1808,8 @@ export class MapResource extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      forEach: config.forEach
     });
     this._optMap = config.optMap;
     this._reqMap = config.reqMap;
@@ -1944,7 +1946,8 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      forEach: config.forEach
     });
     this._str = config.str;
     this._num = config.num;
@@ -2139,7 +2142,8 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      forEach: config.forEach
     });
     this._str = config.str;
     this._num = config.num;
@@ -2334,7 +2338,8 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      forEach: config.forEach
     });
     this._str = config.str;
     this._num = config.num;
@@ -2797,7 +2802,8 @@ export class SetBlockResource extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      forEach: config.forEach
     });
     this._set.internalValue = config.set;
   }
