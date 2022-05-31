@@ -205,3 +205,37 @@ test("iterator on a module", () => {
   );
   expect(synth).toHaveProperty("module.test.param1", "${each.value}");
 });
+
+test("iterator throws if both count and forEach are set on resources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const it = Iterator.fromList(["a", "b", "c"]);
+
+  new TestResource(stack, "resource", {
+    count: 2,
+    forEach: it,
+    name: it.value,
+  });
+
+  expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
+    `"forEach and count are mutually exclusive. You can only use either of them. Check resource at path: test/resource"`
+  );
+});
+
+test("iterator throws if both count and forEach are set on data sources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const it = Iterator.fromList(["a", "b", "c"]);
+
+  new TestDataSource(stack, "data", {
+    count: 2,
+    forEach: it,
+    name: it.value,
+  });
+
+  expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
+    `"forEach and count are mutually exclusive. You can only use either of them. Check data source at path: test/data"`
+  );
+});

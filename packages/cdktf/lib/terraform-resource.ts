@@ -8,6 +8,7 @@ import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { IIterator } from "./iterator";
+import assert = require("assert");
 
 export interface ITerraformResource {
   readonly terraformResourceType: string;
@@ -124,6 +125,10 @@ export class TerraformResource
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
+    assert(
+      !this.forEach || typeof this.count === "undefined",
+      `forEach and count are mutually exclusive. You can only use either of them. Check resource at path: ${this.node.path}`
+    );
     return {
       dependsOn: this.dependsOn,
       count: this.count,
