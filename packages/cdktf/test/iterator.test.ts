@@ -1,5 +1,12 @@
-import { Testing, TerraformStack, Iterator, Fn } from "../lib";
+import {
+  Testing,
+  TerraformStack,
+  Iterator,
+  Fn,
+  TerraformHclModule,
+} from "../lib";
 import { TestResource } from "./helper";
+import { TestDataSource } from "./helper/data-source";
 
 test("iterator inline list", () => {
   const app = Testing.app();
@@ -151,4 +158,50 @@ test("iterator access nested types", () => {
       "string_map": "\${lookup(each.value[\\"map\\"], \\"a\\", \\"default\\")}",
     }
   `);
+});
+
+test("iterator on a data source", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const it = Iterator.fromList(["a", "b", "c"]);
+
+  new TestDataSource(stack, "test", {
+    forEach: it,
+    name: it.value,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test.for_each",
+    '${toset(["a", "b", "c"])}'
+  );
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test.name",
+    "${each.value}"
+  );
+});
+
+test("iterator on a module", () => {
+  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const stack = new TerraformStack(app, "test");
+
+  const it = Iterator.fromList(["a", "b", "c"]);
+
+  new TerraformHclModule(stack, "test", {
+    forEach: it,
+    source: "./test/fixtures/hcl-module/",
+    variables: {
+      param1: it.value,
+    },
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty(
+    "module.test.for_each",
+    '${toset(["a", "b", "c"])}'
+  );
+  expect(synth).toHaveProperty("module.test.param1", "${each.value}");
 });
