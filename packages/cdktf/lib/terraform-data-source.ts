@@ -95,6 +95,7 @@ export class TerraformDataSource
       count: this.count,
       provider: this.provider?.fqn,
       lifecycle: this.lifecycle,
+      forEach: this.forEach?._getForEachExpression(),
     };
   }
 
