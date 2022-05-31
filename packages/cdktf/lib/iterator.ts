@@ -186,7 +186,7 @@ export class MapIterator extends Iterator {
    * Returns the key of the current entry in the map that is being iterated over.
    */
   public get key(): string {
-    return this._getKey();
+    return Token.asString(this._getKey());
   }
 
   /**
