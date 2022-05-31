@@ -188,6 +188,54 @@ namespace MyCompany.MyApp
         }
     }
 
+    class IteratorStack : TerraformStack
+    {
+        public IteratorStack(Construct scope, string id) : base(scope, id)
+        {
+            new EdgeProvider(this, "edge", new EdgeProviderConfig {
+                Reqstr = "reqstr",
+                Reqnum = 123,
+                Reqbool = true
+            });
+
+            var simpleList = new OptionalAttributeResource(this, "target", new OptionalAttributeResourceConfig {
+                StrList = new [] { "a", "b", "c" }
+            });
+
+            var complexList = new ListBlockResource(this, "list", new ListBlockResourceConfig {
+                Req = new [] { new ListBlockResourceReq { Reqbool = true, Reqnum = 1, Reqstr = "reqstr" }, new ListBlockResourceReq { Reqbool = false, Reqnum = 0, Reqstr = "reqstr2" } },
+                Singlereq = new ListBlockResourceSinglereq { Reqbool = false, Reqnum = 1, Reqstr = "reqstr" }
+            });
+            var map = new MapResource(this, "map", new MapResourceConfig {
+                OptMap = new Dictionary<string, string> { ["Key1"] = "value1", ["Key2"] = "value2" },
+                ReqMap = new Dictionary<string, object> { ["Key1"] = true }
+            });
+
+            ListIterator stringListIterator = Iterator.FromList(simpleList.StrList);
+            ListIterator complexListIterator = Iterator.FromList(complexList.Req);
+            MapIterator stringMapIterator = Iterator.FromMap(map.OptMap);
+
+            // iterating over a list of strings
+            new OptionalAttributeResource(this, "string_list_target", new OptionalAttributeResourceConfig {
+                ForEach = stringListIterator,
+                Str = Token.AsString(stringListIterator.Value)
+            });
+
+            // iterating over a list of complex objects
+            new OptionalAttributeResource(this, "complex_list_target", new OptionalAttributeResourceConfig {
+                ForEach = complexListIterator,
+                Str = complexListIterator.GetString("reqstr"),
+                Num = complexListIterator.GetNumber("reqnum")
+            });
+
+            // iterating over entries of a map of strings
+            new OptionalAttributeResource(this, "string_map_target", new OptionalAttributeResourceConfig {
+                ForEach = stringMapIterator,
+                Str = Token.AsString(stringMapIterator.Value)
+            });
+        }
+    }
+
     class MyApp
     {
         public static void Main(string[] args)
@@ -195,6 +243,7 @@ namespace MyCompany.MyApp
             App app = new App();
             new ReferenceStack(app, "reference");
             new ProviderStack(app, "provider");
+            new IteratorStack(app, "iterator");
             app.Synth();
         }
     }
