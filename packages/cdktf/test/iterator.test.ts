@@ -219,7 +219,7 @@ test("iterator throws if both count and forEach are set on resources", () => {
   });
 
   expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
-    `"forEach and count are mutually exclusive. You can only use either of them. Check resource at path: test/resource"`
+    `"forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the resource at path: test/resource"`
   );
 });
 
@@ -236,6 +236,6 @@ test("iterator throws if both count and forEach are set on data sources", () => 
   });
 
   expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
-    `"forEach and count are mutually exclusive. You can only use either of them. Check data source at path: test/data"`
+    `"forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: test/data"`
   );
 });
