@@ -8,11 +8,6 @@ describe("provider add command", () => {
       await driver.setupGoProject();
     }, 500_000);
 
-    it("detects correct cdktf version", async () => {
-      const res = await driver.exec("cdktf", ["debug"]);
-      expect(res.stdout).toContain("cdktf: v0.0.0");
-    });
-
     onPosix(
       "adds local provider on posix", // Don't have pre-built providers for go
       async () => {
