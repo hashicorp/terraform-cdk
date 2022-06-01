@@ -15,6 +15,11 @@ describe("provider add command", () => {
         });
       });
 
+      it("detects correct cdktf version", async () => {
+        const res = await driver.exec("cdktf", ["debug"]);
+        expect(res.stdout).toContain("cdktf: 0.10.4");
+      });
+
       test("installs pre-built provider using pipenb", async () => {
         const res = await driver.exec("cdktf", [
           "provider",
@@ -44,6 +49,11 @@ describe("provider add command", () => {
 
         driver.copyFile("cdktf-pip.json", "cdktf.json");
         driver.copyFiles("requirements.txt");
+      });
+
+      it("detects correct cdktf version", async () => {
+        const res = await driver.exec("cdktf", ["debug"]);
+        expect(res.stdout).toContain("cdktf: 0.10.4");
       });
 
       test("installs pre-built provider using pipenb", async () => {

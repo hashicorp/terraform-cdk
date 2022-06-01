@@ -13,6 +13,11 @@ describe("provider add command", () => {
       });
     }, 500_000);
 
+    it("detects correct cdktf version", async () => {
+      const res = await driver.exec("cdktf", ["debug"]);
+      expect(res.stdout).toContain("cdktf: 0.10.4");
+    });
+
     onPosix(
       "installs pre-built provider using nuget",
       async () => {
@@ -22,20 +27,20 @@ describe("provider add command", () => {
           "random@=3.1.3", // this is not the latest version, but theres v0.2.55 of the pre-built provider resulting in exactly this package
         ]);
         expect(res.stdout).toMatchInlineSnapshot(`
-        "Checking whether pre-built provider exists for the following constraints:
-          provider: random
-          version : =3.1.3
-          language: csharp
-          cdktf   : 0.10.4
+                  "Checking whether pre-built provider exists for the following constraints:
+                    provider: random
+                    version : =3.1.3
+                    language: csharp
+                    cdktf   : 0.10.4
 
 
-        Found pre-built provider.
+                  Found pre-built provider.
 
-        Installing package HashiCorp.Cdktf.Providers.Random @ 0.2.55 using \\"dotnet add package HashiCorp.Cdktf.Providers.Random --version 0.2.55\\".
+                  Installing package HashiCorp.Cdktf.Providers.Random @ 0.2.55 using \\"dotnet add package HashiCorp.Cdktf.Providers.Random --version 0.2.55\\".
 
-        Package installed.
-        "
-      `);
+                  Package installed.
+                  "
+              `);
         expect(res.stderr).toBe("");
 
         const proj = driver.readLocalFile("MyTerraformStack.csproj");

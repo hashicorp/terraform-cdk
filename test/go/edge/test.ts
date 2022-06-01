@@ -7,19 +7,21 @@ describe("Golang edge provider test", () => {
 
   beforeAll(async () => {
     driver = new TestDriver(__dirname);
-    await driver.setupGoProject((dir) => {
-      // use generated custom bindings
-      fs.copySync(
-        path.resolve(
-          __dirname,
-          "..",
-          "..",
-          "edge-provider-bindings",
-          "go",
-          "edge"
-        ),
-        path.resolve(dir, "generated", "hashicorp", "edge")
-      );
+    await driver.setupGoProject({
+      cb: (dir) => {
+        // use generated custom bindings
+        fs.copySync(
+          path.resolve(
+            __dirname,
+            "..",
+            "..",
+            "edge-provider-bindings",
+            "go",
+            "edge"
+          ),
+          path.resolve(dir, "generated", "hashicorp", "edge")
+        );
+      },
     });
 
     console.log(driver.workingDirectory);
