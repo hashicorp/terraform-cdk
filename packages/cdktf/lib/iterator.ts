@@ -110,6 +110,7 @@ export abstract class Iterator implements IIterator {
    * @internal
    */
   protected _getValue(): any {
+    // uses a Lazy value to be able to access the current TerraformStack and pass it to ref()
     return Lazy.anyValue(
       {
         produce: (context) =>
@@ -123,6 +124,7 @@ export abstract class Iterator implements IIterator {
    * @internal
    */
   protected _getKey(): any {
+    // uses a Lazy value to be able to access the current TerraformStack and pass it to ref()
     return Lazy.anyValue(
       {
         produce: (context) => ref("each.key", TerraformStack.of(context.scope)),
