@@ -294,15 +294,18 @@ export class TestDriver {
     await this.get();
   };
 
-  setupGoProject = async (cb?: (workingDirectory) => void) => {
+  setupGoProject = async (options?: {
+    init?: { additionalOptions?: string };
+    cb?: (workingDirectory) => void;
+  }) => {
     this.switchToTempDir();
     console.log(this.workingDirectory);
-    await this.init("go");
+    await this.init("go", options?.init?.additionalOptions);
     this.copyFiles("cdktf.json");
     this.copyFile("main.go", "main.go");
 
     await this.get();
-    cb && cb(this.workingDirectory);
+    options?.cb && options.cb(this.workingDirectory);
 
     // automatically retrieves required jsii-runtime module (used in generated providers)
     await this.exec("go mod tidy");
