@@ -93,7 +93,7 @@ export class TerraformDataSource
   public get terraformMetaArguments(): { [name: string]: any } {
     assert(
       !this.forEach || typeof this.count === "undefined",
-      `forEach and count are mutually exclusive. You can only use either of them. Check data source at path: ${this.node.path}`
+      `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: ${this.node.path}`
     );
     return {
       dependsOn: this.dependsOn,
