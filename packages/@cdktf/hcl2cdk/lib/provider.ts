@@ -1,12 +1,12 @@
 import * as z from "zod";
-import { ProviderSchema, BlockType } from "@cdktf/provider-generator";
+import {
+  ProviderSchema,
+  BlockType,
+  Attribute,
+} from "@cdktf/provider-generator";
 import { schema } from "./schema";
 
-type ExtendedBlockType = BlockType & { max_items?: number };
-export function getBlockTypeAtPath(
-  schema: ProviderSchema,
-  path: string
-): ExtendedBlockType | null {
+function getResourceAtPath(schema: ProviderSchema, path: string) {
   const parts = path.split(".");
 
   if (parts.length < 2) {
@@ -41,7 +41,7 @@ export function getBlockTypeAtPath(
     ? provider.data_source_schemas
     : provider.resource_schemas;
 
-  let resource = resources[fullResourceName];
+  const resource = resources[fullResourceName];
   if (!resource) {
     // Could not find resource
     return null;
@@ -52,25 +52,57 @@ export function getBlockTypeAtPath(
     return null;
   }
 
-  // We don't care for
+  return { resource, parts };
+}
+
+type ExtendedBlockType = BlockType & { max_items?: number };
+export function getBlockTypeAtPath(
+  schema: ProviderSchema,
+  path: string
+): ExtendedBlockType | null {
+  const resourceSchema = getResourceAtPath(schema, path);
+  if (!resourceSchema) {
+    return null;
+  }
+  const { resource, parts } = resourceSchema;
+
   let currentSchema: BlockType | typeof resource = resource;
   do {
     const part = parts.shift() as string;
-    // console.log("Doing part", part);
     if (
       !currentSchema.block.block_types ||
       !currentSchema.block.block_types.hasOwnProperty(part)
     ) {
-      // console.log("didnt find it");
       // Found no block property with this name, there could be an attribute, but we don't care at this point
       return null;
     }
 
     currentSchema = currentSchema.block.block_types[part];
-    // console.log("New schema", currentSchema);
   } while (parts.length > 0);
 
   return currentSchema;
+}
+
+export function getAttributeTypeAtPath(
+  schema: ProviderSchema,
+  path: string
+): Attribute | null {
+  const resourceSchema = getResourceAtPath(schema, path);
+  if (!resourceSchema) {
+    return null;
+  }
+  const { resource, parts } = resourceSchema;
+
+  const attributes = resource.block.attributes;
+
+  if (parts.length !== 1) {
+    // No property specified or the path is too deep
+    return null;
+  }
+
+  const attributeName = parts[0];
+
+  return attributes[attributeName];
 }
 
 type Plan = z.infer<typeof schema>;

@@ -25,7 +25,7 @@ import {
   isListExpression,
 } from "./expressions";
 import { TerraformModuleConstraint } from "@cdktf/provider-generator";
-import { getBlockTypeAtPath } from "./provider";
+import { getBlockTypeAtPath, getAttributeTypeAtPath } from "./provider";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -76,6 +76,7 @@ export const valueToTs = async (
       if (item === undefined || item === null) {
         return t.nullLiteral();
       }
+
       const unwrappedItem =
         getBlockTypeAtPath(scope.providerSchema, path)?.max_items === 1 &&
         Array.isArray(item)
@@ -111,11 +112,21 @@ export const valueToTs = async (
 
               const itemPath = `${path}.${key}`;
 
+              const attribute = getAttributeTypeAtPath(
+                scope.providerSchema,
+                itemPath
+              );
+
+              // Map type attributes must not be wrapped in arrays
+              const isMapAttribute = Array.isArray(attribute?.type)
+                ? attribute?.type?.[0] === "map"
+                : false;
               const shouldBeArray =
                 typeof value === "object" &&
                 !Array.isArray(value) &&
                 getBlockTypeAtPath(scope.providerSchema, itemPath)
                   ?.max_items !== 1 &&
+                !isMapAttribute &&
                 key !== "tags";
 
               return t.objectProperty(

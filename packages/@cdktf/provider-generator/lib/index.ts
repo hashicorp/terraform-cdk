@@ -10,6 +10,7 @@ export {
   BlockType,
   AttributeType,
   Block,
+  Attribute,
 } from "./get/generator/provider-schema";
 
 import { CodeMaker } from "codemaker";
