@@ -78,8 +78,6 @@ describe("provider add command", () => {
           `Local providers have been updated. Running cdktf get to update...`
         );
 
-        await new Promise((r) => setTimeout(r, 10000));
-
         const genVersionsFile = JSON.parse(
           driver.readLocalFile(".gen/versions.json")
         );
