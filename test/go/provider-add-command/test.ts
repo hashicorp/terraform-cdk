@@ -1,21 +1,16 @@
 import { onPosix, onWindows, TestDriver } from "../../test-helper";
 
 describe("provider add command", () => {
-  describe("pre-built", () => {
+  describe("local", () => {
     let driver: TestDriver;
     beforeEach(async () => {
-      driver = new TestDriver(__dirname, {
-        CDKTF_DIST: "",
-        DISABLE_VERSION_CHECK: "true",
-      }); // reset CDKTF_DIST set by run-against-dist script & disable version check as we have to use an older version of cdktf-cli
-      await driver.setupGoProject({
-        init: { additionalOptions: "--cdktf-version 0.10.4" },
-      });
+      driver = new TestDriver(__dirname);
+      await driver.setupGoProject();
     }, 500_000);
 
     it("detects correct cdktf version", async () => {
       const res = await driver.exec("cdktf", ["debug"]);
-      expect(res.stdout).toContain("cdktf: 0.10.4");
+      expect(res.stdout).toContain("cdktf: v0.0.0");
     });
 
     onPosix(
@@ -29,7 +24,7 @@ describe("provider add command", () => {
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
         Array [
-          "hashicorp/null@ ~> 3.1.0",
+          "hashicorp/null@~> 3.1.0",
           "hashicorp/local@=2.2.3",
         ]
       `);
@@ -38,15 +33,15 @@ describe("provider add command", () => {
           `Local providers have been updated. Running cdktf get to update...`
         );
 
-        await new Promise((r) => setTimeout(r, 10000));
-
-        const genVersionsFile = JSON.parse(
-          driver.readLocalFile(".gen/versions.json")
-        );
-
-        expect(
-          genVersionsFile["registry.terraform.io/hashicorp/local"]
-        ).toEqual("2.2.3");
+        // This file currently is only created for TypeScript targets
+        // we need to make "generateJsiiLanguage" copy that file to
+        // the target directory for this to work
+        // const genVersionsFile = JSON.parse(
+        //   driver.readLocalFile("generated/versions.json")
+        // );
+        // expect(
+        //   genVersionsFile["registry.terraform.io/hashicorp/local"]
+        // ).toEqual("2.2.3");
       },
       240_000
     );
@@ -62,7 +57,7 @@ describe("provider add command", () => {
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
         Array [
-          "hashicorp/null@ ~> 3.1.0",
+          "hashicorp/null@~> 3.1.0",
           "hashicorp/local@=2.2.3",
         ]
       `);

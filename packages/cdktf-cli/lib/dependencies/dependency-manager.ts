@@ -116,17 +116,17 @@ export class ProviderConstraint {
  * manages dependencies of a CDKTF project (e.g. terraform providers)
  */
 export class DependencyManager {
-  private packageManager: PackageManager;
+  private packageManager?: PackageManager;
 
   constructor(
     private readonly targetLanguage: Language,
     private cdktfVersion: string,
     private readonly projectDirectory: string
   ) {
-    this.packageManager = PackageManager.forLanguage(
-      targetLanguage,
-      this.projectDirectory
-    );
+    this.packageManager =
+      targetLanguage !== Language.GO
+        ? PackageManager.forLanguage(targetLanguage, this.projectDirectory)
+        : undefined;
   }
 
   async addProvider(
@@ -182,6 +182,12 @@ export class DependencyManager {
     if (this.targetLanguage === Language.GO) {
       throw Errors.Usage(
         "There are no pre-built providers published for Go at the moment. See https://github.com/hashicorp/terraform-cdk/issues/723"
+      );
+    }
+
+    if (!this.packageManager) {
+      throw Errors.Internal(
+        "Package manager not initialized. Please report this issue."
       );
     }
 
