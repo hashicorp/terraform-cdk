@@ -53,6 +53,14 @@ export async function askForCrashReportingConsent() {
   return answer.reportCrash;
 }
 
+function isPromise(p: any): p is Promise<any> {
+  return (
+    typeof p === "object" &&
+    typeof p.then === "function" &&
+    typeof p.catch === "function"
+  );
+}
+
 export async function initializErrorReporting(askForConsent = false) {
   let shouldReport = shouldReportCrash();
   const ci: string | false = ciDetect();
@@ -83,6 +91,35 @@ export async function initializErrorReporting(askForConsent = false) {
     autoSessionTracking: true,
     dsn: process.env.SENTRY_DSN,
     release: `cdktf-cli-${DISPLAY_VERSION}`,
+    async beforeSend(event, hint) {
+      if (!hint) {
+        return event;
+      }
+
+      // The promise character is not documented, but it happens
+      const originalException:
+        | Promise<Error>
+        | Error
+        | string
+        | null
+        | undefined = hint.originalException;
+      let error: Error | string | null | undefined;
+      if (isPromise(originalException)) {
+        (originalException as unknown as Promise<Error>).catch(
+          (e) => (error = e)
+        );
+        await Promise.allSettled([originalException]);
+      } else {
+        error = originalException;
+      }
+
+      const errorMessage = error?.toString() || "";
+      if (errorMessage.includes("Usage Error")) {
+        // This is a usage error, so we don't want to report it
+        return null;
+      }
+      return event;
+    },
   });
 
   Sentry.configureScope(function (scope) {
