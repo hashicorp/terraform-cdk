@@ -2,10 +2,7 @@ import chalk from "chalk";
 import * as fs from "fs-extra";
 import React from "react";
 import yargs from "yargs";
-import {
-  convert as hcl2cdkConvert,
-  setLogger as setHCL2CDKLogger,
-} from "@cdktf/hcl2cdk";
+import { convert as hcl2cdkConvert } from "@cdktf/hcl2cdk";
 import {
   readSchema,
   ConstructsMakerProviderTarget,
@@ -50,7 +47,6 @@ import {
   ProviderConstraint,
 } from "../../lib/dependencies/dependency-manager";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
-import { logger } from "../../lib/logging";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -74,8 +70,6 @@ async function getProviderRequirements(provider: string[]) {
 export async function convert({ language, provider }: any) {
   await initializErrorReporting();
   await displayVersionMessage();
-
-  setHCL2CDKLogger(logger as any);
 
   const providerRequirements = await getProviderRequirements(provider);
   // Get all the provider schemas
@@ -216,8 +210,6 @@ export async function init(argv: any) {
   await terraformCheck();
   await displayVersionMessage();
   await checkEnvironment();
-
-  setHCL2CDKLogger(console);
 
   if (["", ".", process.cwd()].includes(argv.fromTerraformProject)) {
     throw Errors.Usage(
