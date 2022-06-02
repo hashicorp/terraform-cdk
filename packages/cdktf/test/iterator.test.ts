@@ -1,7 +1,7 @@
 import {
   Testing,
   TerraformStack,
-  Iterator,
+  TerraformIterator,
   Fn,
   TerraformHclModule,
 } from "../lib";
@@ -12,7 +12,7 @@ test("iterator inline list", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
-  const it = Iterator.fromList(["a", "b", "c"]);
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
 
   new TestResource(stack, "test", {
     forEach: it,
@@ -37,7 +37,7 @@ test("iterator list attribute", () => {
 
   const input = new TestResource(stack, "input", { name: "foo" });
 
-  const it = Iterator.fromList(input.listValue);
+  const it = TerraformIterator.fromList(input.listValue);
 
   new TestResource(stack, "test", {
     forEach: it,
@@ -60,7 +60,7 @@ test("iterator inline map", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
-  const it = Iterator.fromMap({ a: "aa", b: "bb", c: "cc" });
+  const it = TerraformIterator.fromMap({ a: "aa", b: "bb", c: "cc" });
 
   new TestResource(stack, "test", {
     forEach: it,
@@ -90,7 +90,7 @@ test("iterator map attribute", () => {
 
   const input = new TestResource(stack, "input", { name: "foo" });
 
-  const it = Iterator.fromMap(input.stringMap);
+  const it = TerraformIterator.fromMap(input.stringMap);
 
   new TestResource(stack, "test", {
     forEach: it,
@@ -121,7 +121,7 @@ test("iterator access nested types", () => {
 
   // listValue is a list of strings but we don't care (would fail later in TF,
   // but works long enough to check whether it would do the right thing)
-  const it = Iterator.fromList(input.listValue);
+  const it = TerraformIterator.fromList(input.listValue);
 
   new TestResource(stack, "test", {
     forEach: it,
@@ -164,7 +164,7 @@ test("iterator on a data source", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
-  const it = Iterator.fromList(["a", "b", "c"]);
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
 
   new TestDataSource(stack, "test", {
     forEach: it,
@@ -187,7 +187,7 @@ test("iterator on a module", () => {
   const app = Testing.app({ fakeCdktfJsonPath: true });
   const stack = new TerraformStack(app, "test");
 
-  const it = Iterator.fromList(["a", "b", "c"]);
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
 
   new TerraformHclModule(stack, "test", {
     forEach: it,
@@ -210,7 +210,7 @@ test("iterator throws if both count and forEach are set on resources", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
-  const it = Iterator.fromList(["a", "b", "c"]);
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
 
   new TestResource(stack, "resource", {
     count: 2,
@@ -227,7 +227,7 @@ test("iterator throws if both count and forEach are set on data sources", () => 
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
-  const it = Iterator.fromList(["a", "b", "c"]);
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
 
   new TestDataSource(stack, "data", {
     count: 2,

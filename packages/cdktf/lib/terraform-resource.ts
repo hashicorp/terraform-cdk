@@ -7,7 +7,7 @@ import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
-import { IIterator } from "./iterator";
+import { ITerraformIterator } from "./terraform-iterator";
 import assert = require("assert");
 
 export interface ITerraformResource {
@@ -19,7 +19,7 @@ export interface ITerraformResource {
   count?: number;
   provider?: TerraformProvider;
   lifecycle?: TerraformResourceLifecycle;
-  forEach?: IIterator;
+  forEach?: ITerraformIterator;
 
   interpolationForAttribute(terraformAttribute: string): IResolvable;
 }
@@ -35,7 +35,7 @@ export interface TerraformMetaArguments {
   readonly count?: number;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
-  readonly forEach?: IIterator;
+  readonly forEach?: ITerraformIterator;
 }
 
 export interface TerraformProviderGeneratorMetadata {
@@ -62,7 +62,7 @@ export class TerraformResource
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
-  public forEach?: IIterator;
+  public forEach?: ITerraformIterator;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);

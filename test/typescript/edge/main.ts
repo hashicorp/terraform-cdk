@@ -1,5 +1,11 @@
 import { Construct } from "constructs";
-import { App, Fn, Iterator, TerraformOutput, TerraformStack } from "cdktf";
+import {
+  App,
+  Fn,
+  TerraformIterator,
+  TerraformOutput,
+  TerraformStack,
+} from "cdktf";
 import * as edge from "./.gen/providers/edge";
 
 // Using references to resource attributes as resource arguments
@@ -206,9 +212,9 @@ export class IteratorStack extends TerraformStack {
       reqMap: { key1: true },
     });
 
-    const stringListIterator = Iterator.fromList(simpleList.strList);
-    const complexListIterator = Iterator.fromList(complexList.req);
-    const stringMapIterator = Iterator.fromMap(map.optMap);
+    const stringListIterator = TerraformIterator.fromList(simpleList.strList);
+    const complexListIterator = TerraformIterator.fromList(complexList.req);
+    const stringMapIterator = TerraformIterator.fromMap(map.optMap);
 
     // iterating over a list of strings
     new edge.OptionalAttributeResource(this, "string_list_target", {

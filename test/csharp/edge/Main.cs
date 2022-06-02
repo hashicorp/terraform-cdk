@@ -211,9 +211,9 @@ namespace MyCompany.MyApp
                 ReqMap = new Dictionary<string, object> { ["Key1"] = true }
             });
 
-            ListIterator stringListIterator = Iterator.FromList(simpleList.StrList);
-            ListIterator complexListIterator = Iterator.FromList(complexList.Req);
-            MapIterator stringMapIterator = Iterator.FromMap(map.OptMap);
+            ListTerraformIterator stringListIterator = TerraformIterator.FromList(simpleList.StrList);
+            ListTerraformIterator complexListIterator = TerraformIterator.FromList(complexList.Req);
+            MapTerraformIterator stringMapIterator = TerraformIterator.FromMap(map.OptMap);
 
             // iterating over a list of strings
             new OptionalAttributeResource(this, "string_list_target", new OptionalAttributeResourceConfig {

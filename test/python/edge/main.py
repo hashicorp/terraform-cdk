@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 from constructs import Construct
-from cdktf import App, Fn, TerraformStack, Token, TerraformOutput, Iterator
+from cdktf import App, Fn, TerraformStack, Token, TerraformOutput, TerraformIterator
 import imports.edge as edge
 
 # Using references to resource attributes as resource arguments
@@ -196,9 +196,9 @@ class IteratorStack(TerraformStack):
             req_map={"key1": True}
         )
 
-        string_list_iterator = Iterator.from_list(simple_list.str_list)
-        complex_list_iterator = Iterator.from_list(complex_list.req)
-        string_map_iterator = Iterator.from_map(map.opt_map)
+        string_list_iterator = TerraformIterator.from_list(simple_list.str_list)
+        complex_list_iterator = TerraformIterator.from_list(complex_list.req)
+        string_map_iterator = TerraformIterator.from_map(map.opt_map)
 
         # iterating over a list of strings
         edge.OptionalAttributeResource(self, "string_list_target",

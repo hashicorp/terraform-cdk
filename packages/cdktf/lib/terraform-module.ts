@@ -6,14 +6,14 @@ import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
 import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
-import { IIterator } from "./iterator";
+import { ITerraformIterator } from "./terraform-iterator";
 
 export interface TerraformModuleOptions {
   readonly source: string;
   readonly version?: string;
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
   readonly dependsOn?: ITerraformDependable[];
-  readonly forEach?: IIterator;
+  readonly forEach?: ITerraformIterator;
 }
 
 export interface TerraformModuleProvider {
@@ -29,7 +29,7 @@ export abstract class TerraformModule
   public readonly version?: string;
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
   public dependsOn?: string[];
-  public forEach?: IIterator;
+  public forEach?: ITerraformIterator;
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id, "module");

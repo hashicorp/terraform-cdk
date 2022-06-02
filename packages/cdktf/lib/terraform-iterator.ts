@@ -4,14 +4,14 @@ import { Fn } from "./terraform-functions";
 import { propertyAccess, ref } from "./tfExpression";
 import { Lazy, Token } from "./tokens";
 
-export interface IIterator {
+export interface ITerraformIterator {
   /**
    * @internal used by TerraformResource to set the for_each expression
    */
   _getForEachExpression(): any;
 }
 
-export abstract class Iterator implements IIterator {
+export abstract class TerraformIterator implements ITerraformIterator {
   /**
    * @internal used by TerraformResource to set the for_each expression
    */
@@ -22,10 +22,10 @@ export abstract class Iterator implements IIterator {
    */
   public static fromList(
     list: string[] | number[] | ComplexList
-  ): ListIterator {
+  ): ListTerraformIterator {
     // TODO: this could return different iterators depending on the type of the list
     // for example it could return a NumberListIterator whose iterator.key would be a number
-    return new ListIterator(list);
+    return new ListTerraformIterator(list);
   }
 
   /**
@@ -38,8 +38,8 @@ export abstract class Iterator implements IIterator {
       | { [key: string]: string }
       | { [key: string]: number }
       | { [key: string]: boolean }
-  ): MapIterator {
-    return new MapIterator(map);
+  ): MapTerraformIterator {
+    return new MapTerraformIterator(map);
   }
 
   /**
@@ -134,7 +134,7 @@ export abstract class Iterator implements IIterator {
   }
 }
 
-export class ListIterator extends Iterator {
+export class ListTerraformIterator extends TerraformIterator {
   constructor(private readonly list: string[] | number[] | ComplexList) {
     super();
   }
@@ -165,7 +165,7 @@ export class ListIterator extends Iterator {
   }
 }
 
-export class MapIterator extends Iterator {
+export class MapTerraformIterator extends TerraformIterator {
   constructor(
     private readonly map:
       | ComplexMap

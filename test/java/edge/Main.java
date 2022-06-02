@@ -231,11 +231,11 @@ class IteratorStack extends TerraformStack {
                 .reqMap(boolMap)
                 .build();
 
-        com.hashicorp.cdktf.ListIterator stringListIterator = com.hashicorp.cdktf.Iterator
+        ListTerraformIterator stringListIterator = TerraformIterator
                 .fromList(simpleList.getStrList());
-        com.hashicorp.cdktf.ListIterator complexListIterator = com.hashicorp.cdktf.Iterator
+        ListTerraformIterator complexListIterator = TerraformIterator
                 .fromList(complexList.getReq());
-        com.hashicorp.cdktf.MapIterator stringMapIterator = com.hashicorp.cdktf.Iterator.fromMap(map.getOptMap());
+        MapTerraformIterator stringMapIterator = TerraformIterator.fromMap(map.getOptMap());
 
         // iterating over a list of strings
         OptionalAttributeResource.Builder.create(this, "string_list_target")

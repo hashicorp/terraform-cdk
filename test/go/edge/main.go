@@ -234,9 +234,9 @@ func NewIteratorStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		ReqMap: &map[string]interface{}{"key1": jsii.Bool(true)},
 	})
 
-	stringListIterator := cdktf.Iterator_FromList(simpleList.StrList())
-	complexListIterator := cdktf.Iterator_FromList(complexList.Req())
-	stringMapIterator := cdktf.Iterator_FromMap(stringMap.OptMap())
+	stringListIterator := cdktf.TerraformIterator_FromList(simpleList.StrList())
+	complexListIterator := cdktf.TerraformIterator_FromList(complexList.Req())
+	stringMapIterator := cdktf.TerraformIterator_FromMap(stringMap.OptMap())
 
 	// iterating over a list of strings
 	edge.NewOptionalAttributeResource(stack, jsii.String("string_list_target"), &edge.OptionalAttributeResourceConfig{
