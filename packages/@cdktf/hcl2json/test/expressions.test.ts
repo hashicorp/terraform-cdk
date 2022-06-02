@@ -103,7 +103,7 @@ describe("getReferencesInExpression", () => {
     const input = `\${merge(
       var.settings,
       var.other_settings, # best one
-      var.jet_another_setting,
+      var.yet_another_setting,
       var.final_setting,
     )}`;
     const references = await getReferencesInExpression("main.tf", input);
@@ -116,7 +116,7 @@ describe("getReferencesInExpression", () => {
               Array [
                 "var.settings",
                 "var.other_settings",
-                "var.jet_another_setting",
+                "var.yet_another_setting",
                 "var.final_setting",
               ]
             `);
