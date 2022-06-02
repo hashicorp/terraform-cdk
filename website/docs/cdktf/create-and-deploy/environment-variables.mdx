@@ -14,7 +14,7 @@ Use these environment variables to configure CDK for Terraform (CDKTF) behavior.
 | CDKTF_DISABLE_PLUGIN_CACHE_ENV | If set to `true` or `1`, CDKTF disables the [plugin cache](/cli/config/config-file#provider-plugin-cache). Otherwise, CDKTF creates the plugin cache directory in `~/.terraform.d/plugin-cache` if it is not already present. |  |
 | CDKTF_HOME | Where CDKTF should store cache and configuration files. | `~/.cdktf` |
 | CDKTF_LOG_FILE_DIRECTORY | The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard out at the level specified in `CDKTF_LOG_LEVEL`. | standard out |
-| CDKTF_LOG_LEVEL | Controls how much log information CDKTF prints to the console. You can set it to one of the following values: `all`, `debug`, `info`, `warn`, `error`, `fatal`, `off`. | `debug` |
+| CDKTF_LOG_LEVEL | Controls how much log information CDKTF prints to the console. You can set it to one of the following values: `all`, `debug`, `info`, `warn`, `error`, `fatal`, `off`. | `warn` |
 | CHECKPOINT_DISABLE | If set to any value, CDKTF will not send [telemetry](/cdktf/telemetry) data. |   |
 | DISABLE_VERSION_CHECK | If set to `true` or `1`, CDKTF will not perform a version check. If it is not set, CDKTF verifies that your installed library version matches the CLI version. If they do not match, CDKTF displays a warning. |  |
 | HTTP_PROXY or http_proxy| The proxy that CDKTF should use for all HTTP requests. |  |
