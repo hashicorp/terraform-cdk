@@ -16,6 +16,7 @@ export {
 import { CodeMaker } from "codemaker";
 import * as srcmak from "jsii-srcmak";
 import { generateJsiiLanguage } from "./get/constructs-maker";
+export { escapeAttributeName } from "./get/generator/models";
 import { TerraformProviderGenerator } from "./get/generator/provider-generator";
 export { setLogger } from "./config";
 
