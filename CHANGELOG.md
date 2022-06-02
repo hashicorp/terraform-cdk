@@ -1,3 +1,17 @@
+## 0.11.1
+
+### fix
+
+- fix(cli): Fix package version check on Windows [\#1831](https://github.com/hashicorp/terraform-cdk/pull/1831)
+- fix(docs): fix code blocks in "create and deploy" documentation [\#1826](https://github.com/hashicorp/terraform-cdk/pull/1826)
+- fix(release): update changelog [\#1824](https://github.com/hashicorp/terraform-cdk/pull/1824)
+
+### chore
+
+- chore(cli): filter usage errors from error reporting [\#1828](https://github.com/hashicorp/terraform-cdk/pull/1828)
+- chore: document debug command [\#1812](https://github.com/hashicorp/terraform-cdk/pull/1812)
+- chore: add best practice page [\#1790](https://github.com/hashicorp/terraform-cdk/pull/1790)
+
 ## 0.11.0
 
 **Breaking Changes**
