@@ -14,6 +14,11 @@ describe("provider add command", () => {
       });
     });
 
+    it("detects correct cdktf version", async () => {
+      const res = await driver.exec("cdktf", ["debug"]);
+      expect(res.stdout).toContain("cdktf: 0.10.4");
+    });
+
     test("installs pre-built provider using maven", async () => {
       const res = await driver.exec("cdktf", [
         "provider",

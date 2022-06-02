@@ -13,6 +13,11 @@ describe("provider add command", () => {
       });
     }, 500_000);
 
+    it("detects correct cdktf version", async () => {
+      const res = await driver.exec("cdktf", ["debug"]);
+      expect(res.stdout).toContain("cdktf: 0.10.4");
+    });
+
     test("installs pre-built provider using npm", async () => {
       const res = await driver.exec("cdktf", [
         "provider",
@@ -72,8 +77,6 @@ describe("provider add command", () => {
         expect(res.stdout).toContain(
           `Local providers have been updated. Running cdktf get to update...`
         );
-
-        await new Promise((r) => setTimeout(r, 10000));
 
         const genVersionsFile = JSON.parse(
           driver.readLocalFile(".gen/versions.json")
