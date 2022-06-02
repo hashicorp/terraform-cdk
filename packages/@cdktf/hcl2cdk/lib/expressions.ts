@@ -384,8 +384,8 @@ export async function findUsedReferences(
 
   if (Array.isArray(item)) {
     return (
-      await Promise.all(item.map((i) => findUsedReferences(nodeIds, i), []))
-    ).reduce((carry, i) => [...carry, ...i], []);
+      await Promise.all(item.map((i) => findUsedReferences(nodeIds, i)))
+    ).flat();
   }
 
   if (item && "dynamic" in item) {
@@ -397,12 +397,11 @@ export async function findUsedReferences(
 
   return (
     await Promise.all(
-      Object.values(item as Record<string, any>).map(
-        (i) => findUsedReferences(nodeIds, i),
-        []
+      Object.values(item as Record<string, any>).map((i) =>
+        findUsedReferences(nodeIds, i)
       )
     )
-  ).reduce((carry, i) => [...carry, ...i], []);
+  ).flat();
 }
 
 // This only guesses if the type of an expression is list, it should be replaced by something that understands

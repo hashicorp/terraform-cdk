@@ -421,8 +421,7 @@ describe("expressions", () => {
     });
   });
 
-  // TODO: check if this example is correct
-  describe.skip("#referencesToAst", () => {
+  describe("#referencesToAst", () => {
     it("nested terraform expressions without space", async () => {
       const scope: Scope = {
         providerSchema: { format_version: "0.1" },

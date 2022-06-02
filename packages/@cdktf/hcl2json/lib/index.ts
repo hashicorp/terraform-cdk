@@ -270,10 +270,7 @@ function findAllReferencesInAst(
 
   // Multiple terraform parts in an expression
   if ("Parts" in entry) {
-    return entry.Parts.reduce(
-      (carry, part) => [...carry, ...findAllReferencesInAst(input, part)],
-      [] as Reference[]
-    );
+    return entry.Parts.flatMap((part) => findAllReferencesInAst(input, part));
   }
 
   // ${} is an embedded expression
@@ -283,10 +280,7 @@ function findAllReferencesInAst(
 
   // element(var.foo, 0) is a function call
   if ("Args" in entry) {
-    return entry.Args.reduce(
-      (carry, arg) => [...carry, ...findAllReferencesInAst(input, arg)],
-      [] as Reference[]
-    );
+    return entry.Args.flatMap((arg) => findAllReferencesInAst(input, arg));
   }
 
   // var.foo + var.bar is an arithmetic expression
@@ -324,9 +318,8 @@ function findAllReferencesInAst(
 
   // [var.foo, var.bar] is a list expression
   if ("Exprs" in entry) {
-    return (entry.Exprs || []).reduce(
-      (carry, expr) => [...carry, ...findAllReferencesInAst(input, expr)],
-      [] as Reference[]
+    return (entry.Exprs || []).flatMap((expr) =>
+      findAllReferencesInAst(input, expr)
     );
   }
 

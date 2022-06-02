@@ -354,7 +354,7 @@ you need to keep this like it is.`;
   // Check for dynamic blocks
   return [
     ...expressions,
-    ...((await Promise.all(
+    ...(await Promise.all(
       dynBlocks.map(async ({ path, for_each, content, scopedVar }) => {
         return addOverrideExpression(
           varName,
@@ -372,7 +372,7 @@ you need to keep this like it is.`;
           loopComment
         );
       })
-    )) as any), // TODO: get rid of this any through type assertions
+    )),
   ];
 }
 
