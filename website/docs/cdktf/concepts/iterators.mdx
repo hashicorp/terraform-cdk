@@ -32,6 +32,8 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 });
 ```
 
+Please note that it is not possible to access the index of items when iterating over lists. This is because Terraform requires sets for iteration and CDKTF implicitly converts lists to sets when iterating over them. This behaviour is on purpose and helps avoiding accidental deletion and recreation of resources when their indices change. If you need an index, you can use `count` and an [escape hatch](/cdktf/concepts/providers-and-resources#escape-hatch) using the [`count.index` property](/language/meta-arguments/count).
+
 ## Using iterators on complex types
 
 The iterator also exposes methods to access nested attributes of e.g. records you might be iterating over.
