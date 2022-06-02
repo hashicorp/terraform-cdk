@@ -41,6 +41,10 @@
         "path": "concepts/functions"
       },
       {
+        "title": "Iterators",
+        "path": "concepts/iterators"
+      },
+      {
         "title": "Remote Backends",
         "path": "concepts/remote-backends"
       },
