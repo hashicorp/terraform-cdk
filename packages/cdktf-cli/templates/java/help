@@ -27,9 +27,9 @@ Use Providers:
   
   cdktf provider add "aws@~>3.0" null kreuzwerker/docker
 
-  You can find all prebuilt providers on Maven Central: https://mvnrepository.com/artifact/com.hashicorp
+  All prebuilt providers are available on Maven Central: https://mvnrepository.com/artifact/com.hashicorp
   You can also add these providers directly to your pom.xml file.
 
-  You can also build any module or provider locally. Learn more https://cdk.tf/modules-and-providers
+  You can also build any module or provider locally. Learn more: https://cdk.tf/modules-and-providers
 
 ========================================================================================================

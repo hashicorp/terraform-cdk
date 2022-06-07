@@ -23,10 +23,10 @@
 
 Use Providers:
 
-  You can add providers using the add command:
+  Use the add command to add providers:
   
   cdktf provider add "aws@~>3.0" null kreuzwerker/docker
 
-  Learn more https://cdk.tf/modules-and-providers
+  Learn more: https://cdk.tf/modules-and-providers
 
 ========================================================================================================
