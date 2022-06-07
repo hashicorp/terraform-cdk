@@ -742,7 +742,7 @@ describe("convert", () => {
   );
 
   testCase.test(
-    "property access through []",
+    "property access through square brackets",
     `
       provider "aws" {
         region                      = "us-east-1"
@@ -760,7 +760,7 @@ describe("convert", () => {
   );
 
   testCase.test(
-    "list access through []",
+    "list access through square brackets",
     `
       provider "aws" {
         region                      = "us-east-1"
