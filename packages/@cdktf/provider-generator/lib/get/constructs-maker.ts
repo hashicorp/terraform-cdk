@@ -237,10 +237,11 @@ export class ConstructsMaker {
       ) as ConstructsMakerProviderTarget[];
 
     if (providerTargets.length > 0) {
-      new TerraformProviderGenerator(
-        this.code,
-        schema.providerSchema,
-        providerTargets
+      providerTargets.forEach(
+        (provider) =>
+          new TerraformProviderGenerator(this.code, schema.providerSchema, [
+            provider,
+          ])
       );
     }
 

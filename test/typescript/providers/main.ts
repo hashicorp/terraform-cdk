@@ -105,11 +105,11 @@ export class References extends TerraformStack {
     });
 
     // simple references
-    const job = new Nomad.JobA(this, "firstJob", {
+    const job = new Nomad.Job(this, "firstJob", {
       jobspec: "./job/spec.hcl",
     });
 
-    new Nomad.JobA(this, "secondJob", {
+    new Nomad.Job(this, "secondJob", {
       jobspec: job.jobspec,
     });
 
