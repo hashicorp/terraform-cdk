@@ -179,7 +179,7 @@ describe("expressions", () => {
       ]);
     });
 
-    it("use fqn for numeric access", () => {
+    it("use no fqn if property is present on numeric access", () => {
       expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.network_interface.0.access_config.0.assigned_nat_ip}",
@@ -189,12 +189,12 @@ describe("expressions", () => {
         {
           referencee: {
             id: "aws_s3_bucket.examplebucket",
-            full: "aws_s3_bucket.examplebucket",
+            full: "aws_s3_bucket.examplebucket.network_interface",
           },
-          useFqn: true,
+          useFqn: false,
           isVariable: false,
           start: 2,
-          end: 29,
+          end: 47,
         },
       ]);
     });
@@ -428,7 +428,7 @@ describe("expressions", () => {
         constructs: new Set<string>(),
         variables: {},
       };
-      const expr = `\${\${each.value}\${var.azure_ad_domain_name}}"`;
+      const expr = `\${"\${each.value}\${var.azure_ad_domain_name}"}`;
       const references = await extractReferencesFromExpression(expr, [
         "var.azure_ad_domain_name",
       ]);
@@ -439,7 +439,7 @@ describe("expressions", () => {
           ]) as any
         ).code
       ).toMatchInlineSnapshot(
-        `"\`\\\\\${\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}}\\"\`;"`
+        `"\`\\\\\${\\"\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\\"}\`;"`
       );
     });
   });
