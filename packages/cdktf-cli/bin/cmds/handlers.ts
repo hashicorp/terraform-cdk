@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import * as fs from "fs-extra";
 import React from "react";
-import yargs from "yargs";
 import { convert as hcl2cdkConvert } from "@cdktf/hcl2cdk";
 import {
   readSchema,
@@ -237,13 +236,16 @@ export async function list(argv: any) {
   await renderInk(React.createElement(List, { outDir, synthCommand: command }));
 }
 
-export async function login(argv: any) {
+export async function login(argv: { tfeHostname: string }) {
   await terraformCheck();
   await displayVersionMessage();
 
   async function showUserDetails(authToken: string) {
     // Get user details if token is set
-    const userAccount = await terraformCloudClient.getAccountDetails(authToken);
+    const userAccount = await terraformCloudClient.getAccountDetails(
+      argv.tfeHostname,
+      authToken
+    );
     if (userAccount) {
       const username = userAccount.data.attributes.username;
       console.log(
@@ -255,16 +257,7 @@ export async function login(argv: any) {
     }
   }
 
-  const args = argv as yargs.Arguments;
-  if (args["_"].length > 1) {
-    console.error(
-      chalkColour`{redBright ERROR: 'cdktf login' command cannot have more than one argument.}\n`
-    );
-    yargs.showHelp();
-    process.exit(1);
-  }
-
-  const terraformLogin = new TerraformLogin();
+  const terraformLogin = new TerraformLogin(argv.tfeHostname);
   let token = "";
   try {
     token = await readStreamAsString(process.stdin, "No stdin was passed");
