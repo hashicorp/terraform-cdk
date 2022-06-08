@@ -49,7 +49,7 @@ export function checkForEmptyDirectory(dir: string) {
     process.exit(1);
   }
 }
-
+const tfeHostname = "app.terraform.io";
 type Options = {
   local?: boolean;
   template?: string;
@@ -69,7 +69,8 @@ export async function runInit(argv: Options) {
     // We ask the user to login to Terraform Cloud and set a token
     // If the user chooses not to use Terraform Cloud, we continue
     // without a token and set up the project.
-    const terraformLogin = new TerraformLogin();
+
+    const terraformLogin = new TerraformLogin(tfeHostname);
     token = await terraformLogin.askToLogin();
   } else {
     console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
@@ -112,6 +113,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
       );
       try {
         await terraformCloudClient.createWorkspace(
+          tfeHostname,
           projectInfo.OrganizationName,
           projectInfo.WorkspaceName,
           token
@@ -267,6 +269,7 @@ async function gatherInfo(
       chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
     );
     const organizationNames = await terraformCloudClient.getOrganizationNames(
+      tfeHostname,
       token
     );
     const organizationData = organizationNames.data;
