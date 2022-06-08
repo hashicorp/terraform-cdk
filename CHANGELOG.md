@@ -1,3 +1,15 @@
+## 0.11.2
+
+### feat
+
+- feat(cli): support custom Terraform Enterprise instances [\#1857](https://github.com/hashicorp/terraform-cdk/pull/1857)
+- feat(hcl2json): expose hcl expression parser [\#1794](https://github.com/hashicorp/terraform-cdk/pull/1794)
+
+### chore
+
+- chore: synthesize all boolean as iresolvable tests [\#1849](https://github.com/hashicorp/terraform-cdk/pull/1849)
+- chore(docs): Fix Environment Variables and Best Practices [\#1839](https://github.com/hashicorp/terraform-cdk/pull/1839)
+
 ## 0.11.1
 
 ### fix
