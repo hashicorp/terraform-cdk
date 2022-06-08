@@ -7,14 +7,13 @@ import * as terraformCloudClient from "./terraform-cloud-client";
 const chalkColour = new chalk.Instance();
 const homedir = require("os").homedir();
 const terraformCredentialsFilePath = `${homedir}/.terraform.d/credentials.tfrc.json`;
-const terraformLoginURL = `https://app.terraform.io/app/settings/tokens?source=terraform-login`;
 
 export interface Hostname {
   token: string;
 }
 
 export interface Credentials {
-  "app.terraform.io": Hostname;
+  [tfeHostname: string]: Hostname;
 }
 
 export interface TerraformCredentialsFile {
@@ -22,12 +21,17 @@ export interface TerraformCredentialsFile {
 }
 
 export class TerraformLogin {
+  constructor(private readonly tfeHostname: string) {}
+
+  private get terraformLoginURL(): string {
+    return `https://${this.tfeHostname}/app/settings/tokens?source=terraform-login`;
+  }
   public async askToContinue(): Promise<boolean> {
     // Describe the command
     console.log(chalkColour`{greenBright Welcome to CDK for Terraform!}
 
 By default, cdktf allows you to manage the state of your stacks using Terraform Cloud for free.
-cdktf will request an API token for app.terraform.io using your browser.
+cdktf will request an API token for ${this.tfeHostname} using your browser.
 
 If login is successful, cdktf will store the token in plain text in
 the following file for use by subsequent Terraform commands:
@@ -58,15 +62,15 @@ the following file for use by subsequent Terraform commands:
   openBrowser() {
     console.log(`\nopening webpage using your browser.....\n`);
     console.log(chalkColour`If the web browser didn't open the window automatically, you can go to the following url:
-        {whiteBright ${terraformLoginURL}}\n`);
-    return open.default(terraformLoginURL);
+        {whiteBright ${this.terraformLoginURL}}\n`);
+    return open.default(this.terraformLoginURL);
   }
 
   public async askForToken() {
     const { token } = await inquirer.prompt([
       {
         name: "token",
-        message: "Token for app.terraform.io 🔑",
+        message: `Token for ${this.tfeHostname} 🔑`,
         type: "password",
       },
     ]);
@@ -74,8 +78,15 @@ the following file for use by subsequent Terraform commands:
   }
 
   public async saveTerraformCredentials(token: string) {
+    const terraformCredentials = await this.getTerraformCredentialsFile();
     const credentialsFileJSON = JSON.stringify(
-      { credentials: { "app.terraform.io": { token: token } } },
+      {
+        ...terraformCredentials,
+        credentials: {
+          ...terraformCredentials.credentials,
+          [this.tfeHostname]: { token: token },
+        },
+      },
       undefined,
       2
     );
@@ -95,8 +106,8 @@ the following file for use by subsequent Terraform commands:
 
   public async getTokenFromTerraformCredentialsFile(): Promise<string> {
     const terraformCredentials = await this.getTerraformCredentialsFile();
-    if ("app.terraform.io" in terraformCredentials.credentials) {
-      return terraformCredentials.credentials["app.terraform.io"].token;
+    if (this.tfeHostname in terraformCredentials.credentials) {
+      return terraformCredentials.credentials[this.tfeHostname].token;
     }
 
     return "";
@@ -113,7 +124,7 @@ the following file for use by subsequent Terraform commands:
 
   public async isTokenValid(token: string): Promise<boolean> {
     try {
-      await terraformCloudClient.getAccountDetails(token);
+      await terraformCloudClient.getAccountDetails(this.tfeHostname, token);
       return true;
     } catch (e) {
       if ((e as any).statusCode === 401) {

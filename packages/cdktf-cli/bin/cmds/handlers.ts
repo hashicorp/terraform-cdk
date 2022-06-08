@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import * as fs from "fs-extra";
 import React from "react";
-import yargs from "yargs";
 import { convert as hcl2cdkConvert } from "@cdktf/hcl2cdk";
 import {
   readSchema,
@@ -47,6 +46,7 @@ import {
   ProviderConstraint,
 } from "../../lib/dependencies/dependency-manager";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
+import { logger } from "../../lib/logging";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -82,7 +82,10 @@ export async function convert({ language, provider }: any) {
     )
   );
 
-  const input = await readStreamAsString(process.stdin);
+  const input = await readStreamAsString(
+    process.stdin,
+    "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
+  );
   let output;
   try {
     const { all, stats } = await hcl2cdkConvert(input, {
@@ -233,42 +236,47 @@ export async function list(argv: any) {
   await renderInk(React.createElement(List, { outDir, synthCommand: command }));
 }
 
-export async function login(argv: any) {
+export async function login(argv: { tfeHostname: string }) {
   await terraformCheck();
   await displayVersionMessage();
 
-  const args = argv as yargs.Arguments;
-  if (args["_"].length > 1) {
-    console.error(
-      chalkColour`{redBright ERROR: 'cdktf login' command cannot have more than one argument.}\n`
+  async function showUserDetails(authToken: string) {
+    // Get user details if token is set
+    const userAccount = await terraformCloudClient.getAccountDetails(
+      argv.tfeHostname,
+      authToken
     );
-    yargs.showHelp();
-    process.exit(1);
+    if (userAccount) {
+      const username = userAccount.data.attributes.username;
+      console.log(
+        chalkColour`\n{greenBright cdktf has successfully configured Terraform Cloud credentials!}`
+      );
+      console.log(chalkColour`\nWelcome {bold ${username}}!`);
+    } else {
+      throw Errors.Usage(`Configured Terraform Cloud token is invalid.`);
+    }
   }
 
-  const terraformLogin = new TerraformLogin();
-  const token = await terraformLogin.askToLogin();
-  if (token == "") {
-    console.error(
-      chalkColour`{redBright ERROR: couldn't configure Terraform Cloud credentials.}\n`
-    );
-    process.exit(1);
+  const terraformLogin = new TerraformLogin(argv.tfeHostname);
+  let token = "";
+  try {
+    token = await readStreamAsString(process.stdin, "No stdin was passed");
+  } catch (e) {
+    logger.debug(`No TTY stream passed to login`);
   }
 
-  // Get user details if token is set
-  const userAccount = await terraformCloudClient.getAccountDetails(token);
-  if (userAccount) {
-    const username = userAccount.data.attributes.username;
-    console.log(
-      chalkColour`\n{greenBright cdktf has successfully configured Terraform Cloud credentials!}`
-    );
-    console.log(chalkColour`\nWelcome {bold ${username}}!`);
+  // If we get a token through stdin, we don't need to ask for credentials, we just validate and set it
+  // This is useful for programmatically authenticating, e.g. a CI server
+  if (token) {
+    await terraformLogin.saveTerraformCredentials(token.replace(/\n/g, ""));
   } else {
-    console.error(
-      chalkColour`{redBright ERROR: couldn't configure Terraform Cloud credentials.}\n`
-    );
-    process.exit(1);
+    token = await terraformLogin.askToLogin();
+    if (token === "") {
+      throw Errors.Usage(`No Terraform Cloud token was provided.`);
+    }
   }
+
+  await showUserDetails(token);
 }
 
 export async function synth(argv: any) {

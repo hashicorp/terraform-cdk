@@ -1,8 +1,6 @@
 import https = require("https");
 import { format } from "url";
 
-const BASE_URL = `https://app.terraform.io/api/v2/`;
-
 const SUCCESS_STATUS_CODES = [200, 201];
 
 export interface Attributes {
@@ -102,17 +100,21 @@ async function post(url: string, token: string, data: string) {
   });
 }
 
-export async function getAccountDetails(token: string) {
-  return (await get(`${BASE_URL}/account/details`, token)) as Account;
+export async function getAccountDetails(tfeHostname: string, token: string) {
+  return (await get(
+    `https://${tfeHostname}/api/v2//account/details`,
+    token
+  )) as Account;
 }
 
 export async function createWorkspace(
+  tfeHostname: string,
   organizationName: string,
   workspaceName: string,
   token: string
 ) {
   await post(
-    `${BASE_URL}/organizations/${organizationName}/workspaces`,
+    `https://${tfeHostname}/api/v2//organizations/${organizationName}/workspaces`,
     token,
     JSON.stringify({
       data: {
@@ -126,6 +128,9 @@ export async function createWorkspace(
   );
 }
 
-export async function getOrganizationNames(token: string) {
-  return (await get(`${BASE_URL}/organizations`, token)) as Organization;
+export async function getOrganizationNames(tfeHostname: string, token: string) {
+  return (await get(
+    `https://${tfeHostname}/api/v2//organizations`,
+    token
+  )) as Organization;
 }

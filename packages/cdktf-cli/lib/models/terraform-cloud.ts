@@ -149,7 +149,10 @@ export class TerraformCloud implements Terraform {
       this.token = configFile.credentials[this.hostname].token;
     }
 
-    this.client = new TerraformCloudClient.TerraformCloud(this.token);
+    this.client = new TerraformCloudClient.TerraformCloud(
+      this.token,
+      this.hostname
+    );
 
     this.abortSignal.addEventListener("abort", () => {
       this.removeRun("cancel");
@@ -231,7 +234,7 @@ export class TerraformCloud implements Terraform {
       throw new Error("Please create a ConfigurationVersion before planning");
     const sendLog = this.createTerraformLogHandler("plan");
     const workspace = await this.workspace();
-    const workspaceUrl = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}`;
+    const workspaceUrl = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}`;
 
     if (
       workspace.attributes.locked &&
@@ -284,7 +287,7 @@ export class TerraformCloud implements Terraform {
         },
       },
     });
-    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`;
+    const url = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`;
     sendLog(`Created speculative Terraform Cloud run: ${url}`);
 
     const pendingStates = ["pending", "plan_queued", "planning"];
@@ -494,7 +497,7 @@ export class TerraformCloud implements Terraform {
       return;
     }
 
-    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${this.run.id}`;
+    const url = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${this.run.id}`;
     logger.info(`${action}ing run ${url}`);
     this.client.Runs.action(action, this.run.id)
       .then(() => {
