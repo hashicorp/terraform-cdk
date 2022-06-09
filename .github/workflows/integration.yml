@@ -6,6 +6,11 @@ on:
       - "docs/**"
       - "website/**"
       - "tools/update-github-project-board/**"
+  workflow_call:
+    inputs:
+      version:
+        required: false
+        type: string
 
 concurrency:
   group: integration-${{ github.head_ref }}
@@ -34,12 +39,16 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: installing dependencies and build
+      - name: install dependencies
+        run: yarn install
+      - name: set version
+        run: tools/align-version.sh $([ -z "${{ inputs.version }}" ] && echo "-dev.$GITHUB_RUN_ID" || echo "${{ inputs.version }}")
+      - name: build and package
         run: |
-          yarn install
-          tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Upload dist
         uses: actions/upload-artifact@v2
         with:
