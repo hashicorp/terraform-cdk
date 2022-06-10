@@ -12,6 +12,7 @@ import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
+import { logTimespan } from "../config";
 
 export enum Language {
   TYPESCRIPT = "typescript",
@@ -222,7 +223,10 @@ export class ConstructsMaker {
   }
 
   private async generateTypeScript() {
+    const endSchemaReadTimer = logTimespan("Reading Schema");
     const schema = await readSchema(this.targets);
+    endSchemaReadTimer();
+    const endTSTimer = logTimespan("Generate Typescript");
 
     const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(
       (target) => target instanceof ConstructsMakerModuleTarget
@@ -260,6 +264,8 @@ export class ConstructsMaker {
     if (moduleTargets.length > 0) {
       new ModuleGenerator(this.code, moduleTargets);
     }
+
+    endTSTimer();
   }
 
   // emits a versions.json file with a map of the used version for each provider fqpn
@@ -347,7 +353,9 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
           process.env.NODE_OPTIONS = "--max-old-space-size=16384";
         }
 
+        const jsiiTimer = logTimespan("JSII");
         await generateJsiiLanguage(this.code, opts);
+        jsiiTimer();
       }
     }
 
