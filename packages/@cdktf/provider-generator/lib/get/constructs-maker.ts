@@ -222,50 +222,28 @@ export class ConstructsMaker {
     );
   }
 
-  private async generateTypeScript() {
-    const endSchemaReadTimer = logTimespan("Reading Schema");
-    const schema = await readSchema(this.targets);
+  private async generateTypescript(target: ConstructsMakerTarget) {
+    const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
+    const schema = await readSchema([target]);
     endSchemaReadTimer();
-    const endTSTimer = logTimespan("Generate Typescript");
 
-    const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(
-      (target) => target instanceof ConstructsMakerModuleTarget
-    ) as ConstructsMakerModuleTarget[];
-    for (const target of moduleTargets) {
+    const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
+    let versions = {};
+    if (target instanceof ConstructsMakerModuleTarget) {
       target.spec = schema.moduleSchema[target.moduleKey];
+      new ModuleGenerator(this.code, [target]);
     }
-
-    const providerTargets: ConstructsMakerProviderTarget[] =
-      this.targets.filter(
-        (target) => target instanceof ConstructsMakerProviderTarget
-      ) as ConstructsMakerProviderTarget[];
-
-    const providerGenerators = providerTargets.map(
-      (provider) =>
-        new TerraformProviderGenerator(
-          this.code,
-          schema.providerSchema,
-          provider
-        )
-    );
-
-    const initialValue: { [fqpn: string]: string | undefined } = {};
-    const providerVersions = providerGenerators
-      .map((providerGenerator) => providerGenerator.versions)
-      .reduce<{ [fqpn: string]: string | undefined }>(
-        (accumulator, current) => {
-          return { ...accumulator, ...current };
-        },
-        initialValue
+    if (target instanceof ConstructsMakerProviderTarget) {
+      const generator = new TerraformProviderGenerator(
+        this.code,
+        schema.providerSchema,
+        target
       );
-
-    this.emitVersionsFile(providerVersions);
-
-    if (moduleTargets.length > 0) {
-      new ModuleGenerator(this.code, moduleTargets);
+      versions = generator.versions;
     }
-
     endTSTimer();
+
+    return versions;
   }
 
   // emits a versions.json file with a map of the used version for each provider fqpn
@@ -278,7 +256,21 @@ export class ConstructsMaker {
   }
 
   public async generate() {
-    await this.generateTypeScript();
+    const endGenerateTimer = logTimespan("Generate TS");
+    const generators = await Promise.all(
+      this.targets.map((target) => this.generateTypescript(target))
+    );
+    endGenerateTimer();
+
+    const initialValue: { [fqpn: string]: string | undefined } = {};
+    const providerVersions = generators.reduce<{
+      [fqpn: string]: string | undefined;
+    }>((accumulator, current) => {
+      return { ...accumulator, ...current };
+    }, initialValue);
+
+    this.emitVersionsFile(providerVersions);
+
     if (this.isJavascriptTarget) {
       await this.save();
     }
