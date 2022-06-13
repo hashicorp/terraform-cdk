@@ -3,3 +3,6 @@ edge-provider-bindings
 python/edge/translated.py
 java/edge/Translated.java
 csharp/edge/Translated.cs
+provider-tests/providers/**
+!provider-tests/generate-provider-test.js
+!provider-tests/test-provider.sh
