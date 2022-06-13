@@ -69,8 +69,13 @@ jobs:
           path: dist
       - name: install test dependencies
         run: cd test && yarn
-      - name: integration tests
-        run: cd test && npm run test:provider -- ${TEST_TARGET}
+      - name: integration test
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 2
+          retry_on: error
+          command: cd test && npm run test:provider -- ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
@@ -109,8 +114,15 @@ jobs:
         run: npm install -g npm@8.12.1
       - name: install test dependencies
         run: cd test && yarn
-      - name: integration tests
-        run: cd test && ./provider-tests/test-provider.bat ${env:TEST_TARGET}
+      - name: integration test
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 2
+          retry_on: error
+          command: |
+            cd test
+            ./provider-tests/test-provider.bat ${env:TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"

@@ -84,8 +84,13 @@ jobs:
           path: test/edge-provider-bindings
       - name: install test dependencies
         run: cd test && yarn
-      - name: integration tests
-        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
+      - name: integration test
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 2
+          retry_on: error
+          command: cd test && ./run-against-dist npx jest ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
@@ -131,8 +136,15 @@ jobs:
         run: npm install -g npm@8.12.1
       - name: install test dependencies
         run: cd test && yarn
-      - name: integration tests
-        run: cd test && ./run-against-dist.bat "npx jest --ci ${env:TEST_TARGET}"
+      - name: integration test
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 2
+          retry_on: error
+          command: |
+            cd test
+            ./run-against-dist.bat "npx jest --ci ${env:TEST_TARGET}"
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}

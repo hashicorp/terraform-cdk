@@ -50,7 +50,12 @@ jobs:
       - name: create bundle
         run: yarn package
       - name: examples integration tests
-        run: test/run-against-dist tools/build-examples.sh ${TEST_TARGET}
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 2
+          retry_on: error
+          command: test/run-against-dist tools/build-examples.sh ${TEST_TARGET}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           TEST_TARGET: "${{ matrix.target }}"
