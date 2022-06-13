@@ -38,13 +38,12 @@ export const requireHandlers = () => {
 };
 
 export function readStreamAsString(
-  stream: typeof process.stdin
+  stream: typeof process.stdin,
+  noTTYErrorMessage: string
 ): Promise<string> {
   return new Promise((ok, ko) => {
     if (stream.isTTY) {
-      ko(
-        "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
-      );
+      ko(noTTYErrorMessage);
     } else {
       let string = "";
       stream.on("data", (data) => (string += data.toString()));

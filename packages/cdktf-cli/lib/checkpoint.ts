@@ -8,6 +8,7 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import { DISPLAY_VERSION } from "./version";
 import { homeDir } from "../bin/cmds/helper/version-check";
+import { CHECKPOINT_DISABLE } from "./environment";
 
 const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
@@ -120,11 +121,11 @@ function getId(
   }
 }
 
-function getProjectId(projectPath = process.cwd()): string {
+export function getProjectId(projectPath = process.cwd()): string {
   return getId(path.resolve(projectPath, "cdktf.json"), "projectId");
 }
 
-function getUserId(): string {
+export function getUserId(): string {
   return getId(
     path.resolve(homeDir(), "config.json"),
     "userId",
@@ -139,7 +140,7 @@ information on how to disable it.`
 
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
   // we won't report when checkpoint is disabled.
-  if (process.env.CHECKPOINT_DISABLE) {
+  if (CHECKPOINT_DISABLE) {
     return;
   }
 

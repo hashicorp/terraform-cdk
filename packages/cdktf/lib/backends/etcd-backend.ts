@@ -35,9 +35,9 @@ export class DataTerraformRemoteStateEtcd extends TerraformRemoteState {
 }
 /**
  * Stores the state in etcd 2.x at a given path.
- * 
+ *
  * This backend does not support state locking.
- * 
+ *
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/etcd
  */

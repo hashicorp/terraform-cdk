@@ -7,6 +7,10 @@ on:
       - "website/**"
       - "tools/update-github-project-board/**"
 
+concurrency:
+  group: integration-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   prepare-integration-tests:
     runs-on: ubuntu-latest
@@ -16,6 +20,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v2
@@ -63,6 +68,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v2
@@ -95,6 +101,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v2
@@ -119,6 +126,9 @@ jobs:
         with:
           name: edge-provider-bindings
           path: test/edge-provider-bindings
+      # tmp fix for https://github.com/npm/cli/issues/4980
+      - name: update npm
+        run: npm install -g npm@8.12.1
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests

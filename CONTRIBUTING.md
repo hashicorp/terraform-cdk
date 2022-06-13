@@ -205,7 +205,7 @@ reset the `FEATURE_FLAGS` map for the next cycle.
 
 ## Debugging
 
-When developing new features it can be helpful to enable logging. By setting `CDKTF_LOG_LEVEL` to verbose you can see more information in general. When working with the provider generation you can set `DEBUG=true` to see which types of attributes are not supported yet.
+We recommend enabling logging when you develop new features. To get detailed information about CDKTF operations, set `CDKTF_LOG_LEVEL` to `verbose`.
 
 ## Releasing
 

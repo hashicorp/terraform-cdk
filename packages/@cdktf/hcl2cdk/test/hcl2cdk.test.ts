@@ -17,11 +17,11 @@ const providers = [
   "hashicorp/local@ ~>2.1.0",
   "alexkappa/auth0@ ~>0.26.2",
   "DataDog/datadog@ ~>3.8.1",
+  "hashicorp/kubernetes@ ~>2.11.0",
 ];
 
 enum Synth {
   yes,
-  needsAFix_BooleanAsIResolvable, // https://github.com/hashicorp/terraform-cdk/issues/1550
   needsAFix_UnforseenClassRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
   needsAFix_UnforseenPropertyRename, // https://github.com/hashicorp/terraform-cdk/issues/1708
   never, // Some examples are built so that they will never synth but test a specific generation edge case
@@ -31,9 +31,13 @@ const cdktfBin = path.join(__dirname, "../../../cdktf-cli/bin/cdktf");
 const cdktfDist = path.join(__dirname, "../../../../dist");
 
 const createTestCase =
-  (describeFn: typeof describe) =>
+  (opts: { skip?: true }) =>
   (name: string, hcl: string, shouldSynth: Synth) => {
-    describeFn(name, () => {
+    if (opts.skip) {
+      describe.skip(name, () => {});
+      return;
+    }
+    describe(name, () => {
       let result: ReturnType<typeof convert>;
       beforeAll(() => {
         result = convert(hcl, {
@@ -61,16 +65,16 @@ const createTestCase =
         import { Construct } from "constructs";
         import { App, TerraformStack } from "cdktf";
         ${imports}
-        
+
         class MyStack extends TerraformStack {
           constructor(scope: Construct, name: string) {
             super(scope, name);
-        
+
             ${code}
-            
+
           }
         }
-        
+
         const app = new App();
         new MyStack(app, "${filename}");
         app.synth();
@@ -85,16 +89,11 @@ const createTestCase =
           );
         });
       }
-
-      if ([Synth.needsAFix_BooleanAsIResolvable].includes(shouldSynth)) {
-        it.todo("plans");
-      }
     });
   };
 const testCase = {
-  test: createTestCase(describe),
-  only: createTestCase(describe.only),
-  skip: createTestCase(describe.skip),
+  test: createTestCase({}),
+  skip: createTestCase({ skip: true }),
 };
 
 let cachedProviderSchema: any;
@@ -102,7 +101,7 @@ let projectDir: string;
 describe("convert", () => {
   beforeAll(async () => {
     // Get all the provider schemas
-    const { providerSchema } = await readSchema(
+    const schemaPromise = readSchema(
       providers.map((spec) =>
         ConstructsMakerProviderTarget.from(
           new config.TerraformProviderConstraint(spec),
@@ -111,12 +110,10 @@ describe("convert", () => {
       )
     );
 
-    cachedProviderSchema = providerSchema;
-
     // Initialize a new project
     projectDir = fs.mkdtempSync("cdktf-convert-test");
     execSync(
-      `cd ${projectDir} && ${cdktfBin} init --local --dist=${cdktfDist} --project-name="hello" --project-description="world" --template=typescript`
+      `cd ${projectDir} && ${cdktfBin} init --local --dist=${cdktfDist} --project-name="hello" --project-description="world" --template=typescript --enable-crash-reporting=false`
     );
     const cdktfJson = JSON.parse(
       fs.readFileSync(path.join(projectDir, "cdktf.json"), "utf8")
@@ -134,6 +131,8 @@ describe("convert", () => {
       )
     );
     execSync(`cd ${projectDir} && ${cdktfBin} get`);
+    const { providerSchema } = await schemaPromise;
+    cachedProviderSchema = providerSchema;
   }, 500_000);
 
   afterAll(() => {
@@ -196,7 +195,6 @@ describe("convert", () => {
       region                      = "us-east-1"
       secret_key                  = "mock_secret_key"
       skip_credentials_validation = true
-      skip_metadata_api_check     = true
       skip_requesting_account_id  = true
     
       endpoints {
@@ -204,7 +202,7 @@ describe("convert", () => {
       }
     }
   `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -216,7 +214,7 @@ describe("convert", () => {
     resource "aws_vpc" "example" {
       cidr_block = "10.0.0.0/16"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -329,7 +327,7 @@ describe("convert", () => {
         cloudfront_default_certificate = true
       }
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -341,7 +339,7 @@ describe("convert", () => {
     data "aws_subnet" "selected" {
       vpc_id = "subnet_id"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -401,7 +399,7 @@ describe("convert", () => {
       source     = "index.html"
       kms_key_id = aws_kms_key.examplekms.arn
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -419,7 +417,7 @@ describe("convert", () => {
       bucket = local.bucket_name
       acl    = "private"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -437,7 +435,7 @@ describe("convert", () => {
       bucket = var.bucket_name
       acl    = "private"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -460,7 +458,7 @@ describe("convert", () => {
       bucket     = data.aws_s3_bucket.examplebucket.arn
       source     = "index.html"
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -481,7 +479,7 @@ describe("convert", () => {
         tag-key = var.bucket_name
       }
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -591,7 +589,7 @@ describe("convert", () => {
           source     = "index.html"
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -687,7 +685,7 @@ describe("convert", () => {
         source     = "index.html"
         kms_key_id = aws_kms_key.examplekms.arn
       }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -721,7 +719,7 @@ describe("convert", () => {
         kms_key_id = aws_kms_key.examplekms.arn
       }
       `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -748,7 +746,7 @@ describe("convert", () => {
   );
 
   testCase.test(
-    "property access through []",
+    "property access through square brackets",
     `
       provider "aws" {
         region                      = "us-east-1"
@@ -762,11 +760,11 @@ describe("convert", () => {
         acl    = "private"
       }
       `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
-    "list access through []",
+    "list access through square brackets",
     `
       provider "aws" {
         region                      = "us-east-1"
@@ -780,7 +778,7 @@ describe("convert", () => {
         acl    = "private"
       }
       `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -802,7 +800,7 @@ describe("convert", () => {
             tag-key = "tag-value"
           }
         }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -822,7 +820,7 @@ describe("convert", () => {
       }
     }
     `,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -898,7 +896,7 @@ describe("convert", () => {
         Name = "allow_tls"
       }
     }`,
-    Synth.needsAFix_BooleanAsIResolvable
+    Synth.yes
   );
 
   testCase.test(
@@ -1169,6 +1167,26 @@ describe("convert", () => {
   );
 
   testCase.test(
+    "maps are not arrays",
+    `
+  provider "kubernetes" {
+    config_path    = "~/.kube/config"
+    config_context = "my-context"
+  }
+
+  resource "kubernetes_secret" "secrets-xxx" {
+    metadata {
+      name      = "secrets-xxx"
+    }
+    data = {
+      "xxx" : "yyy"
+    }
+  }
+  `,
+    Synth.yes
+  );
+
+  testCase.test(
     "all module types",
     `
       module "consul" {
@@ -1335,6 +1353,38 @@ describe("convert", () => {
     }
       `,
     Synth.needsAFix_UnforseenPropertyRename
+  );
+
+  testCase.test(
+    "tricky to parse items",
+    `
+    provider "aws" {
+      region                      = "us-east-1"
+    }
+    variable "tags" {
+      type    = map
+    }
+
+
+    resource "aws_instance" "play" {
+      ami                         = join("-", [var.tags.app, var.tags.env])
+      instance_type               = "t3.small"
+      key_name                    = aws_key_pair.master_key.id
+      vpc_security_group_ids      = [aws_security_group.ssh.id]
+      subnet_id                   = aws_subnet.main.id
+      associate_public_ip_address = true
+    
+      connection {
+        type        = "ssh"
+        user        = "ubuntu"
+        private_key = file("./terraform_key")
+        host        = self.public_ip
+      }
+    }
+    
+    
+      `,
+    Synth.never
   );
 
   const targetLanguages = ["typescript", "python", "csharp", "java"];

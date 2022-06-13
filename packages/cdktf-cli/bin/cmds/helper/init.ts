@@ -29,6 +29,8 @@ import {
 } from "@cdktf/provider-generator";
 import { templates, templatesDir } from "./init-templates";
 import { init, Project } from "../../../lib";
+import { askForCrashReportingConsent } from "../../../lib/error-reporting";
+import ciDetect from "@npmcli/ci-detect";
 
 const chalkColour = new chalk.Instance();
 
@@ -47,7 +49,7 @@ export function checkForEmptyDirectory(dir: string) {
     process.exit(1);
   }
 }
-
+const tfeHostname = "app.terraform.io";
 type Options = {
   local?: boolean;
   template?: string;
@@ -57,6 +59,7 @@ type Options = {
   dist?: string;
   destination: string;
   fromTerraformProject?: string;
+  enableCrashReporting?: boolean;
 };
 export async function runInit(argv: Options) {
   const telemetryData: Record<string, unknown> = {};
@@ -66,7 +69,8 @@ export async function runInit(argv: Options) {
     // We ask the user to login to Terraform Cloud and set a token
     // If the user chooses not to use Terraform Cloud, we continue
     // without a token and set up the project.
-    const terraformLogin = new TerraformLogin();
+
+    const terraformLogin = new TerraformLogin(tfeHostname);
     token = await terraformLogin.askToLogin();
   } else {
     console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
@@ -109,6 +113,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
       );
       try {
         await terraformCloudClient.createWorkspace(
+          tfeHostname,
           projectInfo.OrganizationName,
           projectInfo.WorkspaceName,
           token
@@ -122,6 +127,11 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
   }
 
+  const ci: string | false = ciDetect();
+  const sendCrashReports =
+    argv.enableCrashReporting ??
+    (ci ? false : await askForCrashReportingConsent());
+
   await init({
     cdktfVersion: argv.cdktfVersion,
     destination,
@@ -129,6 +139,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     projectId,
     projectInfo,
     templatePath: templateInfo.Path,
+    sendCrashReports: sendCrashReports,
   });
 
   if (argv.fromTerraformProject) {
@@ -258,6 +269,7 @@ async function gatherInfo(
       chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
     );
     const organizationNames = await terraformCloudClient.getOrganizationNames(
+      tfeHostname,
       token
     );
     const organizationData = organizationNames.data;

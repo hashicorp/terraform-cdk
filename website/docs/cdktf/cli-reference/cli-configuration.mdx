@@ -33,12 +33,13 @@ Commands:
   cdktf login                         Retrieves an API token to connect to Terraform Cloud.
   cdktf synth [stack] [OPTIONS]       Synthesizes Terraform code for the given app in a directory.                                                                                          [aliases: synthesize]
   cdktf watch [stack] [OPTIONS]       [experimental] Watch for file changes and automatically trigger a deploy
-  cdktf output [stack] [OPTIONS]      Prints the output of a stack                                                                                                                             [aliases: outputs]
+  cdktf output [stack] [OPTIONS]      Prints the output of a stack
+  cdktf debug                         Get debug information about the current project and environment
+  cdktf provider                      A set of subcommands that facilitates provider management                                                                                                                             [aliases: outputs]
   cdktf completion                    generate completion script
 
 Options:
   --version                   Show version number                                                                                                                                                                  [boolean]
-  --disable-logging           Dont write log files. Supported using the env CDKTF_DISABLE_LOGGING.                                                                                                 [boolean] [default: true]
   --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV. [boolean] [default: false]
   --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                                 [string]
   -h, --help                  Show help                                                                                                                                                                            [boolean]

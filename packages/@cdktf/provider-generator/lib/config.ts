@@ -8,7 +8,7 @@ import { toPascalCase } from "codemaker";
 const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
 
 const CONFIG_FILE = "cdktf.json";
-const DEFAULTS = {
+export const CONFIG_DEFAULTS = {
   output: "cdktf.out",
   codeMakerOutput: ".gen",
 };
@@ -190,7 +190,7 @@ export class TerraformProviderConstraint
   public readonly fqn: string;
   public readonly namespace?: string;
 
-  constructor(item: TerraformDependencyConstraint | string) {
+  constructor(item: Omit<TerraformDependencyConstraint, "fqn"> | string) {
     if (typeof item === "string") {
       const parsed = this.parseDependencyConstraint(item);
       this.name = parsed.name;
@@ -240,7 +240,7 @@ export interface Config {
 
 export const parseConfig = (configJSON?: string) => {
   const config: Config = {
-    ...DEFAULTS,
+    ...CONFIG_DEFAULTS,
     ...JSON.parse(configJSON || "{}"),
   };
 
@@ -279,4 +279,9 @@ export function shouldCheckCodeMakerOutput(config: Config): boolean {
   return (
     isPresent(config.terraformModules) || isPresent(config.terraformProviders)
   );
+}
+
+export let logger = console;
+export function setLogger(log: Console) {
+  logger = log;
 }

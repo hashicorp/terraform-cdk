@@ -25,6 +25,8 @@ Variables are useful when you plan to synthesize your CDKTF application into a J
 
 If you plan to use CDKTF to manage your infrastructure, we recommend using your language's APIs to consume the data you would normally pass through Terraform variables. You can read from disk (synchronously) or from the environment variables, just as you would in any normal program.
 
+~> **Important**: The synthesized Terraform configuration will contain any values that you pass directly to CDKTF constructs. This includes credentials and any other sensitive data provided as input for the `cdktf` application. If you plan to commit the generated `cdk.tf.json` to version control, use [input variables](/cdktf/concepts/variables-and-outputs#input-variables) for secrets instead.
+
 ### Define Input Variables
 
 You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](/language/values/variables#variables-on-the-command-line) for details. The CDKTF CLI currently also supports configuration via [environment variables](/language/values/variables#environment-variables).

@@ -27,6 +27,7 @@ export type InitArgs = {
   projectId: string;
   projectInfo: Project;
   templatePath: string;
+  sendCrashReports: boolean;
 };
 
 export async function init({
@@ -36,6 +37,7 @@ export async function init({
   projectId,
   projectInfo,
   templatePath,
+  sendCrashReports,
 }: InitArgs) {
   const deps: any = await determineDeps(cdktfVersion, dist);
 
@@ -48,6 +50,7 @@ export async function init({
     ...projectInfo,
     futureFlags,
     projectId,
+    sendCrashReports,
   });
 }
 

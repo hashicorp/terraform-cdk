@@ -10,12 +10,14 @@ export {
   BlockType,
   AttributeType,
   Block,
+  Attribute,
 } from "./get/generator/provider-schema";
 
 import { CodeMaker } from "codemaker";
 import * as srcmak from "jsii-srcmak";
 import { generateJsiiLanguage } from "./get/constructs-maker";
 import { TerraformProviderGenerator } from "./get/generator/provider-generator";
+export { setLogger } from "./config";
 
 // Used for testing only
 export async function generateProviderBindingsFromSchema(

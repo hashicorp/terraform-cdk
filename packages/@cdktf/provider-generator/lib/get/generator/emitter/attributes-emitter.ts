@@ -2,6 +2,7 @@ import { CodeMaker } from "codemaker";
 import { AttributeModel } from "../models";
 import { downcaseFirst, uppercaseFirst } from "../../../util";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
+import { logger } from "../../../config";
 
 function titleCase(value: string) {
   return value[0].toUpperCase() + value.slice(1);
@@ -169,11 +170,8 @@ export class AttributesEmitter {
         att.terraformName
       }')`;
     }
-    if (process.env.DEBUG) {
-      console.error(
-        `The attribute ${JSON.stringify(att)} isn't implemented yet`
-      );
-    }
+
+    logger.debug(`The attribute isn't implemented yet: ${JSON.stringify(att)}`);
 
     this.code.line(`// Getting the computed value is not yet implemented`);
     if (type.isSet) {
