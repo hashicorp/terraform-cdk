@@ -17,6 +17,7 @@ const providers = [
   "hashicorp/local@ ~>2.1.0",
   "alexkappa/auth0@ ~>0.26.2",
   "DataDog/datadog@ ~>3.8.1",
+  "hashicorp/kubernetes@ ~>2.11.0",
 ];
 
 enum Synth {
@@ -1163,6 +1164,26 @@ describe("convert", () => {
     }
     `,
     Synth.never
+  );
+
+  testCase.test(
+    "maps are not arrays",
+    `
+  provider "kubernetes" {
+    config_path    = "~/.kube/config"
+    config_context = "my-context"
+  }
+
+  resource "kubernetes_secret" "secrets-xxx" {
+    metadata {
+      name      = "secrets-xxx"
+    }
+    data = {
+      "xxx" : "yyy"
+    }
+  }
+  `,
+    Synth.yes
   );
 
   testCase.test(
