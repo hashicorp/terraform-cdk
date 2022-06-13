@@ -126,6 +126,9 @@ jobs:
         with:
           name: edge-provider-bindings
           path: test/edge-provider-bindings
+      # tmp fix for https://github.com/npm/cli/issues/4980
+      - name: update npm
+        run: npm install -g npm@8.12.1
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
