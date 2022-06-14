@@ -90,6 +90,22 @@ export abstract class TerraformIterator implements ITerraformIterator {
 
   /**
    * @param attribute name of the property to retrieve
+   * @returns the given attribute of the current item iterated over as a boolean
+   */
+  getBoolean(attribute: string): IResolvable {
+    return Token.asAny(propertyAccess(this._getValue(), [attribute]));
+  }
+
+  /**
+   * @param attribute name of the property to retrieve
+   * @returns the given attribute of the current item iterated over as any
+   */
+  getAny(attribute: string): IResolvable {
+    return Token.asAny(propertyAccess(this._getValue(), [attribute]));
+  }
+
+  /**
+   * @param attribute name of the property to retrieve
    * @returns the given attribute of the current item iterated over as a (string) list
    */
   getList(attribute: string): string[] {
@@ -134,6 +150,14 @@ export abstract class TerraformIterator implements ITerraformIterator {
    */
   getBooleanMap(attribute: string): { [key: string]: boolean } {
     return Token.asBooleanMap(propertyAccess(this._getValue(), [attribute]));
+  }
+
+  /**
+   * @param attribute name of the property to retrieve
+   * @returns the given attribute of the current item iterated over as a map of any
+   */
+  getAnyMap(attribute: string): { [key: string]: any } {
+    return Token.asAnyMap(propertyAccess(this._getValue(), [attribute]));
   }
 
   /**
