@@ -209,23 +209,28 @@ We recommend enabling logging when you develop new features. To get detailed inf
 
 ## Releasing
 
-(this section is work in progress, but contains useful information)
-
 ### Steps
+
+#### Before the release
+
+Most of our tests are automated but there are some workflows we need to manually test for now.
+
+- Test `cdktf` against Terraform Enterprise
 
 #### Terraform CDK
 
 1. Create a new branch (e.g. `prepare-release-0.9.0`)
-2. Update the [CHANGELOG](./CHANGELOG.md)
+2. Update the [CHANGELOG](./CHANGELOG.md): `./tools/create-changelog.sh` should get you a good start
 3. Update the version in the root `package.json`
 4. Write an [upgrade guide](website/docs/cdktf/release/)
 5. Create a PR to merge the new branch into `main`
-6. Merge the PR
-7. A new release will be build and published because the version changed
-8. Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`)
-9. Run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
-10. Update the learn examples and the end to end examples
-11. Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
+6. Merge the PR, a new release will be build and published because the version changed
+
+#### After the release
+
+- Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`) and run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
+- Update the learn examples and the end to end examples
+- Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
 
 ### Repositories to update
 
