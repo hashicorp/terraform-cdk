@@ -1,26 +1,19 @@
-name: Integration Tests
+name: Provider Integration Tests
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "tools/update-github-project-board/**"
-  workflow_call:
-    inputs:
-      version:
-        required: false
-        type: string
+    paths:
+      - "packages/@cdktf/provider-generator/**"
+      - "test/provider-tests/**"
 
 concurrency:
-  group: integration-${{ github.head_ref }}
+  group: provider-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  prepare-integration-tests:
+  prepare-provider-tests:
     runs-on: ubuntu-latest
     outputs:
-      tests: ${{ steps.build-test-matrix.outputs.tests }}
+      tests: ${{ steps.build-provider-test-matrix.outputs.tests }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -39,39 +32,27 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: install dependencies
-        run: yarn install
-      - name: set version
-        run: tools/align-version.sh $([ -z "${{ inputs.version }}" ] && echo "-dev.$GITHUB_RUN_ID" || echo "${{ inputs.version }}")
-      - name: build and package
+      - name: installing dependencies and build
         run: |
+          yarn install
+          tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
-        env:
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Upload dist
         uses: actions/upload-artifact@v2
         with:
           name: dist
           path: dist
-      - name: Upload edge-provider bindings
-        uses: actions/upload-artifact@v2
-        with:
-          name: edge-provider-bindings
-          path: packages/@cdktf/provider-generator/edge-provider-bindings
-      - name: installing test dependencies
+      - id: build-provider-test-matrix
         run: |
-          cd test && yarn install
-      - id: build-test-matrix
-        run: |
-          ./tools/build-test-matrix.sh
+          ./tools/build-provider-test-matrix.sh
 
-  linux_integration:
-    needs: prepare-integration-tests
+  linux_provider:
+    needs: prepare-provider-tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare-provider-tests.outputs.tests)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -86,27 +67,20 @@ jobs:
         with:
           name: dist
           path: dist
-      - name: Download edge-provider bindings
-        uses: actions/download-artifact@v2
-        with:
-          name: edge-provider-bindings
-          path: test/edge-provider-bindings
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
-        run: cd test && ./run-against-dist npx jest ${TEST_TARGET}
+        run: cd test && npm run test:provider -- ${TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
-          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           NODE_OPTIONS: "--max-old-space-size=7168"
 
-  windows_integration:
-    needs: prepare-integration-tests
+  windows_provider:
+    needs: prepare-provider-tests
     runs-on: windows-2019
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare-provider-tests.outputs.tests)}}
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
@@ -130,19 +104,13 @@ jobs:
         with:
           name: dist
           path: dist
-      - name: Download edge-provider bindings
-        uses: actions/download-artifact@v2
-        with:
-          name: edge-provider-bindings
-          path: test/edge-provider-bindings
       # tmp fix for https://github.com/npm/cli/issues/4980
       - name: update npm
         run: npm install -g npm@8.12.1
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
-        run: cd test && ./run-against-dist.bat "npx jest --ci ${env:TEST_TARGET}"
+        run: cd test && ./provider-tests/test-provider.bat ${env:TEST_TARGET}
         env:
           TEST_TARGET: ${{ matrix.target }}
-          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           NODE_OPTIONS: "--max-old-space-size=7168"
