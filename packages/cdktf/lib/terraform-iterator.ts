@@ -1,8 +1,19 @@
 import { TerraformStack } from ".";
-import { ComplexList, ComplexMap } from "./complex-computed-list";
+import {
+  AnyMap,
+  AnyMapList,
+  BooleanMap,
+  BooleanMapList,
+  ComplexList,
+  ComplexMap,
+  NumberMap,
+  NumberMapList,
+  StringMap,
+  StringMapList,
+} from "./complex-computed-list";
 import { Fn } from "./terraform-functions";
 import { propertyAccess, ref } from "./tfExpression";
-import { Lazy, Token } from "./tokens";
+import { IResolvable, Lazy, Token } from "./tokens";
 
 export interface ITerraformIterator {
   /**
@@ -10,6 +21,27 @@ export interface ITerraformIterator {
    */
   _getForEachExpression(): any;
 }
+
+type ListType =
+  | Array<string>
+  | Array<number>
+  | Array<boolean | IResolvable>
+  | IResolvable // e.g. array of booleans
+  | ComplexList
+  | StringMapList
+  | NumberMapList
+  | BooleanMapList
+  | AnyMapList;
+
+type MapType =
+  | { [key: string]: any }
+  | { [key: string]: string }
+  | { [key: string]: number }
+  | StringMap
+  | NumberMap
+  | BooleanMap
+  | AnyMap
+  | ComplexMap;
 
 export abstract class TerraformIterator implements ITerraformIterator {
   /**
@@ -20,9 +52,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
   /**
    * Creates a new iterator from a list
    */
-  public static fromList(
-    list: string[] | number[] | ComplexList
-  ): ListTerraformIterator {
+  public static fromList(list: ListType): ListTerraformIterator {
     // TODO: this could return different iterators depending on the type of the list
     // for example it could return a NumberListIterator whose iterator.key would be a number
     return new ListTerraformIterator(list);
@@ -135,7 +165,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
 }
 
 export class ListTerraformIterator extends TerraformIterator {
-  constructor(private readonly list: string[] | number[] | ComplexList) {
+  constructor(private readonly list: ListType) {
     super();
   }
 
@@ -166,13 +196,7 @@ export class ListTerraformIterator extends TerraformIterator {
 }
 
 export class MapTerraformIterator extends TerraformIterator {
-  constructor(
-    private readonly map:
-      | ComplexMap
-      | { [key: string]: any }
-      | { [key: string]: string }
-      | { [key: string]: number }
-  ) {
+  constructor(private readonly map: MapType) {
     super();
   }
 
