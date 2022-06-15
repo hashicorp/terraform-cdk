@@ -13,8 +13,8 @@ export interface ITerraformResource {
   readonly fqn: string;
   readonly friendlyUniqueId: string;
 
-  dependsOn?: string[];
   count?: number;
+  dependsOn?: string[];
   provider?: TerraformProvider;
   lifecycle?: TerraformResourceLifecycle;
 
