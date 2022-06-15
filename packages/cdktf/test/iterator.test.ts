@@ -239,3 +239,37 @@ test("iterator throws if both count and forEach are set on data sources", () => 
     `"forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: test/data"`
   );
 });
+
+test("iterator across stacks", () => {
+  const app = Testing.app();
+  const sourceStack = new TerraformStack(app, "source");
+  const targetStack = new TerraformStack(app, "target");
+
+  const input = new TestResource(sourceStack, "input", { name: "foo" });
+
+  const it = TerraformIterator.fromList(input.listValue);
+
+  new TestResource(targetStack, "test", {
+    forEach: it,
+    name: it.value,
+  });
+
+  sourceStack.prepareStack();
+  targetStack.prepareStack();
+
+  const sourceSynth = JSON.parse(Testing.synth(sourceStack));
+  const targetSynth = JSON.parse(Testing.synth(targetStack));
+
+  expect(targetSynth).toHaveProperty(
+    "resource.test_resource.test.for_each",
+    "${toset(data.terraform_remote_state.cross-stack-reference-input-source.outputs.cross-stack-output-test_resourceinputlist_value)}"
+  );
+  expect(targetSynth).toHaveProperty(
+    "resource.test_resource.test.name",
+    "${each.value}"
+  );
+  expect(sourceSynth).toHaveProperty(
+    "output.cross-stack-output-test_resourceinputlist_value.value",
+    "${test_resource.input.list_value}"
+  );
+});
