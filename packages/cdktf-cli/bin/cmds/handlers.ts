@@ -195,9 +195,10 @@ export async function get(argv: { output: string; language: Language }) {
   ];
 
   if (constraints.length === 0) {
-    throw Errors.Usage(
-      `Please specify providers or modules in "cdktf.json" config file`
+    logger.warn(
+      `WARNING: No providers or modules found in "cdktf.json" config file, therefore cdktf get does nothing.`
     );
+    return;
   }
 
   await renderInk(
