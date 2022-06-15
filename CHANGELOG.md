@@ -1,3 +1,11 @@
+## 0.12.0 (unreleased)
+
+**Breaking Changes**
+
+### `cdktf get` exits with 0 exit code when no provider / module specifications are found in the `cdktf.json`
+
+Previously we would throw an error and exit with 1 if there were no provider or module specifications in the `cdktf.json` file. This can be inconvenient if `cdktf get` is part of a workflow.
+
 ## 0.11.2
 
 ### feat
