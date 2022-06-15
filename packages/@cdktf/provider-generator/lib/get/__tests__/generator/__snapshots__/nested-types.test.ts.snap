@@ -320,7 +320,8 @@ export class NestedTypesResource extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      forEach: config.forEach
     });
     this._name = config.name;
     this._archiveRules.internalValue = config.archiveRules;
