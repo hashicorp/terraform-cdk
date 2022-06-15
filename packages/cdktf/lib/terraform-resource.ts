@@ -24,7 +24,7 @@ export interface ITerraformResource {
 export interface TerraformResourceLifecycle {
   readonly createBeforeDestroy?: boolean;
   readonly preventDestroy?: boolean;
-  readonly ignoreChanges?: string[];
+  readonly ignoreChanges?: string[] | "all";
 }
 
 export interface TerraformMetaArguments {
