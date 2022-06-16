@@ -19,7 +19,7 @@ CDKTF includes upgrade guides for releases that have breaking changes.
 - [Upgrading to v0.7](/cdktf/release/upgrade-guide-v0-7)
 - [Upgrading to v0.6](/cdktf/release/upgrade-guide-v0-6)
 
-## Enable Features
+## Features Flags for 0.11
 
 CDKTF uses feature flags to enable potentially breaking behaviors in a release. You can use them to change the logic when synthesizing code or CLI features, but they cannot change the logic of the provider generation.
 
@@ -35,3 +35,9 @@ When you use nested constructs the mechanism will add a suffix to the logical id
 ### `allowSepCharsInLogicalIds`
 
 When set, '\_' and '-' are allowed in logical ids.
+
+### Lifecycle
+
+Feature flags can only be used to change the logic when synthesizing code or CLI features. Since we have prebuilt providers we can not change the logic of the provider generation.
+
+A feature flag will be introduced in a release, adding it with a default `true` value to the templates used in `cdktf init`. We will print a warning if it's false or not set. The feature flag will be removed in the next minor release and the standard behaviour is the feature flag set to `true`.
