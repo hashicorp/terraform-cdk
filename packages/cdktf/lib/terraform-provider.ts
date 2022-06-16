@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProviderGeneratorMetadata } from "./terraform-resource";
-import { keysToSnakeCase, deepMerge } from "./util";
+import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
 
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
@@ -65,7 +65,9 @@ export abstract class TerraformProvider extends TerraformElement {
       provider: {
         [this.terraformResourceType]: [
           deepMerge(
-            keysToSnakeCase(this.synthesizeAttributes()),
+            keysToSnakeCase(
+              processDynamicAttributes(this.synthesizeAttributes())
+            ),
             this.rawOverrides,
             this.metaAttributes
           ),

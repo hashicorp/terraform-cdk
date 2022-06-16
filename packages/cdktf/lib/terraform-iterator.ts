@@ -11,6 +11,7 @@ import {
   StringMap,
   StringMapList,
 } from "./complex-computed-list";
+import { TerraformDynamicBlock } from "./terraform-dynamic-block";
 import { Fn } from "./terraform-functions";
 import { propertyAccess, ref } from "./tfExpression";
 import { IResolvable, Lazy, Token } from "./tokens";
@@ -184,6 +185,15 @@ export abstract class TerraformIterator implements ITerraformIterator {
         produce: (context) => ref("each.key", TerraformStack.of(context.scope)),
       },
       { displayHint: "each.key" }
+    );
+  }
+
+  public dynamic(attributes: { [key: string]: any }): IResolvable {
+    return Token.asAny(
+      new TerraformDynamicBlock({
+        forEach: this,
+        content: attributes,
+      })
     );
   }
 }
