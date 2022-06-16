@@ -229,7 +229,10 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Plan")
-  public async plan(destroy = false): Promise<TerraformPlan> {
+  public async plan(
+    destroy = false,
+    refreshOnly = false
+  ): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
       throw new Error("Please create a ConfigurationVersion before planning");
     const sendLog = this.createTerraformLogHandler("plan");
@@ -269,6 +272,7 @@ export class TerraformCloud implements Terraform {
       data: {
         attributes: {
           isDestroy: destroy,
+          refreshOnly,
           message: "cdktf",
         },
         relationships: {
@@ -343,7 +347,10 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Deploy")
-  public async deploy(_planFile: string): Promise<void> {
+  public async deploy(
+    _planFile: string,
+    _refreshOnly?: boolean
+  ): Promise<void> {
     const sendLog = this.createTerraformLogHandler("deploy");
     if (!this.run)
       throw new Error(
