@@ -36,24 +36,7 @@ To run Terraform Cloud with a [VCS-Driven Run Workflow](/cloud-docs/run/ui) you 
 
 ## Managing Secrets and Sensitive Data
 
-Secrets appear in your synthesized CDKTF code when you read them directly from environment variables or from files with normal system access. This introduces risk, especially if you are checking the synthesized configuration into a version control system. To mitigate this, [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets.
-
-```ts
-const adminPassword = new TerraformVariable(this, "adminPassword", {
-  type: "string",
-  description: "Admin password for the instance",
-  sensitive: true,
-});
-new MyResource(this, "hello", {
-  adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
-});
-```
-
-In the example above if we had used `adminPassword: process.env.ADMIN_PASSWORD` the admin password environment variable set at synthesization time would have been written to the `cdk.tf.json` file for your stack. This would have been a security risk.
-
-In contrast the `TerraformVariable` construct synthesizes a Terraform input. This input is not written to the `cdk.tf.json` file, so it is not a security risk. Instead it's only used at execution time by Terraform directly.
-
-To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name) you would need to set `TF_VAR_adminPasword='<your password>'` in the execution environment.
+No matter if you manage your secrets through Terraform Cloud (in `remote-execution` mode) or through your normal CI, secrets should never appear in your synthesized code. [This is why you should read Secrets with Terraform Variables](/cdktf/create-and-deploy/best-practices#read-secrets-with-terraform-variables).
 
 ## Example Workflows
 
@@ -138,7 +121,7 @@ jobs:
 
       - run: yarn install
 
-      # We run the plan here, you need to fill in the name of your stack
+      # CDKTF runs the plan here, so you need to fill in the name of your stack.
       - name: plan
         run: cdktf plan <stack name>
         env:
