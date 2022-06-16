@@ -45,9 +45,13 @@ No matter if you manage your secrets through Terraform Cloud (in `remote-executi
 You could create a workflow with the following steps:
 
 1. Add a pre-commit step that runs `cdktf synth`. This creates Terraform configuration files under `cdktf.out/stacks/<stack-name>`.
-1. Configure the VCS integration for a Terraform cloud workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one Terraform Cloud workspace to point to the output directory for each stack.
+2. Configure the VCS integration for a Terraform cloud workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one Terraform Cloud workspace to point to the output directory for each stack.
 
 Refer to [UI/VCS-Driven Run Workflow](/cloud-docs/run/ui) in the Terraform Cloud documentation for details about how to trigger Terraform runs from merges and commits.
+
+### Terraform CDK GitHub Action
+
+If you are using GitHub Actions and you want a default review / deployment workflow, you can use the [Terraform CDK GitHub Action](https://github.com/marketplace/actions/terraform-cdk-action). It provides you with comments on your PRs and a default review workflow. If you need more customization, please take a look at the next example.
 
 ### GitHub Actions CI and Terraform Cloud
 
