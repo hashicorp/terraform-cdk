@@ -8,7 +8,7 @@ import {
   TerraformResourceLifecycle,
   ITerraformResource,
 } from "./terraform-resource";
-import { keysToSnakeCase, deepMerge } from "./util";
+import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
@@ -114,7 +114,7 @@ export class TerraformDataSource
    */
   public toTerraform(): any {
     const attributes = deepMerge(
-      this.synthesizeAttributes(),
+      processDynamicAttributes(this.synthesizeAttributes()),
       keysToSnakeCase(this.terraformMetaArguments),
       this.rawOverrides
     );

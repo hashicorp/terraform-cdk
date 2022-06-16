@@ -1,4 +1,8 @@
-import { TerraformResource, TerraformMetaArguments } from "../../lib";
+import {
+  TerraformResource,
+  TerraformMetaArguments,
+  IResolvable,
+} from "../../lib";
 import { Construct } from "constructs";
 import { TestProviderMetadata } from "./provider";
 import { stringToTerraform } from "../../lib/runtime";
@@ -10,6 +14,7 @@ export interface TestResourceConfig extends TerraformMetaArguments {
   names?: string[];
   tags?: { [key: string]: string };
   nestedType?: { [key: string]: string };
+  listBlock?: IResolvable;
 }
 
 export class TestResource extends TerraformResource {
@@ -18,6 +23,7 @@ export class TestResource extends TerraformResource {
   public names?: string[];
   public tags?: { [key: string]: string };
   public nestedType?: { [key: string]: string };
+  public listBlock?: IResolvable; // TODO: add special type as well? how to detect blocks vs. list type attribute?
 
   constructor(scope: Construct, id: string, config: TestResourceConfig) {
     super(scope, id, {
@@ -38,6 +44,7 @@ export class TestResource extends TerraformResource {
     this.names = config.names;
     this.tags = config.tags;
     this.nestedType = config.nestedType;
+    this.listBlock = config.listBlock;
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
@@ -46,6 +53,7 @@ export class TestResource extends TerraformResource {
       names: this.names,
       tags: this.tags,
       nested_type: this.nestedType,
+      list_block: this.listBlock,
     };
   }
 
