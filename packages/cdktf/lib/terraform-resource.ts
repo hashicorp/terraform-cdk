@@ -7,6 +7,8 @@ import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
+import { ITerraformIterator } from "./terraform-iterator";
+import assert = require("assert");
 
 export interface ITerraformResource {
   readonly terraformResourceType: string;
@@ -17,6 +19,7 @@ export interface ITerraformResource {
   count?: number;
   provider?: TerraformProvider;
   lifecycle?: TerraformResourceLifecycle;
+  forEach?: ITerraformIterator;
 
   interpolationForAttribute(terraformAttribute: string): IResolvable;
 }
@@ -32,6 +35,7 @@ export interface TerraformMetaArguments {
   readonly count?: number;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
+  readonly forEach?: ITerraformIterator;
 }
 
 export interface TerraformProviderGeneratorMetadata {
@@ -58,6 +62,7 @@ export class TerraformResource
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
+  public forEach?: ITerraformIterator;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -72,6 +77,7 @@ export class TerraformResource
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
+    this.forEach = config.forEach;
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -119,11 +125,16 @@ export class TerraformResource
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
+    assert(
+      !this.forEach || typeof this.count === "undefined",
+      `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the resource at path: ${this.node.path}`
+    );
     return {
       dependsOn: this.dependsOn,
       count: this.count,
       provider: this.provider?.fqn,
       lifecycle: this.lifecycle,
+      forEach: this.forEach?._getForEachExpression(),
     };
   }
 

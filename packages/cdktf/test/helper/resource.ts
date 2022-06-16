@@ -7,6 +7,7 @@ import { ITerraformResource } from "../../lib/terraform-resource";
 
 export interface TestResourceConfig extends TerraformMetaArguments {
   name: string;
+  names?: string[];
   tags?: { [key: string]: string };
   nestedType?: { [key: string]: string };
 }
@@ -29,9 +30,11 @@ export class TestResource extends TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      forEach: config.forEach,
     });
 
     this.name = config.name;
+    this.names = config.names;
     this.tags = config.tags;
     this.nestedType = config.nestedType;
   }
@@ -59,6 +62,10 @@ export class TestResource extends TerraformResource {
 
   public get anyList() {
     return this.interpolationForAttribute("any_list");
+  }
+
+  public get stringMap() {
+    return this.getStringMapAttribute("string_map");
   }
 
   public get numberList() {
