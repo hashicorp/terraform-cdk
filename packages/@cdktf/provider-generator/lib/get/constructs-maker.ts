@@ -236,14 +236,12 @@ export class ConstructsMaker {
         (target) => target instanceof ConstructsMakerProviderTarget
       ) as ConstructsMakerProviderTarget[];
 
-    if (providerTargets.length > 0) {
-      providerTargets.forEach(
-        (provider) =>
-          new TerraformProviderGenerator(this.code, schema.providerSchema, [
-            provider,
-          ])
-      );
-    }
+    providerTargets.forEach(
+      (provider) =>
+        new TerraformProviderGenerator(this.code, schema.providerSchema, [
+          provider,
+        ])
+    );
 
     if (moduleTargets.length > 0) {
       new ModuleGenerator(this.code, moduleTargets);

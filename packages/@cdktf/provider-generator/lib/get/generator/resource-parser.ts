@@ -26,6 +26,10 @@ class Parser {
 
   private classNames: string[] = [];
 
+  constructor(unique_classnames: string[]) {
+    this.classNames = unique_classnames;
+  }
+
   private uniqueClassName(className: string): string {
     if (this.classNames.includes(className)) {
       className = `${className}A`;
@@ -488,13 +492,15 @@ class Parser {
 }
 
 export class ResourceParser {
+  private unique_classnames: string[] = [];
+
   public parse(
     provider: string,
     type: string,
     schema: Schema,
     terraformType: string
   ): ResourceModel {
-    const parser = new Parser();
+    const parser = new Parser(this.unique_classnames);
     const resource = parser.resourceFrom(provider, type, schema, terraformType);
     return resource;
   }
