@@ -1,4 +1,4 @@
-import { Testing, TerraformStack, TerraformIterator } from "../lib";
+import { Testing, TerraformStack, TerraformIterator, Fn } from "../lib";
 import { TerraformDynamicBlock } from "../lib/terraform-dynamic-block";
 import { TestProvider, TestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
@@ -108,4 +108,22 @@ test("dynamic blocks are properly rendered for providers", () => {
       },
     },
   ]);
+});
+
+test("dynamic blocks throw an error if used incorrectly", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
+
+  new TestResource(stack, "test2", {
+    name: "foo",
+    listBlock: Fn.toset(it.dynamic({ name: it.value })),
+  });
+
+  expect(() => Testing.synth(stack))
+    .toThrowError(`Resolution error: Resolution error: Tried to directly resolve a TerraformDynamicBlock which is not supported.
+This can happen if you pass the result of iterator.dynamic() to a Terraform function or to a property or construct that does not support dynamic blocks.
+Dynamic blocks are only supported on block attributes of resources, data sources and providers at the moment.`);
 });

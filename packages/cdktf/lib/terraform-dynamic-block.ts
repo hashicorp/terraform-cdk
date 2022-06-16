@@ -23,11 +23,9 @@ export class TerraformDynamicBlock implements IResolvable {
 
   public resolve(): any {
     throw new Error(
-      `Dynamic blocks are not supposed to be resolved directly.
-This is a safeguard to ensure dynamic blocks are properly moved
-to the correct location first before being resolved.
-
-Dynamic Blocks are only supported in Terraform resources at the moment.` // TODO: update stmnt when dynamic blocks are supported in other places
+      `Tried to directly resolve a TerraformDynamicBlock which is not supported.
+This can happen if you pass the result of iterator.dynamic() to a Terraform function or to a property or construct that does not support dynamic blocks.
+Dynamic blocks are only supported on block attributes of resources, data sources and providers at the moment`
     );
   }
 
