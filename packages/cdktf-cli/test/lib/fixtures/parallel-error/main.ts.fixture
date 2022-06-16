@@ -1,0 +1,40 @@
+import { Construct } from "constructs";
+import {
+  App,
+  TerraformStack,
+  Testing,
+  LocalBackend,
+} from "cdktf";
+import * as NullProvider from "./.gen/providers/null";
+
+export class HelloTerra extends TerraformStack {
+  constructor(scope: Construct, id: string, timeout: number, shouldThrowError=false) {
+    super(scope, id);
+    new NullProvider.NullProvider(this, "null", {});
+    new LocalBackend(this);
+
+    const nullResouce = new NullProvider.Resource(this, "test", {});
+
+    const command = shouldThrowError ? "exit 1" : `echo "hello deploy"`;
+    nullResouce.addOverride("provisioner", [
+      {
+        "local-exec": {
+          command: `sleep ${timeout} && ${command}`,
+        },
+      },
+    ]);
+  }
+}
+
+
+// This is how the deployment should work timing wise
+// | denotes when the plan happens
+// stack1 ---|-----> (passed)
+// stack2 ---|-----------------> (failed)
+// stack3 ---|--------------------------> (passed)
+
+const app = Testing.stubVersion(new App({ stackTraces: false }));
+new HelloTerra(app, "stack1", 1);
+new HelloTerra(app, "stack2", 5, true);
+new HelloTerra(app, "stack3", 10);
+app.synth();
