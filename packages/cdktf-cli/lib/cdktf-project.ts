@@ -516,6 +516,11 @@ export class CdktfProject {
     parallelism: number,
     refreshOnly?: boolean
   ) {
+    // We only support refresh only on deploy, a bit of a leaky abstraction here
+    if (refreshOnly && method !== "deploy") {
+      throw Errors.Internal(`Refresh only is only supported on deploy`);
+    }
+
     const maxParallelRuns = parallelism === -1 ? Infinity : parallelism;
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);

@@ -239,7 +239,6 @@ export class CdktfStack {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
-      console.log("Plan", { refreshOnly });
       const plan = await terraform.plan(false, refreshOnly);
       this.currentPlan = plan;
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
