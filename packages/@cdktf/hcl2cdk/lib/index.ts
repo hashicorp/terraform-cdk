@@ -428,8 +428,6 @@ type CdktfJson = Record<string, unknown> & {
 };
 export async function convertProject(
   combinedHcl: string,
-  inputMainFile: string,
-  inputCdktfJson: CdktfJson,
   { language, providerSchema }: ConvertOptions
 ) {
   if (language !== "typescript") {
@@ -446,19 +444,22 @@ export async function convertProject(
     language,
     providerSchema,
   });
-  const importMainFile = [imports, inputMainFile].join("\n");
-  const outputMainFile = importMainFile.replace(
-    "// define resources here",
-    code
-  );
-
-  const cdktfJson = { ...inputCdktfJson };
-  cdktfJson.terraformProviders = providers;
-  cdktfJson.terraformModules = tfModules;
 
   return {
-    code: prettier.format(outputMainFile, { parser: "babel" }),
-    cdktfJson,
+    code: (inputMainFile: string) => {
+      const importMainFile = [imports, inputMainFile].join("\n");
+      const outputMainFile = importMainFile.replace(
+        "// define resources here",
+        code
+      );
+      return prettier.format(outputMainFile, { parser: "babel" });
+    },
+    cdktfJson: (inputCdktfJson: CdktfJson) => {
+      const cdktfJson = { ...inputCdktfJson };
+      cdktfJson.terraformProviders = providers;
+      cdktfJson.terraformModules = tfModules;
+      return cdktfJson;
+    },
     stats,
   };
 }

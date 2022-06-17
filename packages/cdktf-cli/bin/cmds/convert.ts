@@ -3,6 +3,8 @@ import { Errors } from "../../lib/errors";
 import { BaseCommand } from "./helper/base-command";
 import { requireHandlers } from "./helper/utilities";
 
+// TODO: use cdktfJson as basis for language and provider infos
+
 class Command extends BaseCommand {
   public readonly command = "convert";
   public readonly describe =
