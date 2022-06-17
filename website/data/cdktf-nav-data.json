@@ -59,6 +59,10 @@
       {
         "title": "Stacks",
         "path": "concepts/stacks"
+      },
+      {
+        "title": "Terraform Cloud",
+        "path": "concepts/terraform-cloud"
       }
     ]
   },
