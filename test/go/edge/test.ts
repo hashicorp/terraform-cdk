@@ -222,4 +222,57 @@ describe("Golang edge provider test", () => {
       );
     });
   });
+
+  describe("IteratorStack", () => {
+    let stack: QueryableStack;
+    beforeAll(() => {
+      stack = driver.synthesizedStack("iterator");
+    });
+
+    describe("string list", () => {
+      let t: Record<string, any>;
+      beforeAll(() => {
+        t = stack.byId("string_list_target");
+      });
+
+      it("renders for_each property", () => {
+        expect(t.for_each).toBe(
+          "${toset(optional_attribute_resource.target.strList)}"
+        );
+      });
+
+      it("renders each.value for str attribute", () => {
+        expect(t.str).toBe("${each.value}");
+      });
+    });
+    describe("complex list", () => {
+      let t: Record<string, any>;
+      beforeAll(() => {
+        t = stack.byId("complex_list_target");
+      });
+
+      it("renders for_each property", () => {
+        expect(t.for_each).toBe("${toset(list_block_resource.list.req)}");
+      });
+      it("renders each.value for str attribute", () => {
+        expect(t.str).toBe('${each.value["reqstr"]}');
+      });
+      it("renders each.value for num attribute", () => {
+        expect(t.num).toBe('${each.value["reqnum"]}');
+      });
+    });
+    describe("string map", () => {
+      let t: Record<string, any>;
+      beforeAll(() => {
+        t = stack.byId("string_map_target");
+      });
+
+      it("renders for_each property", () => {
+        expect(t.for_each).toBe("${map_resource.map.optMap}");
+      });
+      it("renders each.value for str attribute", () => {
+        expect(t.str).toBe("${each.value}");
+      });
+    });
+  });
 });
