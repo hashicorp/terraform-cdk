@@ -95,6 +95,12 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const projectId = uuid();
   telemetryData.projectId = projectId;
 
+  const fromTerraformProject =
+    argv.fromTerraformProject ||
+    (templateInfo.Name === "typescript"
+      ? await getTerraformProject()
+      : undefined);
+
   if (!argv.local) {
     if (!("OrganizationName" in projectInfo)) {
       throw new Error(`Missing organization name in project info`);
@@ -133,14 +139,14 @@ This means that your Terraform state file will be stored locally on disk in a fi
     (ci ? false : await askForCrashReportingConsent());
 
   let convertResult, importPath;
-  if (argv.fromTerraformProject) {
-    if (argv.template !== "typescript") {
+  if (fromTerraformProject) {
+    if (templateInfo.Name !== "typescript") {
       console.error(
         `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
       );
     }
 
-    importPath = path.resolve(process.cwd(), argv.fromTerraformProject);
+    importPath = path.resolve(process.cwd(), fromTerraformProject);
 
     const combinedTfFile = getTerraformConfigFromDir(importPath);
 
@@ -312,6 +318,44 @@ async function gatherInfo(
   }
 
   return project;
+}
+
+async function getTerraformProject(): Promise<string | undefined> {
+  const { shouldUseTerraformProject } = await inquirer.prompt({
+    name: "shouldUseTerraformProject",
+    message: "Do you want to start from a Terraform project?",
+    type: "confirm",
+    default: false,
+  });
+
+  if (!shouldUseTerraformProject) {
+    return undefined;
+  }
+
+  let { terraformProject } = await inquirer.prompt([
+    {
+      name: "terraformProject",
+      message: "Please enter the path to the Terraform project",
+      type: "input",
+      default: "",
+    },
+  ]);
+
+  if (!terraformProject || terraformProject === "") {
+    return undefined;
+  }
+
+  if (!path.isAbsolute(terraformProject)) {
+    terraformProject = path.resolve(process.cwd(), terraformProject);
+  }
+
+  if (!fs.existsSync(terraformProject)) {
+    throw Errors.Usage(
+      `Could not find folder '${terraformProject}' to initialize from.`
+    );
+  }
+
+  return terraformProject;
 }
 
 /**
