@@ -26,9 +26,9 @@ We recommend synthesizing your CDKTF application and using Terraform directly wh
 
 ## Using Terraform Cloud
 
-Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets by defining [workspace variables](/cloud-docs/workspaces/variables). You can only use workspace variables for secrets if you set your workspace to [remote execution mode](/cloud-docs/workspaces/settings#execution-mode), which means that Terraform runs are executed within Terraform Cloud. If you use the local execution mode or any other backend, you must specify the credentials for your providers locally through environment variables. 
+Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets by defining [workspace variables](/cloud-docs/workspaces/variables). You can only use workspace variables for secrets if you set your workspace to [remote execution mode](/cloud-docs/workspaces/settings#execution-mode), which means that Terraform runs are executed within Terraform Cloud. If you use the local execution mode or any other backend, you must specify the credentials for your providers locally through environment variables.
 
-Using Terraform Cloud with a [CLI-driven Run Workflow](/cloud-docs/run/cli), also requires setting your workspace to remote execution mode. 
+Using Terraform Cloud with a [CLI-driven Run Workflow](/cloud-docs/run/cli), also requires setting your workspace to remote execution mode.
 
 ~> **Warning:** Remote execution with non-interactive workflows requires auto-approved deployments. Minimize risk of unpredictable infrastructure changes and configuration drift by making sure that no one can change your infrastructure outside of your automated build pipeline. Refer to [Non-Interactive Workflows](/cloud-docs/run/cli#non-interactive-workflows) for details.
 
@@ -40,7 +40,7 @@ You should [read secrets with Terraform Variables](/cdktf/create-and-deploy/best
 
 ## Example Workflows
 
-The following examples demonstrate common deployment workflows for your CDKTF application. 
+The following examples demonstrate common deployment workflows for your CDKTF application.
 
 ### Deploy with Terraform and Terraform Cloud
 
@@ -53,7 +53,7 @@ Refer to [UI/VCS-Driven Run Workflow](/cloud-docs/run/ui) in the Terraform Cloud
 
 ### Terraform CDK GitHub Action
 
-You can use the [Terraform CDK GitHub Action](https://github.com/marketplace/actions/terraform-cdk-action) if you are using GitHub Actions and you want a default review / deployment workflow. The Terraform CDK GitHub Action comments Terraform plans on your pull requests and provides a default review workflow. If you need more customization, refer to [GitHub Actions CI and Terraform Cloud](#github-actions-ci-and-terraform-cloud).
+You can use the [Terraform CDK GitHub Action](https://github.com/marketplace/actions/terraform-cdk-action) if you are using GitHub Actions and you want a default review / deployment workflow. The Terraform CDK GitHub Action runs the CDKTF CLI under the hood, it comments Terraform plans on your pull requests and provides a default review workflow. If you need more customization, refer to [GitHub Actions CI and Terraform Cloud](#github-actions-ci-and-terraform-cloud).
 
 ### GitHub Actions CI and Terraform Cloud
 
