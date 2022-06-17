@@ -6,11 +6,11 @@ description: >-
 
 # Deployment Patterns
 
-You can configure your CI/CD environment to automatically deploy your CDKTF applications. This page explains different types of deployment patterns to help you choose the methods that are most appropriate for your use case.
+You can configure your Continuous Integration/Continuous Deployment (CI/CD) environment to automatically deploy your CDKTF applications. This page explains different types of deployment patterns to help you choose the methods that are most appropriate for your use case.
 
 ## Deployment Methods
 
-You can provision your infrastructure using either CDKTF CLI commands (e.g., `cdktf deploy`) or by synthesizing your application into a Terraform configuration file and using Terraform directly. Both approaches allow you to use Terraform Cloud and integrate with a Continous Integration (CI) pipeline.
+You can provision your infrastructure using either CDKTF CLI commands (e.g., `cdktf deploy`) or by synthesizing your application into a Terraform configuration file and using Terraform directly. Both approaches allow you to use Terraform Cloud and integrate with a CI/CD pipeline.
 
 ### Run CDKTF CLI Commands
 
@@ -26,9 +26,9 @@ We recommend synthesizing your CDKTF application and using Terraform directly wh
 
 ## Using Terraform Cloud
 
-Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets via [workspace variables](/cloud-docs/workspaces/variables). If you use the local execution mode or any other backend you must specify the credentials for your providers locally through environment variables.
+Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets by defining [workspace variables](/cloud-docs/workspaces/variables). You can only use workspace variables for secrets if you set your workspace to [remote execution mode](/cloud-docs/workspaces/settings#execution-mode), which means that Terraform runs are executed within Terraform Cloud. If you use the local execution mode or any other backend, you must specify the credentials for your providers locally through environment variables. 
 
-To use Terraform Cloud with a [CLI-driven Run Workflow](/cloud-docs/run/cli), you must enable [remote execution](/cloud-docs/run#remote-operations) in your Terraform Cloud workspace.
+Using Terraform Cloud with a [CLI-driven Run Workflow](/cloud-docs/run/cli), also requires setting your workspace to remote execution mode. 
 
 ~> **Warning:** Remote execution with non-interactive workflows requires auto-approved deployments. Minimize risk of unpredictable infrastructure changes and configuration drift by making sure that no one can change your infrastructure outside of your automated build pipeline. Refer to [Non-Interactive Workflows](/cloud-docs/run/cli#non-interactive-workflows) for details.
 
@@ -36,9 +36,11 @@ To run Terraform Cloud with a [VCS-Driven Run Workflow](/cloud-docs/run/ui) you 
 
 ## Managing Secrets and Sensitive Data
 
-No matter if you manage your secrets through Terraform Cloud (in `remote-execution` mode) or through your normal CI, secrets should never appear in your synthesized code. [This is why you should read Secrets with Terraform Variables](/cdktf/create-and-deploy/best-practices#read-secrets-with-terraform-variables).
+You should [read secrets with Terraform Variables](/cdktf/create-and-deploy/best-practices#read-secrets-with-terraform-variables) so that they do not appear in your synthesized CDKTF code.
 
 ## Example Workflows
+
+The following examples demonstrate common deployment workflows for your CDKTF application. 
 
 ### Deploy with Terraform and Terraform Cloud
 
@@ -51,7 +53,7 @@ Refer to [UI/VCS-Driven Run Workflow](/cloud-docs/run/ui) in the Terraform Cloud
 
 ### Terraform CDK GitHub Action
 
-If you are using GitHub Actions and you want a default review / deployment workflow, you can use the [Terraform CDK GitHub Action](https://github.com/marketplace/actions/terraform-cdk-action). It provides you with comments on your PRs and a default review workflow. If you need more customization, please take a look at the next example.
+You can use the [Terraform CDK GitHub Action](https://github.com/marketplace/actions/terraform-cdk-action) if you are using GitHub Actions and you want a default review / deployment workflow. The Terraform CDK GitHub Action comments Terraform plans on your pull requests and provides a default review workflow. If you need more customization, refer to [GitHub Actions CI and Terraform Cloud](#github-actions-ci-and-terraform-cloud).
 
 ### GitHub Actions CI and Terraform Cloud
 
@@ -59,7 +61,7 @@ Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API
 
 You must create a job like this for every stack so that you can pass the stack name into `cdktf diff <stack name>`. None of the stacks can depend on each other because Terraform cannot reason about which stacks must be launched first to respect these dependencies.
 
-The following example shows a GitHub Actions configuration where the CDKTF application is deployed from the `main` branch and uses Terraform Cloud. This file could be stored in `.github/workflows/cdktf-deploy.yml`.
+The following example shows a GitHub Actions configuration where the CDKTF application is deployed from the `main` branch and uses Terraform Cloud. You could store this file in `.github/workflows/cdktf-deploy.yml`.
 
 ```yaml
 name: CDKTF Deployment
@@ -155,7 +157,7 @@ jobs:
 
 ### Running the CDKTF CLI on a general purpose CI
 
-If you have a general purpose CI like GitHub Actions or CircleCI configured, use the `cdktf deploy --auto-approve <your stacks>` command to trigger a deployment. This deploys your stacks in the right order and in parallel. To do set up this workflow, you must install the following software:
+If you have a general purpose CI like GitHub Actions or CircleCI configured, use the `cdktf deploy --auto-approve <your stacks>` command to trigger a deployment. This deploys your stacks in the right order and in parallel. To set up this workflow, you must install the following software:
 
 - Node in version 14.0+
 - The `cdktf-cli` CLI
@@ -166,4 +168,4 @@ If you have a general purpose CI like GitHub Actions or CircleCI configured, use
 
 ### Contribute Additional Examples
 
-If you want to share another solution on this page, please [open a GitHub issue](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2C+new&template=feature-request.md&title=) or submit a pull request for this page.
+If you want to share another solution, please [open a GitHub issue](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2C+new&template=feature-request.md&title=) or submit a pull request for this documentation page.
