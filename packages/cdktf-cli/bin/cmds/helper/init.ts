@@ -132,6 +132,43 @@ This means that your Terraform state file will be stored locally on disk in a fi
     argv.enableCrashReporting ??
     (ci ? false : await askForCrashReportingConsent());
 
+  let convertResult, importPath;
+  if (argv.fromTerraformProject) {
+    if (argv.template !== "typescript") {
+      console.error(
+        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
+      );
+    }
+
+    importPath = path.resolve(process.cwd(), argv.fromTerraformProject);
+
+    const combinedTfFile = getTerraformConfigFromDir(importPath);
+
+    // Fetch all provider requirements from the project
+    const providerRequirements = await parseProviderRequirements(
+      combinedTfFile
+    );
+
+    // Get all the provider schemas
+    const { providerSchema } = await readSchema(
+      Object.entries(providerRequirements).map(([name, version]) =>
+        ConstructsMakerProviderTarget.from(
+          new config.TerraformProviderConstraint(`${name}@ ${version}`),
+          LANGUAGES[0]
+        )
+      )
+    );
+
+    try {
+      convertResult = await convertProject(combinedTfFile, {
+        language: "typescript",
+        providerSchema,
+      });
+    } catch (err) {
+      throw Errors.Internal(err, { fromTerraformProject: true });
+    }
+  }
+
   await init({
     cdktfVersion: argv.cdktfVersion,
     destination,
@@ -142,68 +179,39 @@ This means that your Terraform state file will be stored locally on disk in a fi
     sendCrashReports: sendCrashReports,
   });
 
-  if (argv.fromTerraformProject) {
-    if (argv.template === "typescript") {
-      const mainTs = fs.readFileSync(
-        path.resolve(destination, "main.ts"),
-        "utf8"
-      );
+  if (convertResult && importPath) {
+    const { code, cdktfJson, stats } = convertResult;
 
-      const importPath = path.resolve(process.cwd(), argv.fromTerraformProject);
+    const mainTs = fs.readFileSync(
+      path.resolve(destination, "main.ts"),
+      "utf8"
+    );
+    fs.writeFileSync(
+      path.resolve(destination, "main.ts"),
+      code(mainTs),
+      "utf8"
+    );
 
-      const combinedTfFile = getTerraformConfigFromDir(importPath);
+    const renderedCdktfJson = cdktfJson(
+      require(path.resolve(destination, "cdktf.json"))
+    );
+    fs.writeFileSync(
+      path.resolve(destination, "cdktf.json"),
+      JSON.stringify(renderedCdktfJson, null, 2),
+      "utf8"
+    );
 
-      // Fetch all provider requirements from the project
-      const providerRequirements = await parseProviderRequirements(
-        combinedTfFile
-      );
+    const { terraformModules, terraformProviders } = renderedCdktfJson;
 
-      // Get all the provider schemas
-      const { providerSchema } = await readSchema(
-        Object.entries(providerRequirements).map(([name, version]) =>
-          ConstructsMakerProviderTarget.from(
-            new config.TerraformProviderConstraint(`${name}@ ${version}`),
-            LANGUAGES[0]
-          )
-        )
-      );
-      try {
-        const { code, cdktfJson, stats } = await convertProject(
-          combinedTfFile,
-          mainTs,
-          require(path.resolve(destination, "cdktf.json")),
-          {
-            language: "typescript",
-            providerSchema,
-          }
-        );
-
-        fs.writeFileSync(path.resolve(destination, "main.ts"), code, "utf8");
-        fs.writeFileSync(
-          path.resolve(destination, "cdktf.json"),
-          JSON.stringify(cdktfJson, null, 2),
-          "utf8"
-        );
-
-        const { terraformModules, terraformProviders } = cdktfJson;
-
-        if (terraformModules.length > 0) {
-          copyLocalModules(terraformModules, importPath, destination);
-        }
-
-        if (terraformModules.length + terraformProviders.length > 0) {
-          execSync("npm run get", { cwd: destination });
-        }
-
-        telemetryData.conversionStats = stats;
-      } catch (err) {
-        throw Errors.Internal(err, { fromTerraformProject: true });
-      }
-    } else {
-      console.error(
-        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
-      );
+    if (terraformModules.length > 0) {
+      copyLocalModules(terraformModules, importPath, destination);
     }
+
+    if (terraformModules.length + terraformProviders.length > 0) {
+      execSync("npm run get", { cwd: destination });
+    }
+
+    telemetryData.conversionStats = stats;
   }
 
   if (templateInfo.cleanupTemporaryFiles) {
