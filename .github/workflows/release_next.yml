@@ -54,7 +54,10 @@ jobs:
         run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
-
+      - name: create bundle
+        run: |
+          yarn build
+          yarn package
       - name: test
         run: |
           yarn test:ci
