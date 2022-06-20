@@ -48,6 +48,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: create bundle
         run: |
+          yarn install
           yarn build
           yarn package
       - name: test
