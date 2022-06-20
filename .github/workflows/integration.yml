@@ -7,10 +7,7 @@ on:
       - "website/**"
       - "tools/update-github-project-board/**"
   workflow_call:
-    inputs:
-      skip_init:
-        required: false
-        type: boolean
+    inputs: {}
 
 concurrency:
   group: integration-${{ github.head_ref }}
@@ -42,7 +39,6 @@ jobs:
       - name: install dependencies
         run: yarn install
       - name: set version
-        if: ${{ !inputs.skip_init }}
         run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: build and package
         run: |

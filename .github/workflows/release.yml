@@ -65,12 +65,16 @@ jobs:
           path: dist
 
   integration_test:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/integration.yml
     with:
       skip_init: true
     secrets: inherit
 
   unit_test:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/unit.yml
     secrets: inherit
 

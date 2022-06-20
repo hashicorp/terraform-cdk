@@ -75,13 +75,15 @@ jobs:
         run: git push --follow-tags
 
   unit_test:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/unit.yml
     secrets: inherit
 
   integration_test:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/integration.yml
-    with:
-      skip_init: true
     secrets: inherit
 
   release_npm:
