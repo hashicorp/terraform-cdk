@@ -8,9 +8,9 @@ on:
       - "tools/update-github-project-board/**"
   workflow_call:
     inputs:
-      version:
+      skip_init:
         required: false
-        type: string
+        type: boolean
 
 concurrency:
   group: integration-${{ github.head_ref }}
@@ -42,7 +42,8 @@ jobs:
       - name: install dependencies
         run: yarn install
       - name: set version
-        run: tools/align-version.sh $([ -z "${{ inputs.version }}" ] && echo "-dev.$GITHUB_RUN_ID" || echo "${{ inputs.version }}")
+        if: ${{ !inputs.skip_init }}
+        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: build and package
         run: |
           yarn build

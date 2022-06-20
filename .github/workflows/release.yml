@@ -51,9 +51,6 @@ jobs:
           yarn install
           yarn build
           yarn package
-      - name: test
-        run: |
-          yarn test:ci
       - name: Add sourcemap and commit info to sentry
         if: steps.get_release_status.outputs.release == 'unreleased'
         run: |
@@ -68,11 +65,13 @@ jobs:
           path: dist
 
   integration_test:
-    needs:
-      - prepare-release
     uses: ./.github/workflows/integration.yml
     with:
-      version: ${{ needs.prepare-release.outputs.version }}
+      skip_init: true
+    secrets: inherit
+
+  unit_test:
+    uses: ./.github/workflows/unit.yml
     secrets: inherit
 
   release_github:
@@ -80,6 +79,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -102,6 +102,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -120,6 +121,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -139,6 +141,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -163,6 +166,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -182,6 +186,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -203,6 +208,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform

@@ -6,6 +6,7 @@ on:
       - "docs/**"
       - "website/**"
       - "tools/update-github-project-board/**"
+  workflow_call: {}
 
 concurrency:
   group: unit-${{ github.head_ref }}
