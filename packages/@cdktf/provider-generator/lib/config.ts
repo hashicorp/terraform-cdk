@@ -281,7 +281,10 @@ export function shouldCheckCodeMakerOutput(config: Config): boolean {
   );
 }
 
-export let logger = console;
+export let logger = {
+  ...console,
+  debug: (_msg: string, ..._args: any[]) => {},
+};
 export function setLogger(log: Console) {
   logger = log;
 }
