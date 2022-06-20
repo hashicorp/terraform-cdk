@@ -68,7 +68,7 @@ jobs:
     uses: ./.github/workflows/integration.yml
     with:
       version: ${{ needs.prepare-release.outputs.version }}
-      secrets: inherit
+    secrets: inherit
 
   release_github:
     name: Release to Github

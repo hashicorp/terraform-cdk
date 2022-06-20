@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}
+      version: ${{ steps.get_version.outputs.version }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -77,8 +78,8 @@ jobs:
       - prepare-release
     uses: ./.github/workflows/integration.yml
     with:
-      version: ${{ steps.get_version.outputs.version }}
-      secrets: inherit
+      version: ${{ needs.prepare-release.outputs.version }}
+    secrets: inherit
 
   release_npm:
     name: Release to NPM
