@@ -53,11 +53,7 @@ jobs:
         run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
-      - name: build and integration test
-        uses: ./.github/workflows/integration.yml
-        with:
-          version: ${{ steps.get_version.outputs.version }}
-          secrets: inherit
+
       - name: test
         run: |
           yarn test:ci
@@ -76,10 +72,19 @@ jobs:
       - name: publish tag
         run: git push --follow-tags
 
+  integration_test:
+    needs:
+      - prepare-release
+    uses: ./.github/workflows/integration.yml
+    with:
+      version: ${{ steps.get_version.outputs.version }}
+      secrets: inherit
+
   release_npm:
     name: Release to NPM
     needs:
       - prepare-release
+      - integration_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -98,6 +103,7 @@ jobs:
     name: Release to PyPi
     needs:
       - prepare-release
+      - integration_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -116,6 +122,7 @@ jobs:
     name: Release to Maven
     needs:
       - prepare-release
+      - integration_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -139,6 +146,7 @@ jobs:
     name: Release to NuGet
     needs:
       - prepare-release
+      - integration_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -157,6 +165,7 @@ jobs:
     name: Release Go to Github Repo
     needs:
       - prepare-release
+      - integration_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -177,10 +186,7 @@ jobs:
     name: Finalize the sentry release
     needs:
       - prepare-release
-      - release_golang
-      - release_nuget
-      - release_maven
-      - release_pypi
+      - integration_test
       - release_npm
     runs-on: ubuntu-latest
     container:
