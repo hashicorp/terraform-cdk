@@ -49,7 +49,7 @@ jobs:
         uses: ./.github/workflows/integration.yml
         with:
           version: ${{ steps.get_version.outputs.version }}
-        secrets: inherit
+          secrets: inherit
       - name: test
         run: |
           yarn test:ci
