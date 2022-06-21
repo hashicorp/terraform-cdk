@@ -49,6 +49,7 @@ jobs:
       - name: create bundle
         run: |
           yarn install
+          tools/align-version.sh
           yarn build
           yarn package
       - name: Add sourcemap and commit info to sentry
