@@ -7,7 +7,12 @@ on:
       - "website/**"
       - "tools/update-github-project-board/**"
   workflow_call:
-    inputs: {}
+    inputs:
+      skip_setup:
+        description: Skip the version and build step and use parent
+        default: false
+        required: false
+        type: boolean
 
 concurrency:
   group: integration-${{ github.head_ref }}
@@ -39,8 +44,10 @@ jobs:
       - name: install dependencies
         run: yarn install
       - name: set version
+        if: ${{ !inputs.skip_setup }}
         run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: build and package
+        if: ${{ !inputs.skip_setup }}
         run: |
           yarn build
           yarn package
@@ -48,11 +55,13 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Upload dist
         uses: actions/upload-artifact@v2
+        if: ${{ !inputs.skip_setup }}
         with:
           name: dist
           path: dist
       - name: Upload edge-provider bindings
         uses: actions/upload-artifact@v2
+        if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
           path: packages/@cdktf/provider-generator/edge-provider-bindings

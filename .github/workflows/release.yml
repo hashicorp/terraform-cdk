@@ -69,7 +69,7 @@ jobs:
       - prepare-release
     uses: ./.github/workflows/integration.yml
     with:
-      skip_init: true
+      skip_setup: true
     secrets: inherit
 
   unit_test:

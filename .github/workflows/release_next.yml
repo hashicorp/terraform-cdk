@@ -84,6 +84,8 @@ jobs:
     needs:
       - prepare-release
     uses: ./.github/workflows/integration.yml
+    with:
+      skip_setup: true
     secrets: inherit
 
   release_npm:
