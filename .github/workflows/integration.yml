@@ -13,9 +13,13 @@ on:
         default: false
         required: false
         type: boolean
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
-  group: integration-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-integration-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:

@@ -76,12 +76,15 @@ jobs:
     uses: ./.github/workflows/integration.yml
     with:
       skip_setup: true
+      concurrency_group_prefix: release
     secrets: inherit
 
   unit_test:
     needs:
       - prepare-release
     uses: ./.github/workflows/unit.yml
+    with:
+      concurrency_group_prefix: release
     secrets: inherit
 
   release_github:
