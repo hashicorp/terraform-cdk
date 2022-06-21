@@ -71,6 +71,12 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: Upload edge-provider bindings
+        uses: actions/upload-artifact@v2
+        if: ${{ !inputs.skip_setup }}
+        with:
+          name: edge-provider-bindings
+          path: packages/@cdktf/provider-generator/edge-provider-bindings
       - name: publish tag
         run: git push --follow-tags
 
