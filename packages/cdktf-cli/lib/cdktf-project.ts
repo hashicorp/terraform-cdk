@@ -277,6 +277,11 @@ export type ExecutionOptions = MultipleStackOptions & {
   autoApprove?: boolean;
   ignoreMissingStackDependencies?: boolean;
   parallelism?: number;
+  refreshOnly?: boolean;
+};
+
+export type DiffOptions = SingleStackOptions & {
+  refreshOnly?: boolean;
 };
 
 type LogMessage = {
@@ -492,12 +497,12 @@ export class CdktfProject {
     return stacks;
   }
 
-  public async diff(opts?: SingleStackOptions) {
+  public async diff(opts?: DiffOptions) {
     const stacks = await this.synth();
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
-    await stack.diff();
+    await stack.diff({ refreshOnly: opts?.refreshOnly });
     if (!stack.currentPlan)
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
@@ -508,8 +513,14 @@ export class CdktfProject {
   private async execute(
     method: "deploy" | "destroy",
     next: () => Promise<CdktfStack | undefined>,
-    parallelism: number
+    parallelism: number,
+    refreshOnly?: boolean
   ) {
+    // We only support refresh only on deploy, a bit of a leaky abstraction here
+    if (refreshOnly && method !== "deploy") {
+      throw Errors.Internal(`Refresh only is only supported on deploy`);
+    }
+
     const maxParallelRuns = parallelism === -1 ? Infinity : parallelism;
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
@@ -523,7 +534,7 @@ export class CdktfProject {
         }
 
         method === "deploy"
-          ? nextRunningExecutor.deploy()
+          ? nextRunningExecutor.deploy(refreshOnly)
           : nextRunningExecutor.destroy();
       }
     }
@@ -561,7 +572,7 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
-    await this.execute("deploy", next, parallelism);
+    await this.execute("deploy", next, parallelism, opts.refreshOnly);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending

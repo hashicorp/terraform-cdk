@@ -111,6 +111,7 @@ export async function deploy(argv: any) {
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
+  const refreshOnly = argv.refreshOnly;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -133,6 +134,7 @@ export async function deploy(argv: any) {
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
       parallelism: argv.parallelism,
+      refreshOnly,
     })
   );
 }
@@ -168,10 +170,12 @@ export async function diff(argv: any) {
   const command = argv.app;
   const outDir = argv.output;
   const stack = argv.stack;
+  const refreshOnly = argv.refreshOnly;
 
   await renderInk(
     React.createElement(Diff, {
       outDir,
+      refreshOnly,
       targetStack: stack,
       synthCommand: command,
     })

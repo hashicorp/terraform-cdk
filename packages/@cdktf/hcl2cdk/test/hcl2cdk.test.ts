@@ -23,7 +23,6 @@ const providers = [
 enum Synth {
   yes,
   needsAFix_UnforseenClassRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
-  needsAFix_UnforseenPropertyRename, // https://github.com/hashicorp/terraform-cdk/issues/1708
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
@@ -1187,6 +1186,26 @@ describe("convert", () => {
   );
 
   testCase.test(
+    "maps dont get camel case keys",
+    `
+  provider "kubernetes" {
+    config_path    = "~/.kube/config"
+    config_context = "my-context"
+  }
+
+  resource "kubernetes_secret" "secrets-xxx" {
+    metadata {
+      name      = "secrets-xxx"
+    }
+    data = {
+      "camel_cased_key": "yes"
+    }
+  }
+  `,
+    Synth.yes
+  );
+
+  testCase.test(
     "all module types",
     `
       module "consul" {
@@ -1352,7 +1371,7 @@ describe("convert", () => {
       }
     }
       `,
-    Synth.needsAFix_UnforseenPropertyRename
+    Synth.yes
   );
 
   testCase.test(
@@ -1381,8 +1400,6 @@ describe("convert", () => {
         host        = self.public_ip
       }
     }
-    
-    
       `,
     Synth.never
   );
