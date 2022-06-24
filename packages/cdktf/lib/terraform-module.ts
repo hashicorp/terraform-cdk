@@ -8,12 +8,15 @@ import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
 import { ITerraformIterator } from "./terraform-iterator";
 
-export interface TerraformModuleOptions {
-  readonly source: string;
-  readonly version?: string;
+export interface TerraformModuleUserOptions {
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
   readonly dependsOn?: ITerraformDependable[];
   readonly forEach?: ITerraformIterator;
+}
+
+export interface TerraformModuleOptions extends TerraformModuleUserOptions {
+  readonly source: string;
+  readonly version?: string;
 }
 
 export interface TerraformModuleProvider {
