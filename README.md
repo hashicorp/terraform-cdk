@@ -67,6 +67,8 @@ The development team would love your feedback to help guide the project.
 
 ## Build
 
+About prerequisites, refer the [followings](https://github.com/kination/terraform-cdk/blob/main/CONTRIBUTING.md#prerequisites).
+
 Clone the project repository.
 
 ```bash
