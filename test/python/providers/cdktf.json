@@ -2,7 +2,7 @@
   "language": "python",
   "app": "pipenv run python main.py",
   "terraformProviders": [
-    "kreuzwerker/docker@~> 2.15"
+    "kreuzwerker/docker@= 2.16.0"
   ],
   "codeMakerOutput": "imports",
   "context": {
