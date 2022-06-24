@@ -24,11 +24,7 @@ const isReservedClassName = (className: string): boolean => {
 class Parser {
   private structs = new Array<Struct>();
 
-  private classNames: string[] = [];
-
-  constructor(unique_classnames: string[]) {
-    this.classNames = unique_classnames;
-  }
+  constructor(private classNames: string[]) {}
 
   private uniqueClassName(className: string): string {
     if (this.classNames.includes(className)) {

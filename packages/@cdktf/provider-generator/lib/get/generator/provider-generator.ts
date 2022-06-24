@@ -41,10 +41,11 @@ export class TerraformProviderGenerator {
   private resourceParser = new ResourceParser();
   private resourceEmitter: ResourceEmitter;
   private structEmitter: StructEmitter;
+  public versions: { [fqpn: string]: string | undefined } = {};
   constructor(
     private readonly code: CodeMaker,
     schema: ProviderSchema,
-    private providerConstraints?: ConstructsMakerTarget[]
+    private providerConstraints?: ConstructsMakerTarget
   ) {
     this.code.indentation = 2;
     this.resourceEmitter = new ResourceEmitter(this.code);
@@ -63,14 +64,14 @@ export class TerraformProviderGenerator {
 
       if (
         (this.providerConstraints &&
-          this.providerConstraints.find((p) => isMatching(p, fqpn))) ||
+          isMatching(this.providerConstraints, fqpn)) ||
         !this.providerConstraints
       ) {
         this.emitProvider(fqpn, provider, providerVersion);
         versions[fqpn] = providerVersion;
       }
     }
-    this.emitVersionsFile(versions);
+    this.versions = versions;
   }
 
   public async save(outdir: string) {
@@ -89,8 +90,7 @@ export class TerraformProviderGenerator {
 
     let constraint: ConstructsMakerTarget | undefined;
     if (this.providerConstraints) {
-      constraint = this.providerConstraints.find((p) => isMatching(p, fqpn));
-      if (!constraint) {
+      if (!isMatching(this.providerConstraints, fqpn)) {
         throw new Error(`can't handle ${fqpn}`);
       }
     }
@@ -319,14 +319,5 @@ export class TerraformProviderGenerator {
     this.code.line();
     this.code.line("// Configuration");
     this.code.line();
-  }
-
-  // emits a versions.json file with a map of the used version for each provider fqpn
-  private emitVersionsFile(versions: { [fqpn: string]: string | undefined }) {
-    const filePath = "versions.json";
-    this.code.openFile(filePath);
-    this.code.line(JSON.stringify(versions, null, 2));
-    this.code.closeFile(filePath);
-    return filePath;
   }
 }
