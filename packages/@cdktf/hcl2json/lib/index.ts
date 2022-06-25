@@ -7,7 +7,6 @@
 
 import fs from "fs-extra";
 import path from "path";
-import { Go } from "./wasm_exec";
 import { deepMerge } from "./deepmerge";
 import { gunzipSync } from "zlib";
 
@@ -29,10 +28,12 @@ function goBridge(getBytes: Promise<Buffer>) {
   let ready = false;
 
   async function init() {
-    const go = new Go();
+    await import(`${process.env.GOROOT}/misc/wasm/wasm_exec`);
+    const go = new (global as any).Go();
     const bytes = await getBytes;
     const result = await WebAssembly.instantiate(bytes, go.importObject);
-    void go.run(result.instance, { __parse_terraform_config_wasm__: jsRoot });
+    (global as any).__parse_terraform_config_wasm__ = jsRoot;
+    void go.run(result.instance);
     ready = true;
   }
 
