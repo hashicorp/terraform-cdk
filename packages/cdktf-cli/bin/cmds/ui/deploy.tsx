@@ -55,6 +55,7 @@ interface DeployConfig {
   outputsPath?: string;
   ignoreMissingStackDependencies?: boolean;
   parallelism?: number;
+  refreshOnly?: boolean;
 }
 
 export const Deploy = ({
@@ -66,6 +67,7 @@ export const Deploy = ({
   outputsPath,
   ignoreMissingStackDependencies,
   parallelism,
+  refreshOnly,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const { status, logEntries } = useCdktfProject(
@@ -76,6 +78,7 @@ export const Deploy = ({
         autoApprove,
         ignoreMissingStackDependencies,
         parallelism,
+        refreshOnly,
       });
 
       if (onOutputsRetrieved) {

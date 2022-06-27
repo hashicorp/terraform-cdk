@@ -7,16 +7,18 @@ interface DiffConfig {
   outDir: string;
   targetStack?: string;
   synthCommand: string;
+  refreshOnly?: boolean;
 }
 
 export const Diff = ({
   outDir,
   targetStack,
   synthCommand,
+  refreshOnly,
 }: DiffConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
-    (project) => project.diff({ stackName: targetStack })
+    (project) => project.diff({ stackName: targetStack, refreshOnly })
   );
 
   return (

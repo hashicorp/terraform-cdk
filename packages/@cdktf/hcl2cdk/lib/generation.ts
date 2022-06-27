@@ -24,8 +24,15 @@ import {
   constructAst,
   isListExpression,
 } from "./expressions";
-import { TerraformModuleConstraint } from "@cdktf/provider-generator";
-import { getBlockTypeAtPath, getAttributeTypeAtPath } from "./provider";
+import {
+  TerraformModuleConstraint,
+  escapeAttributeName,
+} from "@cdktf/provider-generator";
+import {
+  getBlockTypeAtPath,
+  getAttributeTypeAtPath,
+  getTypeAtPath,
+} from "./provider";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -55,7 +62,8 @@ export const valueToTs = async (
   item: TerraformResourceBlock,
   path: string,
   nodeIds: string[],
-  scopedIds: string[] = []
+  scopedIds: string[] = [],
+  isModule = false
 ): Promise<t.Expression> => {
   switch (typeof item) {
     case "string":
@@ -121,16 +129,33 @@ export const valueToTs = async (
               const isMapAttribute = Array.isArray(attribute?.type)
                 ? attribute?.type?.[0] === "map"
                 : false;
+
+              const typeMetadata = getTypeAtPath(
+                scope.providerSchema,
+                itemPath
+              );
+
+              const isSingleItemBlock =
+                typeMetadata &&
+                typeof typeMetadata === "object" &&
+                typeMetadata.hasOwnProperty("max_items")
+                  ? (typeMetadata as any).max_items === 1
+                  : false;
+
               const shouldBeArray =
                 typeof value === "object" &&
                 !Array.isArray(value) &&
-                getBlockTypeAtPath(scope.providerSchema, itemPath)
-                  ?.max_items !== 1 &&
+                !isSingleItemBlock &&
                 !isMapAttribute &&
                 key !== "tags";
 
+              const keepKeyName: boolean =
+                !isModule && (key === "for_each" || !typeMetadata);
+
               return t.objectProperty(
-                t.stringLiteral(key !== "for_each" ? camelCase(key) : key),
+                t.stringLiteral(
+                  keepKeyName ? key : escapeAttributeName(camelCase(key))
+                ),
                 shouldBeArray
                   ? t.arrayExpression([
                       await valueToTs(
@@ -418,7 +443,9 @@ async function asExpression(
             : undefined,
       },
       `${type}`,
-      nodeIds
+      nodeIds,
+      [],
+      isModuleImport
     ),
   ]);
 
