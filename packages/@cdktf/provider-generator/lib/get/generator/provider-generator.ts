@@ -93,6 +93,7 @@ export class TerraformProviderGenerator {
       if (!isMatching(this.providerConstraints, fqpn)) {
         throw new Error(`can't handle ${fqpn}`);
       }
+      constraint = this.providerConstraints;
     }
 
     const resourceModels: ResourceModel[] = [];
