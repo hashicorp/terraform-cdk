@@ -19,6 +19,7 @@ const adminPassword = new TerraformVariable(this, "adminPassword", {
   description: "Admin password for the instance",
   sensitive: true,
 });
+
 new MyResource(this, "hello", {
   adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
 });

@@ -6,9 +6,20 @@ on:
       - "docs/**"
       - "website/**"
       - "tools/update-github-project-board/**"
+  workflow_call:
+    inputs:
+      skip_setup:
+        description: Skip the version and build step and use parent
+        default: false
+        required: false
+        type: boolean
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
-  group: integration-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-integration-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -34,19 +45,27 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: installing dependencies and build
+      - name: install dependencies
+        run: yarn install
+      - name: set version
+        if: ${{ !inputs.skip_setup }}
+        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
+      - name: build and package
+        if: ${{ !inputs.skip_setup }}
         run: |
-          yarn install
-          tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Upload dist
         uses: actions/upload-artifact@v2
+        if: ${{ !inputs.skip_setup }}
         with:
           name: dist
           path: dist
       - name: Upload edge-provider bindings
         uses: actions/upload-artifact@v2
+        if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
           path: packages/@cdktf/provider-generator/edge-provider-bindings
@@ -126,6 +145,9 @@ jobs:
         with:
           name: edge-provider-bindings
           path: test/edge-provider-bindings
+      # tmp fix for https://github.com/npm/cli/issues/4980
+      - name: update npm
+        run: npm install -g npm@8.12.1
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests

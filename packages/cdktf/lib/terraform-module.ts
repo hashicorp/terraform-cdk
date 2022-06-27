@@ -6,12 +6,17 @@ import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
 import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
+import { ITerraformIterator } from "./terraform-iterator";
 
-export interface TerraformModuleOptions {
-  readonly source: string;
-  readonly version?: string;
+export interface TerraformModuleUserOptions {
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
   readonly dependsOn?: ITerraformDependable[];
+  readonly forEach?: ITerraformIterator;
+}
+
+export interface TerraformModuleOptions extends TerraformModuleUserOptions {
+  readonly source: string;
+  readonly version?: string;
 }
 
 export interface TerraformModuleProvider {
@@ -27,6 +32,7 @@ export abstract class TerraformModule
   public readonly version?: string;
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
   public dependsOn?: string[];
+  public forEach?: ITerraformIterator;
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id, "module");
@@ -50,6 +56,7 @@ export abstract class TerraformModule
         dependable(dependency)
       );
     }
+    this.forEach = options.forEach;
   }
 
   // jsii can't handle abstract classes?
@@ -98,6 +105,7 @@ export abstract class TerraformModule
           }
         }, {}),
         depends_on: this.dependsOn,
+        for_each: this.forEach?._getForEachExpression(),
       },
       this.rawOverrides
     );

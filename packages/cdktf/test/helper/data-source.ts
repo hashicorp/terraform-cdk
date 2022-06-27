@@ -31,6 +31,7 @@ export class TestDataSource extends TerraformDataSource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      forEach: config.forEach,
     });
     this.name = config.name;
   }
