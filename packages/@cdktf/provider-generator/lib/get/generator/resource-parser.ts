@@ -17,22 +17,22 @@ import {
   AttributeModel,
 } from "./models";
 
-const classNames: string[] = [];
-
-const uniqueClassName = (className: string): string => {
-  if (classNames.includes(className)) {
-    className = `${className}A`;
-  }
-  classNames.push(className);
-  return className;
-};
-
 const isReservedClassName = (className: string): boolean => {
   return ["string"].includes(className.toLowerCase());
 };
 
 class Parser {
   private structs = new Array<Struct>();
+
+  constructor(private classNames: string[]) {}
+
+  private uniqueClassName(className: string): string {
+    if (this.classNames.includes(className)) {
+      className = `${className}A`;
+    }
+    this.classNames.push(className);
+    return className;
+  }
 
   public resourceFrom(
     provider: string,
@@ -64,9 +64,9 @@ class Parser {
       baseName = `${baseName}_resource`;
     }
 
-    const className = uniqueClassName(toPascalCase(baseName));
+    const className = this.uniqueClassName(toPascalCase(baseName));
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
-    const configStructName = uniqueClassName(`${className}Config`);
+    const configStructName = this.uniqueClassName(`${className}Config`);
     const fileName =
       baseName === "index"
         ? "index-resource.ts"
@@ -467,7 +467,7 @@ class Parser {
     nesting_mode: string,
     isSingleItem = false
   ) {
-    const name = uniqueClassName(
+    const name = this.uniqueClassName(
       toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
     );
     const parent = scope[scope.length - 1];
@@ -488,13 +488,15 @@ class Parser {
 }
 
 export class ResourceParser {
+  private unique_classnames: string[] = [];
+
   public parse(
     provider: string,
     type: string,
     schema: Schema,
     terraformType: string
   ): ResourceModel {
-    const parser = new Parser();
+    const parser = new Parser(this.unique_classnames);
     const resource = parser.resourceFrom(provider, type, schema, terraformType);
     return resource;
   }

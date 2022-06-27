@@ -236,22 +236,43 @@ export class ConstructsMaker {
         (target) => target instanceof ConstructsMakerProviderTarget
       ) as ConstructsMakerProviderTarget[];
 
-    if (providerTargets.length > 0) {
-      new TerraformProviderGenerator(
-        this.code,
-        schema.providerSchema,
-        providerTargets
+    const providerGenerators = providerTargets.map(
+      (provider) =>
+        new TerraformProviderGenerator(
+          this.code,
+          schema.providerSchema,
+          provider
+        )
+    );
+
+    const initialValue: { [fqpn: string]: string | undefined } = {};
+    const providerVersions = providerGenerators
+      .map((providerGenerator) => providerGenerator.versions)
+      .reduce<{ [fqpn: string]: string | undefined }>(
+        (accumulator, current) => {
+          return { ...accumulator, ...current };
+        },
+        initialValue
       );
-    }
+
+    this.emitVersionsFile(providerVersions);
 
     if (moduleTargets.length > 0) {
       new ModuleGenerator(this.code, moduleTargets);
     }
   }
 
+  // emits a versions.json file with a map of the used version for each provider fqpn
+  private emitVersionsFile(versions: { [fqpn: string]: string | undefined }) {
+    const filePath = "versions.json";
+    this.code.openFile(filePath);
+    this.code.line(JSON.stringify(versions, null, 2));
+    this.code.closeFile(filePath);
+    return filePath;
+  }
+
   public async generate() {
     await this.generateTypeScript();
-
     if (this.isJavascriptTarget) {
       await this.save();
     }
