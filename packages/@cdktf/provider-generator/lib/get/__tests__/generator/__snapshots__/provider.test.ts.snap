@@ -1187,7 +1187,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
       terraformGeneratorMetadata: {
         providerName: 'aws'
       },
-      terraformProviderSource: 'undefined'
+      terraformProviderSource: 'aws'
     });
     this._accessKey = config.accessKey;
     this._allowedAccountIds = config.allowedAccountIds;

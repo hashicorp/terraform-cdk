@@ -19,7 +19,7 @@ test("shard exports across multiple files to avoid generating files with more th
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -140,7 +140,7 @@ test("shard exports across multiple files to avoid generating files with more th
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(

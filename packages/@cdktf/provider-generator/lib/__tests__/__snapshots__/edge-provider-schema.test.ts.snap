@@ -81,7 +81,7 @@ export class EdgeProvider extends cdktf.TerraformProvider {
       terraformGeneratorMetadata: {
         providerName: 'edge'
       },
-      terraformProviderSource: 'undefined'
+      terraformProviderSource: 'registry.terraform.io/cdktf/edge'
     });
     this._optstr = config.optstr;
     this._optnum = config.optnum;
