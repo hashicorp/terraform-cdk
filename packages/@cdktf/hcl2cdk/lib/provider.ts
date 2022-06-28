@@ -10,6 +10,15 @@ import { schema } from "./schema";
 
 export { BlockType, Attribute };
 
+export function getFullProviderName(
+  schema: ProviderSchema,
+  providerName: string
+) {
+  return Object.keys(schema.provider_schemas || {}).find((name) =>
+    name.endsWith(providerName)
+  );
+}
+
 function getResourceAtPath(schema: ProviderSchema, path: string) {
   const parts = path.split(".");
 
@@ -26,9 +35,7 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
   const providerName = parts.shift() as string;
   const resourceName = parts.shift() as string;
 
-  const fullProviderName = Object.keys(schema?.provider_schemas || {}).find(
-    (name) => name.endsWith(providerName)
-  );
+  const fullProviderName = getFullProviderName(schema, providerName);
   const fullResourceName = `${providerName}_${resourceName}`;
 
   if (!fullProviderName) {

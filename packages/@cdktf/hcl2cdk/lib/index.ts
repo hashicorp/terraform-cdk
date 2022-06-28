@@ -1,5 +1,9 @@
 import { parse } from "@cdktf/hcl2json";
-import { isRegistryModule, ProviderSchema } from "@cdktf/provider-generator";
+import {
+  isRegistryModule,
+  ProviderSchema,
+  TerraformProviderGenerator,
+} from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
@@ -33,6 +37,8 @@ import {
 } from "./iteration";
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
+import { CodeMaker } from "codemaker";
+
 export { setLogger } from "./utils";
 
 export const CODE_MARKER = "// define resources here";
@@ -82,6 +88,16 @@ export async function convertToTypescript(
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
   const scope: Scope = {
     providerSchema,
+    providerGenerator: Object.keys(
+      providerSchema.provider_schemas || {}
+    ).reduce((carry, fqpn) => {
+      const providerGenerator = new TerraformProviderGenerator(
+        new CodeMaker(),
+        providerSchema
+      );
+      providerGenerator.buildResourceModels(fqpn);
+      return { ...carry, [fqpn]: providerGenerator };
+    }, {}),
     constructs: new Set<string>(),
     variables: {},
   };

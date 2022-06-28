@@ -22,7 +22,6 @@ const providers = [
 
 enum Synth {
   yes,
-  needsAFix_UnforseenClassRename, // https://github.com/hashicorp/terraform-cdk/issues/1552
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
@@ -1132,6 +1131,9 @@ describe("convert", () => {
   testCase.test(
     "for_each with var usage",
     `
+      provider "azuread" {
+        tenant_id = "00000000-0000-0000-0000-000000000000"
+      }
       variable "one_set_of_users" {
         description = "users"
       }
@@ -1151,7 +1153,7 @@ describe("convert", () => {
         display_name        = each.key
       }
       `,
-    Synth.needsAFix_UnforseenClassRename
+    Synth.yes
   );
 
   testCase.test(
