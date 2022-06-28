@@ -281,7 +281,21 @@ export function shouldCheckCodeMakerOutput(config: Config): boolean {
   );
 }
 
-export let logger = console;
+export let logger = {
+  ...console,
+  debug: (_msg: string, ..._args: any[]) => {},
+};
 export function setLogger(log: Console) {
   logger = log;
+}
+
+export function logTimespan(message: string) {
+  logger.debug(`Start timer for ${message}...`);
+  const start = Date.now();
+
+  return function logTimespanEnd() {
+    const end = Date.now();
+    const duration = end - start;
+    logger.debug(`${message} took ${duration}ms`);
+  };
 }

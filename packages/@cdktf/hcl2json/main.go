@@ -15,6 +15,7 @@ import (
 	"github.com/tmccombs/hcl2json/convert"
 )
 
+var jsGlobal js.Value
 var jsRoot js.Value
 
 const (
@@ -48,7 +49,8 @@ func registerValue(name string, value interface{}) {
 func main() {
 
 	global := js.Global()
-	jsRoot = global.Get(bridgeJavaScriptName)
+	jsGlobal = global.Get("global")
+	jsRoot = jsGlobal.Get(bridgeJavaScriptName)
 	c := make(chan struct{}, 0)
 	registerFn("parse", func(this js.Value, args []js.Value) (interface{}, error) {
 		var options = convert.Options{false}
