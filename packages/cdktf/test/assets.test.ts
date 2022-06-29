@@ -1,4 +1,4 @@
-import { App, TerraformHclModule, TerraformStack, Testing } from "cdktf";
+import { App, TerraformHclModule, TerraformStack, Testing } from "../lib";
 
 describe("createAssetsFromLocalModules test", () => {
   test("remote source without createAssetsFromLocalModules", () => {
