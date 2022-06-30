@@ -30,6 +30,7 @@ export class TestResource extends TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
       forEach: config.forEach,
     });
 
@@ -103,6 +104,7 @@ export class OtherTestResource extends TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
     });
   }
 
