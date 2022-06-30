@@ -232,6 +232,8 @@ export class AcmCertificate extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._certificateAuthorityArn = config.certificateAuthorityArn;

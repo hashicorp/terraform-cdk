@@ -1,0 +1,4 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "hashicorp/bionic64"
+  config.ssh.port = 2222
+end
