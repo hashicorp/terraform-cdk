@@ -12,6 +12,7 @@ import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
+import { logTimespan } from "../config";
 
 export enum Language {
   TYPESCRIPT = "typescript",
@@ -221,36 +222,54 @@ export class ConstructsMaker {
     );
   }
 
-  private async generateTypeScript() {
-    const schema = await readSchema(this.targets);
+  private async generateTypescript(target: ConstructsMakerTarget) {
+    const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
+    const schema = await readSchema([target]);
+    endSchemaReadTimer();
 
-    const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(
-      (target) => target instanceof ConstructsMakerModuleTarget
-    ) as ConstructsMakerModuleTarget[];
-    for (const target of moduleTargets) {
+    const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
+    let versions = {};
+    if (target instanceof ConstructsMakerModuleTarget) {
       target.spec = schema.moduleSchema[target.moduleKey];
+      new ModuleGenerator(this.code, [target]);
     }
-
-    const providerTargets: ConstructsMakerProviderTarget[] =
-      this.targets.filter(
-        (target) => target instanceof ConstructsMakerProviderTarget
-      ) as ConstructsMakerProviderTarget[];
-
-    if (providerTargets.length > 0) {
-      new TerraformProviderGenerator(
+    if (target instanceof ConstructsMakerProviderTarget) {
+      const generator = new TerraformProviderGenerator(
         this.code,
         schema.providerSchema,
-        providerTargets
+        target
       );
+      versions = generator.versions;
     }
+    endTSTimer();
 
-    if (moduleTargets.length > 0) {
-      new ModuleGenerator(this.code, moduleTargets);
-    }
+    return versions;
+  }
+
+  // emits a versions.json file with a map of the used version for each provider fqpn
+  private emitVersionsFile(versions: { [fqpn: string]: string | undefined }) {
+    const filePath = "versions.json";
+    this.code.openFile(filePath);
+    this.code.line(JSON.stringify(versions, null, 2));
+    this.code.closeFile(filePath);
+    return filePath;
   }
 
   public async generate() {
-    await this.generateTypeScript();
+    const endGenerateTimer = logTimespan("Generate TS");
+    const generators = await Promise.all(
+      this.targets.map((target) => this.generateTypescript(target))
+    );
+    endGenerateTimer();
+
+    const initialValue: { [fqpn: string]: string | undefined } = {};
+    const providerVersions = generators.reduce<{
+      [fqpn: string]: string | undefined;
+    }>((accumulator, current) => {
+      return { ...accumulator, ...current };
+    }, initialValue);
+
+    this.emitVersionsFile(providerVersions);
 
     if (this.isJavascriptTarget) {
       await this.save();
@@ -326,7 +345,9 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
           process.env.NODE_OPTIONS = "--max-old-space-size=16384";
         }
 
+        const jsiiTimer = logTimespan("JSII");
         await generateJsiiLanguage(this.code, opts);
+        jsiiTimer();
       }
     }
 
