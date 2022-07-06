@@ -114,11 +114,11 @@
         "title": "Overview",
         "path": "release"
       },
-      { "title": "Upgrading to Version 0.6", "path": "release/upgrade-guide-v0-6" },
-      { "title": "Upgrading to Version 0.7", "path": "release/upgrade-guide-v0-7" },
-      { "title": "Upgrading to Version 0.9", "path": "release/upgrade-guide-v0-9" },
+      { "title": "Upgrading to Version 0.11", "path": "release/upgrade-guide-v0-11" },
       { "title": "Upgrading to Version 0.10", "path": "release/upgrade-guide-v0-10" },
-      { "title": "Upgrading to Version 0.11", "path": "release/upgrade-guide-v0-11" }
+      { "title": "Upgrading to Version 0.9", "path": "release/upgrade-guide-v0-9" },
+      { "title": "Upgrading to Version 0.7", "path": "release/upgrade-guide-v0-7" },
+      { "title": "Upgrading to Version 0.6", "path": "release/upgrade-guide-v0-6" }
     ]
   },
   { "title": "Community", "path": "community" },
