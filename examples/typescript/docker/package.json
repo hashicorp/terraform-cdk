@@ -5,13 +5,14 @@
   "license": "MPL-2.0",
   "scripts": {
     "get": "cdktf get",
-    "build": "yarn get && tsc",
-    "compile": "tsc --pretty",
+    "build": "yarn get",
     "synth": "cdktf synth",
-    "plan": "cd ./cdktf.out && terraform init && terraform plan",
-    "apply": "terraform apply ./cdktf.out",
+    "compile": "tsc --pretty",
+    "watch": "tsc -w",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "upgrade": "npm i cdktf@latest cdktf-cli@latest",
+    "upgrade:next": "npm i cdktf@next cdktf-cli@next"
   },
   "dependencies": {
     "cdktf": "0.0.0",
