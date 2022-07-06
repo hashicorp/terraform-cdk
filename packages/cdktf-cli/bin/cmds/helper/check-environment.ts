@@ -130,3 +130,7 @@ export async function verifySimilarLibraryVersion() {
     );
   }
 }
+
+export function isInteractiveTerminal() {
+  return process.stdout.isTTY && !process.env.CI;
+}

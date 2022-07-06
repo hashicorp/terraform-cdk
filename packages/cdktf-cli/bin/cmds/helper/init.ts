@@ -31,6 +31,7 @@ import { templates, templatesDir } from "./init-templates";
 import { init, Project } from "../../../lib";
 import { askForCrashReportingConsent } from "../../../lib/error-reporting";
 import ciDetect from "@npmcli/ci-detect";
+import { isInteractiveTerminal } from "./check-environment";
 
 const chalkColour = new chalk.Instance();
 
@@ -321,6 +322,9 @@ async function gatherInfo(
 }
 
 async function getTerraformProject(): Promise<string | undefined> {
+  if (!isInteractiveTerminal()) {
+    return Promise.resolve(undefined);
+  }
   const { shouldUseTerraformProject } = await inquirer.prompt({
     name: "shouldUseTerraformProject",
     message: "Do you want to start from a Terraform project?",
