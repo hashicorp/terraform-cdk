@@ -66,6 +66,7 @@ const nativeNodeModulesPlugin = {
       "cdktf",
       "@cdktf/hcl2cdk",
       "constructs",
+      "yoga-layout-prebuilt",
     ],
     plugins: [nativeNodeModulesPlugin],
     define: {
