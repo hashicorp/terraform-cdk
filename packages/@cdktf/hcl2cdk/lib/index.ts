@@ -35,6 +35,8 @@ import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 export { setLogger } from "./utils";
 
+export const CODE_MARKER = "// define resources here";
+
 export async function getParsedHcl(hcl: string) {
   logger.debug(`Parsing HCL: ${hcl}`);
   // Get the JSON representation of the HCL
@@ -448,10 +450,7 @@ export async function convertProject(
   return {
     code: (inputMainFile: string) => {
       const importMainFile = [imports, inputMainFile].join("\n");
-      const outputMainFile = importMainFile.replace(
-        "// define resources here",
-        code
-      );
+      const outputMainFile = importMainFile.replace(CODE_MARKER, code);
       return prettier.format(outputMainFile, { parser: "babel" });
     },
     cdktfJson: (inputCdktfJson: CdktfJson) => {
