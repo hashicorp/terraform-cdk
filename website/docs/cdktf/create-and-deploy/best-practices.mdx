@@ -29,6 +29,8 @@ To pass a [Terraform variable through environment variables](/cli/config/environ
 
 If you use Terraform Cloud with [remote execution](/cloud-docs/run#remote-operations), you can store your secrets in Terraform Cloud. Refer to the Terraform Cloud documentation about [workspace variables](/cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables) for more details.
 
+`TerraformVariable`s should only be used at the stack-level, nesting them in custom constructs makes the interface unclear (some information might be passed into the constructor of the construct and some is gathered through `TerraformVariable`s), it hides which `TerraformVariable`s need to be configured for the CDKTF program to run, and nesting something in a custom construct changes the logical id (which can be overwritten by `.overwriteLogicalId("...")`).
+
 ## Providers
 
 A provider is a Terraform plugin that allows users to manage an external API. Provider plugins act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
