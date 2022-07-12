@@ -21,7 +21,7 @@ import { TerraformProviderGenerator } from "./get/generator/provider-generator";
 import { ProviderSchema } from "./get/generator/provider-schema";
 
 export { setLogger } from "./config";
-export { TerraformProviderGenerator };
+export { TerraformProviderGenerator, CodeMaker };
 
 // Used for testing only
 export async function generateProviderBindingsFromSchema(

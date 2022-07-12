@@ -3,6 +3,7 @@ import {
   isRegistryModule,
   ProviderSchema,
   TerraformProviderGenerator,
+  CodeMaker,
 } from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
@@ -37,7 +38,6 @@ import {
 } from "./iteration";
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
-import { CodeMaker } from "codemaker";
 
 export { setLogger } from "./utils";
 
