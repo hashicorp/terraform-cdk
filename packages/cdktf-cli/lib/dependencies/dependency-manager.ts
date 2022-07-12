@@ -110,6 +110,10 @@ export class ProviderConstraint {
     }
     return true;
   }
+
+  public toString() {
+    return `${this.source}${this.version ? `@ ${this.version}` : ""}`;
+  }
 }
 
 /**
@@ -229,6 +233,10 @@ export class DependencyManager {
           constraint.source,
           // "1.3.2" -> "~> 1.3"
           `~> ${v.split(".").slice(0, 2).join(".")}`
+        );
+      } else {
+        throw Errors.Usage(
+          `Could not find a version for the provider '${constraint}' in the public registry. This could be due to a typo, please take a look at https://cdk.tf/registry-providers to find all supported providers.`
         );
       }
     }
