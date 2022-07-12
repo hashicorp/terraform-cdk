@@ -1,5 +1,6 @@
 import { readFileSync } from "fs-extra";
 import * as path from "path";
+import { CODE_MARKER } from "@cdktf/hcl2cdk";
 
 describe("Templates", () => {
   describe("Typescript", () => {
@@ -9,7 +10,7 @@ describe("Templates", () => {
           path.resolve(__dirname, "..", "templates", "typescript", "main.ts"),
           "utf8"
         )
-      ).toContain("// define resources here");
+      ).toContain(CODE_MARKER);
     });
   });
 });
