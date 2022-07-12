@@ -3,6 +3,6 @@
   "app": "npx ts-node main.ts",
   "terraformProviders": [
     "kreuzwerker/docker@~> 2.0",
-    "null"
+    "null@~> 3.1"
   ]
 }
