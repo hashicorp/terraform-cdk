@@ -56,6 +56,22 @@ export class SynthStack {
       )
     );
 
+    // Increases the default memory available to Node.js when synthesizing a TypeScript CDK project.
+    if (
+      env.NODE_OPTIONS &&
+      !env.NODE_OPTIONS.includes(`--max-old-space-size`)
+    ) {
+      console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
+The synthesizing step for TypeScript may need an increased amount of memory if multiple large providers
+are used with locally generated bindings. You can ignore this if you don't use CDKTF with TypeScript.
+If not present, the cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=4048" by default. But as
+your environment already contains a NODE_OPTIONS variable, we won't override it. Hence, the app command
+might fail while synthesizing with an out of memory error.`);
+    } else {
+      // increase memory to allow ts-node (when using TypeScript) to handle large amounts of generated code in memory
+      env.NODE_OPTIONS = "--max-old-space-size=4048";
+    }
+
     try {
       await shell(command, [], {
         shell: true,
