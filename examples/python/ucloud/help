@@ -1,12 +1,22 @@
 ========================================================================================================
 
- Your cdktf Python project is ready!
+Your cdktf Python project is ready!
 
-   cat help      Prints this message
-   cdktf synth   Synthesize Terraform resources to cdktf.out/
-   cdktf get     Imports Terraform Provider Resources
+cat help Prints this message
 
-  Deploy:
-   terraform apply ./cdktf.out
+Compile:
+pipenv run ./main.py Compile and run the python code.
+
+Synthesize:
+cdktf synth Synthesize Terraform resources to cdktf.out/
+
+Diff:
+cdktf diff Perform a diff (terraform plan) for the given stack
+
+Deploy:
+cdktf deploy Deploy the given stack
+
+Destroy:
+cdktf destroy Destroy the given stack
 
 ========================================================================================================

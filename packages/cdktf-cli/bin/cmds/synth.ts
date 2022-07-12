@@ -14,10 +14,6 @@ class Command extends BaseCommand {
 
   public readonly builder = (args: yargs.Argv) =>
     args
-      .positional("stack", {
-        desc: "Stack to output when using --json flag",
-        type: "string",
-      })
       .option("app", {
         default: config.app,
         desc: "Command to use in order to execute cdktf app",
