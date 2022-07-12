@@ -1644,6 +1644,8 @@ export class ListBlockResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._opt.internalValue = config.opt;
@@ -1809,6 +1811,8 @@ export class MapResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._optMap = config.optMap;
@@ -1947,6 +1951,8 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._str = config.str;
@@ -2143,6 +2149,8 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._str = config.str;
@@ -2339,6 +2347,8 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._str = config.str;
@@ -2803,6 +2813,8 @@ export class SetBlockResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._set.internalValue = config.set;
