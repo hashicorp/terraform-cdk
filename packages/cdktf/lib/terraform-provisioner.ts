@@ -89,7 +89,7 @@ export interface ISSHProvisionerConnection {
    * If the SSH default shell is PowerShell, set script_path to "c:/windows/temp/terraform_%RAND%.ps1"
    * @default unix
    */
-  readonly targetPlatform?: string;
+  readonly targetPlatform?: "unix" | "windows";
 
   /**
    * Setting this enables the bastion Host connection.
