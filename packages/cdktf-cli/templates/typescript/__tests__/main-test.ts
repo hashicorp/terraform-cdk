@@ -6,7 +6,7 @@ describe("My CDKTF Application", () => {
   // https://cdk.tf/testing
   it.todo("should be tested");
 
-  // // All Unit testst test the synthesised terraform code, it does not create real-world resources
+  // // All Unit tests test the synthesised terraform code, it does not create real-world resources
   // describe("Unit testing using assertions", () => {
   //   it("should contain a resource", () => {
   //     // import { Image,Container } from "./.gen/providers/docker"
