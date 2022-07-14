@@ -1,0 +1,7 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node main.ts",
+  "terraformProviders": [
+    "aws@~> 3.0"
+  ]
+}

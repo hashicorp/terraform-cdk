@@ -53,7 +53,7 @@ You can use the [Terraform CDK GitHub Action](https://github.com/marketplace/act
 
 ### GitHub Actions CI and Terraform Cloud
 
-Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `RemoteBackend` to connect to Terraform Cloud.
+Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](https://www.terraform.io/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `CloudBackend` to connect to Terraform Cloud.
 
 You must create a job like this for every stack so that you can pass the stack name into `cdktf diff <stack name>`. None of the stacks can depend on each other because Terraform cannot reason about which stacks must be launched first to respect these dependencies.
 

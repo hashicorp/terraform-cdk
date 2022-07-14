@@ -13,3 +13,4 @@ export * from "./manta-backend";
 export * from "./oss-backend";
 export * from "./pg-backend";
 export * from "./swift-backend";
+export * from "./cloud-backend";

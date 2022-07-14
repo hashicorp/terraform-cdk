@@ -24,17 +24,17 @@ Consider using a remote backend when multiple individuals or teams need access t
 You can define a [JSON configuration for a remote backend](/language/syntax/json#terraform-blocks)
 with a `TerraformBackend` subclass or a JSON configuration file.
 
-The following TypeScript example uses the `TerraformBackend` subclass `RemoteBackend`.
+The following TypeScript example uses the `TerraformBackend` subclass `CloudBackend`.
 
 ```typescript
 import { Construct } from "constructs";
-import { App, RemoteBackend, TerraformStack, TerraformOutput } from "cdktf";
+import { App, CloudBackend, TerraformStack, TerraformOutput } from "cdktf";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new RemoteBackend(this, {
+    new CloudBackend(this, {
       hostname: "app.terraform.io",
       organization: "company",
       workspaces: {
@@ -100,16 +100,14 @@ Consider an example project called `hello-terraform` that is using local storage
 
 1. Navigate into the main project directory.
 
-1. Use `RemoteBackend` to add a new remote backend.
+1. Use `CloudBackend` to add a new remote backend.
 
    ```typescript
    const stack = new MyStack(app, "hello-terraform");
-   new RemoteBackend(stack, {
+   new CloudBackend(stack, {
      hostname: "app.terraform.io",
      organization: "company",
-     workspaces: {
-       name: "my-app-prod",
-     },
+     workspaces: new NamedCloudWorkspace("my-app-prod"),
    });
    ```
 

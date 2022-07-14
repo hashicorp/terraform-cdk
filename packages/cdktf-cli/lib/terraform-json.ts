@@ -18,11 +18,22 @@ export interface TerraformJsonConfigBackendRemote {
   workspaces: TerraformJsonConfigBackendRemoteWorkspace;
 }
 
+export interface TerraformJsonConfigCloudWorkspace {
+  name?: string;
+}
+export interface TerraformJsonConfigCloud {
+  organization: string;
+  hostname?: string;
+  token?: string;
+  workspaces: TerraformJsonConfigCloudWorkspace;
+}
+
 export interface TerraformJsonConfigBackend {
   remote?: TerraformJsonConfigBackendRemote;
 }
 export interface TerraformJsonConfig {
   backend?: TerraformJsonConfigBackend;
+  cloud?: TerraformJsonConfigCloud;
 }
 export interface TerraformJson {
   "//": TerraformJsonRootComment;

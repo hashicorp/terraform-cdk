@@ -91,6 +91,20 @@ async function getTerraformClient(
       return tfClient;
     }
   }
+
+  if (parsedStack.terraform?.cloud) {
+    const tfClient = new TerraformCloud(
+      abortSignal,
+      stack,
+      parsedStack.terraform.cloud,
+      isSpeculative,
+      createTerraformLogHandler
+    );
+    if (await tfClient.isRemoteWorkspace()) {
+      return tfClient;
+    }
+  }
+
   return new TerraformCli(abortSignal, stack, createTerraformLogHandler);
 }
 

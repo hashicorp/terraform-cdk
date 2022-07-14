@@ -194,7 +194,7 @@ import {
   App,
   TerraformStack,
   TerraformOutput,
-  RemoteBackend,
+  CloudBackend,
   DataTerraformRemoteState,
 } from "cdktf";
 
@@ -202,11 +202,9 @@ class Producer extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    new RemoteBackend(this, {
+    new CloudBackend(this, {
       organization: "hashicorp",
-      workspaces: {
-        name: "producer",
-      },
+      workspaces: new NamedCloudWorkspace("producer"),
     });
 
     new random.RandomProvider(this, "random", {});
@@ -222,11 +220,9 @@ class Consumer extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    new RemoteBackend(this, {
+    new CloudBackend(this, {
       organization: "hashicorp",
-      workspaces: {
-        name: "consumer",
-      },
+      workspaces: new NamedCloudWorkspace("consumer"),
     });
 
     const remoteState = new DataTerraformRemoteState(this, "remote-pet", {
