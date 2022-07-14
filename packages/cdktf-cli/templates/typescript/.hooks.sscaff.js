@@ -29,14 +29,12 @@ function installDeps(deps, isDev) {
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.ts', 'utf-8');
 
-  result = template.replace(`import { App, TerraformStack } from "cdktf";`, `import { App, TerraformStack, RemoteBackend } from "cdktf";`);
+  result = template.replace(`import { App, TerraformStack } from "cdktf";`, `import { App, TerraformStack, CloudBackend, NamedCloudWorkspace } from "cdktf";`);
   result = result.replace(`new MyStack(app, "${baseName}");`, `const stack = new MyStack(app, "${baseName}");
-new RemoteBackend(stack, {
+new CloudBackend(stack, {
   hostname: "app.terraform.io",
   organization: "${organizationName}",
-  workspaces: {
-    name: "${workspaceName}"
-  }
+  workspaces: new NamedCloudWorkspace("${workspaceName}")
 });`);
 
   writeFileSync('./main.ts', result, 'utf-8');

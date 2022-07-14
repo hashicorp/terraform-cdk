@@ -41,13 +41,13 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.py', 'utf-8');
 
   const templateWithImports = template.replace(`from cdktf import App, TerraformStack`,
-    `from cdktf import App, TerraformStack, RemoteBackend, NamedRemoteWorkspace`)
+    `from cdktf import App, TerraformStack, CloudBackend, NamedCloudWorkspace`)
 
   const result = templateWithImports.replace(`MyStack(app, "${baseName}")`, `stack = MyStack(app, "${baseName}")
-RemoteBackend(stack,
+CloudBackend(stack,
   hostname='app.terraform.io',
   organization='${organizationName}',
-  workspaces=NamedRemoteWorkspace('${workspaceName}')
+  workspaces=NamedCloudWorkspace('${workspaceName}')
 )`);
 
   writeFileSync('./main.py', result, 'utf-8');
