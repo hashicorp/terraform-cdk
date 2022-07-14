@@ -9,7 +9,8 @@
     "examples/java/*",
     "examples/csharp/*",
     "examples/go/*",
-    "test/*"
+    "test/*",
+    "tools/*"
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,

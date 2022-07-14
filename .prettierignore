@@ -11,3 +11,4 @@ packages/**/dist
 dist
 packages/@cdktf/provider-generator/edge-provider-bindings
 test/edge-provider-bindings
+!tools/documentation-generation/generate-documentation.js
