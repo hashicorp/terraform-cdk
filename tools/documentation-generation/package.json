@@ -1,0 +1,11 @@
+{
+    "name": "@tools/documentation-generation",
+    "version": "0.0.0",
+    "scripts": {
+        "docs": "node ./generate-documentation.js"
+    },
+    "dependencies": {
+        "constructs": "10.1.45",
+        "cdktf": "0.0.0"
+    }
+}
