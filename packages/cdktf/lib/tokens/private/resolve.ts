@@ -63,6 +63,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
       preparing: options.preparing,
       scope: options.scope,
       suppressBraces: options.previousContext?.suppressBraces,
+      iteratorContext: options.previousContext?.iteratorContext,
       registerPostProcessor(pp) {
         postProcessor = pp;
       },

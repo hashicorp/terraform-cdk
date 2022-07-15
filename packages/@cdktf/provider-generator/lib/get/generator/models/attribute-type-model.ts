@@ -1,6 +1,7 @@
 import { Struct } from "./struct";
 
 export interface AttributeTypeModelOptions {
+  isBlock?: boolean;
   struct?: Struct;
   isList?: boolean;
   isSet?: boolean;
@@ -27,6 +28,7 @@ export interface ComputedComplexOptions {
 }
 
 export class AttributeTypeModel {
+  public isBlock?: boolean;
   public isList: boolean;
   public isSet: boolean;
   public isComputed: boolean;
@@ -41,6 +43,7 @@ export class AttributeTypeModel {
 
   constructor(private _type: string, options: AttributeTypeModelOptions) {
     this.typeName = _type;
+    this.isBlock = !!options.isBlock;
     this.isList = !!options.isList;
     this.isSet = !!options.isSet;
     this.isMap = !!options.isMap;

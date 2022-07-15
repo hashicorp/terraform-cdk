@@ -11,7 +11,7 @@ import {
   IResolvable,
 } from "../../lib";
 import { TestProviderMetadata } from "./provider";
-import { stringToTerraform } from "../../lib/runtime";
+import { listMapper, stringToTerraform } from "../../lib/runtime";
 
 export interface TestDataSourceConfig extends TerraformMetaArguments {
   name: string;
@@ -63,7 +63,7 @@ export class TestDataSource extends TerraformDataSource {
   protected synthesizeAttributes(): { [p: string]: any } {
     return {
       name: stringToTerraform(this.name),
-      list_block: this.listBlock,
+      list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
     };
   }
 }

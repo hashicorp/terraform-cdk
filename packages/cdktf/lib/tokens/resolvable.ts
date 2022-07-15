@@ -24,6 +24,13 @@ export interface IResolveContext {
   suppressBraces?: boolean;
 
   /**
+   * TerraformIterators can be passed for block attributes and normal list attributes
+   * both require different handling when the iterable variable is accessed
+   * e.g. a dynamic block needs each.key while a for expression just needs key
+   */
+  iteratorContext?: "DYNAMIC_BLOCK" | "FOR_EXPRESSION";
+
+  /**
    * Resolve an inner object
    */
   resolve(x: any): any;
