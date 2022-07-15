@@ -1,5 +1,6 @@
+import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { ITerraformIterator } from "./terraform-iterator";
-import { IResolvable, Token } from "./tokens";
+import { IResolvable, IResolveContext, Lazy, Token } from "./tokens";
 import { captureStackTrace } from "./tokens/private/stack-trace";
 
 const DYNAMIC_BLOCK_SYMBOL = Symbol.for("cdktf/TerraformDynamicBlock");
@@ -11,7 +12,7 @@ export class TerraformDynamicBlock implements IResolvable {
   public readonly content: { [key: string]: any };
   // labels: TODO: support labels, but they seem to be quite rare (see https://discuss.hashicorp.com/t/labels-in-dynamic-block/21461/5)
 
-  constructor(args: {
+  private constructor(args: {
     forEach: ITerraformIterator;
     content: { [key: string]: any };
   }) {
@@ -21,20 +22,34 @@ export class TerraformDynamicBlock implements IResolvable {
     this.content = args.content;
   }
 
+  public static fromDynamicExpression(
+    expr: TerraformDynamicExpression
+  ): TerraformDynamicBlock {
+    return new TerraformDynamicBlock({
+      forEach: expr.iterator,
+      content: expr.content,
+    });
+  }
+
   public resolve(): any {
     throw new Error(
       `Tried to directly resolve a TerraformDynamicBlock which is not supported.
-This can happen if you pass the result of iterator.dynamic() to a Terraform function or to a property or construct that does not support dynamic blocks.
-Dynamic blocks are only supported on block attributes of resources, data sources and providers at the moment`
+Dynamic blocks are only supported on block attributes of resources, data sources and providers.`
     );
   }
 
-  public toTerraform() {
-    return {
-      for_each: this.forEach._getForEachExpression(),
-      iterator: this.iterator,
-      content: this.content,
-    };
+  public toTerraformDynamicBlockJson(): IResolvable {
+    return Lazy.anyValue({
+      produce: (context: IResolveContext) => {
+        context.iteratorContext = "DYNAMIC_BLOCK"; // resolve nested Lazy values (within this.content) as dynamic block expressions
+
+        return {
+          for_each: this.forEach._getForEachExpression(),
+          iterator: this.iterator,
+          content: context.resolve(this.content),
+        };
+      },
+    });
   }
 
   toString(): string {

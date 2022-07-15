@@ -5,7 +5,7 @@ import {
 } from "../../lib";
 import { Construct } from "constructs";
 import { TestProviderMetadata } from "./provider";
-import { stringToTerraform } from "../../lib/runtime";
+import { listMapper, stringToTerraform } from "../../lib/runtime";
 import { ComplexList, ComplexObject } from "../../lib/complex-computed-list";
 import { ITerraformResource } from "../../lib/terraform-resource";
 
@@ -23,7 +23,7 @@ export class TestResource extends TerraformResource {
   public names?: string[];
   public tags?: { [key: string]: string };
   public nestedType?: { [key: string]: string };
-  public listBlock?: IResolvable; // TODO: add special type as well? how to detect blocks vs. list type attribute?
+  public listBlock?: IResolvable; // TODO: add special type?
 
   constructor(scope: Construct, id: string, config: TestResourceConfig) {
     super(scope, id, {
@@ -53,7 +53,7 @@ export class TestResource extends TerraformResource {
       names: this.names,
       tags: this.tags,
       nested_type: this.nestedType,
-      list_block: this.listBlock,
+      list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
     };
   }
 

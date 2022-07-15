@@ -1,4 +1,4 @@
-import { IResolvable, TerraformProvider } from "../../lib";
+import { IResolvable, listMapper, TerraformProvider } from "../../lib";
 import { Construct } from "constructs";
 
 export interface TestProviderConfig {
@@ -41,7 +41,7 @@ export class TestProvider extends TerraformProvider {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       access_key: this.accessKey,
-      list_block: this.listBlock,
+      list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
     };
   }
 }

@@ -403,7 +403,6 @@ class ForExpression extends TFExpression {
   public resolve(context: IResolveContext): string {
     const suppressBraces = context.suppressBraces;
     context.suppressBraces = true;
-
     const key = this.resolveArg(context, FOR_EXPRESSION_KEY);
     const value = this.resolveArg(context, FOR_EXPRESSION_VALUE);
     const input = this.resolveArg(context, this.input);
@@ -474,6 +473,7 @@ export type Expression =
   | ConditionalExpression
   | OperatorExpression
   | Dependable
+  | ForExpression
   | string
   | string[]
   | number

@@ -103,6 +103,8 @@ export function keysToSnakeCase(object: any): any {
  * This method detects them and moves them from .attributeName to .dynamic.attributeName
  * It also invokes the .toTerraform() method on the dynamic attribute to get the correct
  * Terraform representation
+ *
+ * TODO: this does not move nested blocks (do they exist at all?)
  */
 export function processDynamicAttributes(attributes: { [name: string]: any }): {
   [name: string]: any;
@@ -113,9 +115,10 @@ export function processDynamicAttributes(attributes: { [name: string]: any }): {
       if (!result.dynamic) {
         result.dynamic = {};
       }
-      result.dynamic[attributeName] = value.toTerraform();
+      result.dynamic[attributeName] = value.toTerraformDynamicBlockJson();
     } else {
-      result[attributeName] = value;
+      const recurse = typeof value === "object" && value !== null;
+      result[attributeName] = recurse ? processDynamicAttributes(value) : value;
     }
   });
   return result;

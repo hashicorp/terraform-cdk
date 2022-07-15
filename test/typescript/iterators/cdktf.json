@@ -3,7 +3,7 @@
   "app": "npx ts-node main.ts",
   "terraformProviders": [
     "archive@ ~> 2.2.0",
-    "kubernetes@ ~> 2.11.0"
+    "nomad@ ~> 1.4.17"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
