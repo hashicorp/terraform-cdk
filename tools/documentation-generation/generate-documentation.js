@@ -14,6 +14,32 @@ const targetFolder = path.resolve(
   "api-reference"
 );
 
+function replaceSquareBrackets(docs) {
+  const lines = docs.split("\n");
+  const sanitizedLines = lines.map((doc) => {
+    const htmlTags = doc.split("<");
+
+    const sanitizedTags = htmlTags.map((tag) => {
+      if (
+        ["code", "a", "sup"].some(
+          (item) =>
+            (tag.startsWith(item) || tag.startsWith(`/${item}`)) &&
+            tag.includes(">")
+        )
+      ) {
+        return tag;
+      }
+
+      const fullTag = tag.substring(0, tag.indexOf(">"));
+
+      return tag.replace(fullTag, ` ${fullTag} `);
+    });
+
+    return sanitizedTags.join("<");
+  });
+  return sanitizedLines.join("\n");
+}
+
 Documentation.forProject(
   path.resolve(__dirname, "..", "..", "packages", "cdktf"),
   {
@@ -44,9 +70,11 @@ description: >-
 
 # API Reference for ${lang}
 
-${rendered.replace(
-  `# API Reference <a name="API Reference" id="api-reference"></a>`,
-  ""
+${replaceSquareBrackets(
+  rendered.replace(
+    `# API Reference <a name="API Reference" id="api-reference"></a>`,
+    ""
+  )
 )}
 `;
 

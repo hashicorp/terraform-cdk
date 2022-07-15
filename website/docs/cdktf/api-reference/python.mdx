@@ -84,7 +84,7 @@ Whether to skip the validation during synthesis of the app.
 ##### `to_string` <a name="to_string" id="cdktf.App.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -96,7 +96,7 @@ def cross_stack_reference(
   from_stack: TerraformStack,
   to_stack: TerraformStack,
   identifier: str
-) -> str
+) - > str
 ```
 
 Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources.
@@ -122,7 +122,7 @@ Creates a reference from one stack to another, invoked on prepareStack since it 
 ##### `synth` <a name="synth" id="cdktf.App.synth"></a>
 
 ```python
-def synth() -> None
+def synth() - > None
 ```
 
 Synthesizes all resources to the output directory.
@@ -368,7 +368,7 @@ Note that this is the base url to artifactory not the full repo and subpath.
 ##### `to_string` <a name="to_string" id="cdktf.ArtifactoryBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -379,7 +379,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.ArtifactoryBackend.addOverride.parameter.path"></a>
@@ -399,7 +399,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -415,7 +415,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.ArtifactoryBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -423,13 +423,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.ArtifactoryBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.ArtifactoryBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -441,7 +441,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -778,7 +778,7 @@ This can also be sourced from the ARM_USE_MSI environment variable.
 ##### `to_string` <a name="to_string" id="cdktf.AzurermBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -789,7 +789,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.AzurermBackend.addOverride.parameter.path"></a>
@@ -809,7 +809,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -825,7 +825,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.AzurermBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -833,13 +833,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.AzurermBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.AzurermBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -851,7 +851,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -1148,7 +1148,7 @@ SSL support can also be triggered by setting then environment variable CONSUL_HT
 ##### `to_string` <a name="to_string" id="cdktf.ConsulBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -1159,7 +1159,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.ConsulBackend.addOverride.parameter.path"></a>
@@ -1179,7 +1179,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -1195,7 +1195,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.ConsulBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -1203,13 +1203,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.ConsulBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.ConsulBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -1221,7 +1221,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -1493,7 +1493,7 @@ It supports environment variables TENCENTCLOUD_SECRET_KEY.
 ##### `to_string` <a name="to_string" id="cdktf.CosBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -1504,7 +1504,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.CosBackend.addOverride.parameter.path"></a>
@@ -1524,7 +1524,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -1540,7 +1540,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.CosBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -1548,13 +1548,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.CosBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.CosBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -1566,7 +1566,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -1802,7 +1802,7 @@ cdktf.DataTerraformRemoteState(
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteState.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -1813,7 +1813,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteState.addOverride.parameter.path"></a>
@@ -1833,7 +1833,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -1849,7 +1849,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteState.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -1857,13 +1857,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteState.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteState.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -1873,7 +1873,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteState.get.parameter.output"></a>
@@ -1887,7 +1887,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteState.getBoolean.parameter.output"></a>
@@ -1901,7 +1901,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteState.getList.parameter.output"></a>
@@ -1915,7 +1915,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteState.getNumber.parameter.output"></a>
@@ -1929,7 +1929,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteState.getString.parameter.output"></a>
@@ -2172,7 +2172,7 @@ Note that this is the base url to artifactory not the full repo and subpath.
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateArtifactory.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -2183,7 +2183,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride.parameter.path"></a>
@@ -2203,7 +2203,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -2219,7 +2219,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateArtifactory.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -2227,13 +2227,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateArtifactory.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateArtifactory.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -2243,7 +2243,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.get.parameter.output"></a>
@@ -2257,7 +2257,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getBoolean.parameter.output"></a>
@@ -2271,7 +2271,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getList.parameter.output"></a>
@@ -2285,7 +2285,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getNumber.parameter.output"></a>
@@ -2299,7 +2299,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getString.parameter.output"></a>
@@ -2651,7 +2651,7 @@ This can also be sourced from the ARM_USE_MSI environment variable.
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateAzurerm.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -2662,7 +2662,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateAzurerm.addOverride.parameter.path"></a>
@@ -2682,7 +2682,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -2698,7 +2698,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateAzurerm.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -2706,13 +2706,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateAzurerm.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateAzurerm.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -2722,7 +2722,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateAzurerm.get.parameter.output"></a>
@@ -2736,7 +2736,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateAzurerm.getBoolean.parameter.output"></a>
@@ -2750,7 +2750,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateAzurerm.getList.parameter.output"></a>
@@ -2764,7 +2764,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateAzurerm.getNumber.parameter.output"></a>
@@ -2778,7 +2778,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateAzurerm.getString.parameter.output"></a>
@@ -3090,7 +3090,7 @@ SSL support can also be triggered by setting then environment variable CONSUL_HT
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateConsul.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -3101,7 +3101,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateConsul.addOverride.parameter.path"></a>
@@ -3121,7 +3121,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -3137,7 +3137,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateConsul.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -3145,13 +3145,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateConsul.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateConsul.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -3161,7 +3161,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateConsul.get.parameter.output"></a>
@@ -3175,7 +3175,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateConsul.getBoolean.parameter.output"></a>
@@ -3189,7 +3189,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateConsul.getList.parameter.output"></a>
@@ -3203,7 +3203,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateConsul.getNumber.parameter.output"></a>
@@ -3217,7 +3217,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateConsul.getString.parameter.output"></a>
@@ -3504,7 +3504,7 @@ It supports environment variables TENCENTCLOUD_SECRET_KEY.
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateCos.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -3515,7 +3515,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateCos.addOverride.parameter.path"></a>
@@ -3535,7 +3535,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -3551,7 +3551,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateCos.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -3559,13 +3559,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateCos.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateCos.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -3575,7 +3575,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.get.parameter.output"></a>
@@ -3589,7 +3589,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getBoolean.parameter.output"></a>
@@ -3603,7 +3603,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getList.parameter.output"></a>
@@ -3617,7 +3617,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getNumber.parameter.output"></a>
@@ -3631,7 +3631,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getString.parameter.output"></a>
@@ -3862,7 +3862,7 @@ cdktf.DataTerraformRemoteStateEtcd(
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateEtcd.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -3873,7 +3873,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateEtcd.addOverride.parameter.path"></a>
@@ -3893,7 +3893,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -3909,7 +3909,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateEtcd.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -3917,13 +3917,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateEtcd.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateEtcd.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -3933,7 +3933,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcd.get.parameter.output"></a>
@@ -3947,7 +3947,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcd.getBoolean.parameter.output"></a>
@@ -3961,7 +3961,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcd.getList.parameter.output"></a>
@@ -3975,7 +3975,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcd.getNumber.parameter.output"></a>
@@ -3989,7 +3989,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcd.getString.parameter.output"></a>
@@ -4264,7 +4264,7 @@ Defaults to "".
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateEtcdV3.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -4275,7 +4275,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateEtcdV3.addOverride.parameter.path"></a>
@@ -4295,7 +4295,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -4311,7 +4311,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateEtcdV3.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -4319,13 +4319,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateEtcdV3.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateEtcdV3.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -4335,7 +4335,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcdV3.get.parameter.output"></a>
@@ -4349,7 +4349,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcdV3.getBoolean.parameter.output"></a>
@@ -4363,7 +4363,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcdV3.getList.parameter.output"></a>
@@ -4377,7 +4377,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcdV3.getNumber.parameter.output"></a>
@@ -4391,7 +4391,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateEtcdV3.getString.parameter.output"></a>
@@ -4641,7 +4641,7 @@ Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUN
 
 (Optional) GCS prefix inside the bucket.
 
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
+Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
 
 ---
 
@@ -4666,7 +4666,7 @@ Named states for workspaces are stored in an object called <prefix>/<name>.tfsta
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateGcs.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -4677,7 +4677,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateGcs.addOverride.parameter.path"></a>
@@ -4697,7 +4697,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -4713,7 +4713,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateGcs.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -4721,13 +4721,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateGcs.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateGcs.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -4737,7 +4737,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.get.parameter.output"></a>
@@ -4751,7 +4751,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getBoolean.parameter.output"></a>
@@ -4765,7 +4765,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getList.parameter.output"></a>
@@ -4779,7 +4779,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getNumber.parameter.output"></a>
@@ -4793,7 +4793,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getString.parameter.output"></a>
@@ -5122,7 +5122,7 @@ Defaults to POST.
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateHttp.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -5133,7 +5133,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.path"></a>
@@ -5153,7 +5153,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -5169,7 +5169,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -5177,13 +5177,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateHttp.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateHttp.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -5193,7 +5193,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.get.parameter.output"></a>
@@ -5207,7 +5207,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getBoolean.parameter.output"></a>
@@ -5221,7 +5221,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getList.parameter.output"></a>
@@ -5235,7 +5235,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getNumber.parameter.output"></a>
@@ -5249,7 +5249,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getString.parameter.output"></a>
@@ -5461,7 +5461,7 @@ Path where the state file is stored.
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateLocal.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -5472,7 +5472,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateLocal.addOverride.parameter.path"></a>
@@ -5492,7 +5492,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -5508,7 +5508,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateLocal.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -5516,13 +5516,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateLocal.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateLocal.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -5532,7 +5532,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateLocal.get.parameter.output"></a>
@@ -5546,7 +5546,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateLocal.getBoolean.parameter.output"></a>
@@ -5560,7 +5560,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateLocal.getList.parameter.output"></a>
@@ -5574,7 +5574,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateLocal.getNumber.parameter.output"></a>
@@ -5588,7 +5588,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateLocal.getString.parameter.output"></a>
@@ -5843,7 +5843,7 @@ cdktf.DataTerraformRemoteStateManta(
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateManta.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -5854,7 +5854,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateManta.addOverride.parameter.path"></a>
@@ -5874,7 +5874,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -5890,7 +5890,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateManta.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -5898,13 +5898,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateManta.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateManta.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -5914,7 +5914,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateManta.get.parameter.output"></a>
@@ -5928,7 +5928,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateManta.getBoolean.parameter.output"></a>
@@ -5942,7 +5942,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateManta.getList.parameter.output"></a>
@@ -5956,7 +5956,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateManta.getNumber.parameter.output"></a>
@@ -5970,7 +5970,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateManta.getString.parameter.output"></a>
@@ -6289,7 +6289,7 @@ cdktf.DataTerraformRemoteStateOss(
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateOss.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -6300,7 +6300,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateOss.addOverride.parameter.path"></a>
@@ -6320,7 +6320,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -6336,7 +6336,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateOss.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -6344,13 +6344,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateOss.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateOss.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -6360,7 +6360,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateOss.get.parameter.output"></a>
@@ -6374,7 +6374,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateOss.getBoolean.parameter.output"></a>
@@ -6388,7 +6388,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateOss.getList.parameter.output"></a>
@@ -6402,7 +6402,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateOss.getNumber.parameter.output"></a>
@@ -6416,7 +6416,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateOss.getString.parameter.output"></a>
@@ -6631,7 +6631,7 @@ cdktf.DataTerraformRemoteStatePg(
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStatePg.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -6642,7 +6642,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStatePg.addOverride.parameter.path"></a>
@@ -6662,7 +6662,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -6678,7 +6678,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStatePg.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -6686,13 +6686,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStatePg.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStatePg.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -6702,7 +6702,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.get.parameter.output"></a>
@@ -6716,7 +6716,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getBoolean.parameter.output"></a>
@@ -6730,7 +6730,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getList.parameter.output"></a>
@@ -6744,7 +6744,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getNumber.parameter.output"></a>
@@ -6758,7 +6758,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getString.parameter.output"></a>
@@ -6937,7 +6937,7 @@ cdktf.DataTerraformRemoteStateS3(
 | <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.encrypt">encrypt</a></code>                                       | <code>bool</code>                       | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.endpoint">endpoint</a></code>                                     | <code>str</code>                        | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.externalId">external_id</a></code>                                | <code>str</code>                        | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                        | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code>   | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
@@ -7079,7 +7079,7 @@ This can also be sourced from the AWS_S3_ENDPOINT environment variable.
 
 - _Type:_ bool
 
-(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+(Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).
 
 ---
 
@@ -7254,7 +7254,7 @@ This is only relevant when using a non-default workspace. Defaults to env:
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateS3.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -7265,7 +7265,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateS3.addOverride.parameter.path"></a>
@@ -7285,7 +7285,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -7301,7 +7301,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateS3.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -7309,13 +7309,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateS3.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateS3.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -7325,7 +7325,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.get.parameter.output"></a>
@@ -7339,7 +7339,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getBoolean.parameter.output"></a>
@@ -7353,7 +7353,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getList.parameter.output"></a>
@@ -7367,7 +7367,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getNumber.parameter.output"></a>
@@ -7381,7 +7381,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getString.parameter.output"></a>
@@ -7788,7 +7788,7 @@ cdktf.DataTerraformRemoteStateSwift(
 ##### `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateSwift.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -7799,7 +7799,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateSwift.addOverride.parameter.path"></a>
@@ -7819,7 +7819,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -7835,7 +7835,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateSwift.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -7843,13 +7843,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateSwift.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateSwift.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -7859,7 +7859,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.get.parameter.output"></a>
@@ -7873,7 +7873,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getBoolean.parameter.output"></a>
@@ -7887,7 +7887,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getList.parameter.output"></a>
@@ -7901,7 +7901,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getNumber.parameter.output"></a>
@@ -7915,7 +7915,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getString.parameter.output"></a>
@@ -8118,7 +8118,7 @@ cdktf.EtcdBackend(
 ##### `to_string` <a name="to_string" id="cdktf.EtcdBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -8129,7 +8129,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdBackend.addOverride.parameter.path"></a>
@@ -8149,7 +8149,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -8165,7 +8165,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.EtcdBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -8173,13 +8173,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.EtcdBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.EtcdBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -8191,7 +8191,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -8451,7 +8451,7 @@ Defaults to "".
 ##### `to_string` <a name="to_string" id="cdktf.EtcdV3Backend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -8462,7 +8462,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdV3Backend.addOverride.parameter.path"></a>
@@ -8482,7 +8482,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -8498,7 +8498,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.EtcdV3Backend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -8506,13 +8506,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.EtcdV3Backend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.EtcdV3Backend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -8524,7 +8524,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -8763,7 +8763,7 @@ Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUN
 
 (Optional) GCS prefix inside the bucket.
 
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
+Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
 
 ---
 
@@ -8784,7 +8784,7 @@ Named states for workspaces are stored in an object called <prefix>/<name>.tfsta
 ##### `to_string` <a name="to_string" id="cdktf.GcsBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -8795,7 +8795,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.GcsBackend.addOverride.parameter.path"></a>
@@ -8815,7 +8815,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -8831,7 +8831,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.GcsBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -8839,13 +8839,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.GcsBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.GcsBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -8857,7 +8857,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -9171,7 +9171,7 @@ Defaults to POST.
 ##### `to_string` <a name="to_string" id="cdktf.HttpBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -9182,7 +9182,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.HttpBackend.addOverride.parameter.path"></a>
@@ -9202,7 +9202,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -9218,7 +9218,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.HttpBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -9226,13 +9226,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.HttpBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.HttpBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -9244,7 +9244,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -9441,7 +9441,7 @@ Path where the state file is stored.
 ##### `to_string` <a name="to_string" id="cdktf.LocalBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -9452,7 +9452,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.LocalBackend.addOverride.parameter.path"></a>
@@ -9472,7 +9472,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -9488,7 +9488,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.LocalBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -9496,13 +9496,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.LocalBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.LocalBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -9514,7 +9514,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   from_stack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -9754,7 +9754,7 @@ cdktf.MantaBackend(
 ##### `to_string` <a name="to_string" id="cdktf.MantaBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -9765,7 +9765,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.MantaBackend.addOverride.parameter.path"></a>
@@ -9785,7 +9785,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -9801,7 +9801,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.MantaBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -9809,13 +9809,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.MantaBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.MantaBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -9827,7 +9827,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -10131,7 +10131,7 @@ cdktf.OssBackend(
 ##### `to_string` <a name="to_string" id="cdktf.OssBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -10142,7 +10142,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.OssBackend.addOverride.parameter.path"></a>
@@ -10162,7 +10162,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -10178,7 +10178,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.OssBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -10186,13 +10186,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.OssBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.OssBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -10204,7 +10204,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -10404,7 +10404,7 @@ cdktf.PgBackend(
 ##### `to_string` <a name="to_string" id="cdktf.PgBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -10415,7 +10415,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.PgBackend.addOverride.parameter.path"></a>
@@ -10435,7 +10435,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -10451,7 +10451,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.PgBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -10459,13 +10459,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.PgBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.PgBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -10477,7 +10477,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -10685,7 +10685,7 @@ cdktf.RemoteBackend(
 ##### `to_string` <a name="to_string" id="cdktf.RemoteBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -10696,7 +10696,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.RemoteBackend.addOverride.parameter.path"></a>
@@ -10716,7 +10716,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -10732,7 +10732,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.RemoteBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -10740,13 +10740,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.RemoteBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.RemoteBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -10758,7 +10758,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -10940,7 +10940,7 @@ cdktf.Resource(
 ##### `to_string` <a name="to_string" id="cdktf.Resource.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -11071,7 +11071,7 @@ cdktf.S3Backend(
 | <code><a href="#cdktf.S3Backend.Initializer.parameter.encrypt">encrypt</a></code>                                       | <code>bool</code>                     | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
 | <code><a href="#cdktf.S3Backend.Initializer.parameter.endpoint">endpoint</a></code>                                     | <code>str</code>                      | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.S3Backend.Initializer.parameter.externalId">external_id</a></code>                                | <code>str</code>                      | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).                                                                                                                                                             |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.S3Backend.Initializer.parameter.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                      | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
 | <code><a href="#cdktf.S3Backend.Initializer.parameter.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
 | <code><a href="#cdktf.S3Backend.Initializer.parameter.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
@@ -11195,7 +11195,7 @@ This can also be sourced from the AWS_S3_ENDPOINT environment variable.
 
 - _Type:_ bool
 
-(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+(Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).
 
 ---
 
@@ -11366,7 +11366,7 @@ This is only relevant when using a non-default workspace. Defaults to env:
 ##### `to_string` <a name="to_string" id="cdktf.S3Backend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -11377,7 +11377,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.S3Backend.addOverride.parameter.path"></a>
@@ -11397,7 +11397,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -11413,7 +11413,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.S3Backend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -11421,13 +11421,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.S3Backend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.S3Backend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -11439,7 +11439,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -11831,7 +11831,7 @@ cdktf.SwiftBackend(
 ##### `to_string` <a name="to_string" id="cdktf.SwiftBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -11842,7 +11842,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.SwiftBackend.addOverride.parameter.path"></a>
@@ -11862,7 +11862,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -11878,7 +11878,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.SwiftBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -11886,13 +11886,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.SwiftBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.SwiftBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -11904,7 +11904,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   _fromstack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -12106,7 +12106,7 @@ cdktf.TerraformAsset(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformAsset.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -12291,7 +12291,7 @@ cdktf.TerraformBackend(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformBackend.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -12302,7 +12302,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformBackend.addOverride.parameter.path"></a>
@@ -12322,7 +12322,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -12338,7 +12338,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformBackend.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -12346,13 +12346,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformBackend.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformBackend.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -12364,7 +12364,7 @@ def get_remote_state_data_source(
   scope: Construct,
   name: str,
   from_stack: str
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 Creates a TerraformRemoteState resource that accesses this backend.
@@ -12615,7 +12615,7 @@ cdktf.TerraformDataSource(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformDataSource.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -12626,7 +12626,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformDataSource.addOverride.parameter.path"></a>
@@ -12646,7 +12646,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -12662,7 +12662,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformDataSource.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -12670,13 +12670,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformDataSource.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformDataSource.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -12686,7 +12686,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get_any_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getAnyMapAttribute.parameter.terraformAttribute"></a>
@@ -12700,7 +12700,7 @@ def get_any_map_attribute(
 ```python
 def get_boolean_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getBooleanAttribute.parameter.terraformAttribute"></a>
@@ -12714,7 +12714,7 @@ def get_boolean_attribute(
 ```python
 def get_boolean_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[bool]
+) - > typing.Mapping[bool]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getBooleanMapAttribute.parameter.terraformAttribute"></a>
@@ -12728,7 +12728,7 @@ def get_boolean_map_attribute(
 ```python
 def get_list_attribute(
   terraform_attribute: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getListAttribute.parameter.terraformAttribute"></a>
@@ -12742,7 +12742,7 @@ def get_list_attribute(
 ```python
 def get_number_attribute(
   terraform_attribute: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getNumberAttribute.parameter.terraformAttribute"></a>
@@ -12756,7 +12756,7 @@ def get_number_attribute(
 ```python
 def get_number_list_attribute(
   terraform_attribute: str
-) -> typing.List[typing.Union[int, float]]
+) - > typing.List[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getNumberListAttribute.parameter.terraformAttribute"></a>
@@ -12770,7 +12770,7 @@ def get_number_list_attribute(
 ```python
 def get_number_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
+) - > typing.Mapping[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getNumberMapAttribute.parameter.terraformAttribute"></a>
@@ -12784,7 +12784,7 @@ def get_number_map_attribute(
 ```python
 def get_string_attribute(
   terraform_attribute: str
-) -> str
+) - > str
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getStringAttribute.parameter.terraformAttribute"></a>
@@ -12798,7 +12798,7 @@ def get_string_attribute(
 ```python
 def get_string_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[str]
+) - > typing.Mapping[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.getStringMapAttribute.parameter.terraformAttribute"></a>
@@ -12812,7 +12812,7 @@ def get_string_map_attribute(
 ```python
 def interpolation_for_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformDataSource.interpolationForAttribute.parameter.terraformAttribute"></a>
@@ -13060,7 +13060,7 @@ cdktf.TerraformElement(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformElement.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -13071,7 +13071,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformElement.addOverride.parameter.path"></a>
@@ -13091,7 +13091,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -13107,7 +13107,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformElement.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -13115,13 +13115,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformElement.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformElement.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
@@ -13323,7 +13323,7 @@ cdktf.TerraformHclModule(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformHclModule.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -13334,7 +13334,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformHclModule.addOverride.parameter.path"></a>
@@ -13354,7 +13354,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -13370,7 +13370,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformHclModule.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -13378,13 +13378,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformHclModule.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformHclModule.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 ##### `add_provider` <a name="add_provider" id="cdktf.TerraformHclModule.addProvider"></a>
@@ -13392,7 +13392,7 @@ def to_terraform() -> typing.Any
 ```python
 def add_provider(
   provider: typing.Union[TerraformModuleProvider, TerraformProvider]
-) -> None
+) - > None
 ```
 
 ###### `provider`<sup>Required</sup> <a name="provider" id="cdktf.TerraformHclModule.addProvider.parameter.provider"></a>
@@ -13406,7 +13406,7 @@ def add_provider(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getString.parameter.output"></a>
@@ -13420,7 +13420,7 @@ def get_string(
 ```python
 def interpolation_for_output(
   module_output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `module_output`<sup>Required</sup> <a name="module_output" id="cdktf.TerraformHclModule.interpolationForOutput.parameter.moduleOutput"></a>
@@ -13434,7 +13434,7 @@ def interpolation_for_output(
 ```python
 def get(
   output: str
-) -> typing.Any
+) - > typing.Any
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.get.parameter.output"></a>
@@ -13448,7 +13448,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getBoolean.parameter.output"></a>
@@ -13462,7 +13462,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getList.parameter.output"></a>
@@ -13476,7 +13476,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getNumber.parameter.output"></a>
@@ -13491,7 +13491,7 @@ def get_number(
 def set(
   variable: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `variable`<sup>Required</sup> <a name="variable" id="cdktf.TerraformHclModule.set.parameter.variable"></a>
@@ -13725,7 +13725,7 @@ cdktf.TerraformLocal(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformLocal.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -13736,7 +13736,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformLocal.addOverride.parameter.path"></a>
@@ -13756,7 +13756,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -13772,7 +13772,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformLocal.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -13780,13 +13780,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformLocal.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformLocal.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
@@ -14032,7 +14032,7 @@ cdktf.TerraformModule(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformModule.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -14043,7 +14043,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformModule.addOverride.parameter.path"></a>
@@ -14063,7 +14063,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -14079,7 +14079,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformModule.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -14087,13 +14087,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformModule.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformModule.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 ##### `add_provider` <a name="add_provider" id="cdktf.TerraformModule.addProvider"></a>
@@ -14101,7 +14101,7 @@ def to_terraform() -> typing.Any
 ```python
 def add_provider(
   provider: typing.Union[TerraformModuleProvider, TerraformProvider]
-) -> None
+) - > None
 ```
 
 ###### `provider`<sup>Required</sup> <a name="provider" id="cdktf.TerraformModule.addProvider.parameter.provider"></a>
@@ -14115,7 +14115,7 @@ def add_provider(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformModule.getString.parameter.output"></a>
@@ -14129,7 +14129,7 @@ def get_string(
 ```python
 def interpolation_for_output(
   module_output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `module_output`<sup>Required</sup> <a name="module_output" id="cdktf.TerraformModule.interpolationForOutput.parameter.moduleOutput"></a>
@@ -14379,7 +14379,7 @@ If set to true the synthesized Terraform Output will be named after the `id` pas
 ##### `to_string` <a name="to_string" id="cdktf.TerraformOutput.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -14390,7 +14390,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformOutput.addOverride.parameter.path"></a>
@@ -14410,7 +14410,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -14426,7 +14426,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformOutput.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -14434,13 +14434,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformOutput.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformOutput.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
@@ -14682,7 +14682,7 @@ cdktf.TerraformProvider(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformProvider.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -14693,7 +14693,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformProvider.addOverride.parameter.path"></a>
@@ -14713,7 +14713,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -14729,7 +14729,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformProvider.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -14737,13 +14737,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformProvider.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformProvider.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -14977,7 +14977,7 @@ cdktf.TerraformRemoteState(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformRemoteState.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -14988,7 +14988,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformRemoteState.addOverride.parameter.path"></a>
@@ -15008,7 +15008,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -15024,7 +15024,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformRemoteState.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -15032,13 +15032,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformRemoteState.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformRemoteState.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -15048,7 +15048,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformRemoteState.get.parameter.output"></a>
@@ -15062,7 +15062,7 @@ def get(
 ```python
 def get_boolean(
   output: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformRemoteState.getBoolean.parameter.output"></a>
@@ -15076,7 +15076,7 @@ def get_boolean(
 ```python
 def get_list(
   output: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformRemoteState.getList.parameter.output"></a>
@@ -15090,7 +15090,7 @@ def get_list(
 ```python
 def get_number(
   output: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformRemoteState.getNumber.parameter.output"></a>
@@ -15104,7 +15104,7 @@ def get_number(
 ```python
 def get_string(
   output: str
-) -> str
+) - > str
 ```
 
 ###### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformRemoteState.getString.parameter.output"></a>
@@ -15342,7 +15342,7 @@ cdktf.TerraformResource(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformResource.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -15353,7 +15353,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformResource.addOverride.parameter.path"></a>
@@ -15373,7 +15373,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -15389,7 +15389,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformResource.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -15397,13 +15397,13 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformResource.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformResource.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
@@ -15413,7 +15413,7 @@ Adds this resource to the terraform JSON output.
 ```python
 def get_any_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getAnyMapAttribute.parameter.terraformAttribute"></a>
@@ -15427,7 +15427,7 @@ def get_any_map_attribute(
 ```python
 def get_boolean_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getBooleanAttribute.parameter.terraformAttribute"></a>
@@ -15441,7 +15441,7 @@ def get_boolean_attribute(
 ```python
 def get_boolean_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[bool]
+) - > typing.Mapping[bool]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getBooleanMapAttribute.parameter.terraformAttribute"></a>
@@ -15455,7 +15455,7 @@ def get_boolean_map_attribute(
 ```python
 def get_list_attribute(
   terraform_attribute: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getListAttribute.parameter.terraformAttribute"></a>
@@ -15469,7 +15469,7 @@ def get_list_attribute(
 ```python
 def get_number_attribute(
   terraform_attribute: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getNumberAttribute.parameter.terraformAttribute"></a>
@@ -15483,7 +15483,7 @@ def get_number_attribute(
 ```python
 def get_number_list_attribute(
   terraform_attribute: str
-) -> typing.List[typing.Union[int, float]]
+) - > typing.List[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getNumberListAttribute.parameter.terraformAttribute"></a>
@@ -15497,7 +15497,7 @@ def get_number_list_attribute(
 ```python
 def get_number_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
+) - > typing.Mapping[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getNumberMapAttribute.parameter.terraformAttribute"></a>
@@ -15511,7 +15511,7 @@ def get_number_map_attribute(
 ```python
 def get_string_attribute(
   terraform_attribute: str
-) -> str
+) - > str
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getStringAttribute.parameter.terraformAttribute"></a>
@@ -15525,7 +15525,7 @@ def get_string_attribute(
 ```python
 def get_string_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[str]
+) - > typing.Mapping[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.getStringMapAttribute.parameter.terraformAttribute"></a>
@@ -15539,7 +15539,7 @@ def get_string_map_attribute(
 ```python
 def interpolation_for_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
@@ -15784,7 +15784,7 @@ cdktf.TerraformStack(
 ##### `to_string` <a name="to_string" id="cdktf.TerraformStack.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -15794,7 +15794,7 @@ Returns a string representation of this construct.
 ```python
 def add_dependency(
   dependency: TerraformStack
-) -> None
+) - > None
 ```
 
 ###### `dependency`<sup>Required</sup> <a name="dependency" id="cdktf.TerraformStack.addDependency.parameter.dependency"></a>
@@ -15809,7 +15809,7 @@ def add_dependency(
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformStack.addOverride.parameter.path"></a>
@@ -15827,7 +15827,7 @@ def add_override(
 ##### `all_providers` <a name="all_providers" id="cdktf.TerraformStack.allProviders"></a>
 
 ```python
-def all_providers() -> typing.List[TerraformProvider]
+def all_providers() - > typing.List[TerraformProvider]
 ```
 
 ##### `depends_on` <a name="depends_on" id="cdktf.TerraformStack.dependsOn"></a>
@@ -15835,7 +15835,7 @@ def all_providers() -> typing.List[TerraformProvider]
 ```python
 def depends_on(
   stack: TerraformStack
-) -> bool
+) - > bool
 ```
 
 ###### `stack`<sup>Required</sup> <a name="stack" id="cdktf.TerraformStack.dependsOn.parameter.stack"></a>
@@ -15847,7 +15847,7 @@ def depends_on(
 ##### `ensure_backend_exists` <a name="ensure_backend_exists" id="cdktf.TerraformStack.ensureBackendExists"></a>
 
 ```python
-def ensure_backend_exists() -> TerraformBackend
+def ensure_backend_exists() - > TerraformBackend
 ```
 
 ##### `get_logical_id` <a name="get_logical_id" id="cdktf.TerraformStack.getLogicalId"></a>
@@ -15855,7 +15855,7 @@ def ensure_backend_exists() -> TerraformBackend
 ```python
 def get_logical_id(
   tf_element: typing.Union[TerraformElement, Node]
-) -> str
+) - > str
 ```
 
 ###### `tf_element`<sup>Required</sup> <a name="tf_element" id="cdktf.TerraformStack.getLogicalId.parameter.tfElement"></a>
@@ -15867,7 +15867,7 @@ def get_logical_id(
 ##### `prepare_stack` <a name="prepare_stack" id="cdktf.TerraformStack.prepareStack"></a>
 
 ```python
-def prepare_stack() -> None
+def prepare_stack() - > None
 ```
 
 ##### `register_incoming_cross_stack_reference` <a name="register_incoming_cross_stack_reference" id="cdktf.TerraformStack.registerIncomingCrossStackReference"></a>
@@ -15875,7 +15875,7 @@ def prepare_stack() -> None
 ```python
 def register_incoming_cross_stack_reference(
   from_stack: TerraformStack
-) -> TerraformRemoteState
+) - > TerraformRemoteState
 ```
 
 ###### `from_stack`<sup>Required</sup> <a name="from_stack" id="cdktf.TerraformStack.registerIncomingCrossStackReference.parameter.fromStack"></a>
@@ -15889,7 +15889,7 @@ def register_incoming_cross_stack_reference(
 ```python
 def register_outgoing_cross_stack_reference(
   identifier: str
-) -> TerraformOutput
+) - > TerraformOutput
 ```
 
 ###### `identifier`<sup>Required</sup> <a name="identifier" id="cdktf.TerraformStack.registerOutgoingCrossStackReference.parameter.identifier"></a>
@@ -15901,7 +15901,7 @@ def register_outgoing_cross_stack_reference(
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformStack.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
@@ -16108,11 +16108,11 @@ Type constraints are created from a mixture of type keywords and type constructo
 
 The type constructors allow you to specify complex types such as collections:
 
-- list(<TYPE>)
-- set(<TYPE>)
-- map(<TYPE>)
-- object({<ATTR NAME> = <TYPE>, ... })
-- tuple([<TYPE>, ...])
+- list(< TYPE >)
+- set(< TYPE >)
+- map(< TYPE >)
+- object({< ATTR NAME > = < TYPE >, ... })
+- tuple([< TYPE >, ...])
 
 The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
 
@@ -16137,7 +16137,7 @@ If both the type and default arguments are specified, the given default value mu
 ##### `to_string` <a name="to_string" id="cdktf.TerraformVariable.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Returns a string representation of this construct.
@@ -16148,7 +16148,7 @@ Returns a string representation of this construct.
 def add_override(
   path: str,
   value: typing.Any
-) -> None
+) - > None
 ```
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformVariable.addOverride.parameter.path"></a>
@@ -16168,7 +16168,7 @@ def add_override(
 ```python
 def override_logical_id(
   new_logical_id: str
-) -> None
+) - > None
 ```
 
 Overrides the auto-generated logical ID with a specific ID.
@@ -16184,7 +16184,7 @@ The new logical ID to use for this stack element.
 ##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformVariable.resetOverrideLogicalId"></a>
 
 ```python
-def reset_override_logical_id() -> None
+def reset_override_logical_id() - > None
 ```
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
@@ -16192,19 +16192,19 @@ Resets a previously passed logical Id to use the auto-generated logical id again
 ##### `to_metadata` <a name="to_metadata" id="cdktf.TerraformVariable.toMetadata"></a>
 
 ```python
-def to_metadata() -> typing.Any
+def to_metadata() - > typing.Any
 ```
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformVariable.toTerraform"></a>
 
 ```python
-def to_terraform() -> typing.Any
+def to_terraform() - > typing.Any
 ```
 
 ##### `synthesize_attributes` <a name="synthesize_attributes" id="cdktf.TerraformVariable.synthesizeAttributes"></a>
 
 ```python
-def synthesize_attributes() -> typing.Mapping[typing.Any]
+def synthesize_attributes() - > typing.Mapping[typing.Any]
 ```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
@@ -18385,7 +18385,7 @@ prefix: str
 
 (Optional) GCS prefix inside the bucket.
 
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
+Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
 
 ---
 
@@ -19283,7 +19283,7 @@ cdktf.DataTerraformRemoteStateS3Config(
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.encrypt">encrypt</a></code>                                       | <code>bool</code>                       | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">endpoint</a></code>                                     | <code>str</code>                        | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">external_id</a></code>                                | <code>str</code>                        | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                        | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code>   | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
@@ -19465,7 +19465,7 @@ force_path_style: bool
 
 - _Type:_ bool
 
-(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+(Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).
 
 ---
 
@@ -20440,7 +20440,7 @@ prefix: str
 
 (Optional) GCS prefix inside the bucket.
 
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
+Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
 
 ---
 
@@ -21494,7 +21494,7 @@ cdktf.S3BackendProps(
 | <code><a href="#cdktf.S3BackendProps.property.encrypt">encrypt</a></code>                                       | <code>bool</code>                     | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
 | <code><a href="#cdktf.S3BackendProps.property.endpoint">endpoint</a></code>                                     | <code>str</code>                      | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.S3BackendProps.property.externalId">external_id</a></code>                                | <code>str</code>                      | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).                                                                                                                                                             |
+| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.S3BackendProps.property.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                      | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
 | <code><a href="#cdktf.S3BackendProps.property.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
 | <code><a href="#cdktf.S3BackendProps.property.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
@@ -21656,7 +21656,7 @@ force_path_style: bool
 
 - _Type:_ bool
 
-(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+(Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).
 
 ---
 
@@ -23283,11 +23283,11 @@ Type constraints are created from a mixture of type keywords and type constructo
 
 The type constructors allow you to specify complex types such as collections:
 
-- list(<TYPE>)
-- set(<TYPE>)
-- map(<TYPE>)
-- object({<ATTR NAME> = <TYPE>, ... })
-- tuple([<TYPE>, ...])
+- list(< TYPE >)
+- set(< TYPE >)
+- map(< TYPE >)
+- object({< ATTR NAME > = < TYPE >, ... })
+- tuple([< TYPE >, ...])
 
 The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
 
@@ -23381,11 +23381,11 @@ Includes API for attaching annotations such as warning messages to constructs.
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                             | **Description**                                                  |
-| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| <code><a href="#cdktf.Annotations.addError">add_error</a></code>     | Adds an { "error": <message> } metadata entry to this construct. |
-| <code><a href="#cdktf.Annotations.addInfo">add_info</a></code>       | Adds an info metadata entry to this construct.                   |
-| <code><a href="#cdktf.Annotations.addWarning">add_warning</a></code> | Adds a warning metadata entry to this construct.                 |
+| **Name**                                                             | **Description**                                                    |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| <code><a href="#cdktf.Annotations.addError">add_error</a></code>     | Adds an { "error": < message > } metadata entry to this construct. |
+| <code><a href="#cdktf.Annotations.addInfo">add_info</a></code>       | Adds an info metadata entry to this construct.                     |
+| <code><a href="#cdktf.Annotations.addWarning">add_warning</a></code> | Adds a warning metadata entry to this construct.                   |
 
 ---
 
@@ -23394,10 +23394,10 @@ Includes API for attaching annotations such as warning messages to constructs.
 ```python
 def add_error(
   message: str
-) -> None
+) - > None
 ```
 
-Adds an { "error": <message> } metadata entry to this construct.
+Adds an { "error": < message > } metadata entry to this construct.
 
 The toolkit will fail synthesis when errors are reported.
 
@@ -23414,7 +23414,7 @@ The error message.
 ```python
 def add_info(
   message: str
-) -> None
+) - > None
 ```
 
 Adds an info metadata entry to this construct.
@@ -23434,7 +23434,7 @@ The info message.
 ```python
 def add_warning(
   message: str
-) -> None
+) - > None
 ```
 
 Adds a warning metadata entry to this construct.
@@ -23527,7 +23527,7 @@ cdktf.AnyMap(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.AnyMap.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `lookup` <a name="lookup" id="cdktf.AnyMap.lookup"></a>
@@ -23535,7 +23535,7 @@ def compute_fqn() -> str
 ```python
 def lookup(
   key: str
-) -> typing.Any
+) - > typing.Any
 ```
 
 ###### `key`<sup>Required</sup> <a name="key" id="cdktf.AnyMap.lookup.parameter.key"></a>
@@ -23549,7 +23549,7 @@ def lookup(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -23563,7 +23563,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.AnyMap.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -23660,7 +23660,7 @@ cdktf.AnyMapList(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.AnyMapList.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `get` <a name="get" id="cdktf.AnyMapList.get"></a>
@@ -23668,7 +23668,7 @@ def compute_fqn() -> str
 ```python
 def get(
   index: typing.Union[int, float]
-) -> AnyMap
+) - > AnyMap
 ```
 
 ###### `index`<sup>Required</sup> <a name="index" id="cdktf.AnyMapList.get.parameter.index"></a>
@@ -23682,7 +23682,7 @@ def get(
 ```python
 def interpolation_for_attribute(
   property: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `property`<sup>Required</sup> <a name="property" id="cdktf.AnyMapList.interpolationForAttribute.parameter.property"></a>
@@ -23696,7 +23696,7 @@ def interpolation_for_attribute(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -23710,7 +23710,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.AnyMapList.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -23767,7 +23767,7 @@ Aspects can be applied to CDK tree scopes and can operate on the tree before syn
 ```python
 def add(
   aspect: IAspect
-) -> None
+) - > None
 ```
 
 Adds an aspect to apply this scope before synthesis.
@@ -23876,7 +23876,7 @@ cdktf.BooleanMap(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.BooleanMap.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `lookup` <a name="lookup" id="cdktf.BooleanMap.lookup"></a>
@@ -23884,7 +23884,7 @@ def compute_fqn() -> str
 ```python
 def lookup(
   key: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `key`<sup>Required</sup> <a name="key" id="cdktf.BooleanMap.lookup.parameter.key"></a>
@@ -23898,7 +23898,7 @@ def lookup(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -23912,7 +23912,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.BooleanMap.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -24009,7 +24009,7 @@ cdktf.BooleanMapList(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.BooleanMapList.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `get` <a name="get" id="cdktf.BooleanMapList.get"></a>
@@ -24017,7 +24017,7 @@ def compute_fqn() -> str
 ```python
 def get(
   index: typing.Union[int, float]
-) -> BooleanMap
+) - > BooleanMap
 ```
 
 ###### `index`<sup>Required</sup> <a name="index" id="cdktf.BooleanMapList.get.parameter.index"></a>
@@ -24031,7 +24031,7 @@ def get(
 ```python
 def interpolation_for_attribute(
   property: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `property`<sup>Required</sup> <a name="property" id="cdktf.BooleanMapList.interpolationForAttribute.parameter.property"></a>
@@ -24045,7 +24045,7 @@ def interpolation_for_attribute(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -24059,7 +24059,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.BooleanMapList.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -24172,7 +24172,7 @@ cdktf.ComplexComputedList(
 ##### ~~`compute_fqn`~~ <a name="compute_fqn" id="cdktf.ComplexComputedList.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### ~~`get_any_map_attribute`~~ <a name="get_any_map_attribute" id="cdktf.ComplexComputedList.getAnyMapAttribute"></a>
@@ -24180,7 +24180,7 @@ def compute_fqn() -> str
 ```python
 def get_any_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getAnyMapAttribute.parameter.terraformAttribute"></a>
@@ -24194,7 +24194,7 @@ def get_any_map_attribute(
 ```python
 def get_boolean_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getBooleanAttribute.parameter.terraformAttribute"></a>
@@ -24208,7 +24208,7 @@ def get_boolean_attribute(
 ```python
 def get_boolean_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[bool]
+) - > typing.Mapping[bool]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getBooleanMapAttribute.parameter.terraformAttribute"></a>
@@ -24222,7 +24222,7 @@ def get_boolean_map_attribute(
 ```python
 def get_list_attribute(
   terraform_attribute: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getListAttribute.parameter.terraformAttribute"></a>
@@ -24236,7 +24236,7 @@ def get_list_attribute(
 ```python
 def get_number_attribute(
   terraform_attribute: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberAttribute.parameter.terraformAttribute"></a>
@@ -24250,7 +24250,7 @@ def get_number_attribute(
 ```python
 def get_number_list_attribute(
   terraform_attribute: str
-) -> typing.List[typing.Union[int, float]]
+) - > typing.List[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberListAttribute.parameter.terraformAttribute"></a>
@@ -24264,7 +24264,7 @@ def get_number_list_attribute(
 ```python
 def get_number_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
+) - > typing.Mapping[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberMapAttribute.parameter.terraformAttribute"></a>
@@ -24278,7 +24278,7 @@ def get_number_map_attribute(
 ```python
 def get_string_attribute(
   terraform_attribute: str
-) -> str
+) - > str
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getStringAttribute.parameter.terraformAttribute"></a>
@@ -24292,7 +24292,7 @@ def get_string_attribute(
 ```python
 def get_string_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[str]
+) - > typing.Mapping[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getStringMapAttribute.parameter.terraformAttribute"></a>
@@ -24306,7 +24306,7 @@ def get_string_map_attribute(
 ```python
 def interpolation_for_attribute(
   property: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `property`<sup>Required</sup> <a name="property" id="cdktf.ComplexComputedList.interpolationForAttribute.parameter.property"></a>
@@ -24320,7 +24320,7 @@ def interpolation_for_attribute(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -24334,7 +24334,7 @@ Produce the Token's value at resolution time.
 ##### ~~`to_string`~~ <a name="to_string" id="cdktf.ComplexComputedList.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -24435,7 +24435,7 @@ cdktf.ComplexList(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.ComplexList.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `resolve` <a name="resolve" id="cdktf.ComplexList.resolve"></a>
@@ -24443,7 +24443,7 @@ def compute_fqn() -> str
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -24457,7 +24457,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.ComplexList.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -24544,7 +24544,7 @@ cdktf.ComplexMap(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.ComplexMap.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `resolve` <a name="resolve" id="cdktf.ComplexMap.resolve"></a>
@@ -24552,7 +24552,7 @@ def compute_fqn() -> str
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -24566,7 +24566,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.ComplexMap.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -24683,7 +24683,7 @@ the index of the complex object in a list.
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.ComplexObject.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `get_any_map_attribute` <a name="get_any_map_attribute" id="cdktf.ComplexObject.getAnyMapAttribute"></a>
@@ -24691,7 +24691,7 @@ def compute_fqn() -> str
 ```python
 def get_any_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getAnyMapAttribute.parameter.terraformAttribute"></a>
@@ -24705,7 +24705,7 @@ def get_any_map_attribute(
 ```python
 def get_boolean_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getBooleanAttribute.parameter.terraformAttribute"></a>
@@ -24719,7 +24719,7 @@ def get_boolean_attribute(
 ```python
 def get_boolean_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[bool]
+) - > typing.Mapping[bool]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getBooleanMapAttribute.parameter.terraformAttribute"></a>
@@ -24733,7 +24733,7 @@ def get_boolean_map_attribute(
 ```python
 def get_list_attribute(
   terraform_attribute: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getListAttribute.parameter.terraformAttribute"></a>
@@ -24747,7 +24747,7 @@ def get_list_attribute(
 ```python
 def get_number_attribute(
   terraform_attribute: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getNumberAttribute.parameter.terraformAttribute"></a>
@@ -24761,7 +24761,7 @@ def get_number_attribute(
 ```python
 def get_number_list_attribute(
   terraform_attribute: str
-) -> typing.List[typing.Union[int, float]]
+) - > typing.List[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getNumberListAttribute.parameter.terraformAttribute"></a>
@@ -24775,7 +24775,7 @@ def get_number_list_attribute(
 ```python
 def get_number_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
+) - > typing.Mapping[typing.Union[int, float]]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getNumberMapAttribute.parameter.terraformAttribute"></a>
@@ -24789,7 +24789,7 @@ def get_number_map_attribute(
 ```python
 def get_string_attribute(
   terraform_attribute: str
-) -> str
+) - > str
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getStringAttribute.parameter.terraformAttribute"></a>
@@ -24803,7 +24803,7 @@ def get_string_attribute(
 ```python
 def get_string_map_attribute(
   terraform_attribute: str
-) -> typing.Mapping[str]
+) - > typing.Mapping[str]
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexObject.getStringMapAttribute.parameter.terraformAttribute"></a>
@@ -24817,7 +24817,7 @@ def get_string_map_attribute(
 ```python
 def interpolation_for_attribute(
   property: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `property`<sup>Required</sup> <a name="property" id="cdktf.ComplexObject.interpolationForAttribute.parameter.property"></a>
@@ -24831,7 +24831,7 @@ def interpolation_for_attribute(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -24845,7 +24845,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.ComplexObject.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -24931,7 +24931,7 @@ cdktf.DefaultTokenResolver(
 def resolve_list(
   xs: typing.List[str],
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a tokenized list.
@@ -24954,7 +24954,7 @@ Resolve a tokenized list.
 def resolve_map(
   xs: typing.Mapping[typing.Any],
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a tokenized map.
@@ -24977,7 +24977,7 @@ Resolve a tokenized map.
 def resolve_number_list(
   xs: typing.List[typing.Union[int, float]],
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a tokenized number list.
@@ -25000,7 +25000,7 @@ Resolve a tokenized number list.
 def resolve_string(
   fragments: TokenizedStringFragments,
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve string fragments to Tokens.
@@ -25024,7 +25024,7 @@ def resolve_token(
   t: IResolvable,
   context: IResolveContext,
   post_processor: IPostProcessor
-) -> typing.Any
+) - > typing.Any
 ```
 
 Default Token resolution.
@@ -27671,7 +27671,7 @@ cdktf.LazyBase()
 ```python
 def add_post_processor(
   post_processor: IPostProcessor
-) -> None
+) - > None
 ```
 
 ###### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.LazyBase.addPostProcessor.parameter.postProcessor"></a>
@@ -27685,7 +27685,7 @@ def add_post_processor(
 ```python
 def resolve(
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -27699,7 +27699,7 @@ Produce the Token's value at resolution time.
 ##### `to_jso_n` <a name="to_jso_n" id="cdktf.LazyBase.toJSON"></a>
 
 ```python
-def to_jso_n() -> typing.Any
+def to_jso_n() - > typing.Any
 ```
 
 Turn this Token into JSON.
@@ -27709,7 +27709,7 @@ Called automatically when JSON.stringify() is called on a Token.
 ##### `to_string` <a name="to_string" id="cdktf.LazyBase.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -27785,7 +27785,7 @@ cdktf.ListTerraformIterator(
 ```python
 def get_any(
   attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getAny.parameter.attribute"></a>
@@ -27801,7 +27801,7 @@ name of the property to retrieve.
 ```python
 def get_any_map(
   attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getAnyMap.parameter.attribute"></a>
@@ -27817,7 +27817,7 @@ name of the property to retrieve.
 ```python
 def get_boolean(
   attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getBoolean.parameter.attribute"></a>
@@ -27833,7 +27833,7 @@ name of the property to retrieve.
 ```python
 def get_boolean_map(
   attribute: str
-) -> typing.Mapping[bool]
+) - > typing.Mapping[bool]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getBooleanMap.parameter.attribute"></a>
@@ -27849,7 +27849,7 @@ name of the property to retrieve.
 ```python
 def get_list(
   attribute: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getList.parameter.attribute"></a>
@@ -27865,7 +27865,7 @@ name of the property to retrieve.
 ```python
 def get_map(
   attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getMap.parameter.attribute"></a>
@@ -27881,7 +27881,7 @@ name of the property to retrieve.
 ```python
 def get_number(
   attribute: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getNumber.parameter.attribute"></a>
@@ -27897,7 +27897,7 @@ name of the property to retrieve.
 ```python
 def get_number_list(
   attribute: str
-) -> typing.List[typing.Union[int, float]]
+) - > typing.List[typing.Union[int, float]]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getNumberList.parameter.attribute"></a>
@@ -27913,7 +27913,7 @@ name of the property to retrieve.
 ```python
 def get_number_map(
   attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
+) - > typing.Mapping[typing.Union[int, float]]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getNumberMap.parameter.attribute"></a>
@@ -27929,7 +27929,7 @@ name of the property to retrieve.
 ```python
 def get_string(
   attribute: str
-) -> str
+) - > str
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getString.parameter.attribute"></a>
@@ -27945,7 +27945,7 @@ name of the property to retrieve.
 ```python
 def get_string_map(
   attribute: str
-) -> typing.Mapping[str]
+) - > typing.Mapping[str]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ListTerraformIterator.getStringMap.parameter.attribute"></a>
@@ -28085,7 +28085,7 @@ cdktf.Manifest(
 ##### `build_manifest` <a name="build_manifest" id="cdktf.Manifest.buildManifest"></a>
 
 ```python
-def build_manifest() -> IManifest
+def build_manifest() - > IManifest
 ```
 
 ##### `for_stack` <a name="for_stack" id="cdktf.Manifest.forStack"></a>
@@ -28093,7 +28093,7 @@ def build_manifest() -> IManifest
 ```python
 def for_stack(
   stack: TerraformStack
-) -> StackManifest
+) - > StackManifest
 ```
 
 ###### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Manifest.forStack.parameter.stack"></a>
@@ -28105,7 +28105,7 @@ def for_stack(
 ##### `write_to_file` <a name="write_to_file" id="cdktf.Manifest.writeToFile"></a>
 
 ```python
-def write_to_file() -> None
+def write_to_file() - > None
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
@@ -28235,7 +28235,7 @@ cdktf.MapTerraformIterator(
 ```python
 def get_any(
   attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getAny.parameter.attribute"></a>
@@ -28251,7 +28251,7 @@ name of the property to retrieve.
 ```python
 def get_any_map(
   attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getAnyMap.parameter.attribute"></a>
@@ -28267,7 +28267,7 @@ name of the property to retrieve.
 ```python
 def get_boolean(
   attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getBoolean.parameter.attribute"></a>
@@ -28283,7 +28283,7 @@ name of the property to retrieve.
 ```python
 def get_boolean_map(
   attribute: str
-) -> typing.Mapping[bool]
+) - > typing.Mapping[bool]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getBooleanMap.parameter.attribute"></a>
@@ -28299,7 +28299,7 @@ name of the property to retrieve.
 ```python
 def get_list(
   attribute: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getList.parameter.attribute"></a>
@@ -28315,7 +28315,7 @@ name of the property to retrieve.
 ```python
 def get_map(
   attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getMap.parameter.attribute"></a>
@@ -28331,7 +28331,7 @@ name of the property to retrieve.
 ```python
 def get_number(
   attribute: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getNumber.parameter.attribute"></a>
@@ -28347,7 +28347,7 @@ name of the property to retrieve.
 ```python
 def get_number_list(
   attribute: str
-) -> typing.List[typing.Union[int, float]]
+) - > typing.List[typing.Union[int, float]]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getNumberList.parameter.attribute"></a>
@@ -28363,7 +28363,7 @@ name of the property to retrieve.
 ```python
 def get_number_map(
   attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
+) - > typing.Mapping[typing.Union[int, float]]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getNumberMap.parameter.attribute"></a>
@@ -28379,7 +28379,7 @@ name of the property to retrieve.
 ```python
 def get_string(
   attribute: str
-) -> str
+) - > str
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getString.parameter.attribute"></a>
@@ -28395,7 +28395,7 @@ name of the property to retrieve.
 ```python
 def get_string_map(
   attribute: str
-) -> typing.Mapping[str]
+) - > typing.Mapping[str]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.MapTerraformIterator.getStringMap.parameter.attribute"></a>
@@ -28576,7 +28576,7 @@ cdktf.NumberMap(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.NumberMap.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `lookup` <a name="lookup" id="cdktf.NumberMap.lookup"></a>
@@ -28584,7 +28584,7 @@ def compute_fqn() -> str
 ```python
 def lookup(
   key: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `key`<sup>Required</sup> <a name="key" id="cdktf.NumberMap.lookup.parameter.key"></a>
@@ -28598,7 +28598,7 @@ def lookup(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -28612,7 +28612,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.NumberMap.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -28709,7 +28709,7 @@ cdktf.NumberMapList(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.NumberMapList.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `get` <a name="get" id="cdktf.NumberMapList.get"></a>
@@ -28717,7 +28717,7 @@ def compute_fqn() -> str
 ```python
 def get(
   index: typing.Union[int, float]
-) -> NumberMap
+) - > NumberMap
 ```
 
 ###### `index`<sup>Required</sup> <a name="index" id="cdktf.NumberMapList.get.parameter.index"></a>
@@ -28731,7 +28731,7 @@ def get(
 ```python
 def interpolation_for_attribute(
   property: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `property`<sup>Required</sup> <a name="property" id="cdktf.NumberMapList.interpolationForAttribute.parameter.property"></a>
@@ -28745,7 +28745,7 @@ def interpolation_for_attribute(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -28759,7 +28759,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.NumberMapList.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -28878,7 +28878,7 @@ cdktf.StringConcat()
 def join(
   left: typing.Any,
   right: typing.Any
-) -> typing.Any
+) - > typing.Any
 ```
 
 Join the fragment on the left and on the right.
@@ -28943,7 +28943,7 @@ cdktf.StringMap(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.StringMap.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `lookup` <a name="lookup" id="cdktf.StringMap.lookup"></a>
@@ -28951,7 +28951,7 @@ def compute_fqn() -> str
 ```python
 def lookup(
   key: str
-) -> str
+) - > str
 ```
 
 ###### `key`<sup>Required</sup> <a name="key" id="cdktf.StringMap.lookup.parameter.key"></a>
@@ -28965,7 +28965,7 @@ def lookup(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -28979,7 +28979,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.StringMap.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -29076,7 +29076,7 @@ cdktf.StringMapList(
 ##### `compute_fqn` <a name="compute_fqn" id="cdktf.StringMapList.computeFqn"></a>
 
 ```python
-def compute_fqn() -> str
+def compute_fqn() - > str
 ```
 
 ##### `get` <a name="get" id="cdktf.StringMapList.get"></a>
@@ -29084,7 +29084,7 @@ def compute_fqn() -> str
 ```python
 def get(
   index: typing.Union[int, float]
-) -> StringMap
+) - > StringMap
 ```
 
 ###### `index`<sup>Required</sup> <a name="index" id="cdktf.StringMapList.get.parameter.index"></a>
@@ -29098,7 +29098,7 @@ def get(
 ```python
 def interpolation_for_attribute(
   property: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `property`<sup>Required</sup> <a name="property" id="cdktf.StringMapList.interpolationForAttribute.parameter.property"></a>
@@ -29112,7 +29112,7 @@ def interpolation_for_attribute(
 ```python
 def resolve(
   _context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -29126,7 +29126,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.StringMapList.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -29206,7 +29206,7 @@ cdktf.TerraformIterator()
 ```python
 def get_any(
   attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getAny.parameter.attribute"></a>
@@ -29222,7 +29222,7 @@ name of the property to retrieve.
 ```python
 def get_any_map(
   attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getAnyMap.parameter.attribute"></a>
@@ -29238,7 +29238,7 @@ name of the property to retrieve.
 ```python
 def get_boolean(
   attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getBoolean.parameter.attribute"></a>
@@ -29254,7 +29254,7 @@ name of the property to retrieve.
 ```python
 def get_boolean_map(
   attribute: str
-) -> typing.Mapping[bool]
+) - > typing.Mapping[bool]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getBooleanMap.parameter.attribute"></a>
@@ -29270,7 +29270,7 @@ name of the property to retrieve.
 ```python
 def get_list(
   attribute: str
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getList.parameter.attribute"></a>
@@ -29286,7 +29286,7 @@ name of the property to retrieve.
 ```python
 def get_map(
   attribute: str
-) -> typing.Mapping[typing.Any]
+) - > typing.Mapping[typing.Any]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getMap.parameter.attribute"></a>
@@ -29302,7 +29302,7 @@ name of the property to retrieve.
 ```python
 def get_number(
   attribute: str
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getNumber.parameter.attribute"></a>
@@ -29318,7 +29318,7 @@ name of the property to retrieve.
 ```python
 def get_number_list(
   attribute: str
-) -> typing.List[typing.Union[int, float]]
+) - > typing.List[typing.Union[int, float]]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getNumberList.parameter.attribute"></a>
@@ -29334,7 +29334,7 @@ name of the property to retrieve.
 ```python
 def get_number_map(
   attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
+) - > typing.Mapping[typing.Union[int, float]]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getNumberMap.parameter.attribute"></a>
@@ -29350,7 +29350,7 @@ name of the property to retrieve.
 ```python
 def get_string(
   attribute: str
-) -> str
+) - > str
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getString.parameter.attribute"></a>
@@ -29366,7 +29366,7 @@ name of the property to retrieve.
 ```python
 def get_string_map(
   attribute: str
-) -> typing.Mapping[str]
+) - > typing.Mapping[str]
 ```
 
 ###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.TerraformIterator.getStringMap.parameter.attribute"></a>
@@ -30253,7 +30253,7 @@ cdktf.TokenizedStringFragments()
 ```python
 def add_intrinsic(
   value: typing.Any
-) -> None
+) - > None
 ```
 
 Adds an intrinsic fragment.
@@ -30271,7 +30271,7 @@ the intrinsic value to add.
 ```python
 def add_literal(
   lit: typing.Any
-) -> None
+) - > None
 ```
 
 Adds a literal fragment.
@@ -30289,7 +30289,7 @@ the literal to add.
 ```python
 def add_token(
   token: IResolvable
-) -> None
+) - > None
 ```
 
 Adds a token fragment.
@@ -30307,7 +30307,7 @@ the token to add.
 ```python
 def join(
   concat: IFragmentConcatenator
-) -> typing.Any
+) - > typing.Any
 ```
 
 Combine the string fragments using the given joiner.
@@ -30325,7 +30325,7 @@ If there are any
 ```python
 def map_tokens(
   mapper: ITokenMapper
-) -> TokenizedStringFragments
+) - > TokenizedStringFragments
 ```
 
 Apply a transformation function to all tokens in the string.
@@ -30732,7 +30732,7 @@ Interface for lazy untyped value producers.
 ```python
 def produce(
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the value.
@@ -30762,7 +30762,7 @@ Represents an Aspect.
 ```python
 def visit(
   node: IConstruct
-) -> None
+) - > None
 ```
 
 All aspects can visit an IConstruct.
@@ -30795,7 +30795,7 @@ Interface so it could potentially be exposed over jsii.
 def join(
   left: typing.Any,
   right: typing.Any
-) -> typing.Any
+) - > typing.Any
 ```
 
 Join the fragment on the left and on the right.
@@ -30829,7 +30829,7 @@ Join the fragment on the left and on the right.
 ```python
 def interpolation_for_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.IInterpolatingParent.interpolationForAttribute.parameter.terraformAttribute"></a>
@@ -30857,7 +30857,7 @@ Interface for lazy list producers.
 ```python
 def produce(
   context: IResolveContext
-) -> typing.List[str]
+) - > typing.List[str]
 ```
 
 Produce the list value.
@@ -30920,7 +30920,7 @@ Interface for lazy number producers.
 ```python
 def produce(
   context: IResolveContext
-) -> typing.Union[int, float]
+) - > typing.Union[int, float]
 ```
 
 Produce the number value.
@@ -30951,7 +30951,7 @@ A Token that can post-process the complete resolved value, after resolve() has r
 def post_process(
   input: typing.Any,
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Process the completely resolved value, after full recursion/resolution has happened.
@@ -30994,7 +30994,7 @@ Tokens are special objects that participate in synthesis.
 ```python
 def resolve(
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Produce the Token's value at resolution time.
@@ -31008,7 +31008,7 @@ Produce the Token's value at resolution time.
 ##### `to_string` <a name="to_string" id="cdktf.IResolvable.toString"></a>
 
 ```python
-def to_string() -> str
+def to_string() - > str
 ```
 
 Return a string representation of this resolvable object.
@@ -31057,7 +31057,7 @@ Current resolution context for tokens.
 ```python
 def register_post_processor(
   post_processor: IPostProcessor
-) -> None
+) - > None
 ```
 
 Use this postprocessor after the entire token structure has been resolved.
@@ -31073,7 +31073,7 @@ Use this postprocessor after the entire token structure has been resolved.
 ```python
 def resolve(
   x: typing.Any
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve an inner object.
@@ -31196,7 +31196,7 @@ Encodes information how a certain Stack should be deployed inspired by AWS CDK v
 ```python
 def synthesize(
   session: ISynthesisSession
-) -> None
+) - > None
 ```
 
 Synthesize the associated stack to the session.
@@ -31226,7 +31226,7 @@ Interface for lazy string producers.
 ```python
 def produce(
   context: IResolveContext
-) -> str
+) - > str
 ```
 
 Produce the string value.
@@ -31355,7 +31355,7 @@ fqn: str
 ```python
 def interpolation_for_attribute(
   terraform_attribute: str
-) -> IResolvable
+) - > IResolvable
 ```
 
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ITerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
@@ -31480,7 +31480,7 @@ Interface so it can be exported via jsii.
 ```python
 def map_token(
   t: IResolvable
-) -> typing.Any
+) - > typing.Any
 ```
 
 Replace a single token.
@@ -31515,7 +31515,7 @@ How to resolve tokens.
 def resolve_list(
   l: typing.List[str],
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a tokenized list.
@@ -31538,7 +31538,7 @@ Resolve a tokenized list.
 def resolve_map(
   m: typing.Mapping[typing.Any],
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a tokenized map.
@@ -31561,7 +31561,7 @@ Resolve a tokenized map.
 def resolve_number_list(
   l: typing.List[typing.Union[int, float]],
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a tokenized number list.
@@ -31584,7 +31584,7 @@ Resolve a tokenized number list.
 def resolve_string(
   s: TokenizedStringFragments,
   context: IResolveContext
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a string with at least one stringified token in it.
@@ -31610,7 +31610,7 @@ def resolve_token(
   t: IResolvable,
   context: IResolveContext,
   post_processor: IPostProcessor
-) -> typing.Any
+) - > typing.Any
 ```
 
 Resolve a single token.
