@@ -14116,7 +14116,7 @@ Prefix *string
 
 (Optional) GCS prefix inside the bucket.
 
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
+Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
 
 ---
 
@@ -15014,7 +15014,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.encrypt">Encrypt</a></code>                                     | <code>\*bool</code>                   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">Endpoint</a></code>                                   | <code>\*string</code>                 | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">ExternalId</a></code>                               | <code>\*string</code>                 | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">ForcePathStyle</a></code>                       | <code>\*bool</code>                   | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">ForcePathStyle</a></code>                       | <code>\*bool</code>                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.iamEndpoint">IamEndpoint</a></code>                             | <code>\*string</code>                 | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.kmsKeyId">KmsKeyId</a></code>                                   | <code>\*string</code>                 | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.maxRetries">MaxRetries</a></code>                               | <code>\*f64</code>                    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
@@ -15196,7 +15196,7 @@ ForcePathStyle *bool
 
 - _Type:_ \*bool
 
-(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+(Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).
 
 ---
 
@@ -16171,7 +16171,7 @@ Prefix *string
 
 (Optional) GCS prefix inside the bucket.
 
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
+Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
 
 ---
 
@@ -17225,7 +17225,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 | <code><a href="#cdktf.S3BackendProps.property.encrypt">Encrypt</a></code>                                     | <code>\*bool</code>   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
 | <code><a href="#cdktf.S3BackendProps.property.endpoint">Endpoint</a></code>                                   | <code>\*string</code> | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.S3BackendProps.property.externalId">ExternalId</a></code>                               | <code>\*string</code> | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">ForcePathStyle</a></code>                       | <code>\*bool</code>   | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).                                                                                                                                                             |
+| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">ForcePathStyle</a></code>                       | <code>\*bool</code>   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.S3BackendProps.property.iamEndpoint">IamEndpoint</a></code>                             | <code>\*string</code> | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
 | <code><a href="#cdktf.S3BackendProps.property.kmsKeyId">KmsKeyId</a></code>                                   | <code>\*string</code> | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
 | <code><a href="#cdktf.S3BackendProps.property.maxRetries">MaxRetries</a></code>                               | <code>\*f64</code>    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
@@ -17387,7 +17387,7 @@ ForcePathStyle *bool
 
 - _Type:_ \*bool
 
-(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+(Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).
 
 ---
 
@@ -19014,11 +19014,11 @@ Type constraints are created from a mixture of type keywords and type constructo
 
 The type constructors allow you to specify complex types such as collections:
 
-- list(<TYPE>)
-- set(<TYPE>)
-- map(<TYPE>)
-- object({<ATTR NAME> = <TYPE>, ... })
-- tuple([<TYPE>, ...])
+- list(< TYPE >)
+- set(< TYPE >)
+- map(< TYPE >)
+- object({< ATTR NAME > = < TYPE >, ... })
+- tuple([< TYPE >, ...])
 
 The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
 
@@ -19112,11 +19112,11 @@ Includes API for attaching annotations such as warning messages to constructs.
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                            | **Description**                                                  |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| <code><a href="#cdktf.Annotations.addError">AddError</a></code>     | Adds an { "error": <message> } metadata entry to this construct. |
-| <code><a href="#cdktf.Annotations.addInfo">AddInfo</a></code>       | Adds an info metadata entry to this construct.                   |
-| <code><a href="#cdktf.Annotations.addWarning">AddWarning</a></code> | Adds a warning metadata entry to this construct.                 |
+| **Name**                                                            | **Description**                                                    |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| <code><a href="#cdktf.Annotations.addError">AddError</a></code>     | Adds an { "error": < message > } metadata entry to this construct. |
+| <code><a href="#cdktf.Annotations.addInfo">AddInfo</a></code>       | Adds an info metadata entry to this construct.                     |
+| <code><a href="#cdktf.Annotations.addWarning">AddWarning</a></code> | Adds a warning metadata entry to this construct.                   |
 
 ---
 
@@ -19126,7 +19126,7 @@ Includes API for attaching annotations such as warning messages to constructs.
 func AddError(message *string)
 ```
 
-Adds an { "error": <message> } metadata entry to this construct.
+Adds an { "error": < message > } metadata entry to this construct.
 
 The toolkit will fail synthesis when errors are reported.
 
