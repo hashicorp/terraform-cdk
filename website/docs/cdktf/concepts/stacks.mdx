@@ -183,14 +183,14 @@ This means that you need to create a separate workspace for each stack and you n
 
 We add the stack dependencies in the `cdktf.out/manifest.json` file for each stack under `dependencies`.
 By default a stack is dependant on another stack when the data used origins in that stack.
-If you e.g. write `this.allResources = Fn.merge(resourceFromStackA.items, resourceFromStackB.items)` in Stack C and use `stackC.allResources` in Stack D, Stack D will be dependant on Stack A and B, but not C since that is not the origin of the data.
+If you e.g. write `this.allResources = Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)` in Stack C and use `stackC.allResources` in Stack D, Stack D will be dependant on Stack A and B, but not C since that is not the origin of the data.
 
 To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
 ```ts
-this.allResources = TerraformLocal(this, "merged_items", Fn.merge(resourceFromStackA.items, resourceFromStackB.items)
+this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
 ```
 
 The CLI will error if you deploy your application without first deploying the dependencies. It will also error if you try to destroy infrastructure without destroying the dependent stacks first. To remove these safeguards, add the `--ignore-missing-stack-dependencies` to the `deploy` and `destroy` commands.
