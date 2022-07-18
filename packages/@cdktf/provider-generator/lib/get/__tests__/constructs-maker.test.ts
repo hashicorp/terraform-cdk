@@ -2,6 +2,7 @@ import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
 import {
+  ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
   determineGoModuleName,
   Language,
@@ -95,6 +96,21 @@ describe("constructsMaker", () => {
         Language.GO
       );
       expect(target.srcMakName).toEqual("google_beta");
+    });
+  });
+  describe("ConstructsMakerModuleTarget", () => {
+    it("returns valid package name for Go", () => {
+      const target = new ConstructsMakerModuleTarget(
+        {
+          name: "security-group",
+          source: "terraform-aws-modules/security-group/aws",
+          fqn: "terraform-aws-modules/security-group/aws",
+          version: "4.9.0",
+          namespace: "terraform-aws-modules/aws",
+        },
+        Language.GO
+      );
+      expect(target.srcMakName).toEqual("security_group");
     });
   });
 });
