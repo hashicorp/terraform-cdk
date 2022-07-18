@@ -83,7 +83,7 @@ If you just want to run the tests:
 
 ```shell
 $ yarn test # to run all tests at once
-$ yarn test:watch # to only run all tests in watch mode
+$ yarn test:watch # to run all tests in watch mode
 ```
 
 To run integration tests, package and run integration tests.
