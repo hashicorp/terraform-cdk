@@ -2,6 +2,17 @@ import yargs from "yargs";
 import { Errors } from "../../lib/errors";
 import { BaseCommand } from "./helper/base-command";
 import { requireHandlers } from "./helper/utilities";
+import * as path from "path";
+import * as fs from "fs-extra";
+
+function readCdktfJson(cwd = process.cwd()): { language: string } | undefined {
+  try {
+    const cdktfJsonPath = path.join(cwd, "cdktf.json");
+    return fs.readJsonSync(cdktfJsonPath);
+  } catch (e) {
+    return undefined;
+  }
+}
 
 class Command extends BaseCommand {
   public readonly command = "convert";
@@ -24,7 +35,7 @@ class Command extends BaseCommand {
       )
       .option("language", {
         choices: ["typescript", "python", "csharp", "java"],
-        default: "typescript",
+        default: readCdktfJson()?.language || "typescript",
       })
       .option("provider", {
         describe:

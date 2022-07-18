@@ -39,5 +39,9 @@ test("generates a versions file", async () => {
   await constructMaker.generate();
 
   const output = fs.readFileSync(path.join(workdir, "versions.json"), "utf-8");
-  expect(output).toMatchSnapshot();
+  expect(Object.keys(JSON.parse(output))).toEqual(
+    expect.arrayContaining(
+      constraints.map((c) => `registry.terraform.io/${c.fqn}`)
+    )
+  );
 });

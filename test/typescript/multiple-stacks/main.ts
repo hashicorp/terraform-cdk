@@ -16,15 +16,14 @@ export class HelloTerra extends TerraformStack {
       path: "terraform.tfstate",
     });
 
-    const nullResouce = new NullProvider.Resource(this, "test", {});
-
-    nullResouce.addOverride("provisioner", [
-      {
-        "local-exec": {
+    new NullProvider.Resource(this, "test", {
+      provisioners: [
+        {
+          type: "local-exec",
           command: `echo "hello deploy"`,
         },
-      },
-    ]);
+      ],
+    });
 
     new TerraformOutput(this, "output", {
       staticId: true,

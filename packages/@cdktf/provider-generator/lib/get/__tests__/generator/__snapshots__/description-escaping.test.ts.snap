@@ -53,6 +53,8 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._brokenComments = config.brokenComments;
@@ -137,6 +139,8 @@ export class CodeBlocks extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._withCodeBlock = config.withCodeBlock;

@@ -127,7 +127,10 @@ class Reference extends TFExpression {
    * so that the resolved identifier string matches the stack it's resolved in.
    */
   private crossStackIdentifier: Record<string, string> = {};
-  constructor(private identifier: string, private originStack: TerraformStack) {
+  constructor(
+    private identifier: string,
+    private originStack?: TerraformStack
+  ) {
     super(identifier);
   }
 
@@ -163,7 +166,7 @@ class Reference extends TFExpression {
   }
 }
 
-export function ref(identifier: string, stack: TerraformStack): IResolvable {
+export function ref(identifier: string, stack?: TerraformStack): IResolvable {
   return new Reference(identifier, stack);
 }
 

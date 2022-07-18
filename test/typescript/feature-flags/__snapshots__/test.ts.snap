@@ -5,11 +5,6 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"null_resource\\": [
-          \\"provisioner\\"
-        ]
-      },
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
     },
@@ -62,11 +57,6 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"null_resource\\": [
-          \\"provisioner\\"
-        ]
-      },
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
     },
@@ -119,11 +109,6 @@ exports[`full integration test without features 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"null_resource\\": [
-          \\"provisioner\\"
-        ]
-      },
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
     },

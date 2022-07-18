@@ -5,11 +5,6 @@ exports[`multiple stacks CLI-driven workflow synth 1`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"null_resource\\": [
-          \\"provisioner\\"
-        ]
-      },
       \\"stackName\\": \\"first\\",
       \\"version\\": \\"stubbed\\"
     },
@@ -69,11 +64,6 @@ exports[`multiple stacks CLI-driven workflow synth 2`] = `
   \\"//\\": {
     \\"metadata\\": {
       \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"null_resource\\": [
-          \\"provisioner\\"
-        ]
-      },
       \\"stackName\\": \\"second\\",
       \\"version\\": \\"stubbed\\"
     },

@@ -4,6 +4,7 @@ import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, Scope } from "./types";
 import { getResourceNamespace } from "@cdktf/provider-generator";
 import { getReferencesInExpression } from "@cdktf/hcl2json";
+import { getFullProviderName } from "./provider";
 
 export type Reference = {
   start: number;
@@ -173,9 +174,42 @@ export function variableName(
   return variableName;
 }
 
-export function constructAst(type: string, isModuleImport: boolean) {
+export function constructAst(
+  scope: Scope,
+  type: string,
+  isModuleImport: boolean
+) {
   if (isModuleImport) {
     return t.memberExpression(t.identifier(type), t.identifier(type));
+  }
+
+  function getUniqueName(provider: string, type: string) {
+    // early abort on cdktf
+    if (provider === "cdktf") {
+      return pascalCase(type.replace("cdktf_", ""));
+    }
+
+    if (provider === "NullProvider") {
+      return pascalCase(type.replace("NullProvider_", ""));
+    }
+
+    // Special handling for provider blocks, e.g. aws_AwsProvider
+    if (type === `${pascalCase(provider)}Provider`) {
+      return type;
+    }
+
+    const fullProviderName = getFullProviderName(
+      scope.providerSchema,
+      provider
+    );
+    if (fullProviderName && scope.providerGenerator[fullProviderName]) {
+      return scope.providerGenerator[fullProviderName]?.getClassNameForResource(
+        type
+      );
+    } else {
+      // If we can not find the class name for a resource the caller needs to find a sensible default
+      return null;
+    }
   }
 
   // resources or data sources
@@ -183,37 +217,45 @@ export function constructAst(type: string, isModuleImport: boolean) {
     const parts = type.split(".");
     if (parts[0] === "data") {
       const [, provider, resource] = parts;
+
       const namespace = getResourceNamespace(provider, resource);
+      const resourceName =
+        getUniqueName(provider, parts.join("_")) ||
+        pascalCase(`data_${provider}_${resource}`);
+
       if (namespace) {
         return t.memberExpression(
           t.memberExpression(
             t.identifier(provider), // e.g. aws
             t.identifier(namespace.name) // e.g. EC2
           ),
-          t.identifier(pascalCase(`data_${provider}_${resource}`)) // e.g. DataAwsInstance
+          t.identifier(resourceName) // e.g. DataAwsInstance
         );
       }
 
       return t.memberExpression(
         t.identifier(provider), // e.g. aws
-        t.identifier(pascalCase(`data_${provider}_${resource}`)) // e.g. DataAwsNatGateway
+        t.identifier(resourceName) // e.g. DataAwsNatGateway
       );
     }
 
     const [provider, resource] = parts;
     const namespace = getResourceNamespace(provider, resource);
+    const resourceName =
+      getUniqueName(provider, parts.join("_")) || pascalCase(resource);
+
     if (namespace) {
       return t.memberExpression(
         t.memberExpression(
           t.identifier(provider), // e.g. aws
           t.identifier(namespace.name) // e.g. EC2
         ),
-        t.identifier(pascalCase(resource)) // e.g. Instance
+        t.identifier(resourceName) // e.g. Instance
       );
     }
     return t.memberExpression(
       t.identifier(provider), // e.g. google
-      t.identifier(pascalCase(resource)) // e.g. BigQueryTable
+      t.identifier(resourceName) // e.g. BigQueryTable
     );
   }
 
