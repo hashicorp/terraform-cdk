@@ -6,6 +6,10 @@
 
 Previously we would throw an error and exit with 1 if there were no provider or module specifications in the `cdktf.json` file. This can be inconvenient if `cdktf get` is part of a workflow.
 
+### `Fn.merge` is split into `Fn.mergeLists` and `Fn.mergeMaps`
+
+The Terraform `merge` function can merge both lists and maps, but this can cause [issues](https://github.com/hashicorp/terraform-cdk/issues/1653) when using the result in a typed language. Therefore we split it into `Fn.mergeLists` and `Fn.mergeMaps`, this means you need to change your cdktf programs code.
+
 ## 0.11.2
 
 ### feat

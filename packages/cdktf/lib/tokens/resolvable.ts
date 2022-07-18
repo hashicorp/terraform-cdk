@@ -228,7 +228,7 @@ export class DefaultTokenResolver implements ITokenResolver {
       throw new Error(
         `Cannot add elements to map token, got: ${JSON.stringify(
           xs
-        )}. You tried to add a value to a referenced map, instead use Fn.merge([yourReferencedMap, { your: 'value' }]).`
+        )}. You tried to add a value to a referenced map, instead use Fn.mergeMaps([yourReferencedMap, { your: 'value' }]).`
       );
     }
 

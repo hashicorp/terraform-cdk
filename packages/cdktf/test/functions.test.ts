@@ -204,7 +204,7 @@ test("function with varadic args", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.merge([variable.value, [1, 2, 3]]),
+    value: Fn.mergeLists([variable.value, [1, 2, 3]]),
   });
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
@@ -228,15 +228,19 @@ test("complex example", () => {
   const stack = new TerraformStack(app, "test");
 
   const variable1 = new TerraformVariable(stack, "test-var1", {
-    type: "list(number)",
+    type: "object({ key = number})",
   });
   const variable2 = new TerraformVariable(stack, "test-var2", {
-    type: "list(number)",
+    type: "object({ key = number})",
   });
 
   new TerraformOutput(stack, "test-output", {
     value: Fn.cidrsubnet(
-      Fn.element(Fn.merge([variable1.value, variable2.value]), 3),
+      Fn.lookup(
+        Fn.mergeMaps([variable1.value, variable2.value]),
+        "key",
+        "default"
+      ),
       4,
       2
     ),
@@ -246,15 +250,15 @@ test("complex example", () => {
     "{
       \\"output\\": {
         \\"test-output\\": {
-          \\"value\\": \\"\${cidrsubnet(element(merge(var.test-var1, var.test-var2), 3), 4, 2)}\\"
+          \\"value\\": \\"\${cidrsubnet(lookup(merge(var.test-var1, var.test-var2), \\\\\\"key\\\\\\", \\\\\\"default\\\\\\"), 4, 2)}\\"
         }
       },
       \\"variable\\": {
         \\"test-var1\\": {
-          \\"type\\": \\"list(number)\\"
+          \\"type\\": \\"object({ key = number})\\"
         },
         \\"test-var2\\": {
-          \\"type\\": \\"list(number)\\"
+          \\"type\\": \\"object({ key = number})\\"
         }
       }
     }"

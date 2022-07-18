@@ -1,7 +1,6 @@
-import { Tokenization } from "./tokens/token";
+import { Tokenization, Token } from "./tokens/token";
 import { call } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
-import { TokenMap } from "./tokens/private/token-map";
 import { TokenString, extractTokenDouble } from "./tokens/private/encoding";
 import { rawString } from ".";
 
@@ -99,15 +98,19 @@ function listOf(type: TFValueValidator): TFValueValidator {
 
 // Tokenization
 function asString(value: IResolvable) {
-  return TokenMap.instance().registerString(value);
+  return Token.asString(value);
 }
 
 function asNumber(value: IResolvable) {
-  return TokenMap.instance().registerNumber(value);
+  return Token.asNumber(value);
 }
 
 function asList(value: IResolvable) {
-  return TokenMap.instance().registerList(value);
+  return Token.asList(value);
+}
+
+function asStringMap(value: IResolvable) {
+  return Token.asStringMap(value);
 }
 
 function asBoolean(value: IResolvable) {
@@ -325,8 +328,20 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
    * @param {Array} values - Arguments are passed in an array
    */
-  public static merge(values: any[]) {
-    return asList(terraformFunction("merge", listOf(anyValue))(...values));
+  public static mergeLists(values: any[]) {
+    return asList(
+      terraformFunction("merge", listOf(listOf(anyValue)))(...values)
+    );
+  }
+
+  /**
+   * {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
+   * @param {Array} values - Arguments are passed in an array
+   */
+  public static mergeMaps(values: any[]) {
+    return asStringMap(
+      terraformFunction("merge", listOf(mapValue(anyValue)))(...values)
+    );
   }
 
   /**
