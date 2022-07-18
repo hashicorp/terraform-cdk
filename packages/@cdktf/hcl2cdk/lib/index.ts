@@ -1,5 +1,10 @@
 import { parse } from "@cdktf/hcl2json";
-import { isRegistryModule, ProviderSchema } from "@cdktf/provider-generator";
+import {
+  isRegistryModule,
+  ProviderSchema,
+  TerraformProviderGenerator,
+  CodeMaker,
+} from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
@@ -33,7 +38,10 @@ import {
 } from "./iteration";
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
+
 export { setLogger } from "./utils";
+
+export const CODE_MARKER = "// define resources here";
 
 export async function getParsedHcl(hcl: string) {
   logger.debug(`Parsing HCL: ${hcl}`);
@@ -80,6 +88,16 @@ export async function convertToTypescript(
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
   const scope: Scope = {
     providerSchema,
+    providerGenerator: Object.keys(
+      providerSchema.provider_schemas || {}
+    ).reduce((carry, fqpn) => {
+      const providerGenerator = new TerraformProviderGenerator(
+        new CodeMaker(),
+        providerSchema
+      );
+      providerGenerator.buildResourceModels(fqpn);
+      return { ...carry, [fqpn]: providerGenerator };
+    }, {}),
     constructs: new Set<string>(),
     variables: {},
   };
@@ -428,8 +446,6 @@ type CdktfJson = Record<string, unknown> & {
 };
 export async function convertProject(
   combinedHcl: string,
-  inputMainFile: string,
-  inputCdktfJson: CdktfJson,
   { language, providerSchema }: ConvertOptions
 ) {
   if (language !== "typescript") {
@@ -446,19 +462,19 @@ export async function convertProject(
     language,
     providerSchema,
   });
-  const importMainFile = [imports, inputMainFile].join("\n");
-  const outputMainFile = importMainFile.replace(
-    "// define resources here",
-    code
-  );
-
-  const cdktfJson = { ...inputCdktfJson };
-  cdktfJson.terraformProviders = providers;
-  cdktfJson.terraformModules = tfModules;
 
   return {
-    code: prettier.format(outputMainFile, { parser: "babel" }),
-    cdktfJson,
+    code: (inputMainFile: string) => {
+      const importMainFile = [imports, inputMainFile].join("\n");
+      const outputMainFile = importMainFile.replace(CODE_MARKER, code);
+      return prettier.format(outputMainFile, { parser: "babel" });
+    },
+    cdktfJson: (inputCdktfJson: CdktfJson) => {
+      const cdktfJson = { ...inputCdktfJson };
+      cdktfJson.terraformProviders = providers;
+      cdktfJson.terraformModules = tfModules;
+      return cdktfJson;
+    },
     stats,
   };
 }

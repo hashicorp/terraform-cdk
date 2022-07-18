@@ -30,7 +30,7 @@
   "license": "MPL-2.0",
   "dependencies": {
     "@cdktf/hcl2json": "0.0.0",
-    "codemaker": "^0.22.0",
+    "codemaker": "^1.61.0",
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.6",
     "jsii-srcmak": "^0.1.613"

@@ -8,15 +8,14 @@ export class UsingAllProviders extends TerraformStack {
     super(scope, id);
     new NullProvider.NullProvider(this, "null", {});
 
-    const nullResouce = new NullProvider.Resource(this, "test", {});
-
-    nullResouce.addOverride("provisioner", [
-      {
-        "local-exec": {
+    new NullProvider.Resource(this, "test", {
+      provisioners: [
+        {
+          type: "local-exec",
           command: `echo "hello deploy"`,
         },
-      },
-    ]);
+      ],
+    });
 
     [provider];
   }

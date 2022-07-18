@@ -1,11 +1,15 @@
 import { CodeMaker } from "codemaker";
-import { Provider, ProviderSchema } from "./provider-schema";
+import { ProviderSchema } from "./provider-schema";
 import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";
-import { ConstructsMakerTarget } from "../constructs-maker";
+import {
+  ConstructsMakerProviderTarget,
+  ConstructsMakerTarget,
+  LANGUAGES,
+} from "../constructs-maker";
 import * as path from "path";
-import { logger } from "../../config";
+import { logger, TerraformProviderConstraint } from "../../config";
 interface ProviderData {
   name: string;
   source: string;
@@ -42,80 +46,103 @@ export class TerraformProviderGenerator {
   private resourceEmitter: ResourceEmitter;
   private structEmitter: StructEmitter;
   public versions: { [fqpn: string]: string | undefined } = {};
+
   constructor(
     private readonly code: CodeMaker,
-    schema: ProviderSchema,
-    private providerConstraints?: ConstructsMakerTarget
+    private readonly schema: ProviderSchema
   ) {
     this.code.indentation = 2;
     this.resourceEmitter = new ResourceEmitter(this.code);
     this.structEmitter = new StructEmitter(this.code);
+  }
 
-    if (!schema.provider_schemas) {
-      logger.info("no providers - nothing to do");
-      return;
+  private getProviderByConstraint(providerConstraint: ConstructsMakerTarget) {
+    return Object.keys(this.schema.provider_schemas || {}).find((fqpn) =>
+      isMatching(providerConstraint, fqpn)
+    );
+  }
+
+  public generate(providerConstraint: ConstructsMakerTarget) {
+    const fqpn = this.getProviderByConstraint(providerConstraint);
+    if (!fqpn) {
+      logger.debug(
+        `Could not find provider constraint for ${providerConstraint} in schema: ${JSON.stringify(
+          this.schema,
+          null,
+          2
+        )}`
+      );
+      throw new Error(
+        `Could not find provider with constraint ${providerConstraint}`
+      );
     }
 
-    const versions: { [fqpn: string]: string | undefined } = {};
-    for (const [fqpn, provider] of Object.entries(schema.provider_schemas)) {
-      const providerVersion = schema.provider_versions
-        ? schema.provider_versions[fqpn]
-        : undefined;
+    const providerVersion = this.schema.provider_versions?.[fqpn];
+    this.emitProvider(fqpn, providerVersion, providerConstraint);
+    this.versions[fqpn] = providerVersion;
+  }
 
-      if (
-        (this.providerConstraints &&
-          isMatching(this.providerConstraints, fqpn)) ||
-        !this.providerConstraints
-      ) {
-        this.emitProvider(fqpn, provider, providerVersion);
-        versions[fqpn] = providerVersion;
-      }
+  public generateAll() {
+    for (const fqpn of Object.keys(this.schema.provider_schemas || {})) {
+      this.generate(
+        new ConstructsMakerProviderTarget(
+          new TerraformProviderConstraint(fqpn),
+          LANGUAGES[0]
+        )
+      );
     }
-    this.versions = versions;
   }
 
   public async save(outdir: string) {
     await this.code.save(outdir);
   }
 
-  private emitProvider(
-    fqpn: string,
-    provider: Provider,
-    providerVersion?: string
-  ) {
+  public buildResourceModels(fqpn: string): ResourceModel[] {
     const name = fqpn.split("/").pop();
     if (!name) {
       throw new Error(`can't handle ${fqpn}`);
     }
 
-    let constraint: ConstructsMakerTarget | undefined;
-    if (this.providerConstraints) {
-      if (!isMatching(this.providerConstraints, fqpn)) {
-        throw new Error(`can't handle ${fqpn}`);
-      }
-      constraint = this.providerConstraints;
+    const provider = this.schema.provider_schemas?.[fqpn];
+    if (!provider) {
+      throw new Error(`Can not find provider '${fqpn}' in schema`);
     }
 
-    const resourceModels: ResourceModel[] = [];
-    for (const [type, resource] of Object.entries(
-      provider.resource_schemas || []
-    )) {
-      resourceModels.push(
+    const resources = Object.entries(provider.resource_schemas || {}).map(
+      ([type, resource]) =>
         this.resourceParser.parse(name, type, resource, "resource")
-      );
-    }
-    for (const [type, resource] of Object.entries(
-      provider.data_source_schemas || []
-    )) {
-      resourceModels.push(
+    );
+
+    const dataSources = Object.entries(provider.data_source_schemas || {}).map(
+      ([type, resource]) =>
         this.resourceParser.parse(name, `data_${type}`, resource, "data_source")
-      );
+    );
+
+    return ([] as ResourceModel[]).concat(...resources, ...dataSources);
+  }
+
+  public getClassNameForResource(terraformType: string) {
+    return this.resourceParser.getClassNameForResource(terraformType);
+  }
+
+  private emitProvider(
+    fqpn: string,
+    providerVersion?: string,
+    constraint?: ConstructsMakerTarget
+  ) {
+    const name = fqpn.split("/").pop();
+    if (!name) {
+      throw new Error(`can't handle ${fqpn}`);
+    }
+    const provider = this.schema.provider_schemas?.[fqpn];
+    if (!provider) {
+      throw new Error(`Can not find provider '${fqpn}' in schema`);
     }
 
     type NamespaceName = string;
     const namespacedResources: Record<NamespaceName, ResourceModel[]> = {};
     const files: string[] = [];
-    resourceModels.forEach((resourceModel) => {
+    this.buildResourceModels(fqpn).forEach((resourceModel) => {
       if (constraint) {
         resourceModel.providerVersionConstraint = constraint.version;
         resourceModel.terraformProviderSource = constraint.source;

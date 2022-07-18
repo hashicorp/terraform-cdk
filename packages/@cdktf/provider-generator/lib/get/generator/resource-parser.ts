@@ -488,7 +488,8 @@ class Parser {
 }
 
 export class ResourceParser {
-  private unique_classnames: string[] = [];
+  private uniqueClassnames: string[] = [];
+  private resources: Record<string, ResourceModel> = {};
 
   public parse(
     provider: string,
@@ -496,8 +497,19 @@ export class ResourceParser {
     schema: Schema,
     terraformType: string
   ): ResourceModel {
-    const parser = new Parser(this.unique_classnames);
+    if (this.resources[type]) {
+      return this.resources[type];
+    }
+
+    const parser = new Parser(this.uniqueClassnames);
     const resource = parser.resourceFrom(provider, type, schema, terraformType);
+    this.resources[type] = resource;
     return resource;
+  }
+
+  // Used by convert to determine the right name for a class
+  public getClassNameForResource(terraformType: string) {
+    const resource = this.resources[terraformType];
+    return resource ? resource.className : "";
   }
 }

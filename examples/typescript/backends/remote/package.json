@@ -1,7 +1,5 @@
 {
-  "//": "This example test is disabled via the 'private' attribute since it needs credentials (I assume at least)",
   "name": "@examples/typescript-backends-remote",
-  "private": true,
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",
