@@ -193,7 +193,7 @@ export class Fn {
 
   /**
    * {@link https://www.terraform.io/docs/language/functions/coalescelist.html coalescelist} takes any number of list arguments and returns the first one that isn't empty.
-   * @param Array} value - Arguments are passed in an array
+   * @param {Array} value - Arguments are passed in an array
    */
   public static coalescelist(value: any[][]) {
     return asList(
@@ -323,7 +323,7 @@ export class Fn {
 
   /**
    * {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
-   * @param {Array)} values - Arguments are passed in an array
+   * @param {Array} values - Arguments are passed in an array
    */
   public static merge(values: any[]) {
     return asList(terraformFunction("merge", listOf(anyValue))(...values));
@@ -341,7 +341,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
    * @param {number} start
    * @param {number} limit
-   * @param {number=1} step
+   * @param {number} step
    */
   public static range(start: number, limit: number, step = 1) {
     return asList(
@@ -483,7 +483,7 @@ export class Fn {
   /**
    * {@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in the Modular Crypt Format usually expected in the shadow password file on many Unix systems.
    * @param {string} value
-   * @param {number=10} cost
+   * @param {number} cost
    */
   public static bcrypt(value: string, cost?: number) {
     return asString(terraformFunction("bcrypt", listOf(anyValue))(value, cost));
