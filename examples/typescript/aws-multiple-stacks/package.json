@@ -16,9 +16,9 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "^14.18.21",
+    "@types/node": "^14.18.22",
     "typescript": "^3.9.10",
-    "ts-node": "^10.8.2",
+    "ts-node": "^10.9.1",
     "cdktf-cli": "0.0.0"
   },
   "dependencies": {
