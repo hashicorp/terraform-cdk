@@ -17,11 +17,13 @@ You can specify any existing public or private module in your `cdktf.json` file,
 
 You can use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the TypeScript project below has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws";
-import { Vpc } from '.gen/modules/vpc';
+import { Vpc } from "./.gen/modules/vpc";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -31,22 +33,158 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new Vpc(this, 'MyVpc', {
-      name: 'my-vpc',
-      cidr: '10.0.0.0/16',
-      azs: ['us-west-2a', 'us-west-2b', 'us-west-2c'],
-      privateSubnets: ['10.0.1.0/24', '10.0.2.0/24', '10.0.3.0/24'],
-      publicSubnets: ['10.0.101.0/24', '10.0.102.0/24', '10.0.103.0/24'],
-      enableNatGateway: true
-    )
+    new Vpc(this, "MyVpc", {
+      name: "my-vpc",
+      cidr: "10.0.0.0/16",
+      azs: ["us-west-2a", "us-west-2b", "us-west-2c"],
+      privateSubnets: ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+      publicSubnets: ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+      enableNatGateway: true,
+    });
   }
 }
 
 const app = new App();
 new MyStack(app, "hello-terraform");
 app.synth();
-
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider
+from jsii_workbench.core import VpcModule
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region="us-east-1"
+        )
+
+        VpcModule(self, "MyVpc",
+            name="my-vpc",
+            cidr="10.0.0.0/16",
+            azs=["us-west-2a", "us-west-2b", "us-west-2c"],
+            private_subnets=["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+            public_subnets=["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+            enable_nat_gateway=True
+        )
+
+app = App()
+MyStack(app, "hello-terraform")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import workbench.jsii.danielmschmidt.com.VpcModule;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        AwsProvider.Builder.create(this, "aws")
+                .region("us-east-1")
+                .build();
+
+        VpcModule.Builder.create(this, "MyVpc")
+                .name("my-vpc")
+                .cidr("10.0.0.0/16")
+                .azs(List.of("us-west-2a", "us-west-2b", "us-west-2c"))
+                .privateSubnets(List.of("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"))
+                .publicSubnets(List.of("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"))
+                .enableNatGateway(true)
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "hello-terraform");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws", new AwsProviderConfig {
+            Region = "us-east-1"
+        });
+
+        new Vpc(this, "MyVpc", new VpcProps {
+            Name = "my-vpc",
+            Cidr = "10.0.0.0/16",
+            Azs = new [] { "us-west-2a", "us-west-2b", "us-west-2c" },
+            PrivateSubnets = new [] { "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" },
+            PublicSubnets = new [] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" },
+            EnableNatGateway = true
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "hello-terraform");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, id *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+		region: jsii.String("us-east-1"),
+	})
+
+	jsiiworkbench.NewVpcModule(this, jsii.String("MyVpc"), &vpcProps{
+		name: jsii.String("my-vpc"),
+		cidr: jsii.String("10.0.0.0/16"),
+		azs: []*string{
+			jsii.String("us-west-2a"),
+			jsii.String("us-west-2b"),
+			jsii.String("us-west-2c"),
+		},
+		privateSubnets: []*string{
+			jsii.String("10.0.1.0/24"),
+			jsii.String("10.0.2.0/24"),
+			jsii.String("10.0.3.0/24"),
+		},
+		publicSubnets: []*string{
+			jsii.String("10.0.101.0/24"),
+			jsii.String("10.0.102.0/24"),
+			jsii.String("10.0.103.0/24"),
+		},
+		enableNatGateway: jsii.Boolean(true),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("hello-terraform"))
+app.synth()
+```
+
+</CodeTabs>
 
 ### Add Module to `cdktf.json`
 
@@ -105,13 +243,15 @@ Modules often return data that you can use as inputs to other modules or resourc
 
 The TypeScript example below uses a local module and references its output as a Terraform output.
 
-```typescript
-import { Construct } from "constructs";
-import { App, TerraformStack, TerraformOutput } from "cdktf";
-// This module can come from a registry or through a local / remote reference
-import MyLocalModule from "./.gen/modules/my-local-module";
+<CodeTabs>
 
-class MyStack extends TerraformStack {
+```ts
+import { Construct } from "constructs";
+import { TerraformStack, TerraformOutput } from "cdktf";
+// This module can come from a registry or through a local / remote reference
+import { MyLocalModule } from "./.gen/modules/my-local-module";
+
+export class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -125,6 +265,99 @@ class MyStack extends TerraformStack {
   }
 }
 ```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack, TerraformOutput
+# This module can come from a registry or through a local / remote reference
+// TOOD: fix this import
+from jsii_workbench.core import MyLocalModule
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        local_module = MyLocalModule(self, "local-module", {
+            "ip_address": "127.0.0.1"
+        })
+
+        TerraformOutput(self, "dns-server",
+            value=local_module.dns_server_output
+        )
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+// This module can come from a registry or through a local / remote reference
+// TOOD: fix this import
+import workbench.jsii.danielmschmidt.com.MyLocalModule;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        MyLocalModule localModule = new MyLocalModule(this, "local-module", Map.of(
+                "ipAddress", "127.0.0.1"));
+
+        TerraformOutput.Builder.create(this, "dns-server")
+                .value(localModule.getDnsServerOutput())
+                .build();
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+// This module can come from a registry or through a local / remote reference
+// TOOD: fix this import
+using jsii.workbench;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        MyLocalModule localModule = new MyLocalModule(this, "local-module", new Dictionary<string, string> {
+            { "ipAddress", "127.0.0.1" }
+        });
+
+        new TerraformOutput(this, "dns-server", new TerraformOutputConfig {
+            Value = localModule.DnsServerOutput
+        });
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+// This module can come from a registry or through a local / remote reference
+// TOOD: fix this import
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	localModule := jsiiworkbench.NewMyLocalModule(this, jsii.String("local-module"), map[string]*string{
+		"ipAddress": jsii.String("127.0.0.1"),
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("dns-server"), &terraformOutputConfig{
+		value: localModule.dnsServerOutput,
+	})
+	return this
+}
+```
+
+</CodeTabs>
 
 The Python example below uses a local module and references its output as a Terraform output.
 
@@ -151,23 +384,219 @@ While we generally recommend generating code bindings for modules, you can also 
 
 The TypeScript example below uses `TerraformHclModule` to import an AWS module.
 
-```typescript
-const provider = new AwsProvider(stack, "provider", {
-  region: "us-east-1",
-});
+<CodeTabs>
 
-const module = new TerraformHclModule(stack, "Vpc", {
-  source: "terraform-aws-modules/vpc/aws",
-  // variables takes any input - please consult the docs of the module
-  // to ensure the arguments are correct
-  variables: {
-    name: "my-vpc",
-    cidr: "10.0.0.0/16",
-    azs: ["us-west-2a", "us-west-2b", "us-west-2c"],
-    privateSubnets: ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
-    publicSubnets: ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
-    enableNatGateway: true,
-  },
-  providers: [provider],
-});
+```ts
+import { TerraformHclModule, TerraformStack, TerraformOutput } from "cdktf";
+import { Construct } from "constructs";
+import { AwsProvider } from "@cdktf/provider-aws";
+
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    const provider = new AwsProvider(this, "provider", {
+      region: "us-east-1",
+    });
+
+    const module = new TerraformHclModule(this, "Vpc", {
+      source: "terraform-aws-modules/vpc/aws",
+      // variables takes any input - please consult the docs of the module
+      // to ensure the arguments are correct
+      variables: {
+        name: "my-vpc",
+        cidr: "10.0.0.0/16",
+        azs: ["us-west-2a", "us-west-2b", "us-west-2c"],
+        privateSubnets: ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+        publicSubnets: ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+        enableNatGateway: true,
+      },
+      providers: [provider],
+    });
+
+    new TerraformOutput(this, "vpc_id", {
+      value: module.get("vpc_id"),
+    });
+
+    new TerraformOutput(this, "public_subnets_cidr_blocks", {
+      value: module.getList("public_subnets_cidr_blocks"),
+    });
+  }
+}
 ```
+
+```python
+from cdktf import TerraformHclModule, TerraformStack, TerraformOutput
+from constructs import Construct
+from cdktf_cdktf_provider_aws import AwsProvider
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        provider = AwsProvider(self, "provider",
+            region="us-east-1"
+        )
+
+        module = TerraformHclModule(self, "Vpc",
+            source="terraform-aws-modules/vpc/aws",
+            # variables takes any input - please consult the docs of the module
+            # to ensure the arguments are correct
+            variables={
+                "name": "my-vpc",
+                "cidr": "10.0.0.0/16",
+                "azs": ["us-west-2a", "us-west-2b", "us-west-2c"],
+                "private_subnets": ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+                "public_subnets": ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+                "enable_nat_gateway": True
+            },
+            providers=[provider]
+        )
+
+        TerraformOutput(self, "vpc_id",
+            value=module.get("vpc_id")
+        )
+
+        TerraformOutput(self, "public_subnets_cidr_blocks",
+            value=module.get_list("public_subnets_cidr_blocks")
+        )
+```
+
+```java
+import com.hashicorp.cdktf.TerraformHclModule;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+import software.constructs.Construct;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        AwsProvider provider = AwsProvider.Builder.create(this, "provider")
+                .region("us-east-1")
+                .build();
+
+        TerraformHclModule module = TerraformHclModule.Builder.create(this, "Vpc")
+                .source("terraform-aws-modules/vpc/aws")
+                // variables takes any input - please consult the docs of the module
+                // to ensure the arguments are correct
+                .variables(Map.of(
+                        "name", "my-vpc",
+                        "cidr", "10.0.0.0/16",
+                        "azs", List.of("us-west-2a", "us-west-2b", "us-west-2c"),
+                        "privateSubnets", List.of("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"),
+                        "publicSubnets", List.of("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"),
+                        "enableNatGateway", true))
+                .providers(List.of(provider))
+                .build();
+
+        TerraformOutput.Builder.create(this, "vpc_id")
+                .value(module.get("vpc_id"))
+                .build();
+
+        TerraformOutput.Builder.create(this, "public_subnets_cidr_blocks")
+                .value(module.getList("public_subnets_cidr_blocks"))
+                .build();
+    }
+}
+```
+
+```csharp
+using HashiCorp.Cdktf;
+using Constructs;
+using HashiCorp.Cdktf.Providers.Aws;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        AwsProvider provider = new AwsProvider(this, "provider", new AwsProviderConfig {
+            Region = "us-east-1"
+        });
+
+        TerraformHclModule module = new TerraformHclModule(this, "Vpc", new TerraformHclModuleOptions {
+            Source = "terraform-aws-modules/vpc/aws",
+            // variables takes any input - please consult the docs of the module
+            // to ensure the arguments are correct
+            Variables = new Dictionary<string, object> {
+                { "name", "my-vpc" },
+                { "cidr", "10.0.0.0/16" },
+                { "azs", new [] { "us-west-2a", "us-west-2b", "us-west-2c" } },
+                { "privateSubnets", new [] { "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" } },
+                { "publicSubnets", new [] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" } },
+                { "enableNatGateway", true }
+            },
+            Providers = new [] { provider }
+        });
+
+        new TerraformOutput(this, "vpc_id", new TerraformOutputConfig {
+            Value = module.Get("vpc_id")
+        });
+
+        new TerraformOutput(this, "public_subnets_cidr_blocks", new TerraformOutputConfig {
+            Value = module.GetList("public_subnets_cidr_blocks")
+        });
+    }
+}
+```
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	provider := aws.NewAwsProvider(this, jsii.String("provider"), &awsProviderConfig{
+		region: jsii.String("us-east-1"),
+	})
+
+	module := cdktf.NewTerraformHclModule(this, jsii.String("Vpc"), &terraformHclModuleOptions{
+		source: jsii.String("terraform-aws-modules/vpc/aws"),
+		// variables takes any input - please consult the docs of the module
+		// to ensure the arguments are correct
+		variables: map[string]interface{}{
+			"name": jsii.String("my-vpc"),
+			"cidr": jsii.String("10.0.0.0/16"),
+			"azs": []interface{}{
+				jsii.String("us-west-2a"),
+				jsii.String("us-west-2b"),
+				jsii.String("us-west-2c"),
+			},
+			"privateSubnets": []interface{}{
+				jsii.String("10.0.1.0/24"),
+				jsii.String("10.0.2.0/24"),
+				jsii.String("10.0.3.0/24"),
+			},
+			"publicSubnets": []interface{}{
+				jsii.String("10.0.101.0/24"),
+				jsii.String("10.0.102.0/24"),
+				jsii.String("10.0.103.0/24"),
+			},
+			"enableNatGateway": jsii.Boolean(true),
+		},
+		providers: []interface{}{
+			provider,
+		},
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("vpc_id"), &terraformOutputConfig{
+		value: module.get(jsii.String("vpc_id")),
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("public_subnets_cidr_blocks"), &terraformOutputConfig{
+		value: module.getList(jsii.String("public_subnets_cidr_blocks")),
+	})
+	return this
+}
+```
+
+</CodeTabs>

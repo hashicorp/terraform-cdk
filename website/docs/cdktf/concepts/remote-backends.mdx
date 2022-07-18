@@ -24,13 +24,15 @@ Consider using a remote backend when multiple individuals or teams need access t
 You can define a [JSON configuration for a remote backend](/language/syntax/json#terraform-blocks)
 with a `TerraformBackend` subclass or a JSON configuration file.
 
-The TypeScript example below uses the `TerraformBackend` subclass `RemoteBackend`.
+The example below uses the `TerraformBackend` subclass `RemoteBackend`.
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, RemoteBackend, TerraformStack, TerraformOutput } from "cdktf";
 
-class MyStack extends TerraformStack {
+export class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -49,8 +51,119 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new Mystack(app, "hello-terraform");
+new MyStack(app, "hello-terraform");
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, RemoteBackend, TerraformStack, TerraformOutput
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        RemoteBackend(self,
+            hostname="app.terraform.io",
+            organization="company",
+            workspaces={
+                "name": "my-app-prod"
+            }
+        )
+
+        TerraformOutput(self, "dns-server",
+            value="hello-world"
+        )
+
+app = App()
+MyStack(app, "hello-terraform")
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.RemoteBackend;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        RemoteBackend.Builder.create(this)
+                .hostname("app.terraform.io")
+                .organization("company")
+                .workspaces(Map.of(
+                        "name", "my-app-prod"))
+                .build();
+
+        TerraformOutput.Builder.create(this, "dns-server")
+                .value("hello-world")
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "hello-terraform");
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new RemoteBackend(this, new RemoteBackendProps {
+            Hostname = "app.terraform.io",
+            Organization = "company",
+            Workspaces = new Dictionary<string, string> {
+                { "name", "my-app-prod" }
+            }
+        });
+
+        new TerraformOutput(this, "dns-server", new TerraformOutputConfig {
+            Value = "hello-world"
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "hello-terraform");
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	cdktf.NewRemoteBackend(this, &remoteBackendProps{
+		hostname: jsii.String("app.terraform.io"),
+		organization: jsii.String("company"),
+		workspaces: map[string]*string{
+			"name": jsii.String("my-app-prod"),
+		},
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("dns-server"), &terraformOutputConfig{
+		value: jsii.String("hello-world"),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("hello-terraform"))
+```
+
+</CodeTabs>
 
 When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
 
@@ -102,16 +215,130 @@ Consider an example project called `hello-terraform` that is using local storage
 
 1. Use `RemoteBackend` to add a new remote backend.
 
-   ```typescript
-   const stack = new MyStack(app, "hello-terraform");
-   new RemoteBackend(stack, {
-     hostname: "app.terraform.io",
-     organization: "company",
-     workspaces: {
-       name: "my-app-prod",
-     },
-   });
-   ```
+<CodeTabs>
+
+```ts
+import { Construct } from "constructs";
+import { App, RemoteBackend, TerraformStack } from "cdktf";
+
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    // Your code goes here
+  }
+}
+
+const app = new App();
+const stack = new MyStack(app, "hello-terraform");
+new RemoteBackend(stack, {
+  hostname: "app.terraform.io",
+  organization: "company",
+  workspaces: {
+    name: "my-app-prod",
+  },
+});
+
+app.synth();
+```
+
+```python
+from constructs import Construct
+from cdktf import App, RemoteBackend, TerraformStack
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+app = App()
+stack = MyStack(app, "hello-terraform")
+RemoteBackend(stack,
+    hostname="app.terraform.io",
+    organization="company",
+    workspaces={
+        "name": "my-app-prod"
+    }
+)
+
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.RemoteBackend;
+import com.hashicorp.cdktf.TerraformStack;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+    }
+}
+
+App app = new App();
+MyStack stack = new MyStack(app, "hello-terraform");
+RemoteBackend.Builder.create(stack)
+        .hostname("app.terraform.io")
+        .organization("company")
+        .workspaces(Map.of(
+                "name", "my-app-prod"))
+        .build();
+
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+    }
+}
+
+App app = new App();
+MyStack stack = new MyStack(app, "hello-terraform");
+new RemoteBackend(stack, new RemoteBackendProps {
+    Hostname = "app.terraform.io",
+    Organization = "company",
+    Workspaces = new Dictionary<string, string> {
+        { "name", "my-app-prod" }
+    }
+});
+
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+	return this
+}
+
+app := cdktf.NewApp()
+stack := NewMyStack(app, jsii.String("hello-terraform"))
+cdktf.NewRemoteBackend(stack, &remoteBackendProps{
+	hostname: jsii.String("app.terraform.io"),
+	organization: jsii.String("company"),
+	workspaces: map[string]*string{
+		"name": jsii.String("my-app-prod"),
+	},
+})
+
+app.synth()
+```
+
+</CodeTabs>
 
 1. Run `cdktf synth` to generate the Terraform configuration file.
 

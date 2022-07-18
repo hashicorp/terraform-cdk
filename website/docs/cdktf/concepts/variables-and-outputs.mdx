@@ -31,19 +31,158 @@ If you plan to use CDKTF to manage your infrastructure, we recommend using your 
 
 You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](/language/values/variables#variables-on-the-command-line) for details. The CDKTF CLI currently also supports configuration via [environment variables](/language/values/variables#environment-variables).
 
-The TypeScript example below uses `TerraformVariable` to provide inputs to resources.
+The example below uses `TerraformVariable` to provide inputs to resources.
 
-```typescript
-const imageId = new TerraformVariable(this, "imageId", {
-  type: "string",
-  default: "ami-abcde123",
-  description: "What AMI to use to create an instance",
-});
-new EC2.Instance(this, "hello", {
-  ami: imageId.value,
-  instanceType: "t2.micro",
-});
+<CodeTabs>
+
+```ts
+import { Construct } from "constructs";
+import { App, TerraformStack, TerraformVariable } from "cdktf";
+import { AwsProvider, ec2 } from "@cdktf/provider-aws";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws");
+
+    const imageId = new TerraformVariable(this, "imageId", {
+      type: "string",
+      default: "ami-abcde123",
+      description: "What AMI to use to create an instance",
+    });
+    new ec2.Instance(this, "hello", {
+      ami: imageId.value,
+      instanceType: "t2.micro",
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "my-stack");
+app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformVariable
+from cdktf_cdktf_provider_aws import AwsProvider, ec2
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws")
+
+        image_id = TerraformVariable(self, "imageId",
+            type="string",
+            default="ami-abcde123",
+            description="What AMI to use to create an instance"
+        )
+        ec2.Instance(self, "hello",
+            ami=image_id.value,
+            instance_type="t2.micro"
+        )
+
+app = App()
+MyStack(app, "my-stack")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.ec2.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new AwsProvider(this, "aws");
+
+        TerraformVariable imageId = TerraformVariable.Builder.create(this, "imageId")
+                .type("string")
+                .default("ami-abcde123")
+                .description("What AMI to use to create an instance")
+                .build();
+        Instance.Builder.create(this, "hello")
+                .ami(imageId.getValue())
+                .instanceType("t2.micro")
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "my-stack");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.ec2;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws");
+
+        TerraformVariable imageId = new TerraformVariable(this, "imageId", new TerraformVariableConfig {
+            Type = "string",
+            Default = "ami-abcde123",
+            Description = "What AMI to use to create an instance"
+        });
+        new Instance(this, "hello", new InstanceConfig {
+            Ami = imageId.Value,
+            InstanceType = "t2.micro"
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "my-stack");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, id *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"))
+
+	imageId := cdktf.NewTerraformVariable(this, jsii.String("imageId"), &terraformVariableConfig{
+		type: jsii.String("string"),
+		default: jsii.String("ami-abcde123"),
+		description: jsii.String("What AMI to use to create an instance"),
+	})
+	aws.Ec2.NewInstance(this, jsii.String("hello"), &instanceConfig{
+		ami: imageId.value,
+		instanceType: jsii.String("t2.micro"),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("my-stack"))
+app.synth()
+```
+
+</CodeTabs>
 
 ## Local Values
 
@@ -59,16 +198,150 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The TypeScript example below uses `TerraformLocal` to create a local value.
 
-```typescript
-const commonTags = new TerraformLocal(this, "common_tags", {
-  Service: "service_name",
-  Owner: "owner",
-});
+<CodeTabs>
 
-new EC2.Instance(this, "example", {
-  tags: commonTags.expression,
-});
+```ts
+import { Construct } from "constructs";
+import { App, TerraformStack, TerraformLocal } from "cdktf";
+import { AwsProvider, ec2 } from "@cdktf/provider-aws";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws");
+
+    const commonTags = new TerraformLocal(this, "common_tags", {
+      Service: "service_name",
+      Owner: "owner",
+    });
+
+    new ec2.Instance(this, "example", {
+      tags: commonTags.expression,
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "my-stack");
+app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformLocal
+from cdktf_cdktf_provider_aws import AwsProvider, ec2
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws")
+
+        common_tags = TerraformLocal(self, "common_tags", {
+            "Service": "service_name",
+            "Owner": "owner"
+        })
+
+        ec2.Instance(self, "example",
+            tags=common_tags.expression
+        )
+
+app = App()
+MyStack(app, "my-stack")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformLocal;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.ec2.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new AwsProvider(this, "aws");
+
+        TerraformLocal commonTags = new TerraformLocal(this, "common_tags", Map.of(
+                "Service", "service_name",
+                "Owner", "owner"));
+
+        Instance.Builder.create(this, "example")
+                .tags(commonTags.getExpression())
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "my-stack");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.ec2;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws");
+
+        TerraformLocal commonTags = new TerraformLocal(this, "common_tags", new Dictionary<string, string> {
+            { "Service", "service_name" },
+            { "Owner", "owner" }
+        });
+
+        new Instance(this, "example", new InstanceConfig {
+            Tags = commonTags.Expression
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "my-stack");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, id *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"))
+
+	commonTags := cdktf.NewTerraformLocal(this, jsii.String("common_tags"), map[string]*string{
+		"Service": jsii.String("service_name"),
+		"Owner": jsii.String("owner"),
+	})
+
+	aws.Ec2.NewInstance(this, jsii.String("example"), &instanceConfig{
+		tags: commonTags.expression,
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("my-stack"))
+app.synth()
+```
+
+</CodeTabs>
 
 When you run `cdktf synth` the `TerraformLocal` above synthesizes to the following JSON.
 
@@ -99,7 +372,9 @@ Use outputs to make data from [Terraform resources](/cdktf/concepts/providers-an
 
 When values are available before [synthesizing your code](/cdktf/cli-reference/commands#synth), we recommend using the functionality in your preferred programming language to supply this data as direct inputs.
 
-The TypeScript example below uses a `TerraformOutput` to create an output.
+The example below uses a `TerraformOutput` to create an output.
+
+<CodeTabs>
 
 ```ts
 import { Construct } from "constructs";
@@ -128,15 +403,136 @@ new MyStack(app, "cdktf-producer", {
 app.synth();
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, name, *, myDomain):
+        super().__init__(scope, name)
+
+        { myDomain } = props
+
+        TerraformOutput(self, "my-domain",
+            value=my_domain
+        )
+
+app = App()
+MyStack(app, "cdktf-producer",
+    my_domain="example.com"
+)
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+
+public class MyStackProps {
+    private String myDomain;
+    public String getMyDomain() {
+        return this.myDomain;
+    }
+    public MyStackProps myDomain(String myDomain) {
+        this.myDomain = myDomain;
+        return this;
+    }
+}
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String name, MyStackProps props) {
+        super(scope, name);
+
+        Object { myDomain } = props;
+
+        TerraformOutput.Builder.create(this, "my-domain")
+                .value(myDomain)
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "cdktf-producer", new MyStackProps()
+        .myDomain("example.com")
+        );
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+
+class MyStackProps
+{
+    public string MyDomain { get; set; }
+}
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string name, MyStackProps props) : base(scope, name)
+    {
+
+        var { myDomain } = props;
+
+        new TerraformOutput(this, "my-domain", new TerraformOutputConfig {
+            Value = myDomain
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "cdktf-producer", new MyStackProps {
+    MyDomain = "example.com"
+});
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+type myStackProps struct {
+	myDomain *string
+}
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, name *string, props myStackProps) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, name)
+
+	{ myDomain } := *props
+
+	cdktf.NewTerraformOutput(this, jsii.String("my-domain"), &terraformOutputConfig{
+		value: myDomain,
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("cdktf-producer"), &myStackProps{
+	myDomain: jsii.String("example.com"),
+})
+app.synth()
+```
+
+</CodeTabs>
+
 ### Define Output Values
 
 To access outputs, use the `_output` suffix for Python and the `Output` suffix for other languages.
 
 Outputs return an HCL expression representing the underlying Terraform resource, so the return type must always be `string`. When `TerraformOutput` is any other type than string, you must add a typecast to compile the application (e.g. `mod.numberOutput as number`). If a module returns a list, you must use an escape hatch to access items or loop over it. Refer to the [Resources page](/cdktf/concepts/providers-and-resources) for more information about how to use escape hatches.
 
-The Typescript example below uses `TerraformOutput` to create an output for a Random provider resource.
+The example below uses `TerraformOutput` to create an output for a Random provider resource.
 
-```typescript
+<CodeTabs>
+
+```ts
 import * as random from "@cdktf/provider-random";
 
 import { Construct } from "constructs";
@@ -159,6 +555,111 @@ const app = new App();
 new MyStack(app, "cdktf-demo");
 app.synth();
 ```
+
+```python
+import cdktf_cdktf_provider_random as random
+
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, name):
+        super().__init__(scope, name)
+
+        random.RandomProvider(self, "random")
+        pet = random.Pet(self, "pet")
+
+        TerraformOutput(self, "random-pet",
+            value=pet.id
+        )
+
+app = App()
+MyStack(app, "cdktf-demo")
+app.synth()
+```
+
+```java
+import com.hashicorp.cdktf.providers.random_provider.*;
+
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String name) {
+        super(scope, name);
+
+        RandomProvider.Builder.create(this, "random").build();
+        Pet pet = Pet.Builder.create(this, "pet").build();
+
+        TerraformOutput.Builder.create(this, "random-pet")
+                .value(pet.getId())
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "cdktf-demo");
+app.synth();
+```
+
+```csharp
+using HashiCorp.Cdktf.Providers.Random;
+
+using Constructs;
+using HashiCorp.Cdktf;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string name) : base(scope, name)
+    {
+
+        new RandomProvider(this, "random", new RandomProviderConfig { });
+        Pet pet = new Pet(this, "pet", new PetConfig { });
+
+        new TerraformOutput(this, "random-pet", new TerraformOutputConfig {
+            Value = pet.Id
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "cdktf-demo");
+app.Synth();
+```
+
+```go
+import random "github.com/hashicorp/cdktf-provider-random-go/random"
+
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, name *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, name)
+
+	random.NewRandomProvider(this, jsii.String("random"), &randomProviderConfig{
+	})
+	pet := random.NewPet(this, jsii.String("pet"), &petConfig{
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("random-pet"), &terraformOutputConfig{
+		value: pet.id,
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("cdktf-demo"))
+app.synth()
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF synthesizes the code above to the following JSON configuration.
 
@@ -184,7 +685,9 @@ Output: random-pet = choice-haddock
 
 ### Define & Reference Outputs via Remote State
 
-The TypeScript example below uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+The example below uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+
+<CodeTabs>
 
 ```ts
 import * as random from "@cdktf/provider-random";
@@ -247,3 +750,238 @@ new Producer(app, "cdktf-producer");
 new Consumer(app, "cdktf-consumer");
 app.synth();
 ```
+
+```python
+import cdktf_cdktf_provider_random as random
+
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput, RemoteBackend, DataTerraformRemoteState
+
+class Producer(TerraformStack):
+    def __init__(self, scope, name):
+        super().__init__(scope, name)
+
+        RemoteBackend(self,
+            organization="hashicorp",
+            workspaces={
+                "name": "producer"
+            }
+        )
+
+        random.RandomProvider(self, "random")
+        pet = random.Pet(self, "pet")
+
+        TerraformOutput(self, "random-pet",
+            value=pet.id
+        )
+
+class Consumer(TerraformStack):
+    def __init__(self, scope, name):
+        super().__init__(scope, name)
+
+        RemoteBackend(self,
+            organization="hashicorp",
+            workspaces={
+                "name": "consumer"
+            }
+        )
+
+        remote_state = DataTerraformRemoteState(self, "remote-pet",
+            organization="hashicorp",
+            workspaces={
+                "name": "producer"
+            }
+        )
+
+        TerraformOutput(self, "random-remote-pet",
+            value=remote_state.get_string("random-pet")
+        )
+
+app = App()
+Producer(app, "cdktf-producer")
+Consumer(app, "cdktf-consumer")
+app.synth()
+```
+
+```java
+import com.hashicorp.cdktf.providers.random_provider.*;
+
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.RemoteBackend;
+import com.hashicorp.cdktf.DataTerraformRemoteState;
+
+public class Producer extends TerraformStack {
+    public Producer(Construct scope, String name) {
+        super(scope, name);
+
+        RemoteBackend.Builder.create(this)
+                .organization("hashicorp")
+                .workspaces(Map.of(
+                        "name", "producer"))
+                .build();
+
+        RandomProvider.Builder.create(this, "random").build();
+        Pet pet = Pet.Builder.create(this, "pet").build();
+
+        TerraformOutput.Builder.create(this, "random-pet")
+                .value(pet.getId())
+                .build();
+    }
+}
+
+public class Consumer extends TerraformStack {
+    public Consumer(Construct scope, String name) {
+        super(scope, name);
+
+        RemoteBackend.Builder.create(this)
+                .organization("hashicorp")
+                .workspaces(Map.of(
+                        "name", "consumer"))
+                .build();
+
+        DataTerraformRemoteState remoteState = DataTerraformRemoteState.Builder.create(this, "remote-pet")
+                .organization("hashicorp")
+                .workspaces(Map.of(
+                        "name", "producer"))
+                .build();
+
+        TerraformOutput.Builder.create(this, "random-remote-pet")
+                .value(remoteState.getString("random-pet"))
+                .build();
+    }
+}
+
+App app = new App();
+new Producer(app, "cdktf-producer");
+new Consumer(app, "cdktf-consumer");
+app.synth();
+```
+
+```csharp
+using HashiCorp.Cdktf.Providers.Random;
+
+using Constructs;
+using HashiCorp.Cdktf;
+
+class Producer : TerraformStack
+{
+    public Producer(Construct scope, string name) : base(scope, name)
+    {
+
+        new RemoteBackend(this, new RemoteBackendProps {
+            Organization = "hashicorp",
+            Workspaces = new Dictionary<string, string> {
+                { "name", "producer" }
+            }
+        });
+
+        new RandomProvider(this, "random", new RandomProviderConfig { });
+        Pet pet = new Pet(this, "pet", new PetConfig { });
+
+        new TerraformOutput(this, "random-pet", new TerraformOutputConfig {
+            Value = pet.Id
+        });
+    }
+}
+
+class Consumer : TerraformStack
+{
+    public Consumer(Construct scope, string name) : base(scope, name)
+    {
+
+        new RemoteBackend(this, new RemoteBackendProps {
+            Organization = "hashicorp",
+            Workspaces = new Dictionary<string, string> {
+                { "name", "consumer" }
+            }
+        });
+
+        DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-pet", new DataTerraformRemoteStateRemoteConfig {
+            Organization = "hashicorp",
+            Workspaces = new Dictionary<string, string> {
+                { "name", "producer" }
+            }
+        });
+
+        new TerraformOutput(this, "random-remote-pet", new TerraformOutputConfig {
+            Value = remoteState.GetString("random-pet")
+        });
+    }
+}
+
+App app = new App();
+new Producer(app, "cdktf-producer");
+new Consumer(app, "cdktf-consumer");
+app.Synth();
+```
+
+```go
+import random "github.com/hashicorp/cdktf-provider-random-go/random"
+
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+type producer struct {
+	terraformStack
+}
+
+func newProducer(scope construct, name *string) *producer {
+	this := &producer{}
+	newTerraformStack_Override(this, scope, name)
+
+	cdktf.NewRemoteBackend(this, &remoteBackendProps{
+		organization: jsii.String("hashicorp"),
+		workspaces: map[string]*string{
+			"name": jsii.String("producer"),
+		},
+	})
+
+	random.NewRandomProvider(this, jsii.String("random"), &randomProviderConfig{
+	})
+	pet := random.NewPet(this, jsii.String("pet"), &petConfig{
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("random-pet"), &terraformOutputConfig{
+		value: pet.id,
+	})
+	return this
+}
+
+type consumer struct {
+	terraformStack
+}
+
+func newConsumer(scope construct, name *string) *consumer {
+	this := &consumer{}
+	newTerraformStack_Override(this, scope, name)
+
+	cdktf.NewRemoteBackend(this, &remoteBackendProps{
+		organization: jsii.String("hashicorp"),
+		workspaces: map[string]*string{
+			"name": jsii.String("consumer"),
+		},
+	})
+
+	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote-pet"), &dataTerraformRemoteStateRemoteConfig{
+		organization: jsii.String("hashicorp"),
+		workspaces: map[string]*string{
+			"name": jsii.String("producer"),
+		},
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("random-remote-pet"), &terraformOutputConfig{
+		value: remoteState.getString(jsii.String("random-pet")),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewProducer(app, jsii.String("cdktf-producer"))
+NewConsumer(app, jsii.String("cdktf-consumer"))
+app.synth()
+```
+
+</CodeTabs>

@@ -20,7 +20,9 @@ This page shows how you can interoperate HCL and CDK for Terraform configuration
 
 The TypeScript example below is a CDKTF application that uses the `hashicorp/random` provider to generate a random name.
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack, TerraformVariable } from "cdktf";
 import { Pet, RandomProvider } from "./.gen/providers/random";
@@ -50,6 +52,140 @@ const app = new App();
 new MyStack(app, "random-pet-module");
 app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformOutput, TerraformStack, TerraformVariable
+from cdktf_cdktf_provider_random import Pet, RandomProvider
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, name):
+        super().__init__(scope, name)
+
+        RandomProvider(self, "default")
+        pet_name_length = TerraformVariable(self, "petNameLength",
+            type="number",
+            default=2,
+            description="Pet name length"
+        )
+
+        my_pet = Pet(self, "example",
+            length=pet_name_length.value
+        )
+
+        TerraformOutput(self, "name",
+            value=my_pet.id
+        )
+
+app = App()
+MyStack(app, "random-pet-module")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.providers.random_provider.Pet;
+import com.hashicorp.cdktf.providers.random_provider.RandomProvider;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String name) {
+        super(scope, name);
+
+        RandomProvider.Builder.create(this, "default").build();
+        TerraformVariable petNameLength = TerraformVariable.Builder.create(this, "petNameLength")
+                .type("number")
+                .default(2)
+                .description("Pet name length")
+                .build();
+
+        Pet myPet = Pet.Builder.create(this, "example")
+                .length(petNameLength.getValue())
+                .build();
+
+        TerraformOutput.Builder.create(this, "name")
+                .value(myPet.getId())
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "random-pet-module");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Random;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string name) : base(scope, name)
+    {
+
+        new RandomProvider(this, "default", new RandomProviderConfig { });
+        TerraformVariable petNameLength = new TerraformVariable(this, "petNameLength", new TerraformVariableConfig {
+            Type = "number",
+            Default = 2,
+            Description = "Pet name length"
+        });
+
+        Pet myPet = new Pet(this, "example", new PetConfig {
+            Length = petNameLength.Value
+        });
+
+        new TerraformOutput(this, "name", new TerraformOutputConfig {
+            Value = myPet.Id
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "random-pet-module");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-random-go/random"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, name *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, name)
+
+	random.NewRandomProvider(this, jsii.String("default"), &randomProviderConfig{
+	})
+	petNameLength := cdktf.NewTerraformVariable(this, jsii.String("petNameLength"), &terraformVariableConfig{
+		type: jsii.String("number"),
+		default: jsii.Number(2),
+		description: jsii.String("Pet name length"),
+	})
+
+	myPet := random.NewPet(this, jsii.String("example"), &petConfig{
+		length: petNameLength.value,
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("name"), &terraformOutputConfig{
+		value: myPet.id,
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("random-pet-module"))
+app.synth()
+```
+
+</CodeTabs>
 
 To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdktf.json` file out to the module directory in your HCL project.
 

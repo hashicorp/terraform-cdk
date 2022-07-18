@@ -13,17 +13,144 @@ Secrets appear in your synthesized CDKTF code when you read them directly from e
 
 The following example uses a Terraform variable to read the sensitive admin password instead of reading it directly from an environment variable.
 
-```ts
-const adminPassword = new TerraformVariable(this, "adminPassword", {
-  type: "string",
-  description: "Admin password for the instance",
-  sensitive: true,
-});
+<CodeTabs>
 
-new MyResource(this, "hello", {
-  adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
-});
+```ts
+import { Construct } from "constructs";
+import { App, TerraformStack, TerraformVariable } from "cdktf";
+import { MyResource } from "./lib";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    const adminPassword = new TerraformVariable(this, "adminPassword", {
+      type: "string",
+      description: "Admin password for the instance",
+      sensitive: true,
+    });
+
+    new MyResource(this, "hello", {
+      adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "my-stack");
+app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformVariable
+from jsii_workbench.core import MyResource
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, name):
+        super().__init__(scope, name)
+
+        admin_password = TerraformVariable(self, "adminPassword",
+            type="string",
+            description="Admin password for the instance",
+            sensitive=True
+        )
+
+        MyResource(self, "hello",
+            admin_password=admin_password.value
+        )
+
+app = App()
+MyStack(app, "my-stack")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformVariable;
+import workbench.jsii.danielmschmidt.com.MyResource;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String name) {
+        super(scope, name);
+
+        TerraformVariable adminPassword = TerraformVariable.Builder.create(this, "adminPassword")
+                .type("string")
+                .description("Admin password for the instance")
+                .sensitive(true)
+                .build();
+
+        MyResource.Builder.create(this, "hello")
+                .adminPassword(adminPassword.getValue())
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "my-stack");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using jsii.workbench;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string name) : base(scope, name)
+    {
+
+        TerraformVariable adminPassword = new TerraformVariable(this, "adminPassword", new TerraformVariableConfig {
+            Type = "string",
+            Description = "Admin password for the instance",
+            Sensitive = true
+        });
+
+        new MyResource(this, "hello", new MyResourceProps {
+            AdminPassword = adminPassword.Value
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "my-stack");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, name *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, name)
+
+	adminPassword := cdktf.NewTerraformVariable(this, jsii.String("adminPassword"), &terraformVariableConfig{
+		type: jsii.String("string"),
+		description: jsii.String("Admin password for the instance"),
+		sensitive: jsii.Boolean(true),
+	})
+
+	jsiiworkbench.NewMyResource(this, jsii.String("hello"), &myResourceProps{
+		adminPassword: adminPassword.value,
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("my-stack"))
+app.synth()
+```
+
+</CodeTabs>
 
 To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name), name the environment variable `TF_VAR_NAME`. For example, set `TF_VAR_adminPasword='<your password>'` in the execution environment.
 
@@ -57,18 +184,24 @@ You do not always need to create a new class for each stack. For some use cases,
 
 The following example customizes the same base stack for different business purposes and staging environments.
 
+<CodeTabs>
+
 ```ts
-const devNetworking = new NetworkingStack(this, "networking-development", {
+import { App } from "cdktf";
+import { NetworkingStack, Ecommerce, Blog } from "./lib";
+
+const app = new App();
+const devNetworking = new NetworkingStack(app, "networking-development", {
   // ...
 });
 
 // A single region is enough to create a development environment for each product.
-new Ecommerce(this, "ecommerce-development", {
+new Ecommerce(app, "ecommerce-development", {
   vpcId: devNetworking.vpcId,
   subnets: devNetworking.subnets,
   region: "us-west-1",
 });
-new Blog(this, "ecommerce-development", {
+new Blog(app, "ecommerce-development", {
   vpcId: devNetworking.vpcId,
   subnets: devNetworking.subnets,
   region: "us-west-1",
@@ -76,26 +209,200 @@ new Blog(this, "ecommerce-development", {
 
 // Staging environments require two ecommerce stacks in different regions
 // to test the high availability features of the infrastructure.
-const stageNetworking = new NetworkingStack(this, "networking-staging", {
+const stageNetworking = new NetworkingStack(app, "networking-staging", {
   // ...
 });
-const ecommerceStaging = new Ecommerce(this, "ecommerce-staging-us", {
+const ecommerceStaging = new Ecommerce(app, "ecommerce-staging-us", {
   vpcId: stageNetworking.vpcId,
   subnets: stageNetworking.subnets,
   region: "us-west-1",
 });
-new Ecommerce(this, "ecommerce-staging-eu", {
+new Ecommerce(app, "ecommerce-staging-eu", {
   vpcId: stageNetworking.vpcId,
   subnets: stageNetworking.subnets,
   region: "eu-central-1",
   databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
 });
-new Blog(this, "ecommerce-staging", {
+new Blog(app, "ecommerce-staging", {
   vpcId: stageNetworking.vpcId,
   subnets: stageNetworking.subnets,
   region: "us-west-1",
 });
+app.synth();
 ```
+
+```python
+from cdktf import App
+from jsii_workbench.core import NetworkingStack, Ecommerce, Blog
+
+app = App()
+dev_networking = NetworkingStack(app, "networking-development", {})
+
+# A single region is enough to create a development environment for each product.
+Ecommerce(app, "ecommerce-development",
+    vpc_id=dev_networking.vpc_id,
+    subnets=dev_networking.subnets,
+    region="us-west-1"
+)
+Blog(app, "ecommerce-development",
+    vpc_id=dev_networking.vpc_id,
+    subnets=dev_networking.subnets,
+    region="us-west-1"
+)
+
+# Staging environments require two ecommerce stacks in different regions
+# to test the high availability features of the infrastructure.
+stage_networking = NetworkingStack(app, "networking-staging", {})
+ecommerce_staging = Ecommerce(app, "ecommerce-staging-us",
+    vpc_id=stage_networking.vpc_id,
+    subnets=stage_networking.subnets,
+    region="us-west-1"
+)
+Ecommerce(app, "ecommerce-staging-eu",
+    vpc_id=stage_networking.vpc_id,
+    subnets=stage_networking.subnets,
+    region="eu-central-1",
+    database_replication_master=ecommerce_staging.database_replication_master
+)
+Blog(app, "ecommerce-staging",
+    vpc_id=stage_networking.vpc_id,
+    subnets=stage_networking.subnets,
+    region="us-west-1"
+)
+app.synth()
+```
+
+```java
+import com.hashicorp.cdktf.App;
+import workbench.jsii.danielmschmidt.com.NetworkingStack;
+import workbench.jsii.danielmschmidt.com.Ecommerce;
+import workbench.jsii.danielmschmidt.com.Blog;
+
+App app = new App();
+NetworkingStack devNetworking = new NetworkingStack(app, "networking-development", Map.of());
+
+// A single region is enough to create a development environment for each product.
+// A single region is enough to create a development environment for each product.
+Ecommerce.Builder.create(app, "ecommerce-development")
+        .vpcId(devNetworking.getVpcId())
+        .subnets(devNetworking.getSubnets())
+        .region("us-west-1")
+        .build();
+Blog.Builder.create(app, "ecommerce-development")
+        .vpcId(devNetworking.getVpcId())
+        .subnets(devNetworking.getSubnets())
+        .region("us-west-1")
+        .build();
+
+// Staging environments require two ecommerce stacks in different regions
+// to test the high availability features of the infrastructure.
+NetworkingStack stageNetworking = new NetworkingStack(app, "networking-staging", Map.of());
+Ecommerce ecommerceStaging = Ecommerce.Builder.create(app, "ecommerce-staging-us")
+        .vpcId(stageNetworking.getVpcId())
+        .subnets(stageNetworking.getSubnets())
+        .region("us-west-1")
+        .build();
+Ecommerce.Builder.create(app, "ecommerce-staging-eu")
+        .vpcId(stageNetworking.getVpcId())
+        .subnets(stageNetworking.getSubnets())
+        .region("eu-central-1")
+        .databaseReplicationMaster(ecommerceStaging.getDatabaseReplicationMaster())
+        .build();
+Blog.Builder.create(app, "ecommerce-staging")
+        .vpcId(stageNetworking.getVpcId())
+        .subnets(stageNetworking.getSubnets())
+        .region("us-west-1")
+        .build();
+app.synth();
+```
+
+```csharp
+using HashiCorp.Cdktf;
+using jsii.workbench;
+
+App app = new App();
+NetworkingStack devNetworking = new NetworkingStack(app, "networking-development", new Dictionary<string, object> { });
+
+// A single region is enough to create a development environment for each product.
+// A single region is enough to create a development environment for each product.
+new Ecommerce(app, "ecommerce-development", new EcommerceProps {
+    VpcId = devNetworking.VpcId,
+    Subnets = devNetworking.Subnets,
+    Region = "us-west-1"
+});
+new Blog(app, "ecommerce-development", new BlogProps {
+    VpcId = devNetworking.VpcId,
+    Subnets = devNetworking.Subnets,
+    Region = "us-west-1"
+});
+
+// Staging environments require two ecommerce stacks in different regions
+// to test the high availability features of the infrastructure.
+NetworkingStack stageNetworking = new NetworkingStack(app, "networking-staging", new Dictionary<string, object> { });
+Ecommerce ecommerceStaging = new Ecommerce(app, "ecommerce-staging-us", new EcommerceProps {
+    VpcId = stageNetworking.VpcId,
+    Subnets = stageNetworking.Subnets,
+    Region = "us-west-1"
+});
+new Ecommerce(app, "ecommerce-staging-eu", new EcommerceProps {
+    VpcId = stageNetworking.VpcId,
+    Subnets = stageNetworking.Subnets,
+    Region = "eu-central-1",
+    DatabaseReplicationMaster = ecommerceStaging.DatabaseReplicationMaster
+});
+new Blog(app, "ecommerce-staging", new BlogProps {
+    VpcId = stageNetworking.VpcId,
+    Subnets = stageNetworking.Subnets,
+    Region = "us-west-1"
+});
+app.Synth();
+```
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+
+app := cdktf.NewApp()
+devNetworking := jsiiworkbench.NewNetworkingStack(app, jsii.String("networking-development"), map[string]interface{}{
+})
+
+// A single region is enough to create a development environment for each product.
+// A single region is enough to create a development environment for each product.
+jsiiworkbench.NewEcommerce(app, jsii.String("ecommerce-development"), &ecommerceProps{
+	vpcId: devNetworking.vpcId,
+	subnets: devNetworking.subnets,
+	region: jsii.String("us-west-1"),
+})
+jsiiworkbench.NewBlog(app, jsii.String("ecommerce-development"), &blogProps{
+	vpcId: devNetworking.vpcId,
+	subnets: devNetworking.subnets,
+	region: jsii.String("us-west-1"),
+})
+
+// Staging environments require two ecommerce stacks in different regions
+// to test the high availability features of the infrastructure.
+stageNetworking := jsiiworkbench.NewNetworkingStack(app, jsii.String("networking-staging"), map[string]interface{}{
+})
+ecommerceStaging := jsiiworkbench.NewEcommerce(app, jsii.String("ecommerce-staging-us"), &ecommerceProps{
+	vpcId: stageNetworking.vpcId,
+	subnets: stageNetworking.subnets,
+	region: jsii.String("us-west-1"),
+})
+jsiiworkbench.NewEcommerce(app, jsii.String("ecommerce-staging-eu"), &ecommerceProps{
+	vpcId: stageNetworking.vpcId,
+	subnets: stageNetworking.subnets,
+	region: jsii.String("eu-central-1"),
+	databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
+})
+jsiiworkbench.NewBlog(app, jsii.String("ecommerce-staging"), &blogProps{
+	vpcId: stageNetworking.vpcId,
+	subnets: stageNetworking.subnets,
+	region: jsii.String("us-west-1"),
+})
+app.synth()
+```
+
+</CodeTabs>
 
 ### Create Extensible Constructs
 
@@ -105,36 +412,159 @@ In some cases, you can use interfaces from the generated provider bindings to al
 
 The following example exposes configuration options for the S3 bucket resource within the construct. It also creates a second construct class that overwrites the default naming behavior.
 
+<CodeTabs>
+
 ```ts
 import { Construct } from "constructs";
-import { S3Bucket, S3BucketConfig } from "@cdktf/provider-aws/lib/s3";
+import { s3 } from "@cdktf/provider-aws";
 
-class MyS3Bucket extends Construct {
+export class MyS3Bucket extends Construct {
   constructor(
     protected scope: Construct,
     protected id: string,
-    protected s3Options: S3BucketConfig
+    protected s3Options: s3.S3BucketConfig
   ) {
     super(scope, id);
-    new s3.Bucket(this, "MyBucket", {
+    new s3.S3Bucket(this, "MyBucket", {
       ...s3Options,
-      bucketName: this.getBucketName(),
-      versioned: true,
+      bucket: this.getBucketName(),
+      versioning: { enabled: true },
     });
   }
 
-  public getBucketName() {
-    return this.s3Options.bucketName || `${this.id}-bucket`;
+  public getBucketName(): string {
+    return this.s3Options.bucket || `${this.id}-bucket`;
   }
 }
 
-class SimpleS3Bucket extends MyS3Bucket {
+export class SimpleS3Bucket extends MyS3Bucket {
   // New behaviour was patched in by overwriting
   public getBucketName() {
     return this.id;
   }
 }
 ```
+
+```python
+from constructs import Construct
+from cdktf_cdktf_provider_aws import s3
+
+class MyS3Bucket(Construct):
+    def __init__(self, scope, id, *, accelerationStatus=None, acl=None, arn=None, bucket=None, bucketPrefix=None, forceDestroy=None, hostedZoneId=None, id=None, objectLockEnabled=None, policy=None, requestPayer=None, tags=None, tagsAll=None, corsRule=None, grant=None, lifecycleRule=None, logging=None, objectLockConfiguration=None, replicationConfiguration=None, serverSideEncryptionConfiguration=None, versioning=None, website=None, dependsOn=None, count=None, provider=None, lifecycle=None):
+        super().__init__(scope, id)
+        s3.S3Bucket(self, "MyBucket",
+            (SpreadAssignment ...s3Options
+              accelerationStatus=accelerationStatus, acl=acl, arn=arn, bucket=bucket, bucketPrefix=bucketPrefix, forceDestroy=forceDestroy, hostedZoneId=hostedZoneId, id=id, objectLockEnabled=objectLockEnabled, policy=policy, requestPayer=requestPayer, tags=tags, tagsAll=tagsAll, corsRule=corsRule, grant=grant, lifecycleRule=lifecycleRule, logging=logging, objectLockConfiguration=objectLockConfiguration, replicationConfiguration=replicationConfiguration, serverSideEncryptionConfiguration=serverSideEncryptionConfiguration, versioning=versioning, website=website, dependsOn=dependsOn, count=count, provider=provider, lifecycle=lifecycle),
+            bucket=self.get_bucket_name(),
+            versioning=s3.S3BucketVersioning(enabled=True)
+        )
+
+    def get_bucket_name(self):
+        return self.s3_options.bucket || f"{this.id}-bucket"
+
+class SimpleS3Bucket(MyS3Bucket):
+    # New behaviour was patched in by overwriting
+    def get_bucket_name(self):
+        return self.id
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.providers.aws.s3.*;
+
+public class MyS3Bucket extends Construct {
+    public MyS3Bucket(Construct scope, String id, S3BucketConfig s3Options) {
+        super(scope, id);
+        S3Bucket.Builder.create(this, "MyBucket")
+                (SpreadAssignment ...s3Options
+                  s3Options)
+                .bucket(this.getBucketName())
+                .versioning(S3BucketVersioning.builder().enabled(true).build())
+                .build();
+    }
+
+    public String getBucketName() {
+        return this.s3Options.getBucket() || String.format("%s-bucket", this.id);
+    }
+}
+
+public class SimpleS3Bucket extends MyS3Bucket {
+    // New behaviour was patched in by overwriting
+    public String getBucketName() {
+        return this.id;
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf.Providers.Aws.s3;
+
+class MyS3Bucket : Construct
+{
+    public MyS3Bucket(Construct scope, string id, S3BucketConfig s3Options) : base(scope, id)
+    {
+        new S3Bucket(this, "MyBucket", new S3BucketConfig {
+            (SpreadAssignment ...s3Options
+              s3Options),
+            Bucket = GetBucketName(),
+            Versioning = new S3BucketVersioning { Enabled = true }
+        });
+    }
+
+    public string GetBucketName()
+    {
+        return S3Options.Bucket || $"{this.id}-bucket";
+    }
+}
+
+class SimpleS3Bucket : MyS3Bucket
+{
+    // New behaviour was patched in by overwriting
+    public string GetBucketName()
+    {
+        return Id;
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type MyS3Bucket struct {
+	construct
+}
+
+func NewMyS3Bucket(scope construct, id *string, s3Options s3BucketConfig) *MyS3Bucket {
+	this := &MyS3Bucket{}
+	newConstruct_Override(this, scope, id)
+	aws.S3.NewS3Bucket(this, jsii.String("MyBucket"), &s3BucketConfig{
+		(SpreadAssignment ...s3Options
+				*s3Options),
+		bucket: this.getBucketName(),
+		versioning: &s3BucketVersioning{
+			enabled: jsii.Boolean(true),
+		},
+	})
+	return this
+}
+
+func (this *MyS3Bucket) getBucketName() *string {
+	return jsii.String(this.*s3Options.bucket || fmt.Sprintf("%v-bucket", this.*id))
+}
+
+type SimpleS3Bucket struct {
+	myS3Bucket
+}
+
+// New behaviour was patched in by overwriting
+func (this *SimpleS3Bucket) getBucketName() *string {
+	return this.*id
+}
+```
+
+</CodeTabs>
 
 ### Use Projen to Distribute Constructs
 

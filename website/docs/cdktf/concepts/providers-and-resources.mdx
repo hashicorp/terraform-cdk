@@ -27,10 +27,12 @@ CDK for Terraform lets you import Terraform [providers](/language/providers) to 
 
 This TypeScript example project has a `main.ts` file that defines AWS resources.
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
+import { AwsProvider, ec2 } from "@cdktf/provider-aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -40,7 +42,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new EC2.Instance(this, "Hello", {
+    new ec2.Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
@@ -51,6 +53,114 @@ const app = new App();
 new MyStack(app, "hello-terraform");
 app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider, ec2
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region="us-east-1"
+        )
+
+        ec2.Instance(self, "Hello",
+            ami="ami-2757f631",
+            instance_type="t2.micro"
+        )
+
+app = App()
+MyStack(app, "hello-terraform")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.ec2.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        AwsProvider.Builder.create(this, "aws")
+                .region("us-east-1")
+                .build();
+
+        Instance.Builder.create(this, "Hello")
+                .ami("ami-2757f631")
+                .instanceType("t2.micro")
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "hello-terraform");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.ec2;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws", new AwsProviderConfig {
+            Region = "us-east-1"
+        });
+
+        new Instance(this, "Hello", new InstanceConfig {
+            Ami = "ami-2757f631",
+            InstanceType = "t2.micro"
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "hello-terraform");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, id *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+		region: jsii.String("us-east-1"),
+	})
+
+	aws.Ec2.NewInstance(this, jsii.String("Hello"), &instanceConfig{
+		ami: jsii.String("ami-2757f631"),
+		instanceType: jsii.String("t2.micro"),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("hello-terraform"))
+app.synth()
+```
+
+</CodeTabs>
 
 #### Add Provider to `cdktf.json`
 
@@ -81,7 +191,7 @@ Generated typescript constructs in the output directory: .gen
 
 #### Import Classes
 
-Import and use the generated classes in your application. The TypeScript example below imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
+Import and use the generated classes in your application. The example below imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
 
 ```typescript
 import { Construct } from "constructs";
@@ -124,14 +234,16 @@ app.synth();
 Use the `synth` command to convert your code into a JSON Terraform configuration file.
 
 ```bash
-cdktf synth --json
+cdktf synth
 ```
+
+You can find the synthesized JSON in the `./cdktf.out/stacks/hello-terraform/cdk.tf.json` file:
 
 ```json
 {
   "//": {
     "metadata": {
-      "version": "0.0.11-pre.8757404fa25b6e405f1a51eac11b96943ccb372e",
+      "version": "0.12.0",
       "stackName": "vpc-example"
     }
   },
@@ -241,7 +353,13 @@ Resource definitions and properties vary depending on the type of resource and t
 
 The TypeScript example below defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
 
-```typescript
+<CodeTabs>
+
+```ts
+import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
+import { AwsProvider, datasources, dynamodb } from "@cdktf/provider-aws";
+
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -250,9 +368,9 @@ export class HelloTerra extends TerraformStack {
       region: "eu-central-1",
     });
 
-    const region = new DataAwsRegion(this, "region");
+    const region = new datasources.DataAwsRegion(this, "region");
 
-    new aws.DynamoDB.DynamodbTable(this, "Hello", {
+    new dynamodb.DynamodbTable(this, "Hello", {
       name: `my-first-table-${region.name}`,
       hashKey: "temp",
       attribute: [{ name: "id", type: "S" }],
@@ -261,6 +379,120 @@ export class HelloTerra extends TerraformStack {
   }
 }
 ```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider, datasources, dynamodb
+
+class HelloTerra(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region="eu-central-1"
+        )
+
+        region = datasources.DataAwsRegion(self, "region")
+
+        dynamodb.DynamodbTable(self, "Hello",
+            name=f"my-first-table-{region.name}",
+            hash_key="temp",
+            attribute=[dynamodb.DynamodbTableAttribute(name="id", type="S")],
+            billing_mode="PAY_PER_REQUEST"
+        )
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.datasources.*;
+import com.hashicorp.cdktf.providers.aws.dynamodb.*;
+
+public class HelloTerra extends TerraformStack {
+    public HelloTerra(Construct scope, String id) {
+        super(scope, id);
+
+        AwsProvider.Builder.create(this, "aws")
+                .region("eu-central-1")
+                .build();
+
+        DataAwsRegion region = new DataAwsRegion(this, "region");
+
+        DynamodbTable.Builder.create(this, "Hello")
+                .name(String.format("my-first-table-%s", region.getName()))
+                .hashKey("temp")
+                .attribute(List.of(DynamodbTableAttribute.builder().name("id").type("S").build()))
+                .billingMode("PAY_PER_REQUEST")
+                .build();
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.datasources;
+using HashiCorp.Cdktf.Providers.Aws.dynamodb;
+
+class HelloTerra : TerraformStack
+{
+    public HelloTerra(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws", new AwsProviderConfig {
+            Region = "eu-central-1"
+        });
+
+        DataAwsRegion region = new DataAwsRegion(this, "region");
+
+        new DynamodbTable(this, "Hello", new DynamodbTableConfig {
+            Name = $"my-first-table-{region.name}",
+            HashKey = "temp",
+            Attribute = new [] { new DynamodbTableAttribute { Name = "id", Type = "S" } },
+            BillingMode = "PAY_PER_REQUEST"
+        });
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type HelloTerra struct {
+	terraformStack
+}
+
+func NewHelloTerra(scope construct, id *string) *HelloTerra {
+	this := &HelloTerra{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+		region: jsii.String("eu-central-1"),
+	})
+
+	region := aws.Datasources.NewDataAwsRegion(this, jsii.String("region"))
+
+	aws.Dynamodb.NewDynamodbTable(this, jsii.String("Hello"), &dynamodbTableConfig{
+		name: fmt.Sprintf("my-first-table-%v", region.name),
+		hashKey: jsii.String("temp"),
+		attribute: []interface{}{
+			&dynamodbTableAttribute{
+				name: jsii.String("id"),
+				type: jsii.String("S"),
+			},
+		},
+		billingMode: jsii.String("PAY_PER_REQUEST"),
+	})
+	return this
+}
+```
+
+</CodeTabs>
 
 The [examples page](/cdktf/examples) contains multiple example projects for every supported programming language.
 
@@ -278,23 +510,246 @@ To create references, call `myResource.<propertyName>` on the resource instance.
 
 References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The TypeScript example below uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
 
+<CodeTabs>
+
 ```ts
+import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
+import {
+  KubernetesProvider,
+  Namespace,
+  Deployment,
+} from "@cdktf/provider-kubernetes";
 
-const exampleNamespace = new Namespace(this, "tf-cdk-example", {
-  metadata: {
-    name: "tf-cdk-example",
-  },
-});
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
-new Deployment(this, "nginx-deployment", {
-  metadata: {
-    name: "nginx",
-    namespace: exampleNamespace.metadata.name, // Reference the namespace name propery
-    labels: {
-      app,
-    },
-  });
+    new KubernetesProvider(this, "kubernetes");
+
+    const app = "my-app";
+    const exampleNamespace = new Namespace(this, "tf-cdk-example", {
+      metadata: {
+        name: "tf-cdk-example",
+      },
+    });
+
+    new Deployment(this, "nginx-deployment", {
+      metadata: {
+        name: "nginx",
+        namespace: exampleNamespace.metadata.name, // Reference the namespace name propery
+        labels: {
+          app,
+        },
+      },
+      spec: {
+        template: {
+          metadata: {
+            labels: { app },
+          },
+          spec: {
+            container: [
+              {
+                name: "nginx",
+                image: "nginx",
+              },
+            ],
+          },
+        },
+      },
+    });
+  }
+}
 ```
+
+```python
+from cdktf_cdktf_provider_kubernetes import NamespaceMetadata, DeploymentMetadata, DeploymentSpec, DeploymentSpecTemplate, DeploymentSpecTemplateMetadata, DeploymentSpecTemplateSpec, DeploymentSpecTemplateSpecContainer
+from constructs import Construct
+from cdktf import TerraformStack
+from cdktf_cdktf_provider_kubernetes import KubernetesProvider, Namespace, Deployment
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        KubernetesProvider(self, "kubernetes")
+
+        app = "my-app"
+        example_namespace = Namespace(self, "tf-cdk-example",
+            metadata=NamespaceMetadata(
+                name="tf-cdk-example"
+            )
+        )
+
+        Deployment(self, "nginx-deployment",
+            metadata=DeploymentMetadata(
+                name="nginx",
+                namespace=example_namespace.metadata.name,  # Reference the namespace name propery
+                labels={
+                    "app": app
+                }
+            ),
+            spec=DeploymentSpec(
+                template=DeploymentSpecTemplate(
+                    metadata=DeploymentSpecTemplateMetadata(
+                        labels={"app": app}
+                    ),
+                    spec=DeploymentSpecTemplateSpec(
+                        container=[DeploymentSpecTemplateSpecContainer(
+                            name="nginx",
+                            image="nginx"
+                        )
+                        ]
+                    )
+                )
+            )
+        )
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.kubernetes.KubernetesProvider;
+import com.hashicorp.cdktf.providers.kubernetes.Namespace;
+import com.hashicorp.cdktf.providers.kubernetes.Deployment;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new KubernetesProvider(this, "kubernetes");
+
+        String app = "my-app";
+        Namespace exampleNamespace = Namespace.Builder.create(this, "tf-cdk-example")
+                .metadata(NamespaceMetadata.builder()
+                        .name("tf-cdk-example")
+                        .build())
+                .build();
+
+        Deployment.Builder.create(this, "nginx-deployment")
+                .metadata(DeploymentMetadata.builder()
+                        .name("nginx")
+                        .namespace(exampleNamespace.getMetadata().getName()) // Reference the namespace name propery
+                        .labels(Map.of(
+                                "app", app))
+                        .build())
+                .spec(DeploymentSpec.builder()
+                        .template(DeploymentSpecTemplate.builder()
+                                .metadata(DeploymentSpecTemplateMetadata.builder()
+                                        .labels(Map.of("app", app))
+                                        .build())
+                                .spec(DeploymentSpecTemplateSpec.builder()
+                                        .container(List.of(DeploymentSpecTemplateSpecContainer.builder()
+                                                .name("nginx")
+                                                .image("nginx")
+                                                .build()))
+                                        .build())
+                                .build())
+                        .build())
+                .build();
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Kubernetes;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new KubernetesProvider(this, "kubernetes");
+
+        string app = "my-app";
+        Namespace exampleNamespace = new Namespace(this, "tf-cdk-example", new NamespaceConfig {
+            Metadata = new NamespaceMetadata {
+                Name = "tf-cdk-example"
+            }
+        });
+
+        new Deployment(this, "nginx-deployment", new DeploymentConfig {
+            Metadata = new DeploymentMetadata {
+                Name = "nginx",
+                Namespace = exampleNamespace.Metadata.Name,  // Reference the namespace name propery
+                Labels = new Dictionary<string, string> {
+                    { "app", app }
+                }
+            },
+            Spec = new DeploymentSpec {
+                Template = new DeploymentSpecTemplate {
+                    Metadata = new DeploymentSpecTemplateMetadata {
+                        Labels = new Dictionary<string, string> { { "app", app } }
+                    },
+                    Spec = new DeploymentSpecTemplateSpec {
+                        Container = new [] { new DeploymentSpecTemplateSpecContainer {
+                            Name = "nginx",
+                            Image = "nginx"
+                        } }
+                    }
+                }
+            }
+        });
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-kubernetes-go/kubernetes"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	kubernetes.NewKubernetesProvider(this, jsii.String("kubernetes"))
+
+	app := "my-app"
+	exampleNamespace := kubernetes.NewNamespace(this, jsii.String("tf-cdk-example"), &namespaceConfig{
+		metadata: &namespaceMetadata{
+			name: jsii.String("tf-cdk-example"),
+		},
+	})
+
+	kubernetes.NewDeployment(this, jsii.String("nginx-deployment"), &deploymentConfig{
+		metadata: &deploymentMetadata{
+			name: jsii.String("nginx"),
+			namespace: exampleNamespace.metadata.name,
+			 // Reference the namespace name propery
+			labels: map[string]*string{
+				"app": jsii.String(app),
+			},
+		},
+		spec: &deploymentSpec{
+			template: &deploymentSpecTemplate{
+				metadata: &deploymentSpecTemplateMetadata{
+					labels: map[string]*string{
+						"app": jsii.String(app),
+					},
+				},
+				spec: &deploymentSpecTemplateSpec{
+					container: []interface{}{
+						&deploymentSpecTemplateSpecContainer{
+							name: jsii.String("nginx"),
+							image: jsii.String("nginx"),
+						},
+					},
+				},
+			},
+		},
+	})
+	return this
+}
+```
+
+</CodeTabs>
 
 ### Provisioners
 
@@ -306,25 +761,164 @@ If you need to use the special [`self` object](https://www.terraform.io/language
 
 Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
-The TypeScript example below defines a provisioner for a resource using the `addOverride` method.
+The example below defines a provisioner for a resource using the `addOverride` method.
 
-```typescript
-const tableName = "my-table";
+<CodeTabs>
 
-const table = new aws.DynamoDB.DynamodbTable(this, "Hello", {
-  name: tableName,
-  hashKey: "id",
-  attribute: [{ name: "id", type: "S" }],
-});
+```ts
+import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
+import { AwsProvider, dynamodb } from "@cdktf/provider-aws";
 
-table.addOverride("provisioner", [
-  {
-    "local-exec": {
-      command: `aws dynamodb create-backup --table-name ${tableName} --backup-name ${tableName}-backup`,
-    },
-  },
-]);
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws");
+
+    const tableName = "my-table";
+
+    const table = new dynamodb.DynamodbTable(this, "Hello", {
+      name: tableName,
+      hashKey: "id",
+      attribute: [{ name: "id", type: "S" }],
+    });
+
+    table.addOverride("provisioner", [
+      {
+        "local-exec": {
+          command: `aws dynamodb create-backup --table-name ${tableName} --backup-name ${tableName}-backup`,
+        },
+      },
+    ]);
+  }
+}
 ```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider, dynamodb
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws")
+
+        table_name = "my-table"
+
+        table = dynamodb.DynamodbTable(self, "Hello",
+            name=table_name,
+            hash_key="id",
+            attribute=[dynamodb.DynamodbTableAttribute(name="id", type="S")]
+        )
+
+        table.add_override("provisioner", [{
+            "local-exec": {
+                "command": f"aws dynamodb create-backup --table-name {tableName} --backup-name {tableName}-backup"
+            }
+        }
+        ])
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.dynamodb.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new AwsProvider(this, "aws");
+
+        String tableName = "my-table";
+
+        DynamodbTable table = DynamodbTable.Builder.create(this, "Hello")
+                .name(tableName)
+                .hashKey("id")
+                .attribute(List.of(DynamodbTableAttribute.builder().name("id").type("S").build()))
+                .build();
+
+        table.addOverride("provisioner", List.of(Map.of(
+                "local-exec", Map.of(
+                        "command", String.format("aws dynamodb create-backup --table-name %s --backup-name %s-backup", tableName, tableName)))));
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.dynamodb;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws");
+
+        string tableName = "my-table";
+
+        DynamodbTable table = new DynamodbTable(this, "Hello", new DynamodbTableConfig {
+            Name = tableName,
+            HashKey = "id",
+            Attribute = new [] { new DynamodbTableAttribute { Name = "id", Type = "S" } }
+        });
+
+        table.AddOverride("provisioner", new [] { new Dictionary<string, IDictionary<string, string>> {
+            { "local-exec", new Struct {
+                Command = $"aws dynamodb create-backup --table-name {tableName} --backup-name {tableName}-backup"
+            } }
+        } });
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"))
+
+	tableName := "my-table"
+
+	table := aws.Dynamodb.NewDynamodbTable(this, jsii.String("Hello"), &dynamodbTableConfig{
+		name: tableName,
+		hashKey: jsii.String("id"),
+		attribute: []interface{}{
+			&dynamodbTableAttribute{
+				name: jsii.String("id"),
+				type: jsii.String("S"),
+			},
+		},
+	})
+
+	table.addOverride(jsii.String("provisioner"), []interface{}{
+		map[string]map[string]*string{
+			"local-exec": map[string]*string{
+				"command": fmt.Sprintf("aws dynamodb create-backup --table-name %v --backup-name %v-backup", tableName, tableName),
+			},
+		},
+	})
+	return this
+}
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](/language/syntax/json#nested-block-mapping).
 
@@ -356,12 +950,109 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [
 
 To override an attribute, include the resource attribute key in `addOverride`. The attribute in the escape hatch is in snake case because the Terraform JSON configuration uses snake case instead of camel case.
 
-```typescript
-const topic = new SnsTopic(this, "Topic", {
-  displayName: "will-be-overwritten",
-});
-topic.addOverride("display_name", "my-topic");
+<CodeTabs>
+
+```ts
+import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
+import { AwsProvider, sns } from "@cdktf/provider-aws";
+
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws");
+
+    const topic = new sns.SnsTopic(this, "Topic", {
+      displayName: "will-be-overwritten",
+    });
+    topic.addOverride("display_name", "my-topic");
+  }
+}
 ```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider, sns
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws")
+
+        topic = sns.SnsTopic(self, "Topic",
+            display_name="will-be-overwritten"
+        )
+        topic.add_override("display_name", "my-topic")
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.sns.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new AwsProvider(this, "aws");
+
+        SnsTopic topic = SnsTopic.Builder.create(this, "Topic")
+                .displayName("will-be-overwritten")
+                .build();
+        topic.addOverride("display_name", "my-topic");
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.sns;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws");
+
+        SnsTopic topic = new SnsTopic(this, "Topic", new SnsTopicConfig {
+            DisplayName = "will-be-overwritten"
+        });
+        topic.AddOverride("display_name", "my-topic");
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"))
+
+	topic := aws.Sns.NewSnsTopic(this, jsii.String("Topic"), &snsTopicConfig{
+		displayName: jsii.String("will-be-overwritten"),
+	})
+	topic.addOverride(jsii.String("display_name"), jsii.String("my-topic"))
+	return this
+}
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the value overwritten.
 
@@ -391,60 +1082,401 @@ To use an escape hatch to loop over dynamic data, you must:
 - Create a `for_each` value for the second argument and set it to the list you want to iterate over.
 - Take the attribute as base for the reference when you reference values from the list. For example, use `"${<attribute_name>.value.nested_value}"`.
 
-The TypeScript example below adds ingress values by looping through the ports passed as `TerraformVariable`.
+The example below adds ingress values by looping through the ports passed as `TerraformVariable`.
+
+<CodeTabs>
 
 ```ts
-const ports = new TerraformVariable(this, "ports", {
-  type: "list",
-  default: [22, 80, 443, 5432],
-});
+import { Construct } from "constructs";
+import { TerraformStack, TerraformVariable } from "cdktf";
+import { AwsProvider, vpc } from "@cdktf/provider-aws";
 
-const sg = new SecurityGroup(this, "sec1grp", {
-  name: "security1",
-  vpcId: "vpcs",
-  egress: [
-    {
-      fromPort: 0,
-      toPort: 0,
-      cidrBlocks: ["0.0.0.0/0"],
-      protocol: "-1",
-    },
-  ],
-});
-sg.addOverride("dynamic.ingress", {
-  for_each: ports.listValue,
-  content: {
-    fromPort: "${ingress.value}",
-    toPort: "${ingress.value}",
-    cidrBlocks: ["0.0.0.0/0"],
-    protocol: "-1",
-  },
-});
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws");
+    const ports = new TerraformVariable(this, "ports", {
+      type: "list",
+      default: [22, 80, 443, 5432],
+    });
+
+    const sg = new vpc.SecurityGroup(this, "sec1grp", {
+      name: "security1",
+      vpcId: "vpcs",
+      egress: [
+        {
+          fromPort: 0,
+          toPort: 0,
+          cidrBlocks: ["0.0.0.0/0"],
+          protocol: "-1",
+        },
+      ],
+    });
+    sg.addOverride("dynamic.ingress", {
+      for_each: ports.listValue,
+      content: {
+        fromPort: "${ingress.value}",
+        toPort: "${ingress.value}",
+        cidrBlocks: ["0.0.0.0/0"],
+        protocol: "-1",
+      },
+    });
+  }
+}
 ```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack, TerraformVariable
+from cdktf_cdktf_provider_aws import AwsProvider, vpc
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws")
+        ports = TerraformVariable(self, "ports",
+            type="list",
+            default=[22, 80, 443, 5432]
+        )
+
+        sg = vpc.SecurityGroup(self, "sec1grp",
+            name="security1",
+            vpc_id="vpcs",
+            egress=[vpc.SecurityGroupEgress(
+                from_port=0,
+                to_port=0,
+                cidr_blocks=["0.0.0.0/0"],
+                protocol="-1"
+            )
+            ]
+        )
+        sg.add_override("dynamic.ingress", {
+            "for_each": ports.list_value,
+            "content": {
+                "from_port": "${ingress.value}",
+                "to_port": "${ingress.value}",
+                "cidr_blocks": ["0.0.0.0/0"],
+                "protocol": "-1"
+            }
+        })
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.vpc.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new AwsProvider(this, "aws");
+        TerraformVariable ports = TerraformVariable.Builder.create(this, "ports")
+                .type("list")
+                .default(List.of(22, 80, 443, 5432))
+                .build();
+
+        SecurityGroup sg = SecurityGroup.Builder.create(this, "sec1grp")
+                .name("security1")
+                .vpcId("vpcs")
+                .egress(List.of(SecurityGroupEgress.builder()
+                        .fromPort(0)
+                        .toPort(0)
+                        .cidrBlocks(List.of("0.0.0.0/0"))
+                        .protocol("-1")
+                        .build()))
+                .build();
+        sg.addOverride("dynamic.ingress", Map.of(
+                "for_each", ports.getListValue(),
+                "content", Map.of(
+                        "fromPort", "${ingress.value}",
+                        "toPort", "${ingress.value}",
+                        "cidrBlocks", List.of("0.0.0.0/0"),
+                        "protocol", "-1")));
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.vpc;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws");
+        TerraformVariable ports = new TerraformVariable(this, "ports", new TerraformVariableConfig {
+            Type = "list",
+            Default = new [] { 22, 80, 443, 5432 }
+        });
+
+        SecurityGroup sg = new SecurityGroup(this, "sec1grp", new SecurityGroupConfig {
+            Name = "security1",
+            VpcId = "vpcs",
+            Egress = new [] { new SecurityGroupEgress {
+                FromPort = 0,
+                ToPort = 0,
+                CidrBlocks = new [] { "0.0.0.0/0" },
+                Protocol = "-1"
+            } }
+        });
+        sg.AddOverride("dynamic.ingress", new Dictionary<string, object> {
+            { "for_each", ports.ListValue },
+            { "content", new Struct {
+                FromPort = "${ingress.value}",
+                ToPort = "${ingress.value}",
+                CidrBlocks = new [] { "0.0.0.0/0" },
+                Protocol = "-1"
+            } }
+        });
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"))
+	ports := cdktf.NewTerraformVariable(this, jsii.String("ports"), &terraformVariableConfig{
+		type: jsii.String("list"),
+		default: []interface{}{
+			jsii.Number(22),
+			jsii.Number(80),
+			jsii.Number(443),
+			jsii.Number(5432),
+		},
+	})
+
+	sg := aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &securityGroupConfig{
+		name: jsii.String("security1"),
+		vpcId: jsii.String("vpcs"),
+		egress: []interface{}{
+			&securityGroupEgress{
+				fromPort: jsii.Number(0),
+				toPort: jsii.Number(0),
+				cidrBlocks: []*string{
+					jsii.String("0.0.0.0/0"),
+				},
+				protocol: jsii.String("-1"),
+			},
+		},
+	})
+	sg.addOverride(jsii.String("dynamic.ingress"), map[string]interface{}{
+		"for_each": ports.listValue,
+		"content": map[string]interface{}{
+			"fromPort": jsii.String("${ingress.value}"),
+			"toPort": jsii.String("${ingress.value}"),
+			"cidrBlocks": []*string{
+				jsii.String("0.0.0.0/0"),
+			},
+			"protocol": jsii.String("-1"),
+		},
+	})
+	return this
+}
+```
+
+</CodeTabs>
 
 You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
 
-The TypeScript example below loops through the ports without using an escape hatch.
+The example below loops through the ports without using an escape hatch.
+
+<CodeTabs>
 
 ```ts
-const ports = [22, 80, 443, 5432];
+import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
+import { AwsProvider, vpc } from "@cdktf/provider-aws";
 
-new SecurityGroup(this, "sec1grp", {
-  name: "security1",
-  vpcId: "vpcs",
-  egress: [
-    {
-      fromPort: 0,
-      toPort: 0,
-      cidrBlocks: ["0.0.0.0/0"],
-      protocol: "-1",
-    },
-  ],
-  ingress: ports.map((port) => ({
-    fromPort: port,
-    toPort: port,
-    cidrBlocks: ["0.0.0.0/0"],
-    protocol: "-1",
-  })),
-});
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws");
+    const ports = [22, 80, 443, 5432];
+
+    new vpc.SecurityGroup(this, "sec1grp", {
+      name: "security1",
+      vpcId: "vpcs",
+      egress: [
+        {
+          fromPort: 0,
+          toPort: 0,
+          cidrBlocks: ["0.0.0.0/0"],
+          protocol: "-1",
+        },
+      ],
+      ingress: ports.map((port) => ({
+        fromPort: port,
+        toPort: port,
+        cidrBlocks: ["0.0.0.0/0"],
+        protocol: "-1",
+      })),
+    });
+  }
+}
 ```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider, vpc
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws")
+        ports = [22, 80, 443, 5432]
+
+        vpc.SecurityGroup(self, "sec1grp",
+            name="security1",
+            vpc_id="vpcs",
+            egress=[vpc.SecurityGroupEgress(
+                from_port=0,
+                to_port=0,
+                cidr_blocks=["0.0.0.0/0"],
+                protocol="-1"
+            )
+            ],
+            ingress=ports.map((port) => ({
+                        fromPort: port,
+                        toPort: port,
+                        cidrBlocks: ["0.0.0.0/0"],
+                        protocol: "-1",
+                      }))
+        )
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.vpc.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new AwsProvider(this, "aws");
+        Number[] ports = List.of(22, 80, 443, 5432);
+
+        SecurityGroup.Builder.create(this, "sec1grp")
+                .name("security1")
+                .vpcId("vpcs")
+                .egress(List.of(SecurityGroupEgress.builder()
+                        .fromPort(0)
+                        .toPort(0)
+                        .cidrBlocks(List.of("0.0.0.0/0"))
+                        .protocol("-1")
+                        .build()))
+                .ingress(ports.map((port) => ({
+                        fromPort: port,
+                        toPort: port,
+                        cidrBlocks: ["0.0.0.0/0"],
+                        protocol: "-1",
+                      })))
+                .build();
+    }
+}
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.vpc;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws");
+        int[] ports = new [] { 22, 80, 443, 5432 };
+
+        new SecurityGroup(this, "sec1grp", new SecurityGroupConfig {
+            Name = "security1",
+            VpcId = "vpcs",
+            Egress = new [] { new SecurityGroupEgress {
+                FromPort = 0,
+                ToPort = 0,
+                CidrBlocks = new [] { "0.0.0.0/0" },
+                Protocol = "-1"
+            } },
+            Ingress = ports.Map((port) => ({
+                    fromPort: port,
+                    toPort: port,
+                    cidrBlocks: ["0.0.0.0/0"],
+                    protocol: "-1",
+                  }))
+        });
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"))
+	ports := []*f64{
+		22,
+		80,
+		443,
+		5432,
+	}
+
+	aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &securityGroupConfig{
+		name: jsii.String("security1"),
+		vpcId: jsii.String("vpcs"),
+		egress: []interface{}{
+			&securityGroupEgress{
+				fromPort: jsii.Number(0),
+				toPort: jsii.Number(0),
+				cidrBlocks: []*string{
+					jsii.String("0.0.0.0/0"),
+				},
+				protocol: jsii.String("-1"),
+			},
+		},
+		ingress: ports.map((port) => ({
+		        fromPort: port,
+		        toPort: port,
+		        cidrBlocks: ["0.0.0.0/0"],
+		        protocol: "-1",
+		      })),
+	})
+	return this
+}
+```
+
+</CodeTabs>

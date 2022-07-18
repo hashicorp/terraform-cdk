@@ -21,19 +21,106 @@ The TypeScript example below uses a Data Source from the AWS Provider to fetch t
 
 The `element` function gets the first element from the list of Availability Zone names.
 
+<CodeTabs>
+
 ```ts
-import { Fn, TerraformOutput } from "cdktf";
-import { DataAwsAvailabilityZones } from "@cdktf/provider-aws";
+import { Fn, TerraformOutput, TerraformStack } from "cdktf";
+import * as aws from "@cdktf/provider-aws";
+import { Construct } from "constructs";
 
-// ...
+export class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+    const zones = new aws.datasources.DataAwsAvailabilityZones(this, "zones", {
+      state: "available",
+    });
 
-const zones = new DataAwsAvailabilityZones(this, "zones", {
-  state: "available",
-});
-
-new TerraformOutput(this, "first-zone", {
-  value: Fn.element(zones.names, 0),
-});
-
-// ...
+    new TerraformOutput(this, "first-zone", {
+      value: Fn.element(zones.names, 0),
+    });
+  }
+}
 ```
+
+```python
+from cdktf import Fn, TerraformOutput, TerraformStack
+import cdktf_cdktf_provider_aws as aws
+from constructs import Construct
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+        zones = aws.datasources.DataAwsAvailabilityZones(self, "zones",
+            state="available"
+        )
+
+        TerraformOutput(self, "first-zone",
+            value=Fn.element(zones.names, 0)
+        )
+```
+
+```java
+import com.hashicorp.cdktf.Fn;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.*;
+import software.constructs.Construct;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+        DataAwsAvailabilityZones zones = DataAwsAvailabilityZones.Builder.create(this, "zones")
+                .state("available")
+                .build();
+
+        TerraformOutput.Builder.create(this, "first-zone")
+                .value(Fn.element(zones.getNames(), 0))
+                .build();
+    }
+}
+```
+
+```csharp
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using Constructs;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+        DataAwsAvailabilityZones zones = new Datasources.DataAwsAvailabilityZones(this, "zones", new DataAwsAvailabilityZonesConfig {
+            State = "available"
+        });
+
+        new TerraformOutput(this, "first-zone", new TerraformOutputConfig {
+            Value = Fn.Element(zones.Names, 0)
+        });
+    }
+}
+```
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import aws "github.com/hashicorp/cdktf-provider-aws-go/aws"
+import "github.com/aws/constructs-go/constructs"
+
+type MyStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, id *string) *MyStack {
+	this := &MyStack{}
+	newTerraformStack_Override(this, scope, id)
+	zones := #error#.NewDataAwsAvailabilityZones(this, jsii.String("zones"), &dataAwsAvailabilityZonesConfig{
+		state: jsii.String("available"),
+	})
+
+	cdktf.NewTerraformOutput(this, jsii.String("first-zone"), &terraformOutputConfig{
+		value: cdktf.Fn.element(zones.names, jsii.Number(0)),
+	})
+	return this
+}
+```
+
+</CodeTabs>

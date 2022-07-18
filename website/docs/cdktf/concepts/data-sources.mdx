@@ -21,19 +21,98 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers-and-re
 
 In the TypeScript example below, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
-```typescript
-.....
-import { DataAwsRegion } from './gen/providers/aws'
+<CodeTabs>
+
+```ts
+import { Construct } from "constructs";
+import { TerraformStack, TerraformOutput } from "cdktf";
+import { datasources } from "@cdktf/provider-aws";
 
 export class HelloTerraform extends TerraformStack {
-    constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    const region = new datasources.DataAwsRegion(this, "region");
+    new TerraformOutput(this, "region", {
+      value: region,
+    });
+  }
+}
+```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack, TerraformOutput
+from cdktf_cdktf_provider_aws import datasources
+
+class HelloTerraform(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        region = datasources.DataAwsRegion(self, "region")
+        TerraformOutput(self, "region",
+            value=region
+        )
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.providers.aws.datasources.*;
+
+public class HelloTerraform extends TerraformStack {
+    public HelloTerraform(Construct scope, String id) {
         super(scope, id);
 
-        .....
-        const region = new DataAwsRegion(this, 'region')
+        DataAwsRegion region = new DataAwsRegion(this, "region");
+        TerraformOutput.Builder.create(this, "region")
+                .value(region)
+                .build();
     }
 }
 ```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws.datasources;
+
+class HelloTerraform : TerraformStack
+{
+    public HelloTerraform(Construct scope, string id) : base(scope, id)
+    {
+
+        DataAwsRegion region = new DataAwsRegion(this, "region");
+        new TerraformOutput(this, "region", new TerraformOutputConfig {
+            Value = region
+        });
+    }
+}
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type HelloTerraform struct {
+	terraformStack
+}
+
+func NewHelloTerraform(scope construct, id *string) *HelloTerraform {
+	this := &HelloTerraform{}
+	newTerraformStack_Override(this, scope, id)
+
+	region := aws.Datasources.NewDataAwsRegion(this, jsii.String("region"))
+	cdktf.NewTerraformOutput(this, jsii.String("region"), &terraformOutputConfig{
+		value: region,
+	})
+	return this
+}
+```
+
+</CodeTabs>
 
 ## Remote State Data Source
 
@@ -41,26 +120,125 @@ The [`terraform_remote_state` data source](/language/state/remote-state-data) re
 
 The TypeScript example below uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
 
-```typescript
-.....
-import { DataTerraformRemoteState } from 'cdktf';
+<CodeTabs>
+
+```ts
+import { DataTerraformRemoteState, TerraformStack, Token } from "cdktf";
+import * as aws from "@cdktf/provider-aws";
+import { Construct } from "constructs";
 
 export class HelloTerraform extends TerraformStack {
-    constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    const remoteState = new DataTerraformRemoteState(this, "remote_state", {
+      organization: "hashicorp",
+      workspaces: {
+        name: "vpc-prod",
+      },
+    });
+
+    new aws.ec2.Instance(this, "foo", {
+      subnetId: Token.asString(remoteState.get("subnet_id")),
+    });
+  }
+}
+```
+
+```python
+from cdktf import DataTerraformRemoteState, TerraformStack, Token
+import cdktf_cdktf_provider_aws as aws
+from constructs import Construct
+
+class HelloTerraform(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        remote_state = DataTerraformRemoteState(self, "remote_state",
+            organization="hashicorp",
+            workspaces={
+                "name": "vpc-prod"
+            }
+        )
+
+        aws.ec2.Instance(self, "foo",
+            subnet_id=Token.as_string(remote_state.get("subnet_id"))
+        )
+```
+
+```java
+import com.hashicorp.cdktf.DataTerraformRemoteState;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.Token;
+import com.hashicorp.cdktf.providers.aws.*;
+import software.constructs.Construct;
+
+public class HelloTerraform extends TerraformStack {
+    public HelloTerraform(Construct scope, String id) {
         super(scope, id);
 
-        .....
-        const remoteState = new DataTerraformRemoteState(this, {
-            organization: 'hashicorp',
-            workspaces: {
-                name: 'vpc-prod'
+        DataTerraformRemoteState remoteState = DataTerraformRemoteState.Builder.create(this, "remote_state")
+                .organization("hashicorp")
+                .workspaces(Map.of(
+                        "name", "vpc-prod"))
+                .build();
+
+        Instance.Builder.create(this, "foo")
+                .subnetId(Token.asString(remoteState.get("subnet_id")))
+                .build();
+    }
+}
+```
+
+```csharp
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using Constructs;
+
+class HelloTerraform : TerraformStack
+{
+    public HelloTerraform(Construct scope, string id) : base(scope, id)
+    {
+
+        DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote_state", new DataTerraformRemoteStateRemoteConfig {
+            Organization = "hashicorp",
+            Workspaces = new Dictionary<string, string> {
+                { "name", "vpc-prod" }
             }
         });
 
-        new aws.EC2.Instance(this, 'foo', {
-            ....
-            subnetId: remoteState.get('subnet_id')
+        new Ec2.Instance(this, "foo", new InstanceConfig {
+            SubnetId = Token.AsString(remoteState.Get("subnet_id"))
         });
     }
 }
 ```
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import aws "github.com/hashicorp/cdktf-provider-aws-go/aws"
+import "github.com/aws/constructs-go/constructs"
+
+type HelloTerraform struct {
+	terraformStack
+}
+
+func NewHelloTerraform(scope construct, id *string) *HelloTerraform {
+	this := &HelloTerraform{}
+	newTerraformStack_Override(this, scope, id)
+
+	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote_state"), &dataTerraformRemoteStateRemoteConfig{
+		organization: jsii.String("hashicorp"),
+		workspaces: map[string]*string{
+			"name": jsii.String("vpc-prod"),
+		},
+	})
+
+	#error#.NewInstance(this, jsii.String("foo"), &instanceConfig{
+		subnetId: cdktf.Token.asString(remoteState.get(jsii.String("subnet_id"))),
+	})
+	return this
+}
+```
+
+</CodeTabs>

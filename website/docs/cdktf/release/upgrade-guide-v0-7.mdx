@@ -17,7 +17,7 @@ If you don't use the AWS provider no action is needed. If you do use the AWS pro
 
 For Typescript you need to change the imports and reference the namespace
 
-```ts
+```typescript
 // Before
 import { CloudFrontDistribution, AwsProvider, Route53Record, AcmCertificateValidation } from "./.gen/providers/aws";
 
@@ -33,7 +33,7 @@ new Route53.Route53Record(this, "CertValidationRecord", ...)
 
 Alternatively you can deconstruct the namespace:
 
-```ts
+```typescript
 // Before
 import {
   CloudFrontDistribution,
@@ -125,7 +125,7 @@ To migrate you need to update the `cdktf` and `cdktf-cli` version you are using 
 
 The benefit of this change is that object properties can be accessed directly, e.g.
 
-```ts
+```typescript
 // Before
 const development = new Namespace(this, "development", {
   metadata: [

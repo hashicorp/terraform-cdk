@@ -27,22 +27,186 @@ To pass the subnet id list to the EKS module, you can use `publicSubnetsOutput` 
 requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast the interpolated module
 output as a list of strings.
 
-```typescript
-const logRetention = new TerraformVariable(this, "logRetentionInDays", {
-  type: "number",
-});
+<CodeTabs>
 
-const vpc = new Vpc(this, vpcName, {
-  name: vpcName,
-  publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"],
-});
+```ts
+import { Construct } from "constructs";
+import { App, TerraformStack, TerraformVariable, Token } from "cdktf";
+import { AwsProvider } from "@cdktf/provider-aws";
+import { MyAwsVpc } from "./lib";
+import { EksCluster } from "./lib";
 
-new Eks(this, "EksModule", {
-  clusterName: "my-kubernetes-cluster",
-  subnets: Token.asList(vpc.publicSubnetsOutput),
-  clusterLogRetentionInDays: logRetention.numberValue,
-});
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws");
+    const logRetention = new TerraformVariable(this, "logRetentionInDays", {
+      type: "number",
+    });
+
+    const vpc = new MyAwsVpc(this, "vpc", {
+      name: "vpcName",
+      publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"],
+    });
+
+    new EksCluster(this, "EksModule", {
+      clusterName: "my-kubernetes-cluster",
+      subnets: Token.asList(vpc.publicSubnetsOutput),
+      clusterLogRetentionInDays: logRetention.numberValue,
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "a-single-stack");
+app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformVariable, Token
+from cdktf_cdktf_provider_aws import AwsProvider
+from jsii_workbench.core import MyAwsVpc
+from jsii_workbench.core import EksCluster
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws")
+        log_retention = TerraformVariable(self, "logRetentionInDays",
+            type="number"
+        )
+
+        vpc = MyAwsVpc(self, "vpc", {
+            "name": "vpcName",
+            "public_subnets": ["10.0.1.0/24", "10.0.2.0/24"]
+        })
+
+        EksCluster(self, "EksModule",
+            cluster_name="my-kubernetes-cluster",
+            subnets=Token.as_list(vpc.public_subnets_output),
+            cluster_log_retention_in_days=log_retention.number_value
+        )
+
+app = App()
+MyStack(app, "a-single-stack")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.Token;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import workbench.jsii.danielmschmidt.com.MyAwsVpc;
+import workbench.jsii.danielmschmidt.com.EksCluster;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        new AwsProvider(this, "aws");
+        TerraformVariable logRetention = TerraformVariable.Builder.create(this, "logRetentionInDays")
+                .type("number")
+                .build();
+
+        MyAwsVpc vpc = new MyAwsVpc(this, "vpc", Map.of(
+                "name", "vpcName",
+                "publicSubnets", List.of("10.0.1.0/24", "10.0.2.0/24")));
+
+        EksCluster.Builder.create(this, "EksModule")
+                .clusterName("my-kubernetes-cluster")
+                .subnets(Token.asList(vpc.getPublicSubnetsOutput()))
+                .clusterLogRetentionInDays(logRetention.getNumberValue())
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "a-single-stack");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using jsii.workbench;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws");
+        TerraformVariable logRetention = new TerraformVariable(this, "logRetentionInDays", new TerraformVariableConfig {
+            Type = "number"
+        });
+
+        MyAwsVpc vpc = new MyAwsVpc(this, "vpc", new Dictionary<string, object> {
+            { "name", "vpcName" },
+            { "publicSubnets", new [] { "10.0.1.0/24", "10.0.2.0/24" } }
+        });
+
+        new EksCluster(this, "EksModule", new EksProps {
+            ClusterName = "my-kubernetes-cluster",
+            Subnets = Token.AsList(vpc.PublicSubnetsOutput),
+            ClusterLogRetentionInDays = logRetention.NumberValue
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "a-single-stack");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, id *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"))
+	logRetention := cdktf.NewTerraformVariable(this, jsii.String("logRetentionInDays"), &terraformVariableConfig{
+		type: jsii.String("number"),
+	})
+
+	vpc := jsiiworkbench.NewMyAwsVpc(this, jsii.String("vpc"), map[string]interface{}{
+		"name": jsii.String("vpcName"),
+		"publicSubnets": []*string{
+			jsii.String("10.0.1.0/24"),
+			jsii.String("10.0.2.0/24"),
+		},
+	})
+
+	jsiiworkbench.NewEksCluster(this, jsii.String("EksModule"), &eksProps{
+		clusterName: jsii.String("my-kubernetes-cluster"),
+		subnets: cdktf.Token.asList(vpc.publicSubnetsOutput),
+		clusterLogRetentionInDays: logRetention.numberValue,
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("a-single-stack"))
+app.synth()
+```
+
+</CodeTabs>
 
 Initially, CDKTF will resolve `Token.asList(vpc.publicSubnetsOutput)` to `["#{TOKEN[TOKEN.9]}"]` and `logRetention.numberValue` to a big negative number like `-123828381238238`.
 Later in synthesis, CDKTF will resolve the token to `${module.<module id>.public_subnets}` and `${var.logRetentionInDays}`.

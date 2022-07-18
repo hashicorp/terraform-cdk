@@ -21,10 +21,12 @@ Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for mo
 
 The example below generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
+import { AwsProvider, ec2 } from "@cdktf/provider-aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -34,7 +36,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new EC2.Instance(this, "Hello", {
+    new ec2.Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
@@ -46,6 +48,114 @@ new MyStack(app, "a-single-stack");
 app.synth();
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider, ec2
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region="us-east-1"
+        )
+
+        ec2.Instance(self, "Hello",
+            ami="ami-2757f631",
+            instance_type="t2.micro"
+        )
+
+app = App()
+MyStack(app, "a-single-stack")
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.ec2.*;
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id) {
+        super(scope, id);
+
+        AwsProvider.Builder.create(this, "aws")
+                .region("us-east-1")
+                .build();
+
+        Instance.Builder.create(this, "Hello")
+                .ami("ami-2757f631")
+                .instanceType("t2.micro")
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "a-single-stack");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.ec2;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id) : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws", new AwsProviderConfig {
+            Region = "us-east-1"
+        });
+
+        new Instance(this, "Hello", new InstanceConfig {
+            Ami = "ami-2757f631",
+            InstanceType = "t2.micro"
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "a-single-stack");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, id *string) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+		region: jsii.String("us-east-1"),
+	})
+
+	aws.Ec2.NewInstance(this, jsii.String("Hello"), &instanceConfig{
+		ami: jsii.String("ami-2757f631"),
+		instanceType: jsii.String("t2.micro"),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("a-single-stack"))
+app.synth()
+```
+
+</CodeTabs>
+
 ## Multiple Stacks
 
 > **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial on HashiCorp Learn. This tutorial guides you through a multi-stack application.
@@ -54,10 +164,12 @@ You can specify multiple stacks in your application. For example, you may want a
 
 The example below synthesizes multiple Terraform configurations in the configured output folder.
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
+import { AwsProvider, ec2 } from "@cdktf/provider-aws";
 
 interface MyStackConfig {
   environment: string;
@@ -74,7 +186,7 @@ class MyStack extends TerraformStack {
       region,
     });
 
-    new EC2.Instance(this, "Hello", {
+    new ec2.Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
       tags: {
@@ -98,6 +210,203 @@ new MyStack(app, "multiple-stacks-production-eu", {
 app.synth();
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider, ec2
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, id, *, environment, region=None):
+        super().__init__(scope, id)
+
+        { region = "us-east-1" } = config
+
+        AwsProvider(self, "aws",
+            region=region
+        )
+
+        ec2.Instance(self, "Hello",
+            ami="ami-2757f631",
+            instance_type="t2.micro",
+            tags={
+                "environment": environment
+            }
+        )
+
+app = App()
+MyStack(app, "multiple-stacks-dev", environment="dev")
+MyStack(app, "multiple-stacks-staging", environment="staging")
+MyStack(app, "multiple-stacks-production-us",
+    environment="production",
+    region="us-east-1"
+)
+MyStack(app, "multiple-stacks-production-eu",
+    environment="production",
+    region="eu-central-1"
+)
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.ec2.*;
+
+public class MyStackConfig {
+    private String environment;
+    public String getEnvironment() {
+        return this.environment;
+    }
+    public MyStackConfig environment(String environment) {
+        this.environment = environment;
+        return this;
+    }
+    private String region;
+    public String getRegion() {
+        return this.region;
+    }
+    public MyStackConfig region(String region) {
+        this.region = region;
+        return this;
+    }
+}
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String id, MyStackConfig config) {
+        super(scope, id);
+
+        Object { region = "us-east-1" } = config;
+
+        AwsProvider.Builder.create(this, "aws")
+                .region(region)
+                .build();
+
+        Instance.Builder.create(this, "Hello")
+                .ami("ami-2757f631")
+                .instanceType("t2.micro")
+                .tags(Map.of(
+                        "environment", config.getEnvironment()))
+                .build();
+    }
+}
+
+App app = new App();
+new MyStack(app, "multiple-stacks-dev", new MyStackConfig().environment("dev"));
+new MyStack(app, "multiple-stacks-staging", new MyStackConfig().environment("staging"));
+new MyStack(app, "multiple-stacks-production-us", new MyStackConfig()
+        .environment("production")
+        .region("us-east-1")
+        );
+new MyStack(app, "multiple-stacks-production-eu", new MyStackConfig()
+        .environment("production")
+        .region("eu-central-1")
+        );
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.ec2;
+
+class MyStackConfig
+{
+    public string Environment { get; set; }
+    public string? Region { get; set; }
+}
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string id, MyStackConfig config) : base(scope, id)
+    {
+
+        var { region = "us-east-1" } = config;
+
+        new AwsProvider(this, "aws", new AwsProviderConfig {
+            Region = region
+        });
+
+        new Instance(this, "Hello", new InstanceConfig {
+            Ami = "ami-2757f631",
+            InstanceType = "t2.micro",
+            Tags = new Dictionary<string, string> {
+                { "environment", config.Environment }
+            }
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "multiple-stacks-dev", new MyStackConfig { Environment = "dev" });
+new MyStack(app, "multiple-stacks-staging", new MyStackConfig { Environment = "staging" });
+new MyStack(app, "multiple-stacks-production-us", new MyStackConfig {
+    Environment = "production",
+    Region = "us-east-1"
+});
+new MyStack(app, "multiple-stacks-production-eu", new MyStackConfig {
+    Environment = "production",
+    Region = "eu-central-1"
+});
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+
+type myStackConfig struct {
+	environment *string
+	region *string
+}
+
+type myStack struct {
+	terraformStack
+}
+
+func newMyStack(scope construct, id *string, config myStackConfig) *myStack {
+	this := &myStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	{ region = "us-east-1" } := *config
+
+	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+		region: jsii.String(region),
+	})
+
+	aws.Ec2.NewInstance(this, jsii.String("Hello"), &instanceConfig{
+		ami: jsii.String("ami-2757f631"),
+		instanceType: jsii.String("t2.micro"),
+		tags: map[string]*string{
+			"environment": config.environment,
+		},
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("multiple-stacks-dev"), &myStackConfig{
+	environment: jsii.String("dev"),
+})
+NewMyStack(app, jsii.String("multiple-stacks-staging"), &myStackConfig{
+	environment: jsii.String("staging"),
+})
+NewMyStack(app, jsii.String("multiple-stacks-production-us"), &myStackConfig{
+	environment: jsii.String("production"),
+	region: jsii.String("us-east-1"),
+})
+NewMyStack(app, jsii.String("multiple-stacks-production-eu"), &myStackConfig{
+	environment: jsii.String("production"),
+	region: jsii.String("eu-central-1"),
+})
+app.synth()
+```
+
+</CodeTabs>
+
 Running `cdktf synth` produces the following synthesized stacks.
 
 ```
@@ -118,15 +427,17 @@ To run multiple stacks at once, move them into the same directory and run `cdktf
 
 When you reference resources from one stack in another stack, you can do so by exposing the resource in the source stack and referencing it in the target stack.
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws";
-import { Vpc } from "./my-aws-vpc-construct";
-import { DockerBackend } from "./my-docker-backend-construct";
+import { AwsProvider } from "@cdktf/provider-aws";
+import { MyAwsVpc } from "./lib";
+import { DockerBackend } from "./lib";
 
 class VPCStack extends TerraformStack {
-  public vpc: Vpc;
+  public vpc: MyAwsVpc;
   constructor(scope: Construct, id: string, public region = "us-east-1") {
     super(scope, id);
 
@@ -134,7 +445,7 @@ class VPCStack extends TerraformStack {
       region,
     });
 
-    this.vpc = new Vpc(this, "vpc", {});
+    this.vpc = new MyAwsVpc(this, "vpc", {});
   }
 }
 
@@ -171,6 +482,247 @@ new BackendStack(app, "target-stack", {
 app.synth();
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from cdktf_cdktf_provider_aws import AwsProvider
+from jsii_workbench.core import MyAwsVpc
+from jsii_workbench.core import DockerBackend
+
+class VPCStack(TerraformStack):
+    def __init__(self, scope, id, region=None):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region=region
+        )
+
+        self.vpc = MyAwsVpc(self, "vpc", {})
+class BackendStack(TerraformStack):
+    def __init__(self, scope, id, *, region, vpcId, dockerImage):
+        super().__init__(scope, id)
+
+        { region, vpcId, dockerImage } = config
+
+        AwsProvider(self, "aws",
+            region=region
+        )
+
+        DockerBackend(self, "docker-backend", {
+            "vpc_id": vpc_id,
+            "docker_image": docker_image
+        })
+
+app = App()
+origin = VPCStack(app, "origin-stack")
+BackendStack(app, "target-stack",
+    region=origin.region,
+    vpc_id=origin.vpc.id,
+    docker_image="org/my-image:latest"
+)
+
+app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import workbench.jsii.danielmschmidt.com.MyAwsVpc;
+import workbench.jsii.danielmschmidt.com.DockerBackend;
+
+public class VPCStack extends TerraformStack {
+    public MyAwsVpc vpc;
+    public VPCStack(Construct scope, String id) {
+        this(scope, id, "us-east-1");
+    }
+
+    public VPCStack(Construct scope, String id, Object region) {
+        super(scope, id);
+
+        AwsProvider.Builder.create(this, "aws")
+                .region(region)
+                .build();
+
+        this.vpc = new MyAwsVpc(this, "vpc", Map.of());
+    }
+}
+
+public class BackendStackConfig {
+    private String region;
+    public String getRegion() {
+        return this.region;
+    }
+    public BackendStackConfig region(String region) {
+        this.region = region;
+        return this;
+    }
+    private String vpcId;
+    public String getVpcId() {
+        return this.vpcId;
+    }
+    public BackendStackConfig vpcId(String vpcId) {
+        this.vpcId = vpcId;
+        return this;
+    }
+    private String dockerImage;
+    public String getDockerImage() {
+        return this.dockerImage;
+    }
+    public BackendStackConfig dockerImage(String dockerImage) {
+        this.dockerImage = dockerImage;
+        return this;
+    }
+}
+public class BackendStack extends TerraformStack {
+    public BackendStack(Construct scope, String id, BackendStackConfig config) {
+        super(scope, id);
+
+        Object { region, vpcId, dockerImage } = config;
+
+        AwsProvider.Builder.create(this, "aws")
+                .region(region)
+                .build();
+
+        new DockerBackend(this, "docker-backend", Map.of(
+                "vpcId", vpcId,
+                "dockerImage", dockerImage));
+    }
+}
+
+App app = new App();
+VPCStack origin = new VPCStack(app, "origin-stack");
+new BackendStack(app, "target-stack", new BackendStackConfig()
+        .region(origin.getRegion())
+        .vpcId(origin.getVpc().getId())
+        .dockerImage("org/my-image:latest")
+        );
+
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using HashiCorp.Cdktf.Providers.Aws;
+using jsii.workbench;
+
+class VPCStack : TerraformStack
+{
+    public MyAwsVpc Vpc { get; set; }
+    public VPCStack(Construct scope, string id, void region="us-east-1") : base(scope, id)
+    {
+
+        new AwsProvider(this, "aws", new AwsProviderConfig {
+            Region = region
+        });
+
+        Vpc = new MyAwsVpc(this, "vpc", new Dictionary<string, object> { });
+    }
+}
+
+class BackendStackConfig
+{
+    public string Region { get; set; }
+    public string VpcId { get; set; }
+    public string DockerImage { get; set; }
+}
+class BackendStack : TerraformStack
+{
+    public BackendStack(Construct scope, string id, BackendStackConfig config) : base(scope, id)
+    {
+
+        var { region, vpcId, dockerImage } = config;
+
+        new AwsProvider(this, "aws", new AwsProviderConfig {
+            Region = region
+        });
+
+        new DockerBackend(this, "docker-backend", new Dictionary<string, string> {
+            { "vpcId", vpcId },
+            { "dockerImage", dockerImage }
+        });
+    }
+}
+
+App app = new App();
+VPCStack origin = new VPCStack(app, "origin-stack");
+new BackendStack(app, "target-stack", new BackendStackConfig {
+    Region = origin.Region,
+    VpcId = origin.Vpc.Id,
+    DockerImage = "org/my-image:latest"
+});
+
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+
+type vPCStack struct {
+	terraformStack
+	vpc myAwsVpc
+}
+func newVPCStack(scope construct, id *string, region ) *vPCStack {
+	if region == nil {
+		region = jsii.String("us-east-1")
+	}
+	this := &vPCStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+		region: jsii.String(region),
+	})
+
+	this.vpc = jsiiworkbench.NewMyAwsVpc(this, jsii.String("vpc"), map[string]interface{}{
+	})
+	return this
+}
+
+type backendStackConfig struct {
+	region *string
+	vpcId *string
+	dockerImage *string
+}
+type backendStack struct {
+	terraformStack
+}
+
+func newBackendStack(scope construct, id *string, config backendStackConfig) *backendStack {
+	this := &backendStack{}
+	newTerraformStack_Override(this, scope, id)
+
+	{ region, vpcId, dockerImage } := *config
+
+	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+		region: jsii.String(region),
+	})
+
+	jsiiworkbench.NewDockerBackend(this, jsii.String("docker-backend"), map[string]*string{
+		"vpcId": jsii.String(vpcId),
+		"dockerImage": jsii.String(dockerImage),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+origin := NewVPCStack(app, jsii.String("origin-stack"))
+NewBackendStack(app, jsii.String("target-stack"), &backendStackConfig{
+	region: origin.region,
+	vpcId: origin.vpc.id,
+	dockerImage: jsii.String("org/my-image:latest"),
+})
+
+app.synth()
+```
+
+</CodeTabs>
+
 From a usage perspective it looks like we are accessing the `id` value of `vpc` from the `origin-stack` instance of `VpcStack` and then referencing it in the `target-stack` instance of `BackendStack`.
 Accessing a value from a different stack causes the value to be exported as `TerraformOutput` in the origin stack.
 The value is than accessed through a `TerraformRemoteState` in the target stack.
@@ -189,9 +741,8 @@ To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
-```ts
+````typescript
 this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
-```
 
 The CLI will error if you deploy your application without first deploying the dependencies. It will also error if you try to destroy infrastructure without destroying the dependent stacks first. To remove these safeguards, add the `--ignore-missing-stack-dependencies` to the `deploy` and `destroy` commands.
 
@@ -214,7 +765,7 @@ stack.addOverride("terraform.backend", {
     },
   },
 });
-```
+````
 
 The example above synthesizes a Terraform configuration with the remote backend included in the `terraform` block.
 

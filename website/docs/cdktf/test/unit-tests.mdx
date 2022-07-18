@@ -23,7 +23,7 @@ The example below uses `Testing.synthScope` to test a part of the application. T
 - `toHaveDataSource`: Checks if a certain data source exists
 - `toHaveDataSourceWithProperties`: Checks if a certain data source exists with all properties passed
 
-```ts
+```typescript
 import { Testing } from "cdktf";
 import { Image, Container } from "../.gen/providers/docker";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from cdktf.Resource
@@ -51,7 +51,7 @@ describe("Unit testing using assertions", () => {
 
 Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. You can read more about them in the [Jest docs](https://jestjs.io/docs/snapshot-testing).
 
-```ts
+```typescript
 import { Testing } from "cdktf";
 import { Image, Container } from "../.gen/providers/docker";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from cdktf.Resource
@@ -74,7 +74,7 @@ You can produce invalid Terraform configuration if you are using escape hatches 
 
 To test this, you can assert that [`terraform validate`](/cli/commands/validate) or [`terraform plan`](/cli/commands/plan) run successfully on all or part of your application before running `cdktf plan` or `cdktf deploy`.
 
-```ts
+```typescript
 import { Testing } from "cdktf";
 
 describe("Checking validity", () => {
