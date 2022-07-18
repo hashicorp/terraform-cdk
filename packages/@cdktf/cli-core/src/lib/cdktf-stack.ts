@@ -5,7 +5,6 @@ import { Terraform, TerraformPlan } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
 import { logger, Errors } from "@cdktf/commons";
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
-import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";
 import * as fs from "fs";
 import * as path from "path";
@@ -77,46 +76,11 @@ export type StackApprovalUpdate = {
 async function getTerraformClient(
   abortSignal: AbortSignal,
   stack: SynthesizedStack,
-  isSpeculative: boolean,
+  _isSpeculative: boolean, // TODO: remove
   createTerraformLogHandler: (
     phase: string
   ) => (message: string, isError?: boolean) => void
 ): Promise<Terraform> {
-  const parsedStack = terraformJsonSchema.parse(JSON.parse(stack.content));
-
-  if (parsedStack.terraform?.backend?.remote) {
-    const tfClient = new TerraformCloud(
-      abortSignal,
-      stack,
-      parsedStack.terraform.backend.remote,
-      isSpeculative,
-      createTerraformLogHandler
-    );
-    if (await tfClient.isRemoteWorkspace()) {
-      return tfClient;
-    }
-  }
-
-  if (parsedStack.terraform?.cloud) {
-    const workspaces = parsedStack.terraform.cloud.workspaces || {};
-    if (!("name" in workspaces)) {
-      throw Errors.Usage(
-        "The Cloud backend can not used with the cdktf-cli unless specified with a workspace name."
-      );
-    }
-
-    const tfClient = new TerraformCloud(
-      abortSignal,
-      stack,
-      { ...parsedStack.terraform.cloud, workspaces },
-      isSpeculative,
-      createTerraformLogHandler
-    );
-    if (await tfClient.isRemoteWorkspace()) {
-      return tfClient;
-    }
-  }
-
   return new TerraformCli(abortSignal, stack, createTerraformLogHandler);
 }
 
