@@ -1,0 +1,8 @@
+{
+  "language": "java",
+  "app": "mvn -e -q compile exec:java",
+  "terraformProviders": ["kreuzwerker/docker@~> 2.0"],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}

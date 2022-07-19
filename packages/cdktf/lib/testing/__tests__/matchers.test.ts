@@ -126,7 +126,7 @@ describe("matchers", () => {
       const res = toHaveResourceWithProperties(synthesizedStack, TestResource);
 
       expect(res.pass).toBeTruthy();
-      expect(res.message()).toMatchInlineSnapshot(`
+      expect(res.message).toMatchInlineSnapshot(`
         "Expected no test_resource with properties {} to be present in synthesised stack.
         Found 1 test_resource resources instead:
         [
@@ -147,7 +147,7 @@ describe("matchers", () => {
       );
 
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toMatchInlineSnapshot(`
+      expect(res.message).toMatchInlineSnapshot(`
         "Expected test_data_source with properties {} to be present in synthesised stack.
         Found no test_data_source resources instead"
       `);
@@ -202,7 +202,7 @@ describe("matchers", () => {
     it("fails if anything but a path is passed", () => {
       const res = toBeValidTerraform("not a path");
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`
       );
     });
@@ -216,7 +216,7 @@ describe("matchers", () => {
 
       const res = toBeValidTerraform(Testing.fullSynth(stack));
       expect(res.pass).toBeTruthy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject not to be a valid terraform stack"`
       );
     });
@@ -232,7 +232,7 @@ describe("matchers", () => {
 
       const res = toBeValidTerraform(result);
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toEqual(
+      expect(res.message).toEqual(
         expect.stringContaining(
           "Expected subject to be a valid terraform stack"
         )
@@ -244,7 +244,7 @@ describe("matchers", () => {
     it("fails if anything but a path is passed", () => {
       const res = toPlanSuccessfully("not a path");
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`
       );
     });
@@ -258,7 +258,7 @@ describe("matchers", () => {
 
       const res = toPlanSuccessfully(Testing.fullSynth(stack));
       expect(res.pass).toBeTruthy();
-      expect(res.message()).toMatchInlineSnapshot(
+      expect(res.message).toMatchInlineSnapshot(
         `"Expected subject not to plan successfully"`
       );
     });
@@ -275,7 +275,7 @@ describe("matchers", () => {
 
       const res = toPlanSuccessfully(result);
       expect(res.pass).toBeFalsy();
-      expect(res.message()).toEqual(
+      expect(res.message).toEqual(
         expect.stringContaining("Expected subject to plan successfully")
       );
     });

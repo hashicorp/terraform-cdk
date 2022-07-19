@@ -4,9 +4,10 @@ import {
   toPlanSuccessfully,
 } from "../matchers";
 import {
-  MatcherReturn,
   getToHaveResourceWithProperties,
   TerraformConstructor,
+  MatcherReturnJest,
+  returnMatcherToJest,
 } from "../matchers";
 
 /* eslint-disable */
@@ -31,7 +32,9 @@ declare global {
 }
 
 type JestExpect = {
-  extend: (matchers: Record<string, (...args: any[]) => MatcherReturn>) => void;
+  extend: (
+    matchers: Record<string, (...args: any[]) => MatcherReturnJest>
+  ) => void;
 };
 
 // Jest supports asymetric matchers (https://github.com/facebook/jest/blob/main/packages/expect/src/asymmetricMatchers.ts)
@@ -69,10 +72,12 @@ export function setupJest() {
       received: string,
       resourceConstructor: TerraformConstructor
     ) {
-      return getToHaveResourceWithProperties(jestPassEvaluation)(
-        received,
-        resourceConstructor,
-        {}
+      return returnMatcherToJest(
+        getToHaveResourceWithProperties(jestPassEvaluation)(
+          received,
+          resourceConstructor,
+          {}
+        )
       );
     },
     toHaveResourceWithProperties(
@@ -80,10 +85,12 @@ export function setupJest() {
       resourceConstructor: TerraformConstructor,
       properties: Record<string, any>
     ) {
-      return getToHaveResourceWithProperties(jestPassEvaluation)(
-        received,
-        resourceConstructor,
-        properties
+      return returnMatcherToJest(
+        getToHaveResourceWithProperties(jestPassEvaluation)(
+          received,
+          resourceConstructor,
+          properties
+        )
       );
     },
 
@@ -91,10 +98,12 @@ export function setupJest() {
       received: string,
       dataSourceConstructor: TerraformConstructor
     ) {
-      return getToHaveDataSourceWithProperties(jestPassEvaluation)(
-        received,
-        dataSourceConstructor,
-        {}
+      return returnMatcherToJest(
+        getToHaveDataSourceWithProperties(jestPassEvaluation)(
+          received,
+          dataSourceConstructor,
+          {}
+        )
       );
     },
     toHaveDataSourceWithProperties(
@@ -102,18 +111,20 @@ export function setupJest() {
       dataSourceConstructor: TerraformConstructor,
       properties: Record<string, any>
     ) {
-      return getToHaveDataSourceWithProperties(jestPassEvaluation)(
-        received,
-        dataSourceConstructor,
-        properties
+      return returnMatcherToJest(
+        getToHaveDataSourceWithProperties(jestPassEvaluation)(
+          received,
+          dataSourceConstructor,
+          properties
+        )
       );
     },
 
     toBeValidTerraform(received: string) {
-      return toBeValidTerraform(received);
+      return returnMatcherToJest(toBeValidTerraform(received));
     },
     toPlanSuccessfully(received: string) {
-      return toPlanSuccessfully(received);
+      return returnMatcherToJest(toPlanSuccessfully(received));
     },
   });
 }
