@@ -4,7 +4,6 @@ import { Tokenization, Token } from "./tokens/token";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
-import { Lazy } from "./tokens";
 
 class TFExpression extends Intrinsic implements IResolvable {
   protected resolveArg(context: IResolveContext, arg: any): string {
@@ -375,18 +374,8 @@ export function call(name: string, args: Expression[]) {
   return new FunctionCall(name, args) as IResolvable;
 }
 
-export const FOR_EXPRESSION_KEY = Lazy.anyValue(
-  {
-    produce: (context) => ref("key", TerraformStack.of(context.scope)),
-  },
-  { displayHint: "key" }
-);
-export const FOR_EXPRESSION_VALUE = Lazy.anyValue(
-  {
-    produce: (context) => ref("val", TerraformStack.of(context.scope)),
-  },
-  { displayHint: "val" }
-);
+export const FOR_EXPRESSION_KEY = ref("key");
+export const FOR_EXPRESSION_VALUE = ref("val");
 
 /**
  * https://www.terraform.io/docs/language/expressions/for.html
