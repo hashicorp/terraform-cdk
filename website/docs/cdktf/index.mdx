@@ -9,7 +9,7 @@ description: >-
 
 Cloud Development Kit for Terraform (CDKTF) allows you to use familiar programming languages to define and provision infrastructure. This gives you access to the entire Terraform ecosystem without learning HashiCorp Configuration Language (HCL) and lets you leverage the power of your existing toolchain for testing, dependency management, etc.
 
-We currently support TypeScript, Python, Java, C#, and Go (experimental).
+We currently support TypeScript, Python, Java, C#, and Go.
 
 ![terraform platform](terraform-platform.png)
 
@@ -37,17 +37,9 @@ You can make this choice for each team and project because CDK for Terraform [in
 
 ## Choosing a Language for your Project
 
-Consider which of the supported languages you are most familiar with and which language best fits your organization's current tooling. We work towards providing feature parity and a good user experience across all supported languages, but there may be instances when new features will not be available for languages with experimental support.
+Consider which of the supported languages you are most familiar with and which language best fits your organization's current tooling. We work towards providing feature parity and a good user experience across all supported languages, but there may be instances when new experimental features will not be available for all languages.
 
 If you plan to create and package your own constructs, we recommend choosing TypeScript. Using TypeScript allows you to use the [cdktf constructs](https://github.com/projen/projen#getting-started) package generator to build and publish your constructs in multiple languages.
-
-## Project Maturity
-
-CDKTF is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product. Like other HashiCorp pre-1.0 tools, some early-adopter users are already using CDK for Terraform in production, and we are working with those users to validate and improve workflows.
-
-Early adopters of CDKTF should expect to encounter and work around bugs occasionally, may need to refactor their codebase with each major release, and will intermittently need to use HCL and understand how JSON Terraform configurations are generated. For example, overrides may be required to use Terraform functionality that cannot currently be expressed using CDKTF. Our goal is to provide a user experience where this is an exceptional edge case. If you’re comfortable with this level of troubleshooting, we’re very interested in your feedback and practical experience. The [Community](/cdktf/community) page explains how to ask questions, submit issues, and contribute to the project.
-
-These caveats apply to CDKTF itself, which generates Terraform configurations. Generated Terraform configurations are applied using Terraform Core, a well established and mature tool to provision infrastructure.
 
 ## Get Started
 
