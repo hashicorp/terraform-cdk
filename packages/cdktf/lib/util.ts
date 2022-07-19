@@ -117,7 +117,10 @@ export function processDynamicAttributes(attributes: { [name: string]: any }): {
       }
       result.dynamic[attributeName] = value.toTerraformDynamicBlockJson();
     } else {
-      const recurse = typeof value === "object" && value !== null;
+      const recurse =
+        value !== null &&
+        typeof value === "object" &&
+        value.constructor === Object; // only descend into plain objects
       result[attributeName] = recurse ? processDynamicAttributes(value) : value;
     }
   });
