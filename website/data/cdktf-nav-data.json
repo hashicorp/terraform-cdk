@@ -59,11 +59,8 @@
       {
         "title": "Stacks",
         "path": "concepts/stacks"
-      },
-      {
-        "title": "Terraform Cloud",
-        "path": "concepts/terraform-cloud"
       }
+      
     ]
   },
   { "title": "Examples and Guides", "path": "examples" },
@@ -79,6 +76,10 @@
       {
         "title": "Environment Variables",
         "path": "create-and-deploy/environment-variables"
+      },
+      {
+        "title": "Terraform Cloud",
+        "path": "concepts/terraform-cloud"
       },
       {
         "title": "Deployment Patterns",
