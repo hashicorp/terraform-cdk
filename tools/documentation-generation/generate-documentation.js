@@ -13,8 +13,15 @@ const targetFolder = path.resolve(
   "cdktf",
   "api-reference"
 );
-
-function replaceSquareBrackets(docs) {
+/**
+ * If the documentation code has geerics they are denoted in the hand-written
+ * documentation as <>, e.g. Record<string, string>. Some other documentation parts
+ * use <thing> to signal something needs to be filled in here
+ *
+ * In a markdown context these get interpretet as an HTML tag, this is why we break them up here
+ * <thing> becomes < thing > which is no longer an HTML tag.
+ */
+function replaceAngleBracketsInDocumentation(docs) {
   const lines = docs.split("\n");
   const sanitizedLines = lines.map((doc) => {
     const htmlTags = doc.split("<");
@@ -68,9 +75,11 @@ description: >-
   The CDKTF Core API Reference for ${lang}.
 ---
 
+<!-- This file is generated through yarn generate-docs -->
+
 # API Reference for ${lang}
 
-${replaceSquareBrackets(
+${replaceAngleBracketsInDocumentation(
   rendered.replace(
     `# API Reference <a name="API Reference" id="api-reference"></a>`,
     ""
