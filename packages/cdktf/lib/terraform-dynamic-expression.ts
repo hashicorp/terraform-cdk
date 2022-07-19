@@ -1,5 +1,5 @@
 import { ITerraformIterator } from "./terraform-iterator";
-import { forExpression } from "./tfExpression";
+import { forExpression } from ".";
 import { IResolvable, Lazy, Token } from "./tokens";
 import { captureStackTrace } from "./tokens/private/stack-trace";
 
@@ -45,10 +45,7 @@ export class TerraformDynamicExpression implements IResolvable {
         // context.resolve is required for the iteratorContext to be correctly passed
         // to Lazy values within this.content
         return context.resolve(
-          forExpression(
-            this.iterator._getForEachExpression(),
-            this.content // TODO: does this resolve break the output? it shouldn't
-          )
+          forExpression(this.iterator._getForEachExpression(), this.content)
         );
       },
     });
